@@ -40,12 +40,13 @@ locals {
 
   env_map = { for val in local.env_vars.envs :
     val["env"] => {
-      cloud_platform            = val["cloud_platform"]
+      cloud_region            = val["cloud_region"]
       k8s_cluster_type          = val["k8s_cluster_type"]
       cloud_platform              = val["cloud_platform"]
       domain                    = val["domain"]
       iac_terraform_modules_tag = val["iac_terraform_modules_tag"]
       enable_vault_oauth_to_gitlab = val["enable_vault_oauth_to_gitlab"]
+      letsencrypt_email = val["letsencrypt_email"]
     }
   }
 }
