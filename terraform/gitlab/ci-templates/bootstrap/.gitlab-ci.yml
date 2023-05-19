@@ -51,8 +51,8 @@ cache:
     - source setcivars.sh
     - yq eval '.' environment.yaml -o=json > environment.json 
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./environment.json); do export $var; done    
-    - if [ "$PRIVATE_REPO_USER" == "notused" ]; then echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@github.com" > ~/.gitcredentials.store; fi
-    - if [ "$PRIVATE_REPO_USER" == "notused" ]; then git config --global credential.helper 'store --file ~/.gitcredentials.store'; fi
+    - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@github.com" > ~/.gitcredentials.store; fi
+    - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then git config --global credential.helper 'store --file ~/.gitcredentials.store'; fi
     - git config --global advice.detachedHead false
     - set
     - git clone ${TEMPLATE_REPO_URL} template-repo
