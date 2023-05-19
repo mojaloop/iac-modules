@@ -18,7 +18,7 @@ envs:
     k8s_cluster_type: k3s
     iac_terraform_modules_tag: v0.9.1
     enable_vault_oauth_to_gitlab: true
-    lets_encrypt_email: test@mojalabs.io
+    letsencrypt_email: test@mojalabs.io
 tags: {
   "Origin": "Terraform",
   "mojaloop/cost_center": "mlf-iac-sandbox",
