@@ -82,7 +82,8 @@ prepare:image:
         DOCKER_TAG: latest
   before_script:
     # Authenticate to the docker registry and dependency proxy
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"},\"ghcr.io\":{\"auth\":\"$(printf "%s:%s" "${PRIVATE_REPO_USER}" "${PRIVATE_REPO_TOKEN}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then export PRIVATE_REPO_HOST=null.com; else export PRIVATE_REPO_HOST=ghcr.io; fi
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"},\"${PRIVATE_REPO_HOST}\":{\"auth\":\"$(printf "%s:%s" "${PRIVATE_REPO_USER}" "${PRIVATE_REPO_TOKEN}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}/.gitlab/ci"
