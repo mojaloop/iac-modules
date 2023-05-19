@@ -73,7 +73,7 @@ resource "gitlab_project_variable" "netmaker_token" {
 
 resource "gitlab_project_variable" "vault_oauth_client_id" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable-vault-oauth-to-gitlab
+    for key, env in var.env_map : key => env if env.enable_vault_oauth_to_gitlab
   }
   project   = gitlab_project.envs[each.key].id
   key       = "VAULT_OAUTH_CLIENT_ID"
@@ -84,7 +84,7 @@ resource "gitlab_project_variable" "vault_oauth_client_id" {
 
 resource "gitlab_project_variable" "vault_oauth_client_secret" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable-vault-oauth-to-gitlab
+    for key, env in var.env_map : key => env if env.enable_vault_oauth_to_gitlab
   }
   project   = gitlab_project.envs[each.key].id
   key       = "VAULT_OAUTH_CLIENT_SECRET"
@@ -95,7 +95,7 @@ resource "gitlab_project_variable" "vault_oauth_client_secret" {
 
 resource "gitlab_project_variable" "enable_vault_oidc" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable-vault-oauth-to-gitlab
+    for key, env in var.env_map : key => env if env.enable_vault_oauth_to_gitlab
   }
   project   = gitlab_project.envs[each.key].id
   key       = "ENABLE_VAULT_OIDC"
@@ -106,7 +106,7 @@ resource "gitlab_project_variable" "enable_vault_oidc" {
 
 resource "gitlab_application" "vault_oidc" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable-vault-oauth-to-gitlab
+    for key, env in var.env_map : key => env if env.enable_vault_oauth_to_gitlab
   }
   confidential = true
   scopes       = ["openid"]

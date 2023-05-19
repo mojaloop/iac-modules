@@ -45,7 +45,7 @@ locals {
       cloud_platform              = val["cloud_platform"]
       domain                    = val["domain"]
       iac_terraform_modules_tag = val["iac_terraform_modules_tag"]
-      enable-vault-oauth-to-gitlab = val["enable-vault-oauth-to-gitlab"]
+      enable_vault_oauth_to_gitlab = val["enable_vault_oauth_to_gitlab"]
     }
   }
 }
