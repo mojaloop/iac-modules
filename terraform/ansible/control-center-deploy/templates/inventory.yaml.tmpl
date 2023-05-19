@@ -1,0 +1,40 @@
+all: 
+  hosts: 
+    %{~ for name, ip in all_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in all_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}
+gitlab: 
+  hosts: 
+    %{~ for name, ip in gitlab_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in gitlab_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}
+docker: 
+  hosts: 
+    %{~ for name, ip in docker_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in docker_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}
+bastion: 
+  hosts: 
+    %{~ for name, ip in bastion_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in bastion_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}

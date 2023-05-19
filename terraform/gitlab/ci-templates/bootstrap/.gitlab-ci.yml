@@ -1,0 +1,149 @@
+include:
+  - template: Terraform/Base.latest.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_IID
+      changes:
+        - .gitlab/ci/Dockerfile
+      variables:
+        IMAGE_TAG: ${CI_COMMIT_REF_SLUG}
+    - when: always
+    # Apparently including the merged workflow rules in addition to the custom rule above doesn't work.
+    # This comes from https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Workflows/MergeRequest-Pipelines.gitlab-ci.yml
+    - if: $CI_MERGE_REQUEST_IID
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+stages:
+  - prepare
+  - lint
+  - init
+  - validate
+  - build
+  - deploy
+  - deploy-env-templates
+  - cleanup
+
+variables:
+  IMAGE_TAG: latest
+  TF_STATE_BASE_ADDRESS: $CI_API_V4_URL/projects/$CI_PROJECT_ID/terraform/state
+  TEMPLATE_REPO_URL: https://github.com/mojaloop/iac-modules.git
+  CI_TEMPLATE_PATH: terraform/gitlab/ci-templates/k8s-cluster
+  K8S_TEMPLATE_PATH: terraform/k8s
+  TMP_TEMPLATES_DIR: /tmp/iac-templates
+  ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
+
+image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
+
+cache:
+  key: "${TF_ROOT}"
+  paths:
+    - ${TF_ROOT}/**/.terraform
+    - ${TF_ROOT}/**/.terraform.lock.hcl
+    - ${TF_ROOT}/**/.terragrunt-cache
+    - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
+    - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+    - ${ANSIBLE_BASE_OUTPUT_DIR}/**/keylist.json
+
+.source:
+  script:
+    - source $(which gitlab-terraform)
+    - source setcivars.sh
+    - yq eval '.' environment.yaml -o=json > environment.json 
+    - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./environment.json); do export $var; done    
+    - echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@github.com" > ~/.gitcredentials.store
+    - git config --global credential.helper 'store --file ~/.gitcredentials.store'
+    - git config --global advice.detachedHead false
+    - set
+    - git clone ${TEMPLATE_REPO_URL} template-repo
+    - cd template-repo && git checkout ${IAC_TEMPLATES_TAG}
+    - mkdir -p $TMP_TEMPLATES_DIR
+    - cp -r ${CI_TEMPLATE_PATH}/. ${K8S_TEMPLATE_PATH}/. $TMP_TEMPLATES_DIR 
+    - ls -la ${TMP_TEMPLATES_DIR}/ && cd - && rm -rf template-repo
+
+prepare:image:
+  needs: []
+  stage: prepare
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  rules:
+    # Tag with the commit SHA if we're in an MR
+    - if: $CI_MERGE_REQUEST_IID
+      changes:
+        - .gitlab/ci/Dockerfile
+      variables:
+        DOCKER_TAG: $CI_COMMIT_REF_SLUG
+    # If we're on our main branch, tag with "latest"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - .gitlab/ci/Dockerfile
+      variables:
+        DOCKER_TAG: latest
+  before_script:
+    # Authenticate to the docker registry and dependency proxy
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"},\"ghcr.io\":{\"auth\":\"$(printf "%s:%s" "${PRIVATE_REPO_USER}" "${PRIVATE_REPO_TOKEN}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/.gitlab/ci"
+      --cache=true
+      --dockerfile "${CI_PROJECT_DIR}/.gitlab/ci/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:${DOCKER_TAG}"
+
+fmt:
+  extends: .terraform:fmt
+  stage: lint
+  script: 
+    - !reference [.source, script]
+    - terragrunt hclfmt -check -diff
+    - terragrunt run-all fmt -check -diff -recursive || true
+  when: manual
+
+init:
+  stage: init
+  script:
+    - !reference [.source, script]
+    # We need to reconfigure the initialized cache
+    - terragrunt run-all init -input=false -reconfigure
+
+validate:
+  extends: .terraform:validate
+  script: 
+    - !reference [.source, script]
+    - terragrunt run-all validate-inputs
+    - terragrunt run-all validate
+  when: manual  
+
+build:
+  extends: .terraform:build
+  script: 
+    - !reference [.source, script]
+  when: manual
+
+deploy:
+  extends: .terraform:deploy
+  script:
+    - !reference [.source, script]
+    - terragrunt run-all apply --terragrunt-non-interactive -input=false
+  artifacts:
+    paths:
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+    when: always
+  when: manual
+
+deploy-env-templates:
+  stage: deploy-env-templates
+  script:
+    - !reference [.source, script]
+    - for var in $(echo $envs | yq eval '.[].env' -); do .gitlab/scripts/seedenvproject.sh $var $TMP_TEMPLATES_DIR $GITLAB_CI_PAT; done
+  when: manual
+
+
+#do nothing for now
+destroy:
+  extends: .terraform:destroy
+  script:
+    - !reference [.source, script] 
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  when: manual

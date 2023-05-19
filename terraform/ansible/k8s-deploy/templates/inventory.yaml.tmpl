@@ -1,0 +1,36 @@
+all: 
+  hosts: 
+    %{~ for host in all_hosts ~}
+    ${host}:
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in all_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}
+master: 
+  hosts: 
+    %{~ for host in master_hosts ~}
+    ${host}:
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in master_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}
+agent: 
+  hosts: 
+    %{~ for host in agent_hosts ~}
+    ${host}:
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in agent_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}
+bastion: 
+  hosts: 
+    %{~ for host in bastion_hosts ~}
+    ${host}:
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in bastion_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}

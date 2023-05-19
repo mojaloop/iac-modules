@@ -1,0 +1,10 @@
+tf_version: ">= 1.1"
+local_provider_version: "~> 2.2"
+gitlab_provider_version: "~> 15.11"
+cert_manager_chart_version: 1.11.0
+consul_chart_version: 1.0.3
+longhorn_chart_version: 1.4.0
+external_dns_chart_version: 6.7.2
+vault_chart_version: 0.23.0
+vault_config_operator_helm_chart_version: 0.8.9
+nginx_helm_chart_version: 4.3.0
