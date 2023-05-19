@@ -9,6 +9,7 @@ gitlab_readonly_rbac_group: tenant-viewers
 smtp_server_enable: false
 gitlab_version: 15.11.3
 gitlab_runner_version: 15.11.0
+iac_group_name: iac_admin
 envs:
   - env: dev
     domain: labs8.mojalabs.io

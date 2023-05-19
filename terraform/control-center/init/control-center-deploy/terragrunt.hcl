@@ -39,6 +39,7 @@ inputs = {
   cluster_name                   = local.env_vars.tenant
   gitlab_version                 = local.env_vars.gitlab_version
   gitlab_runner_version          = local.env_vars.gitlab_runner_version
+  iac_group_name                 = local.env_vars.iac_group_name
 }
 
 locals {
