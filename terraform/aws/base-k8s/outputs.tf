@@ -91,6 +91,7 @@ output "master_hosts_var_maps" {
 }
 
 output "all_hosts_var_maps" {
+  sensitive = true
   value = {
     ansible_ssh_user             = var.os_user_name
     ansible_ssh_retries          = "10"
