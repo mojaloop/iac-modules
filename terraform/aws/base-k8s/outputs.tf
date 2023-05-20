@@ -95,6 +95,7 @@ output "all_hosts_var_maps" {
     ansible_ssh_user             = var.os_user_name
     ansible_ssh_retries          = "10"
     base_domain                  = local.base_domain
+    netmaker_join_token = module.post_config.netmaker_token
   }
 }
 
@@ -109,7 +110,6 @@ output "bastion_hosts_var_maps" {
   sensitive = true
   value = {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
-    netmaker_join_token = module.post_config.netmaker_token
   }
 }
 
