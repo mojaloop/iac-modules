@@ -3,7 +3,7 @@ domain: mojalabs.io
 tenant: labs11
 enable_github_oauth: false
 enable_netmaker_oidc: true
-ansible_collection_tag: v0.9.0
+ansible_collection_tag: v0.9.1
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
 smtp_server_enable: false
