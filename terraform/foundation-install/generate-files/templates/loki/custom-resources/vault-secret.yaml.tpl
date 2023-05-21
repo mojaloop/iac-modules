@@ -1,7 +1,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${admin_secret}
+  name: grafana-admin-secret
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
@@ -10,11 +10,11 @@ spec:
         role: policy-admin
         serviceAccount:
             name: default
-      name: grafanapw
-      path: grafana/admin
+      name: grafanaadmin
+      path: /secret/grafana/grafana-admin
   output:
-    name: ${admin_secret}
+    name: grafana-admin-secret
     stringData:
-      ${admin_secret_user_key}: ${admin_user_name}
-      ${admin_secret_pw_key}: '{{ .grafanapw.password }}'
+      admin-user: grafana-admin
+      admin-pw: '{{ .grafanaadmin.password }}'
     type: Opaque

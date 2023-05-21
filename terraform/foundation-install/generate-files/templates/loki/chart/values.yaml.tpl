@@ -1,4 +1,4 @@
-loki:
+loki-chart:
   grafana:
     enabled: true
     admin:
@@ -18,9 +18,9 @@ loki:
         enabled: ${enable_oidc}
         allow_sign_up: true
         scopes: read_api
-        auth_url: https://${gitlab_server_url}/oauth/authorize
-        token_url: https://${gitlab_server_url}/oauth/token
-        api_url: https://${gitlab_server_url}/api/v4
+        auth_url: ${gitlab_server_url}/oauth/authorize
+        token_url: ${gitlab_server_url}/oauth/token
+        api_url: ${gitlab_server_url}/api/v4
         allowed_groups: ${groups}
         client_id: ${client_id}
         client_secret: ${client_secret}
@@ -43,7 +43,7 @@ loki:
       enabled: true
       ingressClassName: ${ingress_class}
       hosts:
-        - host: grafana.${public_subdomain}
+        - grafana.${public_subdomain}
       tls:
         - hosts:
           - "*.${public_subdomain}"
@@ -66,11 +66,4 @@ loki:
     config:
       table_manager:
         retention_deletes_enabled: true
-        retention_period: 72h     
-
-  promtail:
-    image:
-      registry: docker.io
-      repository: grafana/promtail
-      tag: 2.4.2
-      pullPolicy: IfNotPresent
+        retention_period: 72h

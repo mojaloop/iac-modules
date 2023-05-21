@@ -9,7 +9,7 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: "grafana/admin"
+  path: /secret/grafana/
   secretKey: password
   secretFormat:
     passwordPolicyName: "grafana-admin"
