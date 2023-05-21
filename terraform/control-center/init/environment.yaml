@@ -16,8 +16,9 @@ envs:
     cloud_platform: aws
     cloud_region: eu-west-1
     k8s_cluster_type: k3s
-    iac_terraform_modules_tag: v0.9.11
+    iac_terraform_modules_tag: v0.9.12
     enable_vault_oauth_to_gitlab: true
+    enable_grafana_oauth_to_gitlab: true
     letsencrypt_email: test@mojalabs.io
 tags: {
   "Origin": "Terraform",

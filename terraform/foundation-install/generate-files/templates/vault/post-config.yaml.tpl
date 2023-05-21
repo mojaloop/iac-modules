@@ -58,7 +58,7 @@ data:
         vault policy write read-secrets /tmp/vault-read-secrets-policy.hcl
         vault auth enable kubernetes
         vault write auth/kubernetes/config kubernetes_host=https://kubernetes.default.svc:443
-        vault write auth/kubernetes/role/policy-admin bound_service_account_names=controller-manager,default bound_service_account_namespaces=vault-config-operator,default policies=vault-admin ttl=600s
+        vault write auth/kubernetes/role/policy-admin bound_service_account_names=* bound_service_account_namespaces=* policies=vault-admin ttl=600s
         vault secrets enable --path=secret kv
         vault secrets tune -default-lease-ttl=2m secret/
     %{ if enable_vault_oidc ~}

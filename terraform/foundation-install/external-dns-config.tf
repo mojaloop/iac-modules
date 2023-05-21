@@ -11,7 +11,6 @@ module "generate_extdns_files" {
     external_dns_credentials_id_provider_key     = var.gitlab_key_route53_external_dns_access_key
     external_dns_credentials_secret_provider_key = var.gitlab_key_route53_external_dns_secret_key
     external_dns_namespace                       = var.external_dns_namespace
-    gitops_project_path_prefix                   = var.gitops_project_path_prefix
     gitlab_project_url                           = var.gitlab_project_url
     external_secret_sync_wave                    = var.external_secret_sync_wave
   }
@@ -20,4 +19,50 @@ module "generate_extdns_files" {
   output_path     = "${var.output_dir}/external-dns"
   app_file        = "external-dns-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+
+variable "external_secret_sync_wave" {
+  type        = string
+  description = "external_secret_sync_wave"
+  default     = "-11"
+}
+
+variable "external_dns_credentials_secret" {
+  type        = string
+  description = "external_dns_credentials_secret"
+  default     = "route53-external-dns-credentials"
+}
+
+variable "gitlab_key_route53_external_dns_access_key" {
+  type        = string
+  description = "gitlab_key_route53_external_dns_access_key"
+}
+
+variable "gitlab_key_route53_external_dns_secret_key" {
+  type        = string
+  description = "gitlab_key_route53_external_dns_secret_key"
+}
+
+variable "external_dns_chart_repo" {
+  type        = string
+  description = "external_dns_chart_repo"
+  default     = "https://charts.bitnami.com/bitnami"
+}
+
+variable "external_dns_chart_version" {
+  type        = string
+  description = "external_dns_chart_version"
+  default     = "6.7.2"
+}
+
+variable "external_dns_namespace" {
+  type        = string
+  description = "external_dns_namespace"
+  default     = "external-dns"
+}
+
+variable "dns_cloud_region" {
+  type = string
+  description = "cloud region for ext dns"
 }

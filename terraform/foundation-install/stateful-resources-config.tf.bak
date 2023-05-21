@@ -44,7 +44,18 @@ locals {
   local_external_name_map            = { for stateful_resource in local.enabled_stateful_resources : stateful_resource.logical_service_name => stateful_resource.local_resource != null ? (stateful_resource.local_resource.override_service_name != null ? "${stateful_resource.local_resource.override_service_name}.${stateful_resource.resource_namespace}.svc.cluster.local" : "${stateful_resource.resource_name}.${stateful_resource.resource_namespace}.svc.cluster.local") : stateful_resource.external_service.external_endpoint }
   stateful_resources_vars = {
     stateful_resources_namespace = var.stateful_resources_namespace
-    gitops_project_path_prefix   = var.gitops_project_path_prefix
     gitlab_project_url           = var.gitlab_project_url
   }
+}
+
+variable "stateful_resources_config_file" {
+  default     = "../config/stateful-resources.json"
+  type        = string
+  description = "where to pull stateful resources config"
+}
+
+variable "stateful_resources_namespace" {
+  type        = string
+  description = "stateful_resources_namespace"
+  default     = "stateful_resources"
 }

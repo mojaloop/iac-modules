@@ -113,3 +113,46 @@ resource "gitlab_application" "vault_oidc" {
   name         = "vault_oidc"
   redirect_url = "https://vault.${each.key}.${each.value["domain"]}/ui/vault/auth/oidc/oidc/callback"
 }
+
+resource "gitlab_project_variable" "grafana_oauth_client_id" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_grafana_oauth_to_gitlab
+  }
+  project   = gitlab_project.envs[each.key].id
+  key       = "GRAFANA_OAUTH_CLIENT_ID"
+  value     = gitlab_application.grafana_oidc[each.key].application_id
+  protected = false
+  masked    = true
+}
+
+resource "gitlab_project_variable" "grafana_oauth_client_secret" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_grafana_oauth_to_gitlab
+  }
+  project   = gitlab_project.envs[each.key].id
+  key       = "GRAFANA_OAUTH_CLIENT_SECRET"
+  value     = gitlab_application.grafana_oidc[each.key].secret
+  protected = false
+  masked    = true
+}
+
+resource "gitlab_project_variable" "enable_grafana_oauth" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_grafana_oauth_to_gitlab
+  }
+  project   = gitlab_project.envs[each.key].id
+  key       = "ENABLE_GRAFANA_OIDC"
+  value     = "true"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_application" "grafana_oidc" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_grafana_oauth_to_gitlab
+  }
+  confidential = true
+  scopes       = ["read_api"]
+  name         = "grafana_oidc"
+  redirect_url = "https://grafana.${each.key}.${each.value["domain"]}/login/gitlab"
+}

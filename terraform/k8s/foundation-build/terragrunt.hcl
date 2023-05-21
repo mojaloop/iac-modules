@@ -74,15 +74,18 @@ inputs = {
   vault_oauth_client_secret                  = local.VAULT_OAUTH_CLIENT_SECRET
   vault_oauth_client_id                      = local.VAULT_OAUTH_CLIENT_ID
   letsencrypt_email                          = local.LETSENCRYPT_EMAIL
+  enable_grafana_oidc                        = local.ENABLE_GRAFANA_OIDC
+  grafana_oauth_client_secret                = local.GRAFANA_OAUTH_CLIENT_SECRET
+  grafana_oauth_client_id                    = local.GRAFANA_OAUTH_CLIENT_ID
 }
 
 locals {
-  env_vars    = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
-  tags        = local.env_vars.tags
-  gitlab_readonly_rbac_group = local.env_vars.gitlab_readonly_rbac_group
-  gitlab_admin_rbac_group    = local.env_vars.gitlab_admin_rbac_group 
-  common_vars = yamldecode(file("${find_in_parent_folders("common-vars.yaml")}"))
-  GITLAB_SERVER_URL = get_env("GITLAB_SERVER_URL")
+  env_vars                    = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  tags                        = local.env_vars.tags
+  gitlab_readonly_rbac_group  = local.env_vars.gitlab_readonly_rbac_group
+  gitlab_admin_rbac_group     = local.env_vars.gitlab_admin_rbac_group
+  common_vars                 = yamldecode(file("${find_in_parent_folders("common-vars.yaml")}"))
+  GITLAB_SERVER_URL           = get_env("GITLAB_SERVER_URL")
   FOUNDATION_BUILD_OUTPUT_DIR = get_env("FOUNDATION_BUILD_OUTPUT_DIR")
   CLUSTER_NAME                = get_env("CLUSTER_NAME")
   CLUSTER_DOMAIN              = get_env("CLUSTER_DOMAIN")
@@ -95,5 +98,8 @@ locals {
   ENABLE_VAULT_OIDC           = get_env("ENABLE_VAULT_OIDC")
   VAULT_OAUTH_CLIENT_SECRET   = get_env("ENABLE_VAULT_OIDC") ? get_env("VAULT_OAUTH_CLIENT_SECRET") : null
   VAULT_OAUTH_CLIENT_ID       = get_env("ENABLE_VAULT_OIDC") ? get_env("VAULT_OAUTH_CLIENT_ID") : null
+  ENABLE_GRAFANA_OIDC         = get_env("ENABLE_GRAFANA_OIDC")
+  GRAFANA_OAUTH_CLIENT_SECRET = get_env("ENABLE_GRAFANA_OIDC") ? get_env("GRAFANA_OAUTH_CLIENT_SECRET") : null
+  GRAFANA_OAUTH_CLIENT_ID     = get_env("ENABLE_GRAFANA_OIDC") ? get_env("GRAFANA_OAUTH_CLIENT_ID") : null
   LETSENCRYPT_EMAIL           = get_env("LETSENCRYPT_EMAIL")
 }
