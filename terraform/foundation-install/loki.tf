@@ -17,14 +17,22 @@ module "generate_loki_files" {
     admin_secret          = "grafana-admin-secret"
     admin_user_name       = "grafana-admin"
     loki_sync_wave        = var.loki_sync_wave
+    ingress_class         = var.grafana_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
+
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "external-secrets/extdns-extsecret.yaml"]
+  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/password-policy.yaml", "custom-resources/random-secret.yaml", "custom-resources/vault-secret.yaml"]
   template_path   = "${path.module}/generate-files/templates/loki"
   output_path     = "${var.output_dir}/loki"
   app_file        = "loki-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
+
+variable "grafana_ingress_internal_lb" {
+  type        = bool
+  description = "grafana_ingress_internal_lb"
+  default     = true
+}
 variable "enable_grafana_oidc" {
   type    = bool
   default = false
