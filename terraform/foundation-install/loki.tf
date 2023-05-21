@@ -3,7 +3,9 @@ module "generate_loki_files" {
   var_map = {
     loki_chart_repo       = var.loki_chart_repo
     loki_chart_version    = var.loki_chart_version
+    loki_namespace        = var.loki_namespace
     gitlab_server_url     = var.gitlab_server_url
+    gitlab_project_url    = var.gitlab_project_url
     public_subdomain      = var.public_subdomain
     dashboard_namespace   = "monitoring"
     client_id             = var.grafana_oauth_client_id
@@ -67,4 +69,10 @@ variable "loki_sync_wave" {
   type        = string
   description = "loki_sync_wave"
   default     = "-4"
+}
+
+variable "loki_namespace" {
+  type        = string
+  description = "loki_namespace"
+  default = "monitoring"
 }
