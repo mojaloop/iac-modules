@@ -2,20 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "-10"
-  name: storage-app
+    argocd.argoproj.io/sync-wave: "${loki_sync_wave}"
+  name: loki-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: infra/apps/storage
-    repoURL: 'https://gitlab.labs.mojaloop.live/iac/argo.git'
+    path: apps/loki
+    repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin
   destination:
-    namespace: longhorn-system
+    namespace: ${loki_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:

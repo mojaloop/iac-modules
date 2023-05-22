@@ -1,7 +1,6 @@
 module "generate_ingress_files" {
   source = "./generate-files"
   var_map = {
-    gitops_project_path_prefix  = var.gitops_project_path_prefix
     nginx_helm_chart_repo       = var.nginx_helm_chart_repo
     nginx_helm_chart_version    = var.nginx_helm_chart_version
     nginx_external_namespace    = var.nginx_external_namespace
@@ -27,4 +26,70 @@ module "generate_ingress_files" {
   output_path     = "${var.output_dir}/ingress"
   app_file        = "ingress-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+variable "nginx_helm_chart_repo" {
+  type        = string
+  description = "nginx_helm_chart_repo"
+  default     = "https://kubernetes.github.io/ingress-nginx"
+}
+variable "nginx_helm_chart_version" {
+  type        = string
+  description = "nginx_helm_chart_version"
+  default     = "4.3.0"
+}
+variable "nginx_external_namespace" {
+  type        = string
+  description = "nginx_external_namespace"
+  default     = "nginx-ext"
+}
+variable "nginx_internal_namespace" {
+  type        = string
+  description = "nginx_internal_namespace"
+  default     = "nginx-int"
+}
+variable "ingress_sync_wave" {
+  type        = string
+  description = "nginx_internal_namespace"
+  default     = "nginx-int"
+}
+variable "default_ssl_certificate" {
+  type        = string
+  description = "nginx_internal_namespace"
+  default     = "nginx-int"
+}
+variable "wildcare_certificate_wave" {
+  type        = string
+  description = "nginx_internal_namespace"
+  default     = "nginx-int"
+}
+variable "internal_ingress_class_name" {
+  type        = string
+  description = "nginx_internal_namespace"
+  default     = "nginx-int"
+}
+variable "external_ingress_class_name" {
+  type        = string
+  description = "external_ingress_class_name"
+  default     = "nginx-ext"
+}
+variable "internal_ingress_https_port" {
+  type        = number
+  description = "internal_ingress_https_port"
+  default     = 31443
+}
+variable "internal_ingress_http_port" {
+  type        = number
+  description = "internal_ingress_http_port"
+  default     = 31080
+}
+variable "external_ingress_https_port" {
+  type        = number
+  description = "external_ingress_https_port"
+  default     = 32443
+}
+variable "external_ingress_http_port" {
+  type        = number
+  description = "external_ingress_http_port"
+  default     = 32080
 }
