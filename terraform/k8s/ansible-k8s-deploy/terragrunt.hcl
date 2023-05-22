@@ -39,6 +39,7 @@ inputs = {
 locals {
   env_vars = yamldecode(
   file("${find_in_parent_folders("environment.yaml")}"))
+  common_vars = yamldecode(file("${find_in_parent_folders("common-vars.yaml")}"))
   env_map = { for val in local.env_vars.envs :
   val["env"] => val }
   ANSIBLE_BASE_OUTPUT_DIR = get_env("ANSIBLE_BASE_OUTPUT_DIR")
@@ -46,6 +47,9 @@ locals {
   ARGO_CD_ROOT_APP_PATH   = get_env("ARGO_CD_ROOT_APP_PATH")
   master_hosts_var_maps = {
     root_app_path = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
+    external_secrets_version = local.common_vars.external_secrets_version
+    argocd_version = local.common_vars.argocd_version
+    argocd_lovely_plugin_version = local.common_vars.argocd_lovely_plugin_version
   }
 }
 
