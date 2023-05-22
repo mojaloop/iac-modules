@@ -78,7 +78,7 @@ resource "aws_instance" "bastion" {
   subnet_id     = element(module.vpc.public_subnets, 0)
   user_data     = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
   key_name      = local.cluster_domain
-
+  associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.bastion.id, module.vpc.default_security_group_id]
 
   tags        = merge({ Name = "${local.cluster_domain}-bastion" }, local.common_tags)
