@@ -1,4 +1,4 @@
-loki-chart:
+loki-stack:
   grafana:
     enabled: true
     admin:
