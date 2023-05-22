@@ -4,7 +4,7 @@
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "4.0.2"
+  version = "3.19.0"
 
   name = local.cluster_domain
   cidr = var.vpc_cidr
