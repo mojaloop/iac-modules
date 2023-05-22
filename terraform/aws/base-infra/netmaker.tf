@@ -1,7 +1,7 @@
 module "vpc_netmaker" {
   count   = var.enable_netmaker ? 1 : 0
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.17.0"
+  version = "4.0.2"
 
   name = "${var.cluster_name}-netmaker"
   cidr = var.netmaker_vpc_cidr
