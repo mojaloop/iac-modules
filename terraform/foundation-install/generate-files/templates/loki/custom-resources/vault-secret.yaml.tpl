@@ -2,6 +2,8 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
   name: grafana-admin-secret
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:

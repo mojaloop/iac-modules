@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: post-config
   annotations:
-    argocd.argoproj.io/sync-wave: "${vault_cm_sync_wave}"
+    argocd.argoproj.io/sync-wave: "-6"
 data:
   bootstrap.sh: |
     #!/bin/bash

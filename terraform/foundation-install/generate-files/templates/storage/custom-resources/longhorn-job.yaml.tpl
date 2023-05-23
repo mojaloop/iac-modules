@@ -3,7 +3,7 @@ kind: RecurringJob
 metadata:
   name: backup-1
   annotations:
-    argocd.argoproj.io/sync-wave: "${longhorn_job_sync_wave}"
+    argocd.argoproj.io/sync-wave: "-9"
 spec:
   cron: "0 * * * *"
   task: "backup"

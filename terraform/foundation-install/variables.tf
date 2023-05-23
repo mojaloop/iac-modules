@@ -14,13 +14,10 @@ variable "gitlab_server_url" {
   description = "gitlab_server_url"
 }
 
-
-
 variable "gitlab_project_url" {
   type        = string
   description = "gitlab_project_url"
 }
-
 
 variable "nat_public_ips" {
   type        = string
@@ -78,6 +75,12 @@ variable "gitlab_admin_group_name" {
 variable "gitlab_key_gitlab_ci_pat" {
   type        = string
   description = "gitlab_key_gitlab_ci_pat"
+}
+
+variable "external_secret_sync_wave" {
+  type        = string
+  description = "external_secret_sync_wave"
+  default     = "-11"
 }
 
 locals {

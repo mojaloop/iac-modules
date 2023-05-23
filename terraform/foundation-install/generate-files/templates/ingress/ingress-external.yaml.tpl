@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${ingress_sync_wave}"
+    argocd.argoproj.io/sync-wave: "-7"
   name: nginx-external-app
   namespace: argocd
   finalizers:
