@@ -21,13 +21,6 @@ module "generate_extdns_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
-
-variable "external_secret_sync_wave" {
-  type        = string
-  description = "external_secret_sync_wave"
-  default     = "-11"
-}
-
 variable "external_dns_credentials_secret" {
   type        = string
   description = "external_dns_credentials_secret"

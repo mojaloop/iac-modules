@@ -2,6 +2,8 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PasswordPolicy
 metadata:
   name: "grafana-admin"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
 spec:
   # Add fields here
   authentication: 

@@ -3,7 +3,7 @@ kind: ClusterIssuer
 metadata:
   name: letsencrypt
   annotations:
-    argocd.argoproj.io/sync-wave: "${cert_manager_issuer_sync_wave}"
+    argocd.argoproj.io/sync-wave: "-9"
 spec:
   acme:
     # You must replace this email address with your own.
