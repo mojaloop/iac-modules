@@ -1,5 +1,5 @@
 module "ubuntu_focal_ami" {
-  source  = "git::https://github.com/mojaloop/iac-shared-modules.git//aws/ami-ubuntu?ref=v1.0.41"
+  source  = "../ami-ubuntu"
   release = "20.04"
 }
 

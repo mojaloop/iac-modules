@@ -13,7 +13,7 @@ spec:
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
-      name: argocd-lovely-plugin
+      name: argocd-lovely-plugin-v1.0
   destination:
     namespace: ${vault_config_operator_namespace}
     server: https://kubernetes.default.svc
