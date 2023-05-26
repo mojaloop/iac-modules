@@ -42,6 +42,12 @@ variable "netmaker_hosts" {
   type = map
   description = "map of hosts to run netmaker server"
 }
+
+variable "docker_hosts" {
+  type = map
+  description = "map of hosts to run docker server"
+}
+
 variable "bastion_hosts_var_maps" {
   type = map
   description = "var map for bastion hosts"
@@ -50,6 +56,12 @@ variable "netmaker_hosts_var_maps" {
   type = map
   description = "var map for netmaker hosts"
 }
+
+variable "docker_hosts_var_maps" {
+  type = map
+  description = "var map for docker hosts"
+}
+
 variable "all_hosts_var_maps" {
   type = map
   description = "var map for all hosts"
@@ -57,4 +69,10 @@ variable "all_hosts_var_maps" {
 variable "env_map" {
   type = map
   description = "env repos to configure"
+}
+
+variable "netmaker_control_network_name" {
+  type = string
+  description = "netmaker_control_network_name"
+  default = "cntrlctr"
 }

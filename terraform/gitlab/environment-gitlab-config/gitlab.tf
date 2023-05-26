@@ -61,15 +61,23 @@ resource "gitlab_project_variable" "iac_terraform_modules_tag" {
   masked    = false
 }
 
-resource "gitlab_project_variable" "netmaker_token" {
+resource "gitlab_project_variable" "netmaker_ops_token" {
   for_each  = var.env_map
   project   = gitlab_project.envs[each.key].id
-  key       = "NETMAKER_TOKEN"
-  value     = each.value["netmaker_token"]
+  key       = "NETMAKER_OPS_TOKEN"
+  value     = each.value["netmaker_ops_token"]
   protected = false
   masked    = true
 }
 
+resource "gitlab_project_variable" "netmaker_k8s_token" {
+  for_each  = var.env_map
+  project   = gitlab_project.envs[each.key].id
+  key       = "NETMAKER_K8S_TOKEN"
+  value     = each.value["netmaker_k8s_token"]
+  protected = false
+  masked    = true
+}
 
 resource "gitlab_project_variable" "vault_oauth_client_id" {
   for_each = {

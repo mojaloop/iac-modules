@@ -5,6 +5,7 @@ dependency "ansible_cc_netmaker_deploy" {
   config_path = "../ansible-cc-netmaker-deploy"
   mock_outputs = {
     netmaker_token_map = {}
+    netmaker_control_network_name = ""
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
 }
@@ -26,7 +27,7 @@ dependency "control_center_gitlab_config" {
 }
 
 inputs = {
-  env_map      = { for key in keys(local.env_map) : key => merge(local.env_map[key], dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map[key]) if length(dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map) > 0 }
+  env_map      = local.env_map
   iac_group_id = dependency.control_center_gitlab_config.outputs.iac_group_id
 }
 
@@ -48,6 +49,8 @@ locals {
       enable_vault_oauth_to_gitlab = val["enable_vault_oauth_to_gitlab"]
       enable_grafana_oauth_to_gitlab = val["enable_grafana_oauth_to_gitlab"]
       letsencrypt_email = val["letsencrypt_email"]
+      netmaker_ops_token = length(dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map) > 0 ? dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map["${dependency.ansible_cc_netmaker_deploy.outputs.netmaker_control_network_name}-ops"].netmaker_token : ""
+      netmaker_k8s_token = length(dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map) > 0 ? dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map["${key}-k8s"].netmaker_token : ""
     }
   }
 }
