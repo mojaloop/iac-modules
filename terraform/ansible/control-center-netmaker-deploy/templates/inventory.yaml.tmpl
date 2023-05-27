@@ -18,6 +18,16 @@ bastion:
     %{~ for varmapkey, varmapval in bastion_hosts_var_maps ~}
     ${varmapkey}: '${varmapval}'
     %{~ endfor ~}
+docker: 
+  hosts: 
+    %{~ for name, ip in docker_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in docker_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}
 netmaker: 
   hosts: 
     %{~ for name, ip in netmaker_hosts ~}

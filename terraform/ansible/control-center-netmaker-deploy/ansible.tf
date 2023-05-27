@@ -1,14 +1,13 @@
-
 resource "local_sensitive_file" "ansible_inventory" {
   content = templatefile(
     "${path.module}/templates/inventory.yaml.tmpl",
-    { all_hosts               = merge(var.bastion_hosts, var.netmaker_hosts),
+    { all_hosts               = merge(var.bastion_hosts, var.netmaker_hosts, var.docker_hosts),
       bastion_hosts           = var.bastion_hosts,
       netmaker_hosts          = var.netmaker_hosts,
       docker_hosts            = var.docker_hosts,
       bastion_hosts_var_maps  = merge(var.bastion_hosts_var_maps, local.bastion_hosts_var_maps),
       netmaker_hosts_var_maps = merge(var.netmaker_hosts_var_maps, local.netmaker_hosts_var_maps),
-      docker_hosts_var_maps   = merge(var.docker_hosts_var_maps, local.jumphostmap),
+      docker_hosts_var_maps   = merge(var.docker_hosts_var_maps, local.docker_hosts_var_maps),
     all_hosts_var_maps = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map) }
   )
   filename        = "${local.ansible_base_output_dir}/inventory"
@@ -60,30 +59,33 @@ locals {
     enable_oauth                               = var.enable_netmaker_oidc
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
     enrollment_key_list                        = jsonencode(concat(["bastion"], keys(var.env_map)))
-    netmaker_networks                          = merge(local.base_netmaker_networks, local.env_netmaker_networks)
+    netmaker_networks                          = jsonencode(merge(local.base_netmaker_networks, local.env_netmaker_networks))
   }
   bastion_hosts_var_maps = {
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
-    netclient_enrollment_keys                  = ["${var.netmaker_control_network_name}-ops"]
+    netclient_enrollment_keys                  = jsonencode(["${var.netmaker_control_network_name}-ops"])
   }
   docker_hosts_var_maps = {
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
     ansible_ssh_common_args                    = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -i ${local_sensitive_file.ec2_ssh_key.filename} -o StrictHostKeyChecking=no -q ${var.ansible_bastion_os_username}@${var.ansible_bastion_public_ip}\""
-    netclient_enrollment_keys                  = [for key in keys(var.env_map) : "${key}-cc-svcs"]
+    netclient_enrollment_keys                  = jsonencode([for key in keys(var.env_map) : "${key}-cc-svcs"])
   }
   ssh_private_key_file_map = {
     ansible_ssh_private_key_file = local_sensitive_file.ec2_ssh_key.filename
   }
 
   netmaker_enrollment_key_list_file_location = "${local.ansible_base_output_dir}/keylist.json"
-  token_map                                  = { for netkey in jsondecode(data.local_sensitive_file.netmaker_keys.content) : netkey.tags[0] => { 
-    "netmaker_token" = netkey.token 
-    "network" = netkey.networks[0]} 
+  token_map                                  = { for netkey in jsondecode(data.local_sensitive_file.netmaker_keys.content) : netkey.tags[0] => {
+    "netmaker_token" = netkey.token
+    "network" = netkey.networks[0]}
   }
   base_netmaker_networks = {
-    var.netmaker_control_network_name = {
+    "${var.netmaker_control_network_name}" = {
       node_keys = ["ops"]
     }
   }
-  env_netmaker_networks = { for key in keys(var.env_map) : key => { "node_keys" = ["k8s", "cc-svcs"] } }
+  env_netmaker_networks = { for idx, key in keys(var.env_map) : key => { 
+        "node_keys" = ["k8s", "cc-svcs"]
+    } 
+  }
 }
