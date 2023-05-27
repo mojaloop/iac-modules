@@ -59,7 +59,7 @@ locals {
     enable_oauth                               = var.enable_netmaker_oidc
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
     enrollment_key_list                        = jsonencode(concat(["bastion"], keys(var.env_map)))
-    netmaker_networks                          = jsonencode(merge(local.base_netmaker_networks, local.env_netmaker_networks))
+    netmaker_networks                          = jsonencode(concat(local.base_netmaker_networks, local.env_netmaker_networks))
   }
   bastion_hosts_var_maps = {
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
@@ -75,17 +75,20 @@ locals {
   }
 
   netmaker_enrollment_key_list_file_location = "${local.ansible_base_output_dir}/keylist.json"
-  token_map                                  = { for netkey in jsondecode(data.local_sensitive_file.netmaker_keys.content) : netkey.tags[0] => {
+  token_map = { for netkey in jsondecode(data.local_sensitive_file.netmaker_keys.content) : netkey.tags[0] => {
     "netmaker_token" = netkey.token
-    "network" = netkey.networks[0]}
+    "network" = netkey.networks[0] }
   }
-  base_netmaker_networks = {
-    "${var.netmaker_control_network_name}" = {
-      node_keys = ["ops"]
+  base_netmaker_networks = [
+    {
+      network_name = var.netmaker_control_network_name
+      node_keys    = ["ops"]
     }
-  }
-  env_netmaker_networks = { for idx, key in keys(var.env_map) : key => { 
-        "node_keys" = ["k8s", "cc-svcs"]
-    } 
-  }
+  ]
+  env_netmaker_networks = [for key in keys(var.env_map) :
+    {
+      network_name = key
+      node_keys    = ["k8s", "cc-svcs"]
+    }
+  ]
 }
