@@ -59,7 +59,7 @@ locals {
     enable_oauth                               = var.enable_netmaker_oidc
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
     enrollment_key_list                        = jsonencode(concat(["bastion"], keys(var.env_map)))
-    netmaker_networks                          = jsonencode(concat(local.base_netmaker_networks, local.env_netmaker_networks))
+    netmaker_networks                          = yamlencode(concat(local.base_netmaker_networks, local.env_netmaker_networks))
   }
   bastion_hosts_var_maps = {
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
