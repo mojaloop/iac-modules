@@ -38,3 +38,7 @@ netmaker:
     %{~ for varmapkey, varmapval in netmaker_hosts_var_maps ~}
     ${varmapkey}: '${varmapval}'
     %{~ endfor ~}
+    %{~ for varmapkey, varmapval in netmaker_hosts_yaml_maps ~}
+    ${varmapkey}:
+      ${indent(6, varmapval)}
+    %{~ endfor ~}

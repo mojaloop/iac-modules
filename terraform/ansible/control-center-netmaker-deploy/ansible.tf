@@ -1,13 +1,14 @@
 resource "local_sensitive_file" "ansible_inventory" {
   content = templatefile(
     "${path.module}/templates/inventory.yaml.tmpl",
-    { all_hosts               = merge(var.bastion_hosts, var.netmaker_hosts, var.docker_hosts),
-      bastion_hosts           = var.bastion_hosts,
-      netmaker_hosts          = var.netmaker_hosts,
-      docker_hosts            = var.docker_hosts,
-      bastion_hosts_var_maps  = merge(var.bastion_hosts_var_maps, local.bastion_hosts_var_maps),
-      netmaker_hosts_var_maps = merge(var.netmaker_hosts_var_maps, local.netmaker_hosts_var_maps),
-      docker_hosts_var_maps   = merge(var.docker_hosts_var_maps, local.docker_hosts_var_maps),
+    { all_hosts                = merge(var.bastion_hosts, var.netmaker_hosts, var.docker_hosts),
+      bastion_hosts            = var.bastion_hosts,
+      netmaker_hosts           = var.netmaker_hosts,
+      docker_hosts             = var.docker_hosts,
+      bastion_hosts_var_maps   = merge(var.bastion_hosts_var_maps, local.bastion_hosts_var_maps),
+      netmaker_hosts_var_maps  = merge(var.netmaker_hosts_var_maps, local.netmaker_hosts_var_maps),
+      netmaker_hosts_yaml_maps = local.netmaker_hosts_yaml_maps,
+      docker_hosts_var_maps    = merge(var.docker_hosts_var_maps, local.docker_hosts_var_maps),
     all_hosts_var_maps = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map) }
   )
   filename        = "${local.ansible_base_output_dir}/inventory"
@@ -59,7 +60,9 @@ locals {
     enable_oauth                               = var.enable_netmaker_oidc
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
     enrollment_key_list                        = jsonencode(concat(["bastion"], keys(var.env_map)))
-    netmaker_networks                          = yamlencode(concat(local.base_netmaker_networks, local.env_netmaker_networks))
+  }
+  netmaker_hosts_yaml_maps = {
+    netmaker_networks = yamlencode(concat(local.base_netmaker_networks, local.env_netmaker_networks))
   }
   bastion_hosts_var_maps = {
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
