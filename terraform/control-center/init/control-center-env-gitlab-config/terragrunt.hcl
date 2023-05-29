@@ -28,10 +28,10 @@ dependency "control_center_gitlab_config" {
 
 inputs = {
   env_map      = merge(local.env_map, 
-    { for key in keys(local.env_map) : key => {
+    { for key in keys(local.env_map) : key => merge(local.env_map[key], {
       netmaker_ops_token = length(dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map) > 0 ? dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map["${dependency.ansible_cc_netmaker_deploy.outputs.netmaker_control_network_name}-ops"].netmaker_token : ""
       netmaker_k8s_token = length(dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map) > 0 ? dependency.ansible_cc_netmaker_deploy.outputs.netmaker_token_map["${key}-k8s"].netmaker_token : ""
-      }
+      })
     })
   iac_group_id = dependency.control_center_gitlab_config.outputs.iac_group_id
 }
