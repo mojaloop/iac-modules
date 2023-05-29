@@ -6,9 +6,11 @@ resource "local_sensitive_file" "ansible_inventory" {
       netmaker_hosts           = var.netmaker_hosts,
       docker_hosts             = var.docker_hosts,
       bastion_hosts_var_maps   = merge(var.bastion_hosts_var_maps, local.bastion_hosts_var_maps),
+      bastion_hosts_yaml_maps  = local.bastion_hosts_yaml_maps,
       netmaker_hosts_var_maps  = merge(var.netmaker_hosts_var_maps, local.netmaker_hosts_var_maps),
       netmaker_hosts_yaml_maps = local.netmaker_hosts_yaml_maps,
       docker_hosts_var_maps    = merge(var.docker_hosts_var_maps, local.docker_hosts_var_maps),
+      docker_hosts_yaml_maps   = local.bastion_hosts_yaml_maps,
     all_hosts_var_maps = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map) }
   )
   filename        = "${local.ansible_base_output_dir}/inventory"
