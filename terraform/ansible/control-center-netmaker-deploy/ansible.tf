@@ -64,14 +64,18 @@ locals {
   netmaker_hosts_yaml_maps = {
     netmaker_networks = yamlencode(concat(local.base_netmaker_networks, local.env_netmaker_networks))
   }
+  bastion_hosts_yaml_maps = {
+    netclient_enrollment_keys = yamlencode(["${var.netmaker_control_network_name}-ops"])
+  }
+  docker_hosts_yaml_maps = {
+    netclient_enrollment_keys = yamlencode([for key in keys(var.env_map) : "${key}-cc-svcs"])
+  }
   bastion_hosts_var_maps = {
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
-    netclient_enrollment_keys                  = jsonencode(["${var.netmaker_control_network_name}-ops"])
   }
   docker_hosts_var_maps = {
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
     ansible_ssh_common_args                    = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -i ${local_sensitive_file.ec2_ssh_key.filename} -o StrictHostKeyChecking=no -q ${var.ansible_bastion_os_username}@${var.ansible_bastion_public_ip}\""
-    netclient_enrollment_keys                  = jsonencode([for key in keys(var.env_map) : "${key}-cc-svcs"])
   }
   ssh_private_key_file_map = {
     ansible_ssh_private_key_file = local_sensitive_file.ec2_ssh_key.filename
