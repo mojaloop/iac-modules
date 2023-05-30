@@ -29,7 +29,12 @@ output "gitlab_key_vault_iam_user_secret_key" {
 output "vault_kms_seal_kms_key_id" {
   value = aws_kms_key.vault_unseal_key.id
 }
-output "netmaker_token" {
-  value = data.gitlab_project_variable.netmaker_token.value
+output "netmaker_ops_token" {
+  value = data.gitlab_project_variable.netmaker_ops_token.value
+  sensitive = true
+}
+
+output "netmaker_k8s_token" {
+  value = data.gitlab_project_variable.netmaker_k8s_token.value
   sensitive = true
 }

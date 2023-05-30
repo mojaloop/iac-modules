@@ -87,23 +87,24 @@ output "master_hosts_var_maps" {
     gitlab_project_id = var.current_gitlab_project_id
     repo_username = var.gitlab_username
     repo_password = var.gitlab_token
+    netmaker_join_token = module.post_config.netmaker_k8s_token
   }
 }
 
 output "all_hosts_var_maps" {
-  sensitive = true
+  sensitive = false
   value = {
     ansible_ssh_user             = var.os_user_name
     ansible_ssh_retries          = "10"
     base_domain                  = local.base_domain
-    netmaker_join_token = module.post_config.netmaker_token
   }
 }
 
 output "agent_hosts_var_maps" {
-  sensitive = false
+  sensitive = true
   value = {
     master_ip = data.aws_instances.master.private_ips[0]
+    netmaker_join_token = module.post_config.netmaker_k8s_token
   }
 }
 
@@ -111,6 +112,7 @@ output "bastion_hosts_var_maps" {
   sensitive = true
   value = {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
+    netmaker_join_token = module.post_config.netmaker_ops_token
   }
 }
 
