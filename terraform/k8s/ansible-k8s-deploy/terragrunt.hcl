@@ -5,16 +5,19 @@ terraform {
 dependency "k8s_deploy" {
   config_path = "../k8s-deploy"
   mock_outputs = {
-    master_hosts           = {}
-    agent_hosts            = {}
-    bastion_hosts          = {}
-    bastion_hosts_var_maps = {}
-    agent_hosts_var_maps   = {}
-    master_hosts_var_maps  = {}
-    all_hosts_var_maps     = {}
-    bastion_ssh_key        = "key"
-    bastion_os_username    = "null"
-    bastion_public_ip      = "null"
+    master_hosts            = {}
+    agent_hosts             = {}
+    bastion_hosts           = {}
+    bastion_hosts_var_maps  = {}
+    agent_hosts_var_maps    = {}
+    master_hosts_var_maps   = {}
+    all_hosts_var_maps      = {}
+    master_hosts_yaml_maps  = {}
+    agent_hosts_yaml_maps   = {}
+    bastion_hosts_yaml_maps = {}
+    bastion_ssh_key         = "key"
+    bastion_os_username     = "null"
+    bastion_public_ip       = "null"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
 }
@@ -28,6 +31,9 @@ inputs = {
   agent_hosts_var_maps        = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps       = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps)
   all_hosts_var_maps          = dependency.k8s_deploy.outputs.all_hosts_var_maps
+  bastion_hosts_yaml_maps     = dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps
+  master_hosts_yaml_maps      = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
+  agent_hosts_yaml_maps       = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
   ansible_bastion_key         = dependency.k8s_deploy.outputs.bastion_ssh_key
   ansible_bastion_os_username = dependency.k8s_deploy.outputs.bastion_os_username
   ansible_bastion_public_ip   = dependency.k8s_deploy.outputs.bastion_public_ip
@@ -46,9 +52,9 @@ locals {
   K8S_CLUSTER_TYPE        = get_env("K8S_CLUSTER_TYPE")
   ARGO_CD_ROOT_APP_PATH   = get_env("ARGO_CD_ROOT_APP_PATH")
   master_hosts_var_maps = {
-    root_app_path = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
-    external_secrets_version = local.common_vars.external_secrets_version
-    argocd_version = local.common_vars.argocd_version
+    root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
+    external_secrets_version     = local.common_vars.external_secrets_version
+    argocd_version               = local.common_vars.argocd_version
     argocd_lovely_plugin_version = local.common_vars.argocd_lovely_plugin_version
   }
 }
