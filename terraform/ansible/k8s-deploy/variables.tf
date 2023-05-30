@@ -53,6 +53,21 @@ variable "master_hosts_var_maps" {
   type = map
   description = "var map for master node hosts"
 }
+
+variable "bastion_hosts_yaml_maps" {
+  type = map
+  description = "yaml map for bastion hosts"
+}
+
+variable "agent_hosts_yaml_maps" {
+  type = map
+  description = "yaml map for agent node hosts"
+}
+variable "master_hosts_yaml_maps" {
+  type = map
+  description = "yaml map for master node hosts"
+}
+
 variable "all_hosts_var_maps" {
   type = map
   description = "var map for all hosts"
