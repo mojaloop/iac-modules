@@ -84,6 +84,14 @@ resource "aws_security_group" "docker_server" {
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
   }
+
+  ingress {
+    description = "wireguard access"
+    from_port   = 51820
+    to_port     = 51825
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   
   egress {
     from_port   = 0
