@@ -62,7 +62,7 @@ resource "aws_instance" "gitlab_server" {
 resource "aws_instance" "docker_server" {
   ami                         = module.ubuntu_focal_ami.id
   instance_type               = var.docker_server_instance_type
-  associate_public_ip_address = false
+  associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.docker_server.id]
   key_name                    = module.base_infra.key_pair_name
   subnet_id                   = module.base_infra.private_subnets[0]
