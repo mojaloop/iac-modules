@@ -160,6 +160,12 @@ variable "target_group_external_http_port" {
   default     = 32080
 }
 
+variable "netmaker_image_version" {
+  type        = string
+  description = "netmaker_image_version"
+  default = "0.18.7"
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

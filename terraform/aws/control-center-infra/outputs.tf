@@ -90,10 +90,11 @@ output "gitlab_hosts_var_maps" {
 
 output "all_hosts_var_maps" {
   value = {
-    ansible_ssh_user    = var.os_user_name
-    ansible_ssh_retries = "10"
-    base_domain         = local.base_domain
-    gitlab_external_url = "https://${aws_route53_record.gitlab_server_public.fqdn}"
+    ansible_ssh_user       = var.os_user_name
+    ansible_ssh_retries    = "10"
+    base_domain            = local.base_domain
+    gitlab_external_url    = "https://${aws_route53_record.gitlab_server_public.fqdn}"
+    netmaker_image_version = var.netmaker_image_version
   }
 }
 
@@ -126,7 +127,6 @@ output "netmaker_hosts_var_maps" {
   value = {
     netmaker_base_domain          = aws_route53_record.public_netmaker_ns[0].name
     netmaker_server_public_ip     = module.base_infra.netmaker_public_ip
-    netmaker_image_version        = var.netmaker_image_version
     netmaker_master_key           = random_password.netmaker_master_key.result
     netmaker_mq_pw                = random_password.netmaker_mq_pw.result
     netmaker_admin_password       = random_password.netmaker_admin_password.result

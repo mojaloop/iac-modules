@@ -102,6 +102,7 @@ output "all_hosts_var_maps" {
     ansible_ssh_user             = var.os_user_name
     ansible_ssh_retries          = "10"
     base_domain                  = local.base_domain
+    netmaker_image_version       = var.netmaker_image_version
   }
 }
 

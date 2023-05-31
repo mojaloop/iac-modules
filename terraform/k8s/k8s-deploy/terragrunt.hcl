@@ -19,6 +19,7 @@ inputs = {
   gitlab_username            = local.GITLAB_USERNAME
   route53_zone_force_destroy = true
   longhorn_backup_s3_destroy = true
+  netmaker_image_version     = local.env_vars.netmaker_version
 }
 
 locals {
@@ -50,15 +51,15 @@ generate "required_providers_override" {
 terraform { 
   
   required_providers {
-    %{ if get_env("CLOUD_PLATFORM") == "aws" }
+    %{if get_env("CLOUD_PLATFORM") == "aws"}
     aws   = "${local.cloud_platform_vars.aws_provider_version}"
-    %{ endif }
+    %{endif}
   }
 }
-%{ if get_env("CLOUD_PLATFORM") == "aws" }
+%{if get_env("CLOUD_PLATFORM") == "aws"}
 provider "aws" {
   region = "${local.CLOUD_REGION}"
 }
-%{ endif }
+%{endif}
 EOF
 }
