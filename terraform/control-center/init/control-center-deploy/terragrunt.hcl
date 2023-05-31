@@ -40,6 +40,7 @@ inputs = {
   gitlab_version                 = local.env_vars.gitlab_version
   gitlab_runner_version          = local.env_vars.gitlab_runner_version
   iac_group_name                 = local.env_vars.iac_group_name
+  netmaker_image_version         = local.env_vars.netmaker_version
 }
 
 locals {
