@@ -130,7 +130,7 @@ output "bastion_hosts_var_maps" {
 output "bastion_hosts_yaml_maps" {
   sensitive = true
   value = {
-    netmaker_join_tokens = yamlencode([module.post_config.netmaker_ops_token])
+    netmaker_join_tokens = yamlencode([module.post_config.netmaker_ops_token, module.post_config.netmaker_k8s_token])
   }
 }
 
