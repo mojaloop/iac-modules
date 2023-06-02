@@ -159,8 +159,7 @@ resource "aws_autoscaling_group" "master" {
 
   # Join the master to the internal load balancer for the kube api on 6443
   target_group_arns = [
-    aws_lb_target_group.internal_kubeapi.arn,
-    aws_lb_target_group.wireguard.arn
+    aws_lb_target_group.internal_kubeapi.arn
   ]
 
   launch_template {

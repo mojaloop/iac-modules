@@ -135,7 +135,7 @@ variable "kubeapi_port" {
 variable "wireguard_port" {
   type        = number
   description = "wireguard_port"
-  default     = 51820
+  default     = 31821
 }
 variable "target_group_internal_https_port" {
   type        = number
