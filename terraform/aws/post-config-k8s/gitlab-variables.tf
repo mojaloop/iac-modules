@@ -56,11 +56,6 @@ data "gitlab_project_variable" "cloud_region" {
   key       = "CLOUD_REGION"
 }
 
-data "gitlab_project_variable" "netmaker_k8s_token" {
-  project   = var.current_gitlab_project_id
-  key       = "NETMAKER_K8S_TOKEN"
-}
-
 data "gitlab_project_variable" "netmaker_ops_token" {
   project   = var.current_gitlab_project_id
   key       = "NETMAKER_OPS_TOKEN"

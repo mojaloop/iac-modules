@@ -70,15 +70,6 @@ resource "gitlab_project_variable" "netmaker_ops_token" {
   masked    = true
 }
 
-resource "gitlab_project_variable" "netmaker_k8s_token" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "NETMAKER_K8S_TOKEN"
-  value     = each.value["netmaker_k8s_token"]
-  protected = false
-  masked    = true
-}
-
 resource "gitlab_project_variable" "vault_oauth_client_id" {
   for_each = {
     for key, env in var.env_map : key => env if env.enable_vault_oauth_to_gitlab

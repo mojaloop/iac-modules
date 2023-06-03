@@ -64,13 +64,13 @@ locals {
     enrollment_key_list                        = jsonencode(concat(["bastion"], keys(var.env_map)))
   }
   netmaker_hosts_yaml_maps = {
-    netmaker_networks = yamlencode(concat(local.base_netmaker_networks, local.env_netmaker_networks))
+    netmaker_networks = yamlencode(local.base_netmaker_networks)
   }
   bastion_hosts_yaml_maps = {
     netclient_enrollment_keys = yamlencode(["${var.netmaker_control_network_name}-ops"])
   }
   docker_hosts_yaml_maps = {
-    netclient_enrollment_keys = yamlencode([for key in keys(var.env_map) : "${key}-cc-svcs"])
+    netclient_enrollment_keys = yamlencode(["${var.netmaker_control_network_name}-ops"])
   }
   bastion_hosts_var_maps = {
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location

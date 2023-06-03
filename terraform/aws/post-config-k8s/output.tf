@@ -33,8 +33,3 @@ output "netmaker_ops_token" {
   value = data.gitlab_project_variable.netmaker_ops_token.value
   sensitive = true
 }
-
-output "netmaker_k8s_token" {
-  value = data.gitlab_project_variable.netmaker_k8s_token.value
-  sensitive = true
-}
