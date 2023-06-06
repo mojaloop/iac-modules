@@ -49,3 +49,17 @@ variable "iac_templates_tag" {
 variable "control_center_cloud_provider" {
   description = "control_center_cloud_provider"
 }
+
+variable "seaweedfs_fqdn" {
+  description = "seaweedfs_fqdn"
+}
+variable "seaweedfs_s3_listening_port" {
+  description = "seaweedfs_s3_listening_port"
+}
+
+variable "nexus_fqdn" {
+  description = "nexus_fqdn"
+}
+variable "nexus_docker_repo_listening_port" {
+  description = "nexus_docker_repo_listening_port"
+}

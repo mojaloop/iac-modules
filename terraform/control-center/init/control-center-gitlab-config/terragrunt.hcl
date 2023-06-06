@@ -8,27 +8,35 @@ dependency "ansible-cc-deploy" {
 dependency "control_center_deploy" {
   config_path = "../control-center-deploy"
   mock_outputs = {
-    iac_user_key_secret        = "temporary-dummy-id"
-    iac_user_key_id            = "temporary-dummy-id"
-    gitlab_root_token          = "temporary-dummy-id"
-    gitlab_server_hostname     = "temporary-dummy-id"
-    netmaker_oidc_callback_url = "temporary-dummy-id"
+    iac_user_key_secret              = "temporary-dummy-id"
+    iac_user_key_id                  = "temporary-dummy-id"
+    gitlab_root_token                = "temporary-dummy-id"
+    gitlab_server_hostname           = "temporary-dummy-id"
+    netmaker_oidc_callback_url       = "temporary-dummy-id"
+    seaweedfs_s3_listening_port      = "temporary-dummy-id"
+    nexus_docker_repo_listening_port = "temporary-dummy-id"
+    seaweedfs_fqdn                   = "temporary-dummy-id"
+    nexus_fqdn                       = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
 }
 
 inputs = {
-  iac_user_key_secret        = dependency.control_center_deploy.outputs.iac_user_key_secret
-  iac_user_key_id            = dependency.control_center_deploy.outputs.iac_user_key_id
-  gitlab_admin_rbac_group    = local.env_vars.gitlab_admin_rbac_group
-  gitlab_readonly_rbac_group = local.env_vars.gitlab_readonly_rbac_group
-  enable_netmaker_oidc       = local.env_vars.enable_netmaker_oidc
-  netmaker_oidc_redirect_url = dependency.control_center_deploy.outputs.netmaker_oidc_callback_url
-  private_repo_user          = get_env("PRIVATE_REPO_USER")
-  private_repo_token         = get_env("PRIVATE_REPO_TOKEN")
-  iac_templates_tag          = get_env("IAC_TEMPLATES_TAG")
-  iac_terraform_modules_tag  = get_env("IAC_TERRAFORM_MODULES_TAG")
-  control_center_cloud_provider = get_env("CONTROL_CENTER_CLOUD_PROVIDER")
+  iac_user_key_secret              = dependency.control_center_deploy.outputs.iac_user_key_secret
+  iac_user_key_id                  = dependency.control_center_deploy.outputs.iac_user_key_id
+  gitlab_admin_rbac_group          = local.env_vars.gitlab_admin_rbac_group
+  gitlab_readonly_rbac_group       = local.env_vars.gitlab_readonly_rbac_group
+  enable_netmaker_oidc             = local.env_vars.enable_netmaker_oidc
+  netmaker_oidc_redirect_url       = dependency.control_center_deploy.outputs.netmaker_oidc_callback_url
+  seaweedfs_s3_listening_port      = dependency.control_center_deploy.outputs.seaweedfs_s3_listening_port
+  nexus_docker_repo_listening_port = dependency.control_center_deploy.outputs.nexus_docker_repo_listening_port
+  seaweedfs_fqdn                   = dependency.control_center_deploy.outputs.seaweedfs_fqdn
+  nexus_fqdn                       = dependency.control_center_deploy.outputs.nexus_fqdn
+  private_repo_user                = get_env("PRIVATE_REPO_USER")
+  private_repo_token               = get_env("PRIVATE_REPO_TOKEN")
+  iac_templates_tag                = get_env("IAC_TEMPLATES_TAG")
+  iac_terraform_modules_tag        = get_env("IAC_TERRAFORM_MODULES_TAG")
+  control_center_cloud_provider    = get_env("CONTROL_CENTER_CLOUD_PROVIDER")
 }
 
 locals {

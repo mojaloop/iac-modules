@@ -124,6 +124,10 @@ output "bastion_hosts_var_maps" {
   sensitive = false
   value = {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
+    nexus_fqdn = module.post_config.nexus_fqdn
+    nexus_docker_repo_listening_port = module.post_config.nexus_docker_repo_listening_port
+    seaweedfs_fqdn = module.post_config.seaweedfs_fqdn
+    seaweedfs_s3_listening_port = module.post_config.seaweedfs_s3_listening_port
   }
 }
 

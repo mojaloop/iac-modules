@@ -119,6 +119,42 @@ resource "gitlab_group_variable" "gitlab_ci_pat" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "nexus_fqdn" {
+  group             = gitlab_group.iac.id
+  key               = "NEXUS_FQDN"
+  value             = var.nexus_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
+  group             = gitlab_group.iac.id
+  key               = "NEXUS_DOCKER_REPO_LISTENING_PORT"
+  value             = var.nexus_docker_repo_listening_port
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "seaweedfs_fqdn" {
+  group             = gitlab_group.iac.id
+  key               = "SEAWEEDFS_FQDN"
+  value             = var.seaweedfs_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "seaweedfs_s3_listening_port" {
+  group             = gitlab_group.iac.id
+  key               = "SEAWEEDFS_S3_LISTENING_PORT"
+  value             = var.seaweedfs_s3_listening_port
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 locals {
   private_repo_docker_credentials = base64encode("${var.private_repo_user}:${var.private_repo_token}")
   docker_auth_config = jsonencode({

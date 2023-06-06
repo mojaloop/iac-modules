@@ -62,6 +62,14 @@ output "nexus_fqdn" {
   value = aws_route53_record.nexus_server_private.fqdn
 }
 
+output "seaweedfs_s3_listening_port" {
+  value = var.seaweedfs_s3_listening_port
+}
+
+output "seaweedfs_fqdn" {
+  value = aws_route53_record.seaweedfs_server_private.fqdn
+}
+
 output "gitlab_hosts_var_maps" {
   sensitive = true
   value = {

@@ -60,3 +60,27 @@ data "gitlab_project_variable" "netmaker_ops_token" {
   project   = var.current_gitlab_project_id
   key       = "NETMAKER_OPS_TOKEN"
 }
+
+data "gitlab_project" "env" {
+  id = var.current_gitlab_project_id
+}
+
+data "gitlab_group_variable" "nexus_fqdn" {
+  group   = data.gitlab_project.env.namespace_id
+  key       = "NEXUS_FQDN"
+}
+
+data "gitlab_group_variable" "nexus_docker_repo_listening_port" {
+  group   = data.gitlab_project.env.namespace_id
+  key       = "NEXUS_DOCKER_REPO_LISTENING_PORT"
+}
+
+data "gitlab_group_variable" "seaweedfs_fqdn" {
+  group   = data.gitlab_project.env.namespace_id
+  key       = "SEAWEEDFS_FQDN"
+}
+
+data "gitlab_group_variable" "seaweedfs_s3_listening_port" {
+  group   = data.gitlab_project.env.namespace_id
+  key       = "SEAWEEDFS_S3_LISTENING_PORT"
+}

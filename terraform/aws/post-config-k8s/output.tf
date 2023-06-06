@@ -33,3 +33,19 @@ output "netmaker_ops_token" {
   value = data.gitlab_project_variable.netmaker_ops_token.value
   sensitive = true
 }
+
+output "nexus_fqdn" {
+  value = data.gitlab_group_variable.nexus_fqdn.value
+}
+
+output "nexus_docker_repo_listening_port" {
+  value = data.gitlab_group_variable.nexus_docker_repo_listening_port.value
+}
+
+output "seaweedfs_fqdn" {
+  value = data.gitlab_group_variable.seaweedfs_fqdn.value
+}
+
+output "seaweedfs_s3_listening_port" {
+  value = data.gitlab_group_variable.seaweedfs_s3_listening_port.value
+}
