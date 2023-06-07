@@ -68,7 +68,7 @@ output "target_group_external_http_port" {
 
 output "bastion_ssh_key" {
   sensitive = true
-  value = module.base_infra.ssh_private_key
+  value     = module.base_infra.ssh_private_key
 }
 
 output "bastion_public_ip" {
@@ -82,11 +82,11 @@ output "bastion_os_username" {
 output "master_hosts_var_maps" {
   sensitive = true
   value = {
-    repo_url = var.gitlab_project_url
+    repo_url          = var.gitlab_project_url
     gitlab_server_url = var.gitlab_server_url
     gitlab_project_id = var.current_gitlab_project_id
-    repo_username = var.gitlab_username
-    repo_password = var.gitlab_token  }
+    repo_username     = var.gitlab_username
+  repo_password = var.gitlab_token }
 }
 
 output "master_hosts_yaml_maps" {
@@ -99,10 +99,13 @@ output "master_hosts_yaml_maps" {
 output "all_hosts_var_maps" {
   sensitive = false
   value = {
-    ansible_ssh_user             = var.os_user_name
-    ansible_ssh_retries          = "10"
-    base_domain                  = local.base_domain
-    netmaker_image_version       = var.netmaker_image_version
+    ansible_ssh_user                 = var.os_user_name
+    ansible_ssh_retries              = "10"
+    base_domain                      = local.base_domain
+    netmaker_image_version           = var.netmaker_image_version
+    haproxy_server_fqdn              = module.base_infra.haproxy_server_fqdn
+    seaweedfs_s3_listening_port      = module.post_config.seaweedfs_s3_listening_port
+    nexus_docker_repo_listening_port = module.post_config.nexus_docker_repo_listening_port
   }
 }
 
@@ -124,10 +127,8 @@ output "bastion_hosts_var_maps" {
   sensitive = false
   value = {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
-    nexus_fqdn = module.post_config.nexus_fqdn
-    nexus_docker_repo_listening_port = module.post_config.nexus_docker_repo_listening_port
-    seaweedfs_fqdn = module.post_config.seaweedfs_fqdn
-    seaweedfs_s3_listening_port = module.post_config.seaweedfs_s3_listening_port
+    nexus_fqdn              = module.post_config.nexus_fqdn
+    seaweedfs_fqdn          = module.post_config.seaweedfs_fqdn
   }
 }
 

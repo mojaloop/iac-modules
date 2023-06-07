@@ -16,6 +16,7 @@ module "base_infra" {
   az_count = var.az_count
   route53_zone_force_destroy = var.route53_zone_force_destroy
   bastion_ami = module.ubuntu_focal_ami.id
+  create_haproxy_dns_record = true
 }
 
 module "post_config" {
