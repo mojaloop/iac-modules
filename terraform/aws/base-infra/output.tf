@@ -53,5 +53,5 @@ output "key_pair_name" {
 
 output "haproxy_server_fqdn" {
   description = "haproxy server Hostname"
-  value       = var.create_haproxy_dns_record ? aws_route53_record.haproxy_server_private.fqdn : ""
+  value       = var.create_haproxy_dns_record ? aws_route53_record.haproxy_server_private[0].fqdn : ""
 }
