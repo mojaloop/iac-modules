@@ -8,6 +8,7 @@ dependency "ansible_cc_netmaker_deploy" {
     netmaker_control_network_name = ""
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  mock_outputs_merge_strategy_with_state  = "shallow"
 }
 dependency "control_center_deploy" {
   config_path = "../control-center-deploy"
@@ -17,6 +18,7 @@ dependency "control_center_deploy" {
     public_zone_name       = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  mock_outputs_merge_strategy_with_state  = "shallow"
 }
 dependency "control_center_gitlab_config" {
   config_path = "../control-center-gitlab-config"
@@ -24,6 +26,7 @@ dependency "control_center_gitlab_config" {
     iac_group_id = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
 inputs = {

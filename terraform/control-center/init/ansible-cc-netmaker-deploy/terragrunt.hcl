@@ -18,6 +18,7 @@ dependency "control_center_deploy" {
     bastion_public_ip       = "null"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
 dependency "control_center_gitlab_config" {
@@ -25,7 +26,8 @@ dependency "control_center_gitlab_config" {
   mock_outputs = {
     netmaker_hosts_var_maps = {}
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
 inputs = {
