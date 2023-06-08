@@ -127,6 +127,7 @@ output "docker_hosts_var_maps" {
     docker_extra_ebs_volume_id       = aws_instance.docker_server.ebs_block_device.*.volume_id[0]
     docker_extra_volume_size_mb      = aws_instance.docker_server.ebs_block_device.*.volume_size[0] * 1074
     seaweedfs_num_volumes            = 100
+    vault_root_token                 = random_password.vault_root_token.result
   }
 }
 
