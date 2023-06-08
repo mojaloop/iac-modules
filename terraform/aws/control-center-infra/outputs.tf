@@ -70,6 +70,14 @@ output "seaweedfs_fqdn" {
   value = aws_route53_record.seaweedfs_server_private.fqdn
 }
 
+output "vault_listening_port" {
+  value = var.vault_listening_port
+}
+
+output "vault_fqdn" {
+  value = aws_route53_record.vault_server_private.fqdn
+}
+
 output "gitlab_hosts_var_maps" {
   sensitive = true
   value = {

@@ -155,6 +155,24 @@ resource "gitlab_group_variable" "seaweedfs_s3_listening_port" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "vault_fqdn" {
+  group             = gitlab_group.iac.id
+  key               = "VAULT_FQDN"
+  value             = var.vault_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "vault_listening_port" {
+  group             = gitlab_group.iac.id
+  key               = "VAULT_LISTENING_PORT"
+  value             = var.vault_listening_port
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 locals {
   private_repo_docker_credentials = base64encode("${var.private_repo_user}:${var.private_repo_token}")
   docker_auth_config = jsonencode({

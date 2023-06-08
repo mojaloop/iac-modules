@@ -84,3 +84,13 @@ data "gitlab_group_variable" "seaweedfs_s3_listening_port" {
   group   = data.gitlab_project.env.namespace_id
   key       = "SEAWEEDFS_S3_LISTENING_PORT"
 }
+
+data "gitlab_group_variable" "vault_fqdn" {
+  group   = data.gitlab_project.env.namespace_id
+  key       = "VAULT_FQDN"
+}
+
+data "gitlab_group_variable" "vault_listening_port" {
+  group   = data.gitlab_project.env.namespace_id
+  key       = "VAULT_LISTENING_PORT"
+}

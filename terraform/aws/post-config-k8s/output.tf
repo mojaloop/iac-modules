@@ -49,3 +49,11 @@ output "seaweedfs_fqdn" {
 output "seaweedfs_s3_listening_port" {
   value = data.gitlab_group_variable.seaweedfs_s3_listening_port.value
 }
+
+output "vault_fqdn" {
+  value = data.gitlab_group_variable.vault_fqdn.value
+}
+
+output "vault_listening_port" {
+  value = data.gitlab_group_variable.vault_listening_port.value
+}

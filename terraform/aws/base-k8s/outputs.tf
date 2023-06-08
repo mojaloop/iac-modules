@@ -106,6 +106,7 @@ output "all_hosts_var_maps" {
     haproxy_server_fqdn              = module.base_infra.haproxy_server_fqdn
     seaweedfs_s3_listening_port      = module.post_config.seaweedfs_s3_listening_port
     nexus_docker_repo_listening_port = module.post_config.nexus_docker_repo_listening_port
+    vault_listening_port             = module.post_config.vault_listening_port
   }
 }
 
@@ -129,6 +130,7 @@ output "bastion_hosts_var_maps" {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
     nexus_fqdn              = module.post_config.nexus_fqdn
     seaweedfs_fqdn          = module.post_config.seaweedfs_fqdn
+    vault_fqdn              = module.post_config.vault_fqdn
   }
 }
 

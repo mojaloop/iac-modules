@@ -74,6 +74,14 @@ resource "aws_route53_record" "seaweedfs_server_private" {
   records = [aws_instance.docker_server.private_ip]
 }
 
+resource "aws_route53_record" "vault_server_private" {
+  zone_id = module.base_infra.public_zone.id
+  name    = "vault"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.docker_server.private_ip]
+}
+
 resource "aws_route53_record" "gitlab_runner_server_private" {
   zone_id = module.base_infra.public_zone.id
   name    = "gitlab_runner"

@@ -63,3 +63,10 @@ variable "nexus_fqdn" {
 variable "nexus_docker_repo_listening_port" {
   description = "nexus_docker_repo_listening_port"
 }
+
+variable "vault_fqdn" {
+  description = "vault_fqdn"
+}
+variable "vault_listening_port" {
+  description = "vault_listening_port"
+}

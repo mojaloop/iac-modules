@@ -136,6 +136,12 @@ variable "seaweedfs_s3_listening_port" {
   description = "which port to listen for seaweed s3"
 }
 
+variable "vault_listening_port" {
+  type       = number
+  default    = 8200
+  description = "which port to listen for vault"
+}
+
 variable "days_retain_gitlab_snapshot" {
   type        = number
   description = "number of days to retain gitlab snapshots"
