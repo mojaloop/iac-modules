@@ -65,7 +65,7 @@ terraform {
 }
 provider "vault" {
   address = "https://${dependency.control_center_deploy.outputs.vault_fqdn}"
-  token   = ${dependency.control_center_deploy.outputs.vault_root_token}
+  token   = "${dependency.control_center_deploy.outputs.vault_root_token}"
 }
 EOF
 }
