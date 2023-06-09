@@ -173,6 +173,32 @@ resource "gitlab_group_variable" "vault_listening_port" {
   environment_scope = "*"
 }
 
+resource "gitlab_project_variable" "vault_oauth_client_secret" {
+  count     = var.enable_vault_oidc ? 1 : 0
+  project   = gitlab_project.envs[each.key].id
+  key       = "VAULT_OAUTH_CLIENT_SECRET"
+  value     = gitlab_application.tenant_vault_oidc[0].secret
+  protected = false
+  masked    = true
+}
+
+resource "gitlab_project_variable" "enable_vault_oidc" {
+  count     = var.enable_vault_oidc ? 1 : 0
+  project   = gitlab_project.bootstrap.id
+  key       = "VAULT_OAUTH_CLIENT_ID"
+  value     = gitlab_application.tenant_vault_oidc[0].application_id
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_application" "tenant_vault_oidc" {
+  count     = var.enable_vault_oidc ? 1 : 0
+  confidential = true
+  scopes       = ["openid"]
+  name         = "tenant_vault_oidc"
+  redirect_url = "https://${var.vault_fqdn}/ui/vault/auth/oidc/oidc/callback"
+}
+
 locals {
   private_repo_docker_credentials = base64encode("${var.private_repo_user}:${var.private_repo_token}")
   docker_auth_config = jsonencode({

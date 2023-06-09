@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/ansible/control-center-netmaker-deploy?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/ansible/control-center-post-deploy?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
 }
 
 dependency "control_center_deploy" {
@@ -36,7 +36,7 @@ inputs = {
   docker_hosts                = dependency.control_center_deploy.outputs.docker_hosts
   bastion_hosts_var_maps      = dependency.control_center_deploy.outputs.bastion_hosts_var_maps
   netmaker_hosts_var_maps     = merge(dependency.control_center_deploy.outputs.netmaker_hosts_var_maps, dependency.control_center_gitlab_config.outputs.netmaker_hosts_var_maps)
-  docker_hosts_var_maps       = dependency.control_center_deploy.outputs.docker_hosts_var_maps
+  docker_hosts_var_maps       = merge(dependency.control_center_deploy.outputs.docker_hosts_var_maps, local.docker_hosts_var_maps)
   all_hosts_var_maps          = dependency.control_center_deploy.outputs.all_hosts_var_maps
   enable_netmaker_oidc        = local.env_vars.enable_netmaker_oidc
   ansible_bastion_key         = dependency.control_center_deploy.outputs.bastion_ssh_key
@@ -52,6 +52,10 @@ locals {
   file("${find_in_parent_folders("environment.yaml")}"))
   env_map = { for val in local.env_vars.envs :
   val["env"] => val }
+  docker_hosts_var_maps = {
+    vault_region     = local.env_vars.region
+    vault_acme_email = local.env_vars.letsencrypt_email
+  }
 }
 
 include "root" {

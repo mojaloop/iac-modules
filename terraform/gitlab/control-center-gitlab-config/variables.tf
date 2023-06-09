@@ -70,3 +70,9 @@ variable "vault_fqdn" {
 variable "vault_listening_port" {
   description = "vault_listening_port"
 }
+
+variable "enable_vault_oidc" {
+  type        = bool
+  default     = true
+  description = "enable oidc config of tenancy vault"
+}
