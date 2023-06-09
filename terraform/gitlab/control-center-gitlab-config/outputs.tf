@@ -9,7 +9,7 @@ output "netmaker_hosts_var_maps" {
 output "docker_hosts_var_maps" {
   sensitive = true
   value = {
-    vault_oauth_app_client_id = var.enable_vault_oidc ? gitlab_application.tenant_vault_oidc[0].application_id : ""
+    vault_oidc_client_id = var.enable_vault_oidc ? gitlab_application.tenant_vault_oidc[0].application_id : ""
     vault_oidc_client_secret  = var.enable_vault_oidc ? gitlab_application.tenant_vault_oidc[0].secret : ""
   }
 }

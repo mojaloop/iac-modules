@@ -33,8 +33,8 @@ inputs = {
   vault_token = dependency.control_center_deploy.outputs.vault_root_token
   gitlab_admin_rbac_group = local.env_vars.gitlab_admin_rbac_group
   gitlab_hostname = dependency.control_center_deploy.outputs.gitlab_server_hostname
-  vault_oauth_app_client_id = dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps[vault_oauth_app_client_id]
-  vault_oauth_app_client_secret = dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps[vault_oauth_app_client_secret]
+  vault_oauth_app_client_id = dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps["vault_oidc_client_id"]
+  vault_oauth_app_client_secret = dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps["vault_oidc_client_secret"]
   vault_fqdn = dependency.control_center_deploy.outputs.vault_fqdn
 }
 
