@@ -172,25 +172,6 @@ resource "gitlab_group_variable" "vault_listening_port" {
   masked            = false
   environment_scope = "*"
 }
-
-resource "gitlab_project_variable" "vault_oauth_client_secret" {
-  count     = var.enable_vault_oidc ? 1 : 0
-  project   = gitlab_project.envs[each.key].id
-  key       = "VAULT_OAUTH_CLIENT_SECRET"
-  value     = gitlab_application.tenant_vault_oidc[0].secret
-  protected = false
-  masked    = true
-}
-
-resource "gitlab_project_variable" "enable_vault_oidc" {
-  count     = var.enable_vault_oidc ? 1 : 0
-  project   = gitlab_project.bootstrap.id
-  key       = "VAULT_OAUTH_CLIENT_ID"
-  value     = gitlab_application.tenant_vault_oidc[0].application_id
-  protected = false
-  masked    = false
-}
-
 resource "gitlab_application" "tenant_vault_oidc" {
   count     = var.enable_vault_oidc ? 1 : 0
   confidential = true
