@@ -24,8 +24,8 @@ dependency "control_center_gitlab_config" {
   config_path = "../control-center-gitlab-config"
   mock_outputs = {
     docker_hosts_var_maps = {
-      vault_oauth_app_client_id             = "temporary-dummy-id"
-      vault_oauth_app_client_secret         = "temporary-dummy-id"
+      vault_oidc_client_id             = "temporary-dummy-id"
+      vault_oidc_client_secret         = "temporary-dummy-id"
     }
     
   }
