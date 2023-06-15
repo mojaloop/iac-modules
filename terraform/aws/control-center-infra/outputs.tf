@@ -78,11 +78,6 @@ output "vault_fqdn" {
   value = aws_route53_record.vault_server_private.fqdn
 }
 
-output "vault_root_token" {
-  sensitive = true
-  value     = random_password.vault_root_token.result
-}
-
 output "gitlab_hosts_var_maps" {
   sensitive = true
   value = {
@@ -140,11 +135,9 @@ output "docker_hosts_var_maps" {
     docker_extra_ebs_volume_id       = aws_instance.docker_server.ebs_block_device.*.volume_id[0]
     docker_extra_volume_size_mb      = aws_instance.docker_server.ebs_block_device.*.volume_size[0] * 1074
     seaweedfs_num_volumes            = 100
-    vault_root_token                 = random_password.vault_root_token.result
-    vault_aws_access_key_id          = module.post_config.acme_iam_access_id
-    vault_aws_secret_access_key      = module.post_config.acme_iam_secret_key
     vault_listening_port             = var.vault_listening_port
     vault_fqdn                       = aws_route53_record.vault_server_private.fqdn
+    vault_gitlab_token               = random_password.gitlab_root_token.result
   }
 }
 

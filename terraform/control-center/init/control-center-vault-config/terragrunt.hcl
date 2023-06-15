@@ -1,9 +1,13 @@
 terraform {
   source = "git::https://github.com/mojaloop/iac-modules.git//terraform/vault/control-center-vault-config?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
 }
-dependency "ansible-cc-post-deploy" {
+dependency "ansible_cc_post_deploy" {
   config_path  = "../ansible-cc-post-deploy"
-  skip_outputs = true
+  mock_outputs = {
+    vault_root_token = "temporary-dummy-id"
+  }
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  mock_outputs_merge_strategy_with_state  = "shallow"
 }
 dependency "control_center_deploy" {
   config_path = "../control-center-deploy"
@@ -30,7 +34,6 @@ dependency "control_center_gitlab_config" {
 }
 
 inputs = {
-  vault_token = dependency.control_center_deploy.outputs.vault_root_token
   gitlab_admin_rbac_group = local.env_vars.gitlab_admin_rbac_group
   gitlab_hostname = dependency.control_center_deploy.outputs.gitlab_server_hostname
   vault_oauth_app_client_id = dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps["vault_oidc_client_id"]
@@ -65,7 +68,7 @@ terraform {
 }
 provider "vault" {
   address = "https://${dependency.control_center_deploy.outputs.vault_fqdn}"
-  token   = "${dependency.control_center_deploy.outputs.vault_root_token}"
+  token   = "${dependency.ansible_cc_post_deploy.outputs.vault_root_token}"
 }
 EOF
 }

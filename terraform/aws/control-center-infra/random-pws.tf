@@ -55,8 +55,3 @@ resource "random_password" "netmaker_admin_password" {
   special          = true
   override_special = "_"
 }
-
-resource "random_password" "vault_root_token" {
-  length  = 32
-  special = true
-}

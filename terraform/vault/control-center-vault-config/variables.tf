@@ -1,7 +1,3 @@
-variable "vault_token" {
-  description = "token for connecting to vault"
-  sensitive = true
-}
 variable "gitlab_admin_rbac_group" {
   type        = string
   description = "rbac group in gitlab for admin access via oidc"

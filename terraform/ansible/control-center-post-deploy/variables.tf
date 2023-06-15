@@ -76,3 +76,7 @@ variable "netmaker_control_network_name" {
   description = "netmaker_control_network_name"
   default = "cntrlctr"
 }
+variable "vault_root_token_key" {
+  type = string
+  default = "VAULT_ROOT_TOKEN"
+}

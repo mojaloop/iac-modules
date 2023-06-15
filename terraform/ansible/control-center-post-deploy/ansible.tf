@@ -47,12 +47,24 @@ data "local_sensitive_file" "netmaker_keys" {
   ]
 }
 
+data "gitlab_project_variable" "vault_root_token" {
+  project = var.docker_hosts_var_maps["gitlab_bootstrap_project_id"]
+  key     = var.vault_root_token_key
+  depends_on = [
+    null_resource.run_ansible
+  ]
+}
+
 output "netmaker_token_map" {
   value     = local.token_map
   sensitive = true
 }
 output "netmaker_control_network_name" {
   value = var.netmaker_control_network_name
+}
+output "vault_root_token" {
+  value     = data.gitlab_project_variable.vault_root_token
+  sensitive = true
 }
 
 locals {
@@ -77,6 +89,8 @@ locals {
   }
   docker_hosts_var_maps = {
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
+    vault_root_token_key                       = var.vault_root_token_key
+    vault_gitlab_url                           = "https://${var.docker_hosts_var_maps["gitlab_server_hostname"]}/api/v4/projects/${var.docker_hosts_var_maps["gitlab_bootstrap_project_id"]}/variables"
     ansible_ssh_common_args                    = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -i ${local_sensitive_file.ec2_ssh_key.filename} -o StrictHostKeyChecking=no -q ${var.ansible_bastion_os_username}@${var.ansible_bastion_public_ip}\""
   }
   ssh_private_key_file_map = {
