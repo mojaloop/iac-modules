@@ -54,11 +54,36 @@ inputs = {
 
 locals {
   env_vars = yamldecode(
-  file("${find_in_parent_folders("environment.yaml")}"))
+    file("${find_in_parent_folders("environment.yaml")}")
+  )
+  common_vars = yamldecode(
+    file("${find_in_parent_folders("common-vars.yaml")}")
+  )
   env_map = { for val in local.env_vars.envs :
   val["env"] => val }
 }
 
 include "root" {
   path = find_in_parent_folders()
+}
+generate "required_providers_override" {
+  path = "required_providers_override.tf"
+
+  if_exists = "overwrite_terragrunt"
+
+  contents = <<EOF
+terraform { 
+  
+  required_providers {
+    gitlab = {
+      source = "gitlabhq/gitlab"
+      version = "${local.common_vars.gitlab_provider_version}"
+    }
+  }
+}
+provider "gitlab" {
+  token = "${dependency.control_center_deploy.outputs.gitlab_root_token}"
+  base_url = "https://${dependency.control_center_deploy.outputs.gitlab_server_hostname}"
+}
+EOF
 }
