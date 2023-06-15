@@ -1,9 +1,9 @@
 resource "aws_lb" "internal" { #  for internal traffic
-  internal           = true
-  load_balancer_type = "network"
+  internal                         = true
+  load_balancer_type               = "network"
   enable_cross_zone_load_balancing = true
-  subnets            = module.base_infra.private_subnets
-  tags = merge({ Name = "${local.name}-internal" }, local.common_tags)
+  subnets                          = module.base_infra.private_subnets
+  tags                             = merge({ Name = "${local.name}-internal" }, local.common_tags)
 }
 
 resource "aws_lb_listener" "internal_https" {
@@ -44,10 +44,10 @@ resource "aws_lb_target_group_attachment" "internal_vault" {
 }
 
 resource "aws_acm_certificate" "wildcard_cert" {
-  domain_name       = module.base_infra.public_zone.name
-  validation_method = "DNS"
+  domain_name               = module.base_infra.public_zone.name
+  validation_method         = "DNS"
   subject_alternative_names = ["*.${module.base_infra.public_zone.name}", aws_route53_record.vault_server_private.fqdn]
-  tags = merge({ Name = "${local.name}-wildcard-cert" }, local.common_tags)
+  tags                      = merge({ Name = "${local.name}-wildcard-cert" }, local.common_tags)
 
   lifecycle {
     create_before_destroy = true
@@ -55,12 +55,12 @@ resource "aws_acm_certificate" "wildcard_cert" {
 }
 
 resource "aws_route53_record" "cert_validation" {
-  name            = aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_name[0]
-  records         = [aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_value[0]]
-  type            = aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_type[0]
+  name            = tolist(aws_acm_certificate.wildcard_cert.domain_validation_options)[0].resource_record_name
+  type            = tolist(aws_acm_certificate.wildcard_cert.domain_validation_options)[0].resource_record_type
+  records         = [tolist(aws_acm_certificate.wildcard_cert.domain_validation_options)[0].resource_record_value]
   ttl             = 60
   allow_overwrite = true
-  zone_id  = module.base_infra.public_zone.id
+  zone_id         = module.base_infra.public_zone.id
 }
 
 resource "aws_acm_certificate_validation" "cert" {
