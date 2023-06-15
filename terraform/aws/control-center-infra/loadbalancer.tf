@@ -44,9 +44,9 @@ resource "aws_lb_target_group_attachment" "internal_vault" {
 }
 
 resource "aws_acm_certificate" "wildcard_cert" {
-  domain_name       = module.base_infra.public_zone.fqdn
+  domain_name       = module.base_infra.public_zone.name
   validation_method = "DNS"
-  subject_alternative_names = ["*.${module.base_infra.public_zone.fqdn}", aws_route53_record.vault_server_private.fqdn]
+  subject_alternative_names = ["*.${module.base_infra.public_zone.name}", aws_route53_record.vault_server_private.fqdn]
   tags = merge({ Name = "${local.name}-wildcard-cert" }, local.common_tags)
 
   lifecycle {
