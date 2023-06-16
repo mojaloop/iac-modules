@@ -63,7 +63,7 @@ output "netmaker_control_network_name" {
   value = var.netmaker_control_network_name
 }
 output "vault_root_token" {
-  value     = data.gitlab_project_variable.vault_root_token
+  value     = data.gitlab_project_variable.vault_root_token.value
   sensitive = true
 }
 
