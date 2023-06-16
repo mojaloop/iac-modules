@@ -12,9 +12,8 @@ dependency "ansible_cc_post_deploy" {
 dependency "control_center_deploy" {
   config_path = "../control-center-deploy"
   mock_outputs = {
-    vault_listening_port             = "temporary-dummy-id"
     vault_fqdn                       = "temporary-dummy-id"
-    vault_root_token                 = "temporary-dummy-id"
+    gitlab_server_hostname           = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"

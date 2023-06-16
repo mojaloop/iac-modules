@@ -46,7 +46,7 @@ resource "aws_lb_target_group_attachment" "internal_vault" {
 resource "aws_acm_certificate" "wildcard_cert" {
   domain_name               = module.base_infra.public_zone.name
   validation_method         = "DNS"
-  subject_alternative_names = ["*.${module.base_infra.public_zone.name}", aws_route53_record.vault_server_private.fqdn]
+  subject_alternative_names = ["*.${module.base_infra.public_zone.name}", "vault.${module.base_infra.public_zone.name}"]
   tags                      = merge({ Name = "${local.name}-wildcard-cert" }, local.common_tags)
 
   lifecycle {
@@ -54,8 +54,9 @@ resource "aws_acm_certificate" "wildcard_cert" {
   }
 }
 
+# need to set count to 3 for the 3 records (domain name, wildcard and vault, if we add to SAN, need to increment count)
 resource "aws_route53_record" "cert_validation" {
-  count           = length(aws_acm_certificate.wildcard_cert.subject_alternative_names)
+  count           = 3
   name            = aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_name[count.index]
   records         = [aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_value[count.index]]
   type            = aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_type[count.index]

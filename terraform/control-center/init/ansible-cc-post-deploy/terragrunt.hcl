@@ -16,6 +16,7 @@ dependency "control_center_deploy" {
     bastion_ssh_key         = "key"
     bastion_os_username     = "null"
     bastion_public_ip       = "null"
+    gitlab_root_token       = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
