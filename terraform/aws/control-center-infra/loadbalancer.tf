@@ -55,9 +55,10 @@ resource "aws_acm_certificate" "wildcard_cert" {
 }
 
 resource "aws_route53_record" "cert_validation" {
-  name            = tolist(aws_acm_certificate.wildcard_cert.domain_validation_options)[0].resource_record_name
-  type            = tolist(aws_acm_certificate.wildcard_cert.domain_validation_options)[0].resource_record_type
-  records         = [tolist(aws_acm_certificate.wildcard_cert.domain_validation_options)[0].resource_record_value]
+  count           = length(aws_acm_certificate.wildcard_cert.subject_alternative_names)
+  name            = aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_name[count.index]
+  records         = [aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_value[count.index]]
+  type            = aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_type[count.index]
   ttl             = 60
   allow_overwrite = true
   zone_id         = module.base_infra.public_zone.id
