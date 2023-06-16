@@ -79,7 +79,7 @@ resource "aws_route53_record" "vault_server_private" {
   name    = "vault"
   type    = "A"
   ttl     = "300"
-  records = [aws_instance.docker_server.private_ip]
+  records = [aws_lb.internal.dns_name]
 }
 
 resource "aws_route53_record" "gitlab_runner_server_private" {
