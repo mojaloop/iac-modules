@@ -77,7 +77,7 @@ resource "aws_route53_record" "seaweedfs_server_private" {
 resource "aws_route53_record" "vault_server_private" {
   zone_id = module.base_infra.public_zone.id
   name    = "vault"
-  type    = "A"
+  type    = "CNAME"
   ttl     = "300"
   records = [aws_lb.internal.dns_name]
 }
