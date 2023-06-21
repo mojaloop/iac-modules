@@ -20,19 +20,13 @@ resource "aws_lb_listener" "internal_https" {
 }
 
 resource "aws_lb_target_group" "internal_vault" {
-  port     = 8200
+  port     = var.vault_listening_port
   protocol = "TCP"
   vpc_id   = module.base_infra.vpc_id
 
   health_check {
-    interval            = 10
-    timeout             = 6
-    path                = "/healthz"
-    port                = 8200
-    protocol            = "HTTP"
-    healthy_threshold   = 3
-    unhealthy_threshold = 3
-    matcher             = "200-399"
+    protocol = "TCP"
+    port     = var.vault_listening_port
   }
 
   tags = merge({ Name = "${local.name}-vault-8200" }, local.common_tags)

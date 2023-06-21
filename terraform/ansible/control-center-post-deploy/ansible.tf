@@ -51,8 +51,13 @@ data "gitlab_project_variable" "vault_root_token" {
   project = var.docker_hosts_var_maps["gitlab_bootstrap_project_id"]
   key     = var.vault_root_token_key
   depends_on = [
-    null_resource.run_ansible
+    time_sleep.wait_vault_var
   ]
+}
+#add wait for vault proj var to be created
+resource "time_sleep" "wait_vault_var" {
+  depends_on = [null_resource.run_ansible]
+  create_duration = "30s"
 }
 
 output "netmaker_token_map" {
