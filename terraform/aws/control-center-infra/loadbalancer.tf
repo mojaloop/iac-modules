@@ -30,6 +30,9 @@ resource "aws_lb_target_group" "internal_vault" {
   }
 
   tags = merge({ Name = "${local.name}-vault-8200" }, local.common_tags)
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 resource "aws_lb_target_group_attachment" "internal_vault" {
   target_group_arn = aws_lb_target_group.internal_vault.arn
