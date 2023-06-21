@@ -23,7 +23,7 @@ resource "aws_lb_target_group" "internal_vault" {
   port     = var.vault_listening_port
   protocol = "TCP"
   vpc_id   = module.base_infra.vpc_id
-
+  target_type = "ip"
   health_check {
     protocol = "TCP"
     port     = var.vault_listening_port
