@@ -36,7 +36,7 @@ resource "aws_lb_target_group" "internal_vault" {
 }
 resource "aws_lb_target_group_attachment" "internal_vault" {
   target_group_arn = aws_lb_target_group.internal_vault.arn
-  target_id        = aws_instance.docker_server.id
+  target_id        = aws_instance.docker_server.private_ip
   port             = 8200
 }
 
