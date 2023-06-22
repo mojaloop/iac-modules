@@ -57,7 +57,7 @@ data "gitlab_project_variable" "vault_root_token" {
 #add wait for vault proj var to be created
 resource "time_sleep" "wait_vault_var" {
   depends_on = [null_resource.run_ansible]
-  create_duration = "30s"
+  create_duration = "90s"
 }
 
 output "netmaker_token_map" {

@@ -50,14 +50,14 @@ git config --global user.email "root@${DOMAIN}"
 git config --global user.name "root"
 git clone https://${TF_HTTP_USERNAME}:${TF_HTTP_PASSWORD}@${GITLAB_URL}/iac/bootstrap.git $TMP_GITLAB_DIR
 cd ${BASE_DIR}
-cp -r control-center-deploy/ control-center-gitlab-config/ control-center-env-gitlab-config/ ansible-cc-deploy/ ansible-cc-netmaker-deploy/ environment.yaml terragrunt.hcl *-vars.yaml $TMP_GITLAB_DIR
+cp -r control-center-deploy/ control-center-gitlab-config/ control-center-env-gitlab-config/ control-center-vault-config/ ansible-cc-deploy/ ansible-cc-post-deploy/ environment.yaml terragrunt.hcl *-vars.yaml $TMP_GITLAB_DIR
 git clone https://github.com/mojaloop/iac-modules.git $TMP_TEMPLATE_DIR
 cd $TMP_TEMPLATE_DIR
 git checkout $IAC_TEMPLATES_TAG
 cp -r terraform/gitlab/ci-templates/bootstrap/. $TMP_GITLAB_DIR
 cd $TMP_GITLAB_DIR
-rm -rf control-center-deploy/.te* control-center-gitlab-config/.te* control-center-env-gitlab-config/.te* ansible-cc-deploy/.te* ansible-cc-netmaker-deploy/.te*
-rm -rf control-center-deploy/terraform.tfstate* control-center-gitlab-config/terraform.tfstate* control-center-env-gitlab-config/terraform.tfstate* ansible-cc-deploy/terraform.tfstate*  ansible-cc-netmaker-deploy/terraform.tfstate*
+rm -rf control-center-deploy/.te* control-center-gitlab-config/.te* control-center-env-gitlab-config/.te* control-center-vault-config/.te* ansible-cc-deploy/.te* ansible-cc-post-deploy/.te*
+rm -rf control-center-deploy/terraform.tfstate* control-center-gitlab-config/terraform.tfstate* control-center-env-gitlab-config/terraform.tfstate* control-center-vault-config/terraform.tfstate* ansible-cc-deploy/terraform.tfstate*  ansible-cc-post-deploy/terraform.tfstate*
 git add .
 git commit -m "Push existing bootstrap to GitLab"
 git push
