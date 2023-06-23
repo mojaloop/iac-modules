@@ -128,6 +128,7 @@ deploy:
   artifacts:
     paths:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
   when: manual
 

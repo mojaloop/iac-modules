@@ -12,6 +12,7 @@ gitlab_runner_version: 16.0.0
 iac_group_name: iac_admin
 netmaker_version: 0.20.0
 letsencrypt_email: test@mojalabs.io
+delete_storage_on_term: true
 envs:
   - env: dev
     domain: labs8.mojalabs.io
