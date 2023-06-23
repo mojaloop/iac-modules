@@ -38,6 +38,7 @@ inputs = {
   vault_oauth_app_client_id = dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps["vault_oidc_client_id"]
   vault_oauth_app_client_secret = dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps["vault_oidc_client_secret"]
   vault_fqdn = dependency.control_center_deploy.outputs.vault_fqdn
+  env_map = local.env_map
 }
 
 locals {
@@ -47,6 +48,18 @@ locals {
   common_vars = yamldecode(
     file("${find_in_parent_folders("common-vars.yaml")}")
   )
+  env_map = { for val in local.env_vars.envs :
+    val["env"] => {
+      cloud_region            = val["cloud_region"]
+      k8s_cluster_type          = val["k8s_cluster_type"]
+      cloud_platform              = val["cloud_platform"]
+      domain                    = val["domain"]
+      iac_terraform_modules_tag = val["iac_terraform_modules_tag"]
+      enable_vault_oauth_to_gitlab = val["enable_vault_oauth_to_gitlab"]
+      enable_grafana_oauth_to_gitlab = val["enable_grafana_oauth_to_gitlab"]
+      letsencrypt_email = val["letsencrypt_email"]
+    }
+  }
 }
 
 include "root" {

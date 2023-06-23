@@ -17,3 +17,13 @@ variable "vault_oauth_app_client_secret" {
 variable "vault_fqdn" {
   description = "vault_fqdn"
 }
+
+variable "kv_path" {
+  description = "path for kv engine"
+  default = "secret"
+}
+
+variable "env_map" {
+  type = map
+  description = "env repos to pre-create"
+}
