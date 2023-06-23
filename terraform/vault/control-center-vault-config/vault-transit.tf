@@ -1,6 +1,6 @@
 resource "vault_mount" "kv_secret" {
   path                      = var.kv_path
-  type                      = "kv"
+  type                      = "kv-v2"
   options                   = { version = "2" }
   default_lease_ttl_seconds = "120"
 }
@@ -42,9 +42,10 @@ resource "vault_token" "env_token" {
   no_parent = true
 }
 
-resource "vault_kv_secret" "env_token" {
-  for_each = var.env_map
-  path     = "${vault_mount.kv_secret.path}/${each.key}/env_token"
+resource "vault_kv_secret_v2" "env_token" {
+  for_each            = var.env_map
+  path                = "${vault_mount.kv_secret.path}/${each.key}/env_token"
+  delete_all_versions = true
   data_json = jsonencode(
     {
       value = vault_token.env_token[each.key].client_token
