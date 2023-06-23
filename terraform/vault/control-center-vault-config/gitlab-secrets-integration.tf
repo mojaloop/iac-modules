@@ -1,12 +1,6 @@
-resource "vault_auth_backend" "gitlab_secrets_jwt" {
-  path        = "gitlab_secrets_jwt"
-  type        = "jwt"
-  description = "gitlab secrets jwt auth"
-}
-
 resource "vault_jwt_auth_backend" "gitlab_secrets" {
     description         = "Gitlab JWT for external secrets"
-    path                = vault_auth_backend.gitlab_secrets_jwt.path
+    path                = "gitlab_secrets_jwt"
     jwks_url            = "https://${var.gitlab_hostname}/-/jwks"
     bound_issuer        = var.gitlab_hostname
 }
