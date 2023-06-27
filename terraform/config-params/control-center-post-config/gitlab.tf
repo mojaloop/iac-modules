@@ -132,7 +132,7 @@ resource "vault_kv_secret_v2" "gitlab_ci_pat" {
 }
 
 resource "gitlab_group_access_token" "gitlab_ci_pat" {
-  group        = gitlab_group.iac.id
+  group        = var.iac_group_id
   name         = "gitlab ci pat"
   access_level = "owner"
   scopes       = ["api"]
