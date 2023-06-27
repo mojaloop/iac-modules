@@ -22,8 +22,8 @@ dependency "control_center_deploy" {
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
-dependency "control_center_gitlab_config" {
-  config_path = "../control-center-gitlab-config"
+dependency "control_center_pre_config" {
+  config_path = "../control-center-pre-config"
   mock_outputs = {
     netmaker_hosts_var_maps = {}
     docker_hosts_var_maps = {
@@ -40,9 +40,9 @@ inputs = {
   docker_hosts           = dependency.control_center_deploy.outputs.docker_hosts
   bastion_hosts_var_maps = dependency.control_center_deploy.outputs.bastion_hosts_var_maps
   netmaker_hosts_var_maps = merge(dependency.control_center_deploy.outputs.netmaker_hosts_var_maps,
-  dependency.control_center_gitlab_config.outputs.netmaker_hosts_var_maps)
+  dependency.control_center_pre_config.outputs.netmaker_hosts_var_maps)
   docker_hosts_var_maps = merge(dependency.control_center_deploy.outputs.docker_hosts_var_maps,
-  dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps)
+  dependency.control_center_pre_config.outputs.docker_hosts_var_maps)
   all_hosts_var_maps          = dependency.control_center_deploy.outputs.all_hosts_var_maps
   enable_netmaker_oidc        = local.env_vars.enable_netmaker_oidc
   ansible_bastion_key         = dependency.control_center_deploy.outputs.bastion_ssh_key

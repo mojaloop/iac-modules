@@ -23,8 +23,8 @@ dependency "control_center_deploy" {
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
-dependency "control_center_gitlab_config" {
-  config_path = "../control-center-gitlab-config"
+dependency "control_center_pre_config" {
+  config_path = "../control-center-pre-config"
   mock_outputs = {
     iac_group_id = "temporary-dummy-id"
     docker_hosts_var_maps = {
@@ -40,15 +40,15 @@ dependency "control_center_gitlab_config" {
 inputs = {
   gitlab_admin_rbac_group       = local.env_vars.gitlab_admin_rbac_group
   gitlab_hostname               = dependency.control_center_deploy.outputs.gitlab_server_hostname
-  vault_oauth_app_client_id     = dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps["vault_oidc_client_id"]
-  vault_oauth_app_client_secret = dependency.control_center_gitlab_config.outputs.docker_hosts_var_maps["vault_oidc_client_secret"]
+  vault_oauth_app_client_id     = dependency.control_center_pre_config.outputs.docker_hosts_var_maps["vault_oidc_client_id"]
+  vault_oauth_app_client_secret = dependency.control_center_pre_config.outputs.docker_hosts_var_maps["vault_oidc_client_secret"]
   vault_fqdn                    = dependency.control_center_deploy.outputs.vault_fqdn
   env_map = merge(local.env_map,
     { for key in keys(local.env_map) : key => merge(local.env_map[key], {
       netmaker_ops_token = length(dependency.ansible_cc_post_deploy.outputs.netmaker_token_map) > 0 ? dependency.ansible_cc_post_deploy.outputs.netmaker_token_map["${dependency.ansible_cc_post_deploy.outputs.netmaker_control_network_name}-ops"].netmaker_token : ""
       })
   })
-  iac_group_id = dependency.control_center_gitlab_config.outputs.iac_group_id
+  iac_group_id = dependency.control_center_pre_config.outputs.iac_group_id
   gitlab_ci_pat = dependency.control_center_deploy.outputs.gitlab_root_token
 }
 
