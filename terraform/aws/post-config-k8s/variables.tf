@@ -17,11 +17,6 @@ variable "tags" {
   default     = {}
 }
 
-variable "current_gitlab_project_id" {
-  type        = string
-  description = "current_gitlab_project_id"
-}
-
 variable "public_zone_id" {
   type = string
   description = "public_zone_id"

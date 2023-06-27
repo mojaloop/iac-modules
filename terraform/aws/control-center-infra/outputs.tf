@@ -70,8 +70,8 @@ output "seaweedfs_fqdn" {
   value = aws_route53_record.seaweedfs_server_private.fqdn
 }
 
-output "vault_listening_port" {
-  value = var.vault_listening_port
+output "tenant_vault_listening_port" {
+  value = "443"
 }
 
 output "vault_fqdn" {

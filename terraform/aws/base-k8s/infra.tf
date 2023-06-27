@@ -14,7 +14,7 @@ module "base_infra" {
   manage_parent_domain = var.manage_parent_domain
   manage_parent_domain_ns = var.manage_parent_domain_ns
   az_count = var.az_count
-  route53_zone_force_destroy = var.route53_zone_force_destroy
+  route53_zone_force_destroy = var.dns_zone_force_destroy
   bastion_ami = module.ubuntu_focal_ami.id
   create_haproxy_dns_record = true
 }
@@ -26,8 +26,7 @@ module "post_config" {
   tags = var.tags
   private_zone_id = module.base_infra.private_zone.id
   public_zone_id = module.base_infra.public_zone.id
-  current_gitlab_project_id = var.current_gitlab_project_id
-  longhorn_backup_s3_destroy = var.longhorn_backup_s3_destroy
+  longhorn_backup_s3_destroy = var.longhorn_backup_object_store_destroy
 }
 
 #############################

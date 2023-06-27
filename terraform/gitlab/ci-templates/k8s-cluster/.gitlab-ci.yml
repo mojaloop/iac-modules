@@ -29,7 +29,7 @@ variables:
   TF_STATE_BASE_ADDRESS: $CI_API_V4_URL/projects/$CI_PROJECT_ID/terraform/state
   SAST_DISABLED: "true"
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
-  FOUNDATION_BUILD_OUTPUT_DIR: $TF_ROOT/foundation
+  GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
@@ -115,10 +115,26 @@ build:
 
 deploy-infra:
   extends: .terraform:deploy
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  secrets:
+    ENV_VAULT_TOKEN:
+      vault: ${CI_PROJECT_NAME}/env_token@${KV_SECRET_PATH}
+      token: $VAULT_ID_TOKEN
+      file: false
+    NETMAKER_OPS_TOKEN:
+      vault: ${CI_PROJECT_NAME}/netmaker_ops_token@${KV_SECRET_PATH}
+      token: $VAULT_ID_TOKEN
+      file: false
+    GITLAB_CI_PAT:
+      vault: tenancy/gitlab_ci_pat@${KV_SECRET_PATH}
+      token: $VAULT_ID_TOKEN
+      file: false
   script:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
-    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $FOUNDATION_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
+    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   artifacts:
     paths:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
