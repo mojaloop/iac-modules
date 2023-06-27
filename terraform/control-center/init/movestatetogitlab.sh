@@ -7,7 +7,7 @@ cp terraform.tfstate /tmp/backup-deploy.tfstate
 export GITLAB_URL=$(terragrunt output gitlab_server_hostname | tr -d '"')
 export DOMAIN=$(terragrunt output public_zone_name | tr -d '"')
 export TF_HTTP_PASSWORD=$(terragrunt output gitlab_root_token | tr -d '"')
-cd ../control-center-gitlab-config
+cd ../control-center-pre-config
 export PROJECT_ID=$(terragrunt output bootstrap_project_id | tr -d '"')
 cd ..
 export TF_HTTP_USERNAME="root"
