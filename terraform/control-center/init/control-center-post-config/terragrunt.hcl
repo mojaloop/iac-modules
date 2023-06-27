@@ -49,7 +49,7 @@ inputs = {
       })
   })
   iac_group_id = dependency.control_center_pre_config.outputs.iac_group_id
-  gitlab_ci_pat = dependency.control_center_deploy.outputs.gitlab_root_token
+  gitlab_root_token = dependency.control_center_deploy.outputs.gitlab_root_token
 }
 
 locals {

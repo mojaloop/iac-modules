@@ -109,15 +109,33 @@ resource "vault_kv_secret_v2" "netmaker_ops_token" {
   )
 }
 
+resource "vault_kv_secret_v2" "gitlab_root_token" {
+  mount               = vault_mount.kv_secret.path
+  name                = "bootstrap/gitlab_root_token"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = var.gitlab_root_token
+    }
+  )
+}
+
 resource "vault_kv_secret_v2" "gitlab_ci_pat" {
   mount               = vault_mount.kv_secret.path
   name                = "tenancy/gitlab_ci_pat"
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = var.gitlab_ci_pat
+      value = gitlab_group_access_token.gitlab_ci_pat.token
     }
   )
+}
+
+resource "gitlab_group_access_token" "gitlab_ci_pat" {
+  group        = gitlab_group.iac.id
+  name         = "gitlab ci pat"
+  access_level = "owner"
+  scopes       = ["api"]
 }
 
 resource "vault_kv_secret_v2" "vault_oauth_client_id" {

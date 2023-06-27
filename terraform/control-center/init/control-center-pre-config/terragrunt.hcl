@@ -39,6 +39,7 @@ inputs = {
   vault_fqdn                       = dependency.control_center_deploy.outputs.vault_fqdn
   private_repo_user                = get_env("PRIVATE_REPO_USER")
   private_repo_token               = get_env("PRIVATE_REPO_TOKEN")
+  private_repo                     = get_env("PRIVATE_REPO")
   iac_templates_tag                = get_env("IAC_TEMPLATES_TAG")
   iac_terraform_modules_tag        = get_env("IAC_TERRAFORM_MODULES_TAG")
   control_center_cloud_provider    = get_env("CONTROL_CENTER_CLOUD_PROVIDER")

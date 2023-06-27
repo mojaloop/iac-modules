@@ -134,9 +134,17 @@ deploy:
 
 deploy-env-templates:
   stage: deploy-env-templates
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  secrets:
+    GITLAB_SEED_TOKEN:
+      vault: bootstrap/gitlab_root_token@${KV_SECRET_PATH}
+      token: $VAULT_ID_TOKEN
+      file: false
   script:
     - !reference [.source, script]
-    - for var in $(echo $envs | yq eval '.[].env' -); do .gitlab/scripts/seedenvproject.sh $var $TMP_TEMPLATES_DIR $GITLAB_CI_PAT; done
+    - for var in $(echo $envs | yq eval '.[].env' -); do .gitlab/scripts/seedenvproject.sh $var $TMP_TEMPLATES_DIR $GITLAB_SEED_TOKEN; done
   when: manual
 
 

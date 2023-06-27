@@ -78,6 +78,15 @@ resource "gitlab_group_variable" "private_repo_user" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "private_repo" {
+  group             = gitlab_group.iac.id
+  key               = "PRIVATE_REPO"
+  value             = var.private_repo
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_group_variable" "bootstrap_project_id" {
   group             = gitlab_group.iac.id
   key               = "BOOTSTRAP_PROJECT_ID"
@@ -104,12 +113,6 @@ resource "gitlab_application" "netmaker_oidc" {
   redirect_url = var.netmaker_oidc_redirect_url
 }
 
-resource "gitlab_group_access_token" "gitlab_ci_pat" {
-  group        = gitlab_group.iac.id
-  name         = "gitlab ci pat"
-  access_level = "owner"
-  scopes       = ["api"]
-}
 resource "gitlab_group_variable" "nexus_fqdn" {
   group             = gitlab_group.iac.id
   key               = "NEXUS_FQDN"

@@ -42,7 +42,7 @@ variable "gitlab_runner_jwt_path" {
   description = "vault jwt path for gitlab runner"
 }
 
-variable "gitlab_ci_pat" {
-  description = "pat for gitlab"
+variable "gitlab_root_token" {
+  description = "root token for gitlab for bootstrap only"
   sensitive = true
 }

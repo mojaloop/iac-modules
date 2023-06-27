@@ -1,5 +1,6 @@
 
 variable "iac_user_key_secret" {
+  sensitive = true
   description = "iam user key secret"
 }
 
@@ -37,9 +38,15 @@ variable "private_repo_user" {
   default = ""
 }
 
-variable "private_repo_token" {
+variable "private_repo" {
   default = ""
 }
+
+variable "private_repo_token" {
+  sensitive = true
+  default = ""
+}
+
 variable "iac_terraform_modules_tag" {
   description = "tag for repo for modules"
 }
