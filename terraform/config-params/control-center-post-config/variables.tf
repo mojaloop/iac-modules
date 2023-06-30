@@ -46,3 +46,8 @@ variable "gitlab_root_token" {
   description = "root token for gitlab for bootstrap only"
   sensitive = true
 }
+
+variable "vault_root_token" {
+  description = "root token for tenancy vault for gitlabci only"
+  sensitive = true
+}

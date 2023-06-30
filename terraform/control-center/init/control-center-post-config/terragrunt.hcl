@@ -50,6 +50,7 @@ inputs = {
   })
   iac_group_id = dependency.control_center_pre_config.outputs.iac_group_id
   gitlab_root_token = dependency.control_center_deploy.outputs.gitlab_root_token
+  vault_root_token = dependency.ansible_cc_post_deploy.outputs.vault_root_token
 }
 
 locals {

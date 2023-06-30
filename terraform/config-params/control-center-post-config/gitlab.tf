@@ -120,6 +120,17 @@ resource "vault_kv_secret_v2" "gitlab_root_token" {
   )
 }
 
+resource "vault_kv_secret_v2" "vault_root_token" {
+  mount               = vault_mount.kv_secret.path
+  name                = "tenancy/vault_root_token"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = var.vault_root_token
+    }
+  )
+}
+
 resource "vault_kv_secret_v2" "gitlab_ci_pat" {
   mount               = vault_mount.kv_secret.path
   name                = "tenancy/gitlab_ci_pat"

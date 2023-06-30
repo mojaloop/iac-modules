@@ -42,6 +42,7 @@ locals {
   VAULT_SERVER_URL          = get_env("VAULT_SERVER_URL")
   ENV_VAULT_TOKEN           = get_env("ENV_VAULT_TOKEN")
   KV_SECRET_PATH            = get_env("KV_SECRET_PATH")
+  VAULT_GITLAB_ROOT_TOKEN   = get_env("VAULT_GITLAB_ROOT_TOKEN")
 }
 
 generate "required_providers_override" {
@@ -62,7 +63,7 @@ terraform {
 }
 provider "vault" {
   address = "${local.VAULT_SERVER_URL}"
-  token   = "${local.ENV_VAULT_TOKEN}"
+  token   = "${local.VAULT_GITLAB_ROOT_TOKEN}"
 }
 provider "gitlab" {
   token = "${local.GITLAB_TOKEN}"
