@@ -78,9 +78,14 @@ variable "external_secret_sync_wave" {
   default     = "-11"
 }
 
-variable "post_config_key_map" {
+variable "post_config_properties_key_map" {
   type        = map(any)
-  description = "contains keys for known properties/secrets"
+  description = "contains keys for known properties"
+}
+
+variable "post_config_secrets_key_map" {
+  type        = map(any)
+  description = "contains keys for known secrets"
 }
 
 variable "kv_path" {
@@ -93,10 +98,10 @@ locals {
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
   cloud_platform                                   = data.gitlab_project_variable.cloud_platform.value
   longhorn_backups_bucket_name                     = data.gitlab_project_variable.longhorn_backups_bucket_name.value
-  cert_manager_credentials_secret_provider_key     = var.post_config_key_map["external_dns_cred_secret_key"]
-  cert_manager_credentials_id_provider_key         = var.post_config_key_map["external_dns_cred_id_key"]
-  external_dns_credentials_secret_provider_key     = var.post_config_key_map["external_dns_cred_secret_key"]
-  external_dns_credentials_id_provider_key         = var.post_config_key_map["external_dns_cred_id_key"]
-  longhorn_backups_credentials_secret_provider_key = var.post_config_key_map["longhorn_backups_cred_secret_key"]
-  longhorn_backups_credentials_id_provider_key     = var.post_config_key_map["longhorn_backups_cred_id_key"]
+  cert_manager_credentials_secret_provider_key     = var.post_config_secrets_key_map["external_dns_cred_secret_key"]
+  cert_manager_credentials_id_provider_key         = var.post_config_secrets_key_map["external_dns_cred_id_key"]
+  external_dns_credentials_secret_provider_key     = var.post_config_secrets_key_map["external_dns_cred_secret_key"]
+  external_dns_credentials_id_provider_key         = var.post_config_secrets_key_map["external_dns_cred_id_key"]
+  longhorn_backups_credentials_secret_provider_key = var.post_config_secrets_key_map["longhorn_backups_cred_secret_key"]
+  longhorn_backups_credentials_id_provider_key     = var.post_config_secrets_key_map["longhorn_backups_cred_id_key"]
 }

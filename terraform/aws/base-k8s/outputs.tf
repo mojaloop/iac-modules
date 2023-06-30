@@ -65,8 +65,12 @@ output "properties_var_map" {
   value = module.post_config.properties_var_map
 }
 
-output "post_config_key_map" {
-  value = module.post_config.post_config_key_map
+output "post_config_properties_key_map" {
+  value = module.post_config.post_config_properties_key_map
+}
+
+output "post_config_secrets_key_map" {
+  value = module.post_config.post_config_secrets_key_map
 }
 
 output "all_hosts_var_maps" {

@@ -7,6 +7,7 @@ dependency "k8s_deploy" {
   mock_outputs = {
     properties_var_map = {}
     secrets_var_map    = {}
+    secrets_key_map    = {}
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -23,11 +24,15 @@ inputs = {
   kv_path            = local.KV_SECRET_PATH
   properties_var_map = dependency.k8s_deploy.outputs.properties_var_map
   secrets_var_map    = dependency.k8s_deploy.outputs.secrets_var_map
+  secrets_key_map    = dependency.k8s_deploy.outputs.secrets_key_map
 }
 
 locals {
   env_vars = yamldecode(
     file("${find_in_parent_folders("environment.yaml")}")
+  )
+  common_vars = yamldecode(
+    file("${find_in_parent_folders("common-vars.yaml")}")
   )
   tags                      = local.env_vars.tags
   CLUSTER_NAME              = get_env("CLUSTER_NAME")

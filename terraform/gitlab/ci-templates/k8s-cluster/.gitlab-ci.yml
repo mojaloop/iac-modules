@@ -30,6 +30,7 @@ variables:
   SAST_DISABLED: "true"
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
   GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
+  VAULT_ADDR: $VAULT_SERVER_URL
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
@@ -46,6 +47,10 @@ cache:
 .source:
   script:
     - source $(which gitlab-terraform)
+    - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
+    - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
+    - export NETMAKER_OPS_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netmaker_ops_token)"
+    - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/gitlab_ci_pat)"
     - source setcivars.sh
     - yq eval '.' environment.yaml -o=json > environment.json 
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./environment.json); do export $var; done    
@@ -86,6 +91,9 @@ prepare:image:
 fmt:
   extends: .terraform:fmt
   stage: lint
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
   script: 
     - !reference [.source, script]
     - terragrunt hclfmt -check -diff
@@ -94,13 +102,18 @@ fmt:
 
 init:
   stage: init
-  script:
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  script: 
     - !reference [.source, script]
-    # We need to reconfigure the initialized cache
     - terragrunt run-all init -input=false -reconfigure
 
 validate:
   extends: .terraform:validate
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
   script: 
     - !reference [.source, script]
     - terragrunt run-all validate-inputs
@@ -109,6 +122,9 @@ validate:
 
 build:
   extends: .terraform:build
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
   script: 
     - !reference [.source, script]
   when: manual
@@ -118,19 +134,6 @@ deploy-infra:
   id_tokens:
     VAULT_ID_TOKEN:
       aud: $VAULT_SERVER_URL
-  secrets:
-    ENV_VAULT_TOKEN:
-      vault: ${CI_PROJECT_NAME}/env_token@${KV_SECRET_PATH}
-      token: $VAULT_ID_TOKEN
-      file: false
-    NETMAKER_OPS_TOKEN:
-      vault: ${CI_PROJECT_NAME}/netmaker_ops_token@${KV_SECRET_PATH}
-      token: $VAULT_ID_TOKEN
-      file: false
-    GITLAB_CI_PAT:
-      vault: tenancy/gitlab_ci_pat@${KV_SECRET_PATH}
-      token: $VAULT_ID_TOKEN
-      file: false
   script:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
@@ -145,6 +148,9 @@ deploy-infra:
 
 destroy:
   extends: .terraform:destroy
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
   script:
     - !reference [.source, script]
     - terragrunt run-all destroy --terragrunt-non-interactive -input=false

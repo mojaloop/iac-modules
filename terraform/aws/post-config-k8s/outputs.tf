@@ -14,12 +14,17 @@ output "properties_var_map" {
   }
 }
 
-output "post_config_key_map" {
+output "post_config_secrets_key_map" {
   value = {
-    longhorn_backups_bucket_name_key = "longhorn_backups_bucket_name"
     external_dns_cred_id_key         = "route53_external_dns_access_key"
     external_dns_cred_secret_key     = "route53_external_dns_secret_key"
     longhorn_backups_cred_id_key     = "longhorn_backups_access_key"
     longhorn_backups_cred_secret_key = "longhorn_backups_secret_key"
+  }
+}
+
+output "post_config_properties_key_map" {
+  value = {
+    longhorn_backups_bucket_name_key = "longhorn_backups_bucket_name"
   }
 }

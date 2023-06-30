@@ -16,6 +16,12 @@ variable "secrets_var_map" {
   description = "secrets to set in vault"
 }
 
+#can't do for each over sensitve var, break out keys in separate map
+variable "secrets_key_map" {
+  type = map
+  description = "keys for secrets to set in vault"
+}
+
 variable "cluster_name" {
   description = "cluster name"
 }
