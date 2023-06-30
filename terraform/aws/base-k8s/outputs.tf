@@ -65,11 +65,11 @@ output "properties_var_map" {
   value = module.post_config.properties_var_map
 }
 
-output "post_config_properties_key_map" {
+output "properties_key_map" {
   value = module.post_config.post_config_properties_key_map
 }
 
-output "post_config_secrets_key_map" {
+output "secrets_key_map" {
   value = module.post_config.post_config_secrets_key_map
 }
 
