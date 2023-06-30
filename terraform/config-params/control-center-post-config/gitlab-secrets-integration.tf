@@ -2,7 +2,7 @@ resource "vault_jwt_auth_backend" "gitlab_secrets" {
     description         = "Gitlab JWT for external secrets"
     path                = var.gitlab_runner_jwt_path
     jwks_url            = "https://${var.gitlab_hostname}/-/jwks"
-    bound_issuer        = var.gitlab_hostname
+    bound_issuer        = "https://${var.gitlab_hostname}"
 }
 
 resource "vault_policy" "gitlab_ci_runner" {
