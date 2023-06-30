@@ -15,7 +15,7 @@ data "gitlab_project_variable" "cloud_region" {
 
 data "gitlab_project_variable" "longhorn_backups_bucket_name" {
   project = var.current_gitlab_project_id
-  key     = var.post_config_properties_key_map["longhorn_backups_bucket_name_key"]
+  key     = var.properties_key_map["longhorn_backups_bucket_name_key"]
 }
 
 resource "vault_mount" "kv_secret" {
