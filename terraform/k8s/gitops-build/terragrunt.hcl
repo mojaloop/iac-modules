@@ -24,10 +24,10 @@ dependency "k8s_deploy" {
     target_group_internal_http_port  = 0
     target_group_external_https_port = 0
     target_group_external_http_port  = 0
-    post_config_properties_key_map = {
+    properties_key_map = {
       longhorn_backups_bucket_name_key = "mock"
     }
-    post_config_secrets_key_map = {
+    secrets_key_map = {
       external_dns_cred_id_key         = "mock"
       external_dns_cred_secret_key     = "mock"
       longhorn_backups_cred_id_key     = "mock"
@@ -46,8 +46,8 @@ inputs = {
   external_load_balancer_dns               = dependency.k8s_deploy.outputs.external_load_balancer_dns
   private_subdomain                        = dependency.k8s_deploy.outputs.private_subdomain
   public_subdomain                         = dependency.k8s_deploy.outputs.public_subdomain
-  post_config_secrets_key_map              = dependency.k8s_deploy.outputs.post_config_secrets_key_map
-  post_config_properties_key_map           = dependency.k8s_deploy.outputs.post_config_properties_key_map
+  secrets_key_map                          = dependency.k8s_deploy.outputs.secrets_key_map
+  properties_key_map                       = dependency.k8s_deploy.outputs.properties_key_map
   internal_ingress_https_port              = dependency.k8s_deploy.outputs.target_group_internal_https_port
   internal_ingress_http_port               = dependency.k8s_deploy.outputs.target_group_internal_http_port
   external_ingress_https_port              = dependency.k8s_deploy.outputs.target_group_external_https_port
