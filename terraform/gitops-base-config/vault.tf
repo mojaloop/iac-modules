@@ -31,6 +31,8 @@ module "generate_vault_files" {
     gitlab_readonly_group_name               = var.gitlab_readonly_group_name
     enable_vault_oidc                        = var.enable_vault_oidc
     cluster_name                             = var.cluster_name
+    transit_vault_url                        = var.transit_vault_url
+    transit_vault_key_name                   = var.transit_vault_key_name
   }
 
   file_list = ["charts/vault/Chart.yaml", "charts/vault/values.yaml",
@@ -103,6 +105,11 @@ variable "vault_seal_token_secret_key" {
   type = string
   description = "vault_seal_token_secret_key"
   default = "env_token"
+}
+
+variable "transit_vault_url" {
+  type = string
+  description = "url to vault for transit autounseal"
 }
 
 variable "vault_oidc_client_secret_secret_key" {

@@ -75,30 +75,34 @@ inputs = {
   letsencrypt_email                        = local.LETSENCRYPT_EMAIL
   enable_grafana_oidc                      = local.ENABLE_GRAFANA_OIDC
   kv_path                                  = local.KV_SECRET_PATH
+  transit_vault_key_name                   = local.TRANSIT_VAULT_UNSEAL_KEY_NAME
+  transit_vault_url                        = local.VAULT_SERVER_URL
 }
 
 locals {
-  env_vars                   = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
-  tags                       = local.env_vars.tags
-  gitlab_readonly_rbac_group = local.env_vars.gitlab_readonly_rbac_group
-  gitlab_admin_rbac_group    = local.env_vars.gitlab_admin_rbac_group
-  common_vars                = yamldecode(file("${find_in_parent_folders("common-vars.yaml")}"))
-  GITLAB_SERVER_URL          = get_env("GITLAB_SERVER_URL")
-  GITOPS_BUILD_OUTPUT_DIR    = get_env("GITOPS_BUILD_OUTPUT_DIR")
-  CLUSTER_NAME               = get_env("CLUSTER_NAME")
-  CLUSTER_DOMAIN             = get_env("CLUSTER_DOMAIN")
-  GITLAB_PROJECT_URL         = get_env("GITLAB_PROJECT_URL")
-  GITLAB_CURRENT_PROJECT_ID  = get_env("GITLAB_CURRENT_PROJECT_ID")
-  GITLAB_CURRENT_GROUP_NAME  = get_env("GITLAB_CURRENT_GROUP_NAME")
-  GITLAB_API_URL             = get_env("GITLAB_API_URL")
-  CLOUD_REGION               = get_env("CLOUD_REGION")
-  ENABLE_VAULT_OIDC          = get_env("ENABLE_VAULT_OIDC")
-  ENABLE_GRAFANA_OIDC        = get_env("ENABLE_GRAFANA_OIDC")
-  LETSENCRYPT_EMAIL          = get_env("LETSENCRYPT_EMAIL")
-  GITLAB_TOKEN               = get_env("GITLAB_CI_PAT")
-  VAULT_SERVER_URL           = get_env("VAULT_SERVER_URL")
-  ENV_VAULT_TOKEN            = get_env("ENV_VAULT_TOKEN")
-  KV_SECRET_PATH             = get_env("KV_SECRET_PATH")
+  env_vars                      = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  tags                          = local.env_vars.tags
+  gitlab_readonly_rbac_group    = local.env_vars.gitlab_readonly_rbac_group
+  gitlab_admin_rbac_group       = local.env_vars.gitlab_admin_rbac_group
+  common_vars                   = yamldecode(file("${find_in_parent_folders("common-vars.yaml")}"))
+  GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
+  GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
+  CLUSTER_NAME                  = get_env("CLUSTER_NAME")
+  CLUSTER_DOMAIN                = get_env("CLUSTER_DOMAIN")
+  GITLAB_PROJECT_URL            = get_env("GITLAB_PROJECT_URL")
+  GITLAB_CURRENT_PROJECT_ID     = get_env("GITLAB_CURRENT_PROJECT_ID")
+  GITLAB_CURRENT_GROUP_NAME     = get_env("GITLAB_CURRENT_GROUP_NAME")
+  GITLAB_API_URL                = get_env("GITLAB_API_URL")
+  CLOUD_REGION                  = get_env("CLOUD_REGION")
+  ENABLE_VAULT_OIDC             = get_env("ENABLE_VAULT_OIDC")
+  ENABLE_GRAFANA_OIDC           = get_env("ENABLE_GRAFANA_OIDC")
+  LETSENCRYPT_EMAIL             = get_env("LETSENCRYPT_EMAIL")
+  GITLAB_TOKEN                  = get_env("GITLAB_CI_PAT")
+  VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
+  ENV_VAULT_TOKEN               = get_env("ENV_VAULT_TOKEN")
+  KV_SECRET_PATH                = get_env("KV_SECRET_PATH")
+  VAULT_GITLAB_ROOT_TOKEN       = get_env("VAULT_GITLAB_ROOT_TOKEN")
+  TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")
 }
 
 generate "required_providers_override" {
@@ -119,7 +123,7 @@ terraform {
 }
 provider "vault" {
   address = "${local.VAULT_SERVER_URL}"
-  token   = "${local.ENV_VAULT_TOKEN}"
+  token   = "${local.VAULT_GITLAB_ROOT_TOKEN}"
 }
 provider "gitlab" {
   token = "${local.GITLAB_TOKEN}"
