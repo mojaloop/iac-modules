@@ -112,6 +112,11 @@ variable "transit_vault_url" {
   description = "url to vault for transit autounseal"
 }
 
+variable "transit_vault_key_name" {
+  type = string
+  description = "key for transit autounseal"
+}
+
 variable "vault_oidc_client_secret_secret_key" {
   type = string
   description = "vault_oidc_client_secret_secret_key"
