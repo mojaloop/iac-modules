@@ -58,7 +58,7 @@ resource "gitlab_project_variable" "transit_vault_unseal_key_name" {
   for_each  = var.env_map
   project   = gitlab_project.envs[each.key].id
   key       = "TRANSIT_VAULT_UNSEAL_KEY_NAME"
-  value     = vault_transit_secret_backend_key.unseal_key.name
+  value     = vault_transit_secret_backend_key.unseal_key[each.key].name
   protected = false
   masked    = false
 }
