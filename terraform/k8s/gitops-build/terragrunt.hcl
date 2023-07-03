@@ -33,6 +33,7 @@ dependency "k8s_deploy" {
       longhorn_backups_cred_id_key     = "mock"
       longhorn_backups_cred_secret_key = "mock"
     }
+    haproxy_server_fqdn     = "null"
 
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
@@ -76,7 +77,7 @@ inputs = {
   enable_grafana_oidc                      = local.ENABLE_GRAFANA_OIDC
   kv_path                                  = local.KV_SECRET_PATH
   transit_vault_key_name                   = local.TRANSIT_VAULT_UNSEAL_KEY_NAME
-  transit_vault_url                        = local.VAULT_SERVER_URL
+  transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.all_hosts_var_maps.haproxy_server_fqdn}:8200"
 }
 
 locals {
@@ -98,7 +99,6 @@ locals {
   ENABLE_GRAFANA_OIDC           = get_env("ENABLE_GRAFANA_OIDC")
   LETSENCRYPT_EMAIL             = get_env("LETSENCRYPT_EMAIL")
   GITLAB_TOKEN                  = get_env("GITLAB_CI_PAT")
-  VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
   ENV_VAULT_TOKEN               = get_env("ENV_VAULT_TOKEN")
   KV_SECRET_PATH                = get_env("KV_SECRET_PATH")
   VAULT_GITLAB_ROOT_TOKEN       = get_env("VAULT_GITLAB_ROOT_TOKEN")

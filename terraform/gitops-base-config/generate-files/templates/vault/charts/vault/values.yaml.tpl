@@ -32,6 +32,7 @@ vault:
           disable_renewal = "false"
           key_name = "${transit_vault_key_name}"
           mount_path = "transit/"
+          tls_skip_verify = "true"
         }
 
     extraContainers:

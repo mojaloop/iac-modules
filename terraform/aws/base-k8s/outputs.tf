@@ -48,6 +48,10 @@ output "bastion_os_username" {
   value = var.os_user_name
 }
 
+output "haproxy_server_fqdn" {
+  value = module.base_infra.haproxy_server_fqdn
+}
+
 output "master_hosts_var_maps" {
   value = {}
 }
@@ -79,7 +83,6 @@ output "all_hosts_var_maps" {
     ansible_ssh_user                 = var.os_user_name
     ansible_ssh_retries              = "10"
     base_domain                      = local.base_domain
-    haproxy_server_fqdn              = module.base_infra.haproxy_server_fqdn
   }
 }
 
