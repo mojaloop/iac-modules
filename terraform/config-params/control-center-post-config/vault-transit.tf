@@ -22,7 +22,7 @@ resource "vault_policy" "env_transit" {
   name     = "env-transit-${each.key}"
 
   policy = <<EOT
-path "${vault_mount.kv_secret.path}/${each.key}/*" {
+path "${vault_mount.kv_secret.path}/data/${each.key}/*" {
   capabilities = ["read", "list"]
 }
 
