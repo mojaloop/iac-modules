@@ -77,7 +77,7 @@ inputs = {
   enable_grafana_oidc                      = local.ENABLE_GRAFANA_OIDC
   kv_path                                  = local.KV_SECRET_PATH
   transit_vault_key_name                   = local.TRANSIT_VAULT_UNSEAL_KEY_NAME
-  transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.all_hosts_var_maps.haproxy_server_fqdn}:8200"
+  transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
 }
 
 locals {
