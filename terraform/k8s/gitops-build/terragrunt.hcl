@@ -103,6 +103,7 @@ locals {
   KV_SECRET_PATH                = get_env("KV_SECRET_PATH")
   VAULT_GITLAB_ROOT_TOKEN       = get_env("VAULT_GITLAB_ROOT_TOKEN")
   TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")
+  VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
 }
 
 generate "required_providers_override" {
