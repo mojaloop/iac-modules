@@ -23,7 +23,8 @@ module "post_config" {
   source                      = "../post-config-control-center"
   name                        = local.name
   domain                      = local.base_domain
-  zone_id                     = module.base_infra.public_zone.zone_id
+  public_zone_id              = module.base_infra.public_zone.zone_id
+  private_zone_id             = module.base_infra.private_zone.zone_id
   tags                        = var.tags
   days_retain_gitlab_snapshot = var.days_retain_gitlab_snapshot
 }

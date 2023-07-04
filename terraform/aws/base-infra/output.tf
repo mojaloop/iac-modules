@@ -50,3 +50,8 @@ output "netmaker_public_ip" {
 output "key_pair_name" {
   value = local.cluster_domain
 }
+
+output "haproxy_server_fqdn" {
+  description = "haproxy server Hostname"
+  value       = var.create_haproxy_dns_record ? aws_route53_record.haproxy_server_private[0].fqdn : ""
+}

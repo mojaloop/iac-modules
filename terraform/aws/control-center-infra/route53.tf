@@ -59,7 +59,7 @@ resource "aws_route53_record" "netmaker_stun" {
 }
 
 resource "aws_route53_record" "nexus_server_private" {
-  zone_id = module.base_infra.private_zone.id
+  zone_id = module.base_infra.public_zone.id
   name    = "nexus"
   type    = "A"
   ttl     = "300"
@@ -67,15 +67,23 @@ resource "aws_route53_record" "nexus_server_private" {
 }
 
 resource "aws_route53_record" "seaweedfs_server_private" {
-  zone_id = module.base_infra.private_zone.id
+  zone_id = module.base_infra.public_zone.id
   name    = "seaweedfs"
   type    = "A"
   ttl     = "300"
   records = [aws_instance.docker_server.private_ip]
 }
 
+resource "aws_route53_record" "vault_server_private" {
+  zone_id = module.base_infra.public_zone.id
+  name    = "vault"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [aws_lb.internal.dns_name]
+}
+
 resource "aws_route53_record" "gitlab_runner_server_private" {
-  zone_id = module.base_infra.private_zone.id
+  zone_id = module.base_infra.public_zone.id
   name    = "gitlab_runner"
   type    = "A"
   ttl     = "300"

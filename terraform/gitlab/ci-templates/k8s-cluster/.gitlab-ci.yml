@@ -29,7 +29,8 @@ variables:
   TF_STATE_BASE_ADDRESS: $CI_API_V4_URL/projects/$CI_PROJECT_ID/terraform/state
   SAST_DISABLED: "true"
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
-  FOUNDATION_BUILD_OUTPUT_DIR: $TF_ROOT/foundation
+  GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
+  VAULT_ADDR: $VAULT_SERVER_URL
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
@@ -46,6 +47,11 @@ cache:
 .source:
   script:
     - source $(which gitlab-terraform)
+    - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
+    - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
+    - export NETMAKER_OPS_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netmaker_ops_token)"
+    - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/gitlab_ci_pat)"
+    - export VAULT_GITLAB_ROOT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/vault_root_token)"
     - source setcivars.sh
     - yq eval '.' environment.yaml -o=json > environment.json 
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./environment.json); do export $var; done    
@@ -86,6 +92,9 @@ prepare:image:
 fmt:
   extends: .terraform:fmt
   stage: lint
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
   script: 
     - !reference [.source, script]
     - terragrunt hclfmt -check -diff
@@ -94,13 +103,18 @@ fmt:
 
 init:
   stage: init
-  script:
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  script: 
     - !reference [.source, script]
-    # We need to reconfigure the initialized cache
     - terragrunt run-all init -input=false -reconfigure
 
 validate:
   extends: .terraform:validate
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
   script: 
     - !reference [.source, script]
     - terragrunt run-all validate-inputs
@@ -109,16 +123,22 @@ validate:
 
 build:
   extends: .terraform:build
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
   script: 
     - !reference [.source, script]
   when: manual
 
 deploy-infra:
   extends: .terraform:deploy
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
   script:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
-    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $FOUNDATION_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
+    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   artifacts:
     paths:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
@@ -129,6 +149,9 @@ deploy-infra:
 
 destroy:
   extends: .terraform:destroy
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
   script:
     - !reference [.source, script]
     - terragrunt run-all destroy --terragrunt-non-interactive -input=false

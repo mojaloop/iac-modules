@@ -17,31 +17,6 @@ variable "tags" {
   default     = {}
 }
 
-variable "gitlab_project_url" {
-  type        = string
-  description = "url for gitlab project"
-}
-variable "gitlab_username" {
-  type        = string
-  description = "username to use wth gitlab"
-}
-
-variable "gitlab_token" {
-  type        = string
-  description = "token to use wth gitlab"
-  sensitive = true
-}
-
-variable "current_gitlab_project_id" {
-  type        = string
-  description = "current_gitlab_project_id"
-}
-
-variable "gitlab_server_url" {
-  type        = string
-  description = "gitlab_server_url to use wth gitlab"
-}
-
 variable "vpc_cidr" {
   default     = "10.106.0.0/23"
   type        = string
@@ -108,14 +83,14 @@ variable "az_count" {
   description = "Number of azs"
 }
 
-variable "route53_zone_force_destroy" {
+variable "dns_zone_force_destroy" {
   description = "destroy public zone on destroy of env"
   type        = bool
   default     = false
 }
 
-variable "longhorn_backup_s3_destroy" {
-  description = "destroy s3 backup on destroy of env"
+variable "longhorn_backup_object_store_destroy" {
+  description = "destroy object store backup on destroy of env"
   type        = bool
   default     = false
 }
@@ -158,12 +133,6 @@ variable "target_group_external_http_port" {
   type        = number
   description = "target_group_external_http_port"
   default     = 32080
-}
-
-variable "netmaker_image_version" {
-  type        = string
-  description = "netmaker_image_version"
-  default = "0.18.7"
 }
 
 ###

@@ -1,6 +1,11 @@
-variable "zone_id" {
+variable "public_zone_id" {
   type = string
-  description = "route53 zone id"
+  description = "route53 public zone id"
+}
+
+variable "private_zone_id" {
+  type = string
+  description = "route53 private zone id"
 }
 
 variable "name" {

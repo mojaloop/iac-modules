@@ -9,7 +9,7 @@ module "ses" {
   ses_user_enabled       = true
   verify_dkim            = true
   verify_domain          = true
-  zone_id                = var.zone_id
+  zone_id                = var.public_zone_id
 
   tags = merge({}, var.tags)
 }

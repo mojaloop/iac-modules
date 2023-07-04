@@ -62,6 +62,22 @@ output "nexus_fqdn" {
   value = aws_route53_record.nexus_server_private.fqdn
 }
 
+output "seaweedfs_s3_listening_port" {
+  value = var.seaweedfs_s3_listening_port
+}
+
+output "seaweedfs_fqdn" {
+  value = aws_route53_record.seaweedfs_server_private.fqdn
+}
+
+output "tenant_vault_listening_port" {
+  value = "443"
+}
+
+output "vault_fqdn" {
+  value = aws_route53_record.vault_server_private.fqdn
+}
+
 output "gitlab_hosts_var_maps" {
   sensitive = true
   value = {
@@ -119,6 +135,9 @@ output "docker_hosts_var_maps" {
     docker_extra_ebs_volume_id       = aws_instance.docker_server.ebs_block_device.*.volume_id[0]
     docker_extra_volume_size_mb      = aws_instance.docker_server.ebs_block_device.*.volume_size[0] * 1074
     seaweedfs_num_volumes            = 100
+    vault_listening_port             = var.vault_listening_port
+    vault_fqdn                       = aws_route53_record.vault_server_private.fqdn
+    vault_gitlab_token               = random_password.gitlab_root_token.result
   }
 }
 

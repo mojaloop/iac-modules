@@ -86,6 +86,14 @@ resource "aws_security_group" "docker_server" {
   }
 
   ingress {
+    description = "vault access"
+    from_port   = var.vault_listening_port
+    to_port     = var.vault_listening_port
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+  }
+
+  ingress {
     description = "wireguard access"
     from_port   = 51820
     to_port     = 51825

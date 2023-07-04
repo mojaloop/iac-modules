@@ -81,6 +81,12 @@ variable "netmaker_vpc_cidr" {
   default = "10.26.0.0/24"
 }
 
+ variable "create_haproxy_dns_record" {
+  default = false
+  type = bool
+  description = "whether to create public dns record for private ip of bastion for haproxy"
+ }
+
 ###
 # Local copies of variables to allow for parsing
 ###

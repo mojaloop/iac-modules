@@ -19,37 +19,6 @@ output "public_subdomain" {
   value = module.base_infra.public_zone.name
 }
 
-output "longhorn_backups_bucket_name" {
-  value = module.post_config.longhorn_backups_bucket_name
-}
-
-output "gitlab_key_route53_external_dns_access_key" {
-  value = module.post_config.gitlab_key_route53_external_dns_access_key
-}
-
-output "gitlab_key_route53_external_dns_secret_key" {
-  value = module.post_config.gitlab_key_route53_external_dns_secret_key
-}
-
-output "gitlab_key_longhorn_backups_access_key" {
-  value = module.post_config.gitlab_key_longhorn_backups_access_key
-}
-
-output "gitlab_key_longhorn_backups_secret_key" {
-  value = module.post_config.gitlab_key_longhorn_backups_secret_key
-}
-
-output "gitlab_key_vault_iam_user_access_key" {
-  value = module.post_config.gitlab_key_vault_iam_user_access_key
-}
-
-output "gitlab_key_vault_iam_user_secret_key" {
-  value = module.post_config.gitlab_key_vault_iam_user_secret_key
-}
-
-output "vault_kms_seal_kms_key_id" {
-  value = module.post_config.vault_kms_seal_kms_key_id
-}
 output "target_group_internal_https_port" {
   value = var.target_group_internal_https_port
 }
@@ -68,7 +37,7 @@ output "target_group_external_http_port" {
 
 output "bastion_ssh_key" {
   sensitive = true
-  value = module.base_infra.ssh_private_key
+  value     = module.base_infra.ssh_private_key
 }
 
 output "bastion_public_ip" {
@@ -79,30 +48,41 @@ output "bastion_os_username" {
   value = var.os_user_name
 }
 
+output "haproxy_server_fqdn" {
+  value = module.base_infra.haproxy_server_fqdn
+}
+
 output "master_hosts_var_maps" {
-  sensitive = true
-  value = {
-    repo_url = var.gitlab_project_url
-    gitlab_server_url = var.gitlab_server_url
-    gitlab_project_id = var.current_gitlab_project_id
-    repo_username = var.gitlab_username
-    repo_password = var.gitlab_token  }
+  value = {}
 }
 
 output "master_hosts_yaml_maps" {
+  value = {}
+}
+
+output "secrets_var_map" {
   sensitive = true
-  value = {
-    netmaker_join_tokens = yamlencode([module.post_config.netmaker_ops_token])
-  }
+  value = module.post_config.secrets_var_map
+}
+
+output "properties_var_map" {
+  value = module.post_config.properties_var_map
+}
+
+output "properties_key_map" {
+  value = module.post_config.post_config_properties_key_map
+}
+
+output "secrets_key_map" {
+  value = module.post_config.post_config_secrets_key_map
 }
 
 output "all_hosts_var_maps" {
   sensitive = false
   value = {
-    ansible_ssh_user             = var.os_user_name
-    ansible_ssh_retries          = "10"
-    base_domain                  = local.base_domain
-    netmaker_image_version       = var.netmaker_image_version
+    ansible_ssh_user                 = var.os_user_name
+    ansible_ssh_retries              = "10"
+    base_domain                      = local.base_domain
   }
 }
 
@@ -114,10 +94,7 @@ output "agent_hosts_var_maps" {
 }
 
 output "agent_hosts_yaml_maps" {
-  sensitive = true
-  value = {
-    netmaker_join_tokens = yamlencode([module.post_config.netmaker_ops_token])
-  }
+  value = {}
 }
 
 output "bastion_hosts_var_maps" {
@@ -128,10 +105,7 @@ output "bastion_hosts_var_maps" {
 }
 
 output "bastion_hosts_yaml_maps" {
-  sensitive = true
-  value = {
-    netmaker_join_tokens = yamlencode([module.post_config.netmaker_ops_token])
-  }
+  value = {}
 }
 
 output "bastion_hosts" {

@@ -3,21 +3,23 @@ domain: mojalabs.io
 tenant: labs11
 enable_github_oauth: false
 enable_netmaker_oidc: true
-ansible_collection_tag: v0.9.6
+ansible_collection_tag: v0.9.50
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
 smtp_server_enable: false
-gitlab_version: 16.0.0
-gitlab_runner_version: 16.0.0
+gitlab_version: 16.0.5
+gitlab_runner_version: 16.0.2
 iac_group_name: iac_admin
-netmaker_version: 0.20.0
+netmaker_version: 0.18.7
+letsencrypt_email: test@mojalabs.io
+delete_storage_on_term: true
 envs:
   - env: dev
     domain: labs8.mojalabs.io
     cloud_platform: aws
     cloud_region: eu-west-1
     k8s_cluster_type: k3s
-    iac_terraform_modules_tag: v0.9.30
+    iac_terraform_modules_tag: v0.9.94
     enable_vault_oauth_to_gitlab: true
     enable_grafana_oauth_to_gitlab: true
     letsencrypt_email: test@mojalabs.io
