@@ -194,7 +194,7 @@ resource "gitlab_application" "vault_oidc" {
   }
   confidential = true
   scopes       = ["openid"]
-  name         = "vault_oidc"
+  name         = "${each.key}_vault_oidc"
   redirect_url = "https://vault.${each.key}.${each.value["domain"]}/ui/vault/auth/oidc/oidc/callback"
 }
 
@@ -243,6 +243,6 @@ resource "gitlab_application" "grafana_oidc" {
   }
   confidential = true
   scopes       = ["read_api"]
-  name         = "grafana_oidc"
+  name         = "${each.key}_grafana_oidc"
   redirect_url = "https://grafana.${each.key}.${each.value["domain"]}/login/gitlab"
 }
