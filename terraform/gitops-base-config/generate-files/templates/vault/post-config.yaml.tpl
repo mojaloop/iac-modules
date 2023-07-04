@@ -64,6 +64,7 @@ data:
     %{ if enable_vault_oidc ~}
         vault auth enable oidc
         vault write auth/oidc/config \
+          bound_issuer="${gitlab_server_url}" \
           oidc_discovery_url="${gitlab_server_url}" \
           oidc_client_id="$${OIDC_CLIENT_ID}" \
           oidc_client_secret="$${OIDC_CLIENT_SECRET}" \
