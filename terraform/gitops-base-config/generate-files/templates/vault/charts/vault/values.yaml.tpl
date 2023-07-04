@@ -52,12 +52,12 @@ vault:
               secretKeyRef:
                 name: ${vault_gitlab_credentials_secret}
                 key: GITLAB_TOKEN
-          - envName: OIDC_CLIENT_SECRET
+          - name: OIDC_CLIENT_SECRET
             valueFrom:
               secretKeyRef:
                 name: ${vault_oidc_client_secret_secret}
                 key: TOKEN
-          - envName: OIDC_CLIENT_ID
+          - name: OIDC_CLIENT_ID
             valueFrom:
               secretKeyRef:
                 name: ${vault_oidc_client_id_secret}
