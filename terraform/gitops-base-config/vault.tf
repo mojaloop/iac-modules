@@ -20,7 +20,7 @@ module "generate_vault_files" {
     vault_seal_token_secret_key              = "${var.cluster_name}/${var.vault_seal_token_secret_key}"
     vault_gitlab_credentials_secret_key      = var.vault_gitlab_credentials_secret_key
     vault_oidc_client_id_secret_key          = "${var.cluster_name}/${var.vault_oidc_client_id_secret_key}"
-    vault_oidc_client_secret_secret_key      = "${var.cluster_name}/${var.vault_oidc_client_id_secret_key}"
+    vault_oidc_client_secret_secret_key      = "${var.cluster_name}/${var.vault_oidc_client_secret_secret_key}"
     cloud_region                             = local.cloud_region
     vault_k8s_auth_path                      = var.vault_k8s_auth_path
     public_subdomain                         = var.public_subdomain

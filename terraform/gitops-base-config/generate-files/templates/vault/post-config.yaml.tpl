@@ -75,8 +75,9 @@ data:
             "bound_audiences": "$${OIDC_CLIENT_ID}",
             "allowed_redirect_uris": ["https://vault.${public_subdomain}/ui/vault/auth/oidc/oidc/callback"],
             "role_type": "oidc",
-            "policies": "vault-admin",
+            "token_policies": "vault-admin",
             "ttl": "1h",
+            "oidc_scopes": ["openid"], 
             "bound_claims": { "groups": ["${gitlab_admin_group_name}"] }
           }
     EOF
@@ -86,8 +87,9 @@ data:
             "bound_audiences": "$${OIDC_CLIENT_ID}",
             "allowed_redirect_uris": ["https://vault.${public_subdomain}/ui/vault/auth/oidc/oidc/callback"],
             "role_type": "oidc",
-            "policies": "read-secrets",
+            "token_policies": "read-secrets",
             "ttl": "1h",
+            "oidc_scopes": ["openid"],
             "bound_claims": { "groups": ["${gitlab_readonly_group_name}"] }
           }
     EOF
