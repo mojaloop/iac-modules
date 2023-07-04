@@ -19,6 +19,8 @@ spec:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
       remoteRef: 
         key: ${cert_manager_credentials_secret_provider_key}
+        property: value
     - secretKey: AWS_ACCESS_KEY_ID # TODO: max provider agnostic
       remoteRef: 
         key: ${cert_manager_credentials_id_provider_key}
+        property: value

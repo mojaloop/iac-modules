@@ -26,6 +26,10 @@ path "${vault_mount.kv_secret.path}/data/${each.key}/*" {
   capabilities = ["read", "list"]
 }
 
+path "${vault_mount.kv_secret.path}/data/tenancy/*" {
+  capabilities = ["read", "list"]
+}
+
 path "${vault_mount.transit.path}/encrypt/${vault_transit_secret_backend_key.unseal_key[each.key].name}" {
   capabilities = [ "update" ]
 }
