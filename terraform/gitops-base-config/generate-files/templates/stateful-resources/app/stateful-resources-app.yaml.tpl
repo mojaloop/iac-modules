@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"
+    argocd.argoproj.io/sync-wave: "-2"
   name: stateful-resources-app
   namespace: argocd
   finalizers:
@@ -13,7 +13,7 @@ spec:
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:
-    namespace: ${stateful_resources_namespace}
+    namespace: argocd
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:

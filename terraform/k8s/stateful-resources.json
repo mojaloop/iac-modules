@@ -1,427 +1,405 @@
 [
     {
-        "enabled": true,
-        "resource_name": "thirdparty-auth-svc-redis",
-        "resource_namespace": "thirdparty-db",
-        "resource_type": "redis",
-        "logical_service_port": 6379,
-        "logical_service_name": "thirdparty-auth-redis",
-        "external_service": null,
-        "generate_secret_name": "redis-thirdparty-auth-svc-secret",
-        "generate_secret_keys": [
-            "password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": "thirdparty-auth-svc-redis-master",
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "redis",
-            "resource_helm_chart_version": "17.3.7",
-            "resource_helm_values_ref": "values-redis.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": null,
-            "mongodb_data": null,
-            "kafka_data": null,
-            "redis_data": {
-                "existing_secret": "redis-thirdparty-auth-svc-secret",
-                "existing_secret_key": "password",
-                "user": "consent-oracle",
-                "user_password": null,
-                "storage_size": "8Gi",
-                "architecture": "standalone",
-                "replica_count": 0,
-                "service_port": 6379,
-                "storage_class_name": "longhorn"
-            }
+      "enabled": true,
+      "resource_name": "thirdparty-auth-svc-redis",
+      "resource_namespace": "thirdparty-db",
+      "logical_service_port": 6379,
+      "logical_service_name": "thirdparty-auth-redis",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/thirdparty-auth-svc-redis/password",
+          "root_password_path_prefix": "secret/thirdparty-auth-svc-redis/mysqlrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": "thirdparty-auth-svc-redis-master",
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "redis",
+        "resource_helm_chart_version": "17.3.7",
+        "resource_helm_values_ref": "values-redis.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": null,
+        "mongodb_data": null,
+        "kafka_data": null,
+        "redis_data": {
+          "user": "consent-oracle",
+          "user_password": null,
+          "storage_size": "8Gi",
+          "architecture": "standalone",
+          "replica_count": 0,
+          "service_port": 6379
+        }
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "thirdparty-auth-svc-db",
-        "resource_namespace": "thirdparty-db",
-        "resource_type": "mysql",
-        "logical_service_port": 3306,
-        "logical_service_name": "thirdparty-auth-db",
-        "external_service": null,
-        "generate_secret_name": "mysql-auth-svc-secret",
-        "generate_secret_keys": [
-            "mysql-password",
-            "mysql-root-password",
-            "mysql-replication-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mysql",
-            "resource_helm_chart_version": "8.8.23",
-            "resource_helm_values_ref": "values-mysql.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": {
-                "existing_secret": "mysql-auth-svc-secret",
-                "user": "auth-svc",
-                "database_name": "auth-svc",
-                "storage_size": "8Gi",
-                "architecture": "standalone",
-                "replica_count": 0,
-                "service_port": 3306,
-                "storage_class_name": "longhorn"
-            },
-            "mongodb_data": null,
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "thirdparty-auth-svc-db",
+      "resource_namespace": "thirdparty-db",
+      "logical_service_port": 3306,
+      "logical_service_name": "thirdparty-auth-db",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/thirdparty-auth/mysqlpassword",
+          "root_password_path_prefix": "secret/thirdparty-auth/mysqlrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": null,
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mysql",
+        "resource_helm_chart_version": "8.8.23",
+        "resource_helm_values_ref": "values-mysql.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": {
+          "root_password": null,
+          "user": "auth-svc",
+          "user_password": null,
+          "database_name": "auth-svc",
+          "storage_size": "8Gi",
+          "architecture": "standalone",
+          "replica_count": 0,
+          "service_port": 3306
+        },
+        "mongodb_data": null,
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "mysql-consent-oracle-db",
-        "resource_namespace": "thirdparty-db",
-        "resource_type": "mysql",
-        "logical_service_port": 3306,
-        "logical_service_name": "mysql-consent-oracle",
-        "external_service": null,
-        "generate_secret_name": "mysql-consent-oracle-secret",
-        "generate_secret_keys": [
-            "mysql-password",
-            "mysql-root-password",
-            "mysql-replication-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mysql",
-            "resource_helm_chart_version": "8.8.23",
-            "resource_helm_values_ref": "values-mysql.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": {
-                "existing_secret": "mysql-consent-oracle-secret",
-                "user": "consent-oracle",
-                "database_name": "consent-oracle",
-                "storage_size": "8Gi",
-                "architecture": "standalone",
-                "replica_count": 0,
-                "service_port": 3306,
-                "storage_class_name": "longhorn"
-            },
-            "mongodb_data": null,
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "mysql-consent-oracle-db",
+      "resource_namespace": "thirdparty-db",
+      "logical_service_port": 3306,
+      "logical_service_name": "mysql-consent-oracle",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/thirdparty-consent-oracle/mysqlpassword",
+          "root_password_path_prefix": "secret/thirdparty-consent-oracle/mysqlrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": null,
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mysql",
+        "resource_helm_chart_version": "8.8.23",
+        "resource_helm_values_ref": "values-mysql.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": {
+          "root_password": null,
+          "user": "consent-oracle",
+          "user_password": null,
+          "database_name": "consent-oracle",
+          "storage_size": "8Gi",
+          "architecture": "standalone",
+          "replica_count": 0,
+          "service_port": 3306
+        },
+        "mongodb_data": null,
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "mcm-db",
-        "resource_namespace": "mcm-db",
-        "resource_type": "mysql",
-        "logical_service_port": 3306,
-        "logical_service_name": "mcm-db-svc",
-        "external_service": null,
-        "generate_secret_name": "mysql-mcm-secret",
-        "generate_secret_keys": [
-            "mysql-password",
-            "mysql-root-password",
-            "mysql-replication-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mysql",
-            "resource_helm_chart_version": "8.8.23",
-            "resource_helm_values_ref": "values-mysql.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": {
-                "existing_secret": "mysql-mcm-secret",
-                "user": "devdat1asql1",
-                "database_name": "mcm",
-                "storage_size": "8Gi",
-                "architecture": "standalone",
-                "replica_count": 0,
-                "service_port": 3306,
-                "storage_class_name": "longhorn"
-            },
-            "mongodb_data": null,
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "mcm-db",
+      "resource_namespace": "mcm-db",
+      "logical_service_port": 3306,
+      "logical_service_name": "mcm-db-svc",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/mcm/mysqlpassword",
+          "root_password_path_prefix": "secret/mcm/mysqlrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": null,
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mysql",
+        "resource_helm_chart_version": "8.8.23",
+        "resource_helm_values_ref": "values-mysql.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": {
+          "root_password": null,
+          "user": "devdat1asql1",
+          "user_password": null,
+          "database_name": "mcm",
+          "storage_size": "8Gi",
+          "architecture": "standalone",
+          "replica_count": 0,
+          "service_port": 3306
+        },
+        "mongodb_data": null,
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "account-lookup-db",
-        "resource_namespace": "mojaloop-db",
-        "resource_type": "mysql",
-        "logical_service_port": 3306,
-        "logical_service_name": "account-lookup-db-svc",
-        "external_service": null,
-        "generate_secret_name": "mysql-account-lookup-secret",
-        "generate_secret_keys": [
-            "mysql-password",
-            "mysql-root-password",
-            "mysql-replication-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": "account-lookup-db-primary",
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mysql",
-            "resource_helm_chart_version": "8.8.23",
-            "resource_helm_values_ref": "values-mysql.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": {
-                "existing_secret": "mysql-account-lookup-secret",
-                "user": "account_lookup",
-                "database_name": "account_lookup",
-                "storage_size": "8Gi",
-                "architecture": "replication",
-                "replica_count": 2,
-                "service_port": 3306,
-                "storage_class_name": "longhorn"
-            },
-            "mongodb_data": null,
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "account-lookup-db",
+      "resource_namespace": "mojaloop-db",
+      "logical_service_port": 3306,
+      "logical_service_name": "account-lookup-db-svc",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/mojaloop/als/mysqlpassword",
+          "root_password_path_prefix": "secret/mojaloop/als/mysqlrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": "account-lookup-db-primary",
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mysql",
+        "resource_helm_chart_version": "8.8.23",
+        "resource_helm_values_ref": "values-mysql.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": {
+          "root_password": null,
+          "user": "account_lookup",
+          "user_password": null,
+          "database_name": "account_lookup",
+          "storage_size": "8Gi",
+          "architecture": "replication",
+          "replica_count": 2,
+          "service_port": 3306
+        },
+        "mongodb_data": null,
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "central-ledger-db",
-        "resource_namespace": "mojaloop-db",
-        "resource_type": "mysql",
-        "logical_service_port": 3306,
-        "logical_service_name": "central-ledger-db-svc",
-        "external_service": null,
-        "generate_secret_name": "mysql-central-ledger-secret",
-        "generate_secret_keys": [
-            "mysql-password",
-            "mysql-root-password",
-            "mysql-replication-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": "central-ledger-db-primary",
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mysql",
-            "resource_helm_chart_version": "8.8.23",
-            "resource_helm_values_ref": "values-mysql.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": {
-                "existing_secret": "mysql-central-ledger-secret",
-                "user": "central_ledger",
-                "database_name": "central_ledger",
-                "storage_size": "8Gi",
-                "architecture": "replication",
-                "replica_count": 2,
-                "service_port": 3306,
-                "storage_class_name": "longhorn"
-            },
-            "mongodb_data": null,
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "central-ledger-db",
+      "resource_namespace": "mojaloop-db",
+      "logical_service_port": 3306,
+      "logical_service_name": "central-ledger-db-svc",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/mojaloop/cl/mysqlpassword",
+          "root_password_path_prefix": "secret/mojaloop/cl/mysqlrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": "central-ledger-db-primary",
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mysql",
+        "resource_helm_chart_version": "8.8.23",
+        "resource_helm_values_ref": "values-mysql.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": {
+          "root_password": null,
+          "user": "central_ledger",
+          "user_password": null,
+          "database_name": "central_ledger",
+          "storage_size": "8Gi",
+          "architecture": "replication",
+          "replica_count": 2,
+          "service_port": 3306
+        },
+        "mongodb_data": null,
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "keto-db",
-        "resource_namespace": "mojaloop",
-        "resource_type": "mysql",
-        "logical_service_port": 3306,
-        "logical_service_name": "keto-db-svc",
-        "external_service": null,
-        "generate_secret_name": "mysql-keto-secret",
-        "generate_secret_keys": [
-            "mysql-password",
-            "mysql-root-password",
-            "mysql-replication-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mysql",
-            "resource_helm_chart_version": "8.8.23",
-            "resource_helm_values_ref": "values-mysql.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": {
-                "existing_secret": "mysql-keto-secret",
-                "user": "keto",
-                "database_name": "keto",
-                "storage_size": "8Gi",
-                "architecture": "standalone",
-                "replica_count": 0,
-                "service_port": 3306,
-                "storage_class_name": "longhorn"
-            },
-            "mongodb_data": null,
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "keto-db",
+      "resource_namespace": "mojaloop",
+      "logical_service_port": 3306,
+      "logical_service_name": "keto-db-svc",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/mojaloop/keto/mysqlpassword",
+          "root_password_path_prefix": "secret/mojaloop/keto/mysqlrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": null,
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mysql",
+        "resource_helm_chart_version": "8.8.23",
+        "resource_helm_values_ref": "values-mysql.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": {
+          "root_password": null,
+          "user": "keto",
+          "user_password": null,
+          "database_name": "keto",
+          "storage_size": "8Gi",
+          "architecture": "standalone",
+          "replica_count": 0,
+          "service_port": 3306
+        },
+        "mongodb_data": null,
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "kratos-db",
-        "resource_type": "mysql",
-        "resource_namespace": "mojaloop",
-        "logical_service_port": 3306,
-        "logical_service_name": "kratos-db-svc",
-        "external_service": null,
-        "generate_secret_name": "mysql-kratos-secret",
-        "generate_secret_keys": [
-            "mysql-password",
-            "mysql-root-password",
-            "mysql-replication-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mysql",
-            "resource_helm_chart_version": "8.8.23",
-            "resource_helm_values_ref": "values-mysql.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": {
-                "existing_secret": "mysql-kratos-secret",
-                "user": "kratos",
-                "database_name": "kratos",
-                "storage_size": "8Gi",
-                "architecture": "standalone",
-                "replica_count": 0,
-                "service_port": 3306,
-                "storage_class_name": "longhorn"
-            },
-            "mongodb_data": null,
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "kratos-db",
+      "resource_namespace": "mojaloop",
+      "logical_service_port": 3306,
+      "logical_service_name": "kratos-db-svc",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/mojaloop/kratos/mysqlpassword",
+          "root_password_path_prefix": "secret/mojaloop/kratos/mysqlrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": null,
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mysql",
+        "resource_helm_chart_version": "8.8.23",
+        "resource_helm_values_ref": "values-mysql.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": {
+          "root_password": null,
+          "user": "kratos",
+          "user_password": null,
+          "database_name": "kratos",
+          "storage_size": "8Gi",
+          "architecture": "standalone",
+          "replica_count": 0,
+          "service_port": 3306
+        },
+        "mongodb_data": null,
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "bulk-mongodb",
-        "resource_namespace": "mojaloop",
-        "resource_type": "mongodb",
-        "logical_service_port": 27017,
-        "logical_service_name": "bulk-mongodb-svc",
-        "external_service": null,
-        "generate_secret_name": "mongodb-bulk-secret",
-        "generate_secret_keys": [
-            "mongodb-password",
-            "mongodb-root-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mongodb",
-            "resource_helm_chart_version": "11.0.3",
-            "resource_helm_values_ref": "values-mongodb.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": null,
-            "mongodb_data": {
-                "existing_secret": "mongodb-bulk-secret",
-                "user": "mojaloop",
-                "database_name": "mlos",
-                "storage_size": "8Gi",
-                "service_port": 27017,
-                "storage_class_name": "longhorn"
-            },
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "bulk-mongodb",
+      "resource_namespace": "mojaloop",
+      "logical_service_port": 27017,
+      "logical_service_name": "bulk-mongodb-svc",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/mojaloop/bulk/mongodbpassword",
+          "root_password_path_prefix": "secret/mojaloop/bulk/mongodbrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": null,
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mongodb",
+        "resource_helm_chart_version": "11.0.3",
+        "resource_helm_values_ref": "values-mongodb.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": null,
+        "mongodb_data": {
+          "root_password": null,
+          "user": "mojaloop",
+          "user_password": null,
+          "database_name": "mlos",
+          "storage_size": "8Gi",
+          "service_port": 27017
+        },
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "cep-mongodb",
-        "resource_namespace": "mojaloop",
-        "resource_type": "mongodb",
-        "logical_service_port": 27017,
-        "logical_service_name": "cep-mongodb-svc",
-        "external_service": null,
-        "generate_secret_name": "mongodb-cep-secret",
-        "generate_secret_keys": [
-            "mongodb-password",
-            "mongodb-root-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mongodb",
-            "resource_helm_chart_version": "11.0.3",
-            "resource_helm_values_ref": "values-mongodb.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": null,
-            "mongodb_data": {
-                "existing_secret": "mongodb-bulk-secret",
-                "user": "mojaloop",
-                "database_name": "mojaloop",
-                "storage_size": "8Gi",
-                "service_port": 27017,
-                "storage_class_name": "longhorn"
-            },
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "cep-mongodb",
+      "resource_namespace": "mojaloop",
+      "logical_service_port": 27017,
+      "logical_service_name": "cep-mongodb-svc",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/mojaloop/cep/mongodbpassword",
+          "root_password_path_prefix": "secret/mojaloop/cep/mongodbrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": null,
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mongodb",
+        "resource_helm_chart_version": "11.0.3",
+        "resource_helm_values_ref": "values-mongodb.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": null,
+        "mongodb_data": {
+          "root_password": null,
+          "user": "mojaloop",
+          "user_password": null,
+          "database_name": "mojaloop",
+          "storage_size": "8Gi",
+          "service_port": 27017
+        },
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "reporting-events-mongodb",
-        "resource_namespace": "mojaloop",
-        "resource_type": "mongodb",
-        "logical_service_port": 27017,
-        "logical_service_name": "reporting-events-mongodb-svc",
-        "external_service": null,
-        "generate_secret_name": "mongodb-reporting-events-secret",
-        "generate_secret_keys": [
-            "mongodb-password",
-            "mongodb-root-password"
-        ],
-        "generate_secret_vault_base_path": "/secret/generated",
-        "local_resource": {
-            "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "mongodb",
-            "resource_helm_chart_version": "11.0.3",
-            "resource_helm_values_ref": "values-mongodb.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": null,
-            "mongodb_data": {
-                "existing_secret": "mongodb-reporting-events-secret",
-                "user": "mojaloop",
-                "database_name": "mojaloop",
-                "storage_size": "8Gi",
-                "service_port": 27017,
-                "storage_class_name": "longhorn"
-            },
-            "kafka_data": null,
-            "redis_data": null
+      "enabled": true,
+      "resource_name": "reporting-events-mongodb",
+      "resource_namespace": "mojaloop",
+      "logical_service_port": 27017,
+      "logical_service_name": "reporting-events-mongodb-svc",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": {
+          "user_password_path_prefix": "secret/mojaloop/reporting-events/mongodbpassword",
+          "root_password_path_prefix": "secret/mojaloop/reporting-events/mongodbrootpassword"
         }
+      },
+      "local_resource": {
+        "override_service_name": null,
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "mongodb",
+        "resource_helm_chart_version": "11.0.3",
+        "resource_helm_values_ref": "values-mongodb.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": null,
+        "mongodb_data": {
+          "root_password": null,
+          "user": "mojaloop",
+          "user_password": null,
+          "database_name": "mojaloop",
+          "storage_size": "8Gi",
+          "service_port": 27017
+        },
+        "kafka_data": null,
+        "redis_data": null
+      } 
     },
     {
-        "enabled": true,
-        "resource_name": "mojaloop-kafka",
-        "resource_namespace": "mojaloop",
-        "resource_type": "kafka",
-        "logical_service_port": 9092,
-        "logical_service_name": "mojaloop-kafka-svc",
-        "external_service": null,
-        "generate_secret_name": null,
-        "generate_secret_keys": [],
-        "generate_secret_vault_base_path": null,
-        "local_resource": {
-            "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
-            "resource_helm_chart": "kafka",
-            "resource_helm_chart_version": "15.2.1",
-            "resource_helm_values_ref": "values-kafka.yaml.tpl",
-            "create_resource_random_password": true,
-            "mysql_data": null,
-            "mongodb_data": null,
-            "kafka_data": {
-                "storage_size": "8Gi",
-                "service_port": 9092,
-                "storage_class_name": "longhorn"
-            },
-            "redis_data": null
-        }
+      "enabled": true,
+      "resource_name": "mojaloop-kafka",
+      "resource_namespace": "mojaloop",
+      "logical_service_port": 9092,
+      "logical_service_name": "mojaloop-kafka-svc",
+      "external_service": null,
+      "vault_credential_paths": {
+        "pw_data": null
+      },
+      "local_resource": {
+        "override_service_name": null,
+        "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+        "resource_helm_chart": "kafka",
+        "resource_helm_chart_version": "15.2.1",
+        "resource_helm_values_ref": "values-kafka.yaml.tpl",
+        "create_resource_random_password": true,
+        "mysql_data": null,
+        "mongodb_data": null,
+        "kafka_data": {
+          "storage_size": "8Gi",
+          "service_port": 9092
+        },
+        "redis_data": null
+      } 
     }
-]
+  ]

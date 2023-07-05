@@ -15,4 +15,3 @@ spec:
   secretKey: password
   secretFormat:
     passwordPolicyName: "grafana-admin"
-  refreshPeriod: 1h
