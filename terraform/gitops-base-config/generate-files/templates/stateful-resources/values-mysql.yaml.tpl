@@ -109,7 +109,7 @@ auth:
   ##
   replicationPassword: "${resource.local_resource.mysql_data.root_password}"
 
-  existingSecret: ${resource.local_resource.mysql_data.existing_secret}
+  existingSecret: "${resource.local_resource.mysql_data.existing_secret}"
 
 ## @section MySQL Primary parameters
 ##
@@ -872,7 +872,7 @@ initdbScripts:
     set -e
     if [[ "$HOSTNAME" == *primary* ]]; then
       echo "primary node"
-      DB_USER=${database_user}
+      DB_USER=${resource.local_resource.mysql_data.user}
       echo "******* ALTER USER '$DB_USER' *******"
       mysql -u root -p$MYSQL_ROOT_PASSWORD -e \
       "ALTER USER '$DB_USER'@'%' IDENTIFIED WITH mysql_native_password BY '$MYSQL_PASSWORD';"

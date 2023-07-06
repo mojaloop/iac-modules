@@ -117,11 +117,11 @@ auth:
   ## @param auth.existingSecret The name of an existing secret with Redis&reg; credentials
   ## NOTE: When it's set, the previous `auth.password` parameter is ignored
   ##
-  existingSecret: ${resource.local_resource.redis_data.existing_secret}
+  existingSecret: "${resource.local_resource.redis_data.existing_secret}"
   ## @param auth.existingSecretPasswordKey Password key to be retrieved from existing secret
   ## NOTE: ignored unless `auth.existingSecret` parameter is set
   ##
-  existingSecretPasswordKey: ${resource.local_resource.redis_data.existing_secret_key}
+  existingSecretPasswordKey: "${resource.local_resource.redis_data.existing_secret_key}"
   ## @param auth.usePasswordFiles Mount credentials as files instead of using an environment variable
   ##
   usePasswordFiles: false
