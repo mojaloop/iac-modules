@@ -65,5 +65,5 @@ variable "stateful_resources_config_file" {
 variable "stateful_resources_namespace" {
   type        = string
   description = "stateful_resources_namespace"
-  default     = "stateful_resources"
+  default     = "stateful-resources"
 }
