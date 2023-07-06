@@ -29,6 +29,14 @@ resource "local_file" "kustomization" {
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
 }
 
+resource "local_file" "namespace" {
+  content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
+    {
+      stateful_resources_namespace = var.stateful_resources_namespace
+  })
+  filename = "${local.stateful_resources_output_path}/namespace.yaml"
+}
+
 resource "local_file" "stateful-resources-app-file" {
   content  = templatefile("${local.stateful_resources_template_path}/app/${local.stateful_resources_app_file}.tpl", local.stateful_resources_vars)
   filename = "${local.app_stateful_resources_output_path}/${local.stateful_resources_app_file}"
