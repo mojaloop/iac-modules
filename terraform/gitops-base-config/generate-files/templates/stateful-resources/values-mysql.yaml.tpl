@@ -96,7 +96,7 @@ auth:
   ## @param auth.username Name for a custom user to create
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#creating-a-database-user-on-first-run
   ##
-  username: ${resource.local_resource.mysql_data.user}
+  username: ${resource.local_resource.mysql_data.user_password}
   ## @param auth.replicationUser MySQL replication user
   ## ref: https://github.com/bitnami/bitnami-docker-mysql#setting-up-a-replication-cluster
   ##
