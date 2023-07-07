@@ -63,6 +63,7 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
+%{ for key in resource.generate_secret_keys ~}  
     - authentication:
         path: kubernetes
         role: policy-admin
@@ -70,6 +71,7 @@ spec:
           name: default
       name: dynamicsecret_${replace(key, "-", "_")}
       path: ${resource.generate_secret_vault_base_path}/${resource.resource_name}/${key}
+%{ endfor ~}
   output:
     name: ${resource.generate_secret_name}
     stringData:
