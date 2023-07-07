@@ -47,8 +47,8 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: ${resource.generate_secret_vault_base_path}/${resource.resource_name}
-  secretKey: ${key}
+  path: ${resource.generate_secret_vault_base_path}/${resource.resource_name}/${key}
+  secretKey: password
   secretFormat:
     passwordPolicyName: ${resource.resource_type}-${resource.resource_name}-policy
 ---
@@ -68,13 +68,13 @@ spec:
         role: policy-admin
         serviceAccount:
           name: default
-      name: dynamicsecret
-      path: ${resource.generate_secret_vault_base_path}/${resource.resource_name}
+      name: dynamicsecret_${replace(key, "-", "_")}
+      path: ${resource.generate_secret_vault_base_path}/${resource.resource_name}/${key}
   output:
     name: ${resource.generate_secret_name}
     stringData:
 %{ for key in resource.generate_secret_keys ~}
-      ${key}: '{{ .dynamicsecret.${key} }}'
+      ${key}: '{{ .dynamicsecret_${replace(key, "-", "_")}.password }}'
 %{ endfor ~}
     type: Opaque
 %{ endif ~}
