@@ -13,3 +13,4 @@ loki_chart_version: 2.9.10
 external_secrets_version: 0.8.2
 argocd_version: 2.7.1
 argocd_lovely_plugin_version: 0.18.0
+mojaloop_chart_version: 15.1.0

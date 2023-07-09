@@ -61,6 +61,7 @@ inputs = {
   vault_config_operator_helm_chart_version = local.common_vars.vault_config_operator_helm_chart_version
   nginx_helm_chart_version                 = local.common_vars.nginx_helm_chart_version
   loki_chart_version                       = local.common_vars.loki_chart_version
+  mojaloop_chart_version                   = local.common_vars.mojaloop_chart_version
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
