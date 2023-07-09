@@ -53,11 +53,12 @@ spec:
     passwordPolicyName: ${resource.resource_type}-${resource.resource_name}-policy
 ---
 %{ endfor ~}
+%{ for ns in concat([resource.resource_namespace], resource.generate_secret_extra_namespaces) ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
   name: ${resource.generate_secret_name}
-  namespace: ${resource.resource_namespace}
+  namespace: ${ns}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -80,3 +81,4 @@ spec:
 %{ endfor ~}
     type: Opaque
 %{ endif ~}
+%{ endfor ~}

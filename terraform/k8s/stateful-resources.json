@@ -10,7 +10,7 @@
         "generate_secret_name": null,
         "generate_secret_keys": null,
         "generate_secret_vault_base_path": null,
-        "generate_secret_extra_namespaces": null,
+        "generate_secret_extra_namespaces": [],
         "local_resource": {
             "override_service_name": "thirdparty-auth-svc-redis-master",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -122,7 +122,7 @@
         }
     },
     {
-        "enabled": true,
+        "enabled": false,
         "resource_name": "mcm-db",
         "resource_namespace": "mcm-db",
         "resource_type": "mysql",
@@ -132,7 +132,7 @@
         "generate_secret_name": null,
         "generate_secret_keys": null,
         "generate_secret_vault_base_path": "/secret/generated",
-        "generate_secret_extra_namespaces": null,
+        "generate_secret_extra_namespaces": [],
         "local_resource": {
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -245,7 +245,7 @@
         }
     },
     {
-        "enabled": true,
+        "enabled": false,
         "resource_name": "keto-db",
         "resource_namespace": "mojaloop",
         "resource_type": "mysql",
@@ -255,7 +255,7 @@
         "generate_secret_name": null,
         "generate_secret_keys": null,
         "generate_secret_vault_base_path": "/secret/generated",
-        "generate_secret_extra_namespaces": null,
+        "generate_secret_extra_namespaces": [],
         "local_resource": {
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -282,7 +282,7 @@
         }
     },
     {
-        "enabled": true,
+        "enabled": false,
         "resource_name": "kratos-db",
         "resource_type": "mysql",
         "resource_namespace": "mojaloop",
@@ -292,7 +292,7 @@
         "generate_secret_name": null,
         "generate_secret_keys": null,
         "generate_secret_vault_base_path": "/secret/generated",
-        "generate_secret_extra_namespaces": null,
+        "generate_secret_extra_namespaces": [],
         "local_resource": {
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -332,7 +332,7 @@
             "mongodb-root-password"
         ],
         "generate_secret_vault_base_path": "/secret/generated",
-        "generate_secret_extra_namespaces": null,
+        "generate_secret_extra_namespaces": [],
         "local_resource": {
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -369,7 +369,7 @@
             "mongodb-root-password"
         ],
         "generate_secret_vault_base_path": "/secret/generated",
-        "generate_secret_extra_namespaces": null,
+        "generate_secret_extra_namespaces": [],
         "local_resource": {
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -406,7 +406,7 @@
             "mongodb-root-password"
         ],
         "generate_secret_vault_base_path": "/secret/generated",
-        "generate_secret_extra_namespaces": null,
+        "generate_secret_extra_namespaces": [],
         "local_resource": {
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -440,7 +440,7 @@
         "generate_secret_name": null,
         "generate_secret_keys": [],
         "generate_secret_vault_base_path": null,
-        "generate_secret_extra_namespaces": null,
+        "generate_secret_extra_namespaces": [],
         "local_resource": {
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -472,7 +472,7 @@
             "mongodb-root-password"
         ],
         "generate_secret_vault_base_path": "/secret/generated",
-        "generate_secret_extra_namespaces": null,
+        "generate_secret_extra_namespaces": [],
         "local_resource": {
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -493,6 +493,42 @@
             },
             "kafka_data": null,
             "redis_data": null
+        }
+    },
+    {
+        "enabled": true,
+        "resource_name": "ttk-redis",
+        "resource_namespace": "mojaloop",
+        "resource_type": "redis",
+        "logical_service_port": 6379,
+        "logical_service_name": "ttk-redis",
+        "external_service": null,
+        "generate_secret_name": null,
+        "generate_secret_keys": null,
+        "generate_secret_vault_base_path": null,
+        "generate_secret_extra_namespaces": [],
+        "local_resource": {
+            "override_service_name": "ttk-redis-master",
+            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_chart": "redis",
+            "resource_helm_chart_version": "17.3.7",
+            "resource_helm_values_ref": "values-redis.yaml.tpl",
+            "create_resource_random_password": false,
+            "mysql_data": null,
+            "mongodb_data": null,
+            "kafka_data": null,
+            "redis_data": {
+                "auth_enabled": false,
+                "existing_secret": "",
+                "existing_secret_key": "",
+                "user": "",
+                "user_password": "",
+                "storage_size": "8Gi",
+                "storage_class_name": "longhorn",
+                "architecture": "standalone",
+                "replica_count": 0,
+                "service_port": 6379
+            }
         }
     }
 ]
