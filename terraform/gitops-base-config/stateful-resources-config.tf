@@ -35,7 +35,7 @@ resource "local_file" "kustomization" {
 resource "local_file" "namespace" {
   content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
     {
-      all_ns = distinct(concat([var.stateful_resources_namespace], local.all_extra_namespaces))
+      all_ns = distinct(concat([var.stateful_resources_namespace], local.all_extra_namespaces, local.all_namespaces))
   })
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
@@ -58,6 +58,7 @@ locals {
     gitlab_project_url           = var.gitlab_project_url
   }
   all_extra_namespaces = flatten([for stateful_resource in local.enabled_stateful_resources : stateful_resource.generate_secret_extra_namespaces])
+  all_namespaces = distinct([for stateful_resource in local.enabled_stateful_resources : stateful_resource.resource_namespace])
 }
 
 variable "stateful_resources_config_file" {
