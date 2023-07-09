@@ -1,4 +1,7 @@
+%{ for ns in all_ns ~}
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${stateful_resources_namespace}
+  name: ${ns}
+---
+%{ endfor ~}

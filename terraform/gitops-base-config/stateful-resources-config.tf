@@ -18,9 +18,7 @@ resource "local_file" "vault_crs" {
 
 resource "local_file" "external_name_services" {
   content  = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl", 
-  { config = local.local_external_name_map 
-    stateful_resources_namespace = var.stateful_resources_namespace
-  })
+  { config = local.local_external_name_map })
   filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
 }
 
@@ -35,7 +33,7 @@ resource "local_file" "kustomization" {
 resource "local_file" "namespace" {
   content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
     {
-      stateful_resources_namespace = var.stateful_resources_namespace
+      all_ns = distinct(concat([var.stateful_resources_namespace], local.all_extra_namespaces))
   })
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
@@ -57,6 +55,7 @@ locals {
     stateful_resources_namespace = var.stateful_resources_namespace
     gitlab_project_url           = var.gitlab_project_url
   }
+  all_extra_namespaces = distinct(concat([for stateful_resource in local.enabled_stateful_resources : stateful_resource.generate_secret_extra_namespaces]))
 }
 
 variable "stateful_resources_config_file" {

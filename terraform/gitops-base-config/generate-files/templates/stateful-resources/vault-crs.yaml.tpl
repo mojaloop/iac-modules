@@ -83,10 +83,3 @@ spec:
 ---
 %{ endfor ~}
 %{ endif ~}
-%{ for ns in concat([resource.resource_namespace], resource.generate_secret_extra_namespaces) ~}
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: ${ns}
----
-%{ endfor ~}
