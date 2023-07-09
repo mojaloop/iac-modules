@@ -151,7 +151,7 @@ mojaloop:
       db_database: *QUOTING_DB_DATABASE
       endpointSecurity:
         jwsSigningKey: |-
-          ${indent(8, jws_signing_priv_key)}
+          ${indent(10, jws_signing_priv_key)}
     ingress:
       enabled: true
       className: *INGRESS_CLASS
