@@ -1,6 +1,7 @@
 module "generate_mojaloop_files" {
   source = "./generate-files"
   var_map = {
+    gitlab_project_url                          = var.gitlab_project_url
     mojaloop_chart_repo                         = var.mojaloop_chart_repo
     mojaloop_chart_version                      = var.mojaloop_chart_version
     mojaloop_namespace                          = var.mojaloop_namespace
