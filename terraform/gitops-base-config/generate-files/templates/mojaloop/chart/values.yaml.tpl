@@ -110,7 +110,7 @@ mojaloop:
         db_database: *ALS_DB_DATABASE
         endpointSecurity:
           jwsSigningKey: |-
-            ${indent(10, jws_signing_priv_key)}
+            ${indent(12, jws_signing_priv_key)}
       # Thirdparty API Config
         featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
       ingress:
@@ -174,7 +174,7 @@ mojaloop:
         kafka_port: *KAFKA_PORT
         endpointSecurity:
           jwsSigningKey: |-
-            ${indent(10, jws_signing_priv_key)}
+            ${indent(12, jws_signing_priv_key)}
       ingress:
         enabled: true
         className: *INGRESS_CLASS
