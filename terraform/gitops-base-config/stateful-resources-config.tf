@@ -17,7 +17,10 @@ resource "local_file" "vault_crs" {
 }
 
 resource "local_file" "external_name_services" {
-  content  = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl", { config = local.local_external_name_map })
+  content  = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl", 
+  { config = local.local_external_name_map 
+    stateful_resources_namespace = var.stateful_resources_namespace
+  })
   filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
 }
 
