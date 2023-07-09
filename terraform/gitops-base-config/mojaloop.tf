@@ -4,6 +4,7 @@ module "generate_mojaloop_files" {
     gitlab_project_url                          = var.gitlab_project_url
     mojaloop_chart_repo                         = var.mojaloop_chart_repo
     mojaloop_chart_version                      = var.mojaloop_chart_version
+    mojaloop_release_name                       = var.mojaloop_release_name
     mojaloop_namespace                          = var.mojaloop_namespace
     storage_class_name                          = var.storage_class_name
     mojaloop_sync_wave                          = var.mojaloop_sync_wave
@@ -113,6 +114,12 @@ variable "mojaloop_namespace" {
   description = "namespace for mojaloop release"
   type        = string
   default     = "mojaloop"
+}
+
+variable "mojaloop_release_name" {
+  description = "name for mojaloop release"
+  type        = string
+  default     = "moja"
 }
 
 variable "mojaloop_chart_version" {
