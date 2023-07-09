@@ -80,5 +80,6 @@ spec:
       ${key}: '{{ .dynamicsecret_${replace(key, "-", "_")}.password }}'
 %{ endfor ~}
     type: Opaque
-%{ endif ~}
+---
 %{ endfor ~}
+%{ endif ~}
