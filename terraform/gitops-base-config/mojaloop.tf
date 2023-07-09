@@ -1,4 +1,4 @@
-module "generate_loki_files" {
+module "generate_mojaloop_files" {
   source = "./generate-files"
   var_map = {
     mojaloop_chart_repo                         = var.mojaloop_chart_repo
