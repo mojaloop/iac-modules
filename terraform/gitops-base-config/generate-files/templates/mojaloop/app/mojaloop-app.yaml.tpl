@@ -3,7 +3,7 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-  name: mojaloop-app
+  name: moja
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io

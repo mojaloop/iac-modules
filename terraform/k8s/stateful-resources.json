@@ -12,7 +12,7 @@
         "generate_secret_vault_base_path": null,
         "generate_secret_extra_namespaces": [],
         "local_resource": {
-            "override_service_name": "thirdparty-auth-svc-redis-master",
+            "override_service_name": "redis-thirdparty-auth-svc-redis-master",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "redis",
             "resource_helm_chart_version": "17.3.7",
@@ -177,7 +177,7 @@
             "mojaloop"
         ],
         "local_resource": {
-            "override_service_name": "account-lookup-db-primary",
+            "override_service_name": "mysql-account-lookup-db-primary",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "mysql",
             "resource_helm_chart_version": "9.7.0",
@@ -220,7 +220,7 @@
             "mojaloop"
         ],
         "local_resource": {
-            "override_service_name": "central-ledger-db-primary",
+            "override_service_name": "mysql-central-ledger-db-primary",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "mysql",
             "resource_helm_chart_version": "9.7.0",
@@ -508,7 +508,7 @@
         "generate_secret_vault_base_path": null,
         "generate_secret_extra_namespaces": [],
         "local_resource": {
-            "override_service_name": "ttk-redis-master",
+            "override_service_name": "redis-ttk-redis-master",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "redis",
             "resource_helm_chart_version": "17.3.7",
