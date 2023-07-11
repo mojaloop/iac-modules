@@ -2,25 +2,26 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "-2"
-  name: stateful-resources-app
+    argocd.argoproj.io/sync-wave: "0"
+  name: moja
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/stateful-resources
+    path: apps/mojaloop
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
+    plugin:
+      name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: argocd
+    namespace: ${mojaloop_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-      allowEmpty: true
     retry:
       limit: 5
       backoff:
