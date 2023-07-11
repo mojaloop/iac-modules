@@ -54,7 +54,7 @@
             "mojaloop"
         ],
         "local_resource": {
-            "override_service_name": null,
+            "override_service_name": "mysql-thirdparty-auth-svc-db",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "mysql",
             "resource_helm_chart_version": "9.7.0",
@@ -334,7 +334,7 @@
         "generate_secret_vault_base_path": "/secret/generated",
         "generate_secret_extra_namespaces": [],
         "local_resource": {
-            "override_service_name": null,
+            "override_service_name": "mongodb-bulk-mongodb",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
@@ -371,7 +371,7 @@
         "generate_secret_vault_base_path": "/secret/generated",
         "generate_secret_extra_namespaces": [],
         "local_resource": {
-            "override_service_name": null,
+            "override_service_name": "mongodb-cep-mongodb",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
@@ -408,7 +408,7 @@
         "generate_secret_vault_base_path": "/secret/generated",
         "generate_secret_extra_namespaces": [],
         "local_resource": {
-            "override_service_name": null,
+            "override_service_name": "mongodb-reporting-events-mongodb",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
@@ -474,7 +474,7 @@
         "generate_secret_vault_base_path": "/secret/generated",
         "generate_secret_extra_namespaces": [],
         "local_resource": {
-            "override_service_name": null,
+            "override_service_name": "mongodb-ttk-mongodb",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
