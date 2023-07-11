@@ -177,7 +177,7 @@
             "mojaloop"
         ],
         "local_resource": {
-            "override_service_name": "mysql-account-lookup-db-primary",
+            "override_service_name": "mysql-account-lookup-db",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "mysql",
             "resource_helm_chart_version": "9.7.0",
@@ -220,7 +220,7 @@
             "mojaloop"
         ],
         "local_resource": {
-            "override_service_name": "mysql-central-ledger-db-primary",
+            "override_service_name": "mysql-central-ledger-db",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "mysql",
             "resource_helm_chart_version": "9.7.0",
