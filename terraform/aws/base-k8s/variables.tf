@@ -54,17 +54,17 @@ variable "master_node_count" {
 }
 variable "master_volume_size" {
   type        = number
-  default     = 50
+  default     = 300
   description = "EBS Volume size (GB) attached to the master instance"
 }
 variable "master_instance_type" {
   type    = string
-  default = "t3.large"
+  default = "m5.large"
 }
 
 variable "agent_volume_size" {
   type        = number
-  default     = 50
+  default     = 300
   description = "EBS Volume size (GB) attached to the agent/node instances"
 }
 variable "agent_node_count" {
@@ -74,7 +74,7 @@ variable "agent_node_count" {
 }
 variable "agent_instance_type" {
   type    = string
-  default = "t3.large"
+  default = "m5.large"
 }
 
 variable "az_count" {

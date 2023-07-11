@@ -616,6 +616,7 @@ mojaloop:
           database: *TTK_MONGO_DATABASE
       ingress:
         enabled: true
+        className: *INGRESS_CLASS
         hosts:
           specApi:
             host: ttkbackend.${ingress_subdomain}
@@ -700,6 +701,7 @@ mojaloop:
     ml-testing-toolkit-frontend:
       ingress:
         enabled: true
+        className: *INGRESS_CLASS
         hosts:
           ui: 
             host: ttkfrontend.${ingress_subdomain}
