@@ -865,21 +865,6 @@ networkPolicy:
 ## @section Volume Permissions parameters
 ##
 
-initdbScripts:
-  # This script enables legacy authentication for MySQL v8. NodeJS MySQL Client currently does not support authentication plugins, reference: https://github.com/mysqljs/mysql/pull/2233
-  enableLegacyAuth.sh: |
-    #!/bin/bash
-    set -e
-    if [[ "$HOSTNAME" == *primary* ]]; then
-      echo "primary node"
-      DB_USER=${resource.local_resource.mysql_data.user}
-      echo "******* ALTER USER '$DB_USER' *******"
-      mysql -u root -p$MYSQL_ROOT_PASSWORD -e \
-      "ALTER USER '$DB_USER'@'%' IDENTIFIED WITH mysql_native_password BY '$MYSQL_PASSWORD';"
-      echo "******* ALTER USER '$DB_USER' complete *******"
-    else
-      echo "Not primary node"
-    fi
 volumePermissions:
   ## @param volumePermissions.enabled Enable init container that changes the owner and group of the persistent volume(s) mountpoint to `runAsUser:fsGroup`
   ##
