@@ -14,6 +14,8 @@ inputs = {
   domain                               = local.CLUSTER_DOMAIN
   dns_zone_force_destroy               = true
   longhorn_backup_object_store_destroy = true
+  agent_instance_type                  = "m5.xlarge"
+  master_instance_type                 = "m5.xlarge"
 }
 
 locals {
