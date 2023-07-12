@@ -708,7 +708,7 @@ mojaloop:
             port: 6060
             paths: ['/']
       config:
-        API_BASE_URL: http://ttkbackend.${ingress_subdomain}
+        API_BASE_URL: https://ttkbackend.${ingress_subdomain}
 
   ml-ttk-test-setup:
     tests:
