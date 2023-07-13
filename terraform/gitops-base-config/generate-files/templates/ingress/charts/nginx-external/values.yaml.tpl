@@ -28,3 +28,4 @@ ingress-nginx:
       use-proxy-protocol: true
       enable-real-ip: true
       real-ip-header: "proxy_protocol"
+      proxy-buffer-size: "16k"
