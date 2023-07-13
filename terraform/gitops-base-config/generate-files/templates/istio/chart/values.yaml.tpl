@@ -37,6 +37,7 @@ istiod:
     autoscaleEnabled: true
     autoscaleMin: 1
     autoscaleMax: 5
+    autoscaleBehavior: {}
     replicaCount: 1
     rollingMaxSurge: 100%
     rollingMaxUnavailable: 25%
@@ -58,10 +59,19 @@ istiod:
     # Set to `type: RuntimeDefault` to use the default profile if available.
     seccompProfile: {}
 
+    # Additional container arguments
+    extraContainerArgs: []
+
     env: {}
 
     cpu:
       targetAverageUtilization: 80
+
+    # Additional volumeMounts to the istiod container
+    volumeMounts: []
+
+    # Additional volumes to the istiod pod
+    volumes: []
 
     # if protocol sniffing is enabled for outbound
     enableProtocolSniffingForOutbound: true
@@ -71,6 +81,8 @@ istiod:
     nodeSelector: {}
     podAnnotations: {}
     serviceAnnotations: {}
+
+    topologySpreadConstraints: []
 
     # You can use jwksResolverExtraRootCA to provide a root certificate
     # in PEM format. This will then be trusted by pilot when resolving
@@ -250,8 +262,7 @@ istiod:
     # Releases are published to docker hub under 'istio' project.
     # Dev builds from prow are on gcr.io
     hub: docker.io/istio
-    # Default tag for Istio images.
-    tag: 1.17.2
+
     # Variant of the image to use.
     # Currently supported are: [debug, distroless]
     variant: ""
@@ -378,9 +389,6 @@ istiod:
       # If using stackdriver tracer outside GCP, set env GOOGLE_APPLICATION_CREDENTIALS to the GCP credential file.
       tracer: "zipkin"
 
-      # Controls if sidecar is injected at the front of the container list and blocks the start of the other containers until the proxy is ready
-      holdApplicationUntilProxyStarts: false
-
     proxy_init:
       # Base name for the proxy_init container, used to configure iptables.
       image: proxyv2
@@ -497,36 +505,6 @@ istiod:
       # Setting this port to a non-zero value enables STS server.
       servicePort: 0
 
-    # Configuration for each of the supported tracers
-    tracer:
-      # Configuration for envoy to send trace data to LightStep.
-      # Disabled by default.
-      # address: the <host>:<port> of the satellite pool
-      # accessToken: required for sending data to the pool
-      #
-      datadog:
-        # Host:Port for submitting traces to the Datadog agent.
-        address: "$(HOST_IP):8126"
-      lightstep:
-        address: "" # example: lightstep-satellite:443
-        accessToken: "" # example: abcdefg1234567
-      stackdriver:
-        # enables trace output to stdout.
-        debug: false
-        # The global default max number of message events per span.
-        maxNumberOfMessageEvents: 200
-        # The global default max number of annotation events per span.
-        maxNumberOfAnnotations: 200
-        # The global default max number of attributes per span.
-        maxNumberOfAttributes: 200
-      zipkin:
-        # Host:Port for reporting trace data in zipkin format. If not specified, will default to
-        # zipkin service (port 9411) in the same namespace as the other istio components.
-        address: ""
-
-    # Use the Mesh Control Protocol (MCP) for configuring Istiod. Requires an MCP source.
-    useMCP: false
-
     # The name of the CA for workload certificates.
     # For example, when caName=GkeWorkloadCertificate, GKE workload certificates
     # will be used as the certificates for workloads.
@@ -547,4 +525,9 @@ istiod:
     # This is disabled by default, as the cluster may already have a validation server; while technically
     # it works to have multiple redundant validations, this adds complexity and operational risks.
     # Users should consider enabling this if they want full gateway-api validation but don't have other validation servers.
-    validateGateway: false
+    validateGateway: true
+
+  # keep in sync with settings used when installing the Istio CNI chart
+  istio_cni:
+    enabled: false
+    chained: true
