@@ -52,7 +52,7 @@ variable "nginx_jwt_helm_chart_repo" {
 variable "nginx_jwt_helm_chart_version" {
   type        = string
   description = "nginx_jwt_helm_chart_version"
-  default     = "1.3.10"
+  default     = "1.13.10"
 }
 
 variable "nginx_jwt_namespace" {
