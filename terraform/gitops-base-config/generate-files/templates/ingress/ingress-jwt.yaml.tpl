@@ -3,19 +3,19 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${ingress_sync_wave}"
-  name: nginx-internal-app
+  name: nginx-jwt-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/ingress/charts/nginx-internal
+    path: apps/ingress/charts/nginx-jwt
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${nginx_internal_namespace}
+    namespace: ${nginx_jwt_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:

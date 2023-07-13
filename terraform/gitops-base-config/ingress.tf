@@ -8,6 +8,7 @@ module "generate_ingress_files" {
     gitlab_server_url            = var.gitlab_server_url
     nginx_external_namespace     = var.nginx_external_namespace
     nginx_internal_namespace     = var.nginx_internal_namespace
+    nginx_jwt_namespace          = var.nginx_jwt_namespace
     gitlab_project_url           = var.gitlab_project_url
     ingress_sync_wave            = var.ingress_sync_wave
     default_ssl_certificate      = var.default_ssl_certificate
@@ -25,7 +26,7 @@ module "generate_ingress_files" {
   file_list = ["charts/nginx-external/Chart.yaml", "charts/nginx-external/values.yaml",
     "charts/nginx-internal/Chart.yaml", "charts/nginx-internal/values.yaml",
     "charts/nginx-jwt/Chart.yaml", "charts/nginx-jwt/values.yaml",
-    "ingress-external.yaml", "ingress-internal.yaml", "lets-wildcard-cert.yaml"]
+    "ingress-external.yaml", "ingress-internal.yaml", "ingress-jwt.yaml", "lets-wildcard-cert.yaml"]
   template_path   = "${path.module}/generate-files/templates/ingress"
   output_path     = "${var.output_dir}/ingress"
   app_file        = "ingress-app.yaml"
@@ -54,6 +55,11 @@ variable "nginx_jwt_helm_chart_version" {
   default     = "1.3.10"
 }
 
+variable "nginx_jwt_namespace" {
+  type        = string
+  description = "nginx_jwt_namespace"
+  default     = "nginx-jwt"
+}
 variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
@@ -66,8 +72,8 @@ variable "nginx_internal_namespace" {
 }
 variable "ingress_sync_wave" {
   type        = string
-  description = "nginx_internal_namespace"
-  default     = "nginx-int"
+  description = "ingress_sync_wave"
+  default     = "-7"
 }
 variable "default_ssl_certificate" {
   type        = string
@@ -77,7 +83,7 @@ variable "default_ssl_certificate" {
 variable "wildcare_certificate_wave" {
   type        = string
   description = "nginx_internal_namespace"
-  default     = "nginx-int"
+  default     = "-8"
 }
 variable "internal_ingress_class_name" {
   type        = string
