@@ -34,3 +34,9 @@ variable "whitelist_secret_name_prefix" {
   type        = string
   default     = "secret/whitelist"
 }
+
+variable "cert_manager_cluster_issuer_role_name" {
+  description = "cert_manager_cluster_issuer_role_name"
+  type        = string
+  default     = "cert-man-cluster-issuer-role
+}
