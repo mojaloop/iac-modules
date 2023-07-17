@@ -7,6 +7,7 @@ module "generate_vault_pki_setup_files" {
     public_subdomain                   = var.public_subdomain
     whitelist_secret_name_prefix       = var.whitelist_secret_name_prefix
     cert_manager_service_account_name  = var.cert_manager_service_account_name
+    gitlab_project_url                 = var.gitlab_project_url
   }
   file_list       = ["certman-rbac.yaml", "vault-auth-config.yaml"]
   template_path   = "${path.module}/generate-files/templates/vault-pki-setup"
