@@ -1,4 +1,6 @@
 ingress-nginx:
+  serviceAccount:
+    name: ${external_nginx_service_account_name}
   controller:
     kind: "DaemonSet"
     autoscaling: 

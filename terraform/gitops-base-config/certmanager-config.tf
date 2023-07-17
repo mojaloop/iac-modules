@@ -19,6 +19,7 @@ module "generate_certman_files" {
     cert_manager_credentials_secret_provider_key = "${var.cluster_name}/${local.cert_manager_credentials_secret_provider_key}"
     cert_manager_namespace                       = var.cert_manager_namespace
     gitlab_project_url                           = var.gitlab_project_url
+    cert_manager_service_account_name            = var.cert_manager_service_account_name
   }
 }
 
@@ -54,4 +55,10 @@ variable "letsencrypt_email" {
   type        = string
   description = "letsencrypt_email"
   default     = "cicd@example.com"
+}
+
+variable "cert_manager_service_account_name" {
+  type        = string
+  description = "service account to run cert man"
+  default     = "cert-man-sa"
 }
