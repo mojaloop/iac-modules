@@ -1,4 +1,19 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
+kind: SecretEngineMount
+metadata:
+  name: pki-root-ca
+spec:
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+    serviceAccount:
+      name: default
+  type: pki
+  path: "/"
+  defaultLeaseTTL: "8760h"
+  maxLeaseTTL: "17520h"
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineConfig
 metadata:
   name: pki-root-ca

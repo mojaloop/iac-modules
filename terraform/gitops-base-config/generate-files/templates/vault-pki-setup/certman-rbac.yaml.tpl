@@ -45,7 +45,8 @@ spec:
   targetServiceAccounts: 
     - vault-k8s  
   targetNamespaces:
-    - ${cert_manager_namespace}
+    targetNamespaces:
+      - ${cert_manager_namespace}
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
