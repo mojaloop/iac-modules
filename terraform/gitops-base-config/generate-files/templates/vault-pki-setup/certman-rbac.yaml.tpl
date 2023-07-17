@@ -70,8 +70,8 @@ metadata:
   namespace: ${cert_manager_namespace}
 spec:
   secretName: ${vault_certman_secretname}
-  duration: 2160h # 90d
-  renewBefore: 360h # 15d
+  duration: 696h0m0s
+  renewBefore: 360h0m0s
   privateKey:
     algorithm: RSA
     encoding: PKCS1
@@ -80,9 +80,9 @@ spec:
     - digital signature
     - key encipherment
     - client auth
-  commonName: ${trimsuffix(public_subdomain, ".")}
+  commonName: ext.${trimsuffix(public_subdomain, ".")}
   dnsNames: 
-  - ${trimsuffix(public_subdomain, ".")}
+  - ext.${trimsuffix(public_subdomain, ".")}
   issuerRef:
     name:  ${cert_man_vault_cluster_issuer_name}
     kind: ClusterIssuer
