@@ -99,7 +99,7 @@ spec:
       name: default
   policy: |
     # Configure read secrets
-    path "${var.whitelist_secret_name_prefix}*" {
+    path "${whitelist_secret_name_prefix}*" {
       capabilities = ["read", "list"]
     }
     path "secret/onboarding_*" {
