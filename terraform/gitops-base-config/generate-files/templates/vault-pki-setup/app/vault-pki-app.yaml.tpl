@@ -12,6 +12,8 @@ spec:
     path: apps/vault-pki-setup
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
+    plugin:
+      name: argocd-lovely-plugin-v1.0
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc

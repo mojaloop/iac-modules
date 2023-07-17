@@ -79,9 +79,9 @@ spec:
     - digital signature
     - key encipherment
     - client auth
-  commonName: {trimsuffix(public_subdomain, ".")}
+  commonName: ${trimsuffix(public_subdomain, ".")}
   dnsNames: 
-  - {trimsuffix(public_subdomain, ".")}
+  - ${trimsuffix(public_subdomain, ".")}
   issuerRef:
     name:  ${cert_man_vault_cluster_issuer_name}
     kind: ClusterIssuer

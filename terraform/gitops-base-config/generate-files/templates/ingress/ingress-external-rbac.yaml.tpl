@@ -18,7 +18,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: ${external_nginx_service_account_name}
-  apiGroup: rbac.authorization.k8s.io
+  namespace: ${nginx_external_namespace}
 roleRef:
   kind: Role
   name: nginx-ext-cm-all
