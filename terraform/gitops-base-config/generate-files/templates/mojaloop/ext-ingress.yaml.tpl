@@ -6,12 +6,12 @@ metadata:
   namespace: ${mojaloop_namespace}
   annotations:
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
-    nginx.ingress.kubernetes.io/auth-tls-secret: ${cert_manager_namespace}/${vault-certman-secretname}
+    nginx.ingress.kubernetes.io/auth-tls-secret: ${cert_manager_namespace}/${vault_certman_secretname}
     #nginx.ingress.kubernetes.io/auth-url: http://ingress-nginx-validate-jwt.${nginx_jwt_namespace}.svc.cluster.local:8080/auth?tid=11111111-1111-1111-1111-111111111111&aud=22222222-2222-2222-2222-222222222222&aud=33333333-3333-3333-3333-333333333333
 spec:
   ingressClassName: ${external_ingress_class_name}
   tls:
-    - secretName: ${vault-certman-secretname}
+    - secretName: ${vault_certman_secretname}
       hosts:
         - ${interop_switch_fqdn}
   rules:
