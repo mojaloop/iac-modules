@@ -74,7 +74,7 @@ module "generate_mojaloop_files" {
     ttksims_redis_host                          = "${local.stateful_resources[local.ttk_redis_resource_index].logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     ttksims_redis_port                          = local.stateful_resources[local.ttk_redis_resource_index].logical_service_port
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml"]
+  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "ext-ingress.yaml"]
   template_path   = "${path.module}/generate-files/templates/mojaloop"
   output_path     = "${var.output_dir}/mojaloop"
   app_file        = "mojaloop-app.yaml"
