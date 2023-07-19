@@ -21,8 +21,8 @@ module "generate_mojaloop_files" {
     quoting_service_simple_routing_mode_enabled = var.quoting_service_simple_routing_mode_enabled
     interop_switch_fqdn                         = local.interop_switch_fqdn
     external_ingress_class_name                 = var.external_ingress_class_name
-    cert_manager_namespace                      = var.cert_manager_namespace
     vault_certman_secretname                    = var.vault_certman_secretname
+    cert_man_vault_cluster_issuer_name          = var.cert_man_vault_cluster_issuer_name
     nginx_jwt_namespace                         = var.nginx_jwt_namespace
     ingress_class_name                          = var.mojaloop_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     kafka_host                                  = "${local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"

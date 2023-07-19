@@ -1,7 +1,6 @@
 module "generate_vault_pki_setup_files" {
   source = "./generate-files"
   var_map = {
-    vault_certman_secretname              = var.vault_certman_secretname
     cert_man_vault_cluster_issuer_name    = var.cert_man_vault_cluster_issuer_name
     cert_manager_namespace                = var.cert_manager_namespace
     public_subdomain                      = var.public_subdomain
@@ -9,6 +8,7 @@ module "generate_vault_pki_setup_files" {
     cert_manager_service_account_name     = var.cert_manager_service_account_name
     gitlab_project_url                    = var.gitlab_project_url
     cert_manager_cluster_issuer_role_name = var.cert_manager_cluster_issuer_role_name
+    interop_switch_fqdn                   = local.interop_switch_fqdn
   }
   file_list       = ["certman-rbac.yaml", "vault-auth-config.yaml"]
   template_path   = "${path.module}/generate-files/templates/vault-pki-setup"

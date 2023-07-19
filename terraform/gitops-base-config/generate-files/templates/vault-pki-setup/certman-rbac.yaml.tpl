@@ -63,27 +63,3 @@ spec:
         serviceAccountRef:
           name: vault-k8s
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: ${vault_certman_secretname}
-  namespace: ${cert_manager_namespace}
-spec:
-  secretName: ${vault_certman_secretname}
-  duration: 696h0m0s
-  renewBefore: 360h0m0s
-  privateKey:
-    algorithm: RSA
-    encoding: PKCS1
-    size: 2048
-  usages:
-    - digital signature
-    - key encipherment
-    - client auth
-  commonName: ext.${trimsuffix(public_subdomain, ".")}
-  dnsNames: 
-  - ext.${trimsuffix(public_subdomain, ".")}
-  issuerRef:
-    name:  ${cert_man_vault_cluster_issuer_name}
-    kind: ClusterIssuer
-    group: cert-manager.io
