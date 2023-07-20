@@ -550,7 +550,7 @@
         "resource_name": "keycloak-db",
         "resource_namespace": "keycloak-db",
         "resource_type": "pgsql",
-        "logical_service_port": 3306,
+        "logical_service_port": 5432,
         "logical_service_name": "keycloak-db",
         "external_service": null,
         "generate_secret_name": "pgsql-keycloak-secret",
