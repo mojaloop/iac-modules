@@ -2,26 +2,27 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${ingress_sync_wave}"
-  name: nginx-internal-app
+    argocd.argoproj.io/sync-wave: "-3"
+  name: vault-pki-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/ingress/charts/nginx-internal
+    path: apps/vault-pki-setup
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${nginx_internal_namespace}
+    namespace: argocd
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+      allowEmpty: true
     retry:
       limit: 5
       backoff:

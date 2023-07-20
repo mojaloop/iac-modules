@@ -1,4 +1,6 @@
 ingress-nginx:
+  serviceAccount:
+    name: ${external_nginx_service_account_name}
   controller:
     kind: "DaemonSet"
     autoscaling: 
@@ -28,3 +30,4 @@ ingress-nginx:
       use-proxy-protocol: true
       enable-real-ip: true
       real-ip-header: "proxy_protocol"
+      proxy-buffer-size: "16k"

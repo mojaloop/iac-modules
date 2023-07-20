@@ -4,7 +4,7 @@ metadata:
   name: wildcard-cert-internal
   namespace: default
   annotations:
-    argocd.argoproj.io/sync-wave: "-8"
+    argocd.argoproj.io/sync-wave: "${wildcare_certificate_wave}"
 spec:
   secretName: ${default_ssl_certificate}
   issuerRef:

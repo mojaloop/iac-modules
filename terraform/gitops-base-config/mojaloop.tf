@@ -19,6 +19,11 @@ module "generate_mojaloop_files" {
     jws_signing_priv_key                        = tls_private_key.jws.private_key_pem
     ingress_subdomain                           = var.public_subdomain
     quoting_service_simple_routing_mode_enabled = var.quoting_service_simple_routing_mode_enabled
+    interop_switch_fqdn                         = local.interop_switch_fqdn
+    external_ingress_class_name                 = var.external_ingress_class_name
+    vault_certman_secretname                    = var.vault_certman_secretname
+    cert_man_vault_cluster_issuer_name          = var.cert_man_vault_cluster_issuer_name
+    nginx_jwt_namespace                         = var.nginx_jwt_namespace
     ingress_class_name                          = var.mojaloop_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     kafka_host                                  = "${local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                                  = local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_port
@@ -72,7 +77,7 @@ module "generate_mojaloop_files" {
     ttksims_redis_host                          = "${local.stateful_resources[local.ttk_redis_resource_index].logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     ttksims_redis_port                          = local.stateful_resources[local.ttk_redis_resource_index].logical_service_port
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml"]
+  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml"]
   template_path   = "${path.module}/generate-files/templates/mojaloop"
   output_path     = "${var.output_dir}/mojaloop"
   app_file        = "mojaloop-app.yaml"

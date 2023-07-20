@@ -27,3 +27,4 @@ ingress-nginx:
     config:
       use-proxy-protocol: false
       enable-real-ip: false
+      proxy-buffer-size: "16k"

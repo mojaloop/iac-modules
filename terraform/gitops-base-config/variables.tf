@@ -93,6 +93,11 @@ variable "kv_path" {
   default = "secret"
 }
 
+variable "interop_switch_name" {
+  description = "path for kv engine"
+  default = "ext"
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
@@ -104,4 +109,5 @@ locals {
   external_dns_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
   longhorn_backups_credentials_secret_provider_key = var.secrets_key_map["longhorn_backups_cred_secret_key"]
   longhorn_backups_credentials_id_provider_key     = var.secrets_key_map["longhorn_backups_cred_id_key"]
+  interop_switch_fqdn                              = "${var.interop_switch_name}.${trimsuffix(var.public_subdomain, ".")}"
 }
