@@ -18,6 +18,11 @@ spec:
     namespace: ${vault_namespace}
     server: https://kubernetes.default.svc
   project: default
+  ignoreDifferences:
+  - group: admissionregistration.k8s.io
+    kind: MutatingWebhookConfiguration
+    jqPathExpressions:
+    - .webhooks[]?.clientConfig.caBundle
   syncPolicy:
     automated:
       prune: true
@@ -32,3 +37,4 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
+      - RespectIgnoreDifferences=true
