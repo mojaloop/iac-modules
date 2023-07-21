@@ -16,7 +16,7 @@ module "generate_keycloak_files" {
     ingress_class                         = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
 
   }
-  file_list       = ["keycloak-kustomization.yaml", "keycloak-cr.yaml", "keycloak-ingress.yaml"]
+  file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-ingress.yaml"]
   template_path   = "${path.module}/generate-files/templates/keycloak"
   output_path     = "${var.output_dir}/keycloak"
   app_file        = "keycloak-app.yaml"

@@ -564,7 +564,7 @@
             "keycloak"
         ],
         "local_resource": {
-            "override_service_name": "pgsql-keycloak-db",
+            "override_service_name": "postgresql-keycloak-db",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "postgresql",
             "resource_helm_chart_version": "12.6.8",

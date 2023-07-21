@@ -10,3 +10,5 @@ secretGenerator:
 - name: keycloak-user
   literals:
   - username=${keycloak_postgres_user}
+generatorOptions:
+  disableNameSuffixHash: true
