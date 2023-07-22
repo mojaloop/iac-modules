@@ -14,6 +14,8 @@ module "generate_keycloak_files" {
     keycloak_fqdn                         = "keycloak.${var.public_subdomain}"
     keycloak_sync_wave                    = var.keycloak_sync_wave
     ingress_class                         = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
+    cert_man_vault_cluster_issuer_name    = var.cert_man_vault_cluster_issuer_name
+    keycloak_tls_secretname               = "keycloak-tls"
 
   }
   file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-ingress.yaml"]

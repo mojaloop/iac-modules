@@ -17,5 +17,7 @@ spec:
       key: ${keycloak_postgres_password_secret_key}
   ingress:
     enabled: false
+  http:
+    tlsSecret: ${keycloak_tls_secretname}
   hostname:
     hostname: ${keycloak_fqdn}
