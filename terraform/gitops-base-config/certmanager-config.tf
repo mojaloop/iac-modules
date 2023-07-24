@@ -1,6 +1,6 @@
 module "generate_certman_files" {
   source          = "./generate-files"
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "reflector.yaml", "custom-resources/lets-cluster-issuer.yaml", "external-secrets/certman-extsecret.yaml", "reflector/Chart.yaml", "reflector/values.yaml"]
+  file_list       = ["certman-chart/Chart.yaml", "certman-chart/values.yaml", "certman-chart.yaml", "reflector.yaml", "custom-resources/lets-cluster-issuer.yaml", "external-secrets/certman-extsecret.yaml", "reflector/Chart.yaml", "reflector/values.yaml"]
   template_path   = "${path.module}/generate-files/templates/certmanager"
   output_path     = "${var.output_dir}/certmanager"
   app_file        = "certmanager-app.yaml"
