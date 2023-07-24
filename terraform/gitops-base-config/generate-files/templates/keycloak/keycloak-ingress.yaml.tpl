@@ -4,6 +4,9 @@ kind: Ingress
 metadata:
   name: keycloak-ingress
   namespace: ${keycloak_namespace}
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/ssl-passthrough: true
 spec:
   ingressClassName: ${ingress_class}
   tls:
@@ -19,4 +22,4 @@ spec:
               service:
                 name: ${keycloak_name}-service
                 port:
-                  number: 80
+                  number: 8443

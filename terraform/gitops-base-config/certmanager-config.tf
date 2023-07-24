@@ -1,6 +1,6 @@
 module "generate_certman_files" {
   source          = "./generate-files"
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/lets-cluster-issuer.yaml", "external-secrets/certman-extsecret.yaml"]
+  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "reflector.yaml", "custom-resources/lets-cluster-issuer.yaml", "external-secrets/certman-extsecret.yaml", "reflector/Chart.yaml", "reflector/values.yaml"]
   template_path   = "${path.module}/generate-files/templates/certmanager"
   output_path     = "${var.output_dir}/certmanager"
   app_file        = "certmanager-app.yaml"
@@ -39,10 +39,26 @@ variable "cert_manager_namespace" {
   default     = "certmanager"
 }
 
+variable "reflector_chart_repo" {
+  type        = string
+  description = "reflector_chart_repo"
+  default     = "https://emberstack.github.io/helm-charts"
+}
+variable "reflector_chart_version" {
+  type        = string
+  description = "7.0.190"
+}
+
+variable "reflector_namespace" {
+  type        = string
+  description = "reflector_namespace"
+  default     = "reflector"
+}
+
 variable "cert_manager_issuer_sync_wave" {
   type        = string
   description = "cert_manager_issuer_sync_wave"
-  default     = "-7"
+  default     = "-10"
 }
 
 variable "letsencrypt_server" {
