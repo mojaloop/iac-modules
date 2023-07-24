@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/certmanager/certmanager-chart
+    path: apps/certmanager/charts/certmanager-chart
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
