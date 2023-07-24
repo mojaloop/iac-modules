@@ -2,20 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${cert_manager_issuer_sync_wave}"
-  name: certmanager
+    argocd.argoproj.io/sync-wave: "${reflector_sync_wave}"
+  name: reflector
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/certmanager/charts/certmanager-chart
+    path: apps/reflector
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${cert_manager_namespace}
+    namespace: ${reflector_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
