@@ -20,6 +20,9 @@ module "generate_certman_files" {
     cert_manager_namespace                       = var.cert_manager_namespace
     gitlab_project_url                           = var.gitlab_project_url
     cert_manager_service_account_name            = var.cert_manager_service_account_name
+    reflector_chart_repo                         = var.reflector_chart_repo
+    reflector_chart_version                      = var.reflector_chart_version
+    reflector_namespace                          = var.reflector_namespace
   }
 }
 
