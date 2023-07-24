@@ -49,7 +49,8 @@ variable "reflector_chart_repo" {
 }
 variable "reflector_chart_version" {
   type        = string
-  description = "7.0.190"
+  description = "reflector_chart_version"
+  default = "7.0.190"
 }
 
 variable "reflector_namespace" {
