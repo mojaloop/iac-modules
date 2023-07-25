@@ -40,7 +40,7 @@ variable "keycloak_operator_version" {
 variable "keycloak_sync_wave" {
   type        = string
   description = "keycloak_sync_wave"
-  default     = "-2"
+  default     = "-1"
 }
 
 variable "keycloak_namespace" {
