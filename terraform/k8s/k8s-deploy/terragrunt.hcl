@@ -16,6 +16,7 @@ inputs = {
   longhorn_backup_object_store_destroy = true
   agent_instance_type                  = "m5.xlarge"
   master_instance_type                 = "m5.xlarge"
+  master_node_count                    = 3
 }
 
 locals {
