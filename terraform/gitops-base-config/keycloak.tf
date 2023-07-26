@@ -12,6 +12,7 @@ module "generate_keycloak_files" {
     keycloak_postgres_port                = local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_port
     keycloak_postgres_password_secret_key = "password"
     keycloak_fqdn                         = "keycloak.${var.public_subdomain}"
+    keycloak_dfsp_realm_name              = var.keycloak_dfsp_realm_name
     keycloak_sync_wave                    = var.keycloak_sync_wave
     ingress_class                         = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     keycloak_tls_secretname               = var.default_ssl_certificate
@@ -49,6 +50,11 @@ variable "keycloak_namespace" {
   default     = "keycloak"
 }
 
+variable "keycloak_dfsp_realm_name" {
+  type = string
+  description = "name of realm for dfsp api access"
+  default = "dfsps"
+}
 locals {
   keycloak_postgres_resource_index = index(local.stateful_resources.*.resource_name, "keycloak-db")
 }

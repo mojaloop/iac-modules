@@ -23,6 +23,8 @@ module "generate_ingress_files" {
     external_load_balancer_dns          = var.external_load_balancer_dns
     internal_load_balancer_dns          = var.internal_load_balancer_dns
     external_nginx_service_account_name = var.external_nginx_service_account_name
+    keycloak_fqdn                       = "keycloak.${var.public_subdomain}"
+    keycloak_realm_name                 = var.keycloak_dfsp_realm_name
   }
   file_list = ["charts/nginx-external/Chart.yaml", "charts/nginx-external/values.yaml", "ingress-external-rbac.yaml",
     "charts/nginx-internal/Chart.yaml", "charts/nginx-internal/values.yaml",
