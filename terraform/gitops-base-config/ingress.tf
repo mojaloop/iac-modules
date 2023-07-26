@@ -3,12 +3,9 @@ module "generate_ingress_files" {
   var_map = {
     nginx_helm_chart_repo               = var.nginx_helm_chart_repo
     nginx_helm_chart_version            = var.nginx_helm_chart_version
-    nginx_jwt_helm_chart_repo           = var.nginx_jwt_helm_chart_repo
-    nginx_jwt_helm_chart_version        = var.nginx_jwt_helm_chart_version
     gitlab_server_url                   = var.gitlab_server_url
     nginx_external_namespace            = var.nginx_external_namespace
     nginx_internal_namespace            = var.nginx_internal_namespace
-    nginx_jwt_namespace                 = var.nginx_jwt_namespace
     gitlab_project_url                  = var.gitlab_project_url
     ingress_sync_wave                   = var.ingress_sync_wave
     default_ssl_certificate             = var.default_ssl_certificate
@@ -23,13 +20,10 @@ module "generate_ingress_files" {
     external_load_balancer_dns          = var.external_load_balancer_dns
     internal_load_balancer_dns          = var.internal_load_balancer_dns
     external_nginx_service_account_name = var.external_nginx_service_account_name
-    keycloak_fqdn                       = "keycloak.${var.public_subdomain}"
-    keycloak_realm_name                 = var.keycloak_dfsp_realm_name
   }
   file_list = ["charts/nginx-external/Chart.yaml", "charts/nginx-external/values.yaml", "ingress-external-rbac.yaml",
     "charts/nginx-internal/Chart.yaml", "charts/nginx-internal/values.yaml",
-    "charts/nginx-jwt/Chart.yaml", "charts/nginx-jwt/values.yaml",
-  "ingress-external.yaml", "ingress-internal.yaml", "ingress-jwt.yaml", "lets-wildcard-cert.yaml"]
+  "ingress-external.yaml", "ingress-internal.yaml", "lets-wildcard-cert.yaml"]
   template_path   = "${path.module}/generate-files/templates/ingress"
   output_path     = "${var.output_dir}/ingress"
   app_file        = "ingress-app.yaml"
@@ -45,23 +39,6 @@ variable "nginx_helm_chart_version" {
   type        = string
   description = "nginx_helm_chart_version"
   default     = "4.3.0"
-}
-
-variable "nginx_jwt_helm_chart_repo" {
-  type        = string
-  description = "nginx_jwt_helm_chart_repo"
-  default     = "https://ivanjosipovic.github.io/ingress-nginx-validate-jwt"
-}
-variable "nginx_jwt_helm_chart_version" {
-  type        = string
-  description = "nginx_jwt_helm_chart_version"
-  default     = "1.13.10"
-}
-
-variable "nginx_jwt_namespace" {
-  type        = string
-  description = "nginx_jwt_namespace"
-  default     = "nginx-jwt"
 }
 variable "nginx_external_namespace" {
   type        = string

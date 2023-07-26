@@ -16,9 +16,11 @@ module "generate_keycloak_files" {
     keycloak_sync_wave                    = var.keycloak_sync_wave
     ingress_class                         = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     keycloak_tls_secretname               = var.default_ssl_certificate
-
+    nginx_jwt_namespace                   = var.nginx_jwt_namespace
+    nginx_jwt_helm_chart_repo             = var.nginx_jwt_helm_chart_repo
+    nginx_jwt_helm_chart_version          = var.nginx_jwt_helm_chart_version
   }
-  file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-realm-cr.yaml", "keycloak-ingress.yaml"]
+  file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-realm-cr.yaml", "keycloak-ingress.yaml", "values-nginx-jwt.yaml"]
   template_path   = "${path.module}/generate-files/templates/keycloak"
   output_path     = "${var.output_dir}/keycloak"
   app_file        = "keycloak-app.yaml"
@@ -51,9 +53,26 @@ variable "keycloak_namespace" {
 }
 
 variable "keycloak_dfsp_realm_name" {
-  type = string
+  type        = string
   description = "name of realm for dfsp api access"
-  default = "dfsps"
+  default     = "dfsps"
+}
+
+variable "nginx_jwt_helm_chart_repo" {
+  type        = string
+  description = "nginx_jwt_helm_chart_repo"
+  default     = "https://ivanjosipovic.github.io/ingress-nginx-validate-jwt"
+}
+variable "nginx_jwt_helm_chart_version" {
+  type        = string
+  description = "nginx_jwt_helm_chart_version"
+  default     = "1.13.10"
+}
+
+variable "nginx_jwt_namespace" {
+  type        = string
+  description = "nginx_jwt_namespace"
+  default     = "nginx-jwt"
 }
 locals {
   keycloak_postgres_resource_index = index(local.stateful_resources.*.resource_name, "keycloak-db")
