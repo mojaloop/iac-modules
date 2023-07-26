@@ -154,7 +154,7 @@ spec:
     - id: 297fc96f-f814-4954-89e4-976edd4ae3e4
       clientId: account-console
       name: '$${client_account-console}'
-      rootUrl: '${authBaseUrl}'
+      rootUrl: '$${authBaseUrl}'
       baseUrl: /realms/${keycloak_dfsp_realm_name}/account/
       surrogateAuthRequired: false
       enabled: true
