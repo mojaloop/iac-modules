@@ -9,7 +9,6 @@ resources:
   - keycloak-ingress.yaml
 helmCharts:
 - name: ingress-nginx-validate-jwt
-  namespace: ${nginx_jwt_namespace}
   releaseName: ingress-nginx-validate-jwt
   version: ${nginx_jwt_helm_chart_version}
   repo: ${nginx_jwt_helm_chart_repo}

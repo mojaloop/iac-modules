@@ -16,7 +16,6 @@ module "generate_keycloak_files" {
     keycloak_sync_wave                    = var.keycloak_sync_wave
     ingress_class                         = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     keycloak_tls_secretname               = var.default_ssl_certificate
-    nginx_jwt_namespace                   = var.nginx_jwt_namespace
     nginx_jwt_helm_chart_repo             = var.nginx_jwt_helm_chart_repo
     nginx_jwt_helm_chart_version          = var.nginx_jwt_helm_chart_version
   }
@@ -69,11 +68,6 @@ variable "nginx_jwt_helm_chart_version" {
   default     = "1.13.10"
 }
 
-variable "nginx_jwt_namespace" {
-  type        = string
-  description = "nginx_jwt_namespace"
-  default     = "nginx-jwt"
-}
 locals {
   keycloak_postgres_resource_index = index(local.stateful_resources.*.resource_name, "keycloak-db")
 }
