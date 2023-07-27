@@ -19,7 +19,7 @@ module "generate_keycloak_files" {
     nginx_jwt_helm_chart_repo             = var.nginx_jwt_helm_chart_repo
     nginx_jwt_helm_chart_version          = var.nginx_jwt_helm_chart_version
   }
-  file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-realm-cr.yaml", "keycloak-ingress.yaml", "values-nginx-jwt.yaml", "values-secret.yaml"]
+  file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-realm-cr.yaml", "keycloak-ingress.yaml", "values-nginx-jwt.yaml", "vault-secret.yaml"]
   template_path   = "${path.module}/generate-files/templates/keycloak"
   output_path     = "${var.output_dir}/keycloak"
   app_file        = "keycloak-app.yaml"
