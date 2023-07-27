@@ -7,6 +7,7 @@ resources:
   - keycloak-cr.yaml
   - keycloak-realm-cr.yaml
   - keycloak-ingress.yaml
+  - vault-secret.yaml
 helmCharts:
 - name: ingress-nginx-validate-jwt
   releaseName: ingress-nginx-validate-jwt

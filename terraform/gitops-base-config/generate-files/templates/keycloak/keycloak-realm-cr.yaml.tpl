@@ -276,7 +276,7 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: '**********'
+      secret: '$${dfsps_realm_jwt_secret}'
       redirectUris:
       - /*
       webOrigins:

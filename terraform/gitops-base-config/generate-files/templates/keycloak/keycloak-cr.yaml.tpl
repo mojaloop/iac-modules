@@ -21,3 +21,13 @@ spec:
     tlsSecret: ${keycloak_tls_secretname}
   hostname:
     hostname: ${keycloak_fqdn}
+  unsupported:
+    podTemplate:
+      spec:
+        containers:
+          - env:
+            - name: dfsps_realm_jwt_secret
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-dfsps-realm-jwt-secret
+                  key: secret
