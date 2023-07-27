@@ -26,6 +26,8 @@ spec:
       spec:
         containers:
           - env:
+            - name: JAVA_OPTS_APPEND
+              value: "-Dkeycloak.migration.replace-placeholders=true"
             - name: dfsps_realm_jwt_secret
               valueFrom:
                 secretKeyRef:
