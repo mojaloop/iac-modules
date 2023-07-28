@@ -25,10 +25,10 @@ global:
 kubeVersion: ""
 ## @param nameOverride String to partially override common.names.fullname template (will maintain the release name)
 ##
-nameOverride: ""
+nameOverride: ${resource.resource_name}
 ## @param fullnameOverride String to fully override common.names.fullname template
 ##
-nameOverride: ${resource.resource_name}
+fullnameOverride: ""
 
 ## @param serviceBindings.enabled Create secret for service binding (Experimental)
 ## Ref: https://servicebinding.io/service-provider/

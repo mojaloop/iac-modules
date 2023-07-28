@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "-8"
+    argocd.argoproj.io/sync-wave: "${keycloak_sync_wave}"
   name: keycloak-app
   namespace: argocd
   finalizers:
@@ -23,10 +23,10 @@ spec:
       prune: true
       selfHeal: true
     retry:
-      limit: 5
+      limit: 10
       backoff:
         duration: 5s
-        maxDuration: 3m0s
+        maxDuration: 5m0s
         factor: 2
     syncOptions:
       - CreateNamespace=true

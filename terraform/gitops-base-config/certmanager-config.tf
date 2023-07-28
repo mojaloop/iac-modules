@@ -42,7 +42,7 @@ variable "cert_manager_namespace" {
 variable "cert_manager_issuer_sync_wave" {
   type        = string
   description = "cert_manager_issuer_sync_wave"
-  default     = "-7"
+  default     = "-9"
 }
 
 variable "letsencrypt_server" {
