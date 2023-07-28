@@ -22,10 +22,10 @@ spec:
       selfHeal: true
       allowEmpty: true
     retry:
-      limit: 5
+      limit: 10
       backoff:
         duration: 5s
-        maxDuration: 3m0s
+        maxDuration: 5m0s
         factor: 2
     syncOptions:
       - CreateNamespace=true

@@ -2,20 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${keycloak_sync_wave}"
-  name: keycloak-app
+    argocd.argoproj.io/sync-wave: "${nginx_jwt_sync_wave}"
+  name: nginx-jwt-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/keycloak
+    path: apps/nginx-jwt
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${keycloak_namespace}
+    namespace: ${nginx_jwt_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
