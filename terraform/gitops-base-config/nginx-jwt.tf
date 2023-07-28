@@ -7,6 +7,7 @@ module "generate_nginx_jwt_files" {
     nginx_jwt_sync_wave                    = var.nginx_jwt_sync_wave
     nginx_jwt_helm_chart_repo             = var.nginx_jwt_helm_chart_repo
     nginx_jwt_helm_chart_version          = var.nginx_jwt_helm_chart_version
+    nginx_jwt_namespace                   = var.nginx_jwt_namespace
   }
   file_list       = ["kustomization.yaml", "values-nginx-jwt.yaml"]
   template_path   = "${path.module}/generate-files/templates/nginx-jwt"
@@ -29,4 +30,9 @@ variable "nginx_jwt_helm_chart_version" {
   type        = string
   description = "nginx_jwt_helm_chart_version"
   default     = "1.13.10"
+}
+variable "nginx_jwt_namespace" {
+  type        = string
+  description = "nginx_jwt_namespace"
+  default     = "nginx-jwt"
 }
