@@ -8,6 +8,8 @@ module "generate_istio_files" {
     istio_chart_version                   = var.istio_chart_version
     gateway_api_version                   = var.gateway_api_version
     istio_create_external_ingress_gateway = var.istio_create_external_ingress_gateway
+    external_ingress_https_port           = var.external_ingress_https_port
+    external_ingress_http_port            = var.external_ingress_http_port
   }
   file_list       = ["kustomization.yaml", "namespace.yaml", "values-istio-base.yaml", "values-istio-istiod.yaml", "values-istio-external-ingress-gateway.yaml"]
   template_path   = "${path.module}/generate-files/templates/istio"

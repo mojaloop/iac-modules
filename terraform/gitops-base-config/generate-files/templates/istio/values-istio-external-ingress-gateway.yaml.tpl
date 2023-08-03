@@ -64,7 +64,7 @@ resources:
   limits:
     cpu: "2"
     memory: 1Gi
-
+#idisyncracy with istio gw chart
 autoscaling:
   enabled: true
   minReplicas: 1
