@@ -18,6 +18,11 @@ spec:
     namespace: ${istio_namespace}
     server: https://kubernetes.default.svc
   project: default
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions:
+        - .webhooks[]?.failurePolicy
   syncPolicy:
     automated:
       prune: true
@@ -32,3 +37,4 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
+      - RespectIgnoreDifferences=true
