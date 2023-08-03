@@ -9,6 +9,10 @@ module "generate_vault_pki_setup_files" {
     gitlab_project_url                    = var.gitlab_project_url
     cert_manager_cluster_issuer_role_name = var.cert_manager_cluster_issuer_role_name
     interop_switch_fqdn                   = local.interop_switch_fqdn
+    vault_root_ca_name                    = var.vault_root_ca_name
+    pki_server_cert_role                  = var.pki_server_cert_role
+    pki_client_cert_role                  = var.pki_client_cert_role
+    k8s_auth_path                         = var.k8s_auth_path
   }
   file_list       = ["certman-rbac.yaml", "vault-auth-config.yaml"]
   template_path   = "${path.module}/generate-files/templates/vault-pki-setup"
@@ -39,4 +43,24 @@ variable "cert_manager_cluster_issuer_role_name" {
   description = "cert_manager_cluster_issuer_role_name"
   type        = string
   default     = "cert-man-cluster-issuer-role"
+}
+
+variable "vault_root_ca_name" {
+  description = "root ca name for vault"
+  type        = string
+  default     = "pki-root-ca"
+}
+variable "pki_client_cert_role" {
+  description = "pki_client_cert_role"
+  default     = "client-cert-role"
+}
+
+variable "pki_server_cert_role" {
+  description = "pki_server_cert_role"
+  default     = "server-cert-role"
+}
+
+variable "k8s_auth_path" {
+  description = "k8s_auth_path"
+  default     = "kubernetes"
 }

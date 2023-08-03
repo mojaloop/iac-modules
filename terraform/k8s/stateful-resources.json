@@ -125,7 +125,7 @@
         }
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "mcm-db",
         "resource_namespace": "mcm-db",
         "resource_type": "mysql",
