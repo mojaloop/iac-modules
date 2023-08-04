@@ -102,12 +102,6 @@ variable "mcm_namespace" {
   default     = "mcm"
 }
 
-variable "whitelist_secret_name_prefix" {
-  type        = string
-  description = "vault secret prefix for dfsp whitelist entries"
-  default     = "secret/whitelist"
-}
-
 variable "onboarding_secret_name_prefix" {
   type        = string
   description = "vault secret prefix for dfsp onboarding entries"
