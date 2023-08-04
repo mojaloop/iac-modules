@@ -40,7 +40,7 @@ api:
     endpoint: ${vault_endpoint}
     mounts:
       pki: ${pki_path}
-      kv: ${mcm_kv_secret_path}
+      kv: ${mcm_secret_path}
       dfspClientCertBundle: ${dfsp_client_cert_bundle}
       dfspInternalIPWhitelistBundle: ${dfsp_internal_whitelist_secret}
       dfspExternalIPWhitelistBundle: ${dfsp_external_whitelist_secret}
