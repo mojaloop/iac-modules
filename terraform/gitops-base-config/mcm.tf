@@ -40,8 +40,9 @@ module "generate_mcm_files" {
     pki_server_role                = var.pki_server_cert_role
     mcm_vault_k8s_role_name        = var.mcm_vault_k8s_role_name
     k8s_auth_path                  = var.k8s_auth_path
-    mcm_kv_secret_path             = var.mcm_secret_path
+    mcm_secret_path                = var.mcm_secret_path
     totp_issuer                    = "not-used-yet"
+    token_issuer_fqdn              = "keycloak.${var.public_subdomain}"
   }
   file_list       = ["namespace.yaml", "values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml"]
   template_path   = "${path.module}/generate-files/templates/mcm"
