@@ -17,10 +17,9 @@ api:
   oauth:
     enabled: false
     issuer: https://${token_issuer_fqdn}/oauth2/token
-    keySecret: ${oauth_key_secret}
-    keySecretKey: ${oauth_key_secret_key}
-    secret: ${oauth_secret_secret}
-    secretKey: ${oauth_secret_secret_key}
+    key: ${oauth_key}
+    clientSecretSecret: ${oauth_secret_secret}
+    clientSecretSecretKey: ${oauth_secret_secret_key}
   auth2fa:
     enabled: false
   totp:

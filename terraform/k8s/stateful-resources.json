@@ -132,10 +132,16 @@
         "logical_service_port": 3306,
         "logical_service_name": "mcm-db-svc",
         "external_service": null,
-        "generate_secret_name": null,
-        "generate_secret_keys": null,
+        "generate_secret_name": "mcm-db-secret",
+        "generate_secret_keys": [
+            "mysql-password",
+            "mysql-root-password",
+            "mysql-replication-password"
+        ],
         "generate_secret_vault_base_path": "/secret/generated",
-        "generate_secret_extra_namespaces": [],
+        "generate_secret_extra_namespaces": [
+            "mcm"
+        ],
         "local_resource": {
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",

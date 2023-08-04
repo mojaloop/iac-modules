@@ -2,6 +2,7 @@ module "generate_mcm_files" {
   source = "./generate-files"
   var_map = {
     db_password_secret             = local.stateful_resources[local.mcm_resource_index].generate_secret_name
+    db_password_secret_key         = local.stateful_resources[local.mcm_resource_index].generate_secret_keys[0]
     db_user                        = var.stateful_resources[local.mcm_resource_index].local_resource.mysql_data.user
     db_schema                      = var.stateful_resources[local.mcm_resource_index].local_resource.mysql_data.database_name
     db_port                        = var.stateful_resources[local.mcm_resource_index].logical_service_port
@@ -14,6 +15,9 @@ module "generate_mcm_files" {
     storage_class_name             = var.storage_class_name
     server_cert_secret_name        = var.vault_certman_secretname
     server_cert_secret_namespace   = var.mcm_namespace
+    oauth_key                      = var.mcm_oidc_client_id
+    oauth_secret_secret            = var.mcm_oauth_secret_secret
+    oauth_secret_secret_key        = var.mcm_oauth_secret_secret_key
     switch_domain                  = var.public_subdomain
     vault_endpoint                 = "https://vault.${public_subdomain}"
     pki_base_domain                = var.public_subdomain
@@ -56,22 +60,22 @@ variable "enable_mcm_oidc" {
   default = false
 }
 
-variable "mcm_oidc_client_secret_secret_key" {
+variable "mcm_oauth_secret_secret" {
   type        = string
-  description = "mcm_oidc_client_secret_secret_key"
-  default     = "mcm_oauth_client_secret"
+  description = "mcm_oauth_secret_secret"
+  default     = "mcm-oidc-secret"
 }
 
-variable "mcm_oidc_client_id_secret_key" {
+variable "mcm_oauth_secret_secret_key" {
   type        = string
-  description = "mcm_oidc_client_id_secret_key"
-  default     = "mcm_oauth_client_id"
+  description = "mcm_oauth_secret_secret_key"
+  default     = "secret"
 }
 
-variable "mcm_oidc_secret" {
+variable "mcm_oidc_client_id" {
   type        = string
-  description = "mcm_oidc_secret"
-  default     = "mcm_oidc_secret"
+  description = "mcm_oidc_client_id"
+  default     = "mcm-portal"
 }
 
 variable "mcm_chart_repo" {
@@ -82,7 +86,7 @@ variable "mcm_chart_repo" {
 
 variable "mcm_chart_version" {
   type        = string
-  default     = "0.6.1"
+  default     = "0.6.2"
   description = "mcm_chart_version"
 }
 
