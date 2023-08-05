@@ -19,7 +19,7 @@ module "generate_mcm_files" {
     oauth_secret_secret            = var.mcm_oauth_secret_secret
     oauth_secret_secret_key        = var.mcm_oauth_secret_secret_key
     switch_domain                  = var.public_subdomain
-    vault_endpoint                 = "https://vault.${var.public_subdomain}"
+    vault_endpoint                 = "http://vault-active.${var.vault_namespace}.svc.cluster.local:8200"
     pki_base_domain                = var.public_subdomain
     mcm_chart_repo                 = var.mcm_chart_repo
     mcm_chart_version              = var.mcm_chart_version

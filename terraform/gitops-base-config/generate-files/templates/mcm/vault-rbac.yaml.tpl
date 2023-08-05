@@ -5,35 +5,27 @@ metadata:
   namespace: ${mcm_namespace}
 ---
 apiVersion: v1
-kind: ServiceAccount
+kind: Secret
 metadata:
-  name: vault-k8s
+  name: vault-auth-secret
   namespace: ${mcm_namespace}
+  annotations:
+    kubernetes.io/service-account.name: ${mcm_service_account_name}
+type: kubernetes.io/service-account-token
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRoleBinding
 metadata:
-  name: create-token
-  namespace: ${mcm_namespace}
-rules:
-  - apiGroups: ['']
-    resources: ['serviceaccounts/token']
-    resourceNames: ['vault-k8s']
-    verbs: ['create']
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: create-token
-  namespace: ${mcm_namespace}
-subjects:
-  - kind: ServiceAccount
-    name: ${mcm_service_account_name}
-    namespace: ${mcm_namespace}
+  name: role-tokenreview-binding
+  namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: create-token
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- kind: ServiceAccount
+  name: ${mcm_service_account_name}
+  namespace: ${mcm_namespace}
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: KubernetesAuthEngineRole
@@ -49,7 +41,6 @@ spec:
   policies:
     - mcm-policy
   targetServiceAccounts: 
-    - vault-k8s
     - ${mcm_service_account_name}
   targetNamespaces:
     targetNamespaces:
