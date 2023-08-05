@@ -44,7 +44,7 @@ module "generate_mcm_files" {
     totp_issuer                    = "not-used-yet"
     token_issuer_fqdn              = "keycloak.${var.public_subdomain}"
   }
-  file_list       = ["namespace.yaml", "values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml"]
+  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml"]
   template_path   = "${path.module}/generate-files/templates/mcm"
   output_path     = "${var.output_dir}/mcm"
   app_file        = "mcm-app.yaml"
