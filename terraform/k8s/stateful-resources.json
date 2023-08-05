@@ -152,7 +152,7 @@
             "pgsql_data": null,
             "mysql_data": {
                 "is_legacy": false,
-                "existing_secret": "",
+                "existing_secret": "mcm-db-secret",
                 "root_password": "",
                 "user": "devdat1asql1",
                 "user_password": "",

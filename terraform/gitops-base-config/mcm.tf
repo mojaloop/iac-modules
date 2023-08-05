@@ -6,7 +6,7 @@ module "generate_mcm_files" {
     db_user                        = local.stateful_resources[local.mcm_resource_index].local_resource.mysql_data.user
     db_schema                      = local.stateful_resources[local.mcm_resource_index].local_resource.mysql_data.database_name
     db_port                        = local.stateful_resources[local.mcm_resource_index].logical_service_port
-    db_host                        = "${local.stateful_resources[local.mcm_resource_index].logical_service_name}.stateful-services.svc.cluster.local"
+    db_host                        = "${local.stateful_resources[local.mcm_resource_index].logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     mcm_public_fqdn                = "mcm.${var.public_subdomain}"
     env_name                       = var.cluster_name
     env_cn                         = var.public_subdomain

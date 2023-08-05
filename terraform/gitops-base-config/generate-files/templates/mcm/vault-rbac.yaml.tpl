@@ -1,6 +1,12 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
+  name: ${mcm_service_account_name}
+  namespace: ${mcm_namespace}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
   name: vault-k8s
   namespace: ${mcm_namespace}
 ---
@@ -43,7 +49,8 @@ spec:
   policies:
     - mcm-policy
   targetServiceAccounts: 
-    - vault-k8s  
+    - vault-k8s
+    - ${mcm_service_account_name}
   targetNamespaces:
     targetNamespaces:
       - ${mcm_namespace}
