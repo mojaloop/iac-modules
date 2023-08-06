@@ -43,6 +43,8 @@ module "generate_mcm_files" {
     mcm_secret_path                = var.mcm_secret_path
     totp_issuer                    = "not-used-yet"
     token_issuer_fqdn              = "keycloak.${var.public_subdomain}"
+    istio_namespace                = var.istio_namespace
+    nginx_external_namespace       = var.nginx_external_namespace
   }
   file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-agent.yaml", "configmaps/vault-agent-configmap.yaml"]
   template_path   = "${path.module}/generate-files/templates/mcm"
