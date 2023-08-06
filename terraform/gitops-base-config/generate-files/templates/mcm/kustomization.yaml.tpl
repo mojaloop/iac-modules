@@ -4,9 +4,12 @@ resources:
   - vault-rbac.yaml
   - vault-agent.yaml
 configMapGenerator:
-- name: vault-agent
-  files:
-  - configmaps/vault-agent-configmap.yaml
+  - name: vault-agent
+    files:
+      - config.hcl=configmaps/vault-config-configmap.hcl
+      - config-init.hcl=configmaps/vault-config-init-configmap.hcl
+generatorOptions:
+  disableNameSuffixHash: true
 helmCharts:
 - name: connection-manager
   releaseName: mcm

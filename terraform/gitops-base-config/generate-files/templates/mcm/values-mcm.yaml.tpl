@@ -69,7 +69,7 @@ api:
       }
 ui:
   oauth:
-    enabled: true
+    enabled: false
 
 ingress:
   enabled: true
