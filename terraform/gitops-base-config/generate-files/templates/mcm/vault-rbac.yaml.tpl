@@ -37,7 +37,8 @@ spec:
     role: policy-admin
     serviceAccount:
       name: default
-  path: ${k8s_auth_path}  
+  path: ${k8s_auth_path}
+  tokenTTL: 3600
   policies:
     - mcm-policy
   targetServiceAccounts: 
