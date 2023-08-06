@@ -21,7 +21,7 @@ module "generate_ingress_files" {
     internal_load_balancer_dns          = var.internal_load_balancer_dns
     external_nginx_service_account_name = var.external_nginx_service_account_name
   }
-  file_list = ["charts/nginx-external/Chart.yaml", "charts/nginx-external/values.yaml", "ingress-external-rbac.yaml",
+  file_list = ["charts/nginx-external/Chart.yaml", "charts/nginx-external/values.yaml",
     "charts/nginx-internal/Chart.yaml", "charts/nginx-internal/values.yaml",
   "ingress-external.yaml", "ingress-internal.yaml", "lets-wildcard-cert.yaml"]
   template_path   = "${path.module}/generate-files/templates/ingress"

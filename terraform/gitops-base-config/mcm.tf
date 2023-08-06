@@ -44,7 +44,7 @@ module "generate_mcm_files" {
     totp_issuer                    = "not-used-yet"
     token_issuer_fqdn              = "keycloak.${var.public_subdomain}"
   }
-  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml"]
+  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-agent.yaml", "configmaps/vault-agent-configmap.yaml"]
   template_path   = "${path.module}/generate-files/templates/mcm"
   output_path     = "${var.output_dir}/mcm"
   app_file        = "mcm-app.yaml"
@@ -87,7 +87,7 @@ variable "mcm_chart_repo" {
 
 variable "mcm_chart_version" {
   type        = string
-  default     = "0.6.4"
+  default     = "0.6.5"
   description = "mcm_chart_version"
 }
 

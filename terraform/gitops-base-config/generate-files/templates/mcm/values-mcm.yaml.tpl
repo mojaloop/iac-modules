@@ -52,6 +52,11 @@ api:
     serviceAccountNameOverride: ${mcm_service_account_name}
   rbac:
     enabled: false
+  annotations:
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/log-level: "debug"
+    vault.hashicorp.com/agent-image: ghcr.io/mojaloop/vault-agent-util:0.0.1
+    vault.hashicorp.com/agent-configmap: "vault-agent"
   config:
     caCSRParametersData: |-
       {
