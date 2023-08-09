@@ -12,6 +12,7 @@ module "vpc" {
   azs             = local.azs
   public_subnets  = local.public_subnet_cidrs
   private_subnets = local.private_subnet_cidrs
+  #database_subnets = local.private_subnet_cidrs
 
   create_database_subnet_group = false
 
@@ -82,5 +83,72 @@ resource "aws_security_group_rule" "bastion_egress_all" {
   security_group_id = aws_security_group.bastion.id
 }
 
+## Database modules
+resource "random_string" "this" {
+  for_each = local.databases
+  length  = 40 - length(each.value["db_name"]) + length(each.value["db_name"])  
+  lower   = true
+  numeric  = true
+  special = false
+  upper   = true 
+}
+
+resource "aws_ssm_parameter" "this" {
+  for_each = local.databases
+  name        = "/password/database/${each.value["db_name"]}"
+  description = "${each.value["db_name"]} password"
+  type        = "SecureString"
+  value       = random_string.this[each.key].result
 
 
+}
+
+module "db" {
+  depends_on = [ aws_ssm_parameter.this ]
+  for_each = local.databases
+  source = "terraform-aws-modules/rds/aws"
+
+  identifier = each.value["db_name"]
+
+  engine            = each.value["engine"]
+  engine_version    = each.value["engine_version"]
+  instance_class    = each.value["instance_class"]
+  allocated_storage = each.value["allocated_storage"]
+  storage_encrypted = each.value["storage_encrypted"]
+  skip_final_snapshot = each.value["skip_final_snapshot"]
+
+  db_name  = each.value["db_name"]
+  password = random_string.this[each.key].result
+  username = each.value["username"]
+  port     = each.value["port"]
+
+  vpc_security_group_ids = [module.vpc.default_security_group_id]
+
+  maintenance_window = each.value["maintenance_window"]
+  backup_window      = each.value["backup_window"]
+
+  # Enhanced Monitoring - see example for details on how to create the role
+  # by yourself, in case you don't want to create it automatically
+  monitoring_interval    = each.value["monitoring_interval"]
+  monitoring_role_name   = "${each.value["db_name"]}-RDSMonitoringRole"
+  create_monitoring_role = true
+
+  tags = each.value["tags"]
+
+  # DB subnet group
+  create_db_subnet_group = true
+  subnet_ids             = module.vpc.private_subnets
+
+  # DB parameter group
+  family = each.value["family"]
+
+  # DB option group
+  major_engine_version = each.value["major_engine_version"]
+
+  # Database Deletion Protection
+  deletion_protection = each.value["deletion_protection"]
+
+  parameters = each.value["parameters"]
+
+  options = each.value["options"]
+}

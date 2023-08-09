@@ -56,6 +56,44 @@ variable "storage_encrypted" {
   default     = false
 }
 
+variable "databases" {
+  description = "Specifies database parameters"
+
+  type =  map(object({
+    db_name = string
+    engine = string
+    engine_version = string
+    instance_class = string
+    allocated_storage = number
+    storage_encrypted = bool
+    skip_final_snapshot = bool
+    username = string
+    port = string
+    maintenance_window = string
+    backup_window = string
+    monitoring_interval = string
+    family = string
+    major_engine_version = string
+    deletion_protection = bool
+    parameters = list(object({
+      name = string
+      value = string
+    }))
+    options = list(object({
+      option_name = string
+      option_settings = list(object({
+        name = string
+        value = string
+      })) 
+    }))
+
+    tags = map(string)
+    
+  }))
+
+  default = {}
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###
@@ -68,4 +106,5 @@ locals {
   private_subnets_list = [for az in local.azs : "private-${az}"]
   public_subnet_cidrs  = [for subnet_name in local.public_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
   private_subnet_cidrs = [for subnet_name in local.private_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
+  databases = var.databases
 }

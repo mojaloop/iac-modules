@@ -24,9 +24,12 @@ output "public_subnets_cidr_blocks" {
   value = module.vpc.public_subnets_cidr_blocks
 }
 
-/*
-output "netmaker_public_ip" {
-  description = "Netmaker Instance Hostname"
-  value       = var.enable_netmaker ? aws_instance.netmaker[0].public_ip : null
+output "database_subnet_group" {
+  value = module.vpc.database_subnet_group
 }
-*/
+
+output "database_endpoints" {
+  value = [
+    for x in module.db : x.db_instance_endpoint
+  ]
+}
