@@ -33,7 +33,7 @@ module "subnet_addrs" {
   networks = [
     for subnet in concat(local.private_subnets_list, local.public_subnets_list) : {
       name     = subnet
-      new_bits = local.azs == 1 ? var.block_size : 3  
+      new_bits = local.azs == 1 ? var.block_size : 3
     }
   ]
 
@@ -76,15 +76,15 @@ resource "aws_security_group_rule" "mgmt-svcs_egress_all" {
 ## Database modules
 resource "random_string" "this" {
   for_each = local.databases
-  length  = 40 - length(each.value["db_name"]) + length(each.value["db_name"])  
-  lower   = true
+  length   = 40 - length(each.value["db_name"]) + length(each.value["db_name"])
+  lower    = true
   numeric  = true
-  special = false
-  upper   = true 
+  special  = false
+  upper    = true
 }
 
 resource "aws_ssm_parameter" "this" {
-  for_each = local.databases
+  for_each    = local.databases
   name        = "/password/database/${each.value["db_name"]}"
   description = "${each.value["db_name"]} password"
   type        = "SecureString"
@@ -94,17 +94,18 @@ resource "aws_ssm_parameter" "this" {
 }
 
 module "db" {
-  depends_on = [ aws_ssm_parameter.this ]
-  for_each = local.databases
-  source = "terraform-aws-modules/rds/aws"
+  depends_on = [aws_ssm_parameter.this]
+  for_each   = local.databases
+  source     = "terraform-aws-modules/rds/aws"
 
   identifier = each.value["db_name"]
 
-  engine            = each.value["engine"]
-  engine_version    = each.value["engine_version"]
-  instance_class    = each.value["instance_class"]
-  allocated_storage = each.value["allocated_storage"]
-  storage_encrypted = each.value["storage_encrypted"]
+  engine              = each.value["engine"]
+  engine_version      = each.value["engine_version"]
+  instance_class      = each.value["instance_class"]
+  allocated_storage   = each.value["allocated_storage"]
+  storage_encrypted   = each.value["storage_encrypted"]
+  multi_az            = each.value["multi_az"]
   skip_final_snapshot = each.value["skip_final_snapshot"]
 
   db_name  = each.value["db_name"]

@@ -41,6 +41,7 @@
           ],
           "port": "3306",
           "skip_final_snapshot": true,
+          "multi_az": false,
           "storage_encrypted": false,
           "tags": [
             {}
@@ -88,6 +89,7 @@
           ],
           "port": "3306",
           "skip_final_snapshot": true,
+          "multi_az": false,
           "storage_encrypted": false,
           "tags": [
             {}
