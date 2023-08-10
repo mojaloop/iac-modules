@@ -39,10 +39,10 @@ module "subnet_addrs" {
 
 }
 
-resource "aws_security_group" "bastion" {
-  name   = "${local.support_service_name}-bastion"
+resource "aws_security_group" "mgmt-svcs" {
+  name   = "${local.support_service_name}-mgmt-svcs"
   vpc_id = module.vpc.vpc_id
-  tags   = merge({ Name = "${local.support_service_name}-bastion" }, local.common_tags)
+  tags   = merge({ Name = "${local.support_service_name}-mgmt-svcs" }, local.common_tags)
 }
 
 resource "aws_security_group_rule" "mysql" {
@@ -51,36 +51,26 @@ resource "aws_security_group_rule" "mysql" {
   to_port           = 22
   protocol          = "TCP"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.bastion.id
+  security_group_id = aws_security_group.mgmt-svcs.id
 }
 
-resource "aws_security_group_rule" "bastion_wireguard" {
-  type              = "ingress"
-  from_port         = 51820
-  to_port           = 51825
-  protocol          = "udp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.bastion.id
-  description       = "wireguard client access"
-}
-
-resource "aws_security_group_rule" "bastion_mysql" {
+resource "aws_security_group_rule" "mgmt-svcs_mysql" {
   type              = "ingress"
   from_port         = 3306
   to_port           = 3306
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.bastion.id
+  security_group_id = aws_security_group.mgmt-svcs.id
   description       = "mysql client access"
 }
 
-resource "aws_security_group_rule" "bastion_egress_all" {
+resource "aws_security_group_rule" "mgmt-svcs_egress_all" {
   type              = "egress"
   from_port         = 0
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.bastion.id
+  security_group_id = aws_security_group.mgmt-svcs.id
 }
 
 ## Database modules
