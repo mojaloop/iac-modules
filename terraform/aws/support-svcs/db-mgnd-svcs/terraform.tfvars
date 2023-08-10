@@ -6,6 +6,7 @@ databases = {
       instance_class = "db.t2.micro"
       allocated_storage = 5
       storage_encrypted = false
+      multi_az = false
       skip_final_snapshot = true
       username = "userdb"
       port = "3306"

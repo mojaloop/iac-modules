@@ -105,6 +105,7 @@ module "db" {
   instance_class    = each.value["instance_class"]
   allocated_storage = each.value["allocated_storage"]
   storage_encrypted = each.value["storage_encrypted"]
+  multi_az = each.value["multi_az"]
   skip_final_snapshot = each.value["skip_final_snapshot"]
 
   db_name  = each.value["db_name"]

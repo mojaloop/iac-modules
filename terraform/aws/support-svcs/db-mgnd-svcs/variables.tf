@@ -66,6 +66,7 @@ variable "databases" {
     instance_class = string
     allocated_storage = number
     storage_encrypted = bool
+    multi_az = bool
     skip_final_snapshot = bool
     username = string
     port = string
