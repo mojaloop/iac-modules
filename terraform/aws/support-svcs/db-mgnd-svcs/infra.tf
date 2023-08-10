@@ -45,7 +45,7 @@ resource "aws_security_group" "mgmt-svcs" {
   tags   = merge({ Name = "${local.support_service_name}-mgmt-svcs" }, local.common_tags)
 }
 
-resource "aws_security_group_rule" "mysql" {
+resource "aws_security_group_rule" "ssh" {
   type              = "ingress"
   from_port         = 22
   to_port           = 22

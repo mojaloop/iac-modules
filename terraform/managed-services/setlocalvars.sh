@@ -1,0 +1,17 @@
+export GITLAB_CURRENT_PROJECT_ID=3
+export GITLAB_PROVIDER_TOKEN=$TF_HTTP_PASSWORD
+export GITLAB_PROVIDER_URL=https://gitlab.${domain}
+export TF_CONTROL_STATE_TOKEN=$TF_HTTP_PASSWORD
+export TF_CONTROL_STATE_USER=$TF_HTTP_USERNAME
+export TF_CONTROL_STATE_ADDRESS=$TF_STATE_BASE_ADDRESS/control-center-deploy
+export CLUSTER_NAME=dev
+export CLUSTER_DOMAIN=${cluster_domain}
+export GITLAB_PROJECT_URL=https://gitlab.${domain}/iac/dev
+export GITLAB_SERVER_URL=gitlab.${domain}
+export K8S_CLUSTER_TYPE=k3s
+export CLOUD_PLATFORM=aws
+export CLOUD_REGION=eu-west-1
+export IAC_TERRAFORM_MODULES_TAG=v0.3.1
+export GITLAB_TOKEN=$TF_HTTP_PASSWORD
+export GITLAB_USERNAME=$TF_HTTP_USERNAME
+export LETSENCRYPT_EMAIL=test@example.comm

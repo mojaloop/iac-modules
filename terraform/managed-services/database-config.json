@@ -1,0 +1,100 @@
+{
+  "databases": [
+    {
+      "accountlookup": [
+        {
+          "allocated_storage": 5,
+          "backup_window": "01:00-04:00",
+          "db_name": "accountlookup",
+          "deletion_protection": false,
+          "engine": "mysql",
+          "engine_version": "5.7",
+          "family": "mysql5.7",
+          "instance_class": "db.t2.micro",
+          "maintenance_window": "Sun:04:00-Sun:06:00",
+          "major_engine_version": "5.7",
+          "monitoring_interval": "30",
+          "options": [
+            {
+              "option_name": "MARIADB_AUDIT_PLUGIN",
+              "option_settings": [
+                {
+                  "name": "SERVER_AUDIT_EVENTS",
+                  "value": "CONNECT"
+                },
+                {
+                  "name": "SERVER_AUDIT_FILE_ROTATIONS",
+                  "value": "37"
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "name": "character_set_client",
+              "value": "utf8mb4"
+            },
+            {
+              "name": "character_set_server",
+              "value": "utf8mb4"
+            }
+          ],
+          "port": "3306",
+          "skip_final_snapshot": true,
+          "storage_encrypted": false,
+          "tags": [
+            {}
+          ],
+          "username": "userdb"
+        }
+      ],
+      "centralledger": [
+        {
+          "allocated_storage": 5,
+          "backup_window": "01:00-04:00",
+          "db_name": "centralledger",
+          "deletion_protection": false,
+          "engine": "mysql",
+          "engine_version": "5.7",
+          "family": "mysql5.7",
+          "instance_class": "db.t2.micro",
+          "maintenance_window": "Sun:04:00-Sun:06:00",
+          "major_engine_version": "5.7",
+          "monitoring_interval": "30",
+          "options": [
+            {
+              "option_name": "MARIADB_AUDIT_PLUGIN",
+              "option_settings": [
+                {
+                  "name": "SERVER_AUDIT_EVENTS",
+                  "value": "CONNECT"
+                },
+                {
+                  "name": "SERVER_AUDIT_FILE_ROTATIONS",
+                  "value": "37"
+                }
+              ]
+            }
+          ],
+          "parameters": [
+            {
+              "name": "character_set_client",
+              "value": "utf8mb4"
+            },
+            {
+              "name": "character_set_server",
+              "value": "utf8mb4"
+            }
+          ],
+          "port": "3306",
+          "skip_final_snapshot": true,
+          "storage_encrypted": false,
+          "tags": [
+            {}
+          ],
+          "username": "userdb"
+        }
+      ]
+    }
+  ]
+}
