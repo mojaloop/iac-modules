@@ -13,7 +13,7 @@ inputs = {
   support_service_name = local.CLUSTER_NAME
   storage_encrypted    = true
   mysql_enabled        = true
-  database_config_file = find_in_parent_folders("database-config.json")
+  database_config_file = find_in_parent_folders("stateful-resources.json")
 }
 
 locals {
@@ -33,6 +33,7 @@ locals {
   GITLAB_USERNAME           = get_env("GITLAB_USERNAME")
   K8S_CLUSTER_TYPE          = get_env("K8S_CLUSTER_TYPE")
   CLOUD_REGION              = get_env("CLOUD_REGION")
+  aws_provider_version      = ">= 5.0.0"
 }
 
 generate "required_providers_override" {
@@ -45,7 +46,7 @@ terraform {
   
   required_providers {
     %{if get_env("CLOUD_PLATFORM") == "aws"}
-    aws   = "${local.cloud_platform_vars.aws_provider_version}"
+    aws   = "${local.aws_provider_version}"
     %{endif}
   }
 }
