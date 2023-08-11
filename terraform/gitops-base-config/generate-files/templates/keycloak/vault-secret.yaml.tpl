@@ -1,7 +1,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PasswordPolicy
 metadata:
-  name: "jwt-secret"
+  name: "keycloak-client-secret"
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -42,7 +42,7 @@ spec:
   path: /secret/keycloak/
   secretKey: secret
   secretFormat:
-    passwordPolicyName: "jwt-secret"
+    passwordPolicyName: "keycloak-client-secret"
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
@@ -64,4 +64,49 @@ spec:
     name: keycloak-dfsps-realm-jwt-secret
     stringData:
       secret: '{{ .keycloakjwtsecret.secret }}'
+    type: Opaque
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: RandomSecret
+metadata:
+  name: ${mcm_oidc_client_secret_secret}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+spec:
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+    serviceAccount:
+      name: default
+  isKVSecretsEngineV2: false
+  path: /secret/mcm/
+  secretKey: secret
+  secretFormat:
+    passwordPolicyName: "keycloak-client-secret"
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: ${mcm_oidc_client_secret_secret}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication: 
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: keycloakmcmsecret
+      path: /secret/mcm/${mcm_oidc_client_secret_secret}
+  output:
+    name: ${mcm_oidc_client_secret_secret}
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "${mcm_namespace}"  # Control destination namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "${mcm_namespace}" # Control auto-reflection namespaces
+    stringData:
+      secret: '{{ .keycloakmcmsecret.${mcm_oidc_client_secret_secret_key} }}'
     type: Opaque
