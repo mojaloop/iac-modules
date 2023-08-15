@@ -230,6 +230,8 @@
             }
         },
         "external_resource_config": {
+            "password_key_name": "account-lookup-password",
+            "endpoint_key_name": "account-lookup-endpoint",
             "allocated_storage": 5,
             "backup_window": "01:00-04:00",
             "db_name": "account_lookup",
@@ -270,9 +272,7 @@
             "skip_final_snapshot": true,
             "multi_az": false,
             "storage_encrypted": false,
-            "tags": [
-                {}
-            ],
+            "tags": {},
             "username": "account_lookup"
         }
     },
@@ -324,6 +324,8 @@
             }
         },
         "external_resource_config": {
+            "password_key_name": "central-ledger-password",
+            "endpoint_key_name": "central-ledger-endpoint",
             "allocated_storage": 5,
             "backup_window": "01:00-04:00",
             "db_name": "central_ledger",
@@ -364,9 +366,7 @@
             "skip_final_snapshot": true,
             "multi_az": false,
             "storage_encrypted": false,
-            "tags": [
-              {}
-            ],
+            "tags":{},
             "username": "central_ledger"
         }
     },

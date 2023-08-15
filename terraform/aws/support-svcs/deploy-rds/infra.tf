@@ -6,7 +6,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.1.1"
 
-  name = local.support_service_name
+  name = var.deployment_name
   cidr = var.vpc_cidr
 
   azs             = local.azs
@@ -40,9 +40,9 @@ module "subnet_addrs" {
 }
 
 resource "aws_security_group" "mgmt-svcs" {
-  name   = "${local.support_service_name}-mgmt-svcs"
+  name   = "${var.deployment_name}-mgmt-svcs"
   vpc_id = module.vpc.vpc_id
-  tags   = merge({ Name = "${local.support_service_name}-mgmt-svcs" }, local.common_tags)
+  tags   = merge({ Name = "${var.deployment_name}-mgmt-svcs" }, local.common_tags)
 }
 
 resource "aws_security_group_rule" "ssh" {
@@ -80,7 +80,7 @@ resource "aws_kms_key" "managed_db_key" {
 }
 
 module "rds" {
-  for_each   = local.rds_services
+  for_each   = var.rds_services
   source     = "terraform-aws-modules/rds/aws"
 
   identifier = each.key

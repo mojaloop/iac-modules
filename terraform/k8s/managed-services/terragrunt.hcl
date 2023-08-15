@@ -9,9 +9,9 @@ include "root" {
 
 
 inputs = {
-  tags                 = local.tags
-  support_service_name = local.CLUSTER_NAME
-  database_config_file = find_in_parent_folders("stateful-resources.json")
+  tags                         = local.tags
+  deployment_name              = local.CLUSTER_NAME
+  managed_services_config_file = find_in_parent_folders("stateful-resources.json")
 }
 
 locals {
