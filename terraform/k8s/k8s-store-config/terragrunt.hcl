@@ -18,6 +18,7 @@ dependency "managed_services" {
   mock_outputs = {
     properties_var_map = {}
     secrets_var_map    = {}
+    secrets_key_map    = {}
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
