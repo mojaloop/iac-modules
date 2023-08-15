@@ -31,6 +31,7 @@ variables:
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
   GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
   VAULT_ADDR: $VAULT_SERVER_URL
+  MANAGED_SVC_CLOUD_PLATFORM: aws
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
@@ -152,8 +153,6 @@ deploy-managed-srvcs:
   id_tokens:
     VAULT_ID_TOKEN:
       aud: $VAULT_SERVER_URL
-  variables:
-    MANAGED_SVC_CLOUD_PLATFORM: AWS
   script:
     - !reference [.source, script]
     - cd managed-services
