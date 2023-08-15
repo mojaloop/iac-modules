@@ -28,8 +28,17 @@ output "database_subnet_group" {
   value = module.vpc.database_subnet_group
 }
 
-output "database_endpoints" {
-  value = [
-    for x in module.db : x.db_instance_endpoint
-  ]
+output "secrets_var_map" {
+  sensitive = true
+  value = {
+    for index, rds_module in module.rds : 
+      "${local.rds_services[index].resource_name}-password" => data.aws_secretsmanager_secret_version.rds_passwords[index].secret_string
+  }
+}
+
+output "properties_var_map" {
+  value = {
+    for index, rds_module in module.rds : 
+      "${local.rds_services[index].resource_name}-endpoint" => rds_module.db_instance_endpoint
+  }
 }

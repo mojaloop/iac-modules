@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/${get_env("CLOUD_PLATFORM")}/support-svcs/db-mgnd-svcs?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/${get_env("MANAGED_SVC_CLOUD_PLATFORM")}/support-svcs/deploy-managed-svcs?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
 }
 
 
@@ -11,17 +11,12 @@ include "root" {
 inputs = {
   tags                 = local.tags
   support_service_name = local.CLUSTER_NAME
-  storage_encrypted    = true
-  mysql_enabled        = true
   database_config_file = find_in_parent_folders("stateful-resources.json")
 }
 
 locals {
   env_vars = yamldecode(
     file("${find_in_parent_folders("environment.yaml")}")
-  )
-  cloud_platform_vars = yamldecode(
-    file("${find_in_parent_folders("${get_env("CLOUD_PLATFORM")}-vars.yaml")}")
   )
   tags                      = local.env_vars.tags
   CLUSTER_NAME              = get_env("CLUSTER_NAME")
@@ -45,12 +40,12 @@ generate "required_providers_override" {
 terraform { 
   
   required_providers {
-    %{if get_env("CLOUD_PLATFORM") == "aws"}
+    %{if get_env("MANAGED_SVC_CLOUD_PLATFORM") == "aws"}
     aws   = "${local.aws_provider_version}"
     %{endif}
   }
 }
-%{if get_env("CLOUD_PLATFORM") == "aws"}
+%{if get_env("MANAGED_SVC_CLOUD_PLATFORM") == "aws"}
 provider "aws" {
   region = "${local.CLOUD_REGION}"
 }

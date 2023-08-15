@@ -40,7 +40,7 @@ variable "storage_encrypted" {
   default     = false
 }
 
-variable "database_config_file" {
+variable "managed_services_config_file" {
   description = "location of json config file for databases to create"
 }
 
@@ -48,7 +48,7 @@ variable "database_config_file" {
 # Local copies of variables to allow for parsing
 ###
 locals {
-  support_service_name = "${var.support_service_name}-orcr"
+  support_service_name = var.support_service_name
   identifying_tags = { vpc = local.support_service_name}
   common_tags = merge(local.identifying_tags, var.tags)
   azs = slice(data.aws_availability_zones.available.names, 0, var.az_count)
@@ -56,5 +56,6 @@ locals {
   private_subnets_list = [for az in local.azs : "private-${az}"]
   public_subnet_cidrs  = [for subnet_name in local.public_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
   private_subnet_cidrs = [for subnet_name in local.private_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
-  databases = jsondecode(file(var.database_config_file))
+  managed_services = jsondecode(file(var.managed_services_config_file))
+  rds_services = { for managed_service in local.managed_services : managed_service.resource_name => managed_service if managed_service.external_service && managed_service.resource_type == "mysql"}
 }
