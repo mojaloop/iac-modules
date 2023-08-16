@@ -7,7 +7,8 @@
         "logical_service_config": {
             "logical_service_port": 6379,
             "logical_service_name": "thirdparty-auth-redis",
-            "database_name": null
+            "database_name": null,
+            "secret_extra_namespaces": null
         },
         "local_resource_config": {
             "resource_namespace": "thirdparty-db",
@@ -186,7 +187,7 @@
         "enabled": true,
         "resource_name": "account-lookup-db",
         "resource_type": "mysql",
-        "external_service": false,
+        "external_service": true,
         "logical_service_config": {
             "logical_service_port": 3306,
             "logical_service_name": "account-lookup-db-svc",
@@ -230,8 +231,8 @@
             }
         },
         "external_resource_config": {
-            "password_key_name": "account-lookup-password",
-            "endpoint_key_name": "account-lookup-endpoint",
+            "password_key_name": "account_lookup_password",
+            "endpoint_key_name": "account_lookup_endpoint",
             "allocated_storage": 5,
             "backup_window": "01:00-04:00",
             "db_name": "account_lookup",
@@ -272,7 +273,12 @@
             "skip_final_snapshot": true,
             "multi_az": false,
             "storage_encrypted": false,
-            "tags": {},
+            "tags": {
+                "Origin": "Terraform",
+                "mojaloop/cost_center": "mlf-iac-sandbox",
+                "mojaloop/env": "ft-sbox-rw",
+                "mojaloop/owner": "Samuel-Kummary"
+            },
             "username": "account_lookup"
         }
     },
@@ -280,7 +286,7 @@
         "enabled": true,
         "resource_name": "central-ledger-db",
         "resource_type": "mysql",
-        "external_service": false,
+        "external_service": true,
         "logical_service_config": {
             "logical_service_port": 3306,
             "logical_service_name": "central-ledger-db-svc",
@@ -324,8 +330,8 @@
             }
         },
         "external_resource_config": {
-            "password_key_name": "central-ledger-password",
-            "endpoint_key_name": "central-ledger-endpoint",
+            "password_key_name": "central_ledger_password",
+            "endpoint_key_name": "central_ledger_endpoint",
             "allocated_storage": 5,
             "backup_window": "01:00-04:00",
             "db_name": "central_ledger",
@@ -366,7 +372,12 @@
             "skip_final_snapshot": true,
             "multi_az": false,
             "storage_encrypted": false,
-            "tags":{},
+            "tags":{
+                "Origin": "Terraform",
+                "mojaloop/cost_center": "mlf-iac-sandbox",
+                "mojaloop/env": "ft-sbox-rw",
+                "mojaloop/owner": "Samuel-Kummary"
+            },
             "username": "central_ledger"
         }
     },
@@ -507,7 +518,8 @@
         "logical_service_config": {
             "logical_service_port": 9092,
             "logical_service_name": "mojaloop-kafka-svc",
-            "database_name": null
+            "database_name": null,
+            "secret_extra_namespaces": null
         },
         "local_resource_config": {
             "resource_namespace": "mojaloop",
@@ -579,7 +591,8 @@
         "logical_service_config": {
             "logical_service_port": 6379,
             "logical_service_name": "ttk-redis",
-            "database_name": null
+            "database_name": null,
+            "secret_extra_namespaces": null
         },
         "local_resource_config": {
             "resource_namespace": "mojaloop",
