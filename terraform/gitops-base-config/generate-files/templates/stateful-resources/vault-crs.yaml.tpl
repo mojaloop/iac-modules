@@ -76,7 +76,7 @@ spec:
   output:
     name: ${resource.local_resource_config.generate_secret_name}
     stringData:
-%{ for key in resource.generate_secret_keys ~}
+%{ for key in resource.local_resource_config.generate_secret_keys ~}
       ${key}: '{{ .dynamicsecret_${replace(key, "-", "_")}.password }}'
 %{ endfor ~}
     type: Opaque
