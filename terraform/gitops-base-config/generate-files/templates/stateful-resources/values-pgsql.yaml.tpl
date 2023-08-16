@@ -16,7 +16,7 @@ global:
   imagePullSecrets: []
   ## @param global.storageClass Global StorageClass for Persistent Volume(s)
   ##
-  storageClass: ${resource.local_resource.pgsql_data.storage_class_name}
+  storageClass: ${resource.local_resource_config.pgsql_data.storage_class_name}
 
   postgresql:
     ## @param global.postgresql.auth.postgresPassword Password for the "postgres" admin user (overrides `auth.postgresPassword`)
@@ -29,11 +29,11 @@ global:
     ## @param global.postgresql.auth.secretKeys.replicationPasswordKey Name of key in existing secret to use for PostgreSQL credentials (overrides `auth.secretKeys.replicationPasswordKey`). Only used when `global.postgresql.auth.existingSecret` is set.
     ##
     auth:
-      postgresPassword: "${resource.local_resource.pgsql_data.root_password}"
-      username: ${resource.local_resource.pgsql_data.user}
-      password: "${resource.local_resource.pgsql_data.user_password}"
-      database: ${resource.local_resource.pgsql_data.database_name}
-      existingSecret: "${resource.local_resource.pgsql_data.existing_secret}"
+      postgresPassword: "${resource.local_resource_config.pgsql_data.root_password}"
+      username: ${resource.local_resource_config.pgsql_data.user}
+      password: "${resource.local_resource_config.pgsql_data.user_password}"
+      database: ${resource.local_resource_config.pgsql_data.database_name}
+      existingSecret: "${resource.local_resource_config.pgsql_data.existing_secret}"
       secretKeys:
         adminPasswordKey: postgres-password
         userPasswordKey: password
@@ -42,7 +42,7 @@ global:
     ##
     service:
       ports:
-        postgresql: ${resource.local_resource.pgsql_data.service_port}
+        postgresql: ${resource.local_resource_config.pgsql_data.service_port}
 
 ## @section Common parameters
 ##
@@ -142,7 +142,7 @@ auth:
   replicationUsername: repl_user
   ## @param auth.replicationPassword Password for the replication user. Ignored if `auth.existingSecret` is provided
   ##
-  replicationPassword: "${resource.local_resource.pgsql_data.root_password}"
+  replicationPassword: "${resource.local_resource_config.pgsql_data.root_password}"
   ## @param auth.existingSecret Name of existing secret to use for PostgreSQL credentials. `auth.postgresPassword`, `auth.password`, and `auth.replicationPassword` will be ignored and picked up from this secret. The secret might also contains the key `ldap-password` if LDAP is enabled. `ldap.bind_password` will be ignored and picked from this secret in this case.
   ##
   existingSecret: ""
@@ -159,7 +159,7 @@ auth:
   usePasswordFiles: false
 ## @param architecture PostgreSQL architecture (`standalone` or `replication`)
 ##
-architecture: ${resource.local_resource.pgsql_data.architecture}
+architecture: ${resource.local_resource_config.pgsql_data.architecture}
 ## Replication configuration
 ## Ignored if `architecture` is `standalone`
 ##
@@ -169,7 +169,7 @@ replication:
   ## ref: https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-SYNCHRONOUS-COMMIT
   ##
   synchronousCommit: "off"
-  numSynchronousReplicas: ${resource.local_resource.pgsql_data.replica_count}
+  numSynchronousReplicas: ${resource.local_resource_config.pgsql_data.replica_count}
   ## @param replication.applicationName Cluster application name. Useful for advanced replication settings
   ##
   applicationName: my_application
@@ -669,7 +669,7 @@ primary:
       - ReadWriteOnce
     ## @param primary.persistence.size PVC Storage Request for PostgreSQL volume
     ##
-    size: ${resource.local_resource.pgsql_data.storage_size}
+    size: ${resource.local_resource_config.pgsql_data.storage_size}
     ## @param primary.persistence.annotations Annotations for the PVC
     ##
     annotations: {}
@@ -694,7 +694,7 @@ readReplicas:
   name: read
   ## @param readReplicas.replicaCount Number of PostgreSQL read only replicas
   ##
-  replicaCount: ${resource.local_resource.pgsql_data.replica_count}
+  replicaCount: ${resource.local_resource_config.pgsql_data.replica_count}
   ## @param readReplicas.extendedConfiguration Extended PostgreSQL read only replicas configuration (appended to main or default configuration)
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/postgresql#allow-settings-to-be-loaded-from-files-other-than-the-default-postgresqlconf
   ##
@@ -1006,7 +1006,7 @@ readReplicas:
       - ReadWriteOnce
     ## @param readReplicas.persistence.size PVC Storage Request for PostgreSQL volume
     ##
-    size: ${resource.local_resource.pgsql_data.storage_size}
+    size: ${resource.local_resource_config.pgsql_data.storage_size}
     ## @param readReplicas.persistence.annotations Annotations for the PVC
     ##
     annotations: {}

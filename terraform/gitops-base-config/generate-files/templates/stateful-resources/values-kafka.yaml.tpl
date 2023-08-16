@@ -14,7 +14,7 @@
 ## @param global.storageClass Global StorageClass for Persistent Volume(s)
 ##
 global:
-  storageClass: ${resource.local_resource.kafka_data.storage_class_name}
+  storageClass: ${resource.local_resource_config.kafka_data.storage_class_name}
 
 ## @section Common parameters
 
@@ -35,7 +35,7 @@ advertisedListeners: []
 
 service:
   ports:
-    client: ${resource.local_resource.kafka_data.service_port}
+    client: ${resource.local_resource_config.kafka_data.service_port}
 
 ## Persistence parameters
 ##
@@ -54,14 +54,14 @@ persistence:
   ## If undefined (the default) or set to null, no storageClassName spec is
   ## set, choosing the default provisioner.
   ##
-  storageClass: ${resource.local_resource.kafka_data.storage_class_name}
+  storageClass: ${resource.local_resource_config.kafka_data.storage_class_name}
   ## @param persistence.accessModes PV Access Mode
   ##
   accessModes:
     - ReadWriteOnce
   ## @param persistence.size PVC Storage Request for Kafka data volume
   ##
-  size: ${resource.local_resource.kafka_data.storage_size}
+  size: ${resource.local_resource_config.kafka_data.storage_size}
   ## @param persistence.annotations Annotations for the PVC
   ##
   annotations: {}
