@@ -8,7 +8,7 @@
             "logical_service_port": 6379,
             "logical_service_name": "thirdparty-auth-redis",
             "database_name": null,
-            "secret_extra_namespaces": null
+            "secret_extra_namespaces": []
         },
         "local_resource_config": {
             "resource_namespace": "thirdparty-db",
@@ -519,7 +519,7 @@
             "logical_service_port": 9092,
             "logical_service_name": "mojaloop-kafka-svc",
             "database_name": null,
-            "secret_extra_namespaces": null
+            "secret_extra_namespaces": []
         },
         "local_resource_config": {
             "resource_namespace": "mojaloop",
@@ -592,7 +592,7 @@
             "logical_service_port": 6379,
             "logical_service_name": "ttk-redis",
             "database_name": null,
-            "secret_extra_namespaces": null
+            "secret_extra_namespaces": []
         },
         "local_resource_config": {
             "resource_namespace": "mojaloop",
