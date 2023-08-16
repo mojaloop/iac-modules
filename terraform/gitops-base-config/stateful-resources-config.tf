@@ -35,8 +35,8 @@ resource "local_file" "external_name_services" {
 
 resource "local_file" "kustomization" {
   content = templatefile("${local.stateful_resources_template_path}/stateful-resources-kustomization.yaml.tpl",
-    { local_stateful_resources     = local.local_stateful_resources
-      managed_stateful_resources   = local.managed_stateful_resources
+    { local_stateful_resources   = local.local_stateful_resources
+      managed_stateful_resources = local.managed_stateful_resources
   })
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
 }
@@ -44,7 +44,7 @@ resource "local_file" "kustomization" {
 resource "local_file" "namespace" {
   content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
     {
-      all_ns = distinct(concat([var.stateful_resources_namespace], local.all_logical_extra_namespaces, local.all_namespaces))
+      all_ns = distinct(concat([var.stateful_resources_namespace], local.all_logical_extra_namespaces, local.all_local_namespaces, local.all_local_extra_namespaces))
   })
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
@@ -63,14 +63,14 @@ locals {
   enabled_stateful_resources         = { for stateful_resource in local.stateful_resources : stateful_resource.resource_name => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources         = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service }
   local_stateful_resources           = { for local_stateful_resource in local.enabled_stateful_resources : local_stateful_resource.resource_name => local_stateful_resource if !local_stateful_resource.external_service }
-  local_external_name_map            = { for stateful_resource in local.enabled_stateful_resources : stateful_resource.logical_service_config.logical_service_name => stateful_resource.local_resource_config != null ? (stateful_resource.local_resource_config.override_service_name != null ? "${stateful_resource.local_resource_config.override_service_name}.${stateful_resource.local_resource_config.resource_namespace}.svc.cluster.local" : "${stateful_resource.local_resource_config.resource_name}.${stateful_resource.resource_namespace}.svc.cluster.local") : stateful_resource.external_service.external_endpoint }
+  local_external_name_map            = { for stateful_resource in local.local_stateful_resources : stateful_resource.logical_service_config.logical_service_name => stateful_resource.local_resource_config != null ? (stateful_resource.local_resource_config.override_service_name != null ? "${stateful_resource.local_resource_config.override_service_name}.${stateful_resource.local_resource_config.resource_namespace}.svc.cluster.local" : "${stateful_resource.resource_name}.${stateful_resource.resource_namespace}.svc.cluster.local") : stateful_resource.external_service.external_endpoint }
   managed_external_name_map          = { for index, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => data.gitlab_project_variable.external_stateful_resource_endpoint[index].value }
   external_name_map                  = merge(local.local_external_name_map, local.managed_external_name_map)
   managed_resource_password_map = { for index, stateful_resource in local.managed_stateful_resources : stateful_resource.resource_name => {
-    password   = data.vault_generic_secret.external_stateful_resource_password[index].data.value
-    namespaces = stateful_resource.logical_service_config.secret_extra_namespaces
+    password    = data.vault_generic_secret.external_stateful_resource_password[index].data.value
+    namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
     secret_name = stateful_resource.logical_service_config.user_password_secret
-    secret_key = stateful_resource.logical_service_config.user_password_secret_key
+    secret_key  = stateful_resource.logical_service_config.user_password_secret_key
     }
   }
 
@@ -79,7 +79,8 @@ locals {
     gitlab_project_url           = var.gitlab_project_url
   }
   all_logical_extra_namespaces = flatten([for stateful_resource in local.enabled_stateful_resources : stateful_resource.logical_service_config.secret_extra_namespaces])
-  all_namespaces               = distinct([for stateful_resource in local.local_stateful_resources : stateful_resource.local_resource_config.generate_secret_extra_namespaces])
+  all_local_extra_namespaces   = flatten([for stateful_resource in local.local_stateful_resources : stateful_resource.local_resource_config.generate_secret_extra_namespaces])
+  all_local_namespaces         = distinct([for stateful_resource in local.local_stateful_resources : stateful_resource.local_resource_config.resource_namespace])
 }
 
 variable "stateful_resources_config_file" {

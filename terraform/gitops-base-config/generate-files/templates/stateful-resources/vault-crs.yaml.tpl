@@ -36,7 +36,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
-  name: ${resource.generate_secret_name}-${key}
+  name: ${resource.local_resource_config.generate_secret_name}-${key}
   namespace: ${resource.local_resource_config.resource_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
