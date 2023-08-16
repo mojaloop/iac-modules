@@ -79,7 +79,7 @@ locals {
     gitlab_project_url           = var.gitlab_project_url
   }
   all_logical_extra_namespaces = flatten([for stateful_resource in local.enabled_stateful_resources : stateful_resource.logical_service_config.secret_extra_namespaces])
-  all_namespaces               = distinct([for stateful_resource in local.local_stateful_resource : stateful_resource.local_resource_config.generate_secret_extra_namespaces])
+  all_namespaces               = distinct([for stateful_resource in local.local_stateful_resources : stateful_resource.local_resource_config.generate_secret_extra_namespaces])
 }
 
 variable "stateful_resources_config_file" {
