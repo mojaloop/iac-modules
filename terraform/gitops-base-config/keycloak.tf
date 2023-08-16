@@ -5,11 +5,11 @@ module "generate_keycloak_files" {
     keycloak_operator_version             = var.keycloak_operator_version
     keycloak_namespace                    = var.keycloak_namespace
     gitlab_project_url                    = var.gitlab_project_url
-    keycloak_postgres_database            = local.stateful_resources[local.keycloak_postgres_resource_index].local_resource.pgsql_data.database_name
-    keycloak_postgres_user                = local.stateful_resources[local.keycloak_postgres_resource_index].local_resource.pgsql_data.user
-    keycloak_postgres_host                = "${local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    keycloak_postgres_password_secret     = local.stateful_resources[local.keycloak_postgres_resource_index].generate_secret_name
-    keycloak_postgres_port                = local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_port
+    keycloak_postgres_database            = local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.database_name
+    keycloak_postgres_user                = local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.username
+    keycloak_postgres_host                = "${local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    keycloak_postgres_password_secret     = local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.user_password_secret
+    keycloak_postgres_port                = local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.logical_service_port
     keycloak_postgres_password_secret_key = "password"
     keycloak_fqdn                         = "keycloak.${var.public_subdomain}"
     keycloak_dfsp_realm_name              = var.keycloak_dfsp_realm_name
