@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"
+    argocd.argoproj.io/sync-wave: "${vault_config_operator_sync_wave}"
   name: vault-config-operator
   namespace: argocd
   finalizers:
