@@ -178,7 +178,7 @@ resource "aws_autoscaling_group" "master" {
   }
   tag {
     key                 = "Domain"
-    value               = var.base_domain
+    value               = local.base_domain
     propagate_at_launch = false
   }
 }
@@ -214,7 +214,7 @@ resource "aws_autoscaling_group" "agent" {
   }
   tag {
     key                 = "Domain"
-    value               = var.base_domain
+    value               = local.base_domain
     propagate_at_launch = false
   }
 
