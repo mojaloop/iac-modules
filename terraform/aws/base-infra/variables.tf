@@ -75,7 +75,7 @@ variable "netmaker_ami" {
 
 variable "block_size" {
   type = number
-  default = 2
+  default = 3
 }
 
 variable "enable_netmaker" {
