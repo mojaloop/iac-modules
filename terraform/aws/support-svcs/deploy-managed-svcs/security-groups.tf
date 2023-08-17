@@ -3,7 +3,7 @@
 #############################
 
 resource "aws_security_group" "managed_svcs" {
-  name   = "${local.base_domain}-managed-svcs"
+  name   = "${var.deployment_name}-managed-svcs"
   vpc_id = module.base_infra.vpc_id
   tags   = merge({ Name = "${var.deployment_name}-mgmt-svcs" }, local.common_tags)
 }
