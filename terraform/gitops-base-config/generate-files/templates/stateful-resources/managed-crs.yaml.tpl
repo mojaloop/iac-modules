@@ -6,6 +6,6 @@ metadata:
   namespace: ${ns}
 type: Opaque
 data:
-  ${password_map.secret_key}: ${password_map.password}
+  ${password_map.secret_key}: ${base64encode(password_map.password)}
 ---
 %{ endfor ~}
