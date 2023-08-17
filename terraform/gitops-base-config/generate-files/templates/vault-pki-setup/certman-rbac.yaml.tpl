@@ -39,7 +39,8 @@ spec:
     role: policy-admin
     serviceAccount:
       name: default
-  path: kubernetes  
+  path: ${k8s_auth_path}
+  tokenTTL: 3600
   policies:
     - pki-root-full
   targetServiceAccounts: 
@@ -59,7 +60,7 @@ spec:
     auth:
       kubernetes:
         role: ${cert_manager_cluster_issuer_role_name}
-        mountPath: /v1/auth/kubernetes
+        mountPath: /v1/auth/${k8s_auth_path}
         serviceAccountRef:
           name: vault-k8s
 ---

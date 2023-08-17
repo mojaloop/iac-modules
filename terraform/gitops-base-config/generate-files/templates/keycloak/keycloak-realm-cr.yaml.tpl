@@ -345,6 +345,52 @@ spec:
       - phone
       - offline_access
       - microprofile-jwt
+    - id: fbfd8e06-e55a-4777-bee8-b848ca854839
+      clientId: '${mcm_oidc_client_id}'
+      name: '${mcm_oidc_client_id}'
+      description: ''
+      rootUrl: ''
+      adminUrl: ''
+      baseUrl: ''
+      surrogateAuthRequired: false
+      enabled: true
+      alwaysDisplayInConsole: false
+      clientAuthenticatorType: client-secret
+      secret: '$${mcm_oidc_client_secret}'
+      redirectUris:
+        - /*
+      webOrigins:
+        - /*
+      notBefore: 0
+      bearerOnly: false
+      consentRequired: false
+      standardFlowEnabled: true
+      implicitFlowEnabled: false
+      directAccessGrantsEnabled: true
+      serviceAccountsEnabled: false
+      publicClient: false
+      frontchannelLogout: true
+      protocol: openid-connect
+      attributes:
+        oidc.ciba.grant.enabled: 'false'
+        oauth2.device.authorization.grant.enabled: 'false'
+        client.secret.creation.time: '1691150922'
+        backchannel.logout.session.required: 'true'
+        backchannel.logout.revoke.offline.tokens: 'false'
+      authenticationFlowBindingOverrides: {}
+      fullScopeAllowed: true
+      nodeReRegistrationTimeout: -1
+      defaultClientScopes:
+        - web-origins
+        - acr
+        - profile
+        - roles
+        - email
+      optionalClientScopes:
+        - address
+        - phone
+        - offline_access
+        - microprofile-jwt
     - id: 575788c3-ed21-408d-b6ea-5f14740660ff
       clientId: realm-management
       name: '$${client_realm-management}'

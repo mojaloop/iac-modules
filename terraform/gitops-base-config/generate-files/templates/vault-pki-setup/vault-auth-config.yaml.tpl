@@ -1,7 +1,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: SecretEngineMount
 metadata:
-  name: pki-root-ca
+  name: ${vault_root_ca_name}
 spec:
   authentication: 
     path: kubernetes
@@ -17,27 +17,27 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineConfig
 metadata:
-  name: pki-root-ca
+  name: ${vault_root_ca_name}
 spec:
   authentication: 
     path: kubernetes
     role: policy-admin
     serviceAccount:
       name: default
-  path: pki-root-ca
+  path: ${vault_root_ca_name}
   TTL: "8760h"
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineRole
 metadata:
-  name: server-cert-role
+  name: ${pki_server_cert_role}
 spec:
   authentication: 
     path: kubernetes
     role: policy-admin
     serviceAccount:
       name: default
-  path: pki-root-ca
+  path: ${vault_root_ca_name}
   allowedDomains: 
    - ${trimsuffix(public_subdomain, ".")}
   maxTTL: "17520h"
@@ -58,14 +58,14 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineRole
 metadata:
-  name: client-cert-role
+  name: ${pki_client_cert_role}
 spec:
   authentication: 
     path: kubernetes
     role: policy-admin
     serviceAccount:
       name: default
-  path: pki-root-ca
+  path: ${vault_root_ca_name}
   allowedDomains: 
    - ${trimsuffix(public_subdomain, ".")}
   maxTTL: "17520h"
@@ -134,7 +134,7 @@ spec:
     serviceAccount:
       name: default
   policy: |
-    path "pki-root-ca/*" {
+    path "${vault_root_ca_name}/*" {
       capabilities = ["create", "read", "update", "delete", "list"]
     }
   type: acl 

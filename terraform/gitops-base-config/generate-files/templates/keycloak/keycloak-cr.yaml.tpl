@@ -33,3 +33,8 @@ spec:
                 secretKeyRef:
                   name: keycloak-dfsps-realm-jwt-secret
                   key: secret
+            - name: mcm_oidc_client_secret
+              valueFrom:
+                secretKeyRef:
+                  name: ${mcm_oidc_client_secret_secret}
+                  key: ${mcm_oidc_client_secret_secret_key}

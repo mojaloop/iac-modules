@@ -2,27 +2,22 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "-8"
-  name: istio-app
+    argocd.argoproj.io/sync-wave: "${mcm_sync_wave}"
+  name: mcm-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/istio
+    path: apps/mcm
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${istio_namespace}
+    namespace: ${mcm_namespace}
     server: https://kubernetes.default.svc
   project: default
-  ignoreDifferences:
-    - group: admissionregistration.k8s.io
-      kind: ValidatingWebhookConfiguration
-      jqPathExpressions:
-        - .webhooks[]?.failurePolicy
   syncPolicy:
     automated:
       prune: true
@@ -37,4 +32,3 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
-      - RespectIgnoreDifferences=true

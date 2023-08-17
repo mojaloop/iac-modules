@@ -17,6 +17,10 @@ module "generate_keycloak_files" {
     ingress_class                         = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     external_ingress_class_name           = var.external_ingress_class_name
     keycloak_tls_secretname               = var.default_ssl_certificate
+    mcm_namespace                         = var.mcm_namespace
+    mcm_oidc_client_secret_secret         = var.mcm_oauth_secret_secret
+    mcm_oidc_client_secret_secret_key     = var.mcm_oauth_secret_secret_key
+    mcm_oidc_client_id                    = var.mcm_oidc_client_id
   }
   file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-realm-cr.yaml", "keycloak-ingress.yaml", "vault-secret.yaml"]
   template_path   = "${path.module}/generate-files/templates/keycloak"
