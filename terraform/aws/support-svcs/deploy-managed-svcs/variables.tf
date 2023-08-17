@@ -22,7 +22,7 @@ variable "az_count" {
 }
 
 variable "vpc_cidr" {
-  default     = "10.26.0.0/22"
+  default     = "10.27.0.0/23"
   type        = string
   description = "CIDR Subnet to use for the VPC, will be split into multiple /24s for the required private and public subnets"
 }
