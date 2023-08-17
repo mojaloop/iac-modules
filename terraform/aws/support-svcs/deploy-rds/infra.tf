@@ -1,78 +1,3 @@
-#############################
-### VPC
-#############################
-
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "5.1.1"
-
-  name = var.deployment_name
-  cidr = var.vpc_cidr
-
-  azs             = local.azs
-  public_subnets  = local.public_subnet_cidrs
-  private_subnets = local.private_subnet_cidrs
-  #database_subnets = local.private_subnet_cidrs
-
-  create_database_subnet_group = false
-
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-  enable_nat_gateway   = true
-
-  tags = merge({}, local.common_tags)
-  private_route_table_tags = {
-    subnet-type = "private-cluster"
-  }
-}
-
-module "subnet_addrs" {
-  source = "hashicorp/subnets/cidr"
-
-  base_cidr_block = var.vpc_cidr
-  networks = [
-    for subnet in concat(local.private_subnets_list, local.public_subnets_list) : {
-      name     = subnet
-      new_bits = local.azs == 1 ? var.block_size : 3
-    }
-  ]
-
-}
-
-resource "aws_security_group" "mgmt-svcs" {
-  name   = "${var.deployment_name}-mgmt-svcs"
-  vpc_id = module.vpc.vpc_id
-  tags   = merge({ Name = "${var.deployment_name}-mgmt-svcs" }, local.common_tags)
-}
-
-resource "aws_security_group_rule" "ssh" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.mgmt-svcs.id
-}
-
-resource "aws_security_group_rule" "mgmt-svcs_mysql" {
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.mgmt-svcs.id
-  description       = "mysql client access"
-}
-
-resource "aws_security_group_rule" "mgmt-svcs_egress_all" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.mgmt-svcs.id
-}
-
 ## Database modules
 resource "aws_kms_key" "managed_db_key" {
   description             = "KMS Key used to manage passwords for managed dbs"
@@ -97,7 +22,7 @@ module "rds" {
   username = each.value.external_resource_config.username
   port     = each.value.external_resource_config.port
   master_user_secret_kms_key_id = aws_kms_key.managed_db_key.key_id
-  vpc_security_group_ids = [module.vpc.default_security_group_id]
+  vpc_security_group_ids = [var.security_group_id]
 
   maintenance_window = each.value.external_resource_config.maintenance_window
   backup_window      = each.value.external_resource_config.backup_window
@@ -112,7 +37,7 @@ module "rds" {
 
   # DB subnet group
   create_db_subnet_group = true
-  subnet_ids             = module.vpc.private_subnets
+  subnet_ids             = var.private_subnets
 
   # DB parameter group
   family = each.value.external_resource_config.family

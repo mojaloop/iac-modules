@@ -15,6 +15,18 @@ variable "managed_services_config_file" {
   description = "location of json config file for databases to create"
 }
 
+variable "az_count" {
+  type        = number
+  default     = 1
+  description = "Number of azs"
+}
+
+variable "vpc_cidr" {
+  default     = "10.26.0.0/22"
+  type        = string
+  description = "CIDR Subnet to use for the VPC, will be split into multiple /24s for the required private and public subnets"
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###
