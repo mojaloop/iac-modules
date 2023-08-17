@@ -67,7 +67,7 @@ locals {
   managed_external_name_map          = { for index, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => data.gitlab_project_variable.external_stateful_resource_instance_address[index].value }
   external_name_map                  = merge(local.local_external_name_map, local.managed_external_name_map)
   managed_resource_password_map = { for index, stateful_resource in local.managed_stateful_resources : stateful_resource.resource_name => {
-    password    = data.vault_generic_secret.external_stateful_resource_password[index].data.value.password
+    password    = data.vault_generic_secret.external_stateful_resource_password[index].data_json.password
     namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
     secret_name = stateful_resource.logical_service_config.user_password_secret
     secret_key  = stateful_resource.logical_service_config.user_password_secret_key

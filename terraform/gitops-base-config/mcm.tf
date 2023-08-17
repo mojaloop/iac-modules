@@ -1,12 +1,12 @@
 module "generate_mcm_files" {
   source = "./generate-files"
   var_map = {
-    db_password_secret             = local.stateful_resources[local.mcm_resource_index].generate_secret_name
-    db_password_secret_key         = local.stateful_resources[local.mcm_resource_index].generate_secret_keys[0]
-    db_user                        = local.stateful_resources[local.mcm_resource_index].local_resource.mysql_data.user
-    db_schema                      = local.stateful_resources[local.mcm_resource_index].local_resource.mysql_data.database_name
-    db_port                        = local.stateful_resources[local.mcm_resource_index].logical_service_port
-    db_host                        = "${local.stateful_resources[local.mcm_resource_index].logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    db_password_secret             = local.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret
+    db_password_secret_key         = local.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret_key
+    db_user                        = local.stateful_resources[local.mcm_resource_index].logical_service_config.username
+    db_schema                      = local.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
+    db_port                        = local.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
+    db_host                        = "${local.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     mcm_public_fqdn                = "mcm.${var.public_subdomain}"
     env_name                       = var.cluster_name
     env_cn                         = var.public_subdomain
