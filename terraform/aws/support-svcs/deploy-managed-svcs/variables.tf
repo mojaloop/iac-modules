@@ -17,7 +17,7 @@ variable "managed_services_config_file" {
 
 variable "az_count" {
   type        = number
-  default     = 1
+  default     = 2
   description = "Number of azs"
 }
 
