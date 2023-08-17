@@ -16,7 +16,7 @@ global:
   ##   - myRegistryKeySecretName
   ##
   imagePullSecrets: []
-  storageClass: ${resource.local_resource.redis_data.storage_class_name}
+  storageClass: ${resource.local_resource_config.redis_data.storage_class_name}
 
 ## @section Common parameters
 ##
@@ -102,7 +102,7 @@ image:
 
 ## @param architecture Redis&reg; architecture. Allowed values: `standalone` or `replication`
 ##
-architecture: ${resource.local_resource.redis_data.architecture}
+architecture: ${resource.local_resource_config.redis_data.architecture}
 ## Redis&reg; Authentication parameters
 ## ref: https://github.com/bitnami/containers/tree/main/bitnami/redis#setting-the-server-password-on-first-run
 ##
@@ -117,11 +117,11 @@ auth:
   ## @param auth.existingSecret The name of an existing secret with Redis&reg; credentials
   ## NOTE: When it's set, the previous `auth.password` parameter is ignored
   ##
-  existingSecret: "${resource.local_resource.redis_data.existing_secret}"
+  existingSecret: "${resource.local_resource_config.redis_data.existing_secret}"
   ## @param auth.existingSecretPasswordKey Password key to be retrieved from existing secret
   ## NOTE: ignored unless `auth.existingSecret` parameter is set
   ##
-  existingSecretPasswordKey: "${resource.local_resource.redis_data.existing_secret_key}"
+  existingSecretPasswordKey: "${resource.local_resource_config.redis_data.existing_secret_key}"
   ## @param auth.usePasswordFiles Mount credentials as files instead of using an environment variable
   ##
   usePasswordFiles: false
@@ -427,7 +427,7 @@ master:
       - ReadWriteOnce
     ## @param master.persistence.size Persistent Volume size
     ##
-    size: ${resource.local_resource.redis_data.storage_size}
+    size: ${resource.local_resource_config.redis_data.storage_size}
     ## @param master.persistence.annotations Additional custom annotations for the PVC
     ##
     annotations: {}
@@ -454,7 +454,7 @@ master:
     ## @param master.service.ports.redis Redis&reg; master service port
     ##
     ports:
-      redis: ${resource.local_resource.redis_data.service_port}
+      redis: ${resource.local_resource_config.redis_data.service_port}
     ## @param master.service.nodePorts.redis Node port for Redis&reg; master
     ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
     ## NOTE: choose port between <30000-32767>
@@ -527,7 +527,7 @@ master:
 replica:
   ## @param replica.replicaCount Number of Redis&reg; replicas to deploy
   ##
-  replicaCount: ${resource.local_resource.redis_data.replica_count}
+  replicaCount: ${resource.local_resource_config.redis_data.replica_count}
   ## @param replica.configuration Configuration for Redis&reg; replicas nodes
   ## ref: https://redis.io/topics/config
   ##
