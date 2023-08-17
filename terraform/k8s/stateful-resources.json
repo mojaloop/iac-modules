@@ -232,7 +232,7 @@
         },
         "external_resource_config": {
             "password_key_name": "account_lookup_password",
-            "endpoint_key_name": "account_lookup_endpoint",
+            "instance_address_key_name": "account_lookup_instance_address",
             "allocated_storage": 5,
             "backup_window": "01:00-04:00",
             "db_name": "account_lookup",
@@ -331,7 +331,7 @@
         },
         "external_resource_config": {
             "password_key_name": "central_ledger_password",
-            "endpoint_key_name": "central_ledger_endpoint",
+            "instance_address_key_name": "central_ledger_instance_address",
             "allocated_storage": 5,
             "backup_window": "01:00-04:00",
             "db_name": "central_ledger",

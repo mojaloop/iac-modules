@@ -39,7 +39,7 @@ output "secrets_var_map" {
 output "properties_var_map" {
   value = {
     for index, rds_module in module.rds : 
-      var.rds_services[index].external_resource_config.endpoint_key_name => rds_module.db_instance_endpoint
+      var.rds_services[index].external_resource_config.instance_address_key_name => rds_module.db_instance_address
   }
 }
 

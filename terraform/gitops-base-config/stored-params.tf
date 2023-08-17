@@ -30,10 +30,10 @@ data "vault_generic_secret" "grafana_oauth_client_secret" {
 
 # need to grab managed external service endpoints and passwords
 
-data "gitlab_project_variable" "external_stateful_resource_endpoint" {
+data "gitlab_project_variable" "external_stateful_resource_instance_address" {
   for_each = local.managed_stateful_resources
   project = var.current_gitlab_project_id
-  key     = each.value.external_resource_config.endpoint_key_name
+  key     = each.value.external_resource_config.instance_address_key_name
 }
 
 data "vault_generic_secret" "external_stateful_resource_password" {
