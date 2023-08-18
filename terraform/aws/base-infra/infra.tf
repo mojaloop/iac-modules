@@ -15,9 +15,11 @@ module "vpc" {
 
   create_database_subnet_group = false
 
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-  enable_nat_gateway   = true
+  enable_dns_hostnames          = true
+  enable_dns_support            = true
+  enable_nat_gateway            = true
+  manage_default_security_group = false
+  manage_default_network_acl    = false
 
   tags = merge({}, local.common_tags)
   private_route_table_tags = {
@@ -73,17 +75,17 @@ resource "aws_security_group_rule" "bastion_egress_all" {
 }
 
 resource "aws_instance" "bastion" {
-  ami           = var.bastion_ami
-  instance_type = "t2.micro"
-  subnet_id     = element(module.vpc.public_subnets, 0)
-  user_data     = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
-  key_name      = local.cluster_domain
+  ami                         = var.bastion_ami
+  instance_type               = "t2.micro"
+  subnet_id                   = element(module.vpc.public_subnets, 0)
+  user_data                   = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
+  key_name                    = local.cluster_domain
   associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.bastion.id, module.vpc.default_security_group_id]
+  vpc_security_group_ids      = [aws_security_group.bastion.id, module.vpc.default_security_group_id]
 
   tags        = merge({ Name = "${local.cluster_domain}-bastion" }, local.common_tags)
   volume_tags = merge({ Name = "${local.cluster_domain}-bastion" }, local.common_tags)
-  
+
   lifecycle {
     ignore_changes = [
       ami
