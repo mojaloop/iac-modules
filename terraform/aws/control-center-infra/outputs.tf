@@ -156,6 +156,7 @@ output "netmaker_hosts_var_maps" {
 }
 
 output "bastion_hosts_var_maps" {
+  sensitive = true
   value = {
     netmaker_api_host       = aws_route53_record.netmaker_api[0].name
     netmaker_image_version  = var.netmaker_image_version
