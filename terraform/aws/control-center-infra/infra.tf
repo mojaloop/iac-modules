@@ -17,6 +17,7 @@ module "base_infra" {
   bastion_ami                = module.ubuntu_focal_ami.id
   netmaker_ami               = module.ubuntu_focal_ami.id
   enable_netmaker            = var.enable_netmaker
+  block_size = 2
 }
 
 module "post_config" {
