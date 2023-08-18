@@ -7,7 +7,6 @@ dependency "managed_services" {
   mock_outputs = {
     bastion_hosts           = {}
     bastion_hosts_var_maps  = {}
-    bastion_hosts_yaml_maps = {}
     bastion_ssh_key         = "key"
     bastion_os_username     = "null"
     bastion_public_ip       = "null"
@@ -18,12 +17,12 @@ dependency "managed_services" {
 
 
 inputs = {
-  bastion_hosts               = dependency.k8s_deploy.outputs.bastion_hosts
-  bastion_hosts_var_maps      = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps)
-  bastion_hosts_yaml_maps     = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
-  ansible_bastion_key         = dependency.k8s_deploy.outputs.bastion_ssh_key
-  ansible_bastion_os_username = dependency.k8s_deploy.outputs.bastion_os_username
-  ansible_bastion_public_ip   = dependency.k8s_deploy.outputs.bastion_public_ip
+  bastion_hosts               = dependency.managed_services.outputs.bastion_hosts
+  bastion_hosts_var_maps      = merge(dependency.managed_services.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps)
+  bastion_hosts_yaml_maps     = local.bastion_hosts_yaml_maps
+  ansible_bastion_key         = dependency.managed_services.outputs.bastion_ssh_key
+  ansible_bastion_os_username = dependency.managed_services.outputs.bastion_os_username
+  ansible_bastion_public_ip   = dependency.managed_services.outputs.bastion_public_ip
   ansible_collection_tag      = local.env_vars.ansible_collection_tag
   ansible_base_output_dir     = local.ANSIBLE_BASE_OUTPUT_DIR
   ansible_playbook_name       = "managed_services_deploy"

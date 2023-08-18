@@ -1,8 +1,7 @@
 bastion: 
   hosts: 
-    %{~ for name, ip in bastion_hosts ~}
-    ${name}:
-      ansible_host: ${ip}
+    %{~ for host in bastion_hosts ~}
+    ${host}:
     %{~ endfor ~}
   vars:
     %{~ for varmapkey, varmapval in bastion_hosts_var_maps ~}
