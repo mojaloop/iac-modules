@@ -4,7 +4,7 @@ resource "local_sensitive_file" "ansible_inventory" {
     "${path.module}/templates/inventory.yaml.tmpl",
     { bastion_hosts          = var.bastion_hosts,
       bastion_hosts_var_maps = var.bastion_hosts_var_maps,
-      bastion_hosts_yaml_maps = var.bastion_hosts_yaml_maps}
+      bastion_hosts_yaml_maps = merge(var.bastion_hosts_yaml_maps, local.ssh_private_key_file_map)}
 
   )
   filename        = "${local.ansible_output_dir}/inventory"
