@@ -161,6 +161,7 @@ output "bastion_hosts_var_maps" {
     netmaker_image_version  = var.netmaker_image_version
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
     egress_gateway_cidr     = var.vpc_cidr
+    netmaker_master_key     = random_password.netmaker_master_key.result
   }
 }
 
