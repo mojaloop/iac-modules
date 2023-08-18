@@ -42,7 +42,7 @@ locals {
   }
   bastion_hosts_var_maps = {
     netmaker_master_key = get_env("METMAKER_MASTER_KEY")
-    netmaker_host_name  = get_env("NETMAKER_HOST_NAME")
+    netmaker_api_host   = get_env("NETMAKER_HOST_NAME")
   }
 }
 

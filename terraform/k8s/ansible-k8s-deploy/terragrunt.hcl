@@ -38,7 +38,7 @@ inputs = {
   master_hosts_var_maps = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps, {
     tenant_vault_server_url = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
   })
-  all_hosts_var_maps          = dependency.k8s_deploy.outputs.all_hosts_var_maps
+  all_hosts_var_maps          = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps)
   bastion_hosts_yaml_maps     = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
   master_hosts_yaml_maps      = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps       = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
@@ -81,12 +81,13 @@ locals {
     nexus_fqdn             = get_env("NEXUS_FQDN")
     seaweedfs_fqdn         = get_env("SEAWEEDFS_FQDN")
     vault_fqdn             = get_env("VAULT_FQDN")
+    netmaker_master_key    = get_env("METMAKER_MASTER_KEY")
+    netmaker_api_host      = get_env("NETMAKER_HOST_NAME")
   }
   all_hosts_var_maps = {
     seaweedfs_s3_listening_port      = get_env("SEAWEEDFS_S3_LISTENING_PORT")
     nexus_docker_repo_listening_port = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
-    netmaker_host_name               = get_env("NETMAKER_HOST_NAME")
   }
 }
 
