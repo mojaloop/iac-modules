@@ -157,8 +157,10 @@ output "netmaker_hosts_var_maps" {
 
 output "bastion_hosts_var_maps" {
   value = {
+    netmaker_api_host       = aws_route53_record.netmaker_api[0].name
     netmaker_image_version  = var.netmaker_image_version
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
+    egress_gateway_cidr     = var.vpc_cidr
   }
 }
 

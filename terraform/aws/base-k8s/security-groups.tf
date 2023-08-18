@@ -8,14 +8,6 @@ resource "aws_security_group" "ingress" {
   tags = merge({ Name = "${local.base_domain}-ingress" }, local.common_tags)
 }
 
-resource "aws_security_group_rule" "internal_ssh" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "TCP"
-  cidr_blocks       = [var.vpc_cidr]
-  security_group_id = aws_security_group.ingress.id
-}
 resource "aws_security_group_rule" "ingress_http" {
   type              = "ingress"
   from_port         = var.target_group_external_http_port
@@ -91,6 +83,15 @@ resource "aws_security_group_rule" "self_self" {
   to_port           = 0
   protocol          = "-1"
   self              = true
+  security_group_id = aws_security_group.self.id
+}
+
+resource "aws_security_group_rule" "internal_ssh" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "TCP"
+  cidr_blocks       = [var.vpc_cidr]
   security_group_id = aws_security_group.self.id
 }
 

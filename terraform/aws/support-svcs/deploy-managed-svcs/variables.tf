@@ -21,6 +21,12 @@ variable "az_count" {
   description = "Number of azs"
 }
 
+variable "os_user_name" {
+  default     = "ubuntu"
+  type        = string
+  description = "os username for bastion host"
+}
+
 variable "vpc_cidr" {
   default     = "10.27.0.0/23"
   type        = string

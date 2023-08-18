@@ -1,0 +1,14 @@
+bastion: 
+  hosts: 
+    %{~ for name, ip in bastion_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in bastion_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}
+    %{~ for varmapkey, varmapval in bastion_hosts_yaml_maps ~}
+    ${varmapkey}:
+      ${indent(6, varmapval)}
+    %{~ endfor ~}

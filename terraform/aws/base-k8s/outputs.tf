@@ -101,6 +101,7 @@ output "bastion_hosts_var_maps" {
   sensitive = false
   value = {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
+    egress_gateway_cidr = var.vpc_cidr
   }
 }
 
