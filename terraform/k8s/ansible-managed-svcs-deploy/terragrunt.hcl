@@ -38,7 +38,7 @@ locals {
   K8S_CLUSTER_TYPE        = get_env("K8S_CLUSTER_TYPE")
 
   bastion_hosts_yaml_maps = {
-    netmaker_join_tokens = yamlencode([get_env("NETMAKER_OPS_TOKEN"), get_env("NETMAKER_ENV_TOKEN")])
+    netmaker_join_tokens = yamlencode([get_env("NETMAKER_ENV_TOKEN")])
   }
   bastion_hosts_var_maps = {
     netmaker_master_key = get_env("METMAKER_MASTER_KEY")
