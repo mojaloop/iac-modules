@@ -11,8 +11,11 @@ module "vpc_netmaker" {
 
   create_database_subnet_group = false
 
-  enable_dns_hostnames = true
-  enable_dns_support   = true
+  enable_dns_hostnames          = true
+  enable_dns_support            = true
+  manage_default_security_group = false
+  manage_default_network_acl    = false
+  manage_default_route_table    = false
 
   tags = merge({}, local.common_tags)
 
