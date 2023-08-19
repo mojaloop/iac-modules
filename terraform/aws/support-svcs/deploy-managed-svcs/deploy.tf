@@ -4,8 +4,8 @@ module "deploy_rds" {
   deployment_name = var.deployment_name
   tags = var.tags
   rds_services = local.rds_services
-  security_group_id = aws_security_group.managed_svcs.id
-  private_subnets = module.base_infra.private_subnets
+  security_group_id = aws_security_group.managed_svcs[0].id
+  private_subnets = module.base_infra[0].private_subnets
 }
 
 module "ubuntu_focal_ami" {
