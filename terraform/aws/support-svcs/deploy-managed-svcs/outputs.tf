@@ -22,16 +22,16 @@ output "bastion_hosts_var_maps" {
 }
 
 output "bastion_hosts" {
-  value = { bastion = module.base_infra.bastion_public_ip }
+  value = length(local.external_services) > 0 ? { bastion = module.base_infra[0].bastion_public_ip } : {}
 }
 
 output "bastion_ssh_key" {
   sensitive = true
-  value     = module.base_infra.ssh_private_key
+  value     = length(local.external_services) > 0 ? module.base_infra.ssh_private_key : ""
 }
 
 output "bastion_public_ip" {
-  value = module.base_infra.bastion_public_ip
+  value = length(local.external_services) > 0 ?  module.base_infra.bastion_public_ip : ""
 }
 
 output "bastion_os_username" {

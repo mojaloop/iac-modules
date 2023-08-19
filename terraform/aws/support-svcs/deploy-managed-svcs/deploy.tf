@@ -9,11 +9,13 @@ module "deploy_rds" {
 }
 
 module "ubuntu_focal_ami" {
+  count = length(local.external_services) > 0 ? 1 : 0
   source  = "../../ami-ubuntu"
   release = "20.04"
 }
 
 module "base_infra" {
+  count = length(local.external_services) > 0 ? 1 : 0
   source  = "../../base-infra"
   cluster_name = var.deployment_name
   tags = var.tags
@@ -23,7 +25,7 @@ module "base_infra" {
   manage_parent_domain = false
   manage_parent_domain_ns = false
   az_count = var.az_count
-  bastion_ami = module.ubuntu_focal_ami.id
+  bastion_ami = module.ubuntu_focal_ami[0].id
   create_haproxy_dns_record = false
   configure_route_53 = false
 }

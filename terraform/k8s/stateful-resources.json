@@ -187,7 +187,7 @@
         "enabled": true,
         "resource_name": "account-lookup-db",
         "resource_type": "mysql",
-        "external_service": true,
+        "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
             "logical_service_name": "account-lookup-db-svc",
@@ -286,7 +286,7 @@
         "enabled": true,
         "resource_name": "central-ledger-db",
         "resource_type": "mysql",
-        "external_service": true,
+        "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
             "logical_service_name": "central-ledger-db-svc",
