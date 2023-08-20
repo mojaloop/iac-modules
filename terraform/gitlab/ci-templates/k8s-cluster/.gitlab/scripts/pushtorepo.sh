@@ -9,6 +9,7 @@ TMP_REPO_DIR=/tmp/gitclone
 git clone https://root:${ROOT_TOKEN}@${GIT_HOST}/$CURRENT_PROJECT_FULL_PATH $TMP_REPO_DIR
 cd $TMP_REPO_DIR
 git checkout $BRANCH
+rm -rf $DEST_DIR_NAME
 cp -r $SRC_DIR/. $DEST_DIR_NAME/
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
