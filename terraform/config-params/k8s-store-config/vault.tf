@@ -4,7 +4,7 @@ resource "vault_generic_secret" "secrets_var_map" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = "${var.secrets_var_map[each.value]}"
+      value = ${var.secrets_var_map[each.value]}
     }
   )
 }
