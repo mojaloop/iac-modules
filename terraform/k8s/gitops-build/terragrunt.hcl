@@ -47,7 +47,7 @@ inputs = {
   external_load_balancer_dns               = dependency.k8s_deploy.outputs.external_load_balancer_dns
   private_subdomain                        = dependency.k8s_deploy.outputs.private_subdomain
   public_subdomain                         = dependency.k8s_deploy.outputs.public_subdomain
-  secrets_key_map                          = dependency.k8s_deploy.outputs.secrets_key_map
+  secrets_key_map                          = { for key, value in dependency.k8s_deploy.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }
   properties_key_map                       = dependency.k8s_deploy.outputs.properties_key_map
   internal_ingress_https_port              = dependency.k8s_deploy.outputs.target_group_internal_https_port
   internal_ingress_http_port               = dependency.k8s_deploy.outputs.target_group_internal_http_port
