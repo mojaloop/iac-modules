@@ -166,25 +166,21 @@ resource "aws_autoscaling_group" "master" {
     id      = aws_launch_template.master.id
     version = "$Latest"
   }
-  tags = concat(
-    [
-      {
-        "key"                 = "Name"
-        "value"               = "${local.name}-master"
-        "propagate_at_launch" = false
-      },
-      {
-        "key"                 = "Cluster"
-        "value"               = var.cluster_name
-        "propagate_at_launch" = false
-      },
-      {
-        "key"                 = "Domain"
-        "value"               = local.base_domain
-        "propagate_at_launch" = false
-      }
-    ]
-  )
+  tag {
+    key                 = "Name"
+    value               = "${local.name}-master"
+    propagate_at_launch = false
+  }
+  tag {
+    key                 = "Cluster"
+    value               = var.cluster_name
+    propagate_at_launch = false
+  }
+  tag {
+    key                 = "Domain"
+    value               = local.base_domain
+    propagate_at_launch = false
+  }
 }
 
 resource "aws_autoscaling_group" "agent" {
@@ -206,25 +202,21 @@ resource "aws_autoscaling_group" "agent" {
     id      = aws_launch_template.agent.id
     version = "$Latest"
   }
-  tags = concat(
-    [
-      {
-        "key"                 = "Name"
-        "value"               = "${local.name}-agent"
-        "propagate_at_launch" = false
-      },
-      {
-        "key"                 = "Cluster"
-        "value"               = var.cluster_name
-        "propagate_at_launch" = false
-      },
-      {
-        "key"                 = "Domain"
-        "value"               = local.base_domain
-        "propagate_at_launch" = false
-      }
-    ]
-  )
+  tag {
+    key                 = "Name"
+    value               = "${local.name}-agent"
+    propagate_at_launch = false
+  }
+  tag {
+    key                 = "Cluster"
+    value               = var.cluster_name
+    propagate_at_launch = false
+  }
+  tag {
+    key                 = "Domain"
+    value               = local.base_domain
+    propagate_at_launch = false
+  }
 
 }
 

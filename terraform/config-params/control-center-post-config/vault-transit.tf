@@ -15,6 +15,7 @@ resource "vault_transit_secret_backend_key" "unseal_key" {
   for_each = var.env_map
   backend  = vault_mount.transit.path
   name     = "unseal-key-${each.key}"
+  deletion_allowed = true
 }
 
 resource "vault_policy" "env_transit" {

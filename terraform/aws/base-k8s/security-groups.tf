@@ -86,6 +86,15 @@ resource "aws_security_group_rule" "self_self" {
   security_group_id = aws_security_group.self.id
 }
 
+resource "aws_security_group_rule" "internal_ssh" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "TCP"
+  cidr_blocks       = [var.vpc_cidr]
+  security_group_id = aws_security_group.self.id
+}
+
 resource "aws_security_group_rule" "self_master" {
   type              = "ingress"
   from_port         = 6443

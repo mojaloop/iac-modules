@@ -1,5 +1,5 @@
 include:
-  - template: Terraform/Base.latest.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
+  - template: Terraform/Base.latest.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
 workflow:
   rules:
     - if: $CI_MERGE_REQUEST_IID
@@ -31,6 +31,7 @@ variables:
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
   GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
   VAULT_ADDR: $VAULT_SERVER_URL
+  MANAGED_SVC_CLOUD_PLATFORM: aws
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
@@ -50,11 +51,13 @@ cache:
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
     - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
     - export NETMAKER_OPS_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netmaker_ops_token)"
+    - export NETMAKER_ENV_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netmaker_env_token)"
     - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/gitlab_ci_pat)"
     - export VAULT_GITLAB_ROOT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/vault_root_token)"
+    - export METMAKER_MASTER_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/netmaker_master_key)"
     - source setcivars.sh
-    - yq eval '.' environment.yaml -o=json > environment.json 
-    - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./environment.json); do export $var; done    
+    - yq eval '.' environment.yaml -o=json > environment.json
+    - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./environment.json); do export $var; done
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store; fi
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then git config --global credential.helper 'store --file ~/.gitcredentials.store'; fi
     - git config --global advice.detachedHead false
@@ -95,7 +98,7 @@ fmt:
   id_tokens:
     VAULT_ID_TOKEN:
       aud: $VAULT_SERVER_URL
-  script: 
+  script:
     - !reference [.source, script]
     - terragrunt hclfmt -check -diff
     - terragrunt run-all fmt -check -diff -recursive || true
@@ -106,7 +109,7 @@ init:
   id_tokens:
     VAULT_ID_TOKEN:
       aud: $VAULT_SERVER_URL
-  script: 
+  script:
     - !reference [.source, script]
     - terragrunt run-all init -input=false -reconfigure
 
@@ -115,18 +118,18 @@ validate:
   id_tokens:
     VAULT_ID_TOKEN:
       aud: $VAULT_SERVER_URL
-  script: 
+  script:
     - !reference [.source, script]
     - terragrunt run-all validate-inputs
     - terragrunt run-all validate
-  when: manual  
+  when: manual
 
 build:
   extends: .terraform:build
   id_tokens:
     VAULT_ID_TOKEN:
       aud: $VAULT_SERVER_URL
-  script: 
+  script:
     - !reference [.source, script]
   when: manual
 
@@ -139,6 +142,23 @@ deploy-infra:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
+  artifacts:
+    paths:
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
+    when: always
+  when: manual
+
+deploy-managed-srvcs:
+  extends: .terraform:deploy
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  script:
+    - !reference [.source, script]
+    - cd managed-services
+    - terragrunt run-all apply --terragrunt-non-interactive -input=false
   artifacts:
     paths:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig

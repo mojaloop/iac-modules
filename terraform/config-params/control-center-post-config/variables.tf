@@ -51,3 +51,12 @@ variable "vault_root_token" {
   description = "root token for tenancy vault for gitlabci only"
   sensitive = true
 }
+
+variable "netmaker_master_key" {
+  description = "master key for netmaker"
+  sensitive = true
+}
+
+variable "netmaker_host_name" {
+  description = "netmaker host"
+}

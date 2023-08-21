@@ -9,6 +9,7 @@ variable "cluster_name" {
 variable "domain" {
   description = "Domain to attach the cluster to."
   type        = string
+  default = ""
 }
 
 variable "tags" {
@@ -21,6 +22,12 @@ variable "vpc_cidr" {
   default     = "10.25.0.0/22"
   type        = string
   description = "CIDR Subnet to use for the VPC, will be split into multiple /24s for the required private and public subnets"
+}
+
+variable "configure_route_53" {
+  type = bool
+  default = true
+  description = "whether route53 is to be configured at all or not"
 }
 
 variable "create_public_zone" {
@@ -68,7 +75,7 @@ variable "netmaker_ami" {
 
 variable "block_size" {
   type = number
-  default = 2
+  default = 3
 }
 
 variable "enable_netmaker" {
@@ -98,10 +105,10 @@ locals {
   identifying_tags = { Cluster = var.cluster_name, Domain = local.cluster_domain}
   common_tags = merge(local.identifying_tags, var.tags)
   azs = slice(data.aws_availability_zones.available.names, 0, var.az_count)
-  public_zone = var.create_public_zone ? aws_route53_zone.public[0] : data.aws_route53_zone.public[0]
-  private_zone = var.create_private_zone ? aws_route53_zone.private[0] : data.aws_route53_zone.private[0]
-  cluster_parent_zone_id = var.manage_parent_domain ? aws_route53_zone.cluster_parent[0].zone_id : data.aws_route53_zone.cluster_parent[0].zone_id
-  cluster_parent_parent_zone_id = (var.manage_parent_domain && var.manage_parent_domain_ns) ? data.aws_route53_zone.cluster_parent_parent[0].zone_id : null
+  public_zone = var.configure_route_53 ? (var.create_public_zone ? aws_route53_zone.public[0] : data.aws_route53_zone.public[0]) : null
+  private_zone = var.configure_route_53 ? (var.create_private_zone ? aws_route53_zone.private[0] : data.aws_route53_zone.private[0]) : null
+  cluster_parent_zone_id = var.configure_route_53 ? (var.manage_parent_domain ? aws_route53_zone.cluster_parent[0].zone_id : data.aws_route53_zone.cluster_parent[0].zone_id) : null
+  cluster_parent_parent_zone_id = var.configure_route_53 ? ((var.manage_parent_domain && var.manage_parent_domain_ns) ? data.aws_route53_zone.cluster_parent_parent[0].zone_id : null) : null
   ssh_keys = []
   public_subnets_list  = [for az in local.azs : "public-${az}"]
   private_subnets_list = [for az in local.azs : "private-${az}"]

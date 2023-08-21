@@ -1,7 +1,7 @@
 module "vpc_netmaker" {
   count   = var.enable_netmaker ? 1 : 0
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.19.0"
+  version = "5.1.1"
 
   name = "${var.cluster_name}-netmaker"
   cidr = var.netmaker_vpc_cidr
@@ -11,8 +11,12 @@ module "vpc_netmaker" {
 
   create_database_subnet_group = false
 
-  enable_dns_hostnames = true
-  enable_dns_support   = true
+  enable_dns_hostnames          = true
+  enable_dns_support            = true
+  manage_default_security_group = false
+  manage_default_network_acl    = false
+  manage_default_route_table    = false
+  map_public_ip_on_launch       = true
 
   tags = merge({}, local.common_tags)
 

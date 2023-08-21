@@ -1,0 +1,13 @@
+bastion: 
+  hosts: 
+    %{~ for host in bastion_hosts ~}
+    ${host}:
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in bastion_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}
+    %{~ for varmapkey, varmapval in bastion_hosts_yaml_maps ~}
+    ${varmapkey}:
+      ${indent(6, varmapval)}
+    %{~ endfor ~}

@@ -47,7 +47,7 @@ module "generate_vault_files" {
 variable "vault_sync_wave" {
   type        = string
   description = "vault_sync_wave"
-  default     = "-5"
+  default     = "-7"
 }
 
 variable "vault_namespace" {
@@ -64,14 +64,14 @@ variable "vault_config_operator_namespace" {
 
 variable "vault_config_operator_sync_wave" {
   type        = string
-  description = "vault_sync_wave"
-  default     = "-5"
+  description = "vault_config_operator_sync_wave"
+  default     = "-6"
 }
 
 variable "vault_cm_sync_wave" {
   type        = string
-  description = "vault_sync_wave"
-  default     = "-6"
+  description = "vault_cm_sync_wave"
+  default     = "-8"
 }
 
 variable "vault_chart_repo" {

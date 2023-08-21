@@ -97,6 +97,15 @@ resource "gitlab_group_variable" "kv_secret_path" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "netmaker_host_name" {
+  group             = var.iac_group_id
+  key               = "NETMAKER_HOST_NAME"
+  value             = var.netmaker_host_name
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "vault_kv_secret_v2" "netmaker_ops_token" {
   for_each            = var.env_map
   mount               = vault_mount.kv_secret.path
@@ -105,6 +114,18 @@ resource "vault_kv_secret_v2" "netmaker_ops_token" {
   data_json = jsonencode(
     {
       value = each.value["netmaker_ops_token"]
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "netmaker_env_token" {
+  for_each            = var.env_map
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/netmaker_env_token"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = each.value["netmaker_env_token"]
     }
   )
 }
@@ -127,6 +148,17 @@ resource "vault_kv_secret_v2" "vault_root_token" {
   data_json = jsonencode(
     {
       value = var.vault_root_token
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "netmaker_master_key" {
+  mount               = vault_mount.kv_secret.path
+  name                = "tenancy/netmaker_master_key"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = var.netmaker_master_key
     }
   )
 }

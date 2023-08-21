@@ -81,35 +81,35 @@ image:
   debug: false
 ## @param architecture MySQL architecture (`standalone` or `replication`)
 ##
-architecture: ${resource.local_resource.mysql_data.architecture}
+architecture: ${resource.local_resource_config.mysql_data.architecture}
 ## MySQL Authentication parameters
 ##
 auth:
   ## @param auth.rootPassword Password for the `root` user. Ignored if existing secret is provided
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#setting-the-root-password-on-first-run
   ##
-  rootPassword: "${resource.local_resource.mysql_data.root_password}"
+  rootPassword: "${resource.local_resource_config.mysql_data.root_password}"
   ## @param auth.database Name for a custom database to create
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#creating-a-database-on-first-run
   ##
-  database: ${resource.local_resource.mysql_data.database_name}
+  database: ${resource.local_resource_config.mysql_data.database_name}
   ## @param auth.username Name for a custom user to create
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#creating-a-database-user-on-first-run
   ##
-  username: ${resource.local_resource.mysql_data.user}
+  username: ${resource.local_resource_config.mysql_data.user}
   ## @param auth.replicationUser MySQL replication user
   ## ref: https://github.com/bitnami/bitnami-docker-mysql#setting-up-a-replication-cluster
   ##
-  password: "${resource.local_resource.mysql_data.user_password}"
+  password: "${resource.local_resource_config.mysql_data.user_password}"
   ## @param auth.replicationUser MySQL replication user
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#setting-up-a-replication-cluster
   ##
   replicationUser: replicator
   ## @param auth.replicationPassword MySQL replication user password. Ignored if existing secret is provided
   ##
-  replicationPassword: "${resource.local_resource.mysql_data.root_password}"
+  replicationPassword: "${resource.local_resource_config.mysql_data.root_password}"
 
-  existingSecret: "${resource.local_resource.mysql_data.existing_secret}"
+  existingSecret: "${resource.local_resource_config.mysql_data.existing_secret}"
 
 ## @section MySQL Primary parameters
 ##
@@ -382,7 +382,7 @@ primary:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: ${resource.local_resource.mysql_data.storage_class_name}
+    storageClass: ${resource.local_resource_config.mysql_data.storage_class_name}
     ## @param primary.persistence.annotations [object] MySQL primary persistent volume claim annotations
     ##
     annotations: {}
@@ -392,7 +392,7 @@ primary:
       - ReadWriteOnce
     ## @param primary.persistence.size MySQL primary persistent volume size
     ##
-    size: ${resource.local_resource.mysql_data.storage_size}
+    size: ${resource.local_resource_config.mysql_data.storage_size}
     ## @param primary.persistence.selector [object] Selector to match an existing Persistent Volume
     ## selector:
     ##   matchLabels:
@@ -420,7 +420,7 @@ primary:
     ## @param primary.service.ports.mysql MySQL Primary K8s service port
     ##
     ports:
-      mysql: ${resource.local_resource.mysql_data.service_port}
+      mysql: ${resource.local_resource_config.mysql_data.service_port}
 ## @section MySQL Secondary parameters
 ##
 
@@ -430,7 +430,7 @@ secondary:
   name: secondary
   ## @param secondary.replicaCount Number of MySQL secondary replicas
   ##
-  replicaCount: ${resource.local_resource.mysql_data.replica_count}
+  replicaCount: ${resource.local_resource_config.mysql_data.replica_count}
 
   ## @param secondary.configuration [string] Configure MySQL Secondary with a custom my.cnf file
   ## ref: https://mysql.com/kb/en/mysql/configuring-mysql-with-mycnf/#example-of-configuration-file
@@ -684,7 +684,7 @@ secondary:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: ${resource.local_resource.mysql_data.storage_class_name}
+    storageClass: ${resource.local_resource_config.mysql_data.storage_class_name}
     ## @param secondary.persistence.annotations [object] MySQL secondary persistent volume claim annotations
     ##
     annotations: {}
@@ -694,7 +694,7 @@ secondary:
       - ReadWriteOnce
     ## @param secondary.persistence.size MySQL secondary persistent volume size
     ##
-    size: ${resource.local_resource.mysql_data.storage_size}
+    size: ${resource.local_resource_config.mysql_data.storage_size}
     ## @param secondary.persistence.selector [object] Selector to match an existing Persistent Volume
     ## selector:
     ##   matchLabels:
