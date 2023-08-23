@@ -179,7 +179,7 @@ resource "gitlab_group_access_token" "gitlab_ci_pat" {
   name         = "gitlab ci pat"
   access_level = "owner"
   scopes       = ["api"]
-  expires_at   = "2030-01-01"
+  expires_at   = formatdate("YYYY-MM-DD", timeadd(timestamp(), "8736h"))
 }
 
 resource "vault_kv_secret_v2" "vault_oauth_client_id" {
