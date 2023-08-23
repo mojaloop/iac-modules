@@ -18,6 +18,8 @@ module "generate_istio_files" {
     internal_ingress_health_port     = var.internal_ingress_health_port
     istio_external_gateway_name      = var.istio_external_gateway_name
     istio_internal_gateway_name      = var.istio_internal_gateway_name
+    default_ssl_certificate          = var.default_ssl_certificate
+    wildcare_certificate_wave        = var.wildcare_certificate_wave
   }
   file_list       = ["kustomization.yaml", "namespace.yaml", "values-istio-base.yaml", "values-istio-istiod.yaml", "values-istio-external-ingress-gateway.yaml", "values-istio-internal-ingress-gateway.yaml", "lets-wildcard-cert.yaml"]
   template_path   = "${path.module}/generate-files/templates/istio"

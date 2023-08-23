@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - github.com/kubernetes-sigs/gateway-api/config/crd?ref=${gateway_api_version}
   - namespace.yaml
-%{ if istio_create_external_ingress_gateway ~}
+%{ if istio_create_ingress_gateways ~}
   - lets-wildcard-cert.yaml
 %{ endif ~}
 helmCharts:
