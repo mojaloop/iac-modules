@@ -20,6 +20,7 @@ module "generate_ingress_files" {
     external_load_balancer_dns          = var.external_load_balancer_dns
     internal_load_balancer_dns          = var.internal_load_balancer_dns
     external_nginx_service_account_name = var.external_nginx_service_account_name
+    istio_create_ingress_gateways       = var.istio_create_ingress_gateways
   }
   file_list = ["charts/nginx-external/Chart.yaml", "charts/nginx-external/values.yaml",
     "charts/nginx-internal/Chart.yaml", "charts/nginx-internal/values.yaml",
@@ -95,6 +96,19 @@ variable "external_ingress_http_port" {
   description = "external_ingress_http_port"
   default     = 32080
 }
+
+variable "internal_ingress_health_port" {
+  type        = number
+  description = "internal_ingress_health_port"
+  default     = 31081
+}
+
+variable "external_ingress_health_port" {
+  type        = number
+  description = "external_ingress_health_port"
+  default     = 32081
+}
+
 variable "external_nginx_service_account_name" {
   type        = string
   description = "external_nginx_service_account_name"

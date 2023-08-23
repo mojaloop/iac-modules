@@ -32,6 +32,12 @@ output "target_group_external_http_port" {
   value = var.target_group_external_http_port
 }
 
+output "target_group_internal_health_port" {
+  value = var.target_group_internal_health_port
+}
+output "target_group_external_health_port" {
+  value = var.target_group_external_health_port
+}
 
 ###new items
 

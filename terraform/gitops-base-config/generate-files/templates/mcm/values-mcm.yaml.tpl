@@ -72,7 +72,11 @@ ui:
     enabled: false
 
 ingress:
+%{ if istio_create_ingress_gateways ~}
+  enabled: false
+%{ else ~}
   enabled: true
+%{ endif ~}
   className: ${ingress_class}
   host: ${mcm_public_fqdn}
   tls:

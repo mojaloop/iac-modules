@@ -46,7 +46,7 @@ resource "aws_lb_target_group" "internal_https" {
     interval            = 10
     timeout             = 6
     path                = "/healthz"
-    port                = var.target_group_internal_http_port
+    port                = var.target_group_internal_health_port
     protocol            = "HTTP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
@@ -76,7 +76,7 @@ resource "aws_lb_target_group" "internal_http" {
     interval            = 10
     timeout             = 6
     path                = "/healthz"
-    port                = var.target_group_internal_http_port
+    port                = var.target_group_internal_health_port
     protocol            = "HTTP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
@@ -141,7 +141,7 @@ resource "aws_lb_target_group" "external_https" {
     interval            = 10
     timeout             = 6
     path                = "/healthz"
-    port                = var.target_group_external_http_port
+    port                = var.target_group_external_health_port
     protocol            = "HTTP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
@@ -162,7 +162,7 @@ resource "aws_lb_target_group" "external_http" {
     interval            = 10
     timeout             = 6
     path                = "/healthz"
-    port                = var.target_group_external_http_port
+    port                = var.target_group_external_health_port
     protocol            = "HTTP"
     healthy_threshold   = 3
     unhealthy_threshold = 3

@@ -25,6 +25,9 @@ module "generate_vault_files" {
     vault_k8s_auth_path                      = var.vault_k8s_auth_path
     public_subdomain                         = var.public_subdomain
     ingress_class                            = var.vault_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
+    istio_gateway_name                       = var.vault_ingress_internal_lb ? var.istio_internal_gateway_name : var.istio_external_gateway_name
+    istio_create_ingress_gateways            = var.istio_create_ingress_gateways
+    default_ssl_certificate                  = var.default_ssl_certificate
     consul_namespace                         = var.consul_namespace
     gitlab_server_url                        = var.gitlab_server_url
     gitlab_admin_group_name                  = var.gitlab_admin_group_name
@@ -96,37 +99,37 @@ variable "vault_config_operator_helm_chart_version" {
 }
 
 variable "vault_gitlab_credentials_secret_key" {
-  type = string
+  type        = string
   description = "vault_gitlab_credentials_secret_key"
-  default = "tenancy/gitlab_ci_pat"
+  default     = "tenancy/gitlab_ci_pat"
 }
 
 variable "vault_seal_token_secret_key" {
-  type = string
+  type        = string
   description = "vault_seal_token_secret_key"
-  default = "env_token"
+  default     = "env_token"
 }
 
 variable "transit_vault_url" {
-  type = string
+  type        = string
   description = "url to vault for transit autounseal"
 }
 
 variable "transit_vault_key_name" {
-  type = string
+  type        = string
   description = "key for transit autounseal"
 }
 
 variable "vault_oidc_client_secret_secret_key" {
-  type = string
+  type        = string
   description = "vault_oidc_client_secret_secret_key"
-  default = "vault_oauth_client_secret"
+  default     = "vault_oauth_client_secret"
 }
 
 variable "vault_oidc_client_id_secret_key" {
-  type = string
+  type        = string
   description = "vault_oidc_client_id_secret_key"
-  default = "vault_oauth_client_id"
+  default     = "vault_oauth_client_id"
 }
 
 variable "vault_ingress_internal_lb" {
@@ -141,6 +144,6 @@ variable "vault_k8s_auth_path" {
 }
 
 variable "enable_vault_oidc" {
-  type = bool
+  type    = bool
   default = false
 }

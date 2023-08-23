@@ -1,3 +1,4 @@
+%{ if !istio_create_ingress_gateways ~}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -48,3 +49,53 @@ spec:
                 name: ${keycloak_name}-service
                 port:
                   number: 8443
+%{ else ~}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: keycloak-gateway
+spec:
+  selector:
+    istio: ${istio_gateway_name}
+  servers:
+  - hosts:
+    - '${keycloak_fqdn}'
+    - 'token-${keycloak_fqdn}'
+    port:
+      name: https-keyloak
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: PASSTHROUGH
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: keycloak-vs
+spec:
+  gateways:
+  - keycloak-gateway
+  hosts:
+  - '${keycloak_fqdn}'
+  - 'token-${keycloak_fqdn}'
+  tls:
+  - match:
+    - port: 443
+      sniHosts:
+      - ${keycloak_fqdn}
+    route:
+    - destination:
+        host: ${keycloak_name}-service
+        port:
+          number: 8443
+  - match:
+    - port: 443
+      sniHosts:
+      - token-${keycloak_fqdn}
+    route:
+    - destination:
+        host: ${keycloak_name}-service
+        port:
+          number: 8443
+%{ endif ~}

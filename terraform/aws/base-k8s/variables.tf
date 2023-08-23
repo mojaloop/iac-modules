@@ -123,6 +123,12 @@ variable "target_group_internal_http_port" {
   default     = 31080
 }
 
+variable "target_group_internal_health_port" {
+  type        = number
+  description = "target_group_internal_health_port"
+  default     = 31081
+}
+
 variable "target_group_external_https_port" {
   type        = number
   description = "target_group_external_https_port"
@@ -133,6 +139,13 @@ variable "target_group_external_http_port" {
   type        = number
   description = "target_group_external_http_port"
   default     = 32080
+}
+
+variable "target_group_external_health_port" {
+  type        = number
+  description = "target_group_external_health_port"
+  default     = 32081
+
 }
 
 ###

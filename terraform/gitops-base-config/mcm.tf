@@ -29,6 +29,8 @@ module "generate_mcm_files" {
     enable_oidc                    = var.enable_mcm_oidc
     mcm_sync_wave                  = var.mcm_sync_wave
     ingress_class                  = var.mcm_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
+    istio_gateway_name             = var.mcm_ingress_internal_lb ? var.istio_internal_gateway_name : var.istio_external_gateway_name
+    istio_create_ingress_gateways  = var.istio_create_ingress_gateways
     pki_path                       = var.vault_root_ca_name
     dfsp_client_cert_bundle        = "${var.onboarding_secret_name_prefix}_pm4mls"
     dfsp_internal_whitelist_secret = "${var.whitelist_secret_name_prefix}_pm4mls"
@@ -46,7 +48,7 @@ module "generate_mcm_files" {
     istio_namespace                = var.istio_namespace
     nginx_external_namespace       = var.nginx_external_namespace
   }
-  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-agent.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl"]
+  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-agent.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml"]
   template_path   = "${path.module}/generate-files/templates/mcm"
   output_path     = "${var.output_dir}/mcm"
   app_file        = "mcm-app.yaml"

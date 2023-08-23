@@ -40,7 +40,11 @@ loki-stack:
         label: mojaloop_dashboard
         searchNamespace: ${dashboard_namespace}
     ingress:
+%{ if istio_create_ingress_gateways ~}
+      enabled: false
+%{ else ~}
       enabled: true
+%{ endif ~}
       ingressClassName: ${ingress_class}
       hosts:
         - grafana.${public_subdomain}

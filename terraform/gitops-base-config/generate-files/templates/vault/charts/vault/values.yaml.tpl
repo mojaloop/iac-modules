@@ -81,7 +81,11 @@ vault:
               matchLabels:
                 app: vault
     ingress:
+%{ if istio_create_ingress_gateways ~}
+      enabled: false
+%{ else ~}
       enabled: true
+%{ endif ~}
       ingressClassName: ${ingress_class}
       hosts:
         - host: vault.${public_subdomain}
