@@ -23,7 +23,7 @@ module "generate_istio_files" {
     public_subdomain                 = var.public_subdomain
     istio_gateways_sync_wave         = var.istio_gateways_sync_wave
   }
-  file_list       = ["istio-deploy.yaml", "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml", "istio-main/values-istio-base.yaml", "istio-main/values-istio-istiod.yaml", "istio-gateways/kustomization.yaml", "istio-gateways/values-istio-external-ingress-gateway.yaml", "istio-gateways/values-istio-internal-ingress-gateway.yaml", "istio-gateways/lets-wildcard-cert.yaml", "istio-gateways/namespace.yaml"]
+  file_list       = ["istio-deploy.yaml", "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml", "istio-main/values-kiali.yaml", "istio-main/values-istio-base.yaml", "istio-main/values-istio-istiod.yaml", "istio-gateways/kustomization.yaml", "istio-gateways/values-istio-external-ingress-gateway.yaml", "istio-gateways/values-istio-internal-ingress-gateway.yaml", "istio-gateways/lets-wildcard-cert.yaml", "istio-gateways/namespace.yaml"]
   template_path   = "${path.module}/generate-files/templates/istio"
   output_path     = "${var.output_dir}/istio"
   app_file        = "istio-app.yaml"
@@ -41,6 +41,18 @@ variable "istio_chart_version" {
   type        = string
   default     = "1.18.2"
   description = "istio_chart_version"
+}
+
+variable "kiali_chart_repo" {
+  type        = string
+  default     = "https://kiali.org/helm-charts"
+  description = "kiali_chart_repo"
+}
+
+variable "kiali_chart_version" {
+  type        = string
+  default     = "1.42.0"
+  description = "kiali_chart_version"
 }
 
 variable "gateway_api_version" {
