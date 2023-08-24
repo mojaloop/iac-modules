@@ -135,7 +135,8 @@ spec:
       route:
         - destination:
             host: ${mojaloop_release_name}-ml-testing-toolkit-frontend
-              port: 6060
+            port:
+              number: 6060
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -154,7 +155,8 @@ spec:
       route:
         - destination:
             host: ${mojaloop_release_name}-ml-testing-toolkit-backend
-              port: 5050
+            port:
+              number: 5050
     - name: socket
       match:
         - uri: 
@@ -162,7 +164,8 @@ spec:
       route:
         - destination:
             host: ${mojaloop_release_name}-ml-testing-toolkit-backend
-              port: 5050
+            port:
+              number: 5050
     - name: root
       match:
         - uri: 
@@ -170,6 +173,7 @@ spec:
       route:
         - destination:
             host: ${mojaloop_release_name}-ml-testing-toolkit-backend
-              port: 4040
+            port:
+              number: 4040
 ---
 %{ endif ~}

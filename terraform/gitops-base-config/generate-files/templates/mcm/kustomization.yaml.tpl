@@ -4,7 +4,7 @@ resources:
   - vault-rbac.yaml
   - vault-agent.yaml
 %{ if istio_create_ingress_gateways ~}
-  - istio-gateway-yaml
+  - istio-gateway.yaml
 %{ endif ~}
 configMapGenerator:
   - name: vault-agent
