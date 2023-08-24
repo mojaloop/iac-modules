@@ -27,70 +27,78 @@ spec:
   hosts:
   - '${interop_switch_fqdn}'
   http:
-  - match:
-    - uri: 
-      - prefix: /participants
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-account-lookup-service
-        port:
-          number: 80
-  - match:
-    - uri: 
-      - prefix: /parties
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-account-lookup-service
-        port:
-          number: 80
-  - match:
-    - uri: 
-      - prefix: /quotes
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-quoting-service
-        port:
-          number: 80
-  - match:
-    - uri: 
-      - prefix: /transfers
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-ml-api-adapter-service      
-        port:
-          number: 80
-  - match:
-    - uri: 
-      - prefix: /bulkQuotes
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-quoting-service      
-        port:
-          number: 80
-  - match:
-    - uri: 
-      - prefix: /bulkTransfers
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-bulk-api-adapter-service      
-        port:
-          number: 80
-  - match:
-    - uri: 
-      - prefix: /transactionRequests
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-transaction-requests-service      
-        port:
-          number: 80
-  - match:
-    - uri: 
-      - prefix: /authorizations
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-transaction-requests-service      
-        port:
-          number: 80
+    - name: participants
+      match:
+        - uri: 
+            prefix: /participants
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-account-lookup-service
+            port:
+              number: 80
+    - name: parties
+      match:
+        - uri: 
+            prefix: /parties
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-account-lookup-service
+            port:
+              number: 80
+    - name: quotes
+      match:
+        - uri: 
+            prefix: /quotes
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-quoting-service
+            port:
+              number: 80
+    - name: transfers
+      match:
+        - uri: 
+            prefix: /transfers
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-api-adapter-service      
+            port:
+              number: 80
+    - name: bulkQuotes
+      match:
+        - uri: 
+            prefix: /bulkQuotes
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-quoting-service      
+            port:
+              number: 80
+    - name: bulkTransfers
+      match:
+        - uri: 
+            prefix: /bulkTransfers
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-bulk-api-adapter-service      
+            port:
+              number: 80
+    - name: transactionRequests
+      match:
+        - uri: 
+            prefix: /transactionRequests
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-transaction-requests-service      
+            port:
+              number: 80
+    - name: authorizations
+      match:
+        - uri: 
+            prefix: /authorizations
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-transaction-requests-service      
+            port:
+              number: 80
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -121,13 +129,13 @@ spec:
   hosts:
   - 'ttkfrontend.${ingress_subdomain}'
   http:
-  - match:
-    - uri: 
-      - prefix: /
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-ml-testing-toolkit-frontend
-          port: 6060
+    - match:
+        - uri: 
+            prefix: /
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-testing-toolkit-frontend
+              port: 6060
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -139,26 +147,29 @@ spec:
   hosts:
   - 'ttkbackend.${ingress_subdomain}'
   http:
-  - match:
-    - uri: 
-      - prefix: /api/
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-ml-testing-toolkit-backend
-          port: 5050
-  - match:
-    - uri: 
-      - prefix: /socket.io/
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-ml-testing-toolkit-backend
-          port: 5050
-  - match:
-    - uri: 
-      - prefix: /
-    route:
-    - destination:
-        host: ${mojaloop_release_name}-ml-testing-toolkit-backend
-          port: 4040
+    - name: api
+      match:
+        - uri: 
+            prefix: /api/
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+              port: 5050
+    - name: socket
+      match:
+        - uri: 
+            prefix: /socket.io/
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+              port: 5050
+    - name: root
+      match:
+        - uri: 
+            prefix: /
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+              port: 4040
 ---
 %{ endif ~}

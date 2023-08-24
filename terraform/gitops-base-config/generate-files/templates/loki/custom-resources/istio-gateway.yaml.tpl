@@ -23,16 +23,16 @@ metadata:
   name: grafana-vs
 spec:
   gateways:
-  - grafana-gateway
+    - grafana-gateway
   hosts:
-  - 'grafana.${public_subdomain}'
+    - 'grafana.${public_subdomain}'
   http:
-  - match:
-    - uri: 
-      - prefix: /
-    route:
-    - destination:
-        host: loki-app-grafana
-        port:
-          number: 80
+    - match:
+        - uri: 
+            prefix: /
+      route:
+        - destination:
+            host: loki-app-grafana
+            port:
+              number: 80
 %{ endif ~}

@@ -27,12 +27,12 @@ spec:
   hosts:
   - 'vault.${public_subdomain}'
   http:
-  - match:
-    - uri: 
-      - prefix: /
-    route:
-    - destination:
-        host: vault-active
-        port:
-          number: 8200
+    - match:
+        - uri: 
+            prefix: /
+      route:
+        - destination:
+            host: vault-active
+            port:
+              number: 8200
 %{ endif ~}

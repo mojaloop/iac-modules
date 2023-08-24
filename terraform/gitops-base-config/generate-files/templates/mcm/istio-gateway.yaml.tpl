@@ -26,19 +26,21 @@ spec:
   hosts:
   - '${mcm_public_fqdn}'
   http:
-  - match:
-    - uri: 
-      - prefix: /api
-    route:
-    - destination:
-        host: mcm-connection-manager-api
-        port:
-          number: 3001
-  - match:
-    - uri: 
-      - prefix: /
-    route:
-    - destination:
-        host: mcm-connection-manager-ui
-        port:
-          number: 8080
+    - name: "api"
+      match:
+        - uri: 
+            prefix: /api
+      route:
+        - destination:
+            host: mcm-connection-manager-api
+            port:
+              number: 3001
+    - name: "ui"
+      match:
+        - uri: 
+            prefix: /
+      route:
+        - destination:
+            host: mcm-connection-manager-ui
+            port:
+              number: 8080

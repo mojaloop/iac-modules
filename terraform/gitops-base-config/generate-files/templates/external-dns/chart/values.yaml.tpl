@@ -13,3 +13,7 @@ external-dns:
   interval: 1m
   triggerLoopOnEvent: true
   txtPrefix: extdns
+  sources:
+    - service
+    - ingress
+    - istio-gateway
