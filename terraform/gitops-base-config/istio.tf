@@ -22,7 +22,7 @@ module "generate_istio_files" {
     wildcare_certificate_wave        = var.wildcare_certificate_wave
     public_subdomain                 = var.public_subdomain
   }
-  file_list       = ["kustomization.yaml", "namespace.yaml", "values-istio-base.yaml", "values-istio-istiod.yaml", "values-istio-external-ingress-gateway.yaml", "values-istio-internal-ingress-gateway.yaml", "lets-wildcard-cert.yaml"]
+  file_list       = ["istio-main/kustomization.yaml", "istio-main/namespace.yaml", "istio-main/values-istio-base.yaml", "istio-main/values-istio-istiod.yaml", "istio-gateways/kustomization.yaml", "istio-gateways/values-istio-external-ingress-gateway.yaml", "istio-gateways/values-istio-internal-ingress-gateway.yaml", "istio-gateways/lets-wildcard-cert.yaml", "istio-gateways/namespace.yaml"]
   template_path   = "${path.module}/generate-files/templates/istio"
   output_path     = "${var.output_dir}/istio"
   app_file        = "istio-app.yaml"
@@ -52,6 +52,12 @@ variable "istio_sync_wave" {
   type        = string
   description = "istio_sync_wave"
   default     = "-8"
+}
+
+variable "istio_gateways_sync_wave" {
+  type        = string
+  description = "istio_gateways_sync_wave"
+  default     = "-7"
 }
 
 variable "istio_namespace" {
