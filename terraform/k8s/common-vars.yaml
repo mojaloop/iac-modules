@@ -5,7 +5,7 @@ vault_provider_version: "~> 3.16"
 cert_manager_chart_version: 1.12.2
 consul_chart_version: 1.1.1
 longhorn_chart_version: 1.4.0
-external_dns_chart_version: 6.20.2
+external_dns_chart_version: 6.24.1
 vault_chart_version: 0.24.1
 vault_config_operator_helm_chart_version: 0.8.16
 nginx_helm_chart_version: 4.6.1
