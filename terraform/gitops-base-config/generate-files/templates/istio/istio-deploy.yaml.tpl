@@ -3,7 +3,7 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_sync_wave}"
-  name: nginx-external-app
+  name: istio-main-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -15,7 +15,7 @@ spec:
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${nginx_external_namespace}
+    namespace: ${istio_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
