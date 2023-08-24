@@ -12,17 +12,10 @@ spec:
     path: apps/istio
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
   destination:
     namespace: ${istio_namespace}
     server: https://kubernetes.default.svc
   project: default
-  ignoreDifferences:
-    - group: admissionregistration.k8s.io
-      kind: ValidatingWebhookConfiguration
-      jqPathExpressions:
-        - .webhooks[]?.failurePolicy
   syncPolicy:
     automated:
       prune: true
