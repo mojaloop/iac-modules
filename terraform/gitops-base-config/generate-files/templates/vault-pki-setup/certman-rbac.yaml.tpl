@@ -56,7 +56,7 @@ metadata:
 spec:
   vault:
     path: pki-root-ca/sign/server-cert-role
-    server: https://vault.${public_subdomain}
+    server: ${vault_endpoint}
     auth:
       kubernetes:
         role: ${cert_manager_cluster_issuer_role_name}
