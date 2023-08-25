@@ -141,7 +141,7 @@ resource "aws_lb_target_group" "external_https" {
     interval            = 10
     timeout             = 6
     path                = "/healthz/ready"
-    port                = var.target_group_external_health_port
+    port                = var.target_group_external_https_port
     protocol            = "HTTP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
@@ -162,7 +162,7 @@ resource "aws_lb_target_group" "external_http" {
     interval            = 10
     timeout             = 6
     path                = "/healthz/ready"
-    port                = var.target_group_external_health_port
+    port                = var.target_group_external_http_port
     protocol            = "HTTP"
     healthy_threshold   = 3
     unhealthy_threshold = 3

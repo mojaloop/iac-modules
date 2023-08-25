@@ -13,6 +13,7 @@ module "generate_vault_pki_setup_files" {
     pki_server_cert_role                  = var.pki_server_cert_role
     pki_client_cert_role                  = var.pki_client_cert_role
     k8s_auth_path                         = var.k8s_auth_path
+    vault_endpoint                        = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
   }
   file_list       = ["certman-rbac.yaml", "vault-auth-config.yaml"]
   template_path   = "${path.module}/generate-files/templates/vault-pki-setup"

@@ -26,6 +26,7 @@ roleRef:
   name: create-update-istio-crs
   apiGroup: rbac.authorization.k8s.io
 ---
+%{ if !istio_create_ingress_gateways ~}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -51,3 +52,4 @@ roleRef:
   kind: Role
   name: nginx-ext-cm-all
   apiGroup: rbac.authorization.k8s.io
+%{ endif ~}

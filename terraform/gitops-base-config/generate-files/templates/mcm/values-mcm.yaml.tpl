@@ -57,6 +57,8 @@ api:
     vault.hashicorp.com/log-level: "debug"
     vault.hashicorp.com/agent-image: ghcr.io/mojaloop/vault-agent-util:0.0.1
     vault.hashicorp.com/agent-configmap: "vault-agent"
+    vault.hashicorp.com/agent-pre-populate: "false"
+    proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
   config:
     caCSRParametersData: |-
       {
@@ -85,3 +87,5 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+migrations:
+  enabled: false
