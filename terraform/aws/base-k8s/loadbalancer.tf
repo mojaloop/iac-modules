@@ -45,7 +45,7 @@ resource "aws_lb_target_group" "internal_https" {
   health_check {
     interval            = 10
     timeout             = 6
-    path                = "/healthz"
+    path                = "/healthz/ready"
     port                = var.target_group_internal_health_port
     protocol            = "HTTP"
     healthy_threshold   = 3
@@ -75,7 +75,7 @@ resource "aws_lb_target_group" "internal_http" {
   health_check {
     interval            = 10
     timeout             = 6
-    path                = "/healthz"
+    path                = "/healthz/ready"
     port                = var.target_group_internal_health_port
     protocol            = "HTTP"
     healthy_threshold   = 3
