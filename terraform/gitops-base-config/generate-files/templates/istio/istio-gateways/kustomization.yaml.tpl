@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - lets-wildcard-cert.yaml
+  - proxy-protocol.yaml
 helmCharts:
 - name: gateway
   releaseName: ext-gateway

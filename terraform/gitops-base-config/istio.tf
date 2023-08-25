@@ -25,7 +25,12 @@ module "generate_istio_files" {
     kiali_chart_version              = var.kiali_chart_version
     kiali_chart_repo                 = var.kiali_chart_repo
   }
-  file_list       = ["istio-deploy.yaml", "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml", "istio-main/values-kiali.yaml", "istio-main/values-istio-base.yaml", "istio-main/values-istio-istiod.yaml", "istio-gateways/kustomization.yaml", "istio-gateways/values-istio-external-ingress-gateway.yaml", "istio-gateways/values-istio-internal-ingress-gateway.yaml", "istio-gateways/lets-wildcard-cert.yaml", "istio-gateways/namespace.yaml"]
+  file_list = ["istio-deploy.yaml",
+    "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml",
+    "istio-main/values-kiali.yaml", "istio-main/values-istio-base.yaml", "istio-main/values-istio-istiod.yaml",
+    "istio-gateways/kustomization.yaml", "istio-gateways/values-istio-external-ingress-gateway.yaml",
+    "istio-gateways/values-istio-internal-ingress-gateway.yaml", "istio-gateways/lets-wildcard-cert.yaml",
+  "istio-gateways/namespace.yaml", "istio-gateways/proxy-protocol.yaml"]
   template_path   = "${path.module}/generate-files/templates/istio"
   output_path     = "${var.output_dir}/istio"
   app_file        = "istio-app.yaml"
