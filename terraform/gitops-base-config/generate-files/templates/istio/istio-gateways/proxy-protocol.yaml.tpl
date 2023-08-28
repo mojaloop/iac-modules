@@ -5,13 +5,13 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: LISTENER_FILTER
+  - applyTo: LISTENER
     patch:
-      operation: INSERT_FIRST
+      operation: MERGE
       value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
+        listener_filters:
+        - name: envoy.listener.proxy_protocol
+        - name: envoy.listener.tls_inspector
   workloadSelector:
     labels:
       istio: ${istio_external_gateway_name}

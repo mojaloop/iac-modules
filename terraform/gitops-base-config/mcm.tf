@@ -1,6 +1,7 @@
 module "generate_mcm_files" {
   source = "./generate-files"
   var_map = {
+    mcm_enabled                    = var.mcm_enabled
     db_password_secret             = local.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret
     db_password_secret_key         = local.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret_key
     db_user                        = local.stateful_resources[local.mcm_resource_index].logical_service_config.username
@@ -56,6 +57,11 @@ module "generate_mcm_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
+variable "mcm_enabled" {
+  description = "whether mcm app is enabled or not"
+  type        = bool
+  default     = true
+}
 variable "mcm_ingress_internal_lb" {
   type        = bool
   description = "mcm_ingress_internal_lb"

@@ -1,6 +1,7 @@
 module "generate_mojaloop_files" {
   source = "./generate-files"
   var_map = {
+    mojaloop_enabled                            = var.mojaloop_enabled
     gitlab_project_url                          = var.gitlab_project_url
     mojaloop_chart_repo                         = var.mojaloop_chart_repo
     mojaloop_chart_version                      = var.mojaloop_chart_version
@@ -99,6 +100,12 @@ locals {
   third_party_auth_db_resource_index           = index(local.stateful_resources.*.resource_name, "thirdparty-auth-svc-db")
   third_party_consent_oracle_db_resource_index = index(local.stateful_resources.*.resource_name, "mysql-consent-oracle-db")
   ttk_redis_resource_index                     = index(local.stateful_resources.*.resource_name, "ttk-redis")
+}
+
+variable "mojaloop_enabled" {
+  description = "whether mojaloop app is enabled or not"
+  type        = bool
+  default     = true
 }
 
 resource "tls_private_key" "jws" {
