@@ -31,6 +31,7 @@ module "generate_mcm_files" {
     mcm_sync_wave                  = var.mcm_sync_wave
     ingress_class                  = var.mcm_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_gateway_name             = var.mcm_ingress_internal_lb ? var.istio_internal_gateway_name : var.istio_external_gateway_name
+    loadbalancer_host_name         = var.mcm_ingress_internal_lb ? var.internal_load_balancer_dns : var.external_load_balancer_dns
     istio_create_ingress_gateways  = var.istio_create_ingress_gateways
     pki_path                       = var.vault_root_ca_name
     dfsp_client_cert_bundle        = "${var.onboarding_secret_name_prefix}_pm4mls"

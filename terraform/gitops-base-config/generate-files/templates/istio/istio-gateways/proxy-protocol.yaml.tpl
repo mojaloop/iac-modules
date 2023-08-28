@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: proxy-protocol
-  namespace: istio-system
+  namespace: ${istio_external_gateway_namespace}
 spec:
   configPatches:
   - applyTo: LISTENER
@@ -20,7 +20,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: health-check
-  namespace: istio-system
+  namespace: ${istio_external_gateway_namespace}
 spec:
   selector:
     istio: ${istio_external_gateway_name}
@@ -42,10 +42,10 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: health-check
-  namespace: istio-system
+  namespace: ${istio_external_gateway_namespace}
 spec:
   gateways:
-  - istio-system/health-check
+  - health-check
   hosts:
   - "*"
   http:

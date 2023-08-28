@@ -3,6 +3,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: interop-gateway
+  annotations: {
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+  }
 spec:
   selector:
     istio: ${istio_external_gateway_name}
@@ -104,6 +107,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: mojaloop-ttk-gateway
+  annotations: {
+    external-dns.alpha.kubernetes.io/target: ${loadbalancer_host_name}
+  }
 spec:
   selector:
     istio: ${istio_external_gateway_name}

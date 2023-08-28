@@ -16,6 +16,7 @@ module "generate_keycloak_files" {
     keycloak_sync_wave                    = var.keycloak_sync_wave
     ingress_class                         = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_gateway_name                    = var.keycloak_ingress_internal_lb ? var.istio_internal_gateway_name : var.istio_external_gateway_name
+    loadbalancer_host_name                = var.keycloak_ingress_internal_lb ? var.internal_load_balancer_dns : var.external_load_balancer_dns
     external_ingress_class_name           = var.external_ingress_class_name
     keycloak_tls_secretname               = var.default_ssl_certificate
     mcm_namespace                         = var.mcm_namespace

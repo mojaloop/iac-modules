@@ -26,6 +26,7 @@ module "generate_vault_files" {
     public_subdomain                         = var.public_subdomain
     ingress_class                            = var.vault_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_gateway_name                       = var.vault_ingress_internal_lb ? var.istio_internal_gateway_name : var.istio_external_gateway_name
+    loadbalancer_host_name                   = var.vault_ingress_internal_lb ? var.internal_load_balancer_dns : var.external_load_balancer_dns
     istio_create_ingress_gateways            = var.istio_create_ingress_gateways
     default_ssl_certificate                  = var.default_ssl_certificate
     consul_namespace                         = var.consul_namespace

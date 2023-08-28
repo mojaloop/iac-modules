@@ -28,6 +28,8 @@ module "generate_mojaloop_files" {
     ingress_class_name                          = var.mojaloop_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways               = var.istio_create_ingress_gateways
     istio_external_gateway_name                 = var.istio_external_gateway_name
+    external_load_balancer_dns                  = var.external_load_balancer_dns
+    loadbalancer_host_name                      = var.mojaloop_ingress_internal_lb ? var.internal_load_balancer_dns : var.external_load_balancer_dns
     default_ssl_certificate                     = var.default_ssl_certificate
     kafka_host                                  = "${local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                                  = local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port

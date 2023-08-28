@@ -55,6 +55,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: keycloak-gateway
+  annotations: {
+    external-dns.alpha.kubernetes.io/target: ${loadbalancer_host_name}
+  }
 spec:
   selector:
     istio: ${istio_gateway_name}
