@@ -41,7 +41,8 @@ module "generate_vault_files" {
 
   file_list = ["charts/vault/Chart.yaml", "charts/vault/values.yaml",
     "charts/vault-config-operator/Chart.yaml", "charts/vault-config-operator/values.yaml",
-  "post-config.yaml", "vault-config-operator.yaml", "vault-extsecret.yaml", "vault-helm.yaml"]
+  "post-config.yaml", "vault-config-operator.yaml", "vault-extsecret.yaml", "vault-helm.yaml",
+  "istio-gateway.yaml"]
   template_path   = "${path.module}/generate-files/templates/vault"
   output_path     = "${var.output_dir}/vault"
   app_file        = "vault-app.yaml"
