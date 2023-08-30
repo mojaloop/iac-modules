@@ -104,34 +104,16 @@ spec:
               number: 80
 ---
 apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: mojaloop-ttk-gateway
-  annotations: {
-    external-dns.alpha.kubernetes.io/target: ${loadbalancer_host_name}
-  }
-spec:
-  selector:
-    istio: ${istio_external_gateway_name}
-  servers:
-  - hosts:
-    - 'ttkfrontend.${ingress_subdomain}'
-    - 'ttkbackend.${ingress_subdomain}'
-    port:
-      name: https-mojaloop-ttk
-      number: 443
-      protocol: HTTPS
-    tls:
-      credentialName: ${default_ssl_certificate}
-      mode: SIMPLE
----
-apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: mojaloop-ttkfront-vs
 spec:
   gateways:
-  - mojaloop-ttk-gateway
+%{ if mojaloop_wildcard_gateway == "external" ~} 
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+%{ else ~}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+%{ endif ~}
   hosts:
   - 'ttkfrontend.${ingress_subdomain}'
   http:
@@ -150,7 +132,11 @@ metadata:
   name: mojaloop-ttkback-vs
 spec:
   gateways:
-  - mojaloop-ttk-gateway
+%{ if mojaloop_wildcard_gateway == "external" ~} 
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+%{ else ~}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+%{ endif ~}  
   hosts:
   - 'ttkbackend.${ingress_subdomain}'
   http:

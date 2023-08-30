@@ -29,8 +29,11 @@ module "generate_mojaloop_files" {
     istio_create_ingress_gateways               = var.istio_create_ingress_gateways
     istio_external_gateway_name                 = var.istio_external_gateway_name
     external_load_balancer_dns                  = var.external_load_balancer_dns
-    loadbalancer_host_name                      = var.mojaloop_ingress_internal_lb ? var.internal_load_balancer_dns : var.external_load_balancer_dns
-    default_ssl_certificate                     = var.default_ssl_certificate
+    istio_internal_wildcard_gateway_name        = local.istio_internal_wildcard_gateway_name
+    istio_internal_gateway_namespace            = var.istio_internal_gateway_namespace
+    istio_external_wildcard_gateway_name        = local.istio_external_wildcard_gateway_name
+    istio_external_gateway_namespace            = var.istio_external_gateway_namespace
+    mojaloop_wildcard_gateway                   = local.mojaloop_wildcard_gateway
     kafka_host                                  = "${local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                                  = local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port
     account_lookup_db_existing_secret           = local.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret
@@ -83,7 +86,7 @@ module "generate_mojaloop_files" {
     ttksims_redis_host                          = "${local.stateful_resources[local.ttk_redis_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     ttksims_redis_port                          = local.stateful_resources[local.ttk_redis_resource_index].logical_service_config.logical_service_port
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/certificate.yaml",  "custom-resources/istio-gateway.yaml"]
+  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/certificate.yaml", "custom-resources/istio-gateway.yaml"]
   template_path   = "${path.module}/generate-files/templates/mojaloop"
   output_path     = "${var.output_dir}/mojaloop"
   app_file        = "mojaloop-app.yaml"
@@ -102,6 +105,7 @@ locals {
   third_party_auth_db_resource_index           = index(local.stateful_resources.*.resource_name, "thirdparty-auth-svc-db")
   third_party_consent_oracle_db_resource_index = index(local.stateful_resources.*.resource_name, "mysql-consent-oracle-db")
   ttk_redis_resource_index                     = index(local.stateful_resources.*.resource_name, "ttk-redis")
+  mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
 }
 
 variable "mojaloop_enabled" {

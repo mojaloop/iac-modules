@@ -1,31 +1,14 @@
 apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: mcm-gateway
-  annotations: {
-    external-dns.alpha.kubernetes.io/target: ${loadbalancer_host_name}
-  }
-spec:
-  selector:
-    istio: ${istio_gateway_name}
-  servers:
-  - hosts:
-    - '${mcm_public_fqdn}'
-    port:
-      name: https-mcm
-      number: 443
-      protocol: HTTPS
-    tls:
-      credentialName: ${default_ssl_certificate}
-      mode: SIMPLE
----
-apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: mcm-vs
 spec:
   gateways:
-  - mcm-gateway
+%{ if mcm_wildcard_gateway == "external" ~} 
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+%{ else ~}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+%{ endif ~}
   hosts:
   - '${mcm_public_fqdn}'
   http:

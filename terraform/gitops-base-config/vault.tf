@@ -25,10 +25,12 @@ module "generate_vault_files" {
     vault_k8s_auth_path                      = var.vault_k8s_auth_path
     public_subdomain                         = var.public_subdomain
     ingress_class                            = var.vault_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
-    istio_gateway_name                       = var.vault_ingress_internal_lb ? var.istio_internal_gateway_name : var.istio_external_gateway_name
-    loadbalancer_host_name                   = var.vault_ingress_internal_lb ? var.internal_load_balancer_dns : var.external_load_balancer_dns
+    istio_internal_wildcard_gateway_name     = local.istio_internal_wildcard_gateway_name
+    istio_internal_gateway_namespace         = var.istio_internal_gateway_namespace
+    istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
+    istio_external_gateway_namespace         = var.istio_external_gateway_namespace
+    vault_wildcard_gateway                   = local.vault_wildcard_gateway
     istio_create_ingress_gateways            = var.istio_create_ingress_gateways
-    default_ssl_certificate                  = var.default_ssl_certificate
     consul_namespace                         = var.consul_namespace
     gitlab_server_url                        = var.gitlab_server_url
     gitlab_admin_group_name                  = var.gitlab_admin_group_name
@@ -41,7 +43,7 @@ module "generate_vault_files" {
 
   file_list = ["charts/vault/Chart.yaml", "charts/vault/values.yaml",
     "charts/vault-config-operator/Chart.yaml", "charts/vault-config-operator/values.yaml",
-  "post-config.yaml", "vault-config-operator.yaml", "vault-extsecret.yaml", "vault-helm.yaml",
+    "post-config.yaml", "vault-config-operator.yaml", "vault-extsecret.yaml", "vault-helm.yaml",
   "istio-gateway.yaml"]
   template_path   = "${path.module}/generate-files/templates/vault"
   output_path     = "${var.output_dir}/vault"
@@ -148,4 +150,8 @@ variable "vault_k8s_auth_path" {
 variable "enable_vault_oidc" {
   type    = bool
   default = false
+}
+
+locals {
+  vault_wildcard_gateway = var.vault_ingress_internal_lb ? "internal" : "external"
 }

@@ -15,8 +15,11 @@ module "generate_keycloak_files" {
     keycloak_dfsp_realm_name              = var.keycloak_dfsp_realm_name
     keycloak_sync_wave                    = var.keycloak_sync_wave
     ingress_class                         = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
-    istio_gateway_name                    = var.keycloak_ingress_internal_lb ? var.istio_internal_gateway_name : var.istio_external_gateway_name
-    loadbalancer_host_name                = var.keycloak_ingress_internal_lb ? var.internal_load_balancer_dns : var.external_load_balancer_dns
+    istio_internal_wildcard_gateway_name  = local.istio_internal_wildcard_gateway_name
+    istio_internal_gateway_namespace      = var.istio_internal_gateway_namespace
+    istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
+    istio_external_gateway_namespace      = var.istio_external_gateway_namespace
+    keycloak_wildcard_gateway             = local.keycloak_wildcard_gateway
     external_ingress_class_name           = var.external_ingress_class_name
     keycloak_tls_secretname               = var.default_ssl_certificate
     mcm_namespace                         = var.mcm_namespace
@@ -25,7 +28,7 @@ module "generate_keycloak_files" {
     mcm_oidc_client_id                    = var.mcm_oidc_client_id
     istio_create_ingress_gateways         = var.istio_create_ingress_gateways
   }
-  file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-realm-cr.yaml", "keycloak-ingress.yaml", "vault-secret.yaml"]
+  file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-realm-cr.yaml", "keycloak-ingress.yaml", "vault-secret.yaml", "namespace.yaml"]
   template_path   = "${path.module}/generate-files/templates/keycloak"
   output_path     = "${var.output_dir}/keycloak"
   app_file        = "keycloak-app.yaml"
@@ -65,4 +68,5 @@ variable "keycloak_dfsp_realm_name" {
 
 locals {
   keycloak_postgres_resource_index = index(local.stateful_resources.*.resource_name, "keycloak-db")
+  keycloak_wildcard_gateway        = var.keycloak_ingress_internal_lb ? "internal" : "external"
 }

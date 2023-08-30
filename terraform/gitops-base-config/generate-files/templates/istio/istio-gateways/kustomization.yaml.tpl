@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - lets-wildcard-cert.yaml
   - proxy-protocol.yaml
+  - gateways.yaml
 helmCharts:
 - name: gateway
   releaseName: ext-gateway

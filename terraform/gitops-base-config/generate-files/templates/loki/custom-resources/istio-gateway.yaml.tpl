@@ -1,32 +1,15 @@
 %{ if istio_create_ingress_gateways ~}
 apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: grafana-gateway
-  annotations: {
-    external-dns.alpha.kubernetes.io/target: ${loadbalancer_host_name}
-  }
-spec:
-  selector:
-    istio: ${istio_gateway_name}
-  servers:
-  - hosts:
-    - 'grafana.${public_subdomain}'
-    port:
-      name: https-grafana
-      number: 443
-      protocol: HTTPS
-    tls:
-      credentialName: ${default_ssl_certificate}
-      mode: SIMPLE
----
-apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: grafana-vs
 spec:
   gateways:
-    - grafana-gateway
+%{ if loki_wildcard_gateway == "external" ~} 
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+%{ else ~}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+%{ endif ~}
   hosts:
     - 'grafana.${public_subdomain}'
   http:
