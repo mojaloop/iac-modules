@@ -3,15 +3,17 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
-  name: certmanager-app
+  name: certmanager-helm
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/certmanager
+    path: apps/certmanager/charts/certmanager
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
+    plugin:
+      name: argocd-lovely-plugin-v1.0
   destination:
     namespace: ${cert_manager_namespace}
     server: https://kubernetes.default.svc

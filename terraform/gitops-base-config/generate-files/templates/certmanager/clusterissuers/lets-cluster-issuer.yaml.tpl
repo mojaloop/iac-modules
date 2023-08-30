@@ -2,8 +2,6 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt
-  annotations:
-    argocd.argoproj.io/sync-wave: "-9"
 spec:
   acme:
     # You must replace this email address with your own.

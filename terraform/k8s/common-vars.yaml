@@ -12,7 +12,7 @@ nginx_helm_chart_version: 4.6.1
 loki_chart_version: 2.9.10
 external_secrets_version: 0.8.2
 argocd_version: 2.8.2
-argocd_lovely_plugin_version: 0.20.1
+argocd_lovely_plugin_version: 0.18.0
 mojaloop_chart_version: 15.1.0
 mcm_enabled: false
 mojaloop_enabled: false
