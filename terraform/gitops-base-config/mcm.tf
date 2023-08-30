@@ -8,7 +8,7 @@ module "generate_mcm_files" {
     db_schema                            = local.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
     db_port                              = local.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
     db_host                              = "${local.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    mcm_public_fqdn                      = "mcm.${var.public_subdomain}"
+    mcm_public_fqdn                      = local.mcm_public_fqdn
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain
     env_o                                = "Mojaloop"
@@ -144,4 +144,5 @@ variable "mcm_vault_k8s_role_name" {
 locals {
   mcm_resource_index   = index(local.stateful_resources.*.resource_name, "mcm-db")
   mcm_wildcard_gateway = var.mcm_ingress_internal_lb ? "internal" : "external"
+  mcm_public_fqdn      = "mcm.${var.public_subdomain}"
 }

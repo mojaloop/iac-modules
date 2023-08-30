@@ -33,6 +33,8 @@ module "generate_istio_files" {
     vault_wildcard_gateway               = local.vault_wildcard_gateway
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
+    keycloak_fqdn                        = local.keycloak_fqdn
+    mcm_public_fqdn                      = local.mcm_public_fqdn
   }
   file_list = ["istio-deploy.yaml",
     "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml",
