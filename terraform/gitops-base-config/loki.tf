@@ -20,8 +20,6 @@ module "generate_loki_files" {
     admin_user_name                      = "grafana-admin"
     loki_sync_wave                       = var.loki_sync_wave
     ingress_class                        = var.grafana_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
-    istio_gateway_name                   = var.grafana_ingress_internal_lb ? var.istio_internal_gateway_name : var.istio_external_gateway_name
-    loadbalancer_host_name               = var.grafana_ingress_internal_lb ? var.internal_load_balancer_dns : var.external_load_balancer_dns
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
     istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace

@@ -31,6 +31,8 @@ module "generate_istio_files" {
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     loki_wildcard_gateway                = local.loki_wildcard_gateway
     vault_wildcard_gateway               = local.vault_wildcard_gateway
+    internal_load_balancer_dns           = var.internal_load_balancer_dns
+    external_load_balancer_dns           = var.external_load_balancer_dns
   }
   file_list = ["istio-deploy.yaml",
     "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml",
