@@ -11,6 +11,7 @@ spec:
     istio: ${istio_internal_gateway_name}
   servers:
   - hosts:
+    - 'intdemo.${public_subdomain}'
 %{ if mojaloop_wildcard_gateway == "internal" ~} 
     - 'ttkfrontend.${public_subdomain}'
     - 'ttkbackend.${public_subdomain}'
@@ -48,6 +49,7 @@ spec:
     istio: ${istio_external_gateway_name}
   servers:
   - hosts:
+    - 'extdemo.${public_subdomain}'
 %{ if mojaloop_wildcard_gateway == "external" ~} 
     - 'ttkfrontend.${public_subdomain}'
     - 'ttkbackend.${public_subdomain}'

@@ -3,7 +3,7 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-9"
-  name: certmanager-helm
+  name: certmanager-clusterissuers
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
