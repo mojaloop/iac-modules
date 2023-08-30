@@ -17,6 +17,6 @@ spec:
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "keycloak, monitoring, mcm, mojaloop, vault"  # Control destination namespaces
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "keycloak, ${istio_external_gateway_namespace}, ${istio_internal_gateway_namespace}"  # Control destination namespaces
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "keycloak, monitoring, mcm, mojaloop, vault" # Control auto-reflection namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "keycloak, ${istio_external_gateway_namespace}, ${istio_internal_gateway_namespace}" # Control auto-reflection namespaces

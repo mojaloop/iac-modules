@@ -85,13 +85,4 @@ spec:
   trafficPolicy:
     tls:
       mode: SIMPLE
----
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: keycloak
-  namespace: ${keycloak_namespace}
-spec:
-  mtls:
-    mode: DISABLE
 %{ endif ~}

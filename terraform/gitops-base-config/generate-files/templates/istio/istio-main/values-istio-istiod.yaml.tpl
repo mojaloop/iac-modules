@@ -94,7 +94,7 @@ sidecarInjectorWebhook:
   # This enables injection of sidecar in all namespaces,
   # with the exception of namespaces with "istio-injection:disabled" annotation
   # Only one environment should have this enabled.
-  enableNamespacesByDefault: true
+  enableNamespacesByDefault: false
 
   rewriteAppHTTPProbe: true
 
