@@ -13,7 +13,7 @@ module "generate_loki_files" {
     enable_oidc                          = var.enable_grafana_oidc
     storage_class_name                   = var.storage_class_name
     groups                               = var.gitlab_admin_group_name
-    prom-mojaloop-url                    = "http://loki-stack-prometheus-server"
+    prom-mojaloop-url                    = "http://loki-app-prometheus-server"
     admin_secret_pw_key                  = "admin-pw"
     admin_secret_user_key                = "admin-user"
     admin_secret                         = "grafana-admin-secret"

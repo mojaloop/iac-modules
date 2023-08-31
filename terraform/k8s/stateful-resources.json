@@ -135,7 +135,7 @@
         "external_resource_config": {}
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "mcm-db",
         "resource_type": "mysql",
         "external_service": false,
@@ -184,7 +184,7 @@
         "external_resource_config": {}
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "account-lookup-db",
         "resource_type": "mysql",
         "external_service": false,
@@ -283,7 +283,7 @@
         }
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "central-ledger-db",
         "resource_type": "mysql",
         "external_service": false,
@@ -382,7 +382,7 @@
         }
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "bulk-mongodb",
         "resource_type": "mongodb",
         "external_service": false,
@@ -425,7 +425,7 @@
         "external_resource_config": {}
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "cep-mongodb",
         "resource_type": "mongodb",
         "external_service": false,
@@ -468,7 +468,7 @@
         "external_resource_config": {}
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "reporting-events-mongodb",
         "resource_type": "mongodb",
         "external_service": false,
@@ -511,7 +511,7 @@
         "external_resource_config": {}
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "mojaloop-kafka",
         "resource_type": "kafka",
         "external_service": false,
@@ -541,7 +541,7 @@
         "external_resource_config": {}
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "ttk-mongodb",
         "resource_type": "mongodb",
         "external_service": false,
@@ -584,7 +584,7 @@
         "external_resource_config": {}
     },
     {
-        "enabled": false,
+        "enabled": true,
         "resource_name": "ttk-redis",
         "resource_type": "redis",
         "external_service": false,

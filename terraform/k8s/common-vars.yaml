@@ -14,5 +14,7 @@ external_secrets_version: 0.8.2
 argocd_version: 2.8.2
 argocd_lovely_plugin_version: 0.18.0
 mojaloop_chart_version: 15.1.0
-mcm_enabled: false
-mojaloop_enabled: false
+mcm_enabled: true
+mojaloop_enabled: true
+bulk_enabled: true
+third_party_enabled: false

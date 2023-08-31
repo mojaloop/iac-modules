@@ -25,6 +25,6 @@ spec:
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "mcm"  # Control destination namespaces
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "mcm, istio-ingress-ext"  # Control destination namespaces
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "mcm" # Control auto-reflection namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "mcm, istio-ingress-ext" # Control auto-reflection namespaces
