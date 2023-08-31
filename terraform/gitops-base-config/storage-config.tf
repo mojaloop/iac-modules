@@ -15,6 +15,7 @@ module "generate_storage_files" {
     longhorn_namespace                               = var.longhorn_namespace
     external_secret_sync_wave                        = var.external_secret_sync_wave
     longhorn_job_sync_wave                           = var.longhorn_job_sync_wave
+    storage_sync_wave                                = var.storage_sync_wave
   }
   file_list       = ["chart/Chart.yaml", "chart/values.yaml", "external-secrets/longhorn-extsecret.yaml", "custom-resources/longhorn-job.yaml"]
   template_path   = "${path.module}/generate-files/templates/storage"
@@ -51,6 +52,12 @@ variable "longhorn_namespace" {
   type        = string
   description = "longhorn_namespace"
   default     = "longhorn-system"
+}
+
+variable "storage_sync_wave" {
+  type        = string
+  description = "storage_sync_wave"
+  default     = "-10"
 }
 
 variable "longhorn_job_sync_wave" {

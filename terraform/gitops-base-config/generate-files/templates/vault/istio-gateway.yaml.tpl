@@ -3,6 +3,8 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: vault-vs
+  annotations:
+    argocd.argoproj.io/sync-wave: "${vault_sync_wave}"
 spec:
   gateways:
 %{ if vault_wildcard_gateway == "external" ~} 

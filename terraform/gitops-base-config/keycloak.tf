@@ -14,6 +14,7 @@ module "generate_keycloak_files" {
     keycloak_fqdn                         = local.keycloak_fqdn
     keycloak_dfsp_realm_name              = var.keycloak_dfsp_realm_name
     keycloak_sync_wave                    = var.keycloak_sync_wave
+    keycloak_post_config_sync_wave        = var.keycloak_post_config_sync_wave
     ingress_class                         = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_internal_wildcard_gateway_name  = local.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace      = var.istio_internal_gateway_namespace
@@ -28,7 +29,8 @@ module "generate_keycloak_files" {
     mcm_oidc_client_id                    = var.mcm_oidc_client_id
     istio_create_ingress_gateways         = var.istio_create_ingress_gateways
   }
-  file_list       = ["kustomization.yaml", "keycloak-cr.yaml", "keycloak-realm-cr.yaml", "keycloak-ingress.yaml", "vault-secret.yaml", "namespace.yaml"]
+  file_list       = ["install/kustomization.yaml", "post-config/kustomization.yaml", "post-config/keycloak-cr.yaml", "post-config/keycloak-realm-cr.yaml", 
+  "post-config/keycloak-ingress.yaml", "post-config/vault-secret.yaml", "keycloak-install.yaml", "keycloak-post-config.yaml"]
   template_path   = "${path.module}/generate-files/templates/keycloak"
   output_path     = "${var.output_dir}/keycloak"
   app_file        = "keycloak-app.yaml"
@@ -51,7 +53,13 @@ variable "keycloak_operator_version" {
 variable "keycloak_sync_wave" {
   type        = string
   description = "keycloak_sync_wave"
-  default     = "-1"
+  default     = "-4"
+}
+
+variable "keycloak_post_config_sync_wave" {
+  type        = string
+  description = "keycloak_post_config_sync_wave"
+  default     = "-3"
 }
 
 variable "keycloak_namespace" {

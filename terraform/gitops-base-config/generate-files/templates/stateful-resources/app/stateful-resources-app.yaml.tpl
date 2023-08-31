@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "-2"
+    argocd.argoproj.io/sync-wave: "${stateful_resources_sync_wave}"
   name: stateful-resources-app
   namespace: argocd
   finalizers:

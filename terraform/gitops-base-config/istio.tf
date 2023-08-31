@@ -82,13 +82,13 @@ variable "gateway_api_version" {
 variable "istio_sync_wave" {
   type        = string
   description = "istio_sync_wave"
-  default     = "-8"
+  default     = "-10"
 }
 
 variable "istio_gateways_sync_wave" {
   type        = string
   description = "istio_gateways_sync_wave"
-  default     = "-7"
+  default     = "-8"
 }
 
 variable "istio_namespace" {

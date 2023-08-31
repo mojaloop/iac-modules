@@ -12,8 +12,6 @@ spec:
     path: apps/keycloak
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
   destination:
     namespace: ${keycloak_namespace}
     server: https://kubernetes.default.svc

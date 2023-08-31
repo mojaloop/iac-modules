@@ -108,7 +108,7 @@ variable "mcm_chart_version" {
 variable "mcm_sync_wave" {
   type        = string
   description = "mcm_sync_wave"
-  default     = "0"
+  default     = "-4"
 }
 
 variable "mcm_namespace" {

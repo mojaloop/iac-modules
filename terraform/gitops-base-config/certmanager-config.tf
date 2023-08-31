@@ -11,10 +11,11 @@ module "generate_certman_files" {
   var_map = {
     letsencrypt_server                           = var.letsencrypt_server
     letsencrypt_email                            = var.letsencrypt_email
-    cert_manager_issuer_sync_wave                = var.cert_manager_issuer_sync_wave
     cloud_region                                 = var.dns_cloud_region
     public_domain                                = var.public_subdomain
     external_secret_sync_wave                    = var.external_secret_sync_wave
+    cert_manager_sync_wave                       = var.cert_manager_sync_wave
+    cert_manager_issuer_sync_wave                = var.cert_manager_issuer_sync_wave
     cert_manager_credentials_secret              = "route53-cert-man-credentials"
     cert_manager_chart_repo                      = var.cert_manager_chart_repo
     cert_manager_chart_version                   = var.cert_manager_chart_version
@@ -40,6 +41,12 @@ variable "cert_manager_namespace" {
   type        = string
   description = "cert_manager_namespace"
   default     = "certmanager"
+}
+
+variable "cert_manager_sync_wave" {
+  type        = string
+  description = "cert_manager_sync_wave"
+  default     = "-10"
 }
 
 variable "cert_manager_issuer_sync_wave" {

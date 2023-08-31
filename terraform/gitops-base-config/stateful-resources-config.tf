@@ -77,6 +77,7 @@ locals {
   stateful_resources_vars = {
     stateful_resources_namespace = var.stateful_resources_namespace
     gitlab_project_url           = var.gitlab_project_url
+    stateful_resources_sync_wave = var.stateful_resources_sync_wave
   }
   all_logical_extra_namespaces = flatten([for stateful_resource in local.enabled_stateful_resources : stateful_resource.logical_service_config.secret_extra_namespaces])
   all_local_extra_namespaces   = flatten([for stateful_resource in local.local_stateful_resources : stateful_resource.local_resource_config.generate_secret_extra_namespaces])
@@ -93,4 +94,10 @@ variable "stateful_resources_namespace" {
   type        = string
   description = "stateful_resources_namespace"
   default     = "stateful-resources"
+}
+
+variable "stateful_resources_sync_wave" {
+  type        = string
+  description = "stateful_resources_sync_wave, wait for vault config operator"
+  default     = "-5"
 }

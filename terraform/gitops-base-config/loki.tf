@@ -72,7 +72,7 @@ variable "loki_chart_version" {
 variable "loki_sync_wave" {
   type        = string
   description = "loki_sync_wave"
-  default     = "-4"
+  default     = "-5"
 }
 
 variable "loki_namespace" {

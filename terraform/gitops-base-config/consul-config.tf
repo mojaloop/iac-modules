@@ -8,6 +8,7 @@ module "generate_consul_files" {
     storage_size               = var.consul_storage_size
     consul_replicas            = var.consul_replicas
     gitlab_project_url         = var.gitlab_project_url
+    consul_sync_wave           = var.consul_sync_wave
   }
   file_list       = ["Chart.yaml", "values.yaml"]
   template_path   = "${path.module}/generate-files/templates/consul"
@@ -44,4 +45,10 @@ variable "consul_namespace" {
   type        = string
   description = "consul_namespace"
   default     = "consul"
+}
+
+variable "consul_sync_wave" {
+  type        = string
+  description = "consul_sync_wave"
+  default     = "-9"
 }
