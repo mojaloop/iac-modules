@@ -17,3 +17,4 @@ external-dns:
     - service
     - ingress
     - istio-gateway
+    - istio-virtualservice
