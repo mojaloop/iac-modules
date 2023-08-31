@@ -66,6 +66,7 @@ spec:
             host: ${mojaloop_release_name}-ml-api-adapter-service      
             port:
               number: 80
+%{ if bulk_enabled ~}
     - name: bulkQuotes
       match:
         - uri: 
@@ -84,6 +85,7 @@ spec:
             host: ${mojaloop_release_name}-bulk-api-adapter-service      
             port:
               number: 80
+%{ endif ~}
     - name: transactionRequests
       match:
         - uri: 

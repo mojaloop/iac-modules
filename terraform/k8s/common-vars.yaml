@@ -16,5 +16,5 @@ argocd_lovely_plugin_version: 0.18.0
 mojaloop_chart_version: 15.1.0
 mcm_enabled: true
 mojaloop_enabled: true
-bulk_enabled: true
+bulk_enabled: false
 third_party_enabled: false
