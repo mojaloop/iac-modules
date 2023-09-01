@@ -2,12 +2,13 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: create-update-istio-crs
-  namespace: ${istio_namespace}
+  namespace: ${istio_external_gateway_namespace}
 rules:
-  - apiGroups: ["networking.istio.io/v1beta1"]
-    resources:
-      - serviceentries
-      - destinationrules
+  - apiGroups: ["networking.istio.io"]
+    resources: ["serviceentries", "destinationrules"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["security.istio.io"]
+    resources: ["authorizationpolicies"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -16,7 +17,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: create-update-istio-crs-binding
-  namespace: ${istio_namespace}
+  namespace: ${istio_external_gateway_namespace}
 subjects:
 - kind: ServiceAccount
   name: ${mcm_service_account_name}
