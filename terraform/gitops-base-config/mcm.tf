@@ -52,6 +52,8 @@ module "generate_mcm_files" {
     istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
+    istio_external_gateway_name          = var.istio_external_gateway_name
+    private_network_cidr                 = var.private_network_cidr
   }
   file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-agent.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml"]
   template_path   = "${path.module}/generate-files/templates/mcm"
@@ -139,6 +141,11 @@ variable "mcm_vault_k8s_role_name" {
   description = "vault k8s role name for mcm"
   type        = string
   default     = "kubernetes-mcm-role"
+}
+
+variable "private_network_cidr" {
+  description = "network cidr for private network"
+  type        = string
 }
 
 locals {

@@ -34,7 +34,7 @@ dependency "k8s_deploy" {
       longhorn_backups_cred_secret_key = "mock"
     }
     haproxy_server_fqdn     = "null"
-
+    private_network_cidr    = ""
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -83,6 +83,7 @@ inputs = {
   kv_path                                  = local.KV_SECRET_PATH
   transit_vault_key_name                   = local.TRANSIT_VAULT_UNSEAL_KEY_NAME
   transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
+  private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
 }
 
 locals {

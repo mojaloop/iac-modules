@@ -20,6 +20,19 @@ spec:
       credentialName: ${vault_certman_secretname}
       mode: MUTUAL
 ---
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: interop-jwt
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ${istio_external_gateway_name}
+  jwtRules:
+  - issuer: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}"
+    jwksUri: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs"
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:

@@ -39,6 +39,10 @@ output "target_group_external_health_port" {
   value = var.target_group_external_health_port
 }
 
+output "private_network_cidr" {
+  value = var.vpc_cidr
+}
+
 ###new items
 
 output "bastion_ssh_key" {
