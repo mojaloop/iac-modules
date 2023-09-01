@@ -11,7 +11,7 @@ spec:
     istio: ${istio_internal_gateway_name}
   servers:
   - hosts:
-    - 'intdemo.${public_subdomain}'
+    - '${int_interop_switch_fqdn}'
 %{ if mojaloop_wildcard_gateway == "internal" ~} 
     - 'ttkfrontend.${public_subdomain}'
     - 'ttkbackend.${public_subdomain}'

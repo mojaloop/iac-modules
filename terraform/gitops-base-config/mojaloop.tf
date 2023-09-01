@@ -21,6 +21,7 @@ module "generate_mojaloop_files" {
     ingress_subdomain                           = var.public_subdomain
     quoting_service_simple_routing_mode_enabled = var.quoting_service_simple_routing_mode_enabled
     interop_switch_fqdn                         = local.interop_switch_fqdn
+    int_interop_switch_fqdn                     = local.int_interop_switch_fqdn
     external_ingress_class_name                 = var.external_ingress_class_name
     vault_certman_secretname                    = var.vault_certman_secretname
     cert_man_vault_cluster_issuer_name          = var.cert_man_vault_cluster_issuer_name

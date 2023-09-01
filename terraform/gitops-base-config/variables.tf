@@ -90,12 +90,17 @@ variable "secrets_key_map" {
 
 variable "kv_path" {
   description = "path for kv engine"
-  default = "secret"
+  default     = "secret"
 }
 
 variable "interop_switch_name" {
-  description = "path for kv engine"
-  default = "ext"
+  description = "hostname for interop ext"
+  default     = "ext"
+}
+
+variable "int_interop_switch_name" {
+  description = "hostname for interop ext"
+  default     = "int"
 }
 
 locals {
@@ -110,4 +115,5 @@ locals {
   longhorn_backups_credentials_secret_provider_key = var.secrets_key_map["longhorn_backups_cred_secret_key"]
   longhorn_backups_credentials_id_provider_key     = var.secrets_key_map["longhorn_backups_cred_id_key"]
   interop_switch_fqdn                              = "${var.interop_switch_name}.${trimsuffix(var.public_subdomain, ".")}"
+  int_interop_switch_fqdn                          = "${var.int_interop_switch_name}.${trimsuffix(var.public_subdomain, ".")}"
 }

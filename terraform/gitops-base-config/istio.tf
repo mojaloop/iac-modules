@@ -35,13 +35,14 @@ module "generate_istio_files" {
     external_load_balancer_dns           = var.external_load_balancer_dns
     keycloak_fqdn                        = local.keycloak_fqdn
     mcm_public_fqdn                      = local.mcm_public_fqdn
+    int_interop_switch_fqdn              = local.int_interop_switch_fqdn
   }
   file_list = ["istio-deploy.yaml",
     "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml",
     "istio-main/values-kiali.yaml", "istio-main/values-istio-base.yaml", "istio-main/values-istio-istiod.yaml",
     "istio-gateways/kustomization.yaml", "istio-gateways/values-istio-external-ingress-gateway.yaml",
     "istio-gateways/values-istio-internal-ingress-gateway.yaml", "istio-gateways/lets-wildcard-cert.yaml",
-    "istio-gateways/namespace.yaml", "istio-gateways/proxy-protocol.yaml", "istio-gateways/gateways.yaml"]
+  "istio-gateways/namespace.yaml", "istio-gateways/proxy-protocol.yaml", "istio-gateways/gateways.yaml"]
   template_path   = "${path.module}/generate-files/templates/istio"
   output_path     = "${var.output_dir}/istio"
   app_file        = "istio-app.yaml"

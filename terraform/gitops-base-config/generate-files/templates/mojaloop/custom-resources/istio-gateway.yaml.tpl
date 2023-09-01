@@ -108,6 +108,91 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
+  name: int-interop-vs
+spec:
+  gateways:
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+  hosts:
+  - '${int_interop_switch_fqdn}'
+  http:
+    - name: participants
+      match:
+        - uri: 
+            prefix: /participants
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-account-lookup-service
+            port:
+              number: 80
+    - name: parties
+      match:
+        - uri: 
+            prefix: /parties
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-account-lookup-service
+            port:
+              number: 80
+    - name: quotes
+      match:
+        - uri: 
+            prefix: /quotes
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-quoting-service
+            port:
+              number: 80
+    - name: transfers
+      match:
+        - uri: 
+            prefix: /transfers
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-api-adapter-service      
+            port:
+              number: 80
+%{ if bulk_enabled ~}
+    - name: bulkQuotes
+      match:
+        - uri: 
+            prefix: /bulkQuotes
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-quoting-service      
+            port:
+              number: 80
+    - name: bulkTransfers
+      match:
+        - uri: 
+            prefix: /bulkTransfers
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-bulk-api-adapter-service      
+            port:
+              number: 80
+%{ endif ~}
+    - name: transactionRequests
+      match:
+        - uri: 
+            prefix: /transactionRequests
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-transaction-requests-service      
+            port:
+              number: 80
+    - name: authorizations
+      match:
+        - uri: 
+            prefix: /authorizations
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-transaction-requests-service      
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
   name: mojaloop-ttkfront-vs
 spec:
   gateways:
