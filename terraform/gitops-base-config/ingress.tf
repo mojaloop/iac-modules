@@ -58,8 +58,8 @@ variable "ingress_sync_wave" {
 }
 variable "default_ssl_certificate" {
   type        = string
-  description = "nginx_internal_namespace"
-  default     = "nginx-int"
+  description = "default_ssl_certificate"
+  default     = "default-lets-enc"
 }
 variable "wildcare_certificate_wave" {
   type        = string

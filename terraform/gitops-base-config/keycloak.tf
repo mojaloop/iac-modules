@@ -40,7 +40,7 @@ module "generate_keycloak_files" {
 variable "keycloak_ingress_internal_lb" {
   type        = bool
   description = "keycloak_ingress_internal_lb"
-  default     = true
+  default     = false
 }
 
 
