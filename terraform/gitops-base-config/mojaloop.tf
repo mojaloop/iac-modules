@@ -35,6 +35,8 @@ module "generate_mojaloop_files" {
     istio_external_wildcard_gateway_name        = local.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace            = var.istio_external_gateway_namespace
     mojaloop_wildcard_gateway                   = local.mojaloop_wildcard_gateway
+    keycloak_fqdn                               = local.keycloak_fqdn
+    keycloak_dfsp_realm_name                    = var.keycloak_dfsp_realm_name
     kafka_host                                  = "${local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                                  = local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port
     account_lookup_db_existing_secret           = local.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret
