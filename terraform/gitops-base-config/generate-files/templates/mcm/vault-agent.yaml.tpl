@@ -6,10 +6,10 @@ metadata:
 rules:
   - apiGroups: ["networking.istio.io"]
     resources: ["serviceentries", "destinationrules"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    verbs: ["*"]
   - apiGroups: ["security.istio.io"]
     resources: ["authorizationpolicies"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 # This role binding allows "jane" to read pods in the "default" namespace.
