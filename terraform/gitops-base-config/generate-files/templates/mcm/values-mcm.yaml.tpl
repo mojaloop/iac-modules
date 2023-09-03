@@ -55,7 +55,7 @@ api:
   annotations:
     vault.hashicorp.com/agent-inject: "true"
     vault.hashicorp.com/log-level: "debug"
-    vault.hashicorp.com/agent-image: ghcr.io/mojaloop/vault-agent-util:0.0.1
+    vault.hashicorp.com/agent-image: ghcr.io/mojaloop/vault-agent-util:0.0.2
     vault.hashicorp.com/agent-configmap: "vault-agent"
     vault.hashicorp.com/agent-pre-populate: "false"
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
