@@ -24,7 +24,6 @@ apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
   name: interop-jwt
-  namespace: istio-system
 spec:
   selector:
     matchLabels:
@@ -32,6 +31,18 @@ spec:
   jwtRules:
   - issuer: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}"
     jwksUri: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs"
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: interop-jwt
+spec:
+  action: DENY
+  rules:
+    - from:
+      - source:
+          notRequestPrincipals: ["*"]
+          notNamespaces: ["${mojaloop_namespace}", "${istio_internal_gateway_namespace}"]
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
