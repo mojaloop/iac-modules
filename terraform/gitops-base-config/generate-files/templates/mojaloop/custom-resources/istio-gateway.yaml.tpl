@@ -45,11 +45,11 @@ spec:
   action: DENY
   rules:
     - from:
-      - source:
-          notRequestPrincipals: ["*"]
-      to:
-        operation:
-          hosts: ["${interop_switch_fqdn}"]
+        - source:
+            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
+      when:
+        - key: connection.sni
+          values: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
