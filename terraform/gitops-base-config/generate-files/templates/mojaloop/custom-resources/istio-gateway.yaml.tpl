@@ -24,6 +24,7 @@ apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
   name: interop-jwt
+  namespace: ${istio_external_gateway_namespace}
 spec:
   selector:
     matchLabels:
@@ -36,13 +37,19 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: interop-jwt
+  namespace: ${istio_external_gateway_namespace}
 spec:
+  selector:
+    matchLabels:
+      app: ${istio_external_gateway_name}
   action: DENY
   rules:
     - from:
       - source:
           notRequestPrincipals: ["*"]
-          notNamespaces: ["${mojaloop_namespace}", "${istio_internal_gateway_namespace}"]
+      to:
+        operation:
+          hosts: ["${interop_switch_fqdn}"]
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
