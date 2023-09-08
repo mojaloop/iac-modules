@@ -61,6 +61,8 @@ data:
         vault write auth/kubernetes/role/policy-admin bound_service_account_names=* bound_service_account_namespaces=* policies=vault-admin ttl=600s
         vault secrets enable --path=secret kv
         vault secrets tune -default-lease-ttl=2m secret/
+        vault write ${dfsp_external_whitelist_secret} loopback="127.0.0.1/32"
+        vault write ${dfsp_internal_whitelist_secret} loopback="127.0.0.1/32"
     %{ if enable_vault_oidc ~}
         vault auth enable oidc
         vault write auth/oidc/config \

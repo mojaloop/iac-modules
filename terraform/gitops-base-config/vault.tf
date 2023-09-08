@@ -39,6 +39,8 @@ module "generate_vault_files" {
     cluster_name                             = var.cluster_name
     transit_vault_url                        = var.transit_vault_url
     transit_vault_key_name                   = var.transit_vault_key_name
+    dfsp_internal_whitelist_secret           = local.dfsp_internal_whitelist_secret
+    dfsp_external_whitelist_secret           = local.dfsp_external_whitelist_secret
   }
 
   file_list = ["charts/vault/Chart.yaml", "charts/vault/values.yaml",

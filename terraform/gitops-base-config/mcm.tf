@@ -32,9 +32,9 @@ module "generate_mcm_files" {
     ingress_class                        = var.mcm_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
     pki_path                             = var.vault_root_ca_name
-    dfsp_client_cert_bundle              = "${var.onboarding_secret_name_prefix}_pm4mls"
-    dfsp_internal_whitelist_secret       = "${var.whitelist_secret_name_prefix}_pm4mls"
-    dfsp_external_whitelist_secret       = "${var.whitelist_secret_name_prefix}_fsps"
+    dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
+    dfsp_internal_whitelist_secret       = local.dfsp_internal_whitelist_secret
+    dfsp_external_whitelist_secret       = local.dfsp_external_whitelist_secret
     onboarding_secret_name_prefix        = var.onboarding_secret_name_prefix
     whitelist_secret_name_prefix         = var.whitelist_secret_name_prefix
     mcm_service_account_name             = var.mcm_service_account_name
@@ -150,7 +150,10 @@ variable "private_network_cidr" {
 }
 
 locals {
-  mcm_resource_index   = index(local.stateful_resources.*.resource_name, "mcm-db")
-  mcm_wildcard_gateway = var.mcm_ingress_internal_lb ? "internal" : "external"
-  mcm_public_fqdn      = "mcm.${var.public_subdomain}"
+  mcm_resource_index             = index(local.stateful_resources.*.resource_name, "mcm-db")
+  mcm_wildcard_gateway           = var.mcm_ingress_internal_lb ? "internal" : "external"
+  mcm_public_fqdn                = "mcm.${var.public_subdomain}"
+  dfsp_client_cert_bundle        = "${var.onboarding_secret_name_prefix}_pm4mls"
+  dfsp_internal_whitelist_secret = "${var.whitelist_secret_name_prefix}_pm4mls"
+  dfsp_external_whitelist_secret = "${var.whitelist_secret_name_prefix}_fsps"
 }
