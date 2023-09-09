@@ -19,8 +19,12 @@ spec:
     enabled: false
   http:
     tlsSecret: ${keycloak_tls_secretname}
+    httpEnabled: true
+    httpPort: 8180
   hostname:
     hostname: ${keycloak_fqdn}
+    strict: false
+    strictBackchannel: false
   unsupported:
     podTemplate:
       spec:

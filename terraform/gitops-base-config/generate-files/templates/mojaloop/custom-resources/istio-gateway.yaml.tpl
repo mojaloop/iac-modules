@@ -32,6 +32,8 @@ spec:
   jwtRules:
   - issuer: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}"
     jwksUri: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs"
+  - issuer: "https://${keycloak_fqdn}/realms/master"
+    jwksUri: "https://${keycloak_fqdn}/realms/master/protocol/openid-connect/certs"
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy

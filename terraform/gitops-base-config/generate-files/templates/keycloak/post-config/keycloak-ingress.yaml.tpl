@@ -73,16 +73,5 @@ spec:
         - destination:
             host: ${keycloak_name}-service
             port:
-              number: 8443
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: keycloak
-  namespace: ${keycloak_namespace}
-spec:
-  host: ${keycloak_name}-service
-  trafficPolicy:
-    tls:
-      mode: SIMPLE
+              number: 8180
 %{ endif ~}
