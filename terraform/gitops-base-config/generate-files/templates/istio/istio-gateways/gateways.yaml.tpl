@@ -25,9 +25,6 @@ spec:
 %{ if vault_wildcard_gateway == "internal" ~} 
     - 'vault.${public_subdomain}'
 %{ endif ~}
-%{ if keycloak_wildcard_gateway == "internal" ~} 
-    - '${keycloak_fqdn}'
-%{ endif ~}
     port:
       name: https
       number: 443
@@ -62,9 +59,6 @@ spec:
 %{ endif ~}
 %{ if vault_wildcard_gateway == "external" ~} 
     - 'vault.${public_subdomain}'
-%{ endif ~}
-%{ if keycloak_wildcard_gateway == "external" ~} 
-    - '${keycloak_fqdn}'
 %{ endif ~}
     port:
       name: https
