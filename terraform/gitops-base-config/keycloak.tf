@@ -47,7 +47,7 @@ variable "keycloak_ingress_internal_lb" {
 
 variable "keycloak_operator_version" {
   type        = string
-  default     = "nightly"
+  default     = "22.0.1"
   description = "keycloak_operator_version"
 }
 
