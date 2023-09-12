@@ -21,7 +21,7 @@ spec:
     tlsSecret: ${keycloak_tls_secretname}
   hostname:
     hostname: ${keycloak_fqdn}
-    admin: admin-${keycloak_fqdn}
+    admin: ${keycloak_admin_fqdn}
   unsupported:
     podTemplate:
       spec:

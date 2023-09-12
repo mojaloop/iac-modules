@@ -12,6 +12,7 @@ spec:
   servers:
   - hosts:
     - '${int_interop_switch_fqdn}'
+    - '${keycloak_admin_fqdn}'
 %{ if mojaloop_wildcard_gateway == "internal" ~} 
     - 'ttkfrontend.${public_subdomain}'
     - 'ttkbackend.${public_subdomain}'
@@ -46,7 +47,7 @@ spec:
     istio: ${istio_external_gateway_name}
   servers:
   - hosts:
-    - 'extdemo.${public_subdomain}'
+    - '${keycloak_fqdn}'
 %{ if mojaloop_wildcard_gateway == "external" ~} 
     - 'ttkfrontend.${public_subdomain}'
     - 'ttkbackend.${public_subdomain}'

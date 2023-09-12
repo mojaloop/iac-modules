@@ -34,6 +34,7 @@ module "generate_istio_files" {
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     keycloak_fqdn                        = local.keycloak_fqdn
+    keycloak_admin_fqdn                  = local.keycloak_admin_fqdn
     mcm_public_fqdn                      = local.mcm_public_fqdn
     int_interop_switch_fqdn              = local.int_interop_switch_fqdn
   }

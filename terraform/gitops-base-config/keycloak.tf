@@ -12,6 +12,7 @@ module "generate_keycloak_files" {
     keycloak_postgres_port                = local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.logical_service_port
     keycloak_postgres_password_secret_key = "password"
     keycloak_fqdn                         = local.keycloak_fqdn
+    keycloak_admin_fqdn                   = local.keycloak_admin_fqdn
     keycloak_dfsp_realm_name              = var.keycloak_dfsp_realm_name
     keycloak_sync_wave                    = var.keycloak_sync_wave
     keycloak_post_config_sync_wave        = var.keycloak_post_config_sync_wave
@@ -78,4 +79,5 @@ locals {
   keycloak_postgres_resource_index = index(local.stateful_resources.*.resource_name, "keycloak-db")
   keycloak_wildcard_gateway        = var.keycloak_ingress_internal_lb ? "internal" : "external"
   keycloak_fqdn                    = "keycloak.${var.public_subdomain}"
+  keycloak_admin_fqdn              = "admin-keycloak.${var.public_subdomain}"
 }
