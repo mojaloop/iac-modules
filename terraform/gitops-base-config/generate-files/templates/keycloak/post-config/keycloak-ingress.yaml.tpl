@@ -60,16 +60,15 @@ spec:
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
   hosts:
   - '${keycloak_fqdn}'
-  tls:
-  - match:
-    - port: 443
-      sniHosts:
-      - ${keycloak_fqdn}
-    route:
-    - destination:
-        host: ${keycloak_name}-service
-        port:
-          number: 8443
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ${keycloak_name}-service
+            port:
+              number: 8443
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -80,16 +79,15 @@ spec:
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
   hosts:
   - '${keycloak_admin_fqdn}'
-  tls:
-  - match:
-    - port: 443
-      sniHosts:
-      - ${keycloak_admin_fqdn}
-    route:
-    - destination:
-        host: ${keycloak_name}-service
-        port:
-          number: 8443
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ${keycloak_name}-service
+            port:
+              number: 8443
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
