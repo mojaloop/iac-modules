@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "-8"
+    argocd.argoproj.io/sync-wave: "${istio_sync_wave}"
   name: istio-app
   namespace: argocd
   finalizers:
@@ -12,17 +12,10 @@ spec:
     path: apps/istio
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
   destination:
     namespace: ${istio_namespace}
     server: https://kubernetes.default.svc
   project: default
-  ignoreDifferences:
-    - group: admissionregistration.k8s.io
-      kind: ValidatingWebhookConfiguration
-      jqPathExpressions:
-        - .webhooks[]?.failurePolicy
   syncPolicy:
     automated:
       prune: true

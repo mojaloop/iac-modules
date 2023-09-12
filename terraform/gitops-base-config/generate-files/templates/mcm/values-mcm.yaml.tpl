@@ -55,8 +55,11 @@ api:
   annotations:
     vault.hashicorp.com/agent-inject: "true"
     vault.hashicorp.com/log-level: "debug"
-    vault.hashicorp.com/agent-image: ghcr.io/mojaloop/vault-agent-util:0.0.1
+    vault.hashicorp.com/agent-image: ghcr.io/mojaloop/vault-agent-util:0.0.2
     vault.hashicorp.com/agent-configmap: "vault-agent"
+    vault.hashicorp.com/agent-pre-populate: "false"
+    vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
+    proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
   config:
     caCSRParametersData: |-
       {
@@ -72,7 +75,11 @@ ui:
     enabled: false
 
 ingress:
+%{ if istio_create_ingress_gateways ~}
+  enabled: false
+%{ else ~}
   enabled: true
+%{ endif ~}
   className: ${ingress_class}
   host: ${mcm_public_fqdn}
   tls:
@@ -81,3 +88,5 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+migrations:
+  enabled: false

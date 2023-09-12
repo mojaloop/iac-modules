@@ -16,11 +16,9 @@ helmCharts:
   repo: ${istio_chart_repo}
   valuesFile: values-istio-istiod.yaml
   namespace: ${istio_namespace}
-%{ if istio_create_external_ingress_gateway ~}
-- name: gateway
-  releaseName: ext-gateway
-  version: ${istio_chart_version}
-  repo: ${istio_chart_repo}
-  valuesFile: values-istio-external-ingress-gateway.yaml
+- name: kiali-server
+  releaseName: kiali-server
+  version: ${kiali_chart_version}
+  repo: ${kiali_chart_repo}
+  valuesFile: values-kiali.yaml
   namespace: ${istio_namespace}
-%{ endif ~}

@@ -45,8 +45,8 @@ resource "aws_lb_target_group" "internal_https" {
   health_check {
     interval            = 10
     timeout             = 6
-    path                = "/healthz"
-    port                = var.target_group_internal_http_port
+    path                = "/healthz/ready"
+    port                = var.target_group_internal_health_port
     protocol            = "HTTP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
@@ -75,8 +75,8 @@ resource "aws_lb_target_group" "internal_http" {
   health_check {
     interval            = 10
     timeout             = 6
-    path                = "/healthz"
-    port                = var.target_group_internal_http_port
+    path                = "/healthz/ready"
+    port                = var.target_group_internal_health_port
     protocol            = "HTTP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
@@ -140,12 +140,10 @@ resource "aws_lb_target_group" "external_https" {
   health_check {
     interval            = 10
     timeout             = 6
-    path                = "/healthz"
-    port                = var.target_group_external_http_port
-    protocol            = "HTTP"
+    port                = var.target_group_external_https_port
+    protocol            = "TCP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
-    matcher             = "200-399"
   }
 
   tags = merge({ Name = "${local.base_domain}-external-https" }, local.common_tags)
@@ -161,14 +159,11 @@ resource "aws_lb_target_group" "external_http" {
   health_check {
     interval            = 10
     timeout             = 6
-    path                = "/healthz"
     port                = var.target_group_external_http_port
-    protocol            = "HTTP"
+    protocol            = "TCP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
-    matcher             = "200-399"
   }
-
   tags = merge({ Name = "${local.base_domain}-external-http" }, local.common_tags)
 }
 

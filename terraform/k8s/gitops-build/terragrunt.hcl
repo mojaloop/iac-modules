@@ -34,7 +34,7 @@ dependency "k8s_deploy" {
       longhorn_backups_cred_secret_key = "mock"
     }
     haproxy_server_fqdn     = "null"
-
+    private_network_cidr    = ""
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -62,6 +62,10 @@ inputs = {
   nginx_helm_chart_version                 = local.common_vars.nginx_helm_chart_version
   loki_chart_version                       = local.common_vars.loki_chart_version
   mojaloop_chart_version                   = local.common_vars.mojaloop_chart_version
+  mcm_enabled                              = local.common_vars.mcm_enabled
+  mojaloop_enabled                         = local.common_vars.mojaloop_enabled
+  bulk_enabled                             = local.common_vars.bulk_enabled
+  third_party_enabled                      = local.common_vars.third_party_enabled
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
@@ -79,6 +83,7 @@ inputs = {
   kv_path                                  = local.KV_SECRET_PATH
   transit_vault_key_name                   = local.TRANSIT_VAULT_UNSEAL_KEY_NAME
   transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
+  private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
 }
 
 locals {

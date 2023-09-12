@@ -13,6 +13,7 @@ module "generate_extdns_files" {
     external_dns_namespace                       = var.external_dns_namespace
     gitlab_project_url                           = var.gitlab_project_url
     external_secret_sync_wave                    = var.external_secret_sync_wave
+    external_dns_sync_wave                       = var.external_dns_sync_wave
   }
   file_list       = ["chart/Chart.yaml", "chart/values.yaml", "external-secrets/extdns-extsecret.yaml"]
   template_path   = "${path.module}/generate-files/templates/external-dns"
@@ -42,4 +43,10 @@ variable "external_dns_namespace" {
 variable "dns_cloud_region" {
   type = string
   description = "cloud region for ext dns"
+}
+
+variable "external_dns_sync_wave" {
+  type        = string
+  description = "external_dns_sync_wave"
+  default     = "-7"
 }

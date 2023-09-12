@@ -1,5 +1,5 @@
 # Name allows overriding the release name. Generally this should not be set
-name: ""
+name: ${istio_internal_gateway_name}
 # revision declares which revision this gateway is a part of
 revision: ""
 
@@ -40,17 +40,17 @@ service:
       port: 15021
       protocol: TCP
       targetPort: 15021
-      nodePort: 32021
+      nodePort: ${internal_ingress_health_port}
     - name: http2
       port: 80
       protocol: TCP
       targetPort: 80
-      nodePort: ${external_ingress_http_port}
+      nodePort: ${internal_ingress_http_port}
     - name: https
       port: 443
       protocol: TCP
       targetPort: 443
-      nodePort: ${external_ingress_https_port}
+      nodePort: ${internal_ingress_https_port}
   annotations: {}
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
@@ -75,7 +75,9 @@ autoscaling:
 env: {}
 
 # Labels to apply to all resources
-labels: {}
+labels: {
+  istio: ${istio_internal_gateway_name}
+}
 
 # Annotations to apply to all resources
 annotations: {}

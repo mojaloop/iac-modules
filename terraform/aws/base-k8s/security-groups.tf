@@ -26,6 +26,15 @@ resource "aws_security_group_rule" "ingress_https" {
   security_group_id = aws_security_group.ingress.id
 }
 
+resource "aws_security_group_rule" "ingress_health_external" {
+  type              = "ingress"
+  from_port         = var.target_group_external_health_port
+  to_port           = var.target_group_external_health_port
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.ingress.id
+}
+
 resource "aws_security_group_rule" "ingress_http_internal" {
   type              = "ingress"
   from_port         = var.target_group_internal_http_port
@@ -39,6 +48,15 @@ resource "aws_security_group_rule" "ingress_https_internal" {
   type              = "ingress"
   from_port         = var.target_group_internal_https_port
   to_port           = var.target_group_internal_https_port
+  protocol          = "TCP"
+  cidr_blocks       = [var.vpc_cidr]
+  security_group_id = aws_security_group.ingress.id
+}
+
+resource "aws_security_group_rule" "ingress_health_internal" {
+  type              = "ingress"
+  from_port         = var.target_group_internal_health_port
+  to_port           = var.target_group_internal_health_port
   protocol          = "TCP"
   cidr_blocks       = [var.vpc_cidr]
   security_group_id = aws_security_group.ingress.id

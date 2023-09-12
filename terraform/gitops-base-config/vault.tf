@@ -25,6 +25,12 @@ module "generate_vault_files" {
     vault_k8s_auth_path                      = var.vault_k8s_auth_path
     public_subdomain                         = var.public_subdomain
     ingress_class                            = var.vault_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
+    istio_internal_wildcard_gateway_name     = local.istio_internal_wildcard_gateway_name
+    istio_internal_gateway_namespace         = var.istio_internal_gateway_namespace
+    istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
+    istio_external_gateway_namespace         = var.istio_external_gateway_namespace
+    vault_wildcard_gateway                   = local.vault_wildcard_gateway
+    istio_create_ingress_gateways            = var.istio_create_ingress_gateways
     consul_namespace                         = var.consul_namespace
     gitlab_server_url                        = var.gitlab_server_url
     gitlab_admin_group_name                  = var.gitlab_admin_group_name
@@ -33,11 +39,14 @@ module "generate_vault_files" {
     cluster_name                             = var.cluster_name
     transit_vault_url                        = var.transit_vault_url
     transit_vault_key_name                   = var.transit_vault_key_name
+    dfsp_internal_whitelist_secret           = local.dfsp_internal_whitelist_secret
+    dfsp_external_whitelist_secret           = local.dfsp_external_whitelist_secret
   }
 
   file_list = ["charts/vault/Chart.yaml", "charts/vault/values.yaml",
     "charts/vault-config-operator/Chart.yaml", "charts/vault-config-operator/values.yaml",
-  "post-config.yaml", "vault-config-operator.yaml", "vault-extsecret.yaml", "vault-helm.yaml"]
+    "post-config.yaml", "vault-config-operator.yaml", "vault-extsecret.yaml", "vault-helm.yaml",
+  "istio-gateway.yaml"]
   template_path   = "${path.module}/generate-files/templates/vault"
   output_path     = "${var.output_dir}/vault"
   app_file        = "vault-app.yaml"
@@ -96,37 +105,37 @@ variable "vault_config_operator_helm_chart_version" {
 }
 
 variable "vault_gitlab_credentials_secret_key" {
-  type = string
+  type        = string
   description = "vault_gitlab_credentials_secret_key"
-  default = "tenancy/gitlab_ci_pat"
+  default     = "tenancy/gitlab_ci_pat"
 }
 
 variable "vault_seal_token_secret_key" {
-  type = string
+  type        = string
   description = "vault_seal_token_secret_key"
-  default = "env_token"
+  default     = "env_token"
 }
 
 variable "transit_vault_url" {
-  type = string
+  type        = string
   description = "url to vault for transit autounseal"
 }
 
 variable "transit_vault_key_name" {
-  type = string
+  type        = string
   description = "key for transit autounseal"
 }
 
 variable "vault_oidc_client_secret_secret_key" {
-  type = string
+  type        = string
   description = "vault_oidc_client_secret_secret_key"
-  default = "vault_oauth_client_secret"
+  default     = "vault_oauth_client_secret"
 }
 
 variable "vault_oidc_client_id_secret_key" {
-  type = string
+  type        = string
   description = "vault_oidc_client_id_secret_key"
-  default = "vault_oauth_client_id"
+  default     = "vault_oauth_client_id"
 }
 
 variable "vault_ingress_internal_lb" {
@@ -141,6 +150,10 @@ variable "vault_k8s_auth_path" {
 }
 
 variable "enable_vault_oidc" {
-  type = bool
+  type    = bool
   default = false
+}
+
+locals {
+  vault_wildcard_gateway = var.vault_ingress_internal_lb ? "internal" : "external"
 }

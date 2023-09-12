@@ -282,6 +282,7 @@ global:
 
   proxy:
     image: proxyv2
+    holdApplicationUntilProxyStarts: true
 
     # This controls the 'policy' in the sidecar injector.
     autoInject: enabled

@@ -1,13 +1,14 @@
 module "generate_nginx_jwt_files" {
   source = "./generate-files"
   var_map = {
-    gitlab_project_url                    = var.gitlab_project_url
-    keycloak_fqdn                         = "keycloak.${var.public_subdomain}"
-    keycloak_dfsp_realm_name              = var.keycloak_dfsp_realm_name
-    nginx_jwt_sync_wave                    = var.nginx_jwt_sync_wave
-    nginx_jwt_helm_chart_repo             = var.nginx_jwt_helm_chart_repo
-    nginx_jwt_helm_chart_version          = var.nginx_jwt_helm_chart_version
-    nginx_jwt_namespace                   = var.nginx_jwt_namespace
+    gitlab_project_url            = var.gitlab_project_url
+    keycloak_fqdn                 = "keycloak.${var.public_subdomain}"
+    keycloak_dfsp_realm_name      = var.keycloak_dfsp_realm_name
+    nginx_jwt_sync_wave           = var.nginx_jwt_sync_wave
+    nginx_jwt_helm_chart_repo     = var.nginx_jwt_helm_chart_repo
+    nginx_jwt_helm_chart_version  = var.nginx_jwt_helm_chart_version
+    nginx_jwt_namespace           = var.nginx_jwt_namespace
+    istio_create_ingress_gateways = var.istio_create_ingress_gateways
   }
   file_list       = ["kustomization.yaml", "values-nginx-jwt.yaml"]
   template_path   = "${path.module}/generate-files/templates/nginx-jwt"

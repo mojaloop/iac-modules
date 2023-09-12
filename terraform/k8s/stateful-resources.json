@@ -1,6 +1,6 @@
 [
     {
-        "enabled": true,
+        "enabled": false,
         "resource_name": "thirdparty-auth-svc-redis",
         "resource_type": "redis",
         "external_service": false,
@@ -37,7 +37,7 @@
         "external_resource_config": {}
     },
     {
-        "enabled": true,
+        "enabled": false,
         "resource_name": "thirdparty-auth-svc-db",
         "resource_type": "mysql",
         "external_service": false,
@@ -86,7 +86,7 @@
         "external_resource_config": {}
     },
     {
-        "enabled": true,
+        "enabled": false,
         "resource_name": "mysql-consent-oracle-db",
         "resource_type": "mysql",
         "external_service": false,

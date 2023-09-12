@@ -114,7 +114,11 @@ mojaloop:
       # Thirdparty API Config
         featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: account-lookup-service.${ingress_subdomain}
     account-lookup-service-admin:
@@ -128,7 +132,11 @@ mojaloop:
       # Thirdparty API Config
         featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: account-lookup-service-admin.${ingress_subdomain}
     als-oracle-pathfinder:
@@ -153,7 +161,11 @@ mojaloop:
         jwsSigningKey: |-
           ${indent(10, jws_signing_priv_key)}
     ingress:
+%{ if istio_create_ingress_gateways ~}
+      enabled: false
+%{ else ~}
       enabled: true
+%{ endif ~}      
       className: *INGRESS_CLASS
       hostname: quoting-service.${ingress_subdomain}
 
@@ -163,7 +175,11 @@ mojaloop:
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         className: *INGRESS_CLASS
         #annotations:
           #nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -176,7 +192,11 @@ mojaloop:
           jwsSigningKey: |-
             ${indent(12, jws_signing_priv_key)}
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: ml-api-adapter-handler-notification.${ingress_subdomain}
 
@@ -192,7 +212,11 @@ mojaloop:
         db_port: *CL_DB_PORT        
         db_database: *CL_DB_DATABASE
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         className: *INGRESS_CLASS
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -209,7 +233,11 @@ mojaloop:
         db_port: *CL_DB_PORT        
         db_database: *CL_DB_DATABASE
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-prepare.${ingress_subdomain}
     centralledger-handler-transfer-position:
@@ -223,7 +251,11 @@ mojaloop:
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}        
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-position.${ingress_subdomain}
     centralledger-handler-transfer-get:
@@ -237,7 +269,11 @@ mojaloop:
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}        
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-get.${ingress_subdomain}
     centralledger-handler-transfer-fulfil:
@@ -251,7 +287,11 @@ mojaloop:
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}        
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-fulfil.${ingress_subdomain}
     centralledger-handler-timeout:
@@ -265,7 +305,11 @@ mojaloop:
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}        
         className: *INGRESS_CLASS
         hostname: central-ledger-timeout.${ingress_subdomain}
     centralledger-handler-admin-transfer:
@@ -279,14 +323,22 @@ mojaloop:
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}        
         className: *INGRESS_CLASS
         hostname: central-ledger-admin-transfer.${ingress_subdomain}
 
   centralsettlement:
     centralsettlement-service:
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}        
         className: *INGRESS_CLASS
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /v2/$2
@@ -334,7 +386,11 @@ mojaloop:
 
   transaction-requests-service:
     ingress:
+%{ if istio_create_ingress_gateways ~}
+      enabled: false
+%{ else ~}
       enabled: true
+%{ endif ~}      
       className: *INGRESS_CLASS
       hostname: transaction-request-service.${ingress_subdomain}
 
@@ -352,7 +408,11 @@ mojaloop:
         redis_host: *TP_AUTH_SVC_REDIS_HOST
         redis_port: *TP_AUTH_SVC_REDIS_PORT
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         hostname: auth-service.upgtest.${ingress_subdomain}
         className: *INGRESS_CLASS
 
@@ -366,14 +426,22 @@ mojaloop:
         db_secret: *TP_ALS_CONSENT_SVC_DB_SECRET
         db_database: *TP_ALS_CONSENT_SVC_DB_DATABASE
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         hostname: consent-oracle.upgtest.${ingress_subdomain}
         className: *INGRESS_CLASS
 
     tp-api-svc:
       enabled: true
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         hostname: tp-api-svc.upgtest.${ingress_subdomain}
         className: *INGRESS_CLASS
 
@@ -382,7 +450,11 @@ mojaloop:
 
   simulator:
     ingress:
+%{ if istio_create_ingress_gateways ~}
+      enabled: false
+%{ else ~}
       enabled: true
+%{ endif ~}      
       className: *INGRESS_CLASS
       hostname: moja-simulator.${ingress_subdomain}
 
@@ -400,7 +472,11 @@ mojaloop:
           mongo_secret: *OBJSTORE_MONGO_SECRET
           mongo_database: *OBJSTORE_MONGO_DATABASE
         ingress:
+%{ if istio_create_ingress_gateways ~}
+          enabled: false
+%{ else ~}
           enabled: true
+%{ endif ~}          
           className: *INGRESS_CLASS
           hostname: bulk-api-adapter.${ingress_subdomain}
       bulk-api-adapter-handler-notification:
@@ -517,7 +593,7 @@ mojaloop:
       ml-testing-toolkit:
         ml-testing-toolkit-backend:
           ingress:
-            enabled: true
+            enabled: false
             hosts:
               specApi:
                 host: ttksim1-specapi.${ingress_subdomain}
@@ -552,7 +628,7 @@ mojaloop:
 
         ml-testing-toolkit-frontend:
           ingress:
-            enabled: true
+            enabled: false
             hosts:
               ui:
                 host: ttksim1.${ingress_subdomain}
@@ -565,7 +641,7 @@ mojaloop:
       ml-testing-toolkit:
         ml-testing-toolkit-backend:
           ingress:
-            enabled: true
+            enabled: false
             hosts:
               specApi:
                 host: ttksim2-specapi.${ingress_subdomain}
@@ -574,7 +650,7 @@ mojaloop:
 
         ml-testing-toolkit-frontend:
           ingress:
-            enabled: true
+            enabled: false
             hosts:
               ui:
                 host: ttksim2.${ingress_subdomain}
@@ -587,7 +663,7 @@ mojaloop:
       ml-testing-toolkit:
         ml-testing-toolkit-backend:
           ingress:
-            enabled: true
+            enabled: false
             hosts:
               specApi:
                 host: ttksim3-specapi.${ingress_subdomain}
@@ -596,7 +672,7 @@ mojaloop:
 
         ml-testing-toolkit-frontend:
           ingress:
-            enabled: true
+            enabled: false
             hosts:
               ui:
                 host: ttksim3.${ingress_subdomain}
@@ -615,7 +691,11 @@ mojaloop:
           secret: *TTK_MONGO_SECRET
           database: *TTK_MONGO_DATABASE
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         className: *INGRESS_CLASS
         hosts:
           specApi:
@@ -700,7 +780,11 @@ mojaloop:
 
     ml-testing-toolkit-frontend:
       ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
         enabled: true
+%{ endif ~}
         className: *INGRESS_CLASS
         hosts:
           ui: 
