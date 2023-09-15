@@ -11,6 +11,16 @@ variable "domain" {
   type        = string
 }
 
+variable "ext_interop_switch_subdomain" {
+  description = "subdomain for interop ext"
+  default     = "ext"
+}
+
+variable "int_interop_switch_subdomain" {
+  description = "subdomain for interop int"
+  default     = "int"
+}
+
 variable "tags" {
   description = "Contains default tags for this project"
   type        = map(string)
@@ -146,6 +156,18 @@ variable "target_group_external_health_port" {
   description = "target_group_external_health_port"
   default     = 32081
 
+}
+
+variable "enable_k6s_test_harness" {
+  type = bool
+  default = false
+  description = "whether or not to enable creation of vm for k6s"
+}
+
+variable "k6s_docker_server_instance_type" {
+  type    = string
+  default = "m5.2xlarge"
+  description = "vm instance type for k6s"
 }
 
 ###

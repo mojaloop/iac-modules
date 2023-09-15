@@ -36,7 +36,7 @@ module "generate_istio_files" {
     keycloak_fqdn                        = local.keycloak_fqdn
     keycloak_admin_fqdn                  = local.keycloak_admin_fqdn
     mcm_public_fqdn                      = local.mcm_public_fqdn
-    int_interop_switch_fqdn              = local.int_interop_switch_fqdn
+    int_interop_switch_fqdn              = var.internal_interop_switch_fqdn
   }
   file_list = ["istio-deploy.yaml",
     "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml",

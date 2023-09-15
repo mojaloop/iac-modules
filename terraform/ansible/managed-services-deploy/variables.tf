@@ -38,3 +38,7 @@ variable "bastion_hosts_yaml_maps" {
   type = map
   description = "yaml map for bastion hosts"
 }
+
+variable "ansible_playbook_name" {
+  default = "managed_services_deploy"
+}
