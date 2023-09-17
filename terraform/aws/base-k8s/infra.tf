@@ -39,7 +39,7 @@ module "k6s_test_harness" {
   vpc_id = module.base_infra.vpc_id
   ami_id = module.ubuntu_focal_ami.id
   docker_server_instance_type = var.k6s_docker_server_instance_type
-  subnet_id = module.base_infra.private_zone.id
+  subnet_id = module.base_infra.private_subnets[0].id
   key_pair_name = module.base_infra.key_pair_name
 }
 
