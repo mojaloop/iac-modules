@@ -14,7 +14,7 @@ resource "local_sensitive_file" "ansible_inventory" {
       master_hosts_yaml_maps      = var.master_hosts_yaml_maps,
       bastion_hosts_yaml_maps     = var.bastion_hosts_yaml_maps,
       test_harness_hosts          = var.test_harness_hosts,
-      test_harness_hosts_var_maps = var.test_harness_hosts_var_maps
+      test_harness_hosts_var_maps = merge(var.test_harness_hosts_var_maps, local.jumphostmap)
     }
 
   )
