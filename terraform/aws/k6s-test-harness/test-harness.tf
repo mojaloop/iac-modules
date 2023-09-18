@@ -39,7 +39,7 @@ resource "aws_security_group" "k6s_docker_server" {
     cidr_blocks = [var.vpc_cidr]
   }
 
-  
+
   ingress {
     description = "k6s access"
     from_port   = var.k6s_listening_port
@@ -47,7 +47,7 @@ resource "aws_security_group" "k6s_docker_server" {
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -58,4 +58,12 @@ resource "aws_security_group" "k6s_docker_server" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+resource "aws_route53_record" "test_harness_private" {
+  zone_id = var.public_zone_id
+  name    = var.test_harness_hostname
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.docker_server.private_ip]
 }

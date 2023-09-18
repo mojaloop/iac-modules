@@ -47,8 +47,8 @@ variable "delete_storage_on_term" {
 }
 
 variable "k6s_listening_port" {
-  type       = number
-  default    = 8082
+  type        = number
+  default     = 8082
   description = "which port to listen for k6s"
 }
 
@@ -70,9 +70,18 @@ variable "docker_server_extra_vol_size" {
   description = "extra vol size for docker server"
 }
 
+variable "public_zone_id" {
+  description = "zone id to add dns record"
+}
+
+variable "test_harness_hostname" {
+  description = "hostname to add to dns"
+  default     = "test-harness"
+}
+
 locals {
-    name = var.cluster_name
-    base_domain     = "${replace(var.cluster_name, "-", "")}.${var.domain}"
-    identifying_tags = { Cluster = var.cluster_name, Domain = local.base_domain}
-    common_tags = merge(local.identifying_tags, var.tags)
+  name             = var.cluster_name
+  base_domain      = "${replace(var.cluster_name, "-", "")}.${var.domain}"
+  identifying_tags = { Cluster = var.cluster_name, Domain = local.base_domain }
+  common_tags      = merge(local.identifying_tags, var.tags)
 }

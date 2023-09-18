@@ -41,6 +41,8 @@ module "k6s_test_harness" {
   docker_server_instance_type = var.k6s_docker_server_instance_type
   subnet_id = module.base_infra.private_subnets[0]
   key_pair_name = module.base_infra.key_pair_name
+  public_zone_id = module.base_infra.public_zone.id
+  test_harness_hostname = var.k6s_docker_server_fqdn
 }
 
 #############################

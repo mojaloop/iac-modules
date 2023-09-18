@@ -170,6 +170,12 @@ variable "k6s_docker_server_instance_type" {
   description = "vm instance type for k6s"
 }
 
+variable "k6s_docker_server_fqdn" {
+  type    = string
+  default = "test-harness"
+  description = "fqdn for k6s test harness vm"
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

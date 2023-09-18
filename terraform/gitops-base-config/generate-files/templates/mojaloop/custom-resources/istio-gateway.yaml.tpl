@@ -222,6 +222,15 @@ spec:
             host: ${mojaloop_release_name}-transaction-requests-service      
             port:
               number: 80
+    - name: central-admin
+      match:
+        - uri: 
+            prefix: /central-admin
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-centralledger-service
+            port:
+              number: 80
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
