@@ -79,10 +79,6 @@ variable "test_harness_hostname" {
   default     = "test-harness"
 }
 
-variable "docker_compose_version" {
-  default = "2.20.3"
-}
-
 locals {
   name             = var.cluster_name
   base_domain      = "${replace(var.cluster_name, "-", "")}.${var.domain}"
