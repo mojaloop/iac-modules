@@ -15,5 +15,6 @@ output "var_map" {
     docker_extra_ebs_volume_id  = aws_instance.docker_server.ebs_block_device.*.volume_id[0]
     docker_extra_volume_size_mb = aws_instance.docker_server.ebs_block_device.*.volume_size[0] * 1074
     k6s_callback_fqdn           = aws_route53_record.test_harness_private.fqdn
+    docker_compose_version      = var.docker_compose_version
   }
 }
