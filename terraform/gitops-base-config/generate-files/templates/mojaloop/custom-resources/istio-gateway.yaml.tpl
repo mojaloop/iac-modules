@@ -225,7 +225,9 @@ spec:
     - name: central-admin
       match:
         - uri: 
-            prefix: /central-admin
+            prefix: /admin
+      rewrite:
+        uri: /
       route:
         - destination:
             host: ${mojaloop_release_name}-centralledger-service

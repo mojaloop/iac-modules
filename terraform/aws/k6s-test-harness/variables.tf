@@ -46,10 +46,10 @@ variable "delete_storage_on_term" {
   default     = false
 }
 
-variable "k6s_listening_port" {
-  type        = number
-  default     = 8082
-  description = "which port to listen for k6s"
+variable "k6s_listening_ports" {
+  type        = list
+  default     = ["5050", "5000", "6060", "25001", "25002", "25003", "25004", "25005", "25006", "25007", "25008", "9999", "9090", "9080"]
+  description = "which ports to listen for k6s"
 }
 
 variable "docker_server_instance_type" {

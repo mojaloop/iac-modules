@@ -39,13 +39,15 @@ resource "aws_security_group" "k6s_docker_server" {
     cidr_blocks = [var.vpc_cidr]
   }
 
-
-  ingress {
-    description = "k6s access"
-    from_port   = var.k6s_listening_port
-    to_port     = var.k6s_listening_port
-    protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr]
+  dynamic "ingress" {
+    for_each = toset(var.k6s_listening_ports)
+    content {
+      description = "k6s access on ${ingress.value}"
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
+      cidr_blocks = [var.vpc_cidr]
+    }
   }
 
   egress {
