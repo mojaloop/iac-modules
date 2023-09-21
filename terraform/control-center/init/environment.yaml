@@ -28,8 +28,10 @@ envs:
     agent_instance_type: "m5.2xlarge"
     master_instance_type: "m5.4xlarge"
     master_node_count: 1
+    agent_node_count: 3
     enable_k6s_test_harness: false
     k6s_docker_server_instance_type: "m5.2xlarge"
+    vpc_cidr: "10.106.0.0/23"
 tags:
   {
     "Origin": "Terraform",
