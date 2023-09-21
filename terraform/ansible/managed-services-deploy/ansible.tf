@@ -15,7 +15,7 @@ resource "null_resource" "run_ansible" {
   provisioner "local-exec" {
     command     = <<-EOT
           ansible-galaxy collection install ${var.ansible_collection_url},${var.ansible_collection_tag}
-          ansible-playbook mojaloop.iac.managed_services_deploy -i ${local_sensitive_file.ansible_inventory.filename}
+          ansible-playbook mojaloop.iac.${var.ansible_playbook_name} -i ${local_sensitive_file.ansible_inventory.filename}
     EOT
     working_dir = path.module
   }

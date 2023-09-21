@@ -19,6 +19,14 @@ output "public_subdomain" {
   value = module.base_infra.public_zone.name
 }
 
+output "internal_interop_switch_fqdn" {
+  value = "${var.int_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name,".")}"
+}
+
+output "external_interop_switch_fqdn" {
+  value = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name,".")}"
+}
+
 output "target_group_internal_https_port" {
   value = var.target_group_internal_https_port
 }
@@ -93,6 +101,8 @@ output "all_hosts_var_maps" {
     ansible_ssh_user                 = var.os_user_name
     ansible_ssh_retries              = "10"
     base_domain                      = local.base_domain
+    internal_interop_switch_fqdn     = "${var.int_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name,".")}"
+    external_interop_switch_fqdn     = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name,".")}"    
   }
 }
 
@@ -129,4 +139,12 @@ output "agent_hosts" {
 
 output "master_hosts" {
   value = { for i, id in data.aws_instances.master.ids : id => data.aws_instances.master.private_ips[i] }
+}
+
+output "test_harness_hosts" {
+  value = var.enable_k6s_test_harness ? { test_harness = module.k6s_test_harness[0].test_harness_private_ip } : {}
+}
+
+output "test_harness_hosts_var_maps" {
+  value = var.enable_k6s_test_harness ? module.k6s_test_harness[0].var_map : {}
 }

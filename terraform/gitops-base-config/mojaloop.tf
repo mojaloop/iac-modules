@@ -20,8 +20,8 @@ module "generate_mojaloop_files" {
     jws_signing_priv_key                        = tls_private_key.jws.private_key_pem
     ingress_subdomain                           = var.public_subdomain
     quoting_service_simple_routing_mode_enabled = var.quoting_service_simple_routing_mode_enabled
-    interop_switch_fqdn                         = local.interop_switch_fqdn
-    int_interop_switch_fqdn                     = local.int_interop_switch_fqdn
+    interop_switch_fqdn                         = var.external_interop_switch_fqdn
+    int_interop_switch_fqdn                     = var.internal_interop_switch_fqdn
     external_ingress_class_name                 = var.external_ingress_class_name
     vault_certman_secretname                    = var.vault_certman_secretname
     cert_man_vault_cluster_issuer_name          = var.cert_man_vault_cluster_issuer_name

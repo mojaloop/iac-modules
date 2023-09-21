@@ -20,6 +20,8 @@ dependency "k8s_deploy" {
     external_load_balancer_dns       = ""
     private_subdomain                = ""
     public_subdomain                 = ""
+    external_interop_switch_fqdn     = ""
+    internal_interop_switch_fqdn     = ""
     target_group_internal_https_port = 0
     target_group_internal_http_port  = 0
     target_group_external_https_port = 0
@@ -33,8 +35,8 @@ dependency "k8s_deploy" {
       longhorn_backups_cred_id_key     = "mock"
       longhorn_backups_cred_secret_key = "mock"
     }
-    haproxy_server_fqdn     = "null"
-    private_network_cidr    = ""
+    haproxy_server_fqdn  = "null"
+    private_network_cidr = ""
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -47,6 +49,8 @@ inputs = {
   external_load_balancer_dns               = dependency.k8s_deploy.outputs.external_load_balancer_dns
   private_subdomain                        = dependency.k8s_deploy.outputs.private_subdomain
   public_subdomain                         = dependency.k8s_deploy.outputs.public_subdomain
+  external_interop_switch_fqdn             = dependency.k8s_deploy.outputs.external_interop_switch_fqdn
+  internal_interop_switch_fqdn             = dependency.k8s_deploy.outputs.internal_interop_switch_fqdn
   secrets_key_map                          = dependency.k8s_deploy.outputs.secrets_key_map
   properties_key_map                       = dependency.k8s_deploy.outputs.properties_key_map
   internal_ingress_https_port              = dependency.k8s_deploy.outputs.target_group_internal_https_port

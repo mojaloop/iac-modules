@@ -54,7 +54,9 @@ module "generate_mcm_files" {
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     istio_external_gateway_name          = var.istio_external_gateway_name
     private_network_cidr                 = var.private_network_cidr
-    interop_switch_fqdn                  = local.interop_switch_fqdn
+    interop_switch_fqdn                  = var.external_interop_switch_fqdn
+    keycloak_fqdn                        = local.keycloak_fqdn
+    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
   }
   file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-agent.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml"]
   template_path   = "${path.module}/generate-files/templates/mcm"
@@ -71,7 +73,7 @@ variable "mcm_enabled" {
 variable "mcm_ingress_internal_lb" {
   type        = bool
   description = "mcm_ingress_internal_lb"
-  default     = true
+  default     = false
 }
 variable "enable_mcm_oidc" {
   type    = bool

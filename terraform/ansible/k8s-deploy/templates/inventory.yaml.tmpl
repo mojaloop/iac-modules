@@ -46,3 +46,12 @@ bastion:
     ${varmapkey}:
       ${indent(6, varmapval)}
     %{~ endfor ~}
+testharness:
+  hosts: 
+    %{~ for host in test_harness_hosts ~}
+    ${host}:
+    %{~ endfor ~}
+  vars:
+    %{~ for varmapkey, varmapval in test_harness_hosts_var_maps ~}
+    ${varmapkey}: '${varmapval}'
+    %{~ endfor ~}

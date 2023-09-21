@@ -72,3 +72,15 @@ variable "all_hosts_var_maps" {
   type = map
   description = "var map for all hosts"
 }
+
+variable "test_harness_hosts" {
+  type = map
+  description = "map of hosts to run k6s on"
+  default = {}
+}
+
+variable "test_harness_hosts_var_maps" {
+  type = map
+  description = "var map for k6s hosts"
+  default = {}
+}

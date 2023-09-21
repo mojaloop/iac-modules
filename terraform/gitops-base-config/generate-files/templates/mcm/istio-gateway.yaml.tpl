@@ -30,3 +30,26 @@ spec:
             host: mcm-connection-manager-ui
             port:
               number: 8080
+%{ if mcm_wildcard_gateway == "external" ~} 
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: mcm-jwt
+  namespace: ${istio_external_gateway_namespace}
+spec:
+  selector:
+    matchLabels:
+      app: ${istio_external_gateway_name}
+  action: DENY
+  rules:
+    - to:
+        - operation:
+            paths: ["/api/*"]
+      from:
+        - source:
+            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
+      when:
+        - key: connection.sni
+          values: ["${mcm_public_fqdn}", "${mcm_public_fqdn}:*"]
+%{ endif ~}
