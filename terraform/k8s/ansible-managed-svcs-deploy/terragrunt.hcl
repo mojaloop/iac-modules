@@ -53,7 +53,7 @@ locals {
       k6s_docker_server_instance_type      = val["k6s_docker_server_instance_type"]
       vpc_cidr                             = val["vpc_cidr"]
     }
-  }}
+  }
   ANSIBLE_BASE_OUTPUT_DIR = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE        = get_env("K8S_CLUSTER_TYPE")
 
