@@ -16,9 +16,11 @@ inputs = {
   longhorn_backup_object_store_destroy = local.env_map[local.CLUSTER_NAME].longhorn_backup_object_store_destroy
   agent_instance_type                  = local.env_map[local.CLUSTER_NAME].agent_instance_type
   master_instance_type                 = local.env_map[local.CLUSTER_NAME].master_instance_type
+  agent_node_count                     = local.env_map[local.CLUSTER_NAME].agent_node_count
   master_node_count                    = local.env_map[local.CLUSTER_NAME].master_node_count
   enable_k6s_test_harness              = local.env_map[local.CLUSTER_NAME].enable_k6s_test_harness
   k6s_docker_server_instance_type      = local.env_map[local.CLUSTER_NAME].k6s_docker_server_instance_type
+  vpc_cidr                             = local.env_map[local.CLUSTER_NAME].vpc_cidr
 }
 
 locals {
@@ -43,8 +45,10 @@ locals {
       agent_instance_type                  = val["agent_instance_type"]
       master_instance_type                 = val["master_instance_type"]
       master_node_count                    = val["master_node_count"]
+      agent_node_count                     = val["agent_node_count"]
       enable_k6s_test_harness              = val["enable_k6s_test_harness"]
       k6s_docker_server_instance_type      = val["k6s_docker_server_instance_type"]
+      vpc_cidr                             = val["vpc_cidr"]
     }
   }
   tags                      = local.env_vars.tags

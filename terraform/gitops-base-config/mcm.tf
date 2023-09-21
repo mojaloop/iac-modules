@@ -73,7 +73,7 @@ variable "mcm_enabled" {
 variable "mcm_ingress_internal_lb" {
   type        = bool
   description = "mcm_ingress_internal_lb"
-  default     = true
+  default     = false
 }
 variable "enable_mcm_oidc" {
   type    = bool
