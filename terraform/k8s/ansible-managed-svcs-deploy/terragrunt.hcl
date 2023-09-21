@@ -5,11 +5,11 @@ terraform {
 dependency "managed_services" {
   config_path = "../managed-services"
   mock_outputs = {
-    bastion_hosts           = {}
-    bastion_hosts_var_maps  = {}
-    bastion_ssh_key         = "key"
-    bastion_os_username     = "null"
-    bastion_public_ip       = "null"
+    bastion_hosts          = {}
+    bastion_hosts_var_maps = {}
+    bastion_ssh_key        = "key"
+    bastion_os_username    = "null"
+    bastion_public_ip      = "null"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -56,7 +56,7 @@ locals {
   }
   ANSIBLE_BASE_OUTPUT_DIR = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE        = get_env("K8S_CLUSTER_TYPE")
-
+  CLUSTER_NAME            = get_env("CLUSTER_NAME")
   bastion_hosts_yaml_maps = {
     netmaker_join_tokens = yamlencode([get_env("NETMAKER_ENV_TOKEN")])
   }

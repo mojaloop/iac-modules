@@ -83,6 +83,7 @@ locals {
   ANSIBLE_BASE_OUTPUT_DIR = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE        = get_env("K8S_CLUSTER_TYPE")
   ARGO_CD_ROOT_APP_PATH   = get_env("ARGO_CD_ROOT_APP_PATH")
+  CLUSTER_NAME            = get_env("CLUSTER_NAME")
   master_hosts_var_maps = {
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
     external_secrets_version     = local.common_vars.external_secrets_version
