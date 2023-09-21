@@ -225,7 +225,7 @@ spec:
     - name: central-admin
       match:
         - uri: 
-            prefix: /admin
+            prefix: /admin/
       rewrite:
         uri: /
       route:
