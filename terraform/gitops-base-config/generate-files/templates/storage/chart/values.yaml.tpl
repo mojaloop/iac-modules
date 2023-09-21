@@ -15,7 +15,8 @@ longhorn:
     replicaReplenishmentWaitInterval: 360
 
   enablePSP: false
-  %{ if k8s_cluster_type == "microk8s" ~}
+
+%{ if k8s_cluster_type == "microk8s" ~}
   csi:
     kubeletRootDir: /var/snap/microk8s/common/var/lib/kubelet
-  %{ endif ~}
+%{ endif ~}
