@@ -37,6 +37,7 @@ locals {
       cloud_platform                       = val["cloud_platform"]
       domain                               = val["domain"]
       iac_terraform_modules_tag            = val["iac_terraform_modules_tag"]
+      ansible_collection_tag               = val["ansible_collection_tag"]
       enable_vault_oauth_to_gitlab         = val["enable_vault_oauth_to_gitlab"]
       enable_grafana_oauth_to_gitlab       = val["enable_grafana_oauth_to_gitlab"]
       letsencrypt_email                    = val["letsencrypt_email"]
