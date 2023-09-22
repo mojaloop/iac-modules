@@ -134,7 +134,7 @@ output "bastion_hosts" {
 }
 
 output "agent_hosts" {
-  value = { for i, id in data.aws_instances.agent[0].ids : id => data.aws_instances.agent[0].private_ips[i] }
+  value = var.agent_node_count > 0 ? { for i, id in data.aws_instances.agent[0].ids : id => data.aws_instances.agent[0].private_ips[i] } : {}
 }
 
 output "master_hosts" {
