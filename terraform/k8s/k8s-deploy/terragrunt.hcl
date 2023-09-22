@@ -22,6 +22,7 @@ inputs = {
   k6s_docker_server_instance_type      = local.env_map[local.CLUSTER_NAME].k6s_docker_server_instance_type
   vpc_cidr                             = local.env_map[local.CLUSTER_NAME].vpc_cidr
   master_node_supports_traffic         = (local.env_map[local.CLUSTER_NAME].agent_node_count == 0) ? true : false
+  kubeapi_port                         = (local.K8S_CLUSTER_TYPE == "microk8s") ? 16443 : 6443
 }
 
 locals {
