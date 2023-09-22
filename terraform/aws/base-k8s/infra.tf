@@ -276,8 +276,8 @@ locals {
     aws_lb_target_group.internal_https.arn,
     aws_lb_target_group.wireguard.arn
   ]
-  master_target_groups   = master_node_supports_traffic ? concat(local.kubeapi_target_groups, local.traffic_target_groups) : local.kubeapi_target_groups
+  master_target_groups   = var.master_node_supports_traffic ? concat(local.kubeapi_target_groups, local.traffic_target_groups) : local.kubeapi_target_groups
   agent_target_groups    = local.traffic_target_groups
-  master_security_groups = master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
+  master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
 }

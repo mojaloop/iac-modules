@@ -21,6 +21,7 @@ inputs = {
   enable_k6s_test_harness              = local.env_map[local.CLUSTER_NAME].enable_k6s_test_harness
   k6s_docker_server_instance_type      = local.env_map[local.CLUSTER_NAME].k6s_docker_server_instance_type
   vpc_cidr                             = local.env_map[local.CLUSTER_NAME].vpc_cidr
+  master_node_supports_traffic         = (local.env_map[local.CLUSTER_NAME].agent_node_count == 0) ? true : false
 }
 
 locals {
@@ -50,7 +51,6 @@ locals {
       enable_k6s_test_harness              = val["enable_k6s_test_harness"]
       k6s_docker_server_instance_type      = val["k6s_docker_server_instance_type"]
       vpc_cidr                             = val["vpc_cidr"]
-      master_node_supports_traffic         = (val["agent_node_count"] == 0) ? true : false
     }
   }
   tags                      = local.env_vars.tags
