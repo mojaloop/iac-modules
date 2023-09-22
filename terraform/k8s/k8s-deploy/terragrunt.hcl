@@ -50,6 +50,7 @@ locals {
       enable_k6s_test_harness              = val["enable_k6s_test_harness"]
       k6s_docker_server_instance_type      = val["k6s_docker_server_instance_type"]
       vpc_cidr                             = val["vpc_cidr"]
+      master_node_supports_traffic         = (val["agent_node_count"] == 0) ? true : false
     }
   }
   tags                      = local.env_vars.tags

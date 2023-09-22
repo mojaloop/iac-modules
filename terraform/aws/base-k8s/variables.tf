@@ -34,26 +34,26 @@ variable "vpc_cidr" {
 }
 
 variable "create_public_zone" {
-  default = true
-  type = bool
+  default     = true
+  type        = bool
   description = "Whether to create public zone in route53. true or false, default true"
 }
 
 variable "create_private_zone" {
-  default = true
-  type = bool
+  default     = true
+  type        = bool
   description = "Whether to create private zone in route53. true or false, default true"
 }
 
 variable "manage_parent_domain" {
-  default = true
-  type = bool
+  default     = true
+  type        = bool
   description = "Whether to manage parent domain in terraform, default true"
 }
 
 variable "manage_parent_domain_ns" {
-  default = true
-  type = bool
+  default     = true
+  type        = bool
   description = "Whether to manage parent domain ns record in terraform, default true"
 }
 
@@ -159,31 +159,36 @@ variable "target_group_external_health_port" {
 }
 
 variable "enable_k6s_test_harness" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "whether or not to enable creation of vm for k6s"
 }
 
 variable "k6s_docker_server_instance_type" {
-  type    = string
-  default = "m5.2xlarge"
+  type        = string
+  default     = "m5.2xlarge"
   description = "vm instance type for k6s"
 }
 
 variable "k6s_docker_server_fqdn" {
-  type    = string
-  default = "test-harness"
+  type        = string
+  default     = "test-harness"
   description = "fqdn for k6s test harness vm"
+}
+
+variable "master_node_supports_traffic" {
+  type        = bool
+  default     = false
+  description = "whether or not to enable ingress traffic on master nodes"
 }
 
 ###
 # Local copies of variables to allow for parsing
 ###
 locals {
-  name = var.cluster_name
-  base_domain     = "${replace(var.cluster_name, "-", "")}.${var.domain}"
-  identifying_tags = { Cluster = var.cluster_name, Domain = local.base_domain}
-  common_tags = merge(local.identifying_tags, var.tags)
-  master_security_groups = [aws_security_group.self.id, module.base_infra.default_security_group_id]
-  ssh_keys        = [] # This has been replaced with a dynamically generated key, but could be extended to allow passing additional ssh keys if needed
+  name             = var.cluster_name
+  base_domain      = "${replace(var.cluster_name, "-", "")}.${var.domain}"
+  identifying_tags = { Cluster = var.cluster_name, Domain = local.base_domain }
+  common_tags      = merge(local.identifying_tags, var.tags)
+  ssh_keys         = [] # This has been replaced with a dynamically generated key, but could be extended to allow passing additional ssh keys if needed
 }
