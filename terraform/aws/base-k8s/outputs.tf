@@ -20,11 +20,11 @@ output "public_subdomain" {
 }
 
 output "internal_interop_switch_fqdn" {
-  value = "${var.int_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name,".")}"
+  value = "${var.int_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
 }
 
 output "external_interop_switch_fqdn" {
-  value = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name,".")}"
+  value = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
 }
 
 output "target_group_internal_https_port" {
@@ -80,7 +80,7 @@ output "master_hosts_yaml_maps" {
 
 output "secrets_var_map" {
   sensitive = true
-  value = module.post_config.secrets_var_map
+  value     = module.post_config.secrets_var_map
 }
 
 output "properties_var_map" {
@@ -98,11 +98,12 @@ output "secrets_key_map" {
 output "all_hosts_var_maps" {
   sensitive = false
   value = {
-    ansible_ssh_user                 = var.os_user_name
-    ansible_ssh_retries              = "10"
-    base_domain                      = local.base_domain
-    internal_interop_switch_fqdn     = "${var.int_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name,".")}"
-    external_interop_switch_fqdn     = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name,".")}"    
+    ansible_ssh_user             = var.os_user_name
+    ansible_ssh_retries          = "10"
+    base_domain                  = local.base_domain
+    internal_interop_switch_fqdn = "${var.int_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
+    external_interop_switch_fqdn = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
+    kubeapi_loadbalancer_fqdn    = aws_lb.internal.dns_name
   }
 }
 
@@ -121,7 +122,7 @@ output "bastion_hosts_var_maps" {
   sensitive = false
   value = {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
-    egress_gateway_cidr = var.vpc_cidr
+    egress_gateway_cidr     = var.vpc_cidr
   }
 }
 

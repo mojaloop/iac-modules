@@ -8,8 +8,8 @@ resource "local_sensitive_file" "ansible_inventory" {
       bastion_hosts               = var.bastion_hosts,
       bastion_hosts_var_maps      = var.bastion_hosts_var_maps,
       agent_hosts_var_maps        = merge(var.agent_hosts_var_maps, local.jumphostmap),
-      master_hosts_var_maps       = merge(var.master_hosts_var_maps, local.jumphostmap, local.master_hosts_var_maps),
-      all_hosts_var_maps          = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map),
+      master_hosts_var_maps       = merge(var.master_hosts_var_maps, local.jumphostmap),
+      all_hosts_var_maps          = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map, local.all_hosts_var_maps),
       agent_hosts_yaml_maps       = var.agent_hosts_yaml_maps,
       master_hosts_yaml_maps      = var.master_hosts_yaml_maps,
       bastion_hosts_yaml_maps     = var.bastion_hosts_yaml_maps,
@@ -53,7 +53,7 @@ locals {
   ssh_private_key_file_map = {
     ansible_ssh_private_key_file = local_sensitive_file.ec2_ssh_key.filename
   }
-  master_hosts_var_maps = {
+  all_hosts_var_maps = {
     kubeconfig_local_location = local.ansible_output_dir
   }
 }
