@@ -35,11 +35,11 @@ inputs = {
   master_hosts           = dependency.k8s_deploy.outputs.master_hosts
   agent_hosts            = dependency.k8s_deploy.outputs.agent_hosts
   bastion_hosts          = dependency.k8s_deploy.outputs.bastion_hosts
-  bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps)
-  agent_hosts_var_maps   = dependency.k8s_deploy.outputs.agent_hosts_var_maps
-  master_hosts_var_maps = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, {
+  bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
     tenant_vault_server_url = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
   })
+  agent_hosts_var_maps   = dependency.k8s_deploy.outputs.agent_hosts_var_maps
+  master_hosts_var_maps = dependency.k8s_deploy.outputs.master_hosts_var_maps
   all_hosts_var_maps          = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps)
   bastion_hosts_yaml_maps     = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
   master_hosts_yaml_maps      = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
