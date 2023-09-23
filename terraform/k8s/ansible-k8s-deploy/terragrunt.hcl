@@ -37,7 +37,7 @@ inputs = {
   bastion_hosts          = dependency.k8s_deploy.outputs.bastion_hosts
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps)
   agent_hosts_var_maps   = dependency.k8s_deploy.outputs.agent_hosts_var_maps
-  master_hosts_var_maps = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps, {
+  master_hosts_var_maps = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, {
     tenant_vault_server_url = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
   })
   all_hosts_var_maps          = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps)
@@ -84,20 +84,6 @@ locals {
   K8S_CLUSTER_TYPE        = get_env("K8S_CLUSTER_TYPE")
   ARGO_CD_ROOT_APP_PATH   = get_env("ARGO_CD_ROOT_APP_PATH")
   CLUSTER_NAME            = get_env("CLUSTER_NAME")
-  master_hosts_var_maps = {
-    root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
-    external_secrets_version     = local.common_vars.external_secrets_version
-    argocd_version               = local.common_vars.argocd_version
-    argocd_lovely_plugin_version = local.common_vars.argocd_lovely_plugin_version
-    repo_url                     = get_env("GITLAB_PROJECT_URL")
-    gitlab_server_url            = get_env("CI_SERVER_URL")
-    gitlab_project_id            = get_env("GITLAB_CURRENT_PROJECT_ID")
-    repo_username                = get_env("GITLAB_USERNAME")
-    repo_password                = get_env("GITLAB_CI_PAT")
-    tenant_vault_token           = get_env("ENV_VAULT_TOKEN")
-    netmaker_join_tokens         = yamlencode([get_env("NETMAKER_ENV_TOKEN")])
-    cluster_name                 = get_env("CLUSTER_NAME")
-  }
   bastion_hosts_yaml_maps = {
     netmaker_join_tokens = yamlencode([get_env("NETMAKER_OPS_TOKEN")])
   }
@@ -108,6 +94,17 @@ locals {
     vault_fqdn             = get_env("VAULT_FQDN")
     netmaker_master_key    = get_env("METMAKER_MASTER_KEY")
     netmaker_api_host      = get_env("NETMAKER_HOST_NAME")
+    root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
+    external_secrets_version     = local.common_vars.external_secrets_version
+    argocd_version               = local.common_vars.argocd_version
+    argocd_lovely_plugin_version = local.common_vars.argocd_lovely_plugin_version
+    repo_url                     = get_env("GITLAB_PROJECT_URL")
+    gitlab_server_url            = get_env("CI_SERVER_URL")
+    gitlab_project_id            = get_env("GITLAB_CURRENT_PROJECT_ID")
+    repo_username                = get_env("GITLAB_USERNAME")
+    repo_password                = get_env("GITLAB_CI_PAT")
+    tenant_vault_token           = get_env("ENV_VAULT_TOKEN")
+    cluster_name                 = get_env("CLUSTER_NAME")
   }
   all_hosts_var_maps = {
     seaweedfs_s3_listening_port      = get_env("SEAWEEDFS_S3_LISTENING_PORT")
