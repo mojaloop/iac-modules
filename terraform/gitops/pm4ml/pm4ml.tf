@@ -1,5 +1,5 @@
-module "generate_mojaloop_files" {
-  source = "./generate-files"
+module "generate_pm4ml_files" {
+  source = "../generate-files"
   var_map = {
     mojaloop_enabled                            = var.mojaloop_enabled
     gitlab_project_url                          = var.gitlab_project_url

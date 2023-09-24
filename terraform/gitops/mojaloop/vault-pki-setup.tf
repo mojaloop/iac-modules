@@ -1,5 +1,5 @@
 module "generate_vault_pki_setup_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     cert_man_vault_cluster_issuer_name    = var.cert_man_vault_cluster_issuer_name
     cert_manager_namespace                = var.cert_manager_namespace
