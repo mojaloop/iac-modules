@@ -48,7 +48,7 @@ module "k6s_test_harness" {
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
 
-  cluster_name                    = local.base_domain
+  cluster_name                    = local.eks_name
   cluster_version                 = "1.24"
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
@@ -65,7 +65,7 @@ module "eks" {
 
   self_managed_node_groups = {
     agent = {
-      name = "${var.cluster_name}-agent-node-group"
+      name = "${local.eks_name}-agent-node-group"
       ami_id =  module.ubuntu_focal_ami.id
       public_ip    = false
       max_size     = var.agent_node_count
@@ -74,7 +74,7 @@ module "eks" {
       use_mixed_instances_policy = false
       target_group_arns = local.agent_target_groups
       key_name      = module.base_infra.key_pair_name
-      launch_template_name = substr("${local.base_domain}-agent", 0, 24)
+      launch_template_name = "${local.eks_name}-agent"
       launch_template_use_name_prefix = true
       pre_bootstrap_user_data = data.template_cloudinit_config.agent.rendered
       block_device_mappings = {
@@ -93,7 +93,7 @@ module "eks" {
       }
 
       tags = merge(
-        { Name = "${local.base_domain}-agent" },
+        { Name = "${local.eks_name}-agent" },
         local.common_tags
       )
 
@@ -123,6 +123,7 @@ module "eks_kubeconfig" {
 }
 
 locals {
+  eks_name = substr(local.base_domain, 0, 16)
   base_security_groups    = [aws_security_group.self.id, module.base_infra.default_security_group_id]
   traffic_security_groups = [aws_security_group.ingress.id]
   kubeapi_target_groups = [
