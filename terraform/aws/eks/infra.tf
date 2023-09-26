@@ -89,10 +89,12 @@ module "eks" {
         }
       }
 
-      network_interfaces = {
-        delete_on_termination = true
-        security_groups       = local.agent_security_groups
-      }
+      network_interfaces = [
+        {
+          delete_on_termination = true
+          security_groups       = local.agent_security_groups
+        }
+      ]
 
       tags = merge(
         { Name = "${local.eks_name}-agent" },
