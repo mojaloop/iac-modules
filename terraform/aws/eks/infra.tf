@@ -74,7 +74,7 @@ module "eks" {
       use_mixed_instances_policy = false
       target_group_arns = local.agent_target_groups
       key_name      = module.base_infra.key_pair_name
-      launch_template_name = "${local.base_domain}-agent"
+      launch_template_name = substr("${local.base_domain}-agent", 0, 24)
       launch_template_use_name_prefix = true
       pre_bootstrap_user_data = data.template_cloudinit_config.agent.rendered
       block_device_mappings = {
@@ -97,30 +97,7 @@ module "eks" {
         local.common_tags
       )
 
-      tag_specifications = {
-        resource_type = "instance"
-
-        tags = merge(
-          { Name = "${local.base_domain}-agent" },
-          local.common_tags
-        )
-      }
-      tag_specifications = {
-        resource_type = "volume"
-
-        tags = merge(
-          { Name = "${local.base_domain}-agent" },
-          local.common_tags
-        )
-      }
-      tag_specifications = {
-        resource_type = "network-interface"
-
-        tags = merge(
-          { Name = "${local.base_domain}-agent" },
-          local.common_tags
-        )
-      }
+      tag_specifications = ["instance", "volume", "network-interface"]
     }
 
   }
