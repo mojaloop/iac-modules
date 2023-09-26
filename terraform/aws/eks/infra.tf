@@ -123,7 +123,7 @@ module "eks_kubeconfig" {
 }
 
 locals {
-  eks_name = substr(local.base_domain, 0, 16)
+  eks_name = substr(replace(local.base_domain, ".", "-"), 0, 16)
   base_security_groups    = [aws_security_group.self.id, module.base_infra.default_security_group_id]
   traffic_security_groups = [aws_security_group.ingress.id]
   kubeapi_target_groups = [
