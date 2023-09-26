@@ -75,7 +75,7 @@ module "eks" {
       target_group_arns = local.agent_target_groups
       key_name      = module.base_infra.key_pair_name
       launch_template_name = "${local.eks_name}-agent"
-      launch_template_use_name_prefix = true
+      launch_template_use_name_prefix = false
       pre_bootstrap_user_data = data.template_cloudinit_config.agent.rendered
       block_device_mappings = {
         device_name = "/dev/sda1"
