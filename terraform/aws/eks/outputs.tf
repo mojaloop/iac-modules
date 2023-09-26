@@ -108,10 +108,8 @@ output "all_hosts_var_maps" {
 }
 
 output "agent_hosts_var_maps" {
-  sensitive = true
-  value = {
-    master_ip = data.aws_instances.master.private_ips[0]
-  }
+  sensitive = false
+  value = {}
 }
 
 output "agent_hosts_yaml_maps" {
