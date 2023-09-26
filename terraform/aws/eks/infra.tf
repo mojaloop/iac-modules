@@ -118,11 +118,6 @@ data "template_cloudinit_config" "agent" {
   }
 }
 
-module "eks_kubeconfig" {
-  source       = "hyperbadger/eks-kubeconfig/aws"
-  version      = "2.0.0"
-  cluster_name = module.eks.cluster_name
-}
 
 locals {
   eks_name = substr(replace(local.base_domain, ".", "-"), 0, 16)
