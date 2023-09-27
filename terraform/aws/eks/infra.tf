@@ -108,6 +108,12 @@ module "eks" {
   tags = var.tags
 }
 
+data "utils_aws_eks_update_kubeconfig" "kubeconfig" {
+  role_arn      = module.eks.cluster_iam_role_arn
+  cluster_name = module.eks.cluster_name
+  kubeconfig   = "${path.module}/kubeconfig"
+}
+
 data "template_cloudinit_config" "agent" {
   gzip          = true
   base64_encode = true

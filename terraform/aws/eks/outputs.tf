@@ -109,7 +109,7 @@ output "all_hosts_var_maps" {
 
 output "agent_hosts_var_maps" {
   sensitive = false
-  value = {}
+  value     = {}
 }
 
 output "agent_hosts_yaml_maps" {
@@ -121,6 +121,7 @@ output "bastion_hosts_var_maps" {
   value = {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
     egress_gateway_cidr     = var.vpc_cidr
+    kubeconfig_content      = data.utils_aws_eks_update_kubeconfig.kubeconfig.output
   }
 }
 
