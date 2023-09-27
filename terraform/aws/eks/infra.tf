@@ -65,20 +65,20 @@ module "eks" {
 
   self_managed_node_groups = {
     agent = {
-      name = "${local.eks_name}-agent"
-      ami_id =  module.ubuntu_focal_ami.id
+      name         = "${local.eks_name}-agent"
+      ami_id       = module.ubuntu_focal_ami.id
       public_ip    = false
       max_size     = var.agent_node_count
       desired_size = var.agent_node_count
 
-      use_mixed_instances_policy = false
-      target_group_arns = local.agent_target_groups
-      key_name      = module.base_infra.key_pair_name
-      launch_template_name = "${local.eks_name}-agent"
+      use_mixed_instances_policy      = false
+      target_group_arns               = local.agent_target_groups
+      key_name                        = module.base_infra.key_pair_name
+      launch_template_name            = "${local.eks_name}-agent"
       launch_template_use_name_prefix = false
-      iam_role_name = "${local.eks_name}-agent"
-      iam_role_use_name_prefix = false
-      pre_bootstrap_user_data = data.template_cloudinit_config.agent.rendered
+      iam_role_name                   = "${local.eks_name}-agent"
+      iam_role_use_name_prefix        = false
+      pre_bootstrap_user_data         = data.template_cloudinit_config.agent.rendered
       block_device_mappings = {
         device_name = "/dev/sda1"
 
@@ -108,10 +108,12 @@ module "eks" {
   tags = var.tags
 }
 
+data "aws_region" "current" {}
+
 data "utils_aws_eks_update_kubeconfig" "kubeconfig" {
-  role_arn      = module.eks.cluster_iam_role_arn
+  role_arn     = module.eks.cluster_iam_role_arn
   cluster_name = module.eks.cluster_name
-  region = "eu-west-1"
+  region       = data.aws_region.name
   kubeconfig   = "${path.module}/kubeconfig"
 }
 
@@ -129,7 +131,7 @@ data "template_cloudinit_config" "agent" {
 
 
 locals {
-  eks_name = substr(replace(local.base_domain, ".", "-"), 0, 16)
+  eks_name                = substr(replace(local.base_domain, ".", "-"), 0, 16)
   base_security_groups    = [aws_security_group.self.id, module.base_infra.default_security_group_id]
   traffic_security_groups = [aws_security_group.ingress.id]
   kubeapi_target_groups = [
