@@ -117,6 +117,10 @@ data "utils_aws_eks_update_kubeconfig" "kubeconfig" {
   kubeconfig   = "${path.module}/kubeconfig"
 }
 
+data "local_file" "kubeconfig" {
+  filename = data.utils_aws_eks_update_kubeconfig.kubeconfig.kubeconfig
+}
+
 data "template_cloudinit_config" "agent" {
   gzip          = true
   base64_encode = true
