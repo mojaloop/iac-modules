@@ -21,6 +21,7 @@ module "generate_keycloak_files" {
     istio_internal_gateway_namespace      = var.istio_internal_gateway_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace      = var.istio_external_gateway_namespace
+    istio_external_gateway_name           = var.istio_external_gateway_name
     keycloak_wildcard_gateway             = local.keycloak_wildcard_gateway
     external_ingress_class_name           = var.external_ingress_class_name
     keycloak_tls_secretname               = var.default_ssl_certificate
