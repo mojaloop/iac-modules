@@ -117,7 +117,7 @@ output "agent_hosts_yaml_maps" {
 }
 
 output "bastion_hosts_var_maps" {
-  sensitive = true
+  sensitive = false
   value = {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
     egress_gateway_cidr     = var.vpc_cidr
@@ -125,6 +125,7 @@ output "bastion_hosts_var_maps" {
 }
 
 output "bastion_hosts_yaml_maps" {
+  sensitive = true
   value = {
     kubeconfig_content = data.local_file.kubeconfig.content
   }
