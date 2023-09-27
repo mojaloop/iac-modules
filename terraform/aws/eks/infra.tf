@@ -111,6 +111,7 @@ module "eks" {
 data "utils_aws_eks_update_kubeconfig" "kubeconfig" {
   role_arn      = module.eks.cluster_iam_role_arn
   cluster_name = module.eks.cluster_name
+  region = "eu-west-1"
   kubeconfig   = "${path.module}/kubeconfig"
 }
 
