@@ -113,7 +113,7 @@ data "aws_region" "current" {}
 data "utils_aws_eks_update_kubeconfig" "kubeconfig" {
   role_arn     = module.eks.cluster_iam_role_arn
   cluster_name = module.eks.cluster_name
-  region       = data.aws_region.name
+  region       = data.aws_region.current.name
   kubeconfig   = "${path.module}/kubeconfig"
 }
 
