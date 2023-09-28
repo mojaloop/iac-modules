@@ -108,6 +108,37 @@ module "eks" {
   tags = var.tags
 }
 
+data "aws_caller_identity" "current" {}
+
+data "aws_iam_policy_document" "eks_kubeconfig_assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type = "AWS"
+      identifiers = [
+        module.eks.cluster_iam_role_arn
+      ]
+    }
+
+    actions = [
+      "sts:AssumeRole"
+    ]
+  }
+}
+
+
+
+resource "aws_iam_policy" "eks_kubeconfig_assume_role" {
+  name   = "${local.eks_name}-eks-kubeconfig-assume-role"
+  policy = data.aws_iam_policy_document.eks_kubeconfig_assume_role.json
+}
+
+resource "aws_iam_user_policy_attachment" "eks_kubeconfig_assume_role" {
+  user       = split("/", data.aws_caller_identity.current.user_id)[1]
+  policy_arn = aws_iam_policy.eks_kubeconfig_assume_role.arn
+}
+
 data "aws_region" "current" {}
 
 data "utils_aws_eks_update_kubeconfig" "kubeconfig" {
