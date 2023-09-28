@@ -135,7 +135,7 @@ resource "aws_iam_policy" "eks_kubeconfig_assume_role" {
 }
 
 resource "aws_iam_user_policy_attachment" "eks_kubeconfig_assume_role" {
-  user       = split("/", data.aws_caller_identity.current.user_id)[1]
+  user       = split("/", data.aws_caller_identity.current.arn)[1]
   policy_arn = aws_iam_policy.eks_kubeconfig_assume_role.arn
 }
 
