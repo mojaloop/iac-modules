@@ -119,9 +119,12 @@ data "aws_iam_policy_document" "eks_kubeconfig_assume_role" {
       "sts:AssumeRole"
     ]
 
-    resources = [
-      module.eks.cluster_iam_role_arn
-    ]
+    principals {
+      type = "AWS"
+      identifiers = [
+        data.aws_caller_identity.current.arn
+      ]
+    }
   }
 }
 
@@ -130,8 +133,8 @@ resource "aws_iam_policy" "eks_kubeconfig_assume_role" {
   policy = data.aws_iam_policy_document.eks_kubeconfig_assume_role.json
 }
 
-resource "aws_iam_user_policy_attachment" "eks_kubeconfig_assume_role" {
-  user       = split("/", data.aws_caller_identity.current.arn)[1]
+resource "aws_iam_role_policy_attachment" "eks_kubeconfig_assume_role" {
+  role       = module.eks.cluster_iam_role_name
   policy_arn = aws_iam_policy.eks_kubeconfig_assume_role.arn
 }
 
