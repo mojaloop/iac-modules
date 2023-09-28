@@ -111,23 +111,19 @@ module "eks" {
 data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "eks_kubeconfig_assume_role" {
+  
   statement {
     effect = "Allow"
-
-    principals {
-      type = "AWS"
-      identifiers = [
-        module.eks.cluster_iam_role_arn
-      ]
-    }
 
     actions = [
       "sts:AssumeRole"
     ]
+
+    resources = [
+      module.eks.cluster_iam_role_arn
+    ]
   }
 }
-
-
 
 resource "aws_iam_policy" "eks_kubeconfig_assume_role" {
   name   = "${local.eks_name}-eks-kubeconfig-assume-role"
