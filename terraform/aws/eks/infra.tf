@@ -60,7 +60,7 @@ module "eks" {
 
     ingress_https_bastion = {
       description              = "Access EKS from Bastion instance."
-      protocol                 = "HTTPS"
+      protocol                 = "tcp"
       from_port                = 443
       to_port                  = 443
       type                     = "ingress"
