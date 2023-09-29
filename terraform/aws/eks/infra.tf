@@ -68,11 +68,12 @@ module "eks" {
     }
   }
   # Self Managed Node Group(s)
+  create_aws_auth_configmap = true
+  manage_aws_auth_configmap = true
   self_managed_node_group_defaults = {
     instance_type                          = var.agent_instance_type
     update_launch_template_default_version = true
   }
-
   self_managed_node_groups = {
     agent = {
       name                            = "${local.eks_name}-agent"
