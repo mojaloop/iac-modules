@@ -77,12 +77,6 @@ terraform {
   required_providers {
     %{if get_env("CLOUD_PLATFORM") == "aws"}
     aws   = "${local.cloud_platform_vars.aws_provider_version}"
-    %{if get_env("K8S_CLUSTER_MODULE") == "eks"}
-    utils = {
-      source = "cloudposse/utils"
-      version = "${local.cloud_platform_vars.cloudposse_utils_version}"
-    }
-    %{endif}
     %{endif}
   }
 }

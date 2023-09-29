@@ -104,6 +104,7 @@ output "all_hosts_var_maps" {
     internal_interop_switch_fqdn = "${var.int_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
     external_interop_switch_fqdn = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
     kubeapi_loadbalancer_fqdn    = module.eks.cluster_endpoint
+    eks_cluster_name             = module.eks.cluster_name
   }
 }
 
@@ -125,10 +126,8 @@ output "bastion_hosts_var_maps" {
 }
 
 output "bastion_hosts_yaml_maps" {
-  sensitive = true
-  value = {
-    kubeconfig_content = data.local_file.kubeconfig.content
-  }
+  sensitive = false
+  value = {}
 }
 
 output "bastion_hosts" {

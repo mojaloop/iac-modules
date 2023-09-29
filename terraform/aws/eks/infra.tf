@@ -108,49 +108,6 @@ module "eks" {
   tags = var.tags
 }
 
-data "aws_caller_identity" "current" {}
-
-data "aws_iam_policy_document" "eks_kubeconfig_assume_role" {
-  
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "sts:AssumeRole"
-    ]
-
-    principals {
-      type = "AWS"
-      identifiers = [
-        data.aws_caller_identity.current.arn
-      ]
-    }
-  }
-}
-
-resource "aws_iam_policy" "eks_kubeconfig_assume_role" {
-  name   = "${local.eks_name}-eks-kubeconfig-assume-role"
-  policy = data.aws_iam_policy_document.eks_kubeconfig_assume_role.json
-}
-
-resource "aws_iam_role_policy_attachment" "eks_kubeconfig_assume_role" {
-  role       = module.eks.cluster_iam_role_name
-  policy_arn = aws_iam_policy.eks_kubeconfig_assume_role.arn
-}
-
-data "aws_region" "current" {}
-
-data "utils_aws_eks_update_kubeconfig" "kubeconfig" {
-  role_arn     = module.eks.cluster_iam_role_arn
-  cluster_name = module.eks.cluster_name
-  region       = data.aws_region.current.name
-  kubeconfig   = "${path.module}/kubeconfig"
-}
-
-data "local_file" "kubeconfig" {
-  filename = data.utils_aws_eks_update_kubeconfig.kubeconfig.kubeconfig
-}
-
 data "template_cloudinit_config" "agent" {
   gzip          = true
   base64_encode = true
