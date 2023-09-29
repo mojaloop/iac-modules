@@ -53,11 +53,20 @@ module "eks" {
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
 
-  cluster_additional_security_group_ids = [module.base_infra.bastion_security_group_id]
-
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
 
+  cluster_security_group_additional_rules = {
+    ingress_https_bastion = {
+      description                = "Access EKS from Bastion instance."
+      protocol                   = "HTTPS"
+      from_port                  = 443
+      to_port                    = 443
+      type                       = "ingress"
+      security_groups            = [module.base_infra.bastion_security_group_id]
+      source_cluster_security_group = true
+    }
+  }
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
     instance_type                          = var.agent_instance_type
