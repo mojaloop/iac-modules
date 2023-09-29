@@ -71,8 +71,14 @@ api:
         "OU": "${env_ou}"
       }
 ui:
+  image:
+    version: 2.0.0-snapshot.3
   oauth:
-    enabled: false
+    enabled: "FALSE"
+    keycloakOidcUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
+    clientId: ${oauth_key}
+    clientSecretName: ${oauth_secret_secret}
+    clientSecretKey: ${oauth_secret_secret_key}
 
 ingress:
 %{ if istio_create_ingress_gateways ~}

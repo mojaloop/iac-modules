@@ -216,7 +216,8 @@ spec:
       publicClient: true
       frontchannelLogout: false
       protocol: openid-connect
-      attributes: {}
+      attributes:
+        post.logout.redirect.uris: "+"
       authenticationFlowBindingOverrides: {}
       fullScopeAllowed: false
       nodeReRegistrationTimeout: 0
@@ -250,7 +251,8 @@ spec:
       publicClient: false
       frontchannelLogout: false
       protocol: openid-connect
-      attributes: {}
+      attributes:
+        post.logout.redirect.uris: "+"
       authenticationFlowBindingOverrides: {}
       fullScopeAllowed: false
       nodeReRegistrationTimeout: 0
@@ -296,6 +298,7 @@ spec:
         oauth2.device.authorization.grant.enabled: 'false'
         client.secret.creation.time: '1690377454'
         backchannel.logout.session.required: 'true'
+        post.logout.redirect.uris: "+"
         backchannel.logout.revoke.offline.tokens: 'false'
       authenticationFlowBindingOverrides: {}
       fullScopeAllowed: true
@@ -308,6 +311,7 @@ spec:
         consentRequired: false
         config:
           user.session.note: clientHost
+          userinfo.token.claim: 'true'
           id.token.claim: 'true'
           access.token.claim: 'true'
           claim.name: clientHost
@@ -319,6 +323,7 @@ spec:
         consentRequired: false
         config:
           user.session.note: client_id
+          userinfo.token.claim: 'true'
           id.token.claim: 'true'
           access.token.claim: 'true'
           claim.name: client_id
@@ -330,6 +335,7 @@ spec:
         consentRequired: false
         config:
           user.session.note: clientAddress
+          userinfo.token.claim: 'true'
           id.token.claim: 'true'
           access.token.claim: 'true'
           claim.name: clientAddress
@@ -358,7 +364,7 @@ spec:
       clientAuthenticatorType: client-secret
       secret: '$${mcm_oidc_client_secret}'
       redirectUris:
-        - /*
+        - https://${mcm_public_fqdn}/login-callback
       webOrigins:
         - /*
       notBefore: 0
@@ -376,6 +382,9 @@ spec:
         oauth2.device.authorization.grant.enabled: 'false'
         client.secret.creation.time: '1691150922'
         backchannel.logout.session.required: 'true'
+        login_theme: keycloak
+        post.logout.redirect.uris: "+"
+        display.on.consent.screen: 'false'
         backchannel.logout.revoke.offline.tokens: 'false'
       authenticationFlowBindingOverrides: {}
       fullScopeAllowed: true
@@ -410,7 +419,8 @@ spec:
       publicClient: false
       frontchannelLogout: false
       protocol: openid-connect
-      attributes: {}
+      attributes:
+        post.logout.redirect.uris: "+"
       authenticationFlowBindingOverrides: {}
       fullScopeAllowed: false
       nodeReRegistrationTimeout: 0
@@ -772,6 +782,7 @@ spec:
         consentRequired: false
         config:
           multivalued: 'true'
+          userinfo.token.claim: 'true'
           user.attribute: foo
           id.token.claim: 'true'
           access.token.claim: 'true'
@@ -794,6 +805,7 @@ spec:
         config:
           id.token.claim: 'true'
           access.token.claim: 'true'
+          userinfo.token.claim: 'true'
     - id: 5b15adf4-d7bd-4802-b9e4-f1e69290c0f0
       name: role_list
       description: SAML role list
@@ -1480,8 +1492,12 @@ spec:
       cibaExpiresIn: '120'
       cibaAuthRequestedUserHint: login_hint
       oauth2DeviceCodeLifespan: '600'
+      clientOfflineSessionMaxLifespan: '0'
       oauth2DevicePollingInterval: '5'
+      clientSessionIdleTimeout: '0'
       parRequestUriLifespan: '60'
+      clientSessionMaxLifespan: '0'
+      clientOfflineSessionIdleTimeout: '0'
       cibaInterval: '5'
       realmReusableOtpCode: 'false'
     keycloakVersion: 22.0.1
