@@ -68,8 +68,6 @@ module "eks" {
     }
   }
   # Self Managed Node Group(s)
-  create_aws_auth_configmap = true
-  manage_aws_auth_configmap = true
   self_managed_node_group_defaults = {
     instance_type                          = var.agent_instance_type
     update_launch_template_default_version = true
@@ -149,16 +147,4 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
-}
-
-provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    command     = "aws"
-    # This requires the awscli to be installed locally where Terraform is executed
-    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-  }
 }
