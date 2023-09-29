@@ -70,7 +70,7 @@ module "eks" {
       public_ip    = false
       max_size     = var.agent_node_count
       desired_size = var.agent_node_count
-
+      cluster_additional_security_group_ids = [module.base_infra.bastion_security_group_id]
       use_mixed_instances_policy      = false
       target_group_arns               = local.agent_target_groups
       key_name                        = module.base_infra.key_pair_name
