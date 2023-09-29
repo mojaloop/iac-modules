@@ -57,14 +57,14 @@ module "eks" {
   subnet_ids = module.base_infra.private_subnets
 
   cluster_security_group_additional_rules = {
+
     ingress_https_bastion = {
-      description                = "Access EKS from Bastion instance."
-      protocol                   = "HTTPS"
-      from_port                  = 443
-      to_port                    = 443
-      type                       = "ingress"
-      security_groups            = [module.base_infra.bastion_security_group_id]
-      source_cluster_security_group = true
+      description              = "Access EKS from Bastion instance."
+      protocol                 = "HTTPS"
+      from_port                = 443
+      to_port                  = 443
+      type                     = "ingress"
+      source_security_group_id = module.base_infra.bastion_security_group_id
     }
   }
   # Self Managed Node Group(s)
@@ -75,11 +75,11 @@ module "eks" {
 
   self_managed_node_groups = {
     agent = {
-      name         = "${local.eks_name}-agent"
-      ami_id       = module.ubuntu_focal_ami.id
-      public_ip    = false
-      max_size     = var.agent_node_count
-      desired_size = var.agent_node_count
+      name                            = "${local.eks_name}-agent"
+      ami_id                          = module.ubuntu_focal_ami.id
+      public_ip                       = false
+      max_size                        = var.agent_node_count
+      desired_size                    = var.agent_node_count
       use_mixed_instances_policy      = false
       target_group_arns               = local.agent_target_groups
       key_name                        = module.base_infra.key_pair_name
