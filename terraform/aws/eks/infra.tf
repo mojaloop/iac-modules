@@ -53,6 +53,7 @@ module "eks" {
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
 
+  cluster_additional_security_group_ids = [module.base_infra.bastion_security_group_id]
 
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
@@ -70,7 +71,6 @@ module "eks" {
       public_ip    = false
       max_size     = var.agent_node_count
       desired_size = var.agent_node_count
-      cluster_additional_security_group_ids = [module.base_infra.bastion_security_group_id]
       use_mixed_instances_policy      = false
       target_group_arns               = local.agent_target_groups
       key_name                        = module.base_infra.key_pair_name
