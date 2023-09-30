@@ -49,7 +49,7 @@ module "eks" {
   source = "terraform-aws-modules/eks/aws"
 
   cluster_name                    = local.eks_name
-  cluster_version                 = "1.24"
+  cluster_version                 = var.kubernetes_version
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
 
