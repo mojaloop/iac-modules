@@ -75,7 +75,7 @@ module "eks" {
   self_managed_node_groups = {
     agent = {
       name                            = "${local.eks_name}-agent"
-      ami_id                          = module.ubuntu_focal_ami.id
+      ami_id                          = data.aws_ami.eks_default.id
       public_ip                       = false
       max_size                        = var.agent_node_count
       desired_size                    = var.agent_node_count
@@ -147,4 +147,14 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
+}
+
+data "aws_ami" "eks_default" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amazon-eks-node-${var.kubernetes_version}-v*"]
+  }
 }
