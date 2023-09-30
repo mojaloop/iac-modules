@@ -86,7 +86,6 @@ module "eks" {
       launch_template_use_name_prefix = false
       iam_role_name                   = "${local.eks_name}-agent"
       iam_role_use_name_prefix        = false
-      pre_bootstrap_user_data         = data.template_cloudinit_config.agent.rendered
       block_device_mappings = {
         device_name = "/dev/sda1"
 
@@ -114,18 +113,6 @@ module "eks" {
 
   }
   tags = var.tags
-}
-
-data "template_cloudinit_config" "agent" {
-  gzip          = true
-  base64_encode = true
-
-  # Main cloud-config configuration file.
-  part {
-    filename     = "init.cfg"
-    content_type = "text/cloud-config"
-    content      = templatefile("${path.module}/templates/cloud-config-base.yaml", { ssh_keys = local.ssh_keys })
-  }
 }
 
 
