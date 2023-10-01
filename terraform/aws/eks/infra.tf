@@ -75,7 +75,7 @@ module "eks" {
   self_managed_node_groups = {
     agent = {
       name                            = "${local.eks_name}-agent"
-      ami_id                          = data.aws_ami.eks_default.id
+      ami_id                          = data.aws_ami.eks_ubuntu.id
       public_ip                       = false
       max_size                        = var.agent_node_count
       desired_size                    = var.agent_node_count
@@ -144,4 +144,15 @@ data "aws_ami" "eks_default" {
     name   = "name"
     values = ["amazon-eks-node-${var.kubernetes_version}-v*"]
   }
+}
+
+data "aws_ami" "eks_ubuntu" {
+  most_recent = true
+  owners = ["099720109477"] # Canonical (Ubuntu)
+
+  filter {
+    name   = "name"
+    values = ["ubuntu-eks/k8s_${var.kubernetes_version}/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
 }
