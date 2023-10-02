@@ -62,6 +62,15 @@ resource "aws_security_group_rule" "ingress_health_internal" {
   security_group_id = aws_security_group.ingress.id
 }
 
+resource "aws_security_group_rule" "ingress_istio_webhook_internal" {
+  type              = "ingress"
+  from_port         = 15017
+  to_port           = 15017
+  protocol          = "TCP"
+  cidr_blocks       = [var.vpc_cidr]
+  security_group_id = aws_security_group.ingress.id
+}
+
 resource "aws_security_group_rule" "ingress_vpn" {
   type              = "ingress"
   from_port         = var.wireguard_port

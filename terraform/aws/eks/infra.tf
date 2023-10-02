@@ -55,7 +55,11 @@ module "eks" {
 
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
-
+  cluster_addons = {
+    vpc-cni = {
+      most_recent = true
+    }
+  }
   cluster_security_group_additional_rules = {
 
     ingress_https_bastion = {
@@ -65,14 +69,6 @@ module "eks" {
       to_port                  = 443
       type                     = "ingress"
       source_security_group_id = module.base_infra.bastion_security_group_id
-    }
-    ingress_istio = {
-      description                = "Access EKS from nodes for istio webhook"
-      protocol                   = "tcp"
-      from_port                  = 15017
-      to_port                    = 15017
-      type                       = "ingress"
-      source_node_security_group = true
     }
   }
   # Self Managed Node Group(s)
