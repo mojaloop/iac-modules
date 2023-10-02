@@ -91,7 +91,7 @@ module "eks" {
   self_managed_node_groups = {
     agent = {
       name                            = "${local.eks_name}-agent"
-      ami_id                          = data.aws_ami.eks_ubuntu.id
+      ami_id                          = data.aws_ami.eks_default.id
       public_ip                       = false
       max_size                        = var.agent_node_count
       desired_size                    = var.agent_node_count
@@ -102,6 +102,9 @@ module "eks" {
       launch_template_use_name_prefix = false
       iam_role_name                   = "${local.eks_name}-agent"
       iam_role_use_name_prefix        = false
+      post_bootstrap_user_data        = <<-EOT
+        yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
+      EOT
       block_device_mappings = {
         device_name = "/dev/sda1"
 
