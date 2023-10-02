@@ -56,7 +56,6 @@ module "eks" {
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
   cluster_addons = {
-    kube-proxy = {}
     vpc-cni = {
       # Specify the VPC CNI addon should be deployed before compute to ensure
       # the addon is configured before data plane compute resources are created
