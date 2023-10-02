@@ -66,6 +66,14 @@ module "eks" {
       type                     = "ingress"
       source_security_group_id = module.base_infra.bastion_security_group_id
     }
+    ingress_istio = {
+      description                = "Access EKS from nodes for istio webhook"
+      protocol                   = "tcp"
+      from_port                  = 15017
+      to_port                    = 15017
+      type                       = "ingress"
+      source_node_security_group = true
+    }
   }
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
@@ -148,7 +156,7 @@ data "aws_ami" "eks_default" {
 
 data "aws_ami" "eks_ubuntu" {
   most_recent = true
-  owners = ["099720109477"] # Canonical (Ubuntu)
+  owners      = ["099720109477"] # Canonical (Ubuntu)
 
   filter {
     name   = "name"
