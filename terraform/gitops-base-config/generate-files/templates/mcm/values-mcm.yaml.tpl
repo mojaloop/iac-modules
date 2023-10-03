@@ -96,3 +96,4 @@ config:
       "O": "${env_o}",
       "CN": "${env_cn}",
       "OU": "${env_ou}"
+    }
