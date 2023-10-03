@@ -24,7 +24,6 @@ module "generate_mojaloop_files" {
     int_interop_switch_fqdn                     = var.internal_interop_switch_fqdn
     external_ingress_class_name                 = var.external_ingress_class_name
     vault_certman_secretname                    = var.vault_certman_secretname
-    cert_man_vault_cluster_issuer_name          = var.cert_man_vault_cluster_issuer_name
     nginx_jwt_namespace                         = var.nginx_jwt_namespace
     ingress_class_name                          = var.mojaloop_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways               = var.istio_create_ingress_gateways
