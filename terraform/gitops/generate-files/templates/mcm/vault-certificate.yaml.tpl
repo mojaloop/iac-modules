@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ${vault_certman_secretname}
-  namespace: ${mojaloop_namespace}
+  namespace: ${mcm_namespace}
 spec:
   secretName: ${vault_certman_secretname}
   duration: 696h0m0s
@@ -25,6 +25,6 @@ spec:
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "mcm, istio-ingress-ext"  # Control destination namespaces
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "mojaloop, istio-ingress-ext"  # Control destination namespaces
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "mcm, istio-ingress-ext" # Control auto-reflection namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "mojaloop, istio-ingress-ext" # Control auto-reflection namespaces

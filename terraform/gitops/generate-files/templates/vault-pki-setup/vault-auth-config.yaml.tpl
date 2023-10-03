@@ -12,7 +12,7 @@ spec:
   path: "/"
   config:
     defaultLeaseTTL: "8760h"
-    maxLeaseTTL: "17520h"
+    maxLeaseTTL: "43800h"
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineConfig

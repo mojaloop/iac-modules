@@ -15,6 +15,7 @@ module "generate_mcm_files" {
     env_ou                               = "Infra"
     storage_class_name                   = var.storage_class_name
     server_cert_secret_name              = var.vault_certman_secretname
+    vault_certman_secretname             = var.vault_certman_secretname
     server_cert_secret_namespace         = var.mcm_namespace
     oauth_key                            = var.mcm_oidc_client_id
     oauth_secret_secret                  = var.mcm_oauth_secret_secret
@@ -57,8 +58,9 @@ module "generate_mcm_files" {
     interop_switch_fqdn                  = var.external_interop_switch_fqdn
     keycloak_fqdn                        = local.keycloak_fqdn
     keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
+    cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
   }
-  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-agent.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml"]
+  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-agent.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml", "vault-certificate.yaml"]
   template_path   = "${path.module}/generate-files/templates/mcm"
   output_path     = "${var.output_dir}/mcm"
   app_file        = "mcm-app.yaml"
@@ -106,7 +108,7 @@ variable "mcm_chart_repo" {
 
 variable "mcm_chart_version" {
   type        = string
-  default     = "0.6.5"
+  default     = "0.7.0"
   description = "mcm_chart_version"
 }
 

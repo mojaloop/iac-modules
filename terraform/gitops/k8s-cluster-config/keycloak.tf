@@ -21,6 +21,7 @@ module "generate_keycloak_files" {
     istio_internal_gateway_namespace      = var.istio_internal_gateway_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace      = var.istio_external_gateway_namespace
+    istio_external_gateway_name           = var.istio_external_gateway_name
     keycloak_wildcard_gateway             = local.keycloak_wildcard_gateway
     external_ingress_class_name           = var.external_ingress_class_name
     keycloak_tls_secretname               = var.default_ssl_certificate
@@ -28,6 +29,7 @@ module "generate_keycloak_files" {
     mcm_oidc_client_secret_secret         = var.mcm_oauth_secret_secret
     mcm_oidc_client_secret_secret_key     = var.mcm_oauth_secret_secret_key
     mcm_oidc_client_id                    = var.mcm_oidc_client_id
+    mcm_public_fqdn                       = local.mcm_public_fqdn
     istio_create_ingress_gateways         = var.istio_create_ingress_gateways
   }
   file_list       = ["install/kustomization.yaml", "post-config/kustomization.yaml", "post-config/keycloak-cr.yaml", "post-config/keycloak-realm-cr.yaml", 

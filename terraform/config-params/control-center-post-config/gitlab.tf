@@ -16,6 +16,15 @@ resource "gitlab_project_variable" "k8s_cluster_type" {
   masked    = false
 }
 
+resource "gitlab_project_variable" "k8s_cluster_module" {
+  for_each  = var.env_map
+  project   = gitlab_project.envs[each.key].id
+  key       = "K8S_CLUSTER_MODULE"
+  value     = each.value["k8s_cluster_module"]
+  protected = false
+  masked    = false
+}
+
 resource "gitlab_project_variable" "domain" {
   for_each  = var.env_map
   project   = gitlab_project.envs[each.key].id

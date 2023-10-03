@@ -1,1 +1,2 @@
 aws_provider_version: ">= 5.0.0"
+cloudposse_utils_version: ">=1.12.0"

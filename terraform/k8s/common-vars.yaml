@@ -1,4 +1,4 @@
-tf_version: ">= 1.1"
+tf_version: ">= 1.2"
 local_provider_version: "~> 2.4"
 gitlab_provider_version: "~> 16.0"
 vault_provider_version: "~> 3.16"
@@ -18,3 +18,4 @@ mcm_enabled: true
 mojaloop_enabled: true
 bulk_enabled: false
 third_party_enabled: false
+mcm_chart_version: 0.7.0

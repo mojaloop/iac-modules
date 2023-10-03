@@ -67,6 +67,7 @@ inputs = {
   loki_chart_version                       = local.common_vars.loki_chart_version
   mojaloop_chart_version                   = local.common_vars.mojaloop_chart_version
   mcm_enabled                              = local.common_vars.mcm_enabled
+  mcm_chart_version                        = local.common_vars.mcm_chart_version
   mojaloop_enabled                         = local.common_vars.mojaloop_enabled
   bulk_enabled                             = local.common_vars.bulk_enabled
   third_party_enabled                      = local.common_vars.third_party_enabled

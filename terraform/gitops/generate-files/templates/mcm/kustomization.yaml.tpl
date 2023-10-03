@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - vault-certificate.yaml
   - vault-rbac.yaml
   - vault-agent.yaml
 %{ if istio_create_ingress_gateways ~}

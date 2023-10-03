@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/${get_env("CLOUD_PLATFORM")}/base-k8s?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/${get_env("CLOUD_PLATFORM")}/${get_env("K8S_CLUSTER_MODULE")}?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
 }
 
 
@@ -23,6 +23,7 @@ inputs = {
   vpc_cidr                             = local.env_map[local.CLUSTER_NAME].vpc_cidr
   master_node_supports_traffic         = (local.env_map[local.CLUSTER_NAME].agent_node_count == 0) ? true : false
   kubeapi_port                         = (local.K8S_CLUSTER_TYPE == "microk8s") ? 16443 : 6443
+  block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
 }
 
 locals {
