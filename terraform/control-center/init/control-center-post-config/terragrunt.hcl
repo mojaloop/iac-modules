@@ -77,6 +77,7 @@ locals {
     val["env"] => {
       cloud_region                   = val["cloud_region"]
       k8s_cluster_type               = val["k8s_cluster_type"]
+      k8s_cluster_module             = val["k8s_cluster_module"]
       cloud_platform                 = val["cloud_platform"]
       domain                         = val["domain"]
       iac_terraform_modules_tag      = val["iac_terraform_modules_tag"]

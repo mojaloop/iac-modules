@@ -38,6 +38,10 @@ output "default_security_group_id" {
   value = module.vpc.default_security_group_id
 }
 
+output "bastion_security_group_id" {
+  value = aws_security_group.bastion.id
+}
+
 output "private_subnets_cidr_blocks" {
   value = module.vpc.private_subnets_cidr_blocks
 }
