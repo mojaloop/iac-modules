@@ -106,14 +106,21 @@ module "eks" {
       post_bootstrap_user_data        = <<-EOT
         yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
       EOT
+      ebs_optimized                   = true
       block_device_mappings = {
-        device_name = "/dev/sda1"
-
-        ebs = {
-          encrypted   = true
-          volume_type = "gp2"
-          volume_size = var.agent_volume_size
+        xvda = {
+          device_name = "/dev/xvda"
+          ebs = {
+            volume_size           = var.agent_volume_size
+            volume_type           = "gp3"
+            iops                  = 3000
+            throughput            = 150
+            encrypted             = true
+            kms_key_id            = module.ebs_kms_key.key_arn
+            delete_on_termination = true
+          }
         }
+
       }
 
       network_interfaces = [
