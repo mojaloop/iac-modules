@@ -95,8 +95,14 @@ variable "agent_instance_type" {
 
 variable "az_count" {
   type        = number
-  default     = 2
+  default     = 3
   description = "Number of azs"
+}
+
+variable "block_size" {
+  type        = number
+  default     = 3
+  description = "block size to calculate subnet ranges"
 }
 
 variable "dns_zone_force_destroy" {
