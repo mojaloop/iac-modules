@@ -60,19 +60,10 @@ api:
     vault.hashicorp.com/agent-pre-populate: "false"
     vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
-  config:
-    caCSRParametersData: |-
-      {
-        "ST": "",
-        "C": "",
-        "L": "",
-        "O": "${env_o}",
-        "CN": "${env_cn}",
-        "OU": "${env_ou}"
       }
 ui:
   image:
-    version: 2.0.0-snapshot.3
+    version: 2.0.0-snapshot.4
   oauth:
     enabled: "FALSE"
     keycloakOidcUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
@@ -96,3 +87,13 @@ ingress:
     nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
 migrations:
   enabled: true
+
+config:
+  caCSRParametersData: |-
+    {
+      "ST": "",
+      "C": "",
+      "L": "",
+      "O": "${env_o}",
+      "CN": "${env_cn}",
+      "OU": "${env_ou}"
