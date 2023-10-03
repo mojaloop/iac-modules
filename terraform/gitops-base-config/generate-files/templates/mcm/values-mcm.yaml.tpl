@@ -60,7 +60,6 @@ api:
     vault.hashicorp.com/agent-pre-populate: "false"
     vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
-      }
 ui:
   image:
     version: 2.0.0-snapshot.4
