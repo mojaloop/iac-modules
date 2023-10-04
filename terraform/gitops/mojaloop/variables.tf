@@ -168,9 +168,3 @@ variable "vault_namespace" {
   type        = string
   description = "vault_namespace"
 }
-
-variable "vault_certman_secretname" {
-  type        = string
-  description = "vault_certman_secretname"
-  default = "vault-certman-secret"
-}
