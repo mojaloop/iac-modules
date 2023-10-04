@@ -85,7 +85,7 @@ locals {
 }
 
 variable "stateful_resources_config_file" {
-  default     = "../config/stateful-resources.json"
+  default     = "../config/mojaloop-stateful-resources.json"
   type        = string
   description = "where to pull stateful resources config"
 }

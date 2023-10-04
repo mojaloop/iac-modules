@@ -1,0 +1,50 @@
+[
+    {
+        "enabled": true,
+        "resource_name": "keycloak-db",
+        "resource_type": "pgsql",
+        "external_service": false,
+        "logical_service_config": {
+            "logical_service_port": 5432,
+            "logical_service_name": "keycloak-db",
+            "username": "keycloak",
+            "user_password_secret": "pgsql-keycloak-secret",
+            "user_password_secret_key": "password",
+            "secret_extra_namespaces": [
+                "keycloak"
+            ],
+            "database_name": "keycloak"
+        },
+        "local_resource_config": {
+            "resource_namespace": "keycloak-db",
+            "override_service_name": "postgresql-keycloak-db",
+            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_chart": "postgresql",
+            "resource_helm_chart_version": "12.6.8",
+            "resource_helm_values_ref": "values-pgsql.yaml.tpl",
+            "generate_secret_name": "pgsql-keycloak-secret",
+            "generate_secret_keys": [
+                "password",
+                "postgres-password",
+                "replication-password"
+            ],
+            "generate_secret_vault_base_path": "/secret/generated",
+            "generate_secret_extra_namespaces": [
+                "keycloak"
+            ],
+            "pgsql_data": {
+                "existing_secret": "pgsql-keycloak-secret",
+                "root_password": "",
+                "user": "keycloak",
+                "user_password": "",
+                "database_name": "keycloak",
+                "storage_size": "8Gi",
+                "storage_class_name": "longhorn",
+                "architecture": "standalone",
+                "replica_count": 0,
+                "service_port": 5432
+            }
+        },
+        "external_resource_config": {}
+    }
+]

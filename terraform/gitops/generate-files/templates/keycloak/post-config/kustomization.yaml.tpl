@@ -2,9 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - keycloak-cr.yaml
-  - keycloak-realm-cr.yaml
   - keycloak-ingress.yaml
-  - vault-secret.yaml
 secretGenerator:
 - name: keycloak-user
   literals:

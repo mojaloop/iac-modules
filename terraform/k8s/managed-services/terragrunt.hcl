@@ -11,7 +11,7 @@ include "root" {
 inputs = {
   tags                         = local.tags
   deployment_name              = local.CLUSTER_NAME
-  managed_services_config_file = find_in_parent_folders("stateful-resources.json")
+  managed_services_config_file = find_in_parent_folders("mojaloop-stateful-resources.json")
 }
 
 locals {

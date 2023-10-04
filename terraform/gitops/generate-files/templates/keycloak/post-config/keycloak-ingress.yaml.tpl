@@ -103,20 +103,13 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
-  name: keycloak-jwt
+  name: keycloak-master-jwt
   namespace: ${istio_external_gateway_namespace}
 spec:
   selector:
     matchLabels:
       istio: ${istio_external_gateway_name}
   jwtRules:
-  - issuer: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}"
-    jwksUri: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs"
-    fromHeaders:
-      - name: Authorization
-        prefix: "Bearer "
-      - name: Cookie
-        prefix: "MCM_SESSION"
   - issuer: "https://${keycloak_fqdn}/realms/master"
     jwksUri: "https://${keycloak_fqdn}/realms/master/protocol/openid-connect/certs"
 %{ endif ~}
