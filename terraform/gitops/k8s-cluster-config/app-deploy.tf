@@ -63,6 +63,12 @@ variable "mcm_enabled" {
   default     = true
 }
 
+variable "pm4ml_enabled" {
+  description = "whether pm4ml app is enabled or not"
+  type        = bool
+  default     = true
+}
+
 variable "mcm_chart_version" {
   description = "mcm version to install via Helm"
 }

@@ -69,6 +69,7 @@ inputs = {
   mcm_enabled                              = local.common_vars.mcm_enabled
   mcm_chart_version                        = local.common_vars.mcm_chart_version
   mojaloop_enabled                         = local.common_vars.mojaloop_enabled
+  pm4ml_enabled                            = local.common_vars.pm4ml_enabled
   bulk_enabled                             = local.common_vars.bulk_enabled
   third_party_enabled                      = local.common_vars.third_party_enabled
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
