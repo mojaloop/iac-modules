@@ -75,6 +75,7 @@ inputs = {
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
   stateful_resources_config_file           = find_in_parent_folders("common-stateful-resources.json")
+  mojaloop_stateful_resources_config_file  = find_in_parent_folders("mojaloop-stateful-resources.json")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL

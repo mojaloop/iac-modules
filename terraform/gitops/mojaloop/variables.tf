@@ -60,3 +60,117 @@ variable "storage_class_name" {
   description = "storage_class_name"
   default     = "longhorn"
 }
+
+variable "external_secret_sync_wave" {
+  type        = string
+  description = "external_secret_sync_wave"
+  default     = "-11"
+}
+
+variable "properties_key_map" {
+  type        = map(any)
+  description = "contains keys for known properties"
+}
+
+variable "secrets_key_map" {
+  type        = map(any)
+  description = "contains keys for known secrets"
+}
+
+variable "kv_path" {
+  description = "path for kv engine"
+  default     = "secret"
+}
+
+variable "external_interop_switch_fqdn" {
+  description = "fqdn for interop ext"
+}
+
+variable "internal_interop_switch_fqdn" {
+  description = "fqdn for interop int"
+}
+
+variable "internal_ingress_class_name" {
+  type        = string
+  description = "nginx_internal_namespace"
+  default     = "nginx-int"
+}
+variable "external_ingress_class_name" {
+  type        = string
+  description = "external_ingress_class_name"
+  default     = "nginx-ext"
+}
+variable "nginx_jwt_namespace" {
+  type        = string
+  description = "nginx_jwt_namespace"
+  default     = "nginx-jwt"
+}
+
+variable "istio_internal_gateway_name" {
+  type        = string
+  description = "istio_internal_gateway_name"
+  default     = "istio-internal-ingress-gw"
+}
+
+variable "istio_external_gateway_name" {
+  type        = string
+  description = "istio_external_gateway_name"
+  default     = "istio-external-ingress-gw"
+}
+
+variable "istio_external_wildcard_gateway_name" {
+  type        = string
+  description = "istio_external_wildcard_gateway_name"
+}
+
+variable "istio_internal_wildcard_gateway_name" {
+  type        = string
+  description = "istio_internal_wildcard_gateway_name"
+}
+
+variable "istio_create_ingress_gateways" {
+  type        = bool
+  description = "should istio create ingress gateways"
+  default     = true
+}
+
+variable "istio_internal_gateway_namespace" {
+  type        = string
+  description = "istio_internal_gateway_namespace"
+  default     = "istio-ingress-int"
+}
+
+variable "istio_external_gateway_namespace" {
+  type        = string
+  description = "istio_external_gateway_namespace"
+  default     = "istio-ingress-ext"
+}
+
+
+variable "keycloak_dfsp_realm_name" {
+  type        = string
+  description = "name of realm for dfsp api access"
+  default     = "dfsps"
+}
+
+
+variable "keycloak_fqdn" {
+  type        = string
+  description = "fqdn of keycloak"
+}
+
+variable "cert_manager_service_account_name" {
+  type        = string
+  description = "cert_manager_service_account_name"
+}
+
+variable "vault_namespace" {
+  type        = string
+  description = "vault_namespace"
+}
+
+variable "vault_certman_secretname" {
+  type        = string
+  description = "vault_certman_secretname"
+  default = "vault-certman-secret"
+}

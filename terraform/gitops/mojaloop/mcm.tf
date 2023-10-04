@@ -56,7 +56,7 @@ module "generate_mcm_files" {
     istio_external_gateway_name          = var.istio_external_gateway_name
     private_network_cidr                 = var.private_network_cidr
     interop_switch_fqdn                  = var.external_interop_switch_fqdn
-    keycloak_fqdn                        = local.keycloak_fqdn
+    keycloak_fqdn                        = var.keycloak_fqdn
     keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
   }
@@ -153,6 +153,11 @@ variable "private_network_cidr" {
   type        = string
 }
 
+variable "vault_certman_secretname" {
+  description = "secret name to create for tls offloading via certmanager"
+  type        = string
+  default     = "vault-tls-cert"
+}
 locals {
   mcm_resource_index             = index(local.stateful_resources.*.resource_name, "mcm-db")
   mcm_wildcard_gateway           = var.mcm_ingress_internal_lb ? "internal" : "external"
