@@ -1,5 +1,5 @@
 module "generate_istio_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     istio_namespace                      = var.istio_namespace
     gitlab_project_url                   = var.gitlab_project_url

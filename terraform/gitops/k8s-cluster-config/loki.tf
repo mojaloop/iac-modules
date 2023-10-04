@@ -1,5 +1,5 @@
 module "generate_loki_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     loki_chart_repo                      = var.loki_chart_repo
     loki_chart_version                   = var.loki_chart_version

@@ -1,5 +1,5 @@
 module "generate_vault_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     vault_chart_repo                         = var.vault_chart_repo
     vault_namespace                          = var.vault_namespace

@@ -1,5 +1,5 @@
 module "generate_nginx_jwt_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     gitlab_project_url            = var.gitlab_project_url
     keycloak_fqdn                 = "keycloak.${var.public_subdomain}"

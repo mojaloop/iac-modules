@@ -1,5 +1,5 @@
 module "generate_keycloak_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     keycloak_name                         = "switch-keycloak"
     keycloak_operator_version             = var.keycloak_operator_version

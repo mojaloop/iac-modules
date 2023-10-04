@@ -1,5 +1,5 @@
 module "generate_certman_files" {
-  source          = "./generate-files"
+  source          = "../generate-files"
   file_list       = ["charts/certmanager/Chart.yaml", "charts/certmanager/values.yaml", "certmanager-clusterissuer.yaml", 
     "clusterissuers/lets-cluster-issuer.yaml", "certman-extsecret.yaml",
     "certmanager-helm.yaml"

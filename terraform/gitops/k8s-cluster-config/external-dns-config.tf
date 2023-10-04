@@ -1,5 +1,5 @@
 module "generate_extdns_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     external_dns_chart_repo                      = var.external_dns_chart_repo
     external_dns_chart_version                   = var.external_dns_chart_version

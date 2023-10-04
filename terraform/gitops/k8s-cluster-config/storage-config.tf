@@ -1,5 +1,5 @@
 module "generate_storage_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     longhorn_chart_repo                              = var.longhorn_chart_repo
     longhorn_chart_version                           = var.longhorn_chart_version

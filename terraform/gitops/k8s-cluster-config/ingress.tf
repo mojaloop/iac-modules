@@ -1,5 +1,5 @@
 module "generate_ingress_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     nginx_helm_chart_repo               = var.nginx_helm_chart_repo
     nginx_helm_chart_version            = var.nginx_helm_chart_version

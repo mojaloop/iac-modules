@@ -1,5 +1,5 @@
 module "generate_consul_files" {
-  source = "./generate-files"
+  source = "../generate-files"
   var_map = {
     consul_chart_repo          = var.consul_chart_repo
     consul_chart_version       = var.consul_chart_version
