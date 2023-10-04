@@ -35,11 +35,11 @@ module "mojaloop" {
   vault_namespace                          = var.vault_namespace
 }
 
-module "pm4ml" {
+/* module "pm4ml" {
   count = var.pm4ml_enabled ? 1 : 0
   source = "../pm4ml"
   
-}
+} */
 
 variable "mojaloop_stateful_resources_config_file" {
   default     = "../config/mojaloop-stateful-resources.json"
