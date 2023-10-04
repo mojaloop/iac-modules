@@ -158,6 +158,15 @@ variable "vault_certman_secretname" {
   type        = string
   default     = "vault-tls-cert"
 }
+
+variable "istio_namespace" {
+  type        = string
+  description = "istio_namespace"
+}
+variable "nginx_external_namespace" {
+  type        = string
+  description = "nginx_external_namespace"
+}
 locals {
   mcm_resource_index             = index(local.stateful_resources.*.resource_name, "mcm-db")
   mcm_wildcard_gateway           = var.mcm_ingress_internal_lb ? "internal" : "external"

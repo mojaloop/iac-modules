@@ -29,6 +29,10 @@ module "mojaloop" {
   cert_manager_service_account_name        = var.cert_manager_service_account_name
   istio_namespace                          = var.istio_namespace
   nginx_external_namespace                 = var.nginx_external_namespace
+  istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
+  istio_internal_wildcard_gateway_name     = local.istio_internal_wildcard_gateway_name
+  keycloak_fqdn                            = local.keycloak_fqdn
+  vault_namespace                          = var.vault_namespace
 }
 
 module "pm4ml" {
