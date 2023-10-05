@@ -64,6 +64,8 @@ module "generate_mcm_files" {
     mcm_oidc_client_secret_secret                 = var.mcm_oidc_client_secret_secret
     mcm_oidc_client_secret_secret_key             = var.mcm_oidc_client_secret_secret_key
     mcm_oidc_client_id                            = var.mcm_oidc_client_id
+    internal_load_balancer_dns                    = var.internal_load_balancer_dns
+    external_load_balancer_dns                    = var.external_load_balancer_dns
   }
   file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-secret.yaml", "vault-agent.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml", "vault-certificate.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mcm"
