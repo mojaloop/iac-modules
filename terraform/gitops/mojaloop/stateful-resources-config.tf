@@ -106,3 +106,9 @@ data "vault_generic_secret" "external_stateful_resource_password" {
   for_each = local.managed_stateful_resources
   path = "${var.kv_path}/${var.cluster_name}/${each.value.external_resource_config.password_key_name}"
 }
+
+data "gitlab_project_variable" "external_stateful_resource_instance_address" {
+  for_each = local.managed_stateful_resources
+  project = var.current_gitlab_project_id
+  key     = each.value.external_resource_config.instance_address_key_name
+}
