@@ -1,6 +1,6 @@
 resource "local_file" "config-file" {
   for_each = toset(var.file_list)
-  content  = templatefile("${var.template_path}/${each.value}.tpl", var.var_map, {"ref_secrets" = var.ref_secrets})
+  content  = templatefile("${var.template_path}/${each.value}.tpl", var.var_map)
   filename = "${var.output_path}/${each.value}"
 }
 
@@ -11,7 +11,7 @@ resource "local_file" "app-file" {
 
 
 variable "var_map" {
-  type = map
+  type = any
 }
 variable "file_list" {
   type = list
@@ -27,8 +27,4 @@ variable "app_file" {
 }
 variable "app_output_path" {
   type = string
-}
-variable "ref_secrets" {
-  type = map
-  default = {}
 }
