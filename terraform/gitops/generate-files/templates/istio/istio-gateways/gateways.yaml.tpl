@@ -11,17 +11,9 @@ spec:
     istio: ${istio_internal_gateway_name}
   servers:
   - hosts:
-    - '${int_interop_switch_fqdn}'
     - '${keycloak_admin_fqdn}'
-%{ if mojaloop_wildcard_gateway == "internal" ~} 
-    - 'ttkfrontend.${public_subdomain}'
-    - 'ttkbackend.${public_subdomain}'
-%{ endif ~}
 %{ if loki_wildcard_gateway == "internal" ~} 
     - 'grafana.${public_subdomain}'
-%{ endif ~}
-%{ if mcm_wildcard_gateway == "internal" ~} 
-    - '${mcm_public_fqdn}'
 %{ endif ~}
 %{ if vault_wildcard_gateway == "internal" ~} 
     - 'vault.${public_subdomain}'
@@ -48,15 +40,8 @@ spec:
   servers:
   - hosts:
     - '${keycloak_fqdn}'
-%{ if mojaloop_wildcard_gateway == "external" ~} 
-    - 'ttkfrontend.${public_subdomain}'
-    - 'ttkbackend.${public_subdomain}'
-%{ endif ~}
 %{ if loki_wildcard_gateway == "external" ~} 
     - 'grafana.${public_subdomain}'
-%{ endif ~}
-%{ if mcm_wildcard_gateway == "external" ~} 
-    - '${mcm_public_fqdn}'
 %{ endif ~}
 %{ if vault_wildcard_gateway == "external" ~} 
     - 'vault.${public_subdomain}'

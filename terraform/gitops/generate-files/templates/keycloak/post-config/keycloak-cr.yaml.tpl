@@ -29,13 +29,10 @@ spec:
           - env:
             - name: JAVA_OPTS_APPEND
               value: "-Dkeycloak.migration.replace-placeholders=true"
-            - name: dfsps_realm_jwt_secret
+%{ for ref_secret_name, ref_secret_key in ref_secrets ~}
+            - name: ${replace(ref_secret_name, "-", "_")}
               valueFrom:
                 secretKeyRef:
-                  name: keycloak-dfsps-realm-jwt-secret
-                  key: secret
-            - name: mcm_oidc_client_secret
-              valueFrom:
-                secretKeyRef:
-                  name: ${mcm_oidc_client_secret_secret}
-                  key: ${mcm_oidc_client_secret_secret_key}
+                  name: ${ref_secret_name}
+                  key: ${ref_secret_key}
+%{ endfor ~}

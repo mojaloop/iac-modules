@@ -168,3 +168,7 @@ variable "vault_namespace" {
   type        = string
   description = "vault_namespace"
 }
+variable "cert_manager_namespace" {
+  type = string
+  description = "cert_manager_namespace"
+}

@@ -29,7 +29,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
-  name: jwt-secret
+  name: ${jwt_client_secret_secret}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -47,7 +47,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: keycloak-dfsps-realm-jwt-secret
+  name: ${jwt_client_secret_secret}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -59,11 +59,11 @@ spec:
         serviceAccount:
             name: default
       name: keycloakjwtsecret
-      path: /secret/keycloak/jwt-secret
+      path: /secret/keycloak/${jwt_client_secret_secret}
   output:
-    name: keycloak-dfsps-realm-jwt-secret
+    name: ${jwt_client_secret_secret}
     stringData:
-      secret: '{{ .keycloakjwtsecret.secret }}'
+      secret: '{{ .keycloakjwtsecret.${jwt_client_secret_secret_key} }}'
     type: Opaque
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1

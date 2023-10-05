@@ -27,15 +27,12 @@ module "generate_istio_files" {
     kiali_chart_version                  = var.kiali_chart_version
     kiali_chart_repo                     = var.kiali_chart_repo
     keycloak_wildcard_gateway            = local.keycloak_wildcard_gateway
-    mojaloop_wildcard_gateway            = local.mojaloop_wildcard_gateway
-    mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     loki_wildcard_gateway                = local.loki_wildcard_gateway
     vault_wildcard_gateway               = local.vault_wildcard_gateway
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     keycloak_fqdn                        = local.keycloak_fqdn
     keycloak_admin_fqdn                  = local.keycloak_admin_fqdn
-    mcm_public_fqdn                      = local.mcm_public_fqdn
     int_interop_switch_fqdn              = var.internal_interop_switch_fqdn
   }
   file_list = ["istio-deploy.yaml",

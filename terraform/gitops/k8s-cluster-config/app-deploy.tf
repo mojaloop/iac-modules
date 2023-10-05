@@ -1,38 +1,43 @@
 module "mojaloop" {
-  count = var.mojaloop_enabled ? 1 : 0
-  source = "../mojaloop"
-  nat_public_ips                           = var.nat_public_ips
-  internal_load_balancer_dns               = var.internal_load_balancer_dns
-  external_load_balancer_dns               = var.external_load_balancer_dns
-  private_subdomain                        = var.private_subdomain
-  public_subdomain                         = var.public_subdomain
-  external_interop_switch_fqdn             = var.external_interop_switch_fqdn
-  internal_interop_switch_fqdn             = var.internal_interop_switch_fqdn
-  secrets_key_map                          = var.secrets_key_map
-  properties_key_map                       = var.properties_key_map
-  mojaloop_chart_version                   = var.mojaloop_chart_version
-  mcm_enabled                              = var.mcm_enabled
-  mcm_chart_version                        = var.mcm_chart_version
-  mojaloop_enabled                         = var.mojaloop_enabled
-  bulk_enabled                             = var.bulk_enabled
-  third_party_enabled                      = var.third_party_enabled
-  output_dir                               = var.output_dir
-  gitlab_project_url                       = var.gitlab_project_url
-  cluster_name                             = var.cluster_name
-  stateful_resources_config_file           = var.mojaloop_stateful_resources_config_file
-  current_gitlab_project_id                = var.current_gitlab_project_id
-  gitlab_group_name                        = var.gitlab_group_name
-  gitlab_api_url                           = var.gitlab_api_url
-  gitlab_server_url                        = var.gitlab_server_url
-  kv_path                                  = var.kv_path
-  private_network_cidr                     = var.private_network_cidr
-  cert_manager_service_account_name        = var.cert_manager_service_account_name
-  istio_namespace                          = var.istio_namespace
-  nginx_external_namespace                 = var.nginx_external_namespace
-  istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
-  istio_internal_wildcard_gateway_name     = local.istio_internal_wildcard_gateway_name
-  keycloak_fqdn                            = local.keycloak_fqdn
-  vault_namespace                          = var.vault_namespace
+  count                                = var.mojaloop_enabled ? 1 : 0
+  source                               = "../mojaloop"
+  nat_public_ips                       = var.nat_public_ips
+  internal_load_balancer_dns           = var.internal_load_balancer_dns
+  external_load_balancer_dns           = var.external_load_balancer_dns
+  private_subdomain                    = var.private_subdomain
+  public_subdomain                     = var.public_subdomain
+  external_interop_switch_fqdn         = var.external_interop_switch_fqdn
+  internal_interop_switch_fqdn         = var.internal_interop_switch_fqdn
+  secrets_key_map                      = var.secrets_key_map
+  properties_key_map                   = var.properties_key_map
+  mojaloop_chart_version               = var.mojaloop_chart_version
+  mcm_enabled                          = var.mcm_enabled
+  mcm_chart_version                    = var.mcm_chart_version
+  mojaloop_enabled                     = var.mojaloop_enabled
+  bulk_enabled                         = var.bulk_enabled
+  third_party_enabled                  = var.third_party_enabled
+  output_dir                           = var.output_dir
+  gitlab_project_url                   = var.gitlab_project_url
+  cluster_name                         = var.cluster_name
+  stateful_resources_config_file       = var.mojaloop_stateful_resources_config_file
+  current_gitlab_project_id            = var.current_gitlab_project_id
+  gitlab_group_name                    = var.gitlab_group_name
+  gitlab_api_url                       = var.gitlab_api_url
+  gitlab_server_url                    = var.gitlab_server_url
+  kv_path                              = var.kv_path
+  private_network_cidr                 = var.private_network_cidr
+  cert_manager_service_account_name    = var.cert_manager_service_account_name
+  istio_namespace                      = var.istio_namespace
+  nginx_external_namespace             = var.nginx_external_namespace
+  istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
+  istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
+  keycloak_fqdn                        = local.keycloak_fqdn
+  vault_namespace                      = var.vault_namespace
+  cert_manager_namespace               = var.cert_manager_namespace
+  mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
+  mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
+  jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
+  jwt_client_secret_secret             = var.jwt_client_secret_secret
 }
 
 /* module "pm4ml" {
@@ -88,4 +93,29 @@ variable "bulk_enabled" {
 variable "private_network_cidr" {
   description = "network cidr for private network"
   type        = string
+}
+
+variable "mcm_oidc_client_secret_secret_key" {
+  type = string
+  default = "value"
+}
+variable "mcm_oidc_client_secret_secret" {
+  type = string
+  default = "value"
+}
+variable "jwt_client_secret_secret_key" {
+  type = string
+  default = "value"
+}
+variable "jwt_client_secret_secret" {
+  type = string
+  default = "value"
+}
+
+locals {
+  mojaloop_keycloak_realm_env_secret_map = {
+    var.mcm_oidc_client_secret_secret = var.mcm_oidc_client_secret_secret_key
+    var.jwt_client_secret_secret = var.jwt_client_secret_secret_key
+  }
+  keycloak_realm_env_secret_map = var.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : {}
 }

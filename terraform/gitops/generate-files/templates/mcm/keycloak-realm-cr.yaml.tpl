@@ -278,7 +278,7 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: '$${dfsps_realm_jwt_secret}'
+      secret: '$${jwt_client_secret_secret}'
       redirectUris:
       - /*
       webOrigins:
@@ -362,7 +362,7 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: '$${mcm_oidc_client_secret}'
+      secret: '$${mcm_oidc_client_secret_secret}'
       redirectUris:
         - https://${mcm_public_fqdn}/login-callback
       webOrigins:

@@ -101,3 +101,8 @@ variable "stateful_resources_sync_wave" {
   description = "stateful_resources_sync_wave, wait for vault config operator"
   default     = "-5"
 }
+
+data "vault_generic_secret" "external_stateful_resource_password" {
+  for_each = local.managed_stateful_resources
+  path = "${var.kv_path}/${var.cluster_name}/${each.value.external_resource_config.password_key_name}"
+}

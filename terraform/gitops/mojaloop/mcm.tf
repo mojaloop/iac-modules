@@ -18,8 +18,8 @@ module "generate_mcm_files" {
     vault_certman_secretname             = var.vault_certman_secretname
     server_cert_secret_namespace         = var.mcm_namespace
     oauth_key                            = var.mcm_oidc_client_id
-    oauth_secret_secret                  = var.mcm_oauth_secret_secret
-    oauth_secret_secret_key              = var.mcm_oauth_secret_secret_key
+    oauth_secret_secret                  = var.mcm_oidc_client_secret_secret
+    oauth_secret_secret_key              = var.mcm_oidc_client_secret_secret_key
     switch_domain                        = var.public_subdomain
     vault_endpoint                       = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
     pki_base_domain                      = var.public_subdomain
@@ -48,9 +48,9 @@ module "generate_mcm_files" {
     token_issuer_fqdn                    = "keycloak.${var.public_subdomain}"
     istio_namespace                      = var.istio_namespace
     nginx_external_namespace             = var.nginx_external_namespace
-    istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
+    istio_internal_wildcard_gateway_name = var.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
-    istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
+    istio_external_wildcard_gateway_name = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     istio_external_gateway_name          = var.istio_external_gateway_name
@@ -59,6 +59,11 @@ module "generate_mcm_files" {
     keycloak_fqdn                        = var.keycloak_fqdn
     keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
+    jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
+    jwt_client_secret_secret             = var.jwt_client_secret_secret
+    mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
+    mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
+    mcm_oidc_client_id                   = var.mcm_oidc_client_id
   }
   file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-secret.yaml","vault-agent.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml", "vault-certificate.yaml"]
   template_path   = "${path.module}/generate-files/templates/mcm"
@@ -166,6 +171,18 @@ variable "istio_namespace" {
 variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
+}
+variable "mcm_oidc_client_secret_secret_key" {
+  type = string
+}
+variable "mcm_oidc_client_secret_secret" {
+  type = string
+}
+variable "jwt_client_secret_secret_key" {
+  type = string
+}
+variable "jwt_client_secret_secret" {
+  type = string
 }
 locals {
   mcm_resource_index             = index(local.stateful_resources.*.resource_name, "mcm-db")
