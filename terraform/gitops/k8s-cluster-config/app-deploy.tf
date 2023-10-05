@@ -36,6 +36,7 @@ module "mojaloop" {
   mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
   jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
   jwt_client_secret_secret             = var.jwt_client_secret_secret
+  default_ssl_certificate              = var.default_ssl_certificate
 }
 
 /* module "pm4ml" {
