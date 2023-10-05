@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/${stateful_resources_name}-stateful-resource
+    path: apps/${stateful_resources_name}-stateful-resources
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:
