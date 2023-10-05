@@ -51,12 +51,13 @@ resource "local_file" "namespace" {
 
 resource "local_file" "stateful-resources-app-file" {
   content  = templatefile("${local.stateful_resources_template_path}/app/${local.stateful_resources_app_file}.tpl", local.stateful_resources_vars)
-  filename = "${local.app_stateful_resources_output_path}/${local.stateful_resources_app_file}"
+  filename = "${local.app_stateful_resources_output_path}/${local.stateful_resources_name}-${local.stateful_resources_app_file}"
 }
 
 locals {
+  stateful_resources_name            = "common"
   stateful_resources_template_path   = "${path.module}/../generate-files/templates/stateful-resources"
-  stateful_resources_output_path     = "${var.output_dir}/stateful-resources"
+  stateful_resources_output_path     = "${var.output_dir}/${local.stateful_resources_name}-stateful-resources"
   stateful_resources_app_file        = "stateful-resources-app.yaml"
   app_stateful_resources_output_path = "${var.output_dir}/app-yamls"
   stateful_resources                 = jsondecode(file(var.stateful_resources_config_file))
@@ -78,6 +79,7 @@ locals {
     stateful_resources_namespace = var.stateful_resources_namespace
     gitlab_project_url           = var.gitlab_project_url
     stateful_resources_sync_wave = var.stateful_resources_sync_wave
+    stateful_resources_name      = local.stateful_resources_name
   }
   all_logical_extra_namespaces = flatten([for stateful_resource in local.enabled_stateful_resources : stateful_resource.logical_service_config.secret_extra_namespaces])
   all_local_extra_namespaces   = flatten([for stateful_resource in local.local_stateful_resources : stateful_resource.local_resource_config.generate_secret_extra_namespaces])

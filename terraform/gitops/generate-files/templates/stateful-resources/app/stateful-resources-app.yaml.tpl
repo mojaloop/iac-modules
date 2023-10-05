@@ -3,13 +3,13 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${stateful_resources_sync_wave}"
-  name: stateful-resources-app
+  name: "${stateful_resources_name}-stateful-resources-app"
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/stateful-resources
+    path: apps/${stateful_resources_name}-stateful-resource
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:
