@@ -114,8 +114,8 @@ variable "jwt_client_secret_secret" {
 
 locals {
   mojaloop_keycloak_realm_env_secret_map = {
-    var.mcm_oidc_client_secret_secret = var.mcm_oidc_client_secret_secret_key
-    var.jwt_client_secret_secret = var.jwt_client_secret_secret_key
+    "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
+    "${var.jwt_client_secret_secret}" = var.jwt_client_secret_secret_key
   }
   keycloak_realm_env_secret_map = var.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : {}
 }
