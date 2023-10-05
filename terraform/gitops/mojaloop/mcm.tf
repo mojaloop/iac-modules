@@ -68,6 +68,7 @@ module "generate_mcm_files" {
     external_load_balancer_dns                    = var.external_load_balancer_dns
     istio_internal_gateway_name                   = var.istio_internal_gateway_name
     int_interop_switch_fqdn                       = var.internal_interop_switch_fqdn
+    mojaloop_wildcard_gateway                     = local.mojaloop_wildcard_gateway
   }
   file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-secret.yaml", "vault-agent.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml", "vault-certificate.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mcm"
