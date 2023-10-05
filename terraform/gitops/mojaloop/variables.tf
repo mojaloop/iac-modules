@@ -118,16 +118,6 @@ variable "istio_external_gateway_name" {
   default     = "istio-external-ingress-gw"
 }
 
-variable "istio_external_wildcard_gateway_name" {
-  type        = string
-  description = "istio_external_wildcard_gateway_name"
-}
-
-variable "istio_internal_wildcard_gateway_name" {
-  type        = string
-  description = "istio_internal_wildcard_gateway_name"
-}
-
 variable "istio_create_ingress_gateways" {
   type        = bool
   description = "should istio create ingress gateways"
@@ -171,4 +161,9 @@ variable "vault_namespace" {
 variable "cert_manager_namespace" {
   type = string
   description = "cert_manager_namespace"
+}
+
+locals {
+  istio_internal_mojaloop_wildcard_gateway_name = "internal-mojaloop-wildcard-gateway"
+  istio_external_mojaloop_wildcard_gateway_name = "external-mojaloop-wildcard-gateway"
 }
