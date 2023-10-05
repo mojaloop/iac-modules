@@ -11,7 +11,7 @@ module "generate_nginx_jwt_files" {
     istio_create_ingress_gateways = var.istio_create_ingress_gateways
   }
   file_list       = ["kustomization.yaml", "values-nginx-jwt.yaml"]
-  template_path   = "${path.module}/generate-files/templates/nginx-jwt"
+  template_path   = "${path.module}/../generate-files/templates/nginx-jwt"
   output_path     = "${var.output_dir}/nginx-jwt"
   app_file        = "nginx-jwt-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

@@ -30,7 +30,7 @@ module "generate_keycloak_files" {
   }
   file_list       = ["install/kustomization.yaml", "post-config/kustomization.yaml", "post-config/keycloak-cr.yaml", "post-config/keycloak-realm-cr.yaml", 
   "post-config/keycloak-ingress.yaml", "post-config/vault-secret.yaml", "keycloak-install.yaml", "keycloak-post-config.yaml"]
-  template_path   = "${path.module}/generate-files/templates/keycloak"
+  template_path   = "${path.module}/../generate-files/templates/keycloak"
   output_path     = "${var.output_dir}/keycloak"
   app_file        = "keycloak-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

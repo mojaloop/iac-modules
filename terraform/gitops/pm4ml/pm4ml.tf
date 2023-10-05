@@ -20,7 +20,7 @@ module "generate_pm4ml_files" {
 
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "values-secret.yaml"]
-  template_path   = "${path.module}/generate-files/templates/pm4ml"
+  template_path   = "${path.module}/../generate-files/templates/pm4ml"
   output_path     = "${var.output_dir}/pm4ml"
   app_file        = "pm4ml-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

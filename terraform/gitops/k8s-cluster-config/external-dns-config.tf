@@ -16,7 +16,7 @@ module "generate_extdns_files" {
     external_dns_sync_wave                       = var.external_dns_sync_wave
   }
   file_list       = ["chart/Chart.yaml", "chart/values.yaml", "external-secrets/extdns-extsecret.yaml"]
-  template_path   = "${path.module}/generate-files/templates/external-dns"
+  template_path   = "${path.module}/../generate-files/templates/external-dns"
   output_path     = "${var.output_dir}/external-dns"
   app_file        = "external-dns-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

@@ -25,7 +25,7 @@ module "generate_ingress_files" {
   file_list = ["charts/nginx-external/Chart.yaml", "charts/nginx-external/values.yaml",
     "charts/nginx-internal/Chart.yaml", "charts/nginx-internal/values.yaml",
   "ingress-external.yaml", "ingress-internal.yaml", "lets-wildcard-cert.yaml"]
-  template_path   = "${path.module}/generate-files/templates/ingress"
+  template_path   = "${path.module}/../generate-files/templates/ingress"
   output_path     = "${var.output_dir}/ingress"
   app_file        = "ingress-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

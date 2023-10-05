@@ -89,7 +89,7 @@ module "generate_mojaloop_files" {
     ttksims_redis_port                          = local.stateful_resources[local.ttk_redis_resource_index].logical_service_config.logical_service_port
   }
   file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml"]
-  template_path   = "${path.module}/generate-files/templates/mojaloop"
+  template_path   = "${path.module}/../generate-files/templates/mojaloop"
   output_path     = "${var.output_dir}/mojaloop"
   app_file        = "mojaloop-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

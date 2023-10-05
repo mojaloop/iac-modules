@@ -4,7 +4,7 @@ module "generate_certman_files" {
     "clusterissuers/lets-cluster-issuer.yaml", "certman-extsecret.yaml",
     "certmanager-helm.yaml"
   ]
-  template_path   = "${path.module}/generate-files/templates/certmanager"
+  template_path   = "${path.module}/../generate-files/templates/certmanager"
   output_path     = "${var.output_dir}/certmanager"
   app_file        = "certmanager-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

@@ -18,7 +18,7 @@ module "generate_storage_files" {
     storage_sync_wave                                = var.storage_sync_wave
   }
   file_list       = ["chart/Chart.yaml", "chart/values.yaml", "external-secrets/longhorn-extsecret.yaml", "custom-resources/longhorn-job.yaml"]
-  template_path   = "${path.module}/generate-files/templates/storage"
+  template_path   = "${path.module}/../generate-files/templates/storage"
   output_path     = "${var.output_dir}/storage"
   app_file        = "storage-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

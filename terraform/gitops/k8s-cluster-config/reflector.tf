@@ -1,7 +1,7 @@
 module "generate_reflector_files" {
   source          = "../generate-files"
   file_list       = ["chart/Chart.yaml", "chart/values.yaml"]
-  template_path   = "${path.module}/generate-files/templates/reflector"
+  template_path   = "${path.module}/../generate-files/templates/reflector"
   output_path     = "${var.output_dir}/reflector"
   app_file        = "reflector-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

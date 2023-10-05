@@ -28,7 +28,7 @@ module "generate_loki_files" {
     loki_wildcard_gateway                = local.loki_wildcard_gateway
   }
   file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/password-policy.yaml", "custom-resources/random-secret.yaml", "custom-resources/vault-secret.yaml", "custom-resources/istio-gateway.yaml"]
-  template_path   = "${path.module}/generate-files/templates/loki"
+  template_path   = "${path.module}/../generate-files/templates/loki"
   output_path     = "${var.output_dir}/loki"
   app_file        = "loki-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

@@ -17,7 +17,7 @@ module "generate_vault_pki_setup_files" {
     vault_pki_sync_wave                   = var.vault_pki_sync_wave
   }
   file_list       = ["certman-rbac.yaml", "vault-auth-config.yaml"]
-  template_path   = "${path.module}/generate-files/templates/vault-pki-setup"
+  template_path   = "${path.module}/../generate-files/templates/vault-pki-setup"
   output_path     = "${var.output_dir}/vault-pki-setup"
   app_file        = "vault-pki-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"

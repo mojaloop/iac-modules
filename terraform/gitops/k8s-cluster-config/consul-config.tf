@@ -11,7 +11,7 @@ module "generate_consul_files" {
     consul_sync_wave           = var.consul_sync_wave
   }
   file_list       = ["Chart.yaml", "values.yaml"]
-  template_path   = "${path.module}/generate-files/templates/consul"
+  template_path   = "${path.module}/../generate-files/templates/consul"
   output_path     = "${var.output_dir}/consul"
   app_file        = "consul-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"
