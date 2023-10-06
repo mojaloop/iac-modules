@@ -96,19 +96,19 @@ variable "private_network_cidr" {
 
 variable "mcm_oidc_client_secret_secret_key" {
   type = string
-  default = "value"
+  default = "secret"
 }
 variable "mcm_oidc_client_secret_secret" {
   type = string
-  default = "value"
+  default = "mcm-oidc-client-secret"
 }
 variable "jwt_client_secret_secret_key" {
   type = string
-  default = "value"
+  default = "secret"
 }
 variable "jwt_client_secret_secret" {
   type = string
-  default = "value"
+  default = "jwt-oidc-client-secret"
 }
 
 locals {
