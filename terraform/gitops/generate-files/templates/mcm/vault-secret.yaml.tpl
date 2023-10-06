@@ -36,7 +36,7 @@ spec:
         serviceAccount:
             name: default
       name: keycloakmcmsecret
-      path: /secret/mcm/${mcm_oidc_client_secret_secret}
+      path: /secret/keycloak/${mcm_oidc_client_secret_secret}
   output:
     name: ${mcm_oidc_client_secret_secret}
     stringData:
