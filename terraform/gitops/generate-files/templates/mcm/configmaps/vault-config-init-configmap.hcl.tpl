@@ -15,6 +15,15 @@ auto_auth = {
   }
 }
 
+api_proxy {
+  use_auto_auth_token = "force"
+}
+
+listener "tcp" {
+    address = "127.0.0.1:8100"
+    tls_disable = true
+}
+
 exit_after_auth = true
 pid_file = "/home/vault/.pid"
 
@@ -23,8 +32,9 @@ template {
 empty-text
   EOH
   destination = "/vault/secrets/tmp/notneeded"
-  command     = 'vault write ${dfsp_external_whitelist_secret} loopback="127.0.0.1/32" && vault write ${dfsp_internal_whitelist_secret} loopback="127.0.0.1/32"'
+  command     = "VAULT_ADDR='http://127.0.0.1:8100';vault write secret/whitelist_fsps loopback=\"127.0.0.1/32\" && vault write secret/whitelist_pm4mls loopback=\"127.0.0.1/32\""
 }
+
 
 vault = {
   address = "${vault_endpoint}"
