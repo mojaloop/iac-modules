@@ -805,7 +805,14 @@ mojaloop:
     parameters:
       <<: *simNames
     testCaseEnvironmentFile:  *ttkInputValues
-
+    job:
+      enabled: true
+      ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+      # ttlSecondsAfterFinished: 50
+      generateNameEnabled: true
+      annotations:
+        argocd.argoproj.io/hook: PostSync
+      
   ml-ttk-test-val-gp:
     tests:
       enabled: true
@@ -817,6 +824,13 @@ mojaloop:
     parameters:
       <<: *simNames
     testCaseEnvironmentFile:  *ttkInputValues
+    job:
+      enabled: true
+      ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
+      # ttlSecondsAfterFinished: 50
+      generateNameEnabled: true
+      annotations:
+        argocd.argoproj.io/hook: PostSync
 
   ml-ttk-test-val-bulk:
     tests:
