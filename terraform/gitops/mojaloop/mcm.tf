@@ -59,6 +59,7 @@ module "generate_mcm_files" {
     keycloak_fqdn                                 = var.keycloak_fqdn
     keycloak_dfsp_realm_name                      = var.keycloak_dfsp_realm_name
     keycloak_name                                 = var.keycloak_name
+    keycloak_namespace                            = var.keycloak_namespace
     cert_man_vault_cluster_issuer_name            = var.cert_man_vault_cluster_issuer_name
     jwt_client_secret_secret_key                  = var.jwt_client_secret_secret_key
     jwt_client_secret_secret                      = var.jwt_client_secret_secret
@@ -190,6 +191,26 @@ variable "jwt_client_secret_secret_key" {
 }
 variable "jwt_client_secret_secret" {
   type = string
+}
+
+variable "keycloak_dfsp_realm_name" {
+  type        = string
+  description = "name of realm for dfsp api access"
+  default     = "dfsps"
+}
+
+variable "keycloak_name" {
+  type        = string
+  description = "name of keycloak instance"
+}
+
+variable "keycloak_fqdn" {
+  type        = string
+  description = "fqdn of keycloak"
+}
+variable "keycloak_namespace" {
+  type        = string
+  description = "namespace of keycloak in which to create realm"
 }
 locals {
   mcm_resource_index             = index(local.stateful_resources.*.resource_name, "mcm-db")

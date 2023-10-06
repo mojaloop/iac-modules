@@ -2,6 +2,7 @@ apiVersion: k8s.keycloak.org/v2alpha1
 kind: KeycloakRealmImport
 metadata:
   name: ${keycloak_dfsp_realm_name}
+  namespace: ${keycloak_namespace}
 spec:
   keycloakCRName: ${keycloak_name}
   realm:
