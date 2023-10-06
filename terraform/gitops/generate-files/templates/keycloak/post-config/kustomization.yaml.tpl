@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - keycloak-cr.yaml
   - keycloak-ingress.yaml
+  - vault-secret.yaml
 secretGenerator:
 - name: keycloak-user
   literals:
