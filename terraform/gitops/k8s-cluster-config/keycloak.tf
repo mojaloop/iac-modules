@@ -1,7 +1,7 @@
 module "generate_keycloak_files" {
   source = "../generate-files"
   var_map = {
-    keycloak_name                         = "switch-keycloak"
+    keycloak_name                         = var.keycloak_name
     keycloak_operator_version             = var.keycloak_operator_version
     keycloak_namespace                    = var.keycloak_namespace
     gitlab_project_url                    = var.gitlab_project_url
@@ -42,6 +42,11 @@ variable "keycloak_ingress_internal_lb" {
   default     = false
 }
 
+variable "keycloak_name" {
+  default = "switch-keycloak"
+  type = string
+  description = "name of keycloak instance"
+}
 
 variable "keycloak_operator_version" {
   type        = string
@@ -66,7 +71,7 @@ variable "keycloak_namespace" {
   description = "keycloak_namespace"
   default     = "keycloak"
 }
-
+# rm this later, this is for nginx backwards compatability, not used in istio
 variable "keycloak_dfsp_realm_name" {
   type        = string
   description = "name of realm for dfsp api access"

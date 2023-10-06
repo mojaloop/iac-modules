@@ -30,6 +30,7 @@ module "mojaloop" {
   istio_namespace                      = var.istio_namespace
   nginx_external_namespace             = var.nginx_external_namespace
   keycloak_fqdn                        = local.keycloak_fqdn
+  keycloak_name                        = var.keycloak_name
   vault_namespace                      = var.vault_namespace
   cert_manager_namespace               = var.cert_manager_namespace
   mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key

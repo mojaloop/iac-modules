@@ -58,6 +58,7 @@ module "generate_mcm_files" {
     interop_switch_fqdn                           = var.external_interop_switch_fqdn
     keycloak_fqdn                                 = var.keycloak_fqdn
     keycloak_dfsp_realm_name                      = var.keycloak_dfsp_realm_name
+    keycloak_name                                 = var.keycloak_name
     cert_man_vault_cluster_issuer_name            = var.cert_man_vault_cluster_issuer_name
     jwt_client_secret_secret_key                  = var.jwt_client_secret_secret_key
     jwt_client_secret_secret                      = var.jwt_client_secret_secret

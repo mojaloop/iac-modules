@@ -143,6 +143,10 @@ variable "keycloak_dfsp_realm_name" {
   default     = "dfsps"
 }
 
+variable "keycloak_name" {
+  type        = string
+  description = "name of keycloak instance"
+}
 
 variable "keycloak_fqdn" {
   type        = string
