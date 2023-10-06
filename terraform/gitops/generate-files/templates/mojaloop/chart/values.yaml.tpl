@@ -831,6 +831,7 @@ mojaloop:
       generateNameEnabled: true
       annotations:
         argocd.argoproj.io/hook: PostSync
+        argocd.argoproj.io/sync-wave: "${mojaloop_test_sync_wave}"
 
   ml-ttk-test-val-bulk:
     tests:
