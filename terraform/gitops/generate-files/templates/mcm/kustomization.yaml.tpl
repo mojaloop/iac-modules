@@ -4,7 +4,6 @@ resources:
   - vault-certificate.yaml
   - vault-rbac.yaml
   - vault-agent.yaml
-  - vault-secret.yaml
   - keycloak-realm-cr.yaml
 %{ if istio_create_ingress_gateways ~}
   - istio-gateway.yaml

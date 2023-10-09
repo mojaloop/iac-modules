@@ -61,17 +61,15 @@ module "generate_mcm_files" {
     keycloak_name                        = var.keycloak_name
     keycloak_namespace                   = var.keycloak_namespace
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
-    jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
-    jwt_client_secret_secret             = var.jwt_client_secret_secret
-    mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
-    mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
+    jwt_client_secret_secret_name        = "$$${replace(var.jwt_client_secret_secret, '-', '_')}"
     mcm_oidc_client_id                   = var.mcm_oidc_client_id
+    mcm_oidc_client_secret_secret_name   = "$$${replace(var.mcm_oidc_client_secret_secret, '-', '_')}"
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_gateway_name          = var.istio_internal_gateway_name
     int_interop_switch_fqdn              = var.internal_interop_switch_fqdn
   }
-  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-secret.yaml", "vault-agent.yaml", "keycloak-realm-cr.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml", "vault-certificate.yaml"]
+  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-agent.yaml", "keycloak-realm-cr.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml", "vault-certificate.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mcm"
   output_path     = "${var.output_dir}/mcm"
   app_file        = "mcm-app.yaml"

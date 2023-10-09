@@ -279,7 +279,7 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: '$${jwt_client_secret_secret}'
+      secret: ${jwt_client_secret_secret_name}
       redirectUris:
       - /*
       webOrigins:
@@ -363,7 +363,7 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: '$${mcm_oidc_client_secret_secret}'
+      secret: ${mcm_oidc_client_secret_secret_name}
       redirectUris:
         - https://${mcm_public_fqdn}/login-callback
       webOrigins:
