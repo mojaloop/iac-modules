@@ -38,7 +38,6 @@ module "mojaloop" {
   mcm_oidc_client_secret_secret     = var.mcm_oidc_client_secret_secret
   jwt_client_secret_secret_key      = var.jwt_client_secret_secret_key
   jwt_client_secret_secret          = var.jwt_client_secret_secret
-  default_ssl_certificate           = var.default_ssl_certificate
   mcm_public_fqdn                   = local.mcm_public_fqdn
   mojaloop_ingress_internal_lb      = var.mojaloop_ingress_internal_lb
   mcm_ingress_internal_lb           = var.mcm_ingress_internal_lb
