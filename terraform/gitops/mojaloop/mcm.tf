@@ -61,9 +61,9 @@ module "generate_mcm_files" {
     keycloak_name                        = var.keycloak_name
     keycloak_namespace                   = var.keycloak_namespace
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
-    jwt_client_secret_secret_name        = "$$${replace(var.jwt_client_secret_secret, '-', '_')}"
+    jwt_client_secret_secret_name        = join("$", ["", replace(var.jwt_client_secret_secret, "-", "_")])
     mcm_oidc_client_id                   = var.mcm_oidc_client_id
-    mcm_oidc_client_secret_secret_name   = "$$${replace(var.mcm_oidc_client_secret_secret, '-', '_')}"
+    mcm_oidc_client_secret_secret_name   = join("$", ["", replace(var.mcm_oidc_client_secret_secret, "-", "_")])
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_gateway_name          = var.istio_internal_gateway_name
