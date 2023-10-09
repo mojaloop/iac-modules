@@ -30,9 +30,9 @@ module "generate_mojaloop_files" {
     istio_create_ingress_gateways               = var.istio_create_ingress_gateways
     istio_external_gateway_name                 = var.istio_external_gateway_name
     external_load_balancer_dns                  = var.external_load_balancer_dns
-    istio_internal_wildcard_gateway_name        = var.istio_internal_gateway_name
+    istio_internal_wildcard_gateway_name        = var.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace            = var.istio_internal_gateway_namespace
-    istio_external_wildcard_gateway_name        = var.istio_external_gateway_name
+    istio_external_wildcard_gateway_name        = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace            = var.istio_external_gateway_namespace
     mojaloop_wildcard_gateway                   = local.mojaloop_wildcard_gateway
     keycloak_fqdn                               = var.keycloak_fqdn

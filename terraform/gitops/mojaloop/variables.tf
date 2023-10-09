@@ -109,13 +109,21 @@ variable "nginx_jwt_namespace" {
 variable "istio_internal_gateway_name" {
   type        = string
   description = "istio_internal_gateway_name"
-  default     = "istio-internal-ingress-gw"
 }
 
 variable "istio_external_gateway_name" {
   type        = string
   description = "istio_external_gateway_name"
-  default     = "istio-external-ingress-gw"
+}
+
+variable "istio_internal_wildcard_gateway_name" {
+  type        = string
+  description = "istio_internal_wildcard_gateway_name"
+}
+
+variable "istio_external_wildcard_gateway_name" {
+  type        = string
+  description = "istio_external_wildcard_gateway_name"
 }
 
 variable "istio_create_ingress_gateways" {

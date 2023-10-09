@@ -48,9 +48,9 @@ module "generate_mcm_files" {
     token_issuer_fqdn                    = "keycloak.${var.public_subdomain}"
     istio_namespace                      = var.istio_namespace
     nginx_external_namespace             = var.nginx_external_namespace
-    istio_internal_wildcard_gateway_name = var.istio_internal_gateway_name
+    istio_internal_wildcard_gateway_name = var.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
-    istio_external_wildcard_gateway_name = var.istio_external_gateway_name
+    istio_external_wildcard_gateway_name = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     istio_external_gateway_name          = var.istio_external_gateway_name
