@@ -137,12 +137,12 @@ locals {
     "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
   }
   mcm_public_fqdn               = "mcm.${var.public_subdomain}"
-  vault_public_fqdn             = "vault.${public_subdomain}"
-  grafana_public_fqdn           = "grafana.${public_subdomain}"
+  vault_public_fqdn             = "vault.${var.public_subdomain}"
+  grafana_public_fqdn           = "grafana.${var.public_subdomain}"
   external_interop_switch_fqdn  = "extapi.${var.public_subdomain}"
   internal_interop_switch_fqdn  = "intapi.${var.public_subdomain}"
-  ttk_frontend_public_fqdn      = "ttkfrontend.${public_subdomain}"
-  ttk_backend_public_fqdn       = "ttkbackend.${public_subdomain}"
+  ttk_frontend_public_fqdn      = "ttkfrontend.${var.public_subdomain}"
+  ttk_backend_public_fqdn       = "ttkbackend.${var.public_subdomain}"
   keycloak_realm_env_secret_map = var.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : {}
   mojaloop_internal_gateway_hosts = concat([local.internal_interop_switch_fqdn],
     local.mojaloop_wildcard_gateway == "internal" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
@@ -153,9 +153,9 @@ locals {
   internal_gateway_hosts = concat([local.keycloak_admin_fqdn],
     local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
     local.loki_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
-  var.mojaloop_enabled ? additional_internal_gateway_hosts : [])
+  var.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [])
   external_gateway_hosts = concat([local.keycloak_fqdn],
     local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
     local.loki_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
-  var.mojaloop_enabled ? additional_external_gateway_hosts : [])
+  var.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [])
 }
