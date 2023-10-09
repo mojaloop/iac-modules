@@ -11,13 +11,9 @@ spec:
     istio: ${istio_internal_gateway_name}
   servers:
   - hosts:
-    - '${keycloak_admin_fqdn}'
-%{ if loki_wildcard_gateway == "internal" ~} 
-    - 'grafana.${public_subdomain}'
-%{ endif ~}
-%{ if vault_wildcard_gateway == "internal" ~} 
-    - 'vault.${public_subdomain}'
-%{ endif ~}
+%{ for host in internal_gateway_hosts ~}
+    - '${host}'
+%{ endfor ~}
     port:
       name: https
       number: 443
@@ -39,13 +35,9 @@ spec:
     istio: ${istio_external_gateway_name}
   servers:
   - hosts:
-    - '${keycloak_fqdn}'
-%{ if loki_wildcard_gateway == "external" ~} 
-    - 'grafana.${public_subdomain}'
-%{ endif ~}
-%{ if vault_wildcard_gateway == "external" ~} 
-    - 'vault.${public_subdomain}'
-%{ endif ~}
+%{ for host in external_gateway_hosts ~}
+    - '${host}'
+%{ endfor ~}
     port:
       name: https
       number: 443

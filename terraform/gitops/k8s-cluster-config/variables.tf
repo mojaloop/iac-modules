@@ -93,14 +93,6 @@ variable "kv_path" {
   default     = "secret"
 }
 
-variable "external_interop_switch_fqdn" {
-  description = "fqdn for interop ext"
-}
-
-variable "internal_interop_switch_fqdn" {
-  description = "fqdn for interop int"
-}
-
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value

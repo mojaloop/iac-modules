@@ -31,9 +31,8 @@ module "generate_istio_files" {
     vault_wildcard_gateway               = local.vault_wildcard_gateway
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
-    keycloak_fqdn                        = local.keycloak_fqdn
-    keycloak_admin_fqdn                  = local.keycloak_admin_fqdn
-    int_interop_switch_fqdn              = var.internal_interop_switch_fqdn
+    internal_gateway_hosts               = local.internal_gateway_hosts
+    external_gateway_hosts               = local.external_gateway_hosts
   }
   file_list = ["istio-deploy.yaml",
     "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml",

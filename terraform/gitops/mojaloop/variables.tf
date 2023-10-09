@@ -148,11 +148,3 @@ variable "cert_manager_namespace" {
   type = string
   description = "cert_manager_namespace"
 }
-variable "default_ssl_certificate" {
-  type        = string
-  description = "default_ssl_certificate"
-}
-locals {
-  istio_internal_mojaloop_wildcard_gateway_name = "internal-mojaloop-wildcard-gateway"
-  istio_external_mojaloop_wildcard_gateway_name = "external-mojaloop-wildcard-gateway"
-}

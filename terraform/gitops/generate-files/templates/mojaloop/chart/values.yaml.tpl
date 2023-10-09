@@ -699,9 +699,9 @@ mojaloop:
         className: *INGRESS_CLASS
         hosts:
           specApi:
-            host: ttkbackend.${ingress_subdomain}
+            host: ${ttk_backend_public_fqdn}
           adminApi:
-            host: ttkbackend.${ingress_subdomain}
+            host: ${ttk_backend_public_fqdn}
       parameters: &simNames
         simNamePayerfsp: 'payerfsp'
         simNamePayeefsp: 'payeefsp'
@@ -788,11 +788,11 @@ mojaloop:
         className: *INGRESS_CLASS
         hosts:
           ui: 
-            host: ttkfrontend.${ingress_subdomain}
+            host: ${ttk_frontend_public_fqdn}
             port: 6060
             paths: ['/']
       config:
-        API_BASE_URL: https://ttkbackend.${ingress_subdomain}
+        API_BASE_URL: https://${ttk_backend_public_fqdn}
 
   ml-ttk-test-setup:
     tests:
@@ -801,7 +801,7 @@ mojaloop:
       testSuiteName: Provisioning
       environmentName: ${ingress_subdomain}
       saveReport: true
-      saveReportBaseUrl: http://ttkbackend.${ingress_subdomain}
+      saveReportBaseUrl: http://${ttk_backend_public_fqdn}
     parameters:
       <<: *simNames
     testCaseEnvironmentFile:  *ttkInputValues
@@ -820,7 +820,7 @@ mojaloop:
       testSuiteName: GP Tests
       environmentName: ${ingress_subdomain}
       saveReport: true
-      saveReportBaseUrl: http://ttkbackend.${ingress_subdomain}
+      saveReportBaseUrl: http://${ttk_backend_public_fqdn}
     parameters:
       <<: *simNames
     testCaseEnvironmentFile:  *ttkInputValues
@@ -840,7 +840,7 @@ mojaloop:
       testSuiteName: Bulk Tests
       environmentName: ${ingress_subdomain}
       saveReport: true
-      saveReportBaseUrl: http://ttkbackend.${ingress_subdomain}
+      saveReportBaseUrl: http://${ttk_backend_public_fqdn}
     parameters:
       <<: *simNames
     testCaseEnvironmentFile:  *ttkInputValues
@@ -852,7 +852,7 @@ mojaloop:
       testSuiteName: Third Party Provisioning Tests
       environmentName: ${ingress_subdomain}
       saveReport: true
-      saveReportBaseUrl: http://ttkbackend.${ingress_subdomain}
+      saveReportBaseUrl: http://${ttk_backend_public_fqdn}
     parameters:
       <<: *simNames
     testCaseEnvironmentFile:  *ttkInputValues
@@ -864,7 +864,7 @@ mojaloop:
       testSuiteName: Third Party Validation Tests
       environmentName: ${ingress_subdomain}
       saveReport: true
-      saveReportBaseUrl: http://ttkbackend.${ingress_subdomain}
+      saveReportBaseUrl: http://${ttk_backend_public_fqdn}
     parameters:
       <<: *simNames
     testCaseEnvironmentFile:  *ttkInputValues
@@ -876,7 +876,7 @@ mojaloop:
       testSuiteName: SDK Bulk Provisioning Tests
       environmentName: ${ingress_subdomain}
       saveReport: true
-      saveReportBaseUrl: http://ttkbackend.${ingress_subdomain}
+      saveReportBaseUrl: http://${ttk_backend_public_fqdn}
     parameters:
       <<: *simNames
     testCaseEnvironmentFile:  *ttkInputValues
@@ -912,7 +912,7 @@ mojaloop:
       testSuiteName: Post Cleanup
       environmentName: ${ingress_subdomain}
       saveReport: true
-      saveReportBaseUrl: http://ttkbackend.${ingress_subdomain}
+      saveReportBaseUrl: http://${ttk_backend_public_fqdn}
     parameters:
       <<: *simNames
     testCaseEnvironmentFile:  *ttkInputValues

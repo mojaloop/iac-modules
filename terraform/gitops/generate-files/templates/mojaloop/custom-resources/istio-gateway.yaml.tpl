@@ -129,7 +129,7 @@ metadata:
   name: int-interop-vs
 spec:
   gateways:
-  - ${istio_internal_gateway_namespace}/${istio_internal_mojaloop_wildcard_gateway_name}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
   hosts:
   - '${int_interop_switch_fqdn}'
   http:
@@ -226,12 +226,12 @@ metadata:
 spec:
   gateways:
 %{ if mojaloop_wildcard_gateway == "external" ~} 
-  - ${istio_external_gateway_namespace}/${istio_external_mojaloop_wildcard_gateway_name}
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_mojaloop_wildcard_gateway_name}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
 %{ endif ~}
   hosts:
-  - 'ttkfrontend.${ingress_subdomain}'
+  - '${ttk_frontend_public_fqdn}'
   http:
     - match:
         - uri: 
@@ -249,12 +249,12 @@ metadata:
 spec:
   gateways:
 %{ if mojaloop_wildcard_gateway == "external" ~} 
-  - ${istio_external_gateway_namespace}/${istio_external_mojaloop_wildcard_gateway_name}
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_mojaloop_wildcard_gateway_name}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
 %{ endif ~}  
   hosts:
-  - 'ttkbackend.${ingress_subdomain}'
+  - '${ttk_backend_public_fqdn}'
   http:
     - name: api
       match:
