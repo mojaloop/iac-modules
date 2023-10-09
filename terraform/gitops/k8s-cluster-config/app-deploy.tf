@@ -131,7 +131,7 @@ variable "mcm_ingress_internal_lb" {
 }
 locals {
   mojaloop_wildcard_gateway = var.mojaloop_ingress_internal_lb ? "internal" : "external"
-  mcm_wildcard_gateway      = var.mojaloop_ingress_internal_lb ? "internal" : "external"
+  mcm_wildcard_gateway      = var.mcm_ingress_internal_lb ? "internal" : "external"
   mojaloop_keycloak_realm_env_secret_map = {
     "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
     "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
@@ -146,16 +146,16 @@ locals {
   keycloak_realm_env_secret_map = var.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : {}
   mojaloop_internal_gateway_hosts = concat([local.internal_interop_switch_fqdn],
     local.mojaloop_wildcard_gateway == "internal" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
-  local.mcm_wildcard_gateway == "internal" ? [local.mcm_public_fqdn] : [])
+    local.mcm_wildcard_gateway == "internal" ? [local.mcm_public_fqdn] : [])
   mojaloop_external_gateway_hosts = concat(
     local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
-  local.mcm_wildcard_gateway == "internal" ? [local.mcm_public_fqdn] : [])
+    local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
   internal_gateway_hosts = concat([local.keycloak_admin_fqdn],
     local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
     local.loki_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
-  var.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [])
+    var.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [])
   external_gateway_hosts = concat([local.keycloak_fqdn],
     local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
     local.loki_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
-  var.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [])
+    var.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [])
 }
