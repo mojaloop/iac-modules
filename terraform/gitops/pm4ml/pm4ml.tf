@@ -19,7 +19,7 @@ module "generate_pm4ml_files" {
     keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
 
   }
-  file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "values-secret.yaml"]
+  file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml"]
   template_path   = "${path.module}/../generate-files/templates/pm4ml"
   output_path     = "${var.output_dir}/pm4ml"
   app_file        = "pm4ml-app.yaml"

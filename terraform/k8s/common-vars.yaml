@@ -13,10 +13,10 @@ loki_chart_version: 2.9.10
 external_secrets_version: 0.8.2
 argocd_version: 2.8.2
 argocd_lovely_plugin_version: 0.18.0
-mojaloop_chart_version: 15.1.0
+mojaloop_chart_version: 15.1.0-16337.f1aeda3
 mcm_enabled: true
 mojaloop_enabled: true
 bulk_enabled: false
 third_party_enabled: false
-mcm_chart_version: 0.7.0
+mcm_chart_version: 0.7.1
 pm4ml_enabled: false

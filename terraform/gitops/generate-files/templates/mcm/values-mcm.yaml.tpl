@@ -61,11 +61,9 @@ api:
     vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
 ui:
-  image:
-    version: 2.0.0-snapshot.4
   oauth:
-    enabled: "FALSE"
-    keycloakOidcUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
+    enabled: false
+    hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
     clientId: ${oauth_key}
     clientSecretName: ${oauth_secret_secret}
     clientSecretKey: ${oauth_secret_secret_key}

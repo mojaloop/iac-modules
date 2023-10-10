@@ -2,6 +2,7 @@ apiVersion: k8s.keycloak.org/v2alpha1
 kind: KeycloakRealmImport
 metadata:
   name: ${keycloak_pm4ml_realm_name}
+  namespace: ${keycloak_namespace}
 spec:
   keycloakCRName: ${keycloak_name}
   realm:
@@ -382,7 +383,6 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: "**********"
       defaultRoles:
       - view-profile
       - manage-account
@@ -423,7 +423,6 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: "**********"
       redirectUris:
       - "/realms/${keycloak_pm4ml_realm_name}/account/*"
       webOrigins: []
@@ -467,7 +466,6 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: "**********"
       redirectUris: []
       webOrigins: []
       notBefore: 0
@@ -502,7 +500,6 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: "**********"
       redirectUris: []
       webOrigins: []
       notBefore: 0
@@ -592,7 +589,6 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: "**********"
       redirectUris: []
       webOrigins: []
       notBefore: 0
@@ -629,7 +625,6 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: "**********"
       redirectUris:
       - "/admin/pm4ml/console/*"
       webOrigins:
