@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/gitops-base-config?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/gitops/k8s-cluster-config?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
 }
 
 
@@ -69,12 +69,14 @@ inputs = {
   mcm_enabled                              = local.common_vars.mcm_enabled
   mcm_chart_version                        = local.common_vars.mcm_chart_version
   mojaloop_enabled                         = local.common_vars.mojaloop_enabled
+  pm4ml_enabled                            = local.common_vars.pm4ml_enabled
   bulk_enabled                             = local.common_vars.bulk_enabled
   third_party_enabled                      = local.common_vars.third_party_enabled
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
-  stateful_resources_config_file           = find_in_parent_folders("stateful-resources.json")
+  stateful_resources_config_file           = find_in_parent_folders("common-stateful-resources.json")
+  mojaloop_stateful_resources_config_file  = find_in_parent_folders("mojaloop-stateful-resources.json")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
