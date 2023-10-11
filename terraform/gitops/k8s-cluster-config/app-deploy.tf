@@ -1,5 +1,5 @@
 module "mojaloop" {
-  count                                = var.app_var_map.mojaloop_enabled ? 1 : 0
+  count                                = var.common_var_map.mojaloop_enabled ? 1 : 0
   source                               = "../mojaloop"
   nat_public_ips                       = var.nat_public_ips
   internal_load_balancer_dns           = var.internal_load_balancer_dns
@@ -38,9 +38,9 @@ module "mojaloop" {
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
   mojaloop_chart_version               = var.app_var_map.mojaloop_chart_version
-  mcm_enabled                          = var.app_var_map.mcm_enabled
+  mcm_enabled                          = var.common_var_map.mcm_enabled
   mcm_chart_version                    = var.app_var_map.mcm_chart_version
-  mojaloop_enabled                     = var.app_var_map.mojaloop_enabled
+  mojaloop_enabled                     = var.common_var_map.mojaloop_enabled
   bulk_enabled                         = var.app_var_map.bulk_enabled
   third_party_enabled                  = var.app_var_map.third_party_enabled
   mojaloop_ingress_internal_lb         = var.app_var_map.mojaloop_ingress_internal_lb
@@ -50,7 +50,7 @@ module "mojaloop" {
 }
 
 module "pm4ml" {
-  count                                          = var.app_var_map.pm4ml_enabled ? 1 : 0
+  count                                          = var.common_var_map.pm4ml_enabled ? 1 : 0
   source                                         = "../pm4ml"
   nat_public_ips                                 = var.nat_public_ips
   internal_load_balancer_dns                     = var.internal_load_balancer_dns
@@ -173,16 +173,16 @@ locals {
   pm4ml_external_gateway_hosts = concat([local.mojaloop_connnector_fqdn],
   local.pm4ml_wildcard_gateway == "external" ? [local.portal_fqdn, local.experience_api_fqdn] : [])
 
-  keycloak_realm_env_secret_map = var.app_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map
+  keycloak_realm_env_secret_map = var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map
 
   internal_gateway_hosts = concat([local.keycloak_admin_fqdn],
     local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
     local.loki_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
-    var.app_var_map.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [],
-  var.app_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [])
+    var.common_var_map.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [],
+    var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [])
   external_gateway_hosts = concat([local.keycloak_fqdn],
     local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
     local.loki_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
-    var.app_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
-  var.app_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
+    var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
+    var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
 }

@@ -2,3 +2,4 @@ pm4ml_chart_version: 5.0.0
 pm4ml_external_mcm_public_fqdn: mcm.switch1.mojaloop.live
 pm4ml_external_mcm_client_id: clientid
 pm4ml_external_mcm_client_secret_vault_path: "path/to/secret"
+pm4ml_ingress_internal_lb: false
