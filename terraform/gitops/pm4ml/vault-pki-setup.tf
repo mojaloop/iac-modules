@@ -68,3 +68,8 @@ variable "vault_pki_sync_wave" {
   description = "vault_pki_sync_wave"
   default     = "-5"
 }
+
+variable "local_vault_kv_root_path" {
+  description = "vault kv secret root"
+  type        = string
+}

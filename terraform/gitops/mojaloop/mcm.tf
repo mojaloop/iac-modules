@@ -36,14 +36,14 @@ module "generate_mcm_files" {
     dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
     dfsp_internal_whitelist_secret       = local.dfsp_internal_whitelist_secret
     dfsp_external_whitelist_secret       = local.dfsp_external_whitelist_secret
-    onboarding_secret_name_prefix        = local.onboarding_secret_name_prefix
-    whitelist_secret_name_prefix         = local.whitelist_secret_name_prefix
+    onboarding_secret_path               = local.onboarding_secret_path
+    whitelist_secret_path                = local.whitelist_secret_path
     mcm_service_account_name             = var.mcm_service_account_name
     pki_client_role                      = var.pki_client_cert_role
     pki_server_role                      = var.pki_server_cert_role
     mcm_vault_k8s_role_name              = var.mcm_vault_k8s_role_name
     k8s_auth_path                        = var.k8s_auth_path
-    mcm_secret_path                      = var.mcm_secret_path
+    mcm_secret_path                      = local.mcm_secret_path
     totp_issuer                          = "not-used-yet"
     token_issuer_fqdn                    = "keycloak.${var.public_subdomain}"
     nginx_external_namespace             = var.nginx_external_namespace
@@ -142,12 +142,6 @@ variable "mcm_service_account_name" {
   default     = "mcm"
 }
 
-variable "mcm_secret_path" {
-  description = "vault kv secret path for mcm use"
-  type        = string
-  default     = "secret/mcm"
-}
-
 variable "mcm_vault_k8s_role_name" {
   description = "vault k8s role name for mcm"
   type        = string
@@ -207,7 +201,7 @@ variable "mcm_public_fqdn" {
 locals {
   mcm_resource_index             = index(local.stateful_resources.*.resource_name, "mcm-db")
   mcm_wildcard_gateway           = var.mcm_ingress_internal_lb ? "internal" : "external"
-  dfsp_client_cert_bundle        = "${local.onboarding_secret_name_prefix}_pm4mls"
-  dfsp_internal_whitelist_secret = "${local.whitelist_secret_name_prefix}_pm4mls"
-  dfsp_external_whitelist_secret = "${local.whitelist_secret_name_prefix}_fsps"
+  dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
+  dfsp_internal_whitelist_secret = "${local.whitelist_secret_path}_pm4mls"
+  dfsp_external_whitelist_secret = "${local.whitelist_secret_path}_fsps"
 }

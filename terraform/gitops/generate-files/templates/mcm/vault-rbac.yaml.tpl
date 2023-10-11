@@ -59,10 +59,10 @@ spec:
       name: default
   policy: |
     # Configure read secrets
-    path "${whitelist_secret_name_prefix}*" {
+    path "${whitelist_secret_path}*" {
       capabilities = ["create", "read", "update", "delete", "list"]
     }
-    path "${onboarding_secret_name_prefix}*" {
+    path "${onboarding_secret_path}*" {
       capabilities = ["create", "read", "update", "delete", "list"]
     }
     path "${pki_path}/*" {

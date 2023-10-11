@@ -26,7 +26,8 @@ module "generate_pm4ml_files" {
     server_cert_secret_namespace         = var.pm4ml_namespace
     server_cert_secret_name              = var.vault_certman_secretname
     vault_certman_secretname             = var.vault_certman_secretname
-    vault_kv_mount                       = var.kv_path
+    vault_kv_mount                       = var.local_vault_kv_root_path
+    local_vault_kv_root_path             = var.local_vault_kv_root_path
     vault_pki_mount                      = var.vault_root_ca_name
     vault_pki_client_role                = var.pki_client_cert_role
     vault_pki_server_role                = var.pki_server_cert_role

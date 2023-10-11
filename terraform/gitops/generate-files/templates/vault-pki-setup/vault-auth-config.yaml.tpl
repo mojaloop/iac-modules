@@ -101,27 +101,7 @@ spec:
     path "auth/token/revoke-accessor" {
       capabilities = ["update"]
     }
-  type: acl  
----
-apiVersion: redhatcop.redhat.io/v1alpha1
-kind: Policy
-metadata:
-  name: whitelist-read-policy
-spec:
-  authentication: 
-    path: kubernetes
-    role: policy-admin
-    serviceAccount:
-      name: default
-  policy: |
-    # Configure read secrets
-    path "${whitelist_secret_name_prefix}*" {
-      capabilities = ["read", "list"]
-    }
-    path "${onboarding_secret_name_prefix}*" {
-      capabilities = ["read", "list"]
-    }
-  type: acl  
+  type: acl
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Policy

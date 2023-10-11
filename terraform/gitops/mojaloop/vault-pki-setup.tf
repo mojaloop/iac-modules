@@ -33,7 +33,7 @@ variable "cert_man_vault_cluster_issuer_name" {
 }
 
 variable "local_vault_kv_root_path" {
-  description = "vault secret path for whitelist ip values"
+  description = "vault kv secret root"
   type        = string
 }
 
@@ -70,6 +70,7 @@ variable "vault_pki_sync_wave" {
 }
 
 locals {
-  whitelist_secret_name_prefix = "${var.local_vault_kv_root_path}/whitelist"
-  onboarding_secret_name_prefix = "${var.local_vault_kv_root_path}/onboarding"
+  whitelist_secret_path  = "${var.local_vault_kv_root_path}/whitelist"
+  onboarding_secret_path = "${var.local_vault_kv_root_path}/onboarding"
+  mcm_secret_path        = "${var.local_vault_kv_root_path}/mcm"
 }

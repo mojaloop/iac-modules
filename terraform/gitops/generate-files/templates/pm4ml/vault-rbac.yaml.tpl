@@ -58,18 +58,25 @@ spec:
     serviceAccount:
       name: default
   policy: |
-    # Configure read secrets
-    path "${whitelist_secret_name_prefix}*" {
-      capabilities = ["create", "read", "update", "delete", "list"]
-    }
-    path "${onboarding_secret_name_prefix}*" {
-      capabilities = ["create", "read", "update", "delete", "list"]
-    }
-    path "${pki_path}/*" {
+    path "pki-${pm4ml_release_name}/*" {
       capabilities = ["create", "read", "update", "delete", "list", "sudo"]
     }
-    path "${pm4ml_secret_path}/*" {
-      capabilities = ["create", "read", "update", "delete", "list"]
+
+    path "pki-${pm4ml_release_name}/issue/*" {
+      capabilities = ["create", "read", "update"]
     }
+
+    path "pki-${pm4ml_release_name}/roles/*" {
+      capabilities = ["create", "read", "update"]
+    }
+
+    path "pki-${pm4ml_release_name}/sign/*" {
+      capabilities = ["create", "read", "update"]
+    }
+
+    path "${mcm_secret_path}/pm4ml/${pm4ml_release_name}/*" {
+      capabilities = ["create", "read", "update", "list"]
+    }
+
   type: acl  
 ---

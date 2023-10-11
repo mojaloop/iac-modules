@@ -46,6 +46,7 @@ module "mojaloop" {
   mojaloop_ingress_internal_lb         = var.app_var_map.mojaloop_ingress_internal_lb
   mcm_ingress_internal_lb              = var.app_var_map.mcm_ingress_internal_lb
   stateful_resources_config_file       = var.mojaloop_stateful_resources_config_file
+  local_vault_kv_root_path             = local.local_vault_kv_root_path
 }
 
 module "pm4ml" {
@@ -88,6 +89,7 @@ module "pm4ml" {
   pm4ml_external_switch_client_secret_vault_path = var.app_var_map.pm4ml_external_switch_client_secret_vault_path
   pm4ml_external_switch_client_id                = var.app_var_map.pm4ml_external_switch_client_id
   pm4ml_external_switch_oidc_url                 = var.app_var_map.pm4ml_external_switch_oidc_url
+  local_vault_kv_root_path                       = local.local_vault_kv_root_path
 }
 
 variable "app_var_map" {
