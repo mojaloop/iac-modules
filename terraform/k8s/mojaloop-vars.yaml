@@ -1,0 +1,6 @@
+bulk_enabled: false
+third_party_enabled: false
+mcm_chart_version: 0.7.1
+mojaloop_chart_version: 15.1.0-16337.f1aeda3
+mojaloop_stateful_resources_config_file: ""
+#replica counts

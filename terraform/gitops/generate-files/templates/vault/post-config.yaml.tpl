@@ -50,7 +50,7 @@ data:
         }
     EOT
         cat <<EOT >/tmp/vault-read-secrets-policy.hcl
-        path "secret/*" {
+        path "${local_vault_kv_root_path}/*" {
           capabilities = ["read", "list"]
         }
     EOT
@@ -59,8 +59,8 @@ data:
         vault auth enable kubernetes
         vault write auth/kubernetes/config kubernetes_host=https://kubernetes.default.svc:443
         vault write auth/kubernetes/role/policy-admin bound_service_account_names=* bound_service_account_namespaces=* policies=vault-admin ttl=600s
-        vault secrets enable --path=secret kv
-        vault secrets tune -default-lease-ttl=2m secret/
+        vault secrets enable --path=${local_vault_kv_root_path} kv
+        vault secrets tune -default-lease-ttl=2m ${local_vault_kv_root_path}/
     %{ if enable_vault_oidc ~}
         vault auth enable oidc
         vault write auth/oidc/config \

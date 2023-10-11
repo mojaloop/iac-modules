@@ -36,8 +36,8 @@ module "generate_mcm_files" {
     dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
     dfsp_internal_whitelist_secret       = local.dfsp_internal_whitelist_secret
     dfsp_external_whitelist_secret       = local.dfsp_external_whitelist_secret
-    onboarding_secret_name_prefix        = var.onboarding_secret_name_prefix
-    whitelist_secret_name_prefix         = var.whitelist_secret_name_prefix
+    onboarding_secret_name_prefix        = local.onboarding_secret_name_prefix
+    whitelist_secret_name_prefix         = local.whitelist_secret_name_prefix
     mcm_service_account_name             = var.mcm_service_account_name
     pki_client_role                      = var.pki_client_cert_role
     pki_server_role                      = var.pki_server_cert_role
@@ -46,7 +46,6 @@ module "generate_mcm_files" {
     mcm_secret_path                      = var.mcm_secret_path
     totp_issuer                          = "not-used-yet"
     token_issuer_fqdn                    = "keycloak.${var.public_subdomain}"
-    istio_namespace                      = var.istio_namespace
     nginx_external_namespace             = var.nginx_external_namespace
     istio_internal_wildcard_gateway_name = var.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
@@ -137,12 +136,6 @@ variable "mcm_namespace" {
   default     = "mcm"
 }
 
-variable "onboarding_secret_name_prefix" {
-  type        = string
-  description = "vault secret prefix for dfsp onboarding entries"
-  default     = "secret/onboarding"
-}
-
 variable "mcm_service_account_name" {
   type        = string
   description = "service account name for mcm"
@@ -170,11 +163,6 @@ variable "vault_certman_secretname" {
   description = "secret name to create for tls offloading via certmanager"
   type        = string
   default     = "vault-tls-cert"
-}
-
-variable "istio_namespace" {
-  type        = string
-  description = "istio_namespace"
 }
 variable "nginx_external_namespace" {
   type        = string
@@ -219,7 +207,7 @@ variable "mcm_public_fqdn" {
 locals {
   mcm_resource_index             = index(local.stateful_resources.*.resource_name, "mcm-db")
   mcm_wildcard_gateway           = var.mcm_ingress_internal_lb ? "internal" : "external"
-  dfsp_client_cert_bundle        = "${var.onboarding_secret_name_prefix}_pm4mls"
-  dfsp_internal_whitelist_secret = "${var.whitelist_secret_name_prefix}_pm4mls"
-  dfsp_external_whitelist_secret = "${var.whitelist_secret_name_prefix}_fsps"
+  dfsp_client_cert_bundle        = "${local.onboarding_secret_name_prefix}_pm4mls"
+  dfsp_internal_whitelist_secret = "${local.whitelist_secret_name_prefix}_pm4mls"
+  dfsp_external_whitelist_secret = "${local.whitelist_secret_name_prefix}_fsps"
 }

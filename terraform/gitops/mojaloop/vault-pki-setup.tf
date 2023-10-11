@@ -4,7 +4,8 @@ module "generate_vault_pki_setup_files" {
     cert_man_vault_cluster_issuer_name    = var.cert_man_vault_cluster_issuer_name
     cert_manager_namespace                = var.cert_manager_namespace
     public_subdomain                      = var.public_subdomain
-    whitelist_secret_name_prefix          = var.whitelist_secret_name_prefix
+    whitelist_secret_name_prefix          = local.whitelist_secret_name_prefix
+    onboarding_secret_name_prefix         = local.onboarding_secret_name_prefix
     cert_manager_service_account_name     = var.cert_manager_service_account_name
     gitlab_project_url                    = var.gitlab_project_url
     cert_manager_cluster_issuer_role_name = var.cert_manager_cluster_issuer_role_name
@@ -31,10 +32,9 @@ variable "cert_man_vault_cluster_issuer_name" {
   default     = "vault-cluster-issuer"
 }
 
-variable "whitelist_secret_name_prefix" {
+variable "local_vault_kv_root_path" {
   description = "vault secret path for whitelist ip values"
   type        = string
-  default     = "secret/whitelist"
 }
 
 variable "cert_manager_cluster_issuer_role_name" {
@@ -67,4 +67,9 @@ variable "vault_pki_sync_wave" {
   type        = string
   description = "vault_pki_sync_wave"
   default     = "-5"
+}
+
+locals {
+  whitelist_secret_name_prefix = "${var.local_vault_kv_root_path}/whitelist"
+  onboarding_secret_name_prefix = "${var.local_vault_kv_root_path}/onboarding"
 }

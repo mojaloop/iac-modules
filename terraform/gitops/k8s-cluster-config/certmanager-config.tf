@@ -18,7 +18,7 @@ module "generate_certman_files" {
     cert_manager_issuer_sync_wave                = var.cert_manager_issuer_sync_wave
     cert_manager_credentials_secret              = "route53-cert-man-credentials"
     cert_manager_chart_repo                      = var.cert_manager_chart_repo
-    cert_manager_chart_version                   = var.cert_manager_chart_version
+    cert_manager_chart_version                   = var.common_var_map.cert_manager_chart_version
     cert_manager_credentials_id_provider_key     = "${var.cluster_name}/${local.cert_manager_credentials_id_provider_key}"
     cert_manager_credentials_secret_provider_key = "${var.cluster_name}/${local.cert_manager_credentials_secret_provider_key}"
     cert_manager_namespace                       = var.cert_manager_namespace
@@ -32,11 +32,6 @@ variable "cert_manager_chart_repo" {
   description = "cert_manager_chart_repo"
   default     = "https://charts.jetstack.io"
 }
-variable "cert_manager_chart_version" {
-  type        = string
-  description = "1.11.0"
-}
-
 variable "cert_manager_namespace" {
   type        = string
   description = "cert_manager_namespace"

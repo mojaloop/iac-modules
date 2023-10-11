@@ -2,7 +2,7 @@ module "generate_storage_files" {
   source = "../generate-files"
   var_map = {
     longhorn_chart_repo                              = var.longhorn_chart_repo
-    longhorn_chart_version                           = var.longhorn_chart_version
+    longhorn_chart_version                           = var.common_var_map.longhorn_chart_version
     longhorn_credentials_secret                      = "longhorn-s3-credentials"
     cloud_region                                     = local.cloud_region
     longhorn_backups_bucket_name                     = local.longhorn_backups_bucket_name
@@ -28,12 +28,6 @@ variable "longhorn_chart_repo" {
   type        = string
   description = "longhorn_chart_repo"
   default     = "https://charts.longhorn.io"
-}
-
-variable "longhorn_chart_version" {
-  type        = string
-  description = "longhorn_chart_version"
-  default     = "1.4.0"
 }
 
 variable "longhorn_reclaim_policy" {

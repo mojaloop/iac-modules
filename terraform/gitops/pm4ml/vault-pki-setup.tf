@@ -23,11 +23,7 @@ module "generate_vault_pki_setup_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
-variable "vault_certman_secretname" {
-  description = "secret name to create for tls offloading via certmanager"
-  type        = string
-  default     = "vault-tls-cert"
-}
+
 
 variable "cert_man_vault_cluster_issuer_name" {
   description = "certmanager vault cluster issuer name"

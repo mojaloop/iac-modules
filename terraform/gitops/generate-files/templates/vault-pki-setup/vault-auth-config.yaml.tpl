@@ -118,7 +118,7 @@ spec:
     path "${whitelist_secret_name_prefix}*" {
       capabilities = ["read", "list"]
     }
-    path "secret/onboarding_*" {
+    path "${onboarding_secret_name_prefix}*" {
       capabilities = ["read", "list"]
     }
   type: acl  

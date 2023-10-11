@@ -2,7 +2,7 @@ module "generate_loki_files" {
   source = "../generate-files"
   var_map = {
     loki_chart_repo                      = var.loki_chart_repo
-    loki_chart_version                   = var.loki_chart_version
+    loki_chart_version                   = var.common_var_map.loki_chart_version
     loki_namespace                       = var.loki_namespace
     gitlab_server_url                    = var.gitlab_server_url
     gitlab_project_url                   = var.gitlab_project_url
@@ -61,12 +61,6 @@ variable "loki_chart_repo" {
   type        = string
   default     = "https://grafana.github.io/helm-charts"
   description = "loki_chart_repo"
-}
-
-variable "loki_chart_version" {
-  type        = string
-  default     = "2.9.10"
-  description = "loki_chart_version"
 }
 
 variable "loki_sync_wave" {

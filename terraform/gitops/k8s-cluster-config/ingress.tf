@@ -2,7 +2,7 @@ module "generate_ingress_files" {
   source = "../generate-files"
   var_map = {
     nginx_helm_chart_repo               = var.nginx_helm_chart_repo
-    nginx_helm_chart_version            = var.nginx_helm_chart_version
+    nginx_helm_chart_version            = var.common_var_map.nginx_helm_chart_version
     gitlab_server_url                   = var.gitlab_server_url
     nginx_external_namespace            = var.nginx_external_namespace
     nginx_internal_namespace            = var.nginx_internal_namespace
@@ -35,11 +35,6 @@ variable "nginx_helm_chart_repo" {
   type        = string
   description = "nginx_helm_chart_repo"
   default     = "https://kubernetes.github.io/ingress-nginx"
-}
-variable "nginx_helm_chart_version" {
-  type        = string
-  description = "nginx_helm_chart_version"
-  default     = "4.3.0"
 }
 variable "nginx_external_namespace" {
   type        = string
