@@ -4,8 +4,8 @@ module "generate_vault_pki_setup_files" {
     cert_man_vault_cluster_issuer_name    = var.cert_man_vault_cluster_issuer_name
     cert_manager_namespace                = var.cert_manager_namespace
     public_subdomain                      = var.public_subdomain
-    whitelist_secret_name_prefix          = local.whitelist_secret_name_prefix
-    onboarding_secret_name_prefix         = local.onboarding_secret_name_prefix
+    whitelist_secret_name_prefix          = local.whitelist_secret_path
+    onboarding_secret_name_prefix         = local.onboarding_secret_path
     cert_manager_service_account_name     = var.cert_manager_service_account_name
     gitlab_project_url                    = var.gitlab_project_url
     cert_manager_cluster_issuer_role_name = var.cert_manager_cluster_issuer_role_name

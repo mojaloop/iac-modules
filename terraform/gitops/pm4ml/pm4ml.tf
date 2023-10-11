@@ -17,8 +17,8 @@ module "generate_pm4ml_files" {
     pm4ml_wildcard_gateway               = local.pm4ml_wildcard_gateway
     keycloak_fqdn                        = var.keycloak_fqdn
     keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
-    experience_api_fqdn                  = local.experience_api_fqdn
-    portal_fqdn                          = local.portal_fqdn
+    experience_api_fqdn                  = var.experience_api_fqdn
+    portal_fqdn                          = var.portal_fqdn
     experience_api_client_secret         = experience_api_client_secret
     dfsp_id                              = local.dfsp_id
     pm4ml_service_account_name           = var.pm4ml_service_account_name
@@ -36,8 +36,8 @@ module "generate_pm4ml_files" {
     pm4ml_vault_k8s_role_name            = var.pm4ml_vault_k8s_role_name
     k8s_auth_path                        = var.k8s_auth_path
     pm4ml_secret_path                    = var.pm4ml_secret_path
-    callback_url                         = local.mojaloop_connnector_fqdn
-    mojaloop_connnector_fqdn             = local.mojaloop_connnector_fqdn
+    callback_url                         = var.mojaloop_connnector_fqdn
+    mojaloop_connnector_fqdn             = var.mojaloop_connnector_fqdn
     redis_port                           = "6379"
     redis_host                           = "redis-master"
     nat_ip_list                          = var.nat_public_ips
@@ -54,14 +54,20 @@ data "vault_generic_secret" "pm4ml_external_switch_client_secret" {
 }
 
 locals {
-  portal_fqdn              = "portal.${public_subdomain}"
-  experience_api_fqdn      = "experience-api.${public_subdomain}"
   pm4ml_wildcard_gateway   = var.pm4ml_ingress_internal_lb ? "internal" : "external"
   mcm_host_url             = "https://${var.pm4ml_external_mcm_public_fqdn}"
-  mojaloop_connnector_fqdn = "connector.${public_subdomain}"
   dfsp_id                  = var.cluster_name
 }
 
+variable "portal_fqdn" {
+  description = "fqdn for pm4ml portal"
+}
+variable "experience_api_fqdn" {
+  description = "fqdn for pm4ml experience api"
+}
+variable "mojaloop_connnector_fqdn" {
+  description = "fqdn for pm4ml connector"
+}
 variable "pm4ml_secret_path" {
   description = "vault kv secret path for pm4ml use"
   type        = string

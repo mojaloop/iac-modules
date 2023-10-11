@@ -90,6 +90,9 @@ module "pm4ml" {
   pm4ml_external_switch_client_id                = var.app_var_map.pm4ml_external_switch_client_id
   pm4ml_external_switch_oidc_url                 = var.app_var_map.pm4ml_external_switch_oidc_url
   local_vault_kv_root_path                       = local.local_vault_kv_root_path
+  portal_fqdn                                    = local.portal_fqdn
+  experience_api_fqdn                            = local.experience_api_fqdn
+  mojaloop_connnector_fqdn                       = local.mojaloop_connnector_fqdn
 }
 
 variable "app_var_map" {
@@ -162,9 +165,9 @@ locals {
     local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
   local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
 
-  portal_fqdn              = "portal.${public_subdomain}"
-  experience_api_fqdn      = "experience-api.${public_subdomain}"
-  mojaloop_connnector_fqdn = "connector.${public_subdomain}"
+  portal_fqdn              = "portal.${var.public_subdomain}"
+  experience_api_fqdn      = "experience-api.${var.public_subdomain}"
+  mojaloop_connnector_fqdn = "connector.${var.public_subdomain}"
 
   pm4ml_internal_gateway_hosts = (local.pm4ml_wildcard_gateway == "internal") ? [local.portal_fqdn, local.experience_api_fqdn] : []
   pm4ml_external_gateway_hosts = concat([local.mojaloop_connnector_fqdn],
