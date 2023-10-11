@@ -47,6 +47,7 @@ module "mojaloop" {
   mcm_ingress_internal_lb              = var.app_var_map.mcm_ingress_internal_lb
   stateful_resources_config_file       = var.mojaloop_stateful_resources_config_file
   local_vault_kv_root_path             = local.local_vault_kv_root_path
+  app_var_map                          = var.app_var_map
 }
 
 module "pm4ml" {
