@@ -16,7 +16,7 @@ module "generate_pm4ml_files" {
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     pm4ml_wildcard_gateway               = local.pm4ml_wildcard_gateway
     keycloak_fqdn                        = var.keycloak_fqdn
-    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
+    keycloak_pm4ml_realm_name            = var.keycloak_pm4ml_realm_name
     experience_api_fqdn                  = var.experience_api_fqdn
     portal_fqdn                          = var.portal_fqdn
     dfsp_id                              = local.dfsp_id
@@ -45,6 +45,10 @@ module "generate_pm4ml_files" {
     pm4ml_oidc_client_secret_secret_name = join("$", ["", "{${replace(var.pm4ml_oidc_client_secret_secret, "-", "_")}}"])
     pm4ml_oidc_client_secret_secret      = var.pm4ml_oidc_client_secret_secret
     pm4ml_oidc_client_secret_secret_key  = var.pm4ml_oidc_client_secret_secret_key
+    keycloak_namespace                   = var.keycloak_namespace
+    istio_external_gateway_name          = var.istio_external_gateway_name
+    cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
+
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
   template_path   = "${path.module}/../generate-files/templates/pm4ml"
@@ -137,10 +141,10 @@ variable "pm4ml_oidc_client_secret_secret" {
   type = string
 }
 
-variable "keycloak_dfsp_realm_name" {
+variable "keycloak_pm4ml_realm_name" {
   type        = string
-  description = "name of realm for dfsp api access"
-  default     = "dfsps"
+  description = "name of realm for pm4ml api access"
+  default     = "pm4mls"
 }
 
 variable "keycloak_name" {
