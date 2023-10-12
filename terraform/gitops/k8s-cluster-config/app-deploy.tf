@@ -78,8 +78,6 @@ module "pm4ml" {
   cert_manager_namespace                         = var.cert_manager_namespace
   pm4ml_oidc_client_secret_secret_key            = var.pm4ml_oidc_client_secret_secret_key
   pm4ml_oidc_client_secret_secret                = var.pm4ml_oidc_client_secret_secret
-  jwt_client_secret_secret_key                   = var.jwt_client_secret_secret_key
-  jwt_client_secret_secret                       = var.jwt_client_secret_secret
   istio_external_gateway_name                    = var.istio_external_gateway_name
   istio_internal_gateway_name                    = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name           = local.istio_external_wildcard_gateway_name
@@ -149,7 +147,6 @@ locals {
   }
   pm4ml_keycloak_realm_env_secret_map = {
     "${var.pm4ml_oidc_client_secret_secret}" = var.pm4ml_oidc_client_secret_secret_key
-    "${var.jwt_client_secret_secret}"        = var.jwt_client_secret_secret_key
   }
   mcm_public_fqdn              = "mcm.${var.public_subdomain}"
   vault_public_fqdn            = "vault.${var.public_subdomain}"

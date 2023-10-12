@@ -74,7 +74,7 @@ spec:
       capabilities = ["create", "read", "update"]
     }
 
-    path "${mcm_secret_path}/pm4ml/${pm4ml_release_name}/*" {
+    path "${pm4ml_secret_path}/${pm4ml_release_name}/*" {
       capabilities = ["create", "read", "update", "list"]
     }
 

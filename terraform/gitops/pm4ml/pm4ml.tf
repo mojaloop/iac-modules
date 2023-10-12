@@ -35,12 +35,17 @@ module "generate_pm4ml_files" {
     vault_endpoint                       = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
     pm4ml_vault_k8s_role_name            = var.pm4ml_vault_k8s_role_name
     k8s_auth_path                        = var.k8s_auth_path
-    pm4ml_secret_path                    = var.pm4ml_secret_path
-    callback_url                         = var.mojaloop_connnector_fqdn
+    pm4ml_secret_path                    = local.pm4ml_secret_path
+    callback_url                         = "https://${var.mojaloop_connnector_fqdn}"
     mojaloop_connnector_fqdn             = var.mojaloop_connnector_fqdn
+    callback_fqdn                        = var.mojaloop_connnector_fqdn
     redis_port                           = "6379"
     redis_host                           = "redis-master"
     nat_ip_list                          = var.nat_public_ips
+    pm4ml_oidc_client_id                 = var.pm4ml_oidc_client_id
+    pm4ml_oidc_client_secret_secret_name = join("$", ["", "{${replace(var.pm4ml_oidc_client_secret_secret, "-", "_")}}"])
+    pm4ml_oidc_client_secret_secret      = var.pm4ml_oidc_client_secret_secret
+    pm4ml_oidc_client_secret_secret_key  = var.pm4ml_oidc_client_secret_secret_key
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
   template_path   = "${path.module}/../generate-files/templates/pm4ml"
@@ -54,9 +59,9 @@ data "vault_generic_secret" "pm4ml_external_switch_client_secret" {
 }
 
 locals {
-  pm4ml_wildcard_gateway   = var.pm4ml_ingress_internal_lb ? "internal" : "external"
-  mcm_host_url             = "https://${var.pm4ml_external_mcm_public_fqdn}"
-  dfsp_id                  = var.cluster_name
+  pm4ml_wildcard_gateway = var.pm4ml_ingress_internal_lb ? "internal" : "external"
+  mcm_host_url           = "https://${var.pm4ml_external_mcm_public_fqdn}"
+  dfsp_id                = var.cluster_name
 }
 
 variable "portal_fqdn" {
@@ -68,16 +73,11 @@ variable "experience_api_fqdn" {
 variable "mojaloop_connnector_fqdn" {
   description = "fqdn for pm4ml connector"
 }
-variable "pm4ml_secret_path" {
-  description = "vault kv secret path for pm4ml use"
-  type        = string
-  default     = "secret/pm4ml"
-}
 
 variable "pm4ml_vault_k8s_role_name" {
   description = "vault k8s role name for pm4ml"
   type        = string
-  default     = "kubernetes-mcm-role"
+  default     = "kubernetes-pm4ml-role"
 }
 
 variable "pm4ml_enabled" {
@@ -125,16 +125,16 @@ variable "pm4ml_sync_wave" {
   default     = "0"
 }
 
+variable "pm4ml_oidc_client_id" {
+  type        = string
+  description = "pm4ml_oidc_client_id"
+  default     = "pm4ml-portal"
+}
+
 variable "pm4ml_oidc_client_secret_secret_key" {
   type = string
 }
 variable "pm4ml_oidc_client_secret_secret" {
-  type = string
-}
-variable "jwt_client_secret_secret_key" {
-  type = string
-}
-variable "jwt_client_secret_secret" {
   type = string
 }
 
@@ -181,6 +181,4 @@ variable "pm4ml_external_switch_client_id" {
 variable "pm4ml_external_switch_client_secret_vault_path" {
   type        = string
   description = "path in tenant vault to get client secret to connect to switch idm"
-}
-resource "random_uuid" "experience_api_client_secret" {
 }

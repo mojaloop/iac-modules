@@ -73,3 +73,6 @@ variable "local_vault_kv_root_path" {
   description = "vault kv secret root"
   type        = string
 }
+locals {
+  pm4ml_secret_path        = "${var.local_vault_kv_root_path}/pm4ml"
+}
