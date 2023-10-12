@@ -48,9 +48,9 @@ mojaloop-payment-manager:
       MCM_CLIENT_REFRESH_INTERVAL: 60
       PRIVATE_KEY_LENGTH: 2048
       PRIVATE_KEY_ALGORITHM: rsa
-      AUTH_ENABLED: ${mcm_auth_enabled}
-      AUTH_USER: ${mcm_auth_user}
-      AUTH_PASS: ${mcm_auth_pass}
+      AUTH_ENABLED: true
+      AUTH_CLIENT_ID: ${pm4ml_external_switch_client_id}
+      AUTH_CLIENT_SECRET: ${pm4ml_external_switch_client_secret}
       MCM_CLIENT_SECRETS_LOCATION: /tls
       VAULT_ENDPOINT: ${vault_endpoint}
       VAULT_AUTH_METHOD: K8S
