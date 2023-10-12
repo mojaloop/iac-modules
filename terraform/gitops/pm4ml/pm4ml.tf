@@ -53,11 +53,12 @@ module "generate_pm4ml_files" {
     pm4ml_external_switch_client_id      = var.pm4ml_external_switch_client_id
     istio_external_gateway_name          = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
-    enable_sdk_bulk_transaction_support  = "no"
+    enable_sdk_bulk_transaction_support  = var.enable_sdk_bulk_transaction_support
     kafka_host                           = "kafka"
     kafka_port                           = "9092"
     pm4ml_external_switch_fqdn           = var.pm4ml_external_switch_fqdn
     ttk_enabled                          = var.ttk_enabled
+    use_ttk_as_backend_simulator         = var.use_ttk_as_backend_simulator
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
   template_path   = "${path.module}/../generate-files/templates/pm4ml"
@@ -202,5 +203,17 @@ variable "pm4ml_external_switch_fqdn" {
 variable "ttk_enabled" {
   type        = bool
   description = "ttk_enabled"
-  default     = true
+  default     = false
+}
+
+variable "use_ttk_as_backend_simulator" {
+  type        = bool
+  description = "use_ttk_as_backend_simulator"
+  default     = false
+}
+
+variable "enable_sdk_bulk_transaction_support" {
+  type        = bool
+  description = "enable_sdk_bulk_transaction_support"
+  default     = false
 }

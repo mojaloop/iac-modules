@@ -89,7 +89,7 @@ mojaloop-payment-manager:
 
   scheme-adapter:
     sdk-scheme-adapter-api-svc:
-%{ if enable_sdk_bulk_transaction_support == "yes" ~} 
+%{ if enable_sdk_bulk_transaction_support ~} 
       kafka: &kafkaConfig
         host: ${kafka_host}
         port: ${kafka_port}
@@ -99,7 +99,7 @@ mojaloop-payment-manager:
         port: ${redis_port}
       config:
         simName: *dfspId
-%{ if enable_sdk_bulk_transaction_support == "yes" ~} 
+%{ if enable_sdk_bulk_transaction_support ~} 
         bulkTransactionSupportEnabled: true
 %{ else ~}
         bulkTransactionSupportEnabled: false
@@ -121,19 +121,19 @@ mojaloop-payment-manager:
         OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}"
         OAUTH_CLIENT_KEY: "${pm4ml_external_switch_client_id}"
         OAUTH_CLIENT_SECRET: "${pm4ml_oidc_client_secret_secret_key}"
-%{ if use_ttk_as_backend_simulator == "yes" ~}
+%{ if use_ttk_as_backend_simulator ~}
         BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
 %{ else ~}
         BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
 %{ endif ~}
         MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
-%{ if enable_sdk_bulk_transaction_support == "yes" ~} 
+%{ if enable_sdk_bulk_transaction_support ~} 
         ENABLE_BACKEND_EVENT_HANDLER: true
         ENABLE_FSPIOP_EVENT_HANDLER: true
         REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
 %{ endif ~}     
 
-%{ if enable_sdk_bulk_transaction_support == "yes" ~} 
+%{ if enable_sdk_bulk_transaction_support ~} 
     sdk-scheme-adapter-dom-evt-handler:
       enabled: true
       kafka: *kafkaConfig
@@ -164,7 +164,7 @@ mojaloop-payment-manager:
       storageClass: ${storage_class_name}
 
   ttk:
-%{ if ttk_enabled == "yes" ~} 
+%{ if ttk_enabled ~} 
     enabled: true
     ml-testing-toolkit-backend:
       nameOverride: ttk-backend
