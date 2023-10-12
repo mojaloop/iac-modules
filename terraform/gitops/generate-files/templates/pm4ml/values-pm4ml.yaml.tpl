@@ -89,21 +89,21 @@ mojaloop-payment-manager:
 
   scheme-adapter:
     sdk-scheme-adapter-api-svc:
-      {% if enable_sdk_bulk_transaction_support == "yes" %}
+%{ if enable_sdk_bulk_transaction_support == "yes" ~} 
       kafka: &kafkaConfig
         host: ${kafka_host}
         port: ${kafka_port}
-      {% endif %}
+ %{ endif ~}     
       redis: &redisConfig
         host: ${redis_host}
         port: ${redis_port}
       config:
         simName: *dfspId
-        {% if enable_sdk_bulk_transaction_support == "yes" %}
+%{ if enable_sdk_bulk_transaction_support == "yes" ~} 
         bulkTransactionSupportEnabled: true
-        {% else %}
+%{ else ~}
         bulkTransactionSupportEnabled: false
-        {% endif %}
+%{ endif ~}     
         ## TODO: sdk chart is not accepting empty jws values if JWS params enabled. Need to fix.
         jwsSigningKey: "test"
         jwsVerificationKeys: {
@@ -118,22 +118,22 @@ mojaloop-payment-manager:
         ALS_ENDPOINT: "${mojaloop_switch_fqdn}/fsp/1.0"
         OUTBOUND_MUTUAL_TLS_ENABLED: true
         INBOUND_MUTUAL_TLS_ENABLED: false
-        OAUTH_TOKEN_ENDPOINT: "${token_endpoint}"
-        OAUTH_CLIENT_KEY: "${switch_client_key}"
-        OAUTH_CLIENT_SECRET: "${switch_client_secret}"
-        {% if use_ttk_as_backend_simulator == "yes" %}
+        OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}"
+        OAUTH_CLIENT_KEY: "${pm4ml_external_switch_client_id}"
+        OAUTH_CLIENT_SECRET: "${pm4ml_oidc_client_secret_secret_key}"
+%{ if use_ttk_as_backend_simulator == "yes" ~}
         BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
-        {% else %}
+%{ else ~}
         BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
-        {% endif %}
+%{ endif ~}
         MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
-        {% if enable_sdk_bulk_transaction_support == "yes" %}
+%{ if enable_sdk_bulk_transaction_support == "yes" ~} 
         ENABLE_BACKEND_EVENT_HANDLER: true
         ENABLE_FSPIOP_EVENT_HANDLER: true
         REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
-        {% endif %}
+%{ endif ~}     
 
-    {% if enable_sdk_bulk_transaction_support == "yes" %}
+%{ if enable_sdk_bulk_transaction_support == "yes" ~} 
     sdk-scheme-adapter-dom-evt-handler:
       enabled: true
       kafka: *kafkaConfig
@@ -147,8 +147,7 @@ mojaloop-payment-manager:
       redis: *redisConfig
       config:
         simName: *dfspId
-    {% endif %}
-
+%{ endif ~}
   redis:
     replica:
       replicaCount: ${redis_replica_count}
@@ -162,10 +161,10 @@ mojaloop-payment-manager:
     master:
       persistence:
         enabled: true
-      storageClass: ${storage_class}
+      storageClass: ${storage_class_name}
 
   ttk:
-    {% if ttk_enabled == "yes" %}
+%{ if ttk_enabled == "yes" ~} 
     enabled: true
     ml-testing-toolkit-backend:
       nameOverride: ttk-backend
@@ -182,10 +181,9 @@ mojaloop-payment-manager:
     ml-testing-toolkit-frontend:
       nameOverride: ttk-frontend
       fullnameOverride: ttk-frontend
-    {% else %}
+%{ else ~}
     enabled: false
-    {% endif %}
-
+%{ endif ~}
 
   keycloak:
     enabled: false
