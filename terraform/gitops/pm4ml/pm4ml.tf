@@ -19,7 +19,6 @@ module "generate_pm4ml_files" {
     keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     experience_api_fqdn                  = var.experience_api_fqdn
     portal_fqdn                          = var.portal_fqdn
-    experience_api_client_secret         = random_uuid.experience_api_client_secret.result
     dfsp_id                              = local.dfsp_id
     pm4ml_service_account_name           = var.pm4ml_service_account_name
     mcm_host_url                         = local.mcm_host_url

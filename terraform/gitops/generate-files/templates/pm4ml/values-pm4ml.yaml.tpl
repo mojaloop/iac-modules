@@ -2,8 +2,6 @@ mojaloop-payment-manager:
   ingress:
     enabled: false
 
-  experienceApiClientSecret: &experienceApiClientSecret "${experience_api_client_secret}"
-
   frontendRootUrl: &frontendRootUrl "https://${portal_fqdn}/"
   frontendBaseUrl: &frontendBaseUrl "https://${experience_api_fqdn}/"
 
@@ -29,7 +27,9 @@ mojaloop-payment-manager:
       managementEndPoint: "${pm4ml_release_name}-management-api"
       dfspId: *dfspId
       appKeys: ootu1yoo5geeS7izai4ox1Yae1Eey6ai
-      authClientSecret: *experienceApiClientSecret
+      authClientId: "${pm4ml_oidc_client_id}"
+      authClientSecretSecret: "${pm4ml_oidc_client_secret_secret}"
+      authClientSecretSecretKey: "${pm4ml_oidc_client_secret_secret_key}"
       metricsEndPoint: "${pm4ml_release_name}-prometheus-server"
       authDiscoveryEndpoint: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/.well-known/openid-configuration"
       # this should be set to the external URL of the auth endpoint on the experience API
