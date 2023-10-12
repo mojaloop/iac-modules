@@ -4,3 +4,4 @@ pm4ml_ingress_internal_lb: false
 pm4ml_external_switch_client_id: pm4mldev
 pm4ml_external_switch_oidc_url: https://keycloak.dev.labsk8s601.mojaloop.live/oauth2/token
 pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret"
+pm4ml_external_switch_fqdn: extapi.dev.labsk8s601.mojaloop.live

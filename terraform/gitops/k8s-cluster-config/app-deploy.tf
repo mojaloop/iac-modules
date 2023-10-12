@@ -92,6 +92,7 @@ module "pm4ml" {
   portal_fqdn                                    = local.portal_fqdn
   experience_api_fqdn                            = local.experience_api_fqdn
   mojaloop_connnector_fqdn                       = local.mojaloop_connnector_fqdn
+  pm4ml_external_switch_fqdn                     = var.app_var_map.pm4ml_external_switch_fqdn
 }
 
 variable "app_var_map" {
