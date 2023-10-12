@@ -1,13 +1,13 @@
 apiVersion: k8s.keycloak.org/v2alpha1
 kind: KeycloakRealmImport
 metadata:
-  name: ${keycloak_dfsp_realm_name}
+  name: ${keycloak_pm4ml_realm_name}
   namespace: ${keycloak_namespace}
 spec:
   keycloakCRName: ${keycloak_name}
   realm:
-    id: ${keycloak_dfsp_realm_name}
-    realm: ${keycloak_dfsp_realm_name}
+    id: ${keycloak_pm4ml_realm_name}
+    realm: ${keycloak_pm4ml_realm_name}
     displayName: Payment Manager for Mojaloop
     displayNameHtml: Payment Manager for Mojaloop
     notBefore: 0
@@ -378,7 +378,7 @@ spec:
       clientId: account
       name: "$${client_account}"
       rootUrl: "$${authBaseUrl}"
-      baseUrl: "/realms/${keycloak_dfsp_realm_name}/account/"
+      baseUrl: "/realms/${keycloak_pm4ml_realm_name}/account/"
       surrogateAuthRequired: false
       enabled: true
       alwaysDisplayInConsole: false
@@ -387,7 +387,7 @@ spec:
       - view-profile
       - manage-account
       redirectUris:
-      - "/realms/${keycloak_dfsp_realm_name}/account/*"
+      - "/realms/${keycloak_pm4ml_realm_name}/account/*"
       webOrigins: []
       notBefore: 0
       bearerOnly: false
@@ -418,13 +418,13 @@ spec:
       clientId: account-console
       name: "$${client_account-console}"
       rootUrl: "$${authBaseUrl}"
-      baseUrl: "/realms/${keycloak_dfsp_realm_name}/account/"
+      baseUrl: "/realms/${keycloak_pm4ml_realm_name}/account/"
       surrogateAuthRequired: false
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
       redirectUris:
-      - "/realms/${keycloak_dfsp_realm_name}/account/*"
+      - "/realms/${keycloak_pm4ml_realm_name}/account/*"
       webOrigins: []
       notBefore: 0
       bearerOnly: false

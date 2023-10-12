@@ -46,6 +46,7 @@ module "generate_pm4ml_files" {
     pm4ml_oidc_client_secret_secret      = var.pm4ml_oidc_client_secret_secret
     pm4ml_oidc_client_secret_secret_key  = var.pm4ml_oidc_client_secret_secret_key
     keycloak_namespace                   = var.keycloak_namespace
+    pm4ml_external_switch_oidc_url       = var.pm4ml_external_switch_oidc_url
     istio_external_gateway_name          = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
 

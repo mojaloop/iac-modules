@@ -43,7 +43,7 @@ mojaloop-payment-manager:
     env:
       CACHE_URL: redis://${redis_host}:${redis_port}
       DFSP_ID: *dfspId
-      HUB_IAM_PROVIDER_URL: "${keycloak_provider_url}"
+      HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}"
       MCM_SERVER_ENDPOINT: "${mcm_host_url}/api"
       MCM_CLIENT_REFRESH_INTERVAL: 60
       PRIVATE_KEY_LENGTH: 2048
