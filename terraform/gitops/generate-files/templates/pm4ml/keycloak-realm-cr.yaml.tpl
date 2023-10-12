@@ -529,8 +529,8 @@ spec:
       - microprofile-jwt
     - id: 152a25c5-bc13-4dba-9739-43ee05d76970
       clientId: ${pm4ml_oidc_client_id}
-      rootUrl: ${frontend_root_url}
-      baseUrl: ${frontend_base_url}
+      rootUrl: $${authBaseUrl}
+      baseUrl: /realms/${keycloak_pm4ml_realm_name}/account/
       surrogateAuthRequired: false
       enabled: true
       alwaysDisplayInConsole: false
