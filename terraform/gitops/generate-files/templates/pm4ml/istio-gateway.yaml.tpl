@@ -19,7 +19,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: pm4ml-ui
+            host: pm4ml-frontend
             port:
               number: 80
 ---
@@ -37,7 +37,7 @@ spec:
   hosts:
   - '${experience_api_fqdn}'
   http:
-    - name: "portal"
+    - name: "experience-api"
       match:
         - uri: 
             prefix: /
