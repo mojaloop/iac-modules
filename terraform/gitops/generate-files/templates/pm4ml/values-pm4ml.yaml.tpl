@@ -1,199 +1,202 @@
-mojaloop-payment-manager:  
+ingress:
+  enabled: false
+
+frontendRootUrl: &frontendRootUrl "https://${portal_fqdn}/"
+frontendBaseUrl: &frontendBaseUrl "https://${experience_api_fqdn}/"
+
+# this needs to have external URLs of both the UI and experience API
+frontendRedirectUris: &frontendRedirectUris
+  - "https://${portal_fqdn}/*"
+  - "https://${experience_api_fqdn}/*"
+
+# this _should_ be set to only allow requests from known origins
+frontendWebOrigins: &frontendWebOrigins
+  - "*"
+
+# this should be set to the FSPID assigned by the mojaloop hub to this DFSP
+dfspId: &dfspId "${dfsp_id}"
+
+frontend:
+  ingress:
+    enabled: false
+  env:
+    API_BASE_URL: "https://${experience_api_fqdn}"
+
+experience-api:
+  ingress:
+    enabled: false
+  env:
+    enableMockData: false
+    managementEndPoint: "${pm4ml_release_name}-management-api"
+    dfspId: *dfspId
+    appKeys: ootu1yoo5geeS7izai4ox1Yae1Eey6ai
+    authClientId: "${pm4ml_oidc_client_id}"
+    authClientSecretSecret: "${pm4ml_oidc_client_secret_secret}"
+    authClientSecretSecretKey: "${pm4ml_oidc_client_secret_secret_key}"
+    metricsEndPoint: "${pm4ml_release_name}-prometheus-server"
+    authDiscoveryEndpoint: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/.well-known/openid-configuration"
+    # this should be set to the external URL of the auth endpoint on the experience API
+    authRedirectUri: "https://${experience_api_fqdn}/auth"
+    # this should be set to the external URL of the UI
+    authLoggedInLandingUrl: "https://${portal_fqdn}/"
+    authSessionSecure: false
+
+management-api:
+  serviceAccountName: ${pm4ml_service_account_name}
+  env:
+    CACHE_URL: redis://${redis_host}:${redis_port}
+    DFSP_ID: *dfspId
+    HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}"
+    MCM_SERVER_ENDPOINT: "${mcm_host_url}/api"
+    MCM_CLIENT_REFRESH_INTERVAL: 60
+    PRIVATE_KEY_LENGTH: 2048
+    PRIVATE_KEY_ALGORITHM: rsa
+    AUTH_ENABLED: true
+    AUTH_CLIENT_ID: ${pm4ml_external_switch_client_id}
+    CLIENT_SECRET_NAME: ${pm4ml_external_switch_client_secret}
+    CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
+    MCM_CLIENT_SECRETS_LOCATION: /tls
+    VAULT_ENDPOINT: ${vault_endpoint}
+    VAULT_AUTH_METHOD: K8S
+    VAULT_K8S_ROLE: ${vault_k8s_role}
+    VAULT_K8S_TOKEN_FILE: /var/run/secrets/kubernetes.io/serviceaccount/token
+    VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
+    VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
+    VAULT_MOUNT_PKI: ${vault_pki_mount}
+    VAULT_MOUNT_KV: ${vault_kv_mount}
+    MOJALOOP_CONNECTOR_FQDN: "${mojaloop_connnector_fqdn}"
+    CALLBACK_URL: "${callback_url}"
+    CERT_MANAGER_ENABLED: true
+    CERT_MANAGER_SERVER_CERT_SECRET_NAME: ${server_cert_secret_name}
+    CERT_MANAGER_SERVER_CERT_SECRET_NAMESPACE: ${server_cert_secret_namespace}
+    WHITELIST_IP: ${nat_ip_list}
   ingress:
     enabled: false
 
-  frontendRootUrl: &frontendRootUrl "https://${portal_fqdn}/"
-  frontendBaseUrl: &frontendBaseUrl "https://${experience_api_fqdn}/"
+prometheus:
+  server:
+    persistentVolume:
+      enabled: false
+  alertmanager:
+    persistentVolume:
+      enabled: false
+  pushgateway:
+    persistentVolume:
+      enabled: false
+  extraScrapeConfigs: |-
+    - job_name: 'prometheus-blackbox-exporter'
+      static_configs:
+        - targets:
+          - "${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4004"
 
-  # this needs to have external URLs of both the UI and experience API
-  frontendRedirectUris: &frontendRedirectUris
-    - "https://${portal_fqdn}/*"
-    - "https://${experience_api_fqdn}/*"
 
-  # this _should_ be set to only allow requests from known origins
-  frontendWebOrigins: &frontendWebOrigins
-    - "*"
 
-  # this should be set to the FSPID assigned by the mojaloop hub to this DFSP
-  dfspId: &dfspId "${dfsp_id}"
-
-  frontend:
+scheme-adapter:
+  sdk-scheme-adapter-api-svc:
+%{ if enable_sdk_bulk_transaction_support ~} 
+    kafka: &kafkaConfig
+      host: ${kafka_host}
+      port: ${kafka_port}
+%{ endif ~}     
+    redis: &redisConfig
+      host: ${redis_host}
+      port: ${redis_port}
+    config:
+      simName: *dfspId
+%{ if enable_sdk_bulk_transaction_support ~} 
+      bulkTransactionSupportEnabled: true
+%{ else ~}
+      bulkTransactionSupportEnabled: false
+%{ endif ~}     
+      ## TODO: sdk chart is not accepting empty jws values if JWS params enabled. Need to fix.
+      jwsSigningKey: "test"
+      jwsVerificationKeys: {
+        "test": "test"
+      }
     env:
-      API_BASE_URL: "https://${experience_api_fqdn}"
-
-  experience-api:
-    env:
-      enableMockData: false
-      managementEndPoint: "${pm4ml_release_name}-management-api"
-      dfspId: *dfspId
-      appKeys: ootu1yoo5geeS7izai4ox1Yae1Eey6ai
-      authClientId: "${pm4ml_oidc_client_id}"
-      authClientSecretSecret: "${pm4ml_oidc_client_secret_secret}"
-      authClientSecretSecretKey: "${pm4ml_oidc_client_secret_secret_key}"
-      metricsEndPoint: "${pm4ml_release_name}-prometheus-server"
-      authDiscoveryEndpoint: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/.well-known/openid-configuration"
-      # this should be set to the external URL of the auth endpoint on the experience API
-      authRedirectUri: "https://${experience_api_fqdn}/auth"
-      # this should be set to the external URL of the UI
-      authLoggedInLandingUrl: "https://${portal_fqdn}/"
-      authSessionSecure: false
-
-  management-api:
-    serviceAccountName: ${pm4ml_service_account_name}
-    env:
+      DFSP_ID: *dfspId
       CACHE_URL: redis://${redis_host}:${redis_port}
-      DFSP_ID: *dfspId
-      HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}"
-      MCM_SERVER_ENDPOINT: "${mcm_host_url}/api"
-      MCM_CLIENT_REFRESH_INTERVAL: 60
-      PRIVATE_KEY_LENGTH: 2048
-      PRIVATE_KEY_ALGORITHM: rsa
-      AUTH_ENABLED: true
-      AUTH_CLIENT_ID: ${pm4ml_external_switch_client_id}
-      CLIENT_SECRET_NAME: ${pm4ml_external_switch_client_secret}
-      CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
-      MCM_CLIENT_SECRETS_LOCATION: /tls
-      VAULT_ENDPOINT: ${vault_endpoint}
-      VAULT_AUTH_METHOD: K8S
-      VAULT_K8S_ROLE: ${vault_k8s_role}
-      VAULT_K8S_TOKEN_FILE: /var/run/secrets/kubernetes.io/serviceaccount/token
-      VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
-      VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
-      VAULT_MOUNT_PKI: ${vault_pki_mount}
-      VAULT_MOUNT_KV: ${vault_kv_mount}
-      MOJALOOP_CONNECTOR_FQDN: "${mojaloop_connnector_fqdn}"
-      CALLBACK_URL: "${callback_url}"
-      CERT_MANAGER_ENABLED: true
-      CERT_MANAGER_SERVER_CERT_SECRET_NAME: ${server_cert_secret_name}
-      CERT_MANAGER_SERVER_CERT_SECRET_NAMESPACE: ${server_cert_secret_namespace}
-      WHITELIST_IP: ${nat_ip_list}
-    ingress:
-      enabled: false
-
-  prometheus:
-    server:
-      persistentVolume:
-        enabled: false
-    alertmanager:
-      persistentVolume:
-        enabled: false
-    pushgateway:
-      persistentVolume:
-        enabled: false
-    extraScrapeConfigs: |-
-      - job_name: 'prometheus-blackbox-exporter'
-        static_configs:
-          - targets:
-            - "${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4004"
-
-
-
-  scheme-adapter:
-    sdk-scheme-adapter-api-svc:
-%{ if enable_sdk_bulk_transaction_support ~} 
-      kafka: &kafkaConfig
-        host: ${kafka_host}
-        port: ${kafka_port}
- %{ endif ~}     
-      redis: &redisConfig
-        host: ${redis_host}
-        port: ${redis_port}
-      config:
-        simName: *dfspId
-%{ if enable_sdk_bulk_transaction_support ~} 
-        bulkTransactionSupportEnabled: true
-%{ else ~}
-        bulkTransactionSupportEnabled: false
-%{ endif ~}     
-        ## TODO: sdk chart is not accepting empty jws values if JWS params enabled. Need to fix.
-        jwsSigningKey: "test"
-        jwsVerificationKeys: {
-          "test": "test"
-        }
-      env:
-        DFSP_ID: *dfspId
-        CACHE_URL: redis://${redis_host}:${redis_port}
-        JWS_SIGN: true
-        VALIDATE_INBOUND_JWS: true
-        PEER_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
-        ALS_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
-        OUTBOUND_MUTUAL_TLS_ENABLED: true
-        INBOUND_MUTUAL_TLS_ENABLED: false
-        OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}"
-        OAUTH_CLIENT_KEY: "${pm4ml_external_switch_client_id}"
-        OAUTH_CLIENT_SECRET: "${pm4ml_oidc_client_secret_secret_key}"
+      JWS_SIGN: true
+      VALIDATE_INBOUND_JWS: true
+      PEER_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
+      ALS_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
+      OUTBOUND_MUTUAL_TLS_ENABLED: true
+      INBOUND_MUTUAL_TLS_ENABLED: false
+      OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}"
+      OAUTH_CLIENT_KEY: "${pm4ml_external_switch_client_id}"
+      OAUTH_CLIENT_SECRET: "${pm4ml_oidc_client_secret_secret_key}"
 %{ if use_ttk_as_backend_simulator ~}
-        BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
+      BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
 %{ else ~}
-        BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
+      BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
 %{ endif ~}
-        MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
+      MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
 %{ if enable_sdk_bulk_transaction_support ~} 
-        ENABLE_BACKEND_EVENT_HANDLER: true
-        ENABLE_FSPIOP_EVENT_HANDLER: true
-        REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
+      ENABLE_BACKEND_EVENT_HANDLER: true
+      ENABLE_FSPIOP_EVENT_HANDLER: true
+      REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
 %{ endif ~}     
 
 %{ if enable_sdk_bulk_transaction_support ~} 
-    sdk-scheme-adapter-dom-evt-handler:
-      enabled: true
-      kafka: *kafkaConfig
-      redis: *redisConfig
-      config:
-        simName: *dfspId
+  sdk-scheme-adapter-dom-evt-handler:
+    enabled: true
+    kafka: *kafkaConfig
+    redis: *redisConfig
+    config:
+      simName: *dfspId
 
-    sdk-scheme-adapter-cmd-evt-handler:
-      enabled: true
-      kafka: *kafkaConfig
-      redis: *redisConfig
-      config:
-        simName: *dfspId
+  sdk-scheme-adapter-cmd-evt-handler:
+    enabled: true
+    kafka: *kafkaConfig
+    redis: *redisConfig
+    config:
+      simName: *dfspId
 %{ endif ~}
-  redis:
-    replica:
-      replicaCount: ${redis_replica_count}
-    auth:
-      enabled: false
-      sentinel: false
-    nameOverride: redis
-    fullnameOverride: redis
-    cluster:
-      enabled: false
-    master:
-      persistence:
-        enabled: true
-      storageClass: ${storage_class_name}
+redis:
+  replica:
+    replicaCount: ${redis_replica_count}
+  auth:
+    enabled: false
+    sentinel: false
+  nameOverride: redis
+  fullnameOverride: redis
+  cluster:
+    enabled: false
+  master:
+    persistence:
+      enabled: true
+    storageClass: ${storage_class_name}
 
-  ttk:
+ttk:
 %{ if ttk_enabled ~} 
-    enabled: true
-    ml-testing-toolkit-backend:
-      nameOverride: ttk-backend
-      fullnameOverride: ttk-backend
-      config:
-        user_config.json: {
-          "VERSION": 1,
-          "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4001",
-          "SEND_CALLBACK_ENABLE": true,
-          "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
-          "FSPID": *dfspId
-        }
+  enabled: true
+  ml-testing-toolkit-backend:
+    nameOverride: ttk-backend
+    fullnameOverride: ttk-backend
+    config:
+      user_config.json: {
+        "VERSION": 1,
+        "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4001",
+        "SEND_CALLBACK_ENABLE": true,
+        "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
+        "FSPID": *dfspId
+      }
 
-    ml-testing-toolkit-frontend:
-      nameOverride: ttk-frontend
-      fullnameOverride: ttk-frontend
+  ml-testing-toolkit-frontend:
+    nameOverride: ttk-frontend
+    fullnameOverride: ttk-frontend
 %{ else ~}
-    enabled: false
+  enabled: false
 %{ endif ~}
 
-  keycloak:
+keycloak:
+  enabled: false
+sim-backend:
+  enabled: true
+  env:
+    OUTBOUND_ENDPOINT: http://${pm4ml_release_name}-mojaloop-connector:4001
+    DFSP_ID: *dfspId
+  ingress:
     enabled: false
-  sim-backend:
-    enabled: true
-    env:
-      OUTBOUND_ENDPOINT: http://${pm4ml_release_name}-mojaloop-connector:4001
-      DFSP_ID: *dfspId
-    ingress:
-      enabled: false
-  testIngress:
-    enabled: false
+testIngress:
+  enabled: false

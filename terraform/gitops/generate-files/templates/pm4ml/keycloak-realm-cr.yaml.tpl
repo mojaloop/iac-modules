@@ -79,7 +79,7 @@ spec:
         containerId: pm4ml
         attributes: {}
       client:
-        pm4ml-customer-ui: []
+        ${pm4ml_oidc_client_id}: []
         realm-management:
         - id: c8c4d76f-aacd-4ae3-a89a-045d103b6136
           name: query-realms
