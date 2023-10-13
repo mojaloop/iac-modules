@@ -1,74 +1,73 @@
 module "generate_pm4ml_files" {
   source = "../generate-files"
   var_map = {
-    pm4ml_enabled                        = var.pm4ml_enabled
-    gitlab_project_url                   = var.gitlab_project_url
-    pm4ml_chart_repo                     = var.pm4ml_chart_repo
-    pm4ml_chart_version                  = var.pm4ml_chart_version
-    pm4ml_release_name                   = var.pm4ml_release_name
-    pm4ml_namespace                      = var.pm4ml_namespace
-    storage_class_name                   = var.storage_class_name
-    pm4ml_sync_wave                      = var.pm4ml_sync_wave
-    external_load_balancer_dns           = var.external_load_balancer_dns
-    istio_internal_wildcard_gateway_name = var.istio_internal_wildcard_gateway_name
-    istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
-    istio_external_wildcard_gateway_name = var.istio_external_wildcard_gateway_name
-    istio_external_gateway_namespace     = var.istio_external_gateway_namespace
-    pm4ml_wildcard_gateway               = local.pm4ml_wildcard_gateway
-    keycloak_fqdn                        = var.keycloak_fqdn
-    keycloak_pm4ml_realm_name            = var.keycloak_pm4ml_realm_name
-    experience_api_fqdn                  = var.experience_api_fqdn
-    portal_fqdn                          = var.portal_fqdn
-    dfsp_id                              = local.dfsp_id
-    pm4ml_service_account_name           = var.pm4ml_service_account_name
-    mcm_host_url                         = local.mcm_host_url
-    server_cert_secret_namespace         = var.pm4ml_namespace
-    server_cert_secret_name              = var.vault_certman_secretname
-    vault_certman_secretname             = var.vault_certman_secretname
-    vault_kv_mount                       = var.local_vault_kv_root_path
-    local_vault_kv_root_path             = var.local_vault_kv_root_path
-    vault_pki_mount                      = var.vault_root_ca_name
-    vault_pki_client_role                = var.pki_client_cert_role
-    vault_pki_server_role                = var.pki_server_cert_role
-    vault_k8s_role                       = var.pm4ml_vault_k8s_role_name
-    vault_endpoint                       = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
-    pm4ml_vault_k8s_role_name            = var.pm4ml_vault_k8s_role_name
-    k8s_auth_path                        = var.k8s_auth_path
-    pm4ml_secret_path                    = local.pm4ml_secret_path
-    callback_url                         = "https://${var.mojaloop_connnector_fqdn}"
-    mojaloop_connnector_fqdn             = var.mojaloop_connnector_fqdn
-    callback_fqdn                        = var.mojaloop_connnector_fqdn
-    redis_port                           = "6379"
-    redis_host                           = "redis-master"
-    redis_replica_count                  = "1"
-    nat_ip_list                          = var.nat_public_ips
-    pm4ml_oidc_client_id                 = var.pm4ml_oidc_client_id
-    pm4ml_oidc_client_secret_secret_name = join("$", ["", "{${replace(var.pm4ml_oidc_client_secret_secret, "-", "_")}}"])
-    pm4ml_oidc_client_secret_secret      = var.pm4ml_oidc_client_secret_secret
-    pm4ml_oidc_client_secret_secret_key  = var.pm4ml_oidc_client_secret_secret_key
-    keycloak_namespace                   = var.keycloak_namespace
-    keycloak_name                        = var.keycloak_name
-    pm4ml_external_switch_oidc_url       = var.pm4ml_external_switch_oidc_url
-    pm4ml_external_switch_client_secret  = data.vault_generic_secret.pm4ml_external_switch_client_secret.data.value
-    pm4ml_external_switch_client_id      = var.pm4ml_external_switch_client_id
-    istio_external_gateway_name          = var.istio_external_gateway_name
-    cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
-    enable_sdk_bulk_transaction_support  = var.enable_sdk_bulk_transaction_support
-    kafka_host                           = "kafka"
-    kafka_port                           = "9092"
-    pm4ml_external_switch_fqdn           = var.pm4ml_external_switch_fqdn
-    ttk_enabled                          = var.ttk_enabled
-    use_ttk_as_backend_simulator         = var.use_ttk_as_backend_simulator
+    pm4ml_enabled                                   = var.pm4ml_enabled
+    gitlab_project_url                              = var.gitlab_project_url
+    pm4ml_chart_repo                                = var.pm4ml_chart_repo
+    pm4ml_chart_version                             = var.pm4ml_chart_version
+    pm4ml_release_name                              = var.pm4ml_release_name
+    pm4ml_namespace                                 = var.pm4ml_namespace
+    storage_class_name                              = var.storage_class_name
+    pm4ml_sync_wave                                 = var.pm4ml_sync_wave
+    external_load_balancer_dns                      = var.external_load_balancer_dns
+    istio_internal_wildcard_gateway_name            = var.istio_internal_wildcard_gateway_name
+    istio_internal_gateway_namespace                = var.istio_internal_gateway_namespace
+    istio_external_wildcard_gateway_name            = var.istio_external_wildcard_gateway_name
+    istio_external_gateway_namespace                = var.istio_external_gateway_namespace
+    pm4ml_wildcard_gateway                          = local.pm4ml_wildcard_gateway
+    keycloak_fqdn                                   = var.keycloak_fqdn
+    keycloak_pm4ml_realm_name                       = var.keycloak_pm4ml_realm_name
+    experience_api_fqdn                             = var.experience_api_fqdn
+    portal_fqdn                                     = var.portal_fqdn
+    dfsp_id                                         = local.dfsp_id
+    pm4ml_service_account_name                      = var.pm4ml_service_account_name
+    mcm_host_url                                    = local.mcm_host_url
+    server_cert_secret_namespace                    = var.pm4ml_namespace
+    server_cert_secret_name                         = var.vault_certman_secretname
+    vault_certman_secretname                        = var.vault_certman_secretname
+    vault_kv_mount                                  = var.local_vault_kv_root_path
+    local_vault_kv_root_path                        = var.local_vault_kv_root_path
+    vault_pki_mount                                 = var.vault_root_ca_name
+    vault_pki_client_role                           = var.pki_client_cert_role
+    vault_pki_server_role                           = var.pki_server_cert_role
+    vault_k8s_role                                  = var.pm4ml_vault_k8s_role_name
+    vault_endpoint                                  = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
+    pm4ml_vault_k8s_role_name                       = var.pm4ml_vault_k8s_role_name
+    k8s_auth_path                                   = var.k8s_auth_path
+    pm4ml_secret_path                               = local.pm4ml_secret_path
+    callback_url                                    = "https://${var.mojaloop_connnector_fqdn}"
+    mojaloop_connnector_fqdn                        = var.mojaloop_connnector_fqdn
+    callback_fqdn                                   = var.mojaloop_connnector_fqdn
+    redis_port                                      = "6379"
+    redis_host                                      = "redis-master"
+    redis_replica_count                             = "1"
+    nat_ip_list                                     = var.nat_public_ips
+    pm4ml_oidc_client_id                            = var.pm4ml_oidc_client_id
+    pm4ml_oidc_client_secret_secret_name            = join("$", ["", "{${replace(var.pm4ml_oidc_client_secret_secret, "-", "_")}}"])
+    pm4ml_oidc_client_secret_secret                 = var.pm4ml_oidc_client_secret_secret
+    pm4ml_oidc_client_secret_secret_key             = var.pm4ml_oidc_client_secret_secret_key
+    keycloak_namespace                              = var.keycloak_namespace
+    keycloak_name                                   = var.keycloak_name
+    pm4ml_external_switch_oidc_url                  = var.pm4ml_external_switch_oidc_url
+    pm4ml_external_switch_client_secret             = var.pm4ml_external_switch_client_secret
+    pm4ml_external_switch_client_secret_key         = "token"
+    pm4ml_external_switch_client_id                 = var.pm4ml_external_switch_client_id
+    pm4ml_external_switch_client_secret_vault_key   = "${var.kv_path}/${var.cluster_name}/${var.pm4ml_external_switch_client_secret_vault_path}"
+    pm4ml_external_switch_client_secret_vault_value = "value"
+    istio_external_gateway_name                     = var.istio_external_gateway_name
+    cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
+    enable_sdk_bulk_transaction_support             = var.enable_sdk_bulk_transaction_support
+    kafka_host                                      = "kafka"
+    kafka_port                                      = "9092"
+    pm4ml_external_switch_fqdn                      = var.pm4ml_external_switch_fqdn
+    ttk_enabled                                     = var.ttk_enabled
+    use_ttk_as_backend_simulator                    = var.use_ttk_as_backend_simulator
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
   template_path   = "${path.module}/../generate-files/templates/pm4ml"
   output_path     = "${var.output_dir}/pm4ml"
   app_file        = "pm4ml-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"
-}
-
-data "vault_generic_secret" "pm4ml_external_switch_client_secret" {
-  path = "${var.kv_path}/${var.cluster_name}/${var.pm4ml_external_switch_client_secret_vault_path}"
 }
 
 locals {
@@ -189,6 +188,12 @@ variable "pm4ml_external_switch_oidc_url" {
 variable "pm4ml_external_switch_client_id" {
   type        = string
   description = "clientid to connect to switch idm"
+}
+
+variable "pm4ml_external_switch_client_secret" {
+  type        = string
+  description = "secret name for client secret to connect to switch idm"
+  default = "pm4ml-external-switch-client-secret"
 }
 
 variable "pm4ml_external_switch_client_secret_vault_path" {

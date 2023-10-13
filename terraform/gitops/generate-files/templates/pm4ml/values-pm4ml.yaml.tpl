@@ -50,7 +50,8 @@ mojaloop-payment-manager:
       PRIVATE_KEY_ALGORITHM: rsa
       AUTH_ENABLED: true
       AUTH_CLIENT_ID: ${pm4ml_external_switch_client_id}
-      AUTH_CLIENT_SECRET: ${pm4ml_external_switch_client_secret}
+      CLIENT_SECRET_NAME: ${pm4ml_external_switch_client_secret}
+      CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
       MCM_CLIENT_SECRETS_LOCATION: /tls
       VAULT_ENDPOINT: ${vault_endpoint}
       VAULT_AUTH_METHOD: K8S
