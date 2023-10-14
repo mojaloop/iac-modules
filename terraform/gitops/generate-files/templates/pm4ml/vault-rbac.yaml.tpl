@@ -58,19 +58,19 @@ spec:
     serviceAccount:
       name: default
   policy: |
-    path "pki-${pm4ml_release_name}/*" {
+    path "${vault_root_ca_name}/*" {
       capabilities = ["create", "read", "update", "delete", "list", "sudo"]
     }
 
-    path "pki-${pm4ml_release_name}/issue/*" {
+    path "${vault_root_ca_name}/issue/*" {
       capabilities = ["create", "read", "update"]
     }
 
-    path "pki-${pm4ml_release_name}/roles/*" {
+    path "${vault_root_ca_name}/roles/*" {
       capabilities = ["create", "read", "update"]
     }
 
-    path "pki-${pm4ml_release_name}/sign/*" {
+    path "${vault_root_ca_name}/sign/*" {
       capabilities = ["create", "read", "update"]
     }
 

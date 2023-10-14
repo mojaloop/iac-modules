@@ -25,8 +25,6 @@ module "generate_pm4ml_files" {
     server_cert_secret_namespace                    = var.pm4ml_namespace
     server_cert_secret_name                         = var.vault_certman_secretname
     vault_certman_secretname                        = var.vault_certman_secretname
-    vault_kv_mount                                  = var.local_vault_kv_root_path
-    local_vault_kv_root_path                        = var.local_vault_kv_root_path
     vault_pki_mount                                 = var.vault_root_ca_name
     vault_pki_client_role                           = var.pki_client_cert_role
     vault_pki_server_role                           = var.pki_server_cert_role
@@ -49,6 +47,7 @@ module "generate_pm4ml_files" {
     keycloak_namespace                              = var.keycloak_namespace
     keycloak_name                                   = var.keycloak_name
     pm4ml_external_switch_oidc_url                  = var.pm4ml_external_switch_oidc_url
+    pm4ml_external_switch_oidc_token_route          = var.pm4ml_external_switch_oidc_token_route
     pm4ml_external_switch_client_secret             = var.pm4ml_external_switch_client_secret
     pm4ml_external_switch_client_secret_key         = "token"
     pm4ml_external_switch_client_id                 = var.pm4ml_external_switch_client_id
@@ -74,6 +73,7 @@ locals {
   pm4ml_wildcard_gateway = var.pm4ml_ingress_internal_lb ? "internal" : "external"
   mcm_host_url           = "https://${var.pm4ml_external_mcm_public_fqdn}"
   dfsp_id                = var.cluster_name
+  pki_root_name          = "pki-${var.pm4ml_release_name}"
 }
 
 variable "portal_fqdn" {
@@ -185,6 +185,10 @@ variable "pm4ml_external_switch_oidc_url" {
   description = "url to connect to authenticate on switch"
 }
 
+variable "pm4ml_external_switch_oidc_token_route" {
+  type        = string
+  description = "path to connect to authenticate on switch"
+}
 variable "pm4ml_external_switch_client_id" {
   type        = string
   description = "clientid to connect to switch idm"

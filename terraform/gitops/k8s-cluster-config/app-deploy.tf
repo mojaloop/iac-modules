@@ -88,11 +88,13 @@ module "pm4ml" {
   pm4ml_external_switch_client_secret_vault_path = var.app_var_map.pm4ml_external_switch_client_secret_vault_path
   pm4ml_external_switch_client_id                = var.app_var_map.pm4ml_external_switch_client_id
   pm4ml_external_switch_oidc_url                 = var.app_var_map.pm4ml_external_switch_oidc_url
+  pm4ml_external_switch_oidc_token_route         = var.app_var_map.pm4ml_external_switch_oidc_token_route
   local_vault_kv_root_path                       = local.local_vault_kv_root_path
   portal_fqdn                                    = local.portal_fqdn
   experience_api_fqdn                            = local.experience_api_fqdn
   mojaloop_connnector_fqdn                       = local.mojaloop_connnector_fqdn
   pm4ml_external_switch_fqdn                     = var.app_var_map.pm4ml_external_switch_fqdn
+  vault_root_ca_name                             = "pki-${var.cluster_name}"
 }
 
 variable "app_var_map" {

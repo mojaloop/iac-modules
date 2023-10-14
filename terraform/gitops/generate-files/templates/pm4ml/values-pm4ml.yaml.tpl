@@ -46,7 +46,7 @@ management-api:
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
     DFSP_ID: *dfspId
-    HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}"
+    HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}/${pm4ml_external_switch_oidc_token_route}"
     MCM_SERVER_ENDPOINT: "${mcm_host_url}/api"
     MCM_CLIENT_REFRESH_INTERVAL: 60
     PRIVATE_KEY_LENGTH: 2048
@@ -63,7 +63,7 @@ management-api:
     VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
     VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
     VAULT_MOUNT_PKI: ${vault_pki_mount}
-    VAULT_MOUNT_KV: ${vault_kv_mount}
+    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_release_name}
     MOJALOOP_CONNECTOR_FQDN: "${mojaloop_connnector_fqdn}"
     CALLBACK_URL: "${callback_url}"
     CERT_MANAGER_ENABLED: true

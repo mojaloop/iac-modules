@@ -85,5 +85,7 @@ spec:
       - name: Authorization
         prefix: "Bearer "
       - name: Cookie
-        prefix: "MCM_SESSION"
+        prefix: "pm4ml"
+      - name: Cookie
+        prefix: "pm4ml.sig"
 %{ endif ~}
