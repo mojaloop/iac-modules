@@ -82,19 +82,12 @@ module "pm4ml" {
   istio_internal_gateway_name                    = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name           = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name           = local.istio_internal_wildcard_gateway_name
-  pm4ml_external_mcm_public_fqdn                 = var.app_var_map.pm4ml_external_mcm_public_fqdn
-  pm4ml_ingress_internal_lb                      = var.app_var_map.pm4ml_ingress_internal_lb
-  pm4ml_chart_version                            = var.app_var_map.pm4ml_chart_version
-  pm4ml_external_switch_client_secret_vault_path = var.app_var_map.pm4ml_external_switch_client_secret_vault_path
-  pm4ml_external_switch_client_id                = var.app_var_map.pm4ml_external_switch_client_id
-  pm4ml_external_switch_oidc_url                 = var.app_var_map.pm4ml_external_switch_oidc_url
-  pm4ml_external_switch_oidc_token_route         = var.app_var_map.pm4ml_external_switch_oidc_token_route
   local_vault_kv_root_path                       = local.local_vault_kv_root_path
   portal_fqdn                                    = local.portal_fqdn
   experience_api_fqdn                            = local.experience_api_fqdn
   mojaloop_connnector_fqdn                       = local.mojaloop_connnector_fqdn
-  pm4ml_external_switch_fqdn                     = var.app_var_map.pm4ml_external_switch_fqdn
   vault_root_ca_name                             = "pki-${var.cluster_name}"
+  app_var_map                                    = var.app_var_map
 }
 
 variable "app_var_map" {

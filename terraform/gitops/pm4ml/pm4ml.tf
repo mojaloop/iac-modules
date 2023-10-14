@@ -4,7 +4,6 @@ module "generate_pm4ml_files" {
     pm4ml_enabled                                   = var.pm4ml_enabled
     gitlab_project_url                              = var.gitlab_project_url
     pm4ml_chart_repo                                = var.pm4ml_chart_repo
-    pm4ml_chart_version                             = var.pm4ml_chart_version
     pm4ml_release_name                              = var.pm4ml_release_name
     pm4ml_namespace                                 = var.pm4ml_namespace
     storage_class_name                              = var.storage_class_name
@@ -46,19 +45,20 @@ module "generate_pm4ml_files" {
     pm4ml_oidc_client_secret_secret_key             = var.pm4ml_oidc_client_secret_secret_key
     keycloak_namespace                              = var.keycloak_namespace
     keycloak_name                                   = var.keycloak_name
-    pm4ml_external_switch_oidc_url                  = var.pm4ml_external_switch_oidc_url
-    pm4ml_external_switch_oidc_token_route          = var.pm4ml_external_switch_oidc_token_route
+    pm4ml_external_switch_fqdn                      = var.app_var_map.pm4ml_external_switch_fqdn
+    pm4ml_chart_version                             = var.app_var_map.pm4ml_chart_version
+    pm4ml_external_switch_client_id                 = var.app_var_map.pm4ml_external_switch_client_id
+    pm4ml_external_switch_oidc_url                  = var.app_var_map.pm4ml_external_switch_oidc_url
+    pm4ml_external_switch_oidc_token_route          = var.app_var_map.pm4ml_external_switch_oidc_token_route
     pm4ml_external_switch_client_secret             = var.pm4ml_external_switch_client_secret
     pm4ml_external_switch_client_secret_key         = "token"
-    pm4ml_external_switch_client_id                 = var.pm4ml_external_switch_client_id
-    pm4ml_external_switch_client_secret_vault_key   = "${var.kv_path}/${var.cluster_name}/${var.pm4ml_external_switch_client_secret_vault_path}"
+    pm4ml_external_switch_client_secret_vault_key   = "${var.kv_path}/${var.cluster_name}/${var.app_var_map.pm4ml_external_switch_client_secret_vault_path}"
     pm4ml_external_switch_client_secret_vault_value = "value"
     istio_external_gateway_name                     = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
     enable_sdk_bulk_transaction_support             = var.enable_sdk_bulk_transaction_support
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
-    pm4ml_external_switch_fqdn                      = var.pm4ml_external_switch_fqdn
     ttk_enabled                                     = var.ttk_enabled
     use_ttk_as_backend_simulator                    = var.use_ttk_as_backend_simulator
   }
@@ -70,12 +70,15 @@ module "generate_pm4ml_files" {
 }
 
 locals {
-  pm4ml_wildcard_gateway = var.pm4ml_ingress_internal_lb ? "internal" : "external"
-  mcm_host_url           = "https://${var.pm4ml_external_mcm_public_fqdn}"
+  pm4ml_wildcard_gateway = var.app_var_map.pm4ml_ingress_internal_lb ? "internal" : "external"
+  mcm_host_url           = "https://${var.app_var_map.pm4ml_external_mcm_public_fqdn}"
   dfsp_id                = var.cluster_name
   pki_root_name          = "pki-${var.pm4ml_release_name}"
 }
 
+variable "app_var_map" {
+  type = any
+}
 variable "portal_fqdn" {
   description = "fqdn for pm4ml portal"
 }
@@ -127,9 +130,6 @@ variable "pm4ml_release_name" {
   default     = "pm4ml"
 }
 
-variable "pm4ml_chart_version" {
-  description = "pm4ml version to install via Helm"
-}
 
 variable "pm4ml_sync_wave" {
   type        = string
@@ -175,38 +175,10 @@ variable "pm4ml_service_account_name" {
   default     = "pm4ml"
 }
 
-variable "pm4ml_external_mcm_public_fqdn" {
-  type        = string
-  description = "fqdn of mcm of switch"
-}
-
-variable "pm4ml_external_switch_oidc_url" {
-  type        = string
-  description = "url to connect to authenticate on switch"
-}
-
-variable "pm4ml_external_switch_oidc_token_route" {
-  type        = string
-  description = "path to connect to authenticate on switch"
-}
-variable "pm4ml_external_switch_client_id" {
-  type        = string
-  description = "clientid to connect to switch idm"
-}
-
 variable "pm4ml_external_switch_client_secret" {
   type        = string
   description = "secret name for client secret to connect to switch idm"
-  default = "pm4ml-external-switch-client-secret"
-}
-
-variable "pm4ml_external_switch_client_secret_vault_path" {
-  type        = string
-  description = "path in tenant vault to get client secret to connect to switch idm"
-}
-variable "pm4ml_external_switch_fqdn" {
-  type        = string
-  description = "fqdn to connect to mojaloop api"
+  default     = "pm4ml-external-switch-client-secret"
 }
 
 variable "ttk_enabled" {
