@@ -58,19 +58,19 @@ spec:
     serviceAccount:
       name: default
   policy: |
-    path "${vault_root_ca_name}/*" {
+    path "${vault_pki_mount}/*" {
       capabilities = ["create", "read", "update", "delete", "list", "sudo"]
     }
 
-    path "${vault_root_ca_name}/issue/*" {
+    path "${vault_pki_mount}/issue/*" {
       capabilities = ["create", "read", "update"]
     }
 
-    path "${vault_root_ca_name}/roles/*" {
+    path "${vault_pki_mount}/roles/*" {
       capabilities = ["create", "read", "update"]
     }
 
-    path "${vault_root_ca_name}/sign/*" {
+    path "${vault_pki_mount}/sign/*" {
       capabilities = ["create", "read", "update"]
     }
 
