@@ -12,7 +12,7 @@ spec:
   path: "/"
   config:
     defaultLeaseTTL: "8760h"
-    maxLeaseTTL: "43800h"
+    maxLeaseTTL: "87600h"
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineConfig
@@ -25,7 +25,7 @@ spec:
     serviceAccount:
       name: default
   path: ${vault_root_ca_name}
-  TTL: "8760h"
+  TTL: "87600h"
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineRole
@@ -40,8 +40,8 @@ spec:
   path: ${vault_root_ca_name}
   allowedDomains: 
    - ${trimsuffix(public_subdomain, ".")}
-  maxTTL: "17520h"
-  TTL: "17520h"
+  maxTTL: "2160h"
+  TTL: "2160h"
   allowSubdomains: true
   allowGlobDomains: false
   allowAnyName: false
@@ -50,7 +50,7 @@ spec:
   serverFlag: true
   clientFlag: false
   ou: "Infrastructure Team"
-  organization: "ModusBox"
+  organization: "Infitx"
   keyBits: 2048
   noStore: true
   requireCn: false
@@ -68,8 +68,8 @@ spec:
   path: ${vault_root_ca_name}
   allowedDomains: 
    - ${trimsuffix(public_subdomain, ".")}
-  maxTTL: "17520h"
-  TTL: "17520h"
+  maxTTL: "2160h"
+  TTL: "2160h"
   allowSubdomains: true
   allowGlobDomains: false
   allowBareDomains: true
@@ -78,7 +78,7 @@ spec:
   serverFlag: false
   clientFlag: true
   ou: "Infrastructure Team"
-  organization: "ModusBox"
+  organization: "Infitx"
   keyBits: 2048
   noStore: true
   requireCn: false
