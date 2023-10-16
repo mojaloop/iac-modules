@@ -4,7 +4,7 @@ resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - istio-gateway.yaml
-  - vault-secret.yaml
+  - vault-rbac.yaml
   - vault-certificate.yaml
 helmCharts:
 - name: mojaloop-payment-manager

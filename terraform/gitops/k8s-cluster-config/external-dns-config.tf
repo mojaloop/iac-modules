@@ -2,7 +2,7 @@ module "generate_extdns_files" {
   source = "../generate-files"
   var_map = {
     external_dns_chart_repo                      = var.external_dns_chart_repo
-    external_dns_chart_version                   = var.external_dns_chart_version
+    external_dns_chart_version                   = var.common_var_map.external_dns_chart_version
     external_dns_credentials_secret              = "route53-external-dns-credentials"
     dns_cloud_region                             = var.dns_cloud_region
     text_owner_id                                = var.cluster_name
@@ -26,12 +26,6 @@ variable "external_dns_chart_repo" {
   type        = string
   description = "external_dns_chart_repo"
   default     = "https://charts.bitnami.com/bitnami"
-}
-
-variable "external_dns_chart_version" {
-  type        = string
-  description = "external_dns_chart_version"
-  default     = "6.7.2"
 }
 
 variable "external_dns_namespace" {

@@ -5,7 +5,7 @@ module "generate_istio_files" {
     gitlab_project_url                   = var.gitlab_project_url
     istio_sync_wave                      = var.istio_sync_wave
     istio_chart_repo                     = var.istio_chart_repo
-    istio_chart_version                  = var.istio_chart_version
+    istio_chart_version                  = var.common_var_map.istio_chart_version
     gateway_api_version                  = var.gateway_api_version
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
@@ -51,12 +51,6 @@ variable "istio_chart_repo" {
   type        = string
   default     = "https://istio-release.storage.googleapis.com/charts"
   description = "istio_chart_repo"
-}
-
-variable "istio_chart_version" {
-  type        = string
-  default     = "1.18.2"
-  description = "istio_chart_version"
 }
 
 variable "kiali_chart_repo" {

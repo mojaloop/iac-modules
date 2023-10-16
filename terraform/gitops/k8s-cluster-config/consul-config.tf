@@ -2,7 +2,7 @@ module "generate_consul_files" {
   source = "../generate-files"
   var_map = {
     consul_chart_repo          = var.consul_chart_repo
-    consul_chart_version       = var.consul_chart_version
+    consul_chart_version       = var.common_var_map.consul_chart_version
     consul_namespace           = var.consul_namespace
     storage_class_name         = var.storage_class_name
     storage_size               = var.consul_storage_size
@@ -21,12 +21,6 @@ variable "consul_chart_repo" {
   type        = string
   description = "consul_chart_repo"
   default     = "https://helm.releases.hashicorp.com"
-}
-
-variable "consul_chart_version" {
-  type        = string
-  description = "consul_chart_version"
-  default     = "1.0.3"
 }
 
 variable "consul_replicas" {

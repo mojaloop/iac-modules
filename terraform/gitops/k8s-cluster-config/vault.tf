@@ -4,13 +4,13 @@ module "generate_vault_files" {
     vault_chart_repo                         = var.vault_chart_repo
     vault_namespace                          = var.vault_namespace
     vault_config_operator_namespace          = var.vault_config_operator_namespace
-    vault_chart_version                      = var.vault_chart_version
+    vault_chart_version                      = var.common_var_map.vault_chart_version
     vault_sync_wave                          = var.vault_sync_wave
     vault_cm_sync_wave                       = var.vault_cm_sync_wave
     vault_config_operator_sync_wave          = var.vault_config_operator_sync_wave
     external_secret_sync_wave                = var.external_secret_sync_wave
     vault_config_operator_helm_chart_repo    = var.vault_config_operator_helm_chart_repo
-    vault_config_operator_helm_chart_version = var.vault_config_operator_helm_chart_version
+    vault_config_operator_helm_chart_version = var.common_var_map.vault_config_operator_helm_chart_version
     gitlab_variables_api_url                 = "${var.gitlab_api_url}/projects/${var.current_gitlab_project_id}/variables"
     gitlab_project_url                       = var.gitlab_project_url
     vault_seal_token_secret                  = "vault-seal-token-secret"
@@ -39,6 +39,7 @@ module "generate_vault_files" {
     cluster_name                             = var.cluster_name
     transit_vault_url                        = var.transit_vault_url
     transit_vault_key_name                   = var.transit_vault_key_name
+    local_vault_kv_root_path                 = local.local_vault_kv_root_path
   }
 
   file_list = ["charts/vault/Chart.yaml", "charts/vault/values.yaml",
@@ -86,22 +87,12 @@ variable "vault_chart_repo" {
   description = "vault_chart_repo"
   default     = "https://helm.releases.hashicorp.com"
 }
-variable "vault_chart_version" {
-  type        = string
-  description = "vault_chart_version"
-  default     = "0.23.0"
-}
+
 variable "vault_config_operator_helm_chart_repo" {
   type        = string
   description = "vault_config_operator_helm_chart_repo"
   default     = "https://redhat-cop.github.io/vault-config-operator"
 }
-variable "vault_config_operator_helm_chart_version" {
-  type        = string
-  description = "vault_config_operator_helm_chart_version"
-  default     = "0.8.9"
-}
-
 variable "vault_gitlab_credentials_secret_key" {
   type        = string
   description = "vault_gitlab_credentials_secret_key"
@@ -154,4 +145,5 @@ variable "enable_vault_oidc" {
 
 locals {
   vault_wildcard_gateway = var.vault_ingress_internal_lb ? "internal" : "external"
+  local_vault_kv_root_path = "secret"
 }

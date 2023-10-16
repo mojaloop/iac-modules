@@ -2,7 +2,7 @@ module "generate_keycloak_files" {
   source = "../generate-files"
   var_map = {
     keycloak_name                         = var.keycloak_name
-    keycloak_operator_version             = var.keycloak_operator_version
+    keycloak_operator_version             = var.common_var_map.keycloak_operator_version
     keycloak_namespace                    = var.keycloak_namespace
     gitlab_project_url                    = var.gitlab_project_url
     keycloak_postgres_database            = local.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.database_name
@@ -46,12 +46,6 @@ variable "keycloak_name" {
   default = "switch-keycloak"
   type = string
   description = "name of keycloak instance"
-}
-
-variable "keycloak_operator_version" {
-  type        = string
-  default     = "22.0.1"
-  description = "keycloak_operator_version"
 }
 
 variable "keycloak_sync_wave" {

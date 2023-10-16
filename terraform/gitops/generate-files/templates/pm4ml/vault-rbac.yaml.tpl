@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: ${mcm_service_account_name}
-  namespace: ${mcm_namespace}
+  name: ${pm4ml_service_account_name}
+  namespace: ${pm4ml_namespace}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: vault-auth-secret
-  namespace: ${mcm_namespace}
+  namespace: ${pm4ml_namespace}
   annotations:
-    kubernetes.io/service-account.name: ${mcm_service_account_name}
+    kubernetes.io/service-account.name: ${pm4ml_service_account_name}
 type: kubernetes.io/service-account-token
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -24,13 +24,13 @@ roleRef:
   name: system:auth-delegator
 subjects:
 - kind: ServiceAccount
-  name: ${mcm_service_account_name}
-  namespace: ${mcm_namespace}
+  name: ${pm4ml_service_account_name}
+  namespace: ${pm4ml_namespace}
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: KubernetesAuthEngineRole
 metadata:
-  name: ${mcm_vault_k8s_role_name}
+  name: ${pm4ml_vault_k8s_role_name}
 spec:
   authentication: 
     path: kubernetes
@@ -40,17 +40,17 @@ spec:
   path: ${k8s_auth_path}
   tokenTTL: 3600
   policies:
-    - mcm-policy
+    - pm4ml-policy
   targetServiceAccounts: 
-    - ${mcm_service_account_name}
+    - ${pm4ml_service_account_name}
   targetNamespaces:
     targetNamespaces:
-      - ${mcm_namespace}
+      - ${pm4ml_namespace}
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Policy
 metadata:
-  name: mcm-policy
+  name: pm4ml-policy
 spec:
   authentication: 
     path: kubernetes
@@ -58,18 +58,25 @@ spec:
     serviceAccount:
       name: default
   policy: |
-    # Configure read secrets
-    path "${whitelist_secret_path}*" {
-      capabilities = ["create", "read", "update", "delete", "list"]
-    }
-    path "${onboarding_secret_path}*" {
-      capabilities = ["create", "read", "update", "delete", "list"]
-    }
-    path "${pki_path}/*" {
+    path "${vault_pki_mount}/*" {
       capabilities = ["create", "read", "update", "delete", "list", "sudo"]
     }
-    path "${mcm_secret_path}/*" {
-      capabilities = ["create", "read", "update", "delete", "list"]
+
+    path "${vault_pki_mount}/issue/*" {
+      capabilities = ["create", "read", "update"]
     }
+
+    path "${vault_pki_mount}/roles/*" {
+      capabilities = ["create", "read", "update"]
+    }
+
+    path "${vault_pki_mount}/sign/*" {
+      capabilities = ["create", "read", "update"]
+    }
+
+    path "${pm4ml_secret_path}/${pm4ml_release_name}/*" {
+      capabilities = ["create", "read", "update", "list"]
+    }
+
   type: acl  
 ---

@@ -2,7 +2,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: pm4ml-vs
+  name: pm4ml-ui-vs
 spec:
   gateways:
 %{ if pm4ml_wildcard_gateway == "external" ~} 
@@ -11,26 +11,41 @@ spec:
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
 %{ endif ~}
   hosts:
-  - '${pm4ml_public_fqdn}'
+  - '${portal_fqdn}'
   http:
-    - name: "api"
-      match:
-        - uri: 
-            prefix: /api
-      route:
-        - destination:
-            host: mcm-connection-manager-api
-            port:
-              number: 3001
-    - name: "ui"
+    - name: "portal"
       match:
         - uri: 
             prefix: /
       route:
         - destination:
-            host: mcm-connection-manager-ui
+            host: pm4ml-frontend
             port:
-              number: 8080
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: pm4ml-experience-vs
+spec:
+  gateways:
+%{ if pm4ml_wildcard_gateway == "external" ~} 
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+%{ else ~}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+%{ endif ~}
+  hosts:
+  - '${experience_api_fqdn}'
+  http:
+    - name: "experience-api"
+      match:
+        - uri: 
+            prefix: /
+      route:
+        - destination:
+            host: pm4ml-experience-api
+            port:
+              number: 80
 %{ if pm4ml_wildcard_gateway == "external" ~} 
 ---
 apiVersion: security.istio.io/v1beta1
@@ -46,13 +61,13 @@ spec:
   rules:
     - to:
         - operation:
-            paths: ["/api/*"]
+            paths: ["/*"]
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/*"]
       when:
         - key: connection.sni
-          values: ["${pm4ml_public_fqdn}", "${pm4ml_public_fqdn}:*"]
+          values: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -70,5 +85,7 @@ spec:
       - name: Authorization
         prefix: "Bearer "
       - name: Cookie
-        prefix: "MCM_SESSION"
+        prefix: "pm4ml"
+      - name: Cookie
+        prefix: "pm4ml.sig"
 %{ endif ~}

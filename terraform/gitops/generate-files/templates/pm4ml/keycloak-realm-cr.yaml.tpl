@@ -79,7 +79,7 @@ spec:
         containerId: pm4ml
         attributes: {}
       client:
-        pm4ml-customer-ui: []
+        ${pm4ml_oidc_client_id}: []
         realm-management:
         - id: c8c4d76f-aacd-4ae3-a89a-045d103b6136
           name: query-realms
@@ -528,14 +528,14 @@ spec:
       - offline_access
       - microprofile-jwt
     - id: 152a25c5-bc13-4dba-9739-43ee05d76970
-      clientId: pm4ml-customer-ui
-      rootUrl: ${frontend_root_url}
-      baseUrl: ${frontend_base_url}
+      clientId: ${pm4ml_oidc_client_id}
+      rootUrl: $${authBaseUrl}
+      baseUrl: /realms/${keycloak_pm4ml_realm_name}/account/
       surrogateAuthRequired: false
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: ${experience_api_client_secret}
+      secret: ${pm4ml_oidc_client_secret_secret_name}
       redirectUris:
         - "http://${portal_fqdn}:1234/*"
         - "http://${experience_api_fqdn}/*"

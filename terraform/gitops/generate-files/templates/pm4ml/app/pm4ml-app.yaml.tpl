@@ -4,7 +4,7 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${pm4ml_sync_wave}"
-  name: moja
+  name: pm4ml
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
