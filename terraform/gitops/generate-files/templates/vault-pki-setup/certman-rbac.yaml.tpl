@@ -55,7 +55,7 @@ metadata:
   name: ${cert_man_vault_cluster_issuer_name}
 spec:
   vault:
-    path: pki-root-ca/sign/server-cert-role
+    path: ${vault_root_ca_name}/sign/server-cert-role
     server: ${vault_endpoint}
     auth:
       kubernetes:
