@@ -140,7 +140,7 @@ variable "pm4ml_sync_wave" {
 variable "pm4ml_oidc_client_id" {
   type        = string
   description = "pm4ml_oidc_client_id"
-  default     = "pm4ml-portal"
+  default     = "pm4ml-customer-ui"
 }
 
 variable "pm4ml_oidc_client_secret_secret_key" {
