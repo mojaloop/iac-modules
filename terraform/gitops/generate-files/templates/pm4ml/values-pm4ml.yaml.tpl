@@ -17,12 +17,16 @@ frontendWebOrigins: &frontendWebOrigins
 dfspId: &dfspId "${dfsp_id}"
 
 frontend:
+  image:
+    tag: 1.16.0-snapshot 
   ingress:
     enabled: false
   env:
     API_BASE_URL: "https://${experience_api_fqdn}"
 
 experience-api:
+  image:
+    tag: 2.0.15-snapshot
   ingress:
     enabled: false
   env:
@@ -34,7 +38,7 @@ experience-api:
     authClientSecretSecret: "${pm4ml_oidc_client_secret_secret}"
     authClientSecretSecretKey: "${pm4ml_oidc_client_secret_secret_key}"
     metricsEndPoint: "${pm4ml_release_name}-prometheus-server"
-    authDiscoveryEndpoint: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/.well-known/openid-configuration"
+    authDiscoveryEndpoint: "http://${keycloak_name}-service:8443/realms/${keycloak_pm4ml_realm_name}/.well-known/openid-configuration"
     # this should be set to the external URL of the auth endpoint on the experience API
     authRedirectUri: "https://${experience_api_fqdn}/auth"
     # this should be set to the external URL of the UI
@@ -42,6 +46,8 @@ experience-api:
     authSessionSecure: false
 
 management-api:
+  image:
+    tag: 5.0.0-snapshot.2
   serviceAccountName: ${pm4ml_service_account_name}
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
