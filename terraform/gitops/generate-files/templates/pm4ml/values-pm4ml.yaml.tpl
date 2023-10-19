@@ -76,7 +76,7 @@ management-api:
     CERT_MANAGER_ENABLED: true
     CERT_MANAGER_SERVER_CERT_SECRET_NAME: ${server_cert_secret_name}
     CERT_MANAGER_SERVER_CERT_SECRET_NAMESPACE: ${server_cert_secret_namespace}
-    WHITELIST_IP: ${nat_ip_list}
+    WHITELIST_IP: "${nat_ip_list}"
   ingress:
     enabled: false
 
