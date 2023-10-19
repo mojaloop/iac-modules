@@ -38,7 +38,7 @@ experience-api:
     authClientSecretSecret: "${pm4ml_oidc_client_secret_secret}"
     authClientSecretSecretKey: "${pm4ml_oidc_client_secret_secret_key}"
     metricsEndPoint: "${pm4ml_release_name}-prometheus-server"
-    authDiscoveryEndpoint: "http://${keycloak_name}-service:8443/realms/${keycloak_pm4ml_realm_name}/.well-known/openid-configuration"
+    authDiscoveryEndpoint: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/.well-known/openid-configuration"
     # this should be set to the external URL of the auth endpoint on the experience API
     authRedirectUri: "https://${experience_api_fqdn}/auth"
     # this should be set to the external URL of the UI
