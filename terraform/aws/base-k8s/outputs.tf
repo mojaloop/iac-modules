@@ -3,11 +3,6 @@ output "nat_public_ips" {
   value       = module.base_infra.nat_public_ips
 }
 
-output "nat_public_cidrs" {
-  description = "nat gateway public cidrs"
-  value       = [for ip in module.base_infra.nat_public_ips: "${ip}/32"]
-}
-
 output "internal_load_balancer_dns" {
   value = aws_lb.internal.dns_name
 }

@@ -19,9 +19,9 @@ variable "gitlab_project_url" {
   description = "gitlab_project_url"
 }
 
-variable "nat_public_cidrs" {
-  type        = any
-  description = "nat_public_cidrs"
+variable "nat_public_ips" {
+  type        = list
+  description = "nat_public_ips"
 }
 variable "internal_load_balancer_dns" {
   type        = string
