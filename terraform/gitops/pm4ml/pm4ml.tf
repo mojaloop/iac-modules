@@ -200,5 +200,5 @@ variable "enable_sdk_bulk_transaction_support" {
 }
 
 locals {
-  nat_cidr_list = jsonencode([for ip in var.nat_public_ips: "${ip}/32"])
+  nat_cidr_list = join(", ", [for ip in var.nat_public_ips : format("%q/32", ip)])
 }
