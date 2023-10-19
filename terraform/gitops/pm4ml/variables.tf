@@ -20,7 +20,7 @@ variable "gitlab_project_url" {
 }
 
 variable "nat_public_ips" {
-  type        = list(string)
+  type        = any
   description = "nat_public_ips"
 }
 variable "internal_load_balancer_dns" {
