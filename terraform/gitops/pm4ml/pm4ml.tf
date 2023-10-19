@@ -72,7 +72,7 @@ module "generate_pm4ml_files" {
 locals {
   pm4ml_wildcard_gateway = var.app_var_map.pm4ml_ingress_internal_lb ? "internal" : "external"
   mcm_host_url           = "https://${var.app_var_map.pm4ml_external_mcm_public_fqdn}"
-  dfsp_id                = var.cluster_name
+  dfsp_id                = try(var.app_var_map.pm4ml_dfsp_id, var.cluster_name)
   pki_root_name          = "pki-${var.pm4ml_release_name}"
 }
 
