@@ -38,7 +38,7 @@ module "generate_pm4ml_files" {
     redis_port                                      = "6379"
     redis_host                                      = "redis-master"
     redis_replica_count                             = "1"
-    nat_ip_list                                     = var.nat_public_ips
+    nat_ip_list                                     = local.nat_cidr_list
     pm4ml_oidc_client_id                            = var.pm4ml_oidc_client_id
     pm4ml_oidc_client_secret_secret_name            = join("$", ["", "{${replace(var.pm4ml_oidc_client_secret_secret, "-", "_")}}"])
     pm4ml_oidc_client_secret_secret                 = var.pm4ml_oidc_client_secret_secret
@@ -197,4 +197,8 @@ variable "enable_sdk_bulk_transaction_support" {
   type        = bool
   description = "enable_sdk_bulk_transaction_support"
   default     = false
+}
+
+locals {
+  nat_cidr_list = [for ip in var.nat_public_ips: "${ip}/32"]
 }

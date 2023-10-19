@@ -100,6 +100,8 @@ prometheus:
 
 scheme-adapter:
   sdk-scheme-adapter-api-svc:
+    image:
+      tag: v23.1.2-snapshot.0
 %{ if enable_sdk_bulk_transaction_support ~} 
     kafka: &kafkaConfig
       host: ${kafka_host}
@@ -129,7 +131,7 @@ scheme-adapter:
       ALS_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
       OUTBOUND_MUTUAL_TLS_ENABLED: true
       INBOUND_MUTUAL_TLS_ENABLED: false
-      OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}"
+      OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}/${pm4ml_external_switch_oidc_token_route}"
       OAUTH_CLIENT_KEY: "${pm4ml_external_switch_client_id}"
       OAUTH_CLIENT_SECRET: "${pm4ml_oidc_client_secret_secret_key}"
 %{ if use_ttk_as_backend_simulator ~}
