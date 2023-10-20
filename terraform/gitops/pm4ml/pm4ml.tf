@@ -59,7 +59,7 @@ module "generate_pm4ml_files" {
     enable_sdk_bulk_transaction_support             = var.enable_sdk_bulk_transaction_support
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
-    ttk_enabled                                     = var.ttk_enabled
+    ttk_enabled                                     = var.app_var_map.pm4ml_ttk_enabled
     use_ttk_as_backend_simulator                    = var.use_ttk_as_backend_simulator
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
@@ -179,12 +179,6 @@ variable "pm4ml_external_switch_client_secret" {
   type        = string
   description = "secret name for client secret to connect to switch idm"
   default     = "pm4ml-external-switch-client-secret"
-}
-
-variable "ttk_enabled" {
-  type        = bool
-  description = "ttk_enabled"
-  default     = false
 }
 
 variable "use_ttk_as_backend_simulator" {
