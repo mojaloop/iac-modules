@@ -133,7 +133,9 @@ scheme-adapter:
       INBOUND_MUTUAL_TLS_ENABLED: false
       OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}/${pm4ml_external_switch_oidc_token_route}"
       OAUTH_CLIENT_KEY: "${pm4ml_external_switch_client_id}"
-      OAUTH_CLIENT_SECRET: "${pm4ml_oidc_client_secret_secret_key}"
+      OAUTH_CLIENT_SECRET_KEY: "${pm4ml_oidc_client_secret_secret_key}"
+      OAUTH_CLIENT_SECRET_NAME: "${pm4ml_oidc_client_secret_secret}"
+
 %{ if use_ttk_as_backend_simulator ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
 %{ else ~}
