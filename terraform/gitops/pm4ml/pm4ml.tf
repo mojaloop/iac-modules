@@ -38,7 +38,7 @@ module "generate_pm4ml_files" {
     redis_port                                      = "6379"
     redis_host                                      = "redis-master"
     redis_replica_count                             = "1"
-    nat_ip_list                                     = var.nat_public_ips
+    nat_ip_list                                     = local.nat_cidr_list
     pm4ml_oidc_client_id                            = var.pm4ml_oidc_client_id
     pm4ml_oidc_client_secret_secret_name            = join("$", ["", "{${replace(var.pm4ml_oidc_client_secret_secret, "-", "_")}}"])
     pm4ml_oidc_client_secret_secret                 = var.pm4ml_oidc_client_secret_secret
@@ -59,7 +59,7 @@ module "generate_pm4ml_files" {
     enable_sdk_bulk_transaction_support             = var.enable_sdk_bulk_transaction_support
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
-    ttk_enabled                                     = var.ttk_enabled
+    ttk_enabled                                     = var.app_var_map.pm4ml_ttk_enabled
     use_ttk_as_backend_simulator                    = var.use_ttk_as_backend_simulator
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
@@ -72,7 +72,7 @@ module "generate_pm4ml_files" {
 locals {
   pm4ml_wildcard_gateway = var.app_var_map.pm4ml_ingress_internal_lb ? "internal" : "external"
   mcm_host_url           = "https://${var.app_var_map.pm4ml_external_mcm_public_fqdn}"
-  dfsp_id                = var.cluster_name
+  dfsp_id                = try(var.app_var_map.pm4ml_dfsp_id, var.cluster_name)
   pki_root_name          = "pki-${var.pm4ml_release_name}"
 }
 
@@ -140,7 +140,7 @@ variable "pm4ml_sync_wave" {
 variable "pm4ml_oidc_client_id" {
   type        = string
   description = "pm4ml_oidc_client_id"
-  default     = "pm4ml-portal"
+  default     = "pm4ml-customer-ui"
 }
 
 variable "pm4ml_oidc_client_secret_secret_key" {
@@ -181,12 +181,6 @@ variable "pm4ml_external_switch_client_secret" {
   default     = "pm4ml-external-switch-client-secret"
 }
 
-variable "ttk_enabled" {
-  type        = bool
-  description = "ttk_enabled"
-  default     = false
-}
-
 variable "use_ttk_as_backend_simulator" {
   type        = bool
   description = "use_ttk_as_backend_simulator"
@@ -197,4 +191,8 @@ variable "enable_sdk_bulk_transaction_support" {
   type        = bool
   description = "enable_sdk_bulk_transaction_support"
   default     = false
+}
+
+locals {
+  nat_cidr_list = join(", ", [for ip in var.nat_public_ips : format("%s/32", ip)])
 }

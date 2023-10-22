@@ -15,7 +15,7 @@ dependency "k8s_store_config" {
 dependency "k8s_deploy" {
   config_path = "../k8s-deploy"
   mock_outputs = {
-    nat_public_ips                   = ""
+    nat_public_ips                 = [""]
     internal_load_balancer_dns       = ""
     external_load_balancer_dns       = ""
     private_subdomain                = ""

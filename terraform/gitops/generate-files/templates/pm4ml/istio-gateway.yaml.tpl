@@ -46,28 +46,12 @@ spec:
             host: pm4ml-experience-api
             port:
               number: 80
+          headers:
+            response:
+              add:
+                access-control-allow-origin: "https://${portal_fqdn}"
+                access-control-allow-credentials: "true"
 %{ if pm4ml_wildcard_gateway == "external" ~} 
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: pm4ml-jwt
-  namespace: ${istio_external_gateway_namespace}
-spec:
-  selector:
-    matchLabels:
-      app: ${istio_external_gateway_name}
-  action: DENY
-  rules:
-    - to:
-        - operation:
-            paths: ["/*"]
-      from:
-        - source:
-            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/*"]
-      when:
-        - key: connection.sni
-          values: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -84,8 +68,4 @@ spec:
     fromHeaders:
       - name: Authorization
         prefix: "Bearer "
-      - name: Cookie
-        prefix: "pm4ml"
-      - name: Cookie
-        prefix: "pm4ml.sig"
 %{ endif ~}

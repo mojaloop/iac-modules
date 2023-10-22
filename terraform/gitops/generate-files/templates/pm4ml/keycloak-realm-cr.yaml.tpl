@@ -529,16 +529,16 @@ spec:
       - microprofile-jwt
     - id: 152a25c5-bc13-4dba-9739-43ee05d76970
       clientId: ${pm4ml_oidc_client_id}
-      rootUrl: $${authBaseUrl}
-      baseUrl: /realms/${keycloak_pm4ml_realm_name}/account/
+      rootUrl: "https://${portal_fqdn}/"
+      baseUrl: "https://${experience_api_fqdn}/"
       surrogateAuthRequired: false
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
       secret: ${pm4ml_oidc_client_secret_secret_name}
       redirectUris:
-        - "http://${portal_fqdn}:1234/*"
-        - "http://${experience_api_fqdn}/*"
+        - "https://${portal_fqdn}/*"
+        - "https://${experience_api_fqdn}/*"
       webOrigins:
         - "*"
       notBefore: 0

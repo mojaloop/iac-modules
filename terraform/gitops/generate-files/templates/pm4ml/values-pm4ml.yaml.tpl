@@ -17,12 +17,16 @@ frontendWebOrigins: &frontendWebOrigins
 dfspId: &dfspId "${dfsp_id}"
 
 frontend:
+  image:
+    tag: 1.16.0-snapshot 
   ingress:
     enabled: false
   env:
     API_BASE_URL: "https://${experience_api_fqdn}"
 
 experience-api:
+  image:
+    tag: 2.0.15-snapshot
   ingress:
     enabled: false
   env:
@@ -42,6 +46,8 @@ experience-api:
     authSessionSecure: false
 
 management-api:
+  image:
+    tag: 5.0.0-snapshot.2
   serviceAccountName: ${pm4ml_service_account_name}
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
@@ -70,7 +76,7 @@ management-api:
     CERT_MANAGER_ENABLED: true
     CERT_MANAGER_SERVER_CERT_SECRET_NAME: ${server_cert_secret_name}
     CERT_MANAGER_SERVER_CERT_SECRET_NAMESPACE: ${server_cert_secret_namespace}
-    WHITELIST_IP: ${nat_ip_list}
+    WHITELIST_IP: "${nat_ip_list}"
   ingress:
     enabled: false
 
@@ -94,6 +100,8 @@ prometheus:
 
 scheme-adapter:
   sdk-scheme-adapter-api-svc:
+    image:
+      tag: v23.1.2-snapshot.0
 %{ if enable_sdk_bulk_transaction_support ~} 
     kafka: &kafkaConfig
       host: ${kafka_host}
@@ -123,9 +131,11 @@ scheme-adapter:
       ALS_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
       OUTBOUND_MUTUAL_TLS_ENABLED: true
       INBOUND_MUTUAL_TLS_ENABLED: false
-      OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}"
+      OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}/${pm4ml_external_switch_oidc_token_route}"
       OAUTH_CLIENT_KEY: "${pm4ml_external_switch_client_id}"
-      OAUTH_CLIENT_SECRET: "${pm4ml_oidc_client_secret_secret_key}"
+      OAUTH_CLIENT_SECRET_KEY: "${pm4ml_oidc_client_secret_secret_key}"
+      OAUTH_CLIENT_SECRET_NAME: "${pm4ml_oidc_client_secret_secret}"
+
 %{ if use_ttk_as_backend_simulator ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
 %{ else ~}
