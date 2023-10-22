@@ -17,6 +17,124 @@ auto_auth = {
 
 exit_after_auth = false
 pid_file = "/home/vault/.pid"
+template {
+  contents = <<EOH
+{{ range secrets "${onboarding_secret_path}/" }}
+{{ with secret (printf "${onboarding_secret_path}/%s" .) }}
+{{ range $k, $v := .Data }}
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: {{ $v.host }}-clientcert-tls
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication: 
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: clientcertsecret
+      path: {{ $k }}
+  output:
+    name: {{ $v.host }}-clientcert-tls
+    stringData:
+      ca.crt: '{{ .clientcertsecret.ca_bundle }}'
+      tls.key: '{{ .clientcertsecret.client_key }}'
+      tls.crt: '{{ .clientcertsecret.client_cert_chain }}'
+    type: kubernetes.io/tls
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ $v.host }}-callback-gateway
+spec:
+  selector:
+    istio: ${istio_egress_gateway_name}
+  servers:
+  - hosts:
+    - '{{ $v.fqdn }}'
+    port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ $v.host }}-callback
+spec:
+  host: {{ $v.fqdn }}
+  subsets:
+  - name: {{ $v.host }}
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
+      - port:
+          number: 443
+        tls:
+          mode: ISTIO_MUTUAL
+          sni: {{ $v.fqdn }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ $v.host }}-callback
+spec:
+  hosts:
+  - {{ $v.fqdn }}
+  gateways:
+  - {{ $v.host }}-callback-gateway
+  - mesh
+  http:
+  - match:
+    - gateways:
+      - mesh
+      port: 80
+    route:
+    - destination:
+        host: {{ $v.fqdn }}
+        subset: {{ $v.host }}
+        port:
+          number: 443
+      weight: 100
+  - match:
+    - gateways:
+      - istio-egressgateway
+      port: 443
+    route:
+    - destination:
+        host: {{ $v.fqdn }}
+        port:
+          number: 443
+      weight: 100
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-{{ $v.host }}-callback
+spec:
+  host: {{ $v.fqdn }}
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: MUTUAL
+        credentialName: {{ $v.host }}-clientcert-tls
+        sni: {{ $v.fqdn }}
+---
+{{ end }}{{ end }}{{ end }}
+  EOH
+  destination = "/vault/secrets/tmp/callback.yaml"
+  command     = "kubectl -n ${istio_egress_gateway_namespace} apply -f /vault/secrets/tmp/callback.yaml"
+}
 
 template {
   contents = <<EOH
