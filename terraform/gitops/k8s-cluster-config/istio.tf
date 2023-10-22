@@ -42,7 +42,7 @@ module "generate_istio_files" {
     "istio-gateways/kustomization.yaml", "istio-gateways/values-istio-external-ingress-gateway.yaml",
     "istio-gateways/values-istio-internal-ingress-gateway.yaml", "istio-gateways/lets-wildcard-cert.yaml",
     "istio-gateways/namespace.yaml", "istio-gateways/proxy-protocol.yaml", "istio-gateways/gateways.yaml",
-    "values-istio-egress-gateway.yaml"]
+    "istio-gateways/values-istio-egress-gateway.yaml"]
   template_path   = "${path.module}/../generate-files/templates/istio"
   output_path     = "${var.output_dir}/istio"
   app_file        = "istio-app.yaml"
