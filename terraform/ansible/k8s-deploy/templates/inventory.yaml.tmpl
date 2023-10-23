@@ -55,3 +55,13 @@ testharness:
     %{~ for varmapkey, varmapval in test_harness_hosts_var_maps ~}
     ${varmapkey}: '${varmapval}'
     %{~ endfor ~}
+haproxy_master_nodes:
+  hosts:
+    %{~ for host in haproxy_master_nodes ~}
+    ${host}:
+    %{~ endfor ~}
+haproxy_traffic_nodes:
+  hosts:
+    %{~ for host in haproxy_traffic_nodes ~}
+    ${host}:
+    %{~ endfor ~}
