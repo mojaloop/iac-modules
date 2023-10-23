@@ -51,6 +51,8 @@ module "generate_mcm_files" {
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
     istio_external_wildcard_gateway_name = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
+    istio_egress_gateway_name            = var.istio_egress_gateway_name
+    istio_egress_gateway_namespace       = var.istio_egress_gateway_namespace
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     istio_external_gateway_name          = var.istio_external_gateway_name
     private_network_cidr                 = var.private_network_cidr
