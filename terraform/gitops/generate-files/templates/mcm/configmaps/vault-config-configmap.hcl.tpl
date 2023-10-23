@@ -21,12 +21,11 @@ template {
   contents = <<EOH
 {{ range secrets "${onboarding_secret_path}/" }}
 {{ with secret (printf "${onboarding_secret_path}/%s" .) }}
-{{ range $k, $v := .Data }}
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: {{ $v.host }}-clientcert-tls
+  name: {{ .Data.host }}-clientcert-tls
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
@@ -36,9 +35,9 @@ spec:
         serviceAccount:
             name: default
       name: clientcertsecret
-      path: {{ $k }}
+      path: ${onboarding_secret_path}/{{ .Data.host }}
   output:
-    name: {{ $v.host }}-clientcert-tls
+    name: {{ .Data.host }}-clientcert-tls
     stringData:
       ca.crt: '{{ .clientcertsecret.ca_bundle }}'
       tls.key: '{{ .clientcertsecret.client_key }}'
@@ -48,13 +47,13 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: {{ $v.host }}-callback-gateway
+  name: {{ .Data.host }}-callback-gateway
 spec:
   selector:
     istio: ${istio_egress_gateway_name}
   servers:
   - hosts:
-    - '{{ $v.fqdn }}'
+    - '{{ .Data.fqdn }}'
     port:
       number: 443
       name: https
@@ -65,11 +64,11 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: {{ $v.host }}-callback
+  name: {{ .Data.host }}-callback
 spec:
-  host: {{ $v.fqdn }}
+  host: {{ .Data.fqdn }}
   subsets:
-  - name: {{ $v.host }}
+  - name: {{ .Data.host }}
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
@@ -78,17 +77,17 @@ spec:
           number: 443
         tls:
           mode: ISTIO_MUTUAL
-          sni: {{ $v.fqdn }}
+          sni: {{ .Data.fqdn }}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: {{ $v.host }}-callback
+  name: {{ .Data.host }}-callback
 spec:
   hosts:
-  - {{ $v.fqdn }}
+  - {{ .Data.fqdn }}
   gateways:
-  - {{ $v.host }}-callback-gateway
+  - {{ .Data.host }}-callback-gateway
   - mesh
   http:
   - match:
@@ -97,18 +96,18 @@ spec:
       port: 80
     route:
     - destination:
-        host: {{ $v.fqdn }}
-        subset: {{ $v.host }}
+        host: {{ .Data.fqdn }}
+        subset: {{ .Data.host }}
         port:
           number: 443
       weight: 100
   - match:
     - gateways:
-      - istio-egressgateway
+      - {{ .Data.host }}-callback-gateway
       port: 443
     route:
     - destination:
-        host: {{ $v.fqdn }}
+        host: {{ .Data.fqdn }}
         port:
           number: 443
       weight: 100
@@ -116,9 +115,9 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: originate-mtls-for-{{ $v.host }}-callback
+  name: originate-mtls-for-{{ .Data.host }}-callback
 spec:
-  host: {{ $v.fqdn }}
+  host: {{ .Data.fqdn }}
   trafficPolicy:
     loadBalancer:
       simple: ROUND_ROBIN
@@ -127,10 +126,10 @@ spec:
         number: 443
       tls:
         mode: MUTUAL
-        credentialName: {{ $v.host }}-clientcert-tls
-        sni: {{ $v.fqdn }}
+        credentialName: {{ .Data.host }}-clientcert-tls
+        sni: {{ .Data.fqdn }}
 ---
-{{ end }}{{ end }}{{ end }}
+{{ end }}{{ end }}
   EOH
   destination = "/vault/secrets/tmp/callback.yaml"
   command     = "kubectl -n ${istio_egress_gateway_namespace} apply -f /vault/secrets/tmp/callback.yaml"
