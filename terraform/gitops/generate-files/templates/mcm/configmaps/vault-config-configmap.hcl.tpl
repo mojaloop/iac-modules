@@ -39,9 +39,9 @@ spec:
   output:
     name: {{ .Data.host }}-clientcert-tls
     stringData:
-      ca.crt: '{{ .clientcertsecret.ca_bundle }}'
-      tls.key: '{{ .clientcertsecret.client_key }}'
-      tls.crt: '{{ .clientcertsecret.client_cert_chain }}'
+      ca.crt: '{{ `{{ .clientcertsecret.ca_bundle }}` }}'
+      tls.key: '{{ `{{ .clientcertsecret.client_key }}` }}'
+      tls.crt: '{{ `{{ .clientcertsecret.client_cert_chain }}` }}'
     type: kubernetes.io/tls
 ---
 apiVersion: networking.istio.io/v1alpha3
