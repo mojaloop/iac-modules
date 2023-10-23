@@ -36,7 +36,7 @@ module "generate_mcm_files" {
     dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
     dfsp_internal_whitelist_secret       = local.dfsp_internal_whitelist_secret
     dfsp_external_whitelist_secret       = local.dfsp_external_whitelist_secret
-    onboarding_secret_path               = local.onboarding_secret_path
+    onboarding_secret_path               = local.dfsp_client_cert_bundle
     whitelist_secret_path                = local.whitelist_secret_path
     mcm_service_account_name             = var.mcm_service_account_name
     pki_client_role                      = var.pki_client_cert_role
