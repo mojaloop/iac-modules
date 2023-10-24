@@ -127,8 +127,8 @@ scheme-adapter:
       CACHE_URL: redis://${redis_host}:${redis_port}
       JWS_SIGN: true
       VALIDATE_INBOUND_JWS: true
-      PEER_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
-      ALS_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
+      PEER_ENDPOINT: "${pm4ml_external_switch_fqdn}"
+      ALS_ENDPOINT: "${pm4ml_external_switch_fqdn}"
       OUTBOUND_MUTUAL_TLS_ENABLED: true
       INBOUND_MUTUAL_TLS_ENABLED: false
       OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}/${pm4ml_external_switch_oidc_token_route}"

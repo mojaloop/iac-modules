@@ -166,8 +166,7 @@ locals {
   mojaloop_connnector_fqdn = "connector.${var.public_subdomain}"
 
   pm4ml_internal_gateway_hosts = (local.pm4ml_wildcard_gateway == "internal") ? [local.portal_fqdn, local.experience_api_fqdn] : []
-  pm4ml_external_gateway_hosts = concat([local.mojaloop_connnector_fqdn],
-  local.pm4ml_wildcard_gateway == "external" ? [local.portal_fqdn, local.experience_api_fqdn] : [])
+  pm4ml_external_gateway_hosts = concat(local.pm4ml_wildcard_gateway == "external" ? [local.portal_fqdn, local.experience_api_fqdn] : [])
 
   keycloak_realm_env_secret_map = var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map
 

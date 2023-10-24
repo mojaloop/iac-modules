@@ -19,7 +19,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: pm4ml-frontend
+            host: ${pm4ml_release_name}-frontend
             port:
               number: 80
 ---
@@ -43,7 +43,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: pm4ml-experience-api
+            host: ${pm4ml_release_name}-experience-api
             port:
               number: 80
           headers:
@@ -69,3 +69,44 @@ spec:
       - name: Authorization
         prefix: "Bearer "
 %{ endif ~}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: pm4ml-connector-gateway
+  annotations: {
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+  }
+spec:
+  selector:
+    istio: ${istio_external_gateway_name}
+  servers:
+  - hosts:
+    - '${mojaloop_connnector_fqdn}'
+    port:
+      name: https-connector
+      number: 443
+      protocol: HTTPS
+    tls:
+      credentialName: ${vault_certman_secretname}
+      mode: MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: pm4ml-connector-vs
+spec:
+  gateways:
+  - pm4ml-connector-gateway
+  hosts:
+  - '${mojaloop_connnector_fqdn}'
+  http:
+    - name: "mojaloop_-connector"
+      match:
+        - uri: 
+            prefix: /inbound/
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc
+            port:
+              number: 4000
