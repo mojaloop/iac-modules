@@ -2,7 +2,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: pm4ml-ui-vs
+  name: ${pm4ml_release_name}-ui-vs
 spec:
   gateways:
 %{ if pm4ml_wildcard_gateway == "external" ~} 
@@ -26,7 +26,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: pm4ml-experience-vs
+  name: ${pm4ml_release_name}-experience-vs
 spec:
   gateways:
 %{ if pm4ml_wildcard_gateway == "external" ~} 
@@ -73,7 +73,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: pm4ml-connector-gateway
+  name: ${pm4ml_release_name}-connector-gateway
   annotations: {
     external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
   }
@@ -94,10 +94,10 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: pm4ml-connector-vs
+  name: ${pm4ml_release_name}-connector-vs
 spec:
   gateways:
-  - pm4ml-connector-gateway
+  - ${pm4ml_release_name}-connector-gateway
   hosts:
   - '${mojaloop_connnector_fqdn}'
   http:
@@ -110,3 +110,59 @@ spec:
             host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc
             port:
               number: 4000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ${pm4ml_release_name}-test-vs
+spec:
+  gateways:
+    - istio-ingress-int/internal-wildcard-gateway
+  hosts:
+    - "test.devpm4ml.labsk8s901.mojaloop.live"
+  http:
+    - name: "sim-backend"
+      match:
+        - uri:
+            prefix: /sim-backend-test(/|$)(.*)
+      route:
+        - destination:
+            host: sim-backend
+            port:
+              number: 3003
+    - name: "mojaloop-core-connector"
+      match:
+        - uri:
+            prefix: /cc-send(/|$)(.*)
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-mojaloop-core-connector
+            port:
+              number: 3003
+    - name: "mlcon-outbound"
+      match:
+        - uri:
+            prefix: /mlcon-outbound(/|$)(.*)
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc
+            port:
+              number: 4001
+    - name: "mlcon-sdktest"
+      match:
+        - uri:
+            prefix: /mlcon-sdktest(/|$)(.*)
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc
+            port:
+              number: 4002
+    - name: "mgmt-api"
+      match:
+        - uri:
+            prefix: /mgmt-api(/|$)(.*)
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-management-api
+            port:
+              number: 9050
