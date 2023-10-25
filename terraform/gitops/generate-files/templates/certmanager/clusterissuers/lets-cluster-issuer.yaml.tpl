@@ -17,11 +17,19 @@ spec:
         dnsZones:
           - "${public_domain}"
       dns01:
+%{ if dns_provider == "aws" ~}
         route53:
           region: ${cloud_region}
           accessKeyIDSecretRef:
             name: ${cert_manager_credentials_secret}
-            key: AWS_ACCESS_KEY_ID
+            key: ${cert_manager_credentials_id_provider_key}
           secretAccessKeySecretRef:
             name: ${cert_manager_credentials_secret}
-            key: AWS_SECRET_ACCESS_KEY
+            key: ${cert_manager_credentials_secret_provider_key}
+%{ endif ~}
+%{ if dns_provider == "aws" ~}
+        cloudflare:
+          apiTokenSecretRef:
+            name: ${cert_manager_credentials_secret}
+            key: ${cert_manager_credentials_id_provider_key}
+%{ endif ~}

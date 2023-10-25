@@ -14,22 +14,26 @@ spec:
   target:
     name: ${external_dns_credentials_secret} # Name for the secret to be created on the cluster
     creationPolicy: Owner
+%{ if dns_provider == "aws" ~}
     template:
       type: Opaque
       engineVersion: v2
       data:
         # multiline string
-        credentials: |
+        credentials: |       
           [default]
-          aws_access_key_id = {{ .AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key = {{ .AWS_SECRET_ACCESS_KEY }}
+          aws_access_key_id = {{ .${external_dns_credentials_client_id_name} }}
+          aws_secret_access_key = {{ .${external_dns_credentials_client_secret_name} }}
+%{ endif ~}
 
   data:
-    - secretKey: AWS_SECRET_ACCESS_KEY # Key given to the secret to be created on the cluster
+    - secretKey: ${external_dns_credentials_client_secret_name}
       remoteRef: 
         key: ${external_dns_credentials_secret_provider_key}
         property: value
-    - secretKey: AWS_ACCESS_KEY_ID # Key given to the secret to be created on the cluster
+%{ if external_dns_credentials_client_id_name != "" ~}
+    - secretKey: 
       remoteRef: 
-        key: ${external_dns_credentials_id_provider_key}
+        key: ${external_dns_credentials_client_id_name}
         property: value
+%{ endif ~}

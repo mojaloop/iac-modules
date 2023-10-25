@@ -14,6 +14,9 @@ module "generate_extdns_files" {
     gitlab_project_url                           = var.gitlab_project_url
     external_secret_sync_wave                    = var.external_secret_sync_wave
     external_dns_sync_wave                       = var.external_dns_sync_wave
+    external_dns_credentials_client_secret_name  = local.external_dns_credentials_client_secret_name
+    external_dns_credentials_client_id_name      = local.external_dns_credentials_client_id_name
+    dns_provider                                 = var.dns_provider
   }
   file_list       = ["chart/Chart.yaml", "chart/values.yaml", "external-secrets/extdns-extsecret.yaml"]
   template_path   = "${path.module}/../generate-files/templates/external-dns"

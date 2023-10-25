@@ -16,11 +16,13 @@ spec:
     creationPolicy: Owner
 
   data:
-    - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
+    - secretKey: ${cert_manager_credentials_client_secret_name}
       remoteRef: 
         key: ${cert_manager_credentials_secret_provider_key}
         property: value
-    - secretKey: AWS_ACCESS_KEY_ID # TODO: max provider agnostic
+%{ if cert_manager_credentials_client_id_name != "" ~}
+    - secretKey: ${cert_manager_credentials_client_id_name}
       remoteRef: 
         key: ${cert_manager_credentials_id_provider_key}
         property: value
+%{ endif ~}

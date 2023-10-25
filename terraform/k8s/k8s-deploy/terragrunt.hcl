@@ -24,6 +24,7 @@ inputs = {
   master_node_supports_traffic         = (local.env_map[local.CLUSTER_NAME].agent_node_count == 0) ? true : false
   kubeapi_port                         = (local.K8S_CLUSTER_TYPE == "microk8s") ? 16443 : 6443
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
+  dns_provider                         = local.env_map[local.CLUSTER_NAME].dns_provider
 }
 
 locals {
@@ -53,6 +54,7 @@ locals {
       enable_k6s_test_harness              = val["enable_k6s_test_harness"]
       k6s_docker_server_instance_type      = val["k6s_docker_server_instance_type"]
       vpc_cidr                             = val["vpc_cidr"]
+      dns_provider                         = try(val["dns_provider"], val["cloud_platform"])
     }
   }
   tags                      = local.env_vars.tags

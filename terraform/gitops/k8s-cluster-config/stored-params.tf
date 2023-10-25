@@ -18,6 +18,26 @@ data "gitlab_project_variable" "longhorn_backups_bucket_name" {
   key     = var.properties_key_map["longhorn_backups_bucket_name_key"]
 }
 
+data "gitlab_project_variable" "cert_manager_credentials_client_secret_name" {
+  project = var.current_gitlab_project_id
+  key     = var.properties_key_map["cert_manager_credentials_client_secret_name_key"]
+}
+
+data "gitlab_project_variable" "cert_manager_credentials_client_id_name" {
+  project = var.current_gitlab_project_id
+  key     = var.properties_key_map["cert_manager_credentials_client_id_name_key"]
+}
+
+data "gitlab_project_variable" "external_dns_credentials_client_secret_name" {
+  project = var.current_gitlab_project_id
+  key     = var.properties_key_map["external_dns_credentials_client_secret_name_key"]
+}
+
+data "gitlab_project_variable" "external_dns_credentials_client_id_name" {
+  project = var.current_gitlab_project_id
+  key     = var.properties_key_map["external_dns_credentials_client_id_name_key"]
+}
+
 # need to get these by hand because loki doesnt support k8s secret env vars.
 
 data "vault_generic_secret" "grafana_oauth_client_id" {
