@@ -37,6 +37,7 @@ dependency "k8s_deploy" {
     }
     haproxy_server_fqdn  = "null"
     private_network_cidr = ""
+    dns_provider = ""
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
