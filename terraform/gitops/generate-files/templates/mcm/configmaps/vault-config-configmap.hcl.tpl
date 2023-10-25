@@ -210,10 +210,10 @@ spec:
                 -u http://moja-ml-testing-toolkit-backend:5050 \
                 --report-format html \
                 --report-auto-filename-enable true \
-                --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${public_domain}" \
+                --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${public_subdomain}" \
                 --save-report true \
                 --report-name standard_provisioning_collection \
-                --save-report-base-url http://ttkbackend.${public_domain};
+                --save-report-base-url http://ttkbackend.${public_subdomain};
               export TEST_RUNNER_EXIT_CODE="$?";
 
               echo "Test Runner finished with exit code:

@@ -47,4 +47,4 @@ helmCharts:
   version: ${mojaloop_chart_version}
   repo: ${mojaloop_chart_repo}
   valuesFile: values-mojaloop.yaml
-  namespace: ${mmojaloop_namespace}
+  namespace: ${mojaloop_namespace}
