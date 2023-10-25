@@ -115,8 +115,9 @@ module "generate_mojaloop_files" {
     cl_handler_bulk_transfer_fulfil_replica_count               = try(var.app_var_map.cl_handler_bulk_transfer_fulfil_replica_count, 1)
     cl_handler_bulk_transfer_processing_replica_count           = try(var.app_var_map.cl_handler_bulk_transfer_processing_replica_count, 1)
     cl_handler_bulk_transfer_get_replica_count                  = try(var.app_var_map.cl_handler_bulk_transfer_get_replica_count, 1)
+    enable_istio_sidecar                                        = true
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml"]
+  file_list       = ["mojaloop-values.yaml", "ext-ingress.yaml", "istio-gateway.yaml", "kustomization.yaml", "inject-patch.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mojaloop"
   output_path     = "${var.output_dir}/mojaloop"
   app_file        = "mojaloop-app.yaml"

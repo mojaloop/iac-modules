@@ -45,6 +45,22 @@ spec:
     type: kubernetes.io/tls
 ---
 apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: {{ .Data.host }}
+spec:
+  hosts:
+  - '{{ .Data.fqdn }}'
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: {{ .Data.host }}-callback-gateway
