@@ -1,6 +1,30 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
+  name: create-update-dfsp-job
+  namespace: ${mojaloop_namespace}
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps", "jobs"]
+    verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: create-update-dfsp-job-binding
+  namespace: ${mojaloop_namespace}
+subjects:
+- kind: ServiceAccount
+  name: ${mcm_service_account_name}
+  namespace: ${mcm_namespace}
+roleRef:
+  kind: Role
+  name: ccreate-update-dfsp-job
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
   name: create-update-istio-crs
   namespace: ${istio_external_gateway_namespace}
 rules:

@@ -30,3 +30,4 @@ cl_handler_bulk_transfer_prepare_replica_count: 1
 cl_handler_bulk_transfer_fulfil_replica_count: 1
 cl_handler_bulk_transfer_processing_replica_count: 1
 cl_handler_bulk_transfer_get_replica_count: 1
+onboarding_collection_tag: 15.1.0-iac-snapshot.0

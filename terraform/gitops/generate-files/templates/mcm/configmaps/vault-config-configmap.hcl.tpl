@@ -145,6 +145,103 @@ spec:
         credentialName: {{ .Data.host }}-clientcert-tls
         sni: {{ .Data.fqdn }}
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+  namespace: ${mojaloop_namespace}
+data:
+  cli-add-dfsp-config.json: |
+    {"logLevel":"2","mode":"outbound"}
+  cli-add-dfsp-environment.json: |
+    {
+      "inputValues": {
+        "HOST_ACCOUNT_LOOKUP_SERVICE": "http://${mojaloop_release_name}-account-lookup-service",
+        "HOST_CENTRAL_LEDGER": "http://${mojaloop_release_name}-centralledger-service",
+        "DFSP_CALLBACK_URL": "{{ .Data.fqdn }}",
+        "DFSP_NAME": "{{ .Data.host }}",
+        "currency": "{{ .Data.currency_code }}",
+        "hub_operator": "NOT_APPLICABLE",
+        "NET_DEBIT_CAP": "50000"
+      }
+    }
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Data.host }}-onboard-dfsp
+  namespace: mojaloop
+spec:
+  template:
+    spec:
+      volumes:
+        - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+          configMap:
+            name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+            items:
+              - key: cli-add-dfsp-config.json
+                path: cli-add-dfsp-config.json
+              - key: cli-add-dfsp-environment.json
+                path: cli-add-dfsp-environment.json
+            defaultMode: 420
+
+      containers:
+        - name: ml-ttk-add-dfsp
+          image: mojaloop/ml-testing-toolkit-client-lib:v1.2.0
+          command:
+            - /bin/sh
+            - '-c'
+          args:
+            - >
+              echo "Downloading the test collection...";
+
+              wget
+              https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${onboarding_collection_tag}.zip
+              -O downloaded-test-collections.zip;
+
+              mkdir tmp_test_cases;
+
+              unzip -d tmp_test_cases -o downloaded-test-collections.zip;
+
+              npm run cli -- \
+                -c cli-add-dfsp-config.json \
+                -e cli-add-dfsp-environment.json \
+                -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning_dfsp \
+                -u http://moja-ml-testing-toolkit-backend:5050 \
+                --report-format html \
+                --report-auto-filename-enable true \
+                --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${public_domain}" \
+                --save-report true \
+                --report-name standard_provisioning_collection \
+                --save-report-base-url http://ttkbackend.${public_domain};
+              export TEST_RUNNER_EXIT_CODE="$?";
+
+              echo "Test Runner finished with exit code:
+              $TEST_RUNNER_EXIT_CODE";
+
+              exit $TEST_RUNNER_EXIT_CODE;
+          envFrom:
+            - secretRef:
+                name: moja-ml-ttk-test-setup-aws-creds
+          resources: {}
+          volumeMounts:
+            - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+              mountPath: /opt/app/cli-add-dfsp-environment.json
+              subPath: cli-add-dfsp-environment.json
+            - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+              mountPath: /opt/app/cli-add-dfsp-config.json
+              subPath: cli-add-dfsp-config.json
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  completionMode: NonIndexed
+  suspend: false
+
 {{ end }}{{ end }}
   EOH
   destination = "/vault/secrets/tmp/callback.yaml"
