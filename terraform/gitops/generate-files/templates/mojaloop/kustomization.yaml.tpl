@@ -4,7 +4,7 @@ resources:
   - ext-ingress.yaml
   - istio-gateway.yaml
 %{ if enable_istio_sidecar ~}
-patchesJson6902:
+patches:
 - target:
     version: v1
     kind: Deployment
