@@ -27,7 +27,7 @@ spec:
             name: ${cert_manager_credentials_secret}
             key: ${cert_manager_credentials_secret_provider_key}
 %{ endif ~}
-%{ if dns_provider == "aws" ~}
+%{ if dns_provider == "cloudflare" ~}
         cloudflare:
           apiTokenSecretRef:
             name: ${cert_manager_credentials_secret}
