@@ -22,14 +22,14 @@ spec:
           region: ${cloud_region}
           accessKeyIDSecretRef:
             name: ${cert_manager_credentials_secret}
-            key: ${cert_manager_credentials_id_provider_key}
+            key: ${cert_manager_credentials_client_id_name}
           secretAccessKeySecretRef:
             name: ${cert_manager_credentials_secret}
-            key: ${cert_manager_credentials_secret_provider_key}
+            key: ${cert_manager_credentials_client_secret_name}
 %{ endif ~}
 %{ if dns_provider == "cloudflare" ~}
         cloudflare:
           apiTokenSecretRef:
             name: ${cert_manager_credentials_secret}
-            key: ${cert_manager_credentials_id_provider_key}
+            key: ${cert_manager_credentials_client_secret_name}
 %{ endif ~}

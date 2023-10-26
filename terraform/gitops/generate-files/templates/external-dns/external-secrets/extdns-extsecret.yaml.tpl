@@ -32,8 +32,8 @@ spec:
         key: ${external_dns_credentials_secret_provider_key}
         property: value
 %{ if external_dns_credentials_client_id_name != "" ~}
-    - secretKey: 
+    - secretKey: ${external_dns_credentials_client_id_name}
       remoteRef: 
-        key: ${external_dns_credentials_client_id_name}
+        key: ${external_dns_credentials_id_provider_key}
         property: value
 %{ endif ~}
