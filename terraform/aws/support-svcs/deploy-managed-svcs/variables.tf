@@ -43,4 +43,5 @@ locals {
   #kafka_services =...
   external_services = { for managed_service in local.managed_services : managed_service.resource_name => managed_service if managed_service.external_service}
   rds_services = { for managed_service in local.managed_services : managed_service.resource_name => managed_service if managed_service.external_service && managed_service.resource_type == "mysql"}
+  kafka_services = { }
 }
