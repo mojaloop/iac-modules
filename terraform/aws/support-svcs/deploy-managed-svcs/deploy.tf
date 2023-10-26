@@ -8,6 +8,16 @@ module "deploy_rds" {
   private_subnets = module.base_infra[0].private_subnets
 }
 
+module "deploy_kafka" {
+  count = length(local.kafka_services) > 0 ? 1 : 0
+  source  = "../deploy-kafka"
+  deployment_name = var.deployment_name
+  tags = var.tags
+  kafka_services = local.kafka_services
+  security_group_id = aws_security_group.managed_svcs[0].id
+  private_subnets = module.base_infra[0].private_subnets
+}
+
 module "ubuntu_focal_ami" {
   count = length(local.external_services) > 0 ? 1 : 0
   source  = "../../ami-ubuntu"
