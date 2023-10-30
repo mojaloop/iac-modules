@@ -101,7 +101,7 @@ mojaloop:
 
   account-lookup-service:
     account-lookup-service:
-      podAnnotations:
+      podLabels:
         sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${account_lookup_service_replica_count}
       config:
@@ -147,7 +147,7 @@ mojaloop:
       enabled: false
 
   quoting-service:
-    podAnnotations:
+    podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${quoting_service_replica_count}
     sidecar:
@@ -193,7 +193,7 @@ mojaloop:
           #nginx.ingress.kubernetes.io/rewrite-target: /$2
         hostname: ml-api-adapter.${ingress_subdomain}
     ml-api-adapter-handler-notification:
-      podAnnotations:
+      podLabels:
         sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
       config:
@@ -406,7 +406,7 @@ mojaloop:
         db_database: *CS_DB_DATABASE
 
   transaction-requests-service:
-    podAnnotations:
+    podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${trasaction_requests_service_replica_count}
     ingress:
@@ -422,7 +422,7 @@ mojaloop:
     enabled: ${mojaloop_thirdparty_support_enabled}
     auth-svc:
       enabled: true
-      podAnnotations:
+      podLabels:
         sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${auth_service_replica_count}
       config:
@@ -464,7 +464,7 @@ mojaloop:
 
     tp-api-svc:
       enabled: true
-      podAnnotations:
+      podLabels:
         sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${tp_api_svc_replica_count}
       ingress:
@@ -512,7 +512,7 @@ mojaloop:
           className: *INGRESS_CLASS
           hostname: bulk-api-adapter.${ingress_subdomain}
       bulk-api-adapter-handler-notification:
-        podAnnotations:
+        podLabels:
           sidecar.istio.io/inject: "${enable_istio_injection}"
         replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
         config:
