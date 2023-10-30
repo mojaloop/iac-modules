@@ -186,6 +186,7 @@ ownerName: ""
 # See https://istio.io/docs/reference/config/istio.mesh.v1alpha1/ for all available options
 meshConfig:
   enablePrometheusMerge: true
+  enableAutoMtls: false
 
 global:
   # Used to locate istiod.
@@ -293,7 +294,7 @@ global:
 
     # Per Component log level for proxy, applies to gateways and sidecars. If a component level is
     # not set, then the global "logLevel" will be used.
-    componentLogLevel: "misc:error"
+    componentLogLevel: "misc:debug"
 
     # If set, newly injected sidecars will have core dumps enabled.
     enableCoreDump: false
@@ -316,7 +317,7 @@ global:
 
     # Log level for proxy, applies to gateways and sidecars.
     # Expected values are: trace|debug|info|warning|error|critical|off
-    logLevel: warning
+    logLevel: debug
 
     #If set to true, istio-proxy container will have privileged securityContext
     privileged: false
