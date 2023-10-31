@@ -17,6 +17,7 @@ envs:
   - env: dev
     domain: labs8.mojalabs.io
     cloud_platform: aws
+    managed_svc_cloud_platform: none
     cloud_platform_client_secret_name: AWS_SECRET_ACCESS_KEY
     cloud_region: eu-west-1
     k8s_cluster_type: k3s

@@ -43,6 +43,15 @@ resource "gitlab_project_variable" "cloud_platform" {
   masked    = false
 }
 
+resource "gitlab_project_variable" "managed_svc_cloud_platform" {
+  for_each  = var.env_map
+  project   = gitlab_project.envs[each.key].id
+  key       = "MANAGED_SVC_CLOUD_PLATFORM"
+  value     = each.value["managed_svc_cloud_platform"]
+  protected = false
+  masked    = false
+}
+
 resource "gitlab_project_variable" "cloud_platform_client_secret_name" {
   for_each  = var.env_map
   project   = gitlab_project.envs[each.key].id
