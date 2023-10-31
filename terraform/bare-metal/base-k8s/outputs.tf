@@ -110,7 +110,7 @@ output "all_hosts_var_maps" {
 output "agent_hosts_var_maps" {
   sensitive = true
   value = {
-    master_ip = var.app_var_map.master_hosts[0].private_ip
+    master_ip = var.app_var_map.master_hosts_0_private_ip
   }
 }
 
