@@ -25,7 +25,7 @@ inputs = {
   kubeapi_port                         = (local.K8S_CLUSTER_TYPE == "microk8s") ? 16443 : 6443
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_map[local.CLUSTER_NAME].dns_provider
-  app_var_map                          = (${get_env("CLOUD_PLATFORM")} == "bare-metal") ? local.cloud_platform_vars : {}
+  app_var_map                          = (local.CLOUD_PLATFORM == "bare-metal") ? local.cloud_platform_vars : {}
 }
 
 locals {
@@ -68,6 +68,7 @@ locals {
   GITLAB_USERNAME           = get_env("GITLAB_USERNAME")
   K8S_CLUSTER_TYPE          = get_env("K8S_CLUSTER_TYPE")
   CLOUD_REGION              = get_env("CLOUD_REGION")
+  CLOUD_PLATFORM            = get_env("CLOUD_PLATFORM")
 }
 
 generate "required_providers_override" {
