@@ -125,6 +125,7 @@ output "bastion_hosts_var_maps" {
     egress_gateway_cidr     = var.app_var_map.egress_gateway_cidr
     haproxy_external_ip     = var.app_var_map.haproxy_external_ip
     haproxy_internal_ip     = var.app_var_map.haproxy_internal_ip
+    enable_ingress_k8s_lb   = var.app_var_map.enable_ingress_k8s_lb
   }
 }
 
