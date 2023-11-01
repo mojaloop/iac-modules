@@ -846,6 +846,8 @@ mojaloop:
     testCaseEnvironmentFile:  *ttkInputValues
     job:
       enabled: true
+      templateLabels:
+         sidecar.istio.io/inject: "false"
       ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
       # ttlSecondsAfterFinished: 50
       generateNameEnabled: true
@@ -865,6 +867,8 @@ mojaloop:
     testCaseEnvironmentFile:  *ttkInputValues
     job:
       enabled: true
+      templateLabels:
+         sidecar.istio.io/inject: "false"
       ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
       # ttlSecondsAfterFinished: 50
       generateNameEnabled: true

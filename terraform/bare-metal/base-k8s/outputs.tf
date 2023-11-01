@@ -121,11 +121,13 @@ output "agent_hosts_yaml_maps" {
 output "bastion_hosts_var_maps" {
   sensitive = false
   value = {
-    ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
-    egress_gateway_cidr     = var.app_var_map.egress_gateway_cidr
-    haproxy_external_ip     = var.app_var_map.haproxy_external_ip
-    haproxy_internal_ip     = var.app_var_map.haproxy_internal_ip
-    enable_ingress_k8s_lb   = var.app_var_map.enable_ingress_k8s_lb
+    ansible_ssh_common_args        = "-o StrictHostKeyChecking=no"
+    egress_gateway_cidr            = var.app_var_map.egress_gateway_cidr
+    haproxy_external_ip            = var.app_var_map.haproxy_external_ip
+    haproxy_internal_ip            = var.app_var_map.haproxy_internal_ip
+    enable_external_ingress_k8s_lb = var.app_var_map.enable_external_ingress_k8s_lb
+    enable_internal_ingress_k8s_lb = var.app_var_map.enable_internal_ingress_k8s_lb
+    enable_external_egress_lb      = var.app_var_map.enable_external_egress_lb
   }
 }
 

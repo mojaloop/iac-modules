@@ -122,6 +122,8 @@ output "bastion_hosts_var_maps" {
   value = {
     ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
     egress_gateway_cidr     = var.vpc_cidr
+    haproxy_external_ip     = module.base_infra.bastion_public_ip
+    haproxy_internal_ip     = module.base_infra.bastion_private_ip
   }
 }
 
