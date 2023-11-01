@@ -136,7 +136,7 @@ output "bastion_hosts_yaml_maps" {
 }
 
 output "bastion_hosts" {
-  value = { bastion = var.app_var_map.haproxy_external_ip }
+  value = { bastion = var.app_var_map.bastion_public_ip }
 }
 
 output "agent_hosts" {
