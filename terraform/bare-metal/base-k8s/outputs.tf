@@ -188,6 +188,10 @@ locals {
   }
 
   post_config_properties_key_map = {
-    longhorn_backups_bucket_name_key = "longhorn_backups_bucket_name"
+    longhorn_backups_bucket_name_key                = "longhorn_backups_bucket_name"
+    external_dns_credentials_client_id_name_key     = "external_dns_credentials_client_id_name"
+    external_dns_credentials_client_secret_name_key = "external_dns_credentials_client_secret_name"
+    cert_manager_credentials_client_id_name_key     = "cert_manager_credentials_client_id_name"
+    cert_manager_credentials_client_secret_name_key = "cert_manager_credentials_client_secret_name"
   }
 }
