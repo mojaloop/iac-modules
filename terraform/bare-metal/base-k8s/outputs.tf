@@ -132,6 +132,7 @@ output "bastion_hosts_var_maps" {
     enable_external_ingress_k8s_lb = var.app_var_map.enable_external_ingress_k8s_lb
     enable_internal_ingress_k8s_lb = var.app_var_map.enable_internal_ingress_k8s_lb
     enable_external_egress_lb      = var.app_var_map.enable_external_egress_lb
+    kubeapi_port                   = var.kubeapi_port
   }
 }
 
