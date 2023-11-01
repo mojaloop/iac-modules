@@ -51,6 +51,10 @@ output "private_network_cidr" {
   value = var.app_var_map.private_network_cidr
 }
 
+output "dns_provider" {
+  value = var.dns_provider
+}
+
 ###new items
 
 output "bastion_ssh_key" {
