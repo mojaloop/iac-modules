@@ -157,7 +157,7 @@ mojaloop:
       kafka_port: *KAFKA_PORT
       simple_routing_mode_enabled: ${quoting_service_simple_routing_mode_enabled}
       log_transport: "console"
-      log_level: "debug"
+      log_level: "info"
       db_password: *QUOTING_DB_PASSWORD
       db_secret: *QUOTING_DB_SECRET
       db_host: *QUOTING_DB_HOST
