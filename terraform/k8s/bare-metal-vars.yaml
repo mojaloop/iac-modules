@@ -1,9 +1,7 @@
 external_load_balancer_dns: publicip
 nat_public_ips: ["publicip"]
 internal_load_balancer_dns: 10.10.10.56
-egress_gateway_cidr:
-haproxy_external_ip: publicip
-haproxy_internal_ip: 10.10.10.56
+egress_gateway_cidr: 10.10.100.0/24
 bastion_public_ip: publicip
 haproxy_server_fqdn: haproxy.dev1.devbaremetal.infitx-labs.com
 private_subdomain: ""
@@ -34,4 +32,3 @@ route53_external_dns_secret_key: "changeme"
 longhorn_backups_access_key: "changeme"
 longhorn_backups_secret_key: "changeme"
 longhorn_backups_bucket_name: dev1.devbaremetal.infitx-labs.com-lhbck
-enable_ingress_k8s_lb: true

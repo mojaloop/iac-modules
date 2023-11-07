@@ -15,8 +15,6 @@ resource "local_sensitive_file" "ansible_inventory" {
       bastion_hosts_yaml_maps     = var.bastion_hosts_yaml_maps,
       test_harness_hosts          = var.test_harness_hosts,
       test_harness_hosts_var_maps = merge(var.test_harness_hosts_var_maps, local.jumphostmap)
-      haproxy_traffic_nodes       = local.haproxy_traffic_nodes
-      haproxy_master_nodes        = local.haproxy_master_nodes
     }
 
   )
@@ -58,7 +56,5 @@ locals {
   all_hosts_var_maps = {
     kubeconfig_local_location = local.ansible_output_dir
   }
-  haproxy_traffic_nodes = var.master_node_supports_traffic ? merge(var.master_hosts, var.agent_hosts) : var.agent_hosts
-  haproxy_master_nodes = var.master_hosts
 
 }
