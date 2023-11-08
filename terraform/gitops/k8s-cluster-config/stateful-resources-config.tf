@@ -45,7 +45,6 @@ resource "local_file" "namespace" {
   content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
     {
       all_ns = distinct(concat([var.stateful_resources_namespace], local.all_logical_extra_namespaces, local.all_local_namespaces, local.all_local_extra_namespaces))
-      enable_istio_injection = false
   })
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
