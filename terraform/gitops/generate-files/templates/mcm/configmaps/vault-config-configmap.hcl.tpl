@@ -26,6 +26,7 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
   name: {{ .Data.host }}-clientcert-tls
+  namespace: ${istio_egress_gateway_namespace}
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
@@ -48,6 +49,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
   name: {{ .Data.host }}
+  namespace: ${istio_egress_gateway_namespace}
 spec:
   hosts:
   - '{{ .Data.fqdn }}'
@@ -64,6 +66,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: {{ .Data.host }}-callback-gateway
+  namespace: ${istio_egress_gateway_namespace}
 spec:
   selector:
     istio: ${istio_egress_gateway_name}
@@ -81,6 +84,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: {{ .Data.host }}-callback
+  namespace: ${istio_egress_gateway_namespace}
 spec:
   host: {{ .Data.fqdn }}
   subsets:
@@ -99,6 +103,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: {{ .Data.host }}-callback
+  namespace: ${istio_egress_gateway_namespace}
 spec:
   hosts:
   - {{ .Data.fqdn }}
@@ -132,6 +137,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-{{ .Data.host }}-callback
+  namespace: ${istio_egress_gateway_namespace}
 spec:
   host: {{ .Data.fqdn }}
   trafficPolicy:
@@ -170,7 +176,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ .Data.host }}-onboard-dfsp
-  namespace: mojaloop
+  namespace: ${mojaloop_namespace}
 spec:
   template:
     spec:
@@ -245,7 +251,7 @@ spec:
 {{ end }}{{ end }}
   EOH
   destination = "/vault/secrets/tmp/callback.yaml"
-  command     = "kubectl -n ${istio_egress_gateway_namespace} apply -f /vault/secrets/tmp/callback.yaml"
+  command     = "kubectl apply -f /vault/secrets/tmp/callback.yaml"
 }
 
 template {
