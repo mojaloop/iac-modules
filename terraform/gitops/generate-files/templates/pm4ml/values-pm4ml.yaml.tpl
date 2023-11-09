@@ -182,6 +182,8 @@ ttk:
 %{ if ttk_enabled ~} 
   enabled: true
   ml-testing-toolkit-backend:
+    ingress:
+      enabled: false
     nameOverride: ttk-backend
     fullnameOverride: ttk-backend
     config:
@@ -194,6 +196,8 @@ ttk:
       }
 
   ml-testing-toolkit-frontend:
+    ingress:
+      enabled: false
     nameOverride: ttk-frontend
     fullnameOverride: ttk-frontend
 %{ else ~}
