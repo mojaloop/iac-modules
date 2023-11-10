@@ -7,6 +7,9 @@ db:
   schema: ${db_schema}
 
 api:
+  image:
+    name: ghcr.io/pm4ml/connection-manager-api
+    version: v1.9.7-snapshot.5
   url: https://${mcm_public_fqdn}
   extraTLS:
     rootCert:

@@ -24,6 +24,9 @@ module "generate_certman_files" {
     cert_manager_namespace                       = var.cert_manager_namespace
     gitlab_project_url                           = var.gitlab_project_url
     cert_manager_service_account_name            = var.cert_manager_service_account_name
+    cert_manager_credentials_client_secret_name  = local.cert_manager_credentials_client_secret_name
+    cert_manager_credentials_client_id_name      = local.cert_manager_credentials_client_id_name
+    dns_provider                                 = var.dns_provider
   }
 }
 

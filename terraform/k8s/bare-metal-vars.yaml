@@ -1,0 +1,34 @@
+external_load_balancer_dns: publicip
+nat_public_ips: ["publicip"]
+internal_load_balancer_dns: 10.10.10.56
+egress_gateway_cidr: 10.10.100.0/24
+bastion_public_ip: publicip
+haproxy_server_fqdn: haproxy.dev1.devbaremetal.infitx-labs.com
+private_subdomain: ""
+public_subdomain: "dev1.devbaremetal.infitx-labs.com"
+int_interop_switch_subdomain: intapi
+ext_interop_switch_subdomain: extapi
+target_group_internal_https_port: 31443
+target_group_internal_http_port: 31080
+target_group_external_https_port: 32443
+target_group_external_http_port: 32080
+target_group_internal_health_port: 31081
+target_group_external_health_port: 32081
+private_network_cidr:
+ssh_private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  -----END RSA PRIVATE KEY-----
+os_user_name: ubuntu
+base_domain: "devbaremetal.infitx-labs.com"
+kubeapi_loadbalancer_fqdn: none
+master_hosts_0_private_ip: "10.10.100.58"
+agent_hosts: []
+master_hosts: ["10.10.100.58", "10.10.100.59", "10.10.100.60"]
+k6s_callback_fqdn: none
+enable_k6s_test_harness: false
+test_harness_private_ip: none
+route53_external_dns_access_key: "changeme"
+route53_external_dns_secret_key: "changeme"
+longhorn_backups_access_key: "changeme"
+longhorn_backups_secret_key: "changeme"
+longhorn_backups_bucket_name: dev1.devbaremetal.infitx-labs.com-lhbck

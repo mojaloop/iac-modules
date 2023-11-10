@@ -17,6 +17,243 @@ auto_auth = {
 
 exit_after_auth = false
 pid_file = "/home/vault/.pid"
+template {
+  contents = <<EOH
+{{ range secrets "${onboarding_secret_path}/" }}
+{{ with secret (printf "${onboarding_secret_path}/%s" .) }}
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: {{ .Data.host }}-clientcert-tls
+  namespace: ${mojaloop_namespace}
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication: 
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: clientcertsecret
+      path: ${onboarding_secret_path}/{{ .Data.host }}
+  output:
+    name: {{ .Data.host }}-clientcert-tls
+    stringData:
+      ca.crt: '{{ `{{ .clientcertsecret.ca_bundle }}` }}'
+      tls.key: '{{ `{{ .clientcertsecret.client_key }}` }}'
+      tls.crt: '{{ `{{ .clientcertsecret.client_cert_chain }}` }}'
+    type: kubernetes.io/tls
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: {{ .Data.host }}
+  namespace: ${mojaloop_namespace}
+spec:
+  hosts:
+  - '{{ .Data.fqdn }}'
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  - number: 443
+    name: https
+    protocol: HTTPS
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ .Data.host }}-callback-gateway
+  namespace: ${mojaloop_namespace}
+spec:
+  selector:
+    istio: ${istio_egress_gateway_name}
+  servers:
+  - hosts:
+    - '{{ .Data.fqdn }}'
+    port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ .Data.host }}-callback
+  namespace: ${mojaloop_namespace}
+spec:
+  host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
+  subsets:
+  - name: {{ .Data.host }}
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+      portLevelSettings:
+      - port:
+          number: 443
+        tls:
+          mode: ISTIO_MUTUAL
+          sni: {{ .Data.fqdn }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Data.host }}-callback
+  namespace: ${mojaloop_namespace}
+spec:
+  hosts:
+  - {{ .Data.fqdn }}
+  gateways:
+  - {{ .Data.host }}-callback-gateway
+  - mesh
+  http:
+  - match:
+    - gateways:
+      - mesh
+      port: 80
+    route:
+    - destination:
+        host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
+        subset: {{ .Data.host }}
+        port:
+          number: 443
+      weight: 100
+  - match:
+    - gateways:
+      - {{ .Data.host }}-callback-gateway
+      port: 443
+    route:
+    - destination:
+        host: {{ .Data.fqdn }}
+        port:
+          number: 443
+      weight: 100
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: originate-mtls-for-{{ .Data.host }}-callback
+  namespace: ${mojaloop_namespace}
+spec:
+  host: {{ .Data.fqdn }}
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+    portLevelSettings:
+    - port:
+        number: 443
+      tls:
+        mode: MUTUAL
+        credentialName: {{ .Data.host }}-clientcert-tls
+        sni: {{ .Data.fqdn }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+  namespace: ${mojaloop_namespace}
+data:
+  cli-add-dfsp-config.json: |
+    {"logLevel":"2","mode":"outbound"}
+  cli-add-dfsp-environment.json: |
+    {
+      "inputValues": {
+        "HOST_ACCOUNT_LOOKUP_SERVICE": "http://${mojaloop_release_name}-account-lookup-service",
+        "HOST_CENTRAL_LEDGER": "http://${mojaloop_release_name}-centralledger-service",
+        "DFSP_CALLBACK_URL": "http://{{ .Data.fqdn }}",
+        "DFSP_NAME": "{{ .Data.host }}",
+        "currency": "{{ .Data.currency_code }}",
+        "hub_operator": "NOT_APPLICABLE",
+        "NET_DEBIT_CAP": "50000"
+      }
+    }
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Data.host }}-onboard-dfsp
+  namespace: ${mojaloop_namespace}
+spec:
+  template:
+    spec:
+      volumes:
+        - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+          configMap:
+            name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+            items:
+              - key: cli-add-dfsp-config.json
+                path: cli-add-dfsp-config.json
+              - key: cli-add-dfsp-environment.json
+                path: cli-add-dfsp-environment.json
+            defaultMode: 420
+
+      containers:
+        - name: ml-ttk-add-dfsp
+          image: mojaloop/ml-testing-toolkit-client-lib:v1.2.0
+          command:
+            - /bin/sh
+            - '-c'
+          args:
+            - >
+              echo "Downloading the test collection...";
+
+              wget
+              https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${onboarding_collection_tag}.zip
+              -O downloaded-test-collections.zip;
+
+              mkdir tmp_test_cases;
+
+              unzip -d tmp_test_cases -o downloaded-test-collections.zip;
+
+              npm run cli -- \
+                -c cli-add-dfsp-config.json \
+                -e cli-add-dfsp-environment.json \
+                -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning_dfsp \
+                -u http://moja-ml-testing-toolkit-backend:5050 \
+                --report-format html \
+                --report-auto-filename-enable true \
+                --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${public_subdomain}" \
+                --save-report true \
+                --report-name standard_provisioning_collection \
+                --save-report-base-url http://ttkbackend.${public_subdomain};
+              export TEST_RUNNER_EXIT_CODE="$?";
+
+              echo "Test Runner finished with exit code:
+              $TEST_RUNNER_EXIT_CODE";
+
+              exit $TEST_RUNNER_EXIT_CODE;
+          envFrom:
+            - secretRef:
+                name: moja-ml-ttk-test-setup-aws-creds
+          resources: {}
+          volumeMounts:
+            - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+              mountPath: /opt/app/cli-add-dfsp-environment.json
+              subPath: cli-add-dfsp-environment.json
+            - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
+              mountPath: /opt/app/cli-add-dfsp-config.json
+              subPath: cli-add-dfsp-config.json
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  completionMode: NonIndexed
+  suspend: false
+
+{{ end }}{{ end }}
+  EOH
+  destination = "/vault/secrets/tmp/callback.yaml"
+  command     = "kubectl apply -f /vault/secrets/tmp/callback.yaml"
+}
 
 template {
   contents = <<EOH

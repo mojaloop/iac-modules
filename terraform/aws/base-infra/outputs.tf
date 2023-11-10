@@ -3,6 +3,10 @@ output "bastion_public_ip" {
   value       = aws_instance.bastion.public_ip
 }
 
+output "bastion_private_ip" {
+  description = "Bastion Instance private ip"
+  value       = aws_instance.bastion.private_ip
+}
 output "ssh_private_key" {
   description = "Private key in PEM format"
   value       = tls_private_key.ec2_ssh_key.private_key_pem

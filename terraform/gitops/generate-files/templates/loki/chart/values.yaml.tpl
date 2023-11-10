@@ -1,5 +1,7 @@
 loki-stack:
   grafana:
+    image:
+      tag: 8.5.13
     enabled: true
     admin:
       ## Name of the secret. Can be templated.

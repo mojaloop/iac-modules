@@ -1,7 +1,8 @@
 all: 
   hosts: 
-    %{~ for host in all_hosts ~}
-    ${host}:
+    %{~ for name, ip in all_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
     %{~ endfor ~}
   vars:
     %{~ for varmapkey, varmapval in all_hosts_var_maps ~}
@@ -9,8 +10,9 @@ all:
     %{~ endfor ~}
 master: 
   hosts: 
-    %{~ for host in master_hosts ~}
-    ${host}:
+    %{~ for name, ip in master_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
     %{~ endfor ~}
   vars:
     %{~ for varmapkey, varmapval in master_hosts_var_maps ~}
@@ -22,8 +24,9 @@ master:
     %{~ endfor ~}
 agent: 
   hosts: 
-    %{~ for host in agent_hosts ~}
-    ${host}:
+    %{~ for name, ip in agent_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
     %{~ endfor ~}
   vars:
     %{~ for varmapkey, varmapval in agent_hosts_var_maps ~}
@@ -35,8 +38,9 @@ agent:
     %{~ endfor ~}
 bastion: 
   hosts: 
-    %{~ for host in bastion_hosts ~}
-    ${host}:
+    %{~ for name, ip in bastion_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
     %{~ endfor ~}
   vars:
     %{~ for varmapkey, varmapval in bastion_hosts_var_maps ~}
@@ -48,8 +52,9 @@ bastion:
     %{~ endfor ~}
 testharness:
   hosts: 
-    %{~ for host in test_harness_hosts ~}
-    ${host}:
+    %{~ for name, ip in test_harness_hosts ~}
+    ${name}:
+      ansible_host: ${ip}
     %{~ endfor ~}
   vars:
     %{~ for varmapkey, varmapval in test_harness_hosts_var_maps ~}

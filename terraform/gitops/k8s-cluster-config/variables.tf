@@ -20,7 +20,7 @@ variable "gitlab_project_url" {
 }
 
 variable "nat_public_ips" {
-  type        = list
+  type        = list(any)
   description = "nat_public_ips"
 }
 variable "internal_load_balancer_dns" {
@@ -93,11 +93,19 @@ variable "kv_path" {
   default     = "secret"
 }
 
+variable "dns_provider" {
+  description = "provider for ext dns"
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
   cloud_platform                                   = data.gitlab_project_variable.cloud_platform.value
   longhorn_backups_bucket_name                     = data.gitlab_project_variable.longhorn_backups_bucket_name.value
+  cert_manager_credentials_client_id_name          = data.gitlab_project_variable.cert_manager_credentials_client_id_name.value
+  cert_manager_credentials_client_secret_name      = data.gitlab_project_variable.cert_manager_credentials_client_secret_name.value
+  external_dns_credentials_client_secret_name      = data.gitlab_project_variable.external_dns_credentials_client_secret_name.value
+  external_dns_credentials_client_id_name          = data.gitlab_project_variable.external_dns_credentials_client_id_name.value
   cert_manager_credentials_secret_provider_key     = var.secrets_key_map["external_dns_cred_secret_key"]
   cert_manager_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
   external_dns_credentials_secret_provider_key     = var.secrets_key_map["external_dns_cred_secret_key"]

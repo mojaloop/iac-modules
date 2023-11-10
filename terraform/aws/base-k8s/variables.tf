@@ -33,6 +33,11 @@ variable "vpc_cidr" {
   description = "CIDR Subnet to use for the VPC, will be split into multiple /24s for the required private and public subnets"
 }
 
+variable "block_size" {
+  default = 3
+  description = "block size of individual subnets"
+}
+
 variable "create_public_zone" {
   default     = true
   type        = bool
@@ -180,6 +185,12 @@ variable "master_node_supports_traffic" {
   type        = bool
   default     = false
   description = "whether or not to enable ingress traffic on master nodes"
+}
+
+variable "dns_provider" {
+  type = string
+  default = "aws"
+  description = "which dns provider to use, defaults to cloud provider"
 }
 
 ###

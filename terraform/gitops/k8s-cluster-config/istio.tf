@@ -12,6 +12,8 @@ module "generate_istio_files" {
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
     istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
+    istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
+    istio_egress_gateway_name            = local.istio_egress_gateway_name
     external_ingress_https_port          = var.external_ingress_https_port
     external_ingress_http_port           = var.external_ingress_http_port
     external_ingress_health_port         = var.external_ingress_health_port
@@ -39,7 +41,8 @@ module "generate_istio_files" {
     "istio-main/values-kiali.yaml", "istio-main/values-istio-base.yaml", "istio-main/values-istio-istiod.yaml",
     "istio-gateways/kustomization.yaml", "istio-gateways/values-istio-external-ingress-gateway.yaml",
     "istio-gateways/values-istio-internal-ingress-gateway.yaml", "istio-gateways/lets-wildcard-cert.yaml",
-  "istio-gateways/namespace.yaml", "istio-gateways/proxy-protocol.yaml", "istio-gateways/gateways.yaml"]
+    "istio-gateways/namespace.yaml", "istio-gateways/proxy-protocol.yaml", "istio-gateways/gateways.yaml",
+    "istio-gateways/values-istio-egress-gateway.yaml"]
   template_path   = "${path.module}/../generate-files/templates/istio"
   output_path     = "${var.output_dir}/istio"
   app_file        = "istio-app.yaml"
@@ -122,4 +125,6 @@ variable "istio_create_ingress_gateways" {
 locals {
   istio_internal_wildcard_gateway_name = "internal-wildcard-gateway"
   istio_external_wildcard_gateway_name = "external-wildcard-gateway"
+  istio_egress_gateway_name = "callback-egress-gateway"
+  istio_egress_gateway_namespace = "egress-gateway"
 }

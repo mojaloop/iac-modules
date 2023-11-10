@@ -80,6 +80,7 @@ locals {
       k8s_cluster_type                  = val["k8s_cluster_type"]
       k8s_cluster_module                = val["k8s_cluster_module"]
       cloud_platform                    = val["cloud_platform"]
+      managed_svc_cloud_platform        = val["managed_svc_cloud_platform"]
       cloud_platform_client_secret_name = val["cloud_platform_client_secret_name"]
       domain                            = val["domain"]
       iac_terraform_modules_tag         = val["iac_terraform_modules_tag"]

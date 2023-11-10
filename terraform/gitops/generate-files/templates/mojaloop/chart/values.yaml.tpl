@@ -101,6 +101,8 @@ mojaloop:
 
   account-lookup-service:
     account-lookup-service:
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${account_lookup_service_replica_count}
       config:
         db_password: *ALS_DB_PASSWORD
@@ -145,6 +147,8 @@ mojaloop:
       enabled: false
 
   quoting-service:
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${quoting_service_replica_count}
     sidecar:
       enabled: true
@@ -153,7 +157,7 @@ mojaloop:
       kafka_port: *KAFKA_PORT
       simple_routing_mode_enabled: ${quoting_service_simple_routing_mode_enabled}
       log_transport: "console"
-      log_level: "debug"
+      log_level: "info"
       db_password: *QUOTING_DB_PASSWORD
       db_secret: *QUOTING_DB_SECRET
       db_host: *QUOTING_DB_HOST
@@ -189,6 +193,8 @@ mojaloop:
           #nginx.ingress.kubernetes.io/rewrite-target: /$2
         hostname: ml-api-adapter.${ingress_subdomain}
     ml-api-adapter-handler-notification:
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
       config:
         kafka_host: *KAFKA_HOST
@@ -400,6 +406,8 @@ mojaloop:
         db_database: *CS_DB_DATABASE
 
   transaction-requests-service:
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${trasaction_requests_service_replica_count}
     ingress:
 %{ if istio_create_ingress_gateways ~}
@@ -414,6 +422,8 @@ mojaloop:
     enabled: ${mojaloop_thirdparty_support_enabled}
     auth-svc:
       enabled: true
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${auth_service_replica_count}
       config:
         db_host: *TP_AUTH_SVC_DB_HOST
@@ -454,6 +464,8 @@ mojaloop:
 
     tp-api-svc:
       enabled: true
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${tp_api_svc_replica_count}
       ingress:
 %{ if istio_create_ingress_gateways ~}
@@ -500,6 +512,8 @@ mojaloop:
           className: *INGRESS_CLASS
           hostname: bulk-api-adapter.${ingress_subdomain}
       bulk-api-adapter-handler-notification:
+        podLabels:
+          sidecar.istio.io/inject: "${enable_istio_injection}"
         replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
         config:
           kafka_host: *KAFKA_HOST
@@ -832,6 +846,8 @@ mojaloop:
     testCaseEnvironmentFile:  *ttkInputValues
     job:
       enabled: true
+      templateLabels:
+        sidecar.istio.io/inject: "false"
       ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
       # ttlSecondsAfterFinished: 50
       generateNameEnabled: true
@@ -851,6 +867,8 @@ mojaloop:
     testCaseEnvironmentFile:  *ttkInputValues
     job:
       enabled: true
+      templateLabels:
+        sidecar.istio.io/inject: "false"
       ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
       # ttlSecondsAfterFinished: 50
       generateNameEnabled: true

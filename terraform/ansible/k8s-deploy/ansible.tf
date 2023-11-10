@@ -56,4 +56,5 @@ locals {
   all_hosts_var_maps = {
     kubeconfig_local_location = local.ansible_output_dir
   }
+
 }

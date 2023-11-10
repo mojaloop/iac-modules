@@ -61,6 +61,9 @@ module "generate_pm4ml_files" {
     kafka_port                                      = "9092"
     ttk_enabled                                     = var.app_var_map.pm4ml_ttk_enabled
     use_ttk_as_backend_simulator                    = var.use_ttk_as_backend_simulator
+    ttk_backend_fqdn                                = var.ttk_backend_fqdn
+    ttk_frontend_fqdn                               = var.ttk_frontend_fqdn
+    test_fqdn                                       = var.test_fqdn
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
   template_path   = "${path.module}/../generate-files/templates/pm4ml"
@@ -87,6 +90,15 @@ variable "experience_api_fqdn" {
 }
 variable "mojaloop_connnector_fqdn" {
   description = "fqdn for pm4ml connector"
+}
+variable "test_fqdn" {
+  description = "fqdn for pm4ml test"
+}
+variable "ttk_backend_fqdn" {
+  description = "fqdn for pm4ml ttk back"
+}
+variable "ttk_frontend_fqdn" {
+  description = "fqdn for pm4ml ttk front"
 }
 
 variable "pm4ml_vault_k8s_role_name" {

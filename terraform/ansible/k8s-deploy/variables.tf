@@ -84,3 +84,15 @@ variable "test_harness_hosts_var_maps" {
   description = "var map for k6s hosts"
   default = {}
 }
+
+variable "master_node_supports_traffic" {
+  type        = bool
+  default     = false
+  description = "whether or not to enable ingress traffic on master nodes"
+}
+
+variable "kubeapi_port" {
+  type        = number
+  description = "kubeapi_port"
+  default     = 6443
+}

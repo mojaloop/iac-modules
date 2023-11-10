@@ -36,7 +36,7 @@ module "generate_mcm_files" {
     dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
     dfsp_internal_whitelist_secret       = local.dfsp_internal_whitelist_secret
     dfsp_external_whitelist_secret       = local.dfsp_external_whitelist_secret
-    onboarding_secret_path               = local.onboarding_secret_path
+    onboarding_secret_path               = local.dfsp_client_cert_bundle
     whitelist_secret_path                = local.whitelist_secret_path
     mcm_service_account_name             = var.mcm_service_account_name
     pki_client_role                      = var.pki_client_cert_role
@@ -51,6 +51,8 @@ module "generate_mcm_files" {
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
     istio_external_wildcard_gateway_name = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
+    istio_egress_gateway_name            = var.istio_egress_gateway_name
+    istio_egress_gateway_namespace       = var.istio_egress_gateway_namespace
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     istio_external_gateway_name          = var.istio_external_gateway_name
     private_network_cidr                 = var.private_network_cidr
@@ -71,6 +73,9 @@ module "generate_mcm_files" {
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_gateway_name          = var.istio_internal_gateway_name
     int_interop_switch_fqdn              = var.internal_interop_switch_fqdn
+    mojaloop_namespace                   = var.mojaloop_namespace
+    mojaloop_release_name                = var.mojaloop_release_name
+    onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag
   }
   file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-secret.yaml", "vault-agent.yaml", "keycloak-realm-cr.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml", "vault-certificate.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mcm"

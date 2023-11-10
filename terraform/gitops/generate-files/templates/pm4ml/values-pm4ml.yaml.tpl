@@ -101,7 +101,7 @@ prometheus:
 scheme-adapter:
   sdk-scheme-adapter-api-svc:
     image:
-      tag: v23.1.2-snapshot.0
+      tag: v23.1.2-snapshot.2
 %{ if enable_sdk_bulk_transaction_support ~} 
     kafka: &kafkaConfig
       host: ${kafka_host}
@@ -127,14 +127,14 @@ scheme-adapter:
       CACHE_URL: redis://${redis_host}:${redis_port}
       JWS_SIGN: true
       VALIDATE_INBOUND_JWS: true
-      PEER_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
-      ALS_ENDPOINT: "${pm4ml_external_switch_fqdn}/fsp/1.0"
+      PEER_ENDPOINT: "${pm4ml_external_switch_fqdn}"
+      ALS_ENDPOINT: "${pm4ml_external_switch_fqdn}"
       OUTBOUND_MUTUAL_TLS_ENABLED: true
       INBOUND_MUTUAL_TLS_ENABLED: false
       OAUTH_TOKEN_ENDPOINT: "${pm4ml_external_switch_oidc_url}/${pm4ml_external_switch_oidc_token_route}"
       OAUTH_CLIENT_KEY: "${pm4ml_external_switch_client_id}"
-      OAUTH_CLIENT_SECRET_KEY: "${pm4ml_oidc_client_secret_secret_key}"
-      OAUTH_CLIENT_SECRET_NAME: "${pm4ml_oidc_client_secret_secret}"
+      OAUTH_CLIENT_SECRET_KEY: "${pm4ml_external_switch_client_secret_key}"
+      OAUTH_CLIENT_SECRET_NAME: "${pm4ml_external_switch_client_secret}"
 
 %{ if use_ttk_as_backend_simulator ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
@@ -182,6 +182,8 @@ ttk:
 %{ if ttk_enabled ~} 
   enabled: true
   ml-testing-toolkit-backend:
+    ingress:
+      enabled: false
     nameOverride: ttk-backend
     fullnameOverride: ttk-backend
     config:
@@ -194,8 +196,13 @@ ttk:
       }
 
   ml-testing-toolkit-frontend:
+    ingress:
+      enabled: false
     nameOverride: ttk-frontend
     fullnameOverride: ttk-frontend
+    config:
+      API_BASE_URL: https://${ttk_backend_fqdn}
+
 %{ else ~}
   enabled: false
 %{ endif ~}
