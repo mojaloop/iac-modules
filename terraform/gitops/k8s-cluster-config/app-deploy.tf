@@ -53,43 +53,46 @@ module "mojaloop" {
 }
 
 module "pm4ml" {
-  count                                          = var.common_var_map.pm4ml_enabled ? 1 : 0
-  source                                         = "../pm4ml"
-  nat_public_ips                                 = var.nat_public_ips
-  internal_load_balancer_dns                     = var.internal_load_balancer_dns
-  external_load_balancer_dns                     = var.external_load_balancer_dns
-  private_subdomain                              = var.private_subdomain
-  public_subdomain                               = var.public_subdomain
-  external_interop_switch_fqdn                   = local.external_interop_switch_fqdn
-  internal_interop_switch_fqdn                   = local.internal_interop_switch_fqdn
-  secrets_key_map                                = var.secrets_key_map
-  properties_key_map                             = var.properties_key_map
-  output_dir                                     = var.output_dir
-  gitlab_project_url                             = var.gitlab_project_url
-  cluster_name                                   = var.cluster_name
-  current_gitlab_project_id                      = var.current_gitlab_project_id
-  gitlab_group_name                              = var.gitlab_group_name
-  gitlab_api_url                                 = var.gitlab_api_url
-  gitlab_server_url                              = var.gitlab_server_url
-  kv_path                                        = var.kv_path
-  cert_manager_service_account_name              = var.cert_manager_service_account_name
-  keycloak_fqdn                                  = local.keycloak_fqdn
-  keycloak_name                                  = var.keycloak_name
-  keycloak_namespace                             = var.keycloak_namespace
-  vault_namespace                                = var.vault_namespace
-  cert_manager_namespace                         = var.cert_manager_namespace
-  pm4ml_oidc_client_secret_secret_key            = var.pm4ml_oidc_client_secret_secret_key
-  pm4ml_oidc_client_secret_secret                = var.pm4ml_oidc_client_secret_secret
-  istio_external_gateway_name                    = var.istio_external_gateway_name
-  istio_internal_gateway_name                    = var.istio_internal_gateway_name
-  istio_external_wildcard_gateway_name           = local.istio_external_wildcard_gateway_name
-  istio_internal_wildcard_gateway_name           = local.istio_internal_wildcard_gateway_name
-  local_vault_kv_root_path                       = local.local_vault_kv_root_path
-  portal_fqdn                                    = local.portal_fqdn
-  experience_api_fqdn                            = local.experience_api_fqdn
-  mojaloop_connnector_fqdn                       = local.mojaloop_connnector_fqdn
-  vault_root_ca_name                             = "pki-${var.cluster_name}"
-  app_var_map                                    = var.app_var_map
+  count                                = var.common_var_map.pm4ml_enabled ? 1 : 0
+  source                               = "../pm4ml"
+  nat_public_ips                       = var.nat_public_ips
+  internal_load_balancer_dns           = var.internal_load_balancer_dns
+  external_load_balancer_dns           = var.external_load_balancer_dns
+  private_subdomain                    = var.private_subdomain
+  public_subdomain                     = var.public_subdomain
+  external_interop_switch_fqdn         = local.external_interop_switch_fqdn
+  internal_interop_switch_fqdn         = local.internal_interop_switch_fqdn
+  secrets_key_map                      = var.secrets_key_map
+  properties_key_map                   = var.properties_key_map
+  output_dir                           = var.output_dir
+  gitlab_project_url                   = var.gitlab_project_url
+  cluster_name                         = var.cluster_name
+  current_gitlab_project_id            = var.current_gitlab_project_id
+  gitlab_group_name                    = var.gitlab_group_name
+  gitlab_api_url                       = var.gitlab_api_url
+  gitlab_server_url                    = var.gitlab_server_url
+  kv_path                              = var.kv_path
+  cert_manager_service_account_name    = var.cert_manager_service_account_name
+  keycloak_fqdn                        = local.keycloak_fqdn
+  keycloak_name                        = var.keycloak_name
+  keycloak_namespace                   = var.keycloak_namespace
+  vault_namespace                      = var.vault_namespace
+  cert_manager_namespace               = var.cert_manager_namespace
+  pm4ml_oidc_client_secret_secret_key  = var.pm4ml_oidc_client_secret_secret_key
+  pm4ml_oidc_client_secret_secret      = var.pm4ml_oidc_client_secret_secret
+  istio_external_gateway_name          = var.istio_external_gateway_name
+  istio_internal_gateway_name          = var.istio_internal_gateway_name
+  istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
+  istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
+  local_vault_kv_root_path             = local.local_vault_kv_root_path
+  portal_fqdn                          = local.portal_fqdn
+  experience_api_fqdn                  = local.experience_api_fqdn
+  mojaloop_connnector_fqdn             = local.mojaloop_connnector_fqdn
+  ttk_backend_fqdn                     = local.ttk_backend_public_fqdn
+  ttk_frontend_fqdn                    = local.ttk_frontend_public_fqdn
+  test_fqdn                            = local.test_public_fqdn
+  vault_root_ca_name                   = "pki-${var.cluster_name}"
+  app_var_map                          = var.app_var_map
 }
 
 variable "app_var_map" {
@@ -164,6 +167,7 @@ locals {
   portal_fqdn              = "portal.${var.public_subdomain}"
   experience_api_fqdn      = "experience-api.${var.public_subdomain}"
   mojaloop_connnector_fqdn = "connector.${var.public_subdomain}"
+  test_fqdn                = "test.${var.public_subdomain}"
 
   pm4ml_internal_gateway_hosts = (local.pm4ml_wildcard_gateway == "internal") ? [local.portal_fqdn, local.experience_api_fqdn] : []
   pm4ml_external_gateway_hosts = concat(local.pm4ml_wildcard_gateway == "external" ? [local.portal_fqdn, local.experience_api_fqdn] : [])
@@ -174,10 +178,10 @@ locals {
     local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
     local.loki_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [],
-    var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [])
+  var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [])
   external_gateway_hosts = concat([local.keycloak_fqdn],
     local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
     local.loki_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
-    var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
+  var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
 }

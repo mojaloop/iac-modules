@@ -119,7 +119,7 @@ spec:
   gateways:
     - istio-ingress-int/internal-wildcard-gateway
   hosts:
-    - "test.devpm4ml.labsk8s901.mojaloop.live"
+    - '${test_fqdn}'
   http:
     - name: "sim-backend"
       match:
@@ -166,3 +166,61 @@ spec:
             host: ${pm4ml_release_name}-management-api
             port:
               number: 9050
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ${pm4ml_release_name}-ttkfront-vs
+spec:
+  gateways:
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+  hosts:
+  - '${ttk_frontend_fqdn}'
+  http:
+    - match:
+        - uri: 
+            prefix: /
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-ttk-frontend
+            port:
+              number: 6060
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ${pm4ml_release_name}-ttkback-vs
+spec:
+  gateways:
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+  hosts:
+  - '${ttk_backend_fqdn}'
+  http:
+    - name: api
+      match:
+        - uri: 
+            prefix: /api/
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-ttk-backend
+            port:
+              number: 5050
+    - name: socket
+      match:
+        - uri: 
+            prefix: /socket.io/
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-ttk-backend
+            port:
+              number: 5050
+    - name: root
+      match:
+        - uri: 
+            prefix: /
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-ttk-backend
+            port:
+              number: 4040
+---
