@@ -19,7 +19,7 @@ subjects:
   namespace: ${mcm_namespace}
 roleRef:
   kind: Role
-  name: ccreate-update-dfsp-job
+  name: create-update-dfsp-job
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -39,7 +39,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: create-update-istio-crs
-  namespace: ${istio_egress_gateway_namespace}
+  namespace: ${mojaloop_namespace}
 rules:
   - apiGroups: ["networking.istio.io"]
     resources: ["virtualservices", "destinationrules", "gateways"]
@@ -63,7 +63,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: create-update-istio-crs-binding
-  namespace: ${istio_egress_gateway_namespace}
+  namespace: ${mojaloop_namespace}
 subjects:
 - kind: ServiceAccount
   name: ${mcm_service_account_name}

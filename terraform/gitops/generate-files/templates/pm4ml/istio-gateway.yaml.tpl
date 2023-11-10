@@ -101,7 +101,7 @@ spec:
   hosts:
   - '${mojaloop_connnector_fqdn}'
   http:
-    - name: "mojaloop_-connector"
+    - name: "mojaloop-connector"
       match:
         - uri: 
             prefix: /inbound/

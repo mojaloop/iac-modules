@@ -207,7 +207,7 @@ variable "ttk_test_currency1" {
 variable "ttk_test_currency2" {
   description = "Test currency2 for TTK GP tests"
   type        = string
-  default     = "GBP"
+  default     = "USD"
 }
 
 variable "ttk_test_currency3" {

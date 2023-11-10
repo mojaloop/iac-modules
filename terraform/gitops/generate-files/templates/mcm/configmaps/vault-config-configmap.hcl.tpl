@@ -26,7 +26,7 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
   name: {{ .Data.host }}-clientcert-tls
-  namespace: ${istio_egress_gateway_namespace}
+  namespace: ${mojaloop_namespace}
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
@@ -49,10 +49,11 @@ apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
   name: {{ .Data.host }}
-  namespace: ${istio_egress_gateway_namespace}
+  namespace: ${mojaloop_namespace}
 spec:
   hosts:
   - '{{ .Data.fqdn }}'
+  location: MESH_EXTERNAL
   ports:
   - number: 80
     name: http
@@ -66,7 +67,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: {{ .Data.host }}-callback-gateway
-  namespace: ${istio_egress_gateway_namespace}
+  namespace: ${mojaloop_namespace}
 spec:
   selector:
     istio: ${istio_egress_gateway_name}
@@ -84,9 +85,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: {{ .Data.host }}-callback
-  namespace: ${istio_egress_gateway_namespace}
+  namespace: ${mojaloop_namespace}
 spec:
-  host: {{ .Data.fqdn }}
+  host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
   subsets:
   - name: {{ .Data.host }}
     trafficPolicy:
@@ -103,7 +104,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: {{ .Data.host }}-callback
-  namespace: ${istio_egress_gateway_namespace}
+  namespace: ${mojaloop_namespace}
 spec:
   hosts:
   - {{ .Data.fqdn }}
@@ -117,7 +118,7 @@ spec:
       port: 80
     route:
     - destination:
-        host: {{ .Data.fqdn }}
+        host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
         subset: {{ .Data.host }}
         port:
           number: 443
@@ -137,7 +138,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-{{ .Data.host }}-callback
-  namespace: ${istio_egress_gateway_namespace}
+  namespace: ${mojaloop_namespace}
 spec:
   host: {{ .Data.fqdn }}
   trafficPolicy:
@@ -164,7 +165,7 @@ data:
       "inputValues": {
         "HOST_ACCOUNT_LOOKUP_SERVICE": "http://${mojaloop_release_name}-account-lookup-service",
         "HOST_CENTRAL_LEDGER": "http://${mojaloop_release_name}-centralledger-service",
-        "DFSP_CALLBACK_URL": "{{ .Data.fqdn }}",
+        "DFSP_CALLBACK_URL": "http://{{ .Data.fqdn }}",
         "DFSP_NAME": "{{ .Data.host }}",
         "currency": "{{ .Data.currency_code }}",
         "hub_operator": "NOT_APPLICABLE",
