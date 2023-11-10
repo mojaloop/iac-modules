@@ -90,7 +90,7 @@ module "pm4ml" {
   mojaloop_connnector_fqdn             = local.mojaloop_connnector_fqdn
   ttk_backend_fqdn                     = local.ttk_backend_public_fqdn
   ttk_frontend_fqdn                    = local.ttk_frontend_public_fqdn
-  test_fqdn                            = local.test_public_fqdn
+  test_fqdn                            = local.test_fqdn
   vault_root_ca_name                   = "pki-${var.cluster_name}"
   app_var_map                          = var.app_var_map
 }
