@@ -11,7 +11,7 @@ variable "tags" {
   type        = map(string)
 }
 
-variable "rds_services" {
+variable "msk_services" {
   description = "rds services to create"
 }
 
