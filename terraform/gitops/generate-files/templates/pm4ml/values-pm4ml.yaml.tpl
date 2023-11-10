@@ -200,6 +200,9 @@ ttk:
       enabled: false
     nameOverride: ttk-frontend
     fullnameOverride: ttk-frontend
+    config:
+      API_BASE_URL: https://${ttk_backend_fqdn}
+
 %{ else ~}
   enabled: false
 %{ endif ~}
