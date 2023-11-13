@@ -4,13 +4,13 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${pm4ml_sync_wave}"
-  name: pm4ml
+  name: ${pm4ml_release_name}
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/pm4ml
+    path: apps/${pm4ml_release_name}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

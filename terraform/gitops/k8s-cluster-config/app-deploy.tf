@@ -53,7 +53,7 @@ module "mojaloop" {
 }
 
 module "pm4ml" {
-  count                                = var.common_var_map.pm4ml_enabled ? 1 : 0
+  for_each                             = var.common_var_map.pm4ml_enabled ? toset(var.app_var_map.pm4mls) : null
   source                               = "../pm4ml"
   nat_public_ips                       = var.nat_public_ips
   internal_load_balancer_dns           = var.internal_load_balancer_dns
@@ -85,14 +85,16 @@ module "pm4ml" {
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
   local_vault_kv_root_path             = local.local_vault_kv_root_path
-  portal_fqdn                          = local.portal_fqdn
-  experience_api_fqdn                  = local.experience_api_fqdn
-  mojaloop_connnector_fqdn             = local.mojaloop_connnector_fqdn
-  ttk_backend_fqdn                     = local.ttk_backend_public_fqdn
-  ttk_frontend_fqdn                    = local.ttk_frontend_public_fqdn
-  test_fqdn                            = local.test_fqdn
+  portal_fqdn                          = local.portal_fqdns[each.key]
+  experience_api_fqdn                  = local.experience_api_fqdns[each.key]
+  mojaloop_connnector_fqdn             = local.mojaloop_connnector_fqdns[each.key]
+  ttk_backend_fqdn                     = local.pm4ml_ttk_backend_fqdns[each.key]
+  ttk_frontend_fqdn                    = local.pm4ml_ttk_frontend_fqdns[each.key]
+  test_fqdn                            = local.test_fqdns[each.key]
   vault_root_ca_name                   = "pki-${var.cluster_name}"
-  app_var_map                          = var.app_var_map
+  app_var_map                          = each.value
+  pm4ml_release_name                   = each.key
+  pm4ml_namespace                      = each.key
 }
 
 variable "app_var_map" {
@@ -164,14 +166,16 @@ locals {
     local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
   local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
 
-  portal_fqdn              = "portal.${var.public_subdomain}"
-  experience_api_fqdn      = "experience-api.${var.public_subdomain}"
-  mojaloop_connnector_fqdn = "connector.${var.public_subdomain}"
-  test_fqdn                = "test.${var.public_subdomain}"
+  portal_fqdns              = [for pm4ml in var.app_var_map.pm4mls : "portal-${pm4ml}.${var.public_subdomain}"]
+  experience_api_fqdns      = [for pm4ml in var.app_var_map.pm4mls : "exp-${pm4ml}.${var.public_subdomain}"]
+  mojaloop_connnector_fqdns = [for pm4ml in var.app_var_map.pm4mls : "conn-${pm4ml}.${var.public_subdomain}"]
+  test_fqdns                = [for pm4ml in var.app_var_map.pm4mls : "test-${pm4ml}.${var.public_subdomain}"]
+  pm4ml_ttk_frontend_fqdns  = [for pm4ml in var.app_var_map.pm4mls : "ttkfront-${pm4ml}.${var.public_subdomain}"]
+  pm4ml_ttk_backend_fqdns   = [for pm4ml in var.app_var_map.pm4mls : "ttkback-${pm4ml}.${var.public_subdomain}"]
 
-  pm4ml_internal_gateway_hosts = concat(local.pm4ml_wildcard_gateway == "internal" ? [local.portal_fqdn, local.experience_api_fqdn] : [], 
-    [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn, local.test_fqdn])
-  pm4ml_external_gateway_hosts = concat(local.pm4ml_wildcard_gateway == "external" ? [local.portal_fqdn, local.experience_api_fqdn] : [])
+  pm4ml_internal_gateway_hosts = concat(local.pm4ml_wildcard_gateway == "internal" ? concat(local.portal_fqdns, local.experience_api_fqdns) : [],
+  concat(local.pm4ml_ttk_frontend_fqdns, local.pm4ml_ttk_backend_fqdns, local.test_fqdns))
+  pm4ml_external_gateway_hosts = concat(local.pm4ml_wildcard_gateway == "external" ? concat(local.portal_fqdns, local.experience_api_fqdns) : [])
 
   keycloak_realm_env_secret_map = var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map
 
