@@ -180,7 +180,7 @@ locals {
   pm4ml_internal_wildcard_exp_hosts    = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
   pm4ml_external_wildcard_exp_hosts    = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
 
-  pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, local.pm4ml_ttk_frontend_fqdns.values, local.pm4ml_ttk_backend_fqdns.values, local.test_fqdns.values)
+  pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, values(local.pm4ml_ttk_frontend_fqdns), values(local.pm4ml_ttk_backend_fqdns), values(local.test_fqdns))
   pm4ml_external_gateway_hosts = concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_external_wildcard_exp_hosts)
 
   keycloak_realm_env_secret_map = var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map
