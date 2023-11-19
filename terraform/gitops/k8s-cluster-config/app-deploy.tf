@@ -144,7 +144,6 @@ locals {
   pm4ml_var_map = {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
-  pm4ml_wildcard_gateways = [for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external"]
   mojaloop_keycloak_realm_env_secret_map = {
     "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
     "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
@@ -167,19 +166,19 @@ locals {
     local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
   local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
 
-  portal_fqdns              = [for pm4ml in local.pm4ml_var_map : "portal-${pm4ml.pm4ml}.${var.public_subdomain}"]
-  experience_api_fqdns      = [for pm4ml in local.pm4ml_var_map : "exp-${pm4ml.pm4ml}.${var.public_subdomain}"]
-  mojaloop_connnector_fqdns = [for pm4ml in local.pm4ml_var_map : "conn-${pm4ml.pm4ml}.${var.public_subdomain}"]
-  test_fqdns                = [for pm4ml in local.pm4ml_var_map : "test-${pm4ml.pm4ml}.${var.public_subdomain}"]
-  pm4ml_ttk_frontend_fqdns  = [for pm4ml in local.pm4ml_var_map : "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}"]
-  pm4ml_ttk_backend_fqdns   = [for pm4ml in local.pm4ml_var_map : "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}"]
+  portal_fqdns              = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}"}
+  experience_api_fqdns      = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "exp-${pm4ml.pm4ml}.${var.public_subdomain}"}
+  mojaloop_connnector_fqdns = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "conn-${pm4ml.pm4ml}.${var.public_subdomain}"}
+  test_fqdns                = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "test-${pm4ml.pm4ml}.${var.public_subdomain}"}
+  pm4ml_ttk_frontend_fqdns  = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}"}
+  pm4ml_ttk_backend_fqdns   = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}"}
 
-  pm4ml_internal_wildcard_portal_hosts = [for key, pm4ml in local.pm4ml_var_map : local.portal_fqdns[key] if pm4ml.pm4ml_wildcard_gateway == "internal"]
-  pm4ml_external_wildcard_portal_hosts = [for key, pm4ml in local.pm4ml_var_map : local.portal_fqdns[key] if pm4ml.pm4ml_wildcard_gateway == "external"]
-  pm4ml_internal_wildcard_exp_hosts    = [for key, pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[key] if pm4ml.pm4ml_wildcard_gateway == "internal"]
-  pm4ml_external_wildcard_exp_hosts    = [for key, pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[key] if pm4ml.pm4ml_wildcard_gateway == "external"]
+  pm4ml_internal_wildcard_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if pm4ml.pm4ml_wildcard_gateway == "internal"]
+  pm4ml_external_wildcard_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if pm4ml.pm4ml_wildcard_gateway == "external"]
+  pm4ml_internal_wildcard_exp_hosts    = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if pm4ml.pm4ml_wildcard_gateway == "internal"]
+  pm4ml_external_wildcard_exp_hosts    = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if pm4ml.pm4ml_wildcard_gateway == "external"]
 
-  pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, local.pm4ml_ttk_frontend_fqdns, local.pm4ml_ttk_backend_fqdns, local.test_fqdns)
+  pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, local.pm4ml_ttk_frontend_fqdns.values, local.pm4ml_ttk_backend_fqdns.values, local.test_fqdns.values)
   pm4ml_external_gateway_hosts = concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_external_wildcard_exp_hosts)
 
   keycloak_realm_env_secret_map = var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map
