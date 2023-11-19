@@ -151,6 +151,8 @@ locals {
   pm4ml_keycloak_realm_env_secret_map = { for key, pm4ml in local.pm4ml_var_map :
     "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.pm4ml_oidc_client_secret_secret_key
   }
+  pm4ml_wildcard_gateways = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external"}
+
   mcm_public_fqdn              = "mcm.${var.public_subdomain}"
   vault_public_fqdn            = "vault.${var.public_subdomain}"
   grafana_public_fqdn          = "grafana.${var.public_subdomain}"
@@ -173,10 +175,10 @@ locals {
   pm4ml_ttk_frontend_fqdns  = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}"}
   pm4ml_ttk_backend_fqdns   = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}"}
 
-  pm4ml_internal_wildcard_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if pm4ml.pm4ml_wildcard_gateway == "internal"]
-  pm4ml_external_wildcard_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if pm4ml.pm4ml_wildcard_gateway == "external"]
-  pm4ml_internal_wildcard_exp_hosts    = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if pm4ml.pm4ml_wildcard_gateway == "internal"]
-  pm4ml_external_wildcard_exp_hosts    = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if pm4ml.pm4ml_wildcard_gateway == "external"]
+  pm4ml_internal_wildcard_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
+  pm4ml_external_wildcard_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
+  pm4ml_internal_wildcard_exp_hosts    = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
+  pm4ml_external_wildcard_exp_hosts    = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
 
   pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, local.pm4ml_ttk_frontend_fqdns.values, local.pm4ml_ttk_backend_fqdns.values, local.test_fqdns.values)
   pm4ml_external_gateway_hosts = concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_external_wildcard_exp_hosts)
