@@ -17,7 +17,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: role-tokenreview-binding
-  namespace: default
+  namespace: ${pm4ml_namespace}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
