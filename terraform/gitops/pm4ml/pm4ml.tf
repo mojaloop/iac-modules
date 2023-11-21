@@ -8,7 +8,7 @@ module "generate_pm4ml_files" {
     pm4ml_release_name                              = each.key
     pm4ml_namespace                                 = each.key
     storage_class_name                              = var.storage_class_name
-    pm4ml_sync_wave                                 = var.pm4ml_sync_wave
+    pm4ml_sync_wave                                 = var.pm4ml_sync_wave + index(var.app_var_map, each.key)
     external_load_balancer_dns                      = var.external_load_balancer_dns
     istio_internal_wildcard_gateway_name            = var.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace                = var.istio_internal_gateway_namespace
@@ -121,9 +121,9 @@ variable "pm4ml_chart_repo" {
 }
 
 variable "pm4ml_sync_wave" {
-  type        = string
+  type        = number
   description = "pm4ml_sync_wave"
-  default     = "0"
+  default     = 0
 }
 
 variable "pm4ml_oidc_client_id_prefix" {
