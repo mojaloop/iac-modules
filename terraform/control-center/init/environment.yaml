@@ -29,10 +29,21 @@ envs:
     letsencrypt_email: test@mojalabs.io
     dns_zone_force_destroy: true
     longhorn_backup_object_store_destroy: true
-    agent_instance_type: "m5.2xlarge"
-    master_instance_type: "m5.4xlarge"
-    master_node_count: 3
-    agent_node_count: 0
+    nodes:
+      master-generic:
+        master: true
+        instance_type: "m5.4xlarge"
+        node_count: 3
+        storage_gbs: 300
+        node_labels:
+          node.type: generic
+      agent-mysql:
+        instance_type: "m5.2xlarge"
+        master: false
+        node_count: 0
+        storage_gbs: 300
+        node_labels:
+          node.type: mysql
     vpc_cidr: "10.106.0.0/23"
     enable_k6s_test_harness: false
     k6s_docker_server_instance_type: "m5.2xlarge"
