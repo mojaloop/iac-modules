@@ -49,11 +49,12 @@ module "k6s_test_harness" {
 #############################
 ### Create Nodes
 #############################
-resource "aws_launch_template" "master" {
-  name_prefix   = "${local.name}-master"
+resource "aws_launch_template" "node" {
+  for_each      = var.nodes
+  name_prefix   = "${local.name}-${each.value.master ? "master" : "agent"}"
   image_id      = module.ubuntu_focal_ami.id
-  instance_type = var.master_instance_type
-  user_data     = data.template_cloudinit_config.master.rendered
+  instance_type = each.value.instance_type
+  user_data     = data.template_cloudinit_config.generic.rendered
   key_name      = module.base_infra.key_pair_name
 
   block_device_mappings {
@@ -62,18 +63,18 @@ resource "aws_launch_template" "master" {
     ebs {
       encrypted   = true
       volume_type = "gp2"
-      volume_size = var.master_volume_size
+      volume_size = each.value.storage_gbs
     }
   }
 
   network_interfaces {
     delete_on_termination = true
-    security_groups       = local.master_security_groups
+    security_groups       = each.value.master ? local.master_security_groups : local.agent_security_groups
   }
 
 
   tags = merge(
-    { Name = "${local.name}-master" },
+    { Name = "${local.name}-${each.value.master ? "master" : "agent"}" },
     local.common_tags
   )
 
@@ -82,7 +83,7 @@ resource "aws_launch_template" "master" {
     resource_type = "instance"
 
     tags = merge(
-      { Name = "${local.name}-master" },
+      { Name = "${local.name}-${each.value.master ? "master" : "agent"}" },
       local.common_tags
     )
   }
@@ -90,7 +91,7 @@ resource "aws_launch_template" "master" {
     resource_type = "volume"
 
     tags = merge(
-      { Name = "${local.name}-master" },
+      { Name = "${local.name}-${each.value.master ? "master" : "agent"}" },
       local.common_tags
     )
   }
@@ -98,7 +99,7 @@ resource "aws_launch_template" "master" {
     resource_type = "network-interface"
 
     tags = merge(
-      { Name = "${local.name}-master" },
+      { Name = "${local.name}-${each.value.master ? "master" : "agent"}" },
       local.common_tags
     )
   }
@@ -109,111 +110,24 @@ resource "aws_launch_template" "master" {
   }
 }
 
-resource "aws_launch_template" "agent" {
-  name_prefix   = "${local.name}-agent"
-  image_id      = module.ubuntu_focal_ami.id
-  instance_type = var.agent_instance_type
-  user_data     = data.template_cloudinit_config.agent.rendered
-  key_name      = module.base_infra.key_pair_name
-
-  block_device_mappings {
-    device_name = "/dev/sda1"
-
-    ebs {
-      encrypted   = true
-      volume_type = "gp2"
-      volume_size = var.agent_volume_size
-    }
-  }
-
-  network_interfaces {
-    delete_on_termination = true
-    security_groups       = local.agent_security_groups
-  }
-
-  tags = merge(
-    { Name = "${local.name}-agent" },
-    local.common_tags
-  )
-
-  tag_specifications {
-    resource_type = "instance"
-
-    tags = merge(
-      { Name = "${local.name}-agent" },
-      local.common_tags
-    )
-  }
-  tag_specifications {
-    resource_type = "volume"
-
-    tags = merge(
-      { Name = "${local.name}-agent" },
-      local.common_tags
-    )
-  }
-  tag_specifications {
-    resource_type = "network-interface"
-
-    tags = merge(
-      { Name = "${local.name}-agent" },
-      local.common_tags
-    )
-  }
-  lifecycle {
-    ignore_changes = [
-      image_id
-    ]
-  }
-}
-
-resource "aws_autoscaling_group" "master" {
-  name_prefix         = "${local.name}-master"
-  desired_capacity    = var.master_node_count
-  max_size            = var.master_node_count
-  min_size            = var.master_node_count
+resource "aws_autoscaling_group" "node" {
+  for_each            = var.nodes
+  name_prefix         = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}"
+  desired_capacity    = each.value.node_count
+  max_size            = each.value.node_count
+  min_size            = each.value.node_count
   vpc_zone_identifier = module.base_infra.private_subnets
 
   # Join the master to the internal load balancer for the kube api on 6443
-  target_group_arns = local.master_target_groups
+  target_group_arns = each.value.master ? local.master_target_groups : local.agent_target_groups
 
   launch_template {
-    id      = aws_launch_template.master.id
+    id      = aws_launch_template.node[each.key].id
     version = "$Latest"
   }
   tag {
     key                 = "Name"
-    value               = "${local.name}-master"
-    propagate_at_launch = false
-  }
-  tag {
-    key                 = "Cluster"
-    value               = var.cluster_name
-    propagate_at_launch = false
-  }
-  tag {
-    key                 = "Domain"
-    value               = local.base_domain
-    propagate_at_launch = false
-  }
-}
-
-resource "aws_autoscaling_group" "agent" {
-  name_prefix         = "${local.name}-agent"
-  desired_capacity    = var.agent_node_count
-  max_size            = var.agent_node_count
-  min_size            = var.agent_node_count
-  vpc_zone_identifier = module.base_infra.private_subnets
-
-  target_group_arns = local.agent_target_groups
-
-  launch_template {
-    id      = aws_launch_template.agent.id
-    version = "$Latest"
-  }
-  tag {
-    key                 = "Name"
-    value               = "${local.name}-agent"
+    value               = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}"
     propagate_at_launch = false
   }
   tag {
@@ -227,32 +141,26 @@ resource "aws_autoscaling_group" "agent" {
     propagate_at_launch = false
   }
 
+  tag {
+    key                 = "k8s-role"
+    value               = each.value.master ? "master" : "agent"
+    propagate_at_launch = false
+  }
 }
+
 
 data "aws_instances" "master" {
-  instance_tags = merge({ Name = "${local.name}-master" }, local.identifying_tags)
-  depends_on    = [aws_autoscaling_group.master]
+  instance_tags = merge({ k8s-role = "master" }, local.identifying_tags)
+  depends_on    = [aws_autoscaling_group.node]
 }
 
 data "aws_instances" "agent" {
-  count         = var.agent_node_count > 0 ? 1 : 0
-  instance_tags = merge({ Name = "${local.name}-agent" }, local.identifying_tags)
-  depends_on    = [aws_autoscaling_group.agent]
+  count = local.total_agent_count > 0 ? 1 : 0
+  instance_tags = merge({ k8s-role = "agent" }, local.identifying_tags)
+  depends_on    = [aws_autoscaling_group.node]
 }
 
-data "template_cloudinit_config" "agent" {
-  gzip          = true
-  base64_encode = true
-
-  # Main cloud-config configuration file.
-  part {
-    filename     = "init.cfg"
-    content_type = "text/cloud-config"
-    content      = templatefile("${path.module}/templates/cloud-config-base.yaml", { ssh_keys = local.ssh_keys })
-  }
-}
-
-data "template_cloudinit_config" "master" {
+data "template_cloudinit_config" "generic" {
   gzip          = true
   base64_encode = true
 
@@ -281,4 +189,5 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
+  total_agent_count = length([for node in var.nodes : node if !node.master])
 }
