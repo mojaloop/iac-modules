@@ -146,17 +146,17 @@ resource "aws_autoscaling_group" "node" {
     value               = each.value.master ? "master" : "agent"
     propagate_at_launch = false
   }
+  tag {
+    key                 = "nodepool-name"
+    value               = each.key
+    propagate_at_launch = false
+  }
 }
 
 
-data "aws_instances" "master" {
-  instance_tags = merge({ k8s-role = "master" }, local.identifying_tags)
-  depends_on    = [aws_autoscaling_group.node]
-}
-
-data "aws_instances" "agent" {
-  count = local.total_agent_count > 0 ? 1 : 0
-  instance_tags = merge({ k8s-role = "agent" }, local.identifying_tags)
+data "aws_instances" "node" {
+  for_each      = var.nodes
+  instance_tags = merge({ nodepool-name = each.key }, local.identifying_tags)
   depends_on    = [aws_autoscaling_group.node]
 }
 
@@ -189,5 +189,5 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
-  total_agent_count = length([for node in var.nodes : node if !node.master])
+  total_agent_count      = length([for node in var.nodes : node if !node.master])
 }

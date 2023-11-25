@@ -79,7 +79,9 @@ output "master_hosts_var_maps" {
 }
 
 output "master_hosts_yaml_maps" {
-  value = {}
+  value = {
+    node_labels = merge(local.node_labels...)
+  }
 }
 
 output "secrets_var_map" {
@@ -114,7 +116,7 @@ output "all_hosts_var_maps" {
 output "agent_hosts_var_maps" {
   sensitive = true
   value = {
-    master_ip = data.aws_instances.master.private_ips[0]
+    master_ip = local.master_hosts[keys(local.master_hosts)[0]]
   }
 }
 
@@ -139,11 +141,11 @@ output "bastion_hosts" {
 }
 
 output "agent_hosts" {
-  value = local.total_agent_count > 0 ? { for i, id in data.aws_instances.agent[0].ids : id => data.aws_instances.agent[0].private_ips[i] } : {}
+  value = local.agent_hosts[0]
 }
 
 output "master_hosts" {
-  value = { for i, id in data.aws_instances.master.ids : id => data.aws_instances.master.private_ips[i] }
+  value = local.master_hosts[0]
 }
 
 output "test_harness_hosts" {
@@ -152,4 +154,25 @@ output "test_harness_hosts" {
 
 output "test_harness_hosts_var_maps" {
   value = var.enable_k6s_test_harness ? module.k6s_test_harness[0].var_map : {}
+}
+
+locals {
+  master_hosts = concat([
+    for key, node in var.nodes : {
+      for i, id in data.aws_instances.node[key].ids :
+      id => data.aws_instances.node[key].private_ips[i]
+    } if node.master
+  ])
+  agent_hosts = concat([
+    for key, node in var.nodes : {
+      for i, id in data.aws_instances.node[key].ids :
+      id => data.aws_instances.node[key].private_ips[i]
+    } if !node.master
+  ])
+  node_labels = [
+    for key, node in var.nodes : {
+      for i, id in data.aws_instances.node[key].ids :
+      id => node.node_labels
+    }
+  ]
 }
