@@ -5,7 +5,10 @@ metadata:
   namespace: ${mojaloop_namespace}
 rules:
   - apiGroups: [""]
-    resources: ["configmaps", "jobs"]
+    resources: ["configmaps"]
+    verbs: ["*"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
     verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -28,11 +31,11 @@ metadata:
   name: create-update-istio-crs
   namespace: ${istio_external_gateway_namespace}
 rules:
-  - apiGroups: ["networking.istio.io"]
-    resources: ["serviceentries", "destinationrules"]
-    verbs: ["*"]
   - apiGroups: ["security.istio.io"]
     resources: ["authorizationpolicies"]
+    verbs: ["*"]
+  - apiGroups: ["redhatcop.redhat.io"]
+    resources: ["vaultsecrets"]
     verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -42,7 +45,10 @@ metadata:
   namespace: ${mojaloop_namespace}
 rules:
   - apiGroups: ["networking.istio.io"]
-    resources: ["virtualservices", "destinationrules", "gateways"]
+    resources: ["virtualservices", "destinationrules", "gateways", "serviceentries"]
+    verbs: ["*"]
+  - apiGroups: ["redhatcop.redhat.io"]
+    resources: ["vaultsecrets"]
     verbs: ["*"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
