@@ -104,7 +104,7 @@ spec:
     - name: "mojaloop-connector"
       match:
         - uri: 
-            prefix: /inbound/
+            prefix: /
       route:
         - destination:
             host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc

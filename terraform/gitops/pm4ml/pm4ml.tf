@@ -20,7 +20,7 @@ module "generate_pm4ml_files" {
     experience_api_fqdn                             = var.experience_api_fqdns[each.key]
     portal_fqdn                                     = var.portal_fqdns[each.key]
     dfsp_id                                         = each.value.pm4ml_dfsp_id
-    pm4ml_service_account_name                      = var.pm4ml_service_account_name
+    pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
     mcm_host_url                                    = "https://${each.value.pm4ml_external_mcm_public_fqdn}"
     server_cert_secret_namespace                    = each.key
     server_cert_secret_name                         = var.vault_certman_secretname
@@ -28,9 +28,8 @@ module "generate_pm4ml_files" {
     vault_pki_mount                                 = var.vault_root_ca_name
     vault_pki_client_role                           = var.pki_client_cert_role
     vault_pki_server_role                           = var.pki_server_cert_role
-    vault_k8s_role                                  = var.pm4ml_vault_k8s_role_name
     vault_endpoint                                  = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
-    pm4ml_vault_k8s_role_name                       = var.pm4ml_vault_k8s_role_name
+    pm4ml_vault_k8s_role_name                       = "${var.pm4ml_vault_k8s_role_name}-${each.key}"
     k8s_auth_path                                   = var.k8s_auth_path
     pm4ml_secret_path                               = "${var.local_vault_kv_root_path}/${each.key}"
     callback_url                                    = "https://${var.mojaloop_connnector_fqdns[each.key]}"

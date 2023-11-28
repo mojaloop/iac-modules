@@ -218,6 +218,17 @@ spec:
             host: ${mojaloop_release_name}-centralledger-service
             port:
               number: 80
+    - name: als-admin
+      match:
+        - uri:
+            prefix: /als-admin/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-account-lookup-service-admin
+            port:
+              number: 80
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService

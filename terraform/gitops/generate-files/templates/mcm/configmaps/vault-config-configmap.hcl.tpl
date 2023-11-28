@@ -45,6 +45,29 @@ spec:
       tls.crt: '{{ `{{ .clientcertsecret.client_cert_chain }}` }}'
     type: kubernetes.io/tls
 ---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: {{ .Data.host }}-clientcert-tls
+  namespace: ${istio_egress_gateway_namespace}
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication: 
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: clientcertsecret
+      path: ${onboarding_secret_path}/{{ .Data.host }}
+  output:
+    name: {{ .Data.host }}-clientcert-tls
+    stringData:
+      ca.crt: '{{ `{{ .clientcertsecret.ca_bundle }}` }}'
+      tls.key: '{{ `{{ .clientcertsecret.client_key }}` }}'
+      tls.crt: '{{ `{{ .clientcertsecret.client_cert_chain }}` }}'
+    type: kubernetes.io/tls
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:

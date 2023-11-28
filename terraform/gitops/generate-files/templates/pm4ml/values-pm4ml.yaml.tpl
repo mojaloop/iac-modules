@@ -65,7 +65,7 @@ management-api:
     MCM_CLIENT_SECRETS_LOCATION: /tls
     VAULT_ENDPOINT: ${vault_endpoint}
     VAULT_AUTH_METHOD: K8S
-    VAULT_K8S_ROLE: ${vault_k8s_role}
+    VAULT_K8S_ROLE: ${pm4ml_vault_k8s_role_name}
     VAULT_K8S_TOKEN_FILE: /var/run/secrets/kubernetes.io/serviceaccount/token
     VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
     VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
@@ -186,7 +186,7 @@ ttk:
       enabled: false
     nameOverride: ttk-backend
     fullnameOverride: ttk-backend
-    config:
+    config_files:
       user_config.json: {
         "VERSION": 1,
         "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4001",
