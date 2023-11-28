@@ -80,7 +80,7 @@ output "master_hosts_var_maps" {
 
 output "master_hosts_yaml_maps" {
   value = {
-    node_labels = merge(local.node_labels...)
+    node_pool_labels = concat(local.node_labels...)
   }
 }
 
@@ -169,10 +169,12 @@ locals {
       id => data.aws_instances.node[key].private_ips[i]
     } if !node.master
   ])
-  node_labels = [
-    for key, node in var.nodes : {
-      for i, id in data.aws_instances.node[key].ids :
-      id => node.node_labels
-    }
-  ]
+  node_labels = concat([
+    for key, node in var.nodes : [
+      for id in data.aws_instances.node[key].ids : {
+        node_name   = id
+        node_labels = node.node_labels
+      }
+    ]
+  ])
 }
