@@ -39,7 +39,7 @@ spec:
   path: ${k8s_auth_path}
   tokenTTL: 3600
   policies:
-    - pm4ml-policy
+    - pm4ml-policy-${pm4ml_namespace}
   targetServiceAccounts: 
     - ${pm4ml_service_account_name}
   targetNamespaces:
@@ -49,7 +49,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Policy
 metadata:
-  name: pm4ml-policy
+  name: pm4ml-policy-${pm4ml_namespace}
 spec:
   authentication: 
     path: kubernetes
