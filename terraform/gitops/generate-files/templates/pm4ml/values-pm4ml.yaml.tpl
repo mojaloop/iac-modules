@@ -186,7 +186,7 @@ ttk:
       enabled: false
     nameOverride: ttk-backend
     fullnameOverride: ttk-backend
-    config:
+    config_files:
       user_config.json: {
         "VERSION": 1,
         "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4001",
