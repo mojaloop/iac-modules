@@ -116,7 +116,7 @@ output "all_hosts_var_maps" {
 output "agent_hosts_var_maps" {
   sensitive = true
   value = {
-    master_ip = local.master_hosts[0][(keys(local.master_hosts[0]))[0]]
+    master_ip = try(local.master_hosts[0][(keys(local.master_hosts[0]))[0]], "")
   }
 }
 
