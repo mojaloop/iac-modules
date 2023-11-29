@@ -302,6 +302,18 @@ spec:
   command     = "kubectl -n ${istio_external_gateway_namespace} apply -f /vault/secrets/tmp/whitelist.yaml"
 }
 
+template {
+  contents = <<EOH
+  {
+    "dfspId": "switch",
+    "publicKey": "${switch_jws_public_key}",
+    "validationState" = "VALID"
+  }
+  EOH
+  destination = "/vault/secrets/tmp/switch_jws_public_key.json"
+  command     = "vault kv write secret/mcm/dfsp-jws-certs/0 @/vault/secrets/tmp/switch_jws_public_key.json
+}
+
 vault = {
   address = "${vault_endpoint}"
 }
