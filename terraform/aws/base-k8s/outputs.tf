@@ -79,9 +79,7 @@ output "master_hosts_var_maps" {
 }
 
 output "master_hosts_yaml_maps" {
-  value = {
-    node_pool_labels = yamlencode(concat(local.node_labels...))
-  }
+  value = {}
 }
 
 output "secrets_var_map" {
@@ -133,7 +131,9 @@ output "bastion_hosts_var_maps" {
 }
 
 output "bastion_hosts_yaml_maps" {
-  value = {}
+  value = {
+    node_pool_labels = yamlencode(concat(local.node_labels...))
+  }
 }
 
 output "bastion_hosts" {
