@@ -29,6 +29,16 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: create-update-istio-crs
+  namespace: ${istio_egress_gateway_namespace}
+rules:
+  - apiGroups: ["redhatcop.redhat.io"]
+    resources: ["vaultsecrets"]
+    verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: create-update-istio-crs
   namespace: ${istio_external_gateway_namespace}
 rules:
   - apiGroups: ["security.istio.io"]
@@ -56,6 +66,20 @@ kind: RoleBinding
 metadata:
   name: create-update-istio-crs-binding
   namespace: ${istio_external_gateway_namespace}
+subjects:
+- kind: ServiceAccount
+  name: ${mcm_service_account_name}
+  namespace: ${mcm_namespace}
+roleRef:
+  kind: Role
+  name: create-update-istio-crs
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: create-update-istio-crs-binding
+  namespace: ${istio_egress_gateway_namespace}
 subjects:
 - kind: ServiceAccount
   name: ${mcm_service_account_name}
