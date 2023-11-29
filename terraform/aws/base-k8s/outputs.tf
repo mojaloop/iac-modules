@@ -80,7 +80,7 @@ output "master_hosts_var_maps" {
 
 output "master_hosts_yaml_maps" {
   value = {
-    node_pool_labels = concat(local.node_labels...)
+    node_pool_labels = yamlencode(concat(local.node_labels...))
   }
 }
 
