@@ -52,7 +52,7 @@ inputs = {
   ansible_collection_tag       = local.env_map[local.CLUSTER_NAME].ansible_collection_tag
   ansible_base_output_dir      = local.ANSIBLE_BASE_OUTPUT_DIR
   ansible_playbook_name        = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
-  master_node_supports_traffic = (local.env_map[local.CLUSTER_NAME].agent_node_count == 0) ? true : false
+  master_node_supports_traffic = (local.total_agent_count == 0) ? true : false
 }
 
 locals {
@@ -72,10 +72,7 @@ locals {
       letsencrypt_email                    = val["letsencrypt_email"]
       dns_zone_force_destroy               = val["dns_zone_force_destroy"]
       longhorn_backup_object_store_destroy = val["longhorn_backup_object_store_destroy"]
-      agent_instance_type                  = val["agent_instance_type"]
-      master_instance_type                 = val["master_instance_type"]
-      master_node_count                    = val["master_node_count"]
-      agent_node_count                     = val["agent_node_count"]
+      nodes                                = val["nodes"]
       enable_k6s_test_harness              = val["enable_k6s_test_harness"]
       k6s_docker_server_instance_type      = val["k6s_docker_server_instance_type"]
       vpc_cidr                             = val["vpc_cidr"]
@@ -85,6 +82,10 @@ locals {
   K8S_CLUSTER_TYPE        = get_env("K8S_CLUSTER_TYPE")
   ARGO_CD_ROOT_APP_PATH   = get_env("ARGO_CD_ROOT_APP_PATH")
   CLUSTER_NAME            = get_env("CLUSTER_NAME")
+
+  total_agent_count  = try(sum([for node in local.env_map[local.CLUSTER_NAME].nodes : node.node_count if !node.master]), 0)
+  total_master_count = try(sum([for node in local.env_map[local.CLUSTER_NAME].nodes : node.node_count if node.master]), 0)
+
   bastion_hosts_yaml_maps = {
     netmaker_join_tokens = yamlencode([get_env("NETMAKER_OPS_TOKEN")])
   }

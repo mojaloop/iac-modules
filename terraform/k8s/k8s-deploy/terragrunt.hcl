@@ -14,7 +14,7 @@ inputs = {
   domain                               = local.CLUSTER_DOMAIN
   dns_zone_force_destroy               = local.env_map[local.CLUSTER_NAME].dns_zone_force_destroy
   longhorn_backup_object_store_destroy = local.env_map[local.CLUSTER_NAME].longhorn_backup_object_store_destroy
-  nodes                                = local.nodes
+  nodes                                = local.env_map[local.CLUSTER_NAME].nodes
   enable_k6s_test_harness              = local.env_map[local.CLUSTER_NAME].enable_k6s_test_harness
   k6s_docker_server_instance_type      = local.env_map[local.CLUSTER_NAME].k6s_docker_server_instance_type
   vpc_cidr                             = local.env_map[local.CLUSTER_NAME].vpc_cidr
@@ -52,8 +52,8 @@ locals {
       dns_provider                         = try(val["dns_provider"], val["cloud_platform"])
     }
   }
-  total_agent_count = length([for node in local.env_map[local.CLUSTER_NAME].nodes : node if !node.master])
-  total_master_count = length([for node in local.env_map[local.CLUSTER_NAME].nodes : node if node.master])
+  total_agent_count = try(sum([for node in local.env_map[local.CLUSTER_NAME].nodes : node.node_count if !node.master]), 0)
+  total_master_count = try(sum([for node in local.env_map[local.CLUSTER_NAME].nodes : node.node_count if node.master]), 0)
   tags                      = local.env_vars.tags
   CLUSTER_NAME              = get_env("CLUSTER_NAME")
   CLUSTER_DOMAIN            = get_env("CLUSTER_DOMAIN")

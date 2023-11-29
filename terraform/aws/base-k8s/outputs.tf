@@ -116,7 +116,7 @@ output "all_hosts_var_maps" {
 output "agent_hosts_var_maps" {
   sensitive = true
   value = {
-    master_ip = local.master_hosts[keys(local.master_hosts)[0]]
+    master_ip = local.master_hosts[0][(keys(local.master_hosts[0]))[0]]
   }
 }
 
@@ -141,11 +141,11 @@ output "bastion_hosts" {
 }
 
 output "agent_hosts" {
-  value = local.agent_hosts[0]
+  value = try(local.agent_hosts[0], {})
 }
 
 output "master_hosts" {
-  value = local.master_hosts[0]
+  value = try(local.master_hosts[0], {})
 }
 
 output "test_harness_hosts" {
