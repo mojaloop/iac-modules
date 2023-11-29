@@ -171,8 +171,8 @@ locals {
   ])
   node_labels = concat([
     for key, node in var.nodes : [
-      for id in data.aws_instances.node[key].ids : {
-        node_name   = id
+      for i, id in data.aws_instances.node[key].ids : {
+        node_name   = "ip-${replace(data.aws_instances.node[key].private_ips[i], ".", "-")}"
         node_labels = node.node_labels
       }
     ]
