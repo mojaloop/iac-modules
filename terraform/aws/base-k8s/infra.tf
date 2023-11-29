@@ -51,7 +51,7 @@ module "k6s_test_harness" {
 #############################
 resource "aws_launch_template" "node" {
   for_each      = var.nodes
-  name_prefix   = "${local.name}-${each.value.master ? "master" : "agent"}"
+  name_prefix   = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}"
   image_id      = module.ubuntu_focal_ami.id
   instance_type = each.value.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
@@ -74,7 +74,7 @@ resource "aws_launch_template" "node" {
 
 
   tags = merge(
-    { Name = "${local.name}-${each.value.master ? "master" : "agent"}" },
+    { Name = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}" },
     local.common_tags
   )
 
@@ -83,7 +83,7 @@ resource "aws_launch_template" "node" {
     resource_type = "instance"
 
     tags = merge(
-      { Name = "${local.name}-${each.value.master ? "master" : "agent"}" },
+      { Name = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}" },
       local.common_tags
     )
   }
@@ -91,7 +91,7 @@ resource "aws_launch_template" "node" {
     resource_type = "volume"
 
     tags = merge(
-      { Name = "${local.name}-${each.value.master ? "master" : "agent"}" },
+      { Name = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}" },
       local.common_tags
     )
   }
@@ -99,7 +99,7 @@ resource "aws_launch_template" "node" {
     resource_type = "network-interface"
 
     tags = merge(
-      { Name = "${local.name}-${each.value.master ? "master" : "agent"}" },
+      { Name = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}" },
       local.common_tags
     )
   }
@@ -133,30 +133,30 @@ resource "aws_autoscaling_group" "node" {
   tag {
     key                 = "Cluster"
     value               = var.cluster_name
-    propagate_at_launch = false
+    propagate_at_launch = true
   }
   tag {
     key                 = "Domain"
     value               = local.base_domain
-    propagate_at_launch = false
+    propagate_at_launch = true
   }
 
   tag {
     key                 = "k8s-role"
     value               = each.value.master ? "master" : "agent"
-    propagate_at_launch = false
+    propagate_at_launch = true
   }
   tag {
     key                 = "nodepool-name"
     value               = each.key
-    propagate_at_launch = false
+    propagate_at_launch = true
   }
 }
 
 
 data "aws_instances" "node" {
   for_each      = var.nodes
-  instance_tags = merge({ nodepool-name = each.key }, local.identifying_tags)
+  instance_tags = merge({ nodepool-name = each.key, k8s-role = each.value.master ? "master" : "agent" }, local.identifying_tags)
   depends_on    = [aws_autoscaling_group.node]
 }
 
@@ -189,5 +189,4 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
-  total_agent_count      = length([for node in var.nodes : node if !node.master])
 }
