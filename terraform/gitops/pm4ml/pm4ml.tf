@@ -71,6 +71,7 @@ module "generate_pm4ml_files" {
     ory_stack_enabled                               = var.ory_stack_enabled
     oathkeeper_auth_provider_name                   = var.oathkeeper_auth_provider_name
     istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
+    pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]

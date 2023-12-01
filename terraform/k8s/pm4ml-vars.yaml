@@ -13,6 +13,7 @@ pm4mls:
     pm4ml_ttk_enabled: true
     enable_sdk_bulk_transaction_support: false
     use_ttk_as_backend_simulator: false
+    pm4ml_reserve_notification: false
   - pm4ml: pm4mltest2
     pm4ml_enabled: true
     pm4ml_chart_version: 9.0.8
@@ -27,3 +28,4 @@ pm4mls:
     pm4ml_ttk_enabled: true
     enable_sdk_bulk_transaction_support: false
     use_ttk_as_backend_simulator: false
+    pm4ml_reserve_notification: false
