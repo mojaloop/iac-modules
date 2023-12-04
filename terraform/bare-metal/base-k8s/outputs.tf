@@ -125,13 +125,15 @@ output "agent_hosts_yaml_maps" {
 output "bastion_hosts_var_maps" {
   sensitive = false
   value = {
-    ansible_ssh_common_args        = "-o StrictHostKeyChecking=no"
-    egress_gateway_cidr            = var.app_var_map.egress_gateway_cidr
+    ansible_ssh_common_args = "-o StrictHostKeyChecking=no"
+    egress_gateway_cidr     = var.app_var_map.egress_gateway_cidr
   }
 }
 
 output "bastion_hosts_yaml_maps" {
-  value = {}
+  value = {
+    node_pool_labels = yamlencode(local.node_labels)
+  }
 }
 
 output "bastion_hosts" {
@@ -139,11 +141,15 @@ output "bastion_hosts" {
 }
 
 output "agent_hosts" {
-  value = var.app_var_map.agent_hosts
+  value = {for key, host in var.app_var_map.agent_hosts : 
+    key => host.ip
+  }
 }
 
 output "master_hosts" {
-  value = var.app_var_map.master_hosts
+  value = {for key, host in var.app_var_map.master_hosts : 
+    key => host.ip
+  }
 }
 
 output "test_harness_hosts" {
@@ -189,4 +195,11 @@ locals {
     cert_manager_credentials_client_id_name_key     = "cert_manager_credentials_client_id_name"
     cert_manager_credentials_client_secret_name_key = "cert_manager_credentials_client_secret_name"
   }
+
+  node_labels = [
+    for key, value in merge(var.app_var_map.master_hosts, var.app_var_map.agent_hosts) : {
+      node_name   = key
+      node_labels = value.node_labels
+    }
+  ]
 }

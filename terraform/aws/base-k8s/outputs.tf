@@ -158,19 +158,19 @@ output "test_harness_hosts_var_maps" {
 
 locals {
   master_hosts = concat([
-    for key, node in var.nodes : {
+    for key, node in var.node_pools : {
       for i, id in data.aws_instances.node[key].ids :
       id => data.aws_instances.node[key].private_ips[i]
     } if node.master
   ])
   agent_hosts = concat([
-    for key, node in var.nodes : {
+    for key, node in var.node_pools : {
       for i, id in data.aws_instances.node[key].ids :
       id => data.aws_instances.node[key].private_ips[i]
     } if !node.master
   ])
   node_labels = concat([
-    for key, node in var.nodes : [
+    for key, node in var.node_pools : [
       for i, id in data.aws_instances.node[key].ids : {
         node_name   = "ip-${replace(data.aws_instances.node[key].private_ips[i], ".", "-")}"
         node_labels = node.node_labels

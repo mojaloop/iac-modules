@@ -50,7 +50,7 @@ module "k6s_test_harness" {
 ### Create Nodes
 #############################
 resource "aws_launch_template" "node" {
-  for_each      = var.nodes
+  for_each      = var.node_pools
   name_prefix   = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}"
   image_id      = module.ubuntu_focal_ami.id
   instance_type = each.value.instance_type
@@ -111,7 +111,7 @@ resource "aws_launch_template" "node" {
 }
 
 resource "aws_autoscaling_group" "node" {
-  for_each            = var.nodes
+  for_each            = var.node_pools
   name_prefix         = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}"
   desired_capacity    = each.value.node_count
   max_size            = each.value.node_count
@@ -155,7 +155,7 @@ resource "aws_autoscaling_group" "node" {
 
 
 data "aws_instances" "node" {
-  for_each      = var.nodes
+  for_each      = var.node_pools
   instance_tags = merge({ nodepool-name = each.key, k8s-role = each.value.master ? "master" : "agent" }, local.identifying_tags)
   depends_on    = [aws_autoscaling_group.node]
 }

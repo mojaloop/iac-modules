@@ -194,6 +194,10 @@ variable "master_node_supports_traffic" {
   description = "whether or not to enable ingress traffic on master nodes"
 }
 
+variable "node_pools" {
+  type = any
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

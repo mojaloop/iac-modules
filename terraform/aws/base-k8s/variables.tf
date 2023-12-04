@@ -62,7 +62,7 @@ variable "manage_parent_domain_ns" {
   description = "Whether to manage parent domain ns record in terraform, default true"
 }
 
-variable "nodes" {
+variable "node_pools" {
   type = any
 }
 

@@ -85,59 +85,9 @@ module "eks" {
   }
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
-    instance_type                          = var.agent_instance_type
     update_launch_template_default_version = true
   }
-  self_managed_node_groups = {
-    agent = {
-      name                            = "${local.eks_name}-agent"
-      ami_id                          = data.aws_ami.eks_default.id
-      public_ip                       = false
-      max_size                        = var.agent_node_count
-      desired_size                    = var.agent_node_count
-      use_mixed_instances_policy      = false
-      target_group_arns               = local.agent_target_groups
-      key_name                        = module.base_infra.key_pair_name
-      launch_template_name            = "${local.eks_name}-agent"
-      launch_template_use_name_prefix = false
-      iam_role_name                   = "${local.eks_name}-agent"
-      iam_role_use_name_prefix        = false
-      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110'"
-      post_bootstrap_user_data        = <<-EOT
-        yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
-      EOT
-      ebs_optimized                   = true
-      block_device_mappings = {
-        xvda = {
-          device_name = "/dev/xvda"
-          ebs = {
-            volume_size           = var.agent_volume_size
-            volume_type           = "gp3"
-            iops                  = 3000
-            throughput            = 150
-            encrypted             = true
-            delete_on_termination = true
-          }
-        }
-
-      }
-
-      network_interfaces = [
-        {
-          delete_on_termination = true
-          security_groups       = local.agent_security_groups
-        }
-      ]
-
-      tags = merge(
-        { Name = "${local.eks_name}-agent" },
-        local.common_tags
-      )
-
-      tag_specifications = ["instance", "volume", "network-interface"]
-    }
-
-  }
+  self_managed_node_groups = local.self_managed_node_groups
   tags = var.tags
 }
 
@@ -160,6 +110,61 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
+  node_labels = { for key, node_group in var.node_pools : 
+    node_group.name => {
+      extra_arg = [for key, label in node_group.labels : "${key}=${label}"]
+    }
+  }
+  self_managed_node_groups = { for key, node_group in var.node_pools : 
+    node_group.name => {
+      name                            = "${local.eks_name}-${key}"
+      ami_id                          = data.aws_ami.eks_default.id
+      instance_type                   = node_group.instance_type
+      public_ip                       = false
+      max_size                        = node_group.node_count
+      desired_size                    = node_group.node_count
+      use_mixed_instances_policy      = false
+      target_group_arns               = local.agent_target_groups
+      key_name                        = module.base_infra.key_pair_name
+      launch_template_name            = "${local.eks_name}-${key}"
+      launch_template_use_name_prefix = false
+      iam_role_name                   = "${local.eks_name}-${key}"
+      iam_role_use_name_prefix        = false
+      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", node_labels[key])}'"
+      post_bootstrap_user_data        = <<-EOT
+        yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
+      EOT
+      ebs_optimized                   = true
+      block_device_mappings = {
+        xvda = {
+          device_name = "/dev/xvda"
+          ebs = {
+            volume_size           = node_group.volume_size
+            volume_type           = "gp3"
+            iops                  = 3000
+            throughput            = 150
+            encrypted             = true
+            delete_on_termination = true
+          }
+        }
+
+      }
+
+      network_interfaces = [
+        {
+          delete_on_termination = true
+          security_groups       = local.agent_security_groups
+        }
+      ]
+
+      tags = merge(
+        { Name = "${local.eks_name}-${key}" },
+        local.common_tags
+      )
+
+      tag_specifications = ["instance", "volume", "network-interface"]
+    }  
+  }
 }
 
 data "aws_ami" "eks_default" {
