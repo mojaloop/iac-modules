@@ -124,3 +124,8 @@ zookeeper:
     ## @param zookeeper.auth.serverPasswords Comma, semicolon or whitespace separated list of passwords to assign to users when created. Specify them as a string, for example: "pass4user1, pass4user2, pass4admin"
     ##
     serverPasswords: ""
+
+metrics:
+  ## Prometheus Kafka Exporter: exposes complimentary metrics to JMX Exporter
+  kafka:
+    enabled: true

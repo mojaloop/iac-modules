@@ -109,6 +109,8 @@ mojaloop:
         sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${account_lookup_service_replica_count}
       config:
+        kafka_host: *KAFKA_HOST
+        kafka_port: *KAFKA_PORT
         db_password: *ALS_DB_PASSWORD
         db_secret: *ALS_DB_SECRET
         db_host: *ALS_DB_HOST
@@ -135,6 +137,8 @@ mojaloop:
 %{ endif ~}
       replicaCount: ${account_lookup_service_admin_replica_count}
       config:
+        kafka_host: *KAFKA_HOST
+        kafka_port: *KAFKA_PORT
         db_password: *ALS_DB_PASSWORD
         db_secret: *ALS_DB_SECRET
         db_host: *ALS_DB_HOST
