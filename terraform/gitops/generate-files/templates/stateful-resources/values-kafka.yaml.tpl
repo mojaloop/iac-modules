@@ -109,3 +109,7 @@ zookeeper:
     ##
     serverPasswords: ""
 
+metrics:
+  ## Prometheus Kafka Exporter: exposes complimentary metrics to JMX Exporter
+  kafka:
+    enabled: true
