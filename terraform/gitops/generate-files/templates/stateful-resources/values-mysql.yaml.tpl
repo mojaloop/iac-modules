@@ -213,7 +213,7 @@ primary:
 %{ if resource.local_resource_config.mysql_data.affinity_definition != null ~}
   affinity: |-
     ${indent(4, yamlencode(resource.local_resource_config.mysql_data.affinity_definition))}
-%{ elseif ~}
+%{ else ~}
   affinity: {}
 %{ endif ~}
   ## @param primary.nodeSelector Node labels for MySQL primary pods assignment
@@ -520,7 +520,7 @@ secondary:
 %{ if resource.local_resource_config.mysql_data.affinity_definition != null ~}
   affinity: |-
     ${indent(4, yamlencode(resource.local_resource_config.mysql_data.affinity_definition))}
-%{ elseif ~}
+%{ else ~}
   affinity: {}
 %{ endif ~}
   ## @param secondary.nodeSelector Node labels for MySQL secondary pods assignment

@@ -78,7 +78,7 @@ broker:
 %{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
   affinity: |-
     ${indent(4, yamlencode(resource.local_resource_config.kafka_data.dataplane_affinity_definition))}
-%{ elseif ~}
+%{ else ~}
   affinity: {}
 %{ endif ~}
 
@@ -86,7 +86,7 @@ controller:
 %{ if resource.local_resource_config.kafka_data.controlplane_affinity_definition != null ~}
   affinity: |-
     ${indent(4, yamlencode(resource.local_resource_config.kafka_data.controlplane_affinity_definition))}
-%{ elseif ~}
+%{ else ~}
   affinity: {}
 %{ endif ~}
 
