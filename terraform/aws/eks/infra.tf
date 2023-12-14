@@ -187,3 +187,4 @@ data "aws_ami" "eks_ubuntu" {
   }
 
 }
+#-register-with-taints=spotInstance=true:PreferNoSchedule add for taints in bootstrap_extra_args

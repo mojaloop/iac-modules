@@ -32,3 +32,79 @@ cl_handler_bulk_transfer_processing_replica_count: 1
 cl_handler_bulk_transfer_get_replica_count: 1
 onboarding_collection_tag: 15.2.0
 enable_istio_injection: true
+workload_definitions:
+  core_api_adapters:
+    toleration_definition:
+      - key: "key1"
+        operator: "Equal"
+        value: "value1"
+        effect: "NoSchedule"
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: mojaloop.io/workload-class
+                  operator: In
+                  values:
+                    - CORE-API-ADAPTERS
+  central_ledger_service:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: mojaloop.io/workload-class
+                  operator: In
+                  values:
+                    - CENTRAL-LEDGER-SVC
+  core_handlers:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: mojaloop.io/workload-class
+                  operator: In
+                  values:
+                    - CORE-HANDLERS
+  als_oracles:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: mojaloop.io/workload-class
+                  operator: In
+                  values:
+                    - ALS-ORACLES
+  account_lookup_service:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: mojaloop.io/workload-class
+                  operator: In
+                  values:
+                    - ACCOUNT-LOOKUP-SERVICE
+  quoting_service:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: mojaloop.io/workload-class
+                  operator: In
+                  values:
+                    - QUOTING-SERVICE
+  central_settlement:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: mojaloop.io/workload-class
+                  operator: In
+                  values:
+                    - CENTRAL-SETTLEMENT

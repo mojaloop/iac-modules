@@ -116,6 +116,22 @@ module "generate_mojaloop_files" {
     cl_handler_bulk_transfer_processing_replica_count           = try(var.app_var_map.cl_handler_bulk_transfer_processing_replica_count, 1)
     cl_handler_bulk_transfer_get_replica_count                  = try(var.app_var_map.cl_handler_bulk_transfer_get_replica_count, 1)
     enable_istio_injection                                      = try(var.app_var_map.enable_istio_injection, false)
+    account_lookup_service_affinity                             = try(var.app_var_map.workload_definitions.account_lookup_service, null)
+    account_lookup_admin_service_affinity                       = try(var.app_var_map.workload_definitions.account_lookup_service, null)
+    quoting_service_affinity                                    = try(var.app_var_map.workload_definitions.quoting_service, null)
+    ml_api_adapter_service_affinity                             = try(var.app_var_map.workload_definitions.core_api_adapters, null)
+    ml_api_adapter_handler_notifications_affinity               = try(var.app_var_map.workload_definitions.core_api_adapters, null)
+    centralledger_service_affinity                              = try(var.app_var_map.workload_definitions.central_ledger_service, null)
+    central_ledger_handler_transfer_prepare_affinity            = try(var.app_var_map.workload_definitions.central_ledger_service, null)
+    central_ledger_handler_transfer_position_affinity           = try(var.app_var_map.workload_definitions.central_ledger_service, null)
+    central_ledger_handler_transfer_get_affinity                = try(var.app_var_map.workload_definitions.central_ledger_service, null)
+    central_ledger_handler_transfer_fulfil_affinity             = try(var.app_var_map.workload_definitions.central_ledger_service, null)
+    central_ledger_handler_admin_transfer_affinity              = try(var.app_var_map.workload_definitions.central_ledger_service, null)
+    central_settlement_service_affinity                         = try(var.app_var_map.workload_definitions.central_settlement, null)
+    central_settlement_handler_deferredsettlement_affinity      = try(var.app_var_map.workload_definitions.central_settlement, null)
+    central_settlement_handler_grosssettlement_affinity         = try(var.app_var_map.workload_definitions.central_settlement, null)
+    central_settlement_handler_rules_affinity                   = try(var.app_var_map.workload_definitions.central_settlement, null)
+    trasaction_requests_service_affinity                        = try(var.app_var_map.workload_definitions.core_api_adapters, null)
   }
   file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mojaloop"

@@ -227,7 +227,26 @@
                 "storage_class_name": "longhorn",
                 "architecture": "standalone",
                 "replica_count": 0,
-                "service_port": 3306
+                "service_port": 3306,
+                "affinity_definition": {
+                    "nodeAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": {
+                        "nodeSelectorTerms": [
+                            {
+                            "matchExpressions": [
+                                {
+                                "key": "mojaloop.io/workload-class",
+                                "operator": "In",
+                                "values": [
+                                    "RDBMS-ALS-LIVE"
+                                ]
+                                }
+                            ]
+                            }
+                        ]
+                        }
+                    }
+                }
             }
         },
         "external_resource_config": {
@@ -326,7 +345,26 @@
                 "storage_class_name": "longhorn",
                 "architecture": "standalone",
                 "replica_count": 0,
-                "service_port": 3306
+                "service_port": 3306,
+                "affinity_definition": {
+                    "nodeAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": {
+                        "nodeSelectorTerms": [
+                            {
+                            "matchExpressions": [
+                                {
+                                "key": "mojaloop.io/workload-class",
+                                "operator": "In",
+                                "values": [
+                                    "RDBMS-CENTRAL-LEDGER-LIVE"
+                                ]
+                                }
+                            ]
+                            }
+                        ]
+                        }
+                    }
+                }
             }
         },
         "external_resource_config": {
@@ -535,7 +573,45 @@
             "kafka_data": {
                 "storage_size": "8Gi",
                 "storage_class_name": "longhorn",
-                "service_port": 9092
+                "service_port": 9092,
+                "dataplane_affinity_definition": {
+                    "nodeAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": {
+                        "nodeSelectorTerms": [
+                            {
+                            "matchExpressions": [
+                                {
+                                "key": "mojaloop.io/workload-class",
+                                "operator": "In",
+                                "values": [
+                                    "KAFKA-DATA-PLANE"
+                                ]
+                                }
+                            ]
+                            }
+                        ]
+                        }
+                    }
+                },
+                "controlplane_affinity_definition": {
+                    "nodeAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": {
+                        "nodeSelectorTerms": [
+                            {
+                            "matchExpressions": [
+                                {
+                                "key": "mojaloop.io/workload-class",
+                                "operator": "In",
+                                "values": [
+                                    "KAFKA-CONTROL-PLANE"
+                                ]
+                                }
+                            ]
+                            }
+                        ]
+                        }
+                    }
+                }
             }
         },
         "external_resource_config": {}
