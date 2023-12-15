@@ -102,7 +102,7 @@ mojaloop:
   account-lookup-service:
     account-lookup-service:
 %{ if account_lookup_service_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, account_lookup_service_affinity)}
 %{ endif ~}
       podLabels:
@@ -132,7 +132,7 @@ mojaloop:
         hostname: account-lookup-service.${ingress_subdomain}
     account-lookup-service-admin:
 %{ if account_lookup_admin_service_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, account_lookup_admin_service_affinity)}
 %{ endif ~}
       replicaCount: ${account_lookup_service_admin_replica_count}
@@ -160,7 +160,7 @@ mojaloop:
 
   quoting-service:
 %{ if quoting_service_affinity != null ~}
-    affinity: |-
+    affinity:
       ${indent(6, quoting_service_affinity)}
 %{ endif ~}    
     podLabels:
@@ -195,7 +195,7 @@ mojaloop:
   ml-api-adapter:
     ml-api-adapter-service:
 %{ if ml_api_adapter_service_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, ml_api_adapter_service_affinity)}
 %{ endif ~}
       replicaCount: ${ml_api_adapter_service_replica_count}
@@ -214,7 +214,7 @@ mojaloop:
         hostname: ml-api-adapter.${ingress_subdomain}
     ml-api-adapter-handler-notification:
 %{ if ml_api_adapter_handler_notifications_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, ml_api_adapter_handler_notifications_affinity)}
 %{ endif ~}
       podLabels:
@@ -238,7 +238,7 @@ mojaloop:
   centralledger:
     centralledger-service:
 %{ if centralledger_service_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, centralledger_service_affinity)}
 %{ endif ~}
       replicaCount: ${central_ledger_service_replica_count}
@@ -264,7 +264,7 @@ mojaloop:
         hostname: interop-switch.${ingress_subdomain}
     centralledger-handler-transfer-prepare:
 %{ if central_ledger_handler_transfer_prepare_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, central_ledger_handler_transfer_prepare_affinity)}
 %{ endif ~}
       replicaCount: ${central_ledger_handler_transfer_prepare_replica_count}
@@ -287,7 +287,7 @@ mojaloop:
         hostname: central-ledger-transfer-prepare.${ingress_subdomain}
     centralledger-handler-transfer-position:
 %{ if central_ledger_handler_transfer_position_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, central_ledger_handler_transfer_position_affinity)}
 %{ endif ~}
       replicaCount: ${central_ledger_handler_transfer_position_replica_count}
@@ -310,7 +310,7 @@ mojaloop:
         hostname: central-ledger-transfer-position.${ingress_subdomain}
     centralledger-handler-transfer-get:
 %{ if central_ledger_handler_transfer_get_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, central_ledger_handler_transfer_get_affinity)}
 %{ endif ~}
       replicaCount: ${central_ledger_handler_transfer_get_replica_count}
@@ -333,7 +333,7 @@ mojaloop:
         hostname: central-ledger-transfer-get.${ingress_subdomain}
     centralledger-handler-transfer-fulfil:
 %{ if central_ledger_handler_transfer_fulfil_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, central_ledger_handler_transfer_fulfil_affinity)}
 %{ endif ~}
       replicaCount: ${central_ledger_handler_transfer_fulfil_replica_count}
@@ -374,7 +374,7 @@ mojaloop:
         hostname: central-ledger-timeout.${ingress_subdomain}
     centralledger-handler-admin-transfer:
 %{ if central_ledger_handler_admin_transfer_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, central_ledger_handler_admin_transfer_affinity)}
 %{ endif ~}
       replicaCount: ${central_ledger_handler_admin_transfer_replica_count}
@@ -410,7 +410,7 @@ mojaloop:
         path: /settlements(/|$)(.*)
         hostname: interop-switch.${ingress_subdomain}
 %{ if central_settlement_service_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, central_settlement_service_affinity)}
 %{ endif ~}
       replicaCount: ${central_settlement_service_replica_count}
@@ -425,7 +425,7 @@ mojaloop:
         db_database: *CS_DB_DATABASE
     centralsettlement-handler-deferredsettlement:
 %{ if central_settlement_handler_deferredsettlement_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, central_settlement_handler_deferredsettlement_affinity)}
 %{ endif ~}
       replicaCount: ${central_settlement_handler_deferredsettlement_replica_count}
@@ -440,7 +440,7 @@ mojaloop:
         db_database: *CS_DB_DATABASE
     centralsettlement-handler-grosssettlement:
 %{ if central_settlement_handler_grosssettlement_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, central_settlement_handler_grosssettlement_affinity)}
 %{ endif ~}
       replicaCount: ${central_settlement_handler_grosssettlement_replica_count}
@@ -455,7 +455,7 @@ mojaloop:
         db_database: *CS_DB_DATABASE
     centralsettlement-handler-rules:
 %{ if central_settlement_handler_rules_affinity != null ~}
-      affinity: |-
+      affinity:
         ${indent(8, central_settlement_handler_rules_affinity)}
 %{ endif ~}
       replicaCount: ${central_settlement_handler_rules_replica_count}
@@ -473,7 +473,7 @@ mojaloop:
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
 %{ if trasaction_requests_service_affinity != null ~}
-    affinity: |-
+    affinity:
       ${indent(8, trasaction_requests_service_affinity)}
 %{ endif ~}
     replicaCount: ${trasaction_requests_service_replica_count}

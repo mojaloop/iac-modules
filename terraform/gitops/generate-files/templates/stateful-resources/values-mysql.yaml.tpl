@@ -211,7 +211,7 @@ primary:
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
 %{ if resource.local_resource_config.mysql_data.affinity_definition != null ~}
-  affinity: |-
+  affinity:
     ${indent(4, yamlencode(resource.local_resource_config.mysql_data.affinity_definition))}
 %{ else ~}
   affinity: {}
@@ -518,7 +518,7 @@ secondary:
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
 %{ if resource.local_resource_config.mysql_data.affinity_definition != null ~}
-  affinity: |-
+  affinity:
     ${indent(4, yamlencode(resource.local_resource_config.mysql_data.affinity_definition))}
 %{ else ~}
   affinity: {}

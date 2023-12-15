@@ -564,7 +564,7 @@
             "override_service_name": null,
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
             "resource_helm_chart": "kafka",
-            "resource_helm_chart_version": "19.0.2",
+            "resource_helm_chart_version": "26.5.0",
             "resource_helm_values_ref": "values-kafka.yaml.tpl",
             "generate_secret_name": null,
             "generate_secret_keys": [],
@@ -574,6 +574,7 @@
                 "storage_size": "8Gi",
                 "storage_class_name": "longhorn",
                 "service_port": 9092,
+                "replica_count": 0,
                 "dataplane_affinity_definition": {
                     "nodeAffinity": {
                         "requiredDuringSchedulingIgnoredDuringExecution": {
