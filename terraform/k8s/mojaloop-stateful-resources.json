@@ -80,7 +80,8 @@
                 "storage_class_name": "longhorn",
                 "architecture": "standalone",
                 "replica_count": 0,
-                "service_port": 3306
+                "service_port": 3306,
+                "affinity_definition": null
             }
         },
         "external_resource_config": {}
@@ -129,7 +130,8 @@
                 "storage_class_name": "longhorn",
                 "architecture": "standalone",
                 "replica_count": 0,
-                "service_port": 3306
+                "service_port": 3306,
+                "affinity_definition": null
             }
         },
         "external_resource_config": {}
@@ -178,7 +180,8 @@
                 "storage_class_name": "longhorn",
                 "architecture": "standalone",
                 "replica_count": 0,
-                "service_port": 3306
+                "service_port": 3306,
+                "affinity_definition": null
             }
         },
         "external_resource_config": {}
@@ -235,10 +238,10 @@
                             {
                             "matchExpressions": [
                                 {
-                                "key": "mojaloop.io/workload-class",
+                                "key": "mojaloop.io/workload-class/RDBMS-ALS-LIVE",
                                 "operator": "In",
                                 "values": [
-                                    "RDBMS-ALS-LIVE"
+                                    "true"
                                 ]
                                 }
                             ]
@@ -353,10 +356,10 @@
                             {
                             "matchExpressions": [
                                 {
-                                "key": "mojaloop.io/workload-class",
+                                "key": "mojaloop.io/workload-class/RDBMS-CENTRAL-LEDGER-LIVE",
                                 "operator": "In",
                                 "values": [
-                                    "RDBMS-CENTRAL-LEDGER-LIVE"
+                                    "true"
                                 ]
                                 }
                             ]
@@ -582,10 +585,10 @@
                             {
                             "matchExpressions": [
                                 {
-                                "key": "mojaloop.io/workload-class",
+                                "key": "mojaloop.io/workload-class/KAFKA-DATA-PLAN",
                                 "operator": "In",
                                 "values": [
-                                    "KAFKA-DATA-PLANE"
+                                    "true"
                                 ]
                                 }
                             ]
@@ -601,10 +604,10 @@
                             {
                             "matchExpressions": [
                                 {
-                                "key": "mojaloop.io/workload-class",
+                                "key": "mojaloop.io/workload-class/KAFKA-CONTROL-PLANE",
                                 "operator": "In",
                                 "values": [
-                                    "KAFKA-CONTROL-PLANE"
+                                    "true"
                                 ]
                                 }
                             ]

@@ -22,8 +22,8 @@ envs:
     k8s_cluster_module: base-k8s
     cloud_region: eu-west-1
     k8s_cluster_type: microk8s
-    ansible_collection_tag: v0.16.11
-    iac_terraform_modules_tag: v0.30.4
+    ansible_collection_tag: v0.17.1
+    iac_terraform_modules_tag: v0.34.17
     enable_vault_oauth_to_gitlab: true
     enable_grafana_oauth_to_gitlab: true
     letsencrypt_email: test@mojalabs.io
@@ -36,7 +36,17 @@ envs:
         node_count: 3
         storage_gbs: 300
         node_labels:
-          node.type: generic
+          mojaloop.io/workload-class/CENTRAL-LEDGER-SVC: "true"
+          mojaloop.io/workload-class/CORE-API-ADAPTERS: "true"
+          mojaloop.io/workload-class/CENTRAL-SETTLEMENT: "true"
+          mojaloop.io/workload-class/QUOTING-SERVICE: "true"
+          mojaloop.io/workload-class/ACCOUNT-LOOKUP-SERVICE: "true"
+          mojaloop.io/workload-class/ALS-ORACLES: "true"
+          mojaloop.io/workload-class/CORE-HANDLERS: "true"
+          mojaloop.io/workload-class/KAFKA-CONTROL-PLANE: "true"
+          mojaloop.io/workload-class/KAFKA-DATA-PLANE: "true"
+          mojaloop.io/workload-class/RDBMS-CENTRAL-LEDGER-LIVE: "true"
+          mojaloop.io/workload-class/RDBMS-ALS-LIVE: "true"
       agent-mysql:
         instance_type: "m5.2xlarge"
         master: false

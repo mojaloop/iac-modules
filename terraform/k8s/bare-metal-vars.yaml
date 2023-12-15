@@ -26,13 +26,43 @@ agent_hosts: {}
 master_hosts:
   10.10.100.58:
     node_labels:
-      node.type: generic
+      mojaloop.io/workload-class/CENTRAL-LEDGER-SVC: "true"
+      mojaloop.io/workload-class/CORE-API-ADAPTERS: "true"
+      mojaloop.io/workload-class/CENTRAL-SETTLEMENT: "true"
+      mojaloop.io/workload-class/QUOTING-SERVICE: "true"
+      mojaloop.io/workload-class/ACCOUNT-LOOKUP-SERVICE: "true"
+      mojaloop.io/workload-class/ALS-ORACLES: "true"
+      mojaloop.io/workload-class/CORE-HANDLERS: "true"
+      mojaloop.io/workload-class/KAFKA-CONTROL-PLANE: "true"
+      mojaloop.io/workload-class/KAFKA-DATA-PLANE: "true"
+      mojaloop.io/workload-class/RDBMS-CENTRAL-LEDGER-LIVE: "true"
+      mojaloop.io/workload-class/RDBMS-ALS-LIVE: "true"
   10.10.100.59:
     node_labels:
-      node.type: generic
+      mojaloop.io/workload-class/CENTRAL-LEDGER-SVC: "true"
+      mojaloop.io/workload-class/CORE-API-ADAPTERS: "true"
+      mojaloop.io/workload-class/CENTRAL-SETTLEMENT: "true"
+      mojaloop.io/workload-class/QUOTING-SERVICE: "true"
+      mojaloop.io/workload-class/ACCOUNT-LOOKUP-SERVICE: "true"
+      mojaloop.io/workload-class/ALS-ORACLES: "true"
+      mojaloop.io/workload-class/CORE-HANDLERS: "true"
+      mojaloop.io/workload-class/KAFKA-CONTROL-PLANE: "true"
+      mojaloop.io/workload-class/KAFKA-DATA-PLANE: "true"
+      mojaloop.io/workload-class/RDBMS-CENTRAL-LEDGER-LIVE: "true"
+      mojaloop.io/workload-class/RDBMS-ALS-LIVE: "true"
   10.10.100.60:
     node_labels:
-      node.type: generic
+      mojaloop.io/workload-class/CENTRAL-LEDGER-SVC: "true"
+      mojaloop.io/workload-class/CORE-API-ADAPTERS: "true"
+      mojaloop.io/workload-class/CENTRAL-SETTLEMENT: "true"
+      mojaloop.io/workload-class/QUOTING-SERVICE: "true"
+      mojaloop.io/workload-class/ACCOUNT-LOOKUP-SERVICE: "true"
+      mojaloop.io/workload-class/ALS-ORACLES: "true"
+      mojaloop.io/workload-class/CORE-HANDLERS: "true"
+      mojaloop.io/workload-class/KAFKA-CONTROL-PLANE: "true"
+      mojaloop.io/workload-class/KAFKA-DATA-PLANE: "true"
+      mojaloop.io/workload-class/RDBMS-CENTRAL-LEDGER-LIVE: "true"
+      mojaloop.io/workload-class/RDBMS-ALS-LIVE: "true"
 
 k6s_callback_fqdn: none
 enable_k6s_test_harness: false

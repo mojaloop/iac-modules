@@ -44,67 +44,67 @@ workload_definitions:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: mojaloop.io/workload-class
+                - key: mojaloop.io/workload-class/CORE-API-ADAPTERS
                   operator: In
                   values:
-                    - CORE-API-ADAPTERS
+                    - "true"
   central_ledger_service:
     affinity_definition:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: mojaloop.io/workload-class
+                - key: mojaloop.io/workload-class/CENTRAL-LEDGER-SVC
                   operator: In
                   values:
-                    - CENTRAL-LEDGER-SVC
+                    - "true"
   core_handlers:
     affinity_definition:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: mojaloop.io/workload-class
+                - key: mojaloop.io/workload-class/CORE-HANDLERS
                   operator: In
                   values:
-                    - CORE-HANDLERS
+                    - "true"
   als_oracles:
     affinity_definition:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: mojaloop.io/workload-class
+                - key: mojaloop.io/workload-class/ALS-ORACLES
                   operator: In
                   values:
-                    - ALS-ORACLES
+                    - "true"
   account_lookup_service:
     affinity_definition:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: mojaloop.io/workload-class
+                - key: mojaloop.io/workload-class/ACCOUNT-LOOKUP-SERVICE
                   operator: In
                   values:
-                    - ACCOUNT-LOOKUP-SERVICE
+                    - "true"
   quoting_service:
     affinity_definition:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: mojaloop.io/workload-class
+                - key: mojaloop.io/workload-class/QUOTING-SERVICE
                   operator: In
                   values:
-                    - QUOTING-SERVICE
+                    - "true"
   central_settlement:
     affinity_definition:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: mojaloop.io/workload-class
+                - key: mojaloop.io/workload-class/CENTRAL-SETTLEMENT
                   operator: In
                   values:
-                    - CENTRAL-SETTLEMENT
+                    - "true"
