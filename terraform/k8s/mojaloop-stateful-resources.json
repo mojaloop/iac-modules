@@ -238,10 +238,10 @@
                             {
                             "matchExpressions": [
                                 {
-                                "key": "mojaloop.io/workload-class/RDBMS-ALS-LIVE",
+                                "key": "workload-class.mojaloop.io/RDBMS-ALS-LIVE",
                                 "operator": "In",
                                 "values": [
-                                    "true"
+                                    "enabled"
                                 ]
                                 }
                             ]
@@ -356,10 +356,10 @@
                             {
                             "matchExpressions": [
                                 {
-                                "key": "mojaloop.io/workload-class/RDBMS-CENTRAL-LEDGER-LIVE",
+                                "key": "workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE",
                                 "operator": "In",
                                 "values": [
-                                    "true"
+                                    "enabled"
                                 ]
                                 }
                             ]
@@ -577,7 +577,7 @@
                 "storage_size": "8Gi",
                 "storage_class_name": "longhorn",
                 "service_port": 9092,
-                "replica_count": 0,
+                "replica_count": 3,
                 "dataplane_affinity_definition": {
                     "nodeAffinity": {
                         "requiredDuringSchedulingIgnoredDuringExecution": {
@@ -585,10 +585,10 @@
                             {
                             "matchExpressions": [
                                 {
-                                "key": "mojaloop.io/workload-class/KAFKA-DATA-PLAN",
+                                "key": "workload-class.mojaloop.io/KAFKA-DATA-PLANE",
                                 "operator": "In",
                                 "values": [
-                                    "true"
+                                    "enabled"
                                 ]
                                 }
                             ]
@@ -604,10 +604,10 @@
                             {
                             "matchExpressions": [
                                 {
-                                "key": "mojaloop.io/workload-class/KAFKA-CONTROL-PLANE",
+                                "key": "workload-class.mojaloop.io/KAFKA-CONTROL-PLANE",
                                 "operator": "In",
                                 "values": [
-                                    "true"
+                                    "enabled"
                                 ]
                                 }
                             ]

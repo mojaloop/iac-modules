@@ -36,24 +36,23 @@ envs:
         node_count: 3
         storage_gbs: 300
         node_labels:
-          mojaloop.io/workload-class/CENTRAL-LEDGER-SVC: "true"
-          mojaloop.io/workload-class/CORE-API-ADAPTERS: "true"
-          mojaloop.io/workload-class/CENTRAL-SETTLEMENT: "true"
-          mojaloop.io/workload-class/QUOTING-SERVICE: "true"
-          mojaloop.io/workload-class/ACCOUNT-LOOKUP-SERVICE: "true"
-          mojaloop.io/workload-class/ALS-ORACLES: "true"
-          mojaloop.io/workload-class/CORE-HANDLERS: "true"
-          mojaloop.io/workload-class/KAFKA-CONTROL-PLANE: "true"
-          mojaloop.io/workload-class/KAFKA-DATA-PLANE: "true"
-          mojaloop.io/workload-class/RDBMS-CENTRAL-LEDGER-LIVE: "true"
-          mojaloop.io/workload-class/RDBMS-ALS-LIVE: "true"
-      agent-mysql:
+          workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
+          workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
+          workload-class.mojaloop.io/CENTRAL-SETTLEMENT: "enabled"
+          workload-class.mojaloop.io/QUOTING-SERVICE: "enabled"
+          workload-class.mojaloop.io/ACCOUNT-LOOKUP-SERVICE: "enabled"
+          workload-class.mojaloop.io/ALS-ORACLES: "enabled"
+          workload-class.mojaloop.io/CORE-HANDLERS: "enabled"
+      agent-db:
         instance_type: "m5.2xlarge"
         master: false
-        node_count: 0
+        node_count: 2
         storage_gbs: 300
         node_labels:
-          node.type: mysql
+          workload-class.mojaloop.io/KAFKA-CONTROL-PLANE: "enabled"
+          workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
+          workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
+          workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
     vpc_cidr: "10.106.0.0/23"
     enable_k6s_test_harness: false
     k6s_docker_server_instance_type: "m5.2xlarge"
