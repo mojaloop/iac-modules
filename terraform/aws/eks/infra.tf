@@ -130,7 +130,7 @@ locals {
       launch_template_use_name_prefix = false
       iam_role_name                   = "${local.eks_name}-${key}"
       iam_role_use_name_prefix        = false
-      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", node_labels[key])}'"
+      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[key])}'"
       post_bootstrap_user_data        = <<-EOT
         yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
       EOT
