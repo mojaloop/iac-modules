@@ -115,22 +115,22 @@ locals {
       extra_arg = [for key, label in node_pool.node_labels : "${key}=${label}"]
     }
   }
-  self_managed_node_groups = { for key, node_group in var.node_pools : 
-    node_group.name => {
-      name                            = "${local.eks_name}-${key}"
+  self_managed_node_groups = { for node_pool_key, node_pool in var.node_pools : 
+    node_pool_key => {
+      name                            = "${local.eks_name}-${node_pool_key}"
       ami_id                          = data.aws_ami.eks_default.id
-      instance_type                   = node_group.instance_type
+      instance_type                   = node_pool.instance_type
       public_ip                       = false
-      max_size                        = node_group.node_count
-      desired_size                    = node_group.node_count
+      max_size                        = node_pool.node_count
+      desired_size                    = node_pool.node_count
       use_mixed_instances_policy      = false
       target_group_arns               = local.agent_target_groups
       key_name                        = module.base_infra.key_pair_name
-      launch_template_name            = "${local.eks_name}-${key}"
+      launch_template_name            = "${local.eks_name}-${node_pool_key}"
       launch_template_use_name_prefix = false
-      iam_role_name                   = "${local.eks_name}-${key}"
+      iam_role_name                   = "${local.eks_name}-${node_pool_key}"
       iam_role_use_name_prefix        = false
-      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[key])}'"
+      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key])}'"
       post_bootstrap_user_data        = <<-EOT
         yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
       EOT
@@ -139,7 +139,7 @@ locals {
         xvda = {
           device_name = "/dev/xvda"
           ebs = {
-            volume_size           = node_group.volume_size
+            volume_size           = node_pool.volume_size
             volume_type           = "gp3"
             iops                  = 3000
             throughput            = 150
@@ -158,7 +158,7 @@ locals {
       ]
 
       tags = merge(
-        { Name = "${local.eks_name}-${key}" },
+        { Name = "${local.eks_name}-${node_pool_key}" },
         local.common_tags
       )
 
