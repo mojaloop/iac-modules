@@ -115,6 +115,7 @@ locals {
       extra_arg = [for key, label in node_pool.node_labels : "${key}=${label}"]
     }
   }
+
   self_managed_node_groups = { for node_pool_key, node_pool in var.node_pools : 
     node_pool_key => {
       name                            = "${local.eks_name}-${node_pool_key}"
@@ -139,7 +140,7 @@ locals {
         xvda = {
           device_name = "/dev/xvda"
           ebs = {
-            volume_size           = node_pool.volume_size
+            volume_size           = node_pool.storage_gbs
             volume_type           = "gp3"
             iops                  = 3000
             throughput            = 150
