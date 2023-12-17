@@ -110,9 +110,9 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
-  node_labels = { for key, node_group in var.node_pools : 
-    node_group.name => {
-      extra_arg = [for key, label in node_group.labels : "${key}=${label}"]
+  node_labels = { for node_pool_key, node_pool in var.node_pools : 
+    node_pool_key => {
+      extra_arg = [for key, label in node_pool.labels : "${key}=${label}"]
     }
   }
   self_managed_node_groups = { for key, node_group in var.node_pools : 
