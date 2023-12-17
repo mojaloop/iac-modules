@@ -112,7 +112,7 @@ locals {
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
   node_labels = { for node_pool_key, node_pool in var.node_pools : 
     node_pool_key => {
-      extra_arg = [for key, label in node_pool.labels : "${key}=${label}"]
+      extra_arg = [for key, label in node_pool.node_labels : "${key}=${label}"]
     }
   }
   self_managed_node_groups = { for key, node_group in var.node_pools : 
