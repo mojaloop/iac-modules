@@ -70,6 +70,10 @@ output "haproxy_server_fqdn" {
   value = module.base_infra.haproxy_server_fqdn
 }
 
+output "dns_provider" {
+  value = var.dns_provider
+}
+
 output "master_hosts_var_maps" {
   value = {}
 }

@@ -22,17 +22,37 @@ envs:
     k8s_cluster_module: base-k8s
     cloud_region: eu-west-1
     k8s_cluster_type: microk8s
-    ansible_collection_tag: v0.16.11
-    iac_terraform_modules_tag: v0.30.4
+    ansible_collection_tag: v0.17.1
+    iac_terraform_modules_tag: v0.34.17
     enable_vault_oauth_to_gitlab: true
     enable_grafana_oauth_to_gitlab: true
     letsencrypt_email: test@mojalabs.io
     dns_zone_force_destroy: true
     longhorn_backup_object_store_destroy: true
-    agent_instance_type: "m5.2xlarge"
-    master_instance_type: "m5.4xlarge"
-    master_node_count: 3
-    agent_node_count: 0
+    nodes:
+      master-generic:
+        master: true
+        instance_type: "m5.4xlarge"
+        node_count: 3
+        storage_gbs: 300
+        node_labels:
+          workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
+          workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
+          workload-class.mojaloop.io/CENTRAL-SETTLEMENT: "enabled"
+          workload-class.mojaloop.io/QUOTING-SERVICE: "enabled"
+          workload-class.mojaloop.io/ACCOUNT-LOOKUP-SERVICE: "enabled"
+          workload-class.mojaloop.io/ALS-ORACLES: "enabled"
+          workload-class.mojaloop.io/CORE-HANDLERS: "enabled"
+      agent-db:
+        instance_type: "m5.2xlarge"
+        master: false
+        node_count: 2
+        storage_gbs: 300
+        node_labels:
+          workload-class.mojaloop.io/KAFKA-CONTROL-PLANE: "enabled"
+          workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
+          workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
+          workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
     vpc_cidr: "10.106.0.0/23"
     enable_k6s_test_harness: false
     k6s_docker_server_instance_type: "m5.2xlarge"

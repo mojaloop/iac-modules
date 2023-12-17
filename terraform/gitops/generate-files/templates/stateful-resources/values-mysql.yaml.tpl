@@ -210,7 +210,12 @@ primary:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
+%{ if resource.local_resource_config.mysql_data.affinity_definition != null ~}
+  affinity:
+    ${indent(4, yamlencode(resource.local_resource_config.mysql_data.affinity_definition))}
+%{ else ~}
   affinity: {}
+%{ endif ~}
   ## @param primary.nodeSelector Node labels for MySQL primary pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -512,7 +517,12 @@ secondary:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
+%{ if resource.local_resource_config.mysql_data.affinity_definition != null ~}
+  affinity:
+    ${indent(4, yamlencode(resource.local_resource_config.mysql_data.affinity_definition))}
+%{ else ~}
   affinity: {}
+%{ endif ~}
   ## @param secondary.nodeSelector Node labels for MySQL secondary pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##

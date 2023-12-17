@@ -62,34 +62,8 @@ variable "manage_parent_domain_ns" {
   description = "Whether to manage parent domain ns record in terraform, default true"
 }
 
-variable "master_node_count" {
-  type        = number
-  default     = 1
-  description = "Number of master nodes to deploy"
-}
-variable "master_volume_size" {
-  type        = number
-  default     = 300
-  description = "EBS Volume size (GB) attached to the master instance"
-}
-variable "master_instance_type" {
-  type    = string
-  default = "m5.large"
-}
-
-variable "agent_volume_size" {
-  type        = number
-  default     = 300
-  description = "EBS Volume size (GB) attached to the agent/node instances"
-}
-variable "agent_node_count" {
-  type        = number
-  default     = 3
-  description = "Number of agent nodes to deploy"
-}
-variable "agent_instance_type" {
-  type    = string
-  default = "m5.large"
+variable "node_pools" {
+  type = any
 }
 
 variable "az_count" {

@@ -32,3 +32,79 @@ cl_handler_bulk_transfer_processing_replica_count: 1
 cl_handler_bulk_transfer_get_replica_count: 1
 onboarding_collection_tag: 15.2.0
 enable_istio_injection: true
+workload_definitions:
+  core_api_adapters:
+    toleration_definition:
+      - key: "key1"
+        operator: "Equal"
+        value: "value1"
+        effect: "NoSchedule"
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload-class.mojaloop.io/CORE-API-ADAPTERS
+                  operator: In
+                  values:
+                    - "enabled"
+  central_ledger_service:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload-class.mojaloop.io/CENTRAL-LEDGER-SVC
+                  operator: In
+                  values:
+                    - "enabled"
+  core_handlers:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload-class.mojaloop.io/CORE-HANDLERS
+                  operator: In
+                  values:
+                    - "enabled"
+  als_oracles:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload-class.mojaloop.io/ALS-ORACLES
+                  operator: In
+                  values:
+                    - "enabled"
+  account_lookup_service:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload-class.mojaloop.io/ACCOUNT-LOOKUP-SERVICE
+                  operator: In
+                  values:
+                    - "enabled"
+  quoting_service:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload-class.mojaloop.io/QUOTING-SERVICE
+                  operator: In
+                  values:
+                    - "enabled"
+  central_settlement:
+    affinity_definition:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: workload-class.mojaloop.io/CENTRAL-SETTLEMENT
+                  operator: In
+                  values:
+                    - "enabled"

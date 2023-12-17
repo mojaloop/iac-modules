@@ -14,14 +14,11 @@ inputs = {
   domain                               = local.CLUSTER_DOMAIN
   dns_zone_force_destroy               = local.env_map[local.CLUSTER_NAME].dns_zone_force_destroy
   longhorn_backup_object_store_destroy = local.env_map[local.CLUSTER_NAME].longhorn_backup_object_store_destroy
-  agent_instance_type                  = local.env_map[local.CLUSTER_NAME].agent_instance_type
-  master_instance_type                 = local.env_map[local.CLUSTER_NAME].master_instance_type
-  agent_node_count                     = local.env_map[local.CLUSTER_NAME].agent_node_count
-  master_node_count                    = local.env_map[local.CLUSTER_NAME].master_node_count
+  node_pools                           = local.env_map[local.CLUSTER_NAME].nodes
   enable_k6s_test_harness              = local.env_map[local.CLUSTER_NAME].enable_k6s_test_harness
   k6s_docker_server_instance_type      = local.env_map[local.CLUSTER_NAME].k6s_docker_server_instance_type
   vpc_cidr                             = local.env_map[local.CLUSTER_NAME].vpc_cidr
-  master_node_supports_traffic         = (local.env_map[local.CLUSTER_NAME].agent_node_count == 0) ? true : false
+  master_node_supports_traffic         = (local.total_agent_count == 0) ? true : false
   kubeapi_port                         = (local.K8S_CLUSTER_TYPE == "microk8s") ? 16443 : 6443
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_map[local.CLUSTER_NAME].dns_provider
@@ -48,16 +45,15 @@ locals {
       letsencrypt_email                    = val["letsencrypt_email"]
       dns_zone_force_destroy               = val["dns_zone_force_destroy"]
       longhorn_backup_object_store_destroy = val["longhorn_backup_object_store_destroy"]
-      agent_instance_type                  = val["agent_instance_type"]
-      master_instance_type                 = val["master_instance_type"]
-      master_node_count                    = val["master_node_count"]
-      agent_node_count                     = val["agent_node_count"]
+      nodes                                = val["nodes"]
       enable_k6s_test_harness              = val["enable_k6s_test_harness"]
       k6s_docker_server_instance_type      = val["k6s_docker_server_instance_type"]
       vpc_cidr                             = val["vpc_cidr"]
       dns_provider                         = try(val["dns_provider"], val["cloud_platform"])
     }
   }
+  total_agent_count = try(sum([for node in local.env_map[local.CLUSTER_NAME].nodes : node.node_count if !node.master]), 0)
+  total_master_count = try(sum([for node in local.env_map[local.CLUSTER_NAME].nodes : node.node_count if node.master]), 0)
   tags                      = local.env_vars.tags
   CLUSTER_NAME              = get_env("CLUSTER_NAME")
   CLUSTER_DOMAIN            = get_env("CLUSTER_DOMAIN")

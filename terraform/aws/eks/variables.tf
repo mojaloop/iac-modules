@@ -194,6 +194,16 @@ variable "master_node_supports_traffic" {
   description = "whether or not to enable ingress traffic on master nodes"
 }
 
+variable "dns_provider" {
+  type = string
+  default = "aws"
+  description = "which dns provider to use, defaults to cloud provider"
+}
+
+variable "node_pools" {
+  type = any
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

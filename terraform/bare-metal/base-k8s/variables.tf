@@ -85,3 +85,7 @@ variable "dns_provider" {
   default = "aws"
   description = "which dns provider to use, defaults to cloud provider"
 }
+
+variable "node_pools" {
+  type = any
+}
