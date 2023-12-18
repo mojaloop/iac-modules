@@ -24,6 +24,8 @@ module "generate_mojaloop_files" {
     central_ledger_handler_transfer_position_batch_processing_enabled = var.central_ledger_handler_transfer_position_batch_processing_enabled
     central_ledger_handler_transfer_position_batch_size         = var.central_ledger_handler_transfer_position_batch_size
     central_ledger_handler_transfer_position_batch_consume_timeout_ms = var.central_ledger_handler_transfer_position_batch_consume_timeout_ms
+    central_ledger_cache_enabled                                = var.central_ledger_cache_enabled
+    central_ledger_cache_expires_in_ms                          = var.central_ledger_cache_expires_in_ms
     interop_switch_fqdn                                         = var.external_interop_switch_fqdn
     int_interop_switch_fqdn                                     = var.internal_interop_switch_fqdn
     external_ingress_class_name                                 = var.external_ingress_class_name
@@ -282,6 +284,18 @@ variable "central_ledger_handler_transfer_position_batch_consume_timeout_ms" {
   description = "batch consume timeout in milli seconds for transfer position batch procesing"
   type        = number
   default     = 10
+}
+
+variable "central_ledger_cache_enabled" {
+  description = "central ledger cache enabled"
+  type        = bool
+  default     = true
+}
+
+variable "central_ledger_cache_expires_in_ms" {
+  description = "central ledger cache expires in milliseconds"
+  type        = number
+  default     = 1000
 }
 
 variable "ttk_frontend_public_fqdn" {

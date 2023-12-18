@@ -96,6 +96,10 @@ mojaloop:
     ## BATCH_PROCESSING: To enable batch processing set following to true
     batch_processing_enabled: &CL_BATCH_PROCESSING_ENABLED ${central_ledger_handler_transfer_position_batch_processing_enabled}
 
+    ## CENTRAL-LEDGER CACHE
+    cl_cache_enabled: &CL_CACHE_ENABLED ${central_ledger_cache_enabled}
+    cl_cache_expires_in_ms: &CL_CACHE_EXPIRES_IN_MS ${central_ledger_cache_expires_in_ms}
+
     ingress_class: &INGRESS_CLASS "${ingress_class_name}"
 
   global:
@@ -254,6 +258,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT        
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -280,6 +286,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT        
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
         batch_processing_enabled: *CL_BATCH_PROCESSING_ENABLED
       ingress:
 %{ if istio_create_ingress_gateways ~}
@@ -304,6 +312,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -328,6 +338,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
         batch_size: ${central_ledger_handler_transfer_position_batch_size}
         batch_consume_timeout_in_ms: ${central_ledger_handler_transfer_position_batch_consume_timeout_ms}
       ingress:
@@ -353,6 +365,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -376,6 +390,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -394,6 +410,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -417,6 +435,8 @@ mojaloop:
         db_user: *CL_DB_USER    
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
