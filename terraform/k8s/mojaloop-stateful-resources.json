@@ -573,6 +573,66 @@
             "generate_secret_keys": [],
             "generate_secret_vault_base_path": null,
             "generate_secret_extra_namespaces": [],
+            "kafka_provisioning": {
+                "enabled": true,
+                "topics": [
+                    {
+                      "name": "topic-transfer-prepare",
+                      "partitions": 4,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-transfer-position",
+                      "partitions": 25,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-transfer-position-batch",
+                      "partitions": 4,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-transfer-fulfil",
+                      "partitions": 4,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-notification-event",
+                      "partitions": 4,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-transfer-get",
+                      "partitions": 1,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-admin-transfer",
+                      "partitions": 1,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-bulk-prepare",
+                      "partitions": 1,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-bulk-fulfil",
+                      "partitions": 1,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-bulk-processing",
+                      "partitions": 1,
+                      "replicationFactor": 1
+                    },
+                    {
+                      "name": "topic-bulk-get",
+                      "partitions": 1,
+                      "replicationFactor": 1
+                    }
+                ]
+            },
             "kafka_data": {
                 "storage_size": "8Gi",
                 "storage_class_name": "longhorn",

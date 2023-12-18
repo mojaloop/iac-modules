@@ -948,7 +948,7 @@ metrics:
 provisioning:
   ## @param provisioning.enabled Enable kafka provisioning Job
   ##
-  enabled: false
+  enabled: ${resource.local_resource_config.kafka_provisioning.enabled}
   ## @param provisioning.numPartitions Default number of partitions for topics when unspecified
   ##
   numPartitions: 1
@@ -964,7 +964,7 @@ provisioning:
   ##     max.message.bytes: 64000
   ##     flush.messages: 1
   ##
-  topics: []
+  topics: ${resource.local_resource_config.kafka_provisioning.topics}
   ## @param provisioning.nodeSelector Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
