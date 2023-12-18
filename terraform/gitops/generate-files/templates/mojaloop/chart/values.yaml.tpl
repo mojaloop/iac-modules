@@ -93,6 +93,9 @@ mojaloop:
       key: &TTK_MONGO_SECRET_KEY mongodb-passwords
     ttk_mongo_database: &TTK_MONGO_DATABASE "${ttk_mongodb_database}"
 
+    ## BATCH_PROCESSING: To enable batch processing set following to true
+    batch_processing_enabled: &CL_BATCH_PROCESSING_ENABLED ${central_ledger_handler_transfer_position_batch_processing_enabled}
+
     ingress_class: &INGRESS_CLASS "${ingress_class_name}"
 
   global:
@@ -277,6 +280,7 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT        
         db_database: *CL_DB_DATABASE
+        batch_processing_enabled: *CL_BATCH_PROCESSING_ENABLED
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -308,6 +312,32 @@ mojaloop:
 %{ endif ~}        
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-position.${ingress_subdomain}
+    centralledger-handler-transfer-position-batch:
+      enabled: *CL_BATCH_PROCESSING_ENABLED
+%{ if central_ledger_handler_transfer_position_batch_affinity != null ~}
+      affinity:
+        ${indent(8, central_ledger_handler_transfer_position_batch_affinity)}
+%{ endif ~}
+      replicaCount: ${central_ledger_handler_transfer_position_batch_replica_count}
+      config:
+        kafka_host: *KAFKA_HOST
+        kafka_port: *KAFKA_PORT
+        db_password: *CL_DB_PASSWORD
+        db_secret: *CL_DB_SECRET
+        db_host: *CL_DB_HOST
+        db_user: *CL_DB_USER
+        db_port: *CL_DB_PORT
+        db_database: *CL_DB_DATABASE
+        batch_size: ${central_ledger_handler_transfer_position_batch_size}
+        batch_consume_timeout_in_ms: ${central_ledger_handler_transfer_position_batch_consume_timeout_ms}
+      ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
+        enabled: true
+%{ endif ~}        
+        className: *INGRESS_CLASS
+        hostname: central-ledger-transfer-position-batch.${ingress_subdomain}
     centralledger-handler-transfer-get:
 %{ if central_ledger_handler_transfer_get_affinity != null ~}
       affinity:

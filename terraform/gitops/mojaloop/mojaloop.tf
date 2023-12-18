@@ -21,6 +21,9 @@ module "generate_mojaloop_files" {
     jws_signing_priv_key                                        = tls_private_key.jws.private_key_pem
     ingress_subdomain                                           = var.public_subdomain
     quoting_service_simple_routing_mode_enabled                 = var.quoting_service_simple_routing_mode_enabled
+    central_ledger_handler_transfer_position_batch_processing_enabled = var.central_ledger_handler_transfer_position_batch_processing_enabled
+    central_ledger_handler_transfer_position_batch_size         = var.central_ledger_handler_transfer_position_batch_size
+    central_ledger_handler_transfer_position_batch_consume_timeout_ms = var.central_ledger_handler_transfer_position_batch_consume_timeout_ms
     interop_switch_fqdn                                         = var.external_interop_switch_fqdn
     int_interop_switch_fqdn                                     = var.internal_interop_switch_fqdn
     external_ingress_class_name                                 = var.external_ingress_class_name
@@ -98,6 +101,7 @@ module "generate_mojaloop_files" {
     central_ledger_service_replica_count                        = try(var.app_var_map.central_ledger_service_replica_count, 1)
     central_ledger_handler_transfer_prepare_replica_count       = try(var.app_var_map.central_ledger_handler_transfer_prepare_replica_count, 1)
     central_ledger_handler_transfer_position_replica_count      = try(var.app_var_map.central_ledger_handler_transfer_position_replica_count, 1)
+    central_ledger_handler_transfer_position_batch_replica_count = try(var.app_var_map.central_ledger_handler_transfer_position_batch_replica_count, 1)
     central_ledger_handler_transfer_get_replica_count           = try(var.app_var_map.central_ledger_handler_transfer_get_replica_count, 1)
     central_ledger_handler_transfer_fulfil_replica_count        = try(var.app_var_map.central_ledger_handler_transfer_fulfil_replica_count, 1)
     central_ledger_handler_admin_transfer_replica_count         = try(var.app_var_map.central_ledger_handler_admin_transfer_replica_count, 1)
@@ -124,6 +128,7 @@ module "generate_mojaloop_files" {
     centralledger_service_affinity                              = try(yamlencode(var.app_var_map.workload_definitions.central_ledger_service.affinity_definition), null)
     central_ledger_handler_transfer_prepare_affinity            = try(yamlencode(var.app_var_map.workload_definitions.central_ledger_service.affinity_definition), null)
     central_ledger_handler_transfer_position_affinity           = try(yamlencode(var.app_var_map.workload_definitions.central_ledger_service.affinity_definition), null)
+    central_ledger_handler_transfer_position_batch_affinity     = try(yamlencode(var.app_var_map.workload_definitions.central_ledger_service.affinity_definition), null)
     central_ledger_handler_transfer_get_affinity                = try(yamlencode(var.app_var_map.workload_definitions.central_ledger_service.affinity_definition), null)
     central_ledger_handler_transfer_fulfil_affinity             = try(yamlencode(var.app_var_map.workload_definitions.central_ledger_service.affinity_definition), null)
     central_ledger_handler_admin_transfer_affinity              = try(yamlencode(var.app_var_map.workload_definitions.central_ledger_service.affinity_definition), null)
@@ -259,6 +264,24 @@ variable "quoting_service_simple_routing_mode_enabled" {
   description = "whether buquoting_service_simple_routing_mode_enabled is enabled or not"
   type        = bool
   default     = false
+}
+
+variable "central_ledger_handler_transfer_position_batch_processing_enabled" {
+  description = "whether central_ledger_handler_transfer_position batch processing is enabled or not"
+  type        = bool
+  default     = false
+}
+
+variable "central_ledger_handler_transfer_position_batch_size" {
+  description = "batch size for transfer position batch procesing"
+  type        = number
+  default     = 100
+}
+
+variable "central_ledger_handler_transfer_position_batch_consume_timeout_ms" {
+  description = "batch consume timeout in milli seconds for transfer position batch procesing"
+  type        = number
+  default     = 10
 }
 
 variable "ttk_frontend_public_fqdn" {
