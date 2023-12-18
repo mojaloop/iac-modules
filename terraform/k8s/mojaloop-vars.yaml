@@ -33,6 +33,11 @@ cl_handler_bulk_transfer_processing_replica_count: 1
 cl_handler_bulk_transfer_get_replica_count: 1
 onboarding_collection_tag: 15.2.0
 enable_istio_injection: true
+central_ledger_handler_transfer_position_batch_processing_enabled: false
+central_ledger_handler_transfer_position_batch_size: 100
+central_ledger_handler_transfer_position_batch_consume_timeout_ms: 10
+central_ledger_cache_enabled: true
+central_ledger_cache_expires_in_ms: 1000
 workload_definitions:
   core_api_adapters:
     toleration_definition:
