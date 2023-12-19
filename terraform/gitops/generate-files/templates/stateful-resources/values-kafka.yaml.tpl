@@ -964,7 +964,7 @@ provisioning:
   ##     max.message.bytes: 64000
   ##     flush.messages: 1
   ##
-  topics: ${resource.local_resource_config.kafka_provisioning.topics}
+  topics: ${indent(4, yamlencode(resource.local_resource_config.kafka_provisioning.topics))}
   ## @param provisioning.nodeSelector Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
