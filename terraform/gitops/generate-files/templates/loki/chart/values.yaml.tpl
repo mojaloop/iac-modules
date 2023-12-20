@@ -102,22 +102,22 @@ loki-stack:
             datasource: Mojaloop 
       mojaloop:                
         node-js:
-          url: https://raw.githubusercontent.com/mojaloop/helm/master/monitoring/dashboards/mojaloop/dashboard-NodeJSApplication.json
+          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-NodeJSApplication.json
           datasource: Mojaloop
         account-lookup-service:
-          url: https://raw.githubusercontent.com/mojaloop/helm/master/monitoring/dashboards/mojaloop/dashboard-account-lookup-service.json
+          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-account-lookup-service.json
           datasource: Mojaloop
         central-services-characterization:
-          url: https://raw.githubusercontent.com/mojaloop/helm/master/monitoring/dashboards/mojaloop/dashboard-central-services-characterization.json
+          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-central-services-characterization.json
           datasource: Mojaloop
         central-services:
-          url: https://raw.githubusercontent.com/mojaloop/helm/master/monitoring/dashboards/mojaloop/dashboard-central-services.json
+          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-central-services.json
           datasource: Mojaloop
         dashboard-ml-adapter:
-          url: https://raw.githubusercontent.com/mojaloop/helm/master/monitoring/dashboards/mojaloop/dashboard-ml-adapter.json
+          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-ml-adapter.json
           datasource: Mojaloop
         dashboard-simulators:
-          url: https://raw.githubusercontent.com/mojaloop/helm/master/monitoring/dashboards/mojaloop/dashboard-simulators.json
+          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-simulators.json
           datasource: Mojaloop     
 
 
