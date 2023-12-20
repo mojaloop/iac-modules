@@ -56,6 +56,7 @@ envs:
     vpc_cidr: "10.106.0.0/23"
     enable_k6s_test_harness: false
     k6s_docker_server_instance_type: "m5.2xlarge"
+    master_node_supports_traffic: true
 tags:
   {
     "Origin": "Terraform",

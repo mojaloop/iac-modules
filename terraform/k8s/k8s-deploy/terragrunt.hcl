@@ -18,7 +18,7 @@ inputs = {
   enable_k6s_test_harness              = local.env_map[local.CLUSTER_NAME].enable_k6s_test_harness
   k6s_docker_server_instance_type      = local.env_map[local.CLUSTER_NAME].k6s_docker_server_instance_type
   vpc_cidr                             = local.env_map[local.CLUSTER_NAME].vpc_cidr
-  master_node_supports_traffic         = (local.total_agent_count == 0) ? true : false
+  master_node_supports_traffic         = local.env_map[local.CLUSTER_NAME].master_node_supports_traffic
   kubeapi_port                         = (local.K8S_CLUSTER_TYPE == "microk8s") ? 16443 : 6443
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_map[local.CLUSTER_NAME].dns_provider
@@ -50,6 +50,7 @@ locals {
       k6s_docker_server_instance_type      = val["k6s_docker_server_instance_type"]
       vpc_cidr                             = val["vpc_cidr"]
       dns_provider                         = try(val["dns_provider"], val["cloud_platform"])
+      master_node_supports_traffic         = try(val["master_node_supports_traffic"], false)
     }
   }
   total_agent_count = try(sum([for node in local.env_map[local.CLUSTER_NAME].nodes : node.node_count if !node.master]), 0)
