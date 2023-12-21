@@ -141,11 +141,11 @@ output "bastion_hosts" {
 }
 
 output "agent_hosts" {
-  value = try(concat(local.agent_hosts...), {})
+  value = try(merge(local.agent_hosts...), {})
 }
 
 output "master_hosts" {
-  value = try(concat(local.master_hosts...), {})
+  value = try(merge(local.master_hosts...), {})
 }
 
 output "test_harness_hosts" {
