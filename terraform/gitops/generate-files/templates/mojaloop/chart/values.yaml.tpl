@@ -881,7 +881,7 @@ mojaloop:
             "cgscurrency": "${ttk_test_currency3}",
             "SIMPLE_ROUTING_MODE_ENABLED": ${quoting_service_simple_routing_mode_enabled},
             "ON_US_TRANSFERS_ENABLED": false,
-            "ENABLE_WS_ASSERTIONS": false,
+            "ENABLE_WS_ASSERTIONS": true,
             "NET_DEBIT_CAP": "10000000",
             "accept": "application/vnd.interoperability.parties+json;version=1.1",
             "acceptParties": "application/vnd.interoperability.parties+json;version=1.1",

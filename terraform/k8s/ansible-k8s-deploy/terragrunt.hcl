@@ -40,7 +40,9 @@ inputs = {
   })
   agent_hosts_var_maps         = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps        = dependency.k8s_deploy.outputs.master_hosts_var_maps
-  all_hosts_var_maps           = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps)
+  all_hosts_var_maps           = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps, {
+    registry_mirror_fqdn       = dependency.k8s_deploy.outputs.haproxy_server_fqdn
+  })
   bastion_hosts_yaml_maps      = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
   master_hosts_yaml_maps       = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps        = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
@@ -118,7 +120,6 @@ locals {
     nexus_docker_repo_listening_port = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     nexus_fqdn                       = get_env("NEXUS_FQDN")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
-    registry_mirror_fqdn             = get_env("NEXUS_FQDN")
     registry_mirror_port             = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     enable_registry_mirror           = true
   }
