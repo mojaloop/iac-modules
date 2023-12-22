@@ -7,7 +7,7 @@ module "generate_loki_files" {
     gitlab_server_url                    = var.gitlab_server_url
     gitlab_project_url                   = var.gitlab_project_url
     public_subdomain                     = var.public_subdomain
-    dashboard_namespace                  = "monitoring"
+    app_specific_dashboards              = local.app_specific_dashboards
     client_id                            = data.vault_generic_secret.grafana_oauth_client_id.data.value
     client_secret                        = data.vault_generic_secret.grafana_oauth_client_secret.data.value
     enable_oidc                          = var.enable_grafana_oidc
