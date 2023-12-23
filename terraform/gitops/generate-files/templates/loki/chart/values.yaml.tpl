@@ -1,7 +1,7 @@
 loki-stack:
   grafana:
     image:
-      tag: 8.5.13
+      tag: 9.5.15
     enabled: true
     admin:
       ## Name of the secret. Can be templated.
@@ -38,9 +38,8 @@ loki-stack:
           isDefault: true
     sidecar:
       dashboards:
-        enabled: true
-        label: mojaloop_dashboard
-        searchNamespace: ${dashboard_namespace}
+        enabled: false
+
     ingress:
 %{ if istio_create_ingress_gateways ~}
       enabled: false
@@ -99,27 +98,10 @@ loki-stack:
         kafka:
             gnetId: 721 # https://grafana.com/grafana/dashboards/721-kafka/
             revision: 1
-            datasource: Mojaloop 
-      mojaloop:                
-        node-js:
-          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-NodeJSApplication.json
-          datasource: Mojaloop
-        account-lookup-service:
-          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-account-lookup-service.json
-          datasource: Mojaloop
-        central-services-characterization:
-          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-central-services-characterization.json
-          datasource: Mojaloop
-        central-services:
-          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-central-services.json
-          datasource: Mojaloop
-        dashboard-ml-adapter:
-          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-ml-adapter.json
-          datasource: Mojaloop
-        dashboard-simulators:
-          url: https://raw.githubusercontent.com/mojaloop/helm/v15.2.0/monitoring/dashboards/mojaloop/dashboard-simulators.json
-          datasource: Mojaloop     
-
+            datasource: Mojaloop
+%{ if app_specific_dashboards != null ~}
+      ${indent(6, yamlencode(app_specific_dashboards))}
+%{ endif ~}
 
   prometheus:
     enabled: true
@@ -132,6 +114,8 @@ loki-stack:
         storageClass: ${storage_class_name}
         size: 10Gi
   loki:
+    image:
+      tag: 2.9.3
     isDefault: false
     persistence:
       enabled: true

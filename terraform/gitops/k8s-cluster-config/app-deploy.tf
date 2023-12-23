@@ -195,4 +195,33 @@ locals {
     local.loki_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
   var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
+  app_specific_dashboards = var.common_var_map.mojaloop_enabled ? local.mojaloop_specific_dashboards : null
+  mojaloop_specific_dashboards = {
+    mojaloop = {
+      node-js = {
+        url = "https://raw.githubusercontent.com/mojaloop/helm/v${var.app_var_map.grafana_dashboard_tag}/monitoring/dashboards/mojaloop/dashboard-NodeJSApplication.json"
+        datasource = "Mojaloop"
+      }
+      account-lookup-service = {
+        url = "https://raw.githubusercontent.com/mojaloop/helm/v${var.app_var_map.grafana_dashboard_tag}/monitoring/dashboards/mojaloop/dashboard-account-lookup-service.json"
+        datasource = "Mojaloop"
+      }
+      central-services-characterization = {
+        url = "https://raw.githubusercontent.com/mojaloop/helm/v${var.app_var_map.grafana_dashboard_tag}/monitoring/dashboards/mojaloop/dashboard-central-services-characterization.json"
+        datasource = "Mojaloop"
+      }
+      central-services = {
+        url = "https://raw.githubusercontent.com/mojaloop/helm/v${var.app_var_map.grafana_dashboard_tag}/monitoring/dashboards/mojaloop/dashboard-central-services.json"
+        datasource = "Mojaloop"
+      }
+      dashboard-ml-adapter = {
+        url = "https://raw.githubusercontent.com/mojaloop/helm/v${var.app_var_map.grafana_dashboard_tag}/monitoring/dashboards/mojaloop/dashboard-ml-adapter.json"
+        datasource = "Mojaloop"
+      }
+      dashboard-simulators = {
+        url = "https://raw.githubusercontent.com/mojaloop/helm/v${var.app_var_map.grafana_dashboard_tag}/monitoring/dashboards/mojaloop/dashboard-simulators.json"
+        datasource = "Mojaloop"
+      }
+    }               
+  }
 }

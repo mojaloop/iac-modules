@@ -40,7 +40,9 @@ inputs = {
   })
   agent_hosts_var_maps         = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps        = dependency.k8s_deploy.outputs.master_hosts_var_maps
-  all_hosts_var_maps           = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps)
+  all_hosts_var_maps           = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps, {
+    registry_mirror_fqdn       = dependency.k8s_deploy.outputs.haproxy_server_fqdn
+  })
   bastion_hosts_yaml_maps      = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
   master_hosts_yaml_maps       = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps        = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
@@ -78,10 +80,12 @@ locals {
       vpc_cidr                             = val["vpc_cidr"]
     }
   }
-  ANSIBLE_BASE_OUTPUT_DIR = get_env("ANSIBLE_BASE_OUTPUT_DIR")
-  K8S_CLUSTER_TYPE        = get_env("K8S_CLUSTER_TYPE")
-  ARGO_CD_ROOT_APP_PATH   = get_env("ARGO_CD_ROOT_APP_PATH")
-  CLUSTER_NAME            = get_env("CLUSTER_NAME")
+  ANSIBLE_BASE_OUTPUT_DIR          = get_env("ANSIBLE_BASE_OUTPUT_DIR")
+  K8S_CLUSTER_TYPE                 = get_env("K8S_CLUSTER_TYPE")
+  ARGO_CD_ROOT_APP_PATH            = get_env("ARGO_CD_ROOT_APP_PATH")
+  CLUSTER_NAME                     = get_env("CLUSTER_NAME")
+  NEXUS_DOCKER_REPO_LISTENING_PORT = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
+  NEXUS_FQDN                       = get_env("NEXUS_FQDN")
 
   total_agent_count  = try(sum([for node in local.env_map[local.CLUSTER_NAME].nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_map[local.CLUSTER_NAME].nodes : node.node_count if node.master]), 0)
@@ -114,7 +118,10 @@ locals {
   all_hosts_var_maps = {
     seaweedfs_s3_listening_port      = get_env("SEAWEEDFS_S3_LISTENING_PORT")
     nexus_docker_repo_listening_port = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
+    nexus_fqdn                       = get_env("NEXUS_FQDN")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
+    registry_mirror_port             = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
+    enable_registry_mirror           = true
   }
 }
 

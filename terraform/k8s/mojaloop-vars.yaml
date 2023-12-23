@@ -1,7 +1,7 @@
 bulk_enabled: false
 third_party_enabled: false
 mcm_chart_version: 0.7.1
-mojaloop_chart_version: 15.2.0
+mojaloop_chart_version: 15.3.0-16929.30b7d37
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 #replica counts
@@ -13,6 +13,7 @@ ml_api_adapter_handler_notifications_replica_count: 1
 central_ledger_service_replica_count: 1
 central_ledger_handler_transfer_prepare_replica_count: 1
 central_ledger_handler_transfer_position_replica_count: 1
+central_ledger_handler_transfer_position_batch_replica_count: 1
 central_ledger_handler_transfer_get_replica_count: 1
 central_ledger_handler_transfer_fulfil_replica_count: 1
 central_ledger_handler_admin_transfer_replica_count: 1
@@ -31,7 +32,13 @@ cl_handler_bulk_transfer_fulfil_replica_count: 1
 cl_handler_bulk_transfer_processing_replica_count: 1
 cl_handler_bulk_transfer_get_replica_count: 1
 onboarding_collection_tag: 15.2.0
+grafana_dashboard_tag: 15.2.0
 enable_istio_injection: true
+central_ledger_handler_transfer_position_batch_processing_enabled: false
+central_ledger_handler_transfer_position_batch_size: 100
+central_ledger_handler_transfer_position_batch_consume_timeout_ms: 10
+central_ledger_cache_enabled: true
+central_ledger_cache_expires_in_ms: 1000
 workload_definitions:
   core_api_adapters:
     toleration_definition:

@@ -93,6 +93,13 @@ mojaloop:
       key: &TTK_MONGO_SECRET_KEY mongodb-passwords
     ttk_mongo_database: &TTK_MONGO_DATABASE "${ttk_mongodb_database}"
 
+    ## BATCH_PROCESSING: To enable batch processing set following to true
+    batch_processing_enabled: &CL_BATCH_PROCESSING_ENABLED ${central_ledger_handler_transfer_position_batch_processing_enabled}
+
+    ## CENTRAL-LEDGER CACHE
+    cl_cache_enabled: &CL_CACHE_ENABLED ${central_ledger_cache_enabled}
+    cl_cache_expires_in_ms: &CL_CACHE_EXPIRES_IN_MS ${central_ledger_cache_expires_in_ms}
+
     ingress_class: &INGRESS_CLASS "${ingress_class_name}"
 
   global:
@@ -251,6 +258,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT        
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -277,6 +286,9 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT        
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
+        batch_processing_enabled: *CL_BATCH_PROCESSING_ENABLED
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -300,6 +312,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -308,6 +322,34 @@ mojaloop:
 %{ endif ~}        
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-position.${ingress_subdomain}
+    centralledger-handler-transfer-position-batch:
+      enabled: *CL_BATCH_PROCESSING_ENABLED
+%{ if central_ledger_handler_transfer_position_batch_affinity != null ~}
+      affinity:
+        ${indent(8, central_ledger_handler_transfer_position_batch_affinity)}
+%{ endif ~}
+      replicaCount: ${central_ledger_handler_transfer_position_batch_replica_count}
+      config:
+        kafka_host: *KAFKA_HOST
+        kafka_port: *KAFKA_PORT
+        db_password: *CL_DB_PASSWORD
+        db_secret: *CL_DB_SECRET
+        db_host: *CL_DB_HOST
+        db_user: *CL_DB_USER
+        db_port: *CL_DB_PORT
+        db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
+        batch_size: ${central_ledger_handler_transfer_position_batch_size}
+        batch_consume_timeout_in_ms: ${central_ledger_handler_transfer_position_batch_consume_timeout_ms}
+      ingress:
+%{ if istio_create_ingress_gateways ~}
+        enabled: false
+%{ else ~}
+        enabled: true
+%{ endif ~}        
+        className: *INGRESS_CLASS
+        hostname: central-ledger-transfer-position-batch.${ingress_subdomain}
     centralledger-handler-transfer-get:
 %{ if central_ledger_handler_transfer_get_affinity != null ~}
       affinity:
@@ -323,6 +365,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -346,6 +390,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -364,6 +410,8 @@ mojaloop:
         db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -387,6 +435,8 @@ mojaloop:
         db_user: *CL_DB_USER    
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
+        cache_enabled: *CL_CACHE_ENABLED
+        cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -831,6 +881,7 @@ mojaloop:
             "cgscurrency": "${ttk_test_currency3}",
             "SIMPLE_ROUTING_MODE_ENABLED": ${quoting_service_simple_routing_mode_enabled},
             "ON_US_TRANSFERS_ENABLED": false,
+            "ENABLE_WS_ASSERTIONS": true,
             "NET_DEBIT_CAP": "10000000",
             "accept": "application/vnd.interoperability.parties+json;version=1.1",
             "acceptParties": "application/vnd.interoperability.parties+json;version=1.1",
