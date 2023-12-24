@@ -15,7 +15,7 @@ spec:
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${loki_namespace}
+    namespace: ${monitoring_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
