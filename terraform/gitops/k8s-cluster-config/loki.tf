@@ -33,13 +33,12 @@ module "generate_loki_files" {
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     loki_wildcard_gateway                = local.loki_wildcard_gateway
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/password-policy.yaml", "custom-resources/random-secret.yaml", "custom-resources/vault-secret.yaml", "custom-resources/istio-gateway.yaml"]
+  file_list       = ["kustomization.yaml", "values-prom-operator.yaml", "values-grafana-operator.yaml", "values-promtail.yaml", "values-loki.yaml", "values-tempo.yaml", "vault-secret.yaml", "grafana.yaml", "istio-gateway.yaml"]
   template_path   = "${path.module}/../generate-files/templates/loki"
   output_path     = "${var.output_dir}/loki"
   app_file        = "loki-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"
 }
-
 
 variable "grafana_ingress_internal_lb" {
   type        = bool
