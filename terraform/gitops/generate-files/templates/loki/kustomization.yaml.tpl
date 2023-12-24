@@ -1,11 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - values-prom-operator.yaml
-  - values-grafana-operator.yaml
-  - values-promtail.yaml
-  - values-loki.yaml
-  - values-tempo.yaml
   - vault-secret.yaml
   - grafana.yaml
   - istio-gateway.yaml
