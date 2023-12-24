@@ -18,7 +18,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: loki-app-grafana
+            host: grafana
             port:
               number: 80
 %{ endif ~}

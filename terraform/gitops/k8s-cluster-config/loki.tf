@@ -1,9 +1,15 @@
 module "generate_loki_files" {
   source = "../generate-files"
   var_map = {
-    loki_chart_repo                      = var.loki_chart_repo
+    grafana_chart_repo                   = var.grafana_chart_repo
     loki_chart_version                   = var.common_var_map.loki_chart_version
-    loki_namespace                       = var.loki_namespace
+    prometheus_operator_version          = var.common_var_map.prometheus_operator_version
+    prometheus_operator_release_name     = local.prometheus_operator_release_name
+    loki_release_name                    = local.loki_release_name
+    grafana_operator_version             = var.common_var_map.grafana_operator_version
+    promtail_chart_version               = var.common_var_map.promtail_chart_version
+    tempo_chart_version                  = var.common_var_map.tempo_chart_version
+    monitoring_namespace                 = var.monitoring_namespace
     gitlab_server_url                    = var.gitlab_server_url
     gitlab_project_url                   = var.gitlab_project_url
     public_subdomain                     = var.public_subdomain
@@ -57,10 +63,10 @@ variable "grafana_oidc_client_id_secret_key" {
   default     = "grafana_oauth_client_id"
 }
 
-variable "loki_chart_repo" {
+variable "grafana_chart_repo" {
   type        = string
   default     = "https://grafana.github.io/helm-charts"
-  description = "loki_chart_repo"
+  description = "grafana_chart_repo"
 }
 
 variable "loki_sync_wave" {
@@ -69,12 +75,14 @@ variable "loki_sync_wave" {
   default     = "-5"
 }
 
-variable "loki_namespace" {
+variable "monitoring_namespace" {
   type        = string
-  description = "loki_namespace"
+  description = "monitoring_namespace"
   default     = "monitoring"
 }
 
 locals {
   loki_wildcard_gateway = var.grafana_ingress_internal_lb ? "internal" : "external"
+  loki_release_name = "loki"
+  prometheus_operator_release_name = "prom"
 }
