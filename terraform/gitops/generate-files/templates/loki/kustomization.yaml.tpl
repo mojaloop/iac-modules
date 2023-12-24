@@ -11,7 +11,7 @@ resources:
   - istio-gateway.yaml
 helmCharts:
 - name: kube-prometheus
-  releaseName: ${prometheus_release_name}
+  releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
   repo: oci://egistry-1.docker.io/bitnamicharts/kube-prometheus
   valuesFile: values-prom-operator.yaml
