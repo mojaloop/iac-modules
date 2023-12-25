@@ -2,19 +2,18 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - vault-secret.yaml
-  - grafana.yaml
   - istio-gateway.yaml
 helmCharts:
 - name: kube-prometheus
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
-  repo: https://charts.bitnami.com/bitnami
+  repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-prom-operator.yaml
   namespace: ${monitoring_namespace}
 - name: grafana-operator
   releaseName: grafana
   version: ${grafana_operator_version}
-  repo: https://charts.bitnami.com/bitnami
+  repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-grafana-operator.yaml
   namespace: ${monitoring_namespace}
 - name: promtail
