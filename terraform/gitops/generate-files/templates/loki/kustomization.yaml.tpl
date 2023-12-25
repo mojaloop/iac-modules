@@ -8,7 +8,7 @@ helmCharts:
 - name: kube-prometheus
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
-  repo: oci://egistry-1.docker.io/bitnamicharts/kube-prometheus
+  repo: oci://registry-1.docker.io/bitnamicharts/kube-prometheus
   valuesFile: values-prom-operator.yaml
   namespace: ${monitoring_namespace}
 - name: grafana-operator
