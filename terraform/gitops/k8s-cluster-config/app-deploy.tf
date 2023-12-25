@@ -187,12 +187,12 @@ locals {
 
   internal_gateway_hosts = concat([local.keycloak_admin_fqdn],
     local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
-    local.loki_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
+    local.grafana_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [],
   var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [])
   external_gateway_hosts = concat([local.keycloak_fqdn],
     local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
-    local.loki_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
+    local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
   var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
   app_specific_dashboards = var.common_var_map.mojaloop_enabled ? local.mojaloop_specific_dashboards : null

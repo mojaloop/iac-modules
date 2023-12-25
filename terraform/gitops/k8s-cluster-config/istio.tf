@@ -28,9 +28,6 @@ module "generate_istio_files" {
     istio_gateways_sync_wave             = var.istio_gateways_sync_wave
     kiali_chart_version                  = var.kiali_chart_version
     kiali_chart_repo                     = var.kiali_chart_repo
-    keycloak_wildcard_gateway            = local.keycloak_wildcard_gateway
-    loki_wildcard_gateway                = local.loki_wildcard_gateway
-    vault_wildcard_gateway               = local.vault_wildcard_gateway
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     internal_gateway_hosts               = local.internal_gateway_hosts
