@@ -8,13 +8,13 @@ helmCharts:
 - name: kube-prometheus
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
-  repo: oci://registry-1.docker.io/bitnamicharts/kube-prometheus
+  repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-prom-operator.yaml
   namespace: ${monitoring_namespace}
 - name: grafana-operator
   releaseName: grafana
   version: ${grafana_operator_version}
-  repo: oci://registry-1.docker.io/bitnamicharts/grafana-operator
+  repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-grafana-operator.yaml
   namespace: ${monitoring_namespace}
 - name: promtail
