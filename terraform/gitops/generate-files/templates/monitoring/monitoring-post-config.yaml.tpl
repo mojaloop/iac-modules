@@ -2,14 +2,14 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${loki_sync_wave}"
-  name: loki-app
+    argocd.argoproj.io/sync-wave: "${monitoring_post_config_sync_wave}"
+  name: monitoring-post-config
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/loki
+    path: apps/monitoring/post-config
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

@@ -1,4 +1,4 @@
-module "generate_loki_files" {
+module "generate_monitoring_files" {
   source = "../generate-files"
   var_map = {
     grafana_chart_repo                   = var.grafana_chart_repo
@@ -19,24 +19,25 @@ module "generate_loki_files" {
     enable_oidc                          = var.enable_grafana_oidc
     storage_class_name                   = var.storage_class_name
     groups                               = var.gitlab_admin_group_name
-    prom-mojaloop-url                    = "http://loki-app-prometheus-server"
+    prom-mojaloop-url                    = "http://prometheus-server"
     admin_secret_pw_key                  = "admin-pw"
     admin_secret_user_key                = "admin-user"
     admin_secret                         = "grafana-admin-secret"
     admin_user_name                      = "grafana-admin"
-    loki_sync_wave                       = var.loki_sync_wave
+    monitoring_sync_wave                       = var.monitoring_sync_wave
+    monitoring_post_config_sync_wave           = var.monitoring_post_config_sync_wave
     ingress_class                        = var.grafana_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
     istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
     istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
-    loki_wildcard_gateway                = local.loki_wildcard_gateway
+    grafana_wildcard_gateway                = local.grafana_wildcard_gateway
   }
-  file_list       = ["kustomization.yaml", "values-prom-operator.yaml", "values-grafana-operator.yaml", "values-promtail.yaml", "values-loki.yaml", "values-tempo.yaml", "vault-secret.yaml", "grafana.yaml", "istio-gateway.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/loki"
-  output_path     = "${var.output_dir}/loki"
-  app_file        = "loki-app.yaml"
+  file_list       = ["monitoring-install.yaml", "monitoring-post-config.yaml", "monitoring-install/kustomization.yaml", "monitoring-install/values-prom-operator.yaml", "monitoring-install/values-grafana-operator.yaml", "monitoring-install/values-promtail.yaml", "monitoring-install/values-loki.yaml", "monitoring-install/values-tempo.yaml", "monitoring-install/vault-secret.yaml", "grafana.yaml", "monitoring-install/istio-gateway.yaml"]
+  template_path   = "${path.module}/../generate-files/templates/monitoring"
+  output_path     = "${var.output_dir}/monitoring"
+  app_file        = "monitoring-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
@@ -68,10 +69,15 @@ variable "grafana_chart_repo" {
   description = "grafana_chart_repo"
 }
 
-variable "loki_sync_wave" {
+variable "monitoring_sync_wave" {
   type        = string
-  description = "loki_sync_wave"
+  description = "monitoring_sync_wave"
   default     = "-5"
+}
+variable "monitoring_post_config_sync_wave" {
+  type        = string
+  description = "monitoring_sync_wave"
+  default     = "-4"
 }
 
 variable "monitoring_namespace" {
@@ -81,7 +87,7 @@ variable "monitoring_namespace" {
 }
 
 locals {
-  loki_wildcard_gateway = var.grafana_ingress_internal_lb ? "internal" : "external"
+  grafana_wildcard_gateway = var.grafana_ingress_internal_lb ? "internal" : "external"
   loki_release_name = "loki"
   prometheus_operator_release_name = "prom"
 }
