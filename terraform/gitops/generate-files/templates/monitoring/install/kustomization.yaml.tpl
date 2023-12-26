@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:  
   - https://github.com/prometheus-operator/prometheus-operator?ref=v0.70.0
+  - https://github.com/grafana/grafana-operator/deploy/kustomize/overlays/cluster_scoped?ref=v5.6.0
   - vault-secret.yaml
   - istio-gateway.yaml
 helmCharts:
@@ -35,8 +36,3 @@ helmCharts:
   repo: https://grafana.github.io/helm-charts
   valuesFile: values-tempo.yaml
   namespace: ${monitoring_namespace}
-
-#helm repo add grafana https://grafana.github.io/helm-charts
-#oci://registry-1.docker.io/bitnamicharts/grafana-operator
-#oci://egistry-1.docker.io/bitnamicharts/kube-prometheus
-#helm install my-loki grafana/loki --version 5.41.4
