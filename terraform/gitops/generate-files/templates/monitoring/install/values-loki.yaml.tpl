@@ -14,3 +14,14 @@ singleBinary:
     enabled: true
     storageClassName: ${storage_class_name}
     size: 10Gi
+monitoring:
+  dashboards:
+    enabled: false
+  rules:
+    enabled: false
+  serviceMonitor:
+    enabled: false
+  selfMonitoring:
+    enabled: false
+test:
+  enabled: false
