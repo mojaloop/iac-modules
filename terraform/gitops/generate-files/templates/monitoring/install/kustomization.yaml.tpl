@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
+resources:  
+  - https://github.com/prometheus-operator/prometheus-operator?ref=v0.70.0
   - vault-secret.yaml
   - istio-gateway.yaml
 helmCharts:
