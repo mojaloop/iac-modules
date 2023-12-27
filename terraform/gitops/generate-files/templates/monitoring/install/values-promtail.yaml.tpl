@@ -1,3 +1,3 @@
 config:
   clients:
-    - url: http://${loki_release_name}/loki/api/v1/push
+    - url: http://${loki_release_name}:3100/loki/api/v1/push
