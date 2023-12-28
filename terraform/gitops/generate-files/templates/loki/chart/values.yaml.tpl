@@ -39,6 +39,8 @@ loki-stack:
     sidecar:
       dashboards:
         enabled: false
+        label: grafana_dashboard
+        searchNamespace: mojaloop
 
     ingress:
 %{ if istio_create_ingress_gateways ~}
