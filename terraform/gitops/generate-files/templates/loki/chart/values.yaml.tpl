@@ -39,6 +39,8 @@ loki-stack:
     sidecar:
       dashboards:
         enabled: false
+        label: grafana_dashboard
+        searchNamespace: mojaloop
 
     ingress:
 %{ if istio_create_ingress_gateways ~}
@@ -113,6 +115,24 @@ loki-stack:
         enabled: true
         storageClass: ${storage_class_name}
         size: 10Gi
+    extraScrapeConfigs: |
+      - job_name: kafka
+        static_configs:
+          - targets:
+            - mojaloop-kafka-metrics.mojaloop.svc.cluster.local:9308
+      - job_name: mysql-account-lookup-db
+        static_configs:
+          - targets:
+            - mysql-account-lookup-db-metrics.mojaloop-db.svc.cluster.local:9104
+      - job_name: mysql-central-ledger-db
+        static_configs:
+          - targets:
+            - mysql-central-ledger-db-metrics.mojaloop-db.svc.cluster.local:9104
+      - job_name: mysql-mcm-db
+        static_configs:
+          - targets:
+            - mysql-mcm-db-metrics.mcm-db.svc.cluster.local:9104
+
   loki:
     image:
       tag: 2.9.3
