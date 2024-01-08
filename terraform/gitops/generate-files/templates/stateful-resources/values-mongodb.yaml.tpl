@@ -73,3 +73,8 @@ volumePermissions:
   ## @param volumePermissions.enabled Enable init container that changes the owner and group of the persistent volume(s) mountpoint to `runAsUser:fsGroup`
   ##
   enabled: true
+
+metrics:
+  ## @param metrics.enabled Enable using a sidecar Prometheus exporter
+  ##
+  enabled: true
