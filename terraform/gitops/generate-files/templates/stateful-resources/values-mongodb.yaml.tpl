@@ -77,4 +77,4 @@ volumePermissions:
 metrics:
   ## @param metrics.enabled Enable using a sidecar Prometheus exporter
   ##
-  enabled: false
+  enabled: true
