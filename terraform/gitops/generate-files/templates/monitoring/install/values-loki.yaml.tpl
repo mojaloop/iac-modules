@@ -1,13 +1,14 @@
-tableManager:
-  enabled: true
-  retention_deletes_enabled: true
-  retention_period: 72h
 
 loki:
   commonConfig:
     replication_factor: 1
   storage:
     type: 'filesystem'
+  compactor: 
+    retention_enabled: true
+  limits_config:
+    retention_period: 72h
+
 singleBinary:
   replicas: 1
   persistence:
