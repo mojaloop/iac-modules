@@ -17,10 +17,10 @@ helmCharts:
   namespace: ${monitoring_namespace}
 - name: grafana-operator
   releaseName: grafana
-  version: 3.5.11
+  version: ${grafana_operator_version}
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-grafana-operator.yaml
-  namespace: monitoring
+  namespace: ${monitoring_namespace}
 - name: promtail
   releaseName: promtail
   version: ${promtail_chart_version}
