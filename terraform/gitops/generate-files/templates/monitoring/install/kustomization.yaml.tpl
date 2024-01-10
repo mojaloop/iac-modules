@@ -1,11 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:  
-  - https://github.com/prometheus-operator/prometheus-operator?ref=v0.70.0
-  - https://github.com/grafana/grafana-operator/deploy/kustomize/overlays/cluster_scoped?ref=v5.6.0
+  - https://raw.githubusercontent.com/grafana/grafana-operator/v5.6.0/deploy/kustomize/base/crds.yaml
   - vault-secret.yaml
   - istio-gateway.yaml
 helmCharts:
+- name: prometheus-operator-crds
+  releaseName: prometheus-operator-crds
+  version: 8.0.1
+  repo: https://prometheus-community.github.io/helm-charts/
 - name: kube-prometheus
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
