@@ -24,15 +24,15 @@ spec:
                       name: ${admin_secret}
   config:
     unified_alerting:
-      enabled: false
+      enabled: "false"
     alerting:
-      enabled: true
+      enabled: "true"
     server:
-      domain: ${public_subdomain}
+      domain: "${public_subdomain}"
       root_url: https://grafana.${public_subdomain}
     auth.gitlab:
-      enabled: ${enable_oidc}
-      allow_sign_up: true
+      enabled: "\"${enable_oidc}\""
+      allow_sign_up: "true"
       scopes: read_api
       auth_url: ${gitlab_server_url}/oauth/authorize
       token_url: ${gitlab_server_url}/oauth/token
@@ -86,6 +86,9 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Mojaloop" 
   grafanaCom:
     id: 12740
     revision: 1
