@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:  
-  # - https://github.com/grafana/grafana-operator/deploy/kustomize/overlays/cluster_scoped?ref=v5.6.0
+  - https://raw.githubusercontent.com/grafana/grafana-operator/v5.6.0/deploy/kustomize/base/crds.yaml
   - vault-secret.yaml
   - istio-gateway.yaml
 helmCharts:
@@ -15,12 +15,12 @@ helmCharts:
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-prom-operator.yaml
   namespace: ${monitoring_namespace}
-# - name: grafana-operator
-#   releaseName: grafana
-#   version: 3.5.11
-#   repo: oci://registry-1.docker.io/bitnamicharts
-#   valuesFile: values-grafana-operator.yaml
-#   namespace: monitoring
+- name: grafana-operator
+  releaseName: grafana
+  version: 3.5.11
+  repo: oci://registry-1.docker.io/bitnamicharts
+  valuesFile: values-grafana-operator.yaml
+  namespace: monitoring
 - name: promtail
   releaseName: promtail
   version: ${promtail_chart_version}
