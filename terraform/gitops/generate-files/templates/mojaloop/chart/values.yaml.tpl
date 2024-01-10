@@ -1,4 +1,4 @@
-mojaloop:  
+mojaloop:
   # Custom YAML TEMPLATE Anchors
   CONFIG:
     ## ACCOUNT-LOOKUP BACKEND
@@ -100,6 +100,12 @@ mojaloop:
     cl_cache_enabled: &CL_CACHE_ENABLED ${central_ledger_cache_enabled}
     cl_cache_expires_in_ms: &CL_CACHE_EXPIRES_IN_MS ${central_ledger_cache_expires_in_ms}
 
+    ## MONITORING
+    ml_api_adapter_monitoring_prefix : &ML_API_ADAPTER_MONITORING_PREFIX "${ml_api_adapter_monitoring_prefix}"
+    quoting_monitoring_prefix: &QUOTING_MONITORING_PREFIX "${quoting_service_monitoring_prefix}"
+    cl_monitoring_prefix: &CL_MONITORING_PREFIX "${central_ledger_monitoring_prefix}"
+    als_monitoring_prefix: &ALS_MONITORING_PREFIX "${account_lookup_service_monitoring_prefix}"
+
     ingress_class: &INGRESS_CLASS "${ingress_class_name}"
 
   global:
@@ -137,6 +143,9 @@ mojaloop:
 %{ endif ~}
         className: *INGRESS_CLASS
         hostname: account-lookup-service.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *ALS_MONITORING_PREFIX
     account-lookup-service-admin:
 %{ if account_lookup_admin_service_affinity != null ~}
       affinity:
@@ -162,6 +171,9 @@ mojaloop:
 %{ endif ~}
         className: *INGRESS_CLASS
         hostname: account-lookup-service-admin.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *ALS_MONITORING_PREFIX
     als-oracle-pathfinder:
       enabled: false
 
@@ -169,7 +181,7 @@ mojaloop:
 %{ if quoting_service_affinity != null ~}
     affinity:
       ${indent(6, quoting_service_affinity)}
-%{ endif ~}    
+%{ endif ~}
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${quoting_service_replica_count}
@@ -195,9 +207,12 @@ mojaloop:
       enabled: false
 %{ else ~}
       enabled: true
-%{ endif ~}      
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: quoting-service.${ingress_subdomain}
+    metrics:
+      config:
+        prefix: *QUOTING_MONITORING_PREFIX
 
   ml-api-adapter:
     ml-api-adapter-service:
@@ -219,6 +234,9 @@ mojaloop:
         #annotations:
           #nginx.ingress.kubernetes.io/rewrite-target: /$2
         hostname: ml-api-adapter.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *ML_API_ADAPTER_MONITORING_PREFIX
     ml-api-adapter-handler-notification:
 %{ if ml_api_adapter_handler_notifications_affinity != null ~}
       affinity:
@@ -241,6 +259,9 @@ mojaloop:
 %{ endif ~}
         className: *INGRESS_CLASS
         hostname: ml-api-adapter-handler-notification.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *ML_API_ADAPTER_MONITORING_PREFIX
 
   centralledger:
     centralledger-service:
@@ -256,7 +277,7 @@ mojaloop:
         db_secret: *CL_DB_SECRET
         db_host: *CL_DB_HOST
         db_user: *CL_DB_USER
-        db_port: *CL_DB_PORT        
+        db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
         cache_enabled: *CL_CACHE_ENABLED
         cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
@@ -271,6 +292,9 @@ mojaloop:
           nginx.ingress.kubernetes.io/rewrite-target: /$2
         path: /admin(/|$)(.*)
         hostname: interop-switch.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *CL_MONITORING_PREFIX
     centralledger-handler-transfer-prepare:
 %{ if central_ledger_handler_transfer_prepare_affinity != null ~}
       affinity:
@@ -284,7 +308,7 @@ mojaloop:
         db_secret: *CL_DB_SECRET
         db_host: *CL_DB_HOST
         db_user: *CL_DB_USER
-        db_port: *CL_DB_PORT        
+        db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
         cache_enabled: *CL_CACHE_ENABLED
         cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
@@ -297,6 +321,9 @@ mojaloop:
 %{ endif ~}
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-prepare.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *CL_MONITORING_PREFIX
     centralledger-handler-transfer-position:
 %{ if central_ledger_handler_transfer_position_affinity != null ~}
       affinity:
@@ -319,9 +346,12 @@ mojaloop:
         enabled: false
 %{ else ~}
         enabled: true
-%{ endif ~}        
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-position.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *CL_MONITORING_PREFIX
     centralledger-handler-transfer-position-batch:
       enabled: *CL_BATCH_PROCESSING_ENABLED
 %{ if central_ledger_handler_transfer_position_batch_affinity != null ~}
@@ -347,9 +377,12 @@ mojaloop:
         enabled: false
 %{ else ~}
         enabled: true
-%{ endif ~}        
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-position-batch.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *CL_MONITORING_PREFIX
     centralledger-handler-transfer-get:
 %{ if central_ledger_handler_transfer_get_affinity != null ~}
       affinity:
@@ -372,9 +405,12 @@ mojaloop:
         enabled: false
 %{ else ~}
         enabled: true
-%{ endif ~}        
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-get.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *CL_MONITORING_PREFIX
     centralledger-handler-transfer-fulfil:
 %{ if central_ledger_handler_transfer_fulfil_affinity != null ~}
       affinity:
@@ -397,9 +433,12 @@ mojaloop:
         enabled: false
 %{ else ~}
         enabled: true
-%{ endif ~}        
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: central-ledger-transfer-fulfil.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *CL_MONITORING_PREFIX
     centralledger-handler-timeout:
       config:
         kafka_host: *KAFKA_HOST
@@ -417,9 +456,12 @@ mojaloop:
         enabled: false
 %{ else ~}
         enabled: true
-%{ endif ~}        
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: central-ledger-timeout.${ingress_subdomain}
+      metrics:
+        config:
+          prefix: *CL_MONITORING_PREFIX
     centralledger-handler-admin-transfer:
 %{ if central_ledger_handler_admin_transfer_affinity != null ~}
       affinity:
@@ -432,7 +474,7 @@ mojaloop:
         db_password: *CL_DB_PASSWORD
         db_secret: *CL_DB_SECRET
         db_host: *CL_DB_HOST
-        db_user: *CL_DB_USER    
+        db_user: *CL_DB_USER
         db_port: *CL_DB_PORT
         db_database: *CL_DB_DATABASE
         cache_enabled: *CL_CACHE_ENABLED
@@ -442,10 +484,12 @@ mojaloop:
         enabled: false
 %{ else ~}
         enabled: true
-%{ endif ~}        
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: central-ledger-admin-transfer.${ingress_subdomain}
-
+      metrics:
+        config:
+          prefix: *CL_MONITORING_PREFIX
   centralsettlement:
     centralsettlement-service:
       ingress:
@@ -453,7 +497,7 @@ mojaloop:
         enabled: false
 %{ else ~}
         enabled: true
-%{ endif ~}        
+%{ endif ~}
         className: *INGRESS_CLASS
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /v2/$2
@@ -471,7 +515,7 @@ mojaloop:
         db_secret: *CS_DB_SECRET
         db_host: *CS_DB_HOST
         db_user: *CS_DB_USER
-        db_port: *CS_DB_PORT        
+        db_port: *CS_DB_PORT
         db_database: *CS_DB_DATABASE
     centralsettlement-handler-deferredsettlement:
 %{ if central_settlement_handler_deferredsettlement_affinity != null ~}
@@ -486,7 +530,7 @@ mojaloop:
         db_secret: *CS_DB_SECRET
         db_host: *CS_DB_HOST
         db_user: *CS_DB_USER
-        db_port: *CS_DB_PORT        
+        db_port: *CS_DB_PORT
         db_database: *CS_DB_DATABASE
     centralsettlement-handler-grosssettlement:
 %{ if central_settlement_handler_grosssettlement_affinity != null ~}
@@ -501,7 +545,7 @@ mojaloop:
         db_secret: *CS_DB_SECRET
         db_host: *CS_DB_HOST
         db_user: *CS_DB_USER
-        db_port: *CS_DB_PORT        
+        db_port: *CS_DB_PORT
         db_database: *CS_DB_DATABASE
     centralsettlement-handler-rules:
 %{ if central_settlement_handler_rules_affinity != null ~}
@@ -516,7 +560,7 @@ mojaloop:
         db_secret: *CS_DB_SECRET
         db_host: *CS_DB_HOST
         db_user: *CS_DB_USER
-        db_port: *CS_DB_PORT        
+        db_port: *CS_DB_PORT
         db_database: *CS_DB_DATABASE
 
   transaction-requests-service:
@@ -532,7 +576,7 @@ mojaloop:
       enabled: false
 %{ else ~}
       enabled: true
-%{ endif ~}      
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: transaction-request-service.${ingress_subdomain}
 
@@ -603,7 +647,7 @@ mojaloop:
       enabled: false
 %{ else ~}
       enabled: true
-%{ endif ~}      
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: moja-simulator.${ingress_subdomain}
 
@@ -626,7 +670,7 @@ mojaloop:
           enabled: false
 %{ else ~}
           enabled: true
-%{ endif ~}          
+%{ endif ~}
           className: *INGRESS_CLASS
           hostname: bulk-api-adapter.${ingress_subdomain}
       bulk-api-adapter-handler-notification:
@@ -652,7 +696,7 @@ mojaloop:
           db_secret: *CL_DB_SECRET
           db_host: *CL_DB_HOST
           db_user: *CL_DB_USER
-          db_port: *CL_DB_PORT        
+          db_port: *CL_DB_PORT
           db_database: *CL_DB_DATABASE
           mongo_host: *OBJSTORE_MONGO_HOST
           mongo_port: *OBJSTORE_MONGO_PORT
@@ -669,7 +713,7 @@ mojaloop:
           db_secret: *CL_DB_SECRET
           db_host: *CL_DB_HOST
           db_user: *CL_DB_USER
-          db_port: *CL_DB_PORT        
+          db_port: *CL_DB_PORT
           db_database: *CL_DB_DATABASE
           mongo_host: *OBJSTORE_MONGO_HOST
           mongo_port: *OBJSTORE_MONGO_PORT
@@ -686,7 +730,7 @@ mojaloop:
           db_secret: *CL_DB_SECRET
           db_host: *CL_DB_HOST
           db_user: *CL_DB_USER
-          db_port: *CL_DB_PORT        
+          db_port: *CL_DB_PORT
           db_database: *CL_DB_DATABASE
           mongo_host: *OBJSTORE_MONGO_HOST
           mongo_port: *OBJSTORE_MONGO_PORT
@@ -703,7 +747,7 @@ mojaloop:
           db_secret: *CL_DB_SECRET
           db_host: *CL_DB_HOST
           db_user: *CL_DB_USER
-          db_port: *CL_DB_PORT        
+          db_port: *CL_DB_PORT
           db_database: *CL_DB_DATABASE
           mongo_host: *OBJSTORE_MONGO_HOST
           mongo_port: *OBJSTORE_MONGO_PORT
@@ -835,7 +879,7 @@ mojaloop:
                 host: ttksim3.${ingress_subdomain}
           config:
             API_BASE_URL: http://ttksim3.${ingress_subdomain}
-  
+
   ml-testing-toolkit:
     enabled: ${internal_ttk_enabled}
     ml-testing-toolkit-backend:
@@ -945,7 +989,7 @@ mojaloop:
 %{ endif ~}
         className: *INGRESS_CLASS
         hosts:
-          ui: 
+          ui:
             host: ${ttk_frontend_public_fqdn}
             port: 6060
             paths: ['/']
@@ -972,7 +1016,7 @@ mojaloop:
       generateNameEnabled: true
       annotations:
         argocd.argoproj.io/hook: PostSync
-      
+
   ml-ttk-test-val-gp:
     tests:
       enabled: true

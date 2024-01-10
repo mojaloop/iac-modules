@@ -39,6 +39,10 @@ central_ledger_handler_transfer_position_batch_size: 100
 central_ledger_handler_transfer_position_batch_consume_timeout_ms: 10
 central_ledger_cache_enabled: true
 central_ledger_cache_expires_in_ms: 1000
+central_ledger_monitoring_prefix: "moja_cl_"
+quoting_service_monitoring_prefix: "moja_qs_"
+ml_api_adapter_monitoring_prefix: "moja_ml_"
+account_lookup_service_monitoring_prefix: "moja_als_"
 workload_definitions:
   core_api_adapters:
     toleration_definition:
