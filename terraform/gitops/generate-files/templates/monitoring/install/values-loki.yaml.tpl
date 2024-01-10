@@ -24,5 +24,7 @@ monitoring:
     enabled: false
   selfMonitoring:
     enabled: false
+    grafanaAgent:
+      installOperator: false
 test:
   enabled: false
