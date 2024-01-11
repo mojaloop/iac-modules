@@ -18,7 +18,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: grafana
+            host: grafana-service
             port:
-              number: 80
+              number: 3000
 %{ endif ~}
