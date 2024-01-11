@@ -31,7 +31,7 @@ spec:
       domain: "${public_subdomain}"
       root_url: https://grafana.${public_subdomain}
     auth.gitlab:
-      enabled: "\"${enable_oidc}\""
+      enabled: "${enable_oidc}"
       allow_sign_up: "true"
       scopes: read_api
       auth_url: ${gitlab_server_url}/oauth/authorize
@@ -54,7 +54,7 @@ spec:
     name: Mojaloop
     type: prometheus
     access: proxy
-    url: {prom-mojaloop-url}
+    url: ${prom-mojaloop-url}
     isDefault: true
     inputName: DS_PROMETHEUS
     editable: true
