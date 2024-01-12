@@ -16,6 +16,11 @@ spec:
     namespace: ${monitoring_namespace}
     server: https://kubernetes.default.svc
   project: default
+  ignoreDifferences:
+    - group: redhatcop.redhat.io
+      kind: VaultSecret
+      jqPathExpressions:
+        - .spec.vaultSecretDefinitions[]?.requestType
   syncPolicy:
     automated:
       prune: true
@@ -31,3 +36,4 @@ spec:
       - PrunePropagationPolicy=background
       - PruneLast=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
