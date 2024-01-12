@@ -47,7 +47,12 @@ config: ""
 existingConfigmap: ""
 ## @param extraConfig Additional configuration to be appended at the end of the generated Kafka configuration file.
 ##
-extraConfig: ""
+## extraConfig: ""
+extraConfig: |-
+  offsets.topic.replication.factor=1
+  default.replication.factor=1
+  transaction.state.log.replication.factor=1
+
 ## @param secretConfig Additional configuration to be appended at the end of the generated Kafka configuration file.
 ## This value will be stored in a secret.
 ##
