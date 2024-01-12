@@ -939,6 +939,10 @@ metrics:
     ## @param metrics.kafka.enabled Whether or not to create a standalone Kafka exporter to expose Kafka metrics
     ##
     enabled: true
+  serviceMonitor:
+    ## @param metrics.serviceMonitor.enabled if `true`, creates a Prometheus Operator ServiceMonitor (requires `metrics.kafka.enabled` or `metrics.jmx.enabled` to be `true`)
+    ##
+    enabled: true    
 
 ## @section Kafka provisioning parameters
 ##

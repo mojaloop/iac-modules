@@ -139,6 +139,10 @@ module "generate_mojaloop_files" {
     central_settlement_handler_grosssettlement_affinity               = try(yamlencode(var.app_var_map.workload_definitions.central_settlement.affinity_definition), null)
     central_settlement_handler_rules_affinity                         = try(yamlencode(var.app_var_map.workload_definitions.central_settlement.affinity_definition), null)
     trasaction_requests_service_affinity                              = try(yamlencode(var.app_var_map.workload_definitions.core_api_adapters.affinity_definition), null)
+    central_ledger_monitoring_prefix                                  = try(var.app_var_map.central_ledger_monitoring_prefix, "moja_cl_")
+    quoting_service_monitoring_prefix                                 = try(var.app_var_map.quoting_service_monitoring_prefix, "moja_qs_")
+    ml_api_adapter_monitoring_prefix                                  = try(var.app_var_map.ml_api_adapter_monitoring_prefix, "moja_ml_")
+    account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
   }
   file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mojaloop"
