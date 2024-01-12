@@ -78,3 +78,6 @@ metrics:
   ## @param metrics.enabled Enable using a sidecar Prometheus exporter
   ##
   enabled: true
+  serviceMonitor:
+    ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using Prometheus Operator
+    enabled: true
