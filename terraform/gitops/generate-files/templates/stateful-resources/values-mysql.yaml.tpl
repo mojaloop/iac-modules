@@ -1051,7 +1051,7 @@ metrics:
   serviceMonitor:
     ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using PrometheusOperator
     ##
-    enabled: false
+    enabled: true
     ## @param metrics.serviceMonitor.namespace Specify the namespace in which the serviceMonitor resource will be created
     ##
     namespace: ""
