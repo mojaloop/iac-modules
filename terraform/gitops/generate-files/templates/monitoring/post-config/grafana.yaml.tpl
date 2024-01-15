@@ -73,6 +73,9 @@ metadata:
   name: kubernetes-monitoring-dashboard
 spec:
   folder: default
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"

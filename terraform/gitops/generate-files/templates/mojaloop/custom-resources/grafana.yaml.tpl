@@ -3,6 +3,7 @@ kind: GrafanaFolder
 metadata:
   name: mojaloop
 spec:
+  allowCrossNamespaceImport: true
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -12,6 +13,7 @@ kind: GrafanaDashboard
 metadata:
   name: node-js
 spec:
+  allowCrossNamespaceImport: true
   folder: mojaloop
   instanceSelector:
     matchLabels:
@@ -26,6 +28,7 @@ kind: GrafanaDashboard
 metadata:
   name: account-lookup-service
 spec:
+  allowCrossNamespaceImport: true
   folder: mojaloop
   instanceSelector:
     matchLabels:
@@ -40,6 +43,7 @@ kind: GrafanaDashboard
 metadata:
   name: central-services-characterization
 spec:
+  allowCrossNamespaceImport: true
   folder: mojaloop
   instanceSelector:
     matchLabels:
@@ -54,6 +58,7 @@ kind: GrafanaDashboard
 metadata:
   name: central-services
 spec:
+  allowCrossNamespaceImport: true
   folder: mojaloop
   instanceSelector:
     matchLabels:
@@ -68,6 +73,7 @@ kind: GrafanaDashboard
 metadata:
   name: dashboard-ml-adapter
 spec:
+  allowCrossNamespaceImport: true
   folder: mojaloop
   instanceSelector:
     matchLabels:
@@ -82,6 +88,7 @@ kind: GrafanaDashboard
 metadata:
   name: dashboard-simulators
 spec:
+  allowCrossNamespaceImport: true
   folder: mojaloop
   instanceSelector:
     matchLabels:
