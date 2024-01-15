@@ -155,5 +155,5 @@ spec:
     matchLabels:
       dashboards: "grafana"
   grafanaCom:
-    id: 721
+    id: 12483
     revision: 1
