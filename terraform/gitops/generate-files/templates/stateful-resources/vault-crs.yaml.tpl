@@ -28,11 +28,7 @@ spec:
         min-chars = 1
       }
       rule "charset" {
-%{ if resource.local_resource_config.generate_secret_special_chars != null ~}
-        charset = "${resource.local_resource_config.generate_secret_special_chars}"
-%{ else ~}
-        charset = "!@#$%^&*"
-%{ endif ~}
+        charset = "${try(resource.local_resource_config.generate_secret_special_chars, "!@#$%^&*")}"
         min-chars = 1
       }
 ---
