@@ -452,6 +452,7 @@
             ],
             "generate_secret_vault_base_path": "/secret/generated",
             "generate_secret_extra_namespaces": [],
+            "generate_secret_special_chars": "_",
             "mongodb_data": {
                 "existing_secret": "mongodb-bulk-secret",
                 "root_password": "",
@@ -495,6 +496,7 @@
             ],
             "generate_secret_vault_base_path": "/secret/generated",
             "generate_secret_extra_namespaces": [],
+            "generate_secret_special_chars": "_",
             "mongodb_data": {
                 "existing_secret": "mongodb-cep-secret",
                 "root_password": "",
@@ -538,6 +540,7 @@
             ],
             "generate_secret_vault_base_path": "/secret/generated",
             "generate_secret_extra_namespaces": [],
+            "generate_secret_special_chars": "_",
             "mongodb_data": {
                 "existing_secret": "mongodb-reporting-events-secret",
                 "root_password": "",
@@ -710,6 +713,7 @@
             ],
             "generate_secret_vault_base_path": "/secret/generated",
             "generate_secret_extra_namespaces": [],
+            "generate_secret_special_chars": "_",
             "mongodb_data": {
                 "existing_secret": "mongodb-ttk-secret",
                 "root_password": "",
