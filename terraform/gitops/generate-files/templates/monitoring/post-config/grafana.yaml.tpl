@@ -51,22 +51,12 @@ spec:
     matchLabels:
       dashboards: "grafana"
   datasource:
-    name: Mojaloop
+    name: Prometheus
     type: prometheus
     access: proxy
     url: ${prom-mojaloop-url}
     isDefault: true
-    inputName: DS_PROMETHEUS
     editable: true
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaFolder
-metadata:
-  name: mojaloop
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
@@ -86,9 +76,6 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Mojaloop" 
   grafanaCom:
     id: 12740
     revision: 1
