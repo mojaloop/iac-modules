@@ -5,7 +5,7 @@ metadata:
   name: grafana-vs
 spec:
   gateways:
-%{ if loki_wildcard_gateway == "external" ~} 
+%{ if grafana_wildcard_gateway == "external" ~} 
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -18,7 +18,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: loki-app-grafana
+            host: grafana-service
             port:
-              number: 80
+              number: 3000
 %{ endif ~}
