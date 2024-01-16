@@ -129,19 +129,22 @@ spec:
 #     id: 15641
 #     revision: 2
 # ---
-# apiVersion: grafana.integreatly.org/v1beta1
-# kind: GrafanaDashboard
-# metadata:
-#   name: mongodb
-# spec:
-#   folder: default
-#   instanceSelector:
-#     matchLabels:
-#       dashboards: "grafana"
-#   grafanaCom:
-#     id: 2583
-#     revision: 2
-# ---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mongodb
+spec:
+  folder: default
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"   
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  grafanaCom:
+    id: 2583
+    revision: 2
+---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
