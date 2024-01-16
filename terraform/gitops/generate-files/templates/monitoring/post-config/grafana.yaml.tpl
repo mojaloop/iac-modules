@@ -116,32 +116,32 @@ spec:
     id: 14057
     revision: 1
 ---
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: mysql-cluster-overview
-spec:
-  folder: default
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  grafanaCom:
-    id: 15641
-    revision: 2
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: mongodb
-spec:
-  folder: default
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  grafanaCom:
-    id: 2583
-    revision: 2
----
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaDashboard
+# metadata:
+#   name: mysql-cluster-overview
+# spec:
+#   folder: default
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+#   grafanaCom:
+#     id: 15641
+#     revision: 2
+# ---
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaDashboard
+# metadata:
+#   name: mongodb
+# spec:
+#   folder: default
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+#   grafanaCom:
+#     id: 2583
+#     revision: 2
+# ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
