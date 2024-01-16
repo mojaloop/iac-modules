@@ -59,6 +59,26 @@ spec:
     editable: true
 ---
 apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: loki
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Loki
+    type: loki
+    access: proxy
+    url: http://loki-gateway
+    jsonData:
+      httpHeaderName1: 'X-Scope-OrgID'
+    secureJsonData:
+      httpHeaderValue1: '1'
+    isDefault: false
+    editable: true
+---
+apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
   name: default
