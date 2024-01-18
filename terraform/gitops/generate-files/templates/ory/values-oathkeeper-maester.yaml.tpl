@@ -1,1 +1,5 @@
-openIdProviderConfigurationUrl: https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration
+oathkeeperFullnameOverride: oathkeeper
+deployment:
+  envs:
+  - name: authorizersAvailable
+    value: allow,deny,noop,remote_json
