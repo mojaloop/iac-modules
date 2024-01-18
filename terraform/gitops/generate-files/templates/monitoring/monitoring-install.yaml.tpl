@@ -21,6 +21,10 @@ spec:
       kind: VaultSecret
       jqPathExpressions:
         - .spec.vaultSecretDefinitions[]?.requestType
+    - group: apps
+      kind: StatefulSet
+      jqPathExpressions:
+        - ".spec.volumeClaimTemplates[]?"
   syncPolicy:
     automated:
       prune: true
