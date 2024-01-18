@@ -1,22 +1,21 @@
-%{ if !istio_create_ingress_gateways ~}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${nginx_jwt_sync_wave}"
-  name: nginx-jwt-app
+    argocd.argoproj.io/sync-wave: "${ory_sync_wave}"
+  name: ory-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/nginx-jwt
+    path: apps/ory
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${nginx_jwt_namespace}
+    namespace: ${ory_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
@@ -33,4 +32,3 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
-%{ endif ~}

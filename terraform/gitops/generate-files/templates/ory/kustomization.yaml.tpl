@@ -1,5 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+resources:
+  - vault-secret.yaml
 helmCharts:
 - name: oathkeeper
   releaseName: oathkeeper
