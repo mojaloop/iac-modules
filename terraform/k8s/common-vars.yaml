@@ -19,6 +19,5 @@ mojaloop_enabled: true
 pm4ml_enabled: false
 prometheus_operator_version: 8.22.8
 grafana_operator_version: 3.5.11
-promtail_chart_version: 6.15.3
-tempo_chart_version: 1.7.1
-loki_chart_version: 5.41.4
+tempo_chart_version: 2.6.0
+loki_chart_version: 2.13.0

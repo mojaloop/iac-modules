@@ -70,7 +70,7 @@ spec:
     name: Loki
     type: loki
     access: proxy
-    url: http://loki-gateway
+    url: http://${loki_release_name}-grafana-loki-gateway
     jsonData:
       httpHeaderName1: 'X-Scope-OrgID'
     secureJsonData:

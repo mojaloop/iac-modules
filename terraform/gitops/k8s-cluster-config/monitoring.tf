@@ -7,7 +7,6 @@ module "generate_monitoring_files" {
     prometheus_operator_release_name     = local.prometheus_operator_release_name
     loki_release_name                    = local.loki_release_name
     grafana_operator_version             = var.common_var_map.grafana_operator_version
-    promtail_chart_version               = var.common_var_map.promtail_chart_version
     tempo_chart_version                  = var.common_var_map.tempo_chart_version
     monitoring_namespace                 = var.monitoring_namespace
     gitlab_server_url                    = var.gitlab_server_url
