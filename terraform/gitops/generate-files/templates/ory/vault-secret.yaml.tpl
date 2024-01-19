@@ -12,12 +12,12 @@ spec:
         role: policy-admin
         serviceAccount:
             name: default
-      name: keycloaksecret
-      path: /secret/keycloak/${ref_secret_name}
+      name: ketopasswordsecret
+      path: ${keto_postgres_secret_path}/${keto_postgres_password_secret}
   output:
-    name: ${ref_secret_name}
+    name: ${keto_dsn_secretname}
     stringData:
-      secret: '{{ .keycloaksecret.${ref_secret_key} }}'
+      dsn: 'postgresql://${keto_postgres_user}:{{ .ketopasswordsecret.${keto_postgres_password_secret_key} }}@tcp(${keto_postgres_host}:${keto_postgres_port})/${keto_postgres_database}?max_conns=20&max_idle_conns=4'
     type: Opaque
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
@@ -34,10 +34,10 @@ spec:
         role: policy-admin
         serviceAccount:
             name: default
-      name: keycloaksecret
-      path: /secret/keycloak/${ref_secret_name}
+      name: kratospaswordsecret
+      path: ${kratos_postgres_secret_path}/${kratos_postgres_password_secret}
   output:
-    name: ${ref_secret_name}
+    name: ${kratos_dsn_secretname}
     stringData:
-      secret: '{{ .keycloaksecret.${ref_secret_key} }}'
+      dsn: 'postgresql://${kratos_postgres_user}:{{ .kratospaswordsecret.${kratos_postgres_password_secret_key} }}@tcp(${kratos_postgres_host}:${kratos_postgres_port})/${kratos_postgres_database}?max_conns=20&max_idle_conns=4'
     type: Opaque

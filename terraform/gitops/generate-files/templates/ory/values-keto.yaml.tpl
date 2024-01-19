@@ -10,6 +10,16 @@ secret:
   enabled: false
   # -- Provide custom name of existing secret, or custom name of secret to be created
   nameOverride: "${keto_dsn_secretname}"
+service:
+  # -- Metrics service
+  metrics:
+    enabled: true
+    type: ClusterIP
+    # -- The load balancer IP
+    loadBalancerIP: ""
+    name: http-metrics
+    port: 80
+    annotations: {}
 
 ## -- Main application config.
 keto:
@@ -20,7 +30,7 @@ keto:
   customArgs: []
   # -- Enables database migration
   automigration:
-    enabled: false
+    enabled: true
     # -- Configure the way to execute database migration. Possible values: job, initContainer
     # When set to job, the migration will be executed as a job on release or upgrade.
     # When set to initContainer, the migration will be executed when kratos pod is created
@@ -45,7 +55,11 @@ keto:
         port: 4468
     namespaces:
       - id: 0
-        name: sample
+        name: role
+      - id: 1
+        name: permission
+      - id: 2
+        name: participant
     #dsn: memory - ignored
 
 

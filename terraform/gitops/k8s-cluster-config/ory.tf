@@ -1,27 +1,34 @@
 module "generate_ory_files" {
   source = "../generate-files"
   var_map = {
-    gitlab_project_url                  = var.gitlab_project_url
-    ory_sync_wave                       = var.ory_sync_wave
-    oathkeeper_chart_version            = var.oathkeeper_chart_version
-    oathkeeper_maester_chart_version    = var.oathkeeper_maester_chart_version
-    kratos_chart_version                = var.kratos_chart_version
-    keto_chart_version                  = var.keto_chart_version
-    ory_namespace                       = var.ory_namespace
-    keto_postgres_database              = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
-    keto_postgres_user                  = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.username
-    keto_postgres_host                  = "${local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    keto_postgres_password_secret       = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.user_password_secret
-    keto_postgres_port                  = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_port
-    keto_postgres_password_secret_key   = "password"
-    kratos_postgres_database            = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.database_name
-    kratos_postgres_user                = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.username
-    kratos_postgres_host                = "${local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    kratos_postgres_password_secret     = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.user_password_secret
-    kratos_postgres_port                = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.logical_service_port
-    kratos_postgres_password_secret_key = "password"
+    gitlab_project_url                    = var.gitlab_project_url
+    ory_sync_wave                         = var.ory_sync_wave
+    oathkeeper_chart_version              = var.oathkeeper_chart_version
+    kratos_chart_version                  = var.kratos_chart_version
+    keto_chart_version                    = var.keto_chart_version
+    ory_namespace                         = var.ory_namespace
+    auth_fqdn                             = local.kratos_fqdn
+    keto_postgres_database                = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
+    keto_postgres_user                    = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.username
+    keto_postgres_host                    = "${local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    keto_postgres_password_secret         = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.user_password_secret
+    keto_postgres_port                    = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_port
+    keto_postgres_secret_path             = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.generate_secret_vault_base_path
+    keto_postgres_password_secret_key     = "password"
+    kratos_postgres_database              = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.database_name
+    kratos_postgres_user                  = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.username
+    kratos_postgres_host                  = "${local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    kratos_postgres_password_secret       = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.user_password_secret
+    kratos_postgres_port                  = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.logical_service_port
+    kratos_postgres_secret_path           = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.generate_secret_vault_base_path
+    kratos_postgres_password_secret_key   = "password"
+    kratos_oidc_client_secret_secret_name = join("$", ["", "{${replace(var.kratos_oidc_client_secret_secret, "-", "_")}}"])
+    kratos_oidc_client_id                 = var.kratos_oidc_client_id
+    keycloak_kratos_realm_name            = var.keycloak_kratos_realm_name
+    keto_dsn_secretname                   = "keto_db_dsn_secret"
+    kratos_dsn_secretname                 = "kratos_db_dsn_secret"
   }
-  file_list       = ["kustomization.yaml", "values-keto.yaml", "values-kratos.yaml", "values-oathkeeper.yaml", "values-oathkeeper-maester.yaml", "vault-secret.yaml"]
+  file_list       = ["kustomization.yaml", "values-keto.yaml", "values-kratos.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml"]
   template_path   = "${path.module}/../generate-files/templates/ory"
   output_path     = "${var.output_dir}/ory"
   app_file        = "ory-app.yaml"
@@ -31,16 +38,11 @@ module "generate_ory_files" {
 variable "ory_sync_wave" {
   type        = string
   description = "ory_sync_wave"
-  default     = "-5"
+  default     = "-2"
 }
 variable "oathkeeper_chart_version" {
   type        = string
   description = "oathkeeper_chart_version"
-  default     = "0.38.1"
-}
-variable "oathkeeper_maester_chart_version" {
-  type        = string
-  description = "oathkeeper_maester_chart_version"
   default     = "0.38.1"
 }
 variable "kratos_chart_version" {
@@ -59,7 +61,32 @@ variable "ory_namespace" {
   default     = "ory"
 }
 
+variable "kratos_oidc_client_secret_secret" {
+  type        = string
+  description = "kratos_oidc_client_secret_secret"
+  default     = "kratos-oidc-secret"
+}
+
+variable "kratos_oidc_client_secret_secret_key" {
+  type        = string
+  description = "kratos_oidc_client_secret_secret_key"
+  default     = "secret"
+}
+
+variable "kratos_oidc_client_id" {
+  type        = string
+  description = "kratos_oidc_client_id"
+  default     = "kratos"
+}
+
+variable "keycloak_kratos_realm_name" {
+  type        = string
+  description = "name of realm for dfsp api access"
+  default     = "kratos"
+}
+
 locals {
   kratos_postgres_resource_index = index(local.stateful_resources.*.resource_name, "kratos-db")
   keto_postgres_resource_index   = index(local.stateful_resources.*.resource_name, "keto-db")
+  kratos_fqdn                    = "kratos.${var.public_subdomain}"
 }
