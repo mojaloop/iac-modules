@@ -2,12 +2,13 @@ module "generate_monitoring_files" {
   source = "../generate-files"
   var_map = {
     grafana_chart_repo                   = var.grafana_chart_repo
-    loki_chart_version                   = var.common_var_map.loki_chart_version
-    prometheus_operator_version          = var.common_var_map.prometheus_operator_version
+    loki_chart_version                   = try(var.common_var_map.loki_chart_version, local.loki_chart_version)
+    prometheus_operator_version          = try(var.common_var_map.prometheus_operator_version, local.prometheus_operator_version)
     prometheus_operator_release_name     = local.prometheus_operator_release_name
     loki_release_name                    = local.loki_release_name
-    grafana_operator_version             = var.common_var_map.grafana_operator_version
-    tempo_chart_version                  = var.common_var_map.tempo_chart_version
+    grafana_operator_version             = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
+    grafana_version                      = try(var.common_var_map.grafana_version, local.grafana_version)
+    tempo_chart_version                  = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
     monitoring_namespace                 = var.monitoring_namespace
     gitlab_server_url                    = var.gitlab_server_url
     gitlab_project_url                   = var.gitlab_project_url
@@ -22,15 +23,15 @@ module "generate_monitoring_files" {
     admin_secret_user_key                = "admin-user"
     admin_secret                         = "grafana-admin-secret"
     admin_user_name                      = "grafana-admin"
-    monitoring_sync_wave                       = var.monitoring_sync_wave
-    monitoring_post_config_sync_wave           = var.monitoring_post_config_sync_wave
+    monitoring_sync_wave                 = var.monitoring_sync_wave
+    monitoring_post_config_sync_wave     = var.monitoring_post_config_sync_wave
     ingress_class                        = var.grafana_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
     istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
     istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
-    grafana_wildcard_gateway                = local.grafana_wildcard_gateway
+    grafana_wildcard_gateway             = local.grafana_wildcard_gateway
   }
   file_list       = ["monitoring-install.yaml", "monitoring-post-config.yaml", "install/kustomization.yaml", "install/values-prom-operator.yaml", "install/values-grafana-operator.yaml", "install/values-loki.yaml", "install/values-tempo.yaml", "install/vault-secret.yaml", "post-config/grafana.yaml", "install/istio-gateway.yaml"]
   template_path   = "${path.module}/../generate-files/templates/monitoring"
@@ -85,7 +86,12 @@ variable "monitoring_namespace" {
 }
 
 locals {
-  grafana_wildcard_gateway = var.grafana_ingress_internal_lb ? "internal" : "external"
-  loki_release_name = "loki"
+  grafana_wildcard_gateway         = var.grafana_ingress_internal_lb ? "internal" : "external"
+  loki_release_name                = "loki"
   prometheus_operator_release_name = "prom"
+  loki_chart_version               = "2.13.0"
+  prometheus_operator_version      = "8.22.8"
+  tempo_chart_version              = "2.6.0"
+  grafana_version                  = "10.2.3"
+  grafana_operator_version         = "3.5.11"
 }

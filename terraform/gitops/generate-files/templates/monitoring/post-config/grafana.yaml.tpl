@@ -11,6 +11,7 @@ spec:
         spec:
           containers:
             - name: grafana
+              image: grafana/grafana:${grafana_version}
               env:
                 - name: GF_SECURITY_ADMIN_USER
                   valueFrom:
