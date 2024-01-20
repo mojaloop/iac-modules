@@ -69,7 +69,7 @@ oathkeeper:
           enabled: false
         #   config:
         #     # set this to whatever the main URL is, it'll ensure that browser errors redirect there
-        #     to: https://${portal_fqdn}/
+        #     to: https://${auth_fqdn}/
         #     when:
         #     - error:
         #       - unauthorized

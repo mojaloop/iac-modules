@@ -24,9 +24,13 @@ module "generate_ory_files" {
     kratos_postgres_password_secret_key   = "password"
     kratos_oidc_client_secret_secret_name = join("$", ["", "{${replace(var.kratos_oidc_client_secret_secret, "-", "_")}}"])
     kratos_oidc_client_id                 = var.kratos_oidc_client_id
+    kratos_oidc_client_secret_secret_key  = var.kratos_oidc_client_secret_secret_key
     keycloak_kratos_realm_name            = var.keycloak_kratos_realm_name
     keto_dsn_secretname                   = "keto_db_dsn_secret"
     kratos_dsn_secretname                 = "kratos_db_dsn_secret"
+    istio_external_gateway_namespace      = var.istio_external_gateway_namespace
+    keycloak_namespace                    = var.keycloak_namespace
+    istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
   }
   file_list       = ["kustomization.yaml", "values-keto.yaml", "values-kratos.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml"]
   template_path   = "${path.module}/../generate-files/templates/ory"
