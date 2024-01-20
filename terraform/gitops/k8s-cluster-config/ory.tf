@@ -25,6 +25,7 @@ module "generate_ory_files" {
     kratos_oidc_client_secret_secret_name = join("$", ["", "{${replace(var.kratos_oidc_client_secret_secret, "-", "_")}}"])
     kratos_oidc_client_id                 = var.kratos_oidc_client_id
     kratos_oidc_client_secret_secret_key  = var.kratos_oidc_client_secret_secret_key
+    kratos_oidc_client_secret_secret_path = local.keycloak_secrets_path
     keycloak_kratos_realm_name            = var.keycloak_kratos_realm_name
     keto_dsn_secretname                   = "keto_db_dsn_secret"
     kratos_dsn_secretname                 = "kratos_db_dsn_secret"

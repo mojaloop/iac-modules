@@ -11,11 +11,11 @@ fullnameOverride: "kratos"
 
 deployment:
   extraEnv:
-    - name: SELFSERVICE_METHODS_OIDC_CONFIG_PROVIDERS_IDP_CLIENT_SECRET
+    - name: SELFSERVICE_METHODS_OIDC_CONFIG_PROVIDERS
       valueFrom:
         secretKeyRef:
-          name: ${kratos_oidc_client_secret_secret_name}
-          key: ${kratos_oidc_client_secret_secret_key}
+          name: kratos-oidc-providers
+          key: value
 
 ## -- Secret management
 secret:
@@ -80,31 +80,7 @@ kratos:
       methods:
         oidc:
           enabled: true
-          config:
-            providers:
-            - id: idp
-              provider: generic
-              # TODO both the client_id and client_secret need to be set appropriately to the client supporting authorization code grants with openid
-              # TODO these can alternatively be set via environment variable from a k8s secret
-              client_id: ${kratos_oidc_client_id}
-              # mapper_url: file:///etc/config2/oidc.jsonnet
-              mapper_url: base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==
-              # issuer_url is the OpenID Connect Server URL. You can leave this empty if `provider` is not set to `generic`.
-              # If set, neither `auth_url` nor `token_url` are required.
-              issuer_url: ${keycloak_host}/oauth2/token
-
-              # auth_url is the authorize url, typically something like: https://example.org/oauth2/auth
-              # Should only be used when the OAuth2 / OpenID Connect server is not supporting OpenID Connect Discovery and when
-              # `provider` is set to `generic`.
-              # auth_url: http://openid-connect-provider/oauth2/auth
-
-              # token_url is the token url, typically something like: https://example.org/oauth2/token
-              # Should only be used when the OAuth2 / OpenID Connect server is not supporting OpenID Connect Discovery and when
-              # `provider` is set to `generic`.
-              # token_url: http://openid-connect-provider/oauth2/token
-              scope:
-              # # TODO adjust requested scope based on IdP (WSO2) documentation
-              - openid
+            
       flows:
         error:
           ui_url: https://${auth_fqdn}/selfui/error
