@@ -27,11 +27,13 @@ module "generate_ory_files" {
     kratos_oidc_client_secret_secret_key  = var.kratos_oidc_client_secret_secret_key
     kratos_oidc_client_secret_secret_path = local.keycloak_secrets_path
     keycloak_kratos_realm_name            = var.keycloak_kratos_realm_name
+    keycloak_name                         = var.keycloak_name
+    keycloak_fqdn                         = var.keycloak_fqdn
     keto_dsn_secretname                   = "keto_db_dsn_secret"
     kratos_dsn_secretname                 = "kratos_db_dsn_secret"
     istio_external_gateway_namespace      = var.istio_external_gateway_namespace
     keycloak_namespace                    = var.keycloak_namespace
-    istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
+    istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
   }
   file_list       = ["kustomization.yaml", "values-keto.yaml", "values-kratos.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml"]
   template_path   = "${path.module}/../generate-files/templates/ory"
