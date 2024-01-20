@@ -70,7 +70,7 @@
             "resource_helm_chart": "postgresql",
             "resource_helm_chart_version": "12.6.8",
             "resource_helm_values_ref": "values-pgsql.yaml.tpl",
-            "generate_secret_name": "pgsql-keycloak-secret",
+            "generate_secret_name": "pgsql-keto-secret",
             "generate_secret_keys": [
                 "password",
                 "postgres-password",
