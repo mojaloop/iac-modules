@@ -105,7 +105,7 @@ kratos:
 
         logout:
           after:
-            default_browser_return_url: ${keycloak_host}/oidc/logout
+            default_browser_return_url: ${keycloak_fqdn}/oidc/logout
 
         registration:
           lifespan: 10m
