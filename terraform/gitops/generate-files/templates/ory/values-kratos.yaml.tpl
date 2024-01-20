@@ -9,7 +9,13 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: "kratos"
 
-
+deployment:
+  extraEnv:
+    - name: SELFSERVICE_METHODS_OIDC_CONFIG_PROVIDERS_IDP_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: ${kratos_oidc_client_secret_secret_name}
+          key: ${kratos_oidc_client_secret_secret_key}
 
 ## -- Secret management
 secret:
@@ -80,8 +86,7 @@ kratos:
               provider: generic
               # TODO both the client_id and client_secret need to be set appropriately to the client supporting authorization code grants with openid
               # TODO these can alternatively be set via environment variable from a k8s secret
-              client_id: ${keycloak_client_id}
-              client_secret: ${keycloak_client_secret}
+              client_id: ${kratos_oidc_client_id}
               # mapper_url: file:///etc/config2/oidc.jsonnet
               mapper_url: base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==
               # issuer_url is the OpenID Connect Server URL. You can leave this empty if `provider` is not set to `generic`.
