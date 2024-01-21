@@ -30,6 +30,7 @@ kratos:
   # -- Enable the initialization job. Required to work with a DB
   automigration:
     enabled: true
+    type: initContainer
 
   # -- You can add multiple identity schemas here
   identitySchemas:

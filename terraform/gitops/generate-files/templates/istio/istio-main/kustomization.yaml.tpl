@@ -3,8 +3,8 @@ kind: Kustomization
 resources:
   - github.com/kubernetes-sigs/gateway-api/config/crd?ref=${gateway_api_version}
   - namespace.yaml
-  - grafana.yaml
-  - prometheus-service-monitor.yaml
+  #- grafana.yaml
+  #- prometheus-service-monitor.yaml
 helmCharts:
 - name: base
   releaseName: istio-base

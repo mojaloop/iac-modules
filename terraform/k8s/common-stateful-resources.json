@@ -42,7 +42,8 @@
                 "storage_class_name": "longhorn",
                 "architecture": "standalone",
                 "replica_count": 0,
-                "service_port": 5432
+                "service_port": 5432,
+                "affinity_definition": null
             }
         },
         "external_resource_config": {}
@@ -90,7 +91,8 @@
                 "storage_class_name": "longhorn",
                 "architecture": "standalone",
                 "replica_count": 0,
-                "service_port": 5432
+                "service_port": 5432,
+                "affinity_definition": null
             }
         },
         "external_resource_config": {}
@@ -138,7 +140,8 @@
                 "storage_class_name": "longhorn",
                 "architecture": "standalone",
                 "replica_count": 0,
-                "service_port": 5432
+                "service_port": 5432,
+                "affinity_definition": null
             }
         },
         "external_resource_config": {}
