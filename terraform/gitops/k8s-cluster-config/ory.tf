@@ -22,10 +22,10 @@ module "generate_ory_files" {
     kratos_postgres_port                  = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.logical_service_port
     kratos_postgres_secret_path           = local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_vault_base_path
     kratos_postgres_password_secret_key   = "password"
-    kratos_oidc_client_secret_secret_name = join("$", ["", "{${replace(var.kratos_oidc_client_secret_secret, "-", "_")}}"])
+    kratos_oidc_client_secret_secret_name = var.kratos_oidc_client_secret_secret
     kratos_oidc_client_id                 = var.kratos_oidc_client_id
     kratos_oidc_client_secret_secret_key  = var.kratos_oidc_client_secret_secret_key
-    kratos_oidc_client_secret_secret_path = "${local.keycloak_secrets_path}/${local.stateful_resources[local.kratos_postgres_resource_index].resource_name}"
+    kratos_oidc_client_secret_secret_path = local.keycloak_secrets_path
     keycloak_kratos_realm_name            = var.keycloak_kratos_realm_name
     keycloak_name                         = var.keycloak_name
     keycloak_fqdn                         = local.keycloak_fqdn
