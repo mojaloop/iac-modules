@@ -13,14 +13,14 @@ module "generate_ory_files" {
     keto_postgres_host                    = "${local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     keto_postgres_password_secret         = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.user_password_secret
     keto_postgres_port                    = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_port
-    keto_postgres_secret_path             = local.stateful_resources[local.keto_postgres_resource_index].local_resource_config.generate_secret_vault_base_path
+    keto_postgres_secret_path             = "${local.stateful_resources[local.keto_postgres_resource_index].local_resource_config.generate_secret_vault_base_path}/${local.stateful_resources[local.keto_postgres_resource_index].local_resource_config.generate_secret_name}-password"
     keto_postgres_password_secret_key     = "password"
     kratos_postgres_database              = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.database_name
     kratos_postgres_user                  = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.username
     kratos_postgres_host                  = "${local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kratos_postgres_password_secret       = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.user_password_secret
     kratos_postgres_port                  = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.logical_service_port
-    kratos_postgres_secret_path           = local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_vault_base_path
+    kratos_postgres_secret_path           = "${local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_vault_base_path}/${local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_name}-password"
     kratos_postgres_password_secret_key   = "password"
     kratos_oidc_client_secret_secret_name = var.kratos_oidc_client_secret_secret
     kratos_oidc_client_id                 = var.kratos_oidc_client_id
