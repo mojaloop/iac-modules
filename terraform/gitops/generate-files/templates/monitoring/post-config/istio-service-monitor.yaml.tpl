@@ -2,7 +2,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: envoy-stats-monitor
-  namespace: istio-system
   labels:
     monitoring: istio-proxies
     release: istio
@@ -49,7 +48,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: istio-component-monitor
-  namespace: istio-system
   labels:
     monitoring: istio-components
     release: istio
