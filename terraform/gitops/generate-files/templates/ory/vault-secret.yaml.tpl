@@ -13,7 +13,7 @@ spec:
         serviceAccount:
             name: default
       name: ketopasswordsecret
-      path: ${keto_postgres_secret_path}/${keto_postgres_password_secret}
+      path: ${keto_postgres_secret_path}
   output:
     name: ${keto_dsn_secretname}
     stringData:
@@ -35,7 +35,7 @@ spec:
         serviceAccount:
             name: default
       name: kratospaswordsecret
-      path: ${kratos_postgres_secret_path}/${kratos_postgres_password_secret}
+      path: ${kratos_postgres_secret_path}
   output:
     name: ${kratos_dsn_secretname}
     stringData:
