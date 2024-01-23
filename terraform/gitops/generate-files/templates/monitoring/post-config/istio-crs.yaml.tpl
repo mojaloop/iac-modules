@@ -1,4 +1,3 @@
-# Service Monitors 
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
