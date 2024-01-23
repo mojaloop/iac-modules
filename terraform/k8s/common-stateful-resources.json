@@ -81,6 +81,7 @@
             "generate_secret_extra_namespaces": [
                 "ory"
             ],
+            "generate_secret_special_chars": "_",
             "pgsql_data": {
                 "existing_secret": "pgsql-keto-secret",
                 "root_password": "",
@@ -130,6 +131,7 @@
             "generate_secret_extra_namespaces": [
                 "ory"
             ],
+            "generate_secret_special_chars": "_",
             "pgsql_data": {
                 "existing_secret": "pgsql-kratos-secret",
                 "root_password": "",
