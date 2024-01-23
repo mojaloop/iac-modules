@@ -33,7 +33,10 @@ module "generate_monitoring_files" {
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     grafana_wildcard_gateway             = local.grafana_wildcard_gateway
   }
-  file_list       = ["monitoring-install.yaml", "monitoring-post-config.yaml", "install/kustomization.yaml", "install/values-prom-operator.yaml", "install/values-grafana-operator.yaml", "install/values-loki.yaml", "install/values-tempo.yaml", "install/vault-secret.yaml", "post-config/monitoring-crs.yaml", "install/istio-gateway.yaml"]
+  file_list = ["monitoring-install.yaml", "monitoring-post-config.yaml", "install/kustomization.yaml",
+              "install/values-prom-operator.yaml", "install/values-grafana-operator.yaml", "install/values-loki.yaml", 
+              "install/values-tempo.yaml", "install/vault-secret.yaml", "post-config/monitoring-crs.yaml", 
+              "install/longhorn-crs.yaml", "install/istio-gateway.yaml"]
   template_path   = "${path.module}/../generate-files/templates/monitoring"
   output_path     = "${var.output_dir}/monitoring"
   app_file        = "monitoring-app.yaml"
