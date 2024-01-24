@@ -33,37 +33,18 @@ kratos:
     type: initContainer
 
   # -- You can add multiple identity schemas here
-  identitySchemas:
-    "identity.default.schema.json": |
-      {
-        "$id": "https://mojaloop.io/kratos-schema/identity.schema.json",
-        "$schema": "http://json-schema.org/draft-07/schema#",
-        "title": "Person",
-        "type": "object",
-        "properties": {
-          "traits": {
-            "type": "object",
-            "properties": {
-              "email": {
-                "title": "E-Mail",
-                "type": "string",
-                "format": "email"
-              },
-              "subject": {
-                "title": "Subject",
-                "type": "string"
-              },
-              "name": {
-                "title": "Name",
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
+  identity:
+    default_schema_id: default
+    schemas:
+      - id: default
+        url: file:///etc/config/kratos/identity.schema.json
 
   config:
     # dsn: memory
+    #bogus entry here, required?
+    courier:
+      smtp:
+        connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
     serve:
       public:
         base_url: https://${auth_fqdn}/kratos/
@@ -115,21 +96,24 @@ kratos:
             oidc:
               hooks:
                 - hook: session
+    log:
+      level: debug
+      format: text
+      leak_sensitive_values: true
+
     secrets:
       cookie:
         - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+      cipher:
+        - 32-LONG-SECRET-NOT-SECURE-AT-ALL
+
+    ciphers:
+      algorithm: xchacha20-poly1305
+
     hashers:
-      argon2:
-        parallelism: 1
-        ## This one is changed in the new kratos version
-        ## This change is because the kratos docker image version is overridden to older version. See the comments at image parameter above.
-        # memory: "128MB"
-        memory: 120000
-        iterations: 3
-        salt_length: 16
-        key_length: 32
-    identity:
-      default_schema_url: file:///etc/config/identity.default.schema.json
+      algorithm: bcrypt
+      bcrypt:
+        cost: 8
 
 
 

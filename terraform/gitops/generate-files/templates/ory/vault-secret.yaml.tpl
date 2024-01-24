@@ -62,4 +62,5 @@ spec:
     name: kratos-oidc-providers
     stringData:
       value: '[{"id":"idp","provider":"generic","client_id":"${kratos_oidc_client_id}","client_secret":"{{ .kratosoidcsecret.${kratos_oidc_client_secret_secret_key} }}","scope":["openid"],"mapper_url":"base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==","issuer_url":"https://${keycloak_fqdn}/${keycloak_kratos_realm_name}/oauth2/token"}]'
+      smtpConnectionURI: 'smtps://test:test@mailslurper:1025/?skip_ssl_verify=true'
     type: Opaque
