@@ -65,11 +65,15 @@ kratos:
       }
 
   config:
-    # dsn: memory
     #bogus entry here, required?
     courier:
       smtp:
         connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+    identity:
+      default_schema_id: default
+      schemas:
+        - id: default
+          url: file:///etc/config/identity.default.schema.json
     serve:
       public:
         base_url: https://${auth_fqdn}/kratos/
