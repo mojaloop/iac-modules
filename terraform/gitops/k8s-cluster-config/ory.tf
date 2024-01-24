@@ -29,8 +29,6 @@ module "generate_ory_files" {
     keycloak_kratos_realm_name            = var.keycloak_kratos_realm_name
     keycloak_name                         = var.keycloak_name
     keycloak_fqdn                         = local.keycloak_fqdn
-    keto_dsn_secretname                   = "keto-db-dsn-secret"
-    kratos_dsn_secretname                 = "kratos-db-dsn-secret"
     istio_external_gateway_namespace      = var.istio_external_gateway_namespace
     keycloak_namespace                    = var.keycloak_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name

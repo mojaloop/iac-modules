@@ -9,7 +9,7 @@ secret:
   # -- Switch to false to prevent creating the secret
   enabled: false
   # -- Provide custom name of existing secret, or custom name of secret to be created
-  nameOverride: "${keto_dsn_secretname}"
+  nameOverride: keto-secret
 service:
   # -- Metrics service
   metrics:

@@ -22,8 +22,10 @@ secret:
   # -- switch to false to prevent creating the secret
   enabled: false
   # -- Provide custom name of existing secret, or custom name of secret to be created
-  nameOverride: "${kratos_dsn_secretname}"
-  
+  nameOverride: kratos-secret
+#turning off email services
+courier:
+  enabled: false 
 ## -- Application specific config
 kratos:
   development: false
@@ -33,11 +35,34 @@ kratos:
     type: initContainer
 
   # -- You can add multiple identity schemas here
-  identity:
-    default_schema_id: default
-    schemas:
-      - id: default
-        url: file:///etc/config/kratos/identity.schema.json
+  identitySchemas:
+    "identity.default.schema.json": |
+      {
+        "$id": "https://mojaloop.io/kratos-schema/identity.schema.json",
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Person",
+        "type": "object",
+        "properties": {
+          "traits": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "title": "E-Mail",
+                "type": "string",
+                "format": "email"
+              },
+              "subject": {
+                "title": "Subject",
+                "type": "string"
+              },
+              "name": {
+                "title": "Name",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
 
   config:
     # dsn: memory
@@ -56,10 +81,12 @@ kratos:
 
     selfservice:
       default_browser_return_url: https://${auth_fqdn}/
-      whitelisted_return_urls:
+      allowed_return_urls:
         - https://${auth_fqdn}/
 
       methods:
+        password:
+          enabled: false
         oidc:
           enabled: true
             
@@ -100,12 +127,6 @@ kratos:
       level: debug
       format: text
       leak_sensitive_values: true
-
-    secrets:
-      cookie:
-        - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
-      cipher:
-        - 32-LONG-SECRET-NOT-SECURE-AT-ALL
 
     ciphers:
       algorithm: xchacha20-poly1305
