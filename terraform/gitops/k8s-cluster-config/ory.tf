@@ -7,7 +7,7 @@ module "generate_ory_files" {
     kratos_chart_version                  = var.kratos_chart_version
     keto_chart_version                    = var.keto_chart_version
     ory_namespace                         = var.ory_namespace
-    auth_fqdn                             = local.kratos_fqdn
+    auth_fqdn                             = local.auth_fqdn
     keto_postgres_database                = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
     keto_postgres_user                    = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.username
     keto_postgres_host                    = "${local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -33,7 +33,7 @@ module "generate_ory_files" {
     keycloak_namespace                    = var.keycloak_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
   }
-  file_list       = ["kustomization.yaml", "values-keto.yaml", "values-kratos.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml"]
+  file_list       = ["kustomization.yaml", "values-selfui.yaml", "values-keto.yaml", "values-kratos.yaml", "values-oathkeeper-maester.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml"]
   template_path   = "${path.module}/../generate-files/templates/ory"
   output_path     = "${var.output_dir}/ory"
   app_file        = "ory-app.yaml"
@@ -93,5 +93,5 @@ variable "keycloak_kratos_realm_name" {
 locals {
   kratos_postgres_resource_index = index(local.stateful_resources.*.resource_name, "kratos-db")
   keto_postgres_resource_index   = index(local.stateful_resources.*.resource_name, "keto-db")
-  kratos_fqdn                    = "kratos.${var.public_subdomain}"
+  auth_fqdn                    = "auth.${var.public_subdomain}"
 }

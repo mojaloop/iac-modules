@@ -1,10 +1,3 @@
-## -- Mode for oathkeeper controller: possible modes are: controller or sidecar
-global:
-  ory:
-    oathkeeper:
-      maester:
-        mode: controller
-
 # -- Number of ORY Oathkeeper members
 replicaCount: 1
 
@@ -100,17 +93,7 @@ affinity: {}
 
 ## -- Configures controller setup
 maester:
-  enabled: true
-  oathkeeperFullnameOverride: 'oathkeeper'
-
-oathkeeper-maester:
-  fullnameOverride: 'oathkeeper-maester'
-  oathkeeperFullnameOverride: 'oathkeeper'
-  deployment:
-    envs:
-    - name: authorizersAvailable
-      value: allow,deny,noop,remote_json
-
+  enabled: false
 
 ## -- Parameters for the Prometheus ServiceMonitor objects.
 # Reference: https://docs.openshift.com/container-platform/4.6/rest_api/monitoring_apis/servicemonitor-monitoring-coreos-com-v1.html

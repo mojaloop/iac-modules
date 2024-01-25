@@ -95,25 +95,9 @@ kratos:
           enabled: true
             
       flows:
-        error:
-          ui_url: https://${auth_fqdn}/selfui/error
-
-        settings:
-          ui_url: https://${auth_fqdn}/selfui/settings
-          privileged_session_max_age: 15m
-
-        recovery:
-          enabled: true
-          ui_url: https://${auth_fqdn}/selfui/recovery
-
-        verification:
-          enabled: true
-          ui_url: https://${auth_fqdn}/selfui/verify
-          after:
-            default_browser_return_url: https://${auth_fqdn}/selfui/
-
+    
         login:
-          ui_url: https://${auth_fqdn}/selfui/auth/login
+          ui_url: https://${auth_fqdn}/selfui/auth/
           lifespan: 10m
 
         logout:

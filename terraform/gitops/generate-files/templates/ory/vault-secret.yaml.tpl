@@ -164,5 +164,5 @@ spec:
   output:
     name: kratos-oidc-providers
     stringData:
-      value: '[{"id":"idp","provider":"generic","client_id":"${kratos_oidc_client_id}","client_secret":"{{ .kratosoidcsecret.${kratos_oidc_client_secret_secret_key} }}","scope":["openid", "profile", "email"],"mapper_url":"ile:///etc/config/kratos/oidc.keycloak.jsonnet","issuer_url":"https://${keycloak_fqdn}/realms/${keycloak_kratos_realm_name}"}]'
+      value: '[{"id":"idp","provider":"generic","client_id":"${kratos_oidc_client_id}","client_secret":"{{ .kratosoidcsecret.${kratos_oidc_client_secret_secret_key} }}","scope":["openid", "profile", "email"],"mapper_url":"file:///etc/config/kratos/oidc.keycloak.jsonnet","issuer_url":"https://${keycloak_fqdn}/realms/${keycloak_kratos_realm_name}"}]'
     type: Opaque
