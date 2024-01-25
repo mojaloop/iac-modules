@@ -6,6 +6,7 @@ module "generate_ory_files" {
     oathkeeper_chart_version              = var.oathkeeper_chart_version
     kratos_chart_version                  = var.kratos_chart_version
     keto_chart_version                    = var.keto_chart_version
+    self_service_ui_chart_version         = var.self_service_ui_chart_version
     ory_namespace                         = var.ory_namespace
     auth_fqdn                             = local.auth_fqdn
     keto_postgres_database                = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
@@ -59,6 +60,11 @@ variable "keto_chart_version" {
   type        = string
   description = "keto_chart_version"
   default     = "0.38.1"
+}
+variable "self_service_ui_chart_version" {
+  type        = string
+  description = "self_service_ui_chart_version"
+  default     = "1.0.0"
 }
 variable "ory_namespace" {
   type        = string
