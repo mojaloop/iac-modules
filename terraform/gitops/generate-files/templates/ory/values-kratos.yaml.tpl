@@ -97,7 +97,7 @@ kratos:
       flows:
     
         login:
-          ui_url: https://${auth_fqdn}/ui/login/
+          ui_url: https://${auth_fqdn}/ui/login
           lifespan: 10m
           after:
             oidc:
@@ -106,7 +106,7 @@ kratos:
         logout:
           after:
             default_browser_return_url: ${keycloak_fqdn}/oidc/logout
-            
+
         error:
           ui_url: https://${auth_fqdn}/ui/error
         # registration:

@@ -40,8 +40,8 @@ oathkeeper:
       id_token:
         enabled: true
         config:
-          issuer_url: https://${keycloak_fqdn}/realms/${keycloak_kratos_realm_name}
-          jwks_url: https://${keycloak_fqdn}/realms/${keycloak_kratos_realm_name}/protocol/openid-connect/certs
+          issuer_url: http://oathkeeper-api:4456/
+          jwks_url: http://oathkeeper:4456/.well-known/jwks.json
       header:
         # Set enabled to true if the authenticator should be enabled and false to disable the authenticator. Defaults to false.
         enabled: true
