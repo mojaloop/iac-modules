@@ -86,7 +86,7 @@ kratos:
     selfservice:
       default_browser_return_url: https://${auth_fqdn}/
       allowed_return_urls:
-        - https://${auth_fqdn}/
+        - https://${auth_fqdn}/ui
 
       methods:
         password:
@@ -97,7 +97,7 @@ kratos:
       flows:
     
         login:
-          ui_url: https://${auth_fqdn}/selfui/auth/
+          ui_url: https://${auth_fqdn}/ui/login/
           lifespan: 10m
 
         logout:
@@ -106,7 +106,7 @@ kratos:
 
         registration:
           lifespan: 10m
-          ui_url: https://${auth_fqdn}/selfui/auth/
+          ui_url: https://${auth_fqdn}/ui/login/
           after:
             oidc:
               hooks:
