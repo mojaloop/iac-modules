@@ -98,3 +98,19 @@ spec:
       datasourceName: "Prometheus" 
   url: "https://raw.githubusercontent.com/mojaloop/helm/v${grafana_dashboard_tag}/monitoring/dashboards/mojaloop/dashboard-simulators.json"
 ---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: dashboard-quoting-service
+spec:
+  allowCrossNamespaceImport: true
+  folder: mojaloop
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
+  # TODO: move the dashboard url to mojaloop/ml-core-test-harness repo once PR is ready. This can be temp fix for demo
+  url: "https://raw.githubusercontent.com/muzammil360/git-HelloWorld/master/dashboard-quoting-service.json"
+---
