@@ -22,7 +22,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: self-service-ui-vs
+  name: kratos-selfservice-ui-node-vs
 spec:
   gateways:
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
@@ -31,12 +31,12 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /selfui/auth/
+            prefix: /ui/
       rewrite:
         uri: /
       route:
         - destination:
-            host: self-service-ui-security-hub-bop-kratos-ui
+            host: self-service-ui-kratos-selfservice-ui-node
             port:
               number: 80
 ---

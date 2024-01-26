@@ -143,6 +143,7 @@ spec:
       secretsDefault: "{{ .kratosdefaultsecret.secret }}"
       secretsCookie: "{{ .kratoscookiesecret.secret }}"
       secretsCipher: "{{ .kratosciphersecret.secret }}"
+      secretsCSRFCookie: "{{ .kratoscookiesecret.secret }}"
     type: Opaque
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
@@ -164,5 +165,5 @@ spec:
   output:
     name: kratos-oidc-providers
     stringData:
-      value: '[{"id":"idp","provider":"generic","client_id":"${kratos_oidc_client_id}","client_secret":"{{ .kratosoidcsecret.${kratos_oidc_client_secret_secret_key} }}","scope":["openid", "profile", "email"],"mapper_url":"file:///etc/config/kratos/oidc.keycloak.jsonnet","issuer_url":"https://${keycloak_fqdn}/realms/${keycloak_kratos_realm_name}"}]'
+      value: '[{"id":"idp","provider":"generic","client_id":"${kratos_oidc_client_id}","client_secret":"{{ .kratosoidcsecret.${kratos_oidc_client_secret_secret_key} }}","scope":["openid", "profile", "email"],"mapper_url":"base64://CmxvY2FsIGNsYWltcyA9IHsKICBlbWFpbF92ZXJpZmllZDogZmFsc2UKfSArIHN0ZC5leHRWYXIoJ2NsYWltcycpOwp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBbaWYgImVtYWlsIiBpbiBjbGFpbXMgJiYgY2xhaW1zLmVtYWlsX3ZlcmlmaWVkIHRoZW4gImVtYWlsIiBlbHNlIG51bGxdOiBjbGFpbXMuZW1haWwsCiAgICB9LAogIH0sCn0K","issuer_url":"https://${keycloak_fqdn}/realms/${keycloak_kratos_realm_name}"}]'
     type: Opaque

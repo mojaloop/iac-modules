@@ -34,7 +34,7 @@ module "generate_ory_files" {
     keycloak_namespace                    = var.keycloak_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
   }
-  file_list       = ["kustomization.yaml", "values-selfui.yaml", "values-keto.yaml", "values-kratos.yaml", "values-oathkeeper-maester.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml"]
+  file_list       = ["kustomization.yaml", "values-kratos-selfservice-ui-node.yaml", "values-keto.yaml", "values-kratos.yaml", "values-oathkeeper-maester.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml"]
   template_path   = "${path.module}/../generate-files/templates/ory"
   output_path     = "${var.output_dir}/ory"
   app_file        = "ory-app.yaml"
@@ -64,7 +64,7 @@ variable "keto_chart_version" {
 variable "self_service_ui_chart_version" {
   type        = string
   description = "self_service_ui_chart_version"
-  default     = "1.0.0"
+  default     = "0.39.0"
 }
 variable "ory_namespace" {
   type        = string

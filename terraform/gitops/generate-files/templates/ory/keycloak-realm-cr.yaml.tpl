@@ -270,9 +270,9 @@ spec:
       clientAuthenticatorType: client-secret
       secret: ${kratos_oidc_client_secret_secret_name}
       redirectUris:
-      - "/*"
+      - "*"
       webOrigins:
-      - "/*"
+      - "*"
       notBefore: 0
       bearerOnly: false
       consentRequired: false
