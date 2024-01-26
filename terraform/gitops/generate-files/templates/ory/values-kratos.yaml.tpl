@@ -84,7 +84,7 @@ kratos:
         port: 4434
 
     selfservice:
-      default_browser_return_url: https://${auth_fqdn}/
+      default_browser_return_url: https://${auth_fqdn}/ui/welcome
       allowed_return_urls:
         - https://${auth_fqdn}/ui
 
@@ -99,20 +99,24 @@ kratos:
         login:
           ui_url: https://${auth_fqdn}/ui/login/
           lifespan: 10m
+          after:
+            oidc:
+              default_browser_return_url: https://${auth_fqdn}/ui/welcome
 
         logout:
           after:
             default_browser_return_url: ${keycloak_fqdn}/oidc/logout
-
-        registration:
-          lifespan: 10m
-          ui_url: https://${auth_fqdn}/ui/login/
-          after:
-            oidc:
-              hooks:
-                - hook: session
+            
         error:
           ui_url: https://${auth_fqdn}/ui/error
+        # registration:
+        #   lifespan: 10m
+        #   ui_url: https://${auth_fqdn}/ui/login/
+        #   after:
+        #     oidc:
+        #       hooks:
+        #         - hook: session
+        
     log:
       level: debug
       format: text
