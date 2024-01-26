@@ -111,6 +111,8 @@ kratos:
             oidc:
               hooks:
                 - hook: session
+        error:
+          ui_url: https://${auth_fqdn}/ui/error
     log:
       level: debug
       format: text
