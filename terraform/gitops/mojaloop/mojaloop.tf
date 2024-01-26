@@ -145,7 +145,7 @@ module "generate_mojaloop_files" {
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
     grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml", "custom-resources/grafana.yaml"]
+  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml", "custom-resources/grafana.yaml", "custom-resources/service-monitors.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mojaloop"
   output_path     = "${var.output_dir}/mojaloop"
   app_file        = "mojaloop-app.yaml"
