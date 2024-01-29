@@ -4,18 +4,13 @@ resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - istio-config.yaml
+  - blank-rule.yaml
 helmCharts:
 - name: oathkeeper
   releaseName: oathkeeper
   version: ${oathkeeper_chart_version}
   repo: https://k8s.ory.sh/helm/charts
   valuesFile: values-oathkeeper.yaml
-  namespace: ${ory_namespace}
-- name: oathkeeper-maester
-  releaseName: oathkeeper-maester
-  version: ${oathkeeper_chart_version}
-  repo: https://k8s.ory.sh/helm/charts
-  valuesFile: values-oathkeeper-maester.yaml
   namespace: ${ory_namespace}
 - name: kratos
   releaseName: kratos
