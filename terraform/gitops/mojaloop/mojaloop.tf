@@ -4,7 +4,7 @@ module "generate_mojaloop_files" {
     mojaloop_enabled                                                  = var.mojaloop_enabled
     gitlab_project_url                                                = var.gitlab_project_url
     mojaloop_chart_repo                                               = var.mojaloop_chart_repo
-    mojaloop_chart_version                                            = try(var.app_var_map.mojaloop_chart_version, var.mojaloop_chart_version)
+    mojaloop_chart_version                                            = var.mojaloop_chart_version
     mojaloop_release_name                                             = var.mojaloop_release_name
     mojaloop_namespace                                                = var.mojaloop_namespace
     storage_class_name                                                = var.storage_class_name
@@ -144,32 +144,8 @@ module "generate_mojaloop_files" {
     ml_api_adapter_monitoring_prefix                                  = try(var.app_var_map.ml_api_adapter_monitoring_prefix, "moja_ml_")
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
     grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
-    bof_chart_version                                                 = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
-    bof_release_name                                                  = "bof"
-    auth_fqdn                                                         = var.auth_fqdn
-    central_admin_host                                                = "moja-centralledger-service"
-    central_settlements_host                                          = "moja-centralsettlement-service"
-    account_lookup_service_host                                       = "moja-account-lookup-service"
-    sim_payer_backend_host                                            = "moja-sim-payerfsp-backend"
-    sim_payee_backend_host                                            = "moja-sim-payeefsp-backend"
-    reporting_db_secret_name                                          = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret
-    reporting_db_user                                                 = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.username
-    reporting_db_host                                                 = "${local.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    reporting_db_port                                                 = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port
-    reporting_db_database                                             = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name
-    reporting_db_secret_key                                           = "mysql-password"
-    reporting_events_mongodb_database                                 = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.database_name
-    reporting_events_mongodb_user                                     = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.username
-    reporting_events_mongodb_host                                     = "${local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    reporting_events_mongodb_secret_name                              = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.user_password_secret
-    reporting_events_mongodb_port                                     = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.logical_service_port
-    # test_user_name                       = "test1"
-    # test_user_password                   = vault_generic_secret.bizops_portal_user_password["test1"].data.value
-    report_tests_payer                   = "payerfsp"
-    report_tests_payee                   = "payeefsp"
-    report_tests_currency                = var.ttk_test_currency2
   }
-  file_list       = ["kustomization.yaml", "values-mojaloop.yaml", "values-bof.yaml", "ext-ingress.yaml", "istio-config.yaml", "grafana.yaml", "service-monitors.yaml"]
+  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml", "custom-resources/grafana.yaml", "custom-resources/service-monitors.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mojaloop"
   output_path     = "${var.output_dir}/mojaloop"
   app_file        = "mojaloop-app.yaml"
@@ -188,9 +164,7 @@ locals {
   third_party_auth_db_resource_index           = index(local.stateful_resources.*.resource_name, "thirdparty-auth-svc-db")
   third_party_consent_oracle_db_resource_index = index(local.stateful_resources.*.resource_name, "mysql-consent-oracle-db")
   ttk_redis_resource_index                     = index(local.stateful_resources.*.resource_name, "ttk-redis")
-  reporting_events_mongodb_resource_index      = index(local.stateful_resources.*.resource_name, "reporting-events-mongodb")
-
-  mojaloop_wildcard_gateway = var.mojaloop_ingress_internal_lb ? "internal" : "external"
+  mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
 }
 
 variable "app_var_map" {
@@ -233,11 +207,6 @@ variable "mojaloop_release_name" {
 
 variable "mojaloop_chart_version" {
   description = "Mojaloop version to install via Helm"
-}
-
-variable "bof_chart_version" {
-  description = "BOF chart version"
-  default     = "3.0.1"
 }
 
 variable "mojaloop_sync_wave" {
@@ -308,9 +277,5 @@ variable "ttk_frontend_public_fqdn" {
   type = string
 }
 variable "ttk_backend_public_fqdn" {
-  type = string
-}
-
-variable "auth_fqdn" {
   type = string
 }
