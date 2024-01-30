@@ -1,3 +1,4 @@
+%{ if ory_stack_enabled ~}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -12,8 +13,6 @@ spec:
     path: apps/ory
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
   destination:
     namespace: ${ory_namespace}
     server: https://kubernetes.default.svc
@@ -32,3 +31,4 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
+%{ endif ~}
