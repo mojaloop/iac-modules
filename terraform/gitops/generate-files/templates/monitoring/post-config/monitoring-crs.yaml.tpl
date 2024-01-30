@@ -91,7 +91,7 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: kubernetes-monitoring-dashboard
+  name: k8s-monitoring-dashboard
 spec:
   folder: default
   datasources:
@@ -100,9 +100,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  grafanaCom:
-    id: 12740
-    revision: 1
+  url: "https://raw.githubusercontent.com/mojaloop/helm/muz/kubernetes-monitoring-dashboard/monitoring/dashboards/kubernetes/kubernetes-monitoring-dashboard.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
