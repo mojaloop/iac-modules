@@ -15,7 +15,7 @@ helmCharts:
   releaseName: ${mojaloop_release_name}
   version: ${mojaloop_chart_version}
   repo: ${mojaloop_chart_repo}
-  valuesFile: values-oathkeeper.yaml
+  valuesFile: values-mojaloop.yaml
   namespace: ${mojaloop_namespace}
 # - name: bof
 #   releaseName: ${bof_release_name}
