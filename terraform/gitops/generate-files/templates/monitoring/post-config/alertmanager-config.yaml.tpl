@@ -16,10 +16,10 @@ spec:
   - name: email
     emailConfigs:
     - sendResolved: true
-      to: <reciver_email>
-      from: <sender_email>
-      authUsername: <sender_email>
-      smarthost: smtp.gmail.com:587 # possibly will change
+      to: receiver_email@domain.com
+      from: sender_email@domain.com
+      authUsername: sender_email@domain.com
+      smarthost: smtp.gmail.com:587 
       authPassword: 
         name: alertmanager-email-secret
         key: data
