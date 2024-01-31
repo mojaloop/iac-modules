@@ -25,6 +25,12 @@ helmCharts:
   repo: https://k8s.ory.sh/helm/charts
   valuesFile: values-keto.yaml
   namespace: ${ory_namespace}
+# - name: bof
+#   releaseName: ${bof_release_name}
+#   version: ${bof_chart_version}
+#   repo: https://mojaloop.github.io/charts/repo
+#   valuesFile: values-bof.yaml
+#   namespace: ${ory_namespace}
 - name: kratos-selfservice-ui-node
   releaseName: self-service-ui
   version: ${self_service_ui_chart_version}
