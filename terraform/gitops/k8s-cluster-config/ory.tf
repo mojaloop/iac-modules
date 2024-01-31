@@ -36,6 +36,7 @@ module "generate_ory_files" {
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
     test_user_name                        = "test1"
     test_user_password                    = "test1"
+    bof_release_name                      = "ory-bof"
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
