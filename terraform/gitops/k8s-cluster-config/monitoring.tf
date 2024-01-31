@@ -33,7 +33,7 @@ module "generate_monitoring_files" {
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     grafana_wildcard_gateway             = local.grafana_wildcard_gateway
   }
-  file_list       = [for f in fileset(local.template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !strcontains(f, "app.yaml")]
+  file_list       = [for f in fileset(local.template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex("app.yaml", f))]
   template_path   = local.template_path
   output_path     = "${var.output_dir}/monitoring"
   app_file        = "monitoring-app.yaml"
