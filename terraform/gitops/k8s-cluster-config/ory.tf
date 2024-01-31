@@ -34,11 +34,13 @@ module "generate_ory_files" {
     istio_external_gateway_namespace      = var.istio_external_gateway_namespace
     keycloak_namespace                    = var.keycloak_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
+    test_user_name                        = "test1"
+    test_user_password                    = "test1"
   }
-  file_list       = ["kustomization.yaml", "values-kratos-selfservice-ui-node.yaml", "values-keto.yaml", "values-kratos.yaml", "blank-rule.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/ory"
+  file_list       = [for f in fileset(local.template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.app_file, f))]
+  template_path   = local.template_path
   output_path     = "${var.output_dir}/ory"
-  app_file        = "ory-app.yaml"
+  app_file        = local.app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
@@ -103,7 +105,11 @@ variable "keycloak_kratos_realm_name" {
 }
 
 locals {
+  template_path                  = "${path.module}/../generate-files/templates/ory"
+  app_file                       = "ory-app.yaml"
   kratos_postgres_resource_index = index(local.stateful_resources.*.resource_name, "kratos-db")
   keto_postgres_resource_index   = index(local.stateful_resources.*.resource_name, "keto-db")
-  auth_fqdn                    = "auth.${var.public_subdomain}"
+  auth_fqdn                      = "auth.${var.public_subdomain}"
+  oathkeeper_auth_url            = "oathkeeper-api.${var.ory_namespace}.svc.cluster.local"
+  oathkeeper_auth_provider_name  = "ory-authz"
 }

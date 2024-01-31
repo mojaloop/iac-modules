@@ -32,6 +32,9 @@ module "generate_istio_files" {
     external_load_balancer_dns           = var.external_load_balancer_dns
     internal_gateway_hosts               = local.internal_gateway_hosts
     external_gateway_hosts               = local.external_gateway_hosts
+    ory_stack_enabled                    = var.ory_stack_enabled
+    oathkeeper_auth_url                  = var.ory_stack_enabled ? local.oathkeeper_auth_url : ""
+    oathkeeper_auth_provider_name        = var.ory_stack_enabled ? local.oathkeeper_auth_provider_name : ""
   }
   file_list = ["istio-deploy.yaml",
     "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml",
