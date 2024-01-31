@@ -169,17 +169,17 @@ module "generate_mojaloop_files" {
     report_tests_payee                                                = "payeefsp"
     report_tests_currency                                             = var.ttk_test_currency2
   }
-  file_list       = [for f in fileset(local.template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.app_file, f))]
-  template_path   = local.template_path
+  file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
+  template_path   = local.mojaloop_template_path
   output_path     = "${var.output_dir}/mojaloop"
-  app_file        = local.app_file
+  app_file        = local.mojaloop_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
 
 locals {
-  template_path                                = "${path.module}/../generate-files/templates/mojaloop"
-  app_file                                     = "mojaloop-app.yaml"
+  mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
+  mojaloop_app_file                            = "mojaloop-app.yaml"
   ml_als_resource_index                        = index(local.stateful_resources.*.resource_name, "account-lookup-db")
   ml_cl_resource_index                         = index(local.stateful_resources.*.resource_name, "central-ledger-db")
   bulk_mongodb_resource_index                  = index(local.stateful_resources.*.resource_name, "bulk-mongodb")

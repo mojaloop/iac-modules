@@ -37,10 +37,10 @@ module "generate_ory_files" {
     test_user_name                        = "test1"
     test_user_password                    = "test1"
   }
-  file_list       = [for f in fileset(local.template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.app_file, f))]
-  template_path   = local.template_path
+  file_list       = [for f in fileset(local.ory_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
+  template_path   = local.ory_template_path
   output_path     = "${var.output_dir}/ory"
-  app_file        = local.app_file
+  app_file        = local.ory_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
@@ -105,8 +105,8 @@ variable "keycloak_kratos_realm_name" {
 }
 
 locals {
-  template_path                  = "${path.module}/../generate-files/templates/ory"
-  app_file                       = "ory-app.yaml"
+  ory_template_path              = "${path.module}/../generate-files/templates/ory"
+  ory_app_file                   = "ory-app.yaml"
   kratos_postgres_resource_index = index(local.stateful_resources.*.resource_name, "kratos-db")
   keto_postgres_resource_index   = index(local.stateful_resources.*.resource_name, "keto-db")
   auth_fqdn                      = "auth.${var.public_subdomain}"
