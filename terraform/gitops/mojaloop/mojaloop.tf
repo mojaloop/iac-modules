@@ -76,6 +76,11 @@ module "generate_mojaloop_files" {
     cl_mongodb_host                                                   = "${local.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     cl_mongodb_existing_secret                                        = local.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.user_password_secret
     cl_mongodb_port                                                   = local.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.logical_service_port
+    reporting_events_mongodb_database                                 = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.database_name
+    reporting_events_mongodb_user                                     = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.username
+    reporting_events_mongodb_host                                     = "${local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    reporting_events_mongodb_existing_secret                          = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.user_password_secret
+    reporting_events_mongodb_port                                     = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_port
     ttk_mongodb_database                                              = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.database_name
     ttk_mongodb_user                                                  = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.username
     ttk_mongodb_host                                                  = "${local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -144,8 +149,9 @@ module "generate_mojaloop_files" {
     ml_api_adapter_monitoring_prefix                                  = try(var.app_var_map.ml_api_adapter_monitoring_prefix, "moja_ml_")
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
     grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
+    ory_namespace                                                     = var.ory_namespace
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml", "custom-resources/grafana.yaml", "custom-resources/service-monitors.yaml"]
+  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "chart/values-finance-portal.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml", "custom-resources/grafana.yaml", "custom-resources/service-monitors.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mojaloop"
   output_path     = "${var.output_dir}/mojaloop"
   app_file        = "mojaloop-app.yaml"
@@ -157,6 +163,7 @@ locals {
   ml_als_resource_index                        = index(local.stateful_resources.*.resource_name, "account-lookup-db")
   ml_cl_resource_index                         = index(local.stateful_resources.*.resource_name, "central-ledger-db")
   bulk_mongodb_resource_index                  = index(local.stateful_resources.*.resource_name, "bulk-mongodb")
+  reporting_events_mongodb_resource_index      = index(local.stateful_resources.*.resource_name, "reporting-events-mongodb")
   ttk_mongodb_resource_index                   = index(local.stateful_resources.*.resource_name, "ttk-mongodb")
   cep_mongodb_resource_index                   = index(local.stateful_resources.*.resource_name, "cep-mongodb")
   mojaloop_kafka_resource_index                = index(local.stateful_resources.*.resource_name, "mojaloop-kafka")

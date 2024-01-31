@@ -30,3 +30,9 @@ helmCharts:
   repo: https://k8s.ory.sh/helm/charts
   valuesFile: values-kratos-selfservice-ui-node.yaml
   namespace: ${ory_namespace}
+- name: bof
+  releaseName: bof
+  version: ${bof_chart_version}
+  repo: http://docs.mojaloop.io/charts/repo
+  valuesFile: values-bof.yaml
+  namespace: ${ory_namespace}

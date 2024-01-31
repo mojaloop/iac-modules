@@ -15,6 +15,9 @@ spec:
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin-v1.0
+      env:
+        - name: LOVELY_HELM_VALUES
+          value: "values.yaml values-finance-portal.yaml"
   destination:
     namespace: ${mojaloop_namespace}
     server: https://kubernetes.default.svc

@@ -8,6 +8,8 @@ module "generate_ory_files" {
     kratos_chart_version                  = try(var.common_var_map.kratos_chart_version, var.kratos_chart_version)
     keto_chart_version                    = try(var.common_var_map.keto_chart_version, var.keto_chart_version)
     self_service_ui_chart_version         = try(var.common_var_map.self_service_ui_chart_version, var.self_service_ui_chart_version)
+    bof_chart_version                     = try(var.common_var_map.bof_chart_version, var.bof_chart_version)
+    finance_portal_chart_version          = try(var.common_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
     ory_namespace                         = var.ory_namespace
     auth_fqdn                             = local.auth_fqdn
     keto_postgres_database                = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
@@ -35,7 +37,7 @@ module "generate_ory_files" {
     keycloak_namespace                    = var.keycloak_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
   }
-  file_list       = ["kustomization.yaml", "values-kratos-selfservice-ui-node.yaml", "values-keto.yaml", "values-kratos.yaml", "blank-rule.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml"]
+  file_list       = ["kustomization.yaml", "values-kratos-selfservice-ui-node.yaml", "values-keto.yaml", "values-kratos.yaml", "blank-rule.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml", "values-bof.yaml.tpl", "values-finance-portal.yaml.tpl"]
   template_path   = "${path.module}/../generate-files/templates/ory"
   output_path     = "${var.output_dir}/ory"
   app_file        = "ory-app.yaml"
@@ -71,6 +73,16 @@ variable "self_service_ui_chart_version" {
   type        = string
   description = "self_service_ui_chart_version"
   default     = "0.39.0"
+}
+variable "bof_chart_version" {
+  type        = string
+  description = "bof_chart_version"
+  default     = "4.0.0"
+}
+variable "finance_portal_chart_version" {
+  type        = string
+  description = "finance_portal_chart_version"
+  default     = "4.0.0"
 }
 variable "ory_namespace" {
   type        = string
