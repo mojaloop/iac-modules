@@ -4,7 +4,7 @@ module "generate_mojaloop_files" {
     mojaloop_enabled                                                  = var.mojaloop_enabled
     gitlab_project_url                                                = var.gitlab_project_url
     mojaloop_chart_repo                                               = var.mojaloop_chart_repo
-    mojaloop_chart_version                                            = var.mojaloop_chart_version
+    mojaloop_chart_version                                            = try(var.app_var_map.mojaloop_chart_version, var.mojaloop_chart_version)
     mojaloop_release_name                                             = var.mojaloop_release_name
     mojaloop_namespace                                                = var.mojaloop_namespace
     storage_class_name                                                = var.storage_class_name
@@ -149,17 +149,31 @@ module "generate_mojaloop_files" {
     ml_api_adapter_monitoring_prefix                                  = try(var.app_var_map.ml_api_adapter_monitoring_prefix, "moja_ml_")
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
     grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
+    bof_chart_version                                                 = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
+    bof_release_name                                                  = "bof"
+    auth_fqdn                                                         = var.auth_fqdn
+    central_admin_host                                                = "moja-centralledger-service"
+    central_settlements_host                                          = "moja-centralsettlement-service"
+    account_lookup_service_host                                       = "moja-account-lookup-service"
+    reporting_db_secret_name                                          = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret
+    reporting_db_user                                                 = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.username
+    reporting_db_host                                                 = "${local.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    reporting_db_port                                                 = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port
+    reporting_db_database                                             = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name
+    reporting_db_secret_key                                           = "mysql-password"
     ory_namespace                                                     = var.ory_namespace
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "chart/values-finance-portal.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml", "custom-resources/grafana.yaml", "custom-resources/service-monitors.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/mojaloop"
+  file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
+  template_path   = local.mojaloop_template_path
   output_path     = "${var.output_dir}/mojaloop"
-  app_file        = "mojaloop-app.yaml"
+  app_file        = local.mojaloop_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
 
 locals {
+  mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
+  mojaloop_app_file                            = "mojaloop-app.yaml"
   ml_als_resource_index                        = index(local.stateful_resources.*.resource_name, "account-lookup-db")
   ml_cl_resource_index                         = index(local.stateful_resources.*.resource_name, "central-ledger-db")
   bulk_mongodb_resource_index                  = index(local.stateful_resources.*.resource_name, "bulk-mongodb")
@@ -171,7 +185,7 @@ locals {
   third_party_auth_db_resource_index           = index(local.stateful_resources.*.resource_name, "thirdparty-auth-svc-db")
   third_party_consent_oracle_db_resource_index = index(local.stateful_resources.*.resource_name, "mysql-consent-oracle-db")
   ttk_redis_resource_index                     = index(local.stateful_resources.*.resource_name, "ttk-redis")
-  mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
+  mojaloop_wildcard_gateway = var.mojaloop_ingress_internal_lb ? "internal" : "external"
 }
 
 variable "app_var_map" {
@@ -214,6 +228,11 @@ variable "mojaloop_release_name" {
 
 variable "mojaloop_chart_version" {
   description = "Mojaloop version to install via Helm"
+}
+
+variable "bof_chart_version" {
+  description = "BOF chart version"
+  default     = "4.0.0"
 }
 
 variable "mojaloop_sync_wave" {
@@ -284,5 +303,9 @@ variable "ttk_frontend_public_fqdn" {
   type = string
 }
 variable "ttk_backend_public_fqdn" {
+  type = string
+}
+
+variable "auth_fqdn" {
   type = string
 }

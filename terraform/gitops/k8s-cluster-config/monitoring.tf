@@ -33,10 +33,10 @@ module "generate_monitoring_files" {
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     grafana_wildcard_gateway             = local.grafana_wildcard_gateway
   }
-  file_list       = [for f in fileset(local.template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex("app.yaml", f))]
-  template_path   = local.template_path
+  file_list       = [for f in fileset(local.monitoring_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
+  template_path   = local.monitoring_template_path
   output_path     = "${var.output_dir}/monitoring"
-  app_file        = "monitoring-app.yaml"
+  app_file        = local.monitoring_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
@@ -94,5 +94,6 @@ locals {
   tempo_chart_version              = "2.6.0"
   grafana_version                  = "10.2.3"
   grafana_operator_version         = "3.5.11"
-  template_path                    = "${path.module}/../generate-files/templates/monitoring"
+  monitoring_template_path         = "${path.module}/../generate-files/templates/monitoring"
+  monitoring_app_file              = "monitoring-app.yaml"
 }

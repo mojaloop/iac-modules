@@ -36,11 +36,15 @@ module "generate_ory_files" {
     istio_external_gateway_namespace      = var.istio_external_gateway_namespace
     keycloak_namespace                    = var.keycloak_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
+    test_user_name                        = "test1"
+    test_user_password                    = "test1"
+    bof_chart_version                     = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
+    bof_release_name                      = "ory-bof"
   }
-  file_list       = ["kustomization.yaml", "values-kratos-selfservice-ui-node.yaml", "values-keto.yaml", "values-kratos.yaml", "blank-rule.yaml", "values-oathkeeper.yaml", "vault-secret.yaml", "istio-config.yaml", "keycloak-realm-cr.yaml", "values-bof.yaml.tpl", "values-finance-portal.yaml.tpl"]
-  template_path   = "${path.module}/../generate-files/templates/ory"
+  file_list       = [for f in fileset(local.ory_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
+  template_path   = local.ory_template_path
   output_path     = "${var.output_dir}/ory"
-  app_file        = "ory-app.yaml"
+  app_file        = local.ory_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
@@ -113,9 +117,18 @@ variable "keycloak_kratos_realm_name" {
   description = "name of realm for dfsp api access"
   default     = "kratos"
 }
+variable "bof_chart_version" {
+  type        = string
+  description = "bof_chart_version for ory stack, should be renamed"
+  default     = "3.0.1"
+}
 
 locals {
+  ory_template_path              = "${path.module}/../generate-files/templates/ory"
+  ory_app_file                   = "ory-app.yaml"
   kratos_postgres_resource_index = index(local.stateful_resources.*.resource_name, "kratos-db")
   keto_postgres_resource_index   = index(local.stateful_resources.*.resource_name, "keto-db")
-  auth_fqdn                    = "auth.${var.public_subdomain}"
+  auth_fqdn                      = "auth.${var.public_subdomain}"
+  oathkeeper_auth_url            = "oathkeeper-api.${var.ory_namespace}.svc.cluster.local"
+  oathkeeper_auth_provider_name  = "ory-authz"
 }

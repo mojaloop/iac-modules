@@ -19,7 +19,13 @@ oathkeeper:
       format: json
     access_rules:
       matching_strategy: regexp
+    
     authenticators:
+      jwt:
+        enabled: true
+        config:
+          jwks_urls:
+            - https://${keycloak_fqdn}/realms/${keycloak_kratos_realm_name}/protocol/openid-connect/certs  
       cookie_session:
         enabled: true
         config:
@@ -34,13 +40,21 @@ oathkeeper:
           only:
           - ory_kratos_session
       #will add keycloak jwt reference here
+      anonymous:
+        enabled: true
+        config:
+          subject: guest
+    
     authorizers:
+      allow:
+        enabled: true
       remote_json:
         enabled: true
         config:
           # the check URL for Keto. This will be POST'd to. See https://www.ory.sh/keto/docs/reference/rest-api#operation/postCheck
           remote: http://keto-read/check
           payload: ""
+    
     mutators:
       id_token:
         enabled: true
@@ -53,7 +67,10 @@ oathkeeper:
         config:
           headers:
             X-User: '{{ print .Subject }}'
-            X-Email: '{{ print .Extra.identity.traits.email }}'
+            X-Extra: '{{ print .Extra }}'
+            # X-Email: '{{ print .Extra.identity.traits.email }}'
+
+    
     errors:
       fallback:
         - json
@@ -67,7 +84,7 @@ oathkeeper:
           enabled: false
         #   config:
         #     # set this to whatever the main URL is, it'll ensure that browser errors redirect there
-        #     to: https://${auth_fqdn}/
+        #     to: https://auth.awsdev.labsk8s1009.mojaloop.live/
         #     when:
         #     - error:
         #       - unauthorized

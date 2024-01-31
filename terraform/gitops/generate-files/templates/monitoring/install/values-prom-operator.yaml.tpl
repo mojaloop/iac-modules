@@ -19,7 +19,7 @@ kubelet:
       separator: ;
       regex: (.*)
       targetLabel: kubernetes_io_hostname
-      replacement: ${1}
+      replacement: $${1}
       action: replace
 commonLabels:
   build: argocd

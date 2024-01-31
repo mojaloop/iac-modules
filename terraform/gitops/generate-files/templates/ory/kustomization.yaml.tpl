@@ -5,6 +5,7 @@ resources:
   - keycloak-realm-cr.yaml
   - istio-config.yaml
   - blank-rule.yaml
+  #- crd-mojaloop-role.yaml
 helmCharts:
 - name: oathkeeper
   releaseName: oathkeeper
@@ -31,8 +32,8 @@ helmCharts:
   valuesFile: values-kratos-selfservice-ui-node.yaml
   namespace: ${ory_namespace}
 - name: bof
-  releaseName: bof
+  releaseName: ${bof_release_name}
   version: ${bof_chart_version}
-  repo: http://docs.mojaloop.io/charts/repo
+  repo: https://mojaloop.github.io/charts/repo
   valuesFile: values-bof.yaml
   namespace: ${ory_namespace}
