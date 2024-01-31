@@ -187,6 +187,18 @@ ownerName: ""
 meshConfig:
   enablePrometheusMerge: true
   enableAutoMtls: false
+%{ if ory_stack_enabled ~}
+  extensionProviders:
+    - name: oathkeeper-authz
+      envoyExtAuthzHttp:
+        service: oathkeeper-api.ory.svc.cluster.local
+        port: 4456
+        timeout: 10s
+        failOpen: false
+        statusOnError: "500"
+        pathPrefix: /decisions
+        includeRequestHeadersInCheck: ["authorization", "cookie"]
+%{ endif ~}
 
 global:
   # Used to locate istiod.
