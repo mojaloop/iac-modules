@@ -1,4 +1,7 @@
 alertmanager:
+  externalConfig: true
+  configuration:
+    name: alertmanager-config
   persistence:
     enabled: true
     storageClass: ${storage_class_name}

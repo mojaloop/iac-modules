@@ -111,6 +111,5 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "Prometheus" 
-  # TODO: move the dashboard url to mojaloop/ml-core-test-harness repo once PR is ready. This can be temp fix for demo
-  url: "https://raw.githubusercontent.com/muzammil360/git-HelloWorld/master/dashboard-quoting-service.json"
+  url: "https://raw.githubusercontent.com/mojaloop/ml-core-test-harness/v1.2.4-snapshot.0/docker/grafana/provisioning/dashboards/mojaloop/dashboard-quoting-service.json"
 ---
