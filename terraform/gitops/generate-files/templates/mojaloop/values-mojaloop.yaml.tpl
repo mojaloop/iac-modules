@@ -1013,7 +1013,7 @@ ml-ttk-test-setup:
       sidecar.istio.io/inject: "false"
     ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
     # ttlSecondsAfterFinished: 50
-    generateNameEnabled: true
+    generateNameEnabled: false
     annotations:
       argocd.argoproj.io/hook: PostSync
 
@@ -1034,7 +1034,7 @@ ml-ttk-test-val-gp:
       sidecar.istio.io/inject: "false"
     ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
     # ttlSecondsAfterFinished: 50
-    generateNameEnabled: true
+    generateNameEnabled: false
     annotations:
       argocd.argoproj.io/hook: PostSync
       argocd.argoproj.io/sync-wave: "${mojaloop_test_sync_wave}"
