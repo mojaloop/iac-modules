@@ -37,8 +37,8 @@ module "generate_monitoring_files" {
   #             "install/values-prom-operator.yaml", "install/values-grafana-operator.yaml", "install/values-loki.yaml", 
   #             "install/values-tempo.yaml", "install/vault-secret.yaml", "install/istio-gateway.yaml", 
   #             "post-config/monitoring-crs.yaml", "post-config/longhorn-crs.yaml", "post-config/istio-crs.yaml", ]
-  file_list       = [for filename in fileset("${path.module}/../generate-files/templates/monitoring", "**/*.yaml.tpl") : trimsuffix(filename, ".tpl")]
-  template_path   = "${path.module}/../generate-files/templates/monitoring"
+  file_list       = [for f in fileset(local.template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl")]
+  template_path   = local.template_path
   output_path     = "${var.output_dir}/monitoring"
   app_file        = "monitoring-app.yaml"
   app_output_path = "${var.output_dir}/app-yamls"
@@ -98,4 +98,5 @@ locals {
   tempo_chart_version              = "2.6.0"
   grafana_version                  = "10.2.3"
   grafana_operator_version         = "3.5.11"
+  template_path                    = "${path.module}/../generate-files/templates/monitoring"
 }
