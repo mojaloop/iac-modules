@@ -5,7 +5,7 @@ metadata:
 spec:
   upstream:
     # set to whatever URL this request should be forwarded to
-    url: http://${bof_release_name}-reporting-hub-bop-api-svc/
+    url: http://${finance_portal_release_name}-reporting-hub-bop-api-svc/
     stripPath: /transfers
   match:
     # this might need to be http even if external is https, it depends on how ingress does things
@@ -52,7 +52,7 @@ metadata:
 spec:
   upstream:
     # set to whatever URL this request should be forwarded to
-    url: http://${bof_release_name}-reporting-hub-bop-api-svc/
+    url: http://${finance_portal_release_name}-reporting-hub-bop-api-svc/
     stripPath: /transfers/graphql
   match:
     # this might need to be http even if external is https, it depends on how ingress does things

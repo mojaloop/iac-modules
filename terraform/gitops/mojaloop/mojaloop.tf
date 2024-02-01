@@ -145,7 +145,7 @@ module "generate_mojaloop_files" {
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
     grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
     bof_chart_version                                                 = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
-    bof_release_name                                                  = "bof"
+    bof_release_name                                                  = var.bof_release_name
     auth_fqdn                                                         = var.auth_fqdn
     central_admin_host                                                = "${var.mojaloop_release_name}-centralledger-service"
     central_settlements_host                                          = "${var.mojaloop_release_name}-centralsettlement-service"
@@ -163,6 +163,7 @@ module "generate_mojaloop_files" {
     reporting_events_mongodb_port                                     = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_port
     keto_read_url                                                     = "http://keto-read.${var.ory_namespace}.cluster.local:80"
     portal_fqdn                                                       = var.finance_portal_fqdn
+    finance_portal_release_name                                       = "fin-portal"
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -316,5 +317,9 @@ variable "ory_namespace" {
 }
 
 variable "finance_portal_fqdn" {
+  type = string
+}
+
+variable "bof_release_name" {
   type = string
 }

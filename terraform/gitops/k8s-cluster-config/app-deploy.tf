@@ -53,6 +53,7 @@ module "mojaloop" {
   auth_fqdn                            = local.auth_fqdn
   ory_namespace                        = var.ory_namespace
   finance_portal_fqdn                  = local.finance_portal_fqdn
+  bof_release_name                     = local.bof_release_name
 }
 
 module "pm4ml" {

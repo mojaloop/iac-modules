@@ -35,7 +35,7 @@ module "generate_ory_files" {
     keycloak_namespace                    = var.keycloak_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
     bof_chart_version                     = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
-    bof_release_name                      = "ory-bof"
+    bof_release_name                      = local.bof_release_name
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -117,4 +117,6 @@ locals {
   auth_fqdn                      = "auth.${var.public_subdomain}"
   oathkeeper_auth_url            = "oathkeeper-api.${var.ory_namespace}.svc.cluster.local"
   oathkeeper_auth_provider_name  = "ory-authz"
+  bof_release_name               = "bof"
+
 }

@@ -64,7 +64,7 @@ spec:
               number: 80
 ###
 
-    # hostname: ${api_fqdn}
+    # hostname:
     # path: /operator(/validate/.*)
     # annotations:
     #   kubernetes.io/ingress.class: nginx

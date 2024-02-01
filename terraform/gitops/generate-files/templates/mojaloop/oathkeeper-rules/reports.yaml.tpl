@@ -5,7 +5,7 @@ metadata:
 spec:
   upstream:
     # set to whatever URL this request should be forwarded to
-    url: http://${bof_release_name}-reporting-legacy-api/
+    url: http://${finance_portal_release_name}-reporting-legacy-api/
     stripPath: /reports
   match:
     # this might need to be http even if external is https, it depends on how ingress does things
