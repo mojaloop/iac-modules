@@ -144,7 +144,6 @@ module "generate_mojaloop_files" {
     ml_api_adapter_monitoring_prefix                                  = try(var.app_var_map.ml_api_adapter_monitoring_prefix, "moja_ml_")
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
     grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
-    bof_chart_version                                                 = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
     bof_release_name                                                  = var.bof_release_name
     auth_fqdn                                                         = var.auth_fqdn
     central_admin_host                                                = "${var.mojaloop_release_name}-centralledger-service"
