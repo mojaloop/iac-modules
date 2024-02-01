@@ -38,12 +38,16 @@ reportTests:
 
 ## Backend API services
 reporting-hub-bop-api-svc:
+  containerSecurityContext:
+    enabled: false
   enabled: true
   ingress:
     enabled: false
     
 
 reporting-legacy-api:
+  containerSecurityContext:
+    enabled: false
   enabled: true
   ingress:
     enabled: false
