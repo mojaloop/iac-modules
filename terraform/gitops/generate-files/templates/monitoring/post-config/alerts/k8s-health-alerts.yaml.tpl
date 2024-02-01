@@ -1,3 +1,4 @@
+# Alert source: https://github.com/samber/awesome-prometheus-alerts/blob/master/dist/rules/kubernetes/kubestate-exporter.yml
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -104,6 +105,7 @@ spec:
         description: "Volume under {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is expected to fill up within four days. Currently {{ $value | humanize }}% is available.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPersistentvolumeError
+      # NOTE: we removed job label since it is different in our cluster
       expr: 'kube_persistentvolume_status_phase{phase=~"Failed|Pending"} > 0'
       for: 0m
       labels:
