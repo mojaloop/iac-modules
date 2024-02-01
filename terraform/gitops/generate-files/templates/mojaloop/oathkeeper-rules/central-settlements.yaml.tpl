@@ -13,7 +13,7 @@ spec:
     # so it doesn't need to be changed when the config is moved between various main domains
     # then whatever is needed for the specific path (this is set to match all subpaths)
     # regexes go in between angle brackets
-    url: http://bofportal.{{ .Values.base_domain }}/central-settlements/<.*>
+    url: http://${portal_fqdn}/central-settlements/<.*>
     methods:
       # whatever method(s) this rule applies to
       - GET
@@ -55,7 +55,7 @@ spec:
     # so it doesn't need to be changed when the config is moved between various main domains
     # then whatever is needed for the specific path (this is set to match all subpaths)
     # regexes go in between angle brackets
-    url: http://bofportal.{{ .Values.base_domain }}/central-settlements/settlements<.*>
+    url: https://${portal_fqdn}/central-settlements/settlements<.*>
     methods:
       # whatever method(s) this rule applies to
       - POST
@@ -98,7 +98,7 @@ spec:
     # so it doesn't need to be changed when the config is moved between various main domains
     # then whatever is needed for the specific path (this is set to match all subpaths)
     # regexes go in between angle brackets
-    url: http://bofportal.{{ .Values.base_domain }}/central-settlements/settlementWindows<.*>
+    url: http://${portal_fqdn}/central-settlements/settlementWindows<.*>
     methods:
       # whatever method(s) this rule applies to
       - POST

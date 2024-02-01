@@ -34,8 +34,6 @@ module "generate_ory_files" {
     istio_external_gateway_namespace      = var.istio_external_gateway_namespace
     keycloak_namespace                    = var.keycloak_namespace
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
-    test_user_name                        = "test1"
-    test_user_password                    = "test1"
     bof_chart_version                     = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
     bof_release_name                      = "ory-bof"
   }
@@ -108,7 +106,7 @@ variable "keycloak_kratos_realm_name" {
 variable "bof_chart_version" {
   type        = string
   description = "bof_chart_version for ory stack, should be renamed"
-  default     = "3.0.1"
+  default     = "4.0.0"
 }
 
 locals {

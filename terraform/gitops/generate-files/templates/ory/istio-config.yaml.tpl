@@ -43,7 +43,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: oathkeeper-proxy-vs
+  name: bof-role-assignment-service-vs
 spec:
   gateways:
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
@@ -52,11 +52,24 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /proxy/
+            prefix: /api/iam/
+        - uri:
+            exact: /api/iam
       rewrite:
         uri: /
       route:
         - destination:
-            host: oathkeeper-proxy
+            host: ${bof_release_name}-role-assignment-service
             port:
-              number: 4455
+              number: 80
+###
+
+    # hostname: ${api_fqdn}
+    # path: /operator(/validate/.*)
+    # annotations:
+    #   kubernetes.io/ingress.class: nginx
+    #   nginx.ingress.kubernetes.io/rewrite-target: $1
+    # tls: true
+    # selfSigned: true
+    # tlsSetSecretManual: true
+    # tlsManualSecretName: ""

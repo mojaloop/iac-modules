@@ -296,3 +296,119 @@ spec:
               number: 4040
 ---
 %{ endif ~}
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: finance-portal-vs
+spec:
+  gateways:
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+  hosts:
+    - '${portal_fqdn}'
+  http:
+    - name: transfers
+      match:
+        - uri:
+            prefix: /api/transfers/
+        - uri:
+            exact: /api/transfers
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-api-svc
+            port:
+              number: 80
+    - name: central-admin
+      match:
+        - uri:
+            prefix: /api/central-admin/
+        - uri:
+            exact: /api/central-admin
+      rewrite:
+        uri: /central-admin
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-experience-api-svc
+            port:
+              number: 80
+    - name: central-settlements
+      match:
+        - uri:
+            prefix: /api/central-settlements/
+        - uri:
+            exact: /api/central-settlements
+      rewrite:
+        uri: /central-settlements
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-experience-api-svc
+            port:
+              number: 80
+    - name: reports
+      match:
+        - uri:
+            prefix: /api/reports/
+        - uri:
+            exact: /api/reports
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-legacy-api
+            port:
+              number: 80
+    - name: reporting-hub-bop-role-ui
+      match:
+        - uri:
+            prefix: /uis/iam/
+        - uri:
+            exact: /uis/iam
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-role-ui
+            port:
+              number: 80
+    - name: reporting-hub-bop-trx-ui
+      match:
+        - uri:
+            prefix: /uis/transfers/
+        - uri:
+            exact: /uis/transfers
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-trx-ui
+            port:
+              number: 80
+    - name: reporting-hub-bop-settlements-ui
+      match:
+        - uri:
+            prefix: /uis/settlements/
+        - uri:
+            exact: /uis/settlements
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-settlements-ui
+            port:
+              number: 80
+    - name: reporting-hub-bop-positions-ui
+      match:
+        - uri:
+            prefix: /uis/positions/
+        - uri:
+            exact: /uis/positions
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-positions-ui
+            port:
+              number: 80

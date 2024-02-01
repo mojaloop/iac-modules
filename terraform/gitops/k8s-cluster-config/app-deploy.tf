@@ -51,6 +51,8 @@ module "mojaloop" {
   local_vault_kv_root_path             = local.local_vault_kv_root_path
   app_var_map                          = var.app_var_map
   auth_fqdn                            = local.auth_fqdn
+  ory_namespace                        = var.ory_namespace
+  finance_portal_fqdn                  = local.finance_portal_fqdn
 }
 
 module "pm4ml" {
@@ -156,7 +158,7 @@ locals {
     "${var.kratos_oidc_client_secret_secret}" = var.kratos_oidc_client_secret_secret_key
   }
 
-  pm4ml_wildcard_gateways = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external"}
+  pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
 
   mcm_public_fqdn              = "mcm.${var.public_subdomain}"
   vault_public_fqdn            = "vault.${var.public_subdomain}"
@@ -165,6 +167,7 @@ locals {
   internal_interop_switch_fqdn = "intapi.${var.public_subdomain}"
   ttk_frontend_public_fqdn     = "ttkfrontend.${var.public_subdomain}"
   ttk_backend_public_fqdn      = "ttkbackend.${var.public_subdomain}"
+  finance_portal_fqdn          = "finance-portal.${var.public_subdomain}"
 
   mojaloop_internal_gateway_hosts = concat([local.internal_interop_switch_fqdn],
     local.mojaloop_wildcard_gateway == "internal" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
@@ -173,12 +176,12 @@ locals {
     local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
   local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
 
-  portal_fqdns              = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}"}
-  experience_api_fqdns      = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "exp-${pm4ml.pm4ml}.${var.public_subdomain}"}
-  mojaloop_connnector_fqdns = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "conn-${pm4ml.pm4ml}.${var.public_subdomain}"}
-  test_fqdns                = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "test-${pm4ml.pm4ml}.${var.public_subdomain}"}
-  pm4ml_ttk_frontend_fqdns  = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}"}
-  pm4ml_ttk_backend_fqdns   = {for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}"}
+  portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
+  experience_api_fqdns      = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "exp-${pm4ml.pm4ml}.${var.public_subdomain}" }
+  mojaloop_connnector_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "conn-${pm4ml.pm4ml}.${var.public_subdomain}" }
+  test_fqdns                = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "test-${pm4ml.pm4ml}.${var.public_subdomain}" }
+  pm4ml_ttk_frontend_fqdns  = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}" }
+  pm4ml_ttk_backend_fqdns   = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}" }
 
   pm4ml_internal_wildcard_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
   pm4ml_external_wildcard_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
@@ -195,7 +198,7 @@ locals {
     local.grafana_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [],
   var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [])
-  external_gateway_hosts = concat([local.keycloak_fqdn, local.auth_fqdn],
+  external_gateway_hosts = concat([local.keycloak_fqdn, local.auth_fqdn, local.finance_portal_fqdn],
     local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
     local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],

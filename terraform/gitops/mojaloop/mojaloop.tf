@@ -147,27 +147,22 @@ module "generate_mojaloop_files" {
     bof_chart_version                                                 = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
     bof_release_name                                                  = "bof"
     auth_fqdn                                                         = var.auth_fqdn
-    central_admin_host                                                = "moja-centralledger-service"
-    central_settlements_host                                          = "moja-centralsettlement-service"
-    account_lookup_service_host                                       = "moja-account-lookup-service"
-    sim_payer_backend_host                                            = "moja-sim-payerfsp-backend"
-    sim_payee_backend_host                                            = "moja-sim-payeefsp-backend"
+    central_admin_host                                                = "${var.mojaloop_release_name}-centralledger-service"
+    central_settlements_host                                          = "${var.mojaloop_release_name}-centralsettlement-service"
+    account_lookup_service_host                                       = "${var.mojaloop_release_name}-account-lookup-service"
     reporting_db_secret_name                                          = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret
     reporting_db_user                                                 = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.username
     reporting_db_host                                                 = "${local.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     reporting_db_port                                                 = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port
     reporting_db_database                                             = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name
     reporting_db_secret_key                                           = "mysql-password"
-    reporting_events_mongodb_database                                 = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.database_name
-    reporting_events_mongodb_user                                     = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.username
-    reporting_events_mongodb_host                                     = "${local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    reporting_events_mongodb_secret_name                              = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.user_password_secret
-    reporting_events_mongodb_port                                     = local.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.logical_service_port
-    test_user_name                                                    = "test1"
-    test_user_password                                                = "test1"
-    report_tests_payer                                                = "payerfsp"
-    report_tests_payee                                                = "payeefsp"
-    report_tests_currency                                             = var.ttk_test_currency2
+    reporting_events_mongodb_database                                 = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.database_name
+    reporting_events_mongodb_user                                     = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.username
+    reporting_events_mongodb_host                                     = "${local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    reporting_events_mongodb_existing_secret                          = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.user_password_secret
+    reporting_events_mongodb_port                                     = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_port
+    keto_read_url                                                     = "http://keto-read.${var.ory_namespace}.cluster.local:80"
+    portal_fqdn                                                       = var.finance_portal_fqdn
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -314,5 +309,12 @@ variable "ttk_backend_public_fqdn" {
 }
 
 variable "auth_fqdn" {
+  type = string
+}
+variable "ory_namespace" {
+  type = string
+}
+
+variable "finance_portal_fqdn" {
   type = string
 }

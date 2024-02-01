@@ -13,7 +13,7 @@ spec:
     # so it doesn't need to be changed when the config is moved between various main domains
     # then whatever is needed for the specific path (this is set to match all subpaths)
     # regexes go in between angle brackets
-    url: http://bofportal.{{ .Values.base_domain }}/iam/<.*>
+    url: http://${portal_fqdn}/iam/<.*>
     methods:
       # whatever method(s) this rule applies to
       - GET
@@ -55,7 +55,7 @@ spec:
     # so it doesn't need to be changed when the config is moved between various main domains
     # then whatever is needed for the specific path (this is set to match all subpaths)
     # regexes go in between angle brackets
-    url: http://bofportal.{{ .Values.base_domain }}/iam/<.*>
+    url: https://${portal_fqdn}/iam/<.*>
     methods:
       # whatever method(s) this rule applies to
       - POST

@@ -10,6 +10,7 @@ resources:
   - oathkeeper-rules/iam.yaml
   - oathkeeper-rules/reports.yaml
   - oathkeeper-rules/transfers.yaml
+  #add role/permissions folder
 helmCharts:
 - name: mojaloop
   releaseName: ${mojaloop_release_name}
@@ -17,9 +18,9 @@ helmCharts:
   repo: ${mojaloop_chart_repo}
   valuesFile: values-mojaloop.yaml
   namespace: ${mojaloop_namespace}
-# - name: bof
-#   releaseName: ${bof_release_name}
-#   version: ${bof_chart_version}
-#   repo: https://mojaloop.github.io/charts/repo
-#   valuesFile: values-bof.yaml
-#   namespace: ${mojaloop_namespace}
+- name: finance-portal
+  releaseName: ${finance_portal_release_name}
+  version: ${finance_portal_chart_version}
+  repo: https://mojaloop.github.io/charts/repo
+  valuesFile: values-finance_portal.yaml
+  namespace: ${mojaloop_namespace}
