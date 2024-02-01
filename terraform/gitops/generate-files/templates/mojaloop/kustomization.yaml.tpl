@@ -22,5 +22,5 @@ helmCharts:
   releaseName: ${finance_portal_release_name}
   version: ${finance_portal_chart_version}
   repo: https://mojaloop.github.io/charts/repo
-  valuesFile: values-finance_portal.yaml
+  valuesFile: values-finance-portal.yaml
   namespace: ${mojaloop_namespace}

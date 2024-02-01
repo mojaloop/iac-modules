@@ -19,7 +19,7 @@ global:
     port: 80
 
 role-assignment-service:
-  enabled: true
+  enabled: false
   ingress:
     enabled: false
   configFiles:
