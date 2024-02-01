@@ -10,6 +10,7 @@ resources:
   - oathkeeper-rules/iam.yaml
   - oathkeeper-rules/reports.yaml
   - oathkeeper-rules/transfers.yaml
+  - https://raw.githubusercontent.com/mojaloop/charts/v${finance_portal_chart_version}/mojaloop/reporting-legacy-api/crds/reporting-crd.yaml
   #add role/permissions folder
 helmCharts:
 - name: mojaloop
