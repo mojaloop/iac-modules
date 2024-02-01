@@ -164,6 +164,7 @@ module "generate_mojaloop_files" {
     keto_read_url                                                     = "http://keto-read.${var.ory_namespace}.cluster.local:80"
     portal_fqdn                                                       = var.finance_portal_fqdn
     finance_portal_release_name                                       = "fin-portal"
+    finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -233,9 +234,9 @@ variable "mojaloop_chart_version" {
   description = "Mojaloop version to install via Helm"
 }
 
-variable "bof_chart_version" {
-  description = "BOF chart version"
-  default     = "3.0.1"
+variable "finance_portal_chart_version" {
+  description = "finance portal chart version"
+  default     = "4.0.0"
 }
 
 variable "mojaloop_sync_wave" {
