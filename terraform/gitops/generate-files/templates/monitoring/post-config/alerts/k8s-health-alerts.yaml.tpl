@@ -177,6 +177,60 @@ spec:
         summary: Kubernetes pod crash looping ({{ $labels.namespace }}/{{ $labels.pod }})
         description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is crash looping\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
+    - alert: KubernetesReplicasetReplicasMismatch
+      expr: 'kube_replicaset_spec_replicas != kube_replicaset_status_ready_replicas'
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kubernetes ReplicasSet mismatch ({{ $labels.namespace }}/{{ $labels.replicaset }})
+        description: "ReplicaSet {{ $labels.namespace }}/{{ $labels.replicaset }} replicas mismatch\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesDeploymentReplicasMismatch
+      expr: 'kube_deployment_spec_replicas != kube_deployment_status_replicas_available'
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kubernetes Deployment replicas mismatch ({{ $labels.namespace }}/{{ $labels.deployment }})
+        description: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} replicas mismatch\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesStatefulsetReplicasMismatch
+      expr: 'kube_statefulset_status_replicas_ready != kube_statefulset_status_replicas'
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kubernetes StatefulSet replicas mismatch (instance {{ $labels.instance }})
+        description: "StatefulSet does not match the expected number of replicas.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesDeploymentGenerationMismatch
+      expr: 'kube_deployment_status_observed_generation != kube_deployment_metadata_generation'
+      for: 10m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kubernetes Deployment generation mismatch ({{ $labels.namespace }}/{{ $labels.deployment }})
+        description: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has failed but has not been rolled back.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesStatefulsetGenerationMismatch
+      expr: 'kube_statefulset_status_observed_generation != kube_statefulset_metadata_generation'
+      for: 10m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kubernetes StatefulSet generation mismatch ({{ $labels.namespace }}/{{ $labels.statefulset }})
+        description: "StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} has failed but has not been rolled back.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesStatefulsetUpdateNotRolledOut
+      expr: 'max without (revision) (kube_statefulset_status_current_revision unless kube_statefulset_status_update_revision) * (kube_statefulset_replicas != kube_statefulset_status_replicas_updated)'
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kubernetes StatefulSet update not rolled out ({{ $labels.namespace }}/{{ $labels.statefulset }})
+        description: "StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} update has not been rolled out.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
 
   - name: k8s-capacity-alert-rules
     rules: []
