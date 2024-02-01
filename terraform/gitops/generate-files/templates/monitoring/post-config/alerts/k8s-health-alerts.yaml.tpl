@@ -24,6 +24,22 @@ spec:
       annotations:
         summary: Kubernetes memory pressure (node {{ $labels.node }})
         description: "Node {{ $labels.node }} has MemoryPressure condition\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: KubernetesNodeDiskPressure
+      expr: 'kube_node_status_condition{condition="DiskPressure",status="true"} == 1'
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kubernetes disk pressure (node {{ $labels.node }})
+        description: "Node {{ $labels.node }} has DiskPressure condition\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: KubernetesNodeNetworkUnavailable
+      expr: 'kube_node_status_condition{condition="NetworkUnavailable",status="true"} == 1'
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kubernetes Node network unavailable (instance {{ $labels.instance }})
+        description: "Node {{ $labels.node }} has NetworkUnavailable condition\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
 
 
