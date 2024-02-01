@@ -61,6 +61,7 @@ spec:
       when:
         - key: connection.sni
           values: ["${mcm_public_fqdn}", "${mcm_public_fqdn}:*"]
+%{ if !ory_stack_enabled ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -79,4 +80,5 @@ spec:
         prefix: "Bearer "
       - name: Cookie
         prefix: "MCM_SESSION"
+%{ endif ~}
 %{ endif ~}
