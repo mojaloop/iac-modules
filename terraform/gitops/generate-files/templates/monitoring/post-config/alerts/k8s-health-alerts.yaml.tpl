@@ -231,6 +231,86 @@ spec:
         summary: Kubernetes StatefulSet update not rolled out ({{ $labels.namespace }}/{{ $labels.statefulset }})
         description: "StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} update has not been rolled out.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
+    - alert: KubernetesDaemonsetRolloutStuck
+      expr: 'kube_daemonset_status_number_ready / kube_daemonset_status_desired_number_scheduled * 100 < 100 or kube_daemonset_status_desired_number_scheduled - kube_daemonset_status_current_number_scheduled > 0'
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kubernetes DaemonSet rollout stuck ({{ $labels.namespace }}/{{ $labels.daemonset }})
+        description: "Some Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} are not scheduled or not ready\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesDaemonsetMisscheduled
+      expr: 'kube_daemonset_status_number_misscheduled > 0'
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kubernetes DaemonSet misscheduled ({{ $labels.namespace }}/{{ $labels.daemonset }})
+        description: "Some Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} are running where they are not supposed to run\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesCronjobTooLong
+      expr: 'time() - kube_cronjob_next_schedule_time > 3600'
+      for: 0m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kubernetes CronJob too long ({{ $labels.namespace }}/{{ $labels.cronjob }})
+        description: "CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} is taking more than 1h to complete.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesJobSlowCompletion
+      expr: 'kube_job_spec_completions - kube_job_status_succeeded - kube_job_status_failed > 0'
+      for: 12h
+      labels:
+        severity: critical
+      annotations:
+        summary: Kubernetes job slow completion ({{ $labels.namespace }}/{{ $labels.job_name }})
+        description: "Kubernetes Job {{ $labels.namespace }}/{{ $labels.job_name }} did not complete in time.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesApiServerErrors
+      expr: 'sum(rate(apiserver_request_total{job="apiserver",code=~"^(?:5..)$"}[1m])) / sum(rate(apiserver_request_total{job="apiserver"}[1m])) * 100 > 3'
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kubernetes API server errors (instance {{ $labels.instance }})
+        description: "Kubernetes API server is experiencing high error rate\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesApiClientErrors
+      expr: '(sum(rate(rest_client_requests_total{code=~"(4|5).."}[1m])) by (instance, job) / sum(rate(rest_client_requests_total[1m])) by (instance, job)) * 100 > 1'
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kubernetes API client errors (instance {{ $labels.instance }})
+        description: "Kubernetes API client is experiencing high error rate\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesClientCertificateExpiresNextWeek
+      expr: 'apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 7*24*60*60'
+      for: 0m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kubernetes client certificate expires next week (instance {{ $labels.instance }})
+        description: "A client certificate used to authenticate to the apiserver is expiring next week.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesClientCertificateExpiresSoon
+      expr: 'apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 24*60*60'
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kubernetes client certificate expires soon (instance {{ $labels.instance }})
+        description: "A client certificate used to authenticate to the apiserver is expiring in less than 24.0 hours.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+    - alert: KubernetesApiServerLatency
+      expr: 'histogram_quantile(0.99, sum(rate(apiserver_request_latencies_bucket{subresource!="log",verb!~"^(?:CONNECT|WATCHLIST|WATCH|PROXY)$"} [10m])) WITHOUT (instance, resource)) / 1e+06 > 1'
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kubernetes API server latency (instance {{ $labels.instance }})
+        description: "Kubernetes API server has a 99th percentile latency of {{ $value }} seconds for {{ $labels.verb }} {{ $labels.resource }}.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
   - name: k8s-capacity-alert-rules
     rules: []
