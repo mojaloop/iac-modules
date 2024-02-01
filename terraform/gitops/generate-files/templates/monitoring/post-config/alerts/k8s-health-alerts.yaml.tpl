@@ -104,7 +104,7 @@ spec:
         description: "Volume under {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is expected to fill up within four days. Currently {{ $value | humanize }}% is available.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPersistentvolumeError
-      expr: 'kube_persistentvolume_status_phase{phase=~"Failed|Pending", job="kube-state-metrics"} > 0'
+      expr: 'kube_persistentvolume_status_phase{phase=~"Failed|Pending"} > 0'
       for: 0m
       labels:
         severity: critical
