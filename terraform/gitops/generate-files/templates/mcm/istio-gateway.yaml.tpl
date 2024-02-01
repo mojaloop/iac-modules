@@ -5,7 +5,7 @@ metadata:
   name: mcm-vs
 spec:
   gateways:
-%{ if mcm_wildcard_gateway == "external" ~} 
+%{ if mcm_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -15,7 +15,7 @@ spec:
   http:
     - name: "api"
       match:
-        - uri: 
+        - uri:
             prefix: /api
       route:
         - destination:
@@ -24,14 +24,14 @@ spec:
               number: 3001
     - name: "ui"
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
             host: mcm-connection-manager-ui
             port:
               number: 8080
-%{ if mcm_wildcard_gateway == "external" ~} 
+%{ if mcm_wildcard_gateway == "external" ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -42,14 +42,22 @@ spec:
   selector:
     matchLabels:
       app: ${istio_external_gateway_name}
+%{ if ory_stack_enabled ~}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+%{ else ~}
   action: DENY
+%{ endif ~}
   rules:
     - to:
         - operation:
             paths: ["/api/*"]
+%{ if !ory_stack_enabled ~}
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
+%{ endif ~}
       when:
         - key: connection.sni
           values: ["${mcm_public_fqdn}", "${mcm_public_fqdn}:*"]
