@@ -87,6 +87,9 @@ kratos:
       default_browser_return_url: https://${auth_fqdn}/ui/welcome
       allowed_return_urls:
         - https://${auth_fqdn}/ui
+%{ for urlItem in allowed_return_urls ~}  
+        - ${urlItem}
+%{ endfor ~}
 
       methods:
         password:
@@ -129,6 +132,9 @@ kratos:
       algorithm: bcrypt
       bcrypt:
         cost: 8
+    session:
+      cookie:
+        domain: ${public_subdomain}
 
 
 

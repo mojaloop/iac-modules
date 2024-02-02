@@ -10,6 +10,8 @@ module "generate_ory_files" {
     self_service_ui_chart_version         = try(var.common_var_map.self_service_ui_chart_version, var.self_service_ui_chart_version)
     ory_namespace                         = var.ory_namespace
     auth_fqdn                             = local.auth_fqdn
+    public_subdomain                      = var.public_subdomain
+    allowed_return_urls                   = local.bof_managed_portal_fqdns
     keto_postgres_database                = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
     keto_postgres_user                    = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.username
     keto_postgres_host                    = "${local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
