@@ -87,8 +87,8 @@ kratos:
       default_browser_return_url: https://${auth_fqdn}/ui/welcome
       allowed_return_urls:
         - https://${auth_fqdn}/ui
-%{ for urlItem in allowed_return_urls ~}
-        - https://${urlItem}
+%{ for fqdnItem in bof_managed_portal_fqdns ~}
+        - https://${fqdnItem}
 %{ endfor ~}
 
       methods:

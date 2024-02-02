@@ -11,7 +11,7 @@ module "generate_ory_files" {
     ory_namespace                         = var.ory_namespace
     auth_fqdn                             = local.auth_fqdn
     public_subdomain                      = var.public_subdomain
-    allowed_return_urls                   = local.bof_managed_portal_fqdns
+    bof_managed_portal_fqdns              = local.bof_managed_portal_fqdns
     keto_postgres_database                = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
     keto_postgres_user                    = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.username
     keto_postgres_host                    = "${local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
