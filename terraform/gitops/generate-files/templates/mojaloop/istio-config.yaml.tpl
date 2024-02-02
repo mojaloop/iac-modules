@@ -325,10 +325,8 @@ spec:
       match:
         - uri:
             prefix: /api/central-admin/
-        - uri:
-            exact: /api/central-admin
       rewrite:
-        uri: /central-admin
+        uri: /central-admin/
       route:
         - destination:
             host: ${finance_portal_release_name}-reporting-hub-bop-experience-api-svc
@@ -338,13 +336,11 @@ spec:
       match:
         - uri:
             prefix: /api/central-settlements/
-        - uri:
-            exact: /api/central-settlements
       rewrite:
-        uri: /central-settlements
+        uri: /v2/
       route:
         - destination:
-            host: ${finance_portal_release_name}-reporting-hub-bop-experience-api-svc
+            host: ${mojaloop_release_name}-centralsettlement-service
             port:
               number: 80
     - name: reports
@@ -410,5 +406,25 @@ spec:
       route:
         - destination:
             host: ${finance_portal_release_name}-reporting-hub-bop-positions-ui
+            port:
+              number: 80
+    - name: kratos-woami-redirect
+      match:
+        - uri:
+            prefix: /kratos/sessions/whoami
+      rewrite:
+        uri: /sessions/whoami
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
+    - name: reporting-hub-bop-shell
+      match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-shell
             port:
               number: 80
