@@ -55,6 +55,7 @@ module "mojaloop" {
   finance_portal_fqdn                  = local.finance_portal_fqdn
   bof_release_name                     = local.bof_release_name
   ory_stack_enabled                    = var.ory_stack_enabled
+  oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
 }
 
 module "pm4ml" {
