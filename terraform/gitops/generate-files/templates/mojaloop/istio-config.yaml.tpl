@@ -450,9 +450,10 @@ spec:
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
-    - when:
+    - to:
         - operation:
             paths:
               - /api/*
+    - when:
         - key: connection.sni
           values: ["${portal_fqdn}", "${portal_fqdn}:*"]
