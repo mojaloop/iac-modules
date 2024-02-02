@@ -32,6 +32,8 @@ module "generate_monitoring_files" {
     istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     grafana_wildcard_gateway             = local.grafana_wildcard_gateway
+    loki_ingester_pvc_size               = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
+    prometheus_pvc_size                  = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -96,4 +98,6 @@ locals {
   grafana_operator_version         = "3.5.11"
   monitoring_template_path         = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file              = "monitoring-app.yaml"
+  loki_ingester_pvc_size           = "50Gi"
+  prometheus_pvc_size              = "50Gi"
 }
