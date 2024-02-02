@@ -54,6 +54,7 @@ module "mojaloop" {
   ory_namespace                        = var.ory_namespace
   finance_portal_fqdn                  = local.finance_portal_fqdn
   bof_release_name                     = local.bof_release_name
+  ory_stack_enabled                    = var.ory_stack_enabled
 }
 
 module "pm4ml" {
@@ -204,5 +205,5 @@ locals {
     local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
   var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
-  bof_managed_portal_fqdns = [var.common_var_map.mojaloop_enabled ? local.finance_portal_fqdn : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts)]
+  bof_managed_portal_fqdns = var.common_var_map.mojaloop_enabled ? [local.finance_portal_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts)
 }

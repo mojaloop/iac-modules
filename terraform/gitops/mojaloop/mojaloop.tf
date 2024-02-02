@@ -165,6 +165,7 @@ module "generate_mojaloop_files" {
     portal_fqdn                                                       = var.finance_portal_fqdn
     finance_portal_release_name                                       = "fin-portal"
     finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
+    ory_stack_enabled                                                 = var.ory_stack_enabled
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -323,4 +324,7 @@ variable "finance_portal_fqdn" {
 
 variable "bof_release_name" {
   type = string
+}
+variable "ory_stack_enabled" {
+  type = bool
 }
