@@ -204,4 +204,5 @@ locals {
     local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
   var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
+  bof_managed_portal_fqdns = [var.common_var_map.mojaloop_enabled ? local.finance_portal_fqdn : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts)]
 }
