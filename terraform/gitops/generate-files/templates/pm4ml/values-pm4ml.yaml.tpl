@@ -135,7 +135,7 @@ scheme-adapter:
       OAUTH_CLIENT_KEY: "${pm4ml_external_switch_client_id}"
       OAUTH_CLIENT_SECRET_KEY: "${pm4ml_external_switch_client_secret_key}"
       OAUTH_CLIENT_SECRET_NAME: "${pm4ml_external_switch_client_secret}"
-
+      RESERVE_NOTIFICATION: ${pm4ml_reserve_notification}
 %{ if use_ttk_as_backend_simulator ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
 %{ else ~}

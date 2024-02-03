@@ -64,6 +64,7 @@ module "generate_pm4ml_files" {
     ttk_backend_fqdn                                = var.ttk_backend_fqdns[each.key]
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
     test_fqdn                                       = var.test_fqdns[each.key]
+    pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
   template_path   = "${path.module}/../generate-files/templates/pm4ml"
