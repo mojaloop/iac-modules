@@ -454,6 +454,6 @@ spec:
         - operation:
             paths:
               - /api/*
-    - when:
+      when:
         - key: connection.sni
           values: ["${portal_fqdn}", "${portal_fqdn}:*"]
