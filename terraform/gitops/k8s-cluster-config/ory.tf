@@ -107,8 +107,7 @@ variable "keycloak_kratos_realm_name" {
 }
 variable "bof_chart_version" {
   type        = string
-  description = "bof_chart_version for ory stack, should be renamed"
-  default     = "4.0.0"
+  description = "5.0.0"
 }
 
 locals {
