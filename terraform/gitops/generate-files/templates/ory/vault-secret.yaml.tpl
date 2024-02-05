@@ -161,7 +161,7 @@ spec:
         serviceAccount:
             name: default
       name: kratosoidcsecret
-      path: ${kratos_oidc_client_secret_secret_path}/${kratos_oidc_client_secret_secret_name}
+      path: ${hubop_oidc_client_secret_secret_path}/${hubop_oidc_client_secret_secret_name}
   output:
     name: kratos-oidc-providers
     stringData:
@@ -169,11 +169,11 @@ spec:
           {
             "id":"keycloak",
             "provider":"generic",
-            "client_id":"${kratos_oidc_client_id}",
-            "client_secret":"{{ .kratosoidcsecret.${kratos_oidc_client_secret_secret_key} }}",
+            "client_id":"${hubop_oidc_client_id}",
+            "client_secret":"{{ .kratosoidcsecret.${hubop_oidc_client_secret_secret_key} }}",
             "scope":["openid", "profile", "email"],
             "mapper_url":"base64://CmxvY2FsIGNsYWltcyA9IHsKICBlbWFpbF92ZXJpZmllZDogZmFsc2UKfSArIHN0ZC5leHRWYXIoJ2NsYWltcycpOwp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBbaWYgImVtYWlsIiBpbiBjbGFpbXMgJiYgY2xhaW1zLmVtYWlsX3ZlcmlmaWVkIHRoZW4gImVtYWlsIiBlbHNlIG51bGxdOiBjbGFpbXMuZW1haWwsCiAgICB9LAogIH0sCn0K",
-            "issuer_url":"https://${keycloak_fqdn}/realms/${keycloak_kratos_realm_name}"
+            "issuer_url":"https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}"
           }
         ]'
     type: Opaque
