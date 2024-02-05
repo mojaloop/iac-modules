@@ -1,61 +1,65 @@
 module "mojaloop" {
-  count                                = var.common_var_map.mojaloop_enabled ? 1 : 0
-  source                               = "../mojaloop"
-  nat_public_ips                       = var.nat_public_ips
-  internal_load_balancer_dns           = var.internal_load_balancer_dns
-  external_load_balancer_dns           = var.external_load_balancer_dns
-  private_subdomain                    = var.private_subdomain
-  public_subdomain                     = var.public_subdomain
-  external_interop_switch_fqdn         = local.external_interop_switch_fqdn
-  internal_interop_switch_fqdn         = local.internal_interop_switch_fqdn
-  secrets_key_map                      = var.secrets_key_map
-  properties_key_map                   = var.properties_key_map
-  output_dir                           = var.output_dir
-  gitlab_project_url                   = var.gitlab_project_url
-  cluster_name                         = var.cluster_name
-  current_gitlab_project_id            = var.current_gitlab_project_id
-  gitlab_group_name                    = var.gitlab_group_name
-  gitlab_api_url                       = var.gitlab_api_url
-  gitlab_server_url                    = var.gitlab_server_url
-  kv_path                              = var.kv_path
-  private_network_cidr                 = var.private_network_cidr
-  cert_manager_service_account_name    = var.cert_manager_service_account_name
-  nginx_external_namespace             = var.nginx_external_namespace
-  keycloak_fqdn                        = local.keycloak_fqdn
-  keycloak_name                        = var.keycloak_name
-  keycloak_namespace                   = var.keycloak_namespace
-  vault_namespace                      = var.vault_namespace
-  cert_manager_namespace               = var.cert_manager_namespace
-  mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
-  mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
-  jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
-  jwt_client_secret_secret             = var.jwt_client_secret_secret
-  mcm_public_fqdn                      = local.mcm_public_fqdn
-  ttk_backend_public_fqdn              = local.ttk_backend_public_fqdn
-  ttk_frontend_public_fqdn             = local.ttk_frontend_public_fqdn
-  istio_external_gateway_name          = var.istio_external_gateway_name
-  istio_internal_gateway_name          = var.istio_internal_gateway_name
-  istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
-  istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
-  istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
-  istio_egress_gateway_name            = local.istio_egress_gateway_name
-  mojaloop_chart_version               = var.app_var_map.mojaloop_chart_version
-  mcm_enabled                          = var.common_var_map.mcm_enabled
-  mcm_chart_version                    = var.app_var_map.mcm_chart_version
-  mojaloop_enabled                     = var.common_var_map.mojaloop_enabled
-  bulk_enabled                         = var.app_var_map.bulk_enabled
-  third_party_enabled                  = var.app_var_map.third_party_enabled
-  mojaloop_ingress_internal_lb         = var.app_var_map.mojaloop_ingress_internal_lb
-  mcm_ingress_internal_lb              = var.app_var_map.mcm_ingress_internal_lb
-  stateful_resources_config_file       = var.mojaloop_stateful_resources_config_file
-  local_vault_kv_root_path             = local.local_vault_kv_root_path
-  app_var_map                          = var.app_var_map
-  auth_fqdn                            = local.auth_fqdn
-  ory_namespace                        = var.ory_namespace
-  finance_portal_fqdn                  = local.finance_portal_fqdn
-  bof_release_name                     = local.bof_release_name
-  ory_stack_enabled                    = var.ory_stack_enabled
-  oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
+  count                                      = var.common_var_map.mojaloop_enabled ? 1 : 0
+  source                                     = "../mojaloop"
+  nat_public_ips                             = var.nat_public_ips
+  internal_load_balancer_dns                 = var.internal_load_balancer_dns
+  external_load_balancer_dns                 = var.external_load_balancer_dns
+  private_subdomain                          = var.private_subdomain
+  public_subdomain                           = var.public_subdomain
+  external_interop_switch_fqdn               = local.external_interop_switch_fqdn
+  internal_interop_switch_fqdn               = local.internal_interop_switch_fqdn
+  secrets_key_map                            = var.secrets_key_map
+  properties_key_map                         = var.properties_key_map
+  output_dir                                 = var.output_dir
+  gitlab_project_url                         = var.gitlab_project_url
+  cluster_name                               = var.cluster_name
+  current_gitlab_project_id                  = var.current_gitlab_project_id
+  gitlab_group_name                          = var.gitlab_group_name
+  gitlab_api_url                             = var.gitlab_api_url
+  gitlab_server_url                          = var.gitlab_server_url
+  kv_path                                    = var.kv_path
+  private_network_cidr                       = var.private_network_cidr
+  cert_manager_service_account_name          = var.cert_manager_service_account_name
+  nginx_external_namespace                   = var.nginx_external_namespace
+  keycloak_fqdn                              = local.keycloak_fqdn
+  keycloak_name                              = var.keycloak_name
+  keycloak_namespace                         = var.keycloak_namespace
+  vault_namespace                            = var.vault_namespace
+  cert_manager_namespace                     = var.cert_manager_namespace
+  mcm_oidc_client_secret_secret_key          = var.mcm_oidc_client_secret_secret_key
+  mcm_oidc_client_secret_secret              = var.mcm_oidc_client_secret_secret
+  jwt_client_secret_secret_key               = var.jwt_client_secret_secret_key
+  jwt_client_secret_secret                   = var.jwt_client_secret_secret
+  hubop_realm_role_assign_service_secret_key = var.hubop_realm_role_assign_service_secret_key
+  hubop_realm_role_assign_service_secret     = var.hubop_realm_role_assign_service_secret
+  hubop_realm_role_assign_service_user       = var.hubop_realm_role_assignment_svc_user
+  mcm_public_fqdn                            = local.mcm_public_fqdn
+  ttk_backend_public_fqdn                    = local.ttk_backend_public_fqdn
+  ttk_frontend_public_fqdn                   = local.ttk_frontend_public_fqdn
+  istio_external_gateway_name                = var.istio_external_gateway_name
+  istio_internal_gateway_name                = var.istio_internal_gateway_name
+  istio_external_wildcard_gateway_name       = local.istio_external_wildcard_gateway_name
+  istio_internal_wildcard_gateway_name       = local.istio_internal_wildcard_gateway_name
+  istio_egress_gateway_namespace             = local.istio_egress_gateway_namespace
+  istio_egress_gateway_name                  = local.istio_egress_gateway_name
+  mojaloop_chart_version                     = var.app_var_map.mojaloop_chart_version
+  mcm_enabled                                = var.common_var_map.mcm_enabled
+  mcm_chart_version                          = var.app_var_map.mcm_chart_version
+  mojaloop_enabled                           = var.common_var_map.mojaloop_enabled
+  bulk_enabled                               = var.app_var_map.bulk_enabled
+  third_party_enabled                        = var.app_var_map.third_party_enabled
+  mojaloop_ingress_internal_lb               = var.app_var_map.mojaloop_ingress_internal_lb
+  mcm_ingress_internal_lb                    = var.app_var_map.mcm_ingress_internal_lb
+  stateful_resources_config_file             = var.mojaloop_stateful_resources_config_file
+  local_vault_kv_root_path                   = local.local_vault_kv_root_path
+  app_var_map                                = var.app_var_map
+  auth_fqdn                                  = local.auth_fqdn
+  ory_namespace                              = var.ory_namespace
+  finance_portal_fqdn                        = local.finance_portal_fqdn
+  bof_release_name                           = local.bof_release_name
+  ory_stack_enabled                          = var.ory_stack_enabled
+  oathkeeper_auth_provider_name              = local.oathkeeper_auth_provider_name
+  keycloak_hubop_realm_name                  = var.keycloak_hubop_realm_name
 }
 
 module "pm4ml" {
@@ -144,6 +148,31 @@ variable "pm4ml_oidc_client_secret_secret" {
   default = "pm4ml-oidc-client-secret"
 }
 
+variable "hubop_realm_role_assign_service_secret_key" {
+  type    = string
+  default = "secret"
+}
+variable "hubop_realm_role_assign_service_secret" {
+  type    = string
+  default = "hubop-realm-role-assign-svc-secret"
+}
+variable "hubop_realm_role_assignment_svc_user" {
+  type    = string
+  default = "role-assign-svc"
+}
+variable "dfsps_realm_role_assign_service_secret_key" {
+  type    = string
+  default = "secret"
+}
+variable "dfsps_realm_role_assign_service_secret" {
+  type    = string
+  default = "dfsps-realm-role-assign-svc-secret"
+}
+variable "dfsps_realm_role_assignment_svc_user" {
+  type    = string
+  default = "role-assign-svc"
+}
+
 locals {
   mojaloop_wildcard_gateway = var.app_var_map.mojaloop_ingress_internal_lb ? "internal" : "external"
   mcm_wildcard_gateway      = var.app_var_map.mcm_ingress_internal_lb ? "internal" : "external"
@@ -151,14 +180,16 @@ locals {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
   mojaloop_keycloak_realm_env_secret_map = {
-    "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
-    "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
+    "${var.mcm_oidc_client_secret_secret}"          = var.mcm_oidc_client_secret_secret_key
+    "${var.jwt_client_secret_secret}"               = var.jwt_client_secret_secret_key
+    "${var.dfsps_realm_role_assign_service_secret}" = var.dfsps_realm_role_assign_service_secret_key
   }
   pm4ml_keycloak_realm_env_secret_map = { for key, pm4ml in local.pm4ml_var_map :
     "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.pm4ml_oidc_client_secret_secret_key
   }
   hubop_keycloak_realm_env_secret_map = {
-    "${var.hubop_oidc_client_secret_secret}" = var.hubop_oidc_client_secret_secret_key
+    "${var.hubop_oidc_client_secret_secret}"        = var.hubop_oidc_client_secret_secret_key
+    "${var.hubop_realm_role_assign_service_secret}" = var.hubop_realm_role_assign_service_secret_key
   }
 
   pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }

@@ -26,10 +26,10 @@ module "generate_ory_files" {
     kratos_postgres_port                  = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.logical_service_port
     kratos_postgres_secret_path           = "${local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_vault_base_path}/${local.stateful_resources[local.kratos_postgres_resource_index].resource_name}/${local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_name}-password"
     kratos_postgres_password_secret_key   = "password"
-    hubop_oidc_client_secret_secret_name = var.hubop_oidc_client_secret_secret
-    hubop_oidc_client_id                 = var.hubop_oidc_client_id
-    hubop_oidc_client_secret_secret_key  = var.hubop_oidc_client_secret_secret_key
-    hubop_oidc_client_secret_secret_path = local.keycloak_secrets_path
+    hubop_oidc_client_secret_secret_name  = join("$", ["", "{${replace(var.hubop_oidc_client_secret_secret, "-", "_")}}"])
+    hubop_oidc_client_id                  = var.hubop_oidc_client_id
+    hubop_oidc_client_secret_secret_key   = var.hubop_oidc_client_secret_secret_key
+    hubop_oidc_client_secret_secret_path  = local.keycloak_secrets_path
     keycloak_hubop_realm_name             = var.keycloak_hubop_realm_name
     keycloak_name                         = var.keycloak_name
     keycloak_fqdn                         = local.keycloak_fqdn
@@ -38,6 +38,8 @@ module "generate_ory_files" {
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
     bof_chart_version                     = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
     bof_release_name                      = local.bof_release_name
+    hubop_role_assignment_svc_secret_name = join("$", ["", "{${replace(var.hubop_realm_role_assign_service_secret, "-", "_")}}"])
+    hubop_role_assignment_svc_username    = var.hubop_realm_role_assignment_svc_user
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path

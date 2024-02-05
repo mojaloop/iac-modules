@@ -31,12 +31,12 @@ global:
       host: ${bof_role_perm_operator_host}
       port: 80
   keycloak:
-    url: 'http://${keycloak_fqdn}'
-    user: 'admin'
+    url: 'https://${keycloak_fqdn}'
+    user: '${role_assign_service_user}'
     secret:
-      name: 'switch-keycloak-initial-admin'
-      key: 'password'
-    realm: '${keycloak_dfsp_realm_name}'
+      name: '${role_assign_service_secret}'
+      key: '${role_assign_service_secret_key}'
+    realm: '${keycloak_realm_name}'
 
 ## TODO: Disabling the tests by default for now. Need to figure out how to configure the tests.
 ## RBAC Tests
