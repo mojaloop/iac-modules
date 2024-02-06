@@ -171,6 +171,7 @@ module "generate_mojaloop_files" {
     role_assign_service_secret_key                                    = var.hubop_realm_role_assign_service_secret_key
     role_assign_service_secret                                        = var.hubop_realm_role_assign_service_secret
     role_assign_service_user                                          = var.hubop_realm_role_assign_service_user
+    keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
