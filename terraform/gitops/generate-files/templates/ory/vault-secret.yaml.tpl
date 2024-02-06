@@ -161,7 +161,7 @@ spec:
         serviceAccount:
             name: default
       name: kratosoidcsecret
-      path: ${hubop_oidc_client_secret_secret_path}/${hubop_oidc_client_secret_secret_name}
+      path: ${hubop_oidc_client_secret_secret_path}/${hubop_oidc_client_secret_secret}
   output:
     name: kratos-oidc-providers
     stringData:

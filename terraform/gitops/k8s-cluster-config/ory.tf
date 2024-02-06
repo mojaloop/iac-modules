@@ -27,6 +27,7 @@ module "generate_ory_files" {
     kratos_postgres_secret_path           = "${local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_vault_base_path}/${local.stateful_resources[local.kratos_postgres_resource_index].resource_name}/${local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_name}-password"
     kratos_postgres_password_secret_key   = "password"
     hubop_oidc_client_secret_secret_name  = join("$", ["", "{${replace(var.hubop_oidc_client_secret_secret, "-", "_")}}"])
+    hubop_oidc_client_secret_secret       = var.hubop_oidc_client_secret_secret
     hubop_oidc_client_id                  = var.hubop_oidc_client_id
     hubop_oidc_client_secret_secret_key   = var.hubop_oidc_client_secret_secret_key
     hubop_oidc_client_secret_secret_path  = local.keycloak_secrets_path
