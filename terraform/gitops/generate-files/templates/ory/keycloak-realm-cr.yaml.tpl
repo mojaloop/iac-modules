@@ -1,13 +1,13 @@
 apiVersion: k8s.keycloak.org/v2alpha1
 kind: KeycloakRealmImport
 metadata:
-  name: ${keycloak_kratos_realm_name}
+  name: ${keycloak_hubop_realm_name}
   namespace: ${keycloak_namespace}
 spec:
   keycloakCRName: ${keycloak_name}
   realm:
     id: 3966e35c-5461-4280-9f47-f30f1bf07bc4
-    realm: ${keycloak_kratos_realm_name}
+    realm: ${keycloak_hubop_realm_name}
     notBefore: 0
     defaultSignatureAlgorithm: RS256
     revokeRefreshToken: false
@@ -102,18 +102,31 @@ spec:
         roles:
         - manage-account
         - view-groups
+    users:
+    - id: ${hubop_role_assignment_svc_username}
+      username: ${hubop_role_assignment_svc_username}
+      enabled: true
+      email: none@none.com
+      firstName: Role
+      lastName: Assign
+      credentials:
+      - type: password
+        value: ${hubop_role_assignment_svc_secret_name}
+      realmRoles:
+      - view-users
+      groups: []
     clients:
     - id: fe42ec55-74e7-494b-8028-a5910fde47b2
       clientId: account
       name: '$${client_account}'
       rootUrl: '$${authBaseUrl}'
-      baseUrl: "/realms/${keycloak_kratos_realm_name}/account/"
+      baseUrl: "/realms/${keycloak_hubop_realm_name}/account/"
       surrogateAuthRequired: false
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
       redirectUris:
-      - "/realms/${keycloak_kratos_realm_name}/account/*"
+      - "/realms/${keycloak_hubop_realm_name}/account/*"
       webOrigins: []
       notBefore: 0
       bearerOnly: false
@@ -145,13 +158,13 @@ spec:
       clientId: account-console
       name: '$${client_account-console}'
       rootUrl: '$${authBaseUrl}'
-      baseUrl: "/realms/${keycloak_kratos_realm_name}/account/"
+      baseUrl: "/realms/${keycloak_hubop_realm_name}/account/"
       surrogateAuthRequired: false
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
       redirectUris:
-      - "/realms/${keycloak_kratos_realm_name}/account/*"
+      - "/realms/${keycloak_hubop_realm_name}/account/*"
       webOrigins: []
       notBefore: 0
       bearerOnly: false
@@ -258,8 +271,8 @@ spec:
       - offline_access
       - microprofile-jwt
     - id: 4747d00a-859b-4d3d-b952-e36fd9660c6d
-      clientId: '${kratos_oidc_client_id}'
-      name: '${kratos_oidc_client_id}'
+      clientId: '${hubop_oidc_client_id}'
+      name: '${hubop_oidc_client_id}'
       description: ''
       rootUrl: ''
       adminUrl: ''
@@ -268,7 +281,7 @@ spec:
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
-      secret: ${kratos_oidc_client_secret_secret_name}
+      secret: ${hubop_oidc_client_secret_secret_name}
       redirectUris:
       - "*"
       webOrigins:
@@ -341,13 +354,13 @@ spec:
       clientId: security-admin-console
       name: '$${client_security-admin-console}'
       rootUrl: '$${authAdminUrl}'
-      baseUrl: "/admin/${keycloak_kratos_realm_name}/console/"
+      baseUrl: "/admin/${keycloak_hubop_realm_name}/console/"
       surrogateAuthRequired: false
       enabled: true
       alwaysDisplayInConsole: false
       clientAuthenticatorType: client-secret
       redirectUris:
-      - "/admin/${keycloak_kratos_realm_name}/console/*"
+      - "/admin/${keycloak_hubop_realm_name}/console/*"
       webOrigins:
       - +
       notBefore: 0

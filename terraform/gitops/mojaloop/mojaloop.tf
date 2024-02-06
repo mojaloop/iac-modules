@@ -41,7 +41,7 @@ module "generate_mojaloop_files" {
     istio_external_gateway_namespace                                  = var.istio_external_gateway_namespace
     mojaloop_wildcard_gateway                                         = local.mojaloop_wildcard_gateway
     keycloak_fqdn                                                     = var.keycloak_fqdn
-    keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
+    keycloak_realm_name                                               = var.keycloak_hubop_realm_name
     ttk_frontend_public_fqdn                                          = var.ttk_frontend_public_fqdn
     ttk_backend_public_fqdn                                           = var.ttk_backend_public_fqdn
     kafka_host                                                        = "${local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -145,6 +145,7 @@ module "generate_mojaloop_files" {
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
     grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
     bof_release_name                                                  = var.bof_release_name
+    bof_role_perm_operator_host                                       = "${var.bof_release_name}-security-role-perm-operator-svc.${var.ory_namespace}.svc.cluster.local"
     auth_fqdn                                                         = var.auth_fqdn
     central_admin_host                                                = "${var.mojaloop_release_name}-centralledger-service"
     central_settlements_host                                          = "${var.mojaloop_release_name}-centralsettlement-service"
@@ -160,13 +161,16 @@ module "generate_mojaloop_files" {
     reporting_events_mongodb_host                                     = "${local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     reporting_events_mongodb_existing_secret                          = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.user_password_secret
     reporting_events_mongodb_port                                     = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_port
-    keto_read_url                                                     = "http://keto-read.${var.ory_namespace}.cluster.local:80"
-    kratos_service_name                                               = "kratos-public.${var.ory_namespace}.cluster.local"
+    keto_read_url                                                     = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
+    kratos_service_name                                               = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                                       = var.finance_portal_fqdn
     finance_portal_release_name                                       = "fin-portal"
     finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
     ory_stack_enabled                                                 = var.ory_stack_enabled
     oathkeeper_auth_provider_name                                     = var.oathkeeper_auth_provider_name
+    role_assign_service_secret_key                                    = var.hubop_realm_role_assign_service_secret_key
+    role_assign_service_secret                                        = var.hubop_realm_role_assign_service_secret
+    role_assign_service_user                                          = var.hubop_realm_role_assign_service_user
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -238,7 +242,7 @@ variable "mojaloop_chart_version" {
 
 variable "finance_portal_chart_version" {
   description = "finance portal chart version"
-  default     = "4.0.0"
+  default     = "5.0.0"
 }
 
 variable "mojaloop_sync_wave" {
@@ -330,5 +334,18 @@ variable "ory_stack_enabled" {
   type = bool
 }
 variable "oathkeeper_auth_provider_name" {
+  type = string
+}
+variable "keycloak_hubop_realm_name" {
+  type        = string
+  description = "name of realm for hub operator api access"
+}
+variable "hubop_realm_role_assign_service_secret" {
+  type = string
+}
+variable "hubop_realm_role_assign_service_secret_key" {
+  type = string
+}
+variable "hubop_realm_role_assign_service_user" {
   type = string
 }

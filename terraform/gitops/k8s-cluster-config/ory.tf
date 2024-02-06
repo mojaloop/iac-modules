@@ -11,7 +11,7 @@ module "generate_ory_files" {
     ory_namespace                         = var.ory_namespace
     auth_fqdn                             = local.auth_fqdn
     public_subdomain                      = var.public_subdomain
-    allowed_return_urls                   = local.bof_managed_portal_fqdns
+    bof_managed_portal_fqdns              = local.bof_managed_portal_fqdns
     keto_postgres_database                = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
     keto_postgres_user                    = local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.username
     keto_postgres_host                    = "${local.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -26,11 +26,11 @@ module "generate_ory_files" {
     kratos_postgres_port                  = local.stateful_resources[local.kratos_postgres_resource_index].logical_service_config.logical_service_port
     kratos_postgres_secret_path           = "${local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_vault_base_path}/${local.stateful_resources[local.kratos_postgres_resource_index].resource_name}/${local.stateful_resources[local.kratos_postgres_resource_index].local_resource_config.generate_secret_name}-password"
     kratos_postgres_password_secret_key   = "password"
-    kratos_oidc_client_secret_secret_name = var.kratos_oidc_client_secret_secret
-    kratos_oidc_client_id                 = var.kratos_oidc_client_id
-    kratos_oidc_client_secret_secret_key  = var.kratos_oidc_client_secret_secret_key
-    kratos_oidc_client_secret_secret_path = local.keycloak_secrets_path
-    keycloak_kratos_realm_name            = var.keycloak_kratos_realm_name
+    hubop_oidc_client_secret_secret_name  = join("$", ["", "{${replace(var.hubop_oidc_client_secret_secret, "-", "_")}}"])
+    hubop_oidc_client_id                  = var.hubop_oidc_client_id
+    hubop_oidc_client_secret_secret_key   = var.hubop_oidc_client_secret_secret_key
+    hubop_oidc_client_secret_secret_path  = local.keycloak_secrets_path
+    keycloak_hubop_realm_name             = var.keycloak_hubop_realm_name
     keycloak_name                         = var.keycloak_name
     keycloak_fqdn                         = local.keycloak_fqdn
     istio_external_gateway_namespace      = var.istio_external_gateway_namespace
@@ -38,6 +38,8 @@ module "generate_ory_files" {
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
     bof_chart_version                     = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
     bof_release_name                      = local.bof_release_name
+    hubop_role_assignment_svc_secret_name = join("$", ["", "{${replace(var.hubop_realm_role_assign_service_secret, "-", "_")}}"])
+    hubop_role_assignment_svc_username    = var.hubop_realm_role_assignment_svc_user
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -82,33 +84,32 @@ variable "ory_namespace" {
   default     = "ory"
 }
 
-variable "kratos_oidc_client_secret_secret" {
+variable "hubop_oidc_client_secret_secret" {
   type        = string
-  description = "kratos_oidc_client_secret_secret"
-  default     = "kratos-oidc-secret"
+  description = "hubop_oidc_client_secret_secret"
+  default     = "hubop-oidc-secret"
 }
 
-variable "kratos_oidc_client_secret_secret_key" {
+variable "hubop_oidc_client_secret_secret_key" {
   type        = string
-  description = "kratos_oidc_client_secret_secret_key"
+  description = "hubop_oidc_client_secret_secret_key"
   default     = "secret"
 }
 
-variable "kratos_oidc_client_id" {
+variable "hubop_oidc_client_id" {
   type        = string
-  description = "kratos_oidc_client_id"
-  default     = "kratos"
+  description = "hubop_oidc_client_id"
+  default     = "hub-op"
 }
 
-variable "keycloak_kratos_realm_name" {
+variable "keycloak_hubop_realm_name" {
   type        = string
   description = "name of realm for dfsp api access"
-  default     = "kratos"
+  default     = "hub-operators"
 }
 variable "bof_chart_version" {
   type        = string
-  description = "bof_chart_version for ory stack, should be renamed"
-  default     = "4.0.0"
+  description = "5.0.0"
 }
 
 locals {
