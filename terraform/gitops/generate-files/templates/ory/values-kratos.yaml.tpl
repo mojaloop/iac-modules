@@ -25,7 +25,7 @@ secret:
   nameOverride: kratos-secret
 #turning off email services
 courier:
-  enabled: false 
+  enabled: false
 ## -- Application specific config
 kratos:
   development: false
@@ -87,8 +87,8 @@ kratos:
       default_browser_return_url: https://${auth_fqdn}/ui/welcome
       allowed_return_urls:
         - https://${auth_fqdn}/ui
-%{ for urlItem in allowed_return_urls ~}  
-        - ${urlItem}
+%{ for fqdnItem in bof_managed_portal_fqdns ~}
+        - https://${fqdnItem}
 %{ endfor ~}
 
       methods:
@@ -96,9 +96,9 @@ kratos:
           enabled: false
         oidc:
           enabled: true
-            
+
       flows:
-    
+
         login:
           ui_url: https://${auth_fqdn}/ui/login
           lifespan: 10m
@@ -119,7 +119,7 @@ kratos:
         #     oidc:
         #       hooks:
         #         - hook: session
-        
+
     log:
       level: debug
       format: text

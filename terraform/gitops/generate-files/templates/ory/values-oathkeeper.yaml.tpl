@@ -25,7 +25,7 @@ oathkeeper:
         enabled: true
         config:
           jwks_urls:
-            - https://${keycloak_fqdn}/realms/${keycloak_kratos_realm_name}/protocol/openid-connect/certs
+            - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs  
       cookie_session:
         enabled: true
         config:

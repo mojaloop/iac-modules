@@ -436,3 +436,24 @@ spec:
             host: ${finance_portal_release_name}-reporting-hub-bop-shell
             port:
               number: 80
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: finance-portal-auth
+  namespace: ${istio_external_gateway_namespace}
+spec:
+  selector:
+    matchLabels:
+      app: ${istio_external_gateway_name}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+  rules:
+    - to:
+        - operation:
+            paths:
+              - /api/*
+      when:
+        - key: connection.sni
+          values: ["${portal_fqdn}", "${portal_fqdn}:*"]

@@ -26,6 +26,17 @@ global:
   kafka:
     host: ${kafka_host}
     port: ${kafka_port}
+  rolePermOperator:
+    apiSvc:
+      host: ${bof_role_perm_operator_host}
+      port: 80
+  keycloak:
+    url: 'https://${keycloak_fqdn}'
+    user: '${role_assign_service_user}'
+    secret:
+      name: '${role_assign_service_secret}'
+      key: '${role_assign_service_secret_key}'
+    realm: '${keycloak_realm_name}'
 
 ## TODO: Disabling the tests by default for now. Need to figure out how to configure the tests.
 ## RBAC Tests
@@ -37,6 +48,23 @@ reportTests:
   enabled: false
 
 ## Backend API services
+
+role-assignment-service:
+  enabled: true
+  ingress:
+    enabled: false
+  configFiles:
+    default.json: {
+        "ROLES_LIST": [
+          "manager",
+          "operator",
+          "clerk",
+          "financeManager",
+          "dfspReconciliationReports",
+          "audit"
+        ]
+      }
+
 reporting-hub-bop-api-svc:
   containerSecurityContext:
     enabled: false

@@ -114,7 +114,7 @@ kratosAdminUrl: "http://kratos-admin"
 kratosPublicUrl: "http://kratos-public"
 
 # -- Set this to ORY Kratos's public URL accessible from the outside world.
-kratosBrowserUrl: "http://kratos-browserui"
+kratosBrowserUrl: "https://${auth_fqdn}/kratos"
 
 # -- The basePath
 basePath: ""
