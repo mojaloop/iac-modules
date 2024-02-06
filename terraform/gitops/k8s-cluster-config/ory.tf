@@ -108,8 +108,8 @@ variable "keycloak_hubop_realm_name" {
   default     = "hub-operators"
 }
 variable "bof_chart_version" {
-  type        = string
-  description = "5.0.0"
+  type    = string
+  default = "5.0.0"
 }
 
 locals {
