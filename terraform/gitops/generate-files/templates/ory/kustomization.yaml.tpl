@@ -4,6 +4,7 @@ resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - istio-config.yaml
+  - https://raw.githubusercontent.com/ory/k8s/v${oathkeeper_chart_version}/helm/charts/oathkeeper-maester/crds/crd-rules.yaml
   - blank-rule.yaml
   - https://raw.githubusercontent.com/mojaloop/charts/v${bof_chart_version}/mojaloop/security-role-perm-operator-svc/crds/mojalooprole-crd.yaml
   - https://raw.githubusercontent.com/mojaloop/charts/v${bof_chart_version}/mojaloop/security-role-perm-operator-svc/crds/mojaloop-permission-exclusions-crd.yaml

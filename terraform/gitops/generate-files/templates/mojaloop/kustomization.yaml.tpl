@@ -5,7 +5,7 @@ resources:
   - grafana.yaml
   - istio-config.yaml
   - service-monitors.yaml
-  - oathkeeper-rules/finance-portal-api-rule.yaml.tpl
+  - oathkeeper-rules/finance-portal-api-rule.yaml
   - oathkeeper-rules/central-admin.yaml
   - oathkeeper-rules/central-settlements.yaml
   - oathkeeper-rules/iam.yaml
