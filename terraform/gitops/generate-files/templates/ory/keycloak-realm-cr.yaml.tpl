@@ -112,8 +112,9 @@ spec:
       credentials:
       - type: password
         value: ${hubop_role_assignment_svc_secret_name}
-      realmRoles:
-      - view-users
+      clientRoles:
+        realm-management:
+        - view-users
       groups: []
     clients:
     - id: fe42ec55-74e7-494b-8028-a5910fde47b2

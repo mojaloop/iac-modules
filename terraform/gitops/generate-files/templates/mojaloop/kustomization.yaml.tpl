@@ -5,13 +5,14 @@ resources:
   - grafana.yaml
   - istio-config.yaml
   - service-monitors.yaml
+  - vault-secret.yaml
   - oathkeeper-rules/finance-portal-api-rule.yaml
   - oathkeeper-rules/central-admin.yaml
   - oathkeeper-rules/central-settlements.yaml
   - oathkeeper-rules/iam.yaml
   - oathkeeper-rules/reports.yaml
   - oathkeeper-rules/transfers.yaml
-  - https://raw.githubusercontent.com/mojaloop/charts/v${finance_portal_chart_version}/mojaloop/reporting-legacy-api/crds/reporting-crd.yaml
+  #- https://raw.githubusercontent.com/mojaloop/charts/v${finance_portal_chart_version}/mojaloop/reporting-legacy-api/crds/reporting-crd.yaml
   #add role/permissions folder
 helmCharts:
 - name: mojaloop
@@ -26,3 +27,4 @@ helmCharts:
   repo: https://mojaloop.github.io/charts/repo
   valuesFile: values-finance-portal.yaml
   namespace: ${mojaloop_namespace}
+  includeCRDs: true
