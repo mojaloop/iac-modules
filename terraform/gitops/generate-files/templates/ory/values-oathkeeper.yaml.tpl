@@ -19,7 +19,7 @@ oathkeeper:
       format: json
     access_rules:
       matching_strategy: regexp
-    
+
     authenticators:
       jwt:
         enabled: true
@@ -44,7 +44,7 @@ oathkeeper:
         enabled: true
         config:
           subject: guest
-    
+
     authorizers:
       allow:
         enabled: true
@@ -52,9 +52,13 @@ oathkeeper:
         enabled: true
         config:
           # the check URL for Keto. This will be POST'd to. See https://www.ory.sh/keto/docs/reference/rest-api#operation/postCheck
-          remote: http://keto-read/check
-          payload: ""
-    
+          remote: http://keto-read/relation-tuples/check
+          payload: |
+            {
+              "subject": "{{ print .Subject }}",
+              "resource": "{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}"
+            }
+
     mutators:
       id_token:
         enabled: true
@@ -70,7 +74,7 @@ oathkeeper:
             X-Extra: '{{ print .Extra }}'
             # X-Email: '{{ print .Extra.identity.traits.email }}'
 
-    
+
     errors:
       fallback:
         - json
@@ -89,7 +93,7 @@ oathkeeper:
         #     - error:
         #       - unauthorized
         #       - forbidden
-        #       request: 
+        #       request:
         #         header:
         #           accept:
         #           - text/html
