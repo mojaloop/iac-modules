@@ -33,8 +33,11 @@ metadata:
   namespace: ${mojaloop_namespace}
 spec:
   match: ${ar.match}
-  authenticators: ${ar.authenticators}
-  authorizers:
+  authenticators:
+  %{ for authenticator_handler in ar.authenticator_handlers ~}
+  - handler: authenticator_handler
+  %{ endfor ~}
+  authorizer:
     handler: remote_json
     config:
       remote: ${keto_read_url}/relation-tuples/check

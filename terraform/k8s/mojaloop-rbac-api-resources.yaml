@@ -1,122 +1,122 @@
 ---
 - name: participant-view
   match:
-    url: http://${portal_fqdn}/central-admin/participants<.*>
+    url: <.*>/api/central-admin/participants<.*>
     methods:
     - GET
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: participantView
 
 - name: position-funds-in-out
   match:
-    url: https://${portal_fqdn}/central-admin/participants/<.*>/accounts<.*>
+    url: <.*>/api/central-admin/participants/<.*>/accounts<.*>
     methods:
     - POST
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: positionFundsInOut
 
 - name: participant-disable-enable
   match:
-    url: http://${portal_fqdn}/central-admin/participants/<.*>/accounts<.*>
+    url: <.*>/api/central-admin/participants/<.*>/accounts<.*>
     methods:
     - PUT
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: participantDisableEnable
 
 - name: settlement-view
   match:
-    url: http://${portal_fqdn}/central-settlements/<.*>
+    url: <.*>/api/central-settlements/<.*>
     methods:
     - GET
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: settlementView
 
 - name: settlement-initiate-finalize
   match:
-    url: https://${portal_fqdn}/central-settlements/settlements<.*>
+    url: <.*>/api/central-settlements/settlements<.*>
     methods:
     - POST
     - PUT
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: settlementInitiateFinalise
 
 - name: settlement-close-window
   match:
-    url: http://${portal_fqdn}/central-settlements/settlementWindows<.*>
+    url: <.*>/api/central-settlements/settlementWindows<.*>
     methods:
     - POST
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: settlementCloseWindow
 
 - name: iam-view
   match:
-    url: http://${portal_fqdn}/iam/<.*>
+    url: <.*>/api/iam/<.*>
     methods:
     - GET
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: iamView
 
 - name: iam-edit
   match:
-    url: https://${portal_fqdn}/iam/<.*>
+    url: <.*>/api/iam/<.*>
     methods:
     - POST
     - PUT
     - DELETE
     - PATCH
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: iamEdit
 
 - name: reporting-api
   match:
-    url: https://${portal_fqdn}/reports/<.*>
+    url: <.*>/api/reports/<.*>
     methods:
     - GET
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: reportingApi
 
 - name: transfer-api
   match:
-    url: http://${portal_fqdn}/transfers
+    url: <.*>/api/transfers
     methods:
     - GET
     - POST
     - PUT
     - DELETE
     - PATCH
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: transferApi
 
 - name: transfer-api2
   match:
-    url: https://${portal_fqdn}/transfers/graphql
+    url: <.*>/api/transfers/graphql
     methods:
     - GET
     - POST
     - PUT
     - DELETE
     - PATCH
-  authenticators:
+  authenticator_handlers:
   - jwt
   - cookie_session
   authorizer_permission: transferApi
