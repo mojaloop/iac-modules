@@ -9,7 +9,7 @@ spec:
   role: ${mr.rolename}
   permissions:
 %{ for permission in mr.permissions ~}
-  - permission
+  - ${permission}
 %{ endfor ~}
 ---
 %{ endfor ~}
@@ -24,11 +24,11 @@ metadata:
 spec:
   permissionsA:
 %{ for permission in pe.permissionsA ~}
-  - permission
+  - ${permission}
 %{ endfor ~}
   permissionsB:
 %{ for permission in pe.permissionsB ~}
-  - permission
+  - ${permission}
 %{ endfor ~}
 ---
 %{ endfor ~}
@@ -45,11 +45,11 @@ spec:
     url: ${ar.match.url}
     methods:
 %{ for method in ar.match.methods ~}
-    - method
+    - ${method}
 %{ endfor ~}
   authenticators:
   %{ for authenticator_handler in ar.authenticator_handlers ~}
-  - handler: authenticator_handler
+  - handler: ${authenticator_handler}
   %{ endfor ~}
   authorizer:
     handler: remote_json
