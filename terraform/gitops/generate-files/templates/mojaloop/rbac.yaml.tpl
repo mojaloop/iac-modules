@@ -48,9 +48,9 @@ spec:
     - ${method}
 %{ endfor ~}
   authenticators:
-  %{ for authenticator_handler in ar.authenticator_handlers ~}
-  - handler: ${authenticator_handler}
-  %{ endfor ~}
+%{ for authenticator_handler in ar.authenticator_handlers ~}
+    - handler: ${authenticator_handler}
+%{ endfor ~}
   authorizer:
     handler: remote_json
     config:
