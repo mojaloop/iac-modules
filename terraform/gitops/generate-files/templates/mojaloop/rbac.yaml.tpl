@@ -7,7 +7,7 @@ metadata:
   namespace: ${mojaloop_namespace}
 spec:
   role: ${mr.rolename}
-  permissions ${mr.permissions}
+  permissions: ${mr.permissions}
 ---
 %{ endfor ~}
 
