@@ -172,6 +172,7 @@ module "generate_mojaloop_files" {
     role_assign_service_secret                                        = var.hubop_realm_role_assign_service_secret
     role_assign_service_user                                          = var.hubop_realm_role_assign_service_user
     keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
+    reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -349,4 +350,9 @@ variable "hubop_realm_role_assign_service_secret_key" {
 }
 variable "hubop_realm_role_assign_service_user" {
   type = string
+}
+
+variable "reporting_templates_chart_version" {
+  type = string
+  default = "1.1.7"
 }
