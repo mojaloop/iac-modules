@@ -7,7 +7,10 @@ metadata:
   namespace: ${mojaloop_namespace}
 spec:
   role: ${mr.rolename}
-  permissions ${mr.permissions}
+  permissions:
+  %{ for permission in mr.permissions ~}
+  - permission
+  %{ endfor ~}
 ---
 %{ endfor ~}
 
@@ -32,7 +35,12 @@ metadata:
   name: ${lower(replace(ar.name, "_", "-"))}
   namespace: ${mojaloop_namespace}
 spec:
-  match: ${ar.match}
+  match:
+    url: ${ar.match.url}
+    methods:
+    %{ for method in ar.match.methods ~}
+    - method
+    %{ endfor ~}
   authenticators:
   %{ for authenticator_handler in ar.authenticator_handlers ~}
   - handler: authenticator_handler
