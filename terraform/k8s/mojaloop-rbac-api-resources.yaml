@@ -1,0 +1,122 @@
+---
+- name: participant-view
+  match:
+    url: <http|https>://${portal_fqdn}/api/central-admin/participants<.*>
+    methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: participantView
+
+- name: position-funds-in-out
+  match:
+    url: <http|https>://${portal_fqdn}/api/central-admin/participants/<.*>/accounts<.*>
+    methods:
+    - POST
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: positionFundsInOut
+
+- name: participant-disable-enable
+  match:
+    url: <http|https>://${portal_fqdn}/api/central-admin/participants/<.*>/accounts<.*>
+    methods:
+    - PUT
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: participantDisableEnable
+
+- name: settlement-view
+  match:
+    url: <http|https>://${portal_fqdn}/api/central-settlements/<.*>
+    methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: settlementView
+
+- name: settlement-initiate-finalize
+  match:
+    url: <http|https>://${portal_fqdn}/api/central-settlements/settlements<.*>
+    methods:
+    - POST
+    - PUT
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: settlementInitiateFinalise
+
+- name: settlement-close-window
+  match:
+    url: <http|https>://${portal_fqdn}/api/central-settlements/settlementWindows<.*>
+    methods:
+    - POST
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: settlementCloseWindow
+
+- name: iam-view
+  match:
+    url: <http|https>://${portal_fqdn}/api/iam/<.*>
+    methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: iamView
+
+- name: iam-edit
+  match:
+    url: <http|https>://${portal_fqdn}/api/iam/<.*>
+    methods:
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: iamEdit
+
+- name: reporting-api
+  match:
+    url: <http|https>://${portal_fqdn}/api/reports/<.*>
+    methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: reportingApi
+
+- name: transfer-api
+  match:
+    url: <http|https>://${portal_fqdn}/api/transfers
+    methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: transferApi
+
+- name: transfer-api2
+  match:
+    url: <http|https>://${portal_fqdn}/api/transfers/graphql
+    methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: transferApi

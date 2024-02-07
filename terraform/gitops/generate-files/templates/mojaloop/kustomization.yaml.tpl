@@ -6,13 +6,7 @@ resources:
   - istio-config.yaml
   - service-monitors.yaml
   - vault-secret.yaml
-  - oathkeeper-rules/finance-portal-api-rule.yaml
-  - oathkeeper-rules/central-admin.yaml
-  - oathkeeper-rules/central-settlements.yaml
-  - oathkeeper-rules/iam.yaml
-  - oathkeeper-rules/reports.yaml
-  - oathkeeper-rules/transfers.yaml
-  #add role/permissions folder
+  - rbac.yaml
 helmCharts:
 - name: mojaloop
   releaseName: ${mojaloop_release_name}
