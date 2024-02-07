@@ -20,7 +20,7 @@ metadata:
   namespace: ${mojaloop_namespace}
 spec:
   permissionsA: ${pe.permissionsA}
-  permissionsB ${pe.permissionsB}
+  permissionsB: ${pe.permissionsB}
 ---
 %{ endfor ~}
 
