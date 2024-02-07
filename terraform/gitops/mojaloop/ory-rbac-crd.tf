@@ -47,7 +47,7 @@ resource "kubernetes_manifest" "bof-permission-exclusions" {
   provider = kubernetes.k8s-main
 }
 
-resource "kubernetes_manifest" "bof-api-resources" {
+resource "kubernetes_manifest" "oathkeeper-rules" {
   for_each = {for ar in local.apiResourcesFile: ar.name => ar}
   manifest = {
     apiVersion = "oathkeeper.ory.sh/v1alpha1"
