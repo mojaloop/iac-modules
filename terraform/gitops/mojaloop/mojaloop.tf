@@ -172,6 +172,9 @@ module "generate_mojaloop_files" {
     role_assign_service_secret                                        = var.hubop_realm_role_assign_service_secret
     role_assign_service_user                                          = var.hubop_realm_role_assign_service_user
     keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
+    apiResources                                                      = local.apiResources
+    mojaloopRoles                                                     = local.mojaloopRoles
+    permissionExclusions                                              = local.permissionExclusions
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -195,8 +198,11 @@ locals {
   third_party_consent_oracle_db_resource_index = index(local.stateful_resources.*.resource_name, "mysql-consent-oracle-db")
   ttk_redis_resource_index                     = index(local.stateful_resources.*.resource_name, "ttk-redis")
   reporting_events_mongodb_resource_index      = index(local.stateful_resources.*.resource_name, "reporting-events-mongodb")
-
-  mojaloop_wildcard_gateway = var.mojaloop_ingress_internal_lb ? "internal" : "external"
+  mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
+  apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
+  rolesPermissions                             = yamldecode(file(var.rbac_permissions_file))
+  mojaloopRoles                                = local.rolesPermissions["roles"]
+  permissionExclusions                         = local.rolesPermissions["permission-exclusions"]
 }
 
 variable "app_var_map" {
@@ -348,5 +354,11 @@ variable "hubop_realm_role_assign_service_secret_key" {
   type = string
 }
 variable "hubop_realm_role_assign_service_user" {
+  type = string
+}
+variable "rbac_permissions_file" {
+  type = string
+}
+variable "rbac_api_resources_file" {
   type = string
 }

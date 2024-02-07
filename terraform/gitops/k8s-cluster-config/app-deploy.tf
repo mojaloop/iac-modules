@@ -60,6 +60,8 @@ module "mojaloop" {
   ory_stack_enabled                          = var.ory_stack_enabled
   oathkeeper_auth_provider_name              = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name                  = var.keycloak_hubop_realm_name
+  rbac_api_resources_file                    = var.rbac_api_resources_file
+  rbac_permissions_file                      = var.rbac_permissions_file
 }
 
 module "pm4ml" {
@@ -171,6 +173,12 @@ variable "dfsps_realm_role_assign_service_secret" {
 variable "dfsps_realm_role_assignment_svc_user" {
   type    = string
   default = "role-assign-svc"
+}
+variable "rbac_permissions_file" {
+  type = string
+}
+variable "rbac_api_resources_file" {
+  type = string
 }
 
 locals {

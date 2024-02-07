@@ -166,9 +166,3 @@ variable "cert_manager_namespace" {
   type = string
   description = "cert_manager_namespace"
 }
-
-variable "rbac_custom_resources_dir" {
-  type        = string
-  description = "folder with RBAC permissions and API resources files"
-  default     = "../../k8s"
-}
