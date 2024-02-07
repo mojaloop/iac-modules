@@ -8,6 +8,7 @@
   - jwt
   - cookie_session
   authorizer_permission: participantView
+
 - name: position-funds-in-out
   match:
     url: https://${portal_fqdn}/central-admin/participants/<.*>/accounts<.*>
@@ -17,6 +18,7 @@
   - jwt
   - cookie_session
   authorizer_permission: positionFundsInOut
+
 - name: participant-disable-enable
   match:
     url: http://${portal_fqdn}/central-admin/participants/<.*>/accounts<.*>
@@ -26,8 +28,6 @@
   - jwt
   - cookie_session
   authorizer_permission: participantDisableEnable
-
----
 
 - name: settlement-view
   match:
@@ -60,9 +60,6 @@
   - cookie_session
   authorizer_permission: settlementCloseWindow
 
-
----
-
 - name: iam-view
   match:
     url: http://${portal_fqdn}/iam/<.*>
@@ -86,8 +83,6 @@
   - cookie_session
   authorizer_permission: iamEdit
 
----
-
 - name: reporting-api
   match:
     url: https://${portal_fqdn}/reports/<.*>
@@ -97,8 +92,6 @@
   - jwt
   - cookie_session
   authorizer_permission: reportingApi
-
----
 
 - name: transfer-api
   match:

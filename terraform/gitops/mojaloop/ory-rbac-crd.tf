@@ -7,9 +7,6 @@ locals {
   )
   mojaloopRoles = local.rolesPermissionsFile["roles"]
   permissionExclusions = local.rolesPermissionsFile["permission-exclusions"]
-  oathkeeperMutators = [
-    { handler = "header" }
-  ]
 }
 
 resource "kubernetes_manifest" "bof-roles" {
@@ -64,19 +61,23 @@ resource "kubernetes_manifest" "bof-api-resources" {
     spec = {
       match = each.value.match
       authenticators = each.value.authenticators
-      authorizer_permission = each.value.authorizer_permission
-      mutators = local.oathkeeperMutators
-#      authorizer:
-#        handler: remote_json
-#        config:
-#            remote: http://keto-read/check
-#            payload: |
-#                {
-#                "namespace": "permission",
-#                "object": "settlementView",
-#                "relation": "granted",
-#                "subject": "{{ printf "{{ print .Subject }}" }}"
-#                }
+      authorizers = [
+        {
+          handler = "remote_json"
+          config = {
+            remote = "${keto_read_url}/relation-tuples/check"
+            payload = jsonencode({
+              namespace = "permission",
+              object = each.value.authorizer_permission,
+              relation = "granted",
+              subject_id = "{{ print .Subject }}"
+            })
+          }
+        }
+      ]
+      mutators = [
+        { handler = "header" }
+      ]
     }
   }
   provider = kubernetes.k8s-main
