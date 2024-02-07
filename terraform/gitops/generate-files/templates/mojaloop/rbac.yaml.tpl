@@ -8,9 +8,9 @@ metadata:
 spec:
   role: ${mr.rolename}
   permissions:
-  %{ for permission in mr.permissions ~}
+%{ for permission in mr.permissions ~}
   - permission
-  %{ endfor ~}
+%{ endfor ~}
 ---
 %{ endfor ~}
 
@@ -22,8 +22,14 @@ metadata:
   name: ${lower(replace(pe.name, "_", "-"))}
   namespace: ${mojaloop_namespace}
 spec:
-  permissionsA: ${pe.permissionsA}
-  permissionsB: ${pe.permissionsB}
+  permissionsA:
+%{ for permission in pe.permissionsA ~}
+  - permission
+%{ endfor ~}
+  permissionsB:
+%{ for permission in pe.permissionsB ~}
+  - permission
+%{ endfor ~}
 ---
 %{ endfor ~}
 
@@ -38,9 +44,9 @@ spec:
   match:
     url: ${ar.match.url}
     methods:
-    %{ for method in ar.match.methods ~}
+%{ for method in ar.match.methods ~}
     - method
-    %{ endfor ~}
+%{ endfor ~}
   authenticators:
   %{ for authenticator_handler in ar.authenticator_handlers ~}
   - handler: authenticator_handler
