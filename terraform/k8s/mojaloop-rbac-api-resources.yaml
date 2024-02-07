@@ -1,7 +1,7 @@
 ---
 - name: participant-view
   match:
-    url: <.*>/api/central-admin/participants<.*>
+    url: <http|https>://${portal_fqdn}/api/central-admin/participants<.*>
     methods:
     - GET
   authenticator_handlers:
@@ -11,7 +11,7 @@
 
 - name: position-funds-in-out
   match:
-    url: <.*>/api/central-admin/participants/<.*>/accounts<.*>
+    url: <http|https>://${portal_fqdn}/api/central-admin/participants/<.*>/accounts<.*>
     methods:
     - POST
   authenticator_handlers:
@@ -21,7 +21,7 @@
 
 - name: participant-disable-enable
   match:
-    url: <.*>/api/central-admin/participants/<.*>/accounts<.*>
+    url: <http|https>://${portal_fqdn}/api/central-admin/participants/<.*>/accounts<.*>
     methods:
     - PUT
   authenticator_handlers:
@@ -31,7 +31,7 @@
 
 - name: settlement-view
   match:
-    url: <.*>/api/central-settlements/<.*>
+    url: <http|https>://${portal_fqdn}/api/central-settlements/<.*>
     methods:
     - GET
   authenticator_handlers:
@@ -41,7 +41,7 @@
 
 - name: settlement-initiate-finalize
   match:
-    url: <.*>/api/central-settlements/settlements<.*>
+    url: <http|https>://${portal_fqdn}/api/central-settlements/settlements<.*>
     methods:
     - POST
     - PUT
@@ -52,7 +52,7 @@
 
 - name: settlement-close-window
   match:
-    url: <.*>/api/central-settlements/settlementWindows<.*>
+    url: <http|https>://${portal_fqdn}/api/central-settlements/settlementWindows<.*>
     methods:
     - POST
   authenticator_handlers:
@@ -62,7 +62,7 @@
 
 - name: iam-view
   match:
-    url: <.*>/api/iam/<.*>
+    url: <http|https>://${portal_fqdn}/api/iam/<.*>
     methods:
     - GET
   authenticator_handlers:
@@ -72,7 +72,7 @@
 
 - name: iam-edit
   match:
-    url: <.*>/api/iam/<.*>
+    url: <http|https>://${portal_fqdn}/api/iam/<.*>
     methods:
     - POST
     - PUT
@@ -85,7 +85,7 @@
 
 - name: reporting-api
   match:
-    url: <.*>/api/reports/<.*>
+    url: <http|https>://${portal_fqdn}/api/reports/<.*>
     methods:
     - GET
   authenticator_handlers:
@@ -95,7 +95,7 @@
 
 - name: transfer-api
   match:
-    url: <.*>/api/transfers
+    url: <http|https>://${portal_fqdn}/api/transfers
     methods:
     - GET
     - POST
@@ -109,7 +109,7 @@
 
 - name: transfer-api2
   match:
-    url: <.*>/api/transfers/graphql
+    url: <http|https>://${portal_fqdn}/api/transfers/graphql
     methods:
     - GET
     - POST
