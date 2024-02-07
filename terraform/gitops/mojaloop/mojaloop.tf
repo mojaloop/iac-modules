@@ -175,6 +175,7 @@ module "generate_mojaloop_files" {
     apiResources                                                      = local.apiResources
     mojaloopRoles                                                     = local.mojaloopRoles
     permissionExclusions                                              = local.permissionExclusions
+    reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -249,7 +250,7 @@ variable "mojaloop_chart_version" {
 
 variable "finance_portal_chart_version" {
   description = "finance portal chart version"
-  default     = "4.1.0"
+  default     = "4.1.1"
 }
 
 variable "mojaloop_sync_wave" {
@@ -356,9 +357,15 @@ variable "hubop_realm_role_assign_service_secret_key" {
 variable "hubop_realm_role_assign_service_user" {
   type = string
 }
+
 variable "rbac_permissions_file" {
   type = string
 }
 variable "rbac_api_resources_file" {
   type = string
+}
+
+variable "reporting_templates_chart_version" {
+  type = string
+  default = "1.1.7"
 }

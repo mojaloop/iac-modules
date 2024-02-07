@@ -79,7 +79,7 @@ reporting-legacy-api:
   enabled: true
   ingress:
     enabled: false
-  install-templates: true
+  install-templates: false
   auth: true
   config:
     env:

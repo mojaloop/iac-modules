@@ -329,6 +329,17 @@ spec:
             host: ${finance_portal_release_name}-reporting-hub-bop-api-svc
             port:
               number: 80
+    - name: iam
+      match:
+        - uri:
+            prefix: /api/iam/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-role-assignment-service
+            port:
+              number: 80
     - name: central-admin
       match:
         - uri:
