@@ -7,7 +7,6 @@ resources:
   - service-monitors.yaml
   - vault-secret.yaml
   - rbac.yaml
-  #add role/permissions folder
 helmCharts:
 - name: mojaloop
   releaseName: ${mojaloop_release_name}
