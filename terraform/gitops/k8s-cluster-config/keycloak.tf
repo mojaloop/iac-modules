@@ -28,6 +28,7 @@ module "generate_keycloak_files" {
     istio_create_ingress_gateways         = var.istio_create_ingress_gateways
     ref_secrets                           = local.keycloak_realm_env_secret_map
     ref_secrets_path                      = local.keycloak_secrets_path
+    ory_stack_enabled                     = var.ory_stack_enabled
   }
   file_list = ["install/kustomization.yaml", "post-config/kustomization.yaml", "post-config/keycloak-cr.yaml",
   "post-config/vault-secret.yaml", "post-config/keycloak-ingress.yaml", "keycloak-install.yaml", "keycloak-post-config.yaml"]
