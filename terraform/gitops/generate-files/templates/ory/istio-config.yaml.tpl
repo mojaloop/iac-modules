@@ -39,29 +39,7 @@ spec:
             host: self-service-ui-kratos-selfservice-ui-node
             port:
               number: 80
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: bof-role-assignment-service-vs
-spec:
-  gateways:
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-  hosts:
-    - '${auth_fqdn}'
-  http:
-    - match:
-        - uri:
-            prefix: /api/iam/
-        - uri:
-            exact: /api/iam
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: ${bof_release_name}-role-assignment-service
-            port:
-              number: 80
+
 ###
 
     # hostname:
