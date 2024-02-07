@@ -42,9 +42,9 @@ metadata:
   namespace: ${mojaloop_namespace}
 spec:
   match:
-    url: ${ar.match.url}
+    url: <http|https>://${portal_fqdn}${ar.match_path}
     methods:
-%{ for method in ar.match.methods ~}
+%{ for method in ar.match_methods ~}
     - ${method}
 %{ endfor ~}
   authenticators:
