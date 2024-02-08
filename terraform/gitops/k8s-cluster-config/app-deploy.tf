@@ -203,6 +203,7 @@ locals {
   pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
 
   mcm_public_fqdn              = "mcm.${var.public_subdomain}"
+  auth_fqdn                    = "auth.${var.public_subdomain}"
   vault_public_fqdn            = "vault.${var.public_subdomain}"
   grafana_public_fqdn          = "grafana.${var.public_subdomain}"
   external_interop_switch_fqdn = "extapi.${var.public_subdomain}"
@@ -245,5 +246,5 @@ locals {
     local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
   var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
-  bof_managed_portal_fqdns = var.common_var_map.mojaloop_enabled ? [local.finance_portal_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts)
+  bof_managed_portal_fqdns = var.common_var_map.mojaloop_enabled ? [local.finance_portal_fqdn, local.mcm_public_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts)
 }
