@@ -53,14 +53,12 @@ spec:
     - to:
         - operation:
             paths: ["/api/*"]
+            hosts: ["${mcm_public_fqdn}", "${mcm_public_fqdn}:*"]
 %{ if !ory_stack_enabled ~}
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
 %{ endif ~}
-      when:
-        - key: connection.sni
-          values: ["${mcm_public_fqdn}", "${mcm_public_fqdn}:*"]
 %{ if !ory_stack_enabled ~}
 ---
 apiVersion: security.istio.io/v1beta1
