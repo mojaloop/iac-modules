@@ -85,6 +85,7 @@ module "pm4ml" {
   gitlab_server_url                      = var.gitlab_server_url
   kv_path                                = var.kv_path
   cert_manager_service_account_name      = var.cert_manager_service_account_name
+  ory_namespace                          = var.ory_namespace
   keycloak_fqdn                          = local.keycloak_fqdn
   keycloak_name                          = var.keycloak_name
   keycloak_namespace                     = var.keycloak_namespace

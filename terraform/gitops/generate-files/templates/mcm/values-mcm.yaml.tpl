@@ -65,8 +65,8 @@ api:
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
 ui:
 %{ if ory_stack_enabled ~}
-  checkSessionUrl: ${mcm_public_fqdn}/kratos/sessions/whoami
-  loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser?return_to=${mcm_public_fqdn}
+  checkSessionUrl: https://${mcm_public_fqdn}/kratos/sessions/whoami
+  loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser?return_to=https://${mcm_public_fqdn}
 %{ endif ~}
   oauth:
 %{ if ory_stack_enabled ~}
