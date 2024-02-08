@@ -40,7 +40,7 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: /secret/keycloak/
+  path: ${ref_secrets_path}/
   secretKey: secret
   secretFormat:
     passwordPolicyName: "keycloak-client-secret"
@@ -60,7 +60,7 @@ spec:
         serviceAccount:
             name: default
       name: keycloaksecret
-      path: /secret/keycloak/${ref_secret_name}
+      path: ${ref_secrets_path}/${ref_secret_name}
   output:
     name: ${ref_secret_name}
     stringData:

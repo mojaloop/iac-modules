@@ -1,0 +1,111 @@
+---
+- name: participant-view
+  match_path: /api/central-admin/participants<.*>
+  match_methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: participantView
+
+- name: position-funds-in-out
+  match_path: /api/central-admin/participants/<.*>/accounts<.*>
+  match_methods:
+    - POST
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: positionFundsInOut
+
+- name: participant-disable-enable
+  match_path: /api/central-admin/participants/<.*>/accounts<.*>
+  match_methods:
+    - PUT
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: participantDisableEnable
+
+- name: settlement-view
+  match_path: /api/central-settlements/<.*>
+  match_methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: settlementView
+
+- name: settlement-initiate-finalize
+  match_path: /api/central-settlements/settlements<.*>
+  match_methods:
+    - POST
+    - PUT
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: settlementInitiateFinalise
+
+- name: settlement-close-window
+  match_path: /api/central-settlements/settlementWindows<.*>
+  match_methods:
+    - POST
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: settlementCloseWindow
+
+- name: iam-view
+  match_path: /api/iam/<.*>
+  match_methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: iamView
+
+- name: iam-edit
+  match_path: /api/iam/<.*>
+  match_methods:
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: iamEdit
+
+- name: reporting-api
+  match_path: /api/reports/<.*>
+  match_methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: reportingApi
+
+- name: transfer-api
+  match_path: /api/transfers
+  match_methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: transferApi
+
+- name: transfer-api2
+  match_path: /api/transfers/graphql
+  match_methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: transferApi

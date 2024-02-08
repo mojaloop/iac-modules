@@ -32,11 +32,13 @@ module "generate_monitoring_files" {
     istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     grafana_wildcard_gateway             = local.grafana_wildcard_gateway
+    loki_ingester_pvc_size               = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
+    prometheus_pvc_size                  = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
   }
-  file_list       = ["monitoring-install.yaml", "monitoring-post-config.yaml", "install/kustomization.yaml", "install/values-prom-operator.yaml", "install/values-grafana-operator.yaml", "install/values-loki.yaml", "install/values-tempo.yaml", "install/vault-secret.yaml", "post-config/grafana.yaml", "install/istio-gateway.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/monitoring"
+  file_list       = [for f in fileset(local.monitoring_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
+  template_path   = local.monitoring_template_path
   output_path     = "${var.output_dir}/monitoring"
-  app_file        = "monitoring-app.yaml"
+  app_file        = local.monitoring_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
@@ -94,4 +96,8 @@ locals {
   tempo_chart_version              = "2.6.0"
   grafana_version                  = "10.2.3"
   grafana_operator_version         = "3.5.11"
+  monitoring_template_path         = "${path.module}/../generate-files/templates/monitoring"
+  monitoring_app_file              = "monitoring-app.yaml"
+  loki_ingester_pvc_size           = "50Gi"
+  prometheus_pvc_size              = "50Gi"
 }

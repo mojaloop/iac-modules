@@ -29,14 +29,22 @@ spec:
   selector:
     matchLabels:
       app: ${istio_external_gateway_name}
+%{ if ory_stack_enabled ~}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+%{ else ~}
   action: DENY
+%{ endif ~}
   rules:
-    - from:
-        - source:
-            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
-      when:
+    - when:
         - key: connection.sni
           values: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
+%{ if !ory_stack_enabled ~}
+      from:
+        - source:
+            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
+%{ endif ~}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -50,7 +58,7 @@ spec:
   http:
     - name: participants
       match:
-        - uri: 
+        - uri:
             prefix: /participants
       route:
         - destination:
@@ -59,7 +67,7 @@ spec:
               number: 80
     - name: parties
       match:
-        - uri: 
+        - uri:
             prefix: /parties
       route:
         - destination:
@@ -68,7 +76,7 @@ spec:
               number: 80
     - name: quotes
       match:
-        - uri: 
+        - uri:
             prefix: /quotes
       route:
         - destination:
@@ -77,49 +85,49 @@ spec:
               number: 80
     - name: transfers
       match:
-        - uri: 
+        - uri:
             prefix: /transfers
       route:
         - destination:
-            host: ${mojaloop_release_name}-ml-api-adapter-service      
+            host: ${mojaloop_release_name}-ml-api-adapter-service
             port:
               number: 80
 %{ if bulk_enabled ~}
     - name: bulkQuotes
       match:
-        - uri: 
+        - uri:
             prefix: /bulkQuotes
       route:
         - destination:
-            host: ${mojaloop_release_name}-quoting-service      
+            host: ${mojaloop_release_name}-quoting-service
             port:
               number: 80
     - name: bulkTransfers
       match:
-        - uri: 
+        - uri:
             prefix: /bulkTransfers
       route:
         - destination:
-            host: ${mojaloop_release_name}-bulk-api-adapter-service      
+            host: ${mojaloop_release_name}-bulk-api-adapter-service
             port:
               number: 80
 %{ endif ~}
     - name: transactionRequests
       match:
-        - uri: 
+        - uri:
             prefix: /transactionRequests
       route:
         - destination:
-            host: ${mojaloop_release_name}-transaction-requests-service      
+            host: ${mojaloop_release_name}-transaction-requests-service
             port:
               number: 80
     - name: authorizations
       match:
-        - uri: 
+        - uri:
             prefix: /authorizations
       route:
         - destination:
-            host: ${mojaloop_release_name}-transaction-requests-service      
+            host: ${mojaloop_release_name}-transaction-requests-service
             port:
               number: 80
 ---
@@ -135,7 +143,7 @@ spec:
   http:
     - name: participants
       match:
-        - uri: 
+        - uri:
             prefix: /participants
       route:
         - destination:
@@ -144,7 +152,7 @@ spec:
               number: 80
     - name: parties
       match:
-        - uri: 
+        - uri:
             prefix: /parties
       route:
         - destination:
@@ -153,7 +161,7 @@ spec:
               number: 80
     - name: quotes
       match:
-        - uri: 
+        - uri:
             prefix: /quotes
       route:
         - destination:
@@ -162,54 +170,54 @@ spec:
               number: 80
     - name: transfers
       match:
-        - uri: 
+        - uri:
             prefix: /transfers
       route:
         - destination:
-            host: ${mojaloop_release_name}-ml-api-adapter-service      
+            host: ${mojaloop_release_name}-ml-api-adapter-service
             port:
               number: 80
 %{ if bulk_enabled ~}
     - name: bulkQuotes
       match:
-        - uri: 
+        - uri:
             prefix: /bulkQuotes
       route:
         - destination:
-            host: ${mojaloop_release_name}-quoting-service      
+            host: ${mojaloop_release_name}-quoting-service
             port:
               number: 80
     - name: bulkTransfers
       match:
-        - uri: 
+        - uri:
             prefix: /bulkTransfers
       route:
         - destination:
-            host: ${mojaloop_release_name}-bulk-api-adapter-service      
+            host: ${mojaloop_release_name}-bulk-api-adapter-service
             port:
               number: 80
 %{ endif ~}
     - name: transactionRequests
       match:
-        - uri: 
+        - uri:
             prefix: /transactionRequests
       route:
         - destination:
-            host: ${mojaloop_release_name}-transaction-requests-service      
+            host: ${mojaloop_release_name}-transaction-requests-service
             port:
               number: 80
     - name: authorizations
       match:
-        - uri: 
+        - uri:
             prefix: /authorizations
       route:
         - destination:
-            host: ${mojaloop_release_name}-transaction-requests-service      
+            host: ${mojaloop_release_name}-transaction-requests-service
             port:
               number: 80
     - name: central-admin
       match:
-        - uri: 
+        - uri:
             prefix: /admin/
       rewrite:
         uri: /
@@ -236,7 +244,7 @@ metadata:
   name: mojaloop-ttkfront-vs
 spec:
   gateways:
-%{ if mojaloop_wildcard_gateway == "external" ~} 
+%{ if mojaloop_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -245,7 +253,7 @@ spec:
   - '${ttk_frontend_public_fqdn}'
   http:
     - match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -259,17 +267,17 @@ metadata:
   name: mojaloop-ttkback-vs
 spec:
   gateways:
-%{ if mojaloop_wildcard_gateway == "external" ~} 
+%{ if mojaloop_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}  
+%{ endif ~}
   hosts:
   - '${ttk_backend_public_fqdn}'
   http:
     - name: api
       match:
-        - uri: 
+        - uri:
             prefix: /api/
       route:
         - destination:
@@ -278,7 +286,7 @@ spec:
               number: 5050
     - name: socket
       match:
-        - uri: 
+        - uri:
             prefix: /socket.io/
       route:
         - destination:
@@ -287,7 +295,7 @@ spec:
               number: 5050
     - name: root
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -296,3 +304,167 @@ spec:
               number: 4040
 ---
 %{ endif ~}
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: finance-portal-vs
+spec:
+  gateways:
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+  hosts:
+    - '${portal_fqdn}'
+  http:
+    - name: transfers
+      match:
+        - uri:
+            prefix: /api/transfers/
+        - uri:
+            exact: /api/transfers
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-api-svc
+            port:
+              number: 80
+    - name: iam
+      match:
+        - uri:
+            prefix: /api/iam/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-role-assignment-service
+            port:
+              number: 80
+    - name: central-admin
+      match:
+        - uri:
+            prefix: /api/central-admin/
+      rewrite:
+        uri: /central-admin/
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-experience-api-svc
+            port:
+              number: 80
+    - name: central-settlements
+      match:
+        - uri:
+            prefix: /api/central-settlements/
+      rewrite:
+        uri: /v2/
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-centralsettlement-service
+            port:
+              number: 80
+    - name: reports
+      match:
+        - uri:
+            prefix: /api/reports/
+        - uri:
+            exact: /api/reports
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-legacy-api
+            port:
+              number: 80
+    - name: reporting-hub-bop-role-ui
+      match:
+        - uri:
+            prefix: /uis/iam/
+        - uri:
+            exact: /uis/iam
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-role-ui
+            port:
+              number: 80
+    - name: reporting-hub-bop-trx-ui
+      match:
+        - uri:
+            prefix: /uis/transfers/
+        - uri:
+            exact: /uis/transfers
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-trx-ui
+            port:
+              number: 80
+    - name: reporting-hub-bop-settlements-ui
+      match:
+        - uri:
+            prefix: /uis/settlements/
+        - uri:
+            exact: /uis/settlements
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-settlements-ui
+            port:
+              number: 80
+    - name: reporting-hub-bop-positions-ui
+      match:
+        - uri:
+            prefix: /uis/positions/
+        - uri:
+            exact: /uis/positions
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-positions-ui
+            port:
+              number: 80
+    - name: kratos-woami-redirect
+      match:
+        - uri:
+            prefix: /kratos/sessions/whoami
+      rewrite:
+        uri: /sessions/whoami
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
+    - name: reporting-hub-bop-shell
+      match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ${finance_portal_release_name}-reporting-hub-bop-shell
+            port:
+              number: 80
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: finance-portal-auth
+  namespace: ${istio_external_gateway_namespace}
+spec:
+  selector:
+    matchLabels:
+      app: ${istio_external_gateway_name}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+  rules:
+    - to:
+        - operation:
+            paths:
+              - /api/*
+      when:
+        - key: connection.sni
+          values: ["${portal_fqdn}", "${portal_fqdn}:*"]

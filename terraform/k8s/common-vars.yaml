@@ -22,3 +22,4 @@ grafana_operator_version: 3.5.11
 grafana_version: 10.2.3
 tempo_chart_version: 2.6.0
 loki_chart_version: 2.13.0
+ory_stack_enabled: true
