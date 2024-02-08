@@ -56,8 +56,9 @@ inputs = {
   vault_fqdn                    = dependency.control_center_deploy.outputs.vault_fqdn
   env_map = merge(local.env_map,
     { for key in keys(local.env_map) : key => merge(local.env_map[key], {
-      netmaker_ops_token = try(dependency.ansible_cc_post_deploy.outputs.netmaker_token_map["${dependency.ansible_cc_post_deploy.outputs.netmaker_control_network_name}-ops"].netmaker_token, "")
-      netmaker_env_token = try(dependency.ansible_cc_post_deploy.outputs.netmaker_token_map["${key}-k8s"].netmaker_token, "")
+      netmaker_ops_token        = try(dependency.ansible_cc_post_deploy.outputs.netmaker_token_map["${dependency.ansible_cc_post_deploy.outputs.netmaker_control_network_name}-ops"].netmaker_token, "")
+      netmaker_env_token        = try(dependency.ansible_cc_post_deploy.outputs.netmaker_token_map["${key}-k8s"].netmaker_token, "")
+      netmaker_env_network_name = try(dependency.ansible_cc_post_deploy.outputs.netmaker_token_map["${key}-k8s"].network, "")
       })
   })
   iac_group_id        = dependency.control_center_pre_config.outputs.iac_group_id
