@@ -1,6 +1,6 @@
 bulk_enabled: false
 third_party_enabled: false
-mcm_chart_version: 0.7.1
+mcm_chart_version: 0.7.2
 mojaloop_chart_version: 15.4.0-17019.1640ae3
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true

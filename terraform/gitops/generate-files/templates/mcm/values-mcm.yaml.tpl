@@ -64,6 +64,8 @@ api:
     vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
 ui:
+  checkSessionUrl: ${mcm_public_fqdn}/kratos/sessions/whoami
+  loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser?return_to=${mcm_public_fqdn}
   oauth:
     enabled: false
     hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
