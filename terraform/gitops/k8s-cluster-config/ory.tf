@@ -118,9 +118,7 @@ locals {
   ory_app_file                   = "ory-app.yaml"
   kratos_postgres_resource_index = index(local.stateful_resources.*.resource_name, "kratos-db")
   keto_postgres_resource_index   = index(local.stateful_resources.*.resource_name, "keto-db")
-  auth_fqdn                      = "auth.${var.public_subdomain}"
   oathkeeper_auth_url            = "oathkeeper-api.${var.ory_namespace}.svc.cluster.local"
   oathkeeper_auth_provider_name  = "ory-authz"
   bof_release_name               = "bof"
-
 }
