@@ -79,6 +79,7 @@ module "generate_mcm_files" {
     switch_jws_public_key                = tls_private_key.jws.public_key_pem
     ory_stack_enabled                    = var.ory_stack_enabled
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
+    auth_fqdn                            = var.auth_fqdn
   }
   file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-secret.yaml", "vault-agent.yaml", "keycloak-realm-cr.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml", "vault-certificate.yaml"]
   template_path   = "${path.module}/../generate-files/templates/mcm"
