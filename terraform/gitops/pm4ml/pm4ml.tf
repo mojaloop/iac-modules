@@ -65,6 +65,7 @@ module "generate_pm4ml_files" {
     ttk_backend_fqdn                                = var.ttk_backend_fqdns[each.key]
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
     test_fqdn                                       = var.test_fqdns[each.key]
+    ory_namespace                                   = var.ory_namespace
   }
   file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml", "rbac.yaml"]
   template_path   = "${path.module}/../generate-files/templates/pm4ml"
@@ -180,6 +181,9 @@ variable "enable_sdk_bulk_transaction_support" {
   type        = bool
   description = "enable_sdk_bulk_transaction_support"
   default     = false
+}
+variable "ory_namespace" {
+  type = string
 }
 
 locals {
