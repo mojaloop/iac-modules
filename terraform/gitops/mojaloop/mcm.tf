@@ -81,6 +81,7 @@ module "generate_mcm_files" {
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
     auth_fqdn                            = var.auth_fqdn
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
+    keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
