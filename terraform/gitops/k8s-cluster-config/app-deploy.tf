@@ -216,8 +216,6 @@ locals {
   mojaloop_internal_gateway_hosts = concat([local.internal_interop_switch_fqdn],
     local.mojaloop_wildcard_gateway == "internal" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
   local.mcm_wildcard_gateway == "internal" ? [local.mcm_public_fqdn] : [])
-  mojaloop_external_gateway_hosts = concat(
-    local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
   local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
 
   portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
@@ -233,7 +231,6 @@ locals {
   pm4ml_external_wildcard_exp_hosts    = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
 
   pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, values(local.pm4ml_ttk_frontend_fqdns), values(local.pm4ml_ttk_backend_fqdns), values(local.test_fqdns))
-  pm4ml_external_gateway_hosts = concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_external_wildcard_exp_hosts)
 
   keycloak_realm_env_secret_map = merge(var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map, local.hubop_keycloak_realm_env_secret_map)
 
@@ -242,10 +239,5 @@ locals {
     local.grafana_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [],
   var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [])
-  external_gateway_hosts = concat([local.keycloak_fqdn, local.auth_fqdn, local.finance_portal_fqdn],
-    local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
-    local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
-    var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
-  var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
   bof_managed_portal_fqdns = var.common_var_map.mojaloop_enabled ? [local.finance_portal_fqdn, local.mcm_public_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts)
 }

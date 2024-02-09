@@ -242,6 +242,10 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: mojaloop-ttkfront-vs
+%{ if mojaloop_wildcard_gateway == "external" ~}
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+%{ endif ~}
 spec:
   gateways:
 %{ if mojaloop_wildcard_gateway == "external" ~}
@@ -265,6 +269,10 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: mojaloop-ttkback-vs
+%{ if mojaloop_wildcard_gateway == "external" ~}
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+%{ endif ~}
 spec:
   gateways:
 %{ if mojaloop_wildcard_gateway == "external" ~}
@@ -310,6 +318,8 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: finance-portal-vs
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
 spec:
   gateways:
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}

@@ -27,17 +27,12 @@ kind: Gateway
 metadata:
   name: ${istio_external_wildcard_gateway_name}
   namespace: ${istio_external_gateway_namespace}
-  annotations: {
-    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
-  }
 spec:
   selector:
     istio: ${istio_external_gateway_name}
   servers:
   - hosts:
-%{ for host in external_gateway_hosts ~}
-    - '${host}'
-%{ endfor ~}
+    - '*'
     port:
       name: https
       number: 443

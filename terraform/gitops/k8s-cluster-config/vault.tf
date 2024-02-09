@@ -40,6 +40,7 @@ module "generate_vault_files" {
     transit_vault_url                        = var.transit_vault_url
     transit_vault_key_name                   = var.transit_vault_key_name
     local_vault_kv_root_path                 = local.local_vault_kv_root_path
+    external_load_balancer_dns               = var.external_load_balancer_dns
   }
 
   file_list = ["charts/vault/Chart.yaml", "charts/vault/values.yaml",
