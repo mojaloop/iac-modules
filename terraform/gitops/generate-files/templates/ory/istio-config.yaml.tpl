@@ -2,6 +2,8 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: kratos-vs
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
 spec:
   gateways:
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
@@ -9,7 +11,7 @@ spec:
     - '${auth_fqdn}'
   http:
     - match:
-        - uri: 
+        - uri:
             prefix: /kratos/
       rewrite:
         uri: /
@@ -23,6 +25,8 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: kratos-selfservice-ui-node-vs
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
 spec:
   gateways:
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}

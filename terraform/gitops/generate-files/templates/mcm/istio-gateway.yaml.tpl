@@ -3,6 +3,10 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: mcm-vs
+%{ if mcm_wildcard_gateway == "external" ~}
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+%{ endif ~}
 spec:
   gateways:
 %{ if mcm_wildcard_gateway == "external" ~}

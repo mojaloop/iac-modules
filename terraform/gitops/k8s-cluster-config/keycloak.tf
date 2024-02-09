@@ -29,6 +29,7 @@ module "generate_keycloak_files" {
     ref_secrets                           = local.keycloak_realm_env_secret_map
     ref_secrets_path                      = local.keycloak_secrets_path
     ory_stack_enabled                     = var.ory_stack_enabled
+    external_load_balancer_dns            = var.external_load_balancer_dns
   }
   file_list = ["install/kustomization.yaml", "post-config/kustomization.yaml", "post-config/keycloak-cr.yaml",
   "post-config/vault-secret.yaml", "post-config/keycloak-ingress.yaml", "keycloak-install.yaml", "keycloak-post-config.yaml"]

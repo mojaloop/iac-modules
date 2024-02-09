@@ -34,6 +34,7 @@ module "generate_monitoring_files" {
     grafana_wildcard_gateway             = local.grafana_wildcard_gateway
     loki_ingester_pvc_size               = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
     prometheus_pvc_size                  = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
+    external_load_balancer_dns           = var.external_load_balancer_dns
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path

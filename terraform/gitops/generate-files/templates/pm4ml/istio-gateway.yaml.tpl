@@ -3,9 +3,13 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: ${pm4ml_release_name}-ui-vs
+%{ if pm4ml_wildcard_gateway == "external" ~}
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+%{ endif ~}
 spec:
   gateways:
-%{ if pm4ml_wildcard_gateway == "external" ~} 
+%{ if pm4ml_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -15,7 +19,7 @@ spec:
   http:
     - name: "portal"
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -27,9 +31,13 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: ${pm4ml_release_name}-experience-vs
+%{ if pm4ml_wildcard_gateway == "external" ~}
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+%{ endif ~}
 spec:
   gateways:
-%{ if pm4ml_wildcard_gateway == "external" ~} 
+%{ if pm4ml_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -39,7 +47,7 @@ spec:
   http:
     - name: "experience-api"
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -51,7 +59,7 @@ spec:
               add:
                 access-control-allow-origin: "https://${portal_fqdn}"
                 access-control-allow-credentials: "true"
-%{ if pm4ml_wildcard_gateway == "external" ~} 
+%{ if pm4ml_wildcard_gateway == "external" ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -103,7 +111,7 @@ spec:
   http:
     - name: "mojaloop-connector"
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -178,7 +186,7 @@ spec:
   - '${ttk_frontend_fqdn}'
   http:
     - match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -198,7 +206,7 @@ spec:
   http:
     - name: api
       match:
-        - uri: 
+        - uri:
             prefix: /api/
       route:
         - destination:
@@ -207,7 +215,7 @@ spec:
               number: 5050
     - name: socket
       match:
-        - uri: 
+        - uri:
             prefix: /socket.io/
       route:
         - destination:
@@ -216,7 +224,7 @@ spec:
               number: 5050
     - name: root
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:

@@ -5,9 +5,12 @@ metadata:
   name: vault-vs
   annotations:
     argocd.argoproj.io/sync-wave: "${vault_sync_wave}"
+%{ if vault_wildcard_gateway == "external" ~}
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+%{ endif ~}
 spec:
   gateways:
-%{ if vault_wildcard_gateway == "external" ~} 
+%{ if vault_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -16,7 +19,7 @@ spec:
   - 'vault.${public_subdomain}'
   http:
     - match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
