@@ -83,7 +83,7 @@ module "generate_mcm_files" {
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
   }
-  file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
+  file_list       = [for f in fileset(local.mcm_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
   output_path     = "${var.output_dir}/mcm"
   app_file        = local.mcm_app_file
