@@ -31,6 +31,7 @@ module "generate_pm4ml_files" {
     vault_endpoint                                  = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
     pm4ml_vault_k8s_role_name                       = "${var.pm4ml_vault_k8s_role_name}-${each.key}"
     k8s_auth_path                                   = var.k8s_auth_path
+    keto_read_url                                   = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     pm4ml_secret_path                               = "${var.local_vault_kv_root_path}/${each.key}"
     callback_url                                    = "https://${var.mojaloop_connnector_fqdns[each.key]}"
     mojaloop_connnector_fqdn                        = var.mojaloop_connnector_fqdns[each.key]
@@ -65,7 +66,7 @@ module "generate_pm4ml_files" {
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
     test_fqdn                                       = var.test_fqdns[each.key]
   }
-  file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
+  file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml", "rbac.yaml"]
   template_path   = "${path.module}/../generate-files/templates/pm4ml"
   output_path     = "${var.output_dir}/${each.key}"
   app_file        = "pm4ml-app.yaml"
