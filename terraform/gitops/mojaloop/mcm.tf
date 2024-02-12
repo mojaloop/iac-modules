@@ -133,14 +133,14 @@ variable "mcm_chart_repo" {
 
 variable "mcm_chart_version" {
   type        = string
-  default     = "0.7.0"
+  default     = "0.7.2"
   description = "mcm_chart_version"
 }
 
 variable "mcm_sync_wave" {
   type        = string
   description = "mcm_sync_wave"
-  default     = "-4"
+  default     = "-2"
 }
 
 variable "mcm_namespace" {
