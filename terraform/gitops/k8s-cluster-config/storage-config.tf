@@ -17,11 +17,16 @@ module "generate_storage_files" {
     longhorn_job_sync_wave                           = var.longhorn_job_sync_wave
     storage_sync_wave                                = var.storage_sync_wave
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "external-secrets/longhorn-extsecret.yaml", "custom-resources/longhorn-job.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/storage"
+  file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
+  template_path   = local.storage_template_path
   output_path     = "${var.output_dir}/storage"
-  app_file        = "storage-app.yaml"
+  app_file        = local.storage_app_file
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+locals {
+  storage_template_path              = "${path.module}/../generate-files/templates/storage"
+  storage_app_file                   = "storage-app.yaml"
 }
 
 variable "longhorn_chart_repo" {

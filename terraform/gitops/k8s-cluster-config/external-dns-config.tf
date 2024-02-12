@@ -18,13 +18,17 @@ module "generate_extdns_files" {
     external_dns_credentials_client_id_name      = local.external_dns_credentials_client_id_name
     dns_provider                                 = var.dns_provider
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "external-secrets/extdns-extsecret.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/external-dns"
+  file_list       = [for f in fileset(local.extdns_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.extdns_app_file, f))]
+  template_path   = local.extdns_template_path
   output_path     = "${var.output_dir}/external-dns"
-  app_file        = "external-dns-app.yaml"
+  app_file        = local.extdns_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
+locals {
+  extdns_template_path              = "${path.module}/../generate-files/templates/external-dns"
+  extdns_app_file                   = "external-dns-app.yaml"
+}
 variable "external_dns_chart_repo" {
   type        = string
   description = "external_dns_chart_repo"

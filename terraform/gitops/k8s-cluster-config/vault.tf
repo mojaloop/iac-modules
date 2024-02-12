@@ -42,14 +42,16 @@ module "generate_vault_files" {
     local_vault_kv_root_path                 = local.local_vault_kv_root_path
   }
 
-  file_list = ["charts/vault/Chart.yaml", "charts/vault/values.yaml",
-    "charts/vault-config-operator/Chart.yaml", "charts/vault-config-operator/values.yaml",
-    "post-config.yaml", "vault-config-operator.yaml", "vault-extsecret.yaml", "vault-helm.yaml",
-  "istio-gateway.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/vault"
+  file_list       = [for f in fileset(local.vault_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vault_app_file, f))]
+  template_path   = local.vault_template_path
   output_path     = "${var.output_dir}/vault"
-  app_file        = "vault-app.yaml"
+  app_file        = local.vault_app_file
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+locals {
+  vault_template_path              = "${path.module}/../generate-files/templates/vault"
+  vault_app_file                   = "vault-app.yaml"
 }
 
 variable "vault_sync_wave" {

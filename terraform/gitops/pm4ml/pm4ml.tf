@@ -67,12 +67,18 @@ module "generate_pm4ml_files" {
     test_fqdn                                       = var.test_fqdns[each.key]
     ory_namespace                                   = var.ory_namespace
   }
-  file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml", "rbac.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/pm4ml"
+
+  file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
+  template_path   = local.pm4ml_template_path
   output_path     = "${var.output_dir}/${each.key}"
-  app_file        = "pm4ml-app.yaml"
+  app_file        = local.pm4ml_app_file
   app_file_prefix = each.key
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+locals {
+  pm4ml_template_path              = "${path.module}/../generate-files/templates/pm4ml"
+  pm4ml_app_file                   = "pm4ml-app.yaml"
 }
 
 

@@ -36,17 +36,17 @@ module "generate_istio_files" {
     oathkeeper_auth_url                  = var.ory_stack_enabled ? local.oathkeeper_auth_url : ""
     oathkeeper_auth_provider_name        = var.ory_stack_enabled ? local.oathkeeper_auth_provider_name : ""
   }
-  file_list = ["istio-deploy.yaml",
-    "istio-gateways.yaml", "istio-main/kustomization.yaml", "istio-main/namespace.yaml",
-    "istio-main/values-kiali.yaml", "istio-main/values-istio-base.yaml", "istio-main/values-istio-istiod.yaml",
-    "istio-gateways/kustomization.yaml", "istio-gateways/values-istio-external-ingress-gateway.yaml",
-    "istio-gateways/values-istio-internal-ingress-gateway.yaml", "istio-gateways/lets-wildcard-cert.yaml",
-    "istio-gateways/namespace.yaml", "istio-gateways/proxy-protocol.yaml", "istio-gateways/gateways.yaml",
-    "istio-gateways/values-istio-egress-gateway.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/istio"
+
+file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
+  template_path   = local.istio_template_path
   output_path     = "${var.output_dir}/istio"
-  app_file        = "istio-app.yaml"
+  app_file        = local.istio_app_file
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+locals {
+  istio_template_path              = "${path.module}/../generate-files/templates/istio"
+  istio_app_file                   = "istio-app.yaml"
 }
 
 

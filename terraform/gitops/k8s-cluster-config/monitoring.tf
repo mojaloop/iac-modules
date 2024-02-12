@@ -35,7 +35,7 @@ module "generate_monitoring_files" {
     loki_ingester_pvc_size               = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
     prometheus_pvc_size                  = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
   }
-  file_list       = [for f in fileset(local.monitoring_template_path, "**/*.yaml.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
+  file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
   output_path     = "${var.output_dir}/monitoring"
   app_file        = local.monitoring_app_file
