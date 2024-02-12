@@ -16,11 +16,16 @@ module "generate_vault_pki_setup_files" {
     vault_endpoint                        = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
     vault_pki_sync_wave                   = var.vault_pki_sync_wave
   }
-  file_list       = ["certman-rbac.yaml", "vault-auth-config.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/vault-pki-setup"
+  file_list       = [for f in fileset(local.vault_pki_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vault_pki_app_file, f))]
+  template_path   = local.vault_pki_template_path
   output_path     = "${var.output_dir}/vault-pki-setup"
-  app_file        = "vault-pki-app.yaml"
+  app_file        = local.vault_pki_app_file
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+locals {
+  vault_pki_template_path              = "${path.module}/../generate-files/templates/vault-pki-setup"
+  vault_pki_app_file                   = "vault-pki-app.yaml"
 }
 
 

@@ -1,13 +1,5 @@
 module "generate_certman_files" {
   source          = "../generate-files"
-  file_list       = ["charts/certmanager/Chart.yaml", "charts/certmanager/values.yaml", "certmanager-clusterissuer.yaml", 
-    "clusterissuers/lets-cluster-issuer.yaml", "certman-extsecret.yaml",
-    "certmanager-helm.yaml"
-  ]
-  template_path   = "${path.module}/../generate-files/templates/certmanager"
-  output_path     = "${var.output_dir}/certmanager"
-  app_file        = "certmanager-app.yaml"
-  app_output_path = "${var.output_dir}/app-yamls"
   var_map = {
     letsencrypt_server                           = var.letsencrypt_server
     letsencrypt_email                            = var.letsencrypt_email
@@ -28,6 +20,16 @@ module "generate_certman_files" {
     cert_manager_credentials_client_id_name      = local.cert_manager_credentials_client_id_name
     dns_provider                                 = var.dns_provider
   }
+  file_list       = [for f in fileset(local.certman_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.certman_app_file, f))]
+  template_path   = local.certman_template_path
+  output_path     = "${var.output_dir}/certmanager"
+  app_file        = local.certman_app_file
+  app_output_path = "${var.output_dir}/app-yamls"
+}
+
+locals {
+  certman_template_path              = "${path.module}/../generate-files/templates/certmanager"
+  certman_app_file                   = "certmanager-app.yaml"
 }
 
 variable "cert_manager_chart_repo" {
