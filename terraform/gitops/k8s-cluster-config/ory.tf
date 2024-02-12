@@ -41,6 +41,8 @@ module "generate_ory_files" {
     bof_release_name                      = local.bof_release_name
     hubop_role_assignment_svc_secret_name = join("$", ["", "{${replace(var.hubop_realm_role_assign_service_secret, "-", "_")}}"])
     hubop_role_assignment_svc_username    = var.hubop_realm_role_assignment_svc_user
+    portal_admin_secret_name              = join("$", ["", "{${replace(var.hubop_realm_portal_admin_secret, "-", "_")}}"])
+    portal_admin                          = var.hubop_realm_portal_admin_user
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path

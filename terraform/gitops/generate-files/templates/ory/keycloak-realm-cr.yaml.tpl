@@ -103,10 +103,9 @@ spec:
         - manage-account
         - view-groups
     users:
-    - id: ${hubop_role_assignment_svc_username}
-      username: ${hubop_role_assignment_svc_username}
+    - username: ${hubop_role_assignment_svc_username}
       enabled: true
-      email: none@none.com
+      email: ${hubop_role_assignment_svc_username}@none.com
       firstName: Role
       lastName: Assign
       credentials:
@@ -115,6 +114,15 @@ spec:
       clientRoles:
         realm-management:
         - view-users
+      groups: []
+    - username: ${portal_admin}
+      enabled: true
+      email: ${portal_admin}@none.com
+      firstName: Portal
+      lastName: Admin
+      credentials:
+      - type: password
+        value: ${portal_admin_secret_name}
       groups: []
     clients:
     - id: fe42ec55-74e7-494b-8028-a5910fde47b2
