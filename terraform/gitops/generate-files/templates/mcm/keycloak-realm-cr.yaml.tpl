@@ -93,6 +93,15 @@ spec:
     webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister: false
     webAuthnPolicyPasswordlessAcceptableAaguids: []
     users:
+    - username: ${portal_admin}
+      enabled: true
+      email: ${portal_admin}@none.com
+      firstName: Portal
+      lastName: Admin
+      credentials:
+      - type: password
+        value: ${portal_admin_secret_name}
+      groups: []
     - id: c9baf4da-33d9-4a32-859e-567fec725a5a
       createdTimestamp: 1690377454835
       username: service-account-dfsp-jwt
