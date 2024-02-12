@@ -59,7 +59,7 @@ variable "ory_stack_enabled" {
 variable "ory_sync_wave" {
   type        = string
   description = "ory_sync_wave"
-  default     = "-2"
+  default     = "-3"
 }
 variable "oathkeeper_chart_version" {
   type        = string
