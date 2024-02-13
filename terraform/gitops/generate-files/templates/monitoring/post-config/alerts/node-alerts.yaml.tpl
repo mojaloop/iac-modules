@@ -7,7 +7,7 @@ metadata:
   name: node-health-rules
 spec:
   groups:
-  - name: node-health-rules
+  - name: samber.github.io
     rules:
     - alert: HostOutOfMemory
       expr: '(node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
