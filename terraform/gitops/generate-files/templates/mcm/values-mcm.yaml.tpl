@@ -67,6 +67,7 @@ ui:
 %{ if ory_stack_enabled ~}
   checkSessionUrl: https://${mcm_public_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser?return_to=https://${mcm_public_fqdn}
+  provider: keycloak
 %{ endif ~}
   oauth:
 %{ if ory_stack_enabled ~}
