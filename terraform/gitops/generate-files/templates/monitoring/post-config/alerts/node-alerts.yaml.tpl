@@ -357,3 +357,14 @@ spec:
       annotations:
         summary: Host requires reboot (instance {{ $labels.instance }})
         description: "{{ $labels.instance }} requires a reboot.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"        
+  - name: infitx.com
+    rules:
+    - alert: HighProcessCount
+      expr: '((node_procs_running+node_procs_blocked) > 300) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: Too many processes running on host (instance {{ $labels.instance }})
+        description: "Too many processes running on host \n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
