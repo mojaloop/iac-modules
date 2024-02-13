@@ -217,6 +217,7 @@ spec:
         description: "Physical hardware component too hot\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostNodeOvertemperatureAlarm
+      # NOTE: node_hwmon_temp_crit_alarm_celsius metric not exposed by node exporter as of now
       expr: '(node_hwmon_temp_crit_alarm_celsius == 1) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
@@ -226,6 +227,7 @@ spec:
         description: "Physical node temperature alarm triggered\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostRaidArrayGotInactive
+      # NOTE: node_md_state metric metric not exposed by node exporter as of now
       expr: '(node_md_state{state="inactive"} > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
@@ -235,6 +237,7 @@ spec:
         description: "RAID array {{ $labels.device }} is in a degraded state due to one or more disk failures. The number of spare drives is insufficient to fix the issue automatically.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostRaidDiskFailure
+      # NOTE: node_md_disks metric metric not exposed by node exporter as of now
       expr: '(node_md_disks{state="failed"} > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
@@ -262,6 +265,7 @@ spec:
         description: "OOM kill detected\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostEdacCorrectableErrorsDetected
+      # NOTE: node_edac_correctable_errors_total metric metric not exposed by node exporter as of now
       expr: '(increase(node_edac_correctable_errors_total[1m]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
@@ -271,6 +275,7 @@ spec:
         description: "Host {{ $labels.instance }} has had {{ printf \"%.0f\" $value }} correctable memory errors reported by EDAC in the last 5 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostEdacUncorrectableErrorsDetected
+      # NOTE: node_edac_uncorrectable_errors_total metric metric not exposed by node exporter as of now
       expr: '(node_edac_uncorrectable_errors_total > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
@@ -307,6 +312,7 @@ spec:
         description: "The network interface \"{{ $labels.device }}\" on \"{{ $labels.instance }}\" is getting overloaded.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostNetworkBondDegraded
+      # NOTE: node_bonding_active and node_bonding_slaves metric not exposed by node exporter as of now
       expr: '((node_bonding_active - node_bonding_slaves) != 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
@@ -343,6 +349,7 @@ spec:
         description: "Clock not synchronising. Ensure NTP is configured on this host.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostRequiresReboot
+      # NOTE: node_reboot_required metric not exposed by node exporter as of now
       expr: '(node_reboot_required > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 4h
       labels:
