@@ -359,6 +359,14 @@ spec:
         description: "{{ $labels.instance }} requires a reboot.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"        
   - name: infitx.com
     rules:
+    - alert: NodeDown
+      expr: '(up{job="node-exporter"}==0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: Node down (instance {{ $labels.instance }})
+        description: "Unable to reach node {{ $labels.nodename }} \n   LABELS = {{ $labels }}"
     - alert: HighProcessCount
       expr: '((node_procs_running+node_procs_blocked) > 300) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
@@ -367,4 +375,11 @@ spec:
       annotations:
         summary: Too many processes running on host (instance {{ $labels.instance }})
         description: "Too many processes running on host \n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
+    - alert: RestartingNode
+      expr: '(changes(node_boot_time_seconds[10m]) > 3) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: Node may be in restart loop  (instance {{ $labels.instance }})
+        description: "Node restarted {{ $value }} times during last 10 minutes. \n  LABELS = {{ $labels }}"
