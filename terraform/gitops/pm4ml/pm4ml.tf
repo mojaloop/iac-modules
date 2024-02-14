@@ -18,7 +18,9 @@ module "generate_pm4ml_files" {
     keycloak_fqdn                                   = var.keycloak_fqdn
     keycloak_pm4ml_realm_name                       = "${var.keycloak_pm4ml_realm_name}-${each.key}"
     experience_api_fqdn                             = var.experience_api_fqdns[each.key]
+    kratos_service_name                             = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                     = var.portal_fqdns[each.key]
+    auth_fqdn                                       = var.auth_fqdn
     dfsp_id                                         = each.value.pm4ml_dfsp_id
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
     mcm_host_url                                    = "https://${each.value.pm4ml_external_mcm_public_fqdn}"
@@ -66,6 +68,9 @@ module "generate_pm4ml_files" {
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
     test_fqdn                                       = var.test_fqdns[each.key]
     ory_namespace                                   = var.ory_namespace
+    ory_stack_enabled                               = var.ory_stack_enabled
+    oathkeeper_auth_provider_name                   = var.oathkeeper_auth_provider_name
+    istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -87,6 +92,15 @@ variable "app_var_map" {
 }
 variable "portal_fqdns" {
   description = "fqdns for pm4ml portal"
+}
+variable "auth_fqdn" {
+  type = string
+}
+variable "ory_stack_enabled" {
+  type = bool
+}
+variable "oathkeeper_auth_provider_name" {
+  type = string
 }
 variable "experience_api_fqdns" {
   description = "fqdns for pm4ml experience api"
