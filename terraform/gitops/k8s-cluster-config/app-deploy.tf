@@ -99,6 +99,9 @@ module "pm4ml" {
   istio_internal_wildcard_gateway_name   = local.istio_internal_wildcard_gateway_name
   local_vault_kv_root_path               = local.local_vault_kv_root_path
   portal_fqdns                           = local.portal_fqdns
+  ory_stack_enabled                      = var.ory_stack_enabled
+  auth_fqdn                              = local.auth_fqdn
+  oathkeeper_auth_provider_name          = local.oathkeeper_auth_provider_name
   experience_api_fqdns                   = local.experience_api_fqdns
   mojaloop_connnector_fqdns              = local.mojaloop_connnector_fqdns
   ttk_backend_fqdns                      = local.pm4ml_ttk_backend_fqdns

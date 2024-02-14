@@ -17,12 +17,15 @@ frontendWebOrigins: &frontendWebOrigins
 dfspId: &dfspId "${dfsp_id}"
 
 frontend:
-  image:
-    tag: 1.17.0
   ingress:
     enabled: false
   env:
     API_BASE_URL: "https://${experience_api_fqdn}"
+%{ if ory_stack_enabled ~}
+    CHECK_SESSION_URL: https://${portal_fqdn}/kratos/sessions/whoami
+    LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
+    LOGIN_PROVIDER: keycloak
+%{ endif ~}
 
 experience-api:
   image:
