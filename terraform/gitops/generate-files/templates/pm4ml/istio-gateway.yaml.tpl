@@ -67,7 +67,7 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: pm4ml-jwt
+  name: ${pm4ml_release_name}-jwt
   namespace: ${istio_external_gateway_namespace}
 spec:
   selector:
@@ -88,7 +88,7 @@ spec:
 %{ if !ory_stack_enabled ~}
       from:
         - source:
-            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
+            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/*"]
 %{ endif ~}
 %{ if !ory_stack_enabled ~}
 ---
