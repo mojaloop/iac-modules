@@ -18,7 +18,7 @@ dfspId: &dfspId "${dfsp_id}"
 
 frontend:
   image:
-    tag: 1.15.0
+    tag: 1.17.0
   ingress:
     enabled: false
   env:
