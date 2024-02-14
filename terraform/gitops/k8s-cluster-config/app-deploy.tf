@@ -33,8 +33,6 @@ module "mojaloop" {
   hubop_realm_role_assign_service_secret_key = var.hubop_realm_role_assign_service_secret_key
   hubop_realm_role_assign_service_secret     = var.hubop_realm_role_assign_service_secret
   hubop_realm_role_assign_service_user       = var.hubop_realm_role_assignment_svc_user
-  dfsps_realm_portal_admin_secret            = var.dfsps_realm_portal_admin_secret
-  dfsps_realm_portal_admin_user              = var.dfsps_realm_portal_admin_user
   mcm_public_fqdn                            = local.mcm_public_fqdn
   ttk_backend_public_fqdn                    = local.ttk_backend_public_fqdn
   ttk_frontend_public_fqdn                   = local.ttk_frontend_public_fqdn
@@ -179,32 +177,6 @@ variable "hubop_realm_portal_admin_user" {
   default = "portal-admin"
 }
 
-variable "dfsps_realm_role_assign_service_secret_key" {
-  type    = string
-  default = "secret"
-}
-variable "dfsps_realm_role_assign_service_secret" {
-  type    = string
-  default = "dfsps-realm-role-assign-svc-secret"
-}
-variable "dfsps_realm_role_assignment_svc_user" {
-  type    = string
-  default = "role-assign-svc"
-}
-
-variable "dfsps_realm_portal_admin_secret_key" {
-  type    = string
-  default = "secret"
-}
-variable "dfsps_realm_portal_admin_secret" {
-  type    = string
-  default = "dfsps-realm-portal-admin-secret"
-}
-variable "dfsps_realm_portal_admin_user" {
-  type    = string
-  default = "portal-admin"
-}
-
 variable "rbac_permissions_file" {
   type = string
 }
@@ -221,8 +193,6 @@ locals {
   mojaloop_keycloak_realm_env_secret_map = {
     "${var.mcm_oidc_client_secret_secret}"          = var.mcm_oidc_client_secret_secret_key
     "${var.jwt_client_secret_secret}"               = var.jwt_client_secret_secret_key
-    "${var.dfsps_realm_role_assign_service_secret}" = var.dfsps_realm_role_assign_service_secret_key
-    "${var.dfsps_realm_portal_admin_secret}"        = var.dfsps_realm_portal_admin_secret_key
   }
   pm4ml_keycloak_realm_env_secret_map = { for key, pm4ml in local.pm4ml_var_map :
     "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.pm4ml_oidc_client_secret_secret_key
