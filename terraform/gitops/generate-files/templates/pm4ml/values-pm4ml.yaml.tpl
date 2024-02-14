@@ -18,7 +18,7 @@ dfspId: &dfspId "${dfsp_id}"
 
 frontend:
   image:
-    tag: 1.16.0-snapshot 
+    tag: 1.15.0
   ingress:
     enabled: false
   env:
@@ -102,21 +102,21 @@ scheme-adapter:
   sdk-scheme-adapter-api-svc:
     image:
       tag: v23.1.2-snapshot.2
-%{ if enable_sdk_bulk_transaction_support ~} 
+%{ if enable_sdk_bulk_transaction_support ~}
     kafka: &kafkaConfig
       host: ${kafka_host}
       port: ${kafka_port}
-%{ endif ~}     
+%{ endif ~}
     redis: &redisConfig
       host: ${redis_host}
       port: ${redis_port}
     config:
       simName: *dfspId
-%{ if enable_sdk_bulk_transaction_support ~} 
+%{ if enable_sdk_bulk_transaction_support ~}
       bulkTransactionSupportEnabled: true
 %{ else ~}
       bulkTransactionSupportEnabled: false
-%{ endif ~}     
+%{ endif ~}
       ## TODO: sdk chart is not accepting empty jws values if JWS params enabled. Need to fix.
       jwsSigningKey: "test"
       jwsVerificationKeys: {
@@ -142,13 +142,13 @@ scheme-adapter:
       BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
 %{ endif ~}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
-%{ if enable_sdk_bulk_transaction_support ~} 
+%{ if enable_sdk_bulk_transaction_support ~}
       ENABLE_BACKEND_EVENT_HANDLER: true
       ENABLE_FSPIOP_EVENT_HANDLER: true
       REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
-%{ endif ~}     
+%{ endif ~}
 
-%{ if enable_sdk_bulk_transaction_support ~} 
+%{ if enable_sdk_bulk_transaction_support ~}
   sdk-scheme-adapter-dom-evt-handler:
     enabled: true
     kafka: *kafkaConfig
@@ -179,7 +179,7 @@ redis:
     storageClass: ${storage_class_name}
 
 ttk:
-%{ if ttk_enabled ~} 
+%{ if ttk_enabled ~}
   enabled: true
   ml-testing-toolkit-backend:
     ingress:
