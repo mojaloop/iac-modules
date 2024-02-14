@@ -82,8 +82,6 @@ module "generate_mcm_files" {
     auth_fqdn                            = var.auth_fqdn
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
-    portal_admin_secret_name             = join("$", ["", "{${replace(var.dfsps_realm_portal_admin_secret, "-", "_")}}"])
-    portal_admin                         = var.dfsps_realm_portal_admin_user
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -211,12 +209,7 @@ variable "mcm_public_fqdn" {
   type        = string
   description = "hostname for mcm"
 }
-variable "dfsps_realm_portal_admin_secret" {
-  type = string
-}
-variable "dfsps_realm_portal_admin_user" {
-  type = string
-}
+
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
   mcm_app_file                   = "mcm-app.yaml"
