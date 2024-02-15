@@ -177,7 +177,7 @@ variable "hubop_realm_portal_admin_secret" {
 }
 variable "hubop_realm_portal_admin_user" {
   type    = string
-  default = "portal-admin"
+  default = "portal_admin"
 }
 
 variable "rbac_permissions_file" {
