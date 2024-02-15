@@ -78,9 +78,9 @@ resource "aws_security_group" "docker_server" {
   }
 
   ingress {
-    description = "seaweedfs s3 access"
-    from_port   = var.seaweedfs_s3_listening_port
-    to_port     = var.seaweedfs_s3_listening_port
+    description = "minio access"
+    from_port   = var.minio_listening_port
+    to_port     = var.minio_listening_port
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
   }

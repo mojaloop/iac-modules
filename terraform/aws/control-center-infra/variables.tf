@@ -130,10 +130,10 @@ variable "nexus_admin_listening_port" {
   description = "which port to listen for nexus admin"
 }
 
-variable "seaweedfs_s3_listening_port" {
+variable "minio_listening_port" {
   type       = number
-  default    = 8333
-  description = "which port to listen for seaweed s3"
+  default    = 9001
+  description = "which port to listen for http traffic by minio"
 }
 
 variable "vault_listening_port" {
