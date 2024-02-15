@@ -7,6 +7,7 @@ global:
     port: 80
   keto:
     readURL: ${keto_read_url}
+    readURL: ${keto_write_url}
   reportingDB:
     host: ${reporting_db_host}
     port: ${reporting_db_port}
@@ -61,7 +62,8 @@ role-assignment-service:
           "clerk",
           "financeManager",
           "dfspReconciliationReports",
-          "audit"
+          "audit",
+          "mcmadmin"
         ],
         "AUTO_GRANT_PORTAL_ADMIN_ROLES": [
           "manager"
@@ -124,7 +126,7 @@ reporting-hub-bop-shell:
       REMOTE_API_BASE_URL: ''
       REMOTE_MOCK_API: false
       LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser?return_to=https://${portal_fqdn}
-      LOGOUT_URL: https://${auth_fqdn}/kratos/self-service/browser/flows/logout
+      LOGOUT_URL: https://${auth_fqdn}/kratos/self-service/logout/browser
       AUTH_TOKEN_URL: /kratos/sessions/whoami
       AUTH_ENABLED: true
       REMOTE_1_URL: https://${portal_fqdn}/uis/iam
