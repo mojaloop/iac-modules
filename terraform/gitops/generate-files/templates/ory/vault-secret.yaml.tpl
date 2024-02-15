@@ -172,7 +172,7 @@ spec:
             "client_id":"${hubop_oidc_client_id}",
             "client_secret":"{{ .kratosoidcsecret.${hubop_oidc_client_secret_secret_key} }}",
             "scope":["openid", "profile", "email"],
-            "mapper_url":"base64://CmxvY2FsIGNsYWltcyA9IHsKICBlbWFpbF92ZXJpZmllZDogZmFsc2UKfSArIHN0ZC5leHRWYXIoJ2NsYWltcycpOwoKewogIGlkZW50aXR5OiB7CiAgICB0cmFpdHM6IHsKICAgICAic3ViamVjdCI6IGNsYWltcy5zdWIsCiAgICAgIFtpZiAiZW1haWwiIGluIGNsYWltcyAmJiBjbGFpbXMuZW1haWxfdmVyaWZpZWQgdGhlbiAiZW1haWwiIGVsc2UgbnVsbF06IGNsYWltcy5lbWFpbCwKICAgIH0sCiAgfSwKfQ==",
+            "mapper_url":"base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==",
             "issuer_url":"https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}"
           }
         ]'
