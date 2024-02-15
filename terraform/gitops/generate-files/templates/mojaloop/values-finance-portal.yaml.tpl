@@ -7,6 +7,7 @@ global:
     port: 80
   keto:
     readURL: ${keto_read_url}
+    readURL: ${keto_write_url}
   reportingDB:
     host: ${reporting_db_host}
     port: ${reporting_db_port}

@@ -163,6 +163,7 @@ module "generate_mojaloop_files" {
     reporting_events_mongodb_existing_secret                          = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.user_password_secret
     reporting_events_mongodb_port                                     = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_port
     keto_read_url                                                     = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
+    keto_write_url                                                    = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     kratos_service_name                                               = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                                       = var.finance_portal_fqdn
     finance_portal_release_name                                       = "fin-portal"
