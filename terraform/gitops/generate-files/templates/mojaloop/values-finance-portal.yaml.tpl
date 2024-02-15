@@ -62,6 +62,9 @@ role-assignment-service:
           "financeManager",
           "dfspReconciliationReports",
           "audit"
+        ],
+        "AUTO_GRANT_PORTAL_ADMIN_ROLES": [
+          "manager"
         ]
       }
 

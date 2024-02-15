@@ -4,7 +4,7 @@ apiVersion: mojaloop.io/v1
 kind: MojaloopRole
 metadata:
   name: ${lower(replace(mr.rolename, "_", "-"))}
-  namespace: ${mojaloop_namespace}
+  namespace: ${ory_namespace}
 spec:
   role: ${mr.rolename}
   permissions:
@@ -20,7 +20,7 @@ apiVersion: mojaloop.io/v1
 kind: MojaloopPermissionExclusions
 metadata:
   name: ${lower(replace(pe.name, "_", "-"))}
-  namespace: ${mojaloop_namespace}
+  namespace: ${ory_namespace}
 spec:
   permissionsA:
 %{ for permission in pe.permissionsA ~}
