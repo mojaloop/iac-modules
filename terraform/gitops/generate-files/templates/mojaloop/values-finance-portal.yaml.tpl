@@ -62,7 +62,8 @@ role-assignment-service:
           "clerk",
           "financeManager",
           "dfspReconciliationReports",
-          "audit"
+          "audit",
+          "mcmadmin"
         ],
         "AUTO_GRANT_PORTAL_ADMIN_ROLES": [
           "manager"
