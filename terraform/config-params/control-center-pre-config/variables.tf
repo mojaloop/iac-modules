@@ -57,11 +57,11 @@ variable "control_center_cloud_provider" {
   description = "control_center_cloud_provider"
 }
 
-variable "seaweedfs_fqdn" {
-  description = "seaweedfs_fqdn"
+variable "minio_fqdn" {
+  description = "minio_fqdn"
 }
-variable "seaweedfs_s3_listening_port" {
-  description = "seaweedfs_s3_listening_port"
+variable "minio_listening_port" {
+  description = "minio_listening_port"
 }
 
 variable "nexus_fqdn" {

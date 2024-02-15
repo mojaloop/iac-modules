@@ -62,12 +62,12 @@ output "nexus_fqdn" {
   value = aws_route53_record.nexus_server_private.fqdn
 }
 
-output "seaweedfs_s3_listening_port" {
-  value = var.seaweedfs_s3_listening_port
+output "minio_listening_port" {
+  value = var.minio_listening_port
 }
 
-output "seaweedfs_fqdn" {
-  value = aws_route53_record.seaweedfs_server_private.fqdn
+output "minio_fqdn" {
+  value = aws_route53_record.minio_server_private.fqdn
 }
 
 output "tenant_vault_listening_port" {
@@ -99,7 +99,7 @@ output "gitlab_hosts_var_maps" {
     gitlab_version          = var.gitlab_version
     s3_username             = random_password.gitlab_s3_access_key.result
     s3_password             = random_password.gitlab_s3_access_secret.result
-    s3_server_url           = "http://${aws_route53_record.seaweedfs_server_private.fqdn}:${var.seaweedfs_s3_listening_port}"
+    s3_server_url           = "http://${aws_route53_record.minio_server_private.fqdn}:${var.minio_listening_port}"
     backup_ebs_volume_id    = aws_instance.gitlab_server.ebs_block_device.*.volume_id[0]
   }
 }
@@ -120,21 +120,20 @@ output "docker_hosts_var_maps" {
     ansible_hostname                 = aws_route53_record.gitlab_runner_server_private.fqdn
     gitlab_server_hostname           = aws_route53_record.gitlab_server_public.fqdn
     gitlab_runner_version            = var.gitlab_runner_version
-    seaweedfs_s3_server_host         = aws_route53_record.seaweedfs_server_private.fqdn
-    seaweedfs_s3_listening_port      = var.seaweedfs_s3_listening_port
-    seaweedfs_s3_admin_user          = "admin"
-    seaweedfs_s3_admin_access_key    = random_password.admin_s3_access_key.result
-    seaweedfs_s3_admin_secret_key    = random_password.admin_s3_access_secret.result
-    seaweedfs_s3_gitlab_user         = "gitlab"
-    seaweedfs_s3_gitlab_access_key   = random_password.gitlab_s3_access_key.result
-    seaweedfs_s3_gitlab_secret_key   = random_password.gitlab_s3_access_secret.result
+    minio_s3_server_host             = aws_route53_record.minio_server_private.fqdn
+    minio_listening_port             = var.minio_listening_port
+    minio_root_user                  = "admin"
+    minio_admin_access_key           = random_password.admin_s3_access_key.result
+    minio_root_password              = random_password.admin_s3_access_secret.result
+    gitlab_minio_user                = "gitlab"
+    minio_gitlab_access_key          = random_password.gitlab_s3_access_key.result
+    gitlab_minio_password            = random_password.gitlab_s3_access_secret.result
     nexus_admin_password             = random_password.nexus_admin_password.result
     nexus_docker_repo_listening_port = var.nexus_docker_repo_listening_port
     docker_extra_volume_name         = "docker-extra"
     docker_extra_vol_mount           = true
     docker_extra_ebs_volume_id       = aws_instance.docker_server.ebs_block_device.*.volume_id[0]
     docker_extra_volume_size_mb      = aws_instance.docker_server.ebs_block_device.*.volume_size[0] * 1074
-    seaweedfs_num_volumes            = 100
     vault_listening_port             = var.vault_listening_port
     vault_fqdn                       = aws_route53_record.vault_server_private.fqdn
     vault_gitlab_token               = random_password.gitlab_root_token.result

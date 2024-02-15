@@ -66,9 +66,9 @@ resource "aws_route53_record" "nexus_server_private" {
   records = [aws_instance.docker_server.private_ip]
 }
 
-resource "aws_route53_record" "seaweedfs_server_private" {
+resource "aws_route53_record" "minio_server_private" {
   zone_id = module.base_infra.public_zone.id
-  name    = "seaweedfs"
+  name    = "minio"
   type    = "A"
   ttl     = "300"
   records = [aws_instance.docker_server.private_ip]

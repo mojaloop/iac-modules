@@ -131,19 +131,19 @@ resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
   environment_scope = "*"
 }
 
-resource "gitlab_group_variable" "seaweedfs_fqdn" {
+resource "gitlab_group_variable" "minio_fqdn" {
   group             = gitlab_group.iac.id
-  key               = "SEAWEEDFS_FQDN"
-  value             = var.seaweedfs_fqdn
+  key               = "MINIO_FQDN"
+  value             = var.mino_fqdn
   protected         = true
   masked            = false
   environment_scope = "*"
 }
 
-resource "gitlab_group_variable" "seaweedfs_s3_listening_port" {
+resource "gitlab_group_variable" "minio_listening_port" {
   group             = gitlab_group.iac.id
-  key               = "SEAWEEDFS_S3_LISTENING_PORT"
-  value             = var.seaweedfs_s3_listening_port
+  key               = "MINIO_LISTENING_PORT"
+  value             = var.minio_listening_port
   protected         = true
   masked            = false
   environment_scope = "*"
