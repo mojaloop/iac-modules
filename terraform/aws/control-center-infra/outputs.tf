@@ -120,7 +120,7 @@ output "docker_hosts_var_maps" {
     ansible_hostname                 = aws_route53_record.gitlab_runner_server_private.fqdn
     gitlab_server_hostname           = aws_route53_record.gitlab_server_public.fqdn
     gitlab_runner_version            = var.gitlab_runner_version
-    minio_s3_server_host             = aws_route53_record.minio_server_private.fqdn
+    minio_server_host                = aws_route53_record.minio_server_private.fqdn
     minio_listening_port             = var.minio_listening_port
     minio_root_user                  = "admin"
     minio_admin_access_key           = random_password.admin_s3_access_key.result
