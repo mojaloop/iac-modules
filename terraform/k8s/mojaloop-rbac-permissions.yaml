@@ -277,6 +277,10 @@ roles:
   - reportingApi
   - auditSettlement
   - report-settlement-audit
+- rolename: mcmadmin
+  permissions:
+  - mcmApi
+  - mcmOnboarding
 permission-exclusions:
 - name: audit-exclusion
   permissionsA:

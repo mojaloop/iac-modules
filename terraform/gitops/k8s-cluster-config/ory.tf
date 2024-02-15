@@ -112,7 +112,7 @@ variable "keycloak_hubop_realm_name" {
 }
 variable "bof_chart_version" {
   type    = string
-  default = "5.0.0"
+  default = "5.1.0"
 }
 
 locals {

@@ -145,6 +145,7 @@ module "generate_mojaloop_files" {
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
     grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
     bof_release_name                                                  = var.bof_release_name
+    ory_namespace                                                     = var.ory_namespace
     bof_role_perm_operator_host                                       = "${var.bof_release_name}-security-role-perm-operator-svc.${var.ory_namespace}.svc.cluster.local"
     auth_fqdn                                                         = var.auth_fqdn
     central_admin_host                                                = "${var.mojaloop_release_name}-centralledger-service"
@@ -250,7 +251,7 @@ variable "mojaloop_chart_version" {
 
 variable "finance_portal_chart_version" {
   description = "finance portal chart version"
-  default     = "4.1.1"
+  default     = "4.2.0"
 }
 
 variable "mojaloop_sync_wave" {
