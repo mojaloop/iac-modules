@@ -134,7 +134,7 @@ resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
 resource "gitlab_group_variable" "minio_fqdn" {
   group             = gitlab_group.iac.id
   key               = "MINIO_FQDN"
-  value             = var.mino_fqdn
+  value             = var.minio_fqdn
   protected         = true
   masked            = false
   environment_scope = "*"
