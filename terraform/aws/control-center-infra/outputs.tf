@@ -127,7 +127,7 @@ output "docker_hosts_var_maps" {
     minio_root_password              = random_password.admin_s3_access_secret.result
     gitlab_minio_user                = "gitlab"
     minio_gitlab_access_key          = random_password.gitlab_s3_access_key.result
-    gitlab_minio_password            = random_password.gitlab_s3_access_secret.result
+    gitlab_minio_secret              = random_password.gitlab_s3_access_secret.result
     nexus_admin_password             = random_password.nexus_admin_password.result
     nexus_docker_repo_listening_port = var.nexus_docker_repo_listening_port
     docker_extra_volume_name         = "docker-extra"
