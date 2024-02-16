@@ -13,15 +13,6 @@ spec:
   hosts:
   - '${portal_fqdn}'
   http:
-    - name: "portal"
-      match:
-        - uri:
-            prefix: /
-      route:
-        - destination:
-            host: ${pm4ml_release_name}-frontend
-            port:
-              number: 80
     - name: kratos-woami-redirect
       match:
         - uri:
@@ -31,6 +22,15 @@ spec:
       route:
         - destination:
             host: ${kratos_service_name}
+            port:
+              number: 80
+    - name: "portal"
+      match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-frontend
             port:
               number: 80
 ---
