@@ -86,6 +86,14 @@ resource "aws_security_group" "docker_server" {
   }
 
   ingress {
+    description = "minio ui access"
+    from_port   = var.minio_ui_port
+    to_port     = var.minio_ui_port
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+  } 
+
+  ingress {
     description = "vault access"
     from_port   = var.vault_listening_port
     to_port     = var.vault_listening_port
