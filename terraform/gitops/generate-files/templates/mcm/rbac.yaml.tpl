@@ -27,3 +27,27 @@ spec:
         }
   mutators:
     - handler: header
+---
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-pm4mlapi
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_public_fqdn}/pm4mlapi/<.*>
+    methods:
+      - POST
+      - GET
+      - PUT
+      - DELETE
+  authenticators:
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs  
+
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: header

@@ -22,6 +22,17 @@ spec:
             host: mcm-connection-manager-api
             port:
               number: 3001
+    - name: "pm4mlapi"
+      match:
+        - uri:
+            prefix: /pm4mlapi
+      rewrite:
+        uri: /api
+      route:
+        - destination:
+            host: mcm-connection-manager-api
+            port:
+              number: 3001
     - name: kratos-woami-redirect
       match:
         - uri:
@@ -63,7 +74,7 @@ spec:
   rules:
     - to:
         - operation:
-            paths: ["/api/*"]
+            paths: ["/api/*", "/pm4mlapi/*"]
             hosts: ["${mcm_public_fqdn}", "${mcm_public_fqdn}:*"]
 %{ if !ory_stack_enabled ~}
       from:
