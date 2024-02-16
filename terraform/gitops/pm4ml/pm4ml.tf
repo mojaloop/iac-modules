@@ -21,6 +21,8 @@ module "generate_pm4ml_files" {
     kratos_service_name                             = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                     = var.portal_fqdns[each.key]
     auth_fqdn                                       = var.auth_fqdn
+    admin_portal_release_name                       = "admin-portal"
+    admin_portal_chart_version                      = try(var.app_var_map.admin_portal_chart_version, var.admin_portal_chart_version)
     dfsp_id                                         = each.value.pm4ml_dfsp_id
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
     mcm_host_url                                    = "https://${each.value.pm4ml_external_mcm_public_fqdn}"
@@ -71,6 +73,12 @@ module "generate_pm4ml_files" {
     ory_stack_enabled                               = var.ory_stack_enabled
     oathkeeper_auth_provider_name                   = var.oathkeeper_auth_provider_name
     istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
+    bof_release_name                                = var.bof_release_name
+    bof_role_perm_operator_host                     = "${var.bof_release_name}-security-role-perm-operator-svc.${var.ory_namespace}.svc.cluster.local"
+    role_assign_service_secret_key                  = var.hubop_realm_role_assign_service_secret_key
+    role_assign_service_secret                      = var.hubop_realm_role_assign_service_secret
+    role_assign_service_user                        = var.hubop_realm_role_assign_service_user
+
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -147,6 +155,11 @@ variable "pm4ml_sync_wave" {
   default     = 0
 }
 
+variable "admin_portal_chart_version" {
+  description = "admin (finance) portal chart version"
+  default     = "4.2.1"
+}
+
 variable "pm4ml_oidc_client_id_prefix" {
   type        = string
   description = "pm4ml_oidc_client_id_prefix"
@@ -205,6 +218,20 @@ variable "enable_sdk_bulk_transaction_support" {
 variable "ory_namespace" {
   type = string
 }
+variable "bof_release_name" {
+  type = string
+}
+
+variable "hubop_realm_role_assign_service_secret" {
+  type = string
+}
+variable "hubop_realm_role_assign_service_secret_key" {
+  type = string
+}
+variable "hubop_realm_role_assign_service_user" {
+  type = string
+}
+
 
 locals {
   nat_cidr_list = join(", ", [for ip in var.nat_public_ips : format("%s/32", ip)])

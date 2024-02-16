@@ -27,3 +27,15 @@ spec:
         }
   mutators:
     - handler: header
+---
+apiVersion: mojaloop.io/v1
+kind: MojaloopRole
+metadata:
+  name: pm4mladmin
+  namespace: ory
+spec:
+  role: pm4mladmin
+  permissions:  ## Todo: decide which permissions the role should have
+    - pm4mlViewTransfers
+    - pm4mlApi
+---
