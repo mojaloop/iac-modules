@@ -57,7 +57,7 @@ management-api:
     DFSP_ID: *dfspId
     HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}"
     OIDC_TOKEN_ROUTE: "${pm4ml_external_switch_oidc_token_route}"
-    MCM_SERVER_ENDPOINT: "${mcm_host_url}/api"
+    MCM_SERVER_ENDPOINT: "${mcm_host_url}/pm4mlapi"
     MCM_CLIENT_REFRESH_INTERVAL: 60
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
