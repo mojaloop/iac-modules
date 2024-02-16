@@ -97,7 +97,7 @@ output "gitlab_hosts_var_maps" {
     server_hostname         = aws_route53_record.gitlab_server_public.fqdn
     enable_pages            = false
     gitlab_version          = var.gitlab_version
-    s3_username             = random_password.gitlab_s3_access_key.result
+    s3_username             = var.gitlab_minio_user
     s3_password             = random_password.gitlab_s3_access_secret.result
     s3_server_url           = "http://${aws_route53_record.minio_server_private.fqdn}:${var.minio_listening_port}"
     backup_ebs_volume_id    = aws_instance.gitlab_server.ebs_block_device.*.volume_id[0]
@@ -125,7 +125,7 @@ output "docker_hosts_var_maps" {
     minio_root_user                  = "admin"
     minio_admin_access_key           = random_password.admin_s3_access_key.result
     minio_root_password              = random_password.admin_s3_access_secret.result
-    gitlab_minio_user                = "gitlab"
+    gitlab_minio_user                = var.gitlab_minio_user
     minio_gitlab_access_key          = random_password.gitlab_s3_access_key.result
     gitlab_minio_secret              = random_password.gitlab_s3_access_secret.result
     nexus_admin_password             = random_password.nexus_admin_password.result
