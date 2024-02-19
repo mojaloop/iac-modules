@@ -1,5 +1,6 @@
 ---
 roles:
+## Roles for finance portal
 - rolename: operator
   permissions:
   - participantView
@@ -277,10 +278,72 @@ roles:
   - reportingApi
   - auditSettlement
   - report-settlement-audit
+
+## Roles for MCM
 - rolename: mcmadmin
   permissions:
   - mcmApi
   - mcmOnboarding
+
+## Roles for FSPIOP
+- rolename: mojaloopSwitchFspiopDfspBasic
+  permissions:
+  - fspiopParticipants
+  - fspiopParties
+  - fspiopQuotes
+  - fspiopTransfers
+  - fspiopTransations
+  - fspiopServices
+
+- rolename: mojaloopSwitchFspiopDfspR2P
+  permissions:
+  - fspiopTransactionRequest
+  - fspiopTransations
+
+- rolename: mojaloopSwitchFspiopDfspPISP
+  permissions:
+  - fspiopAuthorizations
+  - tppAccounts
+  - tppConsentRequests
+  - tppConsents
+  - tppAuthorizations
+  - tppTransactions
+  - tppVerifications
+
+- rolename: mojaloopSwitchFspiopDfspBulk
+  permissions:
+  - fspiopBulkQuote
+  - fspiopBulkTransfers
+
+- rolename: mojaloopSwitchFspiopDfspFX
+  permissions:
+  - fxQuotes
+  - fxTransfers
+
+- rolename: mojaloopSwitchPISP
+  permissions:
+  - fspiopParticipants
+  - fspiopParties
+  - fspiopAuthorizations
+  - fspiopTransations
+  - tppAccounts
+  - tppConsentRequests
+  - tppConsents
+  - tppAuthorizations
+  - tppTransactions
+  - fspiopServices
+
+- rolename: mojaloopSwitchFXP
+  permissions:
+  - fxQuotes
+  - fxTransfers
+  - fspiopServices
+
+- rolename: mojaloopSwitchDiscovery
+  permissions:
+  - fspiopParticipants
+  - fspiopParties
+
 permission-exclusions:
 - name: audit-exclusion
   permissionsA:

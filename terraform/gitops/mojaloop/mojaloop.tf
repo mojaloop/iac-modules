@@ -177,6 +177,7 @@ module "generate_mojaloop_files" {
     apiResources                                                      = local.apiResources
     mojaloopRoles                                                     = local.mojaloopRoles
     permissionExclusions                                              = local.permissionExclusions
+    fqdn_map                                                          = local.fqdn_map
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
@@ -206,6 +207,10 @@ locals {
   rolesPermissions                             = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                                = local.rolesPermissions["roles"]
   permissionExclusions                         = local.rolesPermissions["permission-exclusions"]
+  fqdn_map                                     = {
+    "finance-portal" = var.finance_portal_fqdn
+    "interop-switch" = var.external_interop_switch_fqdn
+  }
 }
 
 variable "app_var_map" {
