@@ -187,6 +187,12 @@ ownerName: ""
 meshConfig:
   enablePrometheusMerge: true
   enableAutoMtls: false
+  defaultConfig:
+    proxyMetadata:
+      # Enable basic DNS proxying
+      ISTIO_META_DNS_CAPTURE: "true"
+      # Enable automatic address allocation, optional
+      ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 %{ if ory_stack_enabled ~}
   extensionProviders:
     - name: ${oathkeeper_auth_provider_name}
