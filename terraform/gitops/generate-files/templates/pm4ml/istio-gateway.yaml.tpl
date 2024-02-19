@@ -37,6 +37,17 @@ spec:
   hosts:
   - '${experience_api_fqdn}'
   http:
+    - name: kratos-whoami-redirect
+      match:
+        - uri:
+            prefix: /kratos/sessions/whoami
+      rewrite:
+        uri: /sessions/whoami
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
     - name: "experience-api"
       match:
         - uri:
@@ -51,17 +62,6 @@ spec:
               add:
                 access-control-allow-origin: "https://${portal_fqdn}"
                 access-control-allow-credentials: "true"
-    - name: kratos-woami-redirect
-      match:
-        - uri:
-            prefix: /kratos/sessions/whoami
-      rewrite:
-        uri: /sessions/whoami
-      route:
-        - destination:
-            host: ${kratos_service_name}
-            port:
-              number: 80
 %{ if pm4ml_wildcard_gateway == "external" ~}
 ---
 apiVersion: security.istio.io/v1beta1

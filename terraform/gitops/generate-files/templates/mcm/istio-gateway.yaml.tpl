@@ -33,7 +33,7 @@ spec:
             host: mcm-connection-manager-api
             port:
               number: 3001
-    - name: kratos-woami-redirect
+    - name: kratos-whoami-redirect
       match:
         - uri:
             prefix: /kratos/sessions/whoami
