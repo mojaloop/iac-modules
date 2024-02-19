@@ -27,13 +27,19 @@ module "generate_keycloak_files" {
     keycloak_tls_secretname               = var.default_ssl_certificate
     istio_create_ingress_gateways         = var.istio_create_ingress_gateways
     ref_secrets                           = local.keycloak_realm_env_secret_map
+    ref_secrets_path                      = local.keycloak_secrets_path
+    ory_stack_enabled                     = var.ory_stack_enabled
   }
-  file_list = ["install/kustomization.yaml", "post-config/kustomization.yaml", "post-config/keycloak-cr.yaml",
-  "post-config/vault-secret.yaml", "post-config/keycloak-ingress.yaml", "keycloak-install.yaml", "keycloak-post-config.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/keycloak"
+file_list       = [for f in fileset(local.keycloak_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.keycloak_app_file, f))]
+  template_path   = local.keycloak_template_path
   output_path     = "${var.output_dir}/keycloak"
-  app_file        = "keycloak-app.yaml"
+  app_file        = local.keycloak_app_file
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+locals {
+  keycloak_template_path              = "${path.module}/../generate-files/templates/keycloak"
+  keycloak_app_file                   = "keycloak-app.yaml"
 }
 
 variable "keycloak_ingress_internal_lb" {
@@ -77,4 +83,5 @@ locals {
   keycloak_wildcard_gateway        = var.keycloak_ingress_internal_lb ? "internal" : "external"
   keycloak_fqdn                    = "keycloak.${var.public_subdomain}"
   keycloak_admin_fqdn              = "admin-keycloak.${var.public_subdomain}"
+  keycloak_secrets_path            = "/secret/keycloak"
 }

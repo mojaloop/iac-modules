@@ -80,6 +80,8 @@ inputs = {
   transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
+  rbac_api_resources_file                  = local.common_vars.mojaloop_enabled ? find_in_parent_folders("mojaloop-rbac-api-resources.yaml") : ""
+  rbac_permissions_file                    = local.common_vars.mojaloop_enabled ? find_in_parent_folders("mojaloop-rbac-permissions.yaml") : ""
 }
 
 locals {

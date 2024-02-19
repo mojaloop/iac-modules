@@ -4,7 +4,7 @@ module "generate_mojaloop_files" {
     mojaloop_enabled                                                  = var.mojaloop_enabled
     gitlab_project_url                                                = var.gitlab_project_url
     mojaloop_chart_repo                                               = var.mojaloop_chart_repo
-    mojaloop_chart_version                                            = var.mojaloop_chart_version
+    mojaloop_chart_version                                            = try(var.app_var_map.mojaloop_chart_version, var.mojaloop_chart_version)
     mojaloop_release_name                                             = var.mojaloop_release_name
     mojaloop_namespace                                                = var.mojaloop_namespace
     storage_class_name                                                = var.storage_class_name
@@ -41,7 +41,7 @@ module "generate_mojaloop_files" {
     istio_external_gateway_namespace                                  = var.istio_external_gateway_namespace
     mojaloop_wildcard_gateway                                         = local.mojaloop_wildcard_gateway
     keycloak_fqdn                                                     = var.keycloak_fqdn
-    keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
+    keycloak_realm_name                                               = var.keycloak_hubop_realm_name
     ttk_frontend_public_fqdn                                          = var.ttk_frontend_public_fqdn
     ttk_backend_public_fqdn                                           = var.ttk_backend_public_fqdn
     kafka_host                                                        = "${local.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -144,16 +144,52 @@ module "generate_mojaloop_files" {
     ml_api_adapter_monitoring_prefix                                  = try(var.app_var_map.ml_api_adapter_monitoring_prefix, "moja_ml_")
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
     grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
+    bof_release_name                                                  = var.bof_release_name
+    ory_namespace                                                     = var.ory_namespace
+    bof_role_perm_operator_host                                       = "${var.bof_release_name}-security-role-perm-operator-svc.${var.ory_namespace}.svc.cluster.local"
+    auth_fqdn                                                         = var.auth_fqdn
+    central_admin_host                                                = "${var.mojaloop_release_name}-centralledger-service"
+    central_settlements_host                                          = "${var.mojaloop_release_name}-centralsettlement-service"
+    account_lookup_service_host                                       = "${var.mojaloop_release_name}-account-lookup-service"
+    reporting_db_secret_name                                          = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret
+    reporting_db_user                                                 = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.username
+    reporting_db_host                                                 = "${local.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    reporting_db_port                                                 = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port
+    reporting_db_database                                             = local.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name
+    reporting_db_secret_key                                           = "mysql-password"
+    reporting_events_mongodb_database                                 = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.database_name
+    reporting_events_mongodb_user                                     = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.username
+    reporting_events_mongodb_host                                     = "${local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    reporting_events_mongodb_existing_secret                          = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.user_password_secret
+    reporting_events_mongodb_port                                     = local.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_port
+    keto_read_url                                                     = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
+    keto_write_url                                                    = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
+    kratos_service_name                                               = "kratos-public.${var.ory_namespace}.svc.cluster.local"
+    portal_fqdn                                                       = var.finance_portal_fqdn
+    finance_portal_release_name                                       = "fin-portal"
+    finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
+    ory_stack_enabled                                                 = var.ory_stack_enabled
+    oathkeeper_auth_provider_name                                     = var.oathkeeper_auth_provider_name
+    role_assign_service_secret_key                                    = var.hubop_realm_role_assign_service_secret_key
+    role_assign_service_secret                                        = var.hubop_realm_role_assign_service_secret
+    role_assign_service_user                                          = var.hubop_realm_role_assign_service_user
+    keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
+    apiResources                                                      = local.apiResources
+    mojaloopRoles                                                     = local.mojaloopRoles
+    permissionExclusions                                              = local.permissionExclusions
+    reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
   }
-  file_list       = ["chart/Chart.yaml", "chart/values.yaml", "custom-resources/ext-ingress.yaml", "custom-resources/istio-gateway.yaml", "custom-resources/grafana.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/mojaloop"
+  file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
+  template_path   = local.mojaloop_template_path
   output_path     = "${var.output_dir}/mojaloop"
-  app_file        = "mojaloop-app.yaml"
+  app_file        = local.mojaloop_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
 
 locals {
+  mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
+  mojaloop_app_file                            = "mojaloop-app.yaml"
   ml_als_resource_index                        = index(local.stateful_resources.*.resource_name, "account-lookup-db")
   ml_cl_resource_index                         = index(local.stateful_resources.*.resource_name, "central-ledger-db")
   bulk_mongodb_resource_index                  = index(local.stateful_resources.*.resource_name, "bulk-mongodb")
@@ -164,7 +200,12 @@ locals {
   third_party_auth_db_resource_index           = index(local.stateful_resources.*.resource_name, "thirdparty-auth-svc-db")
   third_party_consent_oracle_db_resource_index = index(local.stateful_resources.*.resource_name, "mysql-consent-oracle-db")
   ttk_redis_resource_index                     = index(local.stateful_resources.*.resource_name, "ttk-redis")
+  reporting_events_mongodb_resource_index      = index(local.stateful_resources.*.resource_name, "reporting-events-mongodb")
   mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
+  apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
+  rolesPermissions                             = yamldecode(file(var.rbac_permissions_file))
+  mojaloopRoles                                = local.rolesPermissions["roles"]
+  permissionExclusions                         = local.rolesPermissions["permission-exclusions"]
 }
 
 variable "app_var_map" {
@@ -207,6 +248,11 @@ variable "mojaloop_release_name" {
 
 variable "mojaloop_chart_version" {
   description = "Mojaloop version to install via Helm"
+}
+
+variable "finance_portal_chart_version" {
+  description = "finance portal chart version"
+  default     = "4.2.1"
 }
 
 variable "mojaloop_sync_wave" {
@@ -278,4 +324,50 @@ variable "ttk_frontend_public_fqdn" {
 }
 variable "ttk_backend_public_fqdn" {
   type = string
+}
+
+variable "auth_fqdn" {
+  type = string
+}
+variable "ory_namespace" {
+  type = string
+}
+
+variable "finance_portal_fqdn" {
+  type = string
+}
+
+variable "bof_release_name" {
+  type = string
+}
+variable "ory_stack_enabled" {
+  type = bool
+}
+variable "oathkeeper_auth_provider_name" {
+  type = string
+}
+variable "keycloak_hubop_realm_name" {
+  type        = string
+  description = "name of realm for hub operator api access"
+}
+variable "hubop_realm_role_assign_service_secret" {
+  type = string
+}
+variable "hubop_realm_role_assign_service_secret_key" {
+  type = string
+}
+variable "hubop_realm_role_assign_service_user" {
+  type = string
+}
+
+variable "rbac_permissions_file" {
+  type = string
+}
+variable "rbac_api_resources_file" {
+  type = string
+}
+
+variable "reporting_templates_chart_version" {
+  type = string
+  default = "1.1.7"
 }

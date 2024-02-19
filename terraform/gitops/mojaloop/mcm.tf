@@ -77,11 +77,16 @@ module "generate_mcm_files" {
     mojaloop_release_name                = var.mojaloop_release_name
     onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag
     switch_jws_public_key                = tls_private_key.jws.public_key_pem
+    ory_stack_enabled                    = var.ory_stack_enabled
+    oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
+    auth_fqdn                            = var.auth_fqdn
+    kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
+    keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
   }
-  file_list       = ["values-mcm.yaml", "kustomization.yaml", "vault-rbac.yaml", "vault-secret.yaml", "vault-agent.yaml", "keycloak-realm-cr.yaml", "configmaps/vault-config-configmap.hcl", "configmaps/vault-config-init-configmap.hcl", "istio-gateway.yaml", "vault-certificate.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/mcm"
+  file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
+  template_path   = local.mcm_template_path
   output_path     = "${var.output_dir}/mcm"
-  app_file        = "mcm-app.yaml"
+  app_file        = local.mcm_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
@@ -126,14 +131,14 @@ variable "mcm_chart_repo" {
 
 variable "mcm_chart_version" {
   type        = string
-  default     = "0.7.0"
+  default     = "0.7.3"
   description = "mcm_chart_version"
 }
 
 variable "mcm_sync_wave" {
   type        = string
   description = "mcm_sync_wave"
-  default     = "-4"
+  default     = "-2"
 }
 
 variable "mcm_namespace" {
@@ -204,7 +209,10 @@ variable "mcm_public_fqdn" {
   type        = string
   description = "hostname for mcm"
 }
+
 locals {
+  mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
+  mcm_app_file                   = "mcm-app.yaml"
   mcm_resource_index             = index(local.stateful_resources.*.resource_name, "mcm-db")
   mcm_wildcard_gateway           = var.mcm_ingress_internal_lb ? "internal" : "external"
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"

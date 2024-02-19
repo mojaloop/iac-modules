@@ -100,6 +100,7 @@ spec:
     tls:
       mode: SIMPLE
 ---
+%{ if !ory_stack_enabled ~}
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
@@ -112,4 +113,5 @@ spec:
   jwtRules:
   - issuer: "https://${keycloak_fqdn}/realms/master"
     jwksUri: "https://${keycloak_fqdn}/realms/master/protocol/openid-connect/certs"
+%{ endif ~}
 %{ endif ~}

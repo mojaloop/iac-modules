@@ -5,7 +5,7 @@ metadata:
   name: ${pm4ml_release_name}-ui-vs
 spec:
   gateways:
-%{ if pm4ml_wildcard_gateway == "external" ~} 
+%{ if pm4ml_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -15,7 +15,7 @@ spec:
   http:
     - name: "portal"
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -29,7 +29,7 @@ metadata:
   name: ${pm4ml_release_name}-experience-vs
 spec:
   gateways:
-%{ if pm4ml_wildcard_gateway == "external" ~} 
+%{ if pm4ml_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -39,7 +39,7 @@ spec:
   http:
     - name: "experience-api"
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -51,7 +51,46 @@ spec:
               add:
                 access-control-allow-origin: "https://${portal_fqdn}"
                 access-control-allow-credentials: "true"
-%{ if pm4ml_wildcard_gateway == "external" ~} 
+    - name: kratos-woami-redirect
+      match:
+        - uri:
+            prefix: /kratos/sessions/whoami
+      rewrite:
+        uri: /sessions/whoami
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
+%{ if pm4ml_wildcard_gateway == "external" ~}
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ${pm4ml_release_name}-jwt
+  namespace: ${istio_external_gateway_namespace}
+spec:
+  selector:
+    matchLabels:
+      app: ${istio_external_gateway_name}
+%{ if ory_stack_enabled ~}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+%{ else ~}
+  action: DENY
+%{ endif ~}
+  rules:
+    - to:
+        - operation:
+            paths: ["/api/*"]
+            hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
+%{ if !ory_stack_enabled ~}
+      from:
+        - source:
+            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/*"]
+%{ endif ~}
+%{ if !ory_stack_enabled ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -103,7 +142,7 @@ spec:
   http:
     - name: "mojaloop-connector"
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -178,7 +217,7 @@ spec:
   - '${ttk_frontend_fqdn}'
   http:
     - match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -198,7 +237,7 @@ spec:
   http:
     - name: api
       match:
-        - uri: 
+        - uri:
             prefix: /api/
       route:
         - destination:
@@ -207,7 +246,7 @@ spec:
               number: 5050
     - name: socket
       match:
-        - uri: 
+        - uri:
             prefix: /socket.io/
       route:
         - destination:
@@ -216,7 +255,7 @@ spec:
               number: 5050
     - name: root
       match:
-        - uri: 
+        - uri:
             prefix: /
       route:
         - destination:
@@ -224,3 +263,4 @@ spec:
             port:
               number: 4040
 ---
+%{ endif ~}

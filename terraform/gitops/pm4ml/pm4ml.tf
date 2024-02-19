@@ -18,7 +18,9 @@ module "generate_pm4ml_files" {
     keycloak_fqdn                                   = var.keycloak_fqdn
     keycloak_pm4ml_realm_name                       = "${var.keycloak_pm4ml_realm_name}-${each.key}"
     experience_api_fqdn                             = var.experience_api_fqdns[each.key]
+    kratos_service_name                             = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                     = var.portal_fqdns[each.key]
+    auth_fqdn                                       = var.auth_fqdn
     dfsp_id                                         = each.value.pm4ml_dfsp_id
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
     mcm_host_url                                    = "https://${each.value.pm4ml_external_mcm_public_fqdn}"
@@ -31,6 +33,7 @@ module "generate_pm4ml_files" {
     vault_endpoint                                  = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
     pm4ml_vault_k8s_role_name                       = "${var.pm4ml_vault_k8s_role_name}-${each.key}"
     k8s_auth_path                                   = var.k8s_auth_path
+    keto_read_url                                   = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     pm4ml_secret_path                               = "${var.local_vault_kv_root_path}/${each.key}"
     callback_url                                    = "https://${var.mojaloop_connnector_fqdns[each.key]}"
     mojaloop_connnector_fqdn                        = var.mojaloop_connnector_fqdns[each.key]
@@ -64,14 +67,24 @@ module "generate_pm4ml_files" {
     ttk_backend_fqdn                                = var.ttk_backend_fqdns[each.key]
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
     test_fqdn                                       = var.test_fqdns[each.key]
+    ory_namespace                                   = var.ory_namespace
+    ory_stack_enabled                               = var.ory_stack_enabled
+    oathkeeper_auth_provider_name                   = var.oathkeeper_auth_provider_name
+    istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
   }
-  file_list       = ["istio-gateway.yaml", "keycloak-realm-cr.yaml", "kustomization.yaml", "values-pm4ml.yaml", "vault-secret.yaml", "vault-certificate.yaml", "vault-rbac.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/pm4ml"
+
+  file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
+  template_path   = local.pm4ml_template_path
   output_path     = "${var.output_dir}/${each.key}"
-  app_file        = "pm4ml-app.yaml"
+  app_file        = local.pm4ml_app_file
   app_file_prefix = each.key
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+locals {
+  pm4ml_template_path              = "${path.module}/../generate-files/templates/pm4ml"
+  pm4ml_app_file                   = "pm4ml-app.yaml"
 }
 
 
@@ -80,6 +93,15 @@ variable "app_var_map" {
 }
 variable "portal_fqdns" {
   description = "fqdns for pm4ml portal"
+}
+variable "auth_fqdn" {
+  type = string
+}
+variable "ory_stack_enabled" {
+  type = bool
+}
+variable "oathkeeper_auth_provider_name" {
+  type = string
 }
 variable "experience_api_fqdns" {
   description = "fqdns for pm4ml experience api"
@@ -180,6 +202,9 @@ variable "enable_sdk_bulk_transaction_support" {
   type        = bool
   description = "enable_sdk_bulk_transaction_support"
   default     = false
+}
+variable "ory_namespace" {
+  type = string
 }
 
 locals {

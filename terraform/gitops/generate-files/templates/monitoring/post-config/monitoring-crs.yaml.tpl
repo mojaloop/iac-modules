@@ -91,22 +91,6 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: kubernetes-monitoring-dashboard
-spec:
-  folder: default
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  grafanaCom:
-    id: 12740
-    revision: 1
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
   name: mysql
 spec:
   folder: default

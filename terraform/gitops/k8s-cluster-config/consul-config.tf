@@ -10,11 +10,16 @@ module "generate_consul_files" {
     gitlab_project_url         = var.gitlab_project_url
     consul_sync_wave           = var.consul_sync_wave
   }
-  file_list       = ["Chart.yaml", "values.yaml"]
-  template_path   = "${path.module}/../generate-files/templates/consul"
+  file_list       = [for f in fileset(local.consul_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.consul_app_file, f))]
+  template_path   = local.consul_template_path
   output_path     = "${var.output_dir}/consul"
-  app_file        = "consul-app.yaml"
+  app_file        = local.consul_app_file
   app_output_path = "${var.output_dir}/app-yamls"
+}
+
+locals {
+  consul_template_path              = "${path.module}/../generate-files/templates/consul"
+  consul_app_file                   = "consul-app.yaml"
 }
 
 variable "consul_chart_repo" {
