@@ -30,6 +30,14 @@ resource "null_resource" "run_ansible" {
     EOT
     working_dir = path.module
   }
+  provisioner "local-exec" {
+    when    = destroy
+    command     = <<-EOT
+          ansible-galaxy collection install ${var.ansible_collection_url},${var.ansible_collection_tag}
+          ansible-playbook mojaloop.iac.${var.ansible_destroy_playbook_name} -i ${local_sensitive_file.ansible_inventory.filename}
+    EOT
+    working_dir = path.module
+  }  
   triggers = {
     inventory_file_sha_hex = local_sensitive_file.ansible_inventory.id
     ansible_collection_tag = var.ansible_collection_tag
