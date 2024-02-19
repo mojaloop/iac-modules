@@ -582,7 +582,10 @@
                     {
                       "name": "topic-event",
                       "partitions": 3,
-                      "replicationFactor": 3
+                      "replicationFactor": 3,
+                      "config": {
+                        "retention.bytes": "20000000000"
+                      }
                     },
                     {
                       "name": "topic-transfer-prepare",
@@ -607,10 +610,7 @@
                     {
                       "name": "topic-notification-event",
                       "partitions": 4,
-                      "replicationFactor": 3,
-                      "config": {
-                        "retention.bytes": "20000000000"
-                      }
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-transfer-get",
