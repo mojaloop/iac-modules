@@ -8,6 +8,16 @@ module "deploy_rds" {
   private_subnets = module.base_infra[0].private_subnets
 }
 
+module "deploy_msk" {
+  count = length(local.msk_services) > 0 ? 1 : 0
+  source  = "../deploy-msk"
+  deployment_name = var.deployment_name
+  tags = var.tags
+  msk_services = local.msk_services
+  security_group_id = aws_security_group.managed_svcs[0].id
+  private_subnets = module.base_infra[0].private_subnets
+}
+
 module "ubuntu_focal_ami" {
   count = length(local.external_services) > 0 ? 1 : 0
   source  = "../../ami-ubuntu"
