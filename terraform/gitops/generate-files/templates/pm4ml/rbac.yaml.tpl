@@ -32,7 +32,7 @@ apiVersion: mojaloop.io/v1
 kind: MojaloopRole
 metadata:
   name: pm4mladmin
-  namespace: ory
+  namespace: ${ory_namespace}
 spec:
   role: pm4mladmin
   permissions:  ## Todo: decide which permissions the role should have

@@ -49,7 +49,7 @@ reporting-events-processor-svc:
   enabled: false
 
 reporting-hub-bop-experience-api-svc:
-  enabled: true
+  enabled: false
 
 ## Front-end UI services
 reporting-hub-bop-shell:
