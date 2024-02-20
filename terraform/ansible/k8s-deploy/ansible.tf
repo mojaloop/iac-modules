@@ -54,7 +54,8 @@ resource "null_resource" "run_ansible" {
  
 
   depends_on = [
-    local_sensitive_file.ansible_inventory
+    local_sensitive_file.ansible_inventory,
+    local_sensitive_file.ec2_ssh_key
   ]
 }
 
