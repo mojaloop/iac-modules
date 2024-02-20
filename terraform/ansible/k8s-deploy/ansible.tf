@@ -39,13 +39,15 @@ resource "null_resource" "run_ansible" {
     EOT
     working_dir = path.module
   }
-  
+
   provisioner "local-exec" {
     when    = destroy
     command     = <<-EOT
           echo "${self.triggers.inventory_file_sha_hex}"
+          echo "debugging file content"
+          cat "${self.triggers.ansible_inventory_filename}"
           ansible-galaxy collection install "${self.triggers.ansible_collection_url},${self.triggers.ansible_collection_tag}"
-          ansible-playbook "mojaloop.iac.${self.triggers.ansible_destroy_playbook_name}" -i "${self.triggers.ansible_inventory_filename}"
+          ansible-playbook -vvv "mojaloop.iac.${self.triggers.ansible_destroy_playbook_name}" -i "${self.triggers.ansible_inventory_filename}"
     EOT
     working_dir = path.module
   }  
