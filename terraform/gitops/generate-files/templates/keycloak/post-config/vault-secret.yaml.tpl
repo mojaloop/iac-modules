@@ -6,7 +6,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
   # Add fields here
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -26,7 +26,7 @@ spec:
     min-chars = 1
     }
 ---
-%{ for ref_secret_name, ref_secret_key in ref_secrets ~}
+# %{ for ref_secret_name, ref_secret_key in ref_secrets ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
@@ -34,7 +34,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -54,7 +54,7 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication: 
+    - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
@@ -67,4 +67,4 @@ spec:
       secret: '{{ .keycloaksecret.${ref_secret_key} }}'
     type: Opaque
 ---
-%{ endfor ~}
+# %{ endfor ~}
