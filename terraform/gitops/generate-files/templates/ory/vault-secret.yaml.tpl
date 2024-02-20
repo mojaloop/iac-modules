@@ -175,5 +175,16 @@ spec:
             "mapper_url":"base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==",
             "issuer_url":"https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}"
           }
+%{ for pm4ml in pm4mls ~}
+          ,{
+            "id":"${pm4ml.pm4ml}",
+            "provider":"generic",
+            "client_id":"${pm4ml.pm4ml}-provider-client",
+            "client_secret":"{{ .kratosoidcsecret.${pm4ml.pm4ml} }}",
+            "scope":["openid", "profile", "email"],
+            "mapper_url":"base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==",
+            "issuer_url":"https://${keycloak_fqdn}/realms/${pm4ml.pm4ml}"
+          }
+%{ endfor ~}
         ]'
     type: Opaque
