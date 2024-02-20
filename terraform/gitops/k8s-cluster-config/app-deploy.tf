@@ -200,6 +200,11 @@ locals {
   pm4ml_keycloak_realm_env_secret_map = { for key, pm4ml in local.pm4ml_var_map :
     "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.pm4ml_oidc_client_secret_secret_key
   }
+
+  pm4ml_provider_secret_map = { for key, pm4ml in local.pm4ml_var_map :
+    "${key}-oidc-provider-secret" => var.pm4ml_oidc_client_secret_secret_key
+  }
+
   hubop_keycloak_realm_env_secret_map = {
     "${var.hubop_oidc_client_secret_secret}"        = var.hubop_oidc_client_secret_secret_key
     "${var.hubop_realm_role_assign_service_secret}" = var.hubop_realm_role_assign_service_secret_key
@@ -240,7 +245,11 @@ locals {
   pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, values(local.pm4ml_ttk_frontend_fqdns), values(local.pm4ml_ttk_backend_fqdns), values(local.test_fqdns))
   pm4ml_external_gateway_hosts = concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_external_wildcard_exp_hosts)
 
-  keycloak_realm_env_secret_map = merge(var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map, local.hubop_keycloak_realm_env_secret_map)
+  keycloak_realm_env_secret_map = merge(
+    var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map,
+    local.hubop_keycloak_realm_env_secret_map,
+    local.pm4ml_provider_secret_map
+  )
 
   internal_gateway_hosts = concat([local.keycloak_admin_fqdn],
     local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],

@@ -169,7 +169,7 @@ spec:
         serviceAccount:
             name: default
       name: ${pm4ml.pm4ml}
-      path: ${hubop_oidc_client_secret_secret_path}/${pm4ml.pm4ml}-oidc-provider
+      path: ${hubop_oidc_client_secret_secret_path}/${pm4ml.pm4ml}-oidc-provider-secret
 %{ endfor ~}
   output:
     name: kratos-oidc-providers
