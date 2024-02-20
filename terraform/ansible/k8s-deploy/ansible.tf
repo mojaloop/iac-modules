@@ -23,6 +23,15 @@ resource "local_sensitive_file" "ansible_inventory" {
 }
 
 resource "null_resource" "run_ansible" {
+
+  triggers = {
+    inventory_file_sha_hex = local_sensitive_file.ansible_inventory.id
+    ansible_collection_tag = var.ansible_collection_tag
+    ansible_collection_url = var.ansible_collection_url
+    ansible_destroy_playbook_name = var.ansible_destroy_playbook_name
+    ansible_inventory_filename = local_sensitive_file.ansible_inventory.filename
+  }
+
   provisioner "local-exec" {
     command     = <<-EOT
           ansible-galaxy collection install ${var.ansible_collection_url},${var.ansible_collection_tag}
@@ -30,6 +39,7 @@ resource "null_resource" "run_ansible" {
     EOT
     working_dir = path.module
   }
+  
   provisioner "local-exec" {
     when    = destroy
     command     = <<-EOT
@@ -39,13 +49,7 @@ resource "null_resource" "run_ansible" {
     EOT
     working_dir = path.module
   }  
-  triggers = {
-    inventory_file_sha_hex = local_sensitive_file.ansible_inventory.id
-    ansible_collection_tag = var.ansible_collection_tag
-    ansible_collection_url = var.ansible_collection_url
-    ansible_destroy_playbook_name = var.ansible_destroy_playbook_name
-    ansible_inventory_filename = local_sensitive_file.ansible_inventory.filename
-  }
+
   depends_on = [
     local_sensitive_file.ansible_inventory
   ]
