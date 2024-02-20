@@ -33,14 +33,6 @@ resource "null_resource" "run_ansible" {
   }
 
   provisioner "local-exec" {
-    command     = <<-EOT
-          ansible-galaxy collection install ${var.ansible_collection_url},${var.ansible_collection_tag}
-          ansible-playbook mojaloop.iac.${var.ansible_playbook_name} -i ${local_sensitive_file.ansible_inventory.filename}
-    EOT
-    working_dir = path.module
-  }
-
-  provisioner "local-exec" {
     when    = destroy
     command     = <<-EOT
           echo "${self.triggers.inventory_file_sha_hex}"
@@ -50,7 +42,16 @@ resource "null_resource" "run_ansible" {
           ansible-playbook -vvv "mojaloop.iac.${self.triggers.ansible_destroy_playbook_name}" -i "${self.triggers.ansible_inventory_filename}"
     EOT
     working_dir = path.module
-  }  
+  } 
+
+  provisioner "local-exec" {
+    command     = <<-EOT
+          ansible-galaxy collection install ${var.ansible_collection_url},${var.ansible_collection_tag}
+          ansible-playbook mojaloop.iac.${var.ansible_playbook_name} -i ${local_sensitive_file.ansible_inventory.filename}
+    EOT
+    working_dir = path.module
+  }
+ 
 
   depends_on = [
     local_sensitive_file.ansible_inventory
