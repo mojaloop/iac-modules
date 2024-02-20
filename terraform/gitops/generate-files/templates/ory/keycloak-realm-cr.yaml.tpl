@@ -324,7 +324,7 @@ spec:
       - phone
       - offline_access
       - microprofile-jwt
-%{ for pm4ml in pm4mls ~}
+# %{ for pm4ml in pm4mls ~}
     - clientId: '${pm4ml.pm4ml} provider'
       name: '${pm4ml.pm4ml}-provider-client'
       description: ''
@@ -369,7 +369,7 @@ spec:
       - phone
       - offline_access
       - microprofile-jwt
-%{ endfor ~}
+# %{ endfor ~}
     - id: ce8b8b2d-71b8-4ecc-a306-ba657c9e8403
       clientId: realm-management
       name: '$${client_realm-management}'
