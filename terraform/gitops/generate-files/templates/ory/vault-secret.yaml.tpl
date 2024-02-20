@@ -162,6 +162,15 @@ spec:
             name: default
       name: kratosoidcsecret
       path: ${hubop_oidc_client_secret_secret_path}/${hubop_oidc_client_secret_secret}
+%{ for pm4ml in pm4mls ~}
+    - authentication:
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: ${pm4ml.pm4ml}
+      path: ${hubop_oidc_client_secret_secret_path}/${pm4ml.pm4ml}-oidc-provider
+%{ endfor ~}
   output:
     name: kratos-oidc-providers
     stringData:
@@ -180,7 +189,7 @@ spec:
             "id":"${pm4ml.pm4ml}",
             "provider":"generic",
             "client_id":"${pm4ml.pm4ml}-provider-client",
-            "client_secret":"{{ .kratosoidcsecret.${pm4ml.pm4ml} }}",
+            "client_secret":"{{ .${pm4ml.pm4ml}.secret }}",
             "scope":["openid", "profile", "email"],
             "mapper_url":"base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==",
             "issuer_url":"https://${keycloak_fqdn}/realms/${pm4ml.pm4ml}"
