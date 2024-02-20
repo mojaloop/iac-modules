@@ -19,6 +19,12 @@ spec:
     namespace: ${mcm_namespace}
     server: https://kubernetes.default.svc
   project: default
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: jws-pubkey-job
+      jqPathExpressions:
+        - ".spec.initContainers[]?"
   syncPolicy:
     automated:
       prune: true
@@ -33,4 +39,5 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
+      - RespectIgnoreDifferences=true
 %{ endif ~}

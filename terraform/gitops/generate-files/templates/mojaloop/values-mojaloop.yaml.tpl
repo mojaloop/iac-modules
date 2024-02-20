@@ -113,6 +113,8 @@ global:
 
 account-lookup-service:
   account-lookup-service:
+    commonAnnotations:
+      secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if account_lookup_service_affinity != null ~}
     affinity:
       ${indent(8, account_lookup_service_affinity)}
@@ -177,6 +179,8 @@ account-lookup-service:
     enabled: false
 
 quoting-service:
+  commonAnnotations:
+    secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
   affinity:
     ${indent(6, quoting_service_affinity)}
@@ -237,6 +241,8 @@ ml-api-adapter:
       config:
         prefix: *ML_API_ADAPTER_MONITORING_PREFIX
   ml-api-adapter-handler-notification:
+    commonAnnotations:
+      secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if ml_api_adapter_handler_notifications_affinity != null ~}
     affinity:
       ${indent(8, ml_api_adapter_handler_notifications_affinity)}

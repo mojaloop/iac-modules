@@ -2,20 +2,18 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${reflector_sync_wave}"
-  name: reflector
+    argocd.argoproj.io/sync-wave: "${base_utils_sync_wave}"
+  name: base-utils
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/reflector
+    path: apps/base-utils
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${reflector_namespace}
+    namespace: ${base_utils_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:

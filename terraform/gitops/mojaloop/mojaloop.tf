@@ -178,6 +178,10 @@ module "generate_mojaloop_files" {
     mojaloopRoles                                                     = local.mojaloopRoles
     permissionExclusions                                              = local.permissionExclusions
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
+    switch_dfspid                                                     = var.switch_dfspid
+    jws_key_secret                                                    = local.jws_key_secret
+    mcm_namespace                                                     = var.mcm_namespace
+    cert_man_vault_cluster_issuer_name                                = var.cert_man_vault_cluster_issuer_name
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -206,6 +210,7 @@ locals {
   rolesPermissions                             = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                                = local.rolesPermissions["roles"]
   permissionExclusions                         = local.rolesPermissions["permission-exclusions"]
+  jws_key_secret                               = "switch-jws"
 }
 
 variable "app_var_map" {
@@ -368,6 +373,6 @@ variable "rbac_api_resources_file" {
 }
 
 variable "reporting_templates_chart_version" {
-  type = string
+  type    = string
   default = "1.1.7"
 }
