@@ -5,11 +5,11 @@ metadata:
   name: ${pm4ml_release_name}-ui-vs
 spec:
   gateways:
-%{ if pm4ml_wildcard_gateway == "external" ~}
+# %{ if pm4ml_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
+# %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+# %{ endif ~}
   hosts:
   - '${portal_fqdn}'
   http:
@@ -29,11 +29,11 @@ metadata:
   name: ${pm4ml_release_name}-experience-vs
 spec:
   gateways:
-%{ if pm4ml_wildcard_gateway == "external" ~}
+# %{ if pm4ml_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
+# %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+# %{ endif ~}
   hosts:
   - '${experience_api_fqdn}'
   http:
@@ -62,7 +62,7 @@ spec:
               add:
                 access-control-allow-origin: "https://${portal_fqdn}"
                 access-control-allow-credentials: "true"
-%{ if pm4ml_wildcard_gateway == "external" ~}
+# %{ if pm4ml_wildcard_gateway == "external" ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -73,24 +73,24 @@ spec:
   selector:
     matchLabels:
       app: ${istio_external_gateway_name}
-%{ if ory_stack_enabled ~}
+# %{ if ory_stack_enabled ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
-%{ else ~}
+# %{ else ~}
   action: DENY
-%{ endif ~}
+# %{ endif ~}
   rules:
     - to:
         - operation:
             paths: ["/api/*"]
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
-%{ if !ory_stack_enabled ~}
+# %{ if !ory_stack_enabled ~}
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/*"]
-%{ endif ~}
-%{ if !ory_stack_enabled ~}
+# %{ endif ~}
+# %{ if !ory_stack_enabled ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -107,7 +107,7 @@ spec:
     fromHeaders:
       - name: Authorization
         prefix: "Bearer "
-%{ endif ~}
+# %{ endif ~}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -263,4 +263,4 @@ spec:
             port:
               number: 4040
 ---
-%{ endif ~}
+# %{ endif ~}

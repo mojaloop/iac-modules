@@ -1,11 +1,10 @@
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: interop-gateway
-  annotations: {
+  annotations:
     external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
-  }
 spec:
   selector:
     istio: ${istio_external_gateway_name}
@@ -29,22 +28,22 @@ spec:
   selector:
     matchLabels:
       app: ${istio_external_gateway_name}
-%{ if ory_stack_enabled ~}
+# %{ if ory_stack_enabled ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
-%{ else ~}
+# %{ else ~}
   action: DENY
-%{ endif ~}
+# %{ endif ~}
   rules:
     - when:
         - key: connection.sni
           values: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
-%{ if !ory_stack_enabled ~}
+# %{ if !ory_stack_enabled ~}
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
-%{ endif ~}
+# %{ endif ~}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -92,7 +91,7 @@ spec:
             host: ${mojaloop_release_name}-ml-api-adapter-service
             port:
               number: 80
-%{ if bulk_enabled ~}
+# %{ if bulk_enabled ~}
     - name: bulkQuotes
       match:
         - uri:
@@ -111,7 +110,7 @@ spec:
             host: ${mojaloop_release_name}-bulk-api-adapter-service
             port:
               number: 80
-%{ endif ~}
+# %{ endif ~}
     - name: transactionRequests
       match:
         - uri:
@@ -177,7 +176,7 @@ spec:
             host: ${mojaloop_release_name}-ml-api-adapter-service
             port:
               number: 80
-%{ if bulk_enabled ~}
+# %{ if bulk_enabled ~}
     - name: bulkQuotes
       match:
         - uri:
@@ -196,7 +195,7 @@ spec:
             host: ${mojaloop_release_name}-bulk-api-adapter-service
             port:
               number: 80
-%{ endif ~}
+# %{ endif ~}
     - name: transactionRequests
       match:
         - uri:
@@ -244,11 +243,11 @@ metadata:
   name: mojaloop-ttkfront-vs
 spec:
   gateways:
-%{ if mojaloop_wildcard_gateway == "external" ~}
+# %{ if mojaloop_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
+# %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+# %{ endif ~}
   hosts:
   - '${ttk_frontend_public_fqdn}'
   http:
@@ -267,11 +266,11 @@ metadata:
   name: mojaloop-ttkback-vs
 spec:
   gateways:
-%{ if mojaloop_wildcard_gateway == "external" ~}
+# %{ if mojaloop_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
+# %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+# %{ endif ~}
   hosts:
   - '${ttk_backend_public_fqdn}'
   http:
@@ -303,7 +302,7 @@ spec:
             port:
               number: 4040
 ---
-%{ endif ~}
+# %{ endif ~}
 
 ---
 apiVersion: networking.istio.io/v1alpha3

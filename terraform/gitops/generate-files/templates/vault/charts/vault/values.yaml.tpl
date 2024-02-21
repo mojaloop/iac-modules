@@ -1,7 +1,7 @@
 vault:
   server:
     enabled: true
-    dev: 
+    dev:
       enabled: false
     extraVolumes:
       - type: configMap
@@ -13,7 +13,7 @@ vault:
         secretName: ${vault_seal_token_secret}
         secretKey: TOKEN
     ha:
-      enabled: true 
+      enabled: true
       config: |
         ui = true
         listener "tcp" {
@@ -63,7 +63,7 @@ vault:
                 name: ${vault_oidc_client_id_secret}
                 key: TOKEN
 
-    affinity: 
+    affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
@@ -81,11 +81,11 @@ vault:
               matchLabels:
                 app: vault
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       ingressClassName: ${ingress_class}
       hosts:
         - host: vault.${public_subdomain}
