@@ -12,7 +12,7 @@ spec:
     repeatInterval: 12h
     receiver: 'jira'
 
-  # receivers:
+  receivers:
   # - name: email
   #   emailConfigs:
   #   - sendResolved: true
@@ -23,19 +23,34 @@ spec:
   #     authPassword: 
   #       name: alertmanager-email-secret
   #       key: data
-  # - name: jira
-  #   opsgenieConfigs:
-  #   - apiKey: 
-  #       name: alertmanager-jira-secret
-  #       key: data
-  #     tags: ${public_subdomain}
+  - name: jira
+    opsgenieConfigs:
+    - apiKey: 
+        name: alertmanager-jira-secret
+        key: data
+      tags: ${public_subdomain}
 
 # ---
-# TODO: remove secret from here and make it properly 
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#   name: alertmanager-jira-secret
-# data:
-#   data: base64encodedapikey
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: alertmanager-jira-external-secret-custom-resource
+  annotations:
+    argocd.argoproj.io/sync-wave: "-11"
+spec:
+  refreshInterval: 1h
+
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+
+  target:
+    name: alertmanager-jira-secret # Name for the secret to be created on the cluster
+    creationPolicy: Owner
+
+  data:
+    - secretKey: data
+      remoteRef: 
+        key: awsdev/jira-prometheus-integration-secret-key
+        property: value
 
