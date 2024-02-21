@@ -113,10 +113,10 @@ global:
 
 account-lookup-service:
   account-lookup-service:
-%{ if account_lookup_service_affinity != null ~}
+# %{ if account_lookup_service_affinity != null ~}
     affinity:
       ${indent(8, account_lookup_service_affinity)}
-%{ endif ~}
+# %{ endif ~}
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${account_lookup_service_replica_count}
@@ -135,21 +135,21 @@ account-lookup-service:
     # Thirdparty API Config
       featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: account-lookup-service.${ingress_subdomain}
     metrics:
       config:
         prefix: *ALS_MONITORING_PREFIX
   account-lookup-service-admin:
-%{ if account_lookup_admin_service_affinity != null ~}
+# %{ if account_lookup_admin_service_affinity != null ~}
     affinity:
       ${indent(8, account_lookup_admin_service_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${account_lookup_service_admin_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -163,11 +163,11 @@ account-lookup-service:
     # Thirdparty API Config
       featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: account-lookup-service-admin.${ingress_subdomain}
     metrics:
@@ -177,10 +177,10 @@ account-lookup-service:
     enabled: false
 
 quoting-service:
-%{ if quoting_service_affinity != null ~}
+# %{ if quoting_service_affinity != null ~}
   affinity:
     ${indent(6, quoting_service_affinity)}
-%{ endif ~}
+# %{ endif ~}
   podLabels:
     sidecar.istio.io/inject: "${enable_istio_injection}"
   replicaCount: ${quoting_service_replica_count}
@@ -202,11 +202,11 @@ quoting-service:
       jwsSigningKey: |-
         ${indent(10, jws_signing_priv_key)}
   ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
     enabled: false
-%{ else ~}
+# %{ else ~}
     enabled: true
-%{ endif ~}
+# %{ endif ~}
     className: *INGRESS_CLASS
     hostname: quoting-service.${ingress_subdomain}
   metrics:
@@ -215,20 +215,20 @@ quoting-service:
 
 ml-api-adapter:
   ml-api-adapter-service:
-%{ if ml_api_adapter_service_affinity != null ~}
+# %{ if ml_api_adapter_service_affinity != null ~}
     affinity:
       ${indent(8, ml_api_adapter_service_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${ml_api_adapter_service_replica_count}
     config:
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       #annotations:
         #nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -237,10 +237,10 @@ ml-api-adapter:
       config:
         prefix: *ML_API_ADAPTER_MONITORING_PREFIX
   ml-api-adapter-handler-notification:
-%{ if ml_api_adapter_handler_notifications_affinity != null ~}
+# %{ if ml_api_adapter_handler_notifications_affinity != null ~}
     affinity:
       ${indent(8, ml_api_adapter_handler_notifications_affinity)}
-%{ endif ~}
+# %{ endif ~}
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
@@ -251,11 +251,11 @@ ml-api-adapter:
         jwsSigningKey: |-
           ${indent(12, jws_signing_priv_key)}
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: ml-api-adapter-handler-notification.${ingress_subdomain}
     metrics:
@@ -264,10 +264,10 @@ ml-api-adapter:
 
 centralledger:
   centralledger-service:
-%{ if centralledger_service_affinity != null ~}
+# %{ if centralledger_service_affinity != null ~}
     affinity:
       ${indent(8, centralledger_service_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_ledger_service_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -281,11 +281,11 @@ centralledger:
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       annotations:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -295,10 +295,10 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-prepare:
-%{ if central_ledger_handler_transfer_prepare_affinity != null ~}
+# %{ if central_ledger_handler_transfer_prepare_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_prepare_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_ledger_handler_transfer_prepare_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -313,21 +313,21 @@ centralledger:
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       batch_processing_enabled: *CL_BATCH_PROCESSING_ENABLED
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-prepare.${ingress_subdomain}
     metrics:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-position:
-%{ if central_ledger_handler_transfer_position_affinity != null ~}
+# %{ if central_ledger_handler_transfer_position_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_ledger_handler_transfer_position_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -341,11 +341,11 @@ centralledger:
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-position.${ingress_subdomain}
     metrics:
@@ -353,10 +353,10 @@ centralledger:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-position-batch:
     enabled: *CL_BATCH_PROCESSING_ENABLED
-%{ if central_ledger_handler_transfer_position_batch_affinity != null ~}
+# %{ if central_ledger_handler_transfer_position_batch_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_batch_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_ledger_handler_transfer_position_batch_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -372,21 +372,21 @@ centralledger:
       batch_size: ${central_ledger_handler_transfer_position_batch_size}
       batch_consume_timeout_in_ms: ${central_ledger_handler_transfer_position_batch_consume_timeout_ms}
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-position-batch.${ingress_subdomain}
     metrics:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-get:
-%{ if central_ledger_handler_transfer_get_affinity != null ~}
+# %{ if central_ledger_handler_transfer_get_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_get_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_ledger_handler_transfer_get_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -400,21 +400,21 @@ centralledger:
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-get.${ingress_subdomain}
     metrics:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-fulfil:
-%{ if central_ledger_handler_transfer_fulfil_affinity != null ~}
+# %{ if central_ledger_handler_transfer_fulfil_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_fulfil_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_ledger_handler_transfer_fulfil_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -429,11 +429,11 @@ centralledger:
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       batch_processing_enabled: *CL_BATCH_PROCESSING_ENABLED
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-fulfil.${ingress_subdomain}
     metrics:
@@ -452,21 +452,21 @@ centralledger:
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-timeout.${ingress_subdomain}
     metrics:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-admin-transfer:
-%{ if central_ledger_handler_admin_transfer_affinity != null ~}
+# %{ if central_ledger_handler_admin_transfer_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_admin_transfer_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_ledger_handler_admin_transfer_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -480,11 +480,11 @@ centralledger:
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-admin-transfer.${ingress_subdomain}
     metrics:
@@ -493,20 +493,20 @@ centralledger:
 centralsettlement:
   centralsettlement-service:
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       annotations:
         nginx.ingress.kubernetes.io/rewrite-target: /v2/$2
       path: /settlements(/|$)(.*)
       hostname: interop-switch.${ingress_subdomain}
-%{ if central_settlement_service_affinity != null ~}
+# %{ if central_settlement_service_affinity != null ~}
     affinity:
       ${indent(8, central_settlement_service_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_settlement_service_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -518,10 +518,10 @@ centralsettlement:
       db_port: *CS_DB_PORT
       db_database: *CS_DB_DATABASE
   centralsettlement-handler-deferredsettlement:
-%{ if central_settlement_handler_deferredsettlement_affinity != null ~}
+# %{ if central_settlement_handler_deferredsettlement_affinity != null ~}
     affinity:
       ${indent(8, central_settlement_handler_deferredsettlement_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_settlement_handler_deferredsettlement_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -533,10 +533,10 @@ centralsettlement:
       db_port: *CS_DB_PORT
       db_database: *CS_DB_DATABASE
   centralsettlement-handler-grosssettlement:
-%{ if central_settlement_handler_grosssettlement_affinity != null ~}
+# %{ if central_settlement_handler_grosssettlement_affinity != null ~}
     affinity:
       ${indent(8, central_settlement_handler_grosssettlement_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_settlement_handler_grosssettlement_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -548,10 +548,10 @@ centralsettlement:
       db_port: *CS_DB_PORT
       db_database: *CS_DB_DATABASE
   centralsettlement-handler-rules:
-%{ if central_settlement_handler_rules_affinity != null ~}
+# %{ if central_settlement_handler_rules_affinity != null ~}
     affinity:
       ${indent(8, central_settlement_handler_rules_affinity)}
-%{ endif ~}
+# %{ endif ~}
     replicaCount: ${central_settlement_handler_rules_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -566,17 +566,17 @@ centralsettlement:
 transaction-requests-service:
   podLabels:
     sidecar.istio.io/inject: "${enable_istio_injection}"
-%{ if trasaction_requests_service_affinity != null ~}
+# %{ if trasaction_requests_service_affinity != null ~}
   affinity:
     ${indent(8, trasaction_requests_service_affinity)}
-%{ endif ~}
+# %{ endif ~}
   replicaCount: ${trasaction_requests_service_replica_count}
   ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
     enabled: false
-%{ else ~}
+# %{ else ~}
     enabled: true
-%{ endif ~}
+# %{ endif ~}
     className: *INGRESS_CLASS
     hostname: transaction-request-service.${ingress_subdomain}
 
@@ -597,11 +597,11 @@ thirdparty:
       redis_host: *TP_AUTH_SVC_REDIS_HOST
       redis_port: *TP_AUTH_SVC_REDIS_PORT
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       hostname: auth-service.upgtest.${ingress_subdomain}
       className: *INGRESS_CLASS
 
@@ -616,11 +616,11 @@ thirdparty:
       db_secret: *TP_ALS_CONSENT_SVC_DB_SECRET
       db_database: *TP_ALS_CONSENT_SVC_DB_DATABASE
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       hostname: consent-oracle.upgtest.${ingress_subdomain}
       className: *INGRESS_CLASS
 
@@ -630,11 +630,11 @@ thirdparty:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${tp_api_svc_replica_count}
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       hostname: tp-api-svc.upgtest.${ingress_subdomain}
       className: *INGRESS_CLASS
 
@@ -643,11 +643,11 @@ thirdparty:
 
 simulator:
   ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
     enabled: false
-%{ else ~}
+# %{ else ~}
     enabled: true
-%{ endif ~}
+# %{ endif ~}
     className: *INGRESS_CLASS
     hostname: moja-simulator.${ingress_subdomain}
 
@@ -666,11 +666,11 @@ mojaloop-bulk:
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
       ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
         enabled: false
-%{ else ~}
+# %{ else ~}
         enabled: true
-%{ endif ~}
+# %{ endif ~}
         className: *INGRESS_CLASS
         hostname: bulk-api-adapter.${ingress_subdomain}
     bulk-api-adapter-handler-notification:
@@ -892,11 +892,11 @@ ml-testing-toolkit:
         secret: *TTK_MONGO_SECRET
         database: *TTK_MONGO_DATABASE
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hosts:
         specApi:
@@ -982,11 +982,11 @@ ml-testing-toolkit:
 
   ml-testing-toolkit-frontend:
     ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
       enabled: false
-%{ else ~}
+# %{ else ~}
       enabled: true
-%{ endif ~}
+# %{ endif ~}
       className: *INGRESS_CLASS
       hosts:
         ui:
@@ -997,6 +997,8 @@ ml-testing-toolkit:
       API_BASE_URL: https://${ttk_backend_public_fqdn}
 
 ml-ttk-test-setup:
+  configFileDefaults:
+    labels: ${ttk_gp_testcase_labels}
   tests:
     enabled: true
   config:

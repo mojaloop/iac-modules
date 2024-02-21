@@ -10,6 +10,10 @@ variable "ansible_playbook_name" {
   default = "argok3s_cluster_deploy"
 }
 
+variable "ansible_destroy_playbook_name" {
+  default = "k8s_cluster_destroy"
+}
+
 variable "ansible_bastion_key" {
   description = "ssh key for bastion host"
   sensitive = true
