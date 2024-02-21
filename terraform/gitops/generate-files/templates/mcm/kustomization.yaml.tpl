@@ -7,9 +7,9 @@ resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - rbac.yaml
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
   - istio-gateway.yaml
-%{ endif ~}
+# %{ endif ~}
 configMapGenerator:
   - name: vault-agent
     files:

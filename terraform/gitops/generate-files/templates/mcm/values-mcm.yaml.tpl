@@ -64,29 +64,29 @@ api:
     vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
 ui:
-%{ if ory_stack_enabled ~}
+# %{ if ory_stack_enabled ~}
   checkSessionUrl: https://${mcm_public_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
   loginProvider: keycloak
   logoutUrl: https://${mcm_public_fqdn}/kratos/self-service/logout/browser
-%{ endif ~}
+# %{ endif ~}
   oauth:
-%{ if ory_stack_enabled ~}
+# %{ if ory_stack_enabled ~}
     enabled: true
-%{ else ~}
+# %{ else ~}
     enabled: false
-%{ endif ~}
+# %{ endif ~}
     hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
     clientId: ${oauth_key}
     clientSecretName: ${oauth_secret_secret}
     clientSecretKey: ${oauth_secret_secret_key}
 
 ingress:
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
   enabled: false
-%{ else ~}
+# %{ else ~}
   enabled: true
-%{ endif ~}
+# %{ endif ~}
   className: ${ingress_class}
   host: ${mcm_public_fqdn}
   tls:
