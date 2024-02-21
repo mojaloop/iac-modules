@@ -66,3 +66,29 @@ spec:
     - handler: header
 ---
 %{ endfor ~}
+
+---
+## Disabling authZ for FSPIOP calls as the client_id based authZ rules are not in place in ory stack yet
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: fspiop-api
+  namespace: ${mojaloop_namespace}
+spec:
+  match:
+    url: <http|https>://${interop_switch_fqdn}/<.*>
+    methods:
+      - POST
+      - GET
+      - PUT
+      - DELETE
+      - PATCH
+  authenticators:
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs  
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: header

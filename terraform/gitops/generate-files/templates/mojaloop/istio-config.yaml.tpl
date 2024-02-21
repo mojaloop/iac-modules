@@ -427,7 +427,7 @@ spec:
             host: ${finance_portal_release_name}-reporting-hub-bop-positions-ui
             port:
               number: 80
-    - name: kratos-woami-redirect
+    - name: kratos-whoami-redirect
       match:
         - uri:
             prefix: /kratos/sessions/whoami

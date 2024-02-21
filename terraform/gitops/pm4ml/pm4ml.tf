@@ -78,7 +78,7 @@ module "generate_pm4ml_files" {
     role_assign_service_secret_key                  = var.hubop_realm_role_assign_service_secret_key
     role_assign_service_secret                      = var.hubop_realm_role_assign_service_secret
     role_assign_service_user                        = var.hubop_realm_role_assign_service_user
-
+    pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]

@@ -11,6 +11,7 @@ prometheus:
     enabled: true
     storageClass: ${storage_class_name}
     size: ${prometheus_pvc_size}
+  retention: ${prometheus_retention_period}
 kubelet:
   serviceMonitor:
     relabelings:

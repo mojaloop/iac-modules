@@ -681,7 +681,50 @@
                 }
             }
         },
-        "external_resource_config": {}
+        "external_resource_config": {
+            "name": "mks",
+            "kafka_version": "3.4.0",
+            "number_of_broker_nodes": 3,
+            "enhanced_monitoring": "PER_TOPIC_PER_PARTITION",
+            "broker_node_storage_info": {
+                "ebs_storage_info": {
+                    "volume_size": 100
+                }
+            },
+            "broker_node_instance_type": "kafka.t3.small",
+            "encryption_in_transit_client_broker": "TLS",
+            "encryption_in_transit_in_cluster": true,
+            "configuration_name": "example-configuration",
+            "configuration_description": "Example configuration",
+            "configuration_server_properties": {
+                "auto.create.topics.enable": true,
+                "delete.topic.enable": true
+            },
+            "jmx_exporter_enabled": true,
+            "node_exporter_enabled": true,
+            "cloudwatch_logs_enabled": false,
+            "s3_logs_enabled": false,
+            "s3_logs_bucket": "aws-msk-kafka-cluster-logs",
+            "s3_logs_prefix": "something",
+            "scaling_max_capacity": 512,
+            "scaling_target_value": 80,
+            "client_authentication": {
+                "sasl": {
+                    "scram": false
+                },
+                "unauthenticated": {
+                    "enabled": true
+                }
+            },
+            "create_scram_secret_association": false,
+            "scram_secret_association_secret_arn_list": [],
+            "tags": {
+                "Origin": "Terraform",
+                "mojaloop/cost_center": "mlf-iac-sandbox",
+                "mojaloop/env": "ft-sbox-rw",
+                "mojaloop/owner": "Samuel-Kummary"
+            }
+        }
     },
     {
         "enabled": true,
