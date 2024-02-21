@@ -1,6 +1,6 @@
 module "generate_pm4ml_files" {
   for_each = var.app_var_map
-  source = "../generate-files"
+  source   = "../generate-files"
   var_map = {
     pm4ml_enabled                                   = each.value.pm4ml_enabled
     gitlab_project_url                              = var.gitlab_project_url
@@ -83,8 +83,8 @@ module "generate_pm4ml_files" {
 }
 
 locals {
-  pm4ml_template_path              = "${path.module}/../generate-files/templates/pm4ml"
-  pm4ml_app_file                   = "pm4ml-app.yaml"
+  pm4ml_template_path = "${path.module}/../generate-files/templates/pm4ml"
+  pm4ml_app_file      = "pm4ml-app.yaml"
 }
 
 
@@ -123,11 +123,6 @@ variable "pm4ml_vault_k8s_role_name" {
   description = "vault k8s role name for pm4ml"
   type        = string
   default     = "kubernetes-pm4ml-role"
-}
-
-resource "tls_private_key" "jws" {
-  algorithm = "RSA"
-  rsa_bits  = "4096"
 }
 
 variable "pm4ml_ingress_internal_lb" {

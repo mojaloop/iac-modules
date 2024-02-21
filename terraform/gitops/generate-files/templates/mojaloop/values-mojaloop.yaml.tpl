@@ -132,8 +132,9 @@ account-lookup-service:
       db_port: *ALS_DB_PORT
       db_database: *ALS_DB_DATABASE
       endpointSecurity:
-        jwsSigningKey: |-
-          ${indent(12, jws_signing_priv_key)}
+        jwsSigningKeySecret:
+          name: ${jws_key_secret}
+          key: ${jws_key_secret_private_key_key}
     # Thirdparty API Config
       featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
     ingress:
@@ -203,8 +204,9 @@ quoting-service:
     db_port: *QUOTING_DB_PORT
     db_database: *QUOTING_DB_DATABASE
     endpointSecurity:
-      jwsSigningKey: |-
-        ${indent(10, jws_signing_priv_key)}
+      jwsSigningKeySecret:
+        name: ${jws_key_secret}
+        key: ${jws_key_secret_private_key_key}
   ingress:
 %{ if istio_create_ingress_gateways ~}
     enabled: false
@@ -254,8 +256,9 @@ ml-api-adapter:
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       endpointSecurity:
-        jwsSigningKey: |-
-          ${indent(12, jws_signing_priv_key)}
+        jwsSigningKeySecret:
+          name: ${jws_key_secret}
+          key: ${jws_key_secret_private_key_key}
     ingress:
 %{ if istio_create_ingress_gateways ~}
       enabled: false

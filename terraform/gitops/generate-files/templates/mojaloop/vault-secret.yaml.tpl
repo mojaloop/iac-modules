@@ -31,11 +31,10 @@ spec:
   privateKey:
     algorithm: RSA
     encoding: PKCS1
-    size: 2048
+    size: ${jws_key_rsa_bits}
   usages:
     - digital signature
     - key encipherment
-    - client auth
   commonName: ${interop_switch_fqdn}
   issuerRef:
     name:  ${cert_man_vault_cluster_issuer_name}
@@ -44,8 +43,3 @@ spec:
   secretTemplate:
     labels:
       reloader: enabled
-    annotations:
-      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "${mcm_namespace}"  # Control destination namespaces
-      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "${mcm_namespace}" # Control auto-reflection namespaces

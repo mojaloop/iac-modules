@@ -7,6 +7,7 @@ resources:
   - service-monitors.yaml
   - vault-secret.yaml
   - rbac.yaml
+  - switch-jws-deployment.yaml
 helmCharts:
 - name: mojaloop
   releaseName: ${mojaloop_release_name}

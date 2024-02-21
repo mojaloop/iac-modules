@@ -76,15 +76,12 @@ module "generate_mcm_files" {
     mojaloop_namespace                   = var.mojaloop_namespace
     mojaloop_release_name                = var.mojaloop_release_name
     onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag
-    switch_jws_public_key                = tls_private_key.jws.public_key_pem
     ory_stack_enabled                    = var.ory_stack_enabled
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
     auth_fqdn                            = var.auth_fqdn
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     switch_dfspid                        = var.switch_dfspid
-    jws_key_secret                       = local.jws_key_secret
-    jws_key_secret_key                   = "tls.crt"
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path

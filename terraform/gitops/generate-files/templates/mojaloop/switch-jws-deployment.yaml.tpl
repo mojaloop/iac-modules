@@ -18,13 +18,13 @@ spec:
           image: curlimages/curl
           imagePullPolicy: Always
           command:
-            - ${mcm_hub_jws_endpoint} ${switch_dfspid} $$(JWS_PUB_KEY)
+            - ${mcm_hub_jws_endpoint}/${switch_dfspid} $$(JWS_PUB_KEY)
           env:
             - name: JWS_PUB_KEY
               valueFrom:
                 secretKeyRef:
                   name: ${jws_key_secret}
-                  key: ${jws_key_secret_key}
+                  key: ${jws_key_secret_public_key_key}
       containers:
         - name: jws-pubkey-job-wait
           image: busybox:1.28
