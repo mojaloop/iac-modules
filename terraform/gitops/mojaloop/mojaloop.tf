@@ -178,6 +178,7 @@ module "generate_mojaloop_files" {
     mojaloopRoles                                                     = local.mojaloopRoles
     permissionExclusions                                              = local.permissionExclusions
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
+    ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -368,6 +369,11 @@ variable "rbac_api_resources_file" {
 }
 
 variable "reporting_templates_chart_version" {
-  type = string
+  type    = string
   default = "1.1.7"
+}
+
+variable "ttk_gp_testcase_labels" {
+  type    = string
+  default = "p2p"
 }
