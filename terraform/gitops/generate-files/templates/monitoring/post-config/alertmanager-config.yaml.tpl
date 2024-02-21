@@ -13,16 +13,6 @@ spec:
     receiver: 'jira'
 
   receivers:
-  # - name: email
-  #   emailConfigs:
-  #   - sendResolved: true
-  #     to: receiver_email@domain.com
-  #     from: sender_email@domain.com
-  #     authUsername: sender_email@domain.com
-  #     smarthost: smtp.gmail.com:587 
-  #     authPassword: 
-  #       name: alertmanager-email-secret
-  #       key: data
   - name: jira
     opsgenieConfigs:
     - apiKey: 
@@ -30,7 +20,7 @@ spec:
         key: data
       tags: ${public_subdomain}
 
-# ---
+---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
