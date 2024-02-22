@@ -76,7 +76,7 @@ reporting-hub-bop-api-svc:
   enabled: true
   ingress:
     enabled: false
-    
+
 
 reporting-legacy-api:
   containerSecurityContext:
@@ -119,14 +119,14 @@ reporting-hub-bop-shell:
   enabled: true
   ingress:
     enabled: false
-    
+
   config:
     env:
       AUTH_MOCK_API: false
       REMOTE_API_BASE_URL: ''
       REMOTE_MOCK_API: false
-      LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser?return_to=https://${portal_fqdn}
-      LOGOUT_URL: https://${auth_fqdn}/kratos/self-service/logout/browser
+      LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
+      LOGOUT_URL: https://${portal_fqdn}/kratos/self-service/logout/browser
       AUTH_TOKEN_URL: /kratos/sessions/whoami
       AUTH_ENABLED: true
       REMOTE_1_URL: https://${portal_fqdn}/uis/iam
@@ -167,7 +167,7 @@ reporting-hub-bop-settlements-ui:
       REPORTING_API_ENDPOINT: https://${portal_fqdn}/api/transfers
   ingress:
     enabled: false
-    
+
 
 reporting-hub-bop-positions-ui:
   enabled: true

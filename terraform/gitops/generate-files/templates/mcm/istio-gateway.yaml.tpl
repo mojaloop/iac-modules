@@ -33,7 +33,18 @@ spec:
             host: mcm-connection-manager-api
             port:
               number: 3001
-    - name: kratos-whoami-redirect
+    - name: kratos-logout-proxy
+      match:
+        - uri:
+            prefix: /kratos/self-service/logout/browser
+      rewrite:
+        uri: /self-service/logout/browser
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
+    - name: kratos-whoami-proxy
       match:
         - uri:
             prefix: /kratos/sessions/whoami

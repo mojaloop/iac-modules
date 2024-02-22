@@ -24,6 +24,7 @@ frontend:
 # %{ if ory_stack_enabled ~}
     CHECK_SESSION_URL: https://${portal_fqdn}/kratos/sessions/whoami
     LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
+    LOGOUT_URL: https://${portal_fqdn}/kratos/self-service/logout/browser
     LOGIN_PROVIDER: ${pm4ml_namespace}
 # %{ endif ~}
 

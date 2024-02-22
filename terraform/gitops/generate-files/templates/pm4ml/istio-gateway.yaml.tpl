@@ -13,6 +13,28 @@ spec:
   hosts:
   - '${portal_fqdn}'
   http:
+    - name: kratos-logout-proxy
+      match:
+        - uri:
+            prefix: /kratos/self-service/logout/browser
+      rewrite:
+        uri: /self-service/logout/browser
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
+    - name: kratos-whoami-proxy
+      match:
+        - uri:
+            prefix: /kratos/sessions/whoami
+      rewrite:
+        uri: /sessions/whoami
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
     - name: "portal"
       match:
         - uri:
@@ -37,17 +59,6 @@ spec:
   hosts:
   - '${experience_api_fqdn}'
   http:
-    - name: kratos-whoami-redirect
-      match:
-        - uri:
-            prefix: /kratos/sessions/whoami
-      rewrite:
-        uri: /sessions/whoami
-      route:
-        - destination:
-            host: ${kratos_service_name}
-            port:
-              number: 80
     - name: "experience-api"
       match:
         - uri:
