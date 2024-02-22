@@ -1,4 +1,4 @@
-#%{ for mr in mojaloopRoles ~}
+%{ for mr in mojaloopRoles ~}
 ---
 apiVersion: mojaloop.io/v1
 kind: MojaloopRole
@@ -8,12 +8,12 @@ metadata:
 spec:
   role: ${mr.rolename}
   permissions:
-#%{ for permission in mr.permissions ~}
+%{ for permission in mr.permissions ~}
   - ${permission}
-#%{ endfor ~}
-#%{ endfor ~}
+%{ endfor ~}
+%{ endfor ~}
 
-#%{ for pe in permissionExclusions ~}
+%{ for pe in permissionExclusions ~}
 ---
 apiVersion: mojaloop.io/v1
 kind: MojaloopPermissionExclusions
@@ -22,12 +22,12 @@ metadata:
   namespace: ${ory_namespace}
 spec:
   permissionsA:
-#%{ for permission in pe.permissionsA ~}
+%{ for permission in pe.permissionsA ~}
   - ${permission}
-#%{ endfor ~}
+%{ endfor ~}
   permissionsB:
-#%{ for permission in pe.permissionsB ~}
+%{ for permission in pe.permissionsB ~}
   - ${permission}
-#%{ endfor ~}
-#%{ endfor ~}
+%{ endfor ~}
+%{ endfor ~}
 

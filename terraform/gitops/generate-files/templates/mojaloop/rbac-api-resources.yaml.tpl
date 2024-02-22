@@ -1,4 +1,4 @@
-#%{ for ar in apiResources ~}
+%{ for ar in apiResources ~}
 ---
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
