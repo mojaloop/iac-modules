@@ -7,7 +7,6 @@ module "generate_pm4ml_files" {
     pm4ml_chart_repo                                = var.pm4ml_chart_repo
     pm4ml_release_name                              = each.key
     pm4ml_namespace                                 = each.key
-    pm4ml_oidc_provider_secret                      = "${replace(each.key, "-", "_")}_oidc_provider_secret"
     storage_class_name                              = var.storage_class_name
     pm4ml_sync_wave                                 = var.pm4ml_sync_wave + index(keys(var.app_var_map), each.key)
     external_load_balancer_dns                      = var.external_load_balancer_dns
