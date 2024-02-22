@@ -360,9 +360,6 @@ controller:
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-# %{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
-  affinity:
-    ${indent(4, yamlencode(resource.local_resource_config.kafka_data.dataplane_affinity_definition))}
 # %{ else ~}
   affinity: {}
 # %{ endif ~}
