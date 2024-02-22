@@ -342,19 +342,19 @@ controller:
   nodeAffinityPreset:
     ## @param controller.nodeAffinityPreset.type Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
     ##
-    type: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.type}
+    type: ""
     ## @param controller.nodeAffinityPreset.key Node label key to match Ignored if `affinity` is set.
     ## E.g.
     ## key: "kubernetes.io/e2e-az-name"
     ##
-    key: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.key}
+    key: ""
     ## @param controller.nodeAffinityPreset.values Node label values to match. Ignored if `affinity` is set.
     ## E.g.
     ## values:
     ##   - e2e-az1
     ##   - e2e-az2
     ##
-    values: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.values}
+    values: []
   ## @param controller.affinity Affinity for pod assignment
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
