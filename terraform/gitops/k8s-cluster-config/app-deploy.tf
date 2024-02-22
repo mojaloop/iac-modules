@@ -190,9 +190,6 @@ variable "hubop_realm_portal_admin_user" {
   default = "portal_admin"
 }
 
-variable "rbac_permissions_file" {
-  type = string
-}
 variable "rbac_api_resources_file" {
   type = string
 }
