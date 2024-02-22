@@ -1012,4 +1012,4 @@ zookeeper:
 
 extraEnvVars:
   - name: GC_LOG_ENABLED
-    value: true
+    value: 'true'
