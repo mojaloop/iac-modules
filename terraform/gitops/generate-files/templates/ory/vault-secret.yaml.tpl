@@ -168,8 +168,8 @@ spec:
         role: policy-admin
         serviceAccount:
             name: default
-      name: ${provider}
-      path: ${hubop_oidc_client_secret_secret_path}/${provider}-oidc-provider-secret
+      name: ${provider.realm}
+      path: ${hubop_oidc_client_secret_secret_path}/${provider.secret_name}
 # %{ endfor ~}
   output:
     name: kratos-oidc-providers
@@ -186,13 +186,13 @@ spec:
           }
           %{ for provider in oidc_providers ~}
           ,{
-            "id":"${provider}",
+            "id":"${provider.realm}",
             "provider":"generic",
-            "client_id":"${provider}-provider-client",
-            "client_secret":"{{ .${provider}.secret }}",
+            "client_id":"${provider.client_id}",
+            "client_secret":"{{ .${provider.realm}.${provider.secret_key} }}",
             "scope":["openid", "profile", "email"],
             "mapper_url":"base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==",
-            "issuer_url":"https://${keycloak_fqdn}/realms/${provider}"
+            "issuer_url":"https://${keycloak_fqdn}/realms/${provider.realm}"
           }
           %{ endfor ~}
         ]'
