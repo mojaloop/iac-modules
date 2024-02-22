@@ -1,0 +1,7 @@
+---
+roles:
+- rolename: pm4mladmin
+  permissions:
+  - pm4mlViewTransfers
+
+permission-exclusions:

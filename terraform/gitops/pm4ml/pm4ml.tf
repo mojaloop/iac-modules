@@ -79,6 +79,8 @@ module "generate_pm4ml_files" {
     role_assign_service_secret                      = var.hubop_realm_role_assign_service_secret
     role_assign_service_user                        = var.hubop_realm_role_assign_service_user
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
+    mojaloopRoles                                   = local.mojaloopRoles
+    permissionExclusions                            = local.permissionExclusions
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -92,6 +94,9 @@ module "generate_pm4ml_files" {
 locals {
   pm4ml_template_path              = "${path.module}/../generate-files/templates/pm4ml"
   pm4ml_app_file                   = "pm4ml-app.yaml"
+  rolesPermissions                 = yamldecode(file(var.rbac_permissions_file))
+  mojaloopRoles                    = local.rolesPermissions["roles"]
+  permissionExclusions             = local.rolesPermissions["permission-exclusions"]
 }
 
 
@@ -229,6 +234,10 @@ variable "hubop_realm_role_assign_service_secret_key" {
   type = string
 }
 variable "hubop_realm_role_assign_service_user" {
+  type = string
+}
+
+variable "rbac_permissions_file" {
   type = string
 }
 

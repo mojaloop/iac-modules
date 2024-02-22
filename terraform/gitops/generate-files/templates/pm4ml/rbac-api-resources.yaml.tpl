@@ -21,21 +21,9 @@ spec:
       payload: |
         {
           "namespace": "permission",
-          "object": "pm4mlApi",
+          "object": "pm4mlViewTransfers",
           "relation": "granted",
           "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
----
-apiVersion: mojaloop.io/v1
-kind: MojaloopRole
-metadata:
-  name: pm4mladmin
-  namespace: ${ory_namespace}
-spec:
-  role: pm4mladmin
-  permissions:  ## Todo: decide which permissions the role should have
-    - pm4mlViewTransfers
-    - pm4mlApi
----
