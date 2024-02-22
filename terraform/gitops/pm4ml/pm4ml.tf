@@ -1,6 +1,6 @@
 module "generate_pm4ml_files" {
   for_each = var.app_var_map
-  source = "../generate-files"
+  source   = "../generate-files"
   var_map = {
     pm4ml_enabled                                   = each.value.pm4ml_enabled
     gitlab_project_url                              = var.gitlab_project_url
@@ -79,8 +79,6 @@ module "generate_pm4ml_files" {
     role_assign_service_secret                      = var.hubop_realm_role_assign_service_secret
     role_assign_service_user                        = var.hubop_realm_role_assign_service_user
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
-    mojaloopRoles                                   = local.mojaloopRoles
-    permissionExclusions                            = local.permissionExclusions
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -92,11 +90,8 @@ module "generate_pm4ml_files" {
 }
 
 locals {
-  pm4ml_template_path              = "${path.module}/../generate-files/templates/pm4ml"
-  pm4ml_app_file                   = "pm4ml-app.yaml"
-  rolesPermissions                 = yamldecode(file(var.rbac_permissions_file))
-  mojaloopRoles                    = local.rolesPermissions["roles"]
-  permissionExclusions             = local.rolesPermissions["permission-exclusions"]
+  pm4ml_template_path = "${path.module}/../generate-files/templates/pm4ml"
+  pm4ml_app_file      = "pm4ml-app.yaml"
 }
 
 
@@ -235,11 +230,6 @@ variable "hubop_realm_role_assign_service_secret_key" {
 variable "hubop_realm_role_assign_service_user" {
   type = string
 }
-
-variable "rbac_permissions_file" {
-  type = string
-}
-
 
 locals {
   nat_cidr_list = join(", ", [for ip in var.nat_public_ips : format("%s/32", ip)])

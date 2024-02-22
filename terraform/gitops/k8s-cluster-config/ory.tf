@@ -44,6 +44,8 @@ module "generate_ory_files" {
     portal_admin_secret_name              = join("$", ["", "{${replace(var.hubop_realm_portal_admin_secret, "-", "_")}}"])
     portal_admin                          = var.hubop_realm_portal_admin_user
     oidc_providers                        = local.oidc_providers
+    permissionExclusions                  = local.permissionExclusions
+    mojaloopRoles                         = local.mojaloopRoles
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -116,6 +118,9 @@ variable "bof_chart_version" {
   default = "5.1.0"
 }
 
+variable "rbac_permissions_file" {
+  type = string
+}
 locals {
   ory_template_path              = "${path.module}/../generate-files/templates/ory"
   ory_app_file                   = "ory-app.yaml"
@@ -124,4 +129,7 @@ locals {
   oathkeeper_auth_url            = "oathkeeper-api.${var.ory_namespace}.svc.cluster.local"
   oathkeeper_auth_provider_name  = "ory-authz"
   bof_release_name               = "bof"
+  rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
+  mojaloopRoles                  = local.rolesPermissions["roles"]
+  permissionExclusions           = local.rolesPermissions["permission-exclusions"]
 }

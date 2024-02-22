@@ -61,7 +61,6 @@ module "mojaloop" {
   oathkeeper_auth_provider_name              = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name                  = var.keycloak_hubop_realm_name
   rbac_api_resources_file                    = var.rbac_api_resources_file
-  rbac_permissions_file                      = var.rbac_permissions_file
 }
 
 module "pm4ml" {
@@ -110,7 +109,6 @@ module "pm4ml" {
   test_fqdns                                 = local.test_fqdns
   vault_root_ca_name                         = "pki-${var.cluster_name}"
   app_var_map                                = local.pm4ml_var_map
-  rbac_permissions_file                      = var.rbac_permissions_file
   bof_release_name                           = local.bof_release_name
   hubop_realm_role_assign_service_secret_key = var.hubop_realm_role_assign_service_secret_key
   hubop_realm_role_assign_service_secret     = var.hubop_realm_role_assign_service_secret
@@ -212,8 +210,8 @@ locals {
     secret_key  = var.pm4ml_oidc_client_secret_secret_key
   }]
   mojaloop_keycloak_realm_env_secret_map = {
-    "${var.mcm_oidc_client_secret_secret}"          = var.mcm_oidc_client_secret_secret_key
-    "${var.jwt_client_secret_secret}"               = var.jwt_client_secret_secret_key
+    "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
+    "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
   }
   pm4ml_keycloak_realm_env_secret_map = { for key, pm4ml in local.pm4ml_var_map :
     "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.pm4ml_oidc_client_secret_secret_key

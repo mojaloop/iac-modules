@@ -175,8 +175,6 @@ module "generate_mojaloop_files" {
     role_assign_service_user                                          = var.hubop_realm_role_assign_service_user
     keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
     apiResources                                                      = local.apiResources
-    mojaloopRoles                                                     = local.mojaloopRoles
-    permissionExclusions                                              = local.permissionExclusions
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
   }
@@ -204,9 +202,6 @@ locals {
   reporting_events_mongodb_resource_index      = index(local.stateful_resources.*.resource_name, "reporting-events-mongodb")
   mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
-  rolesPermissions                             = yamldecode(file(var.rbac_permissions_file))
-  mojaloopRoles                                = local.rolesPermissions["roles"]
-  permissionExclusions                         = local.rolesPermissions["permission-exclusions"]
 }
 
 variable "app_var_map" {
@@ -361,9 +356,6 @@ variable "hubop_realm_role_assign_service_user" {
   type = string
 }
 
-variable "rbac_permissions_file" {
-  type = string
-}
 variable "rbac_api_resources_file" {
   type = string
 }
