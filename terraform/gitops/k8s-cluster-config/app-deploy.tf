@@ -213,7 +213,6 @@ locals {
   pm4ml_keycloak_realm_env_secret_map = { for key, pm4ml in local.pm4ml_var_map :
     "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.pm4ml_oidc_client_secret_secret_key
   }
-
   hubop_keycloak_realm_env_secret_map = {
     "${var.hubop_oidc_client_secret_secret}"        = var.hubop_oidc_client_secret_secret_key
     "${var.hubop_realm_role_assign_service_secret}" = var.hubop_realm_role_assign_service_secret_key
