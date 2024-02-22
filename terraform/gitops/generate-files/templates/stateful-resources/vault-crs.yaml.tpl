@@ -1,4 +1,4 @@
-# %{ if resource.local_resource_config.generate_secret_name != null ~}
+%{ if resource.local_resource_config.generate_secret_name != null ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PasswordPolicy
 metadata:
@@ -32,7 +32,7 @@ spec:
         min-chars = 1
       }
 ---
-# %{ for key in resource.local_resource_config.generate_secret_keys ~}
+%{ for key in resource.local_resource_config.generate_secret_keys ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
@@ -52,8 +52,8 @@ spec:
   secretFormat:
     passwordPolicyName: ${resource.resource_type}-${resource.resource_name}-policy
 ---
-# %{ endfor ~}
-# %{ for ns in concat([resource.local_resource_config.resource_namespace], resource.local_resource_config.generate_secret_extra_namespaces) ~}
+%{ endfor ~}
+%{ for ns in concat([resource.local_resource_config.resource_namespace], resource.local_resource_config.generate_secret_extra_namespaces) ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
@@ -64,7 +64,7 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-# %{ for key in resource.local_resource_config.generate_secret_keys ~}
+%{ for key in resource.local_resource_config.generate_secret_keys ~}
     - authentication:
         path: kubernetes
         role: policy-admin
@@ -72,14 +72,14 @@ spec:
           name: default
       name: dynamicsecret_${replace(key, "-", "_")}
       path: ${resource.local_resource_config.generate_secret_vault_base_path}/${resource.resource_name}/${resource.local_resource_config.generate_secret_name}-${key}
-# %{ endfor ~}
+%{ endfor ~}
   output:
     name: ${resource.local_resource_config.generate_secret_name}
     stringData:
-# %{ for key in resource.local_resource_config.generate_secret_keys ~}
+%{ for key in resource.local_resource_config.generate_secret_keys ~}
       ${key}: '{{ .dynamicsecret_${replace(key, "-", "_")}.password }}'
-# %{ endfor ~}
+%{ endfor ~}
     type: Opaque
 ---
-# %{ endfor ~}
-# %{ endif ~}
+%{ endfor ~}
+%{ endif ~}

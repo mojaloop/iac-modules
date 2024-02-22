@@ -1,4 +1,4 @@
-# %{ for logical_service_name, external_name in config ~}
+%{ for logical_service_name, external_name in config ~}
 ---
 apiVersion: v1
 kind: Service
@@ -8,4 +8,4 @@ metadata:
 spec:
   type: ExternalName
   externalName: ${external_name}
-# %{ endfor ~}
+%{ endfor ~}

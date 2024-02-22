@@ -29,10 +29,10 @@ spec:
           - env:
             - name: JAVA_OPTS_APPEND
               value: "-Dkeycloak.migration.replace-placeholders=true"
-# %{ for ref_secret_name, ref_secret_key in ref_secrets ~}
+%{ for ref_secret_name, ref_secret_key in ref_secrets ~}
             - name: ${replace(ref_secret_name, "-", "_")}
               valueFrom:
                 secretKeyRef:
                   name: ${ref_secret_name}
                   key: ${ref_secret_key}
-# %{ endfor ~}
+%{ endfor ~}

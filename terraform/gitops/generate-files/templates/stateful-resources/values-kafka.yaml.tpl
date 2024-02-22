@@ -160,14 +160,14 @@ controller:
   existingConfigmap: ""
   ## @param controller.extraConfig Additional configuration to be appended at the end of the generated Kafka controller-eligible nodes configuration file.
   ##
-# %{ if resource.local_resource_config.kafka_data.replica_count == 1 ~}
+%{ if resource.local_resource_config.kafka_data.replica_count == 1 ~}
   extraConfig: |-
     offsets.topic.replication.factor=1
     default.replication.factor=1
     transaction.state.log.replication.factor=1
-# %{ else ~}
+%{ else ~}
   extraConfig: ""
-# %{ endif ~}
+%{ endif ~}
   ## @param controller.secretConfig Additional configuration to be appended at the end of the generated Kafka controller-eligible nodes configuration file.
   ## This value will be stored in a secret.
   ##
@@ -339,7 +339,7 @@ controller:
   ## Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
   ##
 
-# %{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
+%{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
   nodeAffinityPreset:
     ## @param controller.nodeAffinityPreset.type Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
     ##
@@ -361,9 +361,9 @@ controller:
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-# %{ else ~}
+%{ else ~}
   affinity: {}
-# %{ endif ~}
+%{ endif ~}
 
   ## @param controller.nodeSelector Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -756,12 +756,12 @@ broker:
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-# %{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
+%{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
   affinity:
     ${indent(4, yamlencode(resource.local_resource_config.kafka_data.dataplane_affinity_definition))}
-# %{ else ~}
+%{ else ~}
   affinity: {}
-# %{ endif ~}
+%{ endif ~}
   ## @param broker.nodeSelector Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##

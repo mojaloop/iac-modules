@@ -162,7 +162,7 @@ spec:
             name: default
       name: kratosoidcsecret
       path: ${hubop_oidc_client_secret_secret_path}/${hubop_oidc_client_secret_secret}
-# %{ for provider in oidc_providers ~}
+%{ for provider in oidc_providers ~}
     - authentication:
         path: kubernetes
         role: policy-admin
@@ -170,7 +170,7 @@ spec:
             name: default
       name: ${provider.realm}
       path: ${hubop_oidc_client_secret_secret_path}/${provider.secret_name}
-# %{ endfor ~}
+%{ endfor ~}
   output:
     name: kratos-oidc-providers
     stringData:

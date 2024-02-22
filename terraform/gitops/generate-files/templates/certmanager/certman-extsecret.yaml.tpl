@@ -20,9 +20,9 @@ spec:
       remoteRef:
         key: ${cert_manager_credentials_secret_provider_key}
         property: value
-# %{ if cert_manager_credentials_client_id_name != "" ~}
+%{ if cert_manager_credentials_client_id_name != "" ~}
     - secretKey: ${cert_manager_credentials_client_id_name}
       remoteRef:
         key: ${cert_manager_credentials_id_provider_key}
         property: value
-# %{ endif ~}
+%{ endif ~}

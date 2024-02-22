@@ -10,9 +10,9 @@ spec:
     istio: ${istio_internal_gateway_name}
   servers:
   - hosts:
-# %{ for host in internal_gateway_hosts ~}
+%{ for host in internal_gateway_hosts ~}
     - '${host}'
-# %{ endfor ~}
+%{ endfor ~}
     port:
       name: https
       number: 443
@@ -33,9 +33,9 @@ spec:
     istio: ${istio_external_gateway_name}
   servers:
   - hosts:
-# %{ for host in external_gateway_hosts ~}
+%{ for host in external_gateway_hosts ~}
     - '${host}'
-# %{ endfor ~}
+%{ endfor ~}
     port:
       name: https
       number: 443

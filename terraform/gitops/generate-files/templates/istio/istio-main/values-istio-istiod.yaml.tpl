@@ -193,7 +193,7 @@ meshConfig:
       ISTIO_META_DNS_CAPTURE: "true"
       # Enable automatic address allocation, optional
       ISTIO_META_DNS_AUTO_ALLOCATE: "true"
-# %{ if ory_stack_enabled ~}
+%{ if ory_stack_enabled ~}
   extensionProviders:
     - name: ${oathkeeper_auth_provider_name}
       envoyExtAuthzHttp:
@@ -204,7 +204,7 @@ meshConfig:
         statusOnError: "500"
         pathPrefix: /decisions
         includeRequestHeadersInCheck: ["authorization", "cookie"]
-# %{ endif ~}
+%{ endif ~}
 global:
   # Used to locate istiod.
   istioNamespace: ${istio_namespace}

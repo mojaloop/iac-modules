@@ -26,7 +26,7 @@ spec:
     min-chars = 1
     }
 ---
-# %{ for ref_secret_name, ref_secret_key in ref_secrets ~}
+%{ for ref_secret_name, ref_secret_key in ref_secrets ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
@@ -67,4 +67,4 @@ spec:
       secret: '{{ .keycloaksecret.${ref_secret_key} }}'
     type: Opaque
 ---
-# %{ endfor ~}
+%{ endfor ~}

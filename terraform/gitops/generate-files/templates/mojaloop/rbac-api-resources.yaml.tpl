@@ -9,13 +9,13 @@ spec:
   match:
     url: <http|https>://${portal_fqdn}${ar.match_path}
     methods:
-# %{ for method in ar.match_methods ~}
+%{ for method in ar.match_methods ~}
     - ${method}
-# %{ endfor ~}
+%{ endfor ~}
   authenticators:
-# %{ for authenticator_handler in ar.authenticator_handlers ~}
+%{ for authenticator_handler in ar.authenticator_handlers ~}
     - handler: ${authenticator_handler}
-# %{ endfor ~}
+%{ endfor ~}
   authorizer:
     handler: remote_json
     config:
@@ -30,7 +30,7 @@ spec:
   mutators:
     - handler: header
 ---
-# %{ endfor ~}
+%{ endfor ~}
 
 ---
 ## Disabling authZ for FSPIOP calls as the client_id based authZ rules are not in place in ory stack yet

@@ -1,4 +1,4 @@
-# %{ if !istio_create_ingress_gateways ~}
+%{ if !istio_create_ingress_gateways ~}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -76,4 +76,4 @@ spec:
                 port:
                   number: 80
 ---
-# %{ endif ~}
+%{ endif ~}

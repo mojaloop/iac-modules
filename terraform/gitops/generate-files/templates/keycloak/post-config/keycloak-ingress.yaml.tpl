@@ -1,4 +1,4 @@
-# %{ if !istio_create_ingress_gateways ~}
+%{ if !istio_create_ingress_gateways ~}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -49,7 +49,7 @@ spec:
                 name: ${keycloak_name}-service
                 port:
                   number: 8443
-# %{ else ~}
+%{ else ~}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -100,7 +100,7 @@ spec:
     tls:
       mode: SIMPLE
 ---
-# %{ if !ory_stack_enabled ~}
+%{ if !ory_stack_enabled ~}
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
@@ -113,5 +113,5 @@ spec:
   jwtRules:
   - issuer: "https://${keycloak_fqdn}/realms/master"
     jwksUri: "https://${keycloak_fqdn}/realms/master/protocol/openid-connect/certs"
-# %{ endif ~}
-# %{ endif ~}
+%{ endif ~}
+%{ endif ~}

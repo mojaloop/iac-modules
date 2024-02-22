@@ -1,4 +1,4 @@
-# %{ for ns in password_map.namespaces ~}
+%{ for ns in password_map.namespaces ~}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -8,4 +8,4 @@ type: Opaque
 data:
   ${password_map.secret_key}: ${base64encode(password_map.password)}
 ---
-# %{ endfor ~}
+%{ endfor ~}

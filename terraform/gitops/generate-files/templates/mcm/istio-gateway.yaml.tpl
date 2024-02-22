@@ -5,11 +5,11 @@ metadata:
   name: mcm-vs
 spec:
   gateways:
-# %{ if mcm_wildcard_gateway == "external" ~}
+%{ if mcm_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-# %{ else ~}
+%{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-# %{ endif ~}
+%{ endif ~}
   hosts:
   - '${mcm_public_fqdn}'
   http:
@@ -64,7 +64,7 @@ spec:
             host: mcm-connection-manager-ui
             port:
               number: 8080
-# %{ if mcm_wildcard_gateway == "external" ~}
+%{ if mcm_wildcard_gateway == "external" ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -75,24 +75,24 @@ spec:
   selector:
     matchLabels:
       app: ${istio_external_gateway_name}
-# %{ if ory_stack_enabled ~}
+%{ if ory_stack_enabled ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
-# %{ else ~}
+%{ else ~}
   action: DENY
-# %{ endif ~}
+%{ endif ~}
   rules:
     - to:
         - operation:
             paths: ["/api/*", "/pm4mlapi/*"]
             hosts: ["${mcm_public_fqdn}", "${mcm_public_fqdn}:*"]
-# %{ if !ory_stack_enabled ~}
+%{ if !ory_stack_enabled ~}
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
-# %{ endif ~}
-# %{ if !ory_stack_enabled ~}
+%{ endif ~}
+%{ if !ory_stack_enabled ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -111,5 +111,5 @@ spec:
         prefix: "Bearer "
       - name: Cookie
         prefix: "MCM_SESSION"
-# %{ endif ~}
-# %{ endif ~}
+%{ endif ~}
+%{ endif ~}
