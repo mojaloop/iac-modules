@@ -4,9 +4,9 @@ resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - rbac-api-resources.yaml.tpl
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways ~}
   - istio-gateway.yaml
-%{ endif ~}
+# %{ endif ~}
   - vault-rbac.yaml
   - vault-certificate.yaml
 helmCharts:

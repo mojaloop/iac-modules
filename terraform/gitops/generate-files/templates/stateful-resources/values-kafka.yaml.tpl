@@ -160,14 +160,14 @@ controller:
   existingConfigmap: ""
   ## @param controller.extraConfig Additional configuration to be appended at the end of the generated Kafka controller-eligible nodes configuration file.
   ##
-%{ if resource.local_resource_config.kafka_data.replica_count == 1 ~}
+# %{ if resource.local_resource_config.kafka_data.replica_count == 1 ~}
   extraConfig: |-
     offsets.topic.replication.factor=1
     default.replication.factor=1
     transaction.state.log.replication.factor=1
-%{ else ~}
+# %{ else ~}
   extraConfig: ""
-%{ endif ~}
+# %{ endif ~}
   ## @param controller.secretConfig Additional configuration to be appended at the end of the generated Kafka controller-eligible nodes configuration file.
   ## This value will be stored in a secret.
   ##
@@ -338,32 +338,35 @@ controller:
   ## Node affinity preset
   ## Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
   ##
+
+# %{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
   nodeAffinityPreset:
     ## @param controller.nodeAffinityPreset.type Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
     ##
-    type: ""
+    type: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.type}
     ## @param controller.nodeAffinityPreset.key Node label key to match Ignored if `affinity` is set.
     ## E.g.
     ## key: "kubernetes.io/e2e-az-name"
     ##
-    key: ""
+    key: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.key}
     ## @param controller.nodeAffinityPreset.values Node label values to match. Ignored if `affinity` is set.
     ## E.g.
     ## values:
     ##   - e2e-az1
     ##   - e2e-az2
     ##
-    values: []
+    values: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.values}
   ## @param controller.affinity Affinity for pod assignment
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-%{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
+# %{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
   affinity:
     ${indent(4, yamlencode(resource.local_resource_config.kafka_data.dataplane_affinity_definition))}
-%{ else ~}
+# %{ else ~}
   affinity: {}
-%{ endif ~}
+# %{ endif ~}
+
   ## @param controller.nodeSelector Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -561,7 +564,10 @@ broker:
   existingConfigmap: ""
   ## @param broker.extraConfig Additional configuration to be appended at the end of the generated Kafka broker-only nodes configuration file.
   ##
-  extraConfig: ""
+  extraConfig: '
+    min.insync.replicas=1
+    unclean.leader.election.enable=true
+    '
   ## @param broker.secretConfig Additional configuration to be appended at the end of the generated Kafka broker-only nodes configuration file.
   ## This value will be stored in a secret.
   ##
@@ -752,12 +758,12 @@ broker:
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-%{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
+# %{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
   affinity:
     ${indent(4, yamlencode(resource.local_resource_config.kafka_data.dataplane_affinity_definition))}
-%{ else ~}
+# %{ else ~}
   affinity: {}
-%{ endif ~}
+# %{ endif ~}
   ## @param broker.nodeSelector Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -953,7 +959,7 @@ metrics:
   serviceMonitor:
     ## @param metrics.serviceMonitor.enabled if `true`, creates a Prometheus Operator ServiceMonitor (requires `metrics.kafka.enabled` or `metrics.jmx.enabled` to be `true`)
     ##
-    enabled: true    
+    enabled: true
 
 ## @section Kafka provisioning parameters
 ##
@@ -1005,3 +1011,7 @@ zookeeper:
   enabled: false
   ## @param zookeeper.replicaCount Number of ZooKeeper nodes
   ##
+
+extraEnvVars:
+  - name: GC_LOG_ENABLED
+    value: true

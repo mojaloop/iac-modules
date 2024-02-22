@@ -93,6 +93,7 @@ module "pm4ml" {
   cert_manager_namespace                 = var.cert_manager_namespace
   pm4ml_oidc_client_secret_secret_key    = var.pm4ml_oidc_client_secret_secret_key
   pm4ml_oidc_client_secret_secret_prefix = var.pm4ml_oidc_client_secret_secret
+  pm4ml_oidc_client_id_prefix            = var.pm4ml_oidc_client_id_prefix
   istio_external_gateway_name            = var.istio_external_gateway_name
   istio_internal_gateway_name            = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name   = local.istio_external_wildcard_gateway_name
@@ -154,6 +155,12 @@ variable "pm4ml_oidc_client_secret_secret" {
   default = "pm4ml-oidc-client-secret"
 }
 
+variable "pm4ml_oidc_client_id_prefix" {
+  type        = string
+  description = "pm4ml_oidc_client_id_prefix"
+  default     = "pm4ml-customer-ui"
+}
+
 variable "hubop_realm_role_assign_service_secret_key" {
   type    = string
   default = "secret"
@@ -193,6 +200,12 @@ locals {
   pm4ml_var_map = {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
+  oidc_providers = [for pm4ml in var.app_var_map.pm4mls : {
+    realm       = pm4ml.pm4ml
+    client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml.pm4ml}"
+    secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml.pm4ml}"
+    secret_key  = var.pm4ml_oidc_client_secret_secret_key
+  }]
   mojaloop_keycloak_realm_env_secret_map = {
     "${var.mcm_oidc_client_secret_secret}"          = var.mcm_oidc_client_secret_secret_key
     "${var.jwt_client_secret_secret}"               = var.jwt_client_secret_secret_key
