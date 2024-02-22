@@ -62,7 +62,7 @@ reporting-hub-bop-shell:
       AUTH_MOCK_API: false
       REMOTE_API_BASE_URL: ''
       REMOTE_MOCK_API: false
-      LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser?return_to=https://${portal_fqdn}
+      LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
       LOGOUT_URL: https://${auth_fqdn}/kratos/self-service/logout/browser
       LOGIN_PROVIDER: ${pm4ml_namespace}
       AUTH_TOKEN_URL: /kratos/sessions/whoami
