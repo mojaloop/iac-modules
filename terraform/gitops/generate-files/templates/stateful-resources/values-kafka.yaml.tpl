@@ -355,7 +355,8 @@ controller:
     ##   - e2e-az1
     ##   - e2e-az2
     ##
-    values: ${yamlencode(resource.local_resource_config.kafka_data.dataplane_affinity_definition.values)}
+    values:
+      ${indent(6, yamlencode(resource.local_resource_config.kafka_data.dataplane_affinity_definition.values))}
   ## @param controller.affinity Affinity for pod assignment
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
