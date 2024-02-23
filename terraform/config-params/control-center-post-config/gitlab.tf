@@ -89,15 +89,6 @@ resource "gitlab_project_variable" "iac_terraform_modules_tag" {
   masked    = false
 }
 
-resource "gitlab_project_variable" "netmaker_env_network_name" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "NETMAKER_ENV_NETWORK_NAME"
-  value     = each.value["netmaker_env_network_name"]
-  protected = false
-  masked    = false
-}
-
 resource "gitlab_group_variable" "vault_auth_path" {
   group             = var.iac_group_id
   key               = "VAULT_AUTH_PATH"
