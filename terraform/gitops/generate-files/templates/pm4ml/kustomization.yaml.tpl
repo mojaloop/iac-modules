@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
-  - rbac-api-resources.yaml.tpl
+  - rbac-api-resources.yaml
 %{ if istio_create_ingress_gateways ~}
   - istio-gateway.yaml
 %{ endif ~}
