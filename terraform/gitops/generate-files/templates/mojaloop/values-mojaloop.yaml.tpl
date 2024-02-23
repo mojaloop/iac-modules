@@ -997,8 +997,6 @@ ml-testing-toolkit:
       API_BASE_URL: https://${ttk_backend_public_fqdn}
 
 ml-ttk-test-setup:
-  configFileDefaults:
-    labels: ${ttk_gp_testcase_labels}
   tests:
     enabled: true
   config:
