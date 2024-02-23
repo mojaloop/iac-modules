@@ -23,6 +23,7 @@ module "generate_monitoring_files" {
     admin_secret_user_key                = "admin-user"
     admin_secret                         = "grafana-admin-secret"
     admin_user_name                      = "grafana-admin"
+    alertmanager_jira_secret_ref         = "${var.cluster_name}/jira-prometheus-integration-secret-key"
     monitoring_sync_wave                 = var.monitoring_sync_wave
     monitoring_post_config_sync_wave     = var.monitoring_post_config_sync_wave
     ingress_class                        = var.grafana_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name

@@ -41,6 +41,6 @@ spec:
   data:
     - secretKey: data
       remoteRef: 
-        key: awsdev/jira-prometheus-integration-secret-key
+        key: ${alertmanager_jira_secret_ref}
         property: value
 
