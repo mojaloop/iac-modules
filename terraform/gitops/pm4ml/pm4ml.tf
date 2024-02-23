@@ -36,6 +36,7 @@ module "generate_pm4ml_files" {
     pm4ml_vault_k8s_role_name                       = "${var.pm4ml_vault_k8s_role_name}-${each.key}"
     k8s_auth_path                                   = var.k8s_auth_path
     keto_read_url                                   = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
+    keto_write_url                                  = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     pm4ml_secret_path                               = "${var.local_vault_kv_root_path}/${each.key}"
     callback_url                                    = "https://${var.mojaloop_connnector_fqdns[each.key]}"
     mojaloop_connnector_fqdn                        = var.mojaloop_connnector_fqdns[each.key]
