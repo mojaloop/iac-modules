@@ -1020,6 +1020,8 @@ ml-ttk-test-setup:
       argocd.argoproj.io/hook: PostSync
 
 ml-ttk-test-val-gp:
+  configFileDefaults:
+    labels: ${ttk_gp_testcase_labels}
   tests:
     enabled: true
   config:
