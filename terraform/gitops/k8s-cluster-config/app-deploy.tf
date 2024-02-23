@@ -200,12 +200,12 @@ locals {
   pm4ml_var_map = {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
-  oidc_providers = [for pm4ml in var.app_var_map.pm4mls : {
+  oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml in var.app_var_map.pm4mls : {
     realm       = pm4ml.pm4ml
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml.pm4ml}"
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml.pm4ml}"
     secret_key  = var.pm4ml_oidc_client_secret_secret_key
-  }]
+  }] : []
   mojaloop_keycloak_realm_env_secret_map = {
     "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
     "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
