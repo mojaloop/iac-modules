@@ -93,6 +93,7 @@ module "pm4ml" {
   pm4ml_oidc_client_secret_secret_key        = var.pm4ml_oidc_client_secret_secret_key
   pm4ml_oidc_client_secret_secret_prefix     = var.pm4ml_oidc_client_secret_secret
   pm4ml_oidc_client_id_prefix                = var.pm4ml_oidc_client_id_prefix
+  keycloak_pm4ml_realm_name                  = var.keycloak_pm4ml_realm_name
   istio_external_gateway_name                = var.istio_external_gateway_name
   istio_internal_gateway_name                = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name       = local.istio_external_wildcard_gateway_name
@@ -164,6 +165,12 @@ variable "pm4ml_oidc_client_id_prefix" {
   default     = "pm4ml-customer-ui"
 }
 
+variable "keycloak_pm4ml_realm_name" {
+  type        = string
+  description = "name of realm for pm4ml api access"
+  default     = "pm4mls"
+}
+
 variable "hubop_realm_role_assign_service_secret_key" {
   type    = string
   default = "secret"
@@ -201,7 +208,7 @@ locals {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
   oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml in var.app_var_map.pm4mls : {
-    realm       = pm4ml.pm4ml
+    realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml.pm4ml}"
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml.pm4ml}"
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml.pm4ml}"
     secret_key  = var.pm4ml_oidc_client_secret_secret_key
