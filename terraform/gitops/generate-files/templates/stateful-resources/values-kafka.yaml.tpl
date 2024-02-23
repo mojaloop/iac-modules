@@ -343,12 +343,12 @@ controller:
   nodeAffinityPreset:
     ## @param controller.nodeAffinityPreset.type Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
     ##
-    type: ""
+    type: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.type}
     ## @param controller.nodeAffinityPreset.key Node label key to match Ignored if `affinity` is set.
     ## E.g.
     ## key: "kubernetes.io/e2e-az-name"
     ##
-    key: ""
+    key: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.key}
     ## @param controller.nodeAffinityPreset.values Node label values to match. Ignored if `affinity` is set.
     ## E.g.
     ## values:
