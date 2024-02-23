@@ -131,7 +131,7 @@ variable "mcm_chart_repo" {
 
 variable "mcm_chart_version" {
   type        = string
-  default     = "0.7.5"
+  default     = "0.7.6"
   description = "mcm_chart_version"
 }
 
