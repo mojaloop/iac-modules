@@ -98,6 +98,7 @@ module "generate_mojaloop_files" {
     account_lookup_service_replica_count                              = try(var.app_var_map.account_lookup_service_replica_count, 1)
     account_lookup_service_admin_replica_count                        = try(var.app_var_map.account_lookup_service_admin_replica_count, 1)
     quoting_service_replica_count                                     = try(var.app_var_map.quoting_service_replica_count, 1)
+    quoting_service_handler_replica_count                             = try(var.app_var_map.quoting_service_handler_replica_count, 1)
     ml_api_adapter_service_replica_count                              = try(var.app_var_map.ml_api_adapter_service_replica_count, 1)
     ml_api_adapter_handler_notifications_replica_count                = try(var.app_var_map.ml_api_adapter_handler_notifications_replica_count, 1)
     central_ledger_service_replica_count                              = try(var.app_var_map.central_ledger_service_replica_count, 1)
