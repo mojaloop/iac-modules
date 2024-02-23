@@ -176,7 +176,6 @@ variable "pm4ml_oidc_client_secret_secret_prefix" {
 variable "keycloak_pm4ml_realm_name" {
   type        = string
   description = "name of realm for pm4ml api access"
-  default     = "pm4mls"
 }
 
 variable "keycloak_name" {
