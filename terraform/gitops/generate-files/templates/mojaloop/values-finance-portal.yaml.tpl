@@ -127,6 +127,7 @@ reporting-hub-bop-shell:
       REMOTE_MOCK_API: false
       LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
       LOGOUT_URL: https://${portal_fqdn}/kratos/self-service/logout/browser
+      LOGIN_PROVIDER: keycloak
       AUTH_TOKEN_URL: /kratos/sessions/whoami
       AUTH_ENABLED: true
       REMOTE_1_URL: https://${portal_fqdn}/uis/iam
