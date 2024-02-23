@@ -1,13 +1,14 @@
 bulk_enabled: false
 third_party_enabled: false
 mcm_chart_version: 0.7.2
-mojaloop_chart_version: 15.4.0-17019.1640ae3
+mojaloop_chart_version: 16.0.0-17361.fb393ac
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 #replica counts
 account_lookup_service_replica_count: 1
 account_lookup_service_admin_replica_count: 1
 quoting_service_replica_count: 1
+quoting_service_handler_replica_count: 1
 ml_api_adapter_service_replica_count: 1
 ml_api_adapter_handler_notifications_replica_count: 1
 central_ledger_service_replica_count: 1
