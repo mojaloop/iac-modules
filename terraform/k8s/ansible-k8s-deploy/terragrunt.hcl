@@ -124,6 +124,7 @@ locals {
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
     registry_mirror_port             = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     enable_registry_mirror           = true
+    microk8s_dns_resolvers           = (local.K8S_CLUSTER_TYPE == "microk8s") ? try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "") : ""
   }
 }
 
