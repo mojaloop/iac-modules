@@ -641,6 +641,36 @@
                       "name": "topic-bulk-get",
                       "partitions": 3,
                       "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-quotes-post",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-quotes-put",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-quotes-get",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-bulkquotes-post",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-bulkquotes-put",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-bulkquotes-get",
+                      "partitions": 3,
+                      "replicationFactor": 3
                     }
                 ]
             },
