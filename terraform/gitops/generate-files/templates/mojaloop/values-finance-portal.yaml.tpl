@@ -126,6 +126,8 @@ reporting-hub-bop-shell:
       REMOTE_API_BASE_URL: ''
       REMOTE_MOCK_API: false
       LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
+      ## return_url can be passed as query param to LOGOUT_URL for redirect the user back to portal after logout
+      ## Example: return_url=http%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3D${hubop_oidc_client_id}%26post_logout_redirect_uri%3Dhttps%3A%2F%2F${portal_fqdn}
       LOGOUT_URL: https://${portal_fqdn}/kratos/self-service/logout/browser
       LOGIN_PROVIDER: keycloak
       AUTH_TOKEN_URL: /kratos/sessions/whoami
