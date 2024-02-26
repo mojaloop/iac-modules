@@ -54,7 +54,7 @@ inputs = {
   ansible_collection_tag        = local.env_map[local.CLUSTER_NAME].ansible_collection_tag
   ansible_base_output_dir       = local.ANSIBLE_BASE_OUTPUT_DIR
   ansible_playbook_name         = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
-  ansible_destroy_playbook_name = "k8s_cluster_destroy"
+  ansible_destroy_playbook_name = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
   master_node_supports_traffic = (local.total_agent_count == 0) ? true : false
 }
 
