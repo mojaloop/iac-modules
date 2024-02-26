@@ -221,6 +221,14 @@ quoting-service:
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       kafka_producer_quote_post_topic: 'topic-quotes-post'
+      log_transport: "console"
+      log_level: "info"
+      db_password: *QUOTING_DB_PASSWORD
+      db_secret: *QUOTING_DB_SECRET
+      db_host: *QUOTING_DB_HOST
+      db_user: *QUOTING_DB_USER
+      db_port: *QUOTING_DB_PORT
+      db_database: *QUOTING_DB_DATABASE
       endpointSecurity: *ENDPOINT_SECURITY
     ingress:
 %{ if istio_create_ingress_gateways ~}
