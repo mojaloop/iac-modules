@@ -158,7 +158,7 @@ variable "pm4ml_sync_wave" {
 
 variable "admin_portal_chart_version" {
   description = "admin (finance) portal chart version"
-  default     = "4.2.2"
+  default     = "4.2.3"
 }
 
 variable "pm4ml_oidc_client_id_prefix" {

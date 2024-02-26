@@ -249,7 +249,7 @@ variable "mojaloop_chart_version" {
 
 variable "finance_portal_chart_version" {
   description = "finance portal chart version"
-  default     = "4.2.2"
+  default     = "4.2.3"
 }
 
 variable "mojaloop_sync_wave" {
