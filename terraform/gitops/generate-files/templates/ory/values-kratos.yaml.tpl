@@ -108,7 +108,7 @@ kratos:
 
         logout:
           after:
-            default_browser_return_url: https://${keycloak_fqdn}/realms/$${keycloak_realm_name}/protocol/openid-connect/logout
+            default_browser_return_url: https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/logout
 
         error:
           ui_url: https://${auth_fqdn}/ui/error
