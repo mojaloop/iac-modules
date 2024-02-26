@@ -29,7 +29,6 @@ module "generate_ory_files" {
     hubop_oidc_client_secret_secret_name  = join("$", ["", "{${replace(var.hubop_oidc_client_secret_secret, "-", "_")}}"])
     hubop_oidc_client_secret_secret       = var.hubop_oidc_client_secret_secret
     hubop_oidc_client_id                  = var.hubop_oidc_client_id
-    hubop_oidc_client_secret_secret_key   = var.hubop_oidc_client_secret_secret_key
     hubop_oidc_client_secret_secret_path  = local.keycloak_secrets_path
     keycloak_hubop_realm_name             = var.keycloak_hubop_realm_name
     keycloak_name                         = var.keycloak_name
@@ -39,10 +38,11 @@ module "generate_ory_files" {
     istio_external_wildcard_gateway_name  = local.istio_external_wildcard_gateway_name
     bof_chart_version                     = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
     bof_release_name                      = local.bof_release_name
-    hubop_role_assignment_svc_secret_name = join("$", ["", "{${replace(var.hubop_realm_role_assign_service_secret, "-", "_")}}"])
-    hubop_role_assignment_svc_username    = var.hubop_realm_role_assignment_svc_user
-    portal_admin_secret_name              = join("$", ["", "{${replace(var.hubop_realm_portal_admin_secret, "-", "_")}}"])
-    portal_admin                          = var.hubop_realm_portal_admin_user
+    vault_secret_key                      = var.vault_secret_key
+    role_assign_svc_secret_name           = join("$", ["", "{${replace(var.role_assign_svc_secret, "-", "_")}}"])
+    role_assign_svc_user                  = var.role_assign_svc_user
+    portal_admin_secret_name              = join("$", ["", "{${replace(var.portal_admin_secret, "-", "_")}}"])
+    portal_admin_user                     = var.portal_admin_user
     oidc_providers                        = local.oidc_providers
     permissionExclusions                  = local.permissionExclusions
     mojaloopRoles                         = local.mojaloopRoles
@@ -96,10 +96,8 @@ variable "hubop_oidc_client_secret_secret" {
   default     = "hubop-oidc-secret"
 }
 
-variable "hubop_oidc_client_secret_secret_key" {
-  type        = string
-  description = "hubop_oidc_client_secret_secret_key"
-  default     = "secret"
+variable "vault_secret_key" {
+  type = string
 }
 
 variable "hubop_oidc_client_id" {

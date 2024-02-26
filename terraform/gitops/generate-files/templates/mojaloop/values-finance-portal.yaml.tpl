@@ -33,10 +33,10 @@ global:
       port: 80
   keycloak:
     url: 'https://${keycloak_fqdn}'
-    user: '${role_assign_service_user}'
+    user: '${role_assign_svc_user}'
     secret:
-      name: '${role_assign_service_secret}'
-      key: '${role_assign_service_secret_key}'
+      name: '${role_assign_svc_secret}'
+      key: '${vault_secret_key}'
     realm: '${keycloak_realm_name}'
 
 ## TODO: Disabling the tests by default for now. Need to figure out how to configure the tests.

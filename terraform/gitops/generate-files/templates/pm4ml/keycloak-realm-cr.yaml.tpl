@@ -341,6 +341,28 @@ spec:
       - client: account-console
         roles:
         - manage-account
+    users:
+    - username: ${role_assign_svc_user}
+      enabled: true
+      email: ${role_assign_svc_user}@none.com
+      firstName: Role
+      lastName: Assign
+      credentials:
+      - type: password
+        value: ${role_assign_svc_secret}
+      clientRoles:
+        realm-management:
+        - view-users
+      groups: []
+    - username: ${portal_admin_user}
+      enabled: true
+      email: ${portal_admin_user}@none.com
+      firstName: Portal
+      lastName: Admin
+      credentials:
+      - type: password
+        value: ${portal_admin_secret}
+      groups: []
     clients:
     - clientId: account
       name: "$${client_account}"

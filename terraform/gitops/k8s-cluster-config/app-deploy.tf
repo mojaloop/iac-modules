@@ -30,9 +30,9 @@ module "mojaloop" {
   mcm_oidc_client_secret_secret              = var.mcm_oidc_client_secret_secret
   jwt_client_secret_secret_key               = var.jwt_client_secret_secret_key
   jwt_client_secret_secret                   = var.jwt_client_secret_secret
-  hubop_realm_role_assign_service_secret_key = var.hubop_realm_role_assign_service_secret_key
-  hubop_realm_role_assign_service_secret     = var.hubop_realm_role_assign_service_secret
-  hubop_realm_role_assign_service_user       = var.hubop_realm_role_assignment_svc_user
+  vault_secret_key                           = var.vault_secret_key
+  role_assign_svc_secret                     = var.role_assign_svc_secret
+  role_assign_svc_user                       = var.role_assign_svc_user
   mcm_public_fqdn                            = local.mcm_public_fqdn
   ttk_backend_public_fqdn                    = local.ttk_backend_public_fqdn
   ttk_frontend_public_fqdn                   = local.ttk_frontend_public_fqdn
@@ -90,7 +90,7 @@ module "pm4ml" {
   keycloak_namespace                         = var.keycloak_namespace
   vault_namespace                            = var.vault_namespace
   cert_manager_namespace                     = var.cert_manager_namespace
-  pm4ml_oidc_client_secret_secret_key        = var.pm4ml_oidc_client_secret_secret_key
+  vault_secret_key                           = var.vault_secret_key
   pm4ml_oidc_client_secret_secret_prefix     = var.pm4ml_oidc_client_secret_secret
   pm4ml_oidc_client_id_prefix                = var.pm4ml_oidc_client_id_prefix
   keycloak_pm4ml_realm_name                  = var.keycloak_pm4ml_realm_name
@@ -111,9 +111,10 @@ module "pm4ml" {
   vault_root_ca_name                         = "pki-${var.cluster_name}"
   app_var_map                                = local.pm4ml_var_map
   bof_release_name                           = local.bof_release_name
-  hubop_realm_role_assign_service_secret_key = var.hubop_realm_role_assign_service_secret_key
-  hubop_realm_role_assign_service_secret     = var.hubop_realm_role_assign_service_secret
-  hubop_realm_role_assign_service_user       = var.hubop_realm_role_assignment_svc_user
+  role_assign_svc_user                       = var.role_assign_svc_user
+  role_assign_svc_secret_prefix              = "role-assign-svc-secret-"
+  portal_admin_user                          = var.portal_admin_user
+  portal_admin_secret_prefix                 = "portal-admin-secret-"
 }
 
 variable "app_var_map" {
@@ -150,7 +151,7 @@ variable "jwt_client_secret_secret" {
   default = "jwt-oidc-client-secret"
 }
 
-variable "pm4ml_oidc_client_secret_secret_key" {
+variable "vault_secret_key" {
   type    = string
   default = "secret"
 }
@@ -171,28 +172,20 @@ variable "keycloak_pm4ml_realm_name" {
   default     = "pm4mls"
 }
 
-variable "hubop_realm_role_assign_service_secret_key" {
+variable "role_assign_svc_secret" {
   type    = string
-  default = "secret"
+  default = "role-assign-svc-secret"
 }
-variable "hubop_realm_role_assign_service_secret" {
-  type    = string
-  default = "hubop-realm-role-assign-svc-secret"
-}
-variable "hubop_realm_role_assignment_svc_user" {
+variable "role_assign_svc_user" {
   type    = string
   default = "role-assign-svc"
 }
 
-variable "hubop_realm_portal_admin_secret_key" {
+variable "portal_admin_secret" {
   type    = string
-  default = "secret"
+  default = "portal-admin-secret"
 }
-variable "hubop_realm_portal_admin_secret" {
-  type    = string
-  default = "hubop-realm-portal-admin-secret"
-}
-variable "hubop_realm_portal_admin_user" {
+variable "portal_admin_user" {
   type    = string
   default = "portal_admin"
 }
@@ -208,23 +201,19 @@ locals {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
   oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml in var.app_var_map.pm4mls : {
-    realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml.pm4ml}"
-    client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml.pm4ml}"
-    secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml.pm4ml}"
-    secret_key  = var.pm4ml_oidc_client_secret_secret_key
+    realm            = "${var.keycloak_pm4ml_realm_name}-${pm4ml.pm4ml}"
+    client_id        = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml.pm4ml}"
+    secret_name      = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml.pm4ml}"
   }] : []
   mojaloop_keycloak_realm_env_secret_map = {
     "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
     "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
   }
-  pm4ml_keycloak_realm_env_secret_map = { for key, pm4ml in local.pm4ml_var_map :
-    "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.pm4ml_oidc_client_secret_secret_key
-  }
-  hubop_keycloak_realm_env_secret_map = {
-    "${var.hubop_oidc_client_secret_secret}"        = var.hubop_oidc_client_secret_secret_key
-    "${var.hubop_realm_role_assign_service_secret}" = var.hubop_realm_role_assign_service_secret_key
-    "${var.hubop_realm_portal_admin_secret}"        = var.hubop_realm_portal_admin_secret_key
-  }
+  pm4ml_keycloak_realm_env_secret_map = merge(
+    {for key, pm4ml in local.pm4ml_var_map : "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.vault_secret_key},
+    {for key, pm4ml in local.pm4ml_var_map : "portal-admin-secret-${key}" => var.vault_secret_key},
+    {for key, pm4ml in local.pm4ml_var_map : "role-assign-svc-secret-${key}" => var.vault_secret_key}
+  )
 
   pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
 
@@ -260,7 +249,14 @@ locals {
   pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, values(local.pm4ml_ttk_frontend_fqdns), values(local.pm4ml_ttk_backend_fqdns), values(local.test_fqdns))
   pm4ml_external_gateway_hosts = concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_external_wildcard_exp_hosts)
 
-  keycloak_realm_env_secret_map = merge(var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map, local.hubop_keycloak_realm_env_secret_map)
+  keycloak_realm_env_secret_map = merge(
+    var.common_var_map.mojaloop_enabled ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map,
+    {
+      "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
+      "${var.role_assign_svc_secret}"          = var.vault_secret_key
+      "${var.portal_admin_secret}"             = var.vault_secret_key
+    }
+  )
 
   internal_gateway_hosts = concat([local.keycloak_admin_fqdn],
     local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
