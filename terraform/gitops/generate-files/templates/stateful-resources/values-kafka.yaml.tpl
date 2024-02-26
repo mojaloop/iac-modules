@@ -992,6 +992,20 @@ provisioning:
   ## @param provisioning.tolerations Tolerations for pod assignment
   ## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
+  ## Change topic configuration
+  extraProvisioningCommands:
+%{ for topic in resource.local_resource_config.kafka_provisioning.topics ~}
+  - >
+    "/opt/bitnami/kafka/bin/kafka-topics.sh \
+        --bootstrap-server ${KAFKA_SERVICE} \
+        --alter \
+        --partitions ${topic.partitions} \
+        --replication-factor ${topic.replicationFactor} \
+%{ for name, value in topic.config ~}
+        --config ${name}=${value} \
+%{ endfor ~}
+        --topic ${topic.name}"
+%{ endfor ~}
 
 ## @section KRaft chart parameters
 
