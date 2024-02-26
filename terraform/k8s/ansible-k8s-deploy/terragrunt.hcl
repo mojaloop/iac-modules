@@ -40,9 +40,12 @@ inputs = {
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
-  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps, {
+  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps, 
+  {
     registry_mirror_fqdn        = dependency.k8s_deploy.outputs.haproxy_server_fqdn
-  })
+  }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
+    microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
+  } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
@@ -124,7 +127,6 @@ locals {
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
     registry_mirror_port             = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     enable_registry_mirror           = true
-    microk8s_dns_resolvers           = (local.K8S_CLUSTER_TYPE == "microk8s") ? try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "") : ""
   }
 }
 
