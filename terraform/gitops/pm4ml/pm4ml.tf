@@ -76,9 +76,11 @@ module "generate_pm4ml_files" {
     istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
     bof_release_name                                = var.bof_release_name
     bof_role_perm_operator_host                     = "${var.bof_release_name}-security-role-perm-operator-svc.${var.ory_namespace}.svc.cluster.local"
-    portal_admin_secret                             = replace("${var.portal_admin_secret_prefix}${each.key}", "-", "_")
+    portal_admin_secret                             = "${var.portal_admin_secret_prefix}${each.key}"
+    portal_admin_secret_name                        = join("$", ["", "{${replace("${var.portal_admin_secret_prefix}${each.key}", "-", "_")}}"])
     portal_admin_user                               = var.portal_admin_user
-    role_assign_svc_secret                          = replace("${var.role_assign_svc_secret_prefix}${each.key}", "-", "_")
+    role_assign_svc_secret                          = "${var.role_assign_svc_secret_prefix}${each.key}"
+    role_assign_svc_secret_name                     = join("$", ["", "{${replace("${var.role_assign_svc_secret_prefix}${each.key}", "-", "_")}}"])
     role_assign_svc_user                            = var.role_assign_svc_user
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
   }

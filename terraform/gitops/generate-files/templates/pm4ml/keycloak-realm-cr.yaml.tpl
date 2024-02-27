@@ -349,7 +349,7 @@ spec:
       lastName: Assign
       credentials:
       - type: password
-        value: ${role_assign_svc_secret}
+        value: ${role_assign_svc_secret_name}
       clientRoles:
         realm-management:
         - view-users
@@ -361,7 +361,7 @@ spec:
       lastName: Admin
       credentials:
       - type: password
-        value: ${portal_admin_secret}
+        value: ${portal_admin_secret_name}
       groups: []
     clients:
     - clientId: account
