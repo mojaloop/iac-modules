@@ -40,7 +40,7 @@ experience-api:
     appKeys: ootu1yoo5geeS7izai4ox1Yae1Eey6ai
     authClientId: "${pm4ml_oidc_client_id}"
     authClientSecretSecret: "${pm4ml_oidc_client_secret_secret}"
-    authClientSecretSecretKey: "${pm4ml_oidc_client_secret_secret_key}"
+    authClientSecretSecretKey: "${vault_secret_key}"
     metricsEndPoint: "${pm4ml_release_name}-prometheus-server"
     authDiscoveryEndpoint: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/.well-known/openid-configuration"
     # this should be set to the external URL of the auth endpoint on the experience API

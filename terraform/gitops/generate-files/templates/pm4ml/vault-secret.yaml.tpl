@@ -7,7 +7,7 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication: 
+    - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
@@ -17,7 +17,7 @@ spec:
   output:
     name: ${pm4ml_oidc_client_secret_secret}
     stringData:
-      secret: '{{ .keycloakpm4mlsecret.${pm4ml_oidc_client_secret_secret_key} }}'
+      secret: '{{ .keycloakpm4mlsecret.${vault_secret_key} }}'
     type: Opaque
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -39,29 +39,29 @@ spec:
 
   data:
     - secretKey: ${pm4ml_external_switch_client_secret_key} # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${pm4ml_external_switch_client_secret_vault_key}
         property: ${pm4ml_external_switch_client_secret_vault_value}
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${role_assign_service_secret}
+  name: ${role_assign_svc_secret}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication: 
+    - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
             name: default
-      name: keycloakmcmsecret
-      path: /secret/keycloak/${role_assign_service_secret}
+      name: secret
+      path: /secret/keycloak/${role_assign_svc_secret}
   output:
-    name: ${role_assign_service_secret}
+    name: ${role_assign_svc_secret}
     stringData:
-      secret: '{{ .keycloakmcmsecret.${role_assign_service_secret_key} }}'
+      secret: '{{ .secret.${vault_secret_key} }}'
     type: Opaque
 ---

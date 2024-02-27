@@ -48,7 +48,7 @@ module "generate_pm4ml_files" {
     pm4ml_oidc_client_id                            = "${var.pm4ml_oidc_client_id_prefix}-${each.key}"
     pm4ml_oidc_client_secret_secret_name            = join("$", ["", "{${replace("${var.pm4ml_oidc_client_secret_secret_prefix}-${each.key}", "-", "_")}}"])
     pm4ml_oidc_client_secret_secret                 = "${var.pm4ml_oidc_client_secret_secret_prefix}-${each.key}"
-    pm4ml_oidc_client_secret_secret_key             = var.pm4ml_oidc_client_secret_secret_key
+    vault_secret_key                                = var.vault_secret_key
     keycloak_namespace                              = var.keycloak_namespace
     keycloak_name                                   = var.keycloak_name
     pm4ml_external_switch_fqdn                      = each.value.pm4ml_external_switch_fqdn
@@ -76,9 +76,10 @@ module "generate_pm4ml_files" {
     istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
     bof_release_name                                = var.bof_release_name
     bof_role_perm_operator_host                     = "${var.bof_release_name}-security-role-perm-operator-svc.${var.ory_namespace}.svc.cluster.local"
-    role_assign_service_secret_key                  = var.hubop_realm_role_assign_service_secret_key
-    role_assign_service_secret                      = var.hubop_realm_role_assign_service_secret
-    role_assign_service_user                        = var.hubop_realm_role_assign_service_user
+    portal_admin_secret                             = replace("${var.portal_admin_secret_prefix}${each.key}", "-", "_")
+    portal_admin_user                               = var.portal_admin_user
+    role_assign_svc_secret                          = replace("${var.role_assign_svc_secret_prefix}${each.key}", "-", "_")
+    role_assign_svc_user                            = var.role_assign_svc_user
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
   }
 
@@ -166,7 +167,7 @@ variable "pm4ml_oidc_client_id_prefix" {
   description = "pm4ml_oidc_client_id_prefix"
 }
 
-variable "pm4ml_oidc_client_secret_secret_key" {
+variable "vault_secret_key" {
   type = string
 }
 variable "pm4ml_oidc_client_secret_secret_prefix" {
@@ -221,16 +222,21 @@ variable "bof_release_name" {
   type = string
 }
 
-variable "hubop_realm_role_assign_service_secret" {
-  type = string
-}
-variable "hubop_realm_role_assign_service_secret_key" {
-  type = string
-}
-variable "hubop_realm_role_assign_service_user" {
+variable "portal_admin_user" {
   type = string
 }
 
+variable "role_assign_svc_user" {
+  type = string
+}
+
+variable "role_assign_svc_secret_prefix" {
+  type = string
+}
+
+variable "portal_admin_secret_prefix" {
+  type = string
+}
 locals {
   nat_cidr_list = join(", ", [for ip in var.nat_public_ips : format("%s/32", ip)])
 }
