@@ -59,6 +59,7 @@ module "generate_mcm_files" {
     interop_switch_fqdn                  = var.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn
     keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
+    keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
     keycloak_name                        = var.keycloak_name
     keycloak_namespace                   = var.keycloak_namespace
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name

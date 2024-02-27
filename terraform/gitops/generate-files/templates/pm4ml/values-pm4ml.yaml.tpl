@@ -24,7 +24,7 @@ frontend:
 %{ if ory_stack_enabled ~}
     CHECK_SESSION_URL: https://${portal_fqdn}/kratos/sessions/whoami
     LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
-    LOGOUT_URL: https://${portal_fqdn}/kratos/self-service/logout/browser
+    LOGOUT_URL: /kratos/self-service/logout/browser?return_url=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_pm4ml_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout]
     LOGIN_PROVIDER: ${pm4ml_namespace}
 %{ endif ~}
 
