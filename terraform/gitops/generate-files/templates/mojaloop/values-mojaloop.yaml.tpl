@@ -107,6 +107,12 @@ CONFIG:
 
   ingress_class: &INGRESS_CLASS "${ingress_class_name}"
 
+  ## Endpiont Security
+  endpointSecurity: &ENDPOINT_SECURITY
+    jwsSigningKeySecret: &JWS_SIGNING_KEY_SECRET
+      name: ${jws_key_secret}
+      key: ${jws_key_secret_private_key_key}
+
 global:
   config:
     forensicloggingsidecar_disabled: true
@@ -131,12 +137,21 @@ account-lookup-service:
       db_user: *ALS_DB_USER
       db_port: *ALS_DB_PORT
       db_database: *ALS_DB_DATABASE
-      endpointSecurity:
-        jwsSigningKeySecret:
-          name: ${jws_key_secret}
-          key: ${jws_key_secret_private_key_key}
+      endpointSecurity: *ENDPOINT_SECURITY
     # Thirdparty API Config
       featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
+      central_shared_end_point_cache:
+        expiresIn: 180000
+        generateTimeout: 30000
+        getDecoratedValue: true
+      central_shared_participant_cache:
+        expiresIn: 61000
+        generateTimeout: 30000
+        getDecoratedValue: true
+      general_cache:
+        enabled: true
+        maxByteSize: 10000000
+        expiresIn: 61000
     ingress:
 %{ if istio_create_ingress_gateways ~}
       enabled: false
@@ -163,8 +178,21 @@ account-lookup-service:
       db_user: *ALS_DB_USER
       db_port: *ALS_DB_PORT
       db_database: *ALS_DB_DATABASE
+      endpointSecurity: *ENDPOINT_SECURITY
     # Thirdparty API Config
       featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
+      central_shared_end_point_cache:
+        expiresIn: 180000
+        generateTimeout: 30000
+        getDecoratedValue: true
+      central_shared_participant_cache:
+        expiresIn: 61000
+        generateTimeout: 30000
+        getDecoratedValue: true
+      general_cache:
+        enabled: true
+        maxByteSize: 10000000
+        expiresIn: 61000
     ingress:
 %{ if istio_create_ingress_gateways ~}
       enabled: false
@@ -180,44 +208,74 @@ account-lookup-service:
     enabled: false
 
 quoting-service:
-  commonAnnotations:
-    secret.reloader.stakater.com/reload: "${jws_key_secret}"
+  quoting-service:
+    commonAnnotations:
+      secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
-  affinity:
-    ${indent(6, quoting_service_affinity)}
+    affinity:
+      ${indent(6, quoting_service_affinity)}
 %{ endif ~}
-  podLabels:
-    sidecar.istio.io/inject: "${enable_istio_injection}"
-  replicaCount: ${quoting_service_replica_count}
-  sidecar:
-    enabled: true
-  config:
-    kafka_host: *KAFKA_HOST
-    kafka_port: *KAFKA_PORT
-    simple_routing_mode_enabled: ${quoting_service_simple_routing_mode_enabled}
-    log_transport: "console"
-    log_level: "info"
-    db_password: *QUOTING_DB_PASSWORD
-    db_secret: *QUOTING_DB_SECRET
-    db_host: *QUOTING_DB_HOST
-    db_user: *QUOTING_DB_USER
-    db_port: *QUOTING_DB_PORT
-    db_database: *QUOTING_DB_DATABASE
-    endpointSecurity:
-      jwsSigningKeySecret:
-        name: ${jws_key_secret}
-        key: ${jws_key_secret_private_key_key}
-  ingress:
-%{ if istio_create_ingress_gateways ~}
-    enabled: false
-%{ else ~}
-    enabled: true
-%{ endif ~}
-    className: *INGRESS_CLASS
-    hostname: quoting-service.${ingress_subdomain}
-  metrics:
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
+    replicaCount: ${quoting_service_replica_count}
     config:
-      prefix: *QUOTING_MONITORING_PREFIX
+      kafka_host: *KAFKA_HOST
+      kafka_port: *KAFKA_PORT
+      kafka_producer_quote_post_topic: 'topic-quotes-post'
+      log_transport: "console"
+      log_level: "info"
+      db_password: *QUOTING_DB_PASSWORD
+      db_secret: *QUOTING_DB_SECRET
+      db_host: *QUOTING_DB_HOST
+      db_user: *QUOTING_DB_USER
+      db_port: *QUOTING_DB_PORT
+      db_database: *QUOTING_DB_DATABASE
+      endpointSecurity: *ENDPOINT_SECURITY
+    ingress:
+%{ if istio_create_ingress_gateways ~}
+      enabled: false
+%{ else ~}
+      enabled: true
+%{ endif ~}
+      className: *INGRESS_CLASS
+      hostname: quoting-service.${ingress_subdomain}
+    metrics:
+      config:
+        prefix: *QUOTING_MONITORING_PREFIX
+  quoting-service-handler:
+    commonAnnotations:
+      secret.reloader.stakater.com/reload: "${jws_key_secret}"
+%{ if quoting_service_affinity != null ~}
+    affinity:
+      ${indent(6, quoting_service_affinity)}
+%{ endif ~}
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
+    replicaCount: ${quoting_service_handler_replica_count}
+    config:
+      kafka_host: *KAFKA_HOST
+      kafka_port: *KAFKA_PORT
+      simple_routing_mode_enabled: ${quoting_service_simple_routing_mode_enabled}
+      log_transport: "console"
+      log_level: "info"
+      db_password: *QUOTING_DB_PASSWORD
+      db_secret: *QUOTING_DB_SECRET
+      db_host: *QUOTING_DB_HOST
+      db_user: *QUOTING_DB_USER
+      db_port: *QUOTING_DB_PORT
+      db_database: *QUOTING_DB_DATABASE
+      endpointSecurity: *ENDPOINT_SECURITY
+    ingress:
+%{ if istio_create_ingress_gateways ~}
+      enabled: false
+%{ else ~}
+      enabled: true
+%{ endif ~}
+      className: *INGRESS_CLASS
+      hostname: quoting-service-handler.${ingress_subdomain}
+    metrics:
+      config:
+        prefix: *QUOTING_MONITORING_PREFIX
 
 ml-api-adapter:
   ml-api-adapter-service:
@@ -255,10 +313,7 @@ ml-api-adapter:
     config:
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
-      endpointSecurity:
-        jwsSigningKeySecret:
-          name: ${jws_key_secret}
-          key: ${jws_key_secret_private_key_key}
+      endpointSecurity: *ENDPOINT_SECURITY
     ingress:
 %{ if istio_create_ingress_gateways ~}
       enabled: false
@@ -664,6 +719,10 @@ mojaloop-bulk:
   enabled: ${bulk_enabled}
   bulk-api-adapter:
     bulk-api-adapter-service:
+      commonAnnotations:
+        secret.reloader.stakater.com/reload: "${jws_key_secret}"
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${bulk_api-adapter_service_replica_count}
       config:
         kafka_host: *KAFKA_HOST
@@ -674,6 +733,7 @@ mojaloop-bulk:
         mongo_password: *OBJSTORE_MONGO_PASSWORD
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
+        endpointSecurity: *ENDPOINT_SECURITY
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -683,6 +743,8 @@ mojaloop-bulk:
         className: *INGRESS_CLASS
         hostname: bulk-api-adapter.${ingress_subdomain}
     bulk-api-adapter-handler-notification:
+      commonAnnotations:
+        secret.reloader.stakater.com/reload: "${jws_key_secret}"
       podLabels:
         sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
@@ -695,6 +757,7 @@ mojaloop-bulk:
         mongo_password: *OBJSTORE_MONGO_PASSWORD
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
+        endpointSecurity: *ENDPOINT_SECURITY
   bulk-centralledger:
     cl-handler-bulk-transfer-prepare:
       replicaCount: ${cl_handler_bulk_transfer_prepare_replica_count}
@@ -1027,6 +1090,8 @@ ml-ttk-test-setup:
       argocd.argoproj.io/hook: PostSync
 
 ml-ttk-test-val-gp:
+  configFileDefaults:
+    labels: ${ttk_gp_testcase_labels}
   tests:
     enabled: true
   config:
