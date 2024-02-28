@@ -113,4 +113,18 @@ spec:
       datasourceName: "Prometheus" 
   url: "https://raw.githubusercontent.com/mojaloop/ml-core-test-harness/v1.2.4-snapshot.0/docker/grafana/provisioning/dashboards/mojaloop/dashboard-quoting-service.json"
 ---
-# TODO: move the dashboard here before merging
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: dashboard-performance-troubleshooting
+spec:
+  allowCrossNamespaceImport: true
+  folder: mojaloop
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.0.0-snapshot.4/monitoring/dashboards/mojaloop/dashboard-performance-troubleshooting.json"
+---

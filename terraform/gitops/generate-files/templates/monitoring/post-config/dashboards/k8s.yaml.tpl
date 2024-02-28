@@ -149,18 +149,3 @@ spec:
     id: 15760
     revision: 26
 ---
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: dashboard-performance-troubleshooting-monitoring
-spec:
-  allowCrossNamespaceImport: true
-  folder: mojaloop
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.0.0-snapshot.4/monitoring/dashboards/mojaloop/dashboard-performance-troubleshooting.json"
----
