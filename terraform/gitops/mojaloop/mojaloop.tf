@@ -182,7 +182,7 @@ module "generate_mojaloop_files" {
     jws_key_secret_public_key_key                                     = "tls.crt"
     cert_man_vault_cluster_issuer_name                                = var.cert_man_vault_cluster_issuer_name
     jws_key_rsa_bits                                                  = var.jws_key_rsa_bits
-    mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local"
+    mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
@@ -209,9 +209,6 @@ locals {
   reporting_events_mongodb_resource_index      = index(local.stateful_resources.*.resource_name, "reporting-events-mongodb")
   mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
-  rolesPermissions                             = yamldecode(file(var.rbac_permissions_file))
-  mojaloopRoles                                = local.rolesPermissions["roles"]
-  permissionExclusions                         = local.rolesPermissions["permission-exclusions"]
   jws_key_secret                               = "switch-jws"
 }
 

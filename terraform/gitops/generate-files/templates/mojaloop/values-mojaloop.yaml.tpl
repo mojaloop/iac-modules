@@ -719,10 +719,6 @@ mojaloop-bulk:
   enabled: ${bulk_enabled}
   bulk-api-adapter:
     bulk-api-adapter-service:
-      commonAnnotations:
-        secret.reloader.stakater.com/reload: "${jws_key_secret}"
-      podLabels:
-        sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${bulk_api-adapter_service_replica_count}
       config:
         kafka_host: *KAFKA_HOST
@@ -733,7 +729,6 @@ mojaloop-bulk:
         mongo_password: *OBJSTORE_MONGO_PASSWORD
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
-        endpointSecurity: *ENDPOINT_SECURITY
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
