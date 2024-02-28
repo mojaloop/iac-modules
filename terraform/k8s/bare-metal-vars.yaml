@@ -75,3 +75,4 @@ route53_external_dns_secret_key: "changeme"
 longhorn_backups_access_key: "changeme"
 longhorn_backups_secret_key: "changeme"
 longhorn_backups_bucket_name: dev1.devbaremetal.infitx-labs.com-lhbck
+dns_resolver_ip: 10.10.100.1

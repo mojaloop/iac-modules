@@ -33,10 +33,10 @@ global:
       port: 80
   keycloak:
     url: 'https://${keycloak_fqdn}'
-    user: '${role_assign_service_user}'
+    user: '${role_assign_svc_user}'
     secret:
-      name: '${role_assign_service_secret}'
-      key: '${role_assign_service_secret_key}'
+      name: '${role_assign_svc_secret}'
+      key: '${vault_secret_key}'
     realm: '${keycloak_realm_name}'
 
 ## TODO: Disabling the tests by default for now. Need to figure out how to configure the tests.
@@ -76,7 +76,7 @@ reporting-hub-bop-api-svc:
   enabled: true
   ingress:
     enabled: false
-    
+
 
 reporting-legacy-api:
   containerSecurityContext:
@@ -119,14 +119,17 @@ reporting-hub-bop-shell:
   enabled: true
   ingress:
     enabled: false
-    
+
   config:
     env:
       AUTH_MOCK_API: false
       REMOTE_API_BASE_URL: ''
       REMOTE_MOCK_API: false
-      LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser?return_to=https://${portal_fqdn}
-      LOGOUT_URL: https://${auth_fqdn}/kratos/self-service/logout/browser
+      LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
+      ## client_id and post_logout_redirect_uri can be passed in return_url to redirect the user back to portal after logout
+      ## Example: return_url=http%3A%2F%2F$${keycloak_fqdn}%2Frealms%2F$${keycloak_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3D$${hubop_oidc_client_id}%26post_logout_redirect_uri%3Dhttps%3A%2F%2F$${portal_fqdn}
+      LOGOUT_URL: /kratos/self-service/logout/browser?return_url=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
+      LOGIN_PROVIDER: keycloak
       AUTH_TOKEN_URL: /kratos/sessions/whoami
       AUTH_ENABLED: true
       REMOTE_1_URL: https://${portal_fqdn}/uis/iam
@@ -167,7 +170,7 @@ reporting-hub-bop-settlements-ui:
       REPORTING_API_ENDPOINT: https://${portal_fqdn}/api/transfers
   ingress:
     enabled: false
-    
+
 
 reporting-hub-bop-positions-ui:
   enabled: true

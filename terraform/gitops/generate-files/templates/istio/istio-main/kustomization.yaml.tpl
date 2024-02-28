@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - github.com/kubernetes-sigs/gateway-api/config/crd?ref=${gateway_api_version}
+  #- github.com/kubernetes-sigs/gateway-api/config/crd?ref=${gateway_api_version}
   - namespace.yaml
 
 helmCharts:

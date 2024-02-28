@@ -580,59 +580,97 @@
                 "enabled": true,
                 "topics": [
                     {
+                      "name": "topic-event",
+                      "partitions": 3,
+                      "replicationFactor": 3,
+                      "config": {
+                        "retention.bytes": "20000000000"
+                      }
+                    },
+                    {
                       "name": "topic-transfer-prepare",
                       "partitions": 4,
-                      "replicationFactor": 1
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-transfer-position",
                       "partitions": 25,
-                      "replicationFactor": 1
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-transfer-position-batch",
                       "partitions": 4,
-                      "replicationFactor": 1
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-transfer-fulfil",
                       "partitions": 4,
-                      "replicationFactor": 1
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-notification-event",
                       "partitions": 4,
-                      "replicationFactor": 1
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-transfer-get",
-                      "partitions": 1,
-                      "replicationFactor": 1
+                      "partitions": 3,
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-admin-transfer",
-                      "partitions": 1,
-                      "replicationFactor": 1
+                      "partitions": 3,
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-bulk-prepare",
-                      "partitions": 1,
-                      "replicationFactor": 1
+                      "partitions": 3,
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-bulk-fulfil",
-                      "partitions": 1,
-                      "replicationFactor": 1
+                      "partitions": 3,
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-bulk-processing",
-                      "partitions": 1,
-                      "replicationFactor": 1
+                      "partitions": 3,
+                      "replicationFactor": 3
                     },
                     {
                       "name": "topic-bulk-get",
-                      "partitions": 1,
-                      "replicationFactor": 1
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-quotes-post",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-quotes-put",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-quotes-get",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-bulkquotes-post",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-bulkquotes-put",
+                      "partitions": 3,
+                      "replicationFactor": 3
+                    },
+                    {
+                      "name": "topic-bulkquotes-get",
+                      "partitions": 3,
+                      "replicationFactor": 3
                     }
                 ]
             },
@@ -642,23 +680,9 @@
                 "service_port": 9092,
                 "replica_count": 1,
                 "dataplane_affinity_definition": {
-                    "nodeAffinity": {
-                        "requiredDuringSchedulingIgnoredDuringExecution": {
-                        "nodeSelectorTerms": [
-                            {
-                            "matchExpressions": [
-                                {
-                                "key": "workload-class.mojaloop.io/KAFKA-DATA-PLANE",
-                                "operator": "In",
-                                "values": [
-                                    "enabled"
-                                ]
-                                }
-                            ]
-                            }
-                        ]
-                        }
-                    }
+                    "type": "soft",
+                    "key": "workload-class.mojaloop.io/KAFKA-DATA-PLANE",
+                    "values": ["enabled"]
                 },
                 "controlplane_affinity_definition": {
                     "nodeAffinity": {

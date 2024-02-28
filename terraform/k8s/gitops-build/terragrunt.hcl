@@ -81,7 +81,7 @@ inputs = {
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
   rbac_api_resources_file                  = local.common_vars.mojaloop_enabled ? find_in_parent_folders("mojaloop-rbac-api-resources.yaml") : ""
-  rbac_permissions_file                    = local.common_vars.mojaloop_enabled ? find_in_parent_folders("mojaloop-rbac-permissions.yaml") : ""
+  rbac_permissions_file                    = local.common_vars.mojaloop_enabled ? find_in_parent_folders("mojaloop-rbac-permissions.yaml") : find_in_parent_folders("pm4ml-rbac-permissions.yaml")
 }
 
 locals {
@@ -118,8 +118,8 @@ generate "required_providers_override" {
   if_exists = "overwrite_terragrunt"
 
   contents = <<EOF
-terraform { 
-  
+terraform {
+
   required_providers {
     gitlab = {
       source = "gitlabhq/gitlab"

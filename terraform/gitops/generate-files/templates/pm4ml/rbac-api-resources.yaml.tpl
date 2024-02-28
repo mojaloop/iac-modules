@@ -21,7 +21,7 @@ spec:
       payload: |
         {
           "namespace": "permission",
-          "object": "pm4mlApi",
+          "object": "pm4mlViewTransfers",
           "relation": "granted",
           "subject_id": "{{ print .Subject }}"
         }

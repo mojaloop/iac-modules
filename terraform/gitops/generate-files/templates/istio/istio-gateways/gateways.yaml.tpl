@@ -3,9 +3,8 @@ kind: Gateway
 metadata:
   name: ${istio_internal_wildcard_gateway_name}
   namespace: ${istio_internal_gateway_namespace}
-  annotations: {
+  annotations:
     external-dns.alpha.kubernetes.io/target: ${internal_load_balancer_dns}
-  }
 spec:
   selector:
     istio: ${istio_internal_gateway_name}
@@ -27,9 +26,8 @@ kind: Gateway
 metadata:
   name: ${istio_external_wildcard_gateway_name}
   namespace: ${istio_external_gateway_namespace}
-  annotations: {
+  annotations:
     external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
-  }
 spec:
   selector:
     istio: ${istio_external_gateway_name}
