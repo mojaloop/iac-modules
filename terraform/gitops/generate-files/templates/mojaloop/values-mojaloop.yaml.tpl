@@ -724,7 +724,6 @@ mojaloop-bulk:
         mongo_password: *OBJSTORE_MONGO_PASSWORD
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
-        endpointSecurity: *ENDPOINT_SECURITY
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
