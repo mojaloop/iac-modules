@@ -152,7 +152,7 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: dashboard-performance-troubleshooting-temp
+  name: dashboard-performance-troubleshooting-monitoring
 spec:
   allowCrossNamespaceImport: true
   folder: mojaloop
@@ -162,5 +162,5 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "Prometheus" 
-  url: "https://raw.githubusercontent.com/mojaloop/helm/muz/add-dashboard-performance-troubleshooting/monitoring/dashboards/mojaloop/dashboard-performance-troubleshooting.json"
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.0.0-snapshot.3/monitoring/dashboards/mojaloop/dashboard-performance-troubleshooting.json"
 ---
