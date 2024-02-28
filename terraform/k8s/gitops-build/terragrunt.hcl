@@ -18,28 +18,33 @@ dependency "k8s_deploy" {
     nat_public_ips                 = [""]
     internal_load_balancer_dns       = ""
     external_load_balancer_dns       = ""
-    private_subdomain                = ""
-    public_subdomain                 = ""
+    private_subdomain                = "${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}.internal"
+    public_subdomain                 = "${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}"
     external_interop_switch_fqdn     = ""
     internal_interop_switch_fqdn     = ""
-    target_group_internal_https_port = 0
-    target_group_internal_http_port  = 0
-    target_group_external_https_port = 0
-    target_group_external_http_port  = 0
+    target_group_internal_https_port = 31443
+    target_group_internal_http_port  = 31080
+    target_group_external_https_port = 32443
+    target_group_external_http_port  = 32080
     properties_key_map = {
-      longhorn_backups_bucket_name_key = "mock"
+      longhorn_backups_bucket_name_key                = "longhorn_backups_bucket_name"
+      cert_manager_credentials_client_secret_name_key = "cert_manager_credentials_client_secret_name"
+      cert_manager_credentials_client_id_name_key     = "cert_manager_credentials_client_id_name"
+      external_dns_credentials_client_secret_name_key = "external_dns_credentials_client_secret_name"
+      external_dns_credentials_client_id_name_key     = "external_dns_credentials_client_id_name"
     }
     secrets_key_map = {
-      external_dns_cred_id_key         = "mock"
-      external_dns_cred_secret_key     = "mock"
-      longhorn_backups_cred_id_key     = "mock"
-      longhorn_backups_cred_secret_key = "mock"
+      external_dns_cred_id_key         = "route53_external_dns_access_key"
+      external_dns_cred_secret_key     = "route53_external_dns_secret_key"
+      longhorn_backups_cred_id_key     = "longhorn_backups_access_key"
+      longhorn_backups_cred_secret_key = "longhorn_backups_secret_key"
     }
-    haproxy_server_fqdn  = "null"
+    haproxy_server_fqdn  = "haproxy.${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}"
     private_network_cidr = ""
-    dns_provider = ""
+    dns_provider = "aws"
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  skip_outputs = local.skip_outputs
+  mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
@@ -92,6 +97,7 @@ locals {
   common_vars                   = yamldecode(file("${find_in_parent_folders("common-vars.yaml")}"))
   pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("pm4ml-vars.yaml")}"))
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("mojaloop-vars.yaml")}"))
+  skip_outputs                  = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
   CLUSTER_NAME                  = get_env("CLUSTER_NAME")
