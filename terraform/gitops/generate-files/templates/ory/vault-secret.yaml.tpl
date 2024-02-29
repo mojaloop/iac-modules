@@ -162,15 +162,15 @@ spec:
             name: default
       name: kratosoidcsecret
       path: ${hubop_oidc_client_secret_secret_path}/${hubop_oidc_client_secret_secret}
-%{ for provider in oidc_providers ~}
+# %{ for provider in oidc_providers }
     - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
             name: default
-      name: ${provider.realm}
+      name: ${replace(provider.realm, "-", "_")}
       path: ${hubop_oidc_client_secret_secret_path}/${provider.secret_name}
-%{ endfor ~}
+# %{ endfor }
   output:
     name: kratos-oidc-providers
     stringData:
@@ -179,7 +179,7 @@ spec:
             "id":"keycloak",
             "provider":"generic",
             "client_id":"${hubop_oidc_client_id}",
-            "client_secret":"{{ .kratosoidcsecret.${hubop_oidc_client_secret_secret_key} }}",
+            "client_secret":"{{ .kratosoidcsecret.${vault_secret_key} }}",
             "scope":["openid", "profile", "email"],
             "mapper_url":"base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==",
             "issuer_url":"https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}"
@@ -189,7 +189,7 @@ spec:
             "id":"${provider.realm}",
             "provider":"generic",
             "client_id":"${provider.client_id}",
-            "client_secret":"{{ .${provider.realm}.${provider.secret_key} }}",
+            "client_secret":"{{ .${replace(provider.realm, "-", "_")}.${vault_secret_key} }}",
             "scope":["openid", "profile", "email"],
             "mapper_url":"base64://bG9jYWwgY2xhaW1zID0gc3RkLmV4dFZhcignY2xhaW1zJyk7Cgp7CiAgaWRlbnRpdHk6IHsKICAgIHRyYWl0czogewogICAgICBlbWFpbDogY2xhaW1zLmVtYWlsLAogICAgICBuYW1lOiBjbGFpbXMuZW1haWwsCiAgICAgIHN1YmplY3Q6IGNsYWltcy5zdWIKICAgIH0sCiAgfSwKfQ==",
             "issuer_url":"https://${keycloak_fqdn}/realms/${provider.realm}"

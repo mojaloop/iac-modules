@@ -1,3 +1,2 @@
 aws_provider_version: ">= 5.0.0"
 cloudposse_utils_version: ">=1.12.0"
-dns_resolver_ip: 1.1.1.1

@@ -25,30 +25,31 @@ resource "local_sensitive_file" "ansible_inventory" {
 resource "null_resource" "run_ansible" {
 
   triggers = {
-    inventory_file_sha_hex = local_sensitive_file.ansible_inventory.id
-    ansible_collection_tag = var.ansible_collection_tag
-    ansible_collection_url = var.ansible_collection_url
+    inventory_file_sha_hex        = local_sensitive_file.ansible_inventory.id
+    ansible_collection_tag        = var.ansible_collection_tag
+    ansible_collection_url        = var.ansible_collection_url
     ansible_destroy_playbook_name = var.ansible_destroy_playbook_name
-    ansible_inventory_filename = local_sensitive_file.ansible_inventory.filename
+    ansible_inventory_filename    = local_sensitive_file.ansible_inventory.filename
+    ansible_debug                 = var.ansible_debug
   }
 
   provisioner "local-exec" {
     when        = destroy
     command     = <<-EOT
           ansible-galaxy collection install "${self.triggers.ansible_collection_url},${self.triggers.ansible_collection_tag}"
-          ansible-playbook "mojaloop.iac.${self.triggers.ansible_destroy_playbook_name}" -i "${self.triggers.ansible_inventory_filename}"
+          ansible-playbook ${self.triggers.ansible_debug} "mojaloop.iac.${self.triggers.ansible_destroy_playbook_name}" -i "${self.triggers.ansible_inventory_filename}"
     EOT
     working_dir = path.module
-  } 
+  }
 
   provisioner "local-exec" {
     command     = <<-EOT
           ansible-galaxy collection install ${var.ansible_collection_url},${var.ansible_collection_tag}
-          ansible-playbook mojaloop.iac.${var.ansible_playbook_name} -i ${local_sensitive_file.ansible_inventory.filename}
+          ansible-playbook ${var.ansible_debug} "mojaloop.iac.${var.ansible_playbook_name}" -i ${local_sensitive_file.ansible_inventory.filename}
     EOT
     working_dir = path.module
   }
- 
+
 
   depends_on = [
     local_sensitive_file.ansible_inventory,

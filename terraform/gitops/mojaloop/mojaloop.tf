@@ -171,9 +171,9 @@ module "generate_mojaloop_files" {
     finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
     ory_stack_enabled                                                 = var.ory_stack_enabled
     oathkeeper_auth_provider_name                                     = var.oathkeeper_auth_provider_name
-    role_assign_service_secret_key                                    = var.hubop_realm_role_assign_service_secret_key
-    role_assign_service_secret                                        = var.hubop_realm_role_assign_service_secret
-    role_assign_service_user                                          = var.hubop_realm_role_assign_service_user
+    vault_secret_key                                                  = var.vault_secret_key
+    role_assign_svc_secret                                            = var.role_assign_svc_secret
+    role_assign_svc_user                                              = var.role_assign_svc_user
     keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
     apiResources                                                      = local.apiResources
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
@@ -347,13 +347,15 @@ variable "keycloak_hubop_realm_name" {
   type        = string
   description = "name of realm for hub operator api access"
 }
-variable "hubop_realm_role_assign_service_secret" {
+
+variable "vault_secret_key" {
   type = string
 }
-variable "hubop_realm_role_assign_service_secret_key" {
+
+variable "role_assign_svc_secret" {
   type = string
 }
-variable "hubop_realm_role_assign_service_user" {
+variable "role_assign_svc_user" {
   type = string
 }
 
