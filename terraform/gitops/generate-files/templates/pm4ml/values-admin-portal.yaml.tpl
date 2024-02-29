@@ -32,10 +32,11 @@ role-assignment-service:
   configFiles:
     default.json: {
         "ROLES_LIST": [
+          "manager"
           "pm4mladmin"
         ],
         "AUTO_GRANT_PORTAL_ADMIN_ROLES": [
-          "pm4mladmin"
+          "manager"
         ]
       }
 

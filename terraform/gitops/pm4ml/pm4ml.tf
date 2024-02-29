@@ -20,6 +20,7 @@ module "generate_pm4ml_files" {
     experience_api_fqdn                             = var.experience_api_fqdns[each.key]
     kratos_service_name                             = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                     = var.portal_fqdns[each.key]
+    admin_portal_fqdn                               = var.admin_portal_fqdns[each.key]
     auth_fqdn                                       = var.auth_fqdn
     admin_portal_release_name                       = "admin-portal"
     admin_portal_chart_version                      = try(var.app_var_map.admin_portal_chart_version, var.admin_portal_chart_version)
@@ -104,6 +105,9 @@ variable "app_var_map" {
 }
 variable "portal_fqdns" {
   description = "fqdns for pm4ml portal"
+}
+variable "admin_portal_fqdns" {
+  description = "fqdns for pm4ml admin portal"
 }
 variable "auth_fqdn" {
   type = string
