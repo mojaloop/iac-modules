@@ -100,6 +100,7 @@ module "pm4ml" {
   istio_internal_wildcard_gateway_name       = local.istio_internal_wildcard_gateway_name
   local_vault_kv_root_path                   = local.local_vault_kv_root_path
   portal_fqdns                               = local.portal_fqdns
+  admin_portal_fqdns                         = local.admin_portal_fqdns
   ory_stack_enabled                          = var.ory_stack_enabled
   auth_fqdn                                  = local.auth_fqdn
   oathkeeper_auth_provider_name              = local.oathkeeper_auth_provider_name
@@ -235,6 +236,7 @@ locals {
   local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
 
   portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
+  admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
   experience_api_fqdns      = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "exp-${pm4ml.pm4ml}.${var.public_subdomain}" }
   mojaloop_connnector_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "conn-${pm4ml.pm4ml}.${var.public_subdomain}" }
   test_fqdns                = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "test-${pm4ml.pm4ml}.${var.public_subdomain}" }
