@@ -176,7 +176,7 @@ locals {
       for i, id in data.aws_instances.node[key].ids : {
         node_name   = "ip-${replace(data.aws_instances.node[key].private_ips[i], ".", "-")}"
         node_labels = node.node_labels
-      }
+      } if length(node_labels) > 0
     ]
   ])
   node_taints = concat([
@@ -184,7 +184,7 @@ locals {
       for i, id in data.aws_instances.node[key].ids : {
         node_name   = "ip-${replace(data.aws_instances.node[key].private_ips[i], ".", "-")}"
         node_taints = node.node_taints
-      }
+      } if length(node_taints) > 0
     ]
   ])
 }
