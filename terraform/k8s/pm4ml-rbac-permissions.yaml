@@ -1,0 +1,11 @@
+---
+roles:
+  - rolename: manager
+    permissions:
+      - iamView
+      - iamEdit
+      - pm4mlViewTransfers
+  - rolename: pm4mladmin
+    permissions:
+      - pm4mlViewTransfers
+permission-exclusions: []

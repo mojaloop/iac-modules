@@ -34,7 +34,7 @@ variable "vpc_cidr" {
 }
 
 variable "block_size" {
-  default = 3
+  default     = 3
   description = "block size of individual subnets"
 }
 
@@ -162,9 +162,14 @@ variable "master_node_supports_traffic" {
 }
 
 variable "dns_provider" {
-  type = string
-  default = "aws"
+  type        = string
+  default     = "aws"
   description = "which dns provider to use, defaults to cloud provider"
+}
+
+variable "dns_resolver_ip" {
+  default     = "1.1.1.1"
+  description = "which dns host to use"
 }
 
 ###

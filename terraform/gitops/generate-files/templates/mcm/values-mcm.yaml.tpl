@@ -68,6 +68,7 @@ ui:
   checkSessionUrl: https://${mcm_public_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
   loginProvider: keycloak
+  logoutUrl: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_hubop_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
 %{ endif ~}
   oauth:
 %{ if ory_stack_enabled ~}

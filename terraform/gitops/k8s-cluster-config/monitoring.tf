@@ -23,6 +23,7 @@ module "generate_monitoring_files" {
     admin_secret_user_key                = "admin-user"
     admin_secret                         = "grafana-admin-secret"
     admin_user_name                      = "grafana-admin"
+    alertmanager_jira_secret_ref         = "${var.cluster_name}/jira-prometheus-integration-secret-key"
     monitoring_sync_wave                 = var.monitoring_sync_wave
     monitoring_post_config_sync_wave     = var.monitoring_post_config_sync_wave
     ingress_class                        = var.grafana_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
@@ -34,6 +35,8 @@ module "generate_monitoring_files" {
     grafana_wildcard_gateway             = local.grafana_wildcard_gateway
     loki_ingester_pvc_size               = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
     prometheus_pvc_size                  = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
+    loki_ingester_retention_period       = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
+    prometheus_retention_period          = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -100,4 +103,6 @@ locals {
   monitoring_app_file              = "monitoring-app.yaml"
   loki_ingester_pvc_size           = "50Gi"
   prometheus_pvc_size              = "50Gi"
+  loki_ingester_retention_period   = "72h"
+  prometheus_retention_period      = "10d"
 }

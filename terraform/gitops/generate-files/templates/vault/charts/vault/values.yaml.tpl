@@ -1,7 +1,7 @@
 vault:
   server:
     enabled: true
-    dev: 
+    dev:
       enabled: false
     extraVolumes:
       - type: configMap
@@ -13,7 +13,7 @@ vault:
         secretName: ${vault_seal_token_secret}
         secretKey: TOKEN
     ha:
-      enabled: true 
+      enabled: true
       config: |
         ui = true
         listener "tcp" {
@@ -63,7 +63,7 @@ vault:
                 name: ${vault_oidc_client_id_secret}
                 key: TOKEN
 
-    affinity: 
+    affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:

@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
-  - rbac.yaml
+  - rbac-api-resources.yaml
 %{ if istio_create_ingress_gateways ~}
   - istio-gateway.yaml
 %{ endif ~}
@@ -16,3 +16,10 @@ helmCharts:
   repo: ${pm4ml_chart_repo}
   valuesFile: values-pm4ml.yaml
   namespace: ${pm4ml_namespace}
+- name: finance-portal # admin-portal
+  releaseName: ${admin_portal_release_name}
+  version: ${admin_portal_chart_version}
+  repo: https://mojaloop.github.io/charts/repo
+  valuesFile: values-admin-portal.yaml
+  namespace: ${pm4ml_namespace}
+  includeCRDs: true

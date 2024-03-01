@@ -87,6 +87,7 @@ kratos:
       default_browser_return_url: https://${auth_fqdn}/ui/welcome
       allowed_return_urls:
         - https://${auth_fqdn}/ui
+        - https://${keycloak_fqdn}
 %{ for fqdnItem in bof_managed_portal_fqdns ~}
         - https://${fqdnItem}
 %{ endfor ~}
@@ -108,7 +109,7 @@ kratos:
 
         logout:
           after:
-            default_browser_return_url: ${keycloak_fqdn}/oidc/logout
+            default_browser_return_url: https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/logout
 
         error:
           ui_url: https://${auth_fqdn}/ui/error

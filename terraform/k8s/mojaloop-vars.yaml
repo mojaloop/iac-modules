@@ -1,13 +1,14 @@
 bulk_enabled: false
 third_party_enabled: false
-mcm_chart_version: 0.7.2
-mojaloop_chart_version: 15.4.0-17019.1640ae3
+mcm_chart_version: 0.7.7
+mojaloop_chart_version: 16.0.0-17361.fb393ac
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 #replica counts
 account_lookup_service_replica_count: 1
 account_lookup_service_admin_replica_count: 1
 quoting_service_replica_count: 1
+quoting_service_handler_replica_count: 1
 ml_api_adapter_service_replica_count: 1
 ml_api_adapter_handler_notifications_replica_count: 1
 central_ledger_service_replica_count: 1
@@ -43,13 +44,15 @@ central_ledger_monitoring_prefix: "moja_cl_"
 quoting_service_monitoring_prefix: "moja_qs_"
 ml_api_adapter_monitoring_prefix: "moja_ml_"
 account_lookup_service_monitoring_prefix: "moja_als_"
+ttk_gp_testcase_labels: "p2p"
+mojaloop_tolerations:
+  tolerations:
+    - key: "moja-enabled"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
 workload_definitions:
   core_api_adapters:
-    toleration_definition:
-      - key: "key1"
-        operator: "Equal"
-        value: "value1"
-        effect: "NoSchedule"
     affinity_definition:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

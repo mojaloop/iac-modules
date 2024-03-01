@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
   # Add fields here
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -41,7 +41,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -64,7 +64,7 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-%{ for key in resource.local_resource_config.generate_secret_keys ~}  
+%{ for key in resource.local_resource_config.generate_secret_keys ~}
     - authentication:
         path: kubernetes
         role: policy-admin

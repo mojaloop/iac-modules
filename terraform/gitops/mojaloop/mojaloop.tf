@@ -98,6 +98,7 @@ module "generate_mojaloop_files" {
     account_lookup_service_replica_count                              = try(var.app_var_map.account_lookup_service_replica_count, 1)
     account_lookup_service_admin_replica_count                        = try(var.app_var_map.account_lookup_service_admin_replica_count, 1)
     quoting_service_replica_count                                     = try(var.app_var_map.quoting_service_replica_count, 1)
+    quoting_service_handler_replica_count                             = try(var.app_var_map.quoting_service_handler_replica_count, 1)
     ml_api_adapter_service_replica_count                              = try(var.app_var_map.ml_api_adapter_service_replica_count, 1)
     ml_api_adapter_handler_notifications_replica_count                = try(var.app_var_map.ml_api_adapter_handler_notifications_replica_count, 1)
     central_ledger_service_replica_count                              = try(var.app_var_map.central_ledger_service_replica_count, 1)
@@ -122,6 +123,7 @@ module "generate_mojaloop_files" {
     cl_handler_bulk_transfer_processing_replica_count                 = try(var.app_var_map.cl_handler_bulk_transfer_processing_replica_count, 1)
     cl_handler_bulk_transfer_get_replica_count                        = try(var.app_var_map.cl_handler_bulk_transfer_get_replica_count, 1)
     enable_istio_injection                                            = try(var.app_var_map.enable_istio_injection, false)
+    mojaloop_tolerations                                              = try(var.app_var_map.mojaloop_tolerations, []) ## TODO: need to pass this variable
     account_lookup_service_affinity                                   = yamlencode(var.app_var_map.workload_definitions.account_lookup_service.affinity_definition)
     account_lookup_admin_service_affinity                             = try(yamlencode(var.app_var_map.workload_definitions.account_lookup_service.affinity_definition), null)
     quoting_service_affinity                                          = try(yamlencode(var.app_var_map.workload_definitions.quoting_service.affinity_definition), null)
@@ -170,15 +172,16 @@ module "generate_mojaloop_files" {
     finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
     ory_stack_enabled                                                 = var.ory_stack_enabled
     oathkeeper_auth_provider_name                                     = var.oathkeeper_auth_provider_name
-    role_assign_service_secret_key                                    = var.hubop_realm_role_assign_service_secret_key
-    role_assign_service_secret                                        = var.hubop_realm_role_assign_service_secret
-    role_assign_service_user                                          = var.hubop_realm_role_assign_service_user
+    vault_secret_key                                                  = var.vault_secret_key
+    role_assign_svc_secret                                            = var.role_assign_svc_secret
+    role_assign_svc_user                                              = var.role_assign_svc_user
     keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
     apiResources                                                      = local.apiResources
     mojaloopRoles                                                     = local.mojaloopRoles
     permissionExclusions                                              = local.permissionExclusions
     fqdn_map                                                          = local.fqdn_map
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
+    ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -257,7 +260,7 @@ variable "mojaloop_chart_version" {
 
 variable "finance_portal_chart_version" {
   description = "finance portal chart version"
-  default     = "4.2.1"
+  default     = "4.2.3"
 }
 
 variable "mojaloop_sync_wave" {
@@ -355,24 +358,28 @@ variable "keycloak_hubop_realm_name" {
   type        = string
   description = "name of realm for hub operator api access"
 }
-variable "hubop_realm_role_assign_service_secret" {
-  type = string
-}
-variable "hubop_realm_role_assign_service_secret_key" {
-  type = string
-}
-variable "hubop_realm_role_assign_service_user" {
+
+variable "vault_secret_key" {
   type = string
 }
 
-variable "rbac_permissions_file" {
+variable "role_assign_svc_secret" {
   type = string
 }
+variable "role_assign_svc_user" {
+  type = string
+}
+
 variable "rbac_api_resources_file" {
   type = string
 }
 
 variable "reporting_templates_chart_version" {
-  type = string
+  type    = string
   default = "1.1.7"
+}
+
+variable "ttk_gp_testcase_labels" {
+  type    = string
+  default = "p2p"
 }

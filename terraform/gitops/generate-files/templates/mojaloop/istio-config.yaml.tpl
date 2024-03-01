@@ -3,9 +3,8 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: interop-gateway
-  annotations: {
+  annotations:
     external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
-  }
 spec:
   selector:
     istio: ${istio_external_gateway_name}
@@ -427,7 +426,18 @@ spec:
             host: ${finance_portal_release_name}-reporting-hub-bop-positions-ui
             port:
               number: 80
-    - name: kratos-woami-redirect
+    - name: kratos-logout-proxy
+      match:
+        - uri:
+            prefix: /kratos/self-service/logout/browser
+      rewrite:
+        uri: /self-service/logout/browser
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
+    - name: kratos-whoami-proxy
       match:
         - uri:
             prefix: /kratos/sessions/whoami

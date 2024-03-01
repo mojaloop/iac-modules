@@ -1,7 +1,7 @@
 loki:
   overrideConfiguration:
     limits_config:
-      retention_period: 72h
+      retention_period: ${loki_ingester_retention_period}
 ingester:
   persistence:
     size: ${loki_ingester_pvc_size}

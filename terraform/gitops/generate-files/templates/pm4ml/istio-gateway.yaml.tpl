@@ -13,6 +13,28 @@ spec:
   hosts:
   - '${portal_fqdn}'
   http:
+    - name: kratos-logout-proxy
+      match:
+        - uri:
+            prefix: /kratos/self-service/logout/browser
+      rewrite:
+        uri: /self-service/logout/browser
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
+    - name: kratos-whoami-proxy
+      match:
+        - uri:
+            prefix: /kratos/sessions/whoami
+      rewrite:
+        uri: /sessions/whoami
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
     - name: "portal"
       match:
         - uri:
@@ -22,6 +44,95 @@ spec:
             host: ${pm4ml_release_name}-frontend
             port:
               number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ${admin_portal_release_name}-admin-ui-vs
+spec:
+  gateways:
+%{ if pm4ml_wildcard_gateway == "external" ~}
+  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+%{ else ~}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+%{ endif ~}
+  hosts:
+  - '${admin_portal_fqdn}'
+  http:
+    - name: iam
+      match:
+        - uri:
+            prefix: /api/iam/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${admin_portal_release_name}-role-assignment-service
+            port:
+              number: 80
+    - name: reporting-hub-bop-role-ui
+      match:
+        - uri:
+            prefix: /uis/iam/
+        - uri:
+            exact: /uis/iam
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ${admin_portal_release_name}-reporting-hub-bop-role-ui
+            port:
+              number: 80
+    - name: kratos-logout-proxy
+      match:
+        - uri:
+            prefix: /kratos/self-service/logout/browser
+      rewrite:
+        uri: /self-service/logout/browser
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
+    - name: kratos-whoami-proxy
+      match:
+        - uri:
+            prefix: /kratos/sessions/whoami
+      rewrite:
+        uri: /sessions/whoami
+      route:
+        - destination:
+            host: ${kratos_service_name}
+            port:
+              number: 80
+    - name: "portal"
+      match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ${admin_portal_release_name}-reporting-hub-bop-shell
+            port:
+              number: 80
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ${admin_portal_release_name}-auth
+  namespace: ${istio_external_gateway_namespace}
+spec:
+  selector:
+    matchLabels:
+      app: ${istio_external_gateway_name}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+  rules:
+    - to:
+        - operation:
+            paths:
+              - /api/*
+            hosts: ["${admin_portal_fqdn}", "${admin_portal_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -51,17 +162,6 @@ spec:
               add:
                 access-control-allow-origin: "https://${portal_fqdn}"
                 access-control-allow-credentials: "true"
-    - name: kratos-woami-redirect
-      match:
-        - uri:
-            prefix: /kratos/sessions/whoami
-      rewrite:
-        uri: /sessions/whoami
-      route:
-        - destination:
-            host: ${kratos_service_name}
-            port:
-              number: 80
 %{ if pm4ml_wildcard_gateway == "external" ~}
 ---
 apiVersion: security.istio.io/v1beta1

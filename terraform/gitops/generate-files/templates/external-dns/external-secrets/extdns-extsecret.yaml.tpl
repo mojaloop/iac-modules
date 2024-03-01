@@ -20,7 +20,7 @@ spec:
       engineVersion: v2
       data:
         # multiline string
-        credentials: |       
+        credentials: |
           [default]
           aws_access_key_id = {{ .${external_dns_credentials_client_id_name} }}
           aws_secret_access_key = {{ .${external_dns_credentials_client_secret_name} }}
@@ -28,12 +28,12 @@ spec:
 
   data:
     - secretKey: ${external_dns_credentials_client_secret_name}
-      remoteRef: 
+      remoteRef:
         key: ${external_dns_credentials_secret_provider_key}
         property: value
 %{ if external_dns_credentials_client_id_name != "" ~}
     - secretKey: ${external_dns_credentials_client_id_name}
-      remoteRef: 
+      remoteRef:
         key: ${external_dns_credentials_id_provider_key}
         property: value
 %{ endif ~}

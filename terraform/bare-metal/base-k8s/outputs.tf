@@ -108,6 +108,7 @@ output "all_hosts_var_maps" {
     internal_interop_switch_fqdn = "${var.app_var_map.int_interop_switch_subdomain}.${var.app_var_map.base_domain}"
     external_interop_switch_fqdn = "${var.app_var_map.ext_interop_switch_subdomain}.${var.app_var_map.base_domain}"
     kubeapi_loadbalancer_fqdn    = var.app_var_map.kubeapi_loadbalancer_fqdn
+    dns_resolver_ip              = var.app_var_map.dns_resolver_ip
   }
 }
 
@@ -133,6 +134,7 @@ output "bastion_hosts_var_maps" {
 output "bastion_hosts_yaml_maps" {
   value = {
     node_pool_labels = yamlencode(local.node_labels)
+    node_pool_taints = yamlencode(local.node_taints)
   }
 }
 
@@ -141,13 +143,13 @@ output "bastion_hosts" {
 }
 
 output "agent_hosts" {
-  value = {for key, host in var.app_var_map.agent_hosts : 
+  value = { for key, host in var.app_var_map.agent_hosts :
     key => host.ip
   }
 }
 
 output "master_hosts" {
-  value = {for key, host in var.app_var_map.master_hosts : 
+  value = { for key, host in var.app_var_map.master_hosts :
     key => host.ip
   }
 }
@@ -200,6 +202,12 @@ locals {
     for key, value in merge(var.app_var_map.master_hosts, var.app_var_map.agent_hosts) : {
       node_name   = key
       node_labels = value.node_labels
+    }
+  ]
+  node_taints = [
+    for key, value in merge(var.app_var_map.master_hosts, var.app_var_map.agent_hosts) : {
+      node_name   = key
+      node_taints = value.node_taints
     }
   ]
 }
