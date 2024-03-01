@@ -123,6 +123,7 @@ module "generate_mojaloop_files" {
     cl_handler_bulk_transfer_processing_replica_count                 = try(var.app_var_map.cl_handler_bulk_transfer_processing_replica_count, 1)
     cl_handler_bulk_transfer_get_replica_count                        = try(var.app_var_map.cl_handler_bulk_transfer_get_replica_count, 1)
     enable_istio_injection                                            = try(var.app_var_map.enable_istio_injection, false)
+    mojaloop_tolerations                                              = try(var.app_var_map.mojaloop_tolerations, []) ## TODO: need to pass this variable
     account_lookup_service_affinity                                   = yamlencode(var.app_var_map.workload_definitions.account_lookup_service.affinity_definition)
     account_lookup_admin_service_affinity                             = try(yamlencode(var.app_var_map.workload_definitions.account_lookup_service.affinity_definition), null)
     quoting_service_affinity                                          = try(yamlencode(var.app_var_map.workload_definitions.quoting_service.affinity_definition), null)
