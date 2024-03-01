@@ -61,6 +61,7 @@ cache:
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store; fi
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then git config --global credential.helper 'store --file ~/.gitcredentials.store'; fi
     - git config --global advice.detachedHead false
+    - source set-ansible-destroy-preq-vars.sh    
     - set
 
 prepare:image:
