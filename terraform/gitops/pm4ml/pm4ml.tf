@@ -140,11 +140,6 @@ variable "pm4ml_vault_k8s_role_name" {
   default     = "kubernetes-pm4ml-role"
 }
 
-resource "tls_private_key" "jws" {
-  algorithm = "RSA"
-  rsa_bits  = "4096"
-}
-
 variable "pm4ml_ingress_internal_lb" {
   type        = bool
   description = "pm4ml_ingress_internal_lb"

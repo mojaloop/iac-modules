@@ -20,7 +20,7 @@ variable "gitlab_project_url" {
 }
 
 variable "nat_public_ips" {
-  type        = list
+  type        = list(any)
   description = "nat_public_ips"
 }
 variable "internal_load_balancer_dns" {
@@ -163,6 +163,10 @@ variable "vault_namespace" {
   description = "vault_namespace"
 }
 variable "cert_manager_namespace" {
-  type = string
+  type        = string
   description = "cert_manager_namespace"
+}
+variable "switch_dfspid" {
+  type    = string
+  default = "switch"
 }

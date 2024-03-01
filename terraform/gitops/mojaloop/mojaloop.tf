@@ -18,7 +18,6 @@ module "generate_mojaloop_files" {
     mojaloop_thirdparty_support_enabled                               = var.third_party_enabled
     bulk_enabled                                                      = var.bulk_enabled
     ttksims_enabled                                                   = var.ttksims_enabled
-    jws_signing_priv_key                                              = tls_private_key.jws.private_key_pem
     ingress_subdomain                                                 = var.public_subdomain
     quoting_service_simple_routing_mode_enabled                       = var.quoting_service_simple_routing_mode_enabled
     central_ledger_handler_transfer_position_batch_processing_enabled = try(var.app_var_map.central_ledger_handler_transfer_position_batch_processing_enabled, false)
@@ -178,6 +177,13 @@ module "generate_mojaloop_files" {
     keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
     apiResources                                                      = local.apiResources
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
+    switch_dfspid                                                     = var.switch_dfspid
+    jws_key_secret                                                    = local.jws_key_secret
+    jws_key_secret_private_key_key                                    = "tls.key"
+    jws_key_secret_public_key_key                                     = "tls.crt"
+    cert_man_vault_cluster_issuer_name                                = var.cert_man_vault_cluster_issuer_name
+    jws_key_rsa_bits                                                  = var.jws_key_rsa_bits
+    mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
@@ -204,6 +210,7 @@ locals {
   reporting_events_mongodb_resource_index      = index(local.stateful_resources.*.resource_name, "reporting-events-mongodb")
   mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
+  jws_key_secret                               = "switch-jws"
 }
 
 variable "app_var_map" {
@@ -213,11 +220,6 @@ variable "mojaloop_enabled" {
   description = "whether mojaloop app is enabled or not"
   type        = bool
   default     = true
-}
-
-resource "tls_private_key" "jws" {
-  algorithm = "RSA"
-  rsa_bits  = "4096"
 }
 
 variable "mojaloop_ingress_internal_lb" {
@@ -367,6 +369,11 @@ variable "rbac_api_resources_file" {
 variable "reporting_templates_chart_version" {
   type    = string
   default = "1.1.7"
+}
+
+variable "jws_key_rsa_bits" {
+  type    = number
+  default = 4096
 }
 
 variable "ttk_gp_testcase_labels" {
