@@ -88,7 +88,7 @@ module "eks" {
     update_launch_template_default_version = true
   }
   self_managed_node_groups = local.self_managed_node_groups
-  tags = var.tags
+  tags                     = var.tags
 }
 
 
@@ -110,13 +110,18 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
-  node_labels = { for node_pool_key, node_pool in var.node_pools : 
+  node_labels = { for node_pool_key, node_pool in var.node_pools :
     node_pool_key => {
       extra_args = [for key, label in node_pool.node_labels : "${key}=${label}"]
     }
   }
+  node_taints = { for node_pool_key, node_pool in var.node_pools :
+    node_pool_key => {
+      extra_args = [for key, taint in node_pool.node_taints : "${taint}"]
+    }
+  }
 
-  self_managed_node_groups = { for node_pool_key, node_pool in var.node_pools : 
+  self_managed_node_groups = { for node_pool_key, node_pool in var.node_pools :
     node_pool_key => {
       name                            = "${local.eks_name}-${node_pool_key}"
       ami_id                          = data.aws_ami.eks_default.id
@@ -131,7 +136,7 @@ locals {
       launch_template_use_name_prefix = false
       iam_role_name                   = "${local.eks_name}-${node_pool_key}"
       iam_role_use_name_prefix        = false
-      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)}'"
+      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
       post_bootstrap_user_data        = <<-EOT
         yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
       EOT
@@ -164,7 +169,7 @@ locals {
       )
 
       tag_specifications = ["instance", "volume", "network-interface"]
-    }  
+    }
   }
 }
 
