@@ -7,7 +7,7 @@ metadata:
   namespace: ${mojaloop_namespace}
 spec:
   match:
-    url: <http|https>://${portal_fqdn}${ar.match_path}
+    url: <http|https>://${fqdn_map[ar.fqdn_name]}${ar.match_path}
     methods:
 %{ for method in ar.match_methods ~}
     - ${method}

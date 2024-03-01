@@ -1,5 +1,6 @@
 ---
 - name: participant-view
+  fqdn_name: finance-portal
   match_path: /api/central-admin/participants<.*>
   match_methods:
     - GET
@@ -9,6 +10,7 @@
   authorizer_permission: participantView
 
 - name: position-funds-in-out
+  fqdn_name: finance-portal
   match_path: /api/central-admin/participants/<.*>/accounts<.*>
   match_methods:
     - POST
@@ -18,6 +20,7 @@
   authorizer_permission: positionFundsInOut
 
 - name: participant-disable-enable
+  fqdn_name: finance-portal
   match_path: /api/central-admin/participants/<.*>/accounts<.*>
   match_methods:
     - PUT
@@ -27,6 +30,7 @@
   authorizer_permission: participantDisableEnable
 
 - name: settlement-view
+  fqdn_name: finance-portal
   match_path: /api/central-settlements/<.*>
   match_methods:
     - GET
@@ -36,6 +40,7 @@
   authorizer_permission: settlementView
 
 - name: settlement-initiate-finalize
+  fqdn_name: finance-portal
   match_path: /api/central-settlements/settlements<.*>
   match_methods:
     - POST
@@ -46,6 +51,7 @@
   authorizer_permission: settlementInitiateFinalise
 
 - name: settlement-close-window
+  fqdn_name: finance-portal
   match_path: /api/central-settlements/settlementWindows<.*>
   match_methods:
     - POST
@@ -55,6 +61,7 @@
   authorizer_permission: settlementCloseWindow
 
 - name: iam-view
+  fqdn_name: finance-portal
   match_path: /api/iam/<.*>
   match_methods:
     - GET
@@ -64,6 +71,7 @@
   authorizer_permission: iamView
 
 - name: iam-edit
+  fqdn_name: finance-portal
   match_path: /api/iam/<.*>
   match_methods:
     - POST
@@ -76,6 +84,7 @@
   authorizer_permission: iamEdit
 
 - name: reporting-api
+  fqdn_name: finance-portal
   match_path: /api/reports/<.*>
   match_methods:
     - GET
@@ -85,6 +94,7 @@
   authorizer_permission: reportingApi
 
 - name: transfer-api
+  fqdn_name: finance-portal
   match_path: /api/transfers
   match_methods:
     - GET
@@ -98,6 +108,7 @@
   authorizer_permission: transferApi
 
 - name: transfer-api2
+  fqdn_name: finance-portal
   match_path: /api/transfers/graphql
   match_methods:
     - GET
@@ -109,3 +120,203 @@
   - jwt
   - cookie_session
   authorizer_permission: transferApi
+
+## Rules for FSPIOP API resources
+- name: fspiop-participants
+  fqdn_name: interop-switch
+  match_path: /participants/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+    - DELETE
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopParticipants
+
+- name: fspiop-parties
+  fqdn_name: interop-switch
+  match_path: /parties/<.*>
+  match_methods:
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopParties
+
+- name: fspiop-transactionrequest
+  fqdn_name: interop-switch
+  match_path: /transactionRequest/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopTransactionRequest
+
+- name: fspiop-quotes
+  fqdn_name: interop-switch
+  match_path: /quotes/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopQuotes
+
+- name: fspiop-authorizations
+  fqdn_name: interop-switch
+  match_path: /authorizations/<.*>
+  match_methods:
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopAuthorizations
+
+- name: fspiop-transfers
+  fqdn_name: interop-switch
+  match_path: /transfers/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopTransfers
+
+- name: fspiop-transactions
+  fqdn_name: interop-switch
+  match_path: /transactions/<.*>
+  match_methods:
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopTransactions
+
+- name: fspiop-bulkquote
+  fqdn_name: interop-switch
+  match_path: /bulkQuote/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopBulkQuote
+
+- name: fspiop-bulktransfers
+  fqdn_name: interop-switch
+  match_path: /bulkTransfers/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopBulkTransfers
+
+- name: tpp-accounts
+  fqdn_name: interop-switch
+  match_path: /accounts/<.*>
+  match_methods:
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: tppAccounts
+
+- name: tpp-consentrequests
+  fqdn_name: interop-switch
+  match_path: /consentRequests/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: tppConsentRequests
+
+- name: tpp-consents
+  fqdn_name: interop-switch
+  match_path: /consents/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: tppConsents
+
+- name: tpp-authorizations
+  fqdn_name: interop-switch
+  match_path: /thirdpartyRequests/authorizations/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: tppAuthorizations
+
+- name: tpp-transactions
+  fqdn_name: interop-switch
+  match_path: /thirdpartyRequests/transactions/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: tppTransactions
+
+- name: tpp-verifications
+  fqdn_name: interop-switch
+  match_path: /thirdpartyRequests/verifications/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: tppVerifications
+
+- name: fspiop-services
+  fqdn_name: interop-switch
+  match_path: /services/<.*>
+  match_methods:
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fspiopServices
+
+- name: fx-quotes
+  fqdn_name: interop-switch
+  match_path: /fxquotes/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fxQuotes
+
+- name: fx-transfers
+  fqdn_name: interop-switch
+  match_path: /fxTransfers/<.*>
+  match_methods:
+    - POST
+    - GET
+    - PUT
+    - PATCH
+  authenticator_handlers:
+  - jwt
+  authorizer_permission: fxTransfers

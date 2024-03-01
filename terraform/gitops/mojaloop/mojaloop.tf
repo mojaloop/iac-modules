@@ -177,6 +177,9 @@ module "generate_mojaloop_files" {
     role_assign_svc_user                                              = var.role_assign_svc_user
     keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
     apiResources                                                      = local.apiResources
+    mojaloopRoles                                                     = local.mojaloopRoles
+    permissionExclusions                                              = local.permissionExclusions
+    fqdn_map                                                          = local.fqdn_map
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
   }
@@ -204,6 +207,13 @@ locals {
   reporting_events_mongodb_resource_index      = index(local.stateful_resources.*.resource_name, "reporting-events-mongodb")
   mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
+  rolesPermissions                             = yamldecode(file(var.rbac_permissions_file))
+  mojaloopRoles                                = local.rolesPermissions["roles"]
+  permissionExclusions                         = local.rolesPermissions["permission-exclusions"]
+  fqdn_map                                     = {
+    "finance-portal" = var.finance_portal_fqdn
+    "interop-switch" = var.external_interop_switch_fqdn
+  }
 }
 
 variable "app_var_map" {
