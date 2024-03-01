@@ -9,7 +9,7 @@ module "generate_reflector_files" {
   }
   file_list       = [for f in fileset(local.base_utils_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.base_utils_app_file, f))]
   template_path   = local.base_utils_template_path
-  output_path     = "${var.output_dir}/reflector"
+  output_path     = "${var.output_dir}/base-utils"
   app_file        = local.base_utils_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
