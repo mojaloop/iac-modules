@@ -14,6 +14,6 @@ cp -r $SRC_DIR/. $DEST_DIR_NAME/
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
 git add $DEST_DIR_NAME/.
-git commit -m "update generated configs to project"
+git commit -m "[skip-ci]update generated configs to project"
 git push
 rm -rf $TMP_REPO_DIR
