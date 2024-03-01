@@ -523,6 +523,7 @@ spec:
       redirectUris:
         - "https://${portal_fqdn}/*"
         - "https://${experience_api_fqdn}/*"
+        - "https://${auth_fqdn}/*"
       webOrigins:
         - "*"
       notBefore: 0
