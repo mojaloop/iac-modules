@@ -36,5 +36,5 @@ spec:
                 -X POST "${mcm_hub_jws_endpoint}"
                 -H "Content-type: application/json"
                 -H "accept: application/json"
-                -d "{\"TimeStamp\":\"$$(JWS_PUB_KEY)\"}"
+                -d "{\"publicKey\":\"$$(JWS_PUB_KEY)\"}"
                 
