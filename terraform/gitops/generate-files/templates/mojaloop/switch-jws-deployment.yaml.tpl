@@ -1,3 +1,4 @@
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jws-pubkey-job
@@ -13,6 +14,10 @@ spec:
       labels:
         app: jws-pubkey-job
     spec:
+      containers:
+        - name: jws-pubkey-job-wait
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo The app is running! && sleep 3600']
       initContainers:
         - name: jws-pubkey-job
           image: curlimages/curl
@@ -28,8 +33,8 @@ spec:
             - -ec
             - >-
               curl 
-                --request POST 
-                --header 'Content-type: application/json' 
-                --header 'accept: application/json' 
-                -d "{\"TimeStamp\":\"$$(JWS_PUB_KEY)\"}" 
-                ${mcm_hub_jws_endpoint}
+                -X POST "${mcm_hub_jws_endpoint}"
+                -H "Content-type: application/json"
+                -H "accept: application/json"
+                -d "{\"TimeStamp\":\"$$(JWS_PUB_KEY)\"}"
+                
