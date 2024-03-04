@@ -183,7 +183,7 @@ module "generate_mojaloop_files" {
     jws_key_secret_public_key_key                                     = "tls.crt"
     cert_man_vault_cluster_issuer_name                                = var.cert_man_vault_cluster_issuer_name
     jws_key_rsa_bits                                                  = var.jws_key_rsa_bits
-    mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local/api/hub/jwscerts"
+    mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
