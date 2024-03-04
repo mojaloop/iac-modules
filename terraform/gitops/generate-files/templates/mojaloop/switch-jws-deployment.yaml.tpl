@@ -17,24 +17,47 @@ spec:
       containers:
         - name: jws-pubkey-job-wait
           image: busybox:1.28
-          command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+          command: ["sh", "-c", "echo Keep the app running! && sleep 3600"]
       initContainers:
-        - name: jws-pubkey-job
-          image: curlimages/curl
-          imagePullPolicy: Always
+        - name: init-secret
+          image: alpine
           env:
-            - name: JWS_PUB_KEY
+            - name: JWS_PUB_CERT
               valueFrom:
                 secretKeyRef:
-                  name: ${jws_key_secret}
-                  key: ${jws_key_secret_public_key_key}
+                  name: switch-jws
+                  key: tls.crt
+          command: ["sh", "-c", echo "$$JWS_PUB_CERT" > /tmp/JWS_PUB_CERT]
+          volumeMounts:
+            - name: data
+              mountPath: /tmp
+        - name: init-extract-public-key
+          image: alpine/openssl:3.1.4
+          command:
+            [
+              "sh",
+              "-c",
+              "openssl x509 -pubkey -noout -in /tmp/JWS_PUB_CERT > /tmp/pubkey.pem",
+            ]
+          volumeMounts:
+            - name: data
+              mountPath: /tmp
+
+        - name: init-call-mcm
+          image: curlimages/curl:8.6.0
           args:
             - /bin/sh
             - -ec
             - >-
               curl 
-                -X POST "${mcm_hub_jws_endpoint}"
-                -H "Content-type: application/json"
-                -H "accept: application/json"
-                -d "{\"TimeStamp\":\"$$(JWS_PUB_KEY)\"}"
+              -X POST "${mcm_hub_jws_endpoint}"
+              -H "Content-type: application/json"
+              -H "accept: application/json"
+              -d "{\"publicKey\":\"$(cat /tmp/pubkey.pem | tr -d \\n)\"}"
+          volumeMounts:
+            - name: data
+              mountPath: /tmp
+      volumes:
+        - name: data
+          emptyDir: {}
                 
