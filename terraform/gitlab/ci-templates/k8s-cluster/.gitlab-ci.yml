@@ -56,8 +56,9 @@ cache:
     - export VAULT_GITLAB_ROOT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/vault_root_token)"
     - export METMAKER_MASTER_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/netmaker_master_key)"
     - source setcivars.sh
-    - yq eval '.' environment.yaml -o=json > environment.json
-    - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./environment.json); do export $var; done
+    #TODO merge local config into default-config folder
+    - yq eval '.' default-config/cluster-config.yaml -o=json > cluster-config.json
+    - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./cluster-config.json); do export $var; done
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store; fi
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then git config --global credential.helper 'store --file ~/.gitcredentials.store'; fi
     - git config --global advice.detachedHead false
@@ -166,6 +167,16 @@ deploy-managed-srvcs:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
+  when: manual
+
+refresh-templates:
+  stage: refresh-templates
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  script:
+    - !reference [.source, script]
+    - .gitlab/scripts/refresh-repo.sh $CLUSTER_NAME $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
   when: manual
 
 destroy:
