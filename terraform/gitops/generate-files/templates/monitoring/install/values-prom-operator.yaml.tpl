@@ -26,3 +26,6 @@ commonLabels:
   build: argocd
 commonAnnotations:
   build: argocd
+node-exporter:
+  tolerations:
+    - operator: "Exists"
