@@ -7,84 +7,13 @@ resource "gitlab_project" "envs" {
   shared_runners_enabled = true
 }
 
-resource "gitlab_project_variable" "k8s_cluster_type" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "K8S_CLUSTER_TYPE"
-  value     = each.value["k8s_cluster_type"]
-  protected = false
-  masked    = false
-}
 
-resource "gitlab_project_variable" "k8s_cluster_module" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "K8S_CLUSTER_MODULE"
-  value     = each.value["k8s_cluster_module"]
-  protected = false
-  masked    = false
-}
 
 resource "gitlab_project_variable" "domain" {
   for_each  = var.env_map
   project   = gitlab_project.envs[each.key].id
   key       = "DOMAIN"
   value     = each.value["domain"]
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "cloud_platform" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "CLOUD_PLATFORM"
-  value     = each.value["cloud_platform"]
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "managed_svc_cloud_platform" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "MANAGED_SVC_CLOUD_PLATFORM"
-  value     = each.value["managed_svc_cloud_platform"]
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "cloud_platform_client_secret_name" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "CLOUD_PLATFORM_CLIENT_SECRET_NAME"
-  value     = each.value["cloud_platform_client_secret_name"]
-  protected = false
-  masked    = false
-}
-
-
-resource "gitlab_project_variable" "cloud_region" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "CLOUD_REGION"
-  value     = each.value["cloud_region"]
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "letsencrypt_email" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "LETSENCRYPT_EMAIL"
-  value     = each.value["letsencrypt_email"]
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "iac_terraform_modules_tag" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "IAC_TERRAFORM_MODULES_TAG"
-  value     = each.value["iac_terraform_modules_tag"]
   protected = false
   masked    = false
 }

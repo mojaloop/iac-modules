@@ -1,0 +1,34 @@
+cluster_name: dev1
+domain: labspm4ml1001.mojaloop.live
+cloud_platform: aws
+dns_provider: aws
+managed_svc_cloud_platform: none
+cloud_platform_client_secret_name: AWS_SECRET_ACCESS_KEY
+k8s_cluster_module: base-k8s
+cloud_region: eu-west-1
+k8s_cluster_type: microk8s
+ansible_collection_tag: v0.18.15
+iac_terraform_modules_tag: v0.40.48
+letsencrypt_email: oscar.cobar@infitx.com
+dns_zone_force_destroy: true
+longhorn_backup_object_store_destroy: true
+nodes:
+  master-generic:
+    master: true
+    instance_type: "m5.4xlarge"
+    node_count: 3
+    storage_gbs: 300
+    node_taints: []
+    node_labels:
+      workload-class.mojaloop.io/PM4ML: "enabled"
+vpc_cidr: "10.110.0.0/23"
+enable_k6s_test_harness: false
+k6s_docker_server_instance_type: "m5.2xlarge"
+master_node_supports_traffic: true
+tags:
+  {
+    "Origin": "Terraform",
+    "mojaloop/cost_center": "mlf-iac-sandbox",
+    "mojaloop/env": "ft-sbox-rw",
+    "mojaloop/owner": "James-Bush",
+  }

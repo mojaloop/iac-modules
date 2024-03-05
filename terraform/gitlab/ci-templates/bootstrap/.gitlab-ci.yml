@@ -142,7 +142,7 @@ deploy-env-templates:
     - !reference [.source, script]
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
     - export GITLAB_SEED_TOKEN="$(vault kv get -field=value secret/bootstrap/gitlab_root_token)"
-    - .gitlab/scripts/seedenvproject.sh $envs $TMP_GIT_REPO $TMP_TEMPLATES_DIR ${GITLAB_SEED_TOKEN}
+    - .gitlab/scripts/seedenvproject.sh $ENV_TO_UPDATE $TMP_GIT_REPO $TMP_TEMPLATES_DIR ${GITLAB_SEED_TOKEN} $IAC_MODULES_VERSION_TO_UPDATE
   when: manual
 
 #do nothing for now
