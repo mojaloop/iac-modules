@@ -65,22 +65,27 @@ reporting-hub-bop-shell:
       REMOTE_MOCK_API: false
       LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
       ## client_id and post_logout_redirect_uri can be passed in return_url to redirect the user back to portal after logout
-      ## Example: return_url=http%3A%2F%2F$${keycloak_fqdn}%2Frealms%2F$${keycloak_pm4ml_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3D$${hubop_oidc_client_id}%26post_logout_redirect_uri%3Dhttps%3A%2F%2F$${portal_fqdn}
+      ## Example: return_url=http%3A%2F%2F$${keycloak_fqdn}%2Frealms%2F$${keycloak_pm4ml_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3D$${hubop_oidc_client_id}%26post_logout_redirect_uri%3Dhttps%3A%2F%2F$${admin_portal_fqdn}
       LOGOUT_URL: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_pm4ml_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
       LOGIN_PROVIDER: ${keycloak_pm4ml_realm_name}
       AUTH_TOKEN_URL: /kratos/sessions/whoami
       AUTH_ENABLED: true
-      REMOTE_1_URL: https://${portal_fqdn}/uis/iam
+      REMOTE_1_URL: https://${admin_portal_fqdn}/uis/iam
 
 
 ### Micro-frontends
 reporting-hub-bop-role-ui:
   enabled: true
+  ## Temporary workaround for participants error
+  image:
+    registry: docker.io
+    repository: mojaloop/reporting-hub-bop-role-ui
+    tag: v1.5.4-snapshot.5
   ingress:
     enabled: false
   config:
     env:
-      REACT_APP_API_BASE_URL: https://${portal_fqdn}/api/iam
+      REACT_APP_API_BASE_URL: https://${admin_portal_fqdn}/api/iam
       REACT_APP_MOCK_API: false
 
 reporting-hub-bop-trx-ui:
