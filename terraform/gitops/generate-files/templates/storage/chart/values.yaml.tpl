@@ -1,4 +1,7 @@
 longhorn:
+  longhornManager:
+    tolerations:
+    - operator: "Exists"
   persistence:
     defaultClass: true
     # Set the number of replicas based on how many nodes are deployed; https://longhorn.io/docs/0.8.1/references/settings/#default-replica-count
@@ -13,7 +16,7 @@ longhorn:
     replicaAutoBalance: disabled
     autoDeletePodWhenVolumeDetachedUnexpectedly: true
     replicaReplenishmentWaitInterval: 360
-
+    taintToleration: ":"
   enablePSP: false
 
 %{ if k8s_cluster_type == "microk8s" ~}

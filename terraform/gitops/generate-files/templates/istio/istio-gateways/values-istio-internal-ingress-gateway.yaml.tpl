@@ -84,7 +84,8 @@ annotations: {}
 
 nodeSelector: {}
 
-tolerations: []
+tolerations:
+  - operator: "Exists"
 
 topologySpreadConstraints: []
 
