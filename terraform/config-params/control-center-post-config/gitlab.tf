@@ -288,5 +288,5 @@ resource "gitlab_application" "argocd_oidc" {
   confidential = true
   scopes       = ["read_api"]
   name         = "${each.key}_argocd_oidc"
-  redirect_url = "https://argocd.${each.key}.${each.value["domain"]}/login/gitlab"
+  redirect_url = "https://argocd.${each.key}.${each.value["domain"]}/auth/callback"
 }
