@@ -68,7 +68,7 @@ locals {
   ANSIBLE_BASE_OUTPUT_DIR          = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE                 = get_env("k8s_cluster_type")
   ARGO_CD_ROOT_APP_PATH            = get_env("ARGO_CD_ROOT_APP_PATH")
-  CLUSTER_NAME                     = get_env("CLUSTER_NAME")
+  CLUSTER_NAME                     = get_env("cluster_name")
   NEXUS_DOCKER_REPO_LISTENING_PORT = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
   NEXUS_FQDN                       = get_env("NEXUS_FQDN")
 
