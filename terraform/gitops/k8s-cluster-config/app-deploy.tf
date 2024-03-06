@@ -195,7 +195,18 @@ variable "rbac_api_resources_file" {
   type = string
 }
 
+variable "argocd_ingress_internal_lb" {
+  default     = true
+  description = "whether argocd should only be available on private network"
+}
+
+variable "argocd_namespace" {
+  default     = "argocd"
+  description = "namespace argocd is deployed to"
+}
+
 locals {
+  argocd_wildcard_gateway   = var.argocd_ingress_internal_lb ? "internal" : "external"
   mojaloop_wildcard_gateway = var.app_var_map.mojaloop_ingress_internal_lb ? "internal" : "external"
   mcm_wildcard_gateway      = var.app_var_map.mcm_ingress_internal_lb ? "internal" : "external"
   pm4ml_var_map = {
@@ -227,6 +238,7 @@ locals {
   ttk_frontend_public_fqdn     = "ttkfrontend.${var.public_subdomain}"
   ttk_backend_public_fqdn      = "ttkbackend.${var.public_subdomain}"
   finance_portal_fqdn          = "finance-portal.${var.public_subdomain}"
+  argocd_fqdn                  = "argocd.${var.public_subdomain}"
 
   mojaloop_internal_gateway_hosts = concat([local.internal_interop_switch_fqdn],
     local.mojaloop_wildcard_gateway == "internal" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
@@ -263,11 +275,13 @@ locals {
   )
 
   internal_gateway_hosts = concat([local.keycloak_admin_fqdn],
+    local.argocd_wildcard_gateway == "internal" ? [local.argocd_fqdn] : [],
     local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
     local.grafana_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_internal_gateway_hosts : [],
   var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [])
   external_gateway_hosts = concat([local.keycloak_fqdn, local.auth_fqdn, local.finance_portal_fqdn],
+    local.argocd_wildcard_gateway == "external" ? [local.argocd_fqdn] : [],
     local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
     local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
     var.common_var_map.mojaloop_enabled ? local.mojaloop_external_gateway_hosts : [],
