@@ -26,6 +26,7 @@ agent_hosts: {}
 master_hosts:
   10.10.100.58:
     ip: 10.10.100.58
+    node_taints: []
     node_labels:
       workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
       workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
@@ -40,6 +41,7 @@ master_hosts:
       workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
   10.10.100.59:
     ip: 10.10.100.59
+    node_taints: []
     node_labels:
       workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
       workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
@@ -54,6 +56,7 @@ master_hosts:
       workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
   10.10.100.60:
     ip: 10.10.100.60
+    node_taints: []
     node_labels:
       workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
       workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"

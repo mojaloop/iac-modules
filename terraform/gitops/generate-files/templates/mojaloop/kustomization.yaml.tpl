@@ -6,6 +6,7 @@ resources:
   - istio-config.yaml
   - service-monitors.yaml
   - vault-secret.yaml
+  - switch-jws-deployment.yaml
   - rbac-api-resources.yaml
 helmCharts:
 - name: mojaloop

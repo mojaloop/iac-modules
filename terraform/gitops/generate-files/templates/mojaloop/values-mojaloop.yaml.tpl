@@ -109,12 +109,15 @@ CONFIG:
 
   ## Endpiont Security
   endpointSecurity: &ENDPOINT_SECURITY
-    # jwsSigningKeySecret: &JWS_SIGNING_KEY_SECRET
-    #   name: some-name
-    #   key: some-key
-    jwsSigningKeySecret: null
-    jwsSigningKey: |-
-      ${indent(6, jws_signing_priv_key)}
+    jwsSigningKeySecret: &JWS_SIGNING_KEY_SECRET
+      name: ${jws_key_secret}
+      key: ${jws_key_secret_private_key_key}
+%{ if mojaloop_tolerations != null ~}
+  tolerations: &MOJALOOP_TOLERATIONS
+    ${indent(4, mojaloop_tolerations)}
+%{ else ~}
+    tolerations: &MOJALOOP_TOLERATIONS []
+%{ endif ~}
 
 global:
   config:
@@ -122,10 +125,13 @@ global:
 
 account-lookup-service:
   account-lookup-service:
+    commonAnnotations:
+      secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if account_lookup_service_affinity != null ~}
     affinity:
       ${indent(8, account_lookup_service_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${account_lookup_service_replica_count}
@@ -169,6 +175,7 @@ account-lookup-service:
     affinity:
       ${indent(8, account_lookup_admin_service_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${account_lookup_service_admin_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -210,10 +217,13 @@ account-lookup-service:
 
 quoting-service:
   quoting-service:
+    commonAnnotations:
+      secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
     affinity:
       ${indent(6, quoting_service_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${quoting_service_replica_count}
@@ -242,10 +252,13 @@ quoting-service:
       config:
         prefix: *QUOTING_MONITORING_PREFIX
   quoting-service-handler:
+    commonAnnotations:
+      secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
     affinity:
       ${indent(6, quoting_service_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${quoting_service_handler_replica_count}
@@ -280,6 +293,7 @@ ml-api-adapter:
     affinity:
       ${indent(8, ml_api_adapter_service_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${ml_api_adapter_service_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -298,10 +312,13 @@ ml-api-adapter:
       config:
         prefix: *ML_API_ADAPTER_MONITORING_PREFIX
   ml-api-adapter-handler-notification:
+    commonAnnotations:
+      secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if ml_api_adapter_handler_notifications_affinity != null ~}
     affinity:
       ${indent(8, ml_api_adapter_handler_notifications_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
@@ -327,6 +344,7 @@ centralledger:
     affinity:
       ${indent(8, centralledger_service_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_service_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -358,6 +376,7 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_transfer_prepare_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_prepare_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -387,6 +406,7 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_position_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -416,6 +436,7 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_batch_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_position_batch_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -446,6 +467,7 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_transfer_get_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_get_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -474,6 +496,7 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_transfer_fulfil_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_fulfil_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -499,6 +522,7 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-timeout:
+    tolerations: *MOJALOOP_TOLERATIONS
     config:
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
@@ -526,6 +550,7 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_admin_transfer_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_admin_transfer_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -566,6 +591,7 @@ centralsettlement:
     affinity:
       ${indent(8, central_settlement_service_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_service_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -581,6 +607,7 @@ centralsettlement:
     affinity:
       ${indent(8, central_settlement_handler_deferredsettlement_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_deferredsettlement_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -596,6 +623,7 @@ centralsettlement:
     affinity:
       ${indent(8, central_settlement_handler_grosssettlement_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_grosssettlement_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -611,6 +639,7 @@ centralsettlement:
     affinity:
       ${indent(8, central_settlement_handler_rules_affinity)}
 %{ endif ~}
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_rules_replica_count}
     config:
       kafka_host: *KAFKA_HOST
@@ -629,6 +658,7 @@ transaction-requests-service:
   affinity:
     ${indent(8, trasaction_requests_service_affinity)}
 %{ endif ~}
+  tolerations: *MOJALOOP_TOLERATIONS
   replicaCount: ${trasaction_requests_service_replica_count}
   ingress:
 %{ if istio_create_ingress_gateways ~}
@@ -643,6 +673,7 @@ thirdparty:
   enabled: ${mojaloop_thirdparty_support_enabled}
   auth-svc:
     enabled: true
+    tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${auth_service_replica_count}
@@ -666,6 +697,7 @@ thirdparty:
 
   consent-oracle:
     enabled: true
+    tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${consent_oracle_replica_count}
     config:
       db_host: *TP_ALS_CONSENT_SVC_DB_HOST
@@ -685,6 +717,7 @@ thirdparty:
 
   tp-api-svc:
     enabled: true
+    tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${tp_api_svc_replica_count}
@@ -699,8 +732,10 @@ thirdparty:
 
   thirdparty-simulator:
     enabled: true
+    tolerations: *MOJALOOP_TOLERATIONS
 
 simulator:
+  tolerations: *MOJALOOP_TOLERATIONS
   ingress:
 %{ if istio_create_ingress_gateways ~}
     enabled: false
@@ -714,6 +749,7 @@ mojaloop-bulk:
   enabled: ${bulk_enabled}
   bulk-api-adapter:
     bulk-api-adapter-service:
+      tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${bulk_api-adapter_service_replica_count}
       config:
         kafka_host: *KAFKA_HOST
@@ -724,7 +760,6 @@ mojaloop-bulk:
         mongo_password: *OBJSTORE_MONGO_PASSWORD
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
-        endpointSecurity: *ENDPOINT_SECURITY
       ingress:
 %{ if istio_create_ingress_gateways ~}
         enabled: false
@@ -734,6 +769,9 @@ mojaloop-bulk:
         className: *INGRESS_CLASS
         hostname: bulk-api-adapter.${ingress_subdomain}
     bulk-api-adapter-handler-notification:
+      commonAnnotations:
+        secret.reloader.stakater.com/reload: "${jws_key_secret}"
+      tolerations: *MOJALOOP_TOLERATIONS
       podLabels:
         sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
@@ -749,6 +787,7 @@ mojaloop-bulk:
         endpointSecurity: *ENDPOINT_SECURITY
   bulk-centralledger:
     cl-handler-bulk-transfer-prepare:
+      tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_prepare_replica_count}
       config:
         kafka_host: *KAFKA_HOST
@@ -766,6 +805,7 @@ mojaloop-bulk:
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
     cl-handler-bulk-transfer-fulfil:
+      tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_fulfil_replica_count}
       config:
         kafka_host: *KAFKA_HOST
@@ -783,6 +823,7 @@ mojaloop-bulk:
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
     cl-handler-bulk-transfer-processing:
+      tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_processing_replica_count}
       config:
         kafka_host: *KAFKA_HOST
@@ -800,6 +841,7 @@ mojaloop-bulk:
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
     cl-handler-bulk-transfer-get:
+      tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_get_replica_count}
       config:
         kafka_host: *KAFKA_HOST
@@ -824,6 +866,7 @@ mojaloop-ttk-simulators:
     enabled: true
     sdk-scheme-adapter: &MOJA_TTK_SIM_SDK
       sdk-scheme-adapter-api-svc:
+        tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
         kafka:
@@ -835,6 +878,7 @@ mojaloop-ttk-simulators:
           port: *MOJA_TTK_SIM_REDIS_PORT
 
       sdk-scheme-adapter-dom-evt-handler:
+        tolerations: *MOJALOOP_TOLERATIONS
         kafka:
           host: *MOJA_TTK_SIM_KAFKA_HOST
           port: *MOJA_TTK_SIM_KAFKA_PORT
@@ -844,6 +888,7 @@ mojaloop-ttk-simulators:
           port: *MOJA_TTK_SIM_REDIS_PORT
 
       sdk-scheme-adapter-cmd-evt-handler:
+        tolerations: *MOJALOOP_TOLERATIONS
         kafka:
           host: *MOJA_TTK_SIM_KAFKA_HOST
           port: *MOJA_TTK_SIM_KAFKA_PORT
@@ -854,6 +899,7 @@ mojaloop-ttk-simulators:
 
     ml-testing-toolkit:
       ml-testing-toolkit-backend:
+        tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
           hosts:
@@ -889,6 +935,7 @@ mojaloop-ttk-simulators:
             database: *TTK_MONGO_DATABASE
 
       ml-testing-toolkit-frontend:
+        tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
           hosts:
@@ -902,6 +949,7 @@ mojaloop-ttk-simulators:
     sdk-scheme-adapter: *MOJA_TTK_SIM_SDK
     ml-testing-toolkit:
       ml-testing-toolkit-backend:
+        tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
           hosts:
@@ -911,6 +959,7 @@ mojaloop-ttk-simulators:
               host: ttksim2.${ingress_subdomain}
 
       ml-testing-toolkit-frontend:
+        tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
           hosts:
@@ -924,6 +973,7 @@ mojaloop-ttk-simulators:
     sdk-scheme-adapter: *MOJA_TTK_SIM_SDK
     ml-testing-toolkit:
       ml-testing-toolkit-backend:
+        tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
           hosts:
@@ -933,6 +983,7 @@ mojaloop-ttk-simulators:
               host: ttksim3.${ingress_subdomain}
 
       ml-testing-toolkit-frontend:
+        tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
           hosts:
@@ -944,6 +995,7 @@ mojaloop-ttk-simulators:
 ml-testing-toolkit:
   enabled: ${internal_ttk_enabled}
   ml-testing-toolkit-backend:
+    tolerations: *MOJALOOP_TOLERATIONS
     config:
       mongodb:
         host: *TTK_MONGO_HOST
@@ -1042,6 +1094,7 @@ ml-testing-toolkit:
       }
 
   ml-testing-toolkit-frontend:
+    tolerations: *MOJALOOP_TOLERATIONS
     ingress:
 %{ if istio_create_ingress_gateways ~}
       enabled: false
@@ -1188,3 +1241,5 @@ ml-ttk-test-cleanup:
 
 mojaloop-simulator:
   enabled: ${internal_sim_enabled}
+  defaults:
+    tolerations: *MOJALOOP_TOLERATIONS

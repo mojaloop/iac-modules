@@ -20,8 +20,9 @@ module "generate_pm4ml_files" {
     experience_api_fqdn                             = var.experience_api_fqdns[each.key]
     kratos_service_name                             = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                     = var.portal_fqdns[each.key]
+    admin_portal_fqdn                               = var.admin_portal_fqdns[each.key]
     auth_fqdn                                       = var.auth_fqdn
-    admin_portal_release_name                       = "admin-portal"
+    admin_portal_release_name                       = "admin-portal-${each.key}"
     admin_portal_chart_version                      = try(var.app_var_map.admin_portal_chart_version, var.admin_portal_chart_version)
     dfsp_id                                         = each.value.pm4ml_dfsp_id
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
@@ -76,9 +77,11 @@ module "generate_pm4ml_files" {
     istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
     bof_release_name                                = var.bof_release_name
     bof_role_perm_operator_host                     = "${var.bof_release_name}-security-role-perm-operator-svc.${var.ory_namespace}.svc.cluster.local"
-    portal_admin_secret                             = replace("${var.portal_admin_secret_prefix}${each.key}", "-", "_")
+    portal_admin_secret                             = "${var.portal_admin_secret_prefix}${each.key}"
+    portal_admin_secret_name                        = join("$", ["", "{${replace("${var.portal_admin_secret_prefix}${each.key}", "-", "_")}}"])
     portal_admin_user                               = var.portal_admin_user
-    role_assign_svc_secret                          = replace("${var.role_assign_svc_secret_prefix}${each.key}", "-", "_")
+    role_assign_svc_secret                          = "${var.role_assign_svc_secret_prefix}${each.key}"
+    role_assign_svc_secret_name                     = join("$", ["", "{${replace("${var.role_assign_svc_secret_prefix}${each.key}", "-", "_")}}"])
     role_assign_svc_user                            = var.role_assign_svc_user
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
   }
@@ -102,6 +105,9 @@ variable "app_var_map" {
 }
 variable "portal_fqdns" {
   description = "fqdns for pm4ml portal"
+}
+variable "admin_portal_fqdns" {
+  description = "fqdns for pm4ml admin portal"
 }
 variable "auth_fqdn" {
   type = string
@@ -132,11 +138,6 @@ variable "pm4ml_vault_k8s_role_name" {
   description = "vault k8s role name for pm4ml"
   type        = string
   default     = "kubernetes-pm4ml-role"
-}
-
-resource "tls_private_key" "jws" {
-  algorithm = "RSA"
-  rsa_bits  = "4096"
 }
 
 variable "pm4ml_ingress_internal_lb" {

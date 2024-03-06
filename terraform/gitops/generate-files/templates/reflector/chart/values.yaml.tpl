@@ -1,2 +1,0 @@
-reflector:
-  nameOverride: reflector

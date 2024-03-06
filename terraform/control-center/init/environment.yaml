@@ -35,6 +35,8 @@ envs:
         instance_type: "m5.4xlarge"
         node_count: 3
         storage_gbs: 300
+        node_taints:
+          moja-taint: "moja-enabled=true:NoSchedule"
         node_labels:
           workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
           workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"

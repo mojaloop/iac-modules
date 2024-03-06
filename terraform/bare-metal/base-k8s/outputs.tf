@@ -134,6 +134,7 @@ output "bastion_hosts_var_maps" {
 output "bastion_hosts_yaml_maps" {
   value = {
     node_pool_labels = yamlencode(local.node_labels)
+    node_pool_taints = yamlencode(local.node_taints)
   }
 }
 
@@ -201,6 +202,12 @@ locals {
     for key, value in merge(var.app_var_map.master_hosts, var.app_var_map.agent_hosts) : {
       node_name   = key
       node_labels = value.node_labels
-    }
+    } if length(value.node_labels) > 0
+  ]
+  node_taints = [
+    for key, value in merge(var.app_var_map.master_hosts, var.app_var_map.agent_hosts) : {
+      node_name   = key
+      node_taints = value.node_taints
+    } if length(value.node_taints) > 0
   ]
 }

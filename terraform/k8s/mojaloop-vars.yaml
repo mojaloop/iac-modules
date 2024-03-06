@@ -45,13 +45,13 @@ quoting_service_monitoring_prefix: "moja_qs_"
 ml_api_adapter_monitoring_prefix: "moja_ml_"
 account_lookup_service_monitoring_prefix: "moja_als_"
 ttk_gp_testcase_labels: "p2p"
+mojaloop_tolerations:
+  - key: "moja-enabled"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
 workload_definitions:
   core_api_adapters:
-    toleration_definition:
-      - key: "key1"
-        operator: "Equal"
-        value: "value1"
-        effect: "NoSchedule"
     affinity_definition:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

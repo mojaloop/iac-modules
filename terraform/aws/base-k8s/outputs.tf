@@ -134,6 +134,7 @@ output "bastion_hosts_var_maps" {
 output "bastion_hosts_yaml_maps" {
   value = {
     node_pool_labels = yamlencode(concat(local.node_labels...))
+    node_pool_taints = yamlencode(concat(local.node_taints...))
   }
 }
 
@@ -175,7 +176,15 @@ locals {
       for i, id in data.aws_instances.node[key].ids : {
         node_name   = "ip-${replace(data.aws_instances.node[key].private_ips[i], ".", "-")}"
         node_labels = node.node_labels
-      }
+      } if length(node.node_labels) > 0
+    ]
+  ])
+  node_taints = concat([
+    for key, node in var.node_pools : [
+      for i, id in data.aws_instances.node[key].ids : {
+        node_name   = "ip-${replace(data.aws_instances.node[key].private_ips[i], ".", "-")}"
+        node_taints = node.node_taints
+      } if length(node.node_taints) > 0
     ]
   ])
 }
