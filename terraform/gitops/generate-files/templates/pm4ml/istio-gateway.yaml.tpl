@@ -134,6 +134,25 @@ spec:
               - /api/*
             hosts: ["${admin_portal_fqdn}", "${admin_portal_fqdn}:*"]
 ---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ${pm4ml_release_name}-exp-auth
+  namespace: ${istio_external_gateway_namespace}
+spec:
+  selector:
+    matchLabels:
+      app: ${istio_external_gateway_name}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+  rules:
+    - to:
+        - operation:
+            paths:
+              - /*
+            hosts: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
