@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/k8s-store-config?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/k8s-store-config?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
 dependency "k8s_deploy" {
@@ -40,14 +40,14 @@ inputs = {
 
 locals {
   env_vars = yamldecode(
-    file("${find_in_parent_folders("environment.yaml")}")
+    file("${find_in_parent_folders("cluster-config.yaml")}")
   )
   common_vars = yamldecode(
     file("${find_in_parent_folders("common-vars.yaml")}")
   )
   
   tags                      = local.env_vars.tags
-  CLUSTER_NAME              = get_env("CLUSTER_NAME")
+  CLUSTER_NAME              = get_env("cluster_name")
   GITLAB_SERVER_URL         = get_env("CI_SERVER_URL")
   GITLAB_CURRENT_PROJECT_ID = get_env("GITLAB_CURRENT_PROJECT_ID")
   GITLAB_TOKEN              = get_env("GITLAB_CI_PAT")
