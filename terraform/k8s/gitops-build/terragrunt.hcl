@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/gitops/k8s-cluster-config?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/gitops/k8s-cluster-config?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
 
@@ -85,7 +85,7 @@ inputs = {
 }
 
 locals {
-  env_vars                      = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  env_vars                      = yamldecode(file("${find_in_parent_folders("cluster-config.yaml")}"))
   tags                          = local.env_vars.tags
   gitlab_readonly_rbac_group    = local.env_vars.gitlab_readonly_rbac_group
   gitlab_admin_rbac_group       = local.env_vars.gitlab_admin_rbac_group
@@ -94,16 +94,16 @@ locals {
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("mojaloop-vars.yaml")}"))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
-  CLUSTER_NAME                  = get_env("CLUSTER_NAME")
-  CLUSTER_DOMAIN                = get_env("CLUSTER_DOMAIN")
+  CLUSTER_NAME                  = get_env("cluster_name")
+  CLUSTER_DOMAIN                = get_env("domain")
   GITLAB_PROJECT_URL            = get_env("GITLAB_PROJECT_URL")
   GITLAB_CURRENT_PROJECT_ID     = get_env("GITLAB_CURRENT_PROJECT_ID")
   GITLAB_CURRENT_GROUP_NAME     = get_env("GITLAB_CURRENT_GROUP_NAME")
   GITLAB_API_URL                = get_env("GITLAB_API_URL")
-  CLOUD_REGION                  = get_env("CLOUD_REGION")
+  CLOUD_REGION                  = get_env("cloud_region")
   ENABLE_VAULT_OIDC             = get_env("ENABLE_VAULT_OIDC")
   ENABLE_GRAFANA_OIDC           = get_env("ENABLE_GRAFANA_OIDC")
-  LETSENCRYPT_EMAIL             = get_env("LETSENCRYPT_EMAIL")
+  LETSENCRYPT_EMAIL             = get_env("letsencrypt_email")
   GITLAB_TOKEN                  = get_env("GITLAB_CI_PAT")
   ENV_VAULT_TOKEN               = get_env("ENV_VAULT_TOKEN")
   KV_SECRET_PATH                = get_env("KV_SECRET_PATH")
