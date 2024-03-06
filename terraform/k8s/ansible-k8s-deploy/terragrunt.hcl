@@ -22,7 +22,8 @@ dependency "k8s_deploy" {
     bastion_public_ip           = "null"
     haproxy_server_fqdn         = "null"
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  skip_outputs = local.skip_outputs
+  mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
@@ -40,7 +41,7 @@ inputs = {
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
-  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps, 
+  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps,
   {
     registry_mirror_fqdn        = dependency.k8s_deploy.outputs.haproxy_server_fqdn
   }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
@@ -57,7 +58,7 @@ inputs = {
   ansible_collection_tag        = local.env_map[local.CLUSTER_NAME].ansible_collection_tag
   ansible_base_output_dir       = local.ANSIBLE_BASE_OUTPUT_DIR
   ansible_playbook_name         = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
-  ansible_destroy_playbook_name = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
+  ansible_destroy_playbook_name = "k8s_cluster_destroy"
   master_node_supports_traffic = (local.total_agent_count == 0) ? true : false
 }
 
@@ -84,6 +85,7 @@ locals {
       vpc_cidr                             = val["vpc_cidr"]
     }
   }
+  skip_outputs                     = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
   ANSIBLE_BASE_OUTPUT_DIR          = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE                 = get_env("K8S_CLUSTER_TYPE")
   ARGO_CD_ROOT_APP_PATH            = get_env("ARGO_CD_ROOT_APP_PATH")
@@ -133,3 +135,5 @@ locals {
 include "root" {
   path = find_in_parent_folders()
 }
+
+skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")

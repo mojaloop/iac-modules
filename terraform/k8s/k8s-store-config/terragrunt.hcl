@@ -9,7 +9,8 @@ dependency "k8s_deploy" {
     secrets_var_map    = {}
     secrets_key_map    = {}
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  skip_outputs = local.skip_outputs
+  mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
@@ -20,7 +21,8 @@ dependency "managed_services" {
     secrets_var_map    = {}
     secrets_key_map    = {}
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  skip_outputs = local.skip_outputs
+  mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
@@ -46,6 +48,7 @@ locals {
     file("${find_in_parent_folders("common-vars.yaml")}")
   )
   tags                      = local.env_vars.tags
+  skip_outputs              = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
   CLUSTER_NAME              = get_env("CLUSTER_NAME")
   GITLAB_SERVER_URL         = get_env("CI_SERVER_URL")
   GITLAB_CURRENT_PROJECT_ID = get_env("GITLAB_CURRENT_PROJECT_ID")
@@ -62,8 +65,8 @@ generate "required_providers_override" {
   if_exists = "overwrite_terragrunt"
 
   contents = <<EOF
-terraform { 
-  
+terraform {
+
   required_providers {
     gitlab = {
       source = "gitlabhq/gitlab"
@@ -83,3 +86,4 @@ provider "gitlab" {
 EOF
 }
 
+skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
