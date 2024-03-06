@@ -177,7 +177,7 @@ refresh-templates:
       aud: $VAULT_SERVER_URL
   script:
     - !reference [.source, script]
-    - .gitlab/scripts/refresh-repo.sh $CLUSTER_NAME $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
+    - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
   when: manual
 
 destroy:
