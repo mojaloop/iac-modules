@@ -241,3 +241,52 @@ resource "gitlab_application" "grafana_oidc" {
   name         = "${each.key}_grafana_oidc"
   redirect_url = "https://grafana.${each.key}.${each.value["domain"]}/login/gitlab"
 }
+
+resource "vault_kv_secret_v2" "argocd_oauth_client_id" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_argocd_oauth_to_gitlab
+  }
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/argocd_oauth_client_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = gitlab_application.argocd_oidc[each.key].application_id
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "argocd_oauth_client_secret" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_argocd_oauth_to_gitlab
+  }
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/argocd_oauth_client_secret"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = gitlab_application.argocd_oidc[each.key].secret
+    }
+  )
+}
+
+resource "gitlab_project_variable" "enable_argocd_oauth" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_argocd_oauth_to_gitlab
+  }
+  project   = gitlab_project.envs[each.key].id
+  key       = "ENABLE_ARGOCD_OIDC"
+  value     = "true"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_application" "argocd_oidc" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_argocd_oauth_to_gitlab
+  }
+  confidential = true
+  scopes       = ["read_api"]
+  name         = "${each.key}_argocd_oidc"
+  redirect_url = "https://argocd.${each.key}.${each.value["domain"]}/login/gitlab"
+}

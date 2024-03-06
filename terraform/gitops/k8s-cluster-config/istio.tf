@@ -35,9 +35,12 @@ module "generate_istio_files" {
     ory_stack_enabled                    = var.ory_stack_enabled
     oathkeeper_auth_url                  = var.ory_stack_enabled ? local.oathkeeper_auth_url : ""
     oathkeeper_auth_provider_name        = var.ory_stack_enabled ? local.oathkeeper_auth_provider_name : ""
+    argocd_wildcard_gateway              = local.argocd_wildcard_gateway
+    argocd_fqdn                          = local.argocd_fqdn
+    argocd_namespace                     = var.argocd_namespace
   }
 
-file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
+  file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
   template_path   = local.istio_template_path
   output_path     = "${var.output_dir}/istio"
   app_file        = local.istio_app_file
@@ -45,8 +48,8 @@ file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : tri
 }
 
 locals {
-  istio_template_path              = "${path.module}/../generate-files/templates/istio"
-  istio_app_file                   = "istio-app.yaml"
+  istio_template_path = "${path.module}/../generate-files/templates/istio"
+  istio_app_file      = "istio-app.yaml"
 }
 
 
@@ -125,6 +128,6 @@ variable "istio_create_ingress_gateways" {
 locals {
   istio_internal_wildcard_gateway_name = "internal-wildcard-gateway"
   istio_external_wildcard_gateway_name = "external-wildcard-gateway"
-  istio_egress_gateway_name = "callback-egress-gateway"
-  istio_egress_gateway_namespace = "egress-gateway"
+  istio_egress_gateway_name            = "callback-egress-gateway"
+  istio_egress_gateway_namespace       = "egress-gateway"
 }
