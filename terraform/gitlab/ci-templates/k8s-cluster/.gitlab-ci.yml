@@ -31,7 +31,12 @@ variables:
   SAST_DISABLED: "true"
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
   GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
+  TEMPLATE_REPO_URL: https://github.com/mojaloop/iac-modules.git
   VAULT_ADDR: $VAULT_SERVER_URL
+  CI_TEMPLATE_PATH: terraform/gitlab/ci-templates/k8s-cluster
+  K8S_TEMPLATE_PATH: terraform/k8s
+  TMP_TEMPLATES_DIR: /tmp/iac-templates
+  TMP_GIT_REPO: /tmp/git-iac-templates
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
