@@ -8,7 +8,7 @@ k8s_cluster_module: base-k8s
 cloud_region: eu-west-1
 k8s_cluster_type: microk8s
 ansible_collection_tag: v0.18.11
-iac_terraform_modules_tag: v0.40.46
+iac_terraform_modules_tag: v0.40.51sgtest
 letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 longhorn_backup_object_store_destroy: true
