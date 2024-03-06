@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/${get_env("cloud_platform")}/${get_env("k8s_cluster_module")}?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/${get_env("cloud_platform")}/${get_env("k8s_cluster_module")}?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
 
