@@ -29,6 +29,7 @@ variables:
   IMAGE_TAG: latest
   TF_STATE_BASE_ADDRESS: $CI_API_V4_URL/projects/$CI_PROJECT_ID/terraform/state
   SAST_DISABLED: "true"
+  CONFIG_PATH: merged-config
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
   GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
   TEMPLATE_REPO_URL: https://github.com/mojaloop/iac-modules.git
@@ -53,8 +54,8 @@ cache:
 .source:
   script:
     - source $(which gitlab-terraform)
-    #TODO merge local config into default-config folder
-    - yq eval '.' default-config/cluster-config.yaml -o=json > cluster-config.json
+    - .gitlab/scripts/config-merge.sh
+    - yq eval '.' $CONFIG_PATH/cluster-config.yaml -o=json > cluster-config.json
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./cluster-config.json); do export $var; done    
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
     - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
@@ -120,6 +121,10 @@ init:
   script:
     - !reference [.source, script]
     - terragrunt run-all init -input=false -reconfigure
+  artifacts:
+    paths:
+      - $CONFIG_PATH/*.yaml    
+      - $CONFIG_PATH/*.yml
 
 validate:
   extends: .terraform:validate
