@@ -12,7 +12,7 @@ pm4mls:
     pm4ml_dfsp_id: pm4mltest1
     pm4ml_ttk_enabled: true
     enable_sdk_bulk_transaction_support: false
-    use_ttk_as_backend_simulator: false
+    use_ttk_as_backend_simulator: true
     pm4ml_reserve_notification: false
   - pm4ml: pm4mltest2
     pm4ml_enabled: true
@@ -27,5 +27,5 @@ pm4mls:
     pm4ml_dfsp_id: pm4mltest2
     pm4ml_ttk_enabled: true
     enable_sdk_bulk_transaction_support: false
-    use_ttk_as_backend_simulator: false
+    use_ttk_as_backend_simulator: true
     pm4ml_reserve_notification: false
