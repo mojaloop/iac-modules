@@ -27,10 +27,10 @@ inputs = {
 
 locals {
   env_vars = yamldecode(
-    file("${find_in_parent_folders("$CONFIG_PATH/cluster-config.yaml")}")
+    file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}")
   )
   cloud_platform_vars = yamldecode(
-    file("${find_in_parent_folders("$CONFIG_PATH/${get_env("cloud_platform")}-vars.yaml")}")
+    file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}")
   )
   total_agent_count = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
