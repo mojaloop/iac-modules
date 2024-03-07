@@ -14,7 +14,7 @@ module "generate_istio_files" {
     istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
     istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
     istio_egress_gateway_name            = local.istio_egress_gateway_name
-    istio_egress_gateway_max_replicas    = try(var.app_var_map.istio_egress_gateway_max_replicas,var.istio_egress_gateway_max_replicas)
+    istio_egress_gateway_max_replicas    = try(var.common_var_map.istio_egress_gateway_max_replicas,var.istio_egress_gateway_max_replicas)
     external_ingress_https_port          = var.external_ingress_https_port
     external_ingress_http_port           = var.external_ingress_http_port
     external_ingress_health_port         = var.external_ingress_health_port
