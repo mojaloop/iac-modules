@@ -31,24 +31,6 @@ nodes:
       workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
       workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
       workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
-  worker-generic:
-    master: false
-    instance_type: "m5.large"
-    node_count: 2
-    storage_gbs: 300
-    node_taints: []
-    node_labels:
-      workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
-      workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
-      workload-class.mojaloop.io/CENTRAL-SETTLEMENT: "enabled"
-      workload-class.mojaloop.io/QUOTING-SERVICE: "enabled"
-      workload-class.mojaloop.io/ACCOUNT-LOOKUP-SERVICE: "enabled"
-      workload-class.mojaloop.io/ALS-ORACLES: "enabled"
-      workload-class.mojaloop.io/CORE-HANDLERS: "enabled"
-      workload-class.mojaloop.io/KAFKA-CONTROL-PLANE: "enabled"
-      workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
-      workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
-      workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
 vpc_cidr: "10.106.0.0/23"
 enable_k6s_test_harness: false
 k6s_docker_server_instance_type: "m5.large"
