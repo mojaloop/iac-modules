@@ -125,6 +125,7 @@ init:
     paths:
       - $CONFIG_PATH/*.yaml    
       - $CONFIG_PATH/*.yml
+      - $CONFIG_PATH/*.json
 
 validate:
   extends: .terraform:validate
