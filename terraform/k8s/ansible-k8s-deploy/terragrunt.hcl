@@ -63,8 +63,8 @@ inputs = {
 
 locals {
   env_vars = yamldecode(
-  file("${find_in_parent_folders("cluster-config.yaml")}"))
-  common_vars = yamldecode(file("${find_in_parent_folders("common-vars.yaml")}"))
+  file("${find_in_parent_folders("$CONFIG_PATH/cluster-config.yaml")}"))
+  common_vars = yamldecode(file("${find_in_parent_folders("$CONFIG_PATH/common-vars.yaml")}"))
   ANSIBLE_BASE_OUTPUT_DIR          = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE                 = get_env("k8s_cluster_type")
   ARGO_CD_ROOT_APP_PATH            = get_env("ARGO_CD_ROOT_APP_PATH")

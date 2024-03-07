@@ -16,7 +16,7 @@ inputs = {
 
 locals {
   env_vars = yamldecode(
-    file("${find_in_parent_folders("cluster-config.yaml")}")
+    file("${find_in_parent_folders("$CONFIG_PATH/cluster-config.yaml")}")
   )
   tags                      = local.env_vars.tags
   CLUSTER_NAME              = get_env("cluster_name")
