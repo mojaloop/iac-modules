@@ -80,18 +80,18 @@ inputs = {
   transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
-  rbac_api_resources_file                  = local.common_vars.mojaloop_enabled ? find_in_parent_folders("mojaloop-rbac-api-resources.yaml") : ""
-  rbac_permissions_file                    = local.common_vars.mojaloop_enabled ? find_in_parent_folders("mojaloop-rbac-permissions.yaml") : find_in_parent_folders("pm4ml-rbac-permissions.yaml")
+  rbac_api_resources_file                  = local.common_vars.mojaloop_enabled ? find_in_parent_folders("$CONFIG_PATH/mojaloop-rbac-api-resources.yaml") : ""
+  rbac_permissions_file                    = local.common_vars.mojaloop_enabled ? find_in_parent_folders("$CONFIG_PATH/mojaloop-rbac-permissions.yaml") : find_in_parent_folders("$CONFIG_PATH/pm4ml-rbac-permissions.yaml")
 }
 
 locals {
-  env_vars                      = yamldecode(file("${find_in_parent_folders("cluster-config.yaml")}"))
+  env_vars                      = yamldecode(file("${find_in_parent_folders("$CONFIG_PATH/cluster-config.yaml")}"))
   tags                          = local.env_vars.tags
   gitlab_readonly_rbac_group    = local.env_vars.gitlab_readonly_rbac_group
   gitlab_admin_rbac_group       = local.env_vars.gitlab_admin_rbac_group
-  common_vars                   = yamldecode(file("${find_in_parent_folders("common-vars.yaml")}"))
-  pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("pm4ml-vars.yaml")}"))
-  mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("mojaloop-vars.yaml")}"))
+  common_vars                   = yamldecode(file("${find_in_parent_folders("$CONFIG_PATH/common-vars.yaml")}"))
+  pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("$CONFIG_PATH/pm4ml-vars.yaml")}"))
+  mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("$CONFIG_PATH/mojaloop-vars.yaml")}"))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
   CLUSTER_NAME                  = get_env("cluster_name")
