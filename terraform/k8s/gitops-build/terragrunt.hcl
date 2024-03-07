@@ -87,8 +87,8 @@ inputs = {
 locals {
   env_vars                      = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
   tags                          = local.env_vars.tags
-  gitlab_readonly_rbac_group    = local.env_vars.gitlab_readonly_rbac_group
-  gitlab_admin_rbac_group       = local.env_vars.gitlab_admin_rbac_group
+  gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
+  gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
   common_vars                   = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
   pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"))
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
