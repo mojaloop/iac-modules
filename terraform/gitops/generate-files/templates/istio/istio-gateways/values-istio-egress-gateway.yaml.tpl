@@ -47,7 +47,7 @@ resources:
 autoscaling:
   enabled: true
   minReplicas: 1
-  maxReplicas: 1
+  maxReplicas: ${istio_egress_gateway_max_replicas}
   targetCPUUtilizationPercentage: 80
 
 # Pod environment variables
