@@ -16,7 +16,6 @@ mkdir -p $TMP_REPO_DIR
 git clone ${BASE_GITLAB_URL}/${CURRENT_ENV_NAME} $TMP_REPO_DIR
 cd $TMP_REPO_DIR
 cp -r $TMP_TEMPLATE_DIR/${CURRENT_ENV_NAME}/. .
-cp $WORKING_DIR/environment.yaml .
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
 git add .
