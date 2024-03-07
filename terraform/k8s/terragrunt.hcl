@@ -74,7 +74,7 @@ EOF
 }
 
 locals {
-  common_vars               = yamldecode(file("$CONFIG_PATH/common-vars.yaml"))
+  common_vars               = yamldecode(file(get_env("CONFIG_PATH")/common-vars.yaml"))
   TF_STATE_BASE_ADDRESS     = get_env("TF_STATE_BASE_ADDRESS")
   GITLAB_PROVIDER_TOKEN     = get_env("GITLAB_PROVIDER_TOKEN")
   GITLAB_PROVIDER_URL       = get_env("GITLAB_PROVIDER_URL")
