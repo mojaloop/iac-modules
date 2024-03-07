@@ -182,7 +182,9 @@ module "generate_mojaloop_files" {
     jws_key_secret_private_key_key                                    = "tls.key"
     jws_key_secret_public_key_key                                     = "tls.crt"
     cert_man_vault_cluster_issuer_name                                = var.cert_man_vault_cluster_issuer_name
-    jws_key_rsa_bits                                                  = var.jws_key_rsa_bits
+    jws_key_rsa_bits                                                  = try(var.app_var_map.jws_key_rsa_bits, var.jws_key_rsa_bits)
+    jws_rotation_renew_before_hours                                   = try(var.app_var_map.jws_rotation_renew_before_hours, var.jws_rotation_renew_before_hours)
+    jws_rotation_period_hours                                         = try(var.app_var_map.jws_rotation_period_hours, var.jws_rotation_period_hours)
     mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
   }
@@ -374,6 +376,16 @@ variable "reporting_templates_chart_version" {
 variable "jws_key_rsa_bits" {
   type    = number
   default = 4096
+}
+
+variable "jws_rotation_period_hours" {
+  type    = number
+  default = 672
+}
+
+variable "jws_rotation_renew_before_hours" {
+  type    = number
+  default = 1
 }
 
 variable "ttk_gp_testcase_labels" {
