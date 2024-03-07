@@ -66,6 +66,7 @@ inputs = {
   vault_root_token    = dependency.ansible_cc_post_deploy.outputs.vault_root_token
   netmaker_master_key = dependency.control_center_deploy.outputs.netmaker_hosts_var_maps["netmaker_master_key"]
   netmaker_host_name  = dependency.control_center_deploy.outputs.bastion_hosts_var_maps["netmaker_api_host"]
+  netmaker_version    = local.env_vars.netmaker_version
 }
 
 locals {

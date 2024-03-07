@@ -63,6 +63,33 @@ resource "gitlab_group_variable" "netmaker_host_name" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "netmaker_version" {
+  group             = var.iac_group_id
+  key               = "NETMAKER_VERSION"
+  value             = var.netmaker_version
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "gitlab_admin_rbac_group" {
+  group             = var.iac_group_id
+  key               = "GITLAB_ADMIN_RBAC_GROUP"
+  value             = var.gitlab_admin_rbac_group
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "gitlab_readonly_rbac_group" {
+  group             = var.iac_group_id
+  key               = "GITLAB_READONLY_RBAC_GROUP"
+  value             = var.gitlab_readonly_rbac_group
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "vault_kv_secret_v2" "netmaker_ops_token" {
   for_each            = var.env_map
   mount               = vault_mount.kv_secret.path

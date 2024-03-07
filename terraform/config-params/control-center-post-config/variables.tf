@@ -2,6 +2,12 @@ variable "gitlab_admin_rbac_group" {
   type        = string
   description = "rbac group in gitlab for admin access via oidc"
 }
+
+variable "gitlab_readonly_rbac_group" {
+  type        = string
+  description = "rbac group in gitlab for readonly access via oidc"
+}
+
 variable "gitlab_hostname" {
   description = "gitlab hostname for oidc"
 }
@@ -59,4 +65,8 @@ variable "netmaker_master_key" {
 
 variable "netmaker_host_name" {
   description = "netmaker host"
+}
+
+variable "netmaker_version" {
+  description = "netmaker version"
 }
