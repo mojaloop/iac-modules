@@ -45,6 +45,8 @@ quoting_service_monitoring_prefix: "moja_qs_"
 ml_api_adapter_monitoring_prefix: "moja_ml_"
 account_lookup_service_monitoring_prefix: "moja_als_"
 ttk_gp_testcase_labels: "p2p"
+jws_rotation_period_hours: 672
+jws_rotation_renew_before_hours: 1
 mojaloop_tolerations:
   - key: "moja-enabled"
     operator: "Equal"

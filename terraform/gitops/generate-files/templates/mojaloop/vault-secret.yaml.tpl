@@ -26,12 +26,13 @@ metadata:
   name: ${jws_key_secret}
 spec:
   secretName: ${jws_key_secret}
-  duration: 696h0m0s
-  renewBefore: 360h0m0s
+  duration: ${jws_rotation_period_hours}h0m0s
+  renewBefore: ${jws_rotation_renew_before_hours}h0m0s
   privateKey:
     algorithm: RSA
     encoding: PKCS1
     size: ${jws_key_rsa_bits}
+    rotationPolicy: Always
   usages:
     - digital signature
     - key encipherment
