@@ -5,6 +5,7 @@ resources:
   - lets-wildcard-cert.yaml
   - proxy-protocol.yaml
   - gateways.yaml
+  - argocd-vs.yaml
 helmCharts:
 - name: gateway
   releaseName: ext-gateway
