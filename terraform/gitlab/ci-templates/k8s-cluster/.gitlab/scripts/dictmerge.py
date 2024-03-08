@@ -67,5 +67,5 @@ if defaultExt == ".yaml":
         yaml.dump(dict(mergedicts(data1, data2)), file)
 elif defaultExt == ".json":
     with open(outputFilename, 'w') as file:
-        json.dumps(dict(mergedicts(data1, data2)), file)
+        json.dump(dict(mergedicts(data1, data2)), file, indent=4)
 
