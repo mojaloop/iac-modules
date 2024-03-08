@@ -15,7 +15,7 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /argocd
+            prefix: /
       route:
         - destination:
             host: argocd-server
