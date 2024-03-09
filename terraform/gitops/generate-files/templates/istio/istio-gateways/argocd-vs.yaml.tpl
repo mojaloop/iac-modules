@@ -21,3 +21,14 @@ spec:
             host: argocd-server
             port:
               number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: argocd-server-dtrl
+  namespace: ${argocd_namespace}
+spec:
+  host: argocd-server
+  trafficPolicy:
+    tls:
+      mode: SIMPLE
