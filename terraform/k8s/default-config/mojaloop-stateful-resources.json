@@ -581,96 +581,201 @@
                 "topics": [
                     {
                       "name": "topic-event",
-                      "partitions": 3,
+                      "partitions": 12,
                       "replicationFactor": 3,
                       "config": {
-                        "retention.bytes": "20000000000"
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
                       }
                     },
                     {
                       "name": "topic-transfer-prepare",
-                      "partitions": 4,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-transfer-position",
-                      "partitions": 25,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-transfer-position-batch",
-                      "partitions": 4,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-transfer-fulfil",
-                      "partitions": 4,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-notification-event",
-                      "partitions": 4,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-transfer-get",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-admin-transfer",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-bulk-prepare",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-bulk-fulfil",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-bulk-processing",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-bulk-get",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-quotes-post",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-quotes-put",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-quotes-get",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-bulkquotes-post",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-bulkquotes-put",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     },
                     {
                       "name": "topic-bulkquotes-get",
-                      "partitions": 3,
-                      "replicationFactor": 3
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     }
                 ]
             },
