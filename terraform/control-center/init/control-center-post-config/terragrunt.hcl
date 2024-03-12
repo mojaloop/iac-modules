@@ -83,6 +83,7 @@ locals {
       domain                            = val["domain"]
       enable_vault_oauth_to_gitlab      = val["enable_vault_oauth_to_gitlab"]
       enable_grafana_oauth_to_gitlab    = val["enable_grafana_oauth_to_gitlab"]
+      enable_argocd_oauth_to_gitlab     = val["enable_argocd_oauth_to_gitlab"]
     }
   }
 }
