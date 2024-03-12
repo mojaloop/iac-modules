@@ -155,6 +155,8 @@ primary:
     slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
     long_query_time=10.0
     innodb_use_native_aio=0
+    max_connections=2000
+    innodb_buffer_pool_size=2147483648
 
     [client]
     port=3306
