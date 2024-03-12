@@ -62,20 +62,48 @@ Here's a breakdown of the components and their respective roles:
   - Used by DFSPs to manage users.
 
 
-### User Creation
+## User Creation
 
 Users can be created via the Keycloak admin console with appropriate privileges.
 
-### Role Assignment
+## Role Assignment
 
 Users with `manager` role can assign roles by logging into the finance portal (Switch deployments) or admin portal (PM4ML deployments). The default `portal_admin` user is provided with `manager` role for initial role assignments. The password for the `portal_admin` user can be seen in Vault.
 
-### Roles and Permissions
+## Roles and Permissions
 
 New roles or permissions can be created/modified by editing `mojaloop-rbac-permissions.yaml` (Switch deployments) or `pm4ml-rbac-permissions.yaml` (PM4ML deployments). Changes are controlled via version control (e.g., GitLab), the changes to these files are reflected as a new version of the custom resource in the Kubernetes cluster. And the Role-Permission Operator updates Ory Keto accordingly.
 
 
-### Protecting Backend Endpoints and Enforcing Permissions
+## Protecting Backend Endpoints and Enforcing Permissions
 
 Protect backend endpoints by assigning required permissions to roles and users. Ory Oathkeeper enforces these permissions. Configure backend APIs in `mojaloop-rbac-api-resources.yaml` to check user permissions. Changes are managed via version control, and Ory Oathkeeper updates its rules accordingly.
 
+
+## Example workflows
+
+### Accessing the Finance Portal
+
+1. Operator creates a user in Keycloak admin console.
+2. Operator assigns roles to the user by logging into the finance portal with `portal_admin` user (Password can be found in Vault).
+3. For example, assign `operator` role for the new user.
+4. User logs in to the finance portal (https://**finance-portal**.<DOMAIN>).
+5. Finance portal redirects the user to the keycloak login page where the user logs in.
+6. Keycloak redirects the user back to the finance portal after successful login.
+7. The user is now logged in and can access the finance portal features. (e.g., view transfers, manage participants, etc.)
+8. The finance portal uses the stored cookie to access the backend APIs.
+9. Ory Oathkeeper checks the permissions of the user and allows/denies access to the backend APIs.
+
+### Accessing the Connection manager portal (MCM)
+
+1. The steps are same for creating a user and assigning roles as in the finance portal.
+2. To access the connection manager portal, assign `mcmadmin` role to the user through the finance portal.
+3. The user can now access the connection manager portal (https://**mcm**.<DOMAIN>) and perform onboarding tasks.
+
+
+### Accessing the PM4ML Portal
+
+1. DFSP admin creates a user in Keycloak admin console.
+2. DFSP admin assigns roles to the user by logging into the **admin portal** with `portal_admin` user (Password can be found in Vault).
+3. For example, assign `pm4mladmin` role for the new user.
+4. User logs in to the PM4ML portal (https://**portal-<DFSPID>**.<DOMAIN>) and can access the PM4ML portal features. (e.g., view transfers, etc.)
