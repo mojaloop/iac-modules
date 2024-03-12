@@ -3,7 +3,7 @@ domain: mojalabs.io
 tenant: labs11
 enable_github_oauth: false
 enable_netmaker_oidc: true
-ansible_collection_tag: v0.16.11
+ansible_collection_tag: v0.18.15
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
 smtp_server_enable: false
@@ -16,49 +16,14 @@ delete_storage_on_term: true
 envs:
   - env: dev
     domain: labsk8s604.mojaloop.live
-    cloud_platform: aws
-    managed_svc_cloud_platform: aws
-    cloud_platform_client_secret_name: AWS_SECRET_ACCESS_KEY
-    k8s_cluster_module: base-k8s
-    cloud_region: eu-west-1
-    k8s_cluster_type: microk8s
-    ansible_collection_tag: v0.17.1
-    iac_terraform_modules_tag: v0.34.17
     enable_vault_oauth_to_gitlab: true
     enable_grafana_oauth_to_gitlab: true
-    letsencrypt_email: test@mojalabs.io
-    dns_zone_force_destroy: true
-    longhorn_backup_object_store_destroy: true
-    nodes:
-      master-generic:
-        master: true
-        instance_type: "m5.4xlarge"
-        node_count: 3
-        storage_gbs: 300
-        node_taints:
-          moja-taint: "moja-enabled=true:NoSchedule"
-        node_labels:
-          workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
-          workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
-          workload-class.mojaloop.io/CENTRAL-SETTLEMENT: "enabled"
-          workload-class.mojaloop.io/QUOTING-SERVICE: "enabled"
-          workload-class.mojaloop.io/ACCOUNT-LOOKUP-SERVICE: "enabled"
-          workload-class.mojaloop.io/ALS-ORACLES: "enabled"
-          workload-class.mojaloop.io/CORE-HANDLERS: "enabled"
-      agent-db:
-        instance_type: "m5.2xlarge"
-        master: false
-        node_count: 2
-        storage_gbs: 300
-        node_labels:
-          workload-class.mojaloop.io/KAFKA-CONTROL-PLANE: "enabled"
-          workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
-          workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
-          workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
-    vpc_cidr: "10.106.0.0/23"
-    enable_k6s_test_harness: false
-    k6s_docker_server_instance_type: "m5.2xlarge"
-    master_node_supports_traffic: true
+    enable_argocd_oauth_to_gitlab: false
+  - env: test
+    domain: labsk8s604.mojaloop.live
+    enable_vault_oauth_to_gitlab: true
+    enable_grafana_oauth_to_gitlab: true
+    enable_argocd_oauth_to_gitlab: false
 tags:
   {
     "Origin": "Terraform",

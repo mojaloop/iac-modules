@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/gitops/k8s-cluster-config?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/gitops/k8s-cluster-config?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
 
@@ -63,8 +63,8 @@ inputs = {
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
-  stateful_resources_config_file           = find_in_parent_folders("common-stateful-resources.json")
-  mojaloop_stateful_resources_config_file  = find_in_parent_folders("mojaloop-stateful-resources.json")
+  stateful_resources_config_file           = find_in_parent_folders("${get_env("CONFIG_PATH")}/common-stateful-resources.json")
+  mojaloop_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -80,30 +80,30 @@ inputs = {
   transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
-  rbac_api_resources_file                  = local.common_vars.mojaloop_enabled ? find_in_parent_folders("mojaloop-rbac-api-resources.yaml") : ""
-  rbac_permissions_file                    = local.common_vars.mojaloop_enabled ? find_in_parent_folders("mojaloop-rbac-permissions.yaml") : find_in_parent_folders("pm4ml-rbac-permissions.yaml")
+  rbac_api_resources_file                  = local.common_vars.mojaloop_enabled ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""
+  rbac_permissions_file                    = local.common_vars.mojaloop_enabled ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-permissions.yaml") : find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-rbac-permissions.yaml")
 }
 
 locals {
-  env_vars                      = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  env_vars                      = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
   tags                          = local.env_vars.tags
-  gitlab_readonly_rbac_group    = local.env_vars.gitlab_readonly_rbac_group
-  gitlab_admin_rbac_group       = local.env_vars.gitlab_admin_rbac_group
-  common_vars                   = yamldecode(file("${find_in_parent_folders("common-vars.yaml")}"))
-  pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("pm4ml-vars.yaml")}"))
-  mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("mojaloop-vars.yaml")}"))
+  gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
+  gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
+  common_vars                   = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
+  pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"))
+  mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
-  CLUSTER_NAME                  = get_env("CLUSTER_NAME")
-  CLUSTER_DOMAIN                = get_env("CLUSTER_DOMAIN")
+  CLUSTER_NAME                  = get_env("cluster_name")
+  CLUSTER_DOMAIN                = get_env("domain")
   GITLAB_PROJECT_URL            = get_env("GITLAB_PROJECT_URL")
   GITLAB_CURRENT_PROJECT_ID     = get_env("GITLAB_CURRENT_PROJECT_ID")
   GITLAB_CURRENT_GROUP_NAME     = get_env("GITLAB_CURRENT_GROUP_NAME")
   GITLAB_API_URL                = get_env("GITLAB_API_URL")
-  CLOUD_REGION                  = get_env("CLOUD_REGION")
+  CLOUD_REGION                  = get_env("cloud_region")
   ENABLE_VAULT_OIDC             = get_env("ENABLE_VAULT_OIDC")
   ENABLE_GRAFANA_OIDC           = get_env("ENABLE_GRAFANA_OIDC")
-  LETSENCRYPT_EMAIL             = get_env("LETSENCRYPT_EMAIL")
+  LETSENCRYPT_EMAIL             = get_env("letsencrypt_email")
   GITLAB_TOKEN                  = get_env("GITLAB_CI_PAT")
   ENV_VAULT_TOKEN               = get_env("ENV_VAULT_TOKEN")
   KV_SECRET_PATH                = get_env("KV_SECRET_PATH")

@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/k8s-store-config?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/k8s-store-config?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
 dependency "k8s_deploy" {
@@ -33,20 +33,21 @@ inputs = {
   cluster_name       = local.CLUSTER_NAME
   gitlab_project_id  = local.GITLAB_CURRENT_PROJECT_ID
   kv_path            = local.KV_SECRET_PATH
-  properties_var_map = merge(dependency.k8s_deploy.outputs.properties_var_map, dependency.managed_services.outputs.properties_var_map)
+  properties_var_map = merge(local.properties_var_map, dependency.k8s_deploy.outputs.properties_var_map, dependency.managed_services.outputs.properties_var_map)
   secrets_var_map    = merge({ for key, value in dependency.k8s_deploy.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.secrets_var_map: key => replace(value, "$${", "$$${") })
   secrets_key_map    = merge(dependency.k8s_deploy.outputs.secrets_key_map, dependency.managed_services.outputs.secrets_key_map)
 }
 
 locals {
   env_vars = yamldecode(
-    file("${find_in_parent_folders("environment.yaml")}")
+    file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}")
   )
   common_vars = yamldecode(
-    file("${find_in_parent_folders("common-vars.yaml")}")
+    file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}")
   )
+  
   tags                      = local.env_vars.tags
-  CLUSTER_NAME              = get_env("CLUSTER_NAME")
+  CLUSTER_NAME              = get_env("cluster_name")
   GITLAB_SERVER_URL         = get_env("CI_SERVER_URL")
   GITLAB_CURRENT_PROJECT_ID = get_env("GITLAB_CURRENT_PROJECT_ID")
   GITLAB_TOKEN              = get_env("GITLAB_CI_PAT")
@@ -54,7 +55,20 @@ locals {
   ENV_VAULT_TOKEN           = get_env("ENV_VAULT_TOKEN")
   KV_SECRET_PATH            = get_env("KV_SECRET_PATH")
   VAULT_GITLAB_ROOT_TOKEN   = get_env("VAULT_GITLAB_ROOT_TOKEN")
+#replacing env vars from old control center post config
+  properties_var_map = {
+    K8S_CLUSTER_TYPE = get_env("k8s_cluster_type")
+    K8S_CLUSTER_MODULE = get_env("k8s_cluster_module")
+    CLOUD_PLATFORM = get_env("cloud_platform")
+    K8S_CLUSTER_TYPE = get_env("k8s_cluster_type")
+    K8S_CLUSTER_MODULE = get_env("k8s_cluster_module")
+    MANAGED_SVC_CLOUD_PLATFORM = get_env("managed_svc_cloud_platform")
+    CLOUD_PLATFORM_CLIENT_SECRET_NAME = get_env("cloud_platform_client_secret_name")
+    CLOUD_REGION = get_env("cloud_region")
+    LETSENCRYPT_EMAIL = get_env("letsencrypt_email")
+  }
 }
+
 
 generate "required_providers_override" {
   path = "required_providers_override.tf"
