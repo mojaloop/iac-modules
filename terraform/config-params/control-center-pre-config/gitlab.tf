@@ -167,6 +167,14 @@ resource "gitlab_group_variable" "dex_fqdn" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "dex_static_client_id" {
+  group             = gitlab_group.iac.id
+  key               = "DEX_STATIC_CLIENT_ID"
+  value             = var.dex_static_client_id
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
 
 resource "gitlab_group_variable" "tenant_vault_listening_port" {
   group             = gitlab_group.iac.id

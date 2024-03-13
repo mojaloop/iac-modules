@@ -16,6 +16,7 @@ output "docker_hosts_var_maps" {
     dex_oidc_client_secret      = gitlab_application.dex_oidc.secret
     dex_fqdn                    = var.dex_fqdn
     dex_oidc_admin_group        = var.gitlab_admin_rbac_group
+    dex_static_client_id        = var.dex_static_client_id
   }
 }
 
