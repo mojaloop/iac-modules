@@ -40,9 +40,9 @@ inputs = {
   docker_hosts           = dependency.control_center_deploy.outputs.docker_hosts
   bastion_hosts_var_maps = dependency.control_center_deploy.outputs.bastion_hosts_var_maps
   netmaker_hosts_var_maps = merge(dependency.control_center_deploy.outputs.netmaker_hosts_var_maps,
-  dependency.control_center_pre_config.outputs.netmaker_hosts_var_maps)
+  dependency.control_center_pre_config.outputs.netmaker_hosts_var_maps, {netmaker_acme_email = local.env_vars.letsencrypt_email})
   docker_hosts_var_maps = merge(dependency.control_center_deploy.outputs.docker_hosts_var_maps,
-  dependency.control_center_pre_config.outputs.docker_hosts_var_maps)
+  dependency.control_center_pre_config.outputs.docker_hosts_var_maps, {dex_acme_email = local.env_vars.letsencrypt_email})
   all_hosts_var_maps          = dependency.control_center_deploy.outputs.all_hosts_var_maps
   enable_netmaker_oidc        = local.env_vars.enable_netmaker_oidc
   ansible_bastion_key         = dependency.control_center_deploy.outputs.bastion_ssh_key
