@@ -78,6 +78,10 @@ output "vault_fqdn" {
   value = aws_route53_record.vault_server_private.fqdn
 }
 
+output "dex_fqdn" {
+  value = aws_route53_record.dex_private.fqdn
+}
+
 output "gitlab_hosts_var_maps" {
   sensitive = true
   value = {
@@ -137,6 +141,8 @@ output "docker_hosts_var_maps" {
     vault_listening_port             = var.vault_listening_port
     vault_fqdn                       = aws_route53_record.vault_server_private.fqdn
     vault_gitlab_token               = random_password.gitlab_root_token.result
+    dex_oidc_issuer                  = "https://${aws_route53_record.gitlab_server_public.fqdn}"
+    dex_fqdn                         = aws_route53_record.dex_private.fqdn
   }
 }
 

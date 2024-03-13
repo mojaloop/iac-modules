@@ -19,6 +19,7 @@ dependency "control_center_deploy" {
     nexus_fqdn                       = "temporary-dummy-id"
     tenant_vault_listening_port      = "temporary-dummy-id"
     vault_fqdn                       = "temporary-dummy-id"
+    dex_fqdn                         = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -37,6 +38,7 @@ inputs = {
   nexus_fqdn                       = dependency.control_center_deploy.outputs.nexus_fqdn
   tenant_vault_listening_port      = dependency.control_center_deploy.outputs.tenant_vault_listening_port
   vault_fqdn                       = dependency.control_center_deploy.outputs.vault_fqdn
+  dex_fqdn                         = dependency.control_center_deploy.outputs.dex_fqdn
   private_repo_user                = get_env("PRIVATE_REPO_USER")
   private_repo_token               = get_env("PRIVATE_REPO_TOKEN")
   private_repo                     = get_env("PRIVATE_REPO")

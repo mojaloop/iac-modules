@@ -42,6 +42,7 @@ inputs = {
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
   all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps, 
   {
+    microk8s_oidc_issuer_url = dependency.k8s_deploy.outputs.haproxy_server_fqdn
     registry_mirror_fqdn        = dependency.k8s_deploy.outputs.haproxy_server_fqdn
   }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
@@ -83,6 +84,7 @@ locals {
     nexus_fqdn                   = get_env("NEXUS_FQDN")
     minio_fqdn                   = get_env("MINIO_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")
+    dex_fqdn                     = get_env("DEX_FQDN")
     netmaker_master_key          = get_env("METMAKER_MASTER_KEY")
     netmaker_api_host            = get_env("NETMAKER_HOST_NAME")
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"

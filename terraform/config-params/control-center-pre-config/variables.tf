@@ -1,6 +1,6 @@
 
 variable "iac_user_key_secret" {
-  sensitive = true
+  sensitive   = true
   description = "iam user key secret"
 }
 
@@ -44,7 +44,7 @@ variable "private_repo" {
 
 variable "private_repo_token" {
   sensitive = true
-  default = ""
+  default   = ""
 }
 
 variable "iac_terraform_modules_tag" {
@@ -82,4 +82,8 @@ variable "enable_vault_oidc" {
   type        = bool
   default     = true
   description = "enable oidc config of tenancy vault"
+}
+
+variable "dex_fqdn" {
+  description = "dex_fqdn"
 }
