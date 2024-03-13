@@ -87,3 +87,8 @@ variable "enable_vault_oidc" {
 variable "dex_fqdn" {
   description = "dex_fqdn"
 }
+
+variable "dex_static_client_id" {
+  description = "dex_static_client_id"
+  default     = "local-k8s-client"
+}
