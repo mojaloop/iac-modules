@@ -317,3 +317,52 @@ resource "gitlab_application" "argocd_oidc" {
   name         = "${each.key}_argocd_oidc"
   redirect_url = "https://argocd.${each.key}.${each.value["domain"]}/auth/callback"
 }
+
+resource "vault_kv_secret_v2" "k8s_oauth_client_id" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_k8s_oauth_to_gitlab
+  }
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/k8s_oauth_client_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = gitlab_application.k8s_oidc[each.key].application_id
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "k8s_oauth_client_secret" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_k8s_oauth_to_gitlab
+  }
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/k8s_oauth_client_secret"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = gitlab_application.k8s_oidc[each.key].secret
+    }
+  )
+}
+
+resource "gitlab_project_variable" "enable_k8s_oauth" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_k8s_oauth_to_gitlab
+  }
+  project   = gitlab_project.envs[each.key].id
+  key       = "ENABLE_K8S_OIDC"
+  value     = "true"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_application" "k8s_oidc" {
+  for_each = {
+    for key, env in var.env_map : key => env if env.enable_k8s_oauth_to_gitlab
+  }
+  confidential = true
+  scopes       = ["openid"]
+  name         = "${each.key}_k8s_oidc"
+  redirect_url = "http://127.0.0.1"
+}
