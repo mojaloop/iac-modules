@@ -87,7 +87,7 @@ resource "aws_route53_record" "dex_private" {
   name    = "dex"
   type    = "CNAME"
   ttl     = "300"
-  records = [aws_lb.internal.dns_name]
+  records = [aws_instance.docker_server.private_ip]
 }
 
 resource "aws_route53_record" "gitlab_runner_server_private" {

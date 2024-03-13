@@ -176,6 +176,15 @@ resource "gitlab_group_variable" "dex_static_client_id" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "dex_listening_port" {
+  group             = gitlab_group.iac.id
+  key               = "DEX_LISTENING_PORT"
+  value             = var.dex_listening_port
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_group_variable" "tenant_vault_listening_port" {
   group             = gitlab_group.iac.id
   key               = "TENANT_VAULT_LISTENING_PORT"
