@@ -118,6 +118,11 @@ module "pm4ml" {
   portal_admin_secret_prefix             = "portal-admin-secret-"
 }
 
+module "vnext" {
+  count  = var.common_var_map.vnext_enabled ? 1 : 0
+  source = "../vnext"
+}
+
 variable "app_var_map" {
   type = any
 }
