@@ -85,9 +85,6 @@ locals {
     nexus_fqdn                   = get_env("NEXUS_FQDN")
     minio_fqdn                   = get_env("MINIO_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")
-    dex_fqdn                     = get_env("DEX_FQDN")
-    k8s_configure_oidc           = true
-    k8s_oidc_client_id           = get_env("DEX_STATIC_CLIENT_ID")
     netmaker_master_key          = get_env("METMAKER_MASTER_KEY")
     netmaker_api_host            = get_env("NETMAKER_HOST_NAME")
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
@@ -115,6 +112,9 @@ locals {
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
     registry_mirror_port             = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     enable_registry_mirror           = true
+    dex_fqdn                         = get_env("DEX_FQDN")
+    k8s_configure_oidc               = true
+    k8s_oidc_client_id               = get_env("DEX_STATIC_CLIENT_ID")
   }
 }
 
