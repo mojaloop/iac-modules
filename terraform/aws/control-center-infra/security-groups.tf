@@ -60,7 +60,7 @@ resource "aws_security_group" "docker_server" {
     cidr_blocks = [var.vpc_cidr]
   }
 
-  
+
   ingress {
     description = "nexus admin access"
     from_port   = var.nexus_admin_listening_port
@@ -91,12 +91,20 @@ resource "aws_security_group" "docker_server" {
     to_port     = var.minio_ui_port
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
-  } 
+  }
 
   ingress {
     description = "vault access"
     from_port   = var.vault_listening_port
     to_port     = var.vault_listening_port
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+  }
+
+  ingress {
+    description = "dex access"
+    from_port   = var.dex_listening_port
+    to_port     = var.dex_listening_port
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
   }
@@ -108,7 +116,7 @@ resource "aws_security_group" "docker_server" {
     protocol    = "udp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0

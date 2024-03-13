@@ -143,6 +143,7 @@ output "docker_hosts_var_maps" {
     vault_gitlab_token               = random_password.gitlab_root_token.result
     dex_oidc_issuer                  = "https://${aws_route53_record.gitlab_server_public.fqdn}"
     dex_fqdn                         = aws_route53_record.dex_private.fqdn
+    dex_listening_port               = var.dex_listening_port
   }
 }
 

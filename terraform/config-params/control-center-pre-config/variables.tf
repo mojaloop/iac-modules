@@ -92,3 +92,6 @@ variable "dex_static_client_id" {
   description = "dex_static_client_id"
   default     = "local-k8s-client"
 }
+variable "dex_listening_port" {
+  description = "dex_listening_port"
+}
