@@ -48,8 +48,8 @@ else:
 if os.path.isfile(custom_config_file):
     if customExt == ".yaml":
         with open(custom_config_file, 'r') as f:
-            data2 = yaml.load(f, Loader=yaml.SafeLoader)
-    elif defaultExt == ".json":
+            data2 = yaml.load(f, Loader=yaml.SafeLoader) or {}
+    elif customExt == ".json":
         with open(custom_config_file, 'r') as f:
             data2 = json.load(f)    
 
