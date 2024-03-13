@@ -24,7 +24,51 @@ kubeapi_loadbalancer_fqdn: none
 master_hosts_0_private_ip: "10.10.100.58"
 agent_hosts: {}
 master_hosts: {}
-
+  # 10.10.100.58:
+  #   ip: 10.10.100.58
+  #   node_taints: []
+  #   node_labels:
+  #     workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
+  #     workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
+  #     workload-class.mojaloop.io/CENTRAL-SETTLEMENT: "enabled"
+  #     workload-class.mojaloop.io/QUOTING-SERVICE: "enabled"
+  #     workload-class.mojaloop.io/ACCOUNT-LOOKUP-SERVICE: "enabled"
+  #     workload-class.mojaloop.io/ALS-ORACLES: "enabled"
+  #     workload-class.mojaloop.io/CORE-HANDLERS: "enabled"
+  #     workload-class.mojaloop.io/KAFKA-CONTROL-PLANE: "enabled"
+  #     workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
+  #     workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
+  #     workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
+  # 10.10.100.59:
+  #   ip: 10.10.100.59
+  #   node_taints: []
+  #   node_labels:
+  #     workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
+  #     workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
+  #     workload-class.mojaloop.io/CENTRAL-SETTLEMENT: "enabled"
+  #     workload-class.mojaloop.io/QUOTING-SERVICE: "enabled"
+  #     workload-class.mojaloop.io/ACCOUNT-LOOKUP-SERVICE: "enabled"
+  #     workload-class.mojaloop.io/ALS-ORACLES: "enabled"
+  #     workload-class.mojaloop.io/CORE-HANDLERS: "enabled"
+  #     workload-class.mojaloop.io/KAFKA-CONTROL-PLANE: "enabled"
+  #     workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
+  #     workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
+  #     workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
+  # 10.10.100.60:
+  #   ip: 10.10.100.60
+  #   node_taints: []
+  #   node_labels:
+  #     workload-class.mojaloop.io/CENTRAL-LEDGER-SVC: "enabled"
+  #     workload-class.mojaloop.io/CORE-API-ADAPTERS: "enabled"
+  #     workload-class.mojaloop.io/CENTRAL-SETTLEMENT: "enabled"
+  #     workload-class.mojaloop.io/QUOTING-SERVICE: "enabled"
+  #     workload-class.mojaloop.io/ACCOUNT-LOOKUP-SERVICE: "enabled"
+  #     workload-class.mojaloop.io/ALS-ORACLES: "enabled"
+  #     workload-class.mojaloop.io/CORE-HANDLERS: "enabled"
+  #     workload-class.mojaloop.io/KAFKA-CONTROL-PLANE: "enabled"
+  #     workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
+  #     workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
+  #     workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
 k6s_callback_fqdn: none
 enable_k6s_test_harness: false
 test_harness_private_ip: none

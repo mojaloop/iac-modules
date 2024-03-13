@@ -15,7 +15,7 @@ longhorn_backup_object_store_destroy: true
 nodes:
   master-generic:
     master: true
-    instance_type: "m5.large"
+    instance_type: "m5.4xlarge"
     node_count: 3
     storage_gbs: 300
     node_taints: []
