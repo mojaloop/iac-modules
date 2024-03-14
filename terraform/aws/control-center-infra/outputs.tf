@@ -81,7 +81,9 @@ output "vault_fqdn" {
 output "dex_fqdn" {
   value = aws_route53_record.dex_private.fqdn
 }
-
+output "dex_listening_port" {
+  value = var.dex_listening_port
+}
 output "gitlab_hosts_var_maps" {
   sensitive = true
   value = {
