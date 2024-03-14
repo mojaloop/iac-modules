@@ -85,9 +85,9 @@ resource "aws_route53_record" "vault_server_private" {
 resource "aws_route53_record" "dex_private" {
   zone_id = module.base_infra.public_zone.id
   name    = "dex"
-  type    = "A"
+  type    = "CNAME"
   ttl     = "300"
-  records = [aws_instance.docker_server.private_ip]
+  records = [aws_lb.internal.dns_name]
 }
 
 resource "aws_route53_record" "gitlab_runner_server_private" {
