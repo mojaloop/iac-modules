@@ -110,7 +110,7 @@ resource "aws_acm_certificate" "wildcard_cert" {
 
 # need to set count to 3 for the 3 records (domain name, wildcard and vault, if we add to SAN, need to increment count)
 resource "aws_route53_record" "cert_validation" {
-  count           = 3
+  count           = 4
   name            = aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_name[count.index]
   records         = [aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_value[count.index]]
   type            = aws_acm_certificate.wildcard_cert.domain_validation_options.*.resource_record_type[count.index]
