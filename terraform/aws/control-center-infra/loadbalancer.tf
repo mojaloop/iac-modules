@@ -1,6 +1,6 @@
 resource "aws_lb" "internal" { #  for internal traffic
   internal                         = true
-  load_balancer_type               = "network"
+  load_balancer_type               = "application"
   enable_cross_zone_load_balancing = true
   subnets                          = module.base_infra.private_subnets
   tags                             = merge({ Name = "${local.name}-internal" }, local.common_tags)
@@ -9,20 +9,56 @@ resource "aws_lb" "internal" { #  for internal traffic
 resource "aws_lb_listener" "internal_https" {
   load_balancer_arn = aws_lb.internal.arn
   port              = 443
-  protocol          = "TLS"
+  protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
   certificate_arn   = aws_acm_certificate.wildcard_cert.arn
-
   default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "No Host Matched"
+      status_code  = "200"
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "internal_vault" {
+  listener_arn = aws_lb_listener.internal_https.arn
+  priority     = 100
+
+  action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.internal_vault.arn
+  }
+
+  condition {
+    host_header {
+      values = ["vault.${module.base_infra.public_zone.name}"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "internal_dex" {
+  listener_arn = aws_lb_listener.internal_https.arn
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.internal_dex.arn
+  }
+
+  condition {
+    host_header {
+      values = ["dex.${module.base_infra.public_zone.name}"]
+    }
   }
 }
 
 resource "aws_lb_target_group" "internal_vault" {
-  port     = var.vault_listening_port
-  protocol = "TCP"
-  vpc_id   = module.base_infra.vpc_id
+  port        = var.vault_listening_port
+  protocol    = "TCP"
+  vpc_id      = module.base_infra.vpc_id
   target_type = "ip"
   health_check {
     protocol = "TCP"
@@ -37,13 +73,34 @@ resource "aws_lb_target_group" "internal_vault" {
 resource "aws_lb_target_group_attachment" "internal_vault" {
   target_group_arn = aws_lb_target_group.internal_vault.arn
   target_id        = aws_instance.docker_server.private_ip
-  port             = 8200
+  port             = var.vault_listening_port
+}
+
+resource "aws_lb_target_group" "internal_dex" {
+  port        = var.dex_listening_port
+  protocol    = "TCP"
+  vpc_id      = module.base_infra.vpc_id
+  target_type = "ip"
+  health_check {
+    protocol = "TCP"
+    port     = var.dex_listening_port
+  }
+
+  tags = merge({ Name = "${local.name}-dex" }, local.common_tags)
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+resource "aws_lb_target_group_attachment" "internal_dex" {
+  target_group_arn = aws_lb_target_group.internal_dex.arn
+  target_id        = aws_instance.docker_server.private_ip
+  port             = var.dex_listening_port
 }
 
 resource "aws_acm_certificate" "wildcard_cert" {
   domain_name               = module.base_infra.public_zone.name
   validation_method         = "DNS"
-  subject_alternative_names = ["*.${module.base_infra.public_zone.name}", "vault.${module.base_infra.public_zone.name}"]
+  subject_alternative_names = ["*.${module.base_infra.public_zone.name}", "vault.${module.base_infra.public_zone.name}", "dex.${module.base_infra.public_zone.name}"]
   tags                      = merge({ Name = "${local.name}-wildcard-cert" }, local.common_tags)
 
   lifecycle {
