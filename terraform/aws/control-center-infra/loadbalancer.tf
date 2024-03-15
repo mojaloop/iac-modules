@@ -63,6 +63,7 @@ resource "aws_lb_target_group" "internal_vault" {
   health_check {
     protocol = "HTTP"
     port     = var.vault_listening_port
+    path     = "/sys/health"
   }
 
   tags = merge({ Name = "${local.name}-vault-8200" }, local.common_tags)
@@ -83,7 +84,8 @@ resource "aws_lb_target_group" "internal_dex" {
   target_type = "ip"
   health_check {
     protocol = "HTTP"
-    port     = var.dex_listening_port
+    port     = var.dex_metrics_port
+    path     = "/healthz"
   }
 
   tags = merge({ Name = "${local.name}-dex" }, local.common_tags)
