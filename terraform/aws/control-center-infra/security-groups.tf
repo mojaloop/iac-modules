@@ -129,5 +129,5 @@ resource "aws_security_group" "docker_server" {
 }
 
 locals {
-  all_security_groups = [aws_security_group.docker_server.id, aws_security_group.gitlab, module.base_infra.bastion_security_group_id, module.base_infra.default_security_group_id]
+  all_security_groups = [aws_security_group.docker_server.id, aws_security_group.gitlab_server.id, module.base_infra.bastion_security_group_id, module.base_infra.default_security_group_id]
 }
