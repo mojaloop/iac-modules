@@ -104,7 +104,7 @@ resource "aws_security_group" "docker_server" {
   ingress {
     description = "dex access"
     from_port   = var.dex_listening_port
-    to_port     = var.dex_listening_port
+    to_port     = var.dex_metrics_port
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
   }

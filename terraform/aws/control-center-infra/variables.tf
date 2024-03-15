@@ -160,6 +160,12 @@ variable "dex_listening_port" {
   description = "which port to listen for dex"
 }
 
+variable "dex_metrics_port" {
+  type        = number
+  default     = 5558
+  description = "which port to listen for dex metrics"
+}
+
 variable "days_retain_gitlab_snapshot" {
   type        = number
   description = "number of days to retain gitlab snapshots"
