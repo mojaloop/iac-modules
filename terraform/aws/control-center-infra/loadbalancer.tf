@@ -63,7 +63,7 @@ resource "aws_lb_target_group" "internal_vault" {
   health_check {
     protocol = "HTTP"
     port     = var.vault_listening_port
-    path     = "/sys/health"
+    path     = "/ui/"
   }
 
   tags = merge({ Name = "${local.name}-vault-8200" }, local.common_tags)
