@@ -45,13 +45,13 @@ def mergeListOfDicts(data1, data2, fileName, outputFilename, fileType):
         print("The custom-config file ",fileName, "is empty ,so using the default configuration file")
         mergedItems = data1
         writeDict(mergedItems, fileType, outputFilename)
-        exit(1)     
+        exit(0)     
     
     if len(data1) != len(data2):
         print("Number of elements in custom-config and default_config differs for",fileName, ",so using the default configuration file")
         mergedItems = data1
         writeDict(mergedItems, fileType, outputFilename)
-        exit(1)
+        exit(0)
     
     for item1, item2 in zip(data1, data2):
         mergedItems.append(dict(mergedicts(item1, item2)))
