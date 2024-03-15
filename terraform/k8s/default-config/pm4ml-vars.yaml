@@ -14,6 +14,9 @@ pm4mls: []
   #   enable_sdk_bulk_transaction_support: false
   #   use_ttk_as_backend_simulator: true
   #   pm4ml_reserve_notification: false
+  #   fx_support_enabled: true
+  #   supported_currencies: "USD"
+  #   fxp_id: "fxp"
   # - pm4ml: pm4mltest2
   #   pm4ml_enabled: true
   #   pm4ml_chart_version: 9.0.10
@@ -29,3 +32,6 @@ pm4mls: []
   #   enable_sdk_bulk_transaction_support: false
   #   use_ttk_as_backend_simulator: true
   #   pm4ml_reserve_notification: false
+  #   fx_support_enabled: true
+  #   supported_currencies: "USD"
+  #   fxp_id: "fxp"

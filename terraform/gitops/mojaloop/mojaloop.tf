@@ -17,6 +17,7 @@ module "generate_mojaloop_files" {
     internal_sim_enabled                                              = var.internal_sim_enabled
     mojaloop_thirdparty_support_enabled                               = var.third_party_enabled
     bulk_enabled                                                      = var.bulk_enabled
+    mojaloop_fx_enabled                                               = var.mojaloop_fx_enabled
     ttksims_enabled                                                   = var.ttksims_enabled
     ingress_subdomain                                                 = var.public_subdomain
     quoting_service_simple_routing_mode_enabled                       = var.quoting_service_simple_routing_mode_enabled
@@ -307,6 +308,12 @@ variable "bulk_enabled" {
   description = "whether bulk is enabled or not"
   type        = bool
   default     = false
+}
+
+variable "mojaloop_fx_enabled" {
+  description = "whether fx compatibility is enabled or not"
+  type        = bool
+  default     = true
 }
 
 variable "ttksims_enabled" {

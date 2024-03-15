@@ -105,7 +105,11 @@ prometheus:
 scheme-adapter:
   sdk-scheme-adapter-api-svc:
     image:
+%{ if fx_support_enabled ~}
+      tag: v23.5.0-snapshot.0
+%{ else ~}
       tag: v23.1.2-snapshot.2
+%{ endif ~}
 %{ if enable_sdk_bulk_transaction_support ~}
     kafka: &kafkaConfig
       host: ${kafka_host}
@@ -150,6 +154,12 @@ scheme-adapter:
       ENABLE_BACKEND_EVENT_HANDLER: true
       ENABLE_FSPIOP_EVENT_HANDLER: true
       REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
+%{ if fx_support_enabled ~}
+      FX_QUOTES_ENDPOINT: "${pm4ml_external_switch_fqdn}"
+      FX_TRANSFERS_ENDPOINT: "${pm4ml_external_switch_fqdn}"
+      SUPPORTED_CURRENCIES: "${supported_currencies}"
+      GET_SERVICES_FXP_RESPONSE: "${fxp_id}"
+%{ endif ~}
 %{ endif ~}
 
 %{ if enable_sdk_bulk_transaction_support ~}
@@ -186,6 +196,9 @@ ttk:
 %{ if ttk_enabled ~}
   enabled: true
   ml-testing-toolkit-backend:
+    image:
+      repository: mojaloop/ml-testing-toolkit
+      tag: v17.1.1
     ingress:
       enabled: false
     nameOverride: ttk-backend
@@ -200,6 +213,9 @@ ttk:
       }
 
   ml-testing-toolkit-frontend:
+    image:
+      repository: mojaloop/ml-testing-toolkit-ui
+      tag: v15.4.2
     ingress:
       enabled: false
     nameOverride: ttk-frontend
