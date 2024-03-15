@@ -4,6 +4,7 @@ resource "aws_lb" "internal" { #  for internal traffic
   enable_cross_zone_load_balancing = false
   subnets                          = module.base_infra.private_subnets
   tags                             = merge({ Name = "${local.name}-internal" }, local.common_tags)
+  security_groups                  = local.all_security_groups
 }
 
 resource "aws_lb_listener" "internal_https" {
