@@ -127,3 +127,7 @@ resource "aws_security_group" "docker_server" {
     create_before_destroy = true
   }
 }
+
+locals {
+  all_security_groups = [aws_security_group.docker_server.id, aws_security_group.gitlab, module.base_infra.bastion_security_group_id, module.base_infra.default_security_group_id]
+}
