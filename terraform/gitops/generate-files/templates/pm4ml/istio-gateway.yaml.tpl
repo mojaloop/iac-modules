@@ -48,7 +48,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: ${admin_portal_release_name}-admin-ui-vs
+  name: ${admin_portal_release_name}-${pm4ml_namespace}-admin-ui-vs
 spec:
   gateways:
 %{ if pm4ml_wildcard_gateway == "external" ~}
@@ -118,7 +118,7 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: ${admin_portal_release_name}-auth
+  name: ${admin_portal_release_name}-${pm4ml_namespace}-auth
   namespace: ${istio_external_gateway_namespace}
 spec:
   selector:
