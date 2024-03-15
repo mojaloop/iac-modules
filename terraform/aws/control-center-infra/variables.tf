@@ -156,7 +156,7 @@ variable "vault_listening_port" {
 
 variable "dex_listening_port" {
   type        = number
-  default     = 443
+  default     = 5556
   description = "which port to listen for dex"
 }
 

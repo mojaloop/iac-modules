@@ -57,11 +57,11 @@ resource "aws_lb_listener_rule" "internal_dex" {
 
 resource "aws_lb_target_group" "internal_vault" {
   port        = var.vault_listening_port
-  protocol    = "HTTPS"
+  protocol    = "HTTP"
   vpc_id      = module.base_infra.vpc_id
   target_type = "ip"
   health_check {
-    protocol = "HTTPS"
+    protocol = "HTTP"
     port     = var.vault_listening_port
   }
 
@@ -78,11 +78,11 @@ resource "aws_lb_target_group_attachment" "internal_vault" {
 
 resource "aws_lb_target_group" "internal_dex" {
   port        = var.dex_listening_port
-  protocol    = "HTTPS"
+  protocol    = "HTTP"
   vpc_id      = module.base_infra.vpc_id
   target_type = "ip"
   health_check {
-    protocol = "HTTPS"
+    protocol = "HTTP"
     port     = var.dex_listening_port
   }
 
