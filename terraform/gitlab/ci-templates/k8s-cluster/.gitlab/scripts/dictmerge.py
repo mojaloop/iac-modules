@@ -3,6 +3,8 @@ import json
 import sys
 import os
 
+yaml.Dumper.ignore_aliases = lambda *args : True
+
 def mergedicts(dict1, dict2):
     for k in set(dict1.keys()).union(dict2.keys()):
         if k in dict1 and k in dict2:
@@ -21,7 +23,8 @@ if len(sys.argv) == 4:
     default_config_file = sys.argv[1]
     custom_config_file = sys.argv[2]
     outputPath = sys.argv[3]
-    outputFilename = outputPath+"/"+os.path.basename(default_config_file).split('/')[-1]
+    fileName = os.path.basename(default_config_file).split('/')[-1]
+    outputFilename = outputPath+"/"+fileName
     defaultExt = os.path.splitext(default_config_file)[1]
     customExt = os.path.splitext(custom_config_file)[1]
     if defaultExt != customExt:
@@ -61,10 +64,44 @@ else:
     data2 = {}
 
 
-if defaultExt == ".yaml":
+if fileName == "pm4ml-vars.yaml":
+    mergedItems=[]
+    mergedDict = {}
+    if data2 == {} or len(data2["pm4mls"]) == 0:
+        print("custom-config/pm4ml-vars.yaml is empty, please provide the correct configuration")
+        with open(outputFilename, 'w') as file:
+            yaml.dump(mergedDict, file, indent=4 , default_flow_style=False)
+        exit(1)
+    for item in data2["pm4mls"]:
+        mergedItems.append(dict(mergedicts(data1, item)))
+    mergedDict["pm4mls"] = mergedItems
+    with open(outputFilename, 'w') as file:
+        yaml.dump(mergedDict, file, indent=4 , default_flow_style=False)
+
+elif fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources.json" ):
+    mergedItems=[]
+    if len(data1) != len(data2):
+        print("Number of elements in custom-config and default_config differs for",fileName, ",please correct the config file")
+        exit(1)
+    for item1, item2 in zip(data1, data2):
+        mergedItems.append(dict(mergedicts(item1, item2)))
+    with open(outputFilename, 'w') as file:
+        json.dump(mergedItems, file, indent=4)
+
+elif fileName in ( "mojaloop-rbac-api-resources.yaml" ):
+    mergedItems=[]
+    if len(data1) != len(data2):
+        print("Number of elements in custom-config and default_config differs for",fileName, ",please correct the config file")
+        exit(1)
+    for item1, item2 in zip(data1, data2):
+        mergedItems.append(dict(mergedicts(item1, item2)))
+    with open(outputFilename, 'w') as file:
+        yaml.dump(mergedItems, file, indent=4)
+
+elif defaultExt == ".yaml":
     #result = yaml.dump(dict(mergedicts(data1, data2)), indent=4, sort_keys=True)
     with open(outputFilename, 'w') as file:
-        yaml.dump(dict(mergedicts(data1, data2)), file)
+        yaml.dump(dict(mergedicts(data1, data2)), file, indent=4, default_flow_style=False)
 elif defaultExt == ".json":
     with open(outputFilename, 'w') as file:
         json.dump(dict(mergedicts(data1, data2)), file, indent=4)
