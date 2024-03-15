@@ -150,16 +150,16 @@ scheme-adapter:
       BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
 %{ endif ~}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
-%{ if enable_sdk_bulk_transaction_support ~}
-      ENABLE_BACKEND_EVENT_HANDLER: true
-      ENABLE_FSPIOP_EVENT_HANDLER: true
-      REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
 %{ if fx_support_enabled ~}
       FX_QUOTES_ENDPOINT: "${pm4ml_external_switch_fqdn}"
       FX_TRANSFERS_ENDPOINT: "${pm4ml_external_switch_fqdn}"
       SUPPORTED_CURRENCIES: "${supported_currencies}"
       GET_SERVICES_FXP_RESPONSE: "${fxp_id}"
 %{ endif ~}
+%{ if enable_sdk_bulk_transaction_support ~}
+      ENABLE_BACKEND_EVENT_HANDLER: true
+      ENABLE_FSPIOP_EVENT_HANDLER: true
+      REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
 %{ endif ~}
 
 %{ if enable_sdk_bulk_transaction_support ~}
