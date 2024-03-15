@@ -107,6 +107,7 @@ resource "aws_security_group" "docker_server" {
     to_port     = var.dex_metrics_port
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
+    self        = true
   }
 
   ingress {
@@ -117,6 +118,12 @@ resource "aws_security_group" "docker_server" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    self      = true
+  }
   egress {
     from_port   = 0
     to_port     = 0
