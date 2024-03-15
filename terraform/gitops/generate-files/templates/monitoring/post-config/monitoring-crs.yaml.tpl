@@ -146,13 +146,28 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: kafka
+  name: kafka-topic-overview
 spec:
   folder: default
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  grafanaCom:
-    id: 12483
-    revision: 1
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.0/monitoring/dashboards/messaging/dashboard-kafka-topic-overview.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: kafka-cluster-overview
+spec:
+  folder: default
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.0/monitoring/dashboards/messaging/dashboard-kafka-cluster-overview.json"
 ---
