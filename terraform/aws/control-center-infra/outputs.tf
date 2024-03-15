@@ -82,7 +82,7 @@ output "dex_fqdn" {
   value = aws_route53_record.dex_private.fqdn
 }
 output "dex_listening_port" {
-  value = var.dex_listening_port
+  value = "443"
 }
 output "gitlab_hosts_var_maps" {
   sensitive = true
