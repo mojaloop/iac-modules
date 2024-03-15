@@ -25,7 +25,7 @@ resource "aws_lb_listener" "internal_https" {
 
 resource "aws_lb_listener_rule" "internal_vault" {
   listener_arn = aws_lb_listener.internal_https.arn
-  priority     = 100
+  priority     = 99
 
   action {
     type             = "forward"
@@ -41,7 +41,7 @@ resource "aws_lb_listener_rule" "internal_vault" {
 
 resource "aws_lb_listener_rule" "internal_dex" {
   listener_arn = aws_lb_listener.internal_https.arn
-  priority     = 99
+  priority     = 100
 
   action {
     type             = "forward"
