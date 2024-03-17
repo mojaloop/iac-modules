@@ -1,3 +1,15 @@
+if [ ! -n "$ENV_TO_UPDATE" ]
+then
+    echo "Please set ENV_TO_UPDATE CICD variable"
+    exit 1
+fi
+
+if [ ! -n "$IAC_MODULES_VERSION_TO_UPDATE" ]
+then
+    echo "Please set IAC_MODULES_VERSION_TO_UPDATE CICD variable"
+    exit 1
+fi
+
 ENV_NAME=$1
 TMP_GIT_REPO=$2
 TMP_TEMPLATE_DIR=$3
