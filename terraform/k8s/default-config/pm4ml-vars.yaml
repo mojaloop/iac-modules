@@ -1,31 +1,16 @@
-pm4mls: []
-  # - pm4ml: pm4mltest1
-  #   pm4ml_enabled: true
-  #   pm4ml_chart_version: 9.0.10
-  #   pm4ml_external_mcm_public_fqdn: mcm.dev.labsk8s601.mojaloop.live
-  #   pm4ml_ingress_internal_lb: false
-  #   pm4ml_external_switch_client_id: dfsp-jwt
-  #   pm4ml_external_switch_oidc_url: https://keycloak.dev.labsk8s601.mojaloop.live
-  #   pm4ml_external_switch_oidc_token_route: realms/dfsps/protocol/openid-connect/token
-  #   pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret"
-  #   pm4ml_external_switch_fqdn: extapi.dev.labsk8s601.mojaloop.live
-  #   pm4ml_dfsp_id: pm4mltest1
-  #   pm4ml_ttk_enabled: true
-  #   enable_sdk_bulk_transaction_support: false
-  #   use_ttk_as_backend_simulator: true
-  #   pm4ml_reserve_notification: false
-  # - pm4ml: pm4mltest2
-  #   pm4ml_enabled: true
-  #   pm4ml_chart_version: 9.0.10
-  #   pm4ml_external_mcm_public_fqdn: mcm.dev.labsk8s601.mojaloop.live
-  #   pm4ml_ingress_internal_lb: false
-  #   pm4ml_external_switch_client_id: dfsp-jwt
-  #   pm4ml_external_switch_oidc_url: https://keycloak.dev.labsk8s601.mojaloop.live
-  #   pm4ml_external_switch_oidc_token_route: realms/dfsps/protocol/openid-connect/token
-  #   pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret"
-  #   pm4ml_external_switch_fqdn: extapi.dev.labsk8s601.mojaloop.live
-  #   pm4ml_dfsp_id: pm4mltest2
-  #   pm4ml_ttk_enabled: true
-  #   enable_sdk_bulk_transaction_support: false
-  #   use_ttk_as_backend_simulator: true
-  #   pm4ml_reserve_notification: false
+pm4ml: pm4mltest
+pm4ml_enabled: true
+pm4ml_chart_version: 9.0.10
+pm4ml_external_mcm_public_fqdn: mcm.dev.labsk8s601.mojaloop.live
+pm4ml_ingress_internal_lb: false
+pm4ml_external_switch_client_id: dfsp-jwt
+pm4ml_external_switch_oidc_url: https://keycloak.dev.labsk8s601.mojaloop.live
+pm4ml_external_switch_oidc_token_route: realms/dfsps/protocol/openid-connect/token
+pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret"
+pm4ml_external_switch_fqdn: extapi.dev.labsk8s601.mojaloop.live
+pm4ml_dfsp_id: pm4mltest
+pm4ml_ttk_enabled: true
+enable_sdk_bulk_transaction_support: false
+use_ttk_as_backend_simulator: true
+pm4ml_reserve_notification: false
+core_connector_enabled: false
