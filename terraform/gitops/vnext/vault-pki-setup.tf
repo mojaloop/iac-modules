@@ -25,8 +25,8 @@ module "generate_vault_pki_setup_files" {
 }
 
 locals {
-  vault_pki_template_path              = "${path.module}/../generate-files/templates/vault-pki-setup"
-  vault_pki_app_file                   = "vault-pki-app.yaml"
+  vault_pki_template_path = "${path.module}/../generate-files/templates/vault-pki-setup"
+  vault_pki_app_file      = "vault-pki-app.yaml"
 }
 
 
