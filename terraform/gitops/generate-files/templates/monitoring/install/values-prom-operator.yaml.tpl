@@ -1,4 +1,5 @@
 alertmanager:
+  enabled: ${alertmanager_enabled}
   externalConfig: true
   configuration:
     name: alertmanager-config
