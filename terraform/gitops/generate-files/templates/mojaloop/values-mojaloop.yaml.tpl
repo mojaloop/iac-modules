@@ -129,9 +129,15 @@ CONFIG:
     registry: docker.io
     repository: mojaloop/central-ledger
     tag: v17.7.0-snapshot.0
+
+  qs_image: &QS_IMAGE
+    registry: docker.io
+    repository: mojaloop/quoting-service
+    tag: v15.8.0-snapshot.15
 %{ else ~}
   ml_api_adapter_image: &ML_API_ADAPTER_IMAGE {}
   cl_image: &CL_IMAGE {}
+  qs_image: &QS_IMAGE {}
 %{ endif ~}
 
 global:
@@ -232,6 +238,7 @@ account-lookup-service:
 
 quoting-service:
   quoting-service:
+    image: *QS_IMAGE
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
@@ -267,6 +274,7 @@ quoting-service:
       config:
         prefix: *QUOTING_MONITORING_PREFIX
   quoting-service-handler:
+    image: *QS_IMAGE
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
