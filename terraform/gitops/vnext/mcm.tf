@@ -74,8 +74,8 @@ module "generate_mcm_files" {
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_gateway_name          = var.istio_internal_gateway_name
     int_interop_switch_fqdn              = var.internal_interop_switch_fqdn
-    mojaloop_namespace                   = var.mojaloop_namespace
-    mojaloop_release_name                = var.mojaloop_release_name
+    mojaloop_namespace                   = var.vnext_namespace
+    mojaloop_release_name                = var.vnext_release_name
     onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag
     ory_stack_enabled                    = var.ory_stack_enabled
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
