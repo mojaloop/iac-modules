@@ -34,7 +34,7 @@ module "subnet_addrs" {
 
   base_cidr_block = var.vpc_cidr
   networks = [
-    for idx, item in var.private_subnets_list: flatten([{
+    for idx, item in local.private_subnets_list: flatten([{
       name = item,
       new_bits = var.block_size
     }, 
