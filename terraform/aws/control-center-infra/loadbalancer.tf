@@ -1,7 +1,7 @@
 resource "aws_lb" "internal" { #  for internal traffic
   internal                         = true
   load_balancer_type               = "application"
-  enable_cross_zone_load_balancing = false
+  enable_cross_zone_load_balancing = true
   subnets                          = module.base_infra.private_subnets
   tags                             = merge({ Name = "${local.name}-internal" }, local.common_tags)
   security_groups                  = local.all_security_groups
