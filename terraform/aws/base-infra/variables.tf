@@ -112,7 +112,7 @@ locals {
   ssh_keys                      = []
   public_subnets_list           = [for az in local.azs : "public-${az}"]
   private_subnets_list          = [for az in local.azs : "private-${az}"]
-  subnet_list                   = [for az in local.azs : concat("private-${az}", "public-${az}")]
+  subnet_list                   = flatten([for az in local.azs : concat(["private-${az}", "public-${az}"])])
   public_subnet_cidrs           = [for subnet_name in local.public_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
   private_subnet_cidrs          = [for subnet_name in local.private_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
 }
