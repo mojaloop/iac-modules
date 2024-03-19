@@ -34,12 +34,15 @@ module "subnet_addrs" {
 
   base_cidr_block = var.vpc_cidr
   networks = [
-    for subnet in concat(local.private_subnets_list, local.public_subnets_list) : {
-      name     = subnet
+    for idx, item in var.private_subnets_list: flatten([{
+      name = item,
       new_bits = var.block_size
-    }
+    }, 
+    { 
+      name = local.public_subnets_list[idx],
+      new_bits = var.block_size
+    }])
   ]
-
 }
 
 resource "aws_security_group" "bastion" {
