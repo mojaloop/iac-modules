@@ -84,6 +84,9 @@ module "generate_pm4ml_files" {
     role_assign_svc_secret_name                     = join("$", ["", "{${replace("${var.role_assign_svc_secret_prefix}${each.key}", "-", "_")}}"])
     role_assign_svc_user                            = var.role_assign_svc_user
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
+    pm4ml_core_connector_image_repository           = var.pm4ml_core_connector_image_repository
+    pm4ml_core_connector_image_tag                  = var.pm4ml_core_connector_image_tag
+    pm4ml_core_connector_env                        = var.pm4ml_core_connector_env
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -121,6 +124,22 @@ variable "oathkeeper_auth_provider_name" {
 variable "experience_api_fqdns" {
   description = "fqdns for pm4ml experience api"
 }
+variable "pm4ml_core_connector_image_repository" {
+  description = "Image repository for pm4ml core connector"
+  type        = string
+  default     = "pm4ml/mojaloop-payment-manager-simulator-core-connector"
+}
+
+variable "pm4ml_core_connector_env" {
+  description = "Environment variables"
+  type        = map(string)
+  default     = {
+    BACKEND_ENDPOINT           = "http://localhost:3002"
+    MLCONN_OUTBOUND_ENDPOINT   = "http://localhost:4001"
+    // Add more variables here
+  }
+}
+
 variable "mojaloop_connnector_fqdns" {
   description = "fqdns for pm4ml connector"
 }

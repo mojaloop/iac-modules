@@ -49,6 +49,13 @@ experience-api:
     authLoggedInLandingUrl: "https://${portal_fqdn}/"
     authSessionSecure: false
 
+mojaloop-core-connector:
+  image:
+    repository: "${pm4ml_core_connector_image_repository}"
+    tag: "${pm4ml_core_connector_image_tag}"
+  env: *pm4ml_core_connector_env
+  
+
 management-api:
   image:
     tag: 5.0.0-snapshot.2
