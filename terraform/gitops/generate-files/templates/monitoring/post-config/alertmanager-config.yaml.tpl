@@ -1,3 +1,4 @@
+%{ if alertmanager_enabled ~}
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
@@ -43,4 +44,4 @@ spec:
       remoteRef: 
         key: ${alertmanager_jira_secret_ref}
         property: value
-
+%{ endif ~}

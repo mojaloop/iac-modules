@@ -313,7 +313,7 @@ resource "gitlab_application" "argocd_oidc" {
     for key, env in var.env_map : key => env if env.enable_argocd_oauth_to_gitlab
   }
   confidential = true
-  scopes       = ["openid"]
+  scopes       = ["openid", "read_api", "profile", "email"]
   name         = "${each.key}_argocd_oidc"
   redirect_url = "https://argocd.${each.key}.${each.value["domain"]}/auth/callback"
 }
