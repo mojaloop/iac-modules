@@ -33,5 +33,5 @@ pm4mls: []
   #   use_ttk_as_backend_simulator: true
   #   pm4ml_reserve_notification: false
   #   fx_support_enabled: true
-  #   supported_currencies: "USD"
+  #   supported_currencies: "EUR"
   #   fxp_id: "fxp"
