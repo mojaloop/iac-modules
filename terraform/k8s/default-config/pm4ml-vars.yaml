@@ -16,5 +16,5 @@ pm4ml_reserve_notification: false
 fx_support_enabled: true
 supported_currencies: "EUR"
 fxp_id: "fxp"
-core_connector_enabled: false
 core_connector_config: {}
+payment_token_adapter_config: {}

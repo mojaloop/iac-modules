@@ -87,6 +87,8 @@ module "generate_pm4ml_files" {
     role_assign_svc_secret_name                     = join("$", ["", "{${replace("${var.role_assign_svc_secret_prefix}${each.key}", "-", "_")}}"])
     role_assign_svc_user                            = var.role_assign_svc_user
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
+    core_connector_config                           = each.value.core_connector_config
+    payment_token_adapter_config                    = each.value.payment_token_adapter_config
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -124,6 +126,7 @@ variable "oathkeeper_auth_provider_name" {
 variable "experience_api_fqdns" {
   description = "fqdns for pm4ml experience api"
 }
+
 variable "mojaloop_connnector_fqdns" {
   description = "fqdns for pm4ml connector"
 }

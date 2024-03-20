@@ -49,6 +49,12 @@ experience-api:
     authLoggedInLandingUrl: "https://${portal_fqdn}/"
     authSessionSecure: false
 
+mojaloop-core-connector:
+  ${indent(2, yamlencode(core_connector_config))}
+
+mojaloop-payment-token-adapter:
+  ${indent(2, yamlencode(payment_token_adapter_config))}
+
 management-api:
   image:
     tag: 5.0.0-snapshot.2
