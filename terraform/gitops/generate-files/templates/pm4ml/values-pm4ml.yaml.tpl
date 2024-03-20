@@ -50,11 +50,10 @@ experience-api:
     authSessionSecure: false
 
 mojaloop-core-connector:
-  image:
-    repository: "${pm4ml_core_connector_image_repository}"
-    tag: "${pm4ml_core_connector_image_tag}"
-  env: *pm4ml_core_connector_env
-  
+  ${indent(2, yamlencode(core_connector_config))}
+
+mojaloop-payment-token-adapter:
+  ${indent(2, yamlencode(payment_token_adapter_config))}
 
 management-api:
   image:

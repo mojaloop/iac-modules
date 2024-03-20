@@ -13,4 +13,5 @@ pm4ml_ttk_enabled: true
 enable_sdk_bulk_transaction_support: false
 use_ttk_as_backend_simulator: true
 pm4ml_reserve_notification: false
-core_connector_enabled: false
+core_connector_config: {}
+payment_token_adapter_config: {}
