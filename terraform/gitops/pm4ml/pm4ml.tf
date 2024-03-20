@@ -73,6 +73,7 @@ module "generate_pm4ml_files" {
     use_ttk_as_backend_simulator                    = each.value.use_ttk_as_backend_simulator
     ttk_backend_fqdn                                = var.ttk_backend_fqdns[each.key]
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
+    pta_portal_fqdn                                 = var.pta_portal_fqdns[each.key]
     test_fqdn                                       = var.test_fqdns[each.key]
     ory_namespace                                   = var.ory_namespace
     ory_stack_enabled                               = var.ory_stack_enabled
@@ -138,6 +139,10 @@ variable "ttk_backend_fqdns" {
 }
 variable "ttk_frontend_fqdns" {
   description = "fqdns for pm4ml ttk front"
+}
+
+variable "pta_portal_fqdns" {
+  description = "fqdns for pm4ml payment token adapter portal"
 }
 
 variable "pm4ml_vault_k8s_role_name" {
