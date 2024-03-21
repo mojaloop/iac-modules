@@ -508,6 +508,48 @@ ttk:
             },
             "type": "response",
             "version": 1
+          },
+          {
+            "ruleId": 11,
+            "priority": 1,
+            "description": "post /transactionrequests",
+            "apiVersion": {
+              "minorVersion": 1,
+              "majorVersion": 2,
+              "type": "mojaloop_connector_backend",
+              "asynchronous": false
+            },
+            "conditions": {
+              "all": [
+                {
+                  "fact": "operationPath",
+                  "operator": "equal",
+                  "value": "/transactionrequests"
+                },
+                {
+                  "fact": "method",
+                  "operator": "equal",
+                  "value": "post"
+                }
+              ]
+            },
+            "event": {
+              "method": null,
+              "path": null,
+              "params": {
+                "body": {
+                  "transactionId": "{$request.body.transactionRequestId}",
+                  "transactionRequestState": "RECEIVED"
+                },
+                "statusCode": "200",
+                "scripts": {
+                  "scriptingEngine": "postman"
+                }
+              },
+              "type": "FIXED_RESPONSE"
+            },
+            "type": "response",
+            "version": 1
           }
       ]
       api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.4.0/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
