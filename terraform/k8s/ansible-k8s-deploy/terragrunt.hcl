@@ -112,9 +112,7 @@ locals {
     nexus_fqdn                       = get_env("NEXUS_FQDN")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
     registry_mirror_port             = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
-    dex_listening_port               = get_env("DEX_LISTENING_PORT")
     enable_registry_mirror           = true
-    dex_fqdn                         = get_env("DEX_FQDN")
     k8s_configure_oidc               = true
     k8s_oidc_client_id               = get_env("DEX_STATIC_CLIENT_ID")
   }

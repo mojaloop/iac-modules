@@ -58,20 +58,36 @@ resource "aws_route53_record" "netmaker_stun" {
   records = [module.base_infra.netmaker_public_ip]
 }
 
-resource "aws_route53_record" "nexus_server_private" {
+resource "aws_route53_record" "nexus_server_api" {
   zone_id = module.base_infra.public_zone.id
   name    = "nexus"
-  type    = "A"
+  type    = "CNAME"
   ttl     = "300"
-  records = [aws_instance.docker_server.private_ip]
+  records = [aws_lb.internal.dns_name]
 }
 
-resource "aws_route53_record" "minio_server_private" {
+resource "aws_route53_record" "nexus_server_ui" {
+  zone_id = module.base_infra.public_zone.id
+  name    = "nexus-ui"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [aws_lb.internal.dns_name]
+}
+
+resource "aws_route53_record" "minio_server_api" {
   zone_id = module.base_infra.public_zone.id
   name    = "minio"
-  type    = "A"
+  type    = "CNAME"
   ttl     = "300"
-  records = [aws_instance.docker_server.private_ip]
+  records = [aws_lb.internal.dns_name]
+}
+
+resource "aws_route53_record" "minio_server_ui" {
+  zone_id = module.base_infra.public_zone.id
+  name    = "minio-ui"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [aws_lb.internal.dns_name]
 }
 
 resource "aws_route53_record" "vault_server_private" {
@@ -82,13 +98,6 @@ resource "aws_route53_record" "vault_server_private" {
   records = [aws_lb.internal.dns_name]
 }
 
-resource "aws_route53_record" "dex_private" {
-  zone_id = module.base_infra.public_zone.id
-  name    = "dex"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [aws_lb.internal.dns_name]
-}
 
 resource "aws_route53_record" "gitlab_runner_server_private" {
   zone_id = module.base_infra.public_zone.id

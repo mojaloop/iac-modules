@@ -78,12 +78,6 @@ output "vault_fqdn" {
   value = aws_route53_record.vault_server_private.fqdn
 }
 
-output "dex_fqdn" {
-  value = aws_route53_record.dex_private.fqdn
-}
-output "dex_listening_port" {
-  value = "443"
-}
 output "gitlab_hosts_var_maps" {
   sensitive = true
   value = {
@@ -127,6 +121,7 @@ output "docker_hosts_var_maps" {
     gitlab_server_hostname           = aws_route53_record.gitlab_server_public.fqdn
     gitlab_runner_version            = var.gitlab_runner_version
     minio_server_host                = aws_route53_record.minio_server_private.fqdn
+    minio_ui_host                    = aws_route53_record.minio_server_ui.fqdn
     minio_listening_port             = var.minio_listening_port
     minio_root_user                  = "admin"
     minio_admin_access_key           = random_password.admin_s3_access_key.result
@@ -136,6 +131,8 @@ output "docker_hosts_var_maps" {
     gitlab_minio_secret              = random_password.gitlab_s3_access_secret.result
     nexus_admin_password             = random_password.nexus_admin_password.result
     nexus_docker_repo_listening_port = var.nexus_docker_repo_listening_port
+    nexus_repo_host                  = aws_route53_record.internal_nexus_repo.fqdn
+    nexus_admin_host                 = aws_route53_record.internal_nexus_admin.fqdn
     docker_extra_volume_name         = "docker-extra"
     docker_extra_vol_mount           = true
     docker_extra_ebs_volume_id       = aws_instance.docker_server.ebs_block_device.*.volume_id[0]
@@ -143,9 +140,6 @@ output "docker_hosts_var_maps" {
     vault_listening_port             = var.vault_listening_port
     vault_fqdn                       = aws_route53_record.vault_server_private.fqdn
     vault_gitlab_token               = random_password.gitlab_root_token.result
-    dex_oidc_issuer                  = "https://${aws_route53_record.gitlab_server_public.fqdn}"
-    dex_fqdn                         = aws_route53_record.dex_private.fqdn
-    dex_listening_port               = var.dex_listening_port
   }
 }
 

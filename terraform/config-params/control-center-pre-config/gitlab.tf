@@ -158,32 +158,6 @@ resource "gitlab_group_variable" "vault_fqdn" {
   environment_scope = "*"
 }
 
-resource "gitlab_group_variable" "dex_fqdn" {
-  group             = gitlab_group.iac.id
-  key               = "DEX_FQDN"
-  value             = var.dex_fqdn
-  protected         = true
-  masked            = false
-  environment_scope = "*"
-}
-
-resource "gitlab_group_variable" "dex_static_client_id" {
-  group             = gitlab_group.iac.id
-  key               = "DEX_STATIC_CLIENT_ID"
-  value             = var.dex_static_client_id
-  protected         = true
-  masked            = false
-  environment_scope = "*"
-}
-
-resource "gitlab_group_variable" "dex_listening_port" {
-  group             = gitlab_group.iac.id
-  key               = "DEX_LISTENING_PORT"
-  value             = var.dex_listening_port
-  protected         = true
-  masked            = false
-  environment_scope = "*"
-}
 
 resource "gitlab_group_variable" "tenant_vault_listening_port" {
   group             = gitlab_group.iac.id
@@ -199,13 +173,6 @@ resource "gitlab_application" "tenant_vault_oidc" {
   scopes       = ["openid"]
   name         = "tenant_vault_oidc"
   redirect_url = "https://${var.vault_fqdn}/ui/vault/auth/oidc/oidc/callback"
-}
-
-resource "gitlab_application" "dex_oidc" {
-  confidential = true
-  scopes       = ["openid", "read_user"]
-  name         = "dex_oidc"
-  redirect_url = "https://${var.dex_fqdn}/dex/callback"
 }
 
 locals {
