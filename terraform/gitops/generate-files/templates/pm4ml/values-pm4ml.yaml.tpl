@@ -112,7 +112,7 @@ scheme-adapter:
   sdk-scheme-adapter-api-svc:
     image:
 %{ if fx_support_enabled ~}
-      tag: v23.5.0-snapshot.2
+      tag: v23.5.0-snapshot.4
 %{ else ~}
       tag: v23.1.2-snapshot.2
 %{ endif ~}
