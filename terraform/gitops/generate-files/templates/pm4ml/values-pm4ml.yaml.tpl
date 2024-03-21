@@ -512,6 +512,7 @@ ttk:
       ]
       api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.4.0/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
       api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/main/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_outbound_2.1__callback_map.json: []
 
   ml-testing-toolkit-frontend:
     image:
