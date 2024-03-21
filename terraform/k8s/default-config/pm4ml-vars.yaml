@@ -11,7 +11,9 @@ pm4ml_external_switch_fqdn: extapi.dev.labsk8s601.mojaloop.live
 pm4ml_dfsp_id: pm4mltest
 pm4ml_ttk_enabled: true
 enable_sdk_bulk_transaction_support: false
-use_ttk_as_backend_simulator: true
+## core_connector_selected can be one of the following values: "ttk", "cc", "custom"
+core_connector_selected: ttk
+core_connector_endpoint: 'pm4mltest-mojaloop-core-connector:3003'
 pm4ml_reserve_notification: false
 fx_support_enabled: true
 supported_currencies: "EUR"

@@ -70,7 +70,8 @@ module "generate_pm4ml_files" {
     fx_support_enabled                              = each.value.fx_support_enabled
     supported_currencies                            = each.value.supported_currencies
     fxp_id                                          = each.value.fxp_id
-    use_ttk_as_backend_simulator                    = each.value.use_ttk_as_backend_simulator
+    core_connector_selected                         = each.value.core_connector_selected
+    core_connector_endpoint                         = each.value.core_connector_endpoint
     ttk_backend_fqdn                                = var.ttk_backend_fqdns[each.key]
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
     pta_portal_fqdn                                 = var.pta_portal_fqdns[each.key]
@@ -214,12 +215,6 @@ variable "pm4ml_external_switch_client_secret" {
   type        = string
   description = "secret name for client secret to connect to switch idm"
   default     = "pm4ml-external-switch-client-secret"
-}
-
-variable "use_ttk_as_backend_simulator" {
-  type        = bool
-  description = "use_ttk_as_backend_simulator"
-  default     = false
 }
 
 variable "enable_sdk_bulk_transaction_support" {

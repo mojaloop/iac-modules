@@ -151,10 +151,12 @@ scheme-adapter:
       OAUTH_CLIENT_SECRET_KEY: "${pm4ml_external_switch_client_secret_key}"
       OAUTH_CLIENT_SECRET_NAME: "${pm4ml_external_switch_client_secret}"
       RESERVE_NOTIFICATION: ${pm4ml_reserve_notification}
-%{ if use_ttk_as_backend_simulator ~}
+%{ if core_connector_selected == "ttk" ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
-%{ else ~}
+%{ elif core_connector_selected == "cc" ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
+%{ else ~}
+      BACKEND_ENDPOINT: "${core_connector_endpoint}"
 %{ endif ~}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
 %{ if fx_support_enabled ~}
