@@ -137,6 +137,7 @@ scheme-adapter:
         "test": "test"
       }
     env:
+      LOG_LEVEL: debug
       DFSP_ID: *dfspId
       CACHE_URL: redis://${redis_host}:${redis_port}
       JWS_SIGN: true
@@ -166,6 +167,8 @@ scheme-adapter:
       ENABLE_BACKEND_EVENT_HANDLER: true
       ENABLE_FSPIOP_EVENT_HANDLER: true
       REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
+%{ else ~}
+      REQUEST_PROCESSING_TIMEOUT_SECONDS: 10
 %{ endif ~}
 
 %{ if enable_sdk_bulk_transaction_support ~}
@@ -217,6 +220,298 @@ ttk:
         "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
         "FSPID": *dfspId
       }
+      system_config.json:
+        {
+          "API_DEFINITIONS":
+            [
+              {
+                "type": "mojaloop_connector_outbound",
+                "version": "2.1",
+                "folderPath": "mojaloop_connector_outbound_2.1",
+                "asynchronous": false,
+                "hostnames": [],
+                "prefix": "/sdk-out",
+              },
+              {
+                "type": "mojaloop_connector_backend",
+                "version": "2.1",
+                "folderPath": "mojaloop_connector_backend_2.1",
+                "asynchronous": false,
+              },
+              {
+                "type": "core_connector",
+                "version": "1.4",
+                "folderPath": "payment_manager_1.4",
+                "hostnames": [],
+                "prefix": "/cc-send",
+              },
+            ],
+        }
+      rules_response__default.json: [
+        {
+            "ruleId": 6,
+            "priority": 1,
+            "description": "FXP - post /fxQuotes",
+            "apiVersion": {
+              "minorVersion": 1,
+              "majorVersion": 2,
+              "type": "mojaloop_connector_outbound",
+              "asynchronous": false
+            },
+            "conditions": {
+              "all": [
+                {
+                  "fact": "operationPath",
+                  "operator": "equal",
+                  "value": "/fxQuotes"
+                },
+                {
+                  "fact": "method",
+                  "operator": "equal",
+                  "value": "post"
+                }
+              ]
+            },
+            "event": {
+              "method": null,
+              "path": null,
+              "params": {
+                "body": {
+                  "homeTransactionId": "homeTransactionId-123",
+                  "conversionTerms": {
+                    "conversionId": "{$request.body.conversionTerms.conversionId}",
+                    "determiningTransferId": "b51ec534-ee48-4575-b6a9-ead2955b8069",
+                    "initiatingFsp": "{$request.body.conversionTerms.initiatingFsp}",
+                    "counterPartyFsp": "{$request.body.conversionTerms.counterPartyFsp}",
+                    "amountType": "SEND",
+                    "sourceAmount": {
+                      "currency": "{$request.body.conversionTerms.sourceAmount.currency}",
+                      "amount": "{$environment.sourceAmountValue}"
+                    },
+                    "targetAmount": {
+                      "currency": "{$request.body.conversionTerms.targetAmount.currency}",
+                      "amount": "{$environment.targetAmountValue}"
+                    },
+                    "expiration": "{$request.body.conversionTerms.expiration}",
+                    "charges": [
+                      {
+                        "chargeType": "string",
+                        "sourceAmount": {
+                          "currency": "{$request.body.conversionTerms.sourceAmount.currency}",
+                          "amount": "1"
+                        },
+                        "targetAmount": {
+                          "currency": "{$request.body.conversionTerms.targetAmount.currency}",
+                          "amount": "30"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "statusCode": "200",
+                "scripts": {
+                  "exec": [
+                    "const fxQuoteBody = JSON.parse(request.body)",
+                    "environment.sourceAmountValue = fxQuoteBody.conversionTerms.sourceAmount.amount || 10",
+                    "environment.targetAmountValue = fxQuoteBody.conversionTerms.targetAmount.amount || 300"
+                  ],
+                  "scriptingEngine": "javascript"
+                }
+              },
+              "type": "FIXED_RESPONSE"
+            },
+            "type": "response",
+            "version": 1
+          },
+          {
+            "ruleId": 7,
+            "priority": 1,
+            "description": "FXP - post /fxTransfers response",
+            "apiVersion": {
+              "minorVersion": 1,
+              "majorVersion": 2,
+              "type": "mojaloop_connector_outbound",
+              "asynchronous": false
+            },
+            "conditions": {
+              "all": [
+                {
+                  "fact": "operationPath",
+                  "operator": "equal",
+                  "value": "/fxTransfers"
+                },
+                {
+                  "fact": "method",
+                  "operator": "equal",
+                  "value": "post"
+                }
+              ]
+            },
+            "event": {
+              "method": null,
+              "path": null,
+              "params": {
+                "body": {
+                  "homeTransactionId": "{$request.body.homeTransactionId}",
+                  "completedTimestamp": "{$environment.completedTimestamp}",
+                  "conversionState": "RESERVED"
+                },
+                "statusCode": "200",
+                "scripts": {
+                  "exec": [
+                    "environment.completedTimestamp = new Date().toISOString()"
+                  ],
+                  "scriptingEngine": "javascript"
+                }
+              },
+              "type": "FIXED_RESPONSE"
+            },
+            "type": "response",
+            "version": 1
+          },
+          {
+            "ruleId": 8,
+            "priority": 1,
+            "description": "get /parties/{idType}/{idValue}",
+            "apiVersion": {
+              "minorVersion": 1,
+              "majorVersion": 2,
+              "type": "mojaloop_connector_outbound",
+              "asynchronous": false
+            },
+            "conditions": {
+              "all": [
+                {
+                  "fact": "operationPath",
+                  "operator": "equal",
+                  "value": "/parties/{idType}/{idValue}"
+                },
+                {
+                  "fact": "method",
+                  "operator": "equal",
+                  "value": "get"
+                }
+              ]
+            },
+            "event": {
+              "method": null,
+              "path": null,
+              "params": {
+                "body": {
+                  "dateOfBirth": "1966-06-16",
+                  "displayName": "Yaro",
+                  "firstName": "Yaro",
+                  "fspId": "pm4mltest2",
+                  "idType": "MSISDN",
+                  "idValue": "{$request.params.idValue}",
+                  "lastName": "Smith",
+                  "merchantClassificationCode": "1234",
+                  "middleName": "",
+                  "kycInformation": "This is encrypted KYC information"
+                },
+                "statusCode": "200",
+                "scripts": {
+                  "scriptingEngine": "postman"
+                }
+              },
+              "type": "FIXED_RESPONSE"
+            },
+            "type": "response",
+            "version": 1
+          },
+          {
+            "ruleId": 9,
+            "priority": 1,
+            "description": "post /quoterequests",
+            "apiVersion": {
+              "minorVersion": 1,
+              "majorVersion": 2,
+              "type": "mojaloop_connector_outbound",
+              "asynchronous": false
+            },
+            "conditions": {
+              "all": [
+                {
+                  "fact": "operationPath",
+                  "operator": "equal",
+                  "value": "/quoterequests"
+                },
+                {
+                  "fact": "method",
+                  "operator": "equal",
+                  "value": "post"
+                }
+              ]
+            },
+            "event": {
+              "method": null,
+              "path": null,
+              "params": {
+                "body": {
+                  "quoteId": "{$request.body.quoteId}",
+                  "transactionId": "{$request.body.transactionId}",
+                  "transferAmount": "{$request.body.amount}",
+                  "transferAmountCurrency": "{$request.body.currency}"
+                },
+                "statusCode": "200",
+                "scripts": {
+                  "scriptingEngine": "postman"
+                }
+              },
+              "type": "FIXED_RESPONSE"
+            },
+            "type": "response",
+            "version": 1
+          },
+          {
+            "ruleId": 10,
+            "priority": 1,
+            "description": "post /transfers",
+            "apiVersion": {
+              "minorVersion": 1,
+              "majorVersion": 2,
+              "type": "mojaloop_connector_outbound",
+              "asynchronous": false
+            },
+            "conditions": {
+              "all": [
+                {
+                  "fact": "operationPath",
+                  "operator": "equal",
+                  "value": "/transfers"
+                },
+                {
+                  "fact": "method",
+                  "operator": "equal",
+                  "value": "post"
+                }
+              ]
+            },
+            "event": {
+              "method": null,
+              "path": null,
+              "params": {
+                "body": {
+                  "completedTimestamp": "{$environment.completedTimestamp}",
+                  "homeTransactionId": "123",
+                  "transferState": "COMMITTED"
+                },
+                "statusCode": "200",
+                "scripts": {
+                  "exec": [
+                    "environment.completedTimestamp = new Date().toISOString()"
+                  ],
+                  "scriptingEngine": "javascript"
+                }
+              },
+              "type": "FIXED_RESPONSE"
+            },
+            "type": "response",
+            "version": 1
+          }
+      ]
+      api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.4.0/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/main/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
 
   ml-testing-toolkit-frontend:
     image:
