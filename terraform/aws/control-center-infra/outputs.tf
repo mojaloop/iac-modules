@@ -59,7 +59,7 @@ output "nexus_docker_repo_listening_port" {
 }
 
 output "nexus_fqdn" {
-  value = aws_route53_record.nexus_server_private.fqdn
+  value = aws_route53_record.nexus_server_api.fqdn
 }
 
 output "minio_listening_port" {
@@ -67,7 +67,7 @@ output "minio_listening_port" {
 }
 
 output "minio_fqdn" {
-  value = aws_route53_record.minio_server_private.fqdn
+  value = aws_route53_record.minio_server_api.fqdn
 }
 
 output "tenant_vault_listening_port" {
@@ -99,7 +99,7 @@ output "gitlab_hosts_var_maps" {
     gitlab_version          = var.gitlab_version
     s3_username             = var.gitlab_minio_user
     s3_password             = random_password.gitlab_s3_access_secret.result
-    s3_server_url           = "http://${aws_route53_record.minio_server_private.fqdn}:${var.minio_listening_port}"
+    s3_server_url           = "https://${aws_route53_record.minio_server_api.fqdn}"
     backup_ebs_volume_id    = aws_instance.gitlab_server.ebs_block_device.*.volume_id[0]
   }
 }
@@ -120,7 +120,7 @@ output "docker_hosts_var_maps" {
     ansible_hostname                 = aws_route53_record.gitlab_runner_server_private.fqdn
     gitlab_server_hostname           = aws_route53_record.gitlab_server_public.fqdn
     gitlab_runner_version            = var.gitlab_runner_version
-    minio_server_host                = aws_route53_record.minio_server_private.fqdn
+    minio_server_host                = aws_route53_record.minio_server_api.fqdn
     minio_ui_host                    = aws_route53_record.minio_server_ui.fqdn
     minio_listening_port             = var.minio_listening_port
     minio_root_user                  = "admin"
@@ -131,8 +131,8 @@ output "docker_hosts_var_maps" {
     gitlab_minio_secret              = random_password.gitlab_s3_access_secret.result
     nexus_admin_password             = random_password.nexus_admin_password.result
     nexus_docker_repo_listening_port = var.nexus_docker_repo_listening_port
-    nexus_repo_host                  = aws_route53_record.internal_nexus_repo.fqdn
-    nexus_admin_host                 = aws_route53_record.internal_nexus_admin.fqdn
+    nexus_repo_host                  = aws_route53_record.nexus_server_api.fqdn
+    nexus_admin_host                 = aws_route53_record.nexus_server_ui.fqdn
     docker_extra_volume_name         = "docker-extra"
     docker_extra_vol_mount           = true
     docker_extra_ebs_volume_id       = aws_instance.docker_server.ebs_block_device.*.volume_id[0]

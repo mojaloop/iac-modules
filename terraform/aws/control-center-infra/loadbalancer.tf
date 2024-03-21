@@ -35,7 +35,7 @@ resource "aws_lb_listener_rule" "internal_vault" {
 
   condition {
     host_header {
-      values = ["vault.${module.base_infra.public_zone.name}"]
+      values = [aws_route53_record.vault_server_private.fqdn]
     }
   }
 }
@@ -73,7 +73,7 @@ resource "aws_lb_listener_rule" "internal_minio_api" {
 
   condition {
     host_header {
-      values = ["minio.${module.base_infra.public_zone.name}"]
+      values = [aws_route53_record.minio_server_api.fqdn]
     }
   }
 }
@@ -111,7 +111,7 @@ resource "aws_lb_listener_rule" "internal_minio_ui" {
 
   condition {
     host_header {
-      values = ["minio-ui.${module.base_infra.public_zone.name}"]
+      values = [aws_route53_record.minio_server_ui.fqdn]
     }
   }
 }
@@ -151,7 +151,7 @@ resource "aws_lb_listener_rule" "internal_nexus_repo" {
 
   condition {
     host_header {
-      values = ["nexus.${module.base_infra.public_zone.name}"]
+      values = [aws_route53_record.nexus_server_api.fqdn]
     }
   }
 }
@@ -189,7 +189,7 @@ resource "aws_lb_listener_rule" "internal_nexus_admin" {
 
   condition {
     host_header {
-      values = ["nexus-ui.${module.base_infra.public_zone.name}"]
+      values = [aws_route53_record.nexus_server_ui.fqdn]
     }
   }
 }
@@ -221,9 +221,9 @@ resource "aws_lb_target_group_attachment" "internal_nexus_admin" {
 resource "aws_acm_certificate" "wildcard_cert" {
   domain_name       = module.base_infra.public_zone.name
   validation_method = "DNS"
-  subject_alternative_names = ["*.${module.base_infra.public_zone.name}", "vault.${module.base_infra.public_zone.name}",
-    "minio.${module.base_infra.public_zone.name}", "minio-ui.${module.base_infra.public_zone.name}",
-  "nexus.${module.base_infra.public_zone.name}", "nexus-ui.${module.base_infra.public_zone.name}"]
+  subject_alternative_names = ["*.${module.base_infra.public_zone.name}", aws_route53_record.vault_server_private.fqdn,
+    aws_route53_record.minio_server_api.fqdn, aws_route53_record.minio_server_ui.fqdn,
+  aws_route53_record.nexus_server_api.fqdn, aws_route53_record.nexus_server_ui.fqdn]
   tags = merge({ Name = "${local.name}-wildcard-cert" }, local.common_tags)
 
   lifecycle {
