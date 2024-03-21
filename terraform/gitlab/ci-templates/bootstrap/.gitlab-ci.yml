@@ -160,7 +160,7 @@ refresh-templates:
   script:
     - !reference [.source, script]
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
-    - export GITLAB_SEED_TOKEN="$(vault kv get -field=value secret/bootstrap/gitlab_root_token)"
+    - export GITLAB_TOKEN="$(vault kv get -field=value secret/bootstrap/gitlab_root_token)"
     - .gitlab/scripts/refresh-templates.sh  $CC_TMP_GIT_REPO $CC_TMP_TEMPLATES_DIR $GITLAB_TOKEN $IAC_TERRAFORM_MODULES_TAG
   when: manual
 
