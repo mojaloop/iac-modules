@@ -300,7 +300,7 @@ spec:
     - name: "mlcon-outbound"
       match:
         - uri:
-            prefix: /mlcon-outbound
+            prefix: /mlcon-outbound/
       rewrite:
         uri: /
       route:
