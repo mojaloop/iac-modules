@@ -71,7 +71,7 @@ module "generate_pm4ml_files" {
     supported_currencies                            = each.value.supported_currencies
     fxp_id                                          = each.value.fxp_id
     core_connector_selected                         = each.value.core_connector_selected
-    core_connector_endpoint                         = each.value.core_connector_endpoint
+    custom_core_connector_endpoint                  = each.value.custom_core_connector_endpoint
     ttk_backend_fqdn                                = var.ttk_backend_fqdns[each.key]
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
     pta_portal_fqdn                                 = var.pta_portal_fqdns[each.key]

@@ -300,7 +300,9 @@ spec:
     - name: "mlcon-outbound"
       match:
         - uri:
-            prefix: /mlcon-outbound(/|$)(.*)
+            prefix: /mlcon-outbound
+      rewrite:
+        uri: /
       route:
         - destination:
             host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc

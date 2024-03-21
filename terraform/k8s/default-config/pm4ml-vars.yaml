@@ -13,7 +13,8 @@ pm4ml_ttk_enabled: true
 enable_sdk_bulk_transaction_support: false
 ## core_connector_selected can be one of the following values: "ttk", "cc", "custom"
 core_connector_selected: ttk
-core_connector_endpoint: 'pm4mltest-mojaloop-core-connector:3003'
+## custom_core_connector_endpoint is only required if core_connector_selected is set to "custom"
+custom_core_connector_endpoint: 'pm4mltest-mojaloop-core-connector:3003'
 pm4ml_reserve_notification: false
 fx_support_enabled: true
 supported_currencies: "EUR"

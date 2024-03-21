@@ -157,7 +157,7 @@ scheme-adapter:
 %{ if core_connector_selected == "cc" ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
 %{ else ~}
-      BACKEND_ENDPOINT: "${core_connector_endpoint}"
+      BACKEND_ENDPOINT: "${custom_core_connector_endpoint}"
 %{ endif ~}
 %{ endif ~}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
