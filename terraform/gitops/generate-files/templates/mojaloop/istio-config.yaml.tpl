@@ -111,6 +111,26 @@ spec:
             port:
               number: 80
 %{ endif ~}
+%{ if mojaloop_fx_enabled ~}
+    - name: fxQuotes
+      match:
+        - uri:
+            prefix: /fxQuotes
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-quoting-service
+            port:
+              number: 80
+    - name: fxTransfers
+      match:
+        - uri:
+            prefix: /fxTransfers
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-api-adapter-service
+            port:
+              number: 80
+%{ endif ~}
     - name: transactionRequests
       match:
         - uri:

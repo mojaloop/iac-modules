@@ -22,7 +22,7 @@ module "generate_pm4ml_files" {
     portal_fqdn                                     = var.portal_fqdns[each.key]
     admin_portal_fqdn                               = var.admin_portal_fqdns[each.key]
     auth_fqdn                                       = var.auth_fqdn
-    admin_portal_release_name                       = "admin-portal-${each.key}"
+    admin_portal_release_name                       = "admin-portal"
     admin_portal_chart_version                      = try(var.app_var_map.admin_portal_chart_version, var.admin_portal_chart_version)
     dfsp_id                                         = each.value.pm4ml_dfsp_id
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
@@ -67,9 +67,13 @@ module "generate_pm4ml_files" {
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
+    fx_support_enabled                              = each.value.fx_support_enabled
+    supported_currencies                            = each.value.supported_currencies
+    fxp_id                                          = each.value.fxp_id
     use_ttk_as_backend_simulator                    = each.value.use_ttk_as_backend_simulator
     ttk_backend_fqdn                                = var.ttk_backend_fqdns[each.key]
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
+    pta_portal_fqdn                                 = var.pta_portal_fqdns[each.key]
     test_fqdn                                       = var.test_fqdns[each.key]
     ory_namespace                                   = var.ory_namespace
     ory_stack_enabled                               = var.ory_stack_enabled
@@ -135,6 +139,10 @@ variable "ttk_backend_fqdns" {
 }
 variable "ttk_frontend_fqdns" {
   description = "fqdns for pm4ml ttk front"
+}
+
+variable "pta_portal_fqdns" {
+  description = "fqdns for pm4ml payment token adapter portal"
 }
 
 variable "pm4ml_vault_k8s_role_name" {
