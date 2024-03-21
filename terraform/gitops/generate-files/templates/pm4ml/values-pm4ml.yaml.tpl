@@ -153,10 +153,12 @@ scheme-adapter:
       RESERVE_NOTIFICATION: ${pm4ml_reserve_notification}
 %{ if core_connector_selected == "ttk" ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
-%{ else if core_connector_selected == "cc" ~}
+%{ else ~}
+%{ if core_connector_selected == "cc" ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
 %{ else ~}
       BACKEND_ENDPOINT: "${core_connector_endpoint}"
+%{ endif ~}
 %{ endif ~}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
 %{ if fx_support_enabled ~}
