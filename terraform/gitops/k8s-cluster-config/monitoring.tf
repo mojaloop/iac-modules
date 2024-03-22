@@ -38,6 +38,7 @@ module "generate_monitoring_files" {
     loki_ingester_retention_period       = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     prometheus_retention_period          = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                 = try(var.common_var_map.alertmanager_enabled, false)
+    loki_minio_bucket                    = "${var.cluster_name}-loki"
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
