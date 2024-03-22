@@ -1,5 +1,6 @@
 loki:
   overrideConfiguration:
+    # TODO: remove retention_period because it should be controlled by object store (minio) policies
     limits_config:
       retention_period: ${loki_ingester_retention_period}
     storage_config:
@@ -8,7 +9,7 @@ loki:
       aws:
         s3forcepathstyle: true
         # TODO: check how the minio url will be formatted
-        endpoint: "haproxy.${cluster_name}.devbaremetal.moja-onprem.net:9000"
+        endpoint: ${loki_minio_endpoint}
         insecure: true
         access_key_id: `${MINIO_LOKI_USERNAME}`
         secret_access_key: `${MINIO_LOKI_PASSWORD}`
@@ -18,8 +19,8 @@ ingester:
     size: ${loki_ingester_pvc_size}
     storageClass: ${storage_class_name}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: loki-secret
-      
+  extraEnvVarsSecret: loki-credentials-secret
+
 promtail:
   tolerations:  
     - operator: "Exists"
