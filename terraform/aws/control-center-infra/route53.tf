@@ -76,10 +76,18 @@ resource "aws_route53_record" "nexus_server_ui" {
 
 resource "aws_route53_record" "minio_server_api" {
   zone_id = module.base_infra.public_zone.id
-  name    = "minio"
+  name    = "minio-api"
   type    = "CNAME"
   ttl     = "300"
   records = [aws_lb.internal.dns_name]
+}
+
+resource "aws_route53_record" "minio_server_legacy" {
+  zone_id = module.base_infra.public_zone.id
+  name    = "minio"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.docker_server.private_ip]
 }
 
 resource "aws_route53_record" "minio_server_ui" {

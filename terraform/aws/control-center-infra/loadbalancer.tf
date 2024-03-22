@@ -219,38 +219,57 @@ resource "aws_lb_target_group_attachment" "internal_nexus_admin" {
 ### cert config
 
 resource "aws_acm_certificate" "wildcard_cert" {
-  domain_name       = module.base_infra.public_zone.name
-  validation_method = "DNS"
-  subject_alternative_names = ["*.${module.base_infra.public_zone.name}", aws_route53_record.vault_server_private.fqdn,
-    aws_route53_record.minio_server_api.fqdn, aws_route53_record.minio_server_ui.fqdn,
-  aws_route53_record.nexus_server_api.fqdn, aws_route53_record.nexus_server_ui.fqdn]
-  tags = merge({ Name = "${local.name}-wildcard-cert" }, local.common_tags)
+  validation_method         = "DNS"
+  domain_name               = local.domain_name
+  subject_alternative_names = local.subject_alternative_names
+  tags                      = merge({ Name = "${local.name}-wildcard-cert" }, local.common_tags)
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
-resource "aws_route53_record" "cert_validation" {
-  for_each = {
-    for dvo in aws_acm_certificate.wildcard_cert.domain_validation_options : dvo.domain_name => {
+resource "aws_route53_record" "validation_records" {
+  # Using count instead of for_each like the examples to allow domain names that won't be known until after apply.
+  # E.g., a record with a generated random value in it.
+  count = local.domain_names_count
+
+  allow_overwrite = true
+  name            = local.validation_options_by_index[count.index].name
+  records         = [local.validation_options_by_index[count.index].record]
+  ttl             = 60
+  type            = local.validation_options_by_index[count.index].type
+  # This would need updated to include alternative domains in different hosted zones
+  zone_id = local.public_hosted_zone.id
+
+  # tags not supported
+}
+
+resource "aws_acm_certificate_validation" "certificate_validation" {
+  certificate_arn         = aws_acm_certificate.certificate.arn
+  validation_record_fqdns = [for record in aws_route53_record.validation_records : record.fqdn]
+
+  # tags not supported
+}
+
+locals {
+  domain_list = ["*.${module.base_infra.public_zone.name}", aws_route53_record.vault_server_private.fqdn,
+    aws_route53_record.minio_server_api.fqdn, aws_route53_record.minio_server_ui.fqdn,
+  aws_route53_record.nexus_server_api.fqdn, aws_route53_record.nexus_server_ui.fqdn]
+  domain_names = [
+    for domain_name in local.domain_list : domain_name if !can(regex("shouldnevermatch", domain_name))
+  ]
+  domain_names_count = length(local.domain_list)
+
+  domain_name               = module.base_infra.public_zone.name
+  subject_alternative_names = slice(local.domain_names, 1, length(local.domain_names))
+
+  validation_options_by_index = {
+    for dvo in aws_acm_certificate.certificate.domain_validation_options : index(local.domain_names, dvo.domain_name) => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
     }
-    # Skips the domain if it doesn't contain a wildcard
-    if length(regexall("\\*\\..+", dvo.domain_name)) > 0
   }
-
-  allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
-  ttl             = 60
-  type            = each.value.type
-  zone_id         = module.base_infra.public_zone.id
-}
-
-resource "aws_acm_certificate_validation" "cert" {
-  certificate_arn         = aws_acm_certificate.wildcard_cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
+  public_hosted_zone = module.base_infra.public_zone
 }

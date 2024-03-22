@@ -99,7 +99,7 @@ output "gitlab_hosts_var_maps" {
     gitlab_version          = var.gitlab_version
     s3_username             = var.gitlab_minio_user
     s3_password             = random_password.gitlab_s3_access_secret.result
-    s3_server_url           = "https://${aws_route53_record.minio_server_api.fqdn}"
+    s3_server_url           = "https://${aws_route53_record.minio_server_legacy.fqdn}"
     backup_ebs_volume_id    = aws_instance.gitlab_server.ebs_block_device.*.volume_id[0]
   }
 }
