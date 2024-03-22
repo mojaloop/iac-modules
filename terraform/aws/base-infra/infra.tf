@@ -37,7 +37,7 @@ module "subnet_addrs" {
 
   base_cidr_block = var.vpc_cidr
   networks = [
-    for subnet in concat(local.private_subnets_list, local.public_subnets_list) : {
+    for subnet in local.subnet_list : {
       name     = subnet
       new_bits = var.block_size
     }
