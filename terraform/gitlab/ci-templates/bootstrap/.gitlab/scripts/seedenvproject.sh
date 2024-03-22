@@ -43,7 +43,7 @@ if  [ !  -d custom-config ]; then
    echo "pm4mls:
 - pm4ml: pm4mltest1
   pm4ml_enabled: false
-"> custom-config/pm4mls-vars.yaml
+"> custom-config/pm4ml-vars.yaml
 fi
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
