@@ -242,7 +242,7 @@ resource "aws_route53_record" "validation_records" {
   # This would need updated to include alternative domains in different hosted zones
   zone_id = local.public_hosted_zone.id
 
-  # tags not supported
+
 }
 
 resource "aws_acm_certificate_validation" "certificate_validation" {
@@ -269,7 +269,7 @@ locals {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
-    }
+    } if dvo.domain_name != module.base_infra.public_zone.name
   }
   public_hosted_zone = module.base_infra.public_zone
 }
