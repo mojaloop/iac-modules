@@ -265,7 +265,7 @@ locals {
   subject_alternative_names = slice(local.domain_names, 1, length(local.domain_names))
 
   validation_options_by_index = {
-    for dvo in aws_acm_certificate.certificate.domain_validation_options : index(local.domain_names, dvo.domain_name) => {
+    for dvo in aws_acm_certificate.wildcard_cert.domain_validation_options : index(local.domain_names, dvo.domain_name) => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
