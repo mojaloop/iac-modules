@@ -142,10 +142,10 @@ scheme-adapter:
       CACHE_URL: redis://${redis_host}:${redis_port}
       AUTO_ACCEPT_QUOTES: false
       AUTO_ACCEPT_PARTY: false
-      AUTO_ACCEPT_R2P_PARTY=false
-      AUTO_ACCEPT_R2P_BUSINESS_QUOTES=false
-      AUTO_ACCEPT_R2P_DEVICE_OTP=false
-      AUTO_ACCEPT_PARTICIPANTS_PUT=false
+      AUTO_ACCEPT_R2P_PARTY: false
+      AUTO_ACCEPT_R2P_BUSINESS_QUOTES: false
+      AUTO_ACCEPT_R2P_DEVICE_OTP: false
+      AUTO_ACCEPT_PARTICIPANTS_PUT: false
       JWS_SIGN: true
       VALIDATE_INBOUND_JWS: true
       PEER_ENDPOINT: "${pm4ml_external_switch_fqdn}"
