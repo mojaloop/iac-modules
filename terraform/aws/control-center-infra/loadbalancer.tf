@@ -246,7 +246,7 @@ resource "aws_route53_record" "validation_records" {
 }
 
 resource "aws_acm_certificate_validation" "certificate_validation" {
-  certificate_arn         = aws_acm_certificate.certificate.arn
+  certificate_arn         = aws_acm_certificate.wildcard_cert.arn
   validation_record_fqdns = [for record in aws_route53_record.validation_records : record.fqdn]
 
   # tags not supported
