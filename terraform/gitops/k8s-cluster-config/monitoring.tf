@@ -38,6 +38,9 @@ module "generate_monitoring_files" {
     loki_ingester_retention_period       = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     prometheus_retention_period          = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                 = try(var.common_var_map.alertmanager_enabled, false)
+    loki_minio_endpoint                  = "haproxy.${var.cluster_name}.devbaremetal.moja-onprem.net:9000" # TODO: how do we parametrize it properly? 
+    loki_minio_bucket                    = "${var.cluster_name}-loki"
+    minio_loki_secret_credentials_ref    = "${var.cluster_name}/minio-loki-secret-credentials"
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
