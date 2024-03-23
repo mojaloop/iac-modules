@@ -40,7 +40,7 @@ module "generate_monitoring_files" {
     alertmanager_enabled                 = try(var.common_var_map.alertmanager_enabled, false)
     loki_minio_endpoint                  = "haproxy.${var.cluster_name}.devbaremetal.moja-onprem.net:9000" # TODO: how do we parametrize it properly? 
     loki_minio_bucket                    = "${var.cluster_name}-loki"
-    minio_loki_secret_credentials_ref    = "${var.cluster_name}/minio-loki-secret-credentials"
+    minio_loki_secret_credentials_ref    = "${var.cluster_name}/minio-loki-credentials"
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path

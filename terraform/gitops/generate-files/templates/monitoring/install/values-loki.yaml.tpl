@@ -8,7 +8,6 @@ loki:
         shared_store: s3
       aws:
         s3forcepathstyle: true
-        # TODO: check how the minio url will be formatted
         endpoint: ${loki_minio_endpoint}
         insecure: true
         access_key_id: $${MINIO_LOKI_USERNAME}
@@ -19,7 +18,7 @@ ingester:
     size: ${loki_ingester_pvc_size}
     storageClass: ${storage_class_name}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: loki-credentials-secret
+  extraEnvVarsSecret: minio-loki-credentials
 
 promtail:
   tolerations:  

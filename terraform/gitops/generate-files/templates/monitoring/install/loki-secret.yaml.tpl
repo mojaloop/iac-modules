@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: loki-credentials-secret
+  name: minio-loki-credentials
   annotations:
     argocd.argoproj.io/sync-wave: "-11"
 spec:
@@ -12,7 +12,7 @@ spec:
     name: tenant-vault-secret-store
 
   target:
-    name: loki-credentials-secret # Name for the secret to be created on the cluster
+    name: minio-loki-credentials # Name for the secret to be created on the cluster
     creationPolicy: Owner
 
   data:
