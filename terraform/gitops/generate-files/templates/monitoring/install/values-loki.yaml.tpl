@@ -11,8 +11,8 @@ loki:
         # TODO: check how the minio url will be formatted
         endpoint: ${loki_minio_endpoint}
         insecure: true
-        access_key_id: `${MINIO_LOKI_USERNAME}`
-        secret_access_key: `${MINIO_LOKI_PASSWORD}`
+        access_key_id: $${MINIO_LOKI_USERNAME}
+        secret_access_key: $${MINIO_LOKI_PASSWORD}
         bucketnames: ${loki_minio_bucket}      
 ingester:
   persistence:
