@@ -56,7 +56,7 @@ resource "gitlab_project_variable" "minio_loki_bucket" {
   for_each  = var.env_map
   project   = gitlab_project.envs[each.key].id
   key       = "minio_loki_bucket"
-  value     = minio_s3_bucket.loki-s3-bucket[each.key].name
+  value     = minio_s3_bucket.loki-s3-bucket[each.key].id
   protected = false
   masked    = false
 }
@@ -128,7 +128,7 @@ resource "gitlab_project_variable" "minio_longhorn_bucket" {
   for_each  = var.env_map
   project   = gitlab_project.envs[each.key].id
   key       = "minio_longhorn_bucket"
-  value     = minio_s3_bucket.longhorn-s3-bucket[each.key].name
+  value     = minio_s3_bucket.longhorn-s3-bucket[each.key].id
   protected = false
   masked    = false
 }
