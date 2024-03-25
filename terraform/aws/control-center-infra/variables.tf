@@ -148,6 +148,12 @@ variable "gitlab_minio_user" {
   description = "Gitlab user to access minio"
 }
 
+variable "minio_root_user" {
+  type       = string
+  default    = "admin"
+  description = "Admin user to access minio"
+}
+
 variable "vault_listening_port" {
   type       = number
   default    = 8200
