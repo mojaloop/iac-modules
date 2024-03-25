@@ -19,7 +19,7 @@ output "minio_root_password" {
   value     = random_password.minio_root_password.result
 }
 
-output "minio_root_user " {
+output "minio_root_user" {
   sensitive = true
   value     = var.minio_root_user
 }
