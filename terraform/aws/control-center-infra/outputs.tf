@@ -72,7 +72,7 @@ output "minio_fqdn" {
 }
 
 output "minio_server_url" {
-  value           = "http://${aws_route53_record.minio_server_private.fqdn}:${var.minio_listening_port}"
+  value           = "${aws_route53_record.minio_server_private.fqdn}:${var.minio_listening_port}"
 }
 
 output "tenant_vault_listening_port" {
