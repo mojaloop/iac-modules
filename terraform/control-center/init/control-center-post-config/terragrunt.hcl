@@ -29,6 +29,9 @@ dependency "control_center_deploy" {
       netmaker_host_name = "test"
       netmaker_api_host  = "test"
     }
+    minio_server_url      = "temporary-dummy-id"
+    minio_root_user       = "temporary-dummy-id"
+    minio_root_password   = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "deep_map_only"
