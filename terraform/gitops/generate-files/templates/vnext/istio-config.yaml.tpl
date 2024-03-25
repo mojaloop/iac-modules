@@ -60,7 +60,7 @@ spec:
             prefix: /participants
       route:
         - destination:
-            host: ${mojaloop_release_name}-account-lookup-service
+            host: ${vnext_release_name}-account-lookup-service
             port:
               number: 80
     - name: parties
@@ -69,7 +69,7 @@ spec:
             prefix: /parties
       route:
         - destination:
-            host: ${mojaloop_release_name}-account-lookup-service
+            host: ${vnext_release_name}-account-lookup-service
             port:
               number: 80
     - name: quotes
@@ -78,7 +78,7 @@ spec:
             prefix: /quotes
       route:
         - destination:
-            host: ${mojaloop_release_name}-quoting-service
+            host: ${vnext_release_name}-quoting-service
             port:
               number: 80
     - name: transfers
@@ -87,7 +87,7 @@ spec:
             prefix: /transfers
       route:
         - destination:
-            host: ${mojaloop_release_name}-ml-api-adapter-service
+            host: ${vnext_release_name}-ml-api-adapter-service
             port:
               number: 80
 %{ if bulk_enabled ~}
@@ -97,7 +97,7 @@ spec:
             prefix: /bulkQuotes
       route:
         - destination:
-            host: ${mojaloop_release_name}-quoting-service
+            host: ${vnext_release_name}-quoting-service
             port:
               number: 80
     - name: bulkTransfers
@@ -106,7 +106,7 @@ spec:
             prefix: /bulkTransfers
       route:
         - destination:
-            host: ${mojaloop_release_name}-bulk-api-adapter-service
+            host: ${vnext_release_name}-bulk-api-adapter-service
             port:
               number: 80
 %{ endif ~}
@@ -116,7 +116,7 @@ spec:
             prefix: /transactionRequests
       route:
         - destination:
-            host: ${mojaloop_release_name}-transaction-requests-service
+            host: ${vnext_release_name}-transaction-requests-service
             port:
               number: 80
     - name: authorizations
@@ -125,7 +125,7 @@ spec:
             prefix: /authorizations
       route:
         - destination:
-            host: ${mojaloop_release_name}-transaction-requests-service
+            host: ${vnext_release_name}-transaction-requests-service
             port:
               number: 80
 ---
@@ -145,7 +145,7 @@ spec:
             prefix: /participants
       route:
         - destination:
-            host: ${mojaloop_release_name}-account-lookup-service
+            host: ${vnext_release_name}-account-lookup-service
             port:
               number: 80
     - name: parties
@@ -154,7 +154,7 @@ spec:
             prefix: /parties
       route:
         - destination:
-            host: ${mojaloop_release_name}-account-lookup-service
+            host: ${vnext_release_name}-account-lookup-service
             port:
               number: 80
     - name: quotes
@@ -163,7 +163,7 @@ spec:
             prefix: /quotes
       route:
         - destination:
-            host: ${mojaloop_release_name}-quoting-service
+            host: ${vnext_release_name}-quoting-service
             port:
               number: 80
     - name: transfers
@@ -172,7 +172,7 @@ spec:
             prefix: /transfers
       route:
         - destination:
-            host: ${mojaloop_release_name}-ml-api-adapter-service
+            host: ${vnext_release_name}-ml-api-adapter-service
             port:
               number: 80
 %{ if bulk_enabled ~}
@@ -182,7 +182,7 @@ spec:
             prefix: /bulkQuotes
       route:
         - destination:
-            host: ${mojaloop_release_name}-quoting-service
+            host: ${vnext_release_name}-quoting-service
             port:
               number: 80
     - name: bulkTransfers
@@ -191,7 +191,7 @@ spec:
             prefix: /bulkTransfers
       route:
         - destination:
-            host: ${mojaloop_release_name}-bulk-api-adapter-service
+            host: ${vnext_release_name}-bulk-api-adapter-service
             port:
               number: 80
 %{ endif ~}
@@ -201,7 +201,7 @@ spec:
             prefix: /transactionRequests
       route:
         - destination:
-            host: ${mojaloop_release_name}-transaction-requests-service
+            host: ${vnext_release_name}-transaction-requests-service
             port:
               number: 80
     - name: authorizations
@@ -210,7 +210,7 @@ spec:
             prefix: /authorizations
       route:
         - destination:
-            host: ${mojaloop_release_name}-transaction-requests-service
+            host: ${vnext_release_name}-transaction-requests-service
             port:
               number: 80
     - name: central-admin
@@ -221,7 +221,7 @@ spec:
         uri: /
       route:
         - destination:
-            host: ${mojaloop_release_name}-centralledger-service
+            host: ${vnext_release_name}-centralledger-service
             port:
               number: 80
     - name: als-admin
@@ -232,17 +232,17 @@ spec:
         uri: /
       route:
         - destination:
-            host: ${mojaloop_release_name}-account-lookup-service-admin
+            host: ${vnext_release_name}-account-lookup-service-admin
             port:
               number: 80
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: mojaloop-ttkfront-vs
+  name: vnext-ttkfront-vs
 spec:
   gateways:
-%{ if mojaloop_wildcard_gateway == "external" ~}
+%{ if vnext_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -255,17 +255,17 @@ spec:
             prefix: /
       route:
         - destination:
-            host: ${mojaloop_release_name}-ml-testing-toolkit-frontend
+            host: ${vnext_release_name}-ml-testing-toolkit-frontend
             port:
               number: 6060
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: mojaloop-ttkback-vs
+  name: vnext-ttkback-vs
 spec:
   gateways:
-%{ if mojaloop_wildcard_gateway == "external" ~}
+%{ if vnext_wildcard_gateway == "external" ~}
   - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
 %{ else ~}
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
@@ -279,7 +279,7 @@ spec:
             prefix: /api/
       route:
         - destination:
-            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+            host: ${vnext_release_name}-ml-testing-toolkit-backend
             port:
               number: 5050
     - name: socket
@@ -288,7 +288,7 @@ spec:
             prefix: /socket.io/
       route:
         - destination:
-            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+            host: ${vnext_release_name}-ml-testing-toolkit-backend
             port:
               number: 5050
     - name: root
@@ -297,13 +297,14 @@ spec:
             prefix: /
       route:
         - destination:
-            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+            host: ${vnext_release_name}-ml-testing-toolkit-backend
             port:
               number: 4040
 ---
 %{ endif ~}
 
----
+{{- /*
+ ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -357,7 +358,7 @@ spec:
         uri: /v2/
       route:
         - destination:
-            host: ${mojaloop_release_name}-centralsettlement-service
+            host: ${vnext_release_name}-centralsettlement-service
             port:
               number: 80
     - name: reports
@@ -475,3 +476,5 @@ spec:
             paths:
               - /api/*
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
+ 
+*/ -}}
