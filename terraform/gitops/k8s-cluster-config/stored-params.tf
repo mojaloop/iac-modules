@@ -58,12 +58,7 @@ data "gitlab_project_variable" "external_stateful_resource_instance_address" {
 
 data "gitlab_project_variable" "minio_loki_bucket" {
   project = var.current_gitlab_project_id
-  key     = var.properties_key_map["minio_loki_bucket"]
-}
-
-data "gitlab_project_variable" "minio_loki_user" {
-  project = var.current_gitlab_project_id
-  key     = var.properties_key_map["minio_loki_user"]
+  key     = "minio_loki_bucket"
 }
 
 data "vault_generic_secret" "external_stateful_resource_password" {

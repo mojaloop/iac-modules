@@ -97,24 +97,9 @@ variable "dns_provider" {
   description = "provider for ext dns"
 }
 
-variable "minio_loki_user" {
-  description = "minio username for loki"
-}
-
-variable "minio_loki_bucket" {
-  description = "minio bucket name for loki"
-}
-
-variable "minio_longhorn_user" {
-  description = "minio username for longhorn"
-}
-
-variable "minio_longhorn_bucket" {
-  description = "minio bucket name for longhorn"
-}
-
 variable "minio_api_url" {
-  description = "Url for minio api access"
+  type        = string
+  description = "minio_api_url"
 }
 
 locals {
@@ -132,4 +117,5 @@ locals {
   external_dns_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
   longhorn_backups_credentials_secret_provider_key = var.secrets_key_map["longhorn_backups_cred_secret_key"]
   longhorn_backups_credentials_id_provider_key     = var.secrets_key_map["longhorn_backups_cred_id_key"]
+  minio_loki_bucket                                = data.gitlab_project_variable.minio_loki_bucket
 }
