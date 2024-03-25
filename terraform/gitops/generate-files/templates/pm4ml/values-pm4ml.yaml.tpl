@@ -266,7 +266,7 @@ ttk:
   ml-testing-toolkit-frontend:
     image:
       repository: mojaloop/ml-testing-toolkit-ui
-      tag: v15.4.2
+      tag: v15.5.0-snapshot.0
     ingress:
       enabled: false
     nameOverride: ttk-frontend
