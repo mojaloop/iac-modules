@@ -151,7 +151,8 @@ primary:
     log-error=/opt/bitnami/mysql/logs/mysqld.log
     character-set-server=UTF8
     collation-server=utf8_general_ci
-    slow_query_log=0
+    general_log=${resource.local_resource_config.mysql_data.general_log}
+    slow_query_log=${resource.local_resource_config.mysql_data.slow_query_log}
     slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
     long_query_time=10.0
     innodb_use_native_aio=0
@@ -459,7 +460,8 @@ secondary:
     log-error=/opt/bitnami/mysql/logs/mysqld.log
     character-set-server=UTF8
     collation-server=utf8_general_ci
-    slow_query_log=0
+    general_log=${resource.local_resource_config.mysql_data.general_log}
+    slow_query_log=${resource.local_resource_config.mysql_data.slow_query_log}
     slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
     long_query_time=10.0
     innodb_use_native_aio=0
