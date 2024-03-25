@@ -40,7 +40,7 @@ resource "minio_iam_policy" "loki-iam-policy" {
 EOF
 }
 
-resource "vault_kv_secret_v2" "minio-loki-secret" {
+resource "vault_kv_secret_v2" "minio-loki-password" {
   for_each            = var.env_map
   mount               = vault_mount.kv_secret.path
   name                = "${each.key}/minio_loki_password"
@@ -61,13 +61,16 @@ resource "gitlab_project_variable" "minio_loki_bucket" {
   masked    = false
 }
 
-resource "gitlab_project_variable" "minio_loki_user" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "minio_loki_user"
-  value     = minio_iam_user.loki-user[each.key].name
-  protected = false
-  masked    = false
+resource "vault_kv_secret_v2" "minio-loki-username" {
+  for_each            = var.env_map
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/minio_loki_username"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = minio_iam_user.loki-user[each.key].name
+    }
+  )
 }
 
 # longhorn bucket , user and access policy 
@@ -133,11 +136,14 @@ resource "gitlab_project_variable" "minio_longhorn_bucket" {
   masked    = false
 }
 
-resource "gitlab_project_variable" "minio_longhorn_user" {
-  for_each  = var.env_map
-  project   = gitlab_project.envs[each.key].id
-  key       = "minio_longhorn_user"
-  value     = minio_iam_user.longhorn-user[each.key].name
-  protected = false
-  masked    = false
+resource "vault_kv_secret_v2" "minio-longhorn-username" {
+  for_each            = var.env_map
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/minio_longhorn_username"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = minio_iam_user.longhorn-user[each.key].name
+    }
+  )
 }
