@@ -116,5 +116,10 @@ provider "gitlab" {
   token = "${dependency.control_center_deploy.outputs.gitlab_root_token}"
   base_url = "https://${dependency.control_center_deploy.outputs.gitlab_server_hostname}"
 }
+provider minio {
+  minio_server   = "${dependency.control_center_deploy.outputs.minio_server_url}"
+  minio_user     = "${dependency.control_center_deploy.outputs.minio_root_user}"
+  minio_password = "${dependency.control_center_deploy.outputs.minio_root_password}"
+}
 EOF
 }
