@@ -38,10 +38,9 @@ module "generate_monitoring_files" {
     loki_ingester_retention_period       = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     prometheus_retention_period          = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                 = try(var.common_var_map.alertmanager_enabled, false)
-    # loki_minio_endpoint                  = "haproxy.${var.cluster_name}.devbaremetal.moja-onprem.net:9000" # TODO: how do we parametrize it properly? 
     loki_minio_endpoint                  = try(var.common_var_map.loki_minio_endpoint, local.loki_minio_endpoint)
-    loki_minio_bucket                    = "${var.cluster_name}-loki"
-    minio_loki_secret_credentials_ref    = "${var.cluster_name}/minio-loki-credentials"
+    loki_minio_bucket                    = try(var.common_var_map.loki_minio_bucket, local.loki_minio_bucket)
+    minio_loki_secret_credentials_ref    = try(var.common_var_map.minio_loki_secret_credentials_ref, local.minio_loki_secret_credentials_ref)
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -96,19 +95,21 @@ variable "monitoring_namespace" {
 }
 
 locals {
-  grafana_wildcard_gateway         = var.grafana_ingress_internal_lb ? "internal" : "external"
-  loki_release_name                = "loki"
-  prometheus_operator_release_name = "prom"
-  loki_chart_version               = "2.13.0"
-  prometheus_operator_version      = "8.22.8"
-  tempo_chart_version              = "2.6.0"
-  grafana_version                  = "10.2.3"
-  grafana_operator_version         = "3.5.11"
-  monitoring_template_path         = "${path.module}/../generate-files/templates/monitoring"
-  monitoring_app_file              = "monitoring-app.yaml"
-  loki_ingester_pvc_size           = "50Gi"
-  prometheus_pvc_size              = "50Gi"
-  loki_ingester_retention_period   = "72h"
-  prometheus_retention_period      = "10d"
-  loki_minio_endpoint = "haproxy.${var.cluster_name}.devbaremetal.moja-onprem.net:9000"
+  grafana_wildcard_gateway          = var.grafana_ingress_internal_lb ? "internal" : "external"
+  loki_release_name                 = "loki"
+  prometheus_operator_release_name  = "prom"
+  loki_chart_version                = "2.13.0"
+  prometheus_operator_version       = "8.22.8"
+  tempo_chart_version               = "2.6.0"
+  grafana_version                   = "10.2.3"
+  grafana_operator_version          = "3.5.11"
+  monitoring_template_path          = "${path.module}/../generate-files/templates/monitoring"
+  monitoring_app_file               = "monitoring-app.yaml"
+  loki_ingester_pvc_size            = "50Gi"
+  prometheus_pvc_size               = "50Gi"
+  loki_ingester_retention_period    = "72h"
+  prometheus_retention_period       = "10d"
+  loki_minio_endpoint               = "haproxy.${var.cluster_name}.devbaremetal.moja-onprem.net:9000"
+  loki_minio_bucket                 = "${var.cluster_name}-loki"
+  minio_loki_secret_credentials_ref = "${var.cluster_name}/minio-loki-credentials"
 }
