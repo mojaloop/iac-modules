@@ -78,6 +78,7 @@ inputs = {
   kv_path                                  = local.KV_SECRET_PATH
   transit_vault_key_name                   = local.TRANSIT_VAULT_UNSEAL_KEY_NAME
   transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
+  minio_api_url                            = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:9002"
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
   rbac_api_resources_file                  = local.common_vars.mojaloop_enabled ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""

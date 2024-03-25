@@ -97,6 +97,26 @@ variable "dns_provider" {
   description = "provider for ext dns"
 }
 
+variable "minio_loki_user" {
+  description = "minio username for loki"
+}
+
+variable "minio_loki_bucket" {
+  description = "minio bucket name for loki"
+}
+
+variable "minio_longhorn_user" {
+  description = "minio username for longhorn"
+}
+
+variable "minio_longhorn_bucket" {
+  description = "minio bucket name for longhorn"
+}
+
+variable "minio_api_url" {
+  description = "Url for minio api access"
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value

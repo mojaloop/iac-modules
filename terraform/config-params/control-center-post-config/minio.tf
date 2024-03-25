@@ -52,6 +52,23 @@ resource "vault_kv_secret_v2" "minio-loki-secret" {
   )
 }
 
+resource "gitlab_project_variable" "minio_loki_bucket" {
+  for_each  = var.env_map
+  project   = gitlab_project.envs[each.key].id
+  key       = "minio_loki_bucket"
+  value     = minio_s3_bucket.loki-s3-bucket[each.key].name
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "minio_loki_user" {
+  for_each  = var.env_map
+  project   = gitlab_project.envs[each.key].id
+  key       = "minio_loki_user"
+  value     = minio_iam_user.loki-user[each.key].name
+  protected = false
+  masked    = false
+}
 
 # longhorn bucket , user and access policy 
 resource "minio_s3_bucket" "longhorn-s3-bucket" {
@@ -105,4 +122,22 @@ resource "vault_kv_secret_v2" "minio-longhorn-secret" {
       value = random_password.minio_longhorn_password[each.key].result
     }
   )
+}
+
+resource "gitlab_project_variable" "minio_lonhorn_bucket" {
+  for_each  = var.env_map
+  project   = gitlab_project.envs[each.key].id
+  key       = "minio_lonhorn_bucket"
+  value     = minio_s3_bucket.lonhorn-s3-bucket[each.key].name
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "minio_lonhorn_user" {
+  for_each  = var.env_map
+  project   = gitlab_project.envs[each.key].id
+  key       = "minio_lonhorn_user"
+  value     = minio_iam_user.lonhorn-user[each.key].name
+  protected = false
+  masked    = false
 }
