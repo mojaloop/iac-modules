@@ -124,20 +124,20 @@ resource "vault_kv_secret_v2" "minio-longhorn-secret" {
   )
 }
 
-resource "gitlab_project_variable" "minio_lonhorn_bucket" {
+resource "gitlab_project_variable" "minio_longhorn_bucket" {
   for_each  = var.env_map
   project   = gitlab_project.envs[each.key].id
-  key       = "minio_lonhorn_bucket"
-  value     = minio_s3_bucket.lonhorn-s3-bucket[each.key].name
+  key       = "minio_longhorn_bucket"
+  value     = minio_s3_bucket.longhorn-s3-bucket[each.key].name
   protected = false
   masked    = false
 }
 
-resource "gitlab_project_variable" "minio_lonhorn_user" {
+resource "gitlab_project_variable" "minio_longhorn_user" {
   for_each  = var.env_map
   project   = gitlab_project.envs[each.key].id
-  key       = "minio_lonhorn_user"
-  value     = minio_iam_user.lonhorn-user[each.key].name
+  key       = "minio_longhorn_user"
+  value     = minio_iam_user.longhorn-user[each.key].name
   protected = false
   masked    = false
 }
