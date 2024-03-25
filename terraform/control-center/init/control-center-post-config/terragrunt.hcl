@@ -106,6 +106,10 @@ terraform {
       version = "${local.common_vars.gitlab_provider_version}"
     }
     vault = "${local.common_vars.vault_provider_version}"
+    minio = {
+      source = "aminueza/minio"
+      version = "${local.common_vars.minio_provider_version}" 
+    }
   }
 }
 provider "vault" {
