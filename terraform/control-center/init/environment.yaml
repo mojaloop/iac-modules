@@ -13,6 +13,7 @@ iac_group_name: iac_admin
 netmaker_version: 0.18.7
 letsencrypt_email: test@mojalabs.io
 delete_storage_on_term: true
+docker_server_extra_vol_size: 100
 envs:
   - env: dev
     domain: labsk8s604.mojaloop.live
