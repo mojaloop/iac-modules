@@ -120,7 +120,7 @@ if fileName == "pm4ml-vars.yaml":
     with open(outputFilename, 'w') as file:
         yaml.dump(mergedDict, file, indent=4 , default_flow_style=False)
 
-elif fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources.json" , "mojaloop-rbac-api-resources.yaml" ):
+elif fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources.json" , "mojaloop-rbac-api-resources.yaml","vnext-stateful-resources" ):
     mergeListOfDicts(data1, data2, fileName, outputFilename, defaultExt)
 
 elif defaultExt == ".yaml":
