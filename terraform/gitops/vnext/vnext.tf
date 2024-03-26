@@ -35,8 +35,8 @@ module "generate_vnext_files" {
     vnext_mongodb_host                       = "${local.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     vnext_mongodb_existing_secret            = local.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.user_password_secret
     vnext_mongodb_port                       = local.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.logical_service_port
-    vnext_mongodb_existing_secret_vault_path = local.stateful_resources[local.vnext_mongodb_resource_index].logical_resource_config.generate_secret_vault_base_path # this should go away once vnext supports passing fine grained mongo config
-    vnext_mongodb_resource_name              = "vnext-mongodb"                                                                                                      ## this goes away as well
+    vnext_mongodb_existing_secret_vault_path = local.stateful_resources[local.vnext_mongodb_resource_index].local_resource_config.generate_secret_vault_base_path # this should go away once vnext supports passing fine grained mongo config
+    vnext_mongodb_resource_name              = "vnext-mongodb"                                                                                                    ## this goes away as well
     keto_read_url                            = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     keto_write_url                           = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     kratos_service_name                      = "kratos-public.${var.ory_namespace}.svc.cluster.local"
