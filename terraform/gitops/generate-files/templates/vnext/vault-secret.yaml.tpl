@@ -2,7 +2,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${mongo_url_secret_name}
+  name: ${vnext_mongo_url_secret_name}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -16,7 +16,7 @@ spec:
       name: secret
       path: ${vnext_mongodb_existing_secret_vault_path}/${vnext_mongodb_resource_name}/${vnext_mongodb_existing_secret}
   output:
-    name: ${mongo_url_secret_name}
+    name: ${vnext_mongo_url_secret_name}
     stringData:
       url: 'mongodb://${vnext_mongodb_user}:{{ .secret.password }}@${vnext_mongodb_host}:${vnext_mongodb_port}/${vnext_mongodb_database}'
     type: Opaque
