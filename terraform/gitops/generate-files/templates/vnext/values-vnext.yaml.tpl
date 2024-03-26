@@ -1,8 +1,6 @@
 # Custom YAML TEMPLATE Anchors
 CONFIG:
   ## KAFKA BACKEND
-  kafka_host: &KAFKA_HOST "${kafka_host}"
-  kafka_port: &KAFKA_PORT ${kafka_port}
   kafka_url: &KAFKA_URL "${kafka_host}:${kafka_port}"
   redis_host: &REDIS_HOST "${redis_host}"
   redis_port: &REDIS_PORT ${redis_port}
@@ -20,10 +18,14 @@ CONFIG:
 
 account-lookup-http-oracle-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
 account-lookup-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
@@ -35,6 +37,8 @@ account-lookup-svc:
 
 accounts-and-balances-builtin-ledger-grpc-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
     redis_host: *REDIS_HOST
@@ -48,6 +52,8 @@ accounts-and-balances-builtin-ledger-grpc-svc:
 
 accounts-and-balances-coa-grpc-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
     redis_host: *REDIS_HOST
@@ -61,24 +67,34 @@ accounts-and-balances-coa-grpc-svc:
 
 admin-ui:
   enabled: true
+  ingress:
+    enabled: false
 
 auditing-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
 
 authentication-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
 
 authorization-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
 
 fspiop-api-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
@@ -90,11 +106,15 @@ fspiop-api-svc:
 
 logging-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
 
 participants-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
@@ -106,11 +126,15 @@ participants-svc:
 
 platform-configuration-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
 
 quoting-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
@@ -122,6 +146,8 @@ quoting-svc:
 
 settlements-api-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
@@ -133,6 +159,8 @@ settlements-api-svc:
 
 settlements-command-handler-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
@@ -144,6 +172,8 @@ settlements-command-handler-svc:
 
 settlements-event-handler-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
@@ -155,6 +185,8 @@ settlements-event-handler-svc:
 
 transfers-api-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
@@ -166,6 +198,8 @@ transfers-api-svc:
 
 transfers-command-handler-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
@@ -177,6 +211,8 @@ transfers-command-handler-svc:
 
 transfers-event-handler-svc:
   enabled: true
+  ingress:
+    enabled: false
   env:
     kafka_url: *KAFKA_URL
   extraEnvs:
