@@ -101,7 +101,7 @@ variable "vnext_ingress_internal_lb" {
 variable "vnext_chart_repo" {
   description = "repo for vnext charts"
   type        = string
-  default     = "https://thitsax.github.io/vnext-charts/"
+  default     = "https://mojaloop.github.io/vn-helm/"
 }
 
 variable "vnext_namespace" {
