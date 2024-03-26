@@ -117,5 +117,5 @@ locals {
   external_dns_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
   longhorn_backups_credentials_secret_provider_key = var.secrets_key_map["longhorn_backups_cred_secret_key"]
   longhorn_backups_credentials_id_provider_key     = var.secrets_key_map["longhorn_backups_cred_id_key"]
-  minio_loki_bucket                                = data.gitlab_project_variable.minio_loki_bucket
+  minio_loki_bucket                                = data.gitlab_project_variable.minio_loki_bucket.value
 }
