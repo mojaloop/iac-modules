@@ -16,12 +16,6 @@ CONFIG:
     jwsSigningKeySecret: &JWS_SIGNING_KEY_SECRET
       name: ${jws_key_secret}
       key: ${jws_key_secret_private_key_key}
-%{ if mojaloop_tolerations != null ~}
-  tolerations: &MOJALOOP_TOLERATIONS
-    ${indent(4, mojaloop_tolerations)}
-%{ else ~}
-    tolerations: &MOJALOOP_TOLERATIONS []
-%{ endif ~}
 
 
 account-lookup-http-oracle-svc:
