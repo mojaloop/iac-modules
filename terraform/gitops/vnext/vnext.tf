@@ -11,6 +11,7 @@ module "generate_vnext_files" {
     int_interop_switch_fqdn                  = var.internal_interop_switch_fqdn
     storage_class_name                       = var.storage_class_name
     vnext_sync_wave                          = var.vnext_sync_wave
+    vault_certman_secretname                 = var.vault_certman_secretname
     istio_create_ingress_gateways            = var.istio_create_ingress_gateways
     istio_external_gateway_name              = var.istio_external_gateway_name
     external_load_balancer_dns               = var.external_load_balancer_dns
