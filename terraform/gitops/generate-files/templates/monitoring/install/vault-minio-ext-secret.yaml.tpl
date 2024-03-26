@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: minio_credentials_ext_secret
+  name: ${minio_credentials_secret_name}
   annotations:
     argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
 spec:
