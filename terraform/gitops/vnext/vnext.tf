@@ -7,6 +7,8 @@ module "generate_vnext_files" {
     vnext_chart_version                      = try(var.app_var_map.vnext_chart_version, var.vnext_chart_version)
     vnext_release_name                       = var.vnext_release_name
     vnext_namespace                          = var.vnext_namespace
+    interop_switch_fqdn                      = var.external_interop_switch_fqdn
+    int_interop_switch_fqdn                  = var.internal_interop_switch_fqdn
     storage_class_name                       = var.storage_class_name
     vnext_sync_wave                          = var.vnext_sync_wave
     istio_create_ingress_gateways            = var.istio_create_ingress_gateways
