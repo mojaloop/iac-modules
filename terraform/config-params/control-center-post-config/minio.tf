@@ -40,6 +40,12 @@ resource "minio_iam_policy" "loki-iam-policy" {
 EOF
 }
 
+resource "minio_iam_user_policy_attachment" "loki-policy-attachment" {
+  for_each    = var.env_map
+  user_name   = minio_iam_user.loki-user[each.key].id
+  policy_name = minio_iam_policy.loki-iam-policy[each.key].id
+}
+
 resource "vault_kv_secret_v2" "minio-loki-password" {
   for_each            = var.env_map
   mount               = vault_mount.kv_secret.path
@@ -113,6 +119,12 @@ resource "minio_iam_policy" "longhorn-iam-policy" {
   ]
 }
 EOF
+}
+
+resource "minio_iam_user_policy_attachment" "longhorn-policy-attachment" {
+  for_each    = var.env_map
+  user_name   = minio_iam_user.longhorn-user[each.key].id
+  policy_name = minio_iam_policy.longhorn-iam-policy[each.key].id
 }
 
 resource "vault_kv_secret_v2" "minio-longhorn-secret" {
