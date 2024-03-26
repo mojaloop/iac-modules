@@ -18,9 +18,13 @@ spec:
   data:
     - secretKey: MINIO_LOKI_USERNAME
       remoteRef: 
+        conversionStrategy: Default	
+        decodingStrategy: None	
         key: ${minio_loki_user_key}
         property: value 
     - secretKey: MINIO_LOKI_PASSWORD
       remoteRef: 
+        conversionStrategy: Default	
+        decodingStrategy: None	      
         key: ${minio_loki_password_key}
-        property: value
+        property: value   
