@@ -11,3 +11,8 @@ helmCharts:
   repo: ${vnext_chart_repo}
   valuesFile: values-vnext.yaml
   namespace: ${vnext_namespace}
+- name: elasticsearch
+  releaseName: elasticsearch
+  version: 20.0.0
+  repo: https://charts.bitnami.com/bitnami
+  namespace: monitoring

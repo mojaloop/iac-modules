@@ -17,12 +17,20 @@ CONFIG:
 
 
 account-lookup-http-oracle-svc:
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   enabled: true
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
 account-lookup-svc:
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   enabled: true
   ingress:
     enabled: false
@@ -36,6 +44,10 @@ account-lookup-svc:
           key: *MONGO_URL_SECRET_KEY
 
 accounts-and-balances-builtin-ledger-grpc-svc:
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   enabled: true
   ingress:
     enabled: false
@@ -43,14 +55,12 @@ accounts-and-balances-builtin-ledger-grpc-svc:
     kafka_url: *KAFKA_URL
     redis_host: *REDIS_HOST
     redis_port: *REDIS_PORT
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
 
 accounts-and-balances-coa-grpc-svc:
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   enabled: true
   ingress:
     enabled: false
@@ -58,12 +68,6 @@ accounts-and-balances-coa-grpc-svc:
     kafka_url: *KAFKA_URL
     redis_host: *REDIS_HOST
     redis_port: *REDIS_PORT
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
 
 admin-ui:
   enabled: true
@@ -93,16 +97,14 @@ authorization-svc:
 
 fspiop-api-svc:
   enabled: true
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
 
 logging-svc:
   enabled: true
@@ -113,17 +115,15 @@ logging-svc:
 
 participants-svc:
   enabled: true
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
-
+  
 platform-configuration-svc:
   enabled: true
   ingress:
@@ -133,91 +133,77 @@ platform-configuration-svc:
 
 quoting-svc:
   enabled: true
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
 
 settlements-api-svc:
   enabled: true
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
-
+  
 settlements-command-handler-svc:
   enabled: true
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
 
 settlements-event-handler-svc:
   enabled: true
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
 
 transfers-api-svc:
   enabled: true
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
-
+  
 transfers-command-handler-svc:
   enabled: true
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
 
 transfers-event-handler-svc:
   enabled: true
+  config:
+    mongo_url_secret:
+      name: *MONGO_URL_SECRET_NAME
+      key: *MONGO_URL_SECRET_KEY
   ingress:
     enabled: false
   env:
     kafka_url: *KAFKA_URL
-  extraEnvs:
-    - name: MONGO_URL
-      valueFrom:
-        secretKeyRef:
-          name: *MONGO_URL_SECRET_NAME
-          key: *MONGO_URL_SECRET_KEY
