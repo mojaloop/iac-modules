@@ -1,4 +1,4 @@
-vnext_chart_version: v0.0.2
+vnext_chart_version: v0.0.3
 mcm_chart_version: 0.7.7
 mcm_ingress_internal_lb: false
 vnext_ingress_internal_lb: true
