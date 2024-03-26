@@ -43,6 +43,7 @@ module "generate_monitoring_files" {
     minio_loki_bucket                    = local.minio_loki_bucket
     minio_loki_user_key                  = "${var.cluster_name}/minio_loki_username"
     minio_loki_password_key              = "${var.cluster_name}/minio_loki_password"
+    external_secret_sync_wave            = var.external_secret_sync_wave
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
