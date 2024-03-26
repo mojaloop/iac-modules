@@ -7,8 +7,8 @@ CONFIG:
   redis_host: &REDIS_HOST "${redis_host}"
   redis_port: &REDIS_PORT ${redis_port}
 
-  mongo_url_secret_name: "${vnext_mongo_url_secret_name}" &MONGO_URL_SECRET_NAME
-  mongo_url_secret_key: "url" &MONGO_URL_SECRET_KEY
+  mongo_url_secret_name: &MONGO_URL_SECRET_NAME "${vnext_mongo_url_secret_name}"
+  mongo_url_secret_key: &MONGO_URL_SECRET_KEY "url"
 
 
   ## Endpiont Security
