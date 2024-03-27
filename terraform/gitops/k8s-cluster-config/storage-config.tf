@@ -11,7 +11,7 @@ module "generate_storage_files" {
     replica_count                                    = var.longhorn_replica_count
     longhorn_backups_credentials_id_provider_key     = "${var.cluster_name}/${local.longhorn_backups_credentials_id_provider_key}"
     longhorn_backups_credentials_secret_provider_key = "${var.cluster_name}/${local.longhorn_backups_credentials_secret_provider_key}"
-    minio_api_url                                    = ${var.minio_api_url}
+    minio_api_url                                    = var.minio_api_url
     gitlab_project_url                               = var.gitlab_project_url
     longhorn_namespace                               = var.longhorn_namespace
     external_secret_sync_wave                        = var.external_secret_sync_wave
