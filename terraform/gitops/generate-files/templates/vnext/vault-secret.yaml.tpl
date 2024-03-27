@@ -18,7 +18,7 @@ spec:
   output:
     name: ${vnext_mongo_url_secret_name}
     stringData:
-      url: 'mongodb://${vnext_mongodb_user}:{{ .secret.password }}@${vnext_mongodb_host}:${vnext_mongodb_port}/${vnext_mongodb_database}'
+      url: 'mongodb://${vnext_mongodb_user}:{{ .secret.password }}@${vnext_mongodb_host}:${vnext_mongodb_port}'
     type: Opaque
 ---
 apiVersion: cert-manager.io/v1
