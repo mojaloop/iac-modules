@@ -118,6 +118,75 @@ admin-ui:
   enabled: true
   ingress:
     enabled: false
+  nginx:
+    config: |-
+          server {
+              listen       4200;
+              server_name  localhost;
+
+              location / {
+                  root   /usr/share/nginx/html;
+                  index  index.html;
+                  try_files $uri$args $uri$args/ /index.html;
+              }
+
+            # proxy for rest apis - should match angular dev proxy.conf.json
+              location /auth_n {
+                rewrite /auth_n/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-authentication-svc:3201;
+            }
+
+              location /auth_z {
+                rewrite /auth_z/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-authorization-svc:3202;
+            }
+
+            location /_participants {
+              rewrite /_participants/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-participants-svc:3010;
+            }
+
+              location /_platform-configuration-svc {
+                rewrite /_platform-configuration-svc/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-platform-configuration-svc:3100;
+            }
+
+              location /_account-lookup {
+                rewrite /_account-lookup/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-account-lookup-svc:3030;
+            }
+
+              location /_interop {
+                rewrite /_interop/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-fspiop-api-svc:4000;
+            }
+
+            location /_quotes {
+              rewrite /_quotes/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-quoting-svc:3033;
+            }
+
+              location /_bulk-quotes {
+                rewrite /_bulk-quotes/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-quoting-svc:3033;
+            }
+
+              location /_transfers {
+              rewrite /_transfers/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-transfers-api-svc:3500;
+            }
+
+            location /_settlements {
+              rewrite /_settlements/(.*) /$1  break;
+              proxy_pass http://${vnext_release_name}-settlements-api-svc:3600;
+              proxy_http_version 1.1;
+            }
+
+              error_page   500 502 503 504  /50x.html;
+              location = /50x.html {
+                  root   /usr/share/nginx/html;
+              }
+          }
 
 auditing-svc:
   enabled: true
