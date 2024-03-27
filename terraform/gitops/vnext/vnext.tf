@@ -38,7 +38,7 @@ module "generate_vnext_files" {
     vnext_mongodb_host                   = "${local.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     vnext_mongodb_existing_secret        = local.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.user_password_secret
     vnext_mongodb_port                   = local.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.logical_service_port
-    vnext_mongo_secret_path              = "${local.stateful_resources[local.vnext_mongodb_resource_index].local_resource_config.generate_secret_vault_base_path}/${local.stateful_resources[local.vnext_mongodb_resource_index].resource_name}/${local.stateful_resources[local.vnext_mongodb_resource_index].local_resource_config.generate_secret_name}-password"
+    vnext_mongo_secret_path              = "${local.stateful_resources[local.vnext_mongodb_resource_index].local_resource_config.generate_secret_vault_base_path}/${local.stateful_resources[local.vnext_mongodb_resource_index].resource_name}/${local.stateful_resources[local.vnext_mongodb_resource_index].local_resource_config.generate_secret_name}-passwords"
     vnext_mongodb_resource_name          = "vnext-mongodb"
     vnext_mongo_url_secret_name          = "vnext-mongodb-url" ## this goes away as well
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
