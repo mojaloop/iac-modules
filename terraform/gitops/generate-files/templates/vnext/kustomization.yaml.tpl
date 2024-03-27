@@ -19,5 +19,5 @@ helmCharts:
 - name: ml-testing-toolkit
   releaseName: moja
   version: 17.4.0
-  repository: http://mojaloop.io/helm/repo
-  alias: ttk
+  repo: http://mojaloop.io/helm/repo
+  namespace: ${vnext_namespace}
