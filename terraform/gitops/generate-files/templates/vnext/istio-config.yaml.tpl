@@ -215,7 +215,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: ${vnext_release_name}-ml-testing-toolkit-frontend
+            host: moja-ml-testing-toolkit-frontend
             port:
               number: 6060
 ---
@@ -239,7 +239,7 @@ spec:
             prefix: /api/
       route:
         - destination:
-            host: ${vnext_release_name}-ml-testing-toolkit-backend
+            host: moja-ml-testing-toolkit-backend
             port:
               number: 5050
     - name: socket
@@ -248,7 +248,7 @@ spec:
             prefix: /socket.io/
       route:
         - destination:
-            host: ${vnext_release_name}-ml-testing-toolkit-backend
+            host: moja-ml-testing-toolkit-backend
             port:
               number: 5050
     - name: root
@@ -257,7 +257,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: ${vnext_release_name}-ml-testing-toolkit-backend
+            host: moja-ml-testing-toolkit-backend
             port:
               number: 4040
 ---
