@@ -16,3 +16,8 @@ helmCharts:
   version: 20.0.0
   repo: https://charts.bitnami.com/bitnami
   namespace: monitoring
+- name: ml-testing-toolkit
+  releaseName: moja
+  version: 17.4.0
+  repository: http://mojaloop.io/helm/repo
+  alias: ttk
