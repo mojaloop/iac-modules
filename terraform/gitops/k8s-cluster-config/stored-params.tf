@@ -61,6 +61,11 @@ data "gitlab_project_variable" "minio_loki_bucket" {
   key     = "minio_loki_bucket"
 }
 
+data "gitlab_project_variable" "minio_longhorn_bucket" {
+  project = var.current_gitlab_project_id
+  key     = "minio_longhorn_bucket"
+}
+
 data "vault_generic_secret" "external_stateful_resource_password" {
   for_each = local.managed_stateful_resources
   path = "${var.kv_path}/${var.cluster_name}/${each.value.external_resource_config.password_key_name}"
