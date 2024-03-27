@@ -4,6 +4,15 @@ resource "minio_s3_bucket" "loki-s3-bucket" {
   bucket   = "${each.key}-loki"
 }
 
+resource "minio_ilm_policy" "loki-bucket-lifecycle-rules" {
+  for_each = var.env_map
+  bucket = minio_s3_bucket.loki-s3-bucket[each.key].bucket
+  rule {
+    id         = "expire ${each.key}-loki"
+    expiration = var.loki_data_expiry
+  }
+}
+
 resource "random_password" "minio_loki_password" {
   for_each = var.env_map
   length   = 20
@@ -83,6 +92,15 @@ resource "vault_kv_secret_v2" "minio-loki-username" {
 resource "minio_s3_bucket" "longhorn-s3-bucket" {
   for_each = var.env_map
   bucket   = "${each.key}-longhorn-backup"
+}
+
+resource "minio_ilm_policy" "longhorn-bucket-lifecycle-rules" {
+  for_each = var.env_map
+  bucket = minio_s3_bucket.longhorn-s3-bucket[each.key].bucket
+  rule {
+    id         = "expire ${each.key}-longhorn"
+    expiration = var.longhorn_backup_data_expiry
+  }
 }
 
 resource "random_password" "minio_longhorn_password" {
