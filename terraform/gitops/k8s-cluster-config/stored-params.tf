@@ -13,10 +13,10 @@ data "gitlab_project_variable" "cloud_region" {
   key     = "CLOUD_REGION"
 }
 
-data "gitlab_project_variable" "longhorn_backups_bucket_name" {
-  project = var.current_gitlab_project_id
-  key     = var.properties_key_map["longhorn_backups_bucket_name_key"]
-}
+#data "gitlab_project_variable" "longhorn_backups_bucket_name" {
+#  project = var.current_gitlab_project_id
+#  key     = var.properties_key_map["longhorn_backups_bucket_name_key"]
+#}
 
 data "gitlab_project_variable" "cert_manager_credentials_client_secret_name" {
   project = var.current_gitlab_project_id

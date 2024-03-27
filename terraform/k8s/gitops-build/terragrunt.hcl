@@ -27,13 +27,13 @@ dependency "k8s_deploy" {
     target_group_external_https_port = 0
     target_group_external_http_port  = 0
     properties_key_map = {
-      longhorn_backups_bucket_name_key = "mock"
+#      longhorn_backups_bucket_name_key = "mock"
     }
     secrets_key_map = {
       external_dns_cred_id_key         = "mock"
       external_dns_cred_secret_key     = "mock"
-      longhorn_backups_cred_id_key     = "mock"
-      longhorn_backups_cred_secret_key = "mock"
+#      longhorn_backups_cred_id_key     = "mock"
+#      longhorn_backups_cred_secret_key = "mock"
     }
     haproxy_server_fqdn  = "null"
     private_network_cidr = ""
