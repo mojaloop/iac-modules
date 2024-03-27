@@ -14,7 +14,7 @@ spec:
         serviceAccount:
             name: default
       name: secret
-      path: ${vnext_mongodb_existing_secret_vault_path}/${vnext_mongodb_resource_name}/${vnext_mongodb_existing_secret}
+      path: ${vnext_mongo_secret_path}
   output:
     name: ${vnext_mongo_url_secret_name}
     stringData:
