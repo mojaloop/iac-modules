@@ -21,3 +21,4 @@ helmCharts:
   version: 17.4.0
   repo: http://mojaloop.io/helm/repo
   namespace: ${vnext_namespace}
+  valuesFile: values-ttk.yaml
