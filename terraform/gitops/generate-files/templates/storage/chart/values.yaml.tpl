@@ -16,7 +16,7 @@ longhorn:
     replicaAutoBalance: disabled
     autoDeletePodWhenVolumeDetachedUnexpectedly: true
     replicaReplenishmentWaitInterval: 360
-    taintToleration: ":"
+    taintToleration: ~
   enablePSP: false
 
 %{ if k8s_cluster_type == "microk8s" ~}
