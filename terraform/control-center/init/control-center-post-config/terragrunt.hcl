@@ -72,6 +72,8 @@ inputs = {
   netmaker_version    = local.env_vars.netmaker_version
   gitlab_admin_rbac_group          = local.env_vars.gitlab_admin_rbac_group
   gitlab_readonly_rbac_group       = local.env_vars.gitlab_readonly_rbac_group
+  loki_data_expiry                 = local.env_vars.loki_data_expiry
+  longhorn_backup_data_expiry      = local.env_vars.longhorn_backup_data_expiry  
 }
 
 locals {
