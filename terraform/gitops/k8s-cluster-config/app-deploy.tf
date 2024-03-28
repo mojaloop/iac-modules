@@ -319,8 +319,8 @@ locals {
     local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
   local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
 
-  vnext_internal_gateway_hosts = local.mojaloop_wildcard_gateway == "internal" ? [local.vnext_admin_ui_fqdn] : []
-  vnext_external_gateway_hosts = local.mojaloop_wildcard_gateway == "external" ? [local.vnext_admin_ui_fqdn] : []
+  vnext_internal_gateway_hosts = local.vnext_wildcard_gateway == "internal" ? [local.vnext_admin_ui_fqdn] : []
+  vnext_external_gateway_hosts = local.vnext_wildcard_gateway == "external" ? [local.vnext_admin_ui_fqdn] : []
 
   portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
   admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
