@@ -72,6 +72,8 @@
             "mysql_data": {
                 "is_legacy": false,
                 "existing_secret": "mysql-auth-svc-secret",
+                "general_log": 1,
+                "slow_query_log": 1,
                 "root_password": "",
                 "user": "auth-svc",
                 "user_password": "",
@@ -122,6 +124,8 @@
             "mysql_data": {
                 "is_legacy": false,
                 "existing_secret": "mysql-consent-oracle-secret",
+                "general_log": 1,
+                "slow_query_log": 1,
                 "root_password": "",
                 "user": "consent-oracle",
                 "user_password": "",
@@ -172,6 +176,8 @@
             "mysql_data": {
                 "is_legacy": false,
                 "existing_secret": "mcm-db-secret",
+                "general_log": 1,
+                "slow_query_log": 1,
                 "root_password": "",
                 "user": "devdat1asql1",
                 "user_password": "",
@@ -222,6 +228,8 @@
             "mysql_data": {
                 "is_legacy": false,
                 "existing_secret": "mysql-account-lookup-secret",
+                "general_log": 1,
+                "slow_query_log": 1,
                 "root_password": "",
                 "user": "account_lookup",
                 "user_password": "",
@@ -340,6 +348,8 @@
             "mysql_data": {
                 "is_legacy": false,
                 "existing_secret": "mysql-central-ledger-secret",
+                "general_log": 1,
+                "slow_query_log": 1,
                 "root_password": "",
                 "user": "central_ledger",
                 "user_password": "",
