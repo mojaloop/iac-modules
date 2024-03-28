@@ -179,6 +179,7 @@ module "vnext" {
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
+  vnext_admin_ui_fqdn                  = local.vnext_admin_ui_fqdn
 }
 
 variable "app_var_map" {
@@ -309,6 +310,7 @@ locals {
   ttk_backend_public_fqdn      = "ttkbackend.${var.public_subdomain}"
   finance_portal_fqdn          = "finance-portal.${var.public_subdomain}"
   argocd_fqdn                  = "argocd.${var.public_subdomain}"
+  vnext_admin_ui_fqdn          = "vnext-admin.${var.public_subdomain}"
 
   mojaloop_internal_gateway_hosts = concat([local.internal_interop_switch_fqdn],
     local.mojaloop_wildcard_gateway == "internal" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
@@ -316,6 +318,9 @@ locals {
   mojaloop_external_gateway_hosts = concat(
     local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
   local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
+
+  vnext_internal_gateway_hosts = local.mojaloop_wildcard_gateway == "internal" ? [local.vnext_admin_ui_fqdn] : []
+  vnext_external_gateway_hosts = local.mojaloop_wildcard_gateway == "external" ? [local.vnext_admin_ui_fqdn] : []
 
   portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
   admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
@@ -349,12 +354,14 @@ locals {
     local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
     local.grafana_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
     (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_internal_gateway_hosts : [],
-  var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [])
+    var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [],
+  var.common_var_map.vnext_enabled ? local.vnext_internal_gateway_hosts : [])
   external_gateway_hosts = concat([local.keycloak_fqdn, local.auth_fqdn, local.finance_portal_fqdn],
     local.argocd_wildcard_gateway == "external" ? [local.argocd_fqdn] : [],
     local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
     local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
     (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_external_gateway_hosts : [],
-  var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [])
+    var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [],
+  var.common_var_map.vnext_enabled ? local.vnext_external_gateway_hosts : [])
   bof_managed_portal_fqdns = (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? [local.finance_portal_fqdn, local.mcm_public_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_external_wildcard_admin_portal_hosts)
 }
