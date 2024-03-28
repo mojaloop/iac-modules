@@ -40,7 +40,7 @@ resource "minio_iam_policy" "loki-iam-policy" {
     {
       "Sid":"AccessEnvLokiBucket",
       "Effect": "Allow",
-      "Action": ["*"],
+      "Action": "s3:*",
       "Resource": ["${minio_s3_bucket.loki-s3-bucket[each.key].arn}"]
     }
   ]
@@ -129,7 +129,7 @@ resource "minio_iam_policy" "longhorn-iam-policy" {
     {
       "Sid":"AccessEnvlonghornBucket",
       "Effect": "Allow",
-      "Action": ["*"],
+      "Action": "s3:*",
       "Resource": ["${minio_s3_bucket.longhorn-s3-bucket[each.key].arn}"]
     }
   ]
