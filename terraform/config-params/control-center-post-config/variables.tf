@@ -70,3 +70,13 @@ variable "netmaker_host_name" {
 variable "netmaker_version" {
   description = "netmaker version"
 }
+
+variable "loki_data_expiry" {
+  description = "number of days to expire minio loki bucket data"
+  default = "7d"
+}
+
+variable "longhorn_backup_data_expiry" {
+  description = "number of days to expire minio longhorn bucket data"
+  default = "7d"
+}

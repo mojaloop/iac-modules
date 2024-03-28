@@ -13,10 +13,6 @@ data "gitlab_project_variable" "cloud_region" {
   key     = "CLOUD_REGION"
 }
 
-data "gitlab_project_variable" "longhorn_backups_bucket_name" {
-  project = var.current_gitlab_project_id
-  key     = var.properties_key_map["longhorn_backups_bucket_name_key"]
-}
 
 data "gitlab_project_variable" "cert_manager_credentials_client_secret_name" {
   project = var.current_gitlab_project_id
@@ -54,6 +50,16 @@ data "gitlab_project_variable" "external_stateful_resource_instance_address" {
   for_each = local.managed_stateful_resources
   project = var.current_gitlab_project_id
   key     = each.value.external_resource_config.instance_address_key_name
+}
+
+data "gitlab_project_variable" "minio_loki_bucket" {
+  project = var.current_gitlab_project_id
+  key     = "minio_loki_bucket"
+}
+
+data "gitlab_project_variable" "minio_longhorn_bucket" {
+  project = var.current_gitlab_project_id
+  key     = "minio_longhorn_bucket"
 }
 
 data "vault_generic_secret" "external_stateful_resource_password" {

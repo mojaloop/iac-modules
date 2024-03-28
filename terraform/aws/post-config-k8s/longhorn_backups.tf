@@ -1,3 +1,4 @@
+/*
 resource "aws_s3_bucket" "longhorn_backups" {
   bucket = "${local.base_domain}-lhbck"
   force_destroy = var.longhorn_backup_s3_destroy
@@ -51,3 +52,4 @@ resource "aws_iam_user_policy" "longhorn_backups" {
 }
 EOF
 }
+*/
