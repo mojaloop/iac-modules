@@ -1,0 +1,321 @@
+[
+    {
+        "enabled": true,
+        "resource_name": "mcm-db",
+        "resource_type": "mysql",
+        "external_service": false,
+        "logical_service_config": {
+            "logical_service_port": 3306,
+            "logical_service_name": "mcm-db-svc",
+            "username": "devdat1asql1",
+            "user_password_secret": "mcm-db-secret",
+            "user_password_secret_key": "mysql-password",
+            "secret_extra_namespaces": [
+                "mcm"
+            ],
+            "database_name": "mcm"
+        },
+        "local_resource_config": {
+            "resource_namespace": "mcm-db",
+            "override_service_name": "mysql-mcm-db",
+            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_chart": "mysql",
+            "resource_helm_chart_version": "9.7.0",
+            "resource_helm_values_ref": "values-mysql.yaml.tpl",
+            "generate_secret_name": "mcm-db-secret",
+            "generate_secret_keys": [
+                "mysql-password",
+                "mysql-root-password",
+                "mysql-replication-password"
+            ],
+            "generate_secret_vault_base_path": "/secret/generated",
+            "generate_secret_extra_namespaces": [
+                "mcm"
+            ],
+            "mysql_data": {
+                "is_legacy": false,
+                "existing_secret": "mcm-db-secret",
+                "root_password": "",
+                "user": "devdat1asql1",
+                "user_password": "",
+                "database_name": "mcm",
+                "storage_size": "8Gi",
+                "storage_class_name": "longhorn",
+                "architecture": "standalone",
+                "replica_count": 0,
+                "service_port": 3306,
+                "affinity_definition": null
+            }
+        },
+        "external_resource_config": {}
+    },
+    {
+        "enabled": true,
+        "resource_name": "vnext-mongodb",
+        "resource_type": "mongodb",
+        "external_service": false,
+        "logical_service_config": {
+            "logical_service_port": 27017,
+            "logical_service_name": "mongodb-vnext-mongodb",
+            "username": "mojaloop",
+            "user_password_secret": "mongodb-vnext-secret",
+            "user_password_secret_key": "mongodb-passwords",
+            "secret_extra_namespaces": [
+                "mojaloop"
+            ],
+            "database_name": "mojaloop"
+        },
+        "local_resource_config": {
+            "resource_namespace": "mojaloop",
+            "override_service_name": "mongodb-vnext-mongodb",
+            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_chart": "mongodb",
+            "resource_helm_chart_version": "13.3.1",
+            "resource_helm_values_ref": "values-mongodb.yaml.tpl",
+            "generate_secret_name": "mongodb-vnext-secret",
+            "generate_secret_keys": [
+                "mongodb-passwords",
+                "mongodb-root-password"
+            ],
+            "generate_secret_vault_base_path": "/secret/generated",
+            "generate_secret_extra_namespaces": [],
+            "generate_secret_special_chars": "_",
+            "mongodb_data": {
+                "existing_secret": "mongodb-vnext-secret",
+                "root_password": "",
+                "user": "mojaloop",
+                "user_password": "",
+                "database_name": "mojaloop",
+                "storage_size": "8Gi",
+                "storage_class_name": "longhorn",
+                "service_port": 27017
+            }
+        },
+        "external_resource_config": {}
+    },
+    {
+        "enabled": true,
+        "resource_name": "vnext-kafka",
+        "resource_type": "kafka",
+        "external_service": false,
+        "logical_service_config": {
+            "logical_service_port": 9092,
+            "logical_service_name": "vnext-kafka-svc",
+            "database_name": null,
+            "secret_extra_namespaces": []
+        },
+        "local_resource_config": {
+            "resource_namespace": "vnext",
+            "override_service_name": null,
+            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_chart": "kafka",
+            "resource_helm_chart_version": "26.5.0",
+            "resource_helm_values_ref": "values-kafka.yaml.tpl",
+            "generate_secret_name": null,
+            "generate_secret_keys": [],
+            "generate_secret_vault_base_path": null,
+            "generate_secret_extra_namespaces": [],
+            "kafka_provisioning": {
+                "enabled": true,
+                "topics": [
+                  {
+                    "name": "audits",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "logs",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "AccountLookupBcEvents",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "AccountLookupBcRequests",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "AccountLookupBcResponses",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "AccountLookupBcErrors",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "OperatorBcErrors",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "QuotingBcEvents",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "QuotingBcRequests",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "QuotingBcErrors",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "SettlementsBcEvents",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "SettlementsBcCommands",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "TransfersBcEvents",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "TransfersBcRequests",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "TransfersBcErrors",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "TransfersBcTimeouts",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  },
+                  {
+                    "name": "PlatformConfigurationBcEvents",
+                    "partitions": 1,
+                    "replicationFactor": 1
+                  }
+                ]
+            },
+            "kafka_data": {
+                "storage_size": "8Gi",
+                "storage_class_name": "longhorn",
+                "service_port": 9092,
+                "replica_count": 1,
+                "dataplane_affinity_definition": {
+                    "type": "soft",
+                    "key": "workload-class.mojaloop.io/KAFKA-DATA-PLANE",
+                    "values": ["enabled"]
+                },
+                "controlplane_affinity_definition": {
+                    "nodeAffinity": {
+                        "requiredDuringSchedulingIgnoredDuringExecution": {
+                        "nodeSelectorTerms": [
+                            {
+                            "matchExpressions": [
+                                {
+                                "key": "workload-class.mojaloop.io/KAFKA-CONTROL-PLANE",
+                                "operator": "In",
+                                "values": [
+                                    "enabled"
+                                ]
+                                }
+                            ]
+                            }
+                        ]
+                        }
+                    }
+                }
+            }
+        },
+        "external_resource_config": {
+            "name": "mks",
+            "kafka_version": "3.4.0",
+            "number_of_broker_nodes": 3,
+            "enhanced_monitoring": "PER_TOPIC_PER_PARTITION",
+            "broker_node_storage_info": {
+                "ebs_storage_info": {
+                    "volume_size": 100
+                }
+            },
+            "broker_node_instance_type": "kafka.t3.small",
+            "encryption_in_transit_client_broker": "TLS",
+            "encryption_in_transit_in_cluster": true,
+            "configuration_name": "example-configuration",
+            "configuration_description": "Example configuration",
+            "configuration_server_properties": {
+                "auto.create.topics.enable": true,
+                "delete.topic.enable": true
+            },
+            "jmx_exporter_enabled": true,
+            "node_exporter_enabled": true,
+            "cloudwatch_logs_enabled": false,
+            "s3_logs_enabled": false,
+            "s3_logs_bucket": "aws-msk-kafka-cluster-logs",
+            "s3_logs_prefix": "something",
+            "scaling_max_capacity": 512,
+            "scaling_target_value": 80,
+            "client_authentication": {
+                "sasl": {
+                    "scram": false
+                },
+                "unauthenticated": {
+                    "enabled": true
+                }
+            },
+            "create_scram_secret_association": false,
+            "scram_secret_association_secret_arn_list": [],
+            "tags": {
+                "Origin": "Terraform",
+                "mojaloop/cost_center": "mlf-iac-sandbox",
+                "mojaloop/env": "ft-sbox-rw",
+                "mojaloop/owner": "Samuel-Kummary"
+            }
+        }
+    },
+    {
+        "enabled": true,
+        "resource_name": "vnext-redis",
+        "resource_type": "redis",
+        "external_service": false,
+        "logical_service_config": {
+            "logical_service_port": 6379,
+            "logical_service_name": "vnext-redis",
+            "database_name": null,
+            "secret_extra_namespaces": []
+        },
+        "local_resource_config": {
+            "resource_namespace": "mojaloop",
+            "override_service_name": "redis-vnext-redis-master",
+            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_chart": "redis",
+            "resource_helm_chart_version": "17.3.7",
+            "resource_helm_values_ref": "values-redis.yaml.tpl",
+            "generate_secret_name": null,
+            "generate_secret_keys": null,
+            "generate_secret_vault_base_path": null,
+            "generate_secret_extra_namespaces": [],
+            "redis_data": {
+                "auth_enabled": false,
+                "existing_secret": "",
+                "existing_secret_key": "",
+                "user": "",
+                "user_password": "",
+                "storage_size": "8Gi",
+                "storage_class_name": "longhorn",
+                "architecture": "standalone",
+                "replica_count": 0,
+                "service_port": 6379
+            }
+        },
+        "external_resource_config": {}
+    }
+]
