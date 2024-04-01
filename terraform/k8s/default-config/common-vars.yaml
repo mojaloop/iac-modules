@@ -18,6 +18,7 @@ mcm_enabled: true
 mojaloop_enabled: true
 pm4ml_enabled: false
 prometheus_operator_version: 8.22.8
+prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: 3.5.11
 grafana_version: 10.2.3
 tempo_chart_version: 2.6.0
