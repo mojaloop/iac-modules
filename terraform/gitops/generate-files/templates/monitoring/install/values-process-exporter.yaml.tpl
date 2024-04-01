@@ -5,5 +5,5 @@ groups:
     cmdline: 
     - '.+'  
 serviceMonitor:
-  enabled: false
+  enabled: true
   interval: "15s"    
