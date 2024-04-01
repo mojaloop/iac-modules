@@ -5,6 +5,7 @@ module "generate_monitoring_files" {
     loki_chart_version                   = try(var.common_var_map.loki_chart_version, local.loki_chart_version)
     prometheus_operator_version          = try(var.common_var_map.prometheus_operator_version, local.prometheus_operator_version)
     prometheus_operator_release_name     = local.prometheus_operator_release_name
+    prometheus_process_exporter_version  = try(var.common_var_map.prometheus_process_exporter_version, local.prometheus_process_exporter_version)
     loki_release_name                    = local.loki_release_name
     grafana_operator_version             = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                      = try(var.common_var_map.grafana_version, local.grafana_version)
@@ -92,18 +93,19 @@ variable "monitoring_namespace" {
 }
 
 locals {
-  grafana_wildcard_gateway         = var.grafana_ingress_internal_lb ? "internal" : "external"
-  loki_release_name                = "loki"
-  prometheus_operator_release_name = "prom"
-  loki_chart_version               = "2.13.0"
-  prometheus_operator_version      = "8.22.8"
-  tempo_chart_version              = "2.6.0"
-  grafana_version                  = "10.2.3"
-  grafana_operator_version         = "3.5.11"
-  monitoring_template_path         = "${path.module}/../generate-files/templates/monitoring"
-  monitoring_app_file              = "monitoring-app.yaml"
-  loki_ingester_pvc_size           = "50Gi"
-  prometheus_pvc_size              = "50Gi"
-  loki_ingester_retention_period   = "72h"
-  prometheus_retention_period      = "10d"
+  grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
+  loki_release_name                   = "loki"
+  prometheus_operator_release_name    = "prom"
+  loki_chart_version                  = "2.13.0"
+  prometheus_operator_version         = "8.22.8"
+  prometheus_process_exporter_version = "0.4.2"
+  tempo_chart_version                 = "2.6.0"
+  grafana_version                     = "10.2.3"
+  grafana_operator_version            = "3.5.11"
+  monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
+  monitoring_app_file                 = "monitoring-app.yaml"
+  loki_ingester_pvc_size              = "50Gi"
+  prometheus_pvc_size                 = "50Gi"
+  loki_ingester_retention_period      = "72h"
+  prometheus_retention_period         = "10d"
 }
