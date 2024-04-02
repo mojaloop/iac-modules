@@ -59,12 +59,13 @@ inputs = {
   external_ingress_https_port              = dependency.k8s_deploy.outputs.target_group_external_https_port
   external_ingress_http_port               = dependency.k8s_deploy.outputs.target_group_external_http_port
   common_var_map                           = local.common_vars
-  app_var_map                              = merge(local.pm4ml_vars, local.mojaloop_vars)
+  app_var_map                              = merge(local.pm4ml_vars, local.mojaloop_vars, local.vnext_vars)
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
   stateful_resources_config_file           = find_in_parent_folders("${get_env("CONFIG_PATH")}/common-stateful-resources.json")
   mojaloop_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
+  vnext_stateful_resources_config_file     = find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-stateful-resources.json")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -80,8 +81,8 @@ inputs = {
   transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
-  rbac_api_resources_file                  = local.common_vars.mojaloop_enabled ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""
-  rbac_permissions_file                    = local.common_vars.mojaloop_enabled ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-permissions.yaml") : find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-rbac-permissions.yaml")
+  rbac_api_resources_file                  = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""
+  rbac_permissions_file                    = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-permissions.yaml") : find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-rbac-permissions.yaml")
 }
 
 locals {
@@ -92,6 +93,7 @@ locals {
   common_vars                   = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
   pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"))
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
+  vnext_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}"))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
   CLUSTER_NAME                  = get_env("cluster_name")
