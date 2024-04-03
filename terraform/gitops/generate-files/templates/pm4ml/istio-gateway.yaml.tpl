@@ -282,7 +282,9 @@ spec:
     - name: "sim-backend"
       match:
         - uri:
-            prefix: /sim-backend-test(/|$)(.*)
+            prefix: /sim-backend-test/
+      rewrite:
+        uri: /
       route:
         - destination:
             host: sim-backend
@@ -291,7 +293,9 @@ spec:
     - name: "mojaloop-core-connector"
       match:
         - uri:
-            prefix: /cc-send(/|$)(.*)
+            prefix: /cc-send/
+      rewrite:
+        uri: /
       route:
         - destination:
             host: ${pm4ml_release_name}-mojaloop-core-connector
@@ -300,7 +304,9 @@ spec:
     - name: "mlcon-outbound"
       match:
         - uri:
-            prefix: /mlcon-outbound(/|$)(.*)
+            prefix: /mlcon-outbound/
+      rewrite:
+        uri: /
       route:
         - destination:
             host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc
@@ -309,7 +315,9 @@ spec:
     - name: "mlcon-sdktest"
       match:
         - uri:
-            prefix: /mlcon-sdktest(/|$)(.*)
+            prefix: /mlcon-sdktest/
+      rewrite:
+        uri: /
       route:
         - destination:
             host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc
@@ -318,7 +326,9 @@ spec:
     - name: "mgmt-api"
       match:
         - uri:
-            prefix: /mgmt-api(/|$)(.*)
+            prefix: /mgmt-api/
+      rewrite:
+        uri: /
       route:
         - destination:
             host: ${pm4ml_release_name}-management-api
