@@ -67,9 +67,11 @@ module "generate_pm4ml_files" {
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
-    use_ttk_as_backend_simulator                    = each.value.use_ttk_as_backend_simulator
+    core_connector_selected                         = each.value.core_connector_selected
+    custom_core_connector_endpoint                  = each.value.custom_core_connector_endpoint
     ttk_backend_fqdn                                = var.ttk_backend_fqdns[each.key]
     ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
+    pta_portal_fqdn                                 = var.pta_portal_fqdns[each.key]
     test_fqdn                                       = var.test_fqdns[each.key]
     ory_namespace                                   = var.ory_namespace
     ory_stack_enabled                               = var.ory_stack_enabled
@@ -136,7 +138,9 @@ variable "ttk_backend_fqdns" {
 variable "ttk_frontend_fqdns" {
   description = "fqdns for pm4ml ttk front"
 }
-
+variable "pta_portal_fqdns" {
+  description = "fqdns for pm4ml payment token adapter portal"
+}
 variable "pm4ml_vault_k8s_role_name" {
   description = "vault k8s role name for pm4ml"
   type        = string
@@ -206,12 +210,6 @@ variable "pm4ml_external_switch_client_secret" {
   type        = string
   description = "secret name for client secret to connect to switch idm"
   default     = "pm4ml-external-switch-client-secret"
-}
-
-variable "use_ttk_as_backend_simulator" {
-  type        = bool
-  description = "use_ttk_as_backend_simulator"
-  default     = false
 }
 
 variable "enable_sdk_bulk_transaction_support" {
