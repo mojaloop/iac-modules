@@ -110,8 +110,6 @@ prometheus:
 
 scheme-adapter:
   sdk-scheme-adapter-api-svc:
-    image:
-      tag: v23.1.2-snapshot.2
 %{ if enable_sdk_bulk_transaction_support ~}
     kafka: &kafkaConfig
       host: ${kafka_host}
@@ -133,8 +131,15 @@ scheme-adapter:
         "test": "test"
       }
     env:
+      LOG_LEVEL: error
       DFSP_ID: *dfspId
       CACHE_URL: redis://${redis_host}:${redis_port}
+      AUTO_ACCEPT_QUOTES: false
+      AUTO_ACCEPT_PARTY: false
+      AUTO_ACCEPT_R2P_PARTY: false
+      AUTO_ACCEPT_R2P_BUSINESS_QUOTES: false
+      AUTO_ACCEPT_R2P_DEVICE_OTP: false
+      AUTO_ACCEPT_PARTICIPANTS_PUT: false
       JWS_SIGN: true
       VALIDATE_INBOUND_JWS: true
       PEER_ENDPOINT: "${pm4ml_external_switch_fqdn}"
@@ -146,16 +151,22 @@ scheme-adapter:
       OAUTH_CLIENT_SECRET_KEY: "${pm4ml_external_switch_client_secret_key}"
       OAUTH_CLIENT_SECRET_NAME: "${pm4ml_external_switch_client_secret}"
       RESERVE_NOTIFICATION: ${pm4ml_reserve_notification}
-%{ if use_ttk_as_backend_simulator ~}
+%{ if core_connector_selected == "ttk" ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
 %{ else ~}
+%{ if core_connector_selected == "cc" ~}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
+%{ else ~}
+      BACKEND_ENDPOINT: "${custom_core_connector_endpoint}"
+%{ endif ~}
 %{ endif ~}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
 %{ if enable_sdk_bulk_transaction_support ~}
       ENABLE_BACKEND_EVENT_HANDLER: true
       ENABLE_FSPIOP_EVENT_HANDLER: true
       REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
+%{ else ~}
+      REQUEST_PROCESSING_TIMEOUT_SECONDS: 10
 %{ endif ~}
 
 %{ if enable_sdk_bulk_transaction_support ~}
@@ -202,6 +213,7 @@ ttk:
         "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4001",
         "SEND_CALLBACK_ENABLE": true,
         "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
+        "DEFAULT_REQUEST_TIMEOUT": 15000,
         "FSPID": *dfspId
       }
 

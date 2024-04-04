@@ -108,6 +108,7 @@ module "pm4ml" {
   mojaloop_connnector_fqdns              = local.mojaloop_connnector_fqdns
   ttk_backend_fqdns                      = local.pm4ml_ttk_backend_fqdns
   ttk_frontend_fqdns                     = local.pm4ml_ttk_frontend_fqdns
+  pta_portal_fqdns                       = local.pm4ml_pta_portal_fqdns
   test_fqdns                             = local.test_fqdns
   vault_root_ca_name                     = "pki-${var.cluster_name}"
   app_var_map                            = local.pm4ml_var_map
@@ -329,6 +330,7 @@ locals {
   test_fqdns                = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "test-${pm4ml.pm4ml}.${var.public_subdomain}" }
   pm4ml_ttk_frontend_fqdns  = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}" }
   pm4ml_ttk_backend_fqdns   = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}" }
+  pm4ml_pta_portal_fqdns    = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "pta-portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
 
   pm4ml_internal_wildcard_admin_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
   pm4ml_external_wildcard_admin_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
@@ -337,7 +339,7 @@ locals {
   pm4ml_internal_wildcard_exp_hosts          = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
   pm4ml_external_wildcard_exp_hosts          = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
 
-  pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, values(local.pm4ml_ttk_frontend_fqdns), values(local.pm4ml_ttk_backend_fqdns), values(local.test_fqdns))
+  pm4ml_internal_gateway_hosts = concat(local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_exp_hosts, values(local.pm4ml_ttk_frontend_fqdns), values(local.pm4ml_ttk_backend_fqdns), values(local.test_fqdns), values(local.pm4ml_pta_portal_fqdns))
   pm4ml_external_gateway_hosts = concat(local.pm4ml_external_wildcard_admin_portal_hosts, local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_external_wildcard_exp_hosts)
 
   keycloak_realm_env_secret_map = merge(
