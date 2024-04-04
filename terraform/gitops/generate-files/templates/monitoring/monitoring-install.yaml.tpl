@@ -17,6 +17,10 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   ignoreDifferences:
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      jqPathExpressions:
+        - .spec.endpoints[]?.relabelings[]?.action
     - group: redhatcop.redhat.io
       kind: VaultSecret
       jqPathExpressions:
