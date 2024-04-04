@@ -1,3 +1,6 @@
+# NOTE: service monitor in helm char does not allow adding relabelings, therefore we have to maintain custom service-monitor
+# https://github.com/mumoshu/prometheus-process-exporter/blob/master/charts/prometheus-process-exporter/templates/servicemonitor.yaml
+# Request to fix in upstream: https://github.com/mumoshu/prometheus-process-exporter/issues/23
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
