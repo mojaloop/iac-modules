@@ -28,5 +28,9 @@ commonLabels:
 commonAnnotations:
   build: argocd
 node-exporter:
+  serviceMonitor:
+    relabelings: 
+    - sourceLabels: [__meta_kubernetes_pod_node_name]
+      targetLabel: nodename
   tolerations:
     - operator: "Exists"
