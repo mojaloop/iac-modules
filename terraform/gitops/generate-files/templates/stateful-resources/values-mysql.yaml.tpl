@@ -148,16 +148,16 @@ primary:
     max_allowed_packet=${resource.local_resource_config.mysql_data.max_allowed_packet}
     bind-address=${resource.local_resource_config.mysql_data.bind-address}
     pid-file=${resource.local_resource_config.mysql_data.pid-file}
-    log-error=/opt/bitnami/mysql/logs/mysqld.log
-    character-set-server=UTF8
-    collation-server=utf8_general_ci
+    log-error=${resource.local_resource_config.mysql_data.log-error}
+    character-set-server=${resource.local_resource_config.mysql_data.character-set-server}
+    collation-server=${resource.local_resource_config.mysql_data.collation-server}
     general_log=${resource.local_resource_config.mysql_data.general_log}
     slow_query_log=${resource.local_resource_config.mysql_data.slow_query_log}
     slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
-    long_query_time=10.0
-    innodb_use_native_aio=0
-    max_connections=2000
-    innodb_buffer_pool_size=2147483648
+    long_query_time=${resource.local_resource_config.mysql_data.long_query_time}
+    innodb_use_native_aio=${resource.local_resource_config.mysql_data.innodb_use_native_aio}
+    max_connections=${resource.local_resource_config.mysql_data.max_connections}
+    innodb_buffer_pool_size=${resource.local_resource_config.mysql_data.innodb_buffer_pool_size}
 
     [client]
     port=${resource.local_resource_config.mysql_data.port}
