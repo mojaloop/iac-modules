@@ -27,13 +27,10 @@ dependency "k8s_deploy" {
     target_group_external_https_port = 0
     target_group_external_http_port  = 0
     properties_key_map = {
-      longhorn_backups_bucket_name_key = "mock"
     }
     secrets_key_map = {
       external_dns_cred_id_key         = "mock"
       external_dns_cred_secret_key     = "mock"
-      longhorn_backups_cred_id_key     = "mock"
-      longhorn_backups_cred_secret_key = "mock"
     }
     haproxy_server_fqdn  = "null"
     private_network_cidr = ""
@@ -79,6 +76,7 @@ inputs = {
   kv_path                                  = local.KV_SECRET_PATH
   transit_vault_key_name                   = local.TRANSIT_VAULT_UNSEAL_KEY_NAME
   transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
+  minio_api_url                            = "${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:9000"
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
   rbac_api_resources_file                  = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""
