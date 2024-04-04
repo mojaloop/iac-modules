@@ -16,12 +16,6 @@ helmCharts:
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-prom-operator.yaml
   namespace: ${monitoring_namespace}
-- name: prometheus-process-exporter
-  releaseName: process-exporter
-  version: ${prometheus_process_exporter_version}
-  repo: https://raw.githubusercontent.com/mumoshu/prometheus-process-exporter/master/docs
-  valuesFile: values-process-exporter.yaml
-  namespace: ${monitoring_namespace}    
 - name: grafana-operator
   releaseName: grafana
   version: ${grafana_operator_version}
@@ -40,3 +34,9 @@ helmCharts:
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-tempo.yaml
   namespace: ${monitoring_namespace}
+- name: prometheus-process-exporter
+  releaseName: process-exporter
+  version: ${prometheus_process_exporter_version}
+  repo: https://raw.githubusercontent.com/mumoshu/prometheus-process-exporter/master/docs
+  valuesFile: values-process-exporter.yaml
+  namespace: ${monitoring_namespace}    
