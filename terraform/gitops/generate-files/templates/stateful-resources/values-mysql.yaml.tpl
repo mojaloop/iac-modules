@@ -136,22 +136,23 @@ primary:
   ##
   configuration: |-
     [mysqld]
-    default_authentication_plugin=mysql_native_password
+    default_authentication_plugin=${resource.local_resource_config.mysql_data.default_authentication_plugin}
     skip-name-resolve
     explicit_defaults_for_timestamp
-    basedir=/opt/bitnami/mysql
-    plugin_dir=/opt/bitnami/mysql/lib/plugin
-    port=3306
-    socket=/opt/bitnami/mysql/tmp/mysql.sock
-    datadir=/bitnami/mysql/data
-    tmpdir=/opt/bitnami/mysql/tmp
-    max_allowed_packet=16M
-    bind-address=*
-    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+    basedir=${resource.local_resource_config.mysql_data.basedir}
+    plugin_dir=${resource.local_resource_config.mysql_data.plugin_dir}
+    port=${resource.local_resource_config.mysql_data.port}
+    socket=${resource.local_resource_config.mysql_data.socket}
+    datadir=${resource.local_resource_config.mysql_data.datadir}
+    tmpdir=${resource.local_resource_config.mysql_data.tmpdir}
+    max_allowed_packet=${resource.local_resource_config.mysql_data.max_allowed_packet}
+    bind-address=${resource.local_resource_config.mysql_data.bind-address}
+    pid-file=${resource.local_resource_config.mysql_data.pid-file}
     log-error=/opt/bitnami/mysql/logs/mysqld.log
     character-set-server=UTF8
     collation-server=utf8_general_ci
-    slow_query_log=0
+    general_log=${resource.local_resource_config.mysql_data.general_log}
+    slow_query_log=${resource.local_resource_config.mysql_data.slow_query_log}
     slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
     long_query_time=10.0
     innodb_use_native_aio=0
@@ -159,15 +160,15 @@ primary:
     innodb_buffer_pool_size=2147483648
 
     [client]
-    port=3306
-    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    port=${resource.local_resource_config.mysql_data.port}
+    socket=${resource.local_resource_config.mysql_data.socket}
     default-character-set=UTF8
-    plugin_dir=/opt/bitnami/mysql/lib/plugin
+    plugin_dir=${resource.local_resource_config.mysql_data.plugin_dir}
 
     [manager]
-    port=3306
-    socket=/opt/bitnami/mysql/tmp/mysql.sock
-    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+    port=${resource.local_resource_config.mysql_data.port}
+    socket=${resource.local_resource_config.mysql_data.socket}
+    pid-file=${resource.local_resource_config.mysql_data.pid-file}
   ## @param primary.existingConfigmap Name of existing ConfigMap with MySQL Primary configuration.
   ## NOTE: When it's set the 'configuration' parameter is ignored
   ##
@@ -444,36 +445,37 @@ secondary:
   ##
   configuration: |-
     [mysqld]
-    default_authentication_plugin=mysql_native_password
+    default_authentication_plugin=${resource.local_resource_config.mysql_data.default_authentication_plugin}
     skip-name-resolve
     explicit_defaults_for_timestamp
     basedir=/opt/bitnami/mysql
-    plugin_dir=/opt/bitnami/mysql/lib/plugin
-    port=3306
-    socket=/opt/bitnami/mysql/tmp/mysql.sock
-    datadir=/bitnami/mysql/data
-    tmpdir=/opt/bitnami/mysql/tmp
-    max_allowed_packet=16M
-    bind-address=*
-    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+    plugin_dir=${resource.local_resource_config.mysql_data.plugin_dir}
+    port=${resource.local_resource_config.mysql_data.port}
+    socket=${resource.local_resource_config.mysql_data.socket}
+    datadir=${resource.local_resource_config.mysql_data.datadir}
+    tmpdir=${resource.local_resource_config.mysql_data.tmpdir}
+    max_allowed_packet=${resource.local_resource_config.mysql_data.max_allowed_packet}
+    bind-address=${resource.local_resource_config.mysql_data.bind-address}
+    pid-file=${resource.local_resource_config.mysql_data.pid-file}
     log-error=/opt/bitnami/mysql/logs/mysqld.log
     character-set-server=UTF8
     collation-server=utf8_general_ci
-    slow_query_log=0
+    general_log=${resource.local_resource_config.mysql_data.general_log}
+    slow_query_log=${resource.local_resource_config.mysql_data.slow_query_log}
     slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
     long_query_time=10.0
     innodb_use_native_aio=0
 
     [client]
-    port=3306
-    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    port=${resource.local_resource_config.mysql_data.port}
+    socket=${resource.local_resource_config.mysql_data.socket}
     default-character-set=UTF8
-    plugin_dir=/opt/bitnami/mysql/lib/plugin
+    plugin_dir=${resource.local_resource_config.mysql_data.plugin_dir}
 
     [manager]
-    port=3306
-    socket=/opt/bitnami/mysql/tmp/mysql.sock
-    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+    port=${resource.local_resource_config.mysql_data.port}
+    socket=${resource.local_resource_config.mysql_data.socket}
+    pid-file=${resource.local_resource_config.mysql_data.pid-file}
   ## @param secondary.existingConfigmap Name of existing ConfigMap with MySQL Secondary configuration.
   ## NOTE: When it's set the 'configuration' parameter is ignored
   ##

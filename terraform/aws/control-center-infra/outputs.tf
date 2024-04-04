@@ -8,19 +8,20 @@ output "gitlab_root_token" {
   value     = random_password.gitlab_root_token.result
 }
 
-output "gitlab_s3_access_key" {
-  sensitive = true
-  value     = random_password.gitlab_s3_access_key.result
-}
 
 output "gitlab_s3_access_secret" {
   sensitive = true
   value     = random_password.gitlab_s3_access_secret.result
 }
 
-output "admin_s3_access_key" {
+output "minio_root_password" {
   sensitive = true
-  value     = random_password.admin_s3_access_key.result
+  value     = random_password.admin_s3_access_secret.result
+}
+
+output "minio_root_user" {
+  sensitive = true
+  value     = var.minio_root_user
 }
 
 output "admin_s3_access_secret" {
@@ -68,6 +69,10 @@ output "minio_listening_port" {
 
 output "minio_fqdn" {
   value = aws_route53_record.minio_server_private.fqdn
+}
+
+output "minio_server_url" {
+  value = "${aws_route53_record.minio_server_private.fqdn}:${var.minio_listening_port}"
 }
 
 output "tenant_vault_listening_port" {
@@ -122,11 +127,9 @@ output "docker_hosts_var_maps" {
     gitlab_runner_version            = var.gitlab_runner_version
     minio_server_host                = aws_route53_record.minio_server_private.fqdn
     minio_listening_port             = var.minio_listening_port
-    minio_root_user                  = "admin"
-    minio_admin_access_key           = random_password.admin_s3_access_key.result
+    minio_root_user                  = var.minio_root_user
     minio_root_password              = random_password.admin_s3_access_secret.result
     gitlab_minio_user                = var.gitlab_minio_user
-    minio_gitlab_access_key          = random_password.gitlab_s3_access_key.result
     gitlab_minio_secret              = random_password.gitlab_s3_access_secret.result
     nexus_admin_password             = random_password.nexus_admin_password.result
     nexus_docker_repo_listening_port = var.nexus_docker_repo_listening_port

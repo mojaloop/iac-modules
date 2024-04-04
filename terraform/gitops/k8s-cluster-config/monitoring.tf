@@ -39,6 +39,12 @@ module "generate_monitoring_files" {
     loki_ingester_retention_period       = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     prometheus_retention_period          = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                 = try(var.common_var_map.alertmanager_enabled, false)
+    minio_credentials_secret_name        = "minio-credentials-secret"
+    minio_api_url                        = var.minio_api_url
+    minio_loki_bucket                    = local.minio_loki_bucket
+    minio_loki_user_key                  = "${var.cluster_name}/minio_loki_username"
+    minio_loki_password_key              = "${var.cluster_name}/minio_loki_password"
+    external_secret_sync_wave            = var.external_secret_sync_wave
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path

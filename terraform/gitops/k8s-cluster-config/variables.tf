@@ -97,11 +97,16 @@ variable "dns_provider" {
   description = "provider for ext dns"
 }
 
+variable "minio_api_url" {
+  type        = string
+  description = "minio_api_url"
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
   cloud_platform                                   = data.gitlab_project_variable.cloud_platform.value
-  longhorn_backups_bucket_name                     = data.gitlab_project_variable.longhorn_backups_bucket_name.value
+  longhorn_backups_bucket_name                     = data.gitlab_project_variable.minio_longhorn_bucket.value
   cert_manager_credentials_client_id_name          = data.gitlab_project_variable.cert_manager_credentials_client_id_name.value
   cert_manager_credentials_client_secret_name      = data.gitlab_project_variable.cert_manager_credentials_client_secret_name.value
   external_dns_credentials_client_secret_name      = data.gitlab_project_variable.external_dns_credentials_client_secret_name.value
@@ -110,6 +115,7 @@ locals {
   cert_manager_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
   external_dns_credentials_secret_provider_key     = var.secrets_key_map["external_dns_cred_secret_key"]
   external_dns_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
-  longhorn_backups_credentials_secret_provider_key = var.secrets_key_map["longhorn_backups_cred_secret_key"]
-  longhorn_backups_credentials_id_provider_key     = var.secrets_key_map["longhorn_backups_cred_id_key"]
+  longhorn_backups_credentials_secret_provider_key = "minio_longhorn_password"
+  longhorn_backups_credentials_id_provider_key     = "minio_longhorn_username"
+  minio_loki_bucket                                = data.gitlab_project_variable.minio_loki_bucket.value
 }

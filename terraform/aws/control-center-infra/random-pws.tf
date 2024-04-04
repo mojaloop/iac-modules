@@ -10,10 +10,6 @@ resource "random_password" "gitlab_root_token" {
   override_special = "_"
 }
 
-resource "random_password" "gitlab_s3_access_key" {
-  length  = 20
-  special = false
-}
 
 resource "random_password" "gitlab_s3_access_secret" {
   length           = 20
@@ -21,7 +17,7 @@ resource "random_password" "gitlab_s3_access_secret" {
   override_special = "_"
 }
 
-resource "random_password" "admin_s3_access_key" {
+resource "random_password" "minio_root_password" {
   length  = 20
   special = false
 }

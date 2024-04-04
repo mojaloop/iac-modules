@@ -170,13 +170,10 @@ locals {
   secrets_var_map = {
     route53_external_dns_access_key = var.app_var_map.route53_external_dns_access_key
     route53_external_dns_secret_key = var.app_var_map.route53_external_dns_secret_key
-    longhorn_backups_access_key     = var.app_var_map.longhorn_backups_access_key
-    longhorn_backups_secret_key     = var.app_var_map.longhorn_backups_secret_key
   }
 
 
   properties_var_map = {
-    longhorn_backups_bucket_name                = var.app_var_map.longhorn_backups_bucket_name
     external_dns_credentials_client_id_name     = var.app_var_map.external_dns_credentials_client_id_name
     external_dns_credentials_client_secret_name = var.app_var_map.external_dns_credentials_client_secret_name
     cert_manager_credentials_client_id_name     = var.app_var_map.cert_manager_credentials_client_id_name
@@ -186,12 +183,9 @@ locals {
   post_config_secrets_key_map = {
     external_dns_cred_id_key         = "route53_external_dns_access_key"
     external_dns_cred_secret_key     = "route53_external_dns_secret_key"
-    longhorn_backups_cred_id_key     = "longhorn_backups_access_key"
-    longhorn_backups_cred_secret_key = "longhorn_backups_secret_key"
   }
 
   post_config_properties_key_map = {
-    longhorn_backups_bucket_name_key                = "longhorn_backups_bucket_name"
     external_dns_credentials_client_id_name_key     = "external_dns_credentials_client_id_name"
     external_dns_credentials_client_secret_name_key = "external_dns_credentials_client_secret_name"
     cert_manager_credentials_client_id_name_key     = "cert_manager_credentials_client_id_name"
