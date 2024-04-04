@@ -116,7 +116,7 @@ CONFIG:
   tolerations: &MOJALOOP_TOLERATIONS
     ${indent(4, mojaloop_tolerations)}
 %{ else ~}
-    tolerations: &MOJALOOP_TOLERATIONS []
+  tolerations: &MOJALOOP_TOLERATIONS []
 %{ endif ~}
 
 global:
