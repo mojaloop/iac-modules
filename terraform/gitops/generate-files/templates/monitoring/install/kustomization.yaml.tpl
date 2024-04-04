@@ -4,7 +4,7 @@ resources:
   - https://raw.githubusercontent.com/grafana/grafana-operator/v5.6.0/deploy/kustomize/base/crds.yaml
   - vault-secret.yaml
   - istio-gateway.yaml
-  - resources/process-exporter-service-monitor.yaml
+  - process-exporter-service-monitor.yaml
 helmCharts:
 - name: prometheus-operator-crds
   releaseName: prometheus-operator-crds
