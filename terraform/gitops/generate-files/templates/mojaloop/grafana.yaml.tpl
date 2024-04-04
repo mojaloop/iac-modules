@@ -126,5 +126,5 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "Prometheus" 
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.6/monitoring/dashboards/mojaloop/dashboard-performance-troubleshooting.json"
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.7/monitoring/dashboards/mojaloop/dashboard-performance-troubleshooting.json"
 ---
