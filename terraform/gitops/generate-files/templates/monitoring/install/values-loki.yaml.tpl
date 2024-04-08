@@ -13,6 +13,8 @@ loki:
         access_key_id: $${MINIO_LOKI_USERNAME}
         secret_access_key: $${MINIO_LOKI_PASSWORD}
         bucketnames: ${minio_loki_bucket}      
+
+# NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
 ingester:
   persistence:
     size: ${loki_ingester_pvc_size}
