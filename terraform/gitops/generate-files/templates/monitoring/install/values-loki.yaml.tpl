@@ -13,12 +13,66 @@ loki:
         access_key_id: $${MINIO_LOKI_USERNAME}
         secret_access_key: $${MINIO_LOKI_PASSWORD}
         bucketnames: ${minio_loki_bucket}      
+
+# NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
 ingester:
   persistence:
     size: ${loki_ingester_pvc_size}
     storageClass: ${storage_class_name}
   extraArgs: ["-config.expand-env"]
   extraEnvVarsSecret: ${minio_credentials_secret_name}
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"] 
+compactor:
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]  
+distributor:
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]
+gateway:      
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]
+querier:
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]
+queryFrontend:
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]
+
+memcachedchunks:
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]
+memcachedfrontend:
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]
+memcachedindexqueries:
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]    
+memcachedindexwrites:
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]    
+
+
 
 promtail:
   # reference: https://github.com/bitnami/charts/blob/5f843aec99a13573f67e59b5e3193916ca01f308/bitnami/grafana-loki/values.yaml#L4440
