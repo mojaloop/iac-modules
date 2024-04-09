@@ -6,14 +6,14 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${wildcare_certificate_wave}"
 spec:
-  secretName: ${default_ssl_certificate}
+  secretName: ${default_internal_ssl_certificate}
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
-  commonName: ${public_subdomain}
+  commonName: ${private_subdomain}
   dnsNames:
-    - "${public_subdomain}"
-    - "*.${public_subdomain}"
+    - "${private_subdomain}"
+    - "*.${private_subdomain}"
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
