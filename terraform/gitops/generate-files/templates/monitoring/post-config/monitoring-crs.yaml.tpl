@@ -23,6 +23,14 @@ spec:
                     secretKeyRef:
                       key: ${admin_secret_pw_key}
                       name: ${admin_secret}
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: 'workload-class.mojaloop.io/MONITORING'
+                    operator: In
+                    values: ['enabled']
   config:
     unified_alerting:
       enabled: "false"
