@@ -24,8 +24,10 @@ module "generate_istio_files" {
     istio_external_gateway_name          = var.istio_external_gateway_name
     istio_internal_gateway_name          = var.istio_internal_gateway_name
     default_ssl_certificate              = var.default_ssl_certificate
+    default_internal_ssl_certificate     = var.default_internal_ssl_certificate
     wildcare_certificate_wave            = var.wildcare_certificate_wave
     public_subdomain                     = var.public_subdomain
+    private_subdomain                    = var.private_subdomain
     istio_gateways_sync_wave             = var.istio_gateways_sync_wave
     kiali_chart_version                  = var.kiali_chart_version
     kiali_chart_repo                     = var.kiali_chart_repo
