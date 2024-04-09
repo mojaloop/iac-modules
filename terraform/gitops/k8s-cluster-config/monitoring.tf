@@ -1,7 +1,8 @@
 module "generate_monitoring_files" {
   source = "../generate-files"
   var_map = {
-    grafana_chart_repo                   = var.grafana_chart_repo
+    grafana_crd_version_tag              = try(var.common_var_map.grafana_crd_version_tag, local.grafana_crd_version_tag)
+    prometheus_crd_version               = try(var.common_var_map.prometheus_crd_version, local.prometheus_crd_version)
     loki_chart_version                   = try(var.common_var_map.loki_chart_version, local.loki_chart_version)
     prometheus_operator_version          = try(var.common_var_map.prometheus_operator_version, local.prometheus_operator_version)
     prometheus_operator_release_name     = local.prometheus_operator_release_name
@@ -99,6 +100,8 @@ variable "monitoring_namespace" {
 }
 
 locals {
+  grafana_crd_version_tag             = "v5.6.0"
+  prometheus_crd_version              = "8.0.1"
   grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
   loki_release_name                   = "loki"
   prometheus_operator_release_name    = "prom"
