@@ -7,12 +7,25 @@ alertmanager:
     enabled: true
     storageClass: ${storage_class_name}
     size: 10Gi
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]       
 prometheus:
   persistence:
     enabled: true
     storageClass: ${storage_class_name}
     size: ${prometheus_pvc_size}
   retention: ${prometheus_retention_period}
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]     
+operator:
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]       
 kubelet:
   serviceMonitor:
     relabelings:
@@ -23,10 +36,12 @@ kubelet:
       targetLabel: kubernetes_io_hostname
       replacement: $${1}
       action: replace
+
 commonLabels:
   build: argocd
 commonAnnotations:
   build: argocd
+
 node-exporter:
   serviceMonitor:
     relabelings: 
@@ -34,3 +49,9 @@ node-exporter:
       targetLabel: nodename
   tolerations:
     - operator: "Exists"
+blackboxExporter:
+  enabled: false    
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]     
