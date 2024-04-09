@@ -10,15 +10,13 @@ spec:
     istio: ${istio_internal_gateway_name}
   servers:
   - hosts:
-%{ for host in internal_gateway_hosts ~}
-    - '${host}'
-%{ endfor ~}
+    - '*.${private_subdomain}'
     port:
       name: https
       number: 443
       protocol: HTTPS
     tls:
-      credentialName: ${default_ssl_certificate}
+      credentialName: ${default_internal_ssl_certificate}
       mode: SIMPLE
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -33,9 +31,7 @@ spec:
     istio: ${istio_external_gateway_name}
   servers:
   - hosts:
-%{ for host in external_gateway_hosts ~}
-    - '${host}'
-%{ endfor ~}
+    - '*.${public_subdomain}'
     port:
       name: https
       number: 443
