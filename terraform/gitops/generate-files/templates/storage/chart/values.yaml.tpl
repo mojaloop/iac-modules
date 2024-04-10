@@ -17,6 +17,7 @@ longhorn:
     replicaAutoBalance: disabled
     autoDeletePodWhenVolumeDetachedUnexpectedly: true
     replicaReplenishmentWaitInterval: 360
+    backupstorePollInterval: 0
     taintToleration: ~
   enablePSP: false
 
