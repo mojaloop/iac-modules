@@ -55,7 +55,11 @@ locals {
   istio_template_path = "${path.module}/../generate-files/templates/istio"
   istio_app_file      = "istio-app.yaml"
   argocd_fqdn         = "argocd.${var.public_subdomain}"
-  argocd_private_fqdn = "argocd.${var.private_subdomain}"  
+  argocd_private_fqdn = "argocd.${var.private_subdomain}" 
+  istio_internal_wildcard_gateway_name = "internal-wildcard-gateway"
+  istio_external_wildcard_gateway_name = "external-wildcard-gateway"
+  istio_egress_gateway_name            = "callback-egress-gateway"
+  istio_egress_gateway_namespace       = "egress-gateway" 
 }
 
 
@@ -135,11 +139,4 @@ variable "istio_egress_gateway_max_replicas" {
   type        = number
   description = "istio_egress_gateway_max_replicas"
   default     = 5  
-}
-
-locals {
-  istio_internal_wildcard_gateway_name = "internal-wildcard-gateway"
-  istio_external_wildcard_gateway_name = "external-wildcard-gateway"
-  istio_egress_gateway_name            = "callback-egress-gateway"
-  istio_egress_gateway_namespace       = "egress-gateway"
 }
