@@ -105,13 +105,13 @@ variable "minio_api_url" {
 variable "default_ssl_certificate" {
   type        = string
   description = "default_ssl_certificate"
-  default     = "default-lets-enc"
+  default     = "lets-enc-external-tls"
 }
 
 variable "default_internal_ssl_certificate" {
   type        = string
   description = "default_internal_ssl_certificate"
-  default     = "default-lets-enc"
+  default     = "lets-enc-internal-tls"
 }
 
 locals {
