@@ -5,7 +5,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${longhorn_job_sync_wave}"
 spec:
-  cron: "0 * * * *"
+  cron: "0 */12 * * *"
   task: "backup"
   groups:
   - default
