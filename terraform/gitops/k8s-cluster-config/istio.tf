@@ -33,13 +33,14 @@ module "generate_istio_files" {
     kiali_chart_repo                     = var.kiali_chart_repo
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
-    internal_gateway_hosts               = local.internal_gateway_hosts
-    external_gateway_hosts               = local.external_gateway_hosts
+#    internal_gateway_hosts               = local.internal_gateway_hosts
+#    external_gateway_hosts               = local.external_gateway_hosts
     ory_stack_enabled                    = var.ory_stack_enabled
     oathkeeper_auth_url                  = var.ory_stack_enabled ? local.oathkeeper_auth_url : ""
     oathkeeper_auth_provider_name        = var.ory_stack_enabled ? local.oathkeeper_auth_provider_name : ""
     argocd_wildcard_gateway              = local.argocd_wildcard_gateway
-    argocd_fqdn                          = local.argocd_fqdn
+    argocd_public_fqdn                   = local.argocd_public_fqdn
+    argocd_private_fqdn                  = local.argocd_private_fqdn
     argocd_namespace                     = var.argocd_namespace
   }
 
@@ -53,6 +54,8 @@ module "generate_istio_files" {
 locals {
   istio_template_path = "${path.module}/../generate-files/templates/istio"
   istio_app_file      = "istio-app.yaml"
+  argocd_fqdn         = "argocd.${var.public_subdomain}"
+  argocd_private_fqdn = "argocd.${var.private_subdomain}"  
 }
 
 
