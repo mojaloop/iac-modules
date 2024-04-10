@@ -74,6 +74,7 @@ inputs = {
   gitlab_readonly_rbac_group       = local.env_vars.gitlab_readonly_rbac_group
   loki_data_expiry                 = local.env_vars.loki_data_expiry
   longhorn_backup_data_expiry      = local.env_vars.longhorn_backup_data_expiry  
+  private_subdomain_string        = local.private_subdomain_string
 }
 
 locals {
@@ -91,6 +92,7 @@ locals {
       enable_argocd_oauth_to_gitlab     = val["enable_argocd_oauth_to_gitlab"]
     }
   }
+  private_subdomain_string = "internal"
 }
 
 include "root" {

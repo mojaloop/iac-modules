@@ -315,5 +315,5 @@ resource "gitlab_application" "argocd_oidc" {
   confidential = true
   scopes       = ["openid", "read_api", "profile", "email"]
   name         = "${each.key}_argocd_oidc"
-  redirect_url = "https://argocd.${each.key}.${each.value["domain"]}/auth/callback"
+  redirect_url = "https://argocd.${var.private_subdomain_string}.${each.key}.${each.value["domain"]}/auth/callback"
 }

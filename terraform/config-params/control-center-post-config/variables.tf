@@ -80,3 +80,8 @@ variable "longhorn_backup_data_expiry" {
   description = "number of days to expire minio longhorn bucket data"
   default = "7d"
 }
+
+variable "private_subdomain_string" {
+  description = "the string in the internal subdomain to distiguish with publci subdomain"
+  default     = "internal"
+}
