@@ -20,7 +20,14 @@ prometheus:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]     
+    values: ["enabled"]
+  # setting these to prevent oom issue https://github.com/prometheus/prometheus/issues/6934#issuecomment-1099293120
+  disableCompaction: false #this is the default anyway
+  additionalArgs:
+  - name: storage.tsdb.min-block-duration
+    value: ${prom_tsdb_min_block_duration}
+  - name: storage.tsdb.max-block-duration
+    value: ${prom_tsdb_max_block_duration}
 operator:
   nodeAffinityPreset:
     type: hard
