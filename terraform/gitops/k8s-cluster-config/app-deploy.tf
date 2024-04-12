@@ -278,7 +278,6 @@ variable "argocd_namespace" {
 }
 
 locals {
-  argocd_wildcard_gateway   = var.argocd_ingress_internal_lb ? "internal" : "external"
   mojaloop_wildcard_gateway = var.app_var_map.mojaloop_ingress_internal_lb ? "internal" : "external"
   vnext_wildcard_gateway    = var.app_var_map.vnext_ingress_internal_lb ? "internal" : "external"
   mcm_wildcard_gateway      = var.app_var_map.mcm_ingress_internal_lb ? "internal" : "external"
@@ -351,20 +350,5 @@ locals {
       "${var.portal_admin_secret}"             = var.vault_secret_key
     }
   )
-
-/*  internal_gateway_hosts = concat( [local.keycloak_admin_fqdn],
-    local.argocd_wildcard_gateway == "internal" ? [local.argocd_fqdn] : [],
-    local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
-    local.grafana_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
-    (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_internal_gateway_hosts : [],
-    var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [],
-  var.common_var_map.vnext_enabled ? local.vnext_internal_gateway_hosts : [])
-  external_gateway_hosts = concat([local.keycloak_fqdn, local.auth_fqdn, local.finance_portal_fqdn],
-    local.argocd_wildcard_gateway == "external" ? [local.argocd_fqdn] : [],
-    local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
-    local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
-    (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_external_gateway_hosts : [],
-    var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [],
-  var.common_var_map.vnext_enabled ? local.vnext_external_gateway_hosts : [])*/
   bof_managed_portal_fqdns = (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? [local.finance_portal_fqdn, local.mcm_public_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_external_wildcard_admin_portal_hosts)
 }

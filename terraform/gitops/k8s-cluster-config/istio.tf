@@ -52,6 +52,7 @@ module "generate_istio_files" {
 }
 
 locals {
+  argocd_wildcard_gateway   = var.argocd_ingress_internal_lb ? "internal" : "external"
   istio_template_path = "${path.module}/../generate-files/templates/istio"
   istio_app_file      = "istio-app.yaml"
   argocd_public_fqdn  = "argocd.${var.public_subdomain}"
