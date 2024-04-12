@@ -1,21 +1,14 @@
+%{ if argocd_as_external_svc == "true" ~}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: argocd-vs
+  name: argocd-external-vs
   namespace: ${argocd_namespace}
 spec:
   gateways:
-%{ if argocd_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+    - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
   hosts:
-%{ if argocd_wildcard_gateway == "external" ~}
     - '${argocd_public_fqdn}'
-%{ else ~}
-    - '${argocd_private_fqdn}'
-%{ endif ~}  
   http:
     - match:
         - uri:
@@ -24,8 +17,32 @@ spec:
         - destination:
             host: argocd-server
             port:
-              number: 80      
----              
+              number: 80
+---                    
+%{ endif ~}                
+%{ if argocd_as_internal_svc == "true" ~}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: argocd-internal-vs
+  namespace: ${argocd_namespace}
+spec:
+  gateways:
+    - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}  
+  hosts:
+    - '${argocd_private_fqdn}'
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: argocd-server
+            port:
+              number: 80
+---                    
+%{ endif ~}                 
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
