@@ -1,4 +1,4 @@
-%{ if argocd_as_external_svc == "true" ~}
+%{ if argocd_as_external_svc ~}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -20,7 +20,7 @@ spec:
               number: 80
 ---                    
 %{ endif ~}                
-%{ if argocd_as_internal_svc == "true" ~}
+%{ if argocd_as_internal_svc ~}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
