@@ -34,6 +34,7 @@ module "mojaloop" {
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
   mcm_public_fqdn                      = local.mcm_public_fqdn
+  mcm_private_fqdn                     = local.mcm_private_fqdn
   ttk_backend_public_fqdn              = local.ttk_backend_public_fqdn
   ttk_frontend_public_fqdn             = local.ttk_frontend_public_fqdn
   istio_external_gateway_name          = var.istio_external_gateway_name
@@ -302,6 +303,7 @@ locals {
   pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
 
   mcm_public_fqdn              = "mcm.${var.public_subdomain}"
+  mcm_private_fqdn             = "mcm.${var.private_subdomain}"
   auth_fqdn                    = "auth.${var.public_subdomain}"
   vault_public_fqdn            = "vault.${var.public_subdomain}"
   grafana_public_fqdn          = "grafana.${var.public_subdomain}"

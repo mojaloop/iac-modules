@@ -9,6 +9,8 @@ module "generate_mcm_files" {
     db_port                              = local.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
     db_host                              = "${local.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     mcm_public_fqdn                      = var.mcm_public_fqdn
+    mcm_private_fqdn                     = var.mcm_private_fqdn
+    mcm_fqdn                             = local.mcm_fqdn
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain
     env_o                                = "Mojaloop"
@@ -55,6 +57,7 @@ module "generate_mcm_files" {
     istio_egress_gateway_namespace       = var.istio_egress_gateway_namespace
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     istio_external_gateway_name          = var.istio_external_gateway_name
+    istio_internal_gateway_name          = var.istio_internal_gateway_name
     private_network_cidr                 = var.private_network_cidr
     interop_switch_fqdn                  = var.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn
@@ -83,6 +86,9 @@ module "generate_mcm_files" {
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     switch_dfspid                        = var.switch_dfspid
+    istio_gateway_namespace              = local.istio_gateway_namespace
+    istio_wildcard_gateway_name          = local.istio_wildcard_gateway_name
+    istio_gateway_name                   = local.istio_gateway_name
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -210,6 +216,10 @@ variable "mcm_public_fqdn" {
   type        = string
   description = "hostname for mcm"
 }
+variable "mcm_private_fqdn" {
+  type        = string
+  description = "hostname for private mcm"
+}
 
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
@@ -219,4 +229,8 @@ locals {
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
   dfsp_internal_whitelist_secret = "${local.whitelist_secret_path}_pm4mls"
   dfsp_external_whitelist_secret = "${local.whitelist_secret_path}_fsps"
+  mcm_fqdn                       = var.mcm_wildcard_gateway == "internal" ? var.mcm_private_fqdn : var.mcm_public_fqdn 
+  istio_gateway_namespace        = var.mcm_wildcard_gateway == "internal" ? var.istio_internal_gateway_namespace : var.istio_external_gateway_namespace
+  istio_wildcard_gateway_name    = var.mcm_wildcard_gateway == "internal" ? var.istio_internal_wildcard_gateway_name : var.istio_external_wildcard_gateway_name
+  istio_gateway_name             = var.mcm_wildcard_gateway == "internal"  ? var.istio_internal_gateway_name : var.istio_external_gateway_name
 }
