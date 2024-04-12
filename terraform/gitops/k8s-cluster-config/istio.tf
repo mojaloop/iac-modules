@@ -14,7 +14,7 @@ module "generate_istio_files" {
     istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
     istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
     istio_egress_gateway_name            = local.istio_egress_gateway_name
-    istio_egress_gateway_max_replicas    = try(var.common_var_map.istio_egress_gateway_max_replicas,var.istio_egress_gateway_max_replicas)
+    istio_egress_gateway_max_replicas    = try(var.common_var_map.istio_egress_gateway_max_replicas, var.istio_egress_gateway_max_replicas)
     external_ingress_https_port          = var.external_ingress_https_port
     external_ingress_http_port           = var.external_ingress_http_port
     external_ingress_health_port         = var.external_ingress_health_port
@@ -39,8 +39,8 @@ module "generate_istio_files" {
     argocd_wildcard_gateway              = local.argocd_wildcard_gateway
     argocd_public_fqdn                   = local.argocd_public_fqdn
     argocd_private_fqdn                  = local.argocd_private_fqdn
-    argocd_as_external_svc               = true 
-    argocd_as_internal_svc               = true
+    argocd_as_external_svc               = var.argocd_as_external_svc
+    argocd_as_internal_svc               = var.argocd_as_internal_svc
     argocd_namespace                     = var.argocd_namespace
   }
 
@@ -52,14 +52,14 @@ module "generate_istio_files" {
 }
 
 locals {
-  istio_template_path = "${path.module}/../generate-files/templates/istio"
-  istio_app_file      = "istio-app.yaml"
-  argocd_public_fqdn         = "argocd.${var.public_subdomain}"
-  argocd_private_fqdn = "argocd.${var.private_subdomain}" 
+  istio_template_path                  = "${path.module}/../generate-files/templates/istio"
+  istio_app_file                       = "istio-app.yaml"
+  argocd_public_fqdn                   = "argocd.${var.public_subdomain}"
+  argocd_private_fqdn                  = "argocd.${var.private_subdomain}"
   istio_internal_wildcard_gateway_name = "internal-wildcard-gateway"
   istio_external_wildcard_gateway_name = "external-wildcard-gateway"
   istio_egress_gateway_name            = "callback-egress-gateway"
-  istio_egress_gateway_namespace       = "egress-gateway" 
+  istio_egress_gateway_namespace       = "egress-gateway"
 }
 
 
@@ -138,5 +138,15 @@ variable "istio_create_ingress_gateways" {
 variable "istio_egress_gateway_max_replicas" {
   type        = number
   description = "istio_egress_gateway_max_replicas"
-  default     = 5  
+  default     = 5
+}
+
+variable "argocd_as_external_svc" {
+  type  = bool
+  default = false
+}
+
+variable "argocd_as_internal_svc" {
+  type  = bool
+  default = true
 }
