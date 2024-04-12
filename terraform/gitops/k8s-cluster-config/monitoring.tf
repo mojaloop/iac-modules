@@ -116,6 +116,6 @@ locals {
   prometheus_pvc_size                 = "50Gi"
   loki_ingester_retention_period      = "72h"
   prometheus_retention_period         = "10d"
-  grafana_public_fqdn                  = 'grafana.${var.public_subdomain}'
+  grafana_public_fqdn                  = "grafana.${var.public_subdomain}"
   grafana_private_fqdn                 = "grafana.${var.private_subdomain}"   
 }
