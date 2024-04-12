@@ -116,7 +116,7 @@ variable "istio_external_gateway_name" {
   description = "istio_external_gateway_name"
 }
 
-variable "istio_interal_gateway_name" {
+variable "istio_internal_gateway_name" {
   type        = string
   description = "istio_internal_gateway_name"
 }
