@@ -1,0 +1,4 @@
+addons_github_org: mojaloop
+addons_github_repo: iac-modules
+addons_github_module_path: terraform/gitops/k8s-addons-config
+addons_github_module_tag: v5.2.0

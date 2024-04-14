@@ -56,7 +56,7 @@ cache:
     - source $(which gitlab-terraform)
     - .gitlab/scripts/config-merge.sh
     - yq eval '.' $CONFIG_PATH/cluster-config.yaml -o=json > cluster-config.json
-    - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./cluster-config.json); do export $var; done    
+    - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./cluster-config.json); do export $var; done
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
     - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
     - export NETMAKER_OPS_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netmaker_ops_token)"
@@ -70,6 +70,9 @@ cache:
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then git config --global credential.helper 'store --file ~/.gitcredentials.store'; fi
     - git config --global advice.detachedHead false
     - source set-ansible-destroy-preq-vars.sh
+    - export TERRAGRUNT_EXCLUDE_DIR="/dev/null"
+    - if [ "$managed_svc_enabled" == "false" ]; then export TERRAGRUNT_EXCLUDE_DIR="${TERRAGRUNT_EXCLUDE_DIR},${TF_ROOT}/managed-services,${TF_ROOT}/ansible-managed-svcs-deploy"; fi
+    - if [ "$addons_module_enabled" == "false" ]; then export TERRAGRUNT_EXCLUDE_DIR="${TERRAGRUNT_EXCLUDE_DIR},$TF_ROOT/addons-gitops-build"; fi
     - set
 
 prepare:image:
@@ -123,7 +126,7 @@ init:
     - terragrunt run-all init -input=false -reconfigure
   artifacts:
     paths:
-      - $CONFIG_PATH/*.yaml    
+      - $CONFIG_PATH/*.yaml
       - $CONFIG_PATH/*.yml
       - $CONFIG_PATH/*.json
 

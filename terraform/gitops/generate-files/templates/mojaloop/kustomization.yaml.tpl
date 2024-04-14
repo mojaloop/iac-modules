@@ -15,6 +15,8 @@ helmCharts:
   repo: ${mojaloop_chart_repo}
   valuesFile: values-mojaloop.yaml
   namespace: ${mojaloop_namespace}
+  additionalValuesFiles:
+  - values-mojaloop-addons.yaml
 - name: finance-portal
   releaseName: ${finance_portal_release_name}
   version: ${finance_portal_chart_version}

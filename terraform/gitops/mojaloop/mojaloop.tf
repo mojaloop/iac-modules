@@ -190,7 +190,7 @@ module "generate_mojaloop_files" {
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
-  output_path     = "${var.output_dir}/mojaloop"
+  output_path     = local.output_path
   app_file        = local.mojaloop_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
@@ -199,6 +199,7 @@ module "generate_mojaloop_files" {
 locals {
   mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
   mojaloop_app_file                            = "mojaloop-app.yaml"
+  output_path                                  = "${var.output_dir}/mojaloop"
   ml_als_resource_index                        = index(local.stateful_resources.*.resource_name, "account-lookup-db")
   ml_cl_resource_index                         = index(local.stateful_resources.*.resource_name, "central-ledger-db")
   bulk_mongodb_resource_index                  = index(local.stateful_resources.*.resource_name, "bulk-mongodb")

@@ -12,6 +12,8 @@ iac_terraform_modules_tag: v5.1.0
 letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 longhorn_backup_object_store_destroy: true
+managed_svc_enabled: false
+addons_module_enabled: false
 nodes:
   master-generic:
     master: true
