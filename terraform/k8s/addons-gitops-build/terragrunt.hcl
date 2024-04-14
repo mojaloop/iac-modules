@@ -19,13 +19,13 @@ dependency "gitops_build" {
 inputs = {
   tags                                     = local.tags
   common_var_map                           = local.common_vars
-  app_var_map                              = merge(local.pm4ml_vars, local.mojaloop_vars, local.vnext_vars)
-  addons_vars                              = local.addons_vars
+  app_var_map                              = local.addons_vars
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
   addons_sync_wave                         = (dependency.gitops_build.outputs.mojaloop_sync_wave - 1)
   mojaloop_app_output_path                 = dependency.gitops_build.outputs.mojaloop_output_path
+  stateful_resources_config_file           = find_in_parent_folders("${get_env("CONFIG_PATH")}/addons-stateful-resources.json")
 }
 
 locals {
