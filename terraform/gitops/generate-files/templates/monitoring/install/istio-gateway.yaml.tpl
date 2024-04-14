@@ -14,7 +14,7 @@ spec:
 %{ if grafana_wildcard_gateway == "external" ~}
     - ${grafana_public_fqdn}
 %{ else ~}
-    - ${grafa_private_fqdn}
+    - ${grafana_private_fqdn}
 %{ endif ~}
   http:
     - match:
