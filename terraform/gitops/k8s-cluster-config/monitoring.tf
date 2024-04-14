@@ -45,6 +45,8 @@ module "generate_monitoring_files" {
     minio_loki_user_key                  = "${var.cluster_name}/minio_loki_username"
     minio_loki_password_key              = "${var.cluster_name}/minio_loki_password"
     external_secret_sync_wave            = var.external_secret_sync_wave
+    grafana_public_fqdn                  = local.grafana_public_fqdn
+    grafana_private_fqdn                 = local.grafana_private_fqdn
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -114,4 +116,6 @@ locals {
   prometheus_pvc_size                 = "50Gi"
   loki_ingester_retention_period      = "72h"
   prometheus_retention_period         = "10d"
+  grafana_public_fqdn                 = "grafana.${var.public_subdomain}"
+  grafana_private_fqdn                = "grafana.${var.private_subdomain}"
 }

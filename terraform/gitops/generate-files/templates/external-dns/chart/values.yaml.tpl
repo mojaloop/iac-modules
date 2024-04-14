@@ -23,5 +23,4 @@ external-dns:
   sources:
     - service
     - ingress
-    - istio-gateway
     - istio-virtualservice

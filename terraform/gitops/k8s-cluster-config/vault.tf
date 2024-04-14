@@ -40,6 +40,8 @@ module "generate_vault_files" {
     transit_vault_url                        = var.transit_vault_url
     transit_vault_key_name                   = var.transit_vault_key_name
     local_vault_kv_root_path                 = local.local_vault_kv_root_path
+    vault_public_fqdn                        = local.vault_public_fqdn
+    vault_private_fqdn                       = local.vault_private_fqdn
   }
 
   file_list       = [for f in fileset(local.vault_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vault_app_file, f))]
@@ -50,8 +52,10 @@ module "generate_vault_files" {
 }
 
 locals {
-  vault_template_path              = "${path.module}/../generate-files/templates/vault"
-  vault_app_file                   = "vault-app.yaml"
+  vault_template_path = "${path.module}/../generate-files/templates/vault"
+  vault_app_file      = "vault-app.yaml"
+  vault_public_fqdn   = "vault.${var.public_subdomain}"
+  vault_private_fqdn  = "vault.${var.private_subdomain}"
 }
 
 variable "vault_sync_wave" {
@@ -146,6 +150,6 @@ variable "enable_vault_oidc" {
 }
 
 locals {
-  vault_wildcard_gateway = var.vault_ingress_internal_lb ? "internal" : "external"
+  vault_wildcard_gateway   = var.vault_ingress_internal_lb ? "internal" : "external"
   local_vault_kv_root_path = "secret"
 }
