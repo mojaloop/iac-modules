@@ -13,7 +13,11 @@ spec:
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
 %{ endif ~}
   hosts:
-  - 'vault.${public_subdomain}'
+%{ if vault_wildcard_gateway == "external" ~}
+    - ${vault_public_fqdn}
+%{ else ~}
+    - ${vault_private_fqdn}
+%{ endif ~}
   http:
     - match:
         - uri:

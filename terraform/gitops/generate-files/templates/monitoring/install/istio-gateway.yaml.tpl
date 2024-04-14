@@ -11,7 +11,11 @@ spec:
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
 %{ endif ~}
   hosts:
-    - 'grafana.${public_subdomain}'
+%{ if grafana_wildcard_gateway == "external" ~}
+    - ${grafana_public_fqdn}
+%{ else ~}
+    - ${grafa_private_fqdn}
+%{ endif ~}
   http:
     - match:
         - uri:
