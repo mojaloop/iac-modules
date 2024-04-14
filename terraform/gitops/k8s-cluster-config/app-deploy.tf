@@ -303,8 +303,6 @@ locals {
 
   mcm_public_fqdn              = "mcm.${var.public_subdomain}"
   auth_fqdn                    = "auth.${var.public_subdomain}"
-  vault_public_fqdn            = "vault.${var.public_subdomain}"
-  grafana_public_fqdn          = "grafana.${var.public_subdomain}"
   external_interop_switch_fqdn = "extapi.${var.public_subdomain}"
   internal_interop_switch_fqdn = "intapi.${var.public_subdomain}"
   ttk_frontend_public_fqdn     = "ttkfrontend.${var.public_subdomain}"
