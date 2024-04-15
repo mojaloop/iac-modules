@@ -365,7 +365,7 @@ spec:
       clientAuthenticatorType: client-secret
       secret: ${mcm_oidc_client_secret_secret_name}
       redirectUris:
-        - https://${mcm_public_fqdn}/login-callback
+        - https://${mcm_fqdn}/login-callback
       webOrigins:
         - /*
       notBefore: 0
