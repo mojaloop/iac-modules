@@ -14,6 +14,7 @@ dependency "k8s_deploy" {
 }
 
 dependency "managed_services" {
+  enabled = get_env("managed_svc_enabled")
   config_path = "../managed-services"
   mock_outputs = {
     properties_var_map = {}
