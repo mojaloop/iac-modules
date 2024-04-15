@@ -2,12 +2,12 @@ module "generate_mcm_files" {
   source = "../generate-files"
   var_map = {
     mcm_enabled                          = var.mcm_enabled
-    db_password_secret                   = local.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret
-    db_password_secret_key               = local.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret_key
-    db_user                              = local.stateful_resources[local.mcm_resource_index].logical_service_config.username
-    db_schema                            = local.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
-    db_port                              = local.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
-    db_host                              = "${local.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    db_password_secret                   = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret
+    db_password_secret_key               = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret_key
+    db_user                              = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.username
+    db_schema                            = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
+    db_port                              = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
+    db_host                              = "${module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     mcm_public_fqdn                      = var.mcm_public_fqdn
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain
@@ -214,7 +214,7 @@ variable "mcm_public_fqdn" {
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
   mcm_app_file                   = "mcm-app.yaml"
-  mcm_resource_index             = index(local.stateful_resources.*.resource_name, "mcm-db")
+  mcm_resource_index             = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "mcm-db")
   mcm_wildcard_gateway           = var.mcm_ingress_internal_lb ? "internal" : "external"
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
   dfsp_internal_whitelist_secret = "${local.whitelist_secret_path}_pm4mls"
