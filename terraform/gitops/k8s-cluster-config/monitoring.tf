@@ -46,8 +46,8 @@ module "generate_monitoring_files" {
     minio_loki_user_key                  = "${var.cluster_name}/minio_loki_username"
     minio_loki_password_key              = "${var.cluster_name}/minio_loki_password"
     external_secret_sync_wave            = var.external_secret_sync_wave
-    prom_tsdb_max_block_duration         = try(var.common_var_map.loki_ingester_pvc_size, local.prom_tsdb_max_block_duration)
-    prom_tsdb_min_block_duration         = try(var.common_var_map.loki_ingester_pvc_size, local.prom_tsdb_min_block_duration)
+    prom_tsdb_max_block_duration         = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
+    prom_tsdb_min_block_duration         = try(var.common_var_map.prom_tsdb_min_block_duration, local.prom_tsdb_min_block_duration)
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
