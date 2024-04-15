@@ -303,7 +303,7 @@ metadata:
   name: finance-portal-vs
 spec:
   gateways:
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+  - ${portal_istio_gateway_namespace}/${portal_istio_wildcard_gateway_name}
   hosts:
     - '${portal_fqdn}'
   http:
@@ -454,11 +454,11 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: finance-portal-auth
-  namespace: ${istio_external_gateway_namespace}
+  namespace: ${portal_istio_gateway_namespace}
 spec:
   selector:
     matchLabels:
-      app: ${istio_external_gateway_name}
+      app: ${portal_istio_gateway_name}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}

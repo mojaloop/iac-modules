@@ -58,6 +58,8 @@ module "mojaloop" {
   auth_fqdn                            = local.auth_fqdn
   ory_namespace                        = var.ory_namespace
   finance_portal_fqdn                  = local.finance_portal_fqdn
+  portal_istio_gateway_namespace       = local.portal_istio_gateway_namespace
+  portal_istio_wildcard_gateway_name   = local.portal_istio_wildcard_gateway_name
   bof_release_name                     = local.bof_release_name
   ory_stack_enabled                    = var.ory_stack_enabled
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
@@ -280,6 +282,11 @@ variable "argocd_namespace" {
   description = "namespace argocd is deployed to"
 }
 
+variable "finanace_portal_ingress_internal_lb" {
+  default     = false
+  description = "whether argocd should only be available on private network"
+}
+
 locals {
   argocd_wildcard_gateway   = var.argocd_ingress_internal_lb ? "internal" : "external"
   mojaloop_wildcard_gateway = var.app_var_map.mojaloop_ingress_internal_lb ? "internal" : "external"
@@ -316,10 +323,14 @@ locals {
   ttk_istio_wildcard_gateway_name       = local.mojaloop_wildcard_gateway == "external"  ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
   ttk_istio_gateway_namespace           = local.mojaloop_wildcard_gateway == "external"  ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   
-  finance_portal_fqdn          = "finance-portal.${var.public_subdomain}"
+  finance_portal_wildcard_gateway     = var.finanace_portal_ingress_internal_lb ? "internal" : "external"
+  finance_portal_fqdn                 = local.finance_portal_wildcard_gateway == "external" ? "finance-portal.${var.public_subdomain}" : "finance-portal.${var.private_subdomain}"
+  portal_istio_gateway_namespace      = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace  
+  portal_istio_wildcard_gateway_name  = local.finance_portal_wildcard_gateway == "external"  ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  portal_istio_gateway_name           = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
+
+
   vnext_admin_ui_fqdn          = "vnext-admin.${var.public_subdomain}"
-
-
   vnext_internal_gateway_hosts = local.vnext_wildcard_gateway == "internal" ? [local.vnext_admin_ui_fqdn] : []
   vnext_external_gateway_hosts = local.vnext_wildcard_gateway == "external" ? [local.vnext_admin_ui_fqdn] : []
 
