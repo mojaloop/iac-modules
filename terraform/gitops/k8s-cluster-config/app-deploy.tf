@@ -197,6 +197,7 @@ module "vnext" {
   vnext_admin_ui_fqdn                  = local.vnext_admin_ui_fqdn
   vnext_istio_gateway_namespace        = local.vnext_istio_gateway_namespace
   vnext_istio_wildcard_gateway_name    = local.vnext_istio_wildcard_gateway_name
+  fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth  
 }
 
 variable "app_var_map" {
