@@ -66,6 +66,8 @@ module "generate_vnext_files" {
     jws_rotation_period_hours            = try(var.app_var_map.jws_rotation_period_hours, var.jws_rotation_period_hours)
     mcm_hub_jws_endpoint                 = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     vnext_admin_ui_fqdn                  = var.vnext_admin_ui_fqdn
+    vnext_istio_gateway_namespace        = var.vnext_istio_gateway_namespace
+    vnext_istio_wildcard_gateway_name    = var.vnext_istio_wildcard_gateway_name    
   }
   file_list       = [for f in fileset(local.vnext_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vnext_app_file, f))]
   template_path   = local.vnext_template_path
@@ -211,6 +213,16 @@ variable "ttk_istio_wildcard_gateway_name" {
 }
 
 variable "ttk_istio_gateway_namespace" {
+  type = string
+  default = ""
+}
+
+variable "vnext_istio_wildcard_gateway_name" {
+  type = string
+  default = ""
+}
+
+variable "vnext_istio_gateway_namespace" {
   type = string
   default = ""
 }
