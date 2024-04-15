@@ -1067,9 +1067,9 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         specApi:
-          host: ${ttk_backend_public_fqdn}
+          host: ${ttk_backend_fqdn}
         adminApi:
-          host: ${ttk_backend_public_fqdn}
+          host: ${ttk_backend_fqdn}
     parameters: &simNames
       simNamePayerfsp: 'payerfsp'
       simNamePayeefsp: 'payeefsp'
@@ -1158,11 +1158,11 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         ui:
-          host: ${ttk_frontend_public_fqdn}
+          host: ${ttk_frontend_fqdn}
           port: 6060
           paths: ['/']
     config:
-      API_BASE_URL: https://${ttk_backend_public_fqdn}
+      API_BASE_URL: https://${ttk_backend_fqdn}
 
 ml-ttk-test-setup:
   tests:
@@ -1171,7 +1171,7 @@ ml-ttk-test-setup:
     testSuiteName: Provisioning
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1194,7 +1194,7 @@ ml-ttk-test-val-gp:
     testSuiteName: GP Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1216,7 +1216,7 @@ ml-ttk-test-val-bulk:
     testSuiteName: Bulk Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1228,7 +1228,7 @@ ml-ttk-test-setup-tp:
     testSuiteName: Third Party Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1240,7 +1240,7 @@ ml-ttk-test-val-tp:
     testSuiteName: Third Party Validation Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1252,7 +1252,7 @@ ml-ttk-test-setup-sdk-bulk:
     testSuiteName: SDK Bulk Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1288,7 +1288,7 @@ ml-ttk-test-cleanup:
     testSuiteName: Post Cleanup
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues

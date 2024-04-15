@@ -243,13 +243,9 @@ metadata:
   name: mojaloop-ttkfront-vs
 spec:
   gateways:
-%{ if mojaloop_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${ttk_istio_gateway_namespace}/${ttk_istio_wildcard_gateway_name}
   hosts:
-  - '${ttk_frontend_public_fqdn}'
+  - '${ttk_frontend_fqdn}'
   http:
     - match:
         - uri:
@@ -266,13 +262,9 @@ metadata:
   name: mojaloop-ttkback-vs
 spec:
   gateways:
-%{ if mojaloop_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${ttk_istio_gateway_namespace}/${ttk_istio_wildcard_gateway_name}
   hosts:
-  - '${ttk_backend_public_fqdn}'
+  - '${ttk_backend_fqdn}'
   http:
     - name: api
       match:

@@ -22,8 +22,10 @@ module "generate_vnext_files" {
     vnext_wildcard_gateway               = local.vnext_wildcard_gateway
     keycloak_fqdn                        = var.keycloak_fqdn
     keycloak_realm_name                  = var.keycloak_hubop_realm_name
-    ttk_frontend_public_fqdn             = var.ttk_frontend_public_fqdn
-    ttk_backend_public_fqdn              = var.ttk_backend_public_fqdn
+    ttk_frontend_fqdn                    = var.ttk_frontend_fqdn
+    ttk_backend_fqdn                     = var.ttk_backend_fqdn
+    ttk_istio_wildcard_gateway_name      = var.ttk_istio_wildcard_gateway_name
+    ttk_istio_gateway_namespace          = var.ttk_istio_gateway_namespace
     kafka_host                           = "${module.vnext_stateful_resources.stateful_resources[local.vnext_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                           = module.vnext_stateful_resources.stateful_resources[local.vnext_kafka_resource_index].logical_service_config.logical_service_port
     redis_host                           = "${module.vnext_stateful_resources.stateful_resources[local.vnext_redis_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -132,10 +134,10 @@ variable "vnext_sync_wave" {
   default     = "0"
 }
 
-variable "ttk_frontend_public_fqdn" {
+variable "ttk_frontend_fqdn" {
   type = string
 }
-variable "ttk_backend_public_fqdn" {
+variable "ttk_backend_fqdn" {
   type = string
 }
 
@@ -201,4 +203,14 @@ variable "jws_rotation_renew_before_hours" {
 variable "ttk_gp_testcase_labels" {
   type    = string
   default = "p2p"
+}
+
+variable "ttk_istio_wildcard_gateway_name" {
+  type = string
+  default = ""
+}
+
+variable "ttk_istio_gateway_namespace" {
+  type = string
+  default = ""
 }

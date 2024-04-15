@@ -5,4 +5,4 @@ ml-testing-toolkit-frontend:
   ingress:
     enabled: false
   config:
-    API_BASE_URL: https://${ttk_backend_public_fqdn}
+    API_BASE_URL: https://${ttk_backend_fqdn}
