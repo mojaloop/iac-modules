@@ -21,13 +21,12 @@ module "base_infra" {
 }
 
 module "post_config" {
-  source                     = "../post-config-k8s"
-  name                       = var.cluster_name
-  domain                     = var.domain
-  tags                       = var.tags
-  private_zone_id            = module.base_infra.private_zone.id
-  public_zone_id             = module.base_infra.public_zone.id
-  longhorn_backup_s3_destroy = var.longhorn_backup_object_store_destroy
+  source          = "../post-config-k8s"
+  name            = var.cluster_name
+  domain          = var.domain
+  tags            = var.tags
+  private_zone_id = module.base_infra.private_zone.id
+  public_zone_id  = module.base_infra.public_zone.id
 }
 
 module "k6s_test_harness" {

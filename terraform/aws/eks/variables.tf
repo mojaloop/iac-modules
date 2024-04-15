@@ -111,12 +111,6 @@ variable "dns_zone_force_destroy" {
   default     = false
 }
 
-variable "longhorn_backup_object_store_destroy" {
-  description = "destroy object store backup on destroy of env"
-  type        = bool
-  default     = false
-}
-
 variable "os_user_name" {
   default     = "ubuntu"
   type        = string
@@ -195,8 +189,8 @@ variable "master_node_supports_traffic" {
 }
 
 variable "dns_provider" {
-  type = string
-  default = "aws"
+  type        = string
+  default     = "aws"
   description = "which dns provider to use, defaults to cloud provider"
 }
 
