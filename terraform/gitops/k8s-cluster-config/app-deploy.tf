@@ -60,6 +60,7 @@ module "mojaloop" {
   finance_portal_fqdn                  = local.finance_portal_fqdn
   portal_istio_gateway_namespace       = local.portal_istio_gateway_namespace
   portal_istio_wildcard_gateway_name   = local.portal_istio_wildcard_gateway_name
+  portal_istio_gateway_name            = local.portal_istio_gateway_name
   bof_release_name                     = local.bof_release_name
   ory_stack_enabled                    = var.ory_stack_enabled
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
