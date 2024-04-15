@@ -163,7 +163,10 @@ module "vnext" {
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
-  mcm_public_fqdn                      = local.mcm_public_fqdn
+  mcm_fqdn                             = local.mcm_fqdn
+  mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
+  mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
+  mcm_istio_gateway_name               = local.mcm_istio_gateway_name  
   ttk_backend_fqdn                     = local.ttk_backend_fqdn
   ttk_frontend_fqdn                    = local.ttk_frontend_fqdn
   ttk_istio_wildcard_gateway_name      = local.ttk_istio_wildcard_gateway_name
@@ -371,5 +374,5 @@ locals {
     }
   )
 
-  bof_managed_portal_fqdns = (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? [local.finance_portal_fqdn, local.mcm_public_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_external_wildcard_admin_portal_hosts)
+  bof_managed_portal_fqdns = (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? [local.finance_portal_fqdn, local.mcm_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_external_wildcard_admin_portal_hosts)
 }
