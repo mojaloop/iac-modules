@@ -33,7 +33,6 @@ module "mojaloop" {
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
-  mcm_public_fqdn                      = local.mcm_public_fqdn
   ttk_backend_fqdn                     = local.ttk_backend_fqdn
   ttk_frontend_fqdn                    = local.ttk_frontend_fqdn
   ttk_istio_gateway_namespace          = local.ttk_istio_gateway_namespace
@@ -66,6 +65,11 @@ module "mojaloop" {
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
+  mcm_fqdn                             = local.mcm_fqdn
+  mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
+  mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
+  mcm_istio_gateway_name               = local.mcm_istio_gateway_name  
+  fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
 }
 
 module "pm4ml" {
@@ -291,10 +295,7 @@ variable "finanace_portal_ingress_internal_lb" {
 }
 
 locals {
-  argocd_wildcard_gateway   = var.argocd_ingress_internal_lb ? "internal" : "external"
-  mojaloop_wildcard_gateway = var.app_var_map.mojaloop_ingress_internal_lb ? "internal" : "external"
-  vnext_wildcard_gateway    = var.app_var_map.vnext_ingress_internal_lb ? "internal" : "external"
-  mcm_wildcard_gateway      = var.app_var_map.mcm_ingress_internal_lb ? "internal" : "external"
+
   pm4ml_var_map = {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
@@ -315,12 +316,17 @@ locals {
 
   pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
 
-  mcm_public_fqdn              = "mcm.${var.public_subdomain}"
+  mcm_wildcard_gateway            = var.app_var_map.mcm_ingress_internal_lb ? "internal" : "external"
+  mcm_fqdn                        = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
+  mcm_istio_gateway_namespace     = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  mcm_istio_wildcard_gateway_name = local.mcm_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  mcm_istio_gateway_name          = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
+
   auth_fqdn                    = "auth.${var.public_subdomain}"
   external_interop_switch_fqdn = "extapi.${var.public_subdomain}"
   internal_interop_switch_fqdn = "intapi.${var.public_subdomain}"
 
-  
+  mojaloop_wildcard_gateway             = var.app_var_map.mojaloop_ingress_internal_lb ? "internal" : "external"
   ttk_frontend_fqdn                     = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
   ttk_backend_fqdn                      = local.mojaloop_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" :  "ttkbackend.${var.private_subdomain}"
   ttk_istio_wildcard_gateway_name       = local.mojaloop_wildcard_gateway == "external"  ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
@@ -332,7 +338,7 @@ locals {
   portal_istio_wildcard_gateway_name  = local.finance_portal_wildcard_gateway == "external"  ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
   portal_istio_gateway_name           = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
 
-
+  vnext_wildcard_gateway            = var.app_var_map.vnext_ingress_internal_lb ? "internal" : "external"
   vnext_admin_ui_fqdn               = local.vnext_wildcard_gateway == "external" ? "vnext-admin.${var.public_subdomain}" : "vnext-admin.${var.private_subdomain}"
   vnext_istio_gateway_namespace     = local.vnext_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   vnext_istio_wildcard_gateway_name = local.vnext_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name

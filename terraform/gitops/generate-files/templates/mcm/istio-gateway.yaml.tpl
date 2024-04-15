@@ -5,13 +5,9 @@ metadata:
   name: mcm-vs
 spec:
   gateways:
-%{ if mcm_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${mcm_istio_gateway_namespace}/${mcm_istio_wildcard_gateway_name}
   hosts:
-  - '${mcm_public_fqdn}'
+  - '${mcm_fqdn}'
   http:
     - name: "api"
       match:
@@ -64,18 +60,17 @@ spec:
             host: mcm-connection-manager-ui
             port:
               number: 8080
-%{ if mcm_wildcard_gateway == "external" ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: mcm-jwt
-  namespace: ${istio_external_gateway_namespace}
+  namespace: ${mcm_istio_gateway_namespace}
 spec:
   selector:
     matchLabels:
-      app: ${istio_external_gateway_name}
-%{ if ory_stack_enabled ~}
+      app: ${mcm_istio_gateway_name}
+%{ if fspiop_use_ory_for_auth ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
@@ -86,23 +81,23 @@ spec:
     - to:
         - operation:
             paths: ["/api/*", "/pm4mlapi/*"]
-            hosts: ["${mcm_public_fqdn}", "${mcm_public_fqdn}:*"]
-%{ if !ory_stack_enabled ~}
+            hosts: ["${mcm_fqdn}", "${mcm_fqdn}:*"]
+%{ if !fspiop_use_ory_for_auth ~}
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
 %{ endif ~}
-%{ if !ory_stack_enabled ~}
+%{ if !fspiop_use_ory_for_auth ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
   name: keycloak-${keycloak_dfsp_realm_name}-jwt
-  namespace: ${istio_external_gateway_namespace}
+  namespace: ${mcm_istio_gateway_namespace}
 spec:
   selector:
     matchLabels:
-      istio: ${istio_external_gateway_name}
+      istio: ${mcm_istio_gateway_name}
   jwtRules:
   - issuer: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}"
     jwksUri: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs"
@@ -111,5 +106,4 @@ spec:
         prefix: "Bearer "
       - name: Cookie
         prefix: "MCM_SESSION"
-%{ endif ~}
 %{ endif ~}
