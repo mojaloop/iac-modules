@@ -34,8 +34,10 @@ module "mojaloop" {
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
   mcm_public_fqdn                      = local.mcm_public_fqdn
-  ttk_backend_public_fqdn              = local.ttk_backend_public_fqdn
-  ttk_frontend_public_fqdn             = local.ttk_frontend_public_fqdn
+  ttk_backend_fqdn                     = local.ttk_backend_fqdn
+  ttk_frontend_fqdn                    = local.ttk_frontend_fqdn
+  ttk_istio_gateway_namespace          = local.ttk_istio_gateway_namespace
+  ttk_istio_wildcard_gateway_name      = local.ttk_istio_wildcard_gateway_name  
   istio_external_gateway_name          = var.istio_external_gateway_name
   istio_internal_gateway_name          = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
@@ -155,8 +157,10 @@ module "vnext" {
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
   mcm_public_fqdn                      = local.mcm_public_fqdn
-  ttk_backend_public_fqdn              = local.ttk_backend_public_fqdn
-  ttk_frontend_public_fqdn             = local.ttk_frontend_public_fqdn
+  ttk_backend_fqdn                     = local.ttk_backend_fqdn
+  ttk_frontend_fqdn                    = local.ttk_frontend_fqdn
+  ttk_istio_wildcard_gateway_name      = local.ttk_istio_wildcard_gateway_name
+  ttk_istio_gateway_namespace          = local.ttk_istio_gateway_namespace
   istio_external_gateway_name          = var.istio_external_gateway_name
   istio_internal_gateway_name          = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
@@ -305,17 +309,16 @@ locals {
   auth_fqdn                    = "auth.${var.public_subdomain}"
   external_interop_switch_fqdn = "extapi.${var.public_subdomain}"
   internal_interop_switch_fqdn = "intapi.${var.public_subdomain}"
-  ttk_frontend_public_fqdn     = "ttkfrontend.${var.public_subdomain}"
-  ttk_backend_public_fqdn      = "ttkbackend.${var.public_subdomain}"
+
+  
+  ttk_frontend_fqdn                     = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
+  ttk_backend_fqdn                      = local.mojaloop_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" :  "ttkbackend.${var.private_subdomain}"
+  ttk_istio_wildcard_gateway_name       = local.mojaloop_wildcard_gateway == "external"  ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  ttk_istio_gateway_namespace           = local.mojaloop_wildcard_gateway == "external"  ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  
   finance_portal_fqdn          = "finance-portal.${var.public_subdomain}"
   vnext_admin_ui_fqdn          = "vnext-admin.${var.public_subdomain}"
 
-  mojaloop_internal_gateway_hosts = concat([local.internal_interop_switch_fqdn],
-    local.mojaloop_wildcard_gateway == "internal" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
-  local.mcm_wildcard_gateway == "internal" ? [local.mcm_public_fqdn] : [])
-  mojaloop_external_gateway_hosts = concat(
-    local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
-  local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
 
   vnext_internal_gateway_hosts = local.vnext_wildcard_gateway == "internal" ? [local.vnext_admin_ui_fqdn] : []
   vnext_external_gateway_hosts = local.vnext_wildcard_gateway == "external" ? [local.vnext_admin_ui_fqdn] : []
