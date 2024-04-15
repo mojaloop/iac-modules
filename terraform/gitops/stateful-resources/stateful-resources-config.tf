@@ -58,7 +58,7 @@ locals {
   stateful_resources_name            = var.stateful_resources_name
   stateful_resources_template_path   = "${path.module}/templates/stateful-resources"
   stateful_resources_output_path     = "${var.output_dir}/${local.stateful_resources_name}-stateful-resources"
-  stateful_resources_app_file        = "${var.stateful_resources_name}-stateful-resources-app.yaml"
+  stateful_resources_app_file        = "stateful-resources-app.yaml"
   app_stateful_resources_output_path = "${var.output_dir}/app-yamls"
   stateful_resources                 = jsondecode(file(var.stateful_resources_config_file))
   enabled_stateful_resources         = { for stateful_resource in local.stateful_resources : stateful_resource.resource_name => stateful_resource if stateful_resource.enabled }

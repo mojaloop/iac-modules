@@ -10,7 +10,7 @@ module "vnext_stateful_resources" {
   stateful_resources_namespace                  = var.stateful_resources_namespace
   create_stateful_resources_ns                  = false
   kv_path                                       = var.kv_path
-  external_stateful_resource_instance_addresses = data.gitlab_project_variable.external_stateful_resource_instance_address.*.value
+  external_stateful_resource_instance_addresses = length(data.gitlab_project_variable.external_stateful_resource_instance_address) > 0 ? data.gitlab_project_variable.external_stateful_resource_instance_address.*.value : []
 }
 
 variable "stateful_resources_config_file" {
