@@ -23,7 +23,7 @@ variable "stateful_resources_namespace" {
 
 
 data "gitlab_project_variable" "external_stateful_resource_instance_address" {
-  for_each = managed_stateful_resources
+  for_each = local.managed_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
 }
