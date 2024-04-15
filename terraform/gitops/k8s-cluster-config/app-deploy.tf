@@ -333,9 +333,9 @@ locals {
   portal_istio_gateway_name           = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
 
 
-  vnext_admin_ui_fqdn               = vnext_wildcard_gateway == "external" ? "vnext-admin.${var.public_subdomain}" : "vnext-admin.${var.private_subdomain}"
-  vnext_istio_gateway_namespace     = vnext_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
-  vnext_istio_wildcard_gateway_name = vnext_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  vnext_admin_ui_fqdn               = local.vnext_wildcard_gateway == "external" ? "vnext-admin.${var.public_subdomain}" : "vnext-admin.${var.private_subdomain}"
+  vnext_istio_gateway_namespace     = local.vnext_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  vnext_istio_wildcard_gateway_name = local.vnext_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
 
   portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
   admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
