@@ -169,6 +169,8 @@ module "generate_mojaloop_files" {
     keto_write_url                                                    = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     kratos_service_name                                               = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                                       = var.finance_portal_fqdn
+    portal_istio_gateway_namespace                                    = var.portal_istio_gateway_namespace
+    portal_istio_wildcard_gateway_name                                = var.portal_istio_wildcard_gateway_name    
     finance_portal_release_name                                       = "fin-portal"
     finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
     ory_stack_enabled                                                 = var.ory_stack_enabled
@@ -401,6 +403,16 @@ variable "ttk_istio_wildcard_gateway_name" {
 }
 
 variable "ttk_istio_gateway_namespace" {
+  type = string
+  default = ""
+}
+
+variable "portal_istio_wildcard_gateway_name" {
+  type = string
+  default = ""
+}
+
+variable "portal_istio_gateway_namespace" {
   type = string
   default = ""
 }
