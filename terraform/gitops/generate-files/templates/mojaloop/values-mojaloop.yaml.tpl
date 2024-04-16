@@ -136,6 +136,7 @@ account-lookup-service:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${account_lookup_service_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *ALS_DB_PASSWORD
@@ -217,6 +218,15 @@ account-lookup-service:
 
 quoting-service:
   quoting-service:
+    readinessProbe:
+      initialDelaySeconds: 5
+    livenessProbe:
+      initialDelaySeconds: 5
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
@@ -228,6 +238,7 @@ quoting-service:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${quoting_service_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       kafka_producer_quote_post_topic: 'topic-quotes-post'
@@ -252,6 +263,15 @@ quoting-service:
       config:
         prefix: *QUOTING_MONITORING_PREFIX
   quoting-service-handler:
+    readinessProbe:
+      initialDelaySeconds: 5
+    livenessProbe:
+      initialDelaySeconds: 5
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
@@ -263,6 +283,7 @@ quoting-service:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${quoting_service_handler_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       simple_routing_mode_enabled: ${quoting_service_simple_routing_mode_enabled}
@@ -296,6 +317,7 @@ ml-api-adapter:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${ml_api_adapter_service_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
     ingress:
@@ -323,6 +345,7 @@ ml-api-adapter:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       endpointSecurity: *ENDPOINT_SECURITY
@@ -340,6 +363,15 @@ ml-api-adapter:
 
 centralledger:
   centralledger-service:
+    readinessProbe:
+      initialDelaySeconds: 5
+    livenessProbe:
+      initialDelaySeconds: 5
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
 %{ if centralledger_service_affinity != null ~}
     affinity:
       ${indent(8, centralledger_service_affinity)}
@@ -347,6 +379,7 @@ centralledger:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_service_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -375,12 +408,12 @@ centralledger:
     readinessProbe:
       initialDelaySeconds: 5
     livenessProbe:
-      initialDelaySeconds: 10
+      initialDelaySeconds: 5
     sidecar:
       readinessProbe:
         initialDelaySeconds: 5
       livenessProbe:
-        initialDelaySeconds: 10
+        initialDelaySeconds: 5
 %{ if central_ledger_handler_transfer_prepare_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_prepare_affinity)}
@@ -388,6 +421,7 @@ centralledger:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_prepare_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -414,12 +448,12 @@ centralledger:
     readinessProbe:
       initialDelaySeconds: 5
     livenessProbe:
-      initialDelaySeconds: 10
+      initialDelaySeconds: 5
     sidecar:
       readinessProbe:
         initialDelaySeconds: 5
       livenessProbe:
-        initialDelaySeconds: 10
+        initialDelaySeconds: 5
 %{ if central_ledger_handler_transfer_position_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_affinity)}
@@ -427,6 +461,7 @@ centralledger:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_position_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -453,12 +488,12 @@ centralledger:
     readinessProbe:
       initialDelaySeconds: 5
     livenessProbe:
-      initialDelaySeconds: 10
+      initialDelaySeconds: 5
     sidecar:
       readinessProbe:
         initialDelaySeconds: 5
       livenessProbe:
-        initialDelaySeconds: 10
+        initialDelaySeconds: 5
 %{ if central_ledger_handler_transfer_position_batch_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_batch_affinity)}
@@ -466,6 +501,7 @@ centralledger:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_position_batch_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -493,12 +529,12 @@ centralledger:
     readinessProbe:
       initialDelaySeconds: 5
     livenessProbe:
-      initialDelaySeconds: 10
+      initialDelaySeconds: 5
     sidecar:
       readinessProbe:
         initialDelaySeconds: 5
       livenessProbe:
-        initialDelaySeconds: 10
+        initialDelaySeconds: 5
 %{ if central_ledger_handler_transfer_get_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_get_affinity)}
@@ -506,6 +542,7 @@ centralledger:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_get_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -531,12 +568,12 @@ centralledger:
     readinessProbe:
       initialDelaySeconds: 5
     livenessProbe:
-      initialDelaySeconds: 10
+      initialDelaySeconds: 5
     sidecar:
       readinessProbe:
         initialDelaySeconds: 5
       livenessProbe:
-        initialDelaySeconds: 10
+        initialDelaySeconds: 5
 %{ if central_ledger_handler_transfer_fulfil_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_fulfil_affinity)}
@@ -544,6 +581,7 @@ centralledger:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_fulfil_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -570,14 +608,15 @@ centralledger:
     readinessProbe:
       initialDelaySeconds: 5
     livenessProbe:
-      initialDelaySeconds: 10
+      initialDelaySeconds: 5
     sidecar:
       readinessProbe:
         initialDelaySeconds: 5
       livenessProbe:
-        initialDelaySeconds: 10
+        initialDelaySeconds: 5
     tolerations: *MOJALOOP_TOLERATIONS
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -600,6 +639,15 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-admin-transfer:
+    readinessProbe:
+      initialDelaySeconds: 5
+    livenessProbe:
+      initialDelaySeconds: 5
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
 %{ if central_ledger_handler_admin_transfer_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_admin_transfer_affinity)}
@@ -648,6 +696,7 @@ centralsettlement:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_service_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CS_DB_PASSWORD
@@ -664,6 +713,7 @@ centralsettlement:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_deferredsettlement_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CS_DB_PASSWORD
@@ -680,6 +730,7 @@ centralsettlement:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_grosssettlement_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CS_DB_PASSWORD
@@ -696,6 +747,7 @@ centralsettlement:
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_rules_replica_count}
     config:
+      event_log_filter: ''
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CS_DB_PASSWORD
@@ -706,14 +758,23 @@ centralsettlement:
       db_database: *CS_DB_DATABASE
 
 transaction-requests-service:
+  readinessProbe:
+    initialDelaySeconds: 5
+  livenessProbe:
+    initialDelaySeconds: 5
+  sidecar:
+    readinessProbe:
+      initialDelaySeconds: 5
+    livenessProbe:
+      initialDelaySeconds: 5
   podLabels:
     sidecar.istio.io/inject: "${enable_istio_injection}"
-%{ if trasaction_requests_service_affinity != null ~}
+%{ if transaction_requests_service_affinity != null ~}
   affinity:
-    ${indent(8, trasaction_requests_service_affinity)}
+    ${indent(8, transaction_requests_service_affinity)}
 %{ endif ~}
   tolerations: *MOJALOOP_TOLERATIONS
-  replicaCount: ${trasaction_requests_service_replica_count}
+  replicaCount: ${transaction_requests_service_replica_count}
   ingress:
 %{ if istio_create_ingress_gateways ~}
     enabled: false
@@ -806,6 +867,7 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${bulk_api-adapter_service_replica_count}
       config:
+        event_log_filter: ''
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         mongo_host: *OBJSTORE_MONGO_HOST
@@ -830,6 +892,7 @@ mojaloop-bulk:
         sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
       config:
+        event_log_filter: ''
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         mongo_host: *OBJSTORE_MONGO_HOST
@@ -844,6 +907,7 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_prepare_replica_count}
       config:
+        event_log_filter: ''
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         db_password: *CL_DB_PASSWORD
@@ -862,6 +926,7 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_fulfil_replica_count}
       config:
+        event_log_filter: ''
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         db_password: *CL_DB_PASSWORD
@@ -880,6 +945,7 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_processing_replica_count}
       config:
+        event_log_filter: ''
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         db_password: *CL_DB_PASSWORD
@@ -898,6 +964,7 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_get_replica_count}
       config:
+        event_log_filter: ''
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         db_password: *CL_DB_PASSWORD

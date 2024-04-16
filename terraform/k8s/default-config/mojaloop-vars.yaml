@@ -22,7 +22,7 @@ central_settlement_service_replica_count: 1
 central_settlement_handler_deferredsettlement_replica_count: 1
 central_settlement_handler_grosssettlement_replica_count: 1
 central_settlement_handler_rules_replica_count: 1
-trasaction_requests_service_replica_count: 1
+transaction_requests_service_replica_count: 1
 auth_service_replica_count: 1
 consent_oracle_replica_count: 1
 tp_api_svc_replica_count: 1
