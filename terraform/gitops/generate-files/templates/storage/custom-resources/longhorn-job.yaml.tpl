@@ -1,3 +1,4 @@
+%{ if longhorn_backup_job_enabled ~}
 apiVersion: longhorn.io/v1beta1
 kind: RecurringJob
 metadata:
@@ -11,3 +12,4 @@ spec:
   - default
   retain: 2
   concurrency: 2
+%{ endif ~}
