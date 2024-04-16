@@ -187,6 +187,7 @@ module "generate_mojaloop_files" {
     jws_rotation_period_hours                                         = try(var.app_var_map.jws_rotation_period_hours, var.jws_rotation_period_hours)
     mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
+    patch_values_file_exists                                          = local.patch_values_file_exists
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -195,6 +196,12 @@ module "generate_mojaloop_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
+resource "local_file" "mojaloop_values_patch" {
+  count      = local.patch_values_file_exists ? 1 : 0
+  content    = file(var.mojaloop_values_patch_file)
+  filename   = "${local.output_path}/values-mojaloop-patch.yaml"
+  depends_on = [module.generate_mojaloop_files]
+}
 
 locals {
   mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
@@ -214,6 +221,7 @@ locals {
   mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
   jws_key_secret                               = "switch-jws"
+  patch_values_file_exists                     = fileexists(var.mojaloop_values_patch_file)
 }
 
 variable "app_var_map" {
@@ -366,6 +374,10 @@ variable "role_assign_svc_user" {
 }
 
 variable "rbac_api_resources_file" {
+  type = string
+}
+
+variable "mojaloop_values_patch_file" {
   type = string
 }
 

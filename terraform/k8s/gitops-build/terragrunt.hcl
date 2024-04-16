@@ -63,6 +63,7 @@ inputs = {
   stateful_resources_config_file           = find_in_parent_folders("${get_env("CONFIG_PATH")}/common-stateful-resources.json")
   mojaloop_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
   vnext_stateful_resources_config_file     = find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-stateful-resources.json")
+  mojaloop_values_patch_file               = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-values-patch.yaml", "mojaloop-values-patch.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL

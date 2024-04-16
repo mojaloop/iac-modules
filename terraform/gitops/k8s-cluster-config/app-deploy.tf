@@ -61,6 +61,7 @@ module "mojaloop" {
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
+  mojaloop_values_patch_file           = var.mojaloop_values_patch_file
 }
 
 module "pm4ml" {
@@ -263,6 +264,10 @@ variable "portal_admin_user" {
 }
 
 variable "rbac_api_resources_file" {
+  type = string
+}
+
+variable "mojaloop_values_patch_file" {
   type = string
 }
 
