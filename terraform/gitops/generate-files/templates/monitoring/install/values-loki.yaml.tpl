@@ -35,6 +35,9 @@ ingester:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"] 
 compactor:
+  # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
+  extraArgs: ["-config.expand-env"]
+  extraEnvVarsSecret: minio-credentials-secret
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
