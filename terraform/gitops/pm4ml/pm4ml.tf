@@ -74,7 +74,6 @@ module "generate_pm4ml_files" {
     pta_portal_fqdn                                 = var.pta_portal_fqdns[each.key]
     test_fqdn                                       = var.test_fqdns[each.key]
     ory_namespace                                   = var.ory_namespace
-    ory_stack_enabled                               = var.ory_stack_enabled
     oathkeeper_auth_provider_name                   = var.oathkeeper_auth_provider_name
     istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
     bof_release_name                                = var.bof_release_name
@@ -120,9 +119,7 @@ variable "admin_portal_fqdns" {
 variable "auth_fqdn" {
   type = string
 }
-variable "ory_stack_enabled" {
-  type = bool
-}
+
 variable "oathkeeper_auth_provider_name" {
   type = string
 }

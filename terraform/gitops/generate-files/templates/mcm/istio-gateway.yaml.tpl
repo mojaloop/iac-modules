@@ -70,40 +70,11 @@ spec:
   selector:
     matchLabels:
       app: ${mcm_istio_gateway_name}
-%{ if ory_stack_enabled ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
-%{ else ~}
-  action: DENY
-%{ endif ~}
   rules:
     - to:
         - operation:
             paths: ["/api/*", "/pm4mlapi/*"]
             hosts: ["${mcm_fqdn}", "${mcm_fqdn}:*"]
-%{ if !ory_stack_enabled ~}
-      from:
-        - source:
-            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
-%{ endif ~}
-%{ if !ory_stack_enabled ~}
----
-apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: keycloak-${keycloak_dfsp_realm_name}-jwt
-  namespace: ${mcm_istio_gateway_namespace}
-spec:
-  selector:
-    matchLabels:
-      istio: ${mcm_istio_gateway_name}
-  jwtRules:
-  - issuer: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}"
-    jwksUri: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs"
-    fromHeaders:
-      - name: Authorization
-        prefix: "Bearer "
-      - name: Cookie
-        prefix: "MCM_SESSION"
-%{ endif ~}

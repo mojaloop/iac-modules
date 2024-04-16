@@ -174,7 +174,6 @@ module "generate_mojaloop_files" {
     portal_istio_gateway_name                                         = var.portal_istio_gateway_name
     finance_portal_release_name                                       = "fin-portal"
     finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
-    ory_stack_enabled                                                 = var.ory_stack_enabled
     oathkeeper_auth_provider_name                                     = var.oathkeeper_auth_provider_name
     vault_secret_key                                                  = var.vault_secret_key
     role_assign_svc_secret                                            = var.role_assign_svc_secret
@@ -348,9 +347,7 @@ variable "finance_portal_fqdn" {
 variable "bof_release_name" {
   type = string
 }
-variable "ory_stack_enabled" {
-  type = bool
-}
+
 variable "oathkeeper_auth_provider_name" {
   type = string
 }

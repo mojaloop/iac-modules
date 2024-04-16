@@ -180,41 +180,14 @@ spec:
   selector:
     matchLabels:
       app: ${istio_external_gateway_name}
-%{ if ory_stack_enabled ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
-%{ else ~}
-  action: DENY
-%{ endif ~}
   rules:
     - to:
         - operation:
             paths: ["/api/*"]
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
-%{ if !ory_stack_enabled ~}
-      from:
-        - source:
-            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/*"]
-%{ endif ~}
-%{ if !ory_stack_enabled ~}
----
-apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: keycloak-${keycloak_pm4ml_realm_name}-jwt
-  namespace: ${istio_external_gateway_namespace}
-spec:
-  selector:
-    matchLabels:
-      istio: ${istio_external_gateway_name}
-  jwtRules:
-  - issuer: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}"
-    jwksUri: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/protocol/openid-connect/certs"
-    fromHeaders:
-      - name: Authorization
-        prefix: "Bearer "
-%{ endif ~}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway

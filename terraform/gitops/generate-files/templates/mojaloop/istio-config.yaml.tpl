@@ -28,7 +28,7 @@ spec:
   selector:
     matchLabels:
       app: ${istio_external_gateway_name}
-%{ if ory_stack_enabled ~}
+%{ if fspiop_use_ory_for_auth ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
@@ -39,7 +39,7 @@ spec:
     - when:
         - key: connection.sni
           values: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
-%{ if !ory_stack_enabled ~}
+%{ if !fspiop_use_ory_for_auth ~}
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]

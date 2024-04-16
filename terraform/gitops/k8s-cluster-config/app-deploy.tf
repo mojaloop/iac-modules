@@ -61,7 +61,6 @@ module "mojaloop" {
   portal_istio_wildcard_gateway_name   = local.portal_istio_wildcard_gateway_name
   portal_istio_gateway_name            = local.portal_istio_gateway_name
   bof_release_name                     = local.bof_release_name
-  ory_stack_enabled                    = var.ory_stack_enabled
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
@@ -110,7 +109,6 @@ module "pm4ml" {
   local_vault_kv_root_path               = local.local_vault_kv_root_path
   portal_fqdns                           = local.portal_fqdns
   admin_portal_fqdns                     = local.admin_portal_fqdns
-  ory_stack_enabled                      = var.ory_stack_enabled
   auth_fqdn                              = local.auth_fqdn
   oathkeeper_auth_provider_name          = local.oathkeeper_auth_provider_name
   experience_api_fqdns                   = local.experience_api_fqdns
@@ -193,7 +191,6 @@ module "vnext" {
   ory_namespace                        = var.ory_namespace
   finance_portal_fqdn                  = local.finance_portal_fqdn
   bof_release_name                     = local.bof_release_name
-  ory_stack_enabled                    = var.ory_stack_enabled
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file

@@ -81,7 +81,6 @@ module "generate_mcm_files" {
     mojaloop_namespace                   = var.vnext_namespace
     mojaloop_release_name                = var.vnext_release_name
     onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag
-    ory_stack_enabled                    = var.ory_stack_enabled
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
     auth_fqdn                            = var.auth_fqdn
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
