@@ -3,6 +3,15 @@ loki:
     # TODO: remove retention_period because it should be controlled by object store (minio) policies
     limits_config:
       retention_period: ${loki_ingester_retention_period}
+    schema_config:
+      configs:
+      - from: 2020-10-24
+        store: boltdb-shipper
+        object_store: s3
+        schema: v11
+        index:
+          prefix: index_
+          period: 24h            
     storage_config:
       boltdb_shipper:
         shared_store: s3
@@ -26,6 +35,9 @@ ingester:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"] 
 compactor:
+  # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
+  extraArgs: ["-config.expand-env"]
+  extraEnvVarsSecret: minio-credentials-secret
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -41,6 +53,8 @@ gateway:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 querier:
+  extraArgs: ["-config.expand-env"]
+  extraEnvVarsSecret: minio-credentials-secret
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
