@@ -57,7 +57,7 @@ metadata:
   name: keycloak-ext-vs
 spec:
   gateways:
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
+  - ${keycloak_istio_gateway_namespace}/${keycloak_istio_wildcard_gateway_name}
   hosts:
   - '${keycloak_fqdn}'
   http:
@@ -76,7 +76,7 @@ metadata:
   name: keycloak-admin-vs
 spec:
   gateways:
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+  - ${keycloak_admin_istio_gateway_namespace}/${keycloak_admin_istio_wildcard_gateway_name}
   hosts:
   - '${keycloak_admin_fqdn}'
   http:
@@ -99,20 +99,4 @@ spec:
   trafficPolicy:
     tls:
       mode: SIMPLE
----
-# needs to get removed
-%{ if !ory_stack_enabled ~}
-apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: keycloak-master-jwt
-  namespace: ${istio_external_gateway_namespace}
-spec:
-  selector:
-    matchLabels:
-      istio: ${istio_external_gateway_name}
-  jwtRules:
-  - issuer: "https://${keycloak_fqdn}/realms/master"
-    jwksUri: "https://${keycloak_fqdn}/realms/master/protocol/openid-connect/certs"
-%{ endif ~}
 %{ endif ~}
