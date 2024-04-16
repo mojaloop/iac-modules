@@ -1,6 +1,7 @@
 loki:
   overrideConfiguration:
     compactor:
+      # https://grafana.com/docs/loki/latest/operations/storage/retention/
       retention_enabled: true # enable deletion using compactor
       delete_request_store: s3
     limits_config:
