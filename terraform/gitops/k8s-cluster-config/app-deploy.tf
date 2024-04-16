@@ -347,7 +347,7 @@ locals {
   vnext_istio_gateway_namespace     = local.vnext_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   vnext_istio_wildcard_gateway_name = local.vnext_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
 
-  portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
+  portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "portal-${pm4ml.pm4ml}.${var.private_subdomain}" }
   admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
   experience_api_fqdns      = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "exp-${pm4ml.pm4ml}.${var.public_subdomain}" }
   mojaloop_connnector_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "conn-${pm4ml.pm4ml}.${var.public_subdomain}" }
