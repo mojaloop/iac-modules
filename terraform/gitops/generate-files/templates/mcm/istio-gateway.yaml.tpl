@@ -70,7 +70,7 @@ spec:
   selector:
     matchLabels:
       app: ${mcm_istio_gateway_name}
-%{ if fspiop_use_ory_for_auth ~}
+%{ if ory_stack_enabled ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
@@ -82,12 +82,12 @@ spec:
         - operation:
             paths: ["/api/*", "/pm4mlapi/*"]
             hosts: ["${mcm_fqdn}", "${mcm_fqdn}:*"]
-%{ if !fspiop_use_ory_for_auth ~}
+%{ if !ory_stack_enabled ~}
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
 %{ endif ~}
-%{ if !fspiop_use_ory_for_auth ~}
+%{ if !ory_stack_enabled ~}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication

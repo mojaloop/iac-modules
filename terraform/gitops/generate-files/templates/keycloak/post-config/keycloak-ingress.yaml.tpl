@@ -100,6 +100,7 @@ spec:
     tls:
       mode: SIMPLE
 ---
+# needs to get removed
 %{ if !ory_stack_enabled ~}
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication

@@ -88,6 +88,10 @@ module "generate_pm4ml_files" {
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
     core_connector_config                           = each.value.core_connector_config
     payment_token_adapter_config                    = each.value.payment_token_adapter_config
+    pm4ml_istio_gateway_namespace                   = var.pm4ml_istio_gateway_namespaces[each.key]
+    pm4ml_istio_wildcard_gateway_name               = var.pm4ml_istio_wildcard_gateway_names[each.key]
+    pm4ml_istio_gateway_name                        = var.pm4ml_istio_gateway_names[each.key]
+
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -239,6 +243,19 @@ variable "role_assign_svc_secret_prefix" {
 variable "portal_admin_secret_prefix" {
   type = string
 }
+
+variable "pm4ml_istio_gateway_namespaces" {
+  description = "fqdns for pm4ml portal"
+}
+
+variable "pm4ml_istio_wildcard_gateway_names" {
+  description = "fqdns for pm4ml portal"
+}
+
+variable "pm4ml_istio_gateway_names" {
+  description = "fqdns for pm4ml portal"
+}
+
 locals {
   nat_cidr_list = join(", ", [for ip in var.nat_public_ips : format("%s/32", ip)])
 }
