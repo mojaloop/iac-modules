@@ -7,12 +7,30 @@ include "root" {
   path = find_in_parent_folders()
 }
 
+dependency "k8s_deploy" {
+  config_path = "../k8s-deploy"
+  mock_outputs = {
+    internal_load_balancer_dns       = ""
+    external_load_balancer_dns       = ""
+    private_subdomain                = ""
+    public_subdomain                 = ""
+    external_interop_switch_fqdn     = ""
+    internal_interop_switch_fqdn     = ""
+  }
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  mock_outputs_merge_strategy_with_state  = "shallow"
+}
+
 dependency "gitops_build" {
   config_path  = "../gitops-build"
   mock_outputs = {
     mojaloop_sync_wave         = 0
     mojaloop_output_path       = ""
+    mojaloop_kafka_port        = 0
+    mojaloop_kafka_host        = ""
+    storage_class_name         = ""
   }
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
 }
 
 
@@ -23,8 +41,12 @@ inputs = {
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
+  external_load_balancer_dns               = dependency.k8s_deploy.outputs.external_load_balancer_dns
   addons_sync_wave                         = (dependency.gitops_build.outputs.mojaloop_sync_wave - 1)
   mojaloop_app_output_path                 = dependency.gitops_build.outputs.mojaloop_output_path
+  mojaloop_kafka_host                      = dependency.gitops_build.outputs.mojaloop_kafka_host
+  mojaloop_kafka_port                      = dependency.gitops_build.outputs.mojaloop_kafka_port
+  storage_class_name                       = dependency.gitops_build.outputs.storage_class_name
   stateful_resources_config_file           = find_in_parent_folders("${get_env("CONFIG_PATH")}/addons-stateful-resources.json")
 }
 
