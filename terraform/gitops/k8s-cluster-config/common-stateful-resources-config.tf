@@ -1,6 +1,6 @@
-module "vnext_stateful_resources" {
+module "common_stateful_resources" {
   source                                        = "../stateful-resources"
-  stateful_resources_name                       = "vnext"
+  stateful_resources_name                       = "common"
   cluster_name                                  = var.cluster_name
   output_dir                                    = var.output_dir
   gitlab_project_url                            = var.gitlab_project_url
@@ -8,7 +8,7 @@ module "vnext_stateful_resources" {
   current_gitlab_project_id                     = var.current_gitlab_project_id
   stateful_resources_config_file                = var.stateful_resources_config_file
   stateful_resources_namespace                  = var.stateful_resources_namespace
-  create_stateful_resources_ns                  = false
+  create_stateful_resources_ns                  = true
   kv_path                                       = var.kv_path
   external_stateful_resource_instance_addresses = length(data.gitlab_project_variable.external_stateful_resource_instance_address) > 0 ? data.gitlab_project_variable.external_stateful_resource_instance_address.*.value : []
 }

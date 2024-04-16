@@ -1,5 +1,5 @@
 mkdir -p $CONFIG_PATH
-for configFile in {'aws-vars.yaml','cluster-config.yaml','common-vars.yaml','mojaloop-rbac-permissions.yaml','mojaloop-vars.yaml','pm4ml-vars.yaml','bare-metal-vars.yaml','pm4ml-rbac-permissions.yaml','mojaloop-stateful-resources.json','common-stateful-resources.json','mojaloop-rbac-api-resources.yaml','vnext-vars.yaml','vnext-stateful-resources.json'};
+for configFile in {'aws-vars.yaml','cluster-config.yaml','common-vars.yaml','mojaloop-rbac-permissions.yaml','mojaloop-vars.yaml','pm4ml-vars.yaml','bare-metal-vars.yaml','pm4ml-rbac-permissions.yaml','mojaloop-stateful-resources.json','common-stateful-resources.json','mojaloop-rbac-api-resources.yaml','vnext-vars.yaml','vnext-stateful-resources.json','addons-vars.yaml'};
 do
     echo $configFile
     python3 .gitlab/scripts/dictmerge.py default-config/$configFile custom-config/$configFile $CONFIG_PATH;
