@@ -96,7 +96,7 @@ variable "create_haproxy_dns_record" {
 
 variable "private_subdomain_string" {
   type    = string
-  default = ""int"
+  default = "int"
 }
 
 
