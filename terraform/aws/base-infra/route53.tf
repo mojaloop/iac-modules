@@ -1,8 +1,7 @@
 resource "aws_route53_zone" "private" {
   force_destroy = var.route53_zone_force_destroy
   count = (var.configure_route_53 && var.create_private_zone) ? 1 : 0
-  name  = "internal.${local.cluster_domain}."
-
+  name  = "${var.private_subdomain_string}.${local.cluster_domain}."
   vpc {
     vpc_id = module.vpc.vpc_id
   }

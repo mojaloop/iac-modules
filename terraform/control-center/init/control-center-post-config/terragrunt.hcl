@@ -92,7 +92,7 @@ locals {
       enable_argocd_oauth_to_gitlab     = val["enable_argocd_oauth_to_gitlab"]
     }
   }
-  private_subdomain_string = "internal"
+  private_subdomain_string = "int"
 }
 
 include "root" {
