@@ -3,7 +3,7 @@ loki:
     # https://grafana.com/docs/loki/latest/operations/storage/retention/
     compactor:
       retention_enabled: true # enable deletion using compactor
-      delete_request_store: s3
+      shared_store: s3
     limits_config:
       retention_period: ${loki_ingester_retention_period}
     schema_config:
