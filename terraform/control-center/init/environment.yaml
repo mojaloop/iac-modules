@@ -19,14 +19,14 @@ longhorn_backup_data_expiry: 1d
 envs:
   - env: dev
     domain: labsk8s604.mojaloop.live
-    vault_oidc_domain: internal.dev
-    grafana_oidc_domain: internal.dev
-    argocd_oidc_domain: internal.dev
+    vault_oidc_domain: int.dev
+    grafana_oidc_domain: int.dev
+    argocd_oidc_domain: int.dev
   - env: test
     domain: labsk8s604.mojaloop.live
-    vault_oidc_domain: internal.dev
-    grafana_oidc_domain: internal.dev
-    argocd_oidc_domain: internal.dev
+    vault_oidc_domain: int.test
+    grafana_oidc_domain: int.test
+    argocd_oidc_domain: int.test
 tags:
   {
     "Origin": "Terraform",
