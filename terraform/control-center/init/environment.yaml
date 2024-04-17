@@ -19,14 +19,14 @@ longhorn_backup_data_expiry: 1d
 envs:
   - env: dev
     domain: labsk8s604.mojaloop.live
-    enable_vault_oauth_to_gitlab: true
-    enable_grafana_oauth_to_gitlab: true
-    enable_argocd_oauth_to_gitlab: false
+    vault_oidc_domain: internal.dev
+    grafana_oidc_domain: internal.dev
+    argocd_oidc_domain: internal.dev
   - env: test
     domain: labsk8s604.mojaloop.live
-    enable_vault_oauth_to_gitlab: true
-    enable_grafana_oauth_to_gitlab: true
-    enable_argocd_oauth_to_gitlab: false
+    vault_oidc_domain: internal.dev
+    grafana_oidc_domain: internal.dev
+    argocd_oidc_domain: internal.dev
 tags:
   {
     "Origin": "Terraform",
