@@ -10,6 +10,7 @@ module "generate_monitoring_files" {
     loki_release_name                   = local.loki_release_name
     grafana_operator_version            = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                     = try(var.common_var_map.grafana_version, local.grafana_version)
+    opentelemetry_chart_version          = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     tempo_chart_version                 = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
     monitoring_namespace                = var.monitoring_namespace
     gitlab_server_url                   = var.gitlab_server_url
@@ -116,6 +117,7 @@ locals {
   prometheus_operator_version         = "8.22.8"
   prometheus_process_exporter_version = "0.4.2"
   tempo_chart_version                 = "3.1.0"
+  opentelemetry_chart_version         = "0.55.2"
   grafana_version                     = "10.2.3"
   grafana_operator_version            = "3.5.11"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
