@@ -113,9 +113,9 @@ locals {
   VAULT_GITLAB_ROOT_TOKEN       = get_env("VAULT_GITLAB_ROOT_TOKEN")
   TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
-  argocd_ingress_internal_lb    = strcontains(get_env("argocd_oidc_domain"),"int.")? true : false
-  grafana_ingress_internal_lb   = strcontains(get_env("grafana_oidc_domain"),"int.")? true : false
-  vault_ingress_internal_lb     = strcontains(get_env("vault_oidc_domain"),"int.")? true : false
+  argocd_ingress_internal_lb    = strcontains(try(get_env("argocd_oidc_domain"),"int."),"int.")? true : false
+  grafana_ingress_internal_lb   = strcontains(try(get_env("grafana_oidc_domain"),"int."),"int.")? true : false
+  vault_ingress_internal_lb     = strcontains(try(get_env("vault_oidc_domain"),"int."),"int.")? true : false
 }
 
 generate "required_providers_override" {
