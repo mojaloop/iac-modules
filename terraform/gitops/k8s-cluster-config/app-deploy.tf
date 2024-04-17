@@ -328,7 +328,7 @@ locals {
 
   auth_fqdn                    = "auth.${var.public_subdomain}"
   external_interop_switch_fqdn = "extapi.${var.public_subdomain}"
-  internal_interop_switch_fqdn = "intapi.${var.public_subdomain}"
+  internal_interop_switch_fqdn = "intapi.${var.private_subdomain}"
 
   mojaloop_wildcard_gateway             = var.app_var_map.mojaloop_ingress_internal_lb ? "internal" : "external"
   ttk_frontend_fqdn                     = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
