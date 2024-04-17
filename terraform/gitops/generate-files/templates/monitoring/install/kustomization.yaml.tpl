@@ -37,7 +37,7 @@ helmCharts:
   namespace: ${monitoring_namespace}
 - name: opentelemetry-operator
   releaseName: opentelemetry-operator
-  version: ${opentelemetry_operator_chart_version}
+  version: ${opentelemetry_chart_version}
   repo: https://open-telemetry.github.io/opentelemetry-helm-charts
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
