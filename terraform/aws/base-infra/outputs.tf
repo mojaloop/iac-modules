@@ -56,7 +56,7 @@ output "netmaker_public_ip" {
 }
 
 output "key_pair_name" {
-  value = local.cluster_domain
+  value = aws_key_pair.generated_key.key_name
 }
 
 output "haproxy_server_fqdn" {
