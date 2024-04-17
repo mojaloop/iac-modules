@@ -14,7 +14,7 @@ module "generate_istio_files" {
     istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
     istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
     istio_egress_gateway_name            = local.istio_egress_gateway_name
-    istio_egress_gateway_max_replicas    = try(var.common_var_map.istio_egress_gateway_max_replicas,var.istio_egress_gateway_max_replicas)
+    istio_egress_gateway_max_replicas    = try(var.common_var_map.istio_egress_gateway_max_replicas, var.istio_egress_gateway_max_replicas)
     external_ingress_https_port          = var.external_ingress_https_port
     external_ingress_http_port           = var.external_ingress_http_port
     external_ingress_health_port         = var.external_ingress_health_port
@@ -39,6 +39,7 @@ module "generate_istio_files" {
     argocd_wildcard_gateway              = local.argocd_wildcard_gateway
     argocd_fqdn                          = local.argocd_fqdn
     argocd_namespace                     = var.argocd_namespace
+    istio_proxy_log_level                = try(var.common_var_map.istio_proxy_log_level, local.istio_proxy_log_level)
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -49,8 +50,9 @@ module "generate_istio_files" {
 }
 
 locals {
-  istio_template_path = "${path.module}/../generate-files/templates/istio"
-  istio_app_file      = "istio-app.yaml"
+  istio_template_path   = "${path.module}/../generate-files/templates/istio"
+  istio_app_file        = "istio-app.yaml"
+  istio_proxy_log_level = "warn"
 }
 
 
@@ -129,7 +131,7 @@ variable "istio_create_ingress_gateways" {
 variable "istio_egress_gateway_max_replicas" {
   type        = number
   description = "istio_egress_gateway_max_replicas"
-  default     = 5  
+  default     = 5
 }
 
 locals {
