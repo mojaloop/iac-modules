@@ -37,6 +37,7 @@ module "generate_monitoring_files" {
     grafana_wildcard_gateway             = local.grafana_wildcard_gateway
     loki_ingester_pvc_size               = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
     prometheus_pvc_size                  = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
+    loki_retention_enabled               = try(var.common_var_map.loki_retention_enabled, local.loki_retention_enabled)
     loki_ingester_retention_period       = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     prometheus_retention_period          = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                 = try(var.common_var_map.alertmanager_enabled, false)
@@ -117,6 +118,7 @@ locals {
   monitoring_app_file                 = "monitoring-app.yaml"
   loki_ingester_pvc_size              = "50Gi"
   prometheus_pvc_size                 = "50Gi"
+  loki_retention_enabled              = true
   loki_ingester_retention_period      = "72h"
   prometheus_retention_period         = "10d"
   prom_tsdb_min_block_duration        = "30m"
