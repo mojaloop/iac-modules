@@ -21,12 +21,10 @@ frontend:
     enabled: false
   env:
     API_BASE_URL: "https://${experience_api_fqdn}"
-%{ if ory_stack_enabled ~}
     CHECK_SESSION_URL: https://${portal_fqdn}/kratos/sessions/whoami
     LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
     LOGOUT_URL: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_pm4ml_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
     LOGIN_PROVIDER: ${keycloak_pm4ml_realm_name}
-%{ endif ~}
 
 experience-api:
   image:

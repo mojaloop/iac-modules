@@ -94,6 +94,12 @@ variable "create_haproxy_dns_record" {
   description = "whether to create public dns record for private ip of bastion for haproxy"
 }
 
+variable "private_subdomain_string" {
+  type    = string
+  default = "int"
+}
+
+
 ###
 # Local copies of variables to allow for parsing
 ###

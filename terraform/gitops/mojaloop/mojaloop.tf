@@ -41,8 +41,10 @@ module "generate_mojaloop_files" {
     mojaloop_wildcard_gateway                                         = local.mojaloop_wildcard_gateway
     keycloak_fqdn                                                     = var.keycloak_fqdn
     keycloak_realm_name                                               = var.keycloak_hubop_realm_name
-    ttk_frontend_public_fqdn                                          = var.ttk_frontend_public_fqdn
-    ttk_backend_public_fqdn                                           = var.ttk_backend_public_fqdn
+    ttk_frontend_fqdn                                                 = var.ttk_frontend_fqdn
+    ttk_backend_fqdn                                                  = var.ttk_backend_fqdn
+    ttk_istio_gateway_namespace                                       = var.ttk_istio_gateway_namespace
+    ttk_istio_wildcard_gateway_name                                   = var.ttk_istio_wildcard_gateway_name    
     kafka_host                                                        = "${module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                                                        = module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port
     account_lookup_db_existing_secret                                 = module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret
@@ -167,9 +169,11 @@ module "generate_mojaloop_files" {
     keto_write_url                                                    = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     kratos_service_name                                               = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                                       = var.finance_portal_fqdn
+    portal_istio_gateway_namespace                                    = var.portal_istio_gateway_namespace
+    portal_istio_wildcard_gateway_name                                = var.portal_istio_wildcard_gateway_name    
+    portal_istio_gateway_name                                         = var.portal_istio_gateway_name
     finance_portal_release_name                                       = "fin-portal"
     finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
-    ory_stack_enabled                                                 = var.ory_stack_enabled
     oathkeeper_auth_provider_name                                     = var.oathkeeper_auth_provider_name
     vault_secret_key                                                  = var.vault_secret_key
     role_assign_svc_secret                                            = var.role_assign_svc_secret
@@ -187,6 +191,7 @@ module "generate_mojaloop_files" {
     jws_rotation_period_hours                                         = try(var.app_var_map.jws_rotation_period_hours, var.jws_rotation_period_hours)
     mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
+    fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth     
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -322,10 +327,10 @@ variable "quoting_service_simple_routing_mode_enabled" {
   default     = false
 }
 
-variable "ttk_frontend_public_fqdn" {
+variable "ttk_frontend_fqdn" {
   type = string
 }
-variable "ttk_backend_public_fqdn" {
+variable "ttk_backend_fqdn" {
   type = string
 }
 
@@ -343,9 +348,7 @@ variable "finance_portal_fqdn" {
 variable "bof_release_name" {
   type = string
 }
-variable "ory_stack_enabled" {
-  type = bool
-}
+
 variable "oathkeeper_auth_provider_name" {
   type = string
 }
@@ -392,4 +395,29 @@ variable "jws_rotation_renew_before_hours" {
 variable "ttk_gp_testcase_labels" {
   type    = string
   default = "p2p"
+}
+
+variable "ttk_istio_wildcard_gateway_name" {
+  type = string
+  default = ""
+}
+
+variable "ttk_istio_gateway_namespace" {
+  type = string
+  default = ""
+}
+
+variable "portal_istio_wildcard_gateway_name" {
+  type = string
+  default = ""
+}
+
+variable "portal_istio_gateway_namespace" {
+  type = string
+  default = ""
+}
+
+variable "portal_istio_gateway_name" {
+  type = string
+  default = ""
 }

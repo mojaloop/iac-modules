@@ -88,10 +88,10 @@ vault:
 %{ endif ~}
       ingressClassName: ${ingress_class}
       hosts:
-        - host: vault.${public_subdomain}
+        - host: ${vault_fqdn}
       tls:
         - hosts:
-          - "*.${public_subdomain}"
+          - "*.${vault_subdomain}"
 
   ui:
     enabled: true
