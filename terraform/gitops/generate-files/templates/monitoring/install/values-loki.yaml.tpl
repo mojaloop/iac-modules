@@ -1,6 +1,9 @@
 loki:
   overrideConfiguration:
-    # TODO: remove retention_period because it should be controlled by object store (minio) policies
+    # https://grafana.com/docs/loki/latest/operations/storage/retention/
+    compactor:
+      retention_enabled: true # enable deletion using compactor
+      shared_store: s3
     limits_config:
       retention_period: ${loki_ingester_retention_period}
     schema_config:
@@ -16,6 +19,7 @@ loki:
       boltdb_shipper:
         shared_store: s3
       aws:
+        # s3 is alias for aws 
         s3forcepathstyle: true
         endpoint: ${minio_api_url}
         insecure: true
