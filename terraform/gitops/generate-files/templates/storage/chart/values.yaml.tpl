@@ -1,4 +1,7 @@
 longhorn:
+  preUpgradeChecker:
+    # -- Setting that allows Longhorn to perform pre-upgrade checks. Disable this setting when installing Longhorn using Argo CD or other GitOps solutions.
+    jobEnabled: false
   longhornManager:
     tolerations:
     - operator: "Exists"

@@ -17,6 +17,7 @@ module "generate_storage_files" {
     external_secret_sync_wave                        = var.external_secret_sync_wave
     longhorn_job_sync_wave                           = var.longhorn_job_sync_wave
     storage_sync_wave                                = var.storage_sync_wave
+    longhorn_backup_job_enabled                      = try(var.common_var_map.longhorn_backup_job_enabled, false)
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
   template_path   = local.storage_template_path
@@ -26,8 +27,8 @@ module "generate_storage_files" {
 }
 
 locals {
-  storage_template_path              = "${path.module}/../generate-files/templates/storage"
-  storage_app_file                   = "storage-app.yaml"
+  storage_template_path = "${path.module}/../generate-files/templates/storage"
+  storage_app_file      = "storage-app.yaml"
 }
 
 variable "longhorn_chart_repo" {
