@@ -73,7 +73,7 @@ data:
           {
             "user_claim": "sub",
             "bound_audiences": "$${OIDC_CLIENT_ID}",
-            "allowed_redirect_uris": ["https://vault.${public_subdomain}/ui/vault/auth/oidc/oidc/callback"],
+            "allowed_redirect_uris": ["https://${vault_fqdn}/ui/vault/auth/oidc/oidc/callback"],
             "role_type": "oidc",
             "token_policies": "vault-admin",
             "ttl": "1h",
@@ -85,7 +85,7 @@ data:
           {
             "user_claim": "sub",
             "bound_audiences": "$${OIDC_CLIENT_ID}",
-            "allowed_redirect_uris": ["https://vault.${public_subdomain}/ui/vault/auth/oidc/oidc/callback"],
+            "allowed_redirect_uris": ["https://${vault_fqdn}/ui/vault/auth/oidc/oidc/callback"],
             "role_type": "oidc",
             "token_policies": "read-secrets",
             "ttl": "1h",
