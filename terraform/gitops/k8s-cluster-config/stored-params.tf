@@ -37,10 +37,12 @@ data "gitlab_project_variable" "external_dns_credentials_client_id_name" {
 # need to get these by hand because loki doesnt support k8s secret env vars.
 
 data "vault_generic_secret" "grafana_oauth_client_id" {
+  count = var.enable_grafana_oidc ? 1 : 0  
   path = "${var.kv_path}/${var.cluster_name}/${var.grafana_oidc_client_id_secret_key}"
 }
 
 data "vault_generic_secret" "grafana_oauth_client_secret" {
+  count = var.enable_grafana_oidc ? 1 : 0    
   path = "${var.kv_path}/${var.cluster_name}/${var.grafana_oidc_client_secret_secret_key}"
 }
 
