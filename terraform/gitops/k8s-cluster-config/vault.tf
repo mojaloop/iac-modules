@@ -35,6 +35,7 @@ module "generate_vault_files" {
     transit_vault_url                        = var.transit_vault_url
     transit_vault_key_name                   = var.transit_vault_key_name
     local_vault_kv_root_path                 = local.local_vault_kv_root_path
+    vault_subdomain                          = local.vault_subdomain
     vault_fqdn                               = local.vault_fqdn
     vault_istio_gateway_namespace            = local.vault_istio_gateway_namespace
     vault_istio_wildcard_gateway_name        = local.vault_istio_wildcard_gateway_name
@@ -52,6 +53,7 @@ locals {
   local_vault_kv_root_path          = "secret"
   vault_template_path               = "${path.module}/../generate-files/templates/vault"
   vault_app_file                    = "vault-app.yaml"
+  vault_subdomain                   = local.vault_wildcard_gateway == "external" ? var.public_subdomain : var.private_subdomain
   vault_fqdn                        = local.vault_wildcard_gateway == "external" ? "vault.${var.public_subdomain}" : "vault.${var.private_subdomain}"
   vault_istio_gateway_namespace     = local.vault_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   vault_istio_wildcard_gateway_name = local.vault_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name

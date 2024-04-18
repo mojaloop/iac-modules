@@ -30,11 +30,6 @@ module "generate_monitoring_files" {
     monitoring_post_config_sync_wave     = var.monitoring_post_config_sync_wave
     ingress_class                        = var.grafana_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
-    istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
-    istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
-    istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
-    istio_external_gateway_namespace     = var.istio_external_gateway_namespace
-    grafana_wildcard_gateway             = local.grafana_wildcard_gateway
     loki_ingester_pvc_size               = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
     prometheus_pvc_size                  = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
     loki_ingester_retention_period       = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
@@ -48,8 +43,10 @@ module "generate_monitoring_files" {
     external_secret_sync_wave            = var.external_secret_sync_wave
     prom_tsdb_max_block_duration         = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
     prom_tsdb_min_block_duration         = try(var.common_var_map.prom_tsdb_min_block_duration, local.prom_tsdb_min_block_duration)
-    grafana_public_fqdn                  = local.grafana_public_fqdn
-    grafana_private_fqdn                 = local.grafana_private_fqdn
+    grafana_subdomain                    = local.grafana_subdomain
+    grafana_fqdn                         = local.grafana_fqdn
+    grafana_istio_gateway_namespace      = local.grafana_istio_gateway_namespace
+    grafana_istio_wildcard_gateway_name  = local.vault_istio_wildcard_gateway_name    
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -125,4 +122,8 @@ locals {
   prom_tsdb_max_block_duration        = "30m"
   grafana_public_fqdn                 = "grafana.${var.public_subdomain}"
   grafana_private_fqdn                = "grafana.${var.private_subdomain}"
+  grafana_subdomain                   = local.grafana_wildcard_gateway == "external" ? var.public_subdomain : var.private_subdomain
+  grafana_fqdn                        = local.grafana_wildcard_gateway == "external" ? "grafana.${var.public_subdomain}" : "grafana.${var.private_subdomain}"
+  grafana_istio_gateway_namespace     = local.grafana_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  grafana_istio_wildcard_gateway_name = local.grafana_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
 }
