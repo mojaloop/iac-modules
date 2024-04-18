@@ -33,9 +33,10 @@ module "mojaloop" {
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
-  mcm_public_fqdn                      = local.mcm_public_fqdn
-  ttk_backend_public_fqdn              = local.ttk_backend_public_fqdn
-  ttk_frontend_public_fqdn             = local.ttk_frontend_public_fqdn
+  ttk_backend_fqdn                     = local.ttk_backend_fqdn
+  ttk_frontend_fqdn                    = local.ttk_frontend_fqdn
+  ttk_istio_gateway_namespace          = local.ttk_istio_gateway_namespace
+  ttk_istio_wildcard_gateway_name      = local.ttk_istio_wildcard_gateway_name  
   istio_external_gateway_name          = var.istio_external_gateway_name
   istio_internal_gateway_name          = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
@@ -56,12 +57,19 @@ module "mojaloop" {
   auth_fqdn                            = local.auth_fqdn
   ory_namespace                        = var.ory_namespace
   finance_portal_fqdn                  = local.finance_portal_fqdn
+  portal_istio_gateway_namespace       = local.portal_istio_gateway_namespace
+  portal_istio_wildcard_gateway_name   = local.portal_istio_wildcard_gateway_name
+  portal_istio_gateway_name            = local.portal_istio_gateway_name
   bof_release_name                     = local.bof_release_name
-  ory_stack_enabled                    = var.ory_stack_enabled
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   mojaloop_values_override_file        = var.mojaloop_values_override_file
+  mcm_fqdn                             = local.mcm_fqdn
+  mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
+  mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
+  mcm_istio_gateway_name               = local.mcm_istio_gateway_name  
+  fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
 }
 
 module "pm4ml" {
@@ -102,7 +110,6 @@ module "pm4ml" {
   local_vault_kv_root_path               = local.local_vault_kv_root_path
   portal_fqdns                           = local.portal_fqdns
   admin_portal_fqdns                     = local.admin_portal_fqdns
-  ory_stack_enabled                      = var.ory_stack_enabled
   auth_fqdn                              = local.auth_fqdn
   oathkeeper_auth_provider_name          = local.oathkeeper_auth_provider_name
   experience_api_fqdns                   = local.experience_api_fqdns
@@ -118,6 +125,9 @@ module "pm4ml" {
   role_assign_svc_secret_prefix          = "role-assign-svc-secret-"
   portal_admin_user                      = var.portal_admin_user
   portal_admin_secret_prefix             = "portal-admin-secret-"
+  pm4ml_istio_gateway_namespaces         = local.pm4ml_istio_gateway_namespaces
+  pm4ml_istio_wildcard_gateway_names     = local.pm4ml_istio_wildcard_gateway_names
+  pm4ml_istio_gateway_names              = local.pm4ml_istio_gateway_names
 }
 
 module "vnext" {
@@ -155,9 +165,14 @@ module "vnext" {
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
-  mcm_public_fqdn                      = local.mcm_public_fqdn
-  ttk_backend_public_fqdn              = local.ttk_backend_public_fqdn
-  ttk_frontend_public_fqdn             = local.ttk_frontend_public_fqdn
+  mcm_fqdn                             = local.mcm_fqdn
+  mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
+  mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
+  mcm_istio_gateway_name               = local.mcm_istio_gateway_name  
+  ttk_backend_fqdn                     = local.ttk_backend_fqdn
+  ttk_frontend_fqdn                    = local.ttk_frontend_fqdn
+  ttk_istio_wildcard_gateway_name      = local.ttk_istio_wildcard_gateway_name
+  ttk_istio_gateway_namespace          = local.ttk_istio_gateway_namespace
   istio_external_gateway_name          = var.istio_external_gateway_name
   istio_internal_gateway_name          = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
@@ -177,11 +192,13 @@ module "vnext" {
   ory_namespace                        = var.ory_namespace
   finance_portal_fqdn                  = local.finance_portal_fqdn
   bof_release_name                     = local.bof_release_name
-  ory_stack_enabled                    = var.ory_stack_enabled
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   vnext_admin_ui_fqdn                  = local.vnext_admin_ui_fqdn
+  vnext_istio_gateway_namespace        = local.vnext_istio_gateway_namespace
+  vnext_istio_wildcard_gateway_name    = local.vnext_istio_wildcard_gateway_name
+  fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth  
 }
 
 variable "app_var_map" {
@@ -281,11 +298,13 @@ variable "argocd_namespace" {
   description = "namespace argocd is deployed to"
 }
 
+variable "finanace_portal_ingress_internal_lb" {
+  default     = false
+  description = "whether argocd should only be available on private network"
+}
+
 locals {
-  argocd_wildcard_gateway   = var.argocd_ingress_internal_lb ? "internal" : "external"
-  mojaloop_wildcard_gateway = var.app_var_map.mojaloop_ingress_internal_lb ? "internal" : "external"
-  vnext_wildcard_gateway    = var.app_var_map.vnext_ingress_internal_lb ? "internal" : "external"
-  mcm_wildcard_gateway      = var.app_var_map.mcm_ingress_internal_lb ? "internal" : "external"
+
   pm4ml_var_map = {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
@@ -306,36 +325,45 @@ locals {
 
   pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
 
-  mcm_public_fqdn              = "mcm.${var.public_subdomain}"
+  mcm_wildcard_gateway            = var.app_var_map.mcm_ingress_internal_lb ? "internal" : "external"
+  mcm_fqdn                        = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
+  mcm_istio_gateway_namespace     = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  mcm_istio_wildcard_gateway_name = local.mcm_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  mcm_istio_gateway_name          = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
+
   auth_fqdn                    = "auth.${var.public_subdomain}"
-  vault_public_fqdn            = "vault.${var.public_subdomain}"
-  grafana_public_fqdn          = "grafana.${var.public_subdomain}"
   external_interop_switch_fqdn = "extapi.${var.public_subdomain}"
-  internal_interop_switch_fqdn = "intapi.${var.public_subdomain}"
-  ttk_frontend_public_fqdn     = "ttkfrontend.${var.public_subdomain}"
-  ttk_backend_public_fqdn      = "ttkbackend.${var.public_subdomain}"
-  finance_portal_fqdn          = "finance-portal.${var.public_subdomain}"
-  argocd_fqdn                  = "argocd.${var.public_subdomain}"
-  vnext_admin_ui_fqdn          = "vnext-admin.${var.public_subdomain}"
+  internal_interop_switch_fqdn = "intapi.${var.private_subdomain}"
 
-  mojaloop_internal_gateway_hosts = concat([local.internal_interop_switch_fqdn],
-    local.mojaloop_wildcard_gateway == "internal" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
-  local.mcm_wildcard_gateway == "internal" ? [local.mcm_public_fqdn] : [])
-  mojaloop_external_gateway_hosts = concat(
-    local.mojaloop_wildcard_gateway == "external" ? [local.ttk_frontend_public_fqdn, local.ttk_backend_public_fqdn] : [],
-  local.mcm_wildcard_gateway == "external" ? [local.mcm_public_fqdn] : [])
+  mojaloop_wildcard_gateway             = var.app_var_map.mojaloop_ingress_internal_lb ? "internal" : "external"
+  ttk_frontend_fqdn                     = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
+  ttk_backend_fqdn                      = local.mojaloop_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" :  "ttkbackend.${var.private_subdomain}"
+  ttk_istio_wildcard_gateway_name       = local.mojaloop_wildcard_gateway == "external"  ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  ttk_istio_gateway_namespace           = local.mojaloop_wildcard_gateway == "external"  ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  
+  finance_portal_wildcard_gateway     = var.finanace_portal_ingress_internal_lb ? "internal" : "external"
+  finance_portal_fqdn                 = local.finance_portal_wildcard_gateway == "external" ? "finance-portal.${var.public_subdomain}" : "finance-portal.${var.private_subdomain}"
+  portal_istio_gateway_namespace      = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace  
+  portal_istio_wildcard_gateway_name  = local.finance_portal_wildcard_gateway == "external"  ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  portal_istio_gateway_name           = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
 
-  vnext_internal_gateway_hosts = local.vnext_wildcard_gateway == "internal" ? [local.vnext_admin_ui_fqdn] : []
-  vnext_external_gateway_hosts = local.vnext_wildcard_gateway == "external" ? [local.vnext_admin_ui_fqdn] : []
+  vnext_wildcard_gateway            = var.app_var_map.vnext_ingress_internal_lb ? "internal" : "external"
+  vnext_admin_ui_fqdn               = local.vnext_wildcard_gateway == "external" ? "vnext-admin.${var.public_subdomain}" : "vnext-admin.${var.private_subdomain}"
+  vnext_istio_gateway_namespace     = local.vnext_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  vnext_istio_wildcard_gateway_name = local.vnext_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
 
-  portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
-  admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
-  experience_api_fqdns      = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "exp-${pm4ml.pm4ml}.${var.public_subdomain}" }
-  mojaloop_connnector_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "conn-${pm4ml.pm4ml}.${var.public_subdomain}" }
-  test_fqdns                = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "test-${pm4ml.pm4ml}.${var.public_subdomain}" }
-  pm4ml_ttk_frontend_fqdns  = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}" }
-  pm4ml_ttk_backend_fqdns   = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}" }
-  pm4ml_pta_portal_fqdns    = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => "pta-portal-${pm4ml.pm4ml}.${var.public_subdomain}" }
+  portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "portal-${pm4ml.pm4ml}.${var.private_subdomain}" }
+  admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "admin-portal-${pm4ml.pm4ml}.${var.private_subdomain}"}
+  experience_api_fqdns      = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "exp-${pm4ml.pm4ml}.${var.public_subdomain}"  : "exp-${pm4ml.pm4ml}.${var.private_subdomain}"}
+  mojaloop_connnector_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "conn-${pm4ml.pm4ml}.${var.public_subdomain}" : "conn-${pm4ml.pm4ml}.${var.private_subdomain}" }
+  test_fqdns                = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "test-${pm4ml.pm4ml}.${var.public_subdomain}" :  "test-${pm4ml.pm4ml}.${var.private_subdomain}" }
+  pm4ml_ttk_frontend_fqdns  = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}" : "ttkfront-${pm4ml.pm4ml}.${var.private_subdomain}" }
+  pm4ml_ttk_backend_fqdns   = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}" : "ttkback-${pm4ml.pm4ml}.${var.private_subdomain}"}
+  pm4ml_pta_portal_fqdns    = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "pta-portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "pta-portal-${pm4ml.pm4ml}.${var.private_subdomain}"}
+
+  pm4ml_istio_gateway_namespaces     = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace }
+  pm4ml_istio_wildcard_gateway_names = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name }
+  pm4ml_istio_gateway_names          = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name }
 
   pm4ml_internal_wildcard_admin_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
   pm4ml_external_wildcard_admin_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
@@ -356,19 +384,5 @@ locals {
     }
   )
 
-  internal_gateway_hosts = concat([local.keycloak_admin_fqdn],
-    local.argocd_wildcard_gateway == "internal" ? [local.argocd_fqdn] : [],
-    local.vault_wildcard_gateway == "internal" ? [local.vault_public_fqdn] : [],
-    local.grafana_wildcard_gateway == "internal" ? [local.grafana_public_fqdn] : [],
-    (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_internal_gateway_hosts : [],
-    var.common_var_map.pm4ml_enabled ? local.pm4ml_internal_gateway_hosts : [],
-  var.common_var_map.vnext_enabled ? local.vnext_internal_gateway_hosts : [])
-  external_gateway_hosts = concat([local.keycloak_fqdn, local.auth_fqdn, local.finance_portal_fqdn],
-    local.argocd_wildcard_gateway == "external" ? [local.argocd_fqdn] : [],
-    local.vault_wildcard_gateway == "external" ? [local.vault_public_fqdn] : [],
-    local.grafana_wildcard_gateway == "external" ? [local.grafana_public_fqdn] : [],
-    (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_external_gateway_hosts : [],
-    var.common_var_map.pm4ml_enabled ? local.pm4ml_external_gateway_hosts : [],
-  var.common_var_map.vnext_enabled ? local.vnext_external_gateway_hosts : [])
-  bof_managed_portal_fqdns = (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? [local.finance_portal_fqdn, local.mcm_public_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_external_wildcard_admin_portal_hosts)
+  bof_managed_portal_fqdns = (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? [local.finance_portal_fqdn, local.mcm_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_external_wildcard_admin_portal_hosts)
 }

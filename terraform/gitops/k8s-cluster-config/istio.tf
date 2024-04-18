@@ -24,20 +24,20 @@ module "generate_istio_files" {
     istio_external_gateway_name          = var.istio_external_gateway_name
     istio_internal_gateway_name          = var.istio_internal_gateway_name
     default_ssl_certificate              = var.default_ssl_certificate
+    default_internal_ssl_certificate     = var.default_internal_ssl_certificate
     wildcare_certificate_wave            = var.wildcare_certificate_wave
     public_subdomain                     = var.public_subdomain
+    private_subdomain                    = var.private_subdomain
     istio_gateways_sync_wave             = var.istio_gateways_sync_wave
     kiali_chart_version                  = var.kiali_chart_version
     kiali_chart_repo                     = var.kiali_chart_repo
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
-    internal_gateway_hosts               = local.internal_gateway_hosts
-    external_gateway_hosts               = local.external_gateway_hosts
-    ory_stack_enabled                    = var.ory_stack_enabled
-    oathkeeper_auth_url                  = var.ory_stack_enabled ? local.oathkeeper_auth_url : ""
-    oathkeeper_auth_provider_name        = var.ory_stack_enabled ? local.oathkeeper_auth_provider_name : ""
+    oathkeeper_auth_url                  = local.oathkeeper_auth_url
+    oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
     argocd_wildcard_gateway              = local.argocd_wildcard_gateway
-    argocd_fqdn                          = local.argocd_fqdn
+    argocd_public_fqdn                   = local.argocd_public_fqdn
+    argocd_private_fqdn                  = local.argocd_private_fqdn
     argocd_namespace                     = var.argocd_namespace
     istio_proxy_log_level                = try(var.common_var_map.istio_proxy_log_level, local.istio_proxy_log_level)
   }
@@ -50,9 +50,19 @@ module "generate_istio_files" {
 }
 
 locals {
-  istio_template_path   = "${path.module}/../generate-files/templates/istio"
-  istio_app_file        = "istio-app.yaml"
-  istio_proxy_log_level = "warn"
+
+  istio_template_path                  = "${path.module}/../generate-files/templates/istio"
+  istio_app_file                       = "istio-app.yaml"
+  istio_proxy_log_level                = "warn"
+  istio_template_path                  = "${path.module}/../generate-files/templates/istio"
+  istio_app_file                       = "istio-app.yaml"
+  argocd_wildcard_gateway              = var.argocd_ingress_internal_lb ? "internal" : "external"
+  argocd_public_fqdn                   = "argocd.${var.public_subdomain}"
+  argocd_private_fqdn                  = "argocd.${var.private_subdomain}"
+  istio_internal_wildcard_gateway_name = "internal-wildcard-gateway"
+  istio_external_wildcard_gateway_name = "external-wildcard-gateway"
+  istio_egress_gateway_name            = "callback-egress-gateway"
+  istio_egress_gateway_namespace       = "egress-gateway"
 }
 
 
@@ -132,11 +142,4 @@ variable "istio_egress_gateway_max_replicas" {
   type        = number
   description = "istio_egress_gateway_max_replicas"
   default     = 5
-}
-
-locals {
-  istio_internal_wildcard_gateway_name = "internal-wildcard-gateway"
-  istio_external_wildcard_gateway_name = "external-wildcard-gateway"
-  istio_egress_gateway_name            = "callback-egress-gateway"
-  istio_egress_gateway_namespace       = "egress-gateway"
 }

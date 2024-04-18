@@ -3,7 +3,6 @@ module "generate_ory_files" {
   var_map = {
     gitlab_project_url                   = var.gitlab_project_url
     ory_sync_wave                        = var.ory_sync_wave
-    ory_stack_enabled                    = try(var.common_var_map.ory_stack_enabled, var.ory_stack_enabled)
     oathkeeper_chart_version             = try(var.common_var_map.oathkeeper_chart_version, var.oathkeeper_chart_version)
     kratos_chart_version                 = try(var.common_var_map.kratos_chart_version, var.kratos_chart_version)
     keto_chart_version                   = try(var.common_var_map.keto_chart_version, var.keto_chart_version)
@@ -54,11 +53,6 @@ module "generate_ory_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
-variable "ory_stack_enabled" {
-  description = "whether ory_stack app is enabled or not"
-  type        = bool
-  default     = true
-}
 variable "ory_sync_wave" {
   type        = string
   description = "ory_sync_wave"

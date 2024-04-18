@@ -8,7 +8,11 @@ module "generate_mcm_files" {
     db_schema                            = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
     db_port                              = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
     db_host                              = "${module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    mcm_public_fqdn                      = var.mcm_public_fqdn
+    mcm_fqdn                             = var.mcm_fqdn
+    mcm_istio_gateway_namespace          = var.mcm_istio_gateway_namespace
+    mcm_istio_wildcard_gateway_name      = var.mcm_istio_wildcard_gateway_name
+    mcm_istio_gateway_name               = var.mcm_istio_gateway_name 
+    fspiop_use_ory_for_auth              = var.fspiop_use_ory_for_auth     
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain
     env_o                                = "Mojaloop"
@@ -77,7 +81,6 @@ module "generate_mcm_files" {
     mojaloop_namespace                   = var.mojaloop_namespace
     mojaloop_release_name                = var.mojaloop_release_name
     onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag
-    ory_stack_enabled                    = var.ory_stack_enabled
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
     auth_fqdn                            = var.auth_fqdn
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
@@ -206,9 +209,29 @@ variable "keycloak_namespace" {
   type        = string
   description = "namespace of keycloak in which to create realm"
 }
-variable "mcm_public_fqdn" {
+
+variable "mcm_fqdn" {
   type        = string
   description = "hostname for mcm"
+}
+
+variable "mcm_istio_wildcard_gateway_name" {
+  type = string
+  default = ""
+}
+
+variable "mcm_istio_gateway_namespace" {
+  type = string
+  default = ""
+}
+
+variable "mcm_istio_gateway_name" {
+  type = string
+  default = ""
+}
+
+variable "fspiop_use_ory_for_auth" {
+  type = bool
 }
 
 locals {

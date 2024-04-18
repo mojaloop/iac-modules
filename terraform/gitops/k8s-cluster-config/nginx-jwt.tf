@@ -2,7 +2,7 @@ module "generate_nginx_jwt_files" {
   source = "../generate-files"
   var_map = {
     gitlab_project_url            = var.gitlab_project_url
-    keycloak_fqdn                 = "keycloak.${var.public_subdomain}"
+    keycloak_fqdn                 = local.keycloak_fqdn
     keycloak_dfsp_realm_name      = var.keycloak_dfsp_realm_name
     nginx_jwt_sync_wave           = var.nginx_jwt_sync_wave
     nginx_jwt_helm_chart_repo     = var.nginx_jwt_helm_chart_repo

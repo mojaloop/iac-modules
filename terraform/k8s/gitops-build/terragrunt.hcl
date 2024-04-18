@@ -81,6 +81,9 @@ inputs = {
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
   rbac_api_resources_file                  = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""
   rbac_permissions_file                    = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-permissions.yaml") : find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-rbac-permissions.yaml")
+  argocd_ingress_internal_lb               = local.argocd_ingress_internal_lb
+  grafana_ingress_internal_lb              = local.grafana_ingress_internal_lb
+  vault_ingress_internal_lb                = local.vault_ingress_internal_lb
 }
 
 locals {
@@ -110,6 +113,9 @@ locals {
   VAULT_GITLAB_ROOT_TOKEN       = get_env("VAULT_GITLAB_ROOT_TOKEN")
   TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
+  argocd_ingress_internal_lb    = strcontains(try(get_env("argocd_oidc_domain"),"int."),"int.")? true : false
+  grafana_ingress_internal_lb   = strcontains(try(get_env("grafana_oidc_domain"),"int."),"int.")? true : false
+  vault_ingress_internal_lb     = strcontains(try(get_env("vault_oidc_domain"),"int."),"int.")? true : false
 }
 
 generate "required_providers_override" {

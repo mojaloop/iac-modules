@@ -22,8 +22,10 @@ module "generate_vnext_files" {
     vnext_wildcard_gateway               = local.vnext_wildcard_gateway
     keycloak_fqdn                        = var.keycloak_fqdn
     keycloak_realm_name                  = var.keycloak_hubop_realm_name
-    ttk_frontend_public_fqdn             = var.ttk_frontend_public_fqdn
-    ttk_backend_public_fqdn              = var.ttk_backend_public_fqdn
+    ttk_frontend_fqdn                    = var.ttk_frontend_fqdn
+    ttk_backend_fqdn                     = var.ttk_backend_fqdn
+    ttk_istio_wildcard_gateway_name      = var.ttk_istio_wildcard_gateway_name
+    ttk_istio_gateway_namespace          = var.ttk_istio_gateway_namespace
     kafka_host                           = "${module.vnext_stateful_resources.stateful_resources[local.vnext_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                           = module.vnext_stateful_resources.stateful_resources[local.vnext_kafka_resource_index].logical_service_config.logical_service_port
     redis_host                           = "${module.vnext_stateful_resources.stateful_resources[local.vnext_redis_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -47,7 +49,6 @@ module "generate_vnext_files" {
     portal_fqdn                          = var.finance_portal_fqdn
     finance_portal_release_name          = "fin-portal"
     finance_portal_chart_version         = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
-    ory_stack_enabled                    = var.ory_stack_enabled
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
     vault_secret_key                     = var.vault_secret_key
     role_assign_svc_secret               = var.role_assign_svc_secret
@@ -64,6 +65,8 @@ module "generate_vnext_files" {
     jws_rotation_period_hours            = try(var.app_var_map.jws_rotation_period_hours, var.jws_rotation_period_hours)
     mcm_hub_jws_endpoint                 = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     vnext_admin_ui_fqdn                  = var.vnext_admin_ui_fqdn
+    vnext_istio_gateway_namespace        = var.vnext_istio_gateway_namespace
+    vnext_istio_wildcard_gateway_name    = var.vnext_istio_wildcard_gateway_name    
   }
   file_list       = [for f in fileset(local.vnext_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vnext_app_file, f))]
   template_path   = local.vnext_template_path
@@ -132,10 +135,10 @@ variable "vnext_sync_wave" {
   default     = "0"
 }
 
-variable "ttk_frontend_public_fqdn" {
+variable "ttk_frontend_fqdn" {
   type = string
 }
-variable "ttk_backend_public_fqdn" {
+variable "ttk_backend_fqdn" {
   type = string
 }
 
@@ -157,9 +160,7 @@ variable "finance_portal_fqdn" {
 variable "bof_release_name" {
   type = string
 }
-variable "ory_stack_enabled" {
-  type = bool
-}
+
 variable "oathkeeper_auth_provider_name" {
   type = string
 }
@@ -201,4 +202,24 @@ variable "jws_rotation_renew_before_hours" {
 variable "ttk_gp_testcase_labels" {
   type    = string
   default = "p2p"
+}
+
+variable "ttk_istio_wildcard_gateway_name" {
+  type = string
+  default = ""
+}
+
+variable "ttk_istio_gateway_namespace" {
+  type = string
+  default = ""
+}
+
+variable "vnext_istio_wildcard_gateway_name" {
+  type = string
+  default = ""
+}
+
+variable "vnext_istio_gateway_namespace" {
+  type = string
+  default = ""
 }

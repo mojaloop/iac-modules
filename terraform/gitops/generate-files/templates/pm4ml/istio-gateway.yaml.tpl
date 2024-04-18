@@ -5,11 +5,7 @@ metadata:
   name: ${pm4ml_release_name}-ui-vs
 spec:
   gateways:
-%{ if pm4ml_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
   hosts:
   - '${portal_fqdn}'
   http:
@@ -51,11 +47,7 @@ metadata:
   name: ${admin_portal_release_name}-admin-ui-vs
 spec:
   gateways:
-%{ if pm4ml_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
   hosts:
   - '${admin_portal_fqdn}'
   http:
@@ -119,11 +111,11 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: ${admin_portal_release_name}-auth
-  namespace: ${istio_external_gateway_namespace}
+  namespace: ${pm4ml_istio_gateway_namespace}
 spec:
   selector:
     matchLabels:
-      app: ${istio_external_gateway_name}
+      app: ${pm4ml_istio_gateway_name}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
@@ -138,11 +130,11 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: ${pm4ml_release_name}-exp-auth
-  namespace: ${istio_external_gateway_namespace}
+  namespace: ${pm4ml_istio_gateway_namespace}
 spec:
   selector:
     matchLabels:
-      app: ${istio_external_gateway_name}
+      app: ${pm4ml_istio_gateway_name}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
@@ -159,11 +151,7 @@ metadata:
   name: ${pm4ml_release_name}-experience-vs
 spec:
   gateways:
-%{ if pm4ml_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
   hosts:
   - '${experience_api_fqdn}'
   http:
@@ -181,7 +169,7 @@ spec:
               add:
                 access-control-allow-origin: "https://${portal_fqdn}"
                 access-control-allow-credentials: "true"
-%{ if pm4ml_wildcard_gateway == "external" ~}
+
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -192,41 +180,14 @@ spec:
   selector:
     matchLabels:
       app: ${istio_external_gateway_name}
-%{ if ory_stack_enabled ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
-%{ else ~}
-  action: DENY
-%{ endif ~}
   rules:
     - to:
         - operation:
             paths: ["/api/*"]
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
-%{ if !ory_stack_enabled ~}
-      from:
-        - source:
-            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/*"]
-%{ endif ~}
-%{ if !ory_stack_enabled ~}
----
-apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: keycloak-${keycloak_pm4ml_realm_name}-jwt
-  namespace: ${istio_external_gateway_namespace}
-spec:
-  selector:
-    matchLabels:
-      istio: ${istio_external_gateway_name}
-  jwtRules:
-  - issuer: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}"
-    jwksUri: "https://${keycloak_fqdn}/realms/${keycloak_pm4ml_realm_name}/protocol/openid-connect/certs"
-    fromHeaders:
-      - name: Authorization
-        prefix: "Bearer "
-%{ endif ~}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -275,7 +236,7 @@ metadata:
   name: ${pm4ml_release_name}-test-vs
 spec:
   gateways:
-    - istio-ingress-int/internal-wildcard-gateway
+    - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
   hosts:
     - '${test_fqdn}'
   http:
@@ -341,7 +302,7 @@ metadata:
   name: ${pm4ml_release_name}-ttkfront-vs
 spec:
   gateways:
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+  - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
   hosts:
   - '${ttk_frontend_fqdn}'
   http:
@@ -360,7 +321,7 @@ metadata:
   name: ${pm4ml_release_name}-ttkback-vs
 spec:
   gateways:
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+  - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
   hosts:
   - '${ttk_backend_fqdn}'
   http:
@@ -400,7 +361,7 @@ metadata:
   name: ${pm4ml_release_name}-portal-pta-vs
 spec:
   gateways:
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+  - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
   hosts:
   - '${pta_portal_fqdn}'
   http:
@@ -413,4 +374,3 @@ spec:
             port:
               number: 3000
 ---
-%{ endif ~}

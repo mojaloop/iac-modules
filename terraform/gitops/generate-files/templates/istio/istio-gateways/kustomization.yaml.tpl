@@ -2,7 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespace.yaml
-  - lets-wildcard-cert.yaml
+  - lets-wildcard-cert-external.yaml
+  - lets-wildcard-cert-internal.yaml
   - proxy-protocol.yaml
   - gateways.yaml
   - argocd-vs.yaml

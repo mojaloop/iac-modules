@@ -37,8 +37,8 @@ spec:
     alerting:
       enabled: "true"
     server:
-      domain: "${public_subdomain}"
-      root_url: https://grafana.${public_subdomain}
+      domain: "${grafana_subdomain}"
+      root_url: https://grafana.${grafana_subdomain}
     auth.gitlab:
       enabled: "${enable_oidc}"
       allow_sign_up: "true"
