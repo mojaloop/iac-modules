@@ -3,7 +3,7 @@ kind: Kustomization
 resources:  
   - https://raw.githubusercontent.com/grafana/grafana-operator/${grafana_crd_version_tag}/deploy/kustomize/base/crds.yaml
   - vault-secret.yaml
-  - istio-gateway.yaml
+  - istio-vs.yaml
   - process-exporter-service-monitor.yaml
   - vault-minio-ext-secret.yaml
 helmCharts:
