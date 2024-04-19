@@ -6,8 +6,6 @@ module "mojaloop" {
   external_load_balancer_dns           = var.external_load_balancer_dns
   private_subdomain                    = var.private_subdomain
   public_subdomain                     = var.public_subdomain
-  external_interop_switch_fqdn         = local.external_interop_switch_fqdn
-  internal_interop_switch_fqdn         = local.internal_interop_switch_fqdn
   secrets_key_map                      = var.secrets_key_map
   properties_key_map                   = var.properties_key_map
   output_dir                           = var.output_dir
@@ -68,8 +66,6 @@ module "pm4ml" {
   external_load_balancer_dns             = var.external_load_balancer_dns
   private_subdomain                      = var.private_subdomain
   public_subdomain                       = var.public_subdomain
-  external_interop_switch_fqdn           = local.external_interop_switch_fqdn
-  internal_interop_switch_fqdn           = local.internal_interop_switch_fqdn
   secrets_key_map                        = var.secrets_key_map
   properties_key_map                     = var.properties_key_map
   output_dir                             = var.output_dir
@@ -115,8 +111,6 @@ module "vnext" {
   external_load_balancer_dns           = var.external_load_balancer_dns
   private_subdomain                    = var.private_subdomain
   public_subdomain                     = var.public_subdomain
-  external_interop_switch_fqdn         = local.external_interop_switch_fqdn
-  internal_interop_switch_fqdn         = local.internal_interop_switch_fqdn
   secrets_key_map                      = var.secrets_key_map
   properties_key_map                   = var.properties_key_map
   output_dir                           = var.output_dir
@@ -163,7 +157,7 @@ module "vnext" {
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
-  fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth  
+  fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   finanace_portal_ingress_internal_lb  = var.finanace_portal_ingress_internal_lb
 }
 
@@ -266,13 +260,11 @@ variable "finanace_portal_ingress_internal_lb" {
 }
 
 locals {
-  auth_fqdn                    = "auth.${var.public_subdomain}"
-  external_interop_switch_fqdn = "extapi.${var.public_subdomain}"
-  internal_interop_switch_fqdn = "intapi.${var.private_subdomain}"
+  auth_fqdn = "auth.${var.public_subdomain}"
 
   pm4ml_var_map = {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
-  
+
   #bof_managed_portal_fqdns = (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? [local.finance_portal_fqdn, local.mcm_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_external_wildcard_admin_portal_hosts)
 }

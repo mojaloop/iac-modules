@@ -11,8 +11,8 @@ module "generate_mcm_files" {
     mcm_fqdn                             = local.mcm_fqdn
     mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
     mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
-    mcm_istio_gateway_name               = local.mcm_istio_gateway_name 
-    fspiop_use_ory_for_auth              = var.fspiop_use_ory_for_auth     
+    mcm_istio_gateway_name               = local.mcm_istio_gateway_name
+    fspiop_use_ory_for_auth              = var.fspiop_use_ory_for_auth
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain
     env_o                                = "Mojaloop"
@@ -60,7 +60,7 @@ module "generate_mcm_files" {
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     istio_external_gateway_name          = var.istio_external_gateway_name
     private_network_cidr                 = var.private_network_cidr
-    interop_switch_fqdn                  = var.external_interop_switch_fqdn
+    interop_switch_fqdn                  = local.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn
     keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
@@ -77,7 +77,7 @@ module "generate_mcm_files" {
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_gateway_name          = var.istio_internal_gateway_name
-    int_interop_switch_fqdn              = var.internal_interop_switch_fqdn
+    int_interop_switch_fqdn              = local.internal_interop_switch_fqdn
     mojaloop_namespace                   = var.mojaloop_namespace
     mojaloop_release_name                = var.mojaloop_release_name
     onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag

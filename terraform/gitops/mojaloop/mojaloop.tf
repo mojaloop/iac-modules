@@ -25,8 +25,8 @@ module "generate_mojaloop_files" {
     central_ledger_handler_transfer_position_batch_consume_timeout_ms = try(var.app_var_map.central_ledger_handler_transfer_position_batch_consume_timeout_ms, 10)
     central_ledger_cache_enabled                                      = try(var.app_var_map.central_ledger_cache_enabled, true)
     central_ledger_cache_expires_in_ms                                = try(var.app_var_map.central_ledger_cache_expires_in_ms, 1000)
-    interop_switch_fqdn                                               = var.external_interop_switch_fqdn
-    int_interop_switch_fqdn                                           = var.internal_interop_switch_fqdn
+    interop_switch_fqdn                                               = local.external_interop_switch_fqdn
+    int_interop_switch_fqdn                                           = local.internal_interop_switch_fqdn
     external_ingress_class_name                                       = var.external_ingress_class_name
     vault_certman_secretname                                          = var.vault_certman_secretname
     nginx_jwt_namespace                                               = var.nginx_jwt_namespace
@@ -44,7 +44,7 @@ module "generate_mojaloop_files" {
     ttk_frontend_fqdn                                                 = local.ttk_frontend_fqdn
     ttk_backend_fqdn                                                  = local.ttk_backend_fqdn
     ttk_istio_gateway_namespace                                       = local.ttk_istio_gateway_namespace
-    ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name    
+    ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name
     kafka_host                                                        = "${module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                                                        = module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port
     account_lookup_db_existing_secret                                 = module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret
@@ -170,7 +170,7 @@ module "generate_mojaloop_files" {
     kratos_service_name                                               = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     portal_fqdn                                                       = local.finance_portal_fqdn
     portal_istio_gateway_namespace                                    = local.portal_istio_gateway_namespace
-    portal_istio_wildcard_gateway_name                                = local.portal_istio_wildcard_gateway_name    
+    portal_istio_wildcard_gateway_name                                = local.portal_istio_wildcard_gateway_name
     portal_istio_gateway_name                                         = local.portal_istio_gateway_name
     finance_portal_release_name                                       = "fin-portal"
     finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
@@ -191,7 +191,7 @@ module "generate_mojaloop_files" {
     jws_rotation_period_hours                                         = try(var.app_var_map.jws_rotation_period_hours, var.jws_rotation_period_hours)
     mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
-    fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth     
+    fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -202,18 +202,20 @@ module "generate_mojaloop_files" {
 
 
 locals {
-  mojaloop_wildcard_gateway             = var.mojaloop_ingress_internal_lb ? "internal" : "external"
-  ttk_frontend_fqdn                     = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
-  ttk_backend_fqdn                      = local.mojaloop_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" :  "ttkbackend.${var.private_subdomain}"
-  ttk_istio_wildcard_gateway_name       = local.mojaloop_wildcard_gateway == "external"  ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
-  ttk_istio_gateway_namespace           = local.mojaloop_wildcard_gateway == "external"  ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace  
+  mojaloop_wildcard_gateway       = var.mojaloop_ingress_internal_lb ? "internal" : "external"
+  ttk_frontend_fqdn               = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
+  ttk_backend_fqdn                = local.mojaloop_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" : "ttkbackend.${var.private_subdomain}"
+  ttk_istio_wildcard_gateway_name = local.mojaloop_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
+  ttk_istio_gateway_namespace     = local.mojaloop_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
 
-  finance_portal_wildcard_gateway     = var.finanace_portal_ingress_internal_lb ? "internal" : "external"
-  finance_portal_fqdn                 = local.finance_portal_wildcard_gateway == "external" ? "finance-portal.${var.public_subdomain}" : "finance-portal.${var.private_subdomain}"
-  portal_istio_gateway_namespace      = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace  
-  portal_istio_wildcard_gateway_name  = local.finance_portal_wildcard_gateway == "external"  ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
-  portal_istio_gateway_name           = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
+  finance_portal_wildcard_gateway    = var.finanace_portal_ingress_internal_lb ? "internal" : "external"
+  finance_portal_fqdn                = local.finance_portal_wildcard_gateway == "external" ? "finance-portal.${var.public_subdomain}" : "finance-portal.${var.private_subdomain}"
+  portal_istio_gateway_namespace     = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  portal_istio_wildcard_gateway_name = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
+  portal_istio_gateway_name          = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
 
+  external_interop_switch_fqdn = "extapi.${var.public_subdomain}"
+  internal_interop_switch_fqdn = "intapi.${var.private_subdomain}"
 
   mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
   mojaloop_app_file                            = "mojaloop-app.yaml"
