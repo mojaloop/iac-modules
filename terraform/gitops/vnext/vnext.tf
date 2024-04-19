@@ -46,7 +46,6 @@ module "generate_vnext_files" {
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     keto_write_url                       = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
-    portal_fqdn                          = var.finance_portal_fqdn
     finance_portal_release_name          = "fin-portal"
     finance_portal_chart_version         = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
