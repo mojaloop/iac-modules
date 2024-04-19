@@ -1,8 +1,17 @@
 account-lookup-service:
   account-lookup-service:
-    replicaCount: 1
+    replicaCount: 12
     config:
       event_log_filter: ""
+    readinessProbe:
+      initialDelaySeconds: 5
+    livenessProbe:
+      initialDelaySeconds: 5
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
   account-lookup-service-admin:
     replicaCount: 1
 quoting-service:
