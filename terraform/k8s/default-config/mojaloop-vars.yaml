@@ -4,6 +4,7 @@ mcm_chart_version: 0.7.7
 mojaloop_chart_version: 16.0.0
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
+finance_portal_ingress_internal_lb: true
 onboarding_collection_tag: 15.2.0
 grafana_dashboard_tag: 15.2.0
 enable_istio_injection: true
