@@ -54,8 +54,6 @@ locals {
   istio_template_path                  = "${path.module}/../generate-files/templates/istio"
   istio_app_file                       = "istio-app.yaml"
   istio_proxy_log_level                = "warn"
-  istio_template_path                  = "${path.module}/../generate-files/templates/istio"
-  istio_app_file                       = "istio-app.yaml"
   argocd_wildcard_gateway              = var.argocd_ingress_internal_lb ? "internal" : "external"
   argocd_public_fqdn                   = "argocd.${var.public_subdomain}"
   argocd_private_fqdn                  = "argocd.${var.private_subdomain}"
