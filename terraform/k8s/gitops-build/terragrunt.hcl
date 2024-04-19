@@ -104,8 +104,8 @@ locals {
   GITLAB_CURRENT_GROUP_NAME     = get_env("GITLAB_CURRENT_GROUP_NAME")
   GITLAB_API_URL                = get_env("GITLAB_API_URL")
   CLOUD_REGION                  = get_env("cloud_region")
-  ENABLE_VAULT_OIDC             = get_env("ENABLE_VAULT_OIDC")
-  ENABLE_GRAFANA_OIDC           = get_env("ENABLE_GRAFANA_OIDC")
+  ENABLE_VAULT_OIDC             = try(get_env("vault_oidc_domain"),"") == "" ? false : true
+  ENABLE_GRAFANA_OIDC           = try(get_env("grafana_oidc_domain"),"") == "" ? false : true
   LETSENCRYPT_EMAIL             = get_env("letsencrypt_email")
   GITLAB_TOKEN                  = get_env("GITLAB_CI_PAT")
   ENV_VAULT_TOKEN               = get_env("ENV_VAULT_TOKEN")
