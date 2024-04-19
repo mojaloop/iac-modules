@@ -141,9 +141,6 @@ variable "app_var_map" {
   type = any
 }
 
-variable "admin_portal_fqdns" {
-  description = "fqdns for pm4ml admin portal"
-}
 variable "auth_fqdn" {
   type = string
 }
