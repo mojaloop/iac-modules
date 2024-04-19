@@ -347,9 +347,6 @@ variable "ory_namespace" {
   type = string
 }
 
-variable "finance_portal_fqdn" {
-  type = string
-}
 
 variable "bof_release_name" {
   type = string
