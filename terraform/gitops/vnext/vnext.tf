@@ -202,3 +202,8 @@ variable "ttk_gp_testcase_labels" {
   type    = string
   default = "p2p"
 }
+
+variable "finanace_portal_ingress_internal_lb" {
+  default     = false
+  description = "whether argocd should only be available on private network"
+}
