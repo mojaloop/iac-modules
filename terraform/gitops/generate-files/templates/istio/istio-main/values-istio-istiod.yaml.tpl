@@ -309,7 +309,7 @@ global:
 
     # Per Component log level for proxy, applies to gateways and sidecars. If a component level is
     # not set, then the global "logLevel" will be used.
-    componentLogLevel: "misc:debug"
+    componentLogLevel: "misc:${istio_proxy_log_level}"
 
     # If set, newly injected sidecars will have core dumps enabled.
     enableCoreDump: false
@@ -332,7 +332,7 @@ global:
 
     # Log level for proxy, applies to gateways and sidecars.
     # Expected values are: trace|debug|info|warning|error|critical|off
-    logLevel: debug
+    logLevel: ${istio_proxy_log_level}
 
     #If set to true, istio-proxy container will have privileged securityContext
     privileged: false
