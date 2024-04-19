@@ -9,6 +9,7 @@ module "generate_vault_pki_setup_files" {
     cert_manager_service_account_name     = var.cert_manager_service_account_name
     gitlab_project_url                    = var.gitlab_project_url
     cert_manager_cluster_issuer_role_name = var.cert_manager_cluster_issuer_role_name
+    interop_switch_fqdn                   = var.external_interop_switch_fqdn
     vault_root_ca_name                    = var.vault_root_ca_name
     pki_server_cert_role                  = var.pki_server_cert_role
     pki_client_cert_role                  = var.pki_client_cert_role

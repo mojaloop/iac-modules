@@ -34,5 +34,4 @@ prometheus_retention_period: 10d
 istio_egress_gateway_max_replicas: 5
 microk8s_version: 1.29/stable
 alertmanager_enabled: false
-istio_proxy_log_level: warn
 longhorn_backup_job_enabled: true

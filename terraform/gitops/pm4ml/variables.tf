@@ -20,7 +20,7 @@ variable "gitlab_project_url" {
 }
 
 variable "nat_public_ips" {
-  type        = list(any)
+  type        = list
   description = "nat_public_ips"
 }
 variable "internal_load_balancer_dns" {
@@ -80,6 +80,14 @@ variable "secrets_key_map" {
 variable "kv_path" {
   description = "path for tenant kv engine"
   default     = "secret"
+}
+
+variable "external_interop_switch_fqdn" {
+  description = "fqdn for interop ext"
+}
+
+variable "internal_interop_switch_fqdn" {
+  description = "fqdn for interop int"
 }
 
 variable "internal_ingress_class_name" {
@@ -145,7 +153,7 @@ variable "vault_namespace" {
   description = "vault_namespace"
 }
 variable "cert_manager_namespace" {
-  type        = string
+  type = string
   description = "cert_manager_namespace"
 }
 variable "vault_certman_secretname" {

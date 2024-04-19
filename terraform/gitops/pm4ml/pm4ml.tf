@@ -17,10 +17,10 @@ module "generate_pm4ml_files" {
     pm4ml_wildcard_gateway                          = each.value.pm4ml_ingress_internal_lb ? "internal" : "external"
     keycloak_fqdn                                   = var.keycloak_fqdn
     keycloak_pm4ml_realm_name                       = "${var.keycloak_pm4ml_realm_name}-${each.key}"
-    experience_api_fqdn                             = local.experience_api_fqdns[each.key]
+    experience_api_fqdn                             = var.experience_api_fqdns[each.key]
     kratos_service_name                             = "kratos-public.${var.ory_namespace}.svc.cluster.local"
-    portal_fqdn                                     = local.portal_fqdns[each.key]
-    admin_portal_fqdn                               = local.admin_portal_fqdns[each.key]
+    portal_fqdn                                     = var.portal_fqdns[each.key]
+    admin_portal_fqdn                               = var.admin_portal_fqdns[each.key]
     auth_fqdn                                       = var.auth_fqdn
     admin_portal_release_name                       = "admin-portal-${each.key}"
     admin_portal_chart_version                      = try(var.app_var_map.admin_portal_chart_version, var.admin_portal_chart_version)
@@ -39,9 +39,9 @@ module "generate_pm4ml_files" {
     keto_read_url                                   = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     keto_write_url                                  = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     pm4ml_secret_path                               = "${var.local_vault_kv_root_path}/${each.key}"
-    callback_url                                    = "https://${local.mojaloop_connnector_fqdns[each.key]}"
-    mojaloop_connnector_fqdn                        = local.mojaloop_connnector_fqdns[each.key]
-    callback_fqdn                                   = local.mojaloop_connnector_fqdns[each.key]
+    callback_url                                    = "https://${var.mojaloop_connnector_fqdns[each.key]}"
+    mojaloop_connnector_fqdn                        = var.mojaloop_connnector_fqdns[each.key]
+    callback_fqdn                                   = var.mojaloop_connnector_fqdns[each.key]
     redis_port                                      = "6379"
     redis_host                                      = "redis-master"
     redis_replica_count                             = "1"
@@ -69,10 +69,10 @@ module "generate_pm4ml_files" {
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
     core_connector_selected                         = each.value.core_connector_selected
     custom_core_connector_endpoint                  = each.value.custom_core_connector_endpoint
-    ttk_backend_fqdn                                = local.pm4ml_ttk_frontend_fqdns[each.key]
-    ttk_frontend_fqdn                               = local.pm4ml_ttk_frontend_fqdns[each.key]
-    pta_portal_fqdn                                 = local.pm4ml_pta_portal_fqdns[each.key]
-    test_fqdn                                       = local.test_fqdns[each.key]
+    ttk_backend_fqdn                                = var.ttk_backend_fqdns[each.key]
+    ttk_frontend_fqdn                               = var.ttk_frontend_fqdns[each.key]
+    pta_portal_fqdn                                 = var.pta_portal_fqdns[each.key]
+    test_fqdn                                       = var.test_fqdns[each.key]
     ory_namespace                                   = var.ory_namespace
     oathkeeper_auth_provider_name                   = var.oathkeeper_auth_provider_name
     istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
@@ -87,9 +87,9 @@ module "generate_pm4ml_files" {
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
     core_connector_config                           = each.value.core_connector_config
     payment_token_adapter_config                    = each.value.payment_token_adapter_config
-    pm4ml_istio_gateway_namespace                   = local.pm4ml_istio_gateway_namespaces[each.key]
-    pm4ml_istio_wildcard_gateway_name               = local.pm4ml_istio_wildcard_gateway_names[each.key]
-    pm4ml_istio_gateway_name                        = local.pm4ml_istio_gateway_names[each.key]
+    pm4ml_istio_gateway_namespace                   = var.pm4ml_istio_gateway_namespaces[each.key]
+    pm4ml_istio_wildcard_gateway_name               = var.pm4ml_istio_wildcard_gateway_names[each.key]
+    pm4ml_istio_gateway_name                        = var.pm4ml_istio_gateway_names[each.key]
 
   }
 
@@ -104,37 +104,18 @@ module "generate_pm4ml_files" {
 locals {
   pm4ml_template_path = "${path.module}/../generate-files/templates/pm4ml"
   pm4ml_app_file      = "pm4ml-app.yaml"
-
-  pm4ml_var_map = var.app_var_map
-
-  pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
-  
-  portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "portal-${pm4ml.pm4ml}.${var.private_subdomain}" }
-  admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "admin-portal-${pm4ml.pm4ml}.${var.private_subdomain}"}
-  experience_api_fqdns      = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "exp-${pm4ml.pm4ml}.${var.public_subdomain}"  : "exp-${pm4ml.pm4ml}.${var.private_subdomain}"}
-  mojaloop_connnector_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "conn-${pm4ml.pm4ml}.${var.public_subdomain}" : "conn-${pm4ml.pm4ml}.${var.private_subdomain}" }
-  test_fqdns                = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "test-${pm4ml.pm4ml}.${var.public_subdomain}" :  "test-${pm4ml.pm4ml}.${var.private_subdomain}" }
-  pm4ml_ttk_frontend_fqdns  = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}" : "ttkfront-${pm4ml.pm4ml}.${var.private_subdomain}" }
-  pm4ml_ttk_backend_fqdns   = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}" : "ttkback-${pm4ml.pm4ml}.${var.private_subdomain}"}
-  pm4ml_pta_portal_fqdns    = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "pta-portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "pta-portal-${pm4ml.pm4ml}.${var.private_subdomain}"}
-
-  pm4ml_istio_gateway_namespaces     = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace }
-  pm4ml_istio_wildcard_gateway_names = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name }
-  pm4ml_istio_gateway_names          = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name }
-
-  pm4ml_internal_wildcard_admin_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
-  pm4ml_external_wildcard_admin_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
-  pm4ml_internal_wildcard_portal_hosts       = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
-  pm4ml_external_wildcard_portal_hosts       = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
-  pm4ml_internal_wildcard_exp_hosts          = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
-  pm4ml_external_wildcard_exp_hosts          = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
 }
 
 
 variable "app_var_map" {
   type = any
 }
-
+variable "portal_fqdns" {
+  description = "fqdns for pm4ml portal"
+}
+variable "admin_portal_fqdns" {
+  description = "fqdns for pm4ml admin portal"
+}
 variable "auth_fqdn" {
   type = string
 }
@@ -142,7 +123,25 @@ variable "auth_fqdn" {
 variable "oathkeeper_auth_provider_name" {
   type = string
 }
+variable "experience_api_fqdns" {
+  description = "fqdns for pm4ml experience api"
+}
 
+variable "mojaloop_connnector_fqdns" {
+  description = "fqdns for pm4ml connector"
+}
+variable "test_fqdns" {
+  description = "fqdns for pm4ml test"
+}
+variable "ttk_backend_fqdns" {
+  description = "fqdns for pm4ml ttk back"
+}
+variable "ttk_frontend_fqdns" {
+  description = "fqdns for pm4ml ttk front"
+}
+variable "pta_portal_fqdns" {
+  description = "fqdns for pm4ml payment token adapter portal"
+}
 variable "pm4ml_vault_k8s_role_name" {
   description = "vault k8s role name for pm4ml"
   type        = string
@@ -240,6 +239,18 @@ variable "role_assign_svc_secret_prefix" {
 
 variable "portal_admin_secret_prefix" {
   type = string
+}
+
+variable "pm4ml_istio_gateway_namespaces" {
+  description = "fqdns for pm4ml portal"
+}
+
+variable "pm4ml_istio_wildcard_gateway_names" {
+  description = "fqdns for pm4ml portal"
+}
+
+variable "pm4ml_istio_gateway_names" {
+  description = "fqdns for pm4ml portal"
 }
 
 locals {
