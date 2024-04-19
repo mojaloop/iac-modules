@@ -274,18 +274,5 @@ locals {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
   
-  mojaloop_keycloak_realm_env_secret_map = {
-    "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
-    "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
-  }
-  
-  keycloak_realm_env_secret_map = merge(
-    (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map,
-    {
-      "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
-      "${var.role_assign_svc_secret}"          = var.vault_secret_key
-      "${var.portal_admin_secret}"             = var.vault_secret_key
-    }
-  )
   #bof_managed_portal_fqdns = (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? [local.finance_portal_fqdn, local.mcm_fqdn] : concat(local.pm4ml_external_wildcard_portal_hosts, local.pm4ml_internal_wildcard_portal_hosts, local.pm4ml_internal_wildcard_admin_portal_hosts, local.pm4ml_external_wildcard_admin_portal_hosts)
 }
