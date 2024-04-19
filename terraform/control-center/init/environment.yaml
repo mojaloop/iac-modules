@@ -15,6 +15,7 @@ letsencrypt_email: test@mojalabs.io
 delete_storage_on_term: true
 docker_server_extra_vol_size: 100
 loki_data_expiry: 1d
+tempo_data_expiry_days: 7d
 longhorn_backup_data_expiry: 1d
 envs:
   - env: dev
