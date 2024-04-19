@@ -113,7 +113,7 @@ module "generate_mojaloop_files" {
     central_settlement_handler_deferredsettlement_replica_count       = try(var.app_var_map.central_settlement_handler_deferredsettlement_replica_count, 1)
     central_settlement_handler_grosssettlement_replica_count          = try(var.app_var_map.central_settlement_handler_grosssettlement_replica_count, 1)
     central_settlement_handler_rules_replica_count                    = try(var.app_var_map.central_settlement_handler_rules_replica_count, 1)
-    trasaction_requests_service_replica_count                         = try(var.app_var_map.trasaction_requests_service_replica_count, 1)
+    transaction_requests_service_replica_count                        = try(var.app_var_map.transaction_requests_service_replica_count, 1)
     auth_service_replica_count                                        = try(var.app_var_map.auth_service_replica_count, 1)
     consent_oracle_replica_count                                      = try(var.app_var_map.consent_oracle_replica_count, 1)
     tp_api_svc_replica_count                                          = try(var.app_var_map.tp_api_svc_replica_count, 1)
@@ -141,7 +141,7 @@ module "generate_mojaloop_files" {
     central_settlement_handler_deferredsettlement_affinity            = try(yamlencode(var.app_var_map.workload_definitions.central_settlement.affinity_definition), null)
     central_settlement_handler_grosssettlement_affinity               = try(yamlencode(var.app_var_map.workload_definitions.central_settlement.affinity_definition), null)
     central_settlement_handler_rules_affinity                         = try(yamlencode(var.app_var_map.workload_definitions.central_settlement.affinity_definition), null)
-    trasaction_requests_service_affinity                              = try(yamlencode(var.app_var_map.workload_definitions.core_api_adapters.affinity_definition), null)
+    transaction_requests_service_affinity                             = try(yamlencode(var.app_var_map.workload_definitions.core_api_adapters.affinity_definition), null)
     central_ledger_monitoring_prefix                                  = try(var.app_var_map.central_ledger_monitoring_prefix, "moja_cl_")
     quoting_service_monitoring_prefix                                 = try(var.app_var_map.quoting_service_monitoring_prefix, "moja_qs_")
     ml_api_adapter_monitoring_prefix                                  = try(var.app_var_map.ml_api_adapter_monitoring_prefix, "moja_ml_")
@@ -191,7 +191,9 @@ module "generate_mojaloop_files" {
     jws_rotation_period_hours                                         = try(var.app_var_map.jws_rotation_period_hours, var.jws_rotation_period_hours)
     mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
-    fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
+    override_values_file_exists                                       = local.override_values_file_exists
+    fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth     
+
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -200,6 +202,12 @@ module "generate_mojaloop_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
+resource "local_file" "mojaloop_values_override" {
+  count      = local.override_values_file_exists ? 1 : 0
+  content    = file(var.mojaloop_values_override_file)
+  filename   = "${local.output_path}/values-mojaloop-override.yaml"
+  depends_on = [module.generate_mojaloop_files]
+}
 
 locals {
   mojaloop_wildcard_gateway       = try(var.app_var_map.mojaloop_ingress_internal_lb, true) ? "internal" : "external"
@@ -233,6 +241,7 @@ locals {
   reporting_events_mongodb_resource_index      = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "reporting-events-mongodb")
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
   jws_key_secret                               = "switch-jws"
+  override_values_file_exists                  = fileexists(var.mojaloop_values_override_file)
 }
 
 variable "app_var_map" {
@@ -368,6 +377,10 @@ variable "role_assign_svc_user" {
 }
 
 variable "rbac_api_resources_file" {
+  type = string
+}
+
+variable "mojaloop_values_override_file" {
   type = string
 }
 

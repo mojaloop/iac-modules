@@ -52,6 +52,11 @@ module "mojaloop" {
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
+  mojaloop_values_override_file        = var.mojaloop_values_override_file
+  mcm_fqdn                             = local.mcm_fqdn
+  mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
+  mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
+  mcm_istio_gateway_name               = local.mcm_istio_gateway_name  
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
 }
 
@@ -235,6 +240,10 @@ variable "portal_admin_user" {
 }
 
 variable "rbac_api_resources_file" {
+  type = string
+}
+
+variable "mojaloop_values_override_file" {
   type = string
 }
 

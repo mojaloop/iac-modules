@@ -16,6 +16,7 @@ helmCharts:
   valuesFile: values-mojaloop.yaml
   namespace: ${mojaloop_namespace}
   additionalValuesFiles:
+  - values-mojaloop-override.yaml
   - values-mojaloop-addons.yaml
 - name: finance-portal
   releaseName: ${finance_portal_release_name}
