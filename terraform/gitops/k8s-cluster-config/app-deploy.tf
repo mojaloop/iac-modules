@@ -33,10 +33,6 @@ module "mojaloop" {
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
-  ttk_backend_fqdn                     = local.ttk_backend_fqdn
-  ttk_frontend_fqdn                    = local.ttk_frontend_fqdn
-  ttk_istio_gateway_namespace          = local.ttk_istio_gateway_namespace
-  ttk_istio_wildcard_gateway_name      = local.ttk_istio_wildcard_gateway_name  
   istio_external_gateway_name          = var.istio_external_gateway_name
   istio_internal_gateway_name          = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
@@ -56,18 +52,10 @@ module "mojaloop" {
   app_var_map                          = var.app_var_map
   auth_fqdn                            = local.auth_fqdn
   ory_namespace                        = var.ory_namespace
-  finance_portal_fqdn                  = local.finance_portal_fqdn
-  portal_istio_gateway_namespace       = local.portal_istio_gateway_namespace
-  portal_istio_wildcard_gateway_name   = local.portal_istio_wildcard_gateway_name
-  portal_istio_gateway_name            = local.portal_istio_gateway_name
   bof_release_name                     = local.bof_release_name
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
-  mcm_fqdn                             = local.mcm_fqdn
-  mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
-  mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
-  mcm_istio_gateway_name               = local.mcm_istio_gateway_name  
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   finanace_portal_ingress_internal_lb  = var.finanace_portal_ingress_internal_lb
 }
@@ -154,14 +142,6 @@ module "vnext" {
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
-  mcm_fqdn                             = local.mcm_fqdn
-  mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
-  mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
-  mcm_istio_gateway_name               = local.mcm_istio_gateway_name  
-  ttk_backend_fqdn                     = local.ttk_backend_fqdn
-  ttk_frontend_fqdn                    = local.ttk_frontend_fqdn
-  ttk_istio_wildcard_gateway_name      = local.ttk_istio_wildcard_gateway_name
-  ttk_istio_gateway_namespace          = local.ttk_istio_gateway_namespace
   istio_external_gateway_name          = var.istio_external_gateway_name
   istio_internal_gateway_name          = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
@@ -184,9 +164,6 @@ module "vnext" {
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
-  vnext_admin_ui_fqdn                  = local.vnext_admin_ui_fqdn
-  vnext_istio_gateway_namespace        = local.vnext_istio_gateway_namespace
-  vnext_istio_wildcard_gateway_name    = local.vnext_istio_wildcard_gateway_name
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth  
   finanace_portal_ingress_internal_lb  = var.finanace_portal_ingress_internal_lb
 }
