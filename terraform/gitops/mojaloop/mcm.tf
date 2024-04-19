@@ -225,6 +225,6 @@ locals {
 
   mcm_fqdn                        = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
   mcm_istio_gateway_namespace     = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
-  mcm_istio_wildcard_gateway_name = local.mcm_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  mcm_istio_wildcard_gateway_name = local.mcm_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
   mcm_istio_gateway_name          = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
 }
