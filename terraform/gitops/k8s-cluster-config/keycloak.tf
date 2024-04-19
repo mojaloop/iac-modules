@@ -100,4 +100,24 @@ locals {
   keycloak_admin_istio_gateway_namespace     = local.keycloak_admin_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   keycloak_istio_gateway_name                = local.keycloak_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
   keycloak_secrets_path                      = "/secret/keycloak"
+
+  mojaloop_keycloak_realm_env_secret_map = {
+    "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
+    "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
+  }
+  
+  pm4ml_keycloak_realm_env_secret_map = merge(
+    { for key, pm4ml in local.pm4ml_var_map : "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.vault_secret_key },
+    { for key, pm4ml in local.pm4ml_var_map : "portal-admin-secret-${key}" => var.vault_secret_key },
+    { for key, pm4ml in local.pm4ml_var_map : "role-assign-svc-secret-${key}" => var.vault_secret_key }
+  )
+
+  keycloak_realm_env_secret_map = merge(
+    (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map,
+    {
+      "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
+      "${var.role_assign_svc_secret}"          = var.vault_secret_key
+      "${var.portal_admin_secret}"             = var.vault_secret_key
+    }
+  )
 }

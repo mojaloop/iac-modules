@@ -81,15 +81,6 @@ variable "kv_path" {
   description = "path for kv engine"
   default     = "secret"
 }
-
-variable "external_interop_switch_fqdn" {
-  description = "fqdn for interop ext"
-}
-
-variable "internal_interop_switch_fqdn" {
-  description = "fqdn for interop int"
-}
-
 variable "internal_ingress_class_name" {
   type        = string
   description = "nginx_internal_namespace"

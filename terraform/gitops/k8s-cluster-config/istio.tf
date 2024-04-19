@@ -39,6 +39,7 @@ module "generate_istio_files" {
     argocd_public_fqdn                   = local.argocd_public_fqdn
     argocd_private_fqdn                  = local.argocd_private_fqdn
     argocd_namespace                     = var.argocd_namespace
+    istio_proxy_log_level                = try(var.common_var_map.istio_proxy_log_level, local.istio_proxy_log_level)
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -49,6 +50,10 @@ module "generate_istio_files" {
 }
 
 locals {
+
+  istio_template_path                  = "${path.module}/../generate-files/templates/istio"
+  istio_app_file                       = "istio-app.yaml"
+  istio_proxy_log_level                = "warn"
   istio_template_path                  = "${path.module}/../generate-files/templates/istio"
   istio_app_file                       = "istio-app.yaml"
   argocd_wildcard_gateway              = var.argocd_ingress_internal_lb ? "internal" : "external"
