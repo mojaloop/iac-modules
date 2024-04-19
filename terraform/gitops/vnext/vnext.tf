@@ -7,8 +7,8 @@ module "generate_vnext_files" {
     vnext_chart_version                  = try(var.app_var_map.vnext_chart_version, var.vnext_chart_version)
     vnext_release_name                   = var.vnext_release_name
     vnext_namespace                      = var.vnext_namespace
-    interop_switch_fqdn                  = var.external_interop_switch_fqdn
-    int_interop_switch_fqdn              = var.internal_interop_switch_fqdn
+    interop_switch_fqdn                  = local.external_interop_switch_fqdn
+    int_interop_switch_fqdn              = local.internal_interop_switch_fqdn
     storage_class_name                   = var.storage_class_name
     vnext_sync_wave                      = var.vnext_sync_wave
     vault_certman_secretname             = var.vault_certman_secretname
@@ -65,7 +65,7 @@ module "generate_vnext_files" {
     mcm_hub_jws_endpoint                 = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     vnext_admin_ui_fqdn                  = local.vnext_admin_ui_fqdn
     vnext_istio_gateway_namespace        = local.vnext_istio_gateway_namespace
-    vnext_istio_wildcard_gateway_name    = local.vnext_istio_wildcard_gateway_name    
+    vnext_istio_wildcard_gateway_name    = local.vnext_istio_wildcard_gateway_name
   }
   file_list       = [for f in fileset(local.vnext_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vnext_app_file, f))]
   template_path   = local.vnext_template_path
@@ -76,24 +76,25 @@ module "generate_vnext_files" {
 
 
 locals {
-  vnext_wildcard_gateway                = var.vnext_ingress_internal_lb ? "internal" : "external"
+  vnext_wildcard_gateway = var.vnext_ingress_internal_lb ? "internal" : "external"
 
   vnext_admin_ui_fqdn               = local.vnext_wildcard_gateway == "external" ? "vnext-admin.${var.public_subdomain}" : "vnext-admin.${var.private_subdomain}"
   vnext_istio_gateway_namespace     = local.vnext_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   vnext_istio_wildcard_gateway_name = local.vnext_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
 
-  ttk_frontend_fqdn                     = local.vnext_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
-  ttk_backend_fqdn                      = local.vnext_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" :  "ttkbackend.${var.private_subdomain}"
-  ttk_istio_wildcard_gateway_name       = local.vnext_wildcard_gateway == "external"  ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
-  ttk_istio_gateway_namespace           = local.vnext_wildcard_gateway == "external"  ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace  
-  
-  vnext_template_path          = "${path.module}/../generate-files/templates/vnext"
-  vnext_app_file               = "vnext-app.yaml"
-  vnext_kafka_resource_index   = index(module.vnext_stateful_resources.stateful_resources.*.resource_name, "vnext-kafka")
-  vnext_redis_resource_index   = index(module.vnext_stateful_resources.stateful_resources.*.resource_name, "vnext-redis")
-  vnext_mongodb_resource_index = index(module.vnext_stateful_resources.stateful_resources.*.resource_name, "vnext-mongodb")
-  apiResources                 = yamldecode(file(var.rbac_api_resources_file))
-  jws_key_secret               = "switch-jws"
+  ttk_frontend_fqdn               = local.vnext_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
+  ttk_backend_fqdn                = local.vnext_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" : "ttkbackend.${var.private_subdomain}"
+  ttk_istio_wildcard_gateway_name = local.vnext_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
+  ttk_istio_gateway_namespace     = local.vnext_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  external_interop_switch_fqdn    = "extapi.${var.public_subdomain}"
+  internal_interop_switch_fqdn    = "intapi.${var.private_subdomain}"
+  vnext_template_path             = "${path.module}/../generate-files/templates/vnext"
+  vnext_app_file                  = "vnext-app.yaml"
+  vnext_kafka_resource_index      = index(module.vnext_stateful_resources.stateful_resources.*.resource_name, "vnext-kafka")
+  vnext_redis_resource_index      = index(module.vnext_stateful_resources.stateful_resources.*.resource_name, "vnext-redis")
+  vnext_mongodb_resource_index    = index(module.vnext_stateful_resources.stateful_resources.*.resource_name, "vnext-mongodb")
+  apiResources                    = yamldecode(file(var.rbac_api_resources_file))
+  jws_key_secret                  = "switch-jws"
 }
 
 variable "app_var_map" {
