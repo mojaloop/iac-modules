@@ -43,8 +43,6 @@ module "mojaloop" {
   mojaloop_enabled                     = var.common_var_map.mojaloop_enabled
   bulk_enabled                         = var.app_var_map.bulk_enabled
   third_party_enabled                  = var.app_var_map.third_party_enabled
-  mojaloop_ingress_internal_lb         = var.app_var_map.mojaloop_ingress_internal_lb
-  mcm_ingress_internal_lb              = var.app_var_map.mcm_ingress_internal_lb
   stateful_resources_config_file       = var.mojaloop_stateful_resources_config_file
   local_vault_kv_root_path             = local.local_vault_kv_root_path
   app_var_map                          = var.app_var_map
@@ -55,7 +53,6 @@ module "mojaloop" {
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
-  finanace_portal_ingress_internal_lb  = var.finanace_portal_ingress_internal_lb
 }
 
 module "pm4ml" {
@@ -146,8 +143,6 @@ module "vnext" {
   mcm_enabled                          = var.common_var_map.mcm_enabled
   mcm_chart_version                    = var.app_var_map.mcm_chart_version
   vnext_enabled                        = var.common_var_map.vnext_enabled
-  vnext_ingress_internal_lb            = var.app_var_map.vnext_ingress_internal_lb
-  mcm_ingress_internal_lb              = var.app_var_map.mcm_ingress_internal_lb
   stateful_resources_config_file       = var.vnext_stateful_resources_config_file
   local_vault_kv_root_path             = local.local_vault_kv_root_path
   app_var_map                          = var.app_var_map
@@ -158,7 +153,6 @@ module "vnext" {
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
-  finanace_portal_ingress_internal_lb  = var.finanace_portal_ingress_internal_lb
 }
 
 variable "app_var_map" {
@@ -252,11 +246,6 @@ variable "argocd_ingress_internal_lb" {
 variable "argocd_namespace" {
   default     = "argocd"
   description = "namespace argocd is deployed to"
-}
-
-variable "finanace_portal_ingress_internal_lb" {
-  default     = false
-  description = "whether argocd should only be available on private network"
 }
 
 locals {

@@ -76,8 +76,7 @@ module "generate_vnext_files" {
 
 
 locals {
-  vnext_wildcard_gateway = var.vnext_ingress_internal_lb ? "internal" : "external"
-
+  vnext_wildcard_gateway            = try(var.app_var_map.vnext_ingress_internal_lb, true) ? "internal" : "external"
   vnext_admin_ui_fqdn               = local.vnext_wildcard_gateway == "external" ? "vnext-admin.${var.public_subdomain}" : "vnext-admin.${var.private_subdomain}"
   vnext_istio_gateway_namespace     = local.vnext_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   vnext_istio_wildcard_gateway_name = local.vnext_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
@@ -103,12 +102,6 @@ variable "app_var_map" {
 variable "vnext_enabled" {
   description = "whether vnext app is enabled or not"
   type        = bool
-  default     = true
-}
-
-variable "vnext_ingress_internal_lb" {
-  type        = bool
-  description = "vnext_ingress_internal_lb"
   default     = true
 }
 
@@ -197,9 +190,4 @@ variable "jws_rotation_renew_before_hours" {
 variable "ttk_gp_testcase_labels" {
   type    = string
   default = "p2p"
-}
-
-variable "finanace_portal_ingress_internal_lb" {
-  default     = false
-  description = "whether argocd should only be available on private network"
 }

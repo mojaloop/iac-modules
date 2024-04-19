@@ -34,7 +34,7 @@ module "generate_mcm_files" {
     public_subdomain                     = var.public_subdomain
     enable_oidc                          = var.enable_mcm_oidc
     mcm_sync_wave                        = var.mcm_sync_wave
-    ingress_class                        = var.mcm_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
+    ingress_class                        = try(var.app_var_map.mcm_ingress_internal_lb, false) ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
     pki_path                             = var.vault_root_ca_name
     dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
@@ -99,11 +99,7 @@ variable "mcm_enabled" {
   type        = bool
   default     = true
 }
-variable "mcm_ingress_internal_lb" {
-  type        = bool
-  description = "mcm_ingress_internal_lb"
-  default     = false
-}
+
 variable "enable_mcm_oidc" {
   type    = bool
   default = false
@@ -218,7 +214,7 @@ locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
   mcm_app_file                   = "mcm-app.yaml"
   mcm_resource_index             = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "mcm-db")
-  mcm_wildcard_gateway           = var.mcm_ingress_internal_lb ? "internal" : "external"
+  mcm_wildcard_gateway           = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
   dfsp_internal_whitelist_secret = "${local.whitelist_secret_path}_pm4mls"
   dfsp_external_whitelist_secret = "${local.whitelist_secret_path}_fsps"

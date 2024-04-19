@@ -30,7 +30,7 @@ module "generate_mojaloop_files" {
     external_ingress_class_name                                       = var.external_ingress_class_name
     vault_certman_secretname                                          = var.vault_certman_secretname
     nginx_jwt_namespace                                               = var.nginx_jwt_namespace
-    ingress_class_name                                                = var.mojaloop_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
+    ingress_class_name                                                = try(var.app_var_map.mojaloop_ingress_internal_lb, true) ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways                                     = var.istio_create_ingress_gateways
     istio_external_gateway_name                                       = var.istio_external_gateway_name
     external_load_balancer_dns                                        = var.external_load_balancer_dns
@@ -202,13 +202,13 @@ module "generate_mojaloop_files" {
 
 
 locals {
-  mojaloop_wildcard_gateway       = var.mojaloop_ingress_internal_lb ? "internal" : "external"
+  mojaloop_wildcard_gateway       = try(var.app_var_map.mojaloop_ingress_internal_lb, true) ? "internal" : "external"
   ttk_frontend_fqdn               = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
   ttk_backend_fqdn                = local.mojaloop_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" : "ttkbackend.${var.private_subdomain}"
   ttk_istio_wildcard_gateway_name = local.mojaloop_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
   ttk_istio_gateway_namespace     = local.mojaloop_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
 
-  finance_portal_wildcard_gateway    = var.finanace_portal_ingress_internal_lb ? "internal" : "external"
+  finance_portal_wildcard_gateway    = try(var.app_var_map.finance_portal_ingress_internal_lb, true) ? "internal" : "external"
   finance_portal_fqdn                = local.finance_portal_wildcard_gateway == "external" ? "finance-portal.${var.public_subdomain}" : "finance-portal.${var.private_subdomain}"
   portal_istio_gateway_namespace     = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   portal_istio_wildcard_gateway_name = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
@@ -241,12 +241,6 @@ variable "app_var_map" {
 variable "mojaloop_enabled" {
   description = "whether mojaloop app is enabled or not"
   type        = bool
-  default     = true
-}
-
-variable "mojaloop_ingress_internal_lb" {
-  type        = bool
-  description = "mojaloop_ingress_internal_lb"
   default     = true
 }
 
@@ -400,9 +394,4 @@ variable "jws_rotation_renew_before_hours" {
 variable "ttk_gp_testcase_labels" {
   type    = string
   default = "p2p"
-}
-
-variable "finanace_portal_ingress_internal_lb" {
-  default     = false
-  description = "whether argocd should only be available on private network"
 }
