@@ -41,10 +41,10 @@ module "generate_mojaloop_files" {
     mojaloop_wildcard_gateway                                         = local.mojaloop_wildcard_gateway
     keycloak_fqdn                                                     = var.keycloak_fqdn
     keycloak_realm_name                                               = var.keycloak_hubop_realm_name
-    ttk_frontend_fqdn                                                 = var.ttk_frontend_fqdn
-    ttk_backend_fqdn                                                  = var.ttk_backend_fqdn
-    ttk_istio_gateway_namespace                                       = var.ttk_istio_gateway_namespace
-    ttk_istio_wildcard_gateway_name                                   = var.ttk_istio_wildcard_gateway_name    
+    ttk_frontend_fqdn                                                 = local.ttk_frontend_fqdn
+    ttk_backend_fqdn                                                  = local.ttk_backend_fqdn
+    ttk_istio_gateway_namespace                                       = local.ttk_istio_gateway_namespace
+    ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name    
     kafka_host                                                        = "${module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                                                        = module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port
     account_lookup_db_existing_secret                                 = module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret
@@ -168,10 +168,10 @@ module "generate_mojaloop_files" {
     keto_read_url                                                     = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     keto_write_url                                                    = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     kratos_service_name                                               = "kratos-public.${var.ory_namespace}.svc.cluster.local"
-    portal_fqdn                                                       = var.finance_portal_fqdn
-    portal_istio_gateway_namespace                                    = var.portal_istio_gateway_namespace
-    portal_istio_wildcard_gateway_name                                = var.portal_istio_wildcard_gateway_name    
-    portal_istio_gateway_name                                         = var.portal_istio_gateway_name
+    portal_fqdn                                                       = local.finance_portal_fqdn
+    portal_istio_gateway_namespace                                    = local.portal_istio_gateway_namespace
+    portal_istio_wildcard_gateway_name                                = local.portal_istio_wildcard_gateway_name    
+    portal_istio_gateway_name                                         = local.portal_istio_gateway_name
     finance_portal_release_name                                       = "fin-portal"
     finance_portal_chart_version                                      = try(var.app_var_map.finance_portal_chart_version, var.finance_portal_chart_version)
     oathkeeper_auth_provider_name                                     = var.oathkeeper_auth_provider_name
@@ -202,6 +202,19 @@ module "generate_mojaloop_files" {
 
 
 locals {
+  mojaloop_wildcard_gateway             = var.mojaloop_ingress_internal_lb ? "internal" : "external"
+  ttk_frontend_fqdn                     = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
+  ttk_backend_fqdn                      = local.mojaloop_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" :  "ttkbackend.${var.private_subdomain}"
+  ttk_istio_wildcard_gateway_name       = local.mojaloop_wildcard_gateway == "external"  ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
+  ttk_istio_gateway_namespace           = local.mojaloop_wildcard_gateway == "external"  ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace  
+
+  finance_portal_wildcard_gateway     = var.finanace_portal_ingress_internal_lb ? "internal" : "external"
+  finance_portal_fqdn                 = local.finance_portal_wildcard_gateway == "external" ? "finance-portal.${var.public_subdomain}" : "finance-portal.${var.private_subdomain}"
+  portal_istio_gateway_namespace      = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace  
+  portal_istio_wildcard_gateway_name  = local.finance_portal_wildcard_gateway == "external"  ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
+  portal_istio_gateway_name           = local.finance_portal_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
+
+
   mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
   mojaloop_app_file                            = "mojaloop-app.yaml"
   output_path                                  = "${var.output_dir}/mojaloop"
@@ -216,7 +229,6 @@ locals {
   third_party_consent_oracle_db_resource_index = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "mysql-consent-oracle-db")
   ttk_redis_resource_index                     = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "ttk-redis")
   reporting_events_mongodb_resource_index      = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "reporting-events-mongodb")
-  mojaloop_wildcard_gateway                    = var.mojaloop_ingress_internal_lb ? "internal" : "external"
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
   jws_key_secret                               = "switch-jws"
 }
@@ -327,12 +339,6 @@ variable "quoting_service_simple_routing_mode_enabled" {
   default     = false
 }
 
-variable "ttk_frontend_fqdn" {
-  type = string
-}
-variable "ttk_backend_fqdn" {
-  type = string
-}
 
 variable "auth_fqdn" {
   type = string
@@ -397,27 +403,7 @@ variable "ttk_gp_testcase_labels" {
   default = "p2p"
 }
 
-variable "ttk_istio_wildcard_gateway_name" {
-  type = string
-  default = ""
-}
-
-variable "ttk_istio_gateway_namespace" {
-  type = string
-  default = ""
-}
-
-variable "portal_istio_wildcard_gateway_name" {
-  type = string
-  default = ""
-}
-
-variable "portal_istio_gateway_namespace" {
-  type = string
-  default = ""
-}
-
-variable "portal_istio_gateway_name" {
-  type = string
-  default = ""
+variable "finanace_portal_ingress_internal_lb" {
+  default     = false
+  description = "whether argocd should only be available on private network"
 }

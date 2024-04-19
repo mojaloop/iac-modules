@@ -8,10 +8,10 @@ module "generate_mcm_files" {
     db_schema                            = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
     db_port                              = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
     db_host                              = "${module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    mcm_fqdn                             = var.mcm_fqdn
-    mcm_istio_gateway_namespace          = var.mcm_istio_gateway_namespace
-    mcm_istio_wildcard_gateway_name      = var.mcm_istio_wildcard_gateway_name
-    mcm_istio_gateway_name               = var.mcm_istio_gateway_name 
+    mcm_fqdn                             = local.mcm_fqdn
+    mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
+    mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
+    mcm_istio_gateway_name               = local.mcm_istio_gateway_name 
     fspiop_use_ory_for_auth              = var.fspiop_use_ory_for_auth
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain
@@ -210,26 +210,6 @@ variable "keycloak_namespace" {
   description = "namespace of keycloak in which to create realm"
 }
 
-variable "mcm_fqdn" {
-  type        = string
-  description = "hostname for mcm"
-}
-
-variable "mcm_istio_wildcard_gateway_name" {
-  type = string
-  default = ""
-}
-
-variable "mcm_istio_gateway_namespace" {
-  type = string
-  default = ""
-}
-
-variable "mcm_istio_gateway_name" {
-  type = string
-  default = ""
-}
-
 variable "fspiop_use_ory_for_auth" {
   type = bool
 }
@@ -242,4 +222,9 @@ locals {
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
   dfsp_internal_whitelist_secret = "${local.whitelist_secret_path}_pm4mls"
   dfsp_external_whitelist_secret = "${local.whitelist_secret_path}_fsps"
+
+  mcm_fqdn                        = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
+  mcm_istio_gateway_namespace     = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  mcm_istio_wildcard_gateway_name = local.mcm_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
+  mcm_istio_gateway_name          = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
 }

@@ -10,6 +10,7 @@ module "generate_ory_files" {
     ory_namespace                        = var.ory_namespace
     auth_fqdn                            = local.auth_fqdn
     public_subdomain                     = var.public_subdomain
+    private_subdomain                    = var.private_subdomain
     bof_managed_portal_fqdns             = local.bof_managed_portal_fqdns
     keto_postgres_database               = module.common_stateful_resources.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
     keto_postgres_user                   = module.common_stateful_resources.stateful_resources[local.keto_postgres_resource_index].logical_service_config.username
@@ -120,4 +121,10 @@ locals {
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
+
+  oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml in var.app_var_map.pm4mls : {
+    realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml.pm4ml}"
+    client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml.pm4ml}"
+    secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml.pm4ml}"
+  }] : []
 }
