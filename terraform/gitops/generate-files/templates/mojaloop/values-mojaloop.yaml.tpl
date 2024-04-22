@@ -654,9 +654,9 @@ centralsettlement:
 transaction-requests-service:
   podLabels:
     sidecar.istio.io/inject: "${enable_istio_injection}"
-%{ if trasaction_requests_service_affinity != null ~}
+%{ if transaction_requests_service_affinity != null ~}
   affinity:
-    ${indent(8, trasaction_requests_service_affinity)}
+    ${indent(8, transaction_requests_service_affinity)}
 %{ endif ~}
   tolerations: *MOJALOOP_TOLERATIONS
   replicaCount: ${trasaction_requests_service_replica_count}
