@@ -659,7 +659,7 @@ transaction-requests-service:
     ${indent(8, transaction_requests_service_affinity)}
 %{ endif ~}
   tolerations: *MOJALOOP_TOLERATIONS
-  replicaCount: ${trasaction_requests_service_replica_count}
+  replicaCount: ${transaction_requests_service_replica_count}
   ingress:
 %{ if istio_create_ingress_gateways ~}
     enabled: false
