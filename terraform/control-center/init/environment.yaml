@@ -14,7 +14,7 @@ netmaker_version: 0.18.7
 letsencrypt_email: test@mojalabs.io
 delete_storage_on_term: true
 docker_server_extra_vol_size: 100
-loki_data_expiry: 1d
+loki_data_expiry: 7d
 tempo_data_expiry_days: 7d
 longhorn_backup_data_expiry: 1d
 envs:
