@@ -42,7 +42,7 @@ module "generate_monitoring_files" {
     minio_loki_bucket                   = local.minio_loki_bucket
     minio_loki_user_key                 = "${var.cluster_name}/minio_loki_username"
     minio_loki_password_key             = "${var.cluster_name}/minio_loki_password"
-    minio_tempo_credentials_secret_name = "minio-tempo-credentials-secret"
+    minio_tempo_credentials_secret_name = "minio-credentials-secret" # TODO: update to minio-tempo-credentials-secret 
     external_secret_sync_wave           = var.external_secret_sync_wave
     prom_tsdb_max_block_duration        = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
     prom_tsdb_min_block_duration        = try(var.common_var_map.prom_tsdb_min_block_duration, local.prom_tsdb_min_block_duration)
