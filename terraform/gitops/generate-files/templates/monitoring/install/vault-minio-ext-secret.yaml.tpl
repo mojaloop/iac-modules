@@ -48,13 +48,14 @@ spec:
     creationPolicy: Owner
 
   data:
-    - secretKey: MINIO_TEMPO_USERNAME
+  # https://grafana.com/docs/tempo/latest/configuration/hosted-storage/s3/#amazon-s3-permissions
+    - secretKey: MINIO_ACCESS_KEY
       remoteRef: 
         conversionStrategy: Default	
         decodingStrategy: None	
         key: ${minio_tempo_user_key}
         property: value 
-    - secretKey: MINIO_TEMPO_PASSWORD
+    - secretKey: MINIO_SECRET_KEY
       remoteRef: 
         conversionStrategy: Default	
         decodingStrategy: None	      
