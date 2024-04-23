@@ -31,6 +31,7 @@ prometheus_pvc_size: 50Gi
 loki_retention_enabled: true
 loki_ingester_retention_period: 72h
 prometheus_retention_period: 10d
+tempo_retention_period: 3d
 istio_egress_gateway_max_replicas: 5
 microk8s_version: 1.29/stable
 alertmanager_enabled: false
