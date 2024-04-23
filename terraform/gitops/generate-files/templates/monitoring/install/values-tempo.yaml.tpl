@@ -1,5 +1,5 @@
 compactor:
-  extraArgs: ["-config.expand-env"]
+  args: ["-config.expand-env"]
   extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
@@ -11,7 +11,7 @@ distributor:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]   
 ingester:
-  extraArgs: ["-config.expand-env"]
+  args: ["-config.expand-env"]
   extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
@@ -23,7 +23,7 @@ metricsGenerator:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]   
 querier:
-  extraArgs: ["-config.expand-env"]
+  args: ["-config.expand-env"]
   extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
