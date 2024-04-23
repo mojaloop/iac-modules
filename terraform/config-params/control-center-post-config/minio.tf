@@ -99,7 +99,7 @@ resource "minio_ilm_policy" "tempo-bucket-lifecycle-rules" {
   for_each = var.env_map
   bucket = minio_s3_bucket.tempo-s3-bucket[each.key].bucket
   rule {
-    id         = "expire-${tempo_data_expiry_days}"
+    id         = "expire-${var.tempo_data_expiry_days}"
     expiration = var.tempo_data_expiry_days
   }
 }
