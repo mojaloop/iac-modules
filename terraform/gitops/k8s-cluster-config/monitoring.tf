@@ -126,7 +126,7 @@ locals {
   loki_retention_enabled              = true
   loki_ingester_retention_period      = "72h"
   prometheus_retention_period         = "10d"
-  tempo_retention_period              = "3d"
+  tempo_retention_period              = "72h"
   prom_tsdb_min_block_duration        = "30m"
   prom_tsdb_max_block_duration        = "30m"
   grafana_public_fqdn                 = "grafana.${var.public_subdomain}"
