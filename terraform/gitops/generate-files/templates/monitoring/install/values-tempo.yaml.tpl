@@ -90,7 +90,7 @@ tempo:
       http_listen_port: {{ .Values.tempo.containerPorts.web }}
     storage:
       trace:
-        backend: local
+        backend: s3
         blocklist_poll: 5m
         local:
           path: {{ .Values.tempo.dataDir }}/traces
