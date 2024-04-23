@@ -100,9 +100,7 @@ tempo:
           forcepathstyle: true
           endpoint: haproxy.dev3.devbaremetal3.moja-onprem.net:9000
           insecure: true
-          # access_key: ${MINIO_TEMPO_USERNAME}
-          # secret_key: ${MINIO_TEMPO_PASSWORD}
-          bucket: dev3-tempo   
+          bucket: ${minio_tempo_bucket}   
 
 
 compactor:
