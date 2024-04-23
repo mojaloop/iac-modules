@@ -76,6 +76,11 @@ variable "loki_data_expiry" {
   default = "7d"
 }
 
+variable "tempo_data_expiry_days" {
+  description = "number of days to expire minio tempo bucket data"
+  default = "7d"
+}
+
 variable "longhorn_backup_data_expiry" {
   description = "number of days to expire minio longhorn bucket data"
   default = "7d"

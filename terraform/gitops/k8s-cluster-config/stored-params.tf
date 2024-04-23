@@ -51,6 +51,11 @@ data "gitlab_project_variable" "minio_loki_bucket" {
   key     = "minio_loki_bucket"
 }
 
+data "gitlab_project_variable" "minio_tempo_bucket" {
+  project = var.current_gitlab_project_id
+  key     = "minio_tempo_bucket"
+}
+
 data "gitlab_project_variable" "minio_longhorn_bucket" {
   project = var.current_gitlab_project_id
   key     = "minio_longhorn_bucket"
