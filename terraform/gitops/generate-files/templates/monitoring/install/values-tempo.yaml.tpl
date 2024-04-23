@@ -14,7 +14,7 @@ tempo:
             - trace-id-index
     compactor:
       compaction:
-        block_retention: 72h
+        block_retention: ${tempo_retention_period}
       ring:
         kvstore:
           store: memberlist

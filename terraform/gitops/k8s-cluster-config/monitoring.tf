@@ -46,6 +46,7 @@ module "generate_monitoring_files" {
     minio_tempo_user_key                = "${var.cluster_name}/minio_tempo_username"
     minio_tempo_password_key            = "${var.cluster_name}/minio_tempo_password"
     minio_tempo_bucket                  = "dev3-tempo" # TODO: reference it properly later
+    tempo_retention_period              = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
     external_secret_sync_wave           = var.external_secret_sync_wave
     prom_tsdb_max_block_duration        = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
     prom_tsdb_min_block_duration        = try(var.common_var_map.prom_tsdb_min_block_duration, local.prom_tsdb_min_block_duration)
@@ -125,6 +126,7 @@ locals {
   loki_retention_enabled              = true
   loki_ingester_retention_period      = "72h"
   prometheus_retention_period         = "10d"
+  tempo_retention_period              = "3d"
   prom_tsdb_min_block_duration        = "30m"
   prom_tsdb_max_block_duration        = "30m"
   grafana_public_fqdn                 = "grafana.${var.public_subdomain}"
