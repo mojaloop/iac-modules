@@ -45,7 +45,7 @@ module "generate_monitoring_files" {
     minio_tempo_credentials_secret_name = "minio-tempo-credentials-secret"
     minio_tempo_user_key                = "${var.cluster_name}/minio_tempo_username"
     minio_tempo_password_key            = "${var.cluster_name}/minio_tempo_password"
-    minio_tempo_bucket                  = "dev3-tempo" # TODO: reference it properly later
+    minio_tempo_bucket                  = local.minio_tempo_bucket
     tempo_retention_period              = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
     external_secret_sync_wave           = var.external_secret_sync_wave
     prom_tsdb_max_block_duration        = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
