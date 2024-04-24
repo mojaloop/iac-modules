@@ -98,7 +98,7 @@ tempo:
           path: {{ .Values.tempo.dataDir }}/wal
         s3:
           forcepathstyle: true
-          endpoint: haproxy.dev3.devbaremetal3.moja-onprem.net:9000
+          endpoint: ${minio_api_url}
           insecure: true
           bucket: ${minio_tempo_bucket}   
 
