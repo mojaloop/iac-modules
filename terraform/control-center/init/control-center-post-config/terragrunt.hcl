@@ -73,7 +73,9 @@ inputs = {
   gitlab_admin_rbac_group          = local.env_vars.gitlab_admin_rbac_group
   gitlab_readonly_rbac_group       = local.env_vars.gitlab_readonly_rbac_group
   loki_data_expiry                 = local.env_vars.loki_data_expiry
+  tempo_data_expiry_days           = local.env_vars.tempo_data_expiry_days
   longhorn_backup_data_expiry      = local.env_vars.longhorn_backup_data_expiry  
+  private_subdomain_string         = local.private_subdomain_string
 }
 
 locals {
@@ -85,12 +87,13 @@ locals {
   )
   env_map = { for val in local.env_vars.envs :
     val["env"] => {
-      domain                            = val["domain"]
-      enable_vault_oauth_to_gitlab      = val["enable_vault_oauth_to_gitlab"]
-      enable_grafana_oauth_to_gitlab    = val["enable_grafana_oauth_to_gitlab"]
-      enable_argocd_oauth_to_gitlab     = val["enable_argocd_oauth_to_gitlab"]
+      domain                 = val["domain"]
+      vault_oidc_domain      = try(val["vault_oidc_domain"],"")
+      grafana_oidc_domain    = try(val["grafana_oidc_domain"],"")
+      argocd_oidc_domain     = try(val["argocd_oidc_domain"],"")
     }
   }
+  private_subdomain_string = "int"
 }
 
 include "root" {

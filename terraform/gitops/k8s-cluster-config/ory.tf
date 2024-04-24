@@ -3,7 +3,6 @@ module "generate_ory_files" {
   var_map = {
     gitlab_project_url                   = var.gitlab_project_url
     ory_sync_wave                        = var.ory_sync_wave
-    ory_stack_enabled                    = try(var.common_var_map.ory_stack_enabled, var.ory_stack_enabled)
     oathkeeper_chart_version             = try(var.common_var_map.oathkeeper_chart_version, var.oathkeeper_chart_version)
     kratos_chart_version                 = try(var.common_var_map.kratos_chart_version, var.kratos_chart_version)
     keto_chart_version                   = try(var.common_var_map.keto_chart_version, var.keto_chart_version)
@@ -11,7 +10,7 @@ module "generate_ory_files" {
     ory_namespace                        = var.ory_namespace
     auth_fqdn                            = local.auth_fqdn
     public_subdomain                     = var.public_subdomain
-    bof_managed_portal_fqdns             = local.bof_managed_portal_fqdns
+    private_subdomain                    = var.private_subdomain
     keto_postgres_database               = module.common_stateful_resources.stateful_resources[local.keto_postgres_resource_index].logical_service_config.database_name
     keto_postgres_user                   = module.common_stateful_resources.stateful_resources[local.keto_postgres_resource_index].logical_service_config.username
     keto_postgres_host                   = "${module.common_stateful_resources.stateful_resources[local.keto_postgres_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -54,11 +53,6 @@ module "generate_ory_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
-variable "ory_stack_enabled" {
-  description = "whether ory_stack app is enabled or not"
-  type        = bool
-  default     = true
-}
 variable "ory_sync_wave" {
   type        = string
   description = "ory_sync_wave"
@@ -126,4 +120,10 @@ locals {
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
+
+  oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml in var.app_var_map.pm4mls : {
+    realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml.pm4ml}"
+    client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml.pm4ml}"
+    secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml.pm4ml}"
+  }] : []
 }

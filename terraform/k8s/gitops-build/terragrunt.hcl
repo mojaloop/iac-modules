@@ -2,7 +2,6 @@ terraform {
   source = "git::https://github.com/mojaloop/iac-modules.git//terraform/gitops/k8s-cluster-config?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
-
 include "root" {
   path = find_in_parent_folders()
 }
@@ -15,7 +14,7 @@ dependency "k8s_store_config" {
 dependency "k8s_deploy" {
   config_path = "../k8s-deploy"
   mock_outputs = {
-    nat_public_ips                 = [""]
+    nat_public_ips                   = [""]
     internal_load_balancer_dns       = ""
     external_load_balancer_dns       = ""
     private_subdomain                = ""
@@ -63,6 +62,7 @@ inputs = {
   stateful_resources_config_file           = find_in_parent_folders("${get_env("CONFIG_PATH")}/common-stateful-resources.json")
   mojaloop_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
   vnext_stateful_resources_config_file     = find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-stateful-resources.json")
+  mojaloop_values_override_file            = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-values-override.yaml", "mojaloop-values-override.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -81,6 +81,9 @@ inputs = {
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
   rbac_api_resources_file                  = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""
   rbac_permissions_file                    = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-permissions.yaml") : find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-rbac-permissions.yaml")
+  argocd_ingress_internal_lb               = local.argocd_ingress_internal_lb
+  grafana_ingress_internal_lb              = local.grafana_ingress_internal_lb
+  vault_ingress_internal_lb                = local.vault_ingress_internal_lb
 }
 
 locals {
@@ -101,8 +104,8 @@ locals {
   GITLAB_CURRENT_GROUP_NAME     = get_env("GITLAB_CURRENT_GROUP_NAME")
   GITLAB_API_URL                = get_env("GITLAB_API_URL")
   CLOUD_REGION                  = get_env("cloud_region")
-  ENABLE_VAULT_OIDC             = get_env("ENABLE_VAULT_OIDC")
-  ENABLE_GRAFANA_OIDC           = get_env("ENABLE_GRAFANA_OIDC")
+  ENABLE_VAULT_OIDC             = try(get_env("vault_oidc_domain"),"") == "" ? false : true
+  ENABLE_GRAFANA_OIDC           = try(get_env("grafana_oidc_domain"),"") == "" ? false : true
   LETSENCRYPT_EMAIL             = get_env("letsencrypt_email")
   GITLAB_TOKEN                  = get_env("GITLAB_CI_PAT")
   ENV_VAULT_TOKEN               = get_env("ENV_VAULT_TOKEN")
@@ -110,6 +113,9 @@ locals {
   VAULT_GITLAB_ROOT_TOKEN       = get_env("VAULT_GITLAB_ROOT_TOKEN")
   TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
+  argocd_ingress_internal_lb    = strcontains(try(get_env("argocd_oidc_domain"),"int."),"int.")? true : false
+  grafana_ingress_internal_lb   = strcontains(try(get_env("grafana_oidc_domain"),"int."),"int.")? true : false
+  vault_ingress_internal_lb     = strcontains(try(get_env("vault_oidc_domain"),"int."),"int.")? true : false
 }
 
 generate "required_providers_override" {

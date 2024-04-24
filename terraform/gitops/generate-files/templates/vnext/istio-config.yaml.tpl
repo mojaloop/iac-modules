@@ -27,7 +27,7 @@ spec:
   selector:
     matchLabels:
       app: ${istio_external_gateway_name}
-%{ if ory_stack_enabled ~}
+%{ if fspiop_use_ory_for_auth ~}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
@@ -38,7 +38,7 @@ spec:
     - when:
         - key: connection.sni
           values: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
-%{ if !ory_stack_enabled ~}
+%{ if !fspiop_use_ory_for_auth ~}
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
@@ -202,13 +202,9 @@ metadata:
   name: vnext-ttkfront-vs
 spec:
   gateways:
-%{ if vnext_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${ttk_istio_gateway_namespace}/${ttk_istio_wildcard_gateway_name}
   hosts:
-  - '${ttk_frontend_public_fqdn}'
+  - '${ttk_frontend_fqdn}'
   http:
     - match:
         - uri:
@@ -225,13 +221,9 @@ metadata:
   name: vnext-ttkback-vs
 spec:
   gateways:
-%{ if vnext_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${ttk_istio_gateway_namespace}/${ttk_istio_wildcard_gateway_name}
   hosts:
-  - '${ttk_backend_public_fqdn}'
+  - '${ttk_backend_fqdn}'
   http:
     - name: api
       match:
@@ -267,11 +259,7 @@ metadata:
   name: vnext-admin-ui
 spec:
   gateways:
-%{ if vnext_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${vnext_istio_gateway_namespace}/${vnext_istio_wildcard_gateway_name}
   hosts:
   - '${vnext_admin_ui_fqdn}'
   http:

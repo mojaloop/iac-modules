@@ -1,4 +1,3 @@
-%{ if ory_stack_enabled ~}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -31,4 +30,3 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
-%{ endif ~}

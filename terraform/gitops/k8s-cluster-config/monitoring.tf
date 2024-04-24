@@ -16,8 +16,8 @@ module "generate_monitoring_files" {
     gitlab_server_url                    = var.gitlab_server_url
     gitlab_project_url                   = var.gitlab_project_url
     public_subdomain                     = var.public_subdomain
-    client_id                            = data.vault_generic_secret.grafana_oauth_client_id.data.value
-    client_secret                        = data.vault_generic_secret.grafana_oauth_client_secret.data.value
+    client_id                            = try(data.vault_generic_secret.grafana_oauth_client_id[0].data.value,"")
+    client_secret                        = try(data.vault_generic_secret.grafana_oauth_client_secret[0].data.value,"")
     enable_oidc                          = var.enable_grafana_oidc
     storage_class_name                   = var.storage_class_name
     groups                               = var.gitlab_admin_group_name
@@ -31,13 +31,9 @@ module "generate_monitoring_files" {
     monitoring_post_config_sync_wave     = var.monitoring_post_config_sync_wave
     ingress_class                        = var.grafana_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
-    istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
-    istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
-    istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
-    istio_external_gateway_namespace     = var.istio_external_gateway_namespace
-    grafana_wildcard_gateway             = local.grafana_wildcard_gateway
     loki_ingester_pvc_size               = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
     prometheus_pvc_size                  = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
+    loki_retention_enabled               = try(var.common_var_map.loki_retention_enabled, local.loki_retention_enabled)
     loki_ingester_retention_period       = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     prometheus_retention_period          = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                 = try(var.common_var_map.alertmanager_enabled, false)
@@ -49,6 +45,10 @@ module "generate_monitoring_files" {
     external_secret_sync_wave            = var.external_secret_sync_wave
     prom_tsdb_max_block_duration         = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
     prom_tsdb_min_block_duration         = try(var.common_var_map.prom_tsdb_min_block_duration, local.prom_tsdb_min_block_duration)
+    grafana_subdomain                    = local.grafana_subdomain
+    grafana_fqdn                         = local.grafana_fqdn
+    grafana_istio_gateway_namespace      = local.grafana_istio_gateway_namespace
+    grafana_istio_wildcard_gateway_name  = local.vault_istio_wildcard_gateway_name    
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -119,8 +119,15 @@ locals {
   monitoring_app_file                 = "monitoring-app.yaml"
   loki_ingester_pvc_size              = "50Gi"
   prometheus_pvc_size                 = "50Gi"
+  loki_retention_enabled              = true
   loki_ingester_retention_period      = "72h"
   prometheus_retention_period         = "10d"
   prom_tsdb_min_block_duration        = "30m"
   prom_tsdb_max_block_duration        = "30m"
+  grafana_public_fqdn                 = "grafana.${var.public_subdomain}"
+  grafana_private_fqdn                = "grafana.${var.private_subdomain}"
+  grafana_subdomain                   = local.grafana_wildcard_gateway == "external" ? var.public_subdomain : var.private_subdomain
+  grafana_fqdn                        = local.grafana_wildcard_gateway == "external" ? "grafana.${var.public_subdomain}" : "grafana.${var.private_subdomain}"
+  grafana_istio_gateway_namespace     = local.grafana_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  grafana_istio_wildcard_gateway_name = local.grafana_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
 }

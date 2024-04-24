@@ -19,7 +19,7 @@ spec:
     - apiKey: 
         name: alertmanager-jira-secret
         key: data
-      tags: ${public_subdomain}
+      tags: ${grafana_subdomain}
 
 ---
 apiVersion: external-secrets.io/v1beta1

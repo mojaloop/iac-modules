@@ -372,15 +372,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-prepare:
-    readinessProbe:
-      initialDelaySeconds: 5
-    livenessProbe:
-      initialDelaySeconds: 10
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 10
 %{ if central_ledger_handler_transfer_prepare_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_prepare_affinity)}
@@ -411,15 +402,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-position:
-    readinessProbe:
-      initialDelaySeconds: 5
-    livenessProbe:
-      initialDelaySeconds: 10
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 10
 %{ if central_ledger_handler_transfer_position_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_affinity)}
@@ -450,15 +432,6 @@ centralledger:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-position-batch:
     enabled: *CL_BATCH_PROCESSING_ENABLED
-    readinessProbe:
-      initialDelaySeconds: 5
-    livenessProbe:
-      initialDelaySeconds: 10
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 10
 %{ if central_ledger_handler_transfer_position_batch_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_batch_affinity)}
@@ -490,15 +463,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-get:
-    readinessProbe:
-      initialDelaySeconds: 5
-    livenessProbe:
-      initialDelaySeconds: 10
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 10
 %{ if central_ledger_handler_transfer_get_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_get_affinity)}
@@ -528,15 +492,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-fulfil:
-    readinessProbe:
-      initialDelaySeconds: 5
-    livenessProbe:
-      initialDelaySeconds: 10
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 10
 %{ if central_ledger_handler_transfer_fulfil_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_fulfil_affinity)}
@@ -567,15 +522,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-timeout:
-    readinessProbe:
-      initialDelaySeconds: 5
-    livenessProbe:
-      initialDelaySeconds: 10
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 10
     tolerations: *MOJALOOP_TOLERATIONS
     config:
       kafka_host: *KAFKA_HOST
@@ -708,12 +654,12 @@ centralsettlement:
 transaction-requests-service:
   podLabels:
     sidecar.istio.io/inject: "${enable_istio_injection}"
-%{ if trasaction_requests_service_affinity != null ~}
+%{ if transaction_requests_service_affinity != null ~}
   affinity:
-    ${indent(8, trasaction_requests_service_affinity)}
+    ${indent(8, transaction_requests_service_affinity)}
 %{ endif ~}
   tolerations: *MOJALOOP_TOLERATIONS
-  replicaCount: ${trasaction_requests_service_replica_count}
+  replicaCount: ${transaction_requests_service_replica_count}
   ingress:
 %{ if istio_create_ingress_gateways ~}
     enabled: false
@@ -1067,9 +1013,9 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         specApi:
-          host: ${ttk_backend_public_fqdn}
+          host: ${ttk_backend_fqdn}
         adminApi:
-          host: ${ttk_backend_public_fqdn}
+          host: ${ttk_backend_fqdn}
     parameters: &simNames
       simNamePayerfsp: 'payerfsp'
       simNamePayeefsp: 'payeefsp'
@@ -1158,11 +1104,11 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         ui:
-          host: ${ttk_frontend_public_fqdn}
+          host: ${ttk_frontend_fqdn}
           port: 6060
           paths: ['/']
     config:
-      API_BASE_URL: https://${ttk_backend_public_fqdn}
+      API_BASE_URL: https://${ttk_backend_fqdn}
 
 ml-ttk-test-setup:
   tests:
@@ -1171,7 +1117,7 @@ ml-ttk-test-setup:
     testSuiteName: Provisioning
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1194,7 +1140,7 @@ ml-ttk-test-val-gp:
     testSuiteName: GP Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1216,7 +1162,7 @@ ml-ttk-test-val-bulk:
     testSuiteName: Bulk Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1228,7 +1174,7 @@ ml-ttk-test-setup-tp:
     testSuiteName: Third Party Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1240,7 +1186,7 @@ ml-ttk-test-val-tp:
     testSuiteName: Third Party Validation Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1252,7 +1198,7 @@ ml-ttk-test-setup-sdk-bulk:
     testSuiteName: SDK Bulk Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1288,7 +1234,7 @@ ml-ttk-test-cleanup:
     testSuiteName: Post Cleanup
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues

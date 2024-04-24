@@ -102,6 +102,18 @@ variable "minio_api_url" {
   description = "minio_api_url"
 }
 
+variable "default_ssl_certificate" {
+  type        = string
+  description = "default_ssl_certificate"
+  default     = "lets-enc-external-tls"
+}
+
+variable "default_internal_ssl_certificate" {
+  type        = string
+  description = "default_internal_ssl_certificate"
+  default     = "lets-enc-internal-tls"
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value

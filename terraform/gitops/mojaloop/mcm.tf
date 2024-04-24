@@ -8,7 +8,11 @@ module "generate_mcm_files" {
     db_schema                            = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
     db_port                              = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
     db_host                              = "${module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    mcm_public_fqdn                      = var.mcm_public_fqdn
+    mcm_fqdn                             = local.mcm_fqdn
+    mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
+    mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
+    mcm_istio_gateway_name               = local.mcm_istio_gateway_name
+    fspiop_use_ory_for_auth              = var.fspiop_use_ory_for_auth
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain
     env_o                                = "Mojaloop"
@@ -30,7 +34,7 @@ module "generate_mcm_files" {
     public_subdomain                     = var.public_subdomain
     enable_oidc                          = var.enable_mcm_oidc
     mcm_sync_wave                        = var.mcm_sync_wave
-    ingress_class                        = var.mcm_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
+    ingress_class                        = try(var.app_var_map.mcm_ingress_internal_lb, false) ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
     pki_path                             = var.vault_root_ca_name
     dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
@@ -56,7 +60,7 @@ module "generate_mcm_files" {
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     istio_external_gateway_name          = var.istio_external_gateway_name
     private_network_cidr                 = var.private_network_cidr
-    interop_switch_fqdn                  = var.external_interop_switch_fqdn
+    interop_switch_fqdn                  = local.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn
     keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
@@ -73,11 +77,10 @@ module "generate_mcm_files" {
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_gateway_name          = var.istio_internal_gateway_name
-    int_interop_switch_fqdn              = var.internal_interop_switch_fqdn
+    int_interop_switch_fqdn              = local.internal_interop_switch_fqdn
     mojaloop_namespace                   = var.mojaloop_namespace
     mojaloop_release_name                = var.mojaloop_release_name
     onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag
-    ory_stack_enabled                    = var.ory_stack_enabled
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
     auth_fqdn                            = var.auth_fqdn
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
@@ -96,11 +99,7 @@ variable "mcm_enabled" {
   type        = bool
   default     = true
 }
-variable "mcm_ingress_internal_lb" {
-  type        = bool
-  description = "mcm_ingress_internal_lb"
-  default     = false
-}
+
 variable "enable_mcm_oidc" {
   type    = bool
   default = false
@@ -206,17 +205,22 @@ variable "keycloak_namespace" {
   type        = string
   description = "namespace of keycloak in which to create realm"
 }
-variable "mcm_public_fqdn" {
-  type        = string
-  description = "hostname for mcm"
+
+variable "fspiop_use_ory_for_auth" {
+  type = bool
 }
 
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
   mcm_app_file                   = "mcm-app.yaml"
   mcm_resource_index             = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "mcm-db")
-  mcm_wildcard_gateway           = var.mcm_ingress_internal_lb ? "internal" : "external"
+  mcm_wildcard_gateway           = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
   dfsp_internal_whitelist_secret = "${local.whitelist_secret_path}_pm4mls"
   dfsp_external_whitelist_secret = "${local.whitelist_secret_path}_fsps"
+
+  mcm_fqdn                        = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
+  mcm_istio_gateway_namespace     = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  mcm_istio_wildcard_gateway_name = local.mcm_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
+  mcm_istio_gateway_name          = local.mcm_wildcard_gateway == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name
 }
