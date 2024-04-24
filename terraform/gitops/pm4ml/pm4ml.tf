@@ -22,7 +22,7 @@ module "generate_pm4ml_files" {
     portal_fqdn                                     = local.portal_fqdns[each.key]
     admin_portal_fqdn                               = local.admin_portal_fqdns[each.key]
     auth_fqdn                                       = var.auth_fqdn
-    admin_portal_release_name                       = "admin-portal"
+    admin_portal_release_name                       = "admin-portal-${each.key}"
     admin_portal_chart_version                      = try(var.app_var_map.admin_portal_chart_version, var.admin_portal_chart_version)
     dfsp_id                                         = each.value.pm4ml_dfsp_id
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
