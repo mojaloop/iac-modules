@@ -33,7 +33,7 @@ ingester:
     size: ${loki_ingester_pvc_size}
     storageClass: ${storage_class_name}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${minio_credentials_secret_name}
+  extraEnvVarsSecret: ${minio_loki_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -41,7 +41,7 @@ ingester:
 compactor:
   # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: minio-credentials-secret
+  extraEnvVarsSecret: ${minio_loki_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -58,7 +58,7 @@ gateway:
     values: ["enabled"]
 querier:
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: minio-credentials-secret
+  extraEnvVarsSecret: ${minio_loki_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
