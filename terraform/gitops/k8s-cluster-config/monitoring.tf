@@ -36,17 +36,18 @@ module "generate_monitoring_files" {
     loki_ingester_retention_period      = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     prometheus_retention_period         = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                = try(var.common_var_map.alertmanager_enabled, false)
-    # TODO: update the name of minio-loki variables to reflect that they belong to loki only
-    minio_credentials_secret_name       = "minio-credentials-secret"
+    minio_credentials_secret_name       = "minio-credentials-secret" # TODO: update to minio_loki_credentials_secret_name
     minio_api_url                       = var.minio_api_url
     minio_loki_bucket                   = local.minio_loki_bucket
     minio_loki_user_key                 = "${var.cluster_name}/minio_loki_username"
     minio_loki_password_key             = "${var.cluster_name}/minio_loki_password"
+
     minio_tempo_credentials_secret_name = "minio-tempo-credentials-secret"
     minio_tempo_user_key                = "${var.cluster_name}/minio_tempo_username"
     minio_tempo_password_key            = "${var.cluster_name}/minio_tempo_password"
     minio_tempo_bucket                  = local.minio_tempo_bucket
     tempo_retention_period              = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
+
     external_secret_sync_wave           = var.external_secret_sync_wave
     prom_tsdb_max_block_duration        = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
     prom_tsdb_min_block_duration        = try(var.common_var_map.prom_tsdb_min_block_duration, local.prom_tsdb_min_block_duration)
