@@ -115,7 +115,7 @@ locals {
   grafana_operator_version            = "3.5.11"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file                 = "monitoring-app.yaml"
-  loki_ingester_pvc_size              = "50Gi"
+  loki_ingester_pvc_size              = "10Gi"
   prometheus_pvc_size                 = "50Gi"
   loki_retention_enabled              = true
   loki_ingester_retention_period      = "72h"
