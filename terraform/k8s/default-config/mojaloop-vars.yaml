@@ -20,7 +20,7 @@ account_lookup_service_monitoring_prefix: "moja_als_"
 ttk_gp_testcase_labels: "p2p"
 jws_rotation_period_hours: 672
 jws_rotation_renew_before_hours: 1
-fspiop_use_ory_for_auth: false
+fspiop_use_ory_for_auth: true
 mojaloop_tolerations:
   - key: "moja-enabled"
     operator: "Equal"
