@@ -110,7 +110,7 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: ${admin_portal_release_name}-auth
+  name: ${admin_portal_release_name}-${pm4ml_release_name}-auth
   namespace: ${pm4ml_istio_gateway_namespace}
 spec:
   selector:

@@ -26,7 +26,7 @@ grafana_operator_version: 3.5.11
 grafana_version: 10.2.3
 tempo_chart_version: 3.1.0
 loki_chart_version: 2.13.0
-loki_ingester_pvc_size: 50Gi
+loki_ingester_pvc_size: 10Gi
 prometheus_pvc_size: 50Gi
 loki_retention_enabled: true
 loki_ingester_retention_period: 72h

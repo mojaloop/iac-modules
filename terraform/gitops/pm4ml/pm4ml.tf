@@ -69,7 +69,7 @@ module "generate_pm4ml_files" {
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
     core_connector_selected                         = each.value.core_connector_selected
     custom_core_connector_endpoint                  = each.value.custom_core_connector_endpoint
-    ttk_backend_fqdn                                = local.pm4ml_ttk_frontend_fqdns[each.key]
+    ttk_backend_fqdn                                = local.pm4ml_ttk_backend_fqdns[each.key]
     ttk_frontend_fqdn                               = local.pm4ml_ttk_frontend_fqdns[each.key]
     pta_portal_fqdn                                 = local.pm4ml_pta_portal_fqdns[each.key]
     test_fqdn                                       = local.test_fqdns[each.key]

@@ -41,13 +41,11 @@ module "generate_monitoring_files" {
     minio_loki_bucket                   = local.minio_loki_bucket
     minio_loki_user_key                 = "${var.cluster_name}/minio_loki_username"
     minio_loki_password_key             = "${var.cluster_name}/minio_loki_password"
-
     minio_tempo_credentials_secret_name = "minio-tempo-credentials-secret"
     minio_tempo_user_key                = "${var.cluster_name}/minio_tempo_username"
     minio_tempo_password_key            = "${var.cluster_name}/minio_tempo_password"
     minio_tempo_bucket                  = local.minio_tempo_bucket
     tempo_retention_period              = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
-
     external_secret_sync_wave           = var.external_secret_sync_wave
     prom_tsdb_max_block_duration        = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
     prom_tsdb_min_block_duration        = try(var.common_var_map.prom_tsdb_min_block_duration, local.prom_tsdb_min_block_duration)
@@ -122,7 +120,7 @@ locals {
   grafana_operator_version            = "3.5.11"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file                 = "monitoring-app.yaml"
-  loki_ingester_pvc_size              = "50Gi"
+  loki_ingester_pvc_size              = "10Gi"
   prometheus_pvc_size                 = "50Gi"
   loki_retention_enabled              = true
   loki_ingester_retention_period      = "72h"
