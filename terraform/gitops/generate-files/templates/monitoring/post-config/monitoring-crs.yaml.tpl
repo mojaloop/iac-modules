@@ -88,6 +88,26 @@ spec:
     editable: true
 ---
 apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: tempo
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Tempo
+    type: tempo
+    access: proxy
+    url: http://tempo-grafana-tempo-query-frontend:3200
+    jsonData:
+      httpHeaderName1: 'X-Scope-OrgID'
+    secureJsonData:
+      httpHeaderValue1: 'single-tenant'
+    isDefault: false
+    editable: true
+---
+apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
   name: default
