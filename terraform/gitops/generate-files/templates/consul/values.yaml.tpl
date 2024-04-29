@@ -9,3 +9,5 @@ consul:
     storage: ${storage_size}
     replicas: ${consul_replicas}
     storageClass: ${storage_class_name}
+  connectInject:
+    enabled: false
