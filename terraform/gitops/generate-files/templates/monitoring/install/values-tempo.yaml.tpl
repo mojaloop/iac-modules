@@ -116,6 +116,7 @@ distributor:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]   
 ingester:
+  resourcesPreset: small
   extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
@@ -128,6 +129,7 @@ metricsGenerator:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]   
 querier:
+  resourcesPreset: small
   extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
