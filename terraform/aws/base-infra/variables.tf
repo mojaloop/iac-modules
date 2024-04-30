@@ -62,7 +62,7 @@ variable "az_count" {
 variable "route53_zone_force_destroy" {
   description = "destroy public zone on destroy of env"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "bastion_ami" {
