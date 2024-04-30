@@ -3,6 +3,11 @@ data "aws_route53_zone" "public" {
   name = "${local.cluster_domain}."
 }
 
+data "aws_route53_zone" "public_int" {
+  count = (var.create_public_zone || !var.configure_route_53) ? 0 : 1
+  name = "${var.private_subdomain_string}.${local.cluster_domain}."
+}
+
 data "aws_route53_zone" "private" {
   count = (var.create_private_zone || !var.configure_route_53) ? 0 : 1
   name = "${local.cluster_domain}.internal."
