@@ -34,7 +34,7 @@ resource "aws_route53_record" "public_ns" {
 
 resource "aws_route53_record" "public_int_ns" {
   count   = (var.configure_route_53 && var.create_public_zone) ? 1 : 0
-  zone_id = aws_route53_zone.public.zone_id
+  zone_id = aws_route53_zone.public_int.zone_id
   name    = "${var.private_subdomain_string}.${local.cluster_domain}"
   type    = "NS"
   ttl     = "30"
