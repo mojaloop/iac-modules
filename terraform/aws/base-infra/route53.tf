@@ -32,14 +32,14 @@ resource "aws_route53_record" "public_ns" {
   records = aws_route53_zone.public[0].name_servers
 }
 
-/*resource "aws_route53_record" "public_int_ns" {
+resource "aws_route53_record" "public_int_ns" {
   count   = (var.configure_route_53 && var.create_public_zone) ? 1 : 0
   zone_id = aws_route53_zone.public_int[0].zone_id
   name    = "${var.private_subdomain_string}.${local.cluster_domain}"
   type    = "NS"
   ttl     = "30"
   records = aws_route53_zone.public_int[0].name_servers
-}*/
+}
 
 resource "aws_route53_zone" "cluster_parent" {
   force_destroy = var.route53_zone_force_destroy
