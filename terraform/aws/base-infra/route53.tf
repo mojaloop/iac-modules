@@ -5,6 +5,15 @@ resource "aws_route53_zone" "public_int" {
   tags = merge({ Name = "${local.cluster_domain}-private" }, local.common_tags)
 }
 
+resource "aws_route53_record" "public_int_ns" {
+  count   = (var.configure_route_53 && var.create_public_zone) ? 1 : 0
+  zone_id = aws_route53_zone.public.zone_id
+  name    = "${var.private_subdomain_string}.${local.cluster_domain}"
+  type    = "NS"
+  ttl     = "30"
+  records = aws_route53_zone.public_int[0].name_servers
+}
+
 resource "aws_route53_zone" "public" {
   force_destroy = var.route53_zone_force_destroy
   count = (var.configure_route_53 && var.create_public_zone) ? 1 : 0
