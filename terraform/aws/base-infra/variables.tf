@@ -112,6 +112,7 @@ locals {
   common_tags                   = merge(local.identifying_tags, var.tags)
   azs                           = slice(data.aws_availability_zones.available.names, 0, var.az_count)
   public_zone                   = var.configure_route_53 ? (var.create_public_zone ? aws_route53_zone.public[0] : data.aws_route53_zone.public[0]) : null
+  public_int_domain             = "${var.private_subdomain_string}.${local.cluster_domain}"
   private_zone                  = var.configure_route_53 ? (var.create_private_zone ? aws_route53_zone.private[0] : data.aws_route53_zone.private[0]) : null
   cluster_parent_zone_id        = var.configure_route_53 ? (var.manage_parent_domain ? aws_route53_zone.cluster_parent[0].zone_id : data.aws_route53_zone.cluster_parent[0].zone_id) : null
   cluster_parent_parent_zone_id = var.configure_route_53 ? ((var.manage_parent_domain && var.manage_parent_domain_ns) ? data.aws_route53_zone.cluster_parent_parent[0].zone_id : null) : null

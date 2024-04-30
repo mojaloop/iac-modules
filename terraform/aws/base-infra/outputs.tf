@@ -26,6 +26,10 @@ output "public_zone" {
   value = local.public_zone
 }
 
+output "public_int_domain" {
+  value = local.public_int_domain
+}
+
 output "vpc_id" {
   value = module.vpc.vpc_id
 }
