@@ -22,8 +22,8 @@ output "private_zone" {
   value = local.private_zone
 }
 
-output "public_int_domain" {
-  value = local.public_int_domain
+output "public_int_zone" {
+  value = local.public_int_zone
 }
 
 output "public_zone" {

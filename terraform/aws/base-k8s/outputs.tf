@@ -12,7 +12,7 @@ output "external_load_balancer_dns" {
 }
 
 output "private_subdomain" {
-  value = module.base_infra.public_int_domain.name
+  value = module.base_infra.public_int_zone.name
 }
 
 output "public_subdomain" {
