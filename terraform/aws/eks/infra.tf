@@ -66,8 +66,6 @@ module "eks" {
       most_recent    = true # To ensure access to the latest settings provided
     }
   }
-  create_aws_auth_configmap = true
-  manage_aws_auth_configmap = true
   cluster_security_group_additional_rules = {
 
     ingress_https_bastion = {
