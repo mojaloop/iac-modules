@@ -1,4 +1,4 @@
-%{ if istio_create_ingress_gateways ~}
+%{ if opentelemetry_enabled ~}
 apiVersion: opentelemetry.io/v1alpha1
 kind: Instrumentation
 namespace: mojaloop
