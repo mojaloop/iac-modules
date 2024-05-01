@@ -63,8 +63,8 @@ module "eks" {
       # the addon is configured before data plane compute resources are created
       # See README for further details
       before_compute = true
-      #most_recent    = true # To ensure access to the latest settings provided
-      addon_version = "v1.18.0-eksbuild.1"
+      most_recent    = true # To ensure access to the latest settings provided
+      #addon_version = "v1.18.0-eksbuild.1"
       configuration_values = jsonencode({
         env = {
           # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
