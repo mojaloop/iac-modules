@@ -1,4 +1,7 @@
 tempo:
+  traces:
+    otlp:
+      grpc: true
   # source: https://github.com/bitnami/charts/blob/a3c7c6e5bc685b2587a6302770e20c6890ebd72d/bitnami/grafana-tempo/values.yaml#L136C3-L231C48
   configuration: |
     multitenancy_enabled: false
