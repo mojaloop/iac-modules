@@ -12,6 +12,7 @@ module "generate_monitoring_files" {
     grafana_version                     = try(var.common_var_map.grafana_version, local.grafana_version)
     opentelemetry_chart_version          = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     tempo_chart_version                 = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
+    opentelemetry_chart_version         = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     monitoring_namespace                = var.monitoring_namespace
     gitlab_server_url                   = var.gitlab_server_url
     gitlab_project_url                  = var.gitlab_project_url
@@ -110,6 +111,7 @@ variable "monitoring_namespace" {
 locals {
   grafana_crd_version_tag             = "v5.6.0"
   prometheus_crd_version              = "8.0.1"
+  opentelemetry_chart_version         = "0.56.0"
   grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
   loki_release_name                   = "loki"
   prometheus_operator_release_name    = "prom"
