@@ -14,7 +14,7 @@ inputs = {
   domain                               = local.CLUSTER_DOMAIN
   dns_zone_force_destroy               = local.env_vars.dns_zone_force_destroy
   longhorn_backup_object_store_destroy = local.env_vars.longhorn_backup_object_store_destroy
-  node_pools                           = local.env_vars.nodes
+  node_pools                           = local.enabled_node_pools
   enable_k6s_test_harness              = local.env_vars.enable_k6s_test_harness
   k6s_docker_server_instance_type      = local.env_vars.k6s_docker_server_instance_type
   vpc_cidr                             = local.env_vars.vpc_cidr
@@ -32,6 +32,7 @@ locals {
   cloud_platform_vars = yamldecode(
     file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}")
   )
+  enabled_node_pools = [for node in local.env_vars.nodes : node if !node == null]
   total_agent_count = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
   tags                      = local.env_vars.tags
