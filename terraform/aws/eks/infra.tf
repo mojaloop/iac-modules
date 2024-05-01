@@ -64,6 +64,13 @@ module "eks" {
       # See README for further details
       before_compute = true
       most_recent    = true # To ensure access to the latest settings provided
+      configuration_values = jsonencode({
+        env = {
+          # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
+          ENABLE_PREFIX_DELEGATION = "true"
+          WARM_PREFIX_TARGET       = "1"
+        }
+      })
     }
   }
   cluster_security_group_additional_rules = {
@@ -134,11 +141,15 @@ locals {
       launch_template_use_name_prefix = false
       iam_role_name                   = "${local.eks_name}-${node_pool_key}"
       iam_role_use_name_prefix        = false
-      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
-      post_bootstrap_user_data        = <<-EOT
+      vpc_security_group_ids = [
+        module.eks.cluster_primary_security_group_id,
+        module.eks.cluster_security_group_id,
+      ]
+      bootstrap_extra_args     = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
+      post_bootstrap_user_data = <<-EOT
         yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
       EOT
-      ebs_optimized                   = true
+      ebs_optimized            = true
       block_device_mappings = {
         xvda = {
           device_name = "/dev/xvda"
