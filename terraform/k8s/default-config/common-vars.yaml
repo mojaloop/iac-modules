@@ -19,7 +19,7 @@ mojaloop_enabled: true
 pm4ml_enabled: false
 vnext_enabled: false
 grafana_crd_version_tag: v5.6.0
-opentelemetry_chart_version: 0.55.2
+opentelemetry_chart_version: 0.56.0
 prometheus_crd_version: 8.0.1
 prometheus_operator_version: 8.22.8
 prometheus_process_exporter_version: 0.4.2
