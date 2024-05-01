@@ -131,10 +131,10 @@ locals {
     node_pool_key => {
       name                            = "${local.eks_name}-${node_pool_key}"
       ami_id                          = data.aws_ami.eks_default.id
-      instance_type                   = node_pool.instance_type
+      instance_type                   = try(node_pool.instance_type,"")
       public_ip                       = false
-      max_size                        = node_pool.node_count
-      desired_size                    = node_pool.node_count
+      max_size                        = try(node_pool.node_count,0)
+      desired_size                    = try(node_pool.node_count,0)
       use_mixed_instances_policy      = false
       target_group_arns               = local.agent_target_groups
       key_name                        = module.base_infra.key_pair_name
@@ -154,7 +154,7 @@ locals {
         xvda = {
           device_name = "/dev/xvda"
           ebs = {
-            volume_size           = node_pool.storage_gbs
+            volume_size           = try(node_pool.storage_gbs,0)
             volume_type           = "gp3"
             iops                  = 3000
             throughput            = 150
