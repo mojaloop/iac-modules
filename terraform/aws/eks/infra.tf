@@ -47,7 +47,7 @@ module "k6s_test_harness" {
 
 module "eks" {
   source      = "terraform-aws-modules/eks/aws"
-  version     = "~> 19.21"
+  version     = "19.21.0"
   enable_irsa = true
 
   cluster_name                    = local.eks_name
@@ -63,7 +63,8 @@ module "eks" {
       # the addon is configured before data plane compute resources are created
       # See README for further details
       before_compute = true
-      most_recent    = true # To ensure access to the latest settings provided
+      #most_recent    = true # To ensure access to the latest settings provided
+      addon_version = "v1.18.0-eksbuild.1"
       configuration_values = jsonencode({
         env = {
           # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
@@ -117,12 +118,12 @@ locals {
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
   node_labels = { for node_pool_key, node_pool in var.node_pools :
     node_pool_key => {
-      extra_args = [for key, label in node_pool.node_labels : "${key}=${label}"]
+      extra_args = [for key, label in try(node_pool.node_labels,{}) : "${key}=${label}"]
     }
   }
   node_taints = { for node_pool_key, node_pool in var.node_pools :
     node_pool_key => {
-      extra_args = [for key, taint in node_pool.node_taints : "${taint}"]
+      extra_args = [for key, taint in try(node_pool.node_taints,{}) : "${taint}"]
     }
   }
 
