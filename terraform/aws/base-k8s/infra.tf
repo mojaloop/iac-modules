@@ -25,7 +25,7 @@ module "post_config" {
   name            = var.cluster_name
   domain          = var.domain
   tags            = var.tags
-  private_zone_id = module.base_infra.private_zone.id
+  private_zone_id = module.base_infra.public_int_zone.id
   public_zone_id  = module.base_infra.public_zone.id
 }
 
