@@ -1,4 +1,3 @@
-%{ if opentelemetry_enabled ~}
 apiVersion: opentelemetry.io/v1alpha1
 kind: Instrumentation
 metadata:
@@ -12,4 +11,3 @@ spec:
   sampler:
     type: parentbased_traceidratio
     argument: "1"
-%{ endif ~}
