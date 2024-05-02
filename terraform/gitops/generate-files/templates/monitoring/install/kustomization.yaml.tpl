@@ -41,7 +41,7 @@ helmCharts:
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-tempo.yaml
   namespace: ${monitoring_namespace}
-  - name: opentelemetry-operator
+- name: opentelemetry-operator
   releaseName: opentelemetry-operator
   version: ${opentelemetry_chart_version}
   repo: https://open-telemetry.github.io/opentelemetry-helm-charts
