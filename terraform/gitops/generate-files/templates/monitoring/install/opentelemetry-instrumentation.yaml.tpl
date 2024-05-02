@@ -1,7 +1,6 @@
 %{ if opentelemetry_enabled ~}
 apiVersion: opentelemetry.io/v1alpha1
 kind: Instrumentation
-namespace: mojaloop
 metadata:
   name: mojaloop-instrumentation
 spec:
