@@ -63,8 +63,8 @@ module "eks" {
       # the addon is configured before data plane compute resources are created
       # See README for further details
       before_compute = true
-      # most_recent    = true # To ensure access to the latest settings provided
-      addon_version            = "v1.18.0-eksbuild.1" #https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html#vpc-add-on-self-managed-update
+      most_recent    = true # To ensure access to the latest settings provided
+      #addon_version            = "v1.18.0-eksbuild.1" #https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html#vpc-add-on-self-managed-update
       resolve_conflicts        = "OVERWRITE"
       service_account_role_arn = module.vpc_cni_irsa.iam_role_arn
       configuration_values = jsonencode({
