@@ -2,6 +2,7 @@ module "mojaloop" {
   count                                = var.common_var_map.mojaloop_enabled ? 1 : 0
   source                               = "../mojaloop"
   nat_public_ips                       = var.nat_public_ips
+  opentelemetry_enabled                = try(var.common_var_map.opentelemetry_enabled, local.opentelemetry_enabled)
   internal_load_balancer_dns           = var.internal_load_balancer_dns
   external_load_balancer_dns           = var.external_load_balancer_dns
   private_subdomain                    = var.private_subdomain
@@ -254,6 +255,7 @@ variable "argocd_namespace" {
 }
 
 locals {
+  opentelemetry_enabled               = true
   auth_fqdn = "auth.${var.public_subdomain}"
 
   pm4ml_var_map = {
