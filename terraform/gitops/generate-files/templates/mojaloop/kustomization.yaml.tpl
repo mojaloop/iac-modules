@@ -7,6 +7,7 @@ resources:
   - service-monitors.yaml
   - vault-secret.yaml
   - switch-jws-deployment.yaml
+  - opentelemetry-instrumentation.yaml
   - rbac-api-resources.yaml
 helmCharts:
 - name: mojaloop

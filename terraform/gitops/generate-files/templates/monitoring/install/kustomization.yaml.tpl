@@ -9,7 +9,6 @@ resources:
   - https://raw.githubusercontent.com/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator-${opentelemetry_chart_version}/charts/opentelemetry-operator/crds/crd-opentelemetryinstrumentation.yaml
   - vault-secret.yaml
   - istio-vs.yaml
-  - opentelemetry-instrumentation.yaml
   - process-exporter-service-monitor.yaml
   - vault-minio-ext-secret.yaml
 helmCharts:
