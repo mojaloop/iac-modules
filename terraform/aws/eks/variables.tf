@@ -15,7 +15,7 @@ variable "domain" {
 variable "kubernetes_version" {
   description = "version of k8s"
   type        = string
-  default     = "1.27"
+  default     = "1.29"
 }
 variable "ext_interop_switch_subdomain" {
   description = "subdomain for interop ext"
