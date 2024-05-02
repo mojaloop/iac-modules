@@ -70,6 +70,15 @@ queryFrontend:
     values: ["enabled"]
 
 memcachedchunks:
+  resourcesPreset: medium # https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
+  command:
+    - "/opt/bitnami/scripts/memcached/entrypoint.sh"
+    - "/opt/bitnami/scripts/memcached/run.sh"
+  args:
+    # medium profile memory-limit: 1536Mi. Setting value slightly below that.
+    # See https://github.com/memcached/memcached/wiki/ConfiguringServer#commandline-arguments
+    - "--memory-limit=1400"   # max memory limit for all cached items in mega bytes
+    - "--max-item-size=2m"    # max memory limit for a single item
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
