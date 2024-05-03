@@ -154,4 +154,4 @@ memcached:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]   
+    values: ["enabled"]   z
