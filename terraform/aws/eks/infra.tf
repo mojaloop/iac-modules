@@ -25,7 +25,7 @@ module "post_config" {
   name            = var.cluster_name
   domain          = var.domain
   tags            = var.tags
-  private_zone_id = module.base_infra.private_zone.id
+  private_zone_id = module.base_infra.public_int_zone.id
   public_zone_id  = module.base_infra.public_zone.id
 }
 
@@ -46,7 +46,9 @@ module "k6s_test_harness" {
 }
 
 module "eks" {
-  source = "terraform-aws-modules/eks/aws"
+  source      = "terraform-aws-modules/eks/aws"
+  version     = "~> 19.21"
+  enable_irsa = true
 
   cluster_name                    = local.eks_name
   cluster_version                 = var.kubernetes_version
@@ -62,6 +64,9 @@ module "eks" {
       # See README for further details
       before_compute = true
       most_recent    = true # To ensure access to the latest settings provided
+      #addon_version            = "v1.18.0-eksbuild.1" #https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html#vpc-add-on-self-managed-update
+      resolve_conflicts        = "OVERWRITE"
+      service_account_role_arn = module.vpc_cni_irsa.iam_role_arn
       configuration_values = jsonencode({
         env = {
           # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
@@ -85,6 +90,10 @@ module "eks" {
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
     update_launch_template_default_version = true
+    autoscaling_group_tags = {
+      "k8s.io/cluster-autoscaler/enabled" : true,
+      "k8s.io/cluster-autoscaler/${local.eks_name}" : "owned",
+    }
   }
   self_managed_node_groups = local.self_managed_node_groups
   tags                     = var.tags
@@ -135,11 +144,15 @@ locals {
       launch_template_use_name_prefix = false
       iam_role_name                   = "${local.eks_name}-${node_pool_key}"
       iam_role_use_name_prefix        = false
-      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
-      post_bootstrap_user_data        = <<-EOT
+      vpc_security_group_ids = [
+        module.eks.cluster_primary_security_group_id
+      ]
+      iam_role_attach_cni_policy = true
+      bootstrap_extra_args       = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
+      post_bootstrap_user_data   = <<-EOT
         yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
       EOT
-      ebs_optimized                   = true
+      ebs_optimized              = true
       block_device_mappings = {
         xvda = {
           device_name = "/dev/xvda"
@@ -170,6 +183,23 @@ locals {
       tag_specifications = ["instance", "volume", "network-interface"]
     }
   }
+}
+
+module "vpc_cni_irsa" {
+  source                = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  version               = "~> 5.39"
+  role_name             = "AmazonEKSVPCCNIRole"
+  attach_vpc_cni_policy = true
+  vpc_cni_enable_ipv4   = true
+
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:aws-node"]
+    }
+  }
+
+  tags = var.tags
 }
 
 data "aws_ami" "eks_default" {
