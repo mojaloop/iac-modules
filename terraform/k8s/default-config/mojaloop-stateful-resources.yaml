@@ -1,0 +1,144 @@
+thirdparty-auth-svc-redis:
+  enabled: false
+  resource_type: redis
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 6379
+    logical_service_name: thirdparty-auth-redis
+    database_name:
+    secret_extra_namespaces: []
+thirdparty-auth-svc-db:
+  enabled: false
+  resource_type: mysql
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: thirdparty-auth-db
+    username: account_lookup
+    user_password_secret: mysql-auth-svc-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: auth-svc
+mysql-consent-oracle-db:
+  enabled: false
+  resource_type: mysql
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: mysql-consent-oracle
+    username: consent-oracle
+    user_password_secret: mysql-consent-oracle-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: consent-oracle
+mcm-db:
+  enabled: true
+  resource_type: mysql
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: mcm-db-svc
+    username: devdat1asql1
+    user_password_secret: mcm-db-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mcm
+    database_name: mcm
+account-lookup-db:
+  enabled: true
+  resource_type: mysql
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: account-lookup-db-svc
+    username: account_lookup
+    user_password_secret: mysql-account-lookup-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: account_lookup
+central-ledger-db:
+  enabled: true
+  resource_type: mysql
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: central-ledger-db-svc
+    username: central_ledger
+    user_password_secret: mysql-central-ledger-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: central_ledger
+bulk-mongodb:
+  enabled: true
+  resource_type: mongodb
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 27017
+    logical_service_name: bulk-mongodb-svc
+    username: mojaloop
+    user_password_secret: mongodb-bulk-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: mlos
+cep-mongodb:
+  enabled: true
+  resource_type: mongodb
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 27017
+    logical_service_name: mongodb-cep-mongodb
+    username: mojaloop
+    user_password_secret: mongodb-cep-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: mojaloop
+reporting-events-mongodb:
+  enabled: true
+  resource_type: mongodb
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 27017
+    logical_service_name: mongodb-reporting-events-mongodb
+    username: mojaloop
+    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: mojaloop
+mojaloop-kafka:
+  enabled: true
+  resource_type: kafka
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 9092
+    logical_service_name: mojaloop-kafka-svc
+    secret_extra_namespaces: []
+    database_name:
+ttk-mongodb:
+  enabled: true
+  resource_type: mongodb
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 27017
+    logical_service_name: ttk-mongodb-svc
+    username: ttk
+    user_password_secret: mongodb-ttk-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: ttk
+ttk-redis:
+  enabled: true
+  resource_type: redis
+  deployment_type: helm_chart
+  logical_service_config:
+    logical_service_port: 6379
+    logical_service_name: ttk-redis
+    secret_extra_namespaces: []
+    database_name:

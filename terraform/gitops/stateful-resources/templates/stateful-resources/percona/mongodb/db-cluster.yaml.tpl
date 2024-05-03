@@ -11,9 +11,7 @@ spec:
 #  clusterServiceDNSMode: "Internal"
 #  pause: true
 #  unmanaged: false
-  crVersion: 1.16.0
-  image: perconalab/percona-server-mongodb-operator:main-mongod7.0
-  imagePullPolicy: Always
+  crVersion: ${cr_version}
 #  tls:
 #    mode: preferTLS
 #    # 90 days in hours

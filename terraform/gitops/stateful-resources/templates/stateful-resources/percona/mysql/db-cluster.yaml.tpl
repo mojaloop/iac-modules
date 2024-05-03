@@ -10,7 +10,7 @@ metadata:
 #  annotations:
 #    percona.com/issue-vault-token: "true"
 spec:
-  crVersion: 1.15.0
+  crVersion: ${cr_version}
 #  ignoreAnnotations:
 #    - iam.amazonaws.com/role
 #  ignoreLabels:
