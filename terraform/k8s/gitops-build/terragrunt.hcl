@@ -17,7 +17,7 @@ dependency "k8s_deploy" {
     nat_public_ips                   = [""]
     internal_load_balancer_dns       = ""
     external_load_balancer_dns       = ""
-    private_subdomain                = "${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}.internal"
+    private_subdomain                = "int.${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}"
     public_subdomain                 = "${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}"
     external_interop_switch_fqdn     = ""
     internal_interop_switch_fqdn     = ""
@@ -26,6 +26,10 @@ dependency "k8s_deploy" {
     target_group_external_https_port = 32443
     target_group_external_http_port  = 32080
     properties_key_map = {
+      external_dns_credentials_client_id_name_key     = "external_dns_credentials_client_id_name"
+      external_dns_credentials_client_secret_name_key = "external_dns_credentials_client_secret_name"
+      cert_manager_credentials_client_id_name_key     = "cert_manager_credentials_client_id_name"
+      cert_manager_credentials_client_secret_name_key = "cert_manager_credentials_client_secret_name"
     }
     secrets_key_map = {
       external_dns_cred_id_key         = "route53_external_dns_access_key"
@@ -35,7 +39,8 @@ dependency "k8s_deploy" {
     private_network_cidr = ""
     dns_provider = "aws"
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  skip_outputs = local.skip_outputs
+  mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
@@ -87,6 +92,7 @@ inputs = {
 }
 
 locals {
+  skip_outputs = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
   env_vars                      = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
   tags                          = local.env_vars.tags
   gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
@@ -144,5 +150,3 @@ provider "gitlab" {
 }
 EOF
 }
-
-skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
