@@ -70,6 +70,8 @@ queryFrontend:
     values: ["enabled"]
 
 memcachedchunks:
+  metrics:
+    enabled: true
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
