@@ -2,6 +2,7 @@ tempo:
   traces:
     otlp:
       grpc: true
+  ## @param tempo.configuration [string] Tempo components configuration
   # source: https://github.com/bitnami/charts/blob/a3c7c6e5bc685b2587a6302770e20c6890ebd72d/bitnami/grafana-tempo/values.yaml#L136C3-L231C48
   configuration: |
     multitenancy_enabled: false
@@ -154,4 +155,8 @@ memcached:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
+<<<<<<< HEAD
     values: ["enabled"]   z
+=======
+    values: ["enabled"]   
+>>>>>>> 799957a (update tempo values from main)
