@@ -17,23 +17,23 @@ dependency "k8s_deploy" {
     nat_public_ips                   = [""]
     internal_load_balancer_dns       = ""
     external_load_balancer_dns       = ""
-    private_subdomain                = ""
-    public_subdomain                 = ""
+    private_subdomain                = "${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}.internal"
+    public_subdomain                 = "${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}"
     external_interop_switch_fqdn     = ""
     internal_interop_switch_fqdn     = ""
-    target_group_internal_https_port = 0
-    target_group_internal_http_port  = 0
-    target_group_external_https_port = 0
-    target_group_external_http_port  = 0
+    target_group_internal_https_port = 31443
+    target_group_internal_http_port  = 31080
+    target_group_external_https_port = 32443
+    target_group_external_http_port  = 32080
     properties_key_map = {
     }
     secrets_key_map = {
-      external_dns_cred_id_key         = "mock"
-      external_dns_cred_secret_key     = "mock"
+      external_dns_cred_id_key         = "route53_external_dns_access_key"
+      external_dns_cred_secret_key     = "route53_external_dns_secret_key"
     }
-    haproxy_server_fqdn  = "null"
+    haproxy_server_fqdn  = "haproxy.${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}"
     private_network_cidr = ""
-    dns_provider = ""
+    dns_provider = "aws"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -144,3 +144,5 @@ provider "gitlab" {
 }
 EOF
 }
+
+skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")

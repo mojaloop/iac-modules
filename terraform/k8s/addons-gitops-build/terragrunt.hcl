@@ -106,3 +106,5 @@ provider "gitlab" {
 }
 EOF
 }
+
+skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")

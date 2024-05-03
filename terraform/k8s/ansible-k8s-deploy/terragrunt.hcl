@@ -22,7 +22,8 @@ dependency "k8s_deploy" {
     bastion_public_ip           = "null"
     haproxy_server_fqdn         = "null"
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  skip_outputs = local.skip_outputs
+  mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
@@ -40,7 +41,7 @@ inputs = {
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
-  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps, 
+  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps,
   {
     registry_mirror_fqdn        = dependency.k8s_deploy.outputs.haproxy_server_fqdn
   }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
@@ -63,6 +64,7 @@ inputs = {
 }
 
 locals {
+  skip_outputs = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
   env_vars = yamldecode(
   file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
   common_vars = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
@@ -118,3 +120,5 @@ locals {
 include "root" {
   path = find_in_parent_folders()
 }
+
+skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
