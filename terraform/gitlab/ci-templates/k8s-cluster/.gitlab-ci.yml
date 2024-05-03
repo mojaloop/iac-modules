@@ -211,7 +211,6 @@ destroy:
 
 apps:
   stage: deploy
-  resource_group: ${TF_STATE_NAME}
   rules:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH
   id_tokens:
