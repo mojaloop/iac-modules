@@ -70,6 +70,10 @@ queryFrontend:
     values: ["enabled"]
 
 memcachedchunks:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
   resourcesPreset: medium # https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
   command:
     - "/opt/bitnami/scripts/memcached/entrypoint.sh"
