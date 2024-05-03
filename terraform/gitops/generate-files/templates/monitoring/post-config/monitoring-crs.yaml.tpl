@@ -117,7 +117,7 @@ spec:
         filterByTraceID: false
         filterBySpanID: false
         customQuery: true
-        query: 'method="${__span.tags.method}"'
+        query: 'method="$${__span.tags.method}"'
       serviceMap:
         datasourceUid: 'prometheus'
       nodeGraph:
