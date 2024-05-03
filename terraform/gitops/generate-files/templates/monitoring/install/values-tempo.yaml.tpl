@@ -104,6 +104,7 @@ tempo:
 
 
 compactor:
+  resourcesPreset: large
   extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
@@ -116,7 +117,7 @@ distributor:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]   
 ingester:
-  resourcesPreset: small
+  resourcesPreset: large
   extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
