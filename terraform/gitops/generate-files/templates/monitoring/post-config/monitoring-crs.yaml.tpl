@@ -88,7 +88,7 @@ spec:
           matcherRegex: "((\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+))"
           name: traceId
           # url will be interpreted as query for the datasource
-          url: '"$${__value.raw}"'
+          url: '\$${__value.raw}'
       httpHeaderName1: 'X-Scope-OrgID'
     secureJsonData:
       httpHeaderValue1: '1'
@@ -117,7 +117,7 @@ spec:
         filterByTraceID: false
         filterBySpanID: false
         customQuery: true
-        query: 'method="$${__span.tags.method}"'
+        query: 'method="\$${__span.tags.method}"'
       serviceMap:
         datasourceUid: 'prometheus'
       nodeGraph:
