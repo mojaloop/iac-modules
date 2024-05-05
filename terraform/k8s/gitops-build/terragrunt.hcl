@@ -14,17 +14,17 @@ dependency "k8s_store_config" {
 dependency "k8s_deploy" {
   config_path = "../k8s-deploy"
   mock_outputs = {
-    nat_public_ips                   = [""]
-    internal_load_balancer_dns       = ""
-    external_load_balancer_dns       = ""
-    private_subdomain                = "int.${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}"
-    public_subdomain                 = "${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}"
+    nat_public_ips                   = local.cloud_platform_vars.nat_public_ips
+    internal_load_balancer_dns       = local.cloud_platform_vars.internal_load_balancer_dns
+    external_load_balancer_dns       = local.cloud_platform_vars.external_load_balancer_dns
+    private_subdomain                = local.cloud_platform_vars.private_subdomain
+    public_subdomain                 = local.cloud_platform_vars.public_subdomain
     external_interop_switch_fqdn     = ""
     internal_interop_switch_fqdn     = ""
-    target_group_internal_https_port = 31443
-    target_group_internal_http_port  = 31080
-    target_group_external_https_port = 32443
-    target_group_external_http_port  = 32080
+    target_group_internal_https_port = local.cloud_platform_vars.target_group_internal_https_port
+    target_group_internal_http_port  = local.cloud_platform_vars.target_group_internal_http_port
+    target_group_external_https_port = local.cloud_platform_vars.target_group_external_https_port
+    target_group_external_http_port  = local.cloud_platform_vars.target_group_external_http_port
     properties_key_map = {
       external_dns_credentials_client_id_name_key     = "external_dns_credentials_client_id_name"
       external_dns_credentials_client_secret_name_key = "external_dns_credentials_client_secret_name"
@@ -35,11 +35,10 @@ dependency "k8s_deploy" {
       external_dns_cred_id_key         = "route53_external_dns_access_key"
       external_dns_cred_secret_key     = "route53_external_dns_secret_key"
     }
-    haproxy_server_fqdn  = "haproxy.${replace(local.CLUSTER_NAME, "-", "")}.${local.CLUSTER_DOMAIN}"
-    private_network_cidr = ""
+    haproxy_server_fqdn  = local.cloud_platform_vars.haproxy_server_fqdn
+    private_network_cidr = local.cloud_platform_vars.private_network_cidr
     dns_provider = "aws"
   }
-  skip_outputs = local.skip_outputs
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
@@ -101,6 +100,7 @@ locals {
   pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"))
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
   vnext_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}"))
+  cloud_platform_vars           = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}"))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
   CLUSTER_NAME                  = get_env("cluster_name")
