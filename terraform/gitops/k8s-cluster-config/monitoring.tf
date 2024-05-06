@@ -118,7 +118,6 @@ locals {
   prometheus_operator_version         = "8.22.8"
   prometheus_process_exporter_version = "0.4.2"
   tempo_chart_version                 = "3.1.0"
-  opentelemetry_chart_version         = "0.55.2"
   grafana_version                     = "10.2.3"
   grafana_operator_version            = "3.5.11"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
