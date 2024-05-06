@@ -13,7 +13,7 @@ spec:
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:
-    namespace: ${argocd_namespace}
+    namespace: ${stateful_resources_operators_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:

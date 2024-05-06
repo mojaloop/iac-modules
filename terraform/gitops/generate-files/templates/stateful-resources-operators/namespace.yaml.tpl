@@ -1,7 +1,7 @@
-%{ for ns in all_ns ~}
+%{ for stateful_resources_operator in stateful_resources_operators ~}
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${ns}
+  name: ${stateful_resources_operator.namespace}
 ---
 %{ endfor ~}
