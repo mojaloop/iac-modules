@@ -155,8 +155,4 @@ memcached:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-<<<<<<< HEAD
-    values: ["enabled"]   z
-=======
     values: ["enabled"]   
->>>>>>> 799957a (update tempo values from main)
