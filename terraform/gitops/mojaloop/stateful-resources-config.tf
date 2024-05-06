@@ -10,7 +10,7 @@ module "mojaloop_stateful_resources" {
   stateful_resources_namespace                  = var.stateful_resources_namespace
   create_stateful_resources_ns                  = false
   kv_path                                       = var.kv_path
-  external_stateful_resource_instance_addresses = length(data.gitlab_project_variable.external_stateful_resource_instance_address) > 0 ? data.gitlab_project_variable.external_stateful_resource_instance_address.*.value : []
+  external_stateful_resource_instance_addresses = length(data.gitlab_project_variable.external_stateful_resource_instance_address) > 0 ? data.gitlab_project_variable.external_stateful_resource_instance_address.[*].value : []
 }
 
 variable "stateful_resources_config_file" {
@@ -32,7 +32,4 @@ locals {
   stateful_resources         = jsondecode(file(var.stateful_resources_config_file))
   enabled_stateful_resources = { for stateful_resource in local.stateful_resources : stateful_resource.resource_name => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service }
-  ext_sts_svc_count          = length(data.gitlab_project_variable.external_stateful_resource_instance_address)
-  ext_sts_addresses          = local.ext_sts_svc_count > 0 ? data.gitlab_project_variable.external_stateful_resource_instance_address.*.value : []
-  ext_sts_addresses2         = data.gitlab_project_variable.external_stateful_resource_instance_address.*.value
 }
