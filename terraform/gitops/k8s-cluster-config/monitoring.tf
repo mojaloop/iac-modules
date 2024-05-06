@@ -12,7 +12,6 @@ module "generate_monitoring_files" {
     grafana_version                     = try(var.common_var_map.grafana_version, local.grafana_version)
     opentelemetry_chart_version          = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     tempo_chart_version                 = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
-    opentelemetry_chart_version         = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     monitoring_namespace                = var.monitoring_namespace
     gitlab_server_url                   = var.gitlab_server_url
     gitlab_project_url                  = var.gitlab_project_url
