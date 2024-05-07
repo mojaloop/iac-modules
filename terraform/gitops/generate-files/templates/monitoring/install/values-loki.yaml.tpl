@@ -72,6 +72,14 @@ queryFrontend:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+queryScheduler:
+  enabled: true
+  extraArgs: ["-config.expand-env"]
+  extraEnvVarsSecret: ${minio_loki_credentials_secret_name}
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]
 
 memcachedchunks:
   metrics:
