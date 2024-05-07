@@ -56,7 +56,7 @@ data "gitlab_project_variable" "vault_root_token" {
 }
 #add wait for vault proj var to be created
 resource "time_sleep" "wait_vault_var" {
-  depends_on = [null_resource.run_ansible]
+  depends_on      = [null_resource.run_ansible]
   create_duration = "90s"
 }
 
@@ -78,10 +78,11 @@ locals {
   netmaker_hosts_var_maps = {
     enable_oauth                               = var.enable_netmaker_oidc
     netmaker_enrollment_key_list_file_location = local.netmaker_enrollment_key_list_file_location
-    enrollment_key_list                        = jsonencode(concat(["bastion"], keys(var.env_map)))
+    enrollment_key_list                        = jsonencode(["bastion"])
+    environment_list                           = jsonencode(keys(var.env_map))
   }
   netmaker_hosts_yaml_maps = {
-    netmaker_networks = yamlencode(concat(local.base_netmaker_networks, local.env_netmaker_networks))
+    netmaker_networks = yamlencode(local.base_netmaker_networks)
   }
   bastion_hosts_yaml_maps = {
     netclient_enrollment_keys = yamlencode(["${var.netmaker_control_network_name}-ops"])
@@ -111,12 +112,6 @@ locals {
     {
       network_name = var.netmaker_control_network_name
       node_keys    = ["ops"]
-    }
-  ]
-  env_netmaker_networks = [for key in keys(var.env_map) :
-    {
-      network_name = key
-      node_keys    = ["k8s"]
     }
   ]
 }

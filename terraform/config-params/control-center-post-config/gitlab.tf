@@ -102,18 +102,6 @@ resource "vault_kv_secret_v2" "netmaker_ops_token" {
   )
 }
 
-resource "vault_kv_secret_v2" "netmaker_env_token" {
-  for_each            = var.env_map
-  mount               = vault_mount.kv_secret.path
-  name                = "${each.key}/netmaker_env_token"
-  delete_all_versions = true
-  data_json = jsonencode(
-    {
-      value = each.value["netmaker_env_token"]
-    }
-  )
-}
-
 resource "vault_kv_secret_v2" "gitlab_root_token" {
   mount               = vault_mount.kv_secret.path
   name                = "bootstrap/gitlab_root_token"
