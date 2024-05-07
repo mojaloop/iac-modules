@@ -53,9 +53,7 @@ distributor:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
-gateway:
-  extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${minio_loki_credentials_secret_name}
+gateway:      
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
