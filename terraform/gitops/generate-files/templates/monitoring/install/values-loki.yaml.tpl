@@ -66,6 +66,9 @@ querier:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 queryFrontend:
+  # https://grafana.com/docs/loki/latest/get-started/components/#query-frontend
+  # It is recommended to run a few query frontend replicas to reap the benefit of fair scheduling. Two replicas should suffice in most cases.
+  replicaCount: 2
   extraArgs: ["-config.expand-env"]
   extraEnvVarsSecret: ${minio_loki_credentials_secret_name}
   nodeAffinityPreset:
