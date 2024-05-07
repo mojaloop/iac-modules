@@ -107,7 +107,7 @@ spec:
     url: http://tempo-grafana-tempo-query-frontend:3200
     jsonData:
       tracesToLogsV2:
-        datasourceUid: 'loki'
+        datasourceUid: 'Loki'
         spanStartTimeShift: '1h'
         spanEndTimeShift: '-1h'
         tags: ['job', 'instance', 'pod', 'namespace']
@@ -115,13 +115,13 @@ spec:
         filterBySpanID: false
         customQuery: true
       serviceMap:
-        datasourceUid: 'prometheus'
+        datasourceUid: 'Prometheus'
       nodeGraph:
         enabled: true
       search:
         hide: false
       lokiSearch:
-        datasourceUid: 'loki'
+        datasourceUid: 'Loki'
       traceQuery:
         timeShiftEnabled: true
         spanStartTimeShift: '1h'
