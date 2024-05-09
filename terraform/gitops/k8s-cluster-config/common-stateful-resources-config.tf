@@ -11,6 +11,7 @@ module "common_stateful_resources" {
   create_stateful_resources_ns                  = true
   kv_path                                       = var.kv_path
   external_stateful_resource_instance_addresses = local.external_stateful_resource_instance_addresses
+  managed_db_host                               = var.managed_db_host
 }
 
 variable "stateful_resources_config_file" {
