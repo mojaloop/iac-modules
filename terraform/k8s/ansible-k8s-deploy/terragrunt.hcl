@@ -77,7 +77,7 @@ locals {
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
 
   bastion_hosts_yaml_maps = {
-    netmaker_join_tokens = yamlencode(concat([get_env("NETMAKER_OPS_TOKEN")], [get_env(“NETMAKER_ENV_TOKEN”)]))
+    netmaker_join_tokens = yamlencode(concat([get_env("NETMAKER_OPS_TOKEN")], [get_env("NETMAKER_ENV_TOKEN")]))
   }
   bastion_hosts_var_maps = {
     netmaker_image_version       = get_env("NETMAKER_VERSION")
