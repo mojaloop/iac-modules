@@ -83,6 +83,6 @@ locals {
   stateful_resources                 = jsondecode(file(var.stateful_resources_config_file))
   enabled_stateful_resources         = { for stateful_resource in local.stateful_resources : stateful_resource.resource_name => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources         = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service }
-  managed_svc_port_maps              = { for service in local.managed_stateful_resources : service.logical_service_config.logical_service_name => service.logical_service_config.logical_service_name.logical_service_port}
+  managed_svc_port_maps              = { for service in local.managed_stateful_resources : service.resource_name => service.logical_service_config.logical_service_port}
 
 }
