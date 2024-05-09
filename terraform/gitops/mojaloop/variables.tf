@@ -161,3 +161,8 @@ variable "switch_dfspid" {
   type    = string
   default = "switch"
 }
+
+variable "managed_db_host" {
+  type        = string
+  description = "url to managed db based on haproxy"
+}

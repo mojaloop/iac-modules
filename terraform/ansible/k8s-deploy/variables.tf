@@ -105,3 +105,7 @@ variable "ansible_debug" {
   type    = string
   default = ""
 }
+
+variable "mojaloop_stateful_resources_config_file" {
+  type = string
+}

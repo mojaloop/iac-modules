@@ -54,6 +54,7 @@ module "mojaloop" {
   rbac_api_resources_file              = var.rbac_api_resources_file
   mojaloop_values_override_file        = var.mojaloop_values_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
+  managed_db_host                      = var.managed_db_host
 }
 
 module "pm4ml" {

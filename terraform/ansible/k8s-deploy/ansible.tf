@@ -12,7 +12,7 @@ resource "local_sensitive_file" "ansible_inventory" {
       all_hosts_var_maps          = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map, local.all_hosts_var_maps),
       agent_hosts_yaml_maps       = var.agent_hosts_yaml_maps,
       master_hosts_yaml_maps      = var.master_hosts_yaml_maps,
-      bastion_hosts_yaml_maps     = var.bastion_hosts_yaml_maps,
+      bastion_hosts_yaml_maps     = merge(var.bastion_hosts_yaml_maps,local.managed_svc_port_maps)
       test_harness_hosts          = var.test_harness_hosts,
       test_harness_hosts_var_maps = merge(var.test_harness_hosts_var_maps, local.jumphostmap)
     }
@@ -79,5 +79,10 @@ locals {
   all_hosts_var_maps = {
     kubeconfig_local_location = local.ansible_output_dir
   }
+  
+  stateful_resources                 = jsondecode(file(var.stateful_resources_config_file))
+  enabled_stateful_resources         = { for stateful_resource in local.stateful_resources : stateful_resource.resource_name => stateful_resource if stateful_resource.enabled }
+  managed_stateful_resources         = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service }
+  managed_svc_port_maps              = { for service in local.managed_stateful_resources : service.logical_service_config.logical_service_name => service.logical_service_config.logical_service_name.logical_service_port}
 
 }
