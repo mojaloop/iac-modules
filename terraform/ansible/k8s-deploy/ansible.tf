@@ -93,7 +93,7 @@ locals {
   external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
   managed_svc_port_maps                         = { for service in local.managed_stateful_resources : {
                                                    for logical_service_config in service : {
-                                                     "${service.resource_name}" => {
+                                                     "${service.resource_name}" = {
                                                            "port"   = logical_service_config.logical_service_port
                                                            "name"   = service.resource_name
                                                            "dest"   = local.external_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]
