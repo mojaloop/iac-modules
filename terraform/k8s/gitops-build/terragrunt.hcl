@@ -100,7 +100,19 @@ locals {
   pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"))
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
   vnext_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}"))
-  cloud_platform_vars           = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}"))
+  cloud_platform_vars = merge({
+    nat_public_ips                   = [""],
+    internal_load_balancer_dns       = "",
+    external_load_balancer_dns       = "",
+    private_subdomain                = "",
+    public_subdomain                 = "",
+    target_group_internal_https_port = 0,
+    target_group_internal_http_port  = 0,
+    target_group_external_https_port = 0,
+    target_group_external_http_port  = 0,
+    haproxy_server_fqdn              = "null",
+    private_network_cidr             = ""
+  }, yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}")))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
   CLUSTER_NAME                  = get_env("cluster_name")
