@@ -75,6 +75,8 @@ data "gitlab_project_variable" "external_stateful_resource_instance_address" {
 }
 
 locals {
+  map_name = "managed_services_port_mapping"
+
   jumphostmap = {
     ansible_ssh_common_args = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -i ${local_sensitive_file.ec2_ssh_key.filename} -o StrictHostKeyChecking=no -q ${var.ansible_bastion_os_username}@${var.ansible_bastion_public_ip}\""
   }
@@ -91,14 +93,14 @@ locals {
   managed_stateful_resources         = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service }
   
   external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
-  managed_svc_port_maps                         = { for service in local.managed_stateful_resources : {
-                                                   for logical_service_config in service : {
-                                                     "${service.resource_name}" = {
+  managed_svc_port_maps                         = { for service in local.managed_stateful_resources : service.resource_name => {
+                                                   for logical_service_config in service : 
+                                                     service.resource_name => {
                                                            "port"   = logical_service_config.logical_service_port
                                                            "name"   = service.resource_name
                                                            "dest"   = local.external_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]
                                                            }
-                                                        }
+                                                        
                                                      }
                                                    }    
 
