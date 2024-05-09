@@ -87,8 +87,6 @@ locals {
 }
 
 variable "external_stateful_resource_instance_addresses" {
-  type    = list(string)
-  default = []
 }
 
 variable "create_stateful_resources_ns" {
