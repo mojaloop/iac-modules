@@ -10,7 +10,7 @@ module "common_stateful_resources" {
   stateful_resources_namespace                  = var.stateful_resources_namespace
   create_stateful_resources_ns                  = true
   kv_path                                       = var.kv_path
-  external_stateful_resource_instance_addresses = length(data.gitlab_project_variable.external_stateful_resource_instance_address) > 0 ? data.gitlab_project_variable.external_stateful_resource_instance_address.*.value : []
+  external_stateful_resource_instance_addresses = local.external_stateful_resource_instance_addresses
 }
 
 variable "stateful_resources_config_file" {
@@ -32,4 +32,5 @@ locals {
   stateful_resources         = jsondecode(file(var.stateful_resources_config_file))
   enabled_stateful_resources = { for stateful_resource in local.stateful_resources : stateful_resource.resource_name => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service }
+  external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
 }
