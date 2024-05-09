@@ -61,6 +61,8 @@ inputs = {
   ansible_destroy_playbook_name = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
   master_node_supports_traffic = (local.total_agent_count == 0) ? true : false
   stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
+  current_gitlab_project_id       = local.GITLAB_CURRENT_PROJECT_ID
+
 }
 
 locals {
@@ -73,6 +75,7 @@ locals {
   CLUSTER_NAME                     = get_env("cluster_name")
   NEXUS_DOCKER_REPO_LISTENING_PORT = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
   NEXUS_FQDN                       = get_env("NEXUS_FQDN")
+  GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
 
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
