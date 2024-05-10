@@ -100,8 +100,10 @@ locals {
 
 
   external_rds_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_rds_stateful_resource_instance_address : address.key => address.value }
+  external_kafka_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_kafka_stateful_resource_instance_address : address.key => address.value }
+
   
-  managed_kafka_brokers_list                    = { for service in local.managed_kafka_stateful_resources : service.resource_name => split(",", local.external_kafka_stateful_resource_instance_address[service.external_resource_config.instance_address_key_name]) }
+  managed_kafka_brokers_list                    = { for service in local.managed_kafka_stateful_resources : service.resource_name => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }
 
 
   managed_rds_svc_port_maps = [for service in local.managed_rds_stateful_resources :
