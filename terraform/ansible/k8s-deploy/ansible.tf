@@ -12,7 +12,7 @@ resource "local_sensitive_file" "ansible_inventory" {
       all_hosts_var_maps          = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map, local.all_hosts_var_maps),
       agent_hosts_yaml_maps       = var.agent_hosts_yaml_maps,
       master_hosts_yaml_maps      = var.master_hosts_yaml_maps,
-      bastion_hosts_yaml_maps     = merge(var.bastion_hosts_yaml_maps,local.managed_svc_port_maps)
+      bastion_hosts_yaml_maps     = merge(var.bastion_hosts_yaml_maps,local.bastion_hosts_yaml_maps)
       test_harness_hosts          = var.test_harness_hosts,
       test_harness_hosts_var_maps = merge(var.test_harness_hosts_var_maps, local.jumphostmap)
     }
@@ -91,12 +91,16 @@ locals {
   managed_stateful_resources         = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service }
   
   external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
+
   managed_svc_port_maps                         = { for service in local.managed_stateful_resources : 
                                                      service.resource_name => {
                                                            "port"   = service.logical_service_config.logical_service_port
                                                            "name"   = service.resource_name
                                                            "dest"   = local.external_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]
                                                            }
-                                                   }    
+                                                   }
 
+  bastion_hosts_yaml_maps = {
+    managed_svc_ports = yamlencode(local.managed_svc_port_maps)
+  }
 }
