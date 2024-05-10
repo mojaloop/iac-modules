@@ -247,6 +247,7 @@
         "enabled": true,
         "resource_name": "account-lookup-db",
         "resource_type": "mysql",
+        "communication_mode": "tcp", 
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
@@ -384,6 +385,7 @@
         "enabled": true,
         "resource_name": "central-ledger-db",
         "resource_type": "mysql",
+        "communication_mode": "tcp", 
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,

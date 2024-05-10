@@ -94,9 +94,11 @@ locals {
 
   managed_svc_port_maps                         = [ for service in local.managed_stateful_resources : 
                                                          {
-                                                           "port"   = service.logical_service_config.logical_service_port
-                                                           "name"   = service.resource_name
-                                                           "dest"   = local.external_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]
+                                                           "local_listening_port"   = service.logical_service_config.logical_service_port
+                                                           "mode"                   = service.communication_mode
+                                                           "name"                   = service.resource_name
+                                                           "dest_fqdn"              = local.external_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]
+                                                           "dest_port"              = service.external_resource_config.port
                                                            }
                                                    ]
   bastion_hosts_yaml_maps = {
