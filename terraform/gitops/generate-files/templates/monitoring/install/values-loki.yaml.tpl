@@ -32,7 +32,13 @@ loki:
 metrics:
   enabled: true
   serviceMonitor:
-    enabled: true	
+    enabled: true
+    relabelings:
+    - source_labels: []
+      action: replace
+      target_label: job
+      replacement: ${monitoring_namespace}/loki-write
+
 
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
