@@ -1,7 +1,7 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: k8s-monitoring-dashboard
+  name: loki-chunks
 spec:
   folder: monitoring
   datasources:

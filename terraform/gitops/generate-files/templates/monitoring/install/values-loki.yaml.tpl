@@ -7,7 +7,7 @@ loki:
     limits_config:
       retention_period: ${loki_ingester_retention_period}
     ingester: 
-      max_chunk_age: 15m
+      max_chunk_age: 15m # TODO: make it configurable 
     schema_config:
       configs:
       - from: 2020-10-24
