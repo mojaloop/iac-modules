@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/description: "Allows scraping loki metrics with custom job label to support hardcoded job value in dashboards."
 spec:
   namespaceSelector: 
-    matchNames: ${monitoring_namespace}
+    matchNames: [${monitoring_namespace}]
   selector:
       app.kubernetes.io/part-of: grafana-loki
       app.kubernetes.io/component: ingester
