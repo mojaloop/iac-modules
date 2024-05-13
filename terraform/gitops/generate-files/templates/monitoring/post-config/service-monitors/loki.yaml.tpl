@@ -11,8 +11,9 @@ spec:
   namespaceSelector: 
     matchNames: [${monitoring_namespace}]
   selector:
-    app.kubernetes.io/part-of: grafana-loki
-    app.kubernetes.io/component: ingester
+    matchLabels:
+      app.kubernetes.io/part-of: grafana-loki
+      app.kubernetes.io/component: ingester
   endpoints:
   - port: http
     relabelings:
