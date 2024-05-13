@@ -117,6 +117,15 @@ spec:
       dashboards: "grafana"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: monitoring
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"      
+---
+apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: mysql
