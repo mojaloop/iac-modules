@@ -33,14 +33,6 @@ metrics:
   enabled: true
   serviceMonitor:
     enabled: true
-    # WARNING: This relabelling is added to make loki-chunks dashboard happy. 
-    # In the long run, we should fix the loki-chunk dashboard job label using mixins 
-    relabelings:
-    - sourceLabels: []
-      action: replace
-      targetLabel: job
-      replacement: ${monitoring_namespace}/loki-write
-
 
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
