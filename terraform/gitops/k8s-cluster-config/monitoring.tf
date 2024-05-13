@@ -125,7 +125,7 @@ locals {
   prometheus_pvc_size                 = "50Gi"
   loki_retention_enabled              = true
   loki_ingester_retention_period      = "72h"
-  loki_ingester_max_chunk_age         = "15m"
+  loki_ingester_max_chunk_age         = "2h"
   prometheus_retention_period         = "10d"
   tempo_retention_period              = "72h"
   prom_tsdb_min_block_duration        = "30m"
