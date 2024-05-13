@@ -6,6 +6,8 @@ loki:
       shared_store: s3
     limits_config:
       retention_period: ${loki_ingester_retention_period}
+    ingester: 
+      max_chunk_age: 15m
     schema_config:
       configs:
       - from: 2020-10-24
