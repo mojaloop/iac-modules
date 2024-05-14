@@ -12,6 +12,6 @@ output "secrets_var_map" {
 output "properties_var_map" {
   value = {
     for index, msk_module in module.msk : 
-      var.msk_services[index].external_resource_config.instance_address_key_name => msk_module.bootstrap_brokers
+      var.msk_services[index].external_resource_config.instance_address_key_name => join(",", msk_module.bootstrap_brokers)
   }
 }
