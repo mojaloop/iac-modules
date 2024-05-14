@@ -6,6 +6,8 @@ loki:
       shared_store: s3
     limits_config:
       retention_period: ${loki_ingester_retention_period}
+    ingester: 
+      max_chunk_age: ${loki_ingester_max_chunk_age}
     schema_config:
       configs:
       - from: 2020-10-24
@@ -30,7 +32,7 @@ loki:
 metrics:
   enabled: true
   serviceMonitor:
-    enabled: true	
+    enabled: true
 
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
