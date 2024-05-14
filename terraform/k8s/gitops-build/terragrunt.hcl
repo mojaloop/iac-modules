@@ -104,14 +104,14 @@ locals {
     nat_public_ips                   = [""],
     internal_load_balancer_dns       = "",
     external_load_balancer_dns       = "",
-    private_subdomain                = "",
-    public_subdomain                 = "",
-    target_group_internal_https_port = 0,
-    target_group_internal_http_port  = 0,
-    target_group_external_https_port = 0,
-    target_group_external_http_port  = 0,
-    haproxy_server_fqdn              = "null",
-    private_network_cidr             = ""
+    private_subdomain                = "int.${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",
+    public_subdomain                 = "${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",
+    target_group_internal_https_port = 31443,
+    target_group_internal_http_port  = 31080,
+    target_group_external_https_port = 32443,
+    target_group_external_http_port  = 32080,
+    haproxy_server_fqdn              = "haproxy.${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",
+    private_network_cidr             = "${get_env("vpc_cidr")}"
   }, yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}")))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
