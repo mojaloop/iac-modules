@@ -10,6 +10,6 @@ output "secrets_var_map" {
 output "properties_var_map" {
   value = {
     for index, msk_module in module.msk : 
-      var.msk_services[index].external_resource_config.instance_address_key_name => ( var.msk_services[index].encryption_in_transit_client_broker == "PLAINTEXT" )  ? msk_module.bootstrap_brokers_plaintext : msk_module.bootstrap_brokers_tls  
+      var.msk_services[index].external_resource_config.instance_address_key_name => ( var.msk_services[index].external_resource_config.encryption_in_transit_client_broker == "PLAINTEXT" )  ? msk_module.bootstrap_brokers_plaintext : msk_module.bootstrap_brokers_tls  
   }
 }
