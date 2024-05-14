@@ -54,8 +54,8 @@ generate "required_providers_override" {
   if_exists = "overwrite_terragrunt"
 
   contents = <<EOF
-terraform { 
-  
+terraform {
+
   required_providers {
     %{if get_env("cloud_platform") == "aws"}
     aws   = "${local.cloud_platform_vars.aws_provider_version}"
@@ -69,3 +69,5 @@ provider "aws" {
 %{endif}
 EOF
 }
+
+skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
