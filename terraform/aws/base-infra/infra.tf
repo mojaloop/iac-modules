@@ -81,7 +81,7 @@ resource "aws_security_group_rule" "bastion_egress_all" {
 
 resource "aws_instance" "bastion" {
   ami                         = var.bastion_ami
-  instance_type               = "t2.medium"
+  instance_type               = "t2.micro"
   subnet_id                   = element(module.vpc.public_subnets, 0)
   user_data                   = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
   key_name                    = local.cluster_domain
