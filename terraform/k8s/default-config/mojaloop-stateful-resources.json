@@ -921,7 +921,7 @@
                 }
             },
             "broker_node_instance_type": "kafka.t3.small",
-            "encryption_in_transit_client_broker": "TLS",
+            "encryption_in_transit_client_broker": "PLAINTEXT",
             "encryption_in_transit_in_cluster": true,
             "configuration_name": "example-configuration",
             "configuration_description": "Example configuration",
