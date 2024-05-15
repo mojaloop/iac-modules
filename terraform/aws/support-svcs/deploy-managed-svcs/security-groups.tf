@@ -20,6 +20,17 @@ resource "aws_security_group_rule" "mysql" {
   description       = "mysql client access"
 }
 
+resource "aws_security_group_rule" "kafka" {
+  count             = length(local.msk_services) > 0 ? 1 : 0
+  type              = "ingress"
+  from_port         = 9094
+  to_port           = 9094
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.managed_svcs[0].id
+  description       = "kafka broker access"
+}
+
 resource "aws_security_group_rule" "egress_all" {
   count             = length(local.external_services) > 0 ? 1 : 0
   type              = "egress"

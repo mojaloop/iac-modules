@@ -61,6 +61,9 @@ inputs = {
   ansible_playbook_name         = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
   ansible_destroy_playbook_name = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
   master_node_supports_traffic = (local.total_agent_count == 0) ? true : false
+  stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
+  current_gitlab_project_id       = local.GITLAB_CURRENT_PROJECT_ID
+
 }
 
 locals {
@@ -74,19 +77,20 @@ locals {
   CLUSTER_NAME                     = get_env("cluster_name")
   NEXUS_DOCKER_REPO_LISTENING_PORT = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
   NEXUS_FQDN                       = get_env("NEXUS_FQDN")
+  GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
 
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
 
   bastion_hosts_yaml_maps = {
-    netmaker_join_tokens = yamlencode([get_env("NETMAKER_OPS_TOKEN")])
+    netmaker_join_tokens = yamlencode(concat([get_env("NETMAKER_OPS_TOKEN")], [get_env("NETMAKER_ENV_TOKEN")]))
   }
   bastion_hosts_var_maps = {
     netmaker_image_version       = get_env("NETMAKER_VERSION")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
     minio_fqdn                   = get_env("MINIO_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")
-    netmaker_master_key          = get_env("METMAKER_MASTER_KEY")
+    netmaker_master_key          = get_env("METMAKER_MASTER_KEY") 
     netmaker_api_host            = get_env("NETMAKER_HOST_NAME")
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
     external_secrets_version     = local.common_vars.external_secrets_version

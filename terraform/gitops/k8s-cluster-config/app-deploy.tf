@@ -55,6 +55,7 @@ module "mojaloop" {
   mojaloop_values_override_file        = var.mojaloop_values_override_file
   finance_portal_values_override_file  = var.finance_portal_values_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
+  managed_db_host                      = var.managed_db_host
 }
 
 module "pm4ml" {
@@ -155,6 +156,7 @@ module "vnext" {
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
+  managed_db_host                      = var.managed_db_host
 }
 
 variable "app_var_map" {

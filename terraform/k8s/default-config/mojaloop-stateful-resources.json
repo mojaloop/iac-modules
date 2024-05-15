@@ -247,6 +247,7 @@
         "enabled": true,
         "resource_name": "account-lookup-db",
         "resource_type": "mysql",
+        "communication_mode": "tcp", 
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
@@ -338,7 +339,7 @@
             "engine": "mysql",
             "engine_version": "5.7",
             "family": "mysql5.7",
-            "instance_class": "db.t2.micro",
+            "instance_class": "db.m5.large",
             "maintenance_window": "Sun:04:00-Sun:06:00",
             "major_engine_version": "5.7",
             "monitoring_interval": "30",
@@ -384,6 +385,7 @@
         "enabled": true,
         "resource_name": "central-ledger-db",
         "resource_type": "mysql",
+        "communication_mode": "tcp", 
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
@@ -475,7 +477,7 @@
             "engine": "mysql",
             "engine_version": "5.7",
             "family": "mysql5.7",
-            "instance_class": "db.t2.micro",
+            "instance_class": "db.m5.large",
             "maintenance_window": "Sun:04:00-Sun:06:00",
             "major_engine_version": "5.7",
             "monitoring_interval": "30",
@@ -653,6 +655,8 @@
         "enabled": true,
         "resource_name": "mojaloop-kafka",
         "resource_type": "kafka",
+        "instance_address_key_name": "mojaloop-kafka-brokers",
+        "communication_mode": "tcp",
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 9092,
@@ -907,6 +911,7 @@
         },
         "external_resource_config": {
             "name": "mks",
+            "port": 9092,
             "kafka_version": "3.4.0",
             "number_of_broker_nodes": 3,
             "enhanced_monitoring": "PER_TOPIC_PER_PARTITION",
@@ -916,7 +921,7 @@
                 }
             },
             "broker_node_instance_type": "kafka.t3.small",
-            "encryption_in_transit_client_broker": "TLS",
+            "encryption_in_transit_client_broker": "PLAINTEXT",
             "encryption_in_transit_in_cluster": true,
             "configuration_name": "example-configuration",
             "configuration_description": "Example configuration",

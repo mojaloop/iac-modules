@@ -10,7 +10,7 @@ smtp_server_enable: false
 gitlab_version: 16.0.5
 gitlab_runner_version: 16.0.2
 iac_group_name: iac_admin
-netmaker_version: 0.18.7
+netmaker_version: 0.24.0
 letsencrypt_email: test@mojalabs.io
 delete_storage_on_term: true
 docker_server_extra_vol_size: 100
