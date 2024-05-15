@@ -656,7 +656,7 @@
         "resource_name": "mojaloop-kafka",
         "resource_type": "kafka",
         "instance_address_key_name": "mojaloop-kafka-brokers",
-        "communication_mode": "http",
+        "communication_mode": "tcp",
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 9092,
