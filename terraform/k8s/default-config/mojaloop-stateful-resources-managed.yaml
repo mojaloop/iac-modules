@@ -1,0 +1,111 @@
+account-lookup-db:
+  external_resource_config:
+    password_key_name: account_lookup_password
+    instance_address_key_name: account_lookup_instance_address
+    allocated_storage: 5
+    backup_window: 01:00-04:00
+    db_name: account_lookup
+    deletion_protection: false
+    engine: mysql
+    engine_version: "5.7"
+    family: mysql5.7
+    instance_class: db.t2.micro
+    maintenance_window: Sun:04:00-Sun:06:00
+    major_engine_version: "5.7"
+    monitoring_interval: "30"
+    options:
+      - option_name: MARIADB_AUDIT_PLUGIN
+        option_settings:
+          - name: SERVER_AUDIT_EVENTS
+            value: CONNECT
+          - name: SERVER_AUDIT_FILE_ROTATIONS
+            value: "37"
+    parameters:
+      - name: character_set_client
+        value: utf8mb4
+      - name: character_set_server
+        value: utf8mb4
+    port: "3306"
+    skip_final_snapshot: true
+    multi_az: false
+    storage_encrypted: false
+    tags:
+      Origin: Terraform
+      mojaloop/cost_center: mlf-iac-sandbox
+      mojaloop/env: ft-sbox-rw
+      mojaloop/owner: Samuel-Kummary
+    username: account_lookup
+central-ledger-db:
+  external_resource_config:
+    password_key_name: central_ledger_password
+    instance_address_key_name: central_ledger_instance_address
+    allocated_storage: 5
+    backup_window: 01:00-04:00
+    db_name: central_ledger
+    deletion_protection: false
+    engine: mysql
+    engine_version: "5.7"
+    family: mysql5.7
+    instance_class: db.t2.micro
+    maintenance_window: Sun:04:00-Sun:06:00
+    major_engine_version: "5.7"
+    monitoring_interval: "30"
+    options:
+      - option_name: MARIADB_AUDIT_PLUGIN
+        option_settings:
+          - name: SERVER_AUDIT_EVENTS
+            value: CONNECT
+          - name: SERVER_AUDIT_FILE_ROTATIONS
+            value: "37"
+    parameters:
+      - name: character_set_client
+        value: utf8mb4
+      - name: character_set_server
+        value: utf8mb4
+    port: "3306"
+    skip_final_snapshot: true
+    multi_az: false
+    storage_encrypted: false
+    tags:
+      Origin: Terraform
+      mojaloop/cost_center: mlf-iac-sandbox
+      mojaloop/env: ft-sbox-rw
+      mojaloop/owner: Samuel-Kummary
+    username: central_ledger
+mojaloop-kafka:
+  external_resource_config:
+    name: mks
+    kafka_version: 3.4.0
+    number_of_broker_nodes: 3
+    enhanced_monitoring: PER_TOPIC_PER_PARTITION
+    broker_node_storage_info:
+      ebs_storage_info:
+        volume_size: 100
+    broker_node_instance_type: kafka.t3.small
+    encryption_in_transit_client_broker: TLS
+    encryption_in_transit_in_cluster: true
+    configuration_name: example-configuration
+    configuration_description: Example configuration
+    configuration_server_properties:
+      auto.create.topics.enable: true
+      delete.topic.enable: true
+    jmx_exporter_enabled: true
+    node_exporter_enabled: true
+    cloudwatch_logs_enabled: false
+    s3_logs_enabled: false
+    s3_logs_bucket: aws-msk-kafka-cluster-logs
+    s3_logs_prefix: something
+    scaling_max_capacity: 512
+    scaling_target_value: 80
+    client_authentication:
+      sasl:
+        scram: false
+      unauthenticated:
+        enabled: true
+    create_scram_secret_association: false
+    scram_secret_association_secret_arn_list: []
+    tags:
+      Origin: Terraform
+      mojaloop/cost_center: mlf-iac-sandbox
+      mojaloop/env: ft-sbox-rw
+      mojaloop/owner: Samuel-Kummary

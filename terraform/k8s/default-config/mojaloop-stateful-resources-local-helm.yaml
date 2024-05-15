@@ -1,0 +1,617 @@
+thirdparty-auth-svc-db:
+  local_resource_config:
+    resource_namespace: thirdparty-db
+    override_service_name: mysql-thirdparty-auth-svc-db
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    generate_secret_name: mysql-auth-svc-secret
+    generate_secret_keys:
+      - mysql-password
+      - mysql-root-password
+      - mysql-replication-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces:
+      - mojaloop
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      existing_secret: mysql-auth-svc-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      user: auth-svc
+      user_password: ""
+      database_name: auth-svc
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition: {}
+mysql-consent-oracle-db:
+  local_resource_config:
+    resource_namespace: thirdparty-db
+    override_service_name:
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    generate_secret_name: mysql-consent-oracle-secret
+    generate_secret_keys:
+      - mysql-password
+      - mysql-root-password
+      - mysql-replication-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces:
+      - mojaloop
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      existing_secret: mysql-consent-oracle-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      user: consent-oracle
+      user_password: ""
+      database_name: consent-oracle
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition: {}
+mcm-db:
+  local_resource_config:
+    resource_namespace: mcm-db
+    override_service_name: mysql-mcm-db
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    generate_secret_name: mcm-db-secret
+    generate_secret_keys:
+      - mysql-password
+      - mysql-root-password
+      - mysql-replication-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces:
+      - mcm
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      existing_secret: mcm-db-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      user: devdat1asql1
+      user_password: ""
+      database_name: mcm
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition: {}
+account-lookup-db:
+  local_resource_config:
+    resource_namespace: mojaloop-db
+    override_service_name: mysql-account-lookup-db
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    generate_secret_name: mysql-account-lookup-secret
+    generate_secret_keys:
+      - mysql-password
+      - mysql-root-password
+      - mysql-replication-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces:
+      - mojaloop
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      existing_secret: mysql-account-lookup-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      user: account_lookup
+      user_password: ""
+      database_name: account_lookup
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload-class.mojaloop.io/RDBMS-ALS-LIVE
+                    operator: In
+                    values:
+                      - enabled
+central-ledger-db:
+  local_resource_config:
+    resource_namespace: mojaloop-db
+    override_service_name: mysql-central-ledger-db
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    generate_secret_name: mysql-central-ledger-secret
+    generate_secret_keys:
+      - mysql-password
+      - mysql-root-password
+      - mysql-replication-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces:
+      - mojaloop
+    mysql_data:
+      is_legacy: false
+      existing_secret: mysql-central-ledger-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      user: central_ledger
+      user_password: ""
+      database_name: central_ledger
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE
+                    operator: In
+                    values:
+                      - enabled
+bulk-mongodb:
+  local_resource_config:
+    resource_namespace: mojaloop
+    override_service_name: mongodb-bulk-mongodb
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mongodb
+    resource_helm_chart_version: 13.3.1
+    resource_helm_values_ref: values-mongodb.yaml.tpl
+    generate_secret_name: mongodb-bulk-secret
+    generate_secret_keys:
+      - mongodb-passwords
+      - mongodb-root-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces: []
+    generate_secret_special_chars: _
+    mongodb_data:
+      existing_secret: mongodb-bulk-secret
+      root_password: ""
+      user: mojaloop
+      user_password: ""
+      database_name: mlos
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 27017
+cep-mongodb:
+  local_resource_config:
+    resource_namespace: mojaloop
+    override_service_name: mongodb-cep-mongodb
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mongodb
+    resource_helm_chart_version: 13.3.1
+    resource_helm_values_ref: values-mongodb.yaml.tpl
+    generate_secret_name: mongodb-cep-secret
+    generate_secret_keys:
+      - mongodb-passwords
+      - mongodb-root-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces: []
+    generate_secret_special_chars: _
+    mongodb_data:
+      existing_secret: mongodb-cep-secret
+      root_password: ""
+      user: mojaloop
+      user_password: ""
+      database_name: mojaloop
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 27017
+reporting-events-mongodb:
+  local_resource_config:
+    resource_namespace: mojaloop
+    override_service_name: mongodb-reporting-events-mongodb
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mongodb
+    resource_helm_chart_version: 13.3.1
+    resource_helm_values_ref: values-mongodb.yaml.tpl
+    generate_secret_name: mongodb-reporting-events-secret
+    generate_secret_keys:
+      - mongodb-passwords
+      - mongodb-root-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces: []
+    generate_secret_special_chars: _
+    mongodb_data:
+      existing_secret: mongodb-reporting-events-secret
+      root_password: ""
+      user: mojaloop
+      user_password: ""
+      database_name: mojaloop
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 27017
+mojaloop-kafka:
+  local_resource_config:
+    resource_namespace: mojaloop
+    override_service_name:
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: kafka
+    resource_helm_chart_version: 26.5.0
+    resource_helm_values_ref: values-kafka.yaml.tpl
+    generate_secret_name:
+    generate_secret_keys: []
+    generate_secret_vault_base_path:
+    generate_secret_extra_namespaces: []
+    kafka_provisioning:
+      enabled: true
+      topics:
+        - name: topic-event
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-prepare
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-position
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-position-batch
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-fulfil
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-notification-event
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-get
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-admin-transfer
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulk-prepare
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulk-fulfil
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulk-processing
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulk-get
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-quotes-post
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-quotes-put
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-quotes-get
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulkquotes-post
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulkquotes-put
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulkquotes-get
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+    kafka_data:
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 9092
+      replica_count: 1
+      dataplane_affinity_definition:
+        type: soft
+        key: workload-class.mojaloop.io/KAFKA-DATA-PLANE
+        values:
+          - enabled
+      controlplane_affinity_definition:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload-class.mojaloop.io/KAFKA-CONTROL-PLANE
+                    operator: In
+                    values:
+                      - enabled
+ttk-mongodb:
+  local_resource_config:
+    resource_namespace: mojaloop
+    override_service_name: mongodb-ttk-mongodb
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mongodb
+    resource_helm_chart_version: 13.3.1
+    resource_helm_values_ref: values-mongodb.yaml.tpl
+    generate_secret_name: mongodb-ttk-secret
+    generate_secret_keys:
+      - mongodb-passwords
+      - mongodb-root-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces: []
+    generate_secret_special_chars: _
+    mongodb_data:
+      existing_secret: mongodb-ttk-secret
+      root_password: ""
+      user: ttk
+      user_password: ""
+      database_name: ttk
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 27017
+
+keycloak-db:
+  local_resource_config:
+    resource_namespace: keycloak-db
+    override_service_name: postgresql-keycloak-db
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: postgresql
+    resource_helm_chart_version: 12.6.8
+    resource_helm_values_ref: values-pgsql.yaml.tpl
+    generate_secret_name: pgsql-keycloak-secret
+    generate_secret_keys:
+      - password
+      - postgres-password
+      - replication-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces:
+      - keycloak
+    pgsql_data:
+      existing_secret: pgsql-keycloak-secret
+      root_password: ""
+      user: keycloak
+      user_password: ""
+      database_name: keycloak
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 5432
+      affinity_definition: {}
+keto-db:
+  local_resource_config:
+    resource_namespace: keto-db
+    override_service_name: postgresql-keto-db
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: postgresql
+    resource_helm_chart_version: 12.6.8
+    resource_helm_values_ref: values-pgsql.yaml.tpl
+    generate_secret_name: pgsql-keto-secret
+    generate_secret_keys:
+      - password
+      - postgres-password
+      - replication-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces:
+      - ory
+    generate_secret_special_chars: _
+    pgsql_data:
+      existing_secret: pgsql-keto-secret
+      root_password: ""
+      user: keto
+      user_password: ""
+      database_name: keto
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 5432
+      affinity_definition: {}
+kratos-db:
+  local_resource_config:
+    resource_namespace: kratos-db
+    override_service_name: postgresql-kratos-db
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: postgresql
+    resource_helm_chart_version: 12.6.8
+    resource_helm_values_ref: values-pgsql.yaml.tpl
+    generate_secret_name: pgsql-kratos-secret
+    generate_secret_keys:
+      - password
+      - postgres-password
+      - replication-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces:
+      - ory
+    generate_secret_special_chars: _
+    pgsql_data:
+      existing_secret: pgsql-kratos-secret
+      root_password: ""
+      user: kratos
+      user_password: ""
+      database_name: kratos
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 5432
+      affinity_definition: {}

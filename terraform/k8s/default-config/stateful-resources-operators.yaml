@@ -1,0 +1,37 @@
+stateful_resource_operators:
+  strimzi:
+    enabled: true
+    install_type: helm
+    helm_chart: strimzi-kafka-operator
+    namespace: strimzi
+    release_name: strimzi
+    helm_chart_version: 0.40.0
+    helm_chart_repo: https://strimzi.io/charts
+    helm_chart_values_file: values-strimzi.yaml
+  percona-mysql:
+    enabled: true
+    install_type: helm
+    helm_chart: pxc-operator
+    namespace: percona
+    release_name: percona-mysql
+    helm_chart_version: 1.14.0
+    helm_chart_repo: https://percona.github.io/percona-helm-charts/
+    helm_chart_values_file: values-percona-mysql.yaml
+  percona-mongodb:
+    enabled: true
+    install_type: helm
+    helm_chart: psmdb-operator
+    namespace: percona
+    release_name: percona-mongodb
+    helm_chart_version: 1.15.0
+    helm_chart_repo: https://percona.github.io/percona-helm-charts/
+    helm_chart_values_file: values-percona-mongodb.yaml
+  percona-postgresql:
+    enabled: true
+    install_type: helm
+    helm_chart: pg-operator
+    namespace: percona
+    release_name: percona-postgresql
+    helm_chart_version: 2.3.4
+    helm_chart_repo: https://percona.github.io/percona-helm-charts/
+    helm_chart_values_file: values-percona-postgresql.yaml
