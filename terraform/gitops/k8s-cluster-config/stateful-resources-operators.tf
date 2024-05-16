@@ -7,6 +7,7 @@ module "generate_stateful_resources_operators" {
     gitlab_server_url                      = var.gitlab_server_url
     current_gitlab_project_id              = var.current_gitlab_project_id
     stateful_resources_operators           = local.enabled_stateful_resources_operators
+    stateful_resources_operators_ns        = local.enabled_stateful_resources_operators_ns
     stateful_resources_operators_namespace = var.stateful_resources_operators_namespace
     stateful_resources_operators_sync_wave = var.stateful_resources_operators_sync_wave
     create_stateful_resources_ns           = true
@@ -40,4 +41,5 @@ locals {
   stateful_resources_operators_app_file      = "stateful-resources-operators-app.yaml"
   stateful_resources_operators               = yamldecode(file(var.stateful_resources_operators_config_file))
   enabled_stateful_resources_operators       = { for key, operator in local.stateful_resources_operators : key => operator if operator.enabled }
+  enabled_stateful_resources_operators_ns    = distint([for operator in local.enabled_stateful_resources_operators : operator.namespace])
 }
