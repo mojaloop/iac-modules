@@ -18,3 +18,4 @@ helmCharts:
   version: ${velero_chart_version}
   repo: https://vmware-tanzu.github.io/helm-charts/
   valuesFile: values-velero.yaml
+  includeCRDs: true
