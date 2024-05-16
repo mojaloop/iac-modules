@@ -86,7 +86,7 @@ variable "longhorn_backup_data_expiry" {
   default = "7d"
 }
 
-variable "velero_data_expiry_days" {
+variable "velero_data_expiry" {
   description = "number of days to expire minio velero bucket data"
   default = "7d"
 }

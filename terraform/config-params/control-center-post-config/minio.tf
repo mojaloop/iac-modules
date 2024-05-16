@@ -285,8 +285,8 @@ resource "minio_ilm_policy" "velero-bucket-lifecycle-rules" {
   for_each = var.env_map
   bucket = minio_s3_bucket.velero-s3-bucket[each.key].bucket
   rule {
-    id         = "expire-${var.velero_data_expiry_days}"
-    expiration = var.velero_data_expiry_days
+    id         = "expire-${var.velero_data_expiry}"
+    expiration = var.velero_data_expiry
   }
 }
 
