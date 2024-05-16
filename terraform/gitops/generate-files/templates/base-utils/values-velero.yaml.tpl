@@ -392,7 +392,7 @@ configuration:
   # `velero server` default: 20.0
   clientQPS:
   # Name of the default backup storage location. Default: default
-  defaultBackupStorageLocation:
+  defaultBackupStorageLocation: minio-backup-store
   # The default duration any single item operation can take before timing out, especially important for large volume schedules. Default 4h
   defaultItemOperationTimeout:
   # How long to wait by default before backups can be garbage collected. Default: 72h
