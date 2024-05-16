@@ -12,7 +12,7 @@ watchAnyNamespace: true
 logVolume: co-config-volume
 logConfigMap: strimzi-cluster-operator
 logConfiguration: ""
-logLevel: ${env:STRIMZI_LOG_LEVEL:-INFO}
+logLevel: $${env:STRIMZI_LOG_LEVEL:-INFO}
 fullReconciliationIntervalMs: 120000
 operationTimeoutMs: 300000
 kubernetesServiceDnsDomain: cluster.local
