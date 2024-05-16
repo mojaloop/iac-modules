@@ -12,6 +12,8 @@ module "generate_reflector_files" {
     velero_credentials_id_provider_key     = "${var.cluster_name}/${local.velero_credentials_id_provider_key}"
     velero_credentials_secret_provider_key = "${var.cluster_name}/${local.velero_credentials_secret_provider_key}"
     velero_credentials_secret              = "velero-s3-credentials"
+    external_secret_sync_wave              = var.external_secret_sync_wave
+
   }
   file_list       = [for f in fileset(local.base_utils_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.base_utils_app_file, f))]
   template_path   = local.base_utils_template_path
