@@ -41,5 +41,5 @@ locals {
   stateful_resources_operators_app_file      = "stateful-resources-operators-app.yaml"
   stateful_resources_operators               = yamldecode(file(var.stateful_resources_operators_config_file))
   enabled_stateful_resources_operators       = { for key, operator in local.stateful_resources_operators : key => operator if operator.enabled }
-  enabled_stateful_resources_operators_ns    = distint([for operator in local.enabled_stateful_resources_operators : operator.namespace])
+  enabled_stateful_resources_operators_ns    = distinct([for operator in local.enabled_stateful_resources_operators : operator.namespace])
 }
