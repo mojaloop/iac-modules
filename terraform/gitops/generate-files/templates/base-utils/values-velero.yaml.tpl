@@ -314,7 +314,7 @@ configuration:
     # provider is the name for the backup storage location provider.
     provider:
     # bucket is the name of the bucket to store backups in. Required.
-    bucket:
+    bucket: ${velero_bucket_name}
     # caCert defines a base64 encoded CA bundle to use when verifying TLS connections to the provider. Optional.
     caCert:
     # prefix is the directory under which all Velero data should be stored within the bucket. Optional.
@@ -494,7 +494,7 @@ credentials:
   # Name of a pre-existing secret (if any) in the Velero namespace
   # that will be used to load environment variables into velero and node-agent.
   # Secret should be in format - https://kubernetes.io/docs/concepts/configuration/secret/#use-case-as-container-environment-variables
-  extraSecretRef: ""
+  extraSecretRef: ${velero_credentials_secret}
 
 # Whether to create backupstoragelocation crd, if false => do not create a default backup location
 backupsEnabled: true

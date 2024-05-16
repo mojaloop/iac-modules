@@ -17,6 +17,7 @@ docker_server_extra_vol_size: 100
 loki_data_expiry: 7d
 tempo_data_expiry_days: 7d
 longhorn_backup_data_expiry: 1d
+velero_data_expiry: 1d
 envs:
   - env: dev
     domain: labsk8s604.mojaloop.live

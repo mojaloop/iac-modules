@@ -60,3 +60,8 @@ data "gitlab_project_variable" "minio_longhorn_bucket" {
   project = var.current_gitlab_project_id
   key     = "minio_longhorn_bucket"
 }
+
+data "gitlab_project_variable" "minio_velero_bucket" {
+  project = var.current_gitlab_project_id
+  key     = "minio_velero_bucket"
+}

@@ -1,12 +1,17 @@
 module "generate_reflector_files" {
   source = "../generate-files"
   var_map = {
-    gitlab_project_url      = var.gitlab_project_url
-    reflector_chart_version = var.reflector_chart_version
-    reloader_chart_version  = var.reloader_chart_version
-    base_utils_namespace    = var.base_utils_namespace
-    base_utils_sync_wave    = var.base_utils_sync_wave
-    velero_chart_version    = var.velero_chart_version
+    gitlab_project_url                     = var.gitlab_project_url
+    reflector_chart_version                = var.reflector_chart_version
+    reloader_chart_version                 = var.reloader_chart_version
+    base_utils_namespace                   = var.base_utils_namespace
+    base_utils_sync_wave                   = var.base_utils_sync_wave
+    velero_chart_version                   = var.velero_chart_version
+    minio_api_url                          = var.minio_api_url
+    velero_bucket_name                     = local.minio_velero_bucket
+    velero_credentials_id_provider_key     = "${var.cluster_name}/${local.velero_credentials_id_provider_key}"
+    velero_credentials_secret_provider_key = "${var.cluster_name}/${local.velero_credentials_secret_provider_key}"
+    velero_credentials_secret              = "velero-s3-credentials"
   }
   file_list       = [for f in fileset(local.base_utils_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.base_utils_app_file, f))]
   template_path   = local.base_utils_template_path
@@ -16,8 +21,11 @@ module "generate_reflector_files" {
 }
 
 locals {
-  base_utils_template_path = "${path.module}/../generate-files/templates/base-utils"
-  base_utils_app_file      = "base-utils-app.yaml"
+  base_utils_template_path               = "${path.module}/../generate-files/templates/base-utils"
+  base_utils_app_file                    = "base-utils-app.yaml"
+  minio_velero_bucket                    = data.gitlab_project_variable.minio_velero_bucket.value
+  velero_credentials_secret_provider_key = "minio_velero_password"
+  velero_credentials_id_provider_key     = "minio_velero_username"
 }
 
 variable "reflector_chart_version" {
