@@ -11,7 +11,7 @@ percona-mysql:
   enabled: true
   install_type: helm
   helm_chart: pxc-operator
-  namespace: percona
+  namespace: percona-mysql
   release_name: percona-mysql
   helm_chart_version: 1.14.0
   helm_chart_repo: https://percona.github.io/percona-helm-charts/
@@ -20,7 +20,7 @@ percona-mongodb:
   enabled: true
   install_type: helm
   helm_chart: psmdb-operator
-  namespace: percona
+  namespace: percona-mongodb
   release_name: percona-mongodb
   helm_chart_version: 1.15.0
   helm_chart_repo: https://percona.github.io/percona-helm-charts/
@@ -29,7 +29,7 @@ percona-postgresql:
   enabled: true
   install_type: helm
   helm_chart: pg-operator
-  namespace: percona
+  namespace: percona-postgresql
   release_name: percona-postgresql
   helm_chart_version: 2.3.4
   helm_chart_repo: https://percona.github.io/percona-helm-charts/

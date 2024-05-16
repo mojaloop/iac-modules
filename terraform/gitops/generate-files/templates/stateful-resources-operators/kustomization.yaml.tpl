@@ -10,4 +10,5 @@ helmCharts:
   version: ${stateful_resources_operator.helm_chart_version}
   repo: ${stateful_resources_operator.helm_chart_repo}
   valuesFile: ${stateful_resources_operator.helm_chart_values_file}
+  includeCRDs: true
 %{ endfor ~}
