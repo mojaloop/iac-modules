@@ -1,7 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-helmCharts:
+resources:
 - velero-externalsecret.yaml
+helmCharts:
 - name: reflector
   releaseName: reflector
   version: ${reflector_chart_version}
@@ -20,3 +21,4 @@ helmCharts:
   repo: https://vmware-tanzu.github.io/helm-charts/
   valuesFile: values-velero.yaml
   includeCRDs: true
+  namespace: ${base_utils_namespace}
