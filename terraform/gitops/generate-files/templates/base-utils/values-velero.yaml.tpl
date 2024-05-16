@@ -312,7 +312,7 @@ configuration:
     # a backup storage location will be created with the name "default". Optional.
   - name:
     # provider is the name for the backup storage location provider.
-    provider:
+    provider: velero.io/aws
     # bucket is the name of the bucket to store backups in. Required.
     bucket: ${velero_bucket_name}
     # caCert defines a base64 encoded CA bundle to use when verifying TLS connections to the provider. Optional.
@@ -328,7 +328,7 @@ configuration:
     accessMode: ReadWrite
     credential:
       # name of the secret used by this backupStorageLocation.
-      name:
+      name: ${velero_credentials_secret} 
       # name of key that contains the secret data to be used.
       key:
     # Additional provider-specific configuration. See link above
@@ -356,10 +356,10 @@ configuration:
     # name is the name of the volume snapshot location where snapshots are being taken. Required.
   - name:
     # provider is the name for the volume snapshot provider.
-    provider:
+    provider:  velero.io/aws
     credential:
       # name of the secret used by this volumeSnapshotLocation.
-      name:
+      name: ${velero_credentials_secret} 
       # name of key that contains the secret data to be used.
       key:
     # Additional provider-specific configuration. See link above
