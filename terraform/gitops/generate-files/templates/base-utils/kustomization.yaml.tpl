@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 helmCharts:
+- velero-externalsecret.yaml
 - name: reflector
   releaseName: reflector
   version: ${reflector_chart_version}
