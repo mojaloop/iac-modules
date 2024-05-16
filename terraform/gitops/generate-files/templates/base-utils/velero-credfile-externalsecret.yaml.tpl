@@ -19,9 +19,9 @@ spec:
       engineVersion: v2
       data:
         bsl: |
-        [default]
-        aws_access_key_id =  {{ .AWS_SECRET_ACCESS_KEY  | toString }}
-        aws_secret_access_key = {{ .AWS_ACCESS_KEY_ID  | toString }}
+          [default]
+          aws_access_key_id =  {{ .AWS_SECRET_ACCESS_KEY  | toString }}
+          aws_secret_access_key = {{ .AWS_ACCESS_KEY_ID  | toString }}
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
