@@ -1,7 +1,7 @@
-%{ for stateful_resources_operator in stateful_resources_operators ~}
+%{ for ns in distinct(stateful_resources_operators.*.namespace) ~}
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${stateful_resources_operator.namespace}
+  name: ${ns}
 ---
 %{ endfor ~}
