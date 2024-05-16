@@ -3,7 +3,7 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${stateful_resources_operators_sync_wave}"
-  name: keycloak-app
+  name: stateful-resources-operators-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
