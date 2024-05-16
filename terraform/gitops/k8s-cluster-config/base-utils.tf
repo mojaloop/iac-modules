@@ -12,6 +12,7 @@ module "generate_reflector_files" {
     velero_credentials_id_provider_key     = "${var.cluster_name}/${local.velero_credentials_id_provider_key}"
     velero_credentials_secret_provider_key = "${var.cluster_name}/${local.velero_credentials_secret_provider_key}"
     velero_credentials_secret              = "velero-s3-credentials"
+    velero_bsl_credentials_secret          = "velerobsl-s3-credentials"
     external_secret_sync_wave              = var.external_secret_sync_wave
 
   }
