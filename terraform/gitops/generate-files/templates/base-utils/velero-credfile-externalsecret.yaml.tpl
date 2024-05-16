@@ -15,6 +15,8 @@ spec:
     name: ${velero_bsl_credentials_secret} # Name for the secret to be created on the cluster
     creationPolicy: Owner
     template:
+      type: Opaque
+      engineVersion: v2
       data:
         bsl: |
         [default]
