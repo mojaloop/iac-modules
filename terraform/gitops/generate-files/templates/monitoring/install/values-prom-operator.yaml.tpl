@@ -33,7 +33,7 @@ prometheus:
     cluster: dev3
   remoteWrite:
   - name: central-monitoring-mimir
-    url: http://http://10.25.1.146:9009/api/v1/push
+    url: http://10.25.1.146:9009/api/v1/push
     headers:
       X-Scope-OrgID: infitx    
 operator:
