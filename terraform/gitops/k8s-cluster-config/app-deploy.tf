@@ -158,6 +158,7 @@ module "vnext" {
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
+  platform_stateful_res_config         = var.platform_stateful_res_config
 }
 
 variable "app_var_map" {
