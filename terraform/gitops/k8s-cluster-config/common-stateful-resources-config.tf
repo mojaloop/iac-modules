@@ -6,7 +6,7 @@ module "common_stateful_resources" {
   gitlab_project_url                            = var.gitlab_project_url
   gitlab_server_url                             = var.gitlab_server_url
   current_gitlab_project_id                     = var.current_gitlab_project_id
-  stateful_resources_config_file                = var.stateful_resources_config_file'
+  stateful_resources_config_file                = var.stateful_resources_config_file
   stateful_resources                            = local.common_stateful_resources
   stateful_resources_namespace                  = var.stateful_resources_namespace
   create_stateful_resources_ns                  = true
