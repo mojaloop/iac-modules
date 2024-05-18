@@ -67,10 +67,10 @@ locals {
   operator_stateful_resources        = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
   managed_stateful_resources         = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   #local_stateful_resources          = { for key, local_stateful_resource in local.enabled_stateful_resources : local_stateful_resource.resource_name => local_stateful_resource if !local_stateful_resource.external_service }
-  local_external_name_map            = { for stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => stateful_resource.local_helm_config.override_service_name != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${stateful_resource.resource_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
-  managed_external_name_map          = { for index, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.managed_db_host }  
+  local_external_name_map            = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => stateful_resource.local_helm_config.override_service_name != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
+  managed_external_name_map          = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.managed_db_host }  
   external_name_map                  = merge(local.local_external_name_map, local.managed_external_name_map)
-  managed_resource_password_map = { for index, stateful_resource in local.managed_stateful_resources : stateful_resource.resource_name => {
+  managed_resource_password_map = { for key, stateful_resource in local.managed_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
     namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
     secret_name = stateful_resource.logical_service_config.user_password_secret

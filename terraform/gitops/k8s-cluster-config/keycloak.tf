@@ -89,7 +89,7 @@ variable "keycloak_dfsp_realm_name" {
 }
 
 locals {
-  keycloak_postgres_resource_index = index(module.common_stateful_resources.stateful_resources.*.resource_name, "keycloak-db")
+  keycloak_postgres_resource_index           = "keycloak-db"
   keycloak_wildcard_gateway                  = var.keycloak_ingress_internal_lb ? "internal" : "external"
   keycloak_admin_wildcard_gateway            = var.keycloak_admin_ingress_internal_lb ? "internal" : "external"
   keycloak_fqdn                              = local.keycloak_wildcard_gateway == "external" ? "keycloak.${var.public_subdomain}" : "keycloak.${var.private_subdomain}"

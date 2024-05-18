@@ -213,7 +213,7 @@ variable "fspiop_use_ory_for_auth" {
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
   mcm_app_file                   = "mcm-app.yaml"
-  mcm_resource_index             = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "mcm-db")
+  mcm_resource_index             =  "mcm-db"
   mcm_wildcard_gateway           = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
   dfsp_internal_whitelist_secret = "${local.whitelist_secret_path}_pm4mls"
