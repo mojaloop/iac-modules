@@ -34,6 +34,6 @@ locals {
   #stateful_resources         = jsondecode(file(var.stateful_resources_config_file))
   mojaloop_stateful_resources = { for key, resource in var.platform_stateful_res_config : key => resource if (resource.app_owner == "mojaloop" && resource.enabled )}
   #enabled_stateful_resources  = { for stateful_resource in local.stateful_resources : stateful_resource.resource_name => stateful_resource if stateful_resource.enabled }
-  managed_stateful_resources  = { for managed_resource in local.mojaloop_stateful_resources : key => key => managed_resource if managed_resource.deployment_type == "external"  }
+  managed_stateful_resources  = { for key, managed_resource in local.mojaloop_stateful_resources :  key => managed_resource if managed_resource.deployment_type == "external"  }
   external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
 }
