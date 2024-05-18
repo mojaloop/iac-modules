@@ -9,7 +9,7 @@ account-lookup-db:
     engine: mysql
     engine_version: "5.7"
     family: mysql5.7
-    instance_class: db.t2.micro
+    instance_class: db.m5.large
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "5.7"
     monitoring_interval: "30"
@@ -46,7 +46,7 @@ central-ledger-db:
     engine: mysql
     engine_version: "5.7"
     family: mysql5.7
-    instance_class: db.t2.micro
+    instance_class: db.m5.large
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "5.7"
     monitoring_interval: "30"
@@ -74,7 +74,7 @@ central-ledger-db:
     username: central_ledger
 mojaloop-kafka:
   external_resource_config:
-    name: mks
+    name: msk
     kafka_version: 3.4.0
     number_of_broker_nodes: 3
     enhanced_monitoring: PER_TOPIC_PER_PARTITION
@@ -82,7 +82,7 @@ mojaloop-kafka:
       ebs_storage_info:
         volume_size: 100
     broker_node_instance_type: kafka.t3.small
-    encryption_in_transit_client_broker: TLS
+    encryption_in_transit_client_broker: PLAINTEXT
     encryption_in_transit_in_cluster: true
     configuration_name: example-configuration
     configuration_description: Example configuration

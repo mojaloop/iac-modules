@@ -12,13 +12,13 @@
 ## @param global.storageClass Global StorageClass for Persistent Volume(s)
 ##
 global:
-  storageClass: ${resource.local_resource_config.kafka_data.storage_class_name}
+  storageClass: ${resource.local_helm_config.kafka_data.storage_class_name}
 
 ## @section Common parameters
 ##
 
 
-fullnameOverride: ${resource.resource_name}
+fullnameOverride: ${key}
 ## @param clusterDomain Default Kubernetes cluster domain
 ##
 
@@ -82,7 +82,7 @@ listeners:
   ## @param listeners.client.protocol Security protocol for the Kafka client listener. Allowed values are 'PLAINTEXT', 'SASL_PLAINTEXT', 'SASL_SSL' and 'SSL'
   ## @param listeners.client.sslClientAuth Optional. If SASL_SSL is enabled, configure mTLS TLS authentication type. If SSL protocol is enabled, overrides tls.authType for this listener. Allowed values are 'none', 'requested' and 'required'
   client:
-    containerPort: ${resource.local_resource_config.kafka_data.service_port}
+    containerPort: ${resource.local_helm_config.kafka_data.service_port}
     protocol: PLAINTEXT
     name: CLIENT
     sslClientAuth: ""
@@ -137,7 +137,7 @@ controller:
   ## @param controller.replicaCount Number of Kafka controller-eligible nodes
   ## Ignore this section if running in Zookeeper mode.
   ##
-  replicaCount: ${resource.local_resource_config.kafka_data.replica_count}
+  replicaCount: ${resource.local_helm_config.kafka_data.replica_count}
   ## @param controller.controllerOnly If set to true, controller nodes will be deployed as dedicated controllers, instead of controller+broker processes.
   ##
   controllerOnly: false
@@ -160,7 +160,7 @@ controller:
   existingConfigmap: ""
   ## @param controller.extraConfig Additional configuration to be appended at the end of the generated Kafka controller-eligible nodes configuration file.
   ##
-%{ if resource.local_resource_config.kafka_data.replica_count == 1 ~}
+%{ if resource.local_helm_config.kafka_data.replica_count == 1 ~}
   extraConfig: |-
     offsets.topic.replication.factor=1
     default.replication.factor=1
@@ -339,16 +339,16 @@ controller:
   ## Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
   ##
 
-%{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
+%{ if resource.local_helm_config.kafka_data.dataplane_affinity_definition != null ~}
   nodeAffinityPreset:
     ## @param controller.nodeAffinityPreset.type Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
     ##
-    type: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.type}
+    type: ${resource.local_helm_config.kafka_data.dataplane_affinity_definition.type}
     ## @param controller.nodeAffinityPreset.key Node label key to match Ignored if `affinity` is set.
     ## E.g.
     ## key: "kubernetes.io/e2e-az-name"
     ##
-    key: ${resource.local_resource_config.kafka_data.dataplane_affinity_definition.key}
+    key: ${resource.local_helm_config.kafka_data.dataplane_affinity_definition.key}
     ## @param controller.nodeAffinityPreset.values Node label values to match. Ignored if `affinity` is set.
     ## E.g.
     ## values:
@@ -356,7 +356,7 @@ controller:
     ##   - e2e-az2
     ##
     values:
-      ${indent(6, yamlencode(resource.local_resource_config.kafka_data.dataplane_affinity_definition.values))}
+      ${indent(6, yamlencode(resource.local_helm_config.kafka_data.dataplane_affinity_definition.values))}
   ## @param controller.affinity Affinity for pod assignment
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
@@ -475,14 +475,14 @@ controller:
     ## If undefined (the default) or set to null, no storageClassName spec is
     ## set, choosing the default provisioner.
     ##
-    storageClass: ${resource.local_resource_config.kafka_data.storage_class_name}
+    storageClass: ${resource.local_helm_config.kafka_data.storage_class_name}
     ## @param controller.persistence.accessModes Persistent Volume Access Modes
     ##
     accessModes:
       - ReadWriteOnce
     ## @param controller.persistence.size PVC Storage Request for Kafka data volume
     ##
-    size: ${resource.local_resource_config.kafka_data.storage_size}
+    size: ${resource.local_helm_config.kafka_data.storage_size}
     ## @param controller.persistence.annotations Annotations for the PVC
     ##
     annotations: {}
@@ -756,9 +756,9 @@ broker:
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-%{ if resource.local_resource_config.kafka_data.dataplane_affinity_definition != null ~}
+%{ if resource.local_helm_config.kafka_data.dataplane_affinity_definition != null ~}
   affinity:
-    ${indent(4, yamlencode(resource.local_resource_config.kafka_data.dataplane_affinity_definition))}
+    ${indent(4, yamlencode(resource.local_helm_config.kafka_data.dataplane_affinity_definition))}
 %{ else ~}
   affinity: {}
 %{ endif ~}
@@ -872,14 +872,14 @@ broker:
     ## If undefined (the default) or set to null, no storageClassName spec is
     ## set, choosing the default provisioner.
     ##
-    storageClass: ${resource.local_resource_config.kafka_data.storage_class_name}
+    storageClass: ${resource.local_helm_config.kafka_data.storage_class_name}
     ## @param broker.persistence.accessModes Persistent Volume Access Modes
     ##
     accessModes:
       - ReadWriteOnce
     ## @param broker.persistence.size PVC Storage Request for Kafka data volume
     ##
-    size: ${resource.local_resource_config.kafka_data.storage_size}
+    size: ${resource.local_helm_config.kafka_data.storage_size}
     ## @param broker.persistence.annotations Annotations for the PVC
     ##
     annotations: {}
@@ -967,7 +967,7 @@ metrics:
 provisioning:
   ## @param provisioning.enabled Enable kafka provisioning Job
   ##
-  enabled: ${resource.local_resource_config.kafka_provisioning.enabled}
+  enabled: ${resource.local_helm_config.kafka_provisioning.enabled}
   ## @param provisioning.numPartitions Default number of partitions for topics when unspecified
   ##
   numPartitions: 1
@@ -984,7 +984,7 @@ provisioning:
   ##     flush.messages: 1
   ##
   topics:
-    ${indent(4, yamlencode(resource.local_resource_config.kafka_provisioning.topics))}
+    ${indent(4, yamlencode(resource.local_helm_config.kafka_provisioning.topics))}
   ## @param provisioning.nodeSelector Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##

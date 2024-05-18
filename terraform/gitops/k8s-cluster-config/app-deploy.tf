@@ -56,6 +56,7 @@ module "mojaloop" {
   finance_portal_values_override_file  = var.finance_portal_values_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
+  platform_stateful_res_config         = var.platform_stateful_res_config
 }
 
 module "pm4ml" {

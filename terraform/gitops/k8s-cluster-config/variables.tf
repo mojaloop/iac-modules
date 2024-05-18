@@ -119,6 +119,10 @@ variable "managed_db_host" {
   description = "url to managed db based on haproxy"
 }
 
+variable "platform_stateful_res_config" {
+  description = "merged config of platform stateful resources"
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value

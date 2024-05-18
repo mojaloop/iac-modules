@@ -1,5 +1,5 @@
 thirdparty-auth-svc-db:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: thirdparty-db
     override_service_name: mysql-thirdparty-auth-svc-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -47,7 +47,7 @@ thirdparty-auth-svc-db:
       service_port: 3306
       affinity_definition: {}
 mysql-consent-oracle-db:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: thirdparty-db
     override_service_name:
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -95,7 +95,7 @@ mysql-consent-oracle-db:
       service_port: 3306
       affinity_definition: {}
 mcm-db:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: mcm-db
     override_service_name: mysql-mcm-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -143,7 +143,7 @@ mcm-db:
       service_port: 3306
       affinity_definition: {}
 account-lookup-db:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: mojaloop-db
     override_service_name: mysql-account-lookup-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -199,7 +199,7 @@ account-lookup-db:
                     values:
                       - enabled
 central-ledger-db:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: mojaloop-db
     override_service_name: mysql-central-ledger-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -255,7 +255,7 @@ central-ledger-db:
                     values:
                       - enabled
 bulk-mongodb:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: mojaloop
     override_service_name: mongodb-bulk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -279,7 +279,7 @@ bulk-mongodb:
       storage_class_name: longhorn
       service_port: 27017
 cep-mongodb:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: mojaloop
     override_service_name: mongodb-cep-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -303,7 +303,7 @@ cep-mongodb:
       storage_class_name: longhorn
       service_port: 27017
 reporting-events-mongodb:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: mojaloop
     override_service_name: mongodb-reporting-events-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -327,7 +327,7 @@ reporting-events-mongodb:
       storage_class_name: longhorn
       service_port: 27017
 mojaloop-kafka:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: mojaloop
     override_service_name:
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -505,7 +505,7 @@ mojaloop-kafka:
                     values:
                       - enabled
 ttk-mongodb:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: mojaloop
     override_service_name: mongodb-ttk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -530,7 +530,7 @@ ttk-mongodb:
       service_port: 27017
 
 keycloak-db:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: keycloak-db
     override_service_name: postgresql-keycloak-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -558,7 +558,7 @@ keycloak-db:
       service_port: 5432
       affinity_definition: {}
 keto-db:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: keto-db
     override_service_name: postgresql-keto-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -587,7 +587,7 @@ keto-db:
       service_port: 5432
       affinity_definition: {}
 kratos-db:
-  local_resource_config:
+  local_helm_config:
     resource_namespace: kratos-db
     override_service_name: postgresql-kratos-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami

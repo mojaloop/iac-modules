@@ -166,3 +166,7 @@ variable "managed_db_host" {
   type        = string
   description = "url to managed db based on haproxy"
 }
+
+variable "platform_stateful_res_config" {
+  description = "merged config of platform stateful resources"
+}

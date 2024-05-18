@@ -63,12 +63,14 @@ inputs = {
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
+  platform_stateful_resource_config_file   = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
   stateful_resources_operators_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/stateful-resources-operators.yaml")
   stateful_resources_config_file           = find_in_parent_folders("${get_env("CONFIG_PATH")}/common-stateful-resources.json")
   mojaloop_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
   vnext_stateful_resources_config_file     = find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-stateful-resources.json")
   mojaloop_values_override_file            = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-values-override.yaml", "mojaloop-values-override.yaml")
   finance_portal_values_override_file      = find_in_parent_folders("${get_env("CONFIG_PATH")}/finance-portal-values-override.yaml", "finance-portal-values-override.yaml")
+  platform_stateful_res_config             = local.platform_stateful_res_config
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -103,6 +105,15 @@ locals {
   pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"))
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
   vnext_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}"))
+  
+  st_res_local_helm_vars        = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-local-helm.yaml")}"))
+  st_res_local_operator_vars    = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-local-operator.yaml")}"))
+  st_res_managed_vars           = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-managed.yaml")}"))
+  all_st_res_default_vars       = merge(st_res_managed_vars, merge(st_res_local_helm_vars,st_res_local_operator_vars))
+  
+  plt_st_res_vars               = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")}"))
+  platform_stateful_res_config  = merge(all_st_res_default_vars,plt_st_res_vars)
+  
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
     internal_load_balancer_dns       = "",
