@@ -157,5 +157,5 @@ variable "managed_db_host" {
 }
 
 variable "stateful_resources" {
-
+  type = map(any)
 }

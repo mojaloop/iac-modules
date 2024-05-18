@@ -6,6 +6,12 @@ thirdparty-auth-svc-redis:
   logical_service_config:
     logical_service_port: 6379
     logical_service_name: thirdparty-auth-redis
+    username: mojaloop
+    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret_key: mongodb-passwords
+    secret_namespaces:
+      - mojaloop
+    database_name: mojaloop    
 thirdparty-auth-svc-db:
   enabled: false
   app_owner: "mojaloop"
@@ -126,6 +132,12 @@ mojaloop-kafka:
   logical_service_config:
     logical_service_port: 9092
     logical_service_name: mojaloop-kafka-svc
+    username: mojaloop
+    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret_key: mongodb-passwords
+    secret_namespaces:
+      - mojaloop
+    database_name: mojaloop    
 ttk-mongodb:
   enabled: true
   app_owner: "mojaloop"
@@ -143,10 +155,17 @@ ttk-mongodb:
 ttk-redis:
   enabled: true
   resource_type: redis
+  app_owner: "mojaloop"
   deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 6379
     logical_service_name: ttk-redis
+    username: mojaloop
+    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret_key: mongodb-passwords
+    secret_namespaces:
+      - mojaloop
+    database_name: mojaloop    
 keycloak-db:
   enabled: true
   app_owner: "platform"

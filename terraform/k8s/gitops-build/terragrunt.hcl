@@ -112,7 +112,7 @@ locals {
   all_st_res_default_vars       = merge(local.st_res_managed_vars, merge(local.st_res_local_helm_vars,local.st_res_local_operator_vars))
   
   plt_st_res_vars               = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")}"))
-  platform_stateful_res_config  = yamlencode(merge(local.all_st_res_default_vars,local.plt_st_res_vars)
+  platform_stateful_res_config  = merge(local.all_st_res_default_vars,local.plt_st_res_vars)
   
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
