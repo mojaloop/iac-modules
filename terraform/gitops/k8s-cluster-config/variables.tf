@@ -120,6 +120,7 @@ variable "managed_db_host" {
 }
 
 variable "platform_stateful_res_config" {
+  type        = map(any)
   description = "merged config of platform stateful resources"
 }
 
