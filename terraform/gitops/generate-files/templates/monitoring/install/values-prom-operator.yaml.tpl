@@ -30,12 +30,16 @@ prometheus:
     value: ${prom_tsdb_max_block_duration}
   # TODO: parametrize cluster_name, URL and OrgID later
   externalLabels:
-    cluster: dev3
+    cluster: ${cluster_label}
+    
+%{if enable_central_observability_write ~}
   remoteWrite:
   - name: central-monitoring-mimir
-    url: http://10.25.1.146:9009/api/v1/push
+    url: ${central_observability_endpoint}/api/v1/push
     headers:
-      X-Scope-OrgID: infitx    
+      X-Scope-OrgID: ${central_observability_tenant_id}    
+%{endif ~} 
+
 operator:
   nodeAffinityPreset:
     type: hard
