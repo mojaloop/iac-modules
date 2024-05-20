@@ -1,3 +1,9 @@
+module "config_deepmerge" {
+  source  = "cloudposse/config/yaml//modules/deepmerge"
+  version = "0.2.0"
+  maps    = var.stateful_resources_config_vars_list
+}
+
 module "mojaloop" {
   count                                = var.common_var_map.mojaloop_enabled ? 1 : 0
   source                               = "../mojaloop"
@@ -56,7 +62,7 @@ module "mojaloop" {
   finance_portal_values_override_file  = var.finance_portal_values_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
-  platform_stateful_res_config         = var.platform_stateful_res_config
+  platform_stateful_res_config         = module.config_deepmerge.merged
 }
 
 module "pm4ml" {
@@ -158,7 +164,7 @@ module "vnext" {
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
-  platform_stateful_res_config         = var.platform_stateful_res_config
+  platform_stateful_res_config         = module.config_deepmerge.merged
 }
 
 variable "app_var_map" {

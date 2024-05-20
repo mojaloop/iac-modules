@@ -119,8 +119,8 @@ variable "managed_db_host" {
   description = "url to managed db based on haproxy"
 }
 
-variable "platform_stateful_res_config" {
-  type        = map(any)
+variable "stateful_resources_config_vars_list" {
+  type        = list
   description = "merged config of platform stateful resources"
 }
 
