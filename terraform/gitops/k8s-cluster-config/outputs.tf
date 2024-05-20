@@ -14,10 +14,10 @@ output "storage_class_name" {
   value = var.storage_class_name
 }
 
-output "mojaloop_stateful_resource" {
+output "mojaloop_stateful_resources" {
   value = module.mojaloop[0].stateful_resources
 }
 
-output "common_stateful_resource" {
+output "common_stateful_resources" {
   value = module.common_stateful_resources.stateful_resources
 }
