@@ -9,7 +9,7 @@ thirdparty-auth-svc-redis:
     username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: mojaloop    
 thirdparty-auth-svc-db:
@@ -23,7 +23,7 @@ thirdparty-auth-svc-db:
     username: account_lookup
     user_password_secret: mysql-auth-svc-secret
     user_password_secret_key: mysql-password
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: auth-svc
 mysql-consent-oracle-db:
@@ -37,7 +37,7 @@ mysql-consent-oracle-db:
     username: consent-oracle
     user_password_secret: mysql-consent-oracle-secret
     user_password_secret_key: mysql-password
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: consent-oracle
 mcm-db:
@@ -51,7 +51,7 @@ mcm-db:
     username: devdat1asql1
     user_password_secret: mcm-db-secret
     user_password_secret_key: mysql-password
-    secret_namespaces:
+    secret_extra_namespaces:
       - mcm
     database_name: mcm
 account-lookup-db:
@@ -65,7 +65,7 @@ account-lookup-db:
     username: account_lookup
     user_password_secret: mysql-account-lookup-secret
     user_password_secret_key: mysql-password
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: account_lookup
 central-ledger-db:
@@ -79,7 +79,7 @@ central-ledger-db:
     username: central_ledger
     user_password_secret: mysql-central-ledger-secret
     user_password_secret_key: mysql-password
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: central_ledger
 bulk-mongodb:
@@ -93,7 +93,7 @@ bulk-mongodb:
     username: mojaloop
     user_password_secret: mongodb-bulk-secret
     user_password_secret_key: mongodb-passwords
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: mlos
 cep-mongodb:
@@ -107,7 +107,7 @@ cep-mongodb:
     username: mojaloop
     user_password_secret: mongodb-cep-secret
     user_password_secret_key: mongodb-passwords
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: mojaloop
 reporting-events-mongodb:
@@ -121,7 +121,7 @@ reporting-events-mongodb:
     username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: mojaloop
 mojaloop-kafka:
@@ -135,7 +135,7 @@ mojaloop-kafka:
     username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: mojaloop    
 ttk-mongodb:
@@ -149,7 +149,7 @@ ttk-mongodb:
     username: ttk
     user_password_secret: mongodb-ttk-secret
     user_password_secret_key: mongodb-passwords
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: ttk
 ttk-redis:
@@ -163,7 +163,7 @@ ttk-redis:
     username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
-    secret_namespaces:
+    secret_extra_namespaces:
       - mojaloop
     database_name: mojaloop    
 keycloak-db:
@@ -177,7 +177,7 @@ keycloak-db:
     username: keycloak
     user_password_secret: pgsql-keycloak-secret
     user_password_secret_key: password
-    secret_namespaces:
+    secret_extra_namespaces:
       - keycloak
     database_name: keycloak
 keto-db:
@@ -191,7 +191,7 @@ keto-db:
     username: keto
     user_password_secret: pgsql-keto-secret
     user_password_secret_key: password
-    secret_namespaces:
+    secret_extra_namespaces:
       - ory
     database_name: keto
 kratos-db:
@@ -205,6 +205,6 @@ kratos-db:
     username: kratos
     user_password_secret: pgsql-kratos-secret
     user_password_secret_key: password
-    secret_namespaces:
+    secret_extra_namespaces:
       - ory
     database_name: kratos
