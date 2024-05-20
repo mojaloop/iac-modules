@@ -58,6 +58,7 @@ module "generate_monitoring_files" {
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
     enable_central_observability_write = false
+    enable_central_observability_read  = true
     central_observability_endpoint     = "http://3.255.87.192:9009" # TODO: can we do better with naming? 
     central_observability_tenant_id    = "infitx"
   }

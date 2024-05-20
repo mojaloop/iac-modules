@@ -31,14 +31,23 @@ prometheus:
   # TODO: parametrize cluster_name, URL and OrgID later
   externalLabels:
     cluster: ${cluster_label}
-    
+
 %{if enable_central_observability_write ~}
   remoteWrite:
-  - name: central-monitoring-mimir
+  - name: central-monitoring
     url: ${central_observability_endpoint}/api/v1/push
     headers:
       X-Scope-OrgID: ${central_observability_tenant_id}    
 %{endif ~} 
+
+%{if enable_central_observability_read ~}
+  remoteRead:
+  - name: central-monitoring
+    url: ${central_observability_endpoint}/api/v1/read
+    headers:
+      X-Scope-OrgID: ${central_observability_tenant_id}    
+%{endif ~} 
+
 
 operator:
   nodeAffinityPreset:
