@@ -15,7 +15,7 @@ output "storage_class_name" {
 }
 
 output "mojaloop_stateful_resource" {
-  value = module.mojaloop.stateful_resources
+  value = module.mojaloop[0].stateful_resources
 }
 
 output "common_stateful_resource" {
