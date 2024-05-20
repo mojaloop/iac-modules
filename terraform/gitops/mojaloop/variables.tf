@@ -174,17 +174,17 @@ variable "platform_stateful_res_config" {
    resource_type = string
    deployment_type = string
    logical_service_config = object({
-         logical_service_port = optiona(string)
-         logical_service_name  = optiona(string)
-         username  = optiona(string)
-         user_password_secret  = optiona(string)
-         user_password_secret_key  = optiona(string)
-         secret_namespaces  = optional(list)
-         database_name  = optiona(string)
+         logical_service_port = optional(string)
+         logical_service_name  = optional(string)
+         username  = optional(string)
+         user_password_secret  = optional(string)
+         user_password_secret_key  = optional(string)
+         secret_namespaces  = optionall(list)
+         database_name  = optional(string)
     })
-    local_helm_config = optional(object)
-    local_operator_config = optional(object)
-    external_resource_config = optional(object)        
+    local_helm_config = optionall(object)
+    local_operator_config = optionall(object)
+    external_resource_config = optionall(object)        
   })  
   description = "merged config of platform stateful resources"
 }
