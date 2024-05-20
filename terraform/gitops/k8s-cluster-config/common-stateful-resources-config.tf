@@ -32,8 +32,8 @@ data "gitlab_project_variable" "external_stateful_resource_instance_address" {
 
 locals {
   #stateful_resources         = jsondecode(file(var.stateful_resources_config_file))
-  common_stateful_resources  = { for key, resource in var.platform_stateful_res_config : key => resource if (resource.app_owner == "platform" && resource.enabled )}
-  enabled_stateful_resources = { for key, stateful_resource in var.platform_stateful_res_config : key => stateful_resource if stateful_resource.enabled }
+  common_stateful_resources  = { for key, resource in module.config_deepmerge.merged : key => resource if (resource.app_owner == "platform" && resource.enabled )}
+  enabled_stateful_resources = { for key, stateful_resource in module.config_deepmerge.merged  : key => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
 }

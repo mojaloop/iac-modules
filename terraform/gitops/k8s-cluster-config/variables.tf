@@ -120,7 +120,7 @@ variable "managed_db_host" {
 }
 
 variable "stateful_resources_config_vars_list" {
-  type        = list
+  type        = list(any)
   description = "merged config of platform stateful resources"
 }
 
