@@ -28,7 +28,6 @@ prometheus:
     value: ${prom_tsdb_min_block_duration}
   - name: storage.tsdb.max-block-duration
     value: ${prom_tsdb_max_block_duration}
-  # TODO: parametrize cluster_name, URL and OrgID later
   externalLabels:
     cluster: ${cluster_label}
 
