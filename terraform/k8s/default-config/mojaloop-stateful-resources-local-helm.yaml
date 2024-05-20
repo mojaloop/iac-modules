@@ -528,6 +528,40 @@ ttk-mongodb:
       storage_size: 8Gi
       storage_class_name: longhorn
       service_port: 27017
+ttk-redis:
+  enabled: true
+  resource_name: ttk-redis
+  resource_type: redis
+  external_service: false
+  logical_service_config:
+    logical_service_port: 6379
+    logical_service_name: ttk-redis
+    database_name: 
+    secret_extra_namespaces: []
+  local_helm_config:
+    resource_namespace: mojaloop
+    override_service_name: redis-ttk-redis-master
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: redis
+    resource_helm_chart_version: 17.3.7
+    resource_helm_values_ref: values-redis.yaml.tpl
+    generate_secret_name: 
+    generate_secret_keys: 
+    generate_secret_vault_base_path: 
+    generate_secret_extra_namespaces: []
+    redis_data:
+      auth_enabled: false
+      existing_secret: ''
+      existing_secret_key: ''
+      user: ''
+      user_password: ''
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 6379
+  external_resource_config: {}
+
 
 keycloak-db:
   local_helm_config:
@@ -615,3 +649,4 @@ kratos-db:
       replica_count: 0
       service_port: 5432
       affinity_definition: {}
+
