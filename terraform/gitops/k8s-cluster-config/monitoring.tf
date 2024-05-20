@@ -54,10 +54,12 @@ module "generate_monitoring_files" {
     grafana_fqdn                        = local.grafana_fqdn
     grafana_istio_gateway_namespace     = local.grafana_istio_gateway_namespace
     grafana_istio_wildcard_gateway_name = local.vault_istio_wildcard_gateway_name
-    enable_central_observability_write  = false
-    cluster_label                       = var.cluster_name           # cluster identifier in central observability stack
-    central_observability_endpoint      = "http://3.255.87.192:9009" # TODO: can we do better with naming? 
-    central_observability_tenant_id     = "infitx"
+
+    # central observability configs
+    cluster_label                      = var.cluster_name # cluster identifier in central observability stack
+    enable_central_observability_write = false
+    central_observability_endpoint     = "http://3.255.87.192:9009" # TODO: can we do better with naming? 
+    central_observability_tenant_id    = "infitx"
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
