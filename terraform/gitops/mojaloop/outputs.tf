@@ -10,3 +10,7 @@ output "mojaloop_kafka_host" {
 output "mojaloop_kafka_port" {
   value = try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port,"")
 }
+
+output "stateful_resource" {
+  value = module.mojaloop_stateful_resources.stateful_resources
+}
