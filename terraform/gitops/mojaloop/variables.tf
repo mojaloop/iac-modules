@@ -168,23 +168,6 @@ variable "managed_db_host" {
 }
 
 variable "platform_stateful_res_config" {
-  type        = object({
-   enabled = string
-   app_owner = string
-   resource_type = string
-   deployment_type = string
-   logical_service_config = object({
-         logical_service_port = optional(string)
-         logical_service_name  = optional(string)
-         username  = optional(string)
-         user_password_secret  = optional(string)
-         user_password_secret_key  = optional(string)
-         secret_namespaces  = optional(list)
-         database_name  = Optional(string)
-    })
-    local_helm_config = optional(object)
-    local_operator_config = optional(object)
-    external_resource_config = optional(object)        
-  })  
+  type        = any
   description = "merged config of platform stateful resources"
 }
