@@ -179,6 +179,30 @@ variable "mojaloop_stateful_resources_config_file" {
   description = "where to pull stateful resources config for mojaloop"
 }
 
+variable "mojaloop_stateful_res_helm_config_file" {
+  default     = "../config/mojaloop-stateful-resources-local-helm.yaml"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "mojaloop_stateful_res_op_config_file" {
+  default     = "../config/mojaloop-stateful-resources-local-operator.yaml"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "mojaloop_stateful_res_mangd_config_file" {
+  default     = "../config/mojaloop-stateful-resources-managed.yaml"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "platform_stateful_resources_config_file" {
+  default     = "../config/platform-stateful-resources.yaml"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
+}
+
 variable "vnext_stateful_resources_config_file" {
   default     = "../config/vnext-stateful-resources.json"
   type        = string
@@ -275,11 +299,10 @@ locals {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
 
-  st_res_local_helm_vars        = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-local-helm.yaml")}"))
-  st_res_local_operator_vars    = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-local-operator.yaml")}"))
-  st_res_managed_vars           = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-managed.yaml")}"))
-  
-  plt_st_res_vars                      = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")}"))
-  stateful_resources_config_vars_list  = [local.st_res_local_helm_vars,local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_vars]
+  st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
+  st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
+  st_res_managed_vars           = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
+  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
 
+  stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
 }
