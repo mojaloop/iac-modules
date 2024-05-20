@@ -32,11 +32,11 @@ spec:
         min-chars = 1
       }
 ---
-%{ for key in resource.local_helm_config.generate_secret_keys ~}
+%{ for secretKey in resource.local_helm_config.generate_secret_keys ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
-  name: ${resource.local_helm_config.generate_secret_name}-${key}
+  name: ${resource.local_helm_config.generate_secret_name}-${secretKey}
   namespace: ${resource.local_helm_config.resource_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
@@ -64,20 +64,20 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-%{ for key in resource.local_helm_config.generate_secret_keys ~}
+%{ for secretKey in resource.local_helm_config.generate_secret_keys ~}
     - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
           name: default
-      name: dynamicsecret_${replace(key, "-", "_")}
+      name: dynamicsecret_${replace(secretKey, "-", "_")}
       path: ${resource.local_helm_config.generate_secret_vault_base_path}/${key}/${resource.local_helm_config.generate_secret_name}-${key}
 %{ endfor ~}
   output:
     name: ${resource.local_helm_config.generate_secret_name}
     stringData:
-%{ for key in resource.local_helm_config.generate_secret_keys ~}
-      ${key}: '{{ .dynamicsecret_${replace(key, "-", "_")}.password }}'
+%{ for secretKey in resource.local_helm_config.generate_secret_keys ~}
+      ${secretKey}: '{{ .dynamicsecret_${replace(secretKey, "-", "_")}.password }}'
 %{ endfor ~}
     type: Opaque
 ---
