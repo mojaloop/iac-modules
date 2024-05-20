@@ -57,10 +57,10 @@ module "generate_monitoring_files" {
 
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
-    enable_central_observability_write = false
-    enable_central_observability_read  = true
-    central_observability_endpoint     = "http://3.255.87.192:9009" # TODO: can we do better with naming? 
-    central_observability_tenant_id    = "infitx"
+    enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)
+    enable_central_observability_read  = try(var.common_var_map.enable_central_observability_read, local.enable_central_observability_read)
+    central_observability_endpoint     = try(var.common_var_map.central_observability_endpoint, local.central_observability_endpoint)
+    central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -143,4 +143,8 @@ locals {
   grafana_fqdn                        = local.grafana_wildcard_gateway == "external" ? "grafana.${var.public_subdomain}" : "grafana.${var.private_subdomain}"
   grafana_istio_gateway_namespace     = local.grafana_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   grafana_istio_wildcard_gateway_name = local.grafana_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  enable_central_observability_write  = false
+  enable_central_observability_read   = false
+  central_observability_endpoint      = "http://to-be-updated"
+  central_observability_tenant_id     = "infitx"
 }
