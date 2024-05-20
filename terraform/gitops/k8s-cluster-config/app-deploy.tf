@@ -1,7 +1,7 @@
 module "config_deepmerge" {
   source  = "cloudposse/config/yaml//modules/deepmerge"
   version = "0.2.0"
-  maps    = var.stateful_resources_config_vars_list
+  maps    = local.stateful_resources_config_vars_list
 }
 
 module "mojaloop" {
@@ -274,5 +274,12 @@ locals {
   pm4ml_var_map = {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
+
+  st_res_local_helm_vars        = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-local-helm.yaml")}"))
+  st_res_local_operator_vars    = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-local-operator.yaml")}"))
+  st_res_managed_vars           = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-managed.yaml")}"))
+  
+  plt_st_res_vars                      = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")}"))
+  stateful_resources_config_vars_list  = [local.st_res_local_helm_vars,local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_vars]
 
 }

@@ -70,7 +70,7 @@ inputs = {
   vnext_stateful_resources_config_file     = find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-stateful-resources.json")
   mojaloop_values_override_file            = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-values-override.yaml", "mojaloop-values-override.yaml")
   finance_portal_values_override_file      = find_in_parent_folders("${get_env("CONFIG_PATH")}/finance-portal-values-override.yaml", "finance-portal-values-override.yaml")
-  stateful_resources_config_vars_list      = local.stateful_resources_config_vars_list
+  stateful_resources_config_vars_list      = []
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -106,12 +106,7 @@ locals {
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
   vnext_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}"))
   
-  st_res_local_helm_vars        = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-local-helm.yaml")}"))
-  st_res_local_operator_vars    = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-local-operator.yaml")}"))
-  st_res_managed_vars           = yamldecode(file("${find_in_parent_folders("default-config/mojaloop-stateful-resources-managed.yaml")}"))
-  
-  plt_st_res_vars                      = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")}"))
-  stateful_resources_config_vars_list  = [local.st_res_local_helm_vars,local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_vars]
+
   
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
