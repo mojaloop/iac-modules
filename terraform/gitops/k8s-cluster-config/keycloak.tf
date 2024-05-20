@@ -7,7 +7,7 @@ module "generate_keycloak_files" {
     gitlab_project_url                    = var.gitlab_project_url
     keycloak_postgres_database            = try(module.common_stateful_resources.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.database_name,null)
     keycloak_postgres_user                = try(module.common_stateful_resources.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.username,null)
-    keycloak_postgres_host                = "${try(module.common_stateful_resources.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.logical_service_name,null)}.${var.stateful_resources_namespace}.svc.cluster.local"
+    keycloak_postgres_host                = "${try(module.common_stateful_resources.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.logical_service_name,"")}.${var.stateful_resources_namespace}.svc.cluster.local"
     keycloak_postgres_password_secret     = try(module.common_stateful_resources.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.user_password_secret,null)
     keycloak_postgres_port                = try(module.common_stateful_resources.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.logical_service_port,null)
     keycloak_postgres_password_secret_key = "password"
