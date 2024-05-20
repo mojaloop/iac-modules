@@ -63,7 +63,7 @@ locals {
   stateful_resources_app_file        = "stateful-resources-app.yaml"
   app_stateful_resources_output_path = "${var.output_dir}/app-yamls"
   stateful_resources                 = var.stateful_resources
-  helm_stateful_resources            = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "helm-chart" } # && try(resource.local_helm_config, null) != null 
+  helm_stateful_resources            = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "helm-chart" && try(resource.local_helm_config, null) != null }  
   operator_stateful_resources        = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
   managed_stateful_resources         = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   #local_stateful_resources          = { for key, local_stateful_resource in local.enabled_stateful_resources : local_stateful_resource.resource_name => local_stateful_resource if !local_stateful_resource.external_service }
