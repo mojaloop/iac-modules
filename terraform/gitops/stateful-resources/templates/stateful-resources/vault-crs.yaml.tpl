@@ -71,7 +71,7 @@ spec:
         serviceAccount:
           name: default
       name: dynamicsecret_${replace(secretKey, "-", "_")}
-      path: ${resource.local_helm_config.generate_secret_vault_base_path}/${key}/${resource.local_helm_config.generate_secret_name}-${key}
+      path: ${resource.local_helm_config.generate_secret_vault_base_path}/${key}/${resource.local_helm_config.generate_secret_name}-${secretKey}
 %{ endfor ~}
   output:
     name: ${resource.local_helm_config.generate_secret_name}
