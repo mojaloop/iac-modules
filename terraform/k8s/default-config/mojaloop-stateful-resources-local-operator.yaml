@@ -327,7 +327,7 @@ reporting-events-mongodb:
 mojaloop-kafka:
   local_operator_config:
     resource_namespace: mojaloop
-    override_service_name:
+    override_service_name: mojaloop-kafka-kafka-brokers
     node_pool_size: 3
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     resource_helm_chart: kafka
