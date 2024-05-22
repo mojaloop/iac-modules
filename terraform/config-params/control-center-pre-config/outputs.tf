@@ -9,9 +9,12 @@ output "netmaker_hosts_var_maps" {
 output "docker_hosts_var_maps" {
   sensitive = true
   value = {
-    vault_oidc_client_id = var.enable_vault_oidc ? gitlab_application.tenant_vault_oidc[0].application_id : ""
-    vault_oidc_client_secret  = var.enable_vault_oidc ? gitlab_application.tenant_vault_oidc[0].secret : ""
+    vault_oidc_client_id        = var.enable_vault_oidc ? gitlab_application.tenant_vault_oidc[0].application_id : ""
+    vault_oidc_client_secret    = var.enable_vault_oidc ? gitlab_application.tenant_vault_oidc[0].secret : ""
     gitlab_bootstrap_project_id = gitlab_project.bootstrap.id
+    mimir_minio_user            = minio_iam_user.mimir-user.name
+    mimir_minio_password        = minio_iam_user.mimir-user.secret
+    mimir_minio_bucket          = minio_s3_bucket.mimir-s3-bucket.name
   }
 }
 

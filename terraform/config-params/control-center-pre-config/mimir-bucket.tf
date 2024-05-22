@@ -16,7 +16,7 @@ resource "random_password" "minio-mimir-password" {
   special = false
 }
 
-resource "minio_iam_user" "minio-mimir-user" {
+resource "minio_iam_user" "mimir-user" {
   name          = "central-observability-mimir-user"
   secret        = random_password.minio_mimir_password.result
   force_destroy = true
