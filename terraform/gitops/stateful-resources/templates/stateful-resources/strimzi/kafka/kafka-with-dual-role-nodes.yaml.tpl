@@ -91,6 +91,6 @@ spec:
   partitions: ${topic.partitions}
   replicas: ${topic.replicationFactor}
   config:
-    ${indent(6, yamlencode(topic.config))}
+    ${indent(4, yamlencode(topic.config))}
 ---    
 %{ endfor ~}
