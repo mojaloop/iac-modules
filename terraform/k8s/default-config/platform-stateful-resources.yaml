@@ -137,7 +137,157 @@ mojaloop-kafka:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
-    database_name: mojaloop    
+    database_name: mojaloop  
+    post_install_schema_config:
+      kafka_provisioning:
+        enabled: true
+        topics:
+          - name: topic-event
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-prepare
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-position
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-position-batch
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-fulfil
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-notification-event
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-get
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-admin-transfer
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulk-prepare
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulk-fulfil
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulk-processing
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulk-get
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-quotes-post
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-quotes-put
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-quotes-get
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulkquotes-post
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulkquotes-put
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulkquotes-get
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000" 
+
+   
 ttk-mongodb:
   enabled: true
   app_owner: "mojaloop"

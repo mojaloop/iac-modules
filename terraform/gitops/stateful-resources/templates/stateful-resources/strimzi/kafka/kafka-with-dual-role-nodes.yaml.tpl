@@ -79,3 +79,18 @@ spec:
   #       com.linkedin.kafka.cruisecontrol.analyzer.goals.RackAwareGoal,
   #       com.linkedin.kafka.cruisecontrol.analyzer.goals.ReplicaCapacityGoal,
   #       com.linkedin.kafka.cruisecontrol.analyzer.goals.DiskCapacityGoal
+---
+%{ for topic in kafka_topics ~}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: ${topic.name}
+  labels:
+    strimzi.io/cluster: ${kafka_cluster_name}
+spec:
+  partitions: ${topic.partitions}
+  replicas: ${topic.replicationFactor}
+  config:
+    ${indent(6, yamlencode(topic.config))}
+---    
+%{ endfor ~}

@@ -52,17 +52,16 @@ resource "local_file" "namespace" {
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
 
-
 resource "local_file" "strimzi-crs" {
 
   for_each = { for key, stateful_resource in local.strimzi_operator_stateful_resources : key => stateful_resource }
-
   content = templatefile("${local.stateful_resources_template_path}/strimzi/kafka/kafka-with-dual-role-nodes.yaml.tpl",
     {
       kafka_cluster_name = each.key
       node_pool_name     = "${each.key}-nodepool"
       node_pool_size     = each.value.local_operator_config.node_pool_size
       namespace          = each.value.local_operator_config.resource_namespace
+      kafka_topics       = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : []
   })
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
@@ -83,10 +82,9 @@ locals {
   operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
   strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
-  #local_stateful_resources          = { for key, local_stateful_resource in local.enabled_stateful_resources : local_stateful_resource.resource_name => local_stateful_resource if !local_stateful_resource.external_service }
-  local_external_name_map   = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
-  managed_external_name_map = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.managed_db_host }
-  external_name_map         = merge(local.local_external_name_map, local.managed_external_name_map)
+  local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
+  managed_external_name_map           = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.managed_db_host }
+  external_name_map                   = merge(local.local_external_name_map, local.managed_external_name_map)
   managed_resource_password_map = { for key, stateful_resource in local.managed_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
     namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
