@@ -85,6 +85,7 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
   name: ${topic.name}
+  namespace: ${namespace}
   labels:
     strimzi.io/cluster: ${kafka_cluster_name}
 spec:
