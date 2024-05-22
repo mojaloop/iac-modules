@@ -58,8 +58,8 @@ resource "local_file" "strimzi-crs" {
   content = templatefile("${local.stateful_resources_template_path}/strimzi/kafka/kafka-with-dual-role-nodes.yaml.tpl",
     {
       kafka_cluster_name = each.key
-      node_pool_size = each.local_operator_config.node_pool_size
-      namespace  = each.local_operator_config.namespace
+      node_pool_size = each.value.local_operator_config.node_pool_size
+      namespace  = each.value.local_operator_config.namespace
   })
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
