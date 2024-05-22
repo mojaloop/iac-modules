@@ -328,6 +328,7 @@ mojaloop-kafka:
   local_operator_config:
     resource_namespace: mojaloop
     override_service_name:
+    node_pool_size: 3
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     resource_helm_chart: kafka
     resource_helm_chart_version: 26.5.0

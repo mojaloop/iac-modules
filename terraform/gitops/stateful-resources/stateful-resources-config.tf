@@ -51,6 +51,19 @@ resource "local_file" "namespace" {
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
 
+resource "local_file" "strimzi-crs" {
+  
+  for_each = { for key, stateful_resource in local.strimzi_operatr_stateful_resources : key => stateful_resource }
+
+  content = templatefile("${local.stateful_resources_template_path}/strimzi/kafka/kafka-with-dual-role-nodes.yaml.tpl",
+    {
+      kafka_cluster_name = each.key
+      node_pool_size = each.local_operator_config.node_pool_size
+      namespace  = each.local_operator_config.namespace
+  })
+  filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
+}
+
 resource "local_file" "stateful-resources-app-file" {
   content  = templatefile("${local.stateful_resources_template_path}/app/${local.stateful_resources_app_file}.tpl", local.stateful_resources_vars)
   filename = "${local.app_stateful_resources_output_path}/${local.stateful_resources_name}-${local.stateful_resources_app_file}"
@@ -65,6 +78,7 @@ locals {
   stateful_resources                 = var.stateful_resources
   helm_stateful_resources            = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "helm-chart" }  
   operator_stateful_resources        = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
+  strimzi_operatr_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
   managed_stateful_resources         = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   #local_stateful_resources          = { for key, local_stateful_resource in local.enabled_stateful_resources : local_stateful_resource.resource_name => local_stateful_resource if !local_stateful_resource.external_service }
   local_external_name_map            = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name,null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
