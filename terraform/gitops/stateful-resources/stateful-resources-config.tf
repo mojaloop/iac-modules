@@ -37,8 +37,9 @@ resource "local_file" "external_name_services" {
 
 resource "local_file" "kustomization" {
   content = templatefile("${local.stateful_resources_template_path}/stateful-resources-kustomization.yaml.tpl",
-    { local_stateful_resources   = local.helm_stateful_resources
-      managed_stateful_resources = local.managed_stateful_resources
+    { local_stateful_resources            = local.helm_stateful_resources
+      managed_stateful_resources          = local.managed_stateful_resources
+      strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
   })
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
 }
@@ -51,15 +52,17 @@ resource "local_file" "namespace" {
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
 
+
 resource "local_file" "strimzi-crs" {
-  
-  for_each = { for key, stateful_resource in local.strimzi_operatr_stateful_resources : key => stateful_resource }
+
+  for_each = { for key, stateful_resource in local.strimzi_operator_stateful_resources : key => stateful_resource }
 
   content = templatefile("${local.stateful_resources_template_path}/strimzi/kafka/kafka-with-dual-role-nodes.yaml.tpl",
     {
       kafka_cluster_name = each.key
-      node_pool_size = each.value.local_operator_config.node_pool_size
-      namespace  = each.value.local_operator_config.namespace
+      node_pool_name     = "${each.key}-nodepool"
+      node_pool_size     = each.value.local_operator_config.node_pool_size
+      namespace          = each.value.local_operator_config.namespace
   })
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
@@ -70,20 +73,20 @@ resource "local_file" "stateful-resources-app-file" {
 }
 
 locals {
-  stateful_resources_name            = var.stateful_resources_name
-  stateful_resources_template_path   = "${path.module}/templates/stateful-resources"
-  stateful_resources_output_path     = "${var.output_dir}/${local.stateful_resources_name}-stateful-resources"
-  stateful_resources_app_file        = "stateful-resources-app.yaml"
-  app_stateful_resources_output_path = "${var.output_dir}/app-yamls"
-  stateful_resources                 = var.stateful_resources
-  helm_stateful_resources            = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "helm-chart" }  
-  operator_stateful_resources        = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
-  strimzi_operatr_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
-  managed_stateful_resources         = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
+  stateful_resources_name             = var.stateful_resources_name
+  stateful_resources_template_path    = "${path.module}/templates/stateful-resources"
+  stateful_resources_output_path      = "${var.output_dir}/${local.stateful_resources_name}-stateful-resources"
+  stateful_resources_app_file         = "stateful-resources-app.yaml"
+  app_stateful_resources_output_path  = "${var.output_dir}/app-yamls"
+  stateful_resources                  = var.stateful_resources
+  helm_stateful_resources             = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "helm-chart" }
+  operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
+  strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
+  managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   #local_stateful_resources          = { for key, local_stateful_resource in local.enabled_stateful_resources : local_stateful_resource.resource_name => local_stateful_resource if !local_stateful_resource.external_service }
-  local_external_name_map            = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name,null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
-  managed_external_name_map          = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.managed_db_host }  
-  external_name_map                  = merge(local.local_external_name_map, local.managed_external_name_map)
+  local_external_name_map   = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
+  managed_external_name_map = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.managed_db_host }
+  external_name_map         = merge(local.local_external_name_map, local.managed_external_name_map)
   managed_resource_password_map = { for key, stateful_resource in local.managed_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
     namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
@@ -98,9 +101,9 @@ locals {
     stateful_resources_sync_wave = var.stateful_resources_sync_wave
     stateful_resources_name      = local.stateful_resources_name
   }
-  all_logical_extra_namespaces = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.logical_service_config.secret_extra_namespaces,"")])
-  all_local_extra_namespaces   = flatten([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.generate_secret_extra_namespaces,"")])
-  all_local_namespaces         = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace,"")])
+  all_logical_extra_namespaces = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.logical_service_config.secret_extra_namespaces, "")])
+  all_local_extra_namespaces   = flatten([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.generate_secret_extra_namespaces, "")])
+  all_local_namespaces         = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
 }
 
 variable "external_stateful_resource_instance_addresses" {
@@ -171,5 +174,5 @@ variable "managed_db_host" {
 }
 
 variable "stateful_resources" {
-   type = any
+  type = any
 }

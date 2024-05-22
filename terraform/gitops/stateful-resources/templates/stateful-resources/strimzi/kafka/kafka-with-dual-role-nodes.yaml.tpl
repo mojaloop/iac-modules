@@ -2,6 +2,7 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaNodePool
 metadata:
   name: ${node_pool_name}
+  namespace: ${namespace}
   labels:
     strimzi.io/cluster: ${kafka_cluster_name}
 spec:
@@ -21,6 +22,7 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
   name: ${kafka_cluster_name}
+  namespace: ${namespace}
   annotations:
     strimzi.io/node-pools: enabled
     strimzi.io/kraft: enabled
