@@ -12,6 +12,8 @@ thirdparty-auth-svc-redis:
     secret_extra_namespaces:
       - mojaloop
     database_name: mojaloop    
+    storage_size: 10G
+    replica_count: 3       
 thirdparty-auth-svc-db:
   enabled: false
   app_owner: "mojaloop"
@@ -26,6 +28,8 @@ thirdparty-auth-svc-db:
     secret_extra_namespaces:
       - mojaloop
     database_name: auth-svc
+    storage_size: 10G
+    replica_count: 3    
 mysql-consent-oracle-db:
   enabled: false
   app_owner: "mojaloop"
@@ -40,6 +44,8 @@ mysql-consent-oracle-db:
     secret_extra_namespaces:
       - mojaloop
     database_name: consent-oracle
+    storage_size: 10G
+    replica_count: 3        
 mcm-db:
   enabled: true
   app_owner: "mojaloop"
@@ -54,6 +60,8 @@ mcm-db:
     secret_extra_namespaces:
       - mcm
     database_name: mcm
+    storage_size: 10G
+    replica_count: 3        
 account-lookup-db:
   enabled: true
   app_owner: "mojaloop"
@@ -68,6 +76,8 @@ account-lookup-db:
     secret_extra_namespaces:
       - mojaloop
     database_name: account_lookup
+    storage_size: 10G
+    replica_count: 3        
 central-ledger-db:
   enabled: true
   app_owner: "mojaloop"
@@ -82,6 +92,8 @@ central-ledger-db:
     secret_extra_namespaces:
       - mojaloop
     database_name: central_ledger
+    storage_size: 10G
+    replica_count: 3        
 bulk-mongodb:
   enabled: true
   app_owner: "mojaloop"

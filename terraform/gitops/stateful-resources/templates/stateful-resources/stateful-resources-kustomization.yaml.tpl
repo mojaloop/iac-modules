@@ -13,6 +13,9 @@ resources:
 %{ for key,stateful_resource in strimzi_operator_stateful_resources ~}
 - kafka-with-dual-role-nodes-${key}.yaml
 %{ endfor ~}
+%{ for key,stateful_resource in percona_mysql_stateful_resources ~}
+- db-cluster-${each.key}.yaml
+%{ endfor ~}
 helmCharts:
 %{ for key, stateful_resource in local_stateful_resources ~}
 - name: ${stateful_resource.local_helm_config.resource_helm_chart}

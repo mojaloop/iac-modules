@@ -1,7 +1,7 @@
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBCluster
 metadata:
-  name: cluster1
+  name: ${cluster_name}
   finalizers:
     - delete-pxc-pods-in-order
 #    - delete-ssl

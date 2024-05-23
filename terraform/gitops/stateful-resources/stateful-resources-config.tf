@@ -66,6 +66,21 @@ resource "local_file" "strimzi-crs" {
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
 
+resource "local_file" "percona-mysql-crs" {
+
+  for_each = { for key, stateful_resource in local.percona_mysql_stateful_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/percona/mysql/db-cluster.yaml.tpl",
+    {
+      cluster_name       = each.key
+      cr_version         = each.value.local_operator_config.cr_version
+      replica_count      = each.value.logical_service_config.replica_count
+      namespace          = each.value.local_operator_config.resource_namespace
+      storage_class_name = each.value.local_operator_config.storage_class_name
+      storage_size       = each.value.logical_service_config.storage_size
+  })
+  filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
+}
+
 resource "local_file" "stateful-resources-app-file" {
   content  = templatefile("${local.stateful_resources_template_path}/app/${local.stateful_resources_app_file}.tpl", local.stateful_resources_vars)
   filename = "${local.app_stateful_resources_output_path}/${local.stateful_resources_name}-${local.stateful_resources_app_file}"
@@ -81,6 +96,7 @@ locals {
   helm_stateful_resources             = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "helm-chart" }
   operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
   strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
+  percona_mysql_stateful_resources    = { for key, resource in local.stateful_resources : key => resource if resource.resource_type == "mysql" } # operator_stateful_resources
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" } 
