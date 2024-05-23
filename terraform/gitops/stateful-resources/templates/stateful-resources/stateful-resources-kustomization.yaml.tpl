@@ -14,7 +14,7 @@ resources:
 - kafka-with-dual-role-nodes-${key}.yaml
 %{ endfor ~}
 %{ for key,stateful_resource in percona_mysql_stateful_resources ~}
-- db-cluster-${each.key}.yaml
+- db-cluster-${key}.yaml
 %{ endfor ~}
 helmCharts:
 %{ for key, stateful_resource in local_stateful_resources ~}
