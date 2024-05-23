@@ -9,7 +9,7 @@ replicaCount: 1
 # watchNamespace:
 
 # set if operator should be deployed in cluster wide mode. defaults to false
-watchAllNamespaces: true
+watchAllNamespaces: false
 
 imagePullSecrets: []
 nameOverride: ""
