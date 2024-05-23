@@ -1,12 +1,13 @@
 # loki bucket , user and access policy 
 resource "minio_s3_bucket" "loki-s3-bucket" {
-  for_each = var.env_map
-  bucket   = "${each.key}-loki"
+  for_each      = var.env_map
+  bucket        = "${each.key}-loki"
+  force_destroy = true
 }
 
 resource "minio_ilm_policy" "loki-bucket-lifecycle-rules" {
   for_each = var.env_map
-  bucket = minio_s3_bucket.loki-s3-bucket[each.key].bucket
+  bucket   = minio_s3_bucket.loki-s3-bucket[each.key].bucket
   rule {
     id         = "expire ${each.key}-loki"
     expiration = var.loki_data_expiry
@@ -25,7 +26,7 @@ resource "minio_iam_user" "loki-user" {
   secret        = random_password.minio_loki_password[each.key].result
   force_destroy = true
   tags = {
-    env  = each.key
+    env     = each.key
     purpose = "loki data"
   }
 }
@@ -97,7 +98,7 @@ resource "minio_s3_bucket" "tempo-s3-bucket" {
 
 resource "minio_ilm_policy" "tempo-bucket-lifecycle-rules" {
   for_each = var.env_map
-  bucket = minio_s3_bucket.tempo-s3-bucket[each.key].bucket
+  bucket   = minio_s3_bucket.tempo-s3-bucket[each.key].bucket
   rule {
     id         = "expire-${var.tempo_data_expiry_days}"
     expiration = var.tempo_data_expiry_days
@@ -116,7 +117,7 @@ resource "minio_iam_user" "tempo-user" {
   secret        = random_password.minio_tempo_password[each.key].result
   force_destroy = true
   tags = {
-    env  = each.key
+    env     = each.key
     purpose = "access tempo data"
   }
 }
@@ -191,7 +192,7 @@ resource "minio_s3_bucket" "longhorn-s3-bucket" {
 
 resource "minio_ilm_policy" "longhorn-bucket-lifecycle-rules" {
   for_each = var.env_map
-  bucket = minio_s3_bucket.longhorn-s3-bucket[each.key].bucket
+  bucket   = minio_s3_bucket.longhorn-s3-bucket[each.key].bucket
   rule {
     id         = "expire ${each.key}-longhorn"
     expiration = var.longhorn_backup_data_expiry
@@ -210,7 +211,7 @@ resource "minio_iam_user" "longhorn-user" {
   secret        = random_password.minio_longhorn_password[each.key].result
   force_destroy = true
   tags = {
-    env  = each.key
+    env     = each.key
     purpose = "longhorn backup"
   }
 }
@@ -283,7 +284,7 @@ resource "minio_s3_bucket" "velero-s3-bucket" {
 
 resource "minio_ilm_policy" "velero-bucket-lifecycle-rules" {
   for_each = var.env_map
-  bucket = minio_s3_bucket.velero-s3-bucket[each.key].bucket
+  bucket   = minio_s3_bucket.velero-s3-bucket[each.key].bucket
   rule {
     id         = "expire-${var.velero_data_expiry}"
     expiration = var.velero_data_expiry
@@ -302,7 +303,7 @@ resource "minio_iam_user" "velero-user" {
   secret        = random_password.minio_velero_password[each.key].result
   force_destroy = true
   tags = {
-    env  = each.key
+    env     = each.key
     purpose = "access velero data"
   }
 }
