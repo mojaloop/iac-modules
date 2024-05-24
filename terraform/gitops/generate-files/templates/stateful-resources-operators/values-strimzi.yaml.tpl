@@ -67,10 +67,10 @@ podDisruptionBudget:
 # If you are using the grafana dashboard sidecar,
 # you can import some default dashboards here
 dashboards:
-  enabled: false
-  namespace: ~
-  label: grafana_dashboard # this is the default value from the grafana chart
-  labelValue: "1" # this is the default value from the grafana chart
+  enabled: true
+  namespace: mojaloop
+  label: dashboards # this is the default value from the grafana chart
+  labelValue: "grafana" # this is the default value from the grafana chart
   annotations: {}
   extraLabels: {}
 
