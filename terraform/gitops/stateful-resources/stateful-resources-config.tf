@@ -109,7 +109,7 @@ locals {
   stateful_resources                  = var.stateful_resources
   helm_stateful_resources             = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "helm-chart" }
   operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
-  internal_stateful_resources         = concat(local.helm_stateful_resources, local.operator_stateful_resources)
+  internal_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if ( resource.deployment_type == "operator" || resource.deployment_type == "helm-chart" )}
   strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
   percona_mysql_stateful_resources    = { for key, resource in local.stateful_resources : key => resource if resource.resource_type == "mysql" } # operator_stateful_resources
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
