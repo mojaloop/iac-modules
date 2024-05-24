@@ -97,7 +97,7 @@ metadata:
   labels:
     app: strimzi
 data:
-  kafka-metrics-config.yml: |
+  kafka-metrics-config.yaml: |
     # See https://github.com/prometheus/jmx_exporter for more info about JMX Prometheus Exporter metrics
     lowercaseOutputName: true
     rules:
