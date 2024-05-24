@@ -748,6 +748,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: init-${cluster_name}
+  namespace: ${namespace}
 spec:
   template:
     spec:
