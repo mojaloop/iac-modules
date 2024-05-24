@@ -78,6 +78,17 @@ resource "local_file" "percona-mysql-crs" {
       namespace          = each.value.local_operator_config.resource_namespace
       storage_class_name = each.value.local_operator_config.storage_class_name
       storage_size       = each.value.logical_service_config.storage_size
+      
+      minio_percona_backup_bucket = var.minio_percona_backup_bucket
+      minio_percona_secret        = "percona-backups-secret"
+      endpointUrl                 = var.minio_api_url
+      backupSchedule              = each.value.backup_schedule
+      backupStorageName           = "${each.key}-backup-storage"
+
+      percona_credentials_id_provider_key     = "${var.cluster_name}/${local.percona_credentials_id_provider_key}"
+      percona_credentials_secret_provider_key = "${var.cluster_name}/${local.percona_credentials_secret_provider_key}"
+      percona_credentials_secret              = "percona-s3-credentials"
+      external_secret_sync_wave               = 
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
@@ -120,6 +131,9 @@ locals {
   all_logical_extra_namespaces = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.logical_service_config.secret_extra_namespaces, "")])
   all_local_extra_namespaces   = flatten([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.generate_secret_extra_namespaces, "")])
   all_local_namespaces         = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
+  
+  percona_credentials_secret_provider_key = "minio_percona_password"
+  percona_credentials_id_provider_key     = "minio_velero_username"
 }
 
 variable "external_stateful_resource_instance_addresses" {
@@ -184,6 +198,12 @@ variable "stateful_resources_sync_wave" {
   default     = "-5"
 }
 
+variable "external_secret_sync_wave" {
+  type        = string
+  description = "external_secret_sync_wave"
+  default     = "-11"
+}
+
 variable "managed_db_host" {
   type        = string
   description = "url to managed db based on haproxy"
@@ -191,4 +211,14 @@ variable "managed_db_host" {
 
 variable "stateful_resources" {
   type = any
+}
+
+variable "minio_api_url" {
+  type        = string
+  description = "minio_api_url"
+}
+
+variable "minio_percona_backup_bucket" {
+  type        = string
+  description = "minio_percona_backup_bucket"
 }

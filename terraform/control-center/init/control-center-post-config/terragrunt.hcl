@@ -76,6 +76,7 @@ inputs = {
   tempo_data_expiry_days           = local.env_vars.tempo_data_expiry_days
   longhorn_backup_data_expiry      = local.env_vars.longhorn_backup_data_expiry 
   velero_data_expiry               = local.env_vars.velero_data_expiry 
+  percona_data_expiry              = local.env_vars.percona_backup_data_expiry   
   private_subdomain_string         = local.private_subdomain_string
 }
 

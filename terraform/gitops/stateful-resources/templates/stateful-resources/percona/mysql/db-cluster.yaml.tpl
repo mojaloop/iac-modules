@@ -1,6 +1,7 @@
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBCluster
 metadata:
+  namespace: ${namespace}
   name: ${cluster_name}
   finalizers:
     - delete-pxc-pods-in-order
@@ -633,9 +634,9 @@ spec:
 #            xbstream:
 #            - "--someflag=abc"
         s3:
-          bucket: S3-BACKUP-BUCKET-NAME-HERE
-          credentialsSecret: my-cluster-name-backup-s3
-          region: us-west-2
+          bucket: ${minio_percona_backup_bucket}
+          credentialsSecret: ${percona_credentials_secret}
+          endpointUrl: ${minio_api_url}
       azure-blob:
         type: azure
         azure:
@@ -692,11 +693,51 @@ spec:
         #       requests:
         #         storage: 6G
     schedule:
-#      - name: "sat-night-backup"
-#        schedule: "0 0 * * 6"
-#        keep: 3
-#        storageName: s3-us-west
-    #   - name: "daily-backup"
-    #     schedule: "0 0 * * *"
-    #     keep: 5
-    #     storageName: fs-pvc
+      %{ for schedule in backupSchedule ~}
+      - name: schedule.name
+        schedule: schedule.schedule
+        keep: schedule.keep
+        storageName: ${backupStorageName}
+      %{ endfor ~}
+---
+apiVersion: pxc.percona.com/v1
+kind: PerconaXtraDBClusterBackup
+metadata:
+  finalizers:
+    - delete-s3-backup
+  name: ${cluster_name}-backup
+spec:
+  pxcCluster: ${cluster_name}
+  storageName: ${backupStorageName}
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
+  name: ${percona_credentials_secret}
+spec:
+  refreshInterval: 1h
+
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+
+  target:
+    name: ${percona_credentials_secret} # Name for the secret to be created on the cluster
+    creationPolicy: Owner
+    template:
+      data:
+        AWS_ENDPOINTS: http://${minio_api_url}/
+        AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
+        AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
+
+  data:
+    - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
+      remoteRef: 
+        key: ${percona_credentials_secret_provider_key}
+        property: value
+    - secretKey: AWS_ACCESS_KEY_ID # Key given to the secret to be created on the cluster
+      remoteRef: 
+        key: ${percona_credentials_id_provider_key}
+        property: value

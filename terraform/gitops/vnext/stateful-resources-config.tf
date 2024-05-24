@@ -13,7 +13,9 @@ module "vnext_stateful_resources" {
   kv_path                                       = var.kv_path
   external_stateful_resource_instance_addresses = local.external_stateful_resource_instance_addresses
   managed_db_host                               = var.managed_db_host
-
+  minio_api_url                                 = var.minio_api_url
+  minio_percona_backup_bucket                   = var.minio_percona_backup_bucket
+  external_secret_sync_wave                     = var.external_secret_sync_wave
 }
 
 variable "stateful_resources_config_file" {
@@ -24,6 +26,15 @@ variable "stateful_resources_namespace" {
   default = "stateful-resources"
 }
 
+variable "minio_api_url" {
+  type        = string
+  description = "minio_api_url"
+}
+
+variable "minio_percona_backup_bucket" {
+  type        = string
+  description = "minio_percona_backup_bucket"
+}
 
 data "gitlab_project_variable" "external_stateful_resource_instance_address" {
   for_each = local.managed_stateful_resources
