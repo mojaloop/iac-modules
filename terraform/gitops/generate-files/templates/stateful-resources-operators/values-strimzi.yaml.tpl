@@ -77,7 +77,7 @@ dashboards:
 
 resources:
   limits:
-    memory: 384Mi
+    memory: 1Gi
     cpu: 1000m
   requests:
     memory: 384Mi
