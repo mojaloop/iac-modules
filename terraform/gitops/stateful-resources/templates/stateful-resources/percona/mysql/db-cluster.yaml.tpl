@@ -693,12 +693,12 @@ spec:
         #       requests:
         #         storage: 6G
     schedule:
-      %{ for schedule in backupSchedule ~}
-      - name: schedule.name
-        schedule: schedule.schedule
-        keep: schedule.keep
+%{ for schedule in backupSchedule ~}
+      - name: ${schedule.name}
+        schedule: ${schedule.schedule}
+        keep: ${schedule.keep}
         storageName: ${backupStorageName}
-      %{ endfor ~}
+%{ endfor ~}
 ---
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterBackup
