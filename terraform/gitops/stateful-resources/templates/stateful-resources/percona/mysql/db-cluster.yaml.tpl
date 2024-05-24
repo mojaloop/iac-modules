@@ -781,6 +781,6 @@ spec:
             [
               "sh",
               "-c",
-              "until nslookup ${cluster_name}-db-haproxy; do echo waiting for database ${cluster_name}-db-haproxy ; sleep 2; done;",
+              "until nslookup ${cluster_name}-haproxy; do echo waiting for database ${cluster_name}-haproxy ; sleep 2; done;",
             ]
 ---
