@@ -81,7 +81,7 @@ resource "local_file" "percona-mysql-crs" {
       
       minio_percona_backup_bucket = var.minio_percona_backup_bucket
       minio_percona_secret        = "percona-backups-secret"
-      endpointUrl                 = var.minio_api_url
+      minio_api_url               = var.minio_api_url
       backupSchedule              = each.value.backup_schedule
       backupStorageName           = "${each.key}-backup-storage"
 
