@@ -247,6 +247,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: kafka-resources-metrics
+  namespace: ${namespace}
   labels:
     app: strimzi
 spec:
