@@ -761,7 +761,7 @@ spec:
             - "-c"
           args:
             - >
-              mysql -h${cluster_name}-db-haproxy -uroot -p$${MYSQL_ROOT_PASSWORD} << EOF
+              mysql -h${cluster_name}-haproxy -uroot -p$${MYSQL_ROOT_PASSWORD} << EOF
                 CREATE DATABASE IF NOT EXISTS ${mysql_database_name};
                 CREATE USER IF NOT EXISTS '${mysql_database_user}' IDENTIFIED BY '$${MYSQL_USER_PASSWORD}';
                 GRANT ALL PRIVILEGES ON ${mysql_database_name}.* to '${mysql_database_user}'@'%';
