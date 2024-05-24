@@ -53,7 +53,7 @@ spec:
     passwordPolicyName: ${resource.resource_type}-${key}-policy
 ---
 %{ endfor ~}
-%{ for ns in concat([${namespace}], resource.secret_config.generate_secret_extra_namespaces) ~}
+%{ for ns in concat([namespace], resource.secret_config.generate_secret_extra_namespaces) ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
