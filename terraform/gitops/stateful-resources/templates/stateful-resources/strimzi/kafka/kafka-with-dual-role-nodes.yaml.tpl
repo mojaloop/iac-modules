@@ -225,23 +225,23 @@ data:
     # KRaft overall related metrics
     # distinguish between always increasing COUNTER (total and max) and variable GAUGE (all others) metrics
     - pattern: "kafka.server<type=raft-metrics><>(.+-total|.+-max):"
-     name: kafka_server_raftmetrics_$1
-     type: COUNTER
+      name: kafka_server_raftmetrics_$1
+      type: COUNTER
     - pattern: "kafka.server<type=raft-metrics><>(.+):"
-     name: kafka_server_raftmetrics_$1
-     type: GAUGE
+      name: kafka_server_raftmetrics_$1
+      type: GAUGE
     # KRaft "low level" channels related metrics
     # distinguish between always increasing COUNTER (total and max) and variable GAUGE (all others) metrics
     - pattern: "kafka.server<type=raft-channel-metrics><>(.+-total|.+-max):"
-     name: kafka_server_raftchannelmetrics_$1
-     type: COUNTER
+      name: kafka_server_raftchannelmetrics_$1
+      type: COUNTER
     - pattern: "kafka.server<type=raft-channel-metrics><>(.+):"
-     name: kafka_server_raftchannelmetrics_$1
-     type: GAUGE
+      name: kafka_server_raftchannelmetrics_$1
+      type: GAUGE
     # Broker metrics related to fetching metadata topic records in KRaft mode
     - pattern: "kafka.server<type=broker-metadata-metrics><>(.+):"
-     name: kafka_server_brokermetadatametrics_$1
-     type: GAUGE
+      name: kafka_server_brokermetadatametrics_$1
+      type: GAUGE
 ---
 %{ for topic in kafka_topics ~}
 apiVersion: kafka.strimzi.io/v1beta2
