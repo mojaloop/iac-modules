@@ -6,7 +6,7 @@ thirdparty-auth-svc-redis:
   logical_service_config:
     logical_service_port: 6379
     logical_service_name: thirdparty-auth-redis
-    username: mojaloop
+    db_username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -31,7 +31,7 @@ thirdparty-auth-svc-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: thirdparty-auth-db
-    username: account_lookup
+    db_username: account_lookup
     user_password_secret: mysql-auth-svc-secret
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
@@ -60,7 +60,7 @@ mysql-consent-oracle-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: mysql-consent-oracle
-    username: consent-oracle
+    db_username: consent-oracle
     user_password_secret: mysql-consent-oracle-secret
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
@@ -89,7 +89,7 @@ mcm-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: mcm-db-svc
-    username: devdat1asql1
+    db_username: devdat1asql1
     user_password_secret: mcm-db-secret
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
@@ -118,7 +118,7 @@ account-lookup-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: account-lookup-db-svc
-    username: account_lookup
+    db_username: account_lookup
     user_password_secret: mysql-account-lookup-secret
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
@@ -147,7 +147,7 @@ central-ledger-db:
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: central-ledger-db-svc
-    username: central_ledger
+    db_username: central_ledger
     user_password_secret: mysql-central-ledger-secret
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
@@ -176,7 +176,7 @@ bulk-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: bulk-mongodb-svc
-    username: mojaloop
+    db_username: mojaloop
     user_password_secret: mongodb-bulk-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -198,7 +198,7 @@ cep-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-cep-mongodb
-    username: mojaloop
+    db_username: mojaloop
     user_password_secret: mongodb-cep-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -220,7 +220,7 @@ reporting-events-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-reporting-events-mongodb
-    username: mojaloop
+    db_username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -247,7 +247,7 @@ mojaloop-kafka:
   logical_service_config:
     logical_service_port: 9092
     logical_service_name: mojaloop-kafka-svc
-    username: mojaloop
+    db_username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -411,7 +411,7 @@ ttk-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: ttk-mongodb-svc
-    username: ttk
+    db_username: ttk
     user_password_secret: mongodb-ttk-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -433,7 +433,7 @@ ttk-redis:
   logical_service_config:
     logical_service_port: 6379
     logical_service_name: ttk-redis
-    username: mojaloop
+    db_username: mojaloop
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -452,7 +452,7 @@ keycloak-db:
   logical_service_config:
     logical_service_port: 5432
     logical_service_name: keycloak-db
-    username: keycloak
+    db_username: keycloak
     user_password_secret: pgsql-keycloak-secret
     user_password_secret_key: password
     secret_extra_namespaces:
@@ -475,7 +475,7 @@ keto-db:
   logical_service_config:
     logical_service_port: 5432
     logical_service_name: keto-db
-    username: keto
+    db_username: keto
     user_password_secret: pgsql-keto-secret
     user_password_secret_key: password
     secret_extra_namespaces:
@@ -499,7 +499,7 @@ kratos-db:
   logical_service_config:
     logical_service_port: 5432
     logical_service_name: kratos-db
-    username: kratos
+    db_username: kratos
     user_password_secret: pgsql-kratos-secret
     user_password_secret_key: password
     secret_extra_namespaces:

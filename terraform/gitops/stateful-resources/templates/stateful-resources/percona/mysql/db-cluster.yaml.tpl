@@ -16,7 +16,7 @@ spec:
 #    - iam.amazonaws.com/role
 #  ignoreLabels:
 #    - rack
-  secretsName: ${secret_name}
+  secretsName: ${existing_secret}
 #  vaultSecretName: keyring-secret-vault
 #  sslSecretName: cluster1-ssl
 #  sslInternalSecretName: cluster1-ssl-internal
@@ -743,3 +743,43 @@ spec:
       remoteRef: 
         key: ${percona_credentials_id_provider_key}
         property: value
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-${cluster_name}
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: init-db
+          image: percona:8.0
+          command:
+            - /bin/sh
+            - "-c"
+          args:
+            - >
+              mysql -h${cluster_name}-db-haproxy -uroot -p$${MYSQL_ROOT_PASSWORD} << EOF
+                CREATE DATABASE IF NOT EXISTS ${mysql_database_name};
+                CREATE USER IF NOT EXISTS '${mysql_database_user}' IDENTIFIED BY '$${MYSQL_USER_PASSWORD}';
+                GRANT ALL PRIVILEGES ON ${mysql_database_name}.* to '${mysql_database_user}'@'%';
+              EOF
+          envFrom:
+            - secretRef:
+                name: ${existing_secret}
+          resources: {}
+          imagePullPolicy: IfNotPresent
+      initContainers:
+        - name: init-dbservice
+          image: busybox:1.28
+          envFrom:
+            - secretRef:
+                name: ${existing_secret}
+          command:
+            [
+              "sh",
+              "-c",
+              "until nslookup ${cluster-name}-db-haproxy; do echo waiting for database ${cluster-name}-db-haproxy ; sleep 2; done;",
+            ]
+---
