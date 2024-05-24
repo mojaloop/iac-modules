@@ -15,6 +15,7 @@ module "mojaloop_stateful_resources" {
   managed_db_host                               = var.managed_db_host
   minio_api_url                                 = var.minio_api_url
   minio_percona_backup_bucket                   = var.minio_percona_backup_bucket
+  external_secret_sync_wave                     = var.external_secret_sync_wave
 
 }
 
