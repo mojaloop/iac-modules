@@ -1,9 +1,9 @@
-%{ if resource.local_helm_config.generate_secret_name != null ~}
+%{ if resource.secret_config.generate_secret_name != null ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PasswordPolicy
 metadata:
   name: ${resource.resource_type}-${key}-policy
-  namespace: ${resource.local_helm_config.resource_namespace}
+  namespace: ${namespace} 
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -28,16 +28,16 @@ spec:
         min-chars = 1
       }
       rule "charset" {
-        charset = "${try(resource.local_helm_config.generate_secret_special_chars, "!@#$%^&*")}"
+        charset = "${try(resource.secret_config.generate_secret_special_chars, "!@#$%^&*")}"
         min-chars = 1
       }
 ---
-%{ for secretKey in resource.local_helm_config.generate_secret_keys ~}
+%{ for secretKey in resource.secret_config.generate_secret_keys ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
-  name: ${resource.local_helm_config.generate_secret_name}-${secretKey}
-  namespace: ${resource.local_helm_config.resource_namespace}
+  name: ${resource.secret_config.generate_secret_name}-${secretKey}
+  namespace: ${namespace} 
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -47,36 +47,36 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: ${resource.local_helm_config.generate_secret_vault_base_path}/${key}
+  path: ${resource.secret_config.generate_secret_vault_base_path}/${key}
   secretKey: password
   secretFormat:
     passwordPolicyName: ${resource.resource_type}-${key}-policy
 ---
 %{ endfor ~}
-%{ for ns in concat([resource.local_helm_config.resource_namespace], resource.local_helm_config.generate_secret_extra_namespaces) ~}
+%{ for ns in concat([${namespace}], resource.secret_config.generate_secret_extra_namespaces) ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${resource.local_helm_config.generate_secret_name}
+  name: ${resource.secret_config.generate_secret_name}
   namespace: ${ns}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-%{ for secretKey in resource.local_helm_config.generate_secret_keys ~}
+%{ for secretKey in resource.secret_config.generate_secret_keys ~}
     - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
           name: default
       name: dynamicsecret_${replace(secretKey, "-", "_")}
-      path: ${resource.local_helm_config.generate_secret_vault_base_path}/${key}/${resource.local_helm_config.generate_secret_name}-${secretKey}
+      path: ${resource.secret_config.generate_secret_vault_base_path}/${key}/${resource.secret_config.generate_secret_name}-${secretKey}
 %{ endfor ~}
   output:
-    name: ${resource.local_helm_config.generate_secret_name}
+    name: ${resource.secret_config.generate_secret_name}
     stringData:
-%{ for secretKey in resource.local_helm_config.generate_secret_keys ~}
+%{ for secretKey in resource.secret_config.generate_secret_keys ~}
       ${secretKey}: '{{ .dynamicsecret_${replace(secretKey, "-", "_")}.password }}'
 %{ endfor ~}
     type: Opaque

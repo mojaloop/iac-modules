@@ -9,11 +9,12 @@ resource "local_file" "chart_values" {
 }
 
 resource "local_file" "vault_crs" {
-  for_each = { for key, stateful_resource in local.helm_stateful_resources : key => stateful_resource }
+  for_each = { for key, stateful_resource in local.internal_stateful_resources : key => stateful_resource }
 
   content = templatefile("${local.stateful_resources_template_path}/vault-crs.yaml.tpl", {
-    resource = each.value,
-    key      = each.key
+    resource  = each.value,
+    key       = each.key
+    namespace = each.value.deployment_type == "helm-chart" ? each.value.local_helm_config.resource_namespace: each.value.local_operator_config.resource_namespace
   })
   filename = "${local.stateful_resources_output_path}/vault-crs-${each.key}.yaml"
 }
@@ -78,6 +79,7 @@ resource "local_file" "percona-mysql-crs" {
       namespace          = each.value.local_operator_config.resource_namespace
       storage_class_name = each.value.local_operator_config.storage_class_name
       storage_size       = each.value.logical_service_config.storage_size
+      secret_name        = each.value.secret_config.generate_secret_name
       
       minio_percona_backup_bucket = var.minio_percona_backup_bucket
       minio_percona_secret        = "percona-backups-secret"
@@ -107,6 +109,7 @@ locals {
   stateful_resources                  = var.stateful_resources
   helm_stateful_resources             = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "helm-chart" }
   operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
+  internal_stateful_resources         = concat(helm_stateful_resources, operator_stateful_resources)
   strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
   percona_mysql_stateful_resources    = { for key, resource in local.stateful_resources : key => resource if resource.resource_type == "mysql" } # operator_stateful_resources
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }

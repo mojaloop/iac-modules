@@ -16,7 +16,7 @@ spec:
 #    - iam.amazonaws.com/role
 #  ignoreLabels:
 #    - rack
-#  secretsName: cluster1-secrets
+  secretsName: ${secret_name}
 #  vaultSecretName: keyring-secret-vault
 #  sslSecretName: cluster1-ssl
 #  sslInternalSecretName: cluster1-ssl-internal
