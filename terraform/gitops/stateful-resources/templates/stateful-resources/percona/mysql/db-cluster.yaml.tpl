@@ -706,6 +706,7 @@ metadata:
   finalizers:
     - delete-s3-backup
   name: ${cluster_name}-backup
+  namespace: ${namespace}
 spec:
   pxcCluster: ${cluster_name}
   storageName: ${backupStorageName}
@@ -716,6 +717,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
   name: ${percona_credentials_secret}
+  namespace: ${namespace}
 spec:
   refreshInterval: 1h
 
