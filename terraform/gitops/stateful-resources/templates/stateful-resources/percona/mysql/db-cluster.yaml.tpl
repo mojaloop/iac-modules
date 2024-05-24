@@ -580,7 +580,7 @@ spec:
 #          memory: 1G
 #          cpu: 700m
     storages:
-      s3-us-west:
+      ${backupStorageName}:
         type: s3
         verifyTLS: true
 #        nodeSelector:
