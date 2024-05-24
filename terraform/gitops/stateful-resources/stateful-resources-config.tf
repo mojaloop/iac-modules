@@ -133,7 +133,7 @@ locals {
   all_local_namespaces         = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
   
   percona_credentials_secret_provider_key = "minio_percona_password"
-  percona_credentials_id_provider_key     = "minio_velero_username"
+  percona_credentials_id_provider_key     = "minio_percona_username"
 }
 
 variable "external_stateful_resource_instance_addresses" {
