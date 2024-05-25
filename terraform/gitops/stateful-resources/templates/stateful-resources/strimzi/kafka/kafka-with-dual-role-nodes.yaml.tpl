@@ -318,7 +318,7 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "Prometheus" 
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/${dashboard_name}.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${strimzi_kafka_grafana_dashboards_version}/examples/metrics/grafana-dashboards/${dashboard_name}.json"
 ---
 %{ endfor ~}
 
