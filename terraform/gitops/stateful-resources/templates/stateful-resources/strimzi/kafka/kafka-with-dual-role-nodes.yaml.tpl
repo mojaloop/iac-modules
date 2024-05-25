@@ -306,6 +306,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka
+  namespace: ${namespace}
 spec:
   allowCrossNamespaceImport: true
   folder: mojaloop
