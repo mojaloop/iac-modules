@@ -302,22 +302,25 @@ spec:
     matchLabels:
       dashboards: "grafana"
 ---
+%{ for dashboard_name in strimzi_kafka_grafana_dashboards_list ~}
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: strimzi-kafka
+  name: ${dashboard_name}
   namespace: ${namespace}
 spec:
   allowCrossNamespaceImport: true
-  folder: mojaloop
+  folder: kafka
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "Prometheus" 
-  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka.json"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/${dashboard_name}.json"
 ---
+%{ endfor ~}
+
 %{ for topic in kafka_topics ~}
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
