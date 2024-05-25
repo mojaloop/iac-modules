@@ -296,6 +296,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
   name: kafka
+  namespace: ${namespace}
 spec:
   allowCrossNamespaceImport: true
   instanceSelector:
