@@ -59,12 +59,15 @@ resource "local_file" "strimzi-crs" {
   for_each = { for key, stateful_resource in local.strimzi_operator_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/strimzi/kafka/kafka-with-dual-role-nodes.yaml.tpl",
     {
-      kafka_cluster_name                    = each.key
-      node_pool_name                        = "${each.key}-nodepool"
-      node_pool_size                        = each.value.local_operator_config.node_pool_size
-      namespace                             = each.value.local_operator_config.resource_namespace
-      kafka_topics                          = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : []
-      strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka"]
+      kafka_cluster_name = each.key
+      node_pool_name     = "${each.key}-nodepool"
+      node_pool_size     = each.value.local_operator_config.node_pool_size
+      namespace          = each.value.local_operator_config.resource_namespace
+      kafka_topics       = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : []
+
+      strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
+        "strimzi-kafka-exporter", "strimzi-kafka-mirror-maker-2", "strimzi-kafka-oauth",
+      "strimzi-kafka", "strimzi-kraft", "strimzi-operators", "strimzi-zookeeper"]
   })
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
