@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - external-name-services.yaml
 - namespace.yaml
-%{ for key, stateful_resource in local_stateful_resources ~}
+%{ for key, stateful_resource in all_local_stateful_resources ~}
 - vault-crs-${key}.yaml
 %{ endfor ~}
 %{ for key,stateful_resource in managed_stateful_resources ~}
