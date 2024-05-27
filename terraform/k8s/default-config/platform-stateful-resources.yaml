@@ -110,6 +110,7 @@ mcm-db:
         - proxyadmin
         - operator
         - replication
+    generate_secret_vault_base_path: "/secret/generated"
     generate_secret_extra_namespaces:
       - mcm               
 account-lookup-db:
