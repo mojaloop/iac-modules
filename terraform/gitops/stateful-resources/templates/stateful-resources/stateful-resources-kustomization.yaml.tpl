@@ -17,7 +17,7 @@ resources:
 - db-cluster-${key}.yaml
 %{ endfor ~}
 helmCharts:
-%{ for key, stateful_resource in local_stateful_resources ~}
+%{ for key, stateful_resource in helm_stateful_resources ~}
 - name: ${stateful_resource.local_helm_config.resource_helm_chart}
   namespace: ${stateful_resource.local_helm_config.resource_namespace}
   releaseName: ${stateful_resource.local_helm_config.resource_helm_chart}-${key}

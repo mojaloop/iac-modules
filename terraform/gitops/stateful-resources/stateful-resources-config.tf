@@ -38,7 +38,8 @@ resource "local_file" "external_name_services" {
 
 resource "local_file" "kustomization" {
   content = templatefile("${local.stateful_resources_template_path}/stateful-resources-kustomization.yaml.tpl",
-    { local_stateful_resources            = local.helm_stateful_resources
+    { all_local_stateful_resources        = local.internal_stateful_resources
+      helm_stateful_resources             = local.helm_stateful_resources
       managed_stateful_resources          = local.managed_stateful_resources
       strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
       percona_mysql_stateful_resources    = local.percona_mysql_stateful_resources
