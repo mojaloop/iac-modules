@@ -10,6 +10,8 @@ metadata:
 #    - delete-pxc-pvc
 #  annotations:
 #    percona.com/issue-vault-token: "true"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
 spec:
   crVersion: ${cr_version}
 #  ignoreAnnotations:
@@ -707,6 +709,8 @@ metadata:
     - delete-s3-backup
   name: ${cluster_name}-backup
   namespace: ${namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"    
 spec:
   pxcCluster: ${cluster_name}
   storageName: ${backupStorageName}
@@ -749,6 +753,8 @@ kind: Job
 metadata:
   name: init-${cluster_name}
   namespace: ${namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"     
 spec:
   template:
     spec:
