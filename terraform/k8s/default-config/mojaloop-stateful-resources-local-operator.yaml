@@ -101,7 +101,7 @@ mcm-db:
     cr_version: 1.14.0 
     storage_class_name: longhorn
     resource_namespace: mcm-db
-    override_service_name: mysql-mcm-db
+    override_service_name: mcm-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
@@ -151,7 +151,7 @@ account-lookup-db:
     cr_version: 1.14.0 
     storage_class_name: longhorn  
     resource_namespace: mojaloop-db
-    override_service_name: mysql-account-lookup-db
+    override_service_name: account-lookup-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
@@ -209,7 +209,7 @@ central-ledger-db:
     cr_version: 1.14.0 
     storage_class_name: longhorn  
     resource_namespace: mojaloop-db
-    override_service_name: mysql-central-ledger-db
+    override_service_name: central-ledger-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
