@@ -65,7 +65,7 @@ resource "local_file" "strimzi-crs" {
       namespace          = each.value.local_operator_config.resource_namespace
       kafka_topics       = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : []
 
-      strimzi_kafka_grafana_dashboards_version = "0.41.0" # TODO: make it configurable using common-vars? 
+      strimzi_kafka_grafana_dashboards_version = local.strimzi_kafka_grafana_dashboards_version
       strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
         "strimzi-kafka-exporter", "strimzi-kafka-mirror-maker-2", "strimzi-kafka-oauth",
       "strimzi-kafka", "strimzi-kraft", "strimzi-operators", "strimzi-zookeeper"]
@@ -145,6 +145,8 @@ locals {
 
   percona_credentials_secret_provider_key = "minio_percona_password"
   percona_credentials_id_provider_key     = "minio_percona_username"
+
+  strimzi_kafka_grafana_dashboards_version = "0.41.0"
 }
 
 variable "external_stateful_resource_instance_addresses" {
