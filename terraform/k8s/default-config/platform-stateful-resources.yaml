@@ -104,10 +104,12 @@ mcm-db:
   secret_config:
     generate_secret_name: mcm-db-secret
     generate_secret_keys:
-      - mysql-password
-      - mysql-root-password
-      - mysql-replication-password
-    generate_secret_vault_base_path: "/secret/generated"
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
     generate_secret_extra_namespaces:
       - mcm               
 account-lookup-db:
