@@ -104,12 +104,15 @@ mcm-db:
   secret_config:
     generate_secret_name: mcm-db-secret
     generate_secret_keys:
-        - root
-        - xtrabackup
-        - monitor
-        - proxyadmin
-        - operator
-        - replication
+      - root
+      - xtrabackup
+      - monitor
+      - proxyadmin
+      - operator
+      - replication
+      - mysql-password
+      - mysql-root-password
+      - mysql-replication-password        
     generate_secret_vault_base_path: "/secret/generated"
     generate_secret_extra_namespaces:
       - mcm               
@@ -136,6 +139,12 @@ account-lookup-db:
   secret_config:
     generate_secret_name: mysql-account-lookup-secret
     generate_secret_keys:
+      - root
+      - xtrabackup
+      - monitor
+      - proxyadmin
+      - operator
+      - replication    
       - mysql-password
       - mysql-root-password
       - mysql-replication-password
@@ -165,6 +174,12 @@ central-ledger-db:
   secret_config:
     generate_secret_name: mysql-central-ledger-secret
     generate_secret_keys:
+      - root
+      - xtrabackup
+      - monitor
+      - proxyadmin
+      - operator
+      - replication    
       - mysql-password
       - mysql-root-password
       - mysql-replication-password

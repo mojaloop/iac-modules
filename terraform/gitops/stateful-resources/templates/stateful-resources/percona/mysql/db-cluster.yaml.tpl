@@ -762,9 +762,9 @@ spec:
           args:
             - >
               mysql -h${cluster_name}-haproxy -uroot -p$${MYSQL_ROOT_PASSWORD} << EOF
-                CREATE DATABASE IF NOT EXISTS ${mysql_database_name};
+                CREATE DATABASE IF NOT EXISTS \`${mysql_database_name}\`;
                 CREATE USER IF NOT EXISTS '${mysql_database_user}' IDENTIFIED BY '$${MYSQL_USER_PASSWORD}';
-                GRANT ALL PRIVILEGES ON ${mysql_database_name}.* to '${mysql_database_user}'@'%';
+                GRANT ALL PRIVILEGES ON \`${mysql_database_name}\`.* to '${mysql_database_user}'@'%';
               EOF
           envFrom:
             - secretRef:
