@@ -49,7 +49,7 @@ resource "local_file" "kustomization" {
 resource "local_file" "namespace" {
   content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
     {
-      all_ns = distinct(concat(var.create_stateful_resources_ns ? [var.stateful_resources_namespace] : [], local.all_logical_extra_namespaces, local.all_local_namespaces, local.all_local_extra_namespaces))
+      all_ns = distinct(concat(var.create_stateful_resources_ns ? [var.stateful_resources_namespace] : [], local.all_logical_extra_namespaces, local.all_local_helm_namespaces, local.all_local_op_namespaces, local.all_local_extra_namespaces))
   })
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
@@ -134,9 +134,10 @@ locals {
     stateful_resources_sync_wave = var.stateful_resources_sync_wave
     stateful_resources_name      = local.stateful_resources_name
   }
-  all_logical_extra_namespaces = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.logical_service_config.secret_extra_namespaces, "")])
-  all_local_extra_namespaces   = flatten([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.generate_secret_extra_namespaces, "")])
-  all_local_namespaces         = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
+  all_logical_extra_namespaces  = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.logical_service_config.secret_extra_namespaces, "")])
+  all_local_extra_namespaces    = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.secret_config.generate_secret_extra_namespaces, "")])
+  all_local_helm_namespaces     = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
+  all_local_op_namespaces       = distinct([for stateful_resource in local.operator_stateful_resources : try(stateful_resource.local_operator_config.resource_namespace, "")])
   
   percona_credentials_secret_provider_key = "minio_percona_password"
   percona_credentials_id_provider_key     = "minio_percona_username"
