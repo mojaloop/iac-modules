@@ -83,7 +83,7 @@ spec:
 #    schedulerName: mycustom-scheduler
 #    readinessDelaySec: 15
 #    livenessDelaySec: 600
-     configuration: |
+    configuration: |
        [mysqld]
        pxc_strict_mode=${pxc_strict_mode}
 #      wsrep_debug=CLIENT
