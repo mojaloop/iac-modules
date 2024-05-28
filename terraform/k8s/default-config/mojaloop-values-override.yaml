@@ -4,10 +4,10 @@ account-lookup-service:
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -20,14 +20,14 @@ account-lookup-service:
     replicaCount: 1
 quoting-service:
   quoting-service:
-    replicaCount: 4
+    replicaCount: 1
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -41,10 +41,10 @@ quoting-service:
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -59,10 +59,10 @@ ml-api-adapter:
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -76,10 +76,10 @@ ml-api-adapter:
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -90,14 +90,14 @@ ml-api-adapter:
         initialDelaySeconds: 5
 centralledger:
   centralledger-service:
-    replicaCount: 8
+    replicaCount: 1
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -111,10 +111,10 @@ centralledger:
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -124,14 +124,14 @@ centralledger:
       livenessProbe:
         initialDelaySeconds: 5
   centralledger-handler-transfer-position:
-    replicaCount: 8
+    replicaCount: 1
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -145,10 +145,10 @@ centralledger:
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -162,10 +162,10 @@ centralledger:
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -179,10 +179,10 @@ centralledger:
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -195,10 +195,10 @@ centralledger:
     config:
       event_log_filter: ""
       log_level: warn
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -209,10 +209,10 @@ centralledger:
         initialDelaySeconds: 5
   centralledger-handler-admin-transfer:
     replicaCount: 1
-    readinessProbe:
+    livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
-    livenessProbe:
+    readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
       periodSeconds: 1
@@ -239,7 +239,7 @@ centralsettlement:
     config:
       event_log_filter: ""
 transaction-requests-service:
-  replicaCount: 4
+  replicaCount: 1
   readinessProbe:
     initialDelaySeconds: 5
     timeoutSeconds: 2
