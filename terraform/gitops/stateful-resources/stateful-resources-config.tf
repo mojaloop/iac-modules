@@ -98,7 +98,7 @@ resource "local_file" "percona-mysql-crs" {
       percona_credentials_secret              = "percona-s3-credentials-${each.key}"
       external_secret_sync_wave               = var.external_secret_sync_wave
 
-      mysql_database_name = each.key
+      mysql_database_name = each.value.logical_service_config.database_name
       mysql_database_user = each.value.logical_service_config.db_username
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
