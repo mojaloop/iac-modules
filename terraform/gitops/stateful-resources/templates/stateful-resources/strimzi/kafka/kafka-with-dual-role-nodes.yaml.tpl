@@ -225,24 +225,103 @@ data:
     # KRaft overall related metrics
     # distinguish between always increasing COUNTER (total and max) and variable GAUGE (all others) metrics
     - pattern: "kafka.server<type=raft-metrics><>(.+-total|.+-max):"
-     name: kafka_server_raftmetrics_$1
-     type: COUNTER
+      name: kafka_server_raftmetrics_$1
+      type: COUNTER
     - pattern: "kafka.server<type=raft-metrics><>(.+):"
-     name: kafka_server_raftmetrics_$1
-     type: GAUGE
+      name: kafka_server_raftmetrics_$1
+      type: GAUGE
     # KRaft "low level" channels related metrics
     # distinguish between always increasing COUNTER (total and max) and variable GAUGE (all others) metrics
     - pattern: "kafka.server<type=raft-channel-metrics><>(.+-total|.+-max):"
-     name: kafka_server_raftchannelmetrics_$1
-     type: COUNTER
+      name: kafka_server_raftchannelmetrics_$1
+      type: COUNTER
     - pattern: "kafka.server<type=raft-channel-metrics><>(.+):"
-     name: kafka_server_raftchannelmetrics_$1
-     type: GAUGE
+      name: kafka_server_raftchannelmetrics_$1
+      type: GAUGE
     # Broker metrics related to fetching metadata topic records in KRaft mode
     - pattern: "kafka.server<type=broker-metadata-metrics><>(.+):"
-     name: kafka_server_brokermetadatametrics_$1
-     type: GAUGE
+      name: kafka_server_brokermetadatametrics_$1
+      type: GAUGE
 ---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: kafka-resources-metrics
+  namespace: ${namespace}
+  labels:
+    app: strimzi
+spec:
+  selector:
+    matchExpressions:
+      - key: "strimzi.io/kind"
+        operator: In
+        values: ["Kafka", "KafkaConnect", "KafkaMirrorMaker", "KafkaMirrorMaker2"]
+  namespaceSelector:
+    matchNames:
+      - ${namespace}
+  podMetricsEndpoints:
+  - path: /metrics
+    port: tcp-prometheus
+    relabelings:
+    - separator: ;
+      regex: __meta_kubernetes_pod_label_(strimzi_io_.+)
+      replacement: $1
+      action: labelmap
+    - sourceLabels: [__meta_kubernetes_namespace]
+      separator: ;
+      regex: (.*)
+      targetLabel: namespace
+      replacement: $1
+      action: replace
+    - sourceLabels: [__meta_kubernetes_pod_name]
+      separator: ;
+      regex: (.*)
+      targetLabel: kubernetes_pod_name
+      replacement: $1
+      action: replace
+    - sourceLabels: [__meta_kubernetes_pod_node_name]
+      separator: ;
+      regex: (.*)
+      targetLabel: node_name
+      replacement: $1
+      action: replace
+    - sourceLabels: [__meta_kubernetes_pod_host_ip]
+      separator: ;
+      regex: (.*)
+      targetLabel: node_ip
+      replacement: $1
+      action: replace
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: kafka
+  namespace: ${namespace}
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+---
+%{ for dashboard_name in strimzi_kafka_grafana_dashboards_list ~}
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: ${dashboard_name}
+  namespace: ${namespace}
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${strimzi_kafka_grafana_dashboards_version}/examples/metrics/grafana-dashboards/${dashboard_name}.json"
+---
+%{ endfor ~}
+
 %{ for topic in kafka_topics ~}
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
