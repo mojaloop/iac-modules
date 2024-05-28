@@ -83,8 +83,9 @@ spec:
 #    schedulerName: mycustom-scheduler
 #    readinessDelaySec: 15
 #    livenessDelaySec: 600
-#    configuration: |
-#      [mysqld]
+     configuration: |
+       [mysqld]
+       pxc_strict_mode=${pxc_strict_mode}
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
 #      [sst]

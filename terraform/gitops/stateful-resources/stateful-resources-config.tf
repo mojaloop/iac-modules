@@ -100,6 +100,7 @@ resource "local_file" "percona-mysql-crs" {
 
       mysql_database_name = each.value.logical_service_config.database_name
       mysql_database_user = each.value.logical_service_config.db_username
+      pxc_strict_mode     = each.value.local_operator_config.mysql_data.pxc_strict_mode
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }

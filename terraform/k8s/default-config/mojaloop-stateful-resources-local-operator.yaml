@@ -13,7 +13,7 @@ thirdparty-auth-svc-db:
       - mysql-replication-password
     generate_secret_vault_base_path: "/secret/generated"
     generate_secret_extra_namespaces:
-      - mojaloop
+      - mojaloop  
     mysql_data:
       is_legacy: false
       default_authentication_plugin: mysql_native_password
@@ -46,6 +46,7 @@ thirdparty-auth-svc-db:
       replica_count: 0
       service_port: 3306
       affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
 mysql-consent-oracle-db:
   local_operator_config:
     cr_version: 1.14.0 
@@ -96,6 +97,7 @@ mysql-consent-oracle-db:
       replica_count: 0
       service_port: 3306
       affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
 mcm-db:
   local_operator_config:
     cr_version: 1.14.0 
@@ -146,6 +148,7 @@ mcm-db:
       replica_count: 0
       service_port: 3306
       affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
 account-lookup-db:
   local_operator_config:
     cr_version: 1.14.0 
@@ -204,6 +207,7 @@ account-lookup-db:
                     operator: In
                     values:
                       - enabled
+      pxc_strict_mode: PERMISSIVE                      
 central-ledger-db:
   local_operator_config:
     cr_version: 1.14.0 
@@ -262,6 +266,7 @@ central-ledger-db:
                     operator: In
                     values:
                       - enabled
+      pxc_strict_mode: PERMISSIVE
 bulk-mongodb:
   local_operator_config:
     resource_namespace: mojaloop
