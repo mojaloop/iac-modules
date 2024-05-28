@@ -125,7 +125,7 @@ account-lookup-db:
     logical_service_port: 3306
     logical_service_name: account-lookup-db-svc
     db_username: account_lookup
-    user_password_secret: mysql-account-lookup-secret
+    user_password_secret: account-lookup-db-secret
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
@@ -160,7 +160,7 @@ central-ledger-db:
     logical_service_port: 3306
     logical_service_name: central-ledger-db-svc
     db_username: central_ledger
-    user_password_secret: mysql-central-ledger-secret
+    user_password_secret: central-ledger-db-secret
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
