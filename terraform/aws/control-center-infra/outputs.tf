@@ -140,6 +140,8 @@ output "docker_hosts_var_maps" {
     vault_listening_port             = var.vault_listening_port
     vault_fqdn                       = aws_route53_record.vault_server_private.fqdn
     vault_gitlab_token               = random_password.gitlab_root_token.result
+    mimir_minio_user                 = var.mimir_minio_user
+    mimir_minio_password             = random_password.mimir_minio_password.result
   }
 }
 
