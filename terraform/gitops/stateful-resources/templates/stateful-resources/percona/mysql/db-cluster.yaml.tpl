@@ -10,6 +10,8 @@ metadata:
 #    - delete-pxc-pvc
 #  annotations:
 #    percona.com/issue-vault-token: "true"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
 spec:
   crVersion: ${cr_version}
 #  ignoreAnnotations:
@@ -707,6 +709,8 @@ metadata:
     - delete-s3-backup
   name: ${cluster_name}-backup
   namespace: ${namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"    
 spec:
   pxcCluster: ${cluster_name}
   storageName: ${backupStorageName}
@@ -749,6 +753,8 @@ kind: Job
 metadata:
   name: init-${cluster_name}
   namespace: ${namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"     
 spec:
   template:
     spec:
@@ -762,21 +768,26 @@ spec:
           args:
             - >
               mysql -h${cluster_name}-haproxy -uroot -p$${MYSQL_ROOT_PASSWORD} << EOF
-                CREATE DATABASE IF NOT EXISTS ${mysql_database_name};
+                CREATE DATABASE IF NOT EXISTS \`${mysql_database_name}\`;
                 CREATE USER IF NOT EXISTS '${mysql_database_user}' IDENTIFIED BY '$${MYSQL_USER_PASSWORD}';
-                GRANT ALL PRIVILEGES ON ${mysql_database_name}.* to '${mysql_database_user}'@'%';
+                GRANT ALL PRIVILEGES ON \`${mysql_database_name}\`.* to '${mysql_database_user}'@'%';
               EOF
-          envFrom:
-            - secretRef:
-                name: ${existing_secret}
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name:  ${existing_secret}
+                  key: root
+            - name: MYSQL_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name:  ${existing_secret}
+                  key: mysql-password          
           resources: {}
           imagePullPolicy: IfNotPresent
       initContainers:
         - name: init-dbservice
           image: busybox:1.28
-          envFrom:
-            - secretRef:
-                name: ${existing_secret}
           command:
             [
               "sh",

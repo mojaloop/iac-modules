@@ -38,7 +38,8 @@ resource "local_file" "external_name_services" {
 
 resource "local_file" "kustomization" {
   content = templatefile("${local.stateful_resources_template_path}/stateful-resources-kustomization.yaml.tpl",
-    { local_stateful_resources            = local.helm_stateful_resources
+    { all_local_stateful_resources        = local.internal_stateful_resources
+      helm_stateful_resources             = local.helm_stateful_resources
       managed_stateful_resources          = local.managed_stateful_resources
       strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
       percona_mysql_stateful_resources    = local.percona_mysql_stateful_resources
@@ -49,7 +50,7 @@ resource "local_file" "kustomization" {
 resource "local_file" "namespace" {
   content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
     {
-      all_ns = distinct(concat(var.create_stateful_resources_ns ? [var.stateful_resources_namespace] : [], local.all_logical_extra_namespaces, local.all_local_namespaces, local.all_local_extra_namespaces))
+      all_ns = distinct(concat(var.create_stateful_resources_ns ? [var.stateful_resources_namespace] : [], local.all_logical_extra_namespaces, local.all_local_helm_namespaces, local.all_local_op_namespaces, local.all_local_extra_namespaces))
   })
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
@@ -119,7 +120,7 @@ locals {
   operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
   internal_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if(resource.deployment_type == "operator" || resource.deployment_type == "helm-chart") }
   strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
-  percona_mysql_stateful_resources    = { for key, resource in local.stateful_resources : key => resource if resource.resource_type == "mysql" } # operator_stateful_resources
+  percona_mysql_stateful_resources    = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "mysql" }
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }
@@ -139,9 +140,11 @@ locals {
     stateful_resources_sync_wave = var.stateful_resources_sync_wave
     stateful_resources_name      = local.stateful_resources_name
   }
-  all_logical_extra_namespaces = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.logical_service_config.secret_extra_namespaces, "")])
-  all_local_extra_namespaces   = flatten([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.generate_secret_extra_namespaces, "")])
-  all_local_namespaces         = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
+
+  all_logical_extra_namespaces  = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.logical_service_config.secret_extra_namespaces, "")])
+  all_local_extra_namespaces    = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.secret_config.generate_secret_extra_namespaces, "")])
+  all_local_helm_namespaces     = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
+  all_local_op_namespaces       = distinct([for stateful_resource in local.operator_stateful_resources : try(stateful_resource.local_operator_config.resource_namespace, "")])
 
   percona_credentials_secret_provider_key = "minio_percona_password"
   percona_credentials_id_provider_key     = "minio_percona_username"

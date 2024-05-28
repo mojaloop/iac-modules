@@ -5,7 +5,7 @@ metadata:
   name: ${resource.resource_type}-${key}-policy
   namespace: ${namespace} 
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-6"
 spec:
   # Add fields here
   authentication:
@@ -39,7 +39,7 @@ metadata:
   name: ${resource.secret_config.generate_secret_name}-${secretKey}
   namespace: ${namespace} 
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-6"
 spec:
   authentication:
     path: kubernetes
@@ -60,7 +60,7 @@ metadata:
   name: ${resource.secret_config.generate_secret_name}
   namespace: ${ns}
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-6"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
