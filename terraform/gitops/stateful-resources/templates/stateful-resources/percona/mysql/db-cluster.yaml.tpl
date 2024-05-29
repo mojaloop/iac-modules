@@ -85,7 +85,7 @@ spec:
 #    livenessDelaySec: 600
     configuration: |
         [mysqld]
-        pxc_strict_mode=${myql_config.pxc_strict_mode}
+        pxc_strict_mode=${mysql_config.pxc_strict_mode}
         default_authentication_plugin=${mysql_config.default_authentication_plugin}
         max_allowed_packet=${mysql_config.max_allowed_packet}
         bind-address=${mysql_config.bind-address}
