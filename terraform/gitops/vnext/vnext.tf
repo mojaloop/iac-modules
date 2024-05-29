@@ -40,7 +40,7 @@ module "generate_vnext_files" {
     vnext_mongodb_host                   = "${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     vnext_mongodb_existing_secret        = module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.user_password_secret
     vnext_mongodb_port                   = module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.logical_service_port
-    vnext_mongo_secret_path              = "${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].secret_config.local_helm_config.generate_secret_vault_base_path}/${local.vnext_mongodb_resource_index}/${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].local_helm_config.secret_config.generate_secret_name}-mongodb-root-password"
+    vnext_mongo_secret_path              = "${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].secret_config.local_helm_config.secret_config.generate_secret_vault_base_path}/${local.vnext_mongodb_resource_index}/${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].local_helm_config.secret_config.generate_secret_name}-mongodb-root-password"
     vnext_mongodb_resource_name          = "vnext-mongodb"
     vnext_mongo_url_secret_name          = "vnext-mongodb-url" ## this goes away as well
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
