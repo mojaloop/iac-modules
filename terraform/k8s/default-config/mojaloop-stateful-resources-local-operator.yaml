@@ -8,9 +8,13 @@ thirdparty-auth-svc-db:
     resource_operator_cr_ref: percona/mysql/db-cluster.yaml.tpl
     generate_secret_name: mysql-auth-svc-secret
     generate_secret_keys:
-      - mysql-password
-      - mysql-root-password
-      - mysql-replication-password
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+        - mysql-password
     generate_secret_vault_base_path: "/secret/generated"
     generate_secret_extra_namespaces:
       - mojaloop  
@@ -66,6 +70,7 @@ mysql-consent-oracle-db:
         - proxyadmin
         - operator
         - replication
+        - mysql-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - mojaloop
@@ -121,6 +126,7 @@ mcm-db:
         - proxyadmin
         - operator
         - replication
+        - mysql-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - mcm
@@ -176,6 +182,7 @@ account-lookup-db:
         - proxyadmin
         - operator
         - replication
+        - mysql-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - mojaloop
@@ -239,6 +246,7 @@ central-ledger-db:
         - proxyadmin
         - operator
         - replication
+        - mysql-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - mojaloop
@@ -293,12 +301,8 @@ bulk-mongodb:
     resource_helm_values_ref: values-mongodb.yaml.tpl
     generate_secret_name: mongodb-bulk-secret
     generate_secret_keys:
-        - root
-        - xtrabackup
-        - monitor
-        - proxyadmin
-        - operator
-        - replication
+      - mongodb-passwords
+      - mongodb-root-password
     generate_secret_vault_base_path: "/secret/generated"
     generate_secret_extra_namespaces: []
     generate_secret_special_chars: _
