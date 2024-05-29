@@ -168,7 +168,7 @@ account-lookup-db:
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:    
-      generate_secret_name: mysql-account-lookup-secret
+      generate_secret_name: account-lookup-db-secret
       generate_secret_keys:
         - root
         - xtrabackup
@@ -231,7 +231,7 @@ central-ledger-db:
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:    
-      generate_secret_name: mysql-central-ledger-secret
+      generate_secret_name: central-ledger-db-secret
       generate_secret_keys:
         - root
         - xtrabackup
