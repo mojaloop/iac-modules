@@ -1,4 +1,4 @@
-%{ if resource.secret_config.generate_secret_name != null ~}
+%{ if secret_config.generate_secret_name != null ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PasswordPolicy
 metadata:
@@ -28,15 +28,15 @@ spec:
         min-chars = 1
       }
       rule "charset" {
-        charset = "${try(resource.secret_config.generate_secret_special_chars, "!@#$%^&*")}"
+        charset = "${try(secret_config.generate_secret_special_chars, "!@#$%^&*")}"
         min-chars = 1
       }
 ---
-%{ for secretKey in resource.secret_config.generate_secret_keys ~}
+%{ for secretKey in secret_config.generate_secret_keys ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
-  name: ${resource.secret_config.generate_secret_name}-${secretKey}
+  name: ${secret_config.generate_secret_name}-${secretKey}
   namespace: ${namespace} 
   annotations:
     argocd.argoproj.io/sync-wave: "-6"
@@ -47,36 +47,36 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: ${resource.secret_config.generate_secret_vault_base_path}/${key}
+  path: ${secret_config.generate_secret_vault_base_path}/${key}
   secretKey: password
   secretFormat:
     passwordPolicyName: ${resource.resource_type}-${key}-policy
 ---
 %{ endfor ~}
-%{ for ns in concat([namespace], resource.secret_config.generate_secret_extra_namespaces) ~}
+%{ for ns in concat([namespace], secret_config.generate_secret_extra_namespaces) ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${resource.secret_config.generate_secret_name}
+  name: ${secret_config.generate_secret_name}
   namespace: ${ns}
   annotations:
     argocd.argoproj.io/sync-wave: "-6"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-%{ for secretKey in resource.secret_config.generate_secret_keys ~}
+%{ for secretKey in secret_config.generate_secret_keys ~}
     - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
           name: default
       name: dynamicsecret_${replace(secretKey, "-", "_")}
-      path: ${resource.secret_config.generate_secret_vault_base_path}/${key}/${resource.secret_config.generate_secret_name}-${secretKey}
+      path: ${secret_config.generate_secret_vault_base_path}/${key}/${secret_config.generate_secret_name}-${secretKey}
 %{ endfor ~}
   output:
-    name: ${resource.secret_config.generate_secret_name}
+    name: ${secret_config.generate_secret_name}
     stringData:
-%{ for secretKey in resource.secret_config.generate_secret_keys ~}
+%{ for secretKey in secret_config.generate_secret_keys ~}
       ${secretKey}: '{{ .dynamicsecret_${replace(secretKey, "-", "_")}.password }}'
 %{ endfor ~}
     type: Opaque

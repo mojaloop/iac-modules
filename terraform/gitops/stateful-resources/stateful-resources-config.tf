@@ -12,9 +12,10 @@ resource "local_file" "vault_crs" {
   for_each = { for key, stateful_resource in local.internal_stateful_resources : key => stateful_resource }
 
   content = templatefile("${local.stateful_resources_template_path}/vault-crs.yaml.tpl", {
-    resource  = each.value,
-    key       = each.key
-    namespace = each.value.deployment_type == "helm-chart" ? each.value.local_helm_config.resource_namespace : each.value.local_operator_config.resource_namespace
+    resource      = each.value,
+    key           = each.key
+    namespace     = each.value.deployment_type == "helm-chart" ? each.value.local_helm_config.resource_namespace : each.value.local_operator_config.resource_namespace
+    secret_config = each.value.deployment_type == "helm-chart" ? each.value.local_helm_config.secret_config : each.value.local_operator_config.secret_config
   })
   filename = "${local.stateful_resources_output_path}/vault-crs-${each.key}.yaml"
 }
@@ -85,7 +86,7 @@ resource "local_file" "percona-mysql-crs" {
       namespace          = each.value.local_operator_config.resource_namespace
       storage_class_name = each.value.local_operator_config.storage_class_name
       storage_size       = each.value.logical_service_config.storage_size
-      existing_secret    = each.value.secret_config.generate_secret_name
+      existing_secret    = each.value.local_operator_config.secret_config.generate_secret_name
 
       minio_percona_backup_bucket = var.minio_percona_backup_bucket
       minio_percona_secret        = "percona-backups-secret"
@@ -100,7 +101,7 @@ resource "local_file" "percona-mysql-crs" {
 
       mysql_database_name = each.value.logical_service_config.database_name
       mysql_database_user = each.value.logical_service_config.db_username
-      pxc_strict_mode     = each.value.local_operator_config.mysql_data.pxc_strict_mode
+      mysql_config        = each.value.local_operator_config.mysql_data
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }

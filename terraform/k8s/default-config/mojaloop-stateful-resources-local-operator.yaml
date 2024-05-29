@@ -57,14 +57,18 @@ mysql-consent-oracle-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    generate_secret_name: mysql-consent-oracle-secret
-    generate_secret_keys:
-      - mysql-password
-      - mysql-root-password
-      - mysql-replication-password
-    generate_secret_vault_base_path: "/secret/generated"
-    generate_secret_extra_namespaces:
-      - mojaloop
+    secret_config:
+      generate_secret_name: mysql-consent-oracle-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mojaloop
     mysql_data:
       is_legacy: false
       default_authentication_plugin: mysql_native_password
@@ -108,14 +112,18 @@ mcm-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    generate_secret_name: mcm-db-secret
-    generate_secret_keys:
-      - mysql-password
-      - mysql-root-password
-      - mysql-replication-password
-    generate_secret_vault_base_path: "/secret/generated"
-    generate_secret_extra_namespaces:
-      - mcm
+    secret_config:    
+      generate_secret_name: mcm-db-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mcm
     mysql_data:
       is_legacy: false
       default_authentication_plugin: mysql_native_password
@@ -159,14 +167,18 @@ account-lookup-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    generate_secret_name: mysql-account-lookup-secret
-    generate_secret_keys:
-      - mysql-password
-      - mysql-root-password
-      - mysql-replication-password
-    generate_secret_vault_base_path: "/secret/generated"
-    generate_secret_extra_namespaces:
-      - mojaloop
+    secret_config:    
+      generate_secret_name: mysql-account-lookup-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mojaloop
     mysql_data:
       is_legacy: false
       default_authentication_plugin: mysql_native_password
@@ -218,14 +230,18 @@ central-ledger-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    generate_secret_name: mysql-central-ledger-secret
-    generate_secret_keys:
-      - mysql-password
-      - mysql-root-password
-      - mysql-replication-password
-    generate_secret_vault_base_path: "/secret/generated"
-    generate_secret_extra_namespaces:
-      - mojaloop
+    secret_config:    
+      generate_secret_name: mysql-central-ledger-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mojaloop
     mysql_data:
       is_legacy: false
       existing_secret: mysql-central-ledger-secret
@@ -277,8 +293,12 @@ bulk-mongodb:
     resource_helm_values_ref: values-mongodb.yaml.tpl
     generate_secret_name: mongodb-bulk-secret
     generate_secret_keys:
-      - mongodb-passwords
-      - mongodb-root-password
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
     generate_secret_vault_base_path: "/secret/generated"
     generate_secret_extra_namespaces: []
     generate_secret_special_chars: _
@@ -299,13 +319,14 @@ cep-mongodb:
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
-    generate_secret_name: mongodb-cep-secret
-    generate_secret_keys:
-      - mongodb-passwords
-      - mongodb-root-password
-    generate_secret_vault_base_path: "/secret/generated"
-    generate_secret_extra_namespaces: []
-    generate_secret_special_chars: _
+    secret_config:    
+      generate_secret_name: mongodb-cep-secret
+      generate_secret_keys:
+        - mongodb-passwords
+        - mongodb-root-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces: []
+      generate_secret_special_chars: _
     mongodb_data:
       existing_secret: mongodb-cep-secret
       root_password: ""
@@ -323,13 +344,14 @@ reporting-events-mongodb:
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
-    generate_secret_name: mongodb-reporting-events-secret
-    generate_secret_keys:
-      - mongodb-passwords
-      - mongodb-root-password
-    generate_secret_vault_base_path: "/secret/generated"
-    generate_secret_extra_namespaces: []
-    generate_secret_special_chars: _
+    secret_config:    
+      generate_secret_name: mongodb-reporting-events-secret
+      generate_secret_keys:
+        - mongodb-passwords
+        - mongodb-root-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces: []
+      generate_secret_special_chars: _
     mongodb_data:
       existing_secret: mongodb-reporting-events-secret
       root_password: ""
@@ -348,10 +370,11 @@ mojaloop-kafka:
     resource_helm_chart: kafka
     resource_helm_chart_version: 26.5.0
     resource_helm_values_ref: values-kafka.yaml.tpl
-    generate_secret_name:
-    generate_secret_keys: []
-    generate_secret_vault_base_path:
-    generate_secret_extra_namespaces: []
+    secret_config:    
+      generate_secret_name:
+      generate_secret_keys: []
+      generate_secret_vault_base_path:
+      generate_secret_extra_namespaces: []
     kafka_provisioning:
       enabled: true
       topics:
@@ -526,13 +549,14 @@ ttk-mongodb:
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
-    generate_secret_name: mongodb-ttk-secret
-    generate_secret_keys:
-      - mongodb-passwords
-      - mongodb-root-password
-    generate_secret_vault_base_path: "/secret/generated"
-    generate_secret_extra_namespaces: []
-    generate_secret_special_chars: _
+    secret_config:    
+      generate_secret_name: mongodb-ttk-secret
+      generate_secret_keys:
+        - mongodb-passwords
+        - mongodb-root-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces: []
+      generate_secret_special_chars: _
     mongodb_data:
       existing_secret: mongodb-ttk-secret
       root_password: ""

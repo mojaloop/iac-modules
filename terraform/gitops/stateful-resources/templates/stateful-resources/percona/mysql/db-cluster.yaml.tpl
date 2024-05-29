@@ -84,8 +84,19 @@ spec:
 #    readinessDelaySec: 15
 #    livenessDelaySec: 600
     configuration: |
-       [mysqld]
-       pxc_strict_mode=${pxc_strict_mode}
+        [mysqld]
+        pxc_strict_mode=${myql_config.pxc_strict_mode}
+        default_authentication_plugin=${mysql_config.default_authentication_plugin}
+        max_allowed_packet=${mysql_config.max_allowed_packet}
+        bind-address=${mysql_config.bind-address}
+        character-set-server=${mysql_config.character-set-server}
+        collation-server=${mysql_config.collation-server}
+        general_log=${mysql_config.general_log}
+        slow_query_log=${mysql_config.slow_query_log}
+        long_query_time=${mysql_config.long_query_time}
+        innodb_use_native_aio=${mysql_config.innodb_use_native_aio}
+        max_connections=${mysql_config.max_connections}
+        innodb_buffer_pool_size=${mysql_config.innodb_buffer_pool_size}       
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
 #      [sst]
