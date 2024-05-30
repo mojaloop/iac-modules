@@ -300,25 +300,26 @@ bulk-mongodb:
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
-    generate_secret_name: mongodb-bulk-secret
-    generate_secret_keys:
-        - MONGODB_BACKUP_USER
-        - MONGODB_BACKUP_PASSWORD
-        - MONGODB_DATABASE_ADMIN_USER
-        - MONGODB_DATABASE_ADMIN_PASSWORD
-        - MONGODB_CLUSTER_ADMIN_USER
-        - MONGODB_CLUSTER_ADMIN_PASSWORD
-        - MONGODB_CLUSTER_MONITOR_USER
-        - MONGODB_CLUSTER_MONITOR_PASSWORD
-        - MONGODB_USER_ADMIN_USER
-        - MONGODB_USER_ADMIN_PASSWORD
-        - PMM_SERVER_USER
-        - PMM_SERVER_PASSWORD
-        - PMM_SERVER_API_KEY     
-        - mongodb-passwords
-    generate_secret_vault_base_path: "/secret/generated"
-    generate_secret_extra_namespaces: []
-    generate_secret_special_chars: _
+    secret_config:       
+      generate_secret_name: mongodb-bulk-secret
+      generate_secret_keys:
+          - MONGODB_BACKUP_USER
+          - MONGODB_BACKUP_PASSWORD
+          - MONGODB_DATABASE_ADMIN_USER
+          - MONGODB_DATABASE_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_ADMIN_USER
+          - MONGODB_CLUSTER_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_MONITOR_USER
+          - MONGODB_CLUSTER_MONITOR_PASSWORD
+          - MONGODB_USER_ADMIN_USER
+          - MONGODB_USER_ADMIN_PASSWORD
+          - PMM_SERVER_USER
+          - PMM_SERVER_PASSWORD
+          - PMM_SERVER_API_KEY     
+          - mongodb-passwords
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces: []
+      generate_secret_special_chars: _
     mongodb_data:
       existing_secret: mongodb-bulk-secret
       root_password: ""
