@@ -102,7 +102,7 @@ account-lookup-db:
       - mojaloop
     database_name: account_lookup
     storage_size: 10G
-    replica_count: 3     
+    replica_count: 3
   backup_schedule:  
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -142,7 +142,9 @@ bulk-mongodb:
       - mojaloop
     database_name: mlos
     storage_size: 10G
-    replica_count: 3     
+    mongod_replica_count: 3
+    mongo_config_server_replica_count: 3
+    mongo_proxy_replica_count: 3
   backup_schedule:  
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -162,7 +164,9 @@ cep-mongodb:
       - mojaloop
     database_name: mojaloop
     storage_size: 10G
-    replica_count: 3     
+    mongod_replica_count: 3
+    mongo_config_server_replica_count: 3
+    mongo_proxy_replica_count: 3  
   backup_schedule:  
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -182,7 +186,9 @@ reporting-events-mongodb:
       - mojaloop
     database_name: mojaloop
     storage_size: 10G
-    replica_count: 3     
+    mongod_replica_count: 3
+    mongo_config_server_replica_count: 3
+    mongo_proxy_replica_count: 3 
   backup_schedule:  
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -366,7 +372,9 @@ ttk-mongodb:
       - mojaloop
     database_name: ttk
     storage_size: 10G
-    replica_count: 3     
+    mongod_replica_count: 3
+    mongo_config_server_replica_count: 3
+    mongo_proxy_replica_count: 3
   backup_schedule:  
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"

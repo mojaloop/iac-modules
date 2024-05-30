@@ -88,6 +88,12 @@ resource "local_file" "percona-crs" {
       storage_size       = each.value.logical_service_config.storage_size
       existing_secret    = each.value.local_operator_config.secret_config.generate_secret_name
 
+      
+      mongo_config_server_replica_count = 3
+      mongo_proxy_replica_count         = 3
+      mongod_replica_count              = 3
+
+
       minio_percona_backup_bucket = var.minio_percona_backup_bucket
       minio_percona_secret        = "percona-backups-secret"
       minio_api_url               = "http://${var.minio_api_url}"
