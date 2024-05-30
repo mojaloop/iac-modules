@@ -141,6 +141,12 @@ bulk-mongodb:
     secret_extra_namespaces:
       - mojaloop
     database_name: mlos
+    storage_size: 10G
+    replica_count: 3     
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3         
 cep-mongodb:
   enabled: false
   app_owner: "mojaloop"
@@ -154,7 +160,13 @@ cep-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
-    database_name: mojaloop 
+    database_name: mojaloop
+    storage_size: 10G
+    replica_count: 3     
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3         
 reporting-events-mongodb:
   enabled: true
   app_owner: "mojaloop"
@@ -168,7 +180,13 @@ reporting-events-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
-    database_name: mojaloop  
+    database_name: mojaloop
+    storage_size: 10G
+    replica_count: 3     
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3           
 mojaloop-kafka:
   enabled: true
   app_owner: "mojaloop"
@@ -347,6 +365,12 @@ ttk-mongodb:
     secret_extra_namespaces:
       - mojaloop
     database_name: ttk
+    storage_size: 10G
+    replica_count: 3     
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3         
 ttk-redis:
   enabled: true
   resource_type: redis

@@ -75,7 +75,7 @@ resource "local_file" "strimzi-crs" {
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
 
-resource "local_file" "percona-mysql-crs" {
+resource "local_file" "percona-crs" {
 
   for_each = { for key, stateful_resource in local.percona_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/percona/${each.value.resource_type}/db-cluster.yaml.tpl",

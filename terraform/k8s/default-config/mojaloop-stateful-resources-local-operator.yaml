@@ -294,6 +294,7 @@ central-ledger-db:
 bulk-mongodb:
   local_operator_config:
     cr_version: 1.14.0 
+    storage_class_name: longhorn  
     resource_namespace: mojaloop
     override_service_name: mongodb-bulk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -331,7 +332,8 @@ bulk-mongodb:
       service_port: 27017
 cep-mongodb:
   local_operator_config:
-    cr_version: 1.14.0  
+    cr_version: 1.14.0
+    storage_class_name: longhorn       
     resource_namespace: mojaloop
     override_service_name: mongodb-cep-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -369,7 +371,8 @@ cep-mongodb:
       service_port: 27017
 reporting-events-mongodb:
   local_operator_config:
-    cr_version: 1.14.0  
+    cr_version: 1.14.0
+    storage_class_name: longhorn       
     resource_namespace: mojaloop
     override_service_name: mongodb-reporting-events-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -587,7 +590,8 @@ mojaloop-kafka:
                       - enabled
 ttk-mongodb:
   local_operator_config:
-    cr_version: 1.14.0  
+    cr_version: 1.14.0
+    storage_class_name: longhorn       
     resource_namespace: mojaloop
     override_service_name: mongodb-ttk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
