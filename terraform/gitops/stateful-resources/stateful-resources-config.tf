@@ -89,9 +89,9 @@ resource "local_file" "percona-crs" {
       existing_secret    = each.value.local_operator_config.secret_config.generate_secret_name
 
       
-      mongo_config_server_replica_count = 3
-      mongo_proxy_replica_count         = 3
-      mongod_replica_count              = 3
+      mongo_config_server_replica_count = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_config_server_replica_count : ""
+      mongo_proxy_replica_count         = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_proxy_replica_count : ""
+      mongod_replica_count              = each.value.logical_service_config.replica_count
 
 
       minio_percona_backup_bucket = var.minio_percona_backup_bucket

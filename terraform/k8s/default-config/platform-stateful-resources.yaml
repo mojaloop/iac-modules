@@ -142,7 +142,7 @@ bulk-mongodb:
       - mojaloop
     database_name: mlos
     storage_size: 10G
-    mongod_replica_count: 3
+    replica_count: 3
     mongo_config_server_replica_count: 3
     mongo_proxy_replica_count: 3
   backup_schedule:  
@@ -164,7 +164,7 @@ cep-mongodb:
       - mojaloop
     database_name: mojaloop
     storage_size: 10G
-    mongod_replica_count: 3
+    replica_count: 3
     mongo_config_server_replica_count: 3
     mongo_proxy_replica_count: 3  
   backup_schedule:  
@@ -186,7 +186,7 @@ reporting-events-mongodb:
       - mojaloop
     database_name: mojaloop
     storage_size: 10G
-    mongod_replica_count: 3
+    replica_count: 3
     mongo_config_server_replica_count: 3
     mongo_proxy_replica_count: 3 
   backup_schedule:  
@@ -372,7 +372,7 @@ ttk-mongodb:
       - mojaloop
     database_name: ttk
     storage_size: 10G
-    mongod_replica_count: 3
+    replica_count: 3
     mongo_config_server_replica_count: 3
     mongo_proxy_replica_count: 3
   backup_schedule:  
