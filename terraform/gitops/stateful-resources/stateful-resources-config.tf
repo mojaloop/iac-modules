@@ -43,7 +43,7 @@ resource "local_file" "kustomization" {
       helm_stateful_resources             = local.helm_stateful_resources
       managed_stateful_resources          = local.managed_stateful_resources
       strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
-      percona_mysql_stateful_resources    = local.percona_mysql_stateful_resources
+      percona_stateful_resources          = local.percona_stateful_resources
   })
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
 }
@@ -77,8 +77,8 @@ resource "local_file" "strimzi-crs" {
 
 resource "local_file" "percona-mysql-crs" {
 
-  for_each = { for key, stateful_resource in local.percona_mysql_stateful_resources : key => stateful_resource }
-  content = templatefile("${local.stateful_resources_template_path}/percona/mysql/db-cluster.yaml.tpl",
+  for_each = { for key, stateful_resource in local.percona_stateful_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/percona/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
       cluster_name       = each.key
       cr_version         = each.value.local_operator_config.cr_version
@@ -99,9 +99,9 @@ resource "local_file" "percona-mysql-crs" {
       percona_credentials_secret              = "percona-s3-credentials-${each.key}"
       external_secret_sync_wave               = var.external_secret_sync_wave
 
-      mysql_database_name = each.value.logical_service_config.database_name
-      mysql_database_user = each.value.logical_service_config.db_username
-      mysql_config        = each.value.local_operator_config.mysql_data
+      database_name    = each.value.logical_service_config.database_name
+      database_user    = each.value.logical_service_config.db_username
+      database_config  = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data : each.value.local_operator_config.mongodb_data
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
@@ -122,7 +122,7 @@ locals {
   operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
   internal_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if(resource.deployment_type == "operator" || resource.deployment_type == "helm-chart") }
   strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
-  percona_mysql_stateful_resources    = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "mysql" }
+  percona_stateful_resources          = { for key, resource in local.operator_stateful_resources : key => resource if ( resource.resource_type == "mysql" || resource.resource_type == "mogodb" }
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }

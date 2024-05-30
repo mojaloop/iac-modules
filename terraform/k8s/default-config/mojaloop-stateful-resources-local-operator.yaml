@@ -293,6 +293,7 @@ central-ledger-db:
       pxc_strict_mode: PERMISSIVE
 bulk-mongodb:
   local_operator_config:
+    cr_version: 1.14.0 
     resource_namespace: mojaloop
     override_service_name: mongodb-bulk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -301,8 +302,20 @@ bulk-mongodb:
     resource_helm_values_ref: values-mongodb.yaml.tpl
     generate_secret_name: mongodb-bulk-secret
     generate_secret_keys:
-      - mongodb-passwords
-      - mongodb-root-password
+        - MONGODB_BACKUP_USER
+        - MONGODB_BACKUP_PASSWORD
+        - MONGODB_DATABASE_ADMIN_USER
+        - MONGODB_DATABASE_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_ADMIN_USER
+        - MONGODB_CLUSTER_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_MONITOR_USER
+        - MONGODB_CLUSTER_MONITOR_PASSWORD
+        - MONGODB_USER_ADMIN_USER
+        - MONGODB_USER_ADMIN_PASSWORD
+        - PMM_SERVER_USER
+        - PMM_SERVER_PASSWORD
+        - PMM_SERVER_API_KEY     
+        - mongodb-passwords
     generate_secret_vault_base_path: "/secret/generated"
     generate_secret_extra_namespaces: []
     generate_secret_special_chars: _
@@ -317,6 +330,7 @@ bulk-mongodb:
       service_port: 27017
 cep-mongodb:
   local_operator_config:
+    cr_version: 1.14.0  
     resource_namespace: mojaloop
     override_service_name: mongodb-cep-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -326,8 +340,20 @@ cep-mongodb:
     secret_config:    
       generate_secret_name: mongodb-cep-secret
       generate_secret_keys:
+        - MONGODB_BACKUP_USER
+        - MONGODB_BACKUP_PASSWORD
+        - MONGODB_DATABASE_ADMIN_USER
+        - MONGODB_DATABASE_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_ADMIN_USER
+        - MONGODB_CLUSTER_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_MONITOR_USER
+        - MONGODB_CLUSTER_MONITOR_PASSWORD
+        - MONGODB_USER_ADMIN_USER
+        - MONGODB_USER_ADMIN_PASSWORD
+        - PMM_SERVER_USER
+        - PMM_SERVER_PASSWORD
+        - PMM_SERVER_API_KEY     
         - mongodb-passwords
-        - mongodb-root-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
@@ -342,6 +368,7 @@ cep-mongodb:
       service_port: 27017
 reporting-events-mongodb:
   local_operator_config:
+    cr_version: 1.14.0  
     resource_namespace: mojaloop
     override_service_name: mongodb-reporting-events-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -351,8 +378,20 @@ reporting-events-mongodb:
     secret_config:    
       generate_secret_name: mongodb-reporting-events-secret
       generate_secret_keys:
+        - MONGODB_BACKUP_USER
+        - MONGODB_BACKUP_PASSWORD
+        - MONGODB_DATABASE_ADMIN_USER
+        - MONGODB_DATABASE_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_ADMIN_USER
+        - MONGODB_CLUSTER_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_MONITOR_USER
+        - MONGODB_CLUSTER_MONITOR_PASSWORD
+        - MONGODB_USER_ADMIN_USER
+        - MONGODB_USER_ADMIN_PASSWORD
+        - PMM_SERVER_USER
+        - PMM_SERVER_PASSWORD
+        - PMM_SERVER_API_KEY     
         - mongodb-passwords
-        - mongodb-root-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
@@ -547,6 +586,7 @@ mojaloop-kafka:
                       - enabled
 ttk-mongodb:
   local_operator_config:
+    cr_version: 1.14.0  
     resource_namespace: mojaloop
     override_service_name: mongodb-ttk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -556,8 +596,20 @@ ttk-mongodb:
     secret_config:    
       generate_secret_name: mongodb-ttk-secret
       generate_secret_keys:
+        - MONGODB_BACKUP_USER
+        - MONGODB_BACKUP_PASSWORD
+        - MONGODB_DATABASE_ADMIN_USER
+        - MONGODB_DATABASE_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_ADMIN_USER
+        - MONGODB_CLUSTER_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_MONITOR_USER
+        - MONGODB_CLUSTER_MONITOR_PASSWORD
+        - MONGODB_USER_ADMIN_USER
+        - MONGODB_USER_ADMIN_PASSWORD
+        - PMM_SERVER_USER
+        - PMM_SERVER_PASSWORD
+        - PMM_SERVER_API_KEY     
         - mongodb-passwords
-        - mongodb-root-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _

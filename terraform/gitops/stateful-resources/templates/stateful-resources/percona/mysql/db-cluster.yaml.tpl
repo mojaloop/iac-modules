@@ -85,18 +85,18 @@ spec:
 #    livenessDelaySec: 600
     configuration: |
         [mysqld]
-        pxc_strict_mode=${mysql_config.pxc_strict_mode}
-        default_authentication_plugin=${mysql_config.default_authentication_plugin}
-        max_allowed_packet=${mysql_config.max_allowed_packet}
-        bind-address=${mysql_config.bind-address}
-        character-set-server=${mysql_config.character-set-server}
-        collation-server=${mysql_config.collation-server}
-        general_log=${mysql_config.general_log}
-        slow_query_log=${mysql_config.slow_query_log}
-        long_query_time=${mysql_config.long_query_time}
-        innodb_use_native_aio=${mysql_config.innodb_use_native_aio}
-        max_connections=${mysql_config.max_connections}
-        innodb_buffer_pool_size=${mysql_config.innodb_buffer_pool_size}       
+        pxc_strict_mode=${database_config.pxc_strict_mode}
+        default_authentication_plugin=${database_config.default_authentication_plugin}
+        max_allowed_packet=${database_config.max_allowed_packet}
+        bind-address=${database_config.bind-address}
+        character-set-server=${database_config.character-set-server}
+        collation-server=${database_config.collation-server}
+        general_log=${database_config.general_log}
+        slow_query_log=${database_config.slow_query_log}
+        long_query_time=${database_config.long_query_time}
+        innodb_use_native_aio=${database_config.innodb_use_native_aio}
+        max_connections=${database_config.max_connections}
+        innodb_buffer_pool_size=${database_config.innodb_buffer_pool_size}       
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
 #      [sst]
@@ -779,10 +779,10 @@ spec:
             - "-c"
           args:
             - >
-              mysql -h${cluster_name}-haproxy -uroot -p$${MYSQL_ROOT_PASSWORD} << EOF
-                CREATE DATABASE IF NOT EXISTS \`${mysql_database_name}\`;
-                CREATE USER IF NOT EXISTS '${mysql_database_user}' IDENTIFIED WITH mysql_native_password BY '$${MYSQL_USER_PASSWORD}';
-                GRANT ALL PRIVILEGES ON \`${mysql_database_name}\`.* to '${mysql_database_user}'@'%';
+              mysql -h${cluster_name}-haproxy -uroot -p${MYSQL_ROOT_PASSWORD} << EOF
+                CREATE DATABASE IF NOT EXISTS \`${database_name}\`;
+                CREATE USER IF NOT EXISTS '${database_user}' IDENTIFIED WITH mysql_native_password BY '$${MYSQL_USER_PASSWORD}';
+                GRANT ALL PRIVILEGES ON \`${database_name}\`.* to '${database_user}'@'%';
               EOF
           env:
             - name: MYSQL_ROOT_PASSWORD

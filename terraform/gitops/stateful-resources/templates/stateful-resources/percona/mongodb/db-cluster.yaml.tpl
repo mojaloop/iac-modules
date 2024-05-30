@@ -1,10 +1,13 @@
 apiVersion: psmdb.percona.com/v1
 kind: PerconaServerMongoDB
 metadata:
-  name: my-cluster-name
+  namespace: ${namespace}
+  name: ${cluster_name}
   finalizers:
     - delete-psmdb-pods-in-order
 #    - delete-psmdb-pvc
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
 spec:
 #  platform: openshift
 #  clusterServiceDNSSuffix: svc.cluster.local
@@ -45,8 +48,8 @@ spec:
     schedule: "0 2 * * *"
     setFCV: false
   secrets:
-    users: my-cluster-name-secrets
-    encryptionKey: my-cluster-name-mongodb-encryption-key
+    users: ${existing_secret}
+    encryptionKey: ${cluster_name}-encryption-key
 #    vault: my-cluster-name-vault
 #    ldapSecret: my-ldap-secret
 #    sse: my-cluster-name-sse
@@ -58,7 +61,7 @@ spec:
 #    mongosParams: --environment=ENVIRONMENT
   replsets:
   - name: rs0
-    size: 3
+    size: ${mongod_replica_count}
 #    terminationGracePeriodSeconds: 300
 #    serviceAccountName: default
 #    topologySpreadConstraints:
@@ -330,7 +333,7 @@ spec:
 #    balancer:
 #      enabled: true
     configsvrReplSet:
-      size: 3
+      size: ${mongo_config_server_replica_count}
 #      terminationGracePeriodSeconds: 300
 #      serviceAccountName: default
 #      topologySpreadConstraints:
@@ -441,7 +444,7 @@ spec:
 #        - "host2"
 
     mongos:
-      size: 3
+      size: ${mongo_proxy_replica_count}
 #      terminationGracePeriodSeconds: 300
 #      serviceAccountName: default
 #      topologySpreadConstraints:
@@ -542,36 +545,16 @@ spec:
 #        memory: "0.5G"
 #    containerSecurityContext:
 #      privileged: false
-#    storages:
-#      s3-us-west:
-#        type: s3
-#        s3:
-#          bucket: S3-BACKUP-BUCKET-NAME-HERE
-#          credentialsSecret: my-cluster-name-backup-s3
-#          serverSideEncryption:
-#            kmsKeyID: 1234abcd-12ab-34cd-56ef-1234567890ab
-#            sseAlgorithm: aws:kms
-#            sseCustomerAlgorithm: AES256
-#            sseCustomerKey: Y3VzdG9tZXIta2V5
-#          retryer:
-#            numMaxRetries: 3
-#            minRetryDelay: 30ms
-#            maxRetryDelay: 5m
-#          region: us-west-2
-#          prefix: ""
-#          uploadPartSize: 10485760
-#          maxUploadParts: 10000
-#          storageClass: STANDARD
-#          insecureSkipTLSVerify: false
-#      minio:
-#        type: s3
-#        s3:
-#          bucket: MINIO-BACKUP-BUCKET-NAME-HERE
-#          region: us-east-1
-#          credentialsSecret: my-cluster-name-backup-minio
-#          endpointUrl: http://minio.psmdb.svc.cluster.local:9000/minio/
-#          insecureSkipTLSVerify: false
-#          prefix: ""
+    storages:
+      ${backupStorageName}:
+        type: s3
+        s3:
+          bucket: ${minio_percona_backup_bucket}
+          region: us-east-1
+          credentialsSecret: ${percona_credentials_secret}
+          endpointUrl: ${minio_api_url}
+          insecureSkipTLSVerify: false
+          prefix: ${cluster_name}
 #      azure-blob:
 #        type: azure
 #        azure:
@@ -580,7 +563,7 @@ spec:
 #          endpointUrl: https://accountName.blob.core.windows.net
 #          credentialsSecret: SECRET-NAME
     pitr:
-      enabled: false
+      enabled: true
       oplogOnly: false
 #      oplogSpanMin: 10
       compressionType: gzip
@@ -603,26 +586,116 @@ spec:
 #        mongodLocationMap:
 #          "node01:2017": /usr/bin/mongo
 #          "node03:27017": /usr/bin/mongo
-#    tasks:
-#      - name: daily-s3-us-west
-#        enabled: true
-#        schedule: "0 0 * * *"
-#        keep: 3
-#        storageName: s3-us-west
-#        compressionType: gzip
-#        compressionLevel: 6
-#      - name: weekly-s3-us-west
-#        enabled: false
-#        schedule: "0 0 * * 0"
-#        keep: 5
-#        storageName: s3-us-west
-#        compressionType: gzip
-#        compressionLevel: 6
-#      - name: weekly-s3-us-west-physical
-#        enabled: false
-#        schedule: "0 5 * * 0"
-#        keep: 5
-#        type: physical
-#        storageName: s3-us-west
-#        compressionType: gzip
-#        compressionLevel: 6
+    tasks:
+%{ for schedule in backupSchedule ~}
+      - name: ${schedule.name}
+        schedule: ${schedule.schedule}
+        keep: ${schedule.keep}
+        storageName: ${backupStorageName}
+%{ endfor ~}
+---
+apiVersion: pxc.percona.com/v1
+kind: PerconaXtraDBClusterBackup
+metadata:
+  finalizers:
+    - delete-s3-backup
+  name: ${cluster_name}-backup
+  namespace: ${namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"    
+spec:
+  pxcCluster: ${cluster_name}
+  storageName: ${backupStorageName}
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
+  name: ${percona_credentials_secret}
+  namespace: ${namespace}
+spec:
+  refreshInterval: 1h
+
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+
+  target:
+    name: ${percona_credentials_secret} # Name for the secret to be created on the cluster
+    creationPolicy: Owner
+    template:
+      data:
+        AWS_ENDPOINTS: http://${minio_api_url}/
+        AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
+        AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
+
+  data:
+    - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
+      remoteRef: 
+        key: ${percona_credentials_secret_provider_key}
+        property: value
+    - secretKey: AWS_ACCESS_KEY_ID # Key given to the secret to be created on the cluster
+      remoteRef: 
+        key: ${percona_credentials_id_provider_key}
+        property: value
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-${cluster_name}
+  namespace: ${namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"     
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: init-db
+          image: percona/percona-server-mongodb:6.0.4-3
+          command:
+            - /bin/sh
+            - "-c"
+          args:
+            - >
+            "mongodb://${MONGODB_USER_ADMIN_USER}:${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}--mongos/admin?ssl=false"
+              rs0:PRIMARY> db.createUser({
+                  user: "${database_user}",
+                  pwd: "${MONGODB_USER_PASSWORD}",
+                  roles: [
+                    { db: "${database_name}", role: "readWrite" }
+                  ],
+                  mechanisms: [
+                    "SCRAM-SHA-1"
+                  ]
+              })
+              EOF
+          env:
+            - name: MONGODB_USER_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name:  ${existing_secret}
+                  key: MONGODB_USER_ADMIN_USER                  
+            - name: MONGODB_USER_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name:  ${existing_secret}
+                  key: MONGODB_USER_ADMIN_PASSWORD                
+            - name: MONGODB_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name:  ${existing_secret}
+                  key: mongodb-passwords         
+          resources: {}
+          imagePullPolicy: IfNotPresent
+      initContainers:
+        - name: init-dbservice
+          image: busybox:1.28
+          command:
+            [
+              "sh",
+              "-c",
+              "until nslookup ${cluster_name}--mongos; do echo waiting for database ${cluster_name}--mongos ; sleep 2; done;",
+            ]
+---
