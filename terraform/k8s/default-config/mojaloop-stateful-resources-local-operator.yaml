@@ -5,18 +5,19 @@ thirdparty-auth-svc-db:
     override_service_name: mysql-thirdparty-auth-svc-db
     resource_operator_crd_version: 1.15.0
     resource_operator_cr_ref: percona/mysql/db-cluster.yaml.tpl
-    generate_secret_name: mysql-auth-svc-secret
-    generate_secret_keys:
-        - root
-        - xtrabackup
-        - monitor
-        - proxyadmin
-        - operator
-        - replication
-        - mysql-password
-    generate_secret_vault_base_path: "/secret/generated"
-    generate_secret_extra_namespaces:
-      - mojaloop  
+    secret_config:    
+      generate_secret_name: mysql-auth-svc-secret
+      generate_secret_keys:
+          - root
+          - xtrabackup
+          - monitor
+          - proxyadmin
+          - operator
+          - replication
+          - mysql-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mojaloop  
     mysql_data:
       is_legacy: false
       default_authentication_plugin: mysql_native_password
@@ -298,19 +299,19 @@ bulk-mongodb:
     secret_config:       
       generate_secret_name: mongodb-bulk-secret
       generate_secret_keys:
-          - mongodb-backup-user
-          - mongodb-backup-password
-          - mongodb-database-admin-user
-          - mongodb-database-admin-password
-          - mongodb-cluster-admin-user
-          - mongodb-cluster-admin-password
-          - mongodb-cluster-monitor-user
-          - mongodb-cluster-monitor-password
-          - mongodb-user-admin-user
-          - mongodb-user-admin-password
-          - pmm-server-user
-          - pmm-server-password
-          - pmm-server-api-key     
+          - MONGODB_BACKUP_USER
+          - MONGODB_BACKUP_PASSWORD
+          - MONGODB_DATABASE_ADMIN_USER
+          - MONGODB_DATABASE_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_ADMIN_USER
+          - MONGODB_CLUSTER_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_MONITOR_USER
+          - MONGODB_CLUSTER_MONITOR_PASSWORD
+          - MONGODB_USER_ADMIN_USER
+          - MONGODB_USER_ADMIN_PASSWORD
+          - PMM_SERVER_USER
+          - PMM_SERVER_PASSWORD
+          - PMM_SERVER_API_KEY     
           - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
@@ -336,19 +337,19 @@ cep-mongodb:
     secret_config:    
       generate_secret_name: mongodb-cep-secret
       generate_secret_keys:
-          - mongodb-backup-user
-          - mongodb-backup-password
-          - mongodb-database-admin-user
-          - mongodb-database-admin-password
-          - mongodb-cluster-admin-user
-          - mongodb-cluster-admin-password
-          - mongodb-cluster-monitor-user
-          - mongodb-cluster-monitor-password
-          - mongodb-user-admin-user
-          - mongodb-user-admin-password
-          - pmm-server-user
-          - pmm-server-password
-          - pmm-server-api-key     
+          - MONGODB_BACKUP_USER
+          - MONGODB_BACKUP_PASSWORD
+          - MONGODB_DATABASE_ADMIN_USER
+          - MONGODB_DATABASE_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_ADMIN_USER
+          - MONGODB_CLUSTER_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_MONITOR_USER
+          - MONGODB_CLUSTER_MONITOR_PASSWORD
+          - MONGODB_USER_ADMIN_USER
+          - MONGODB_USER_ADMIN_PASSWORD
+          - PMM_SERVER_USER
+          - PMM_SERVER_PASSWORD
+          - PMM_SERVER_API_KEY     
           - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
@@ -374,19 +375,19 @@ reporting-events-mongodb:
     secret_config:    
       generate_secret_name: mongodb-reporting-events-secret
       generate_secret_keys:
-          - mongodb-backup-user
-          - mongodb-backup-password
-          - mongodb-database-admin-user
-          - mongodb-database-admin-password
-          - mongodb-cluster-admin-user
-          - mongodb-cluster-admin-password
-          - mongodb-cluster-monitor-user
-          - mongodb-cluster-monitor-password
-          - mongodb-user-admin-user
-          - mongodb-user-admin-password
-          - pmm-server-user
-          - pmm-server-password
-          - pmm-server-api-key     
+          - MONGODB_BACKUP_USER
+          - MONGODB_BACKUP_PASSWORD
+          - MONGODB_DATABASE_ADMIN_USER
+          - MONGODB_DATABASE_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_ADMIN_USER
+          - MONGODB_CLUSTER_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_MONITOR_USER
+          - MONGODB_CLUSTER_MONITOR_PASSWORD
+          - MONGODB_USER_ADMIN_USER
+          - MONGODB_USER_ADMIN_PASSWORD
+          - PMM_SERVER_USER
+          - PMM_SERVER_PASSWORD
+          - PMM_SERVER_API_KEY     
           - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
@@ -592,19 +593,19 @@ ttk-mongodb:
     secret_config:    
       generate_secret_name: mongodb-ttk-secret
       generate_secret_keys:
-          - mongodb-backup-user
-          - mongodb-backup-password
-          - mongodb-database-admin-user
-          - mongodb-database-admin-password
-          - mongodb-cluster-admin-user
-          - mongodb-cluster-admin-password
-          - mongodb-cluster-monitor-user
-          - mongodb-cluster-monitor-password
-          - mongodb-user-admin-user
-          - mongodb-user-admin-password
-          - pmm-server-user
-          - pmm-server-password
-          - pmm-server-api-key     
+          - MONGODB_BACKUP_USER
+          - MONGODB_BACKUP_PASSWORD
+          - MONGODB_DATABASE_ADMIN_USER
+          - MONGODB_DATABASE_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_ADMIN_USER
+          - MONGODB_CLUSTER_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_MONITOR_USER
+          - MONGODB_CLUSTER_MONITOR_PASSWORD
+          - MONGODB_USER_ADMIN_USER
+          - MONGODB_USER_ADMIN_PASSWORD
+          - PMM_SERVER_USER
+          - PMM_SERVER_PASSWORD
+          - PMM_SERVER_API_KEY     
           - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []

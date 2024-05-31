@@ -36,7 +36,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
-  name: ${secret_config.generate_secret_name}-${secretKey}
+  name: ${secret_config.generate_secret_name}-${lower(replace(secretKey,"_","-"))}
   namespace: ${namespace} 
   annotations:
     argocd.argoproj.io/sync-wave: "-6"
@@ -71,7 +71,7 @@ spec:
         serviceAccount:
           name: default
       name: dynamicsecret_${replace(secretKey, "-", "_")}
-      path: ${secret_config.generate_secret_vault_base_path}/${key}/${secret_config.generate_secret_name}-${secretKey}
+      path: ${secret_config.generate_secret_vault_base_path}/${key}/${secret_config.generate_secret_name}-${lower(replace(secretKey,"_","-"))}
 %{ endfor ~}
   output:
     name: ${secret_config.generate_secret_name}
