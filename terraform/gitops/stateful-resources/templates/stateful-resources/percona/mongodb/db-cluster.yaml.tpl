@@ -661,7 +661,7 @@ spec:
             - "-c"
           args:
             - >
-              "mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}--mongos/admin?ssl=false"
+              "mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}-mongos/admin?ssl=false"
               rs0:PRIMARY> db.createUser({
                   user: "${database_user}",
                   pwd: "$${MONGODB_USER_PASSWORD}",
@@ -698,6 +698,6 @@ spec:
             [
               "sh",
               "-c",
-              "until nslookup ${cluster_name}--mongos; do echo waiting for database ${cluster_name}--mongos ; sleep 2; done;",
+              "until nslookup ${cluster_name}-mongos; do echo waiting for database ${cluster_name}-mongos ; sleep 2; done;",
             ]
 ---
