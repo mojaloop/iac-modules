@@ -15,6 +15,7 @@ spec:
 #  pause: true
 #  unmanaged: false
   crVersion: ${cr_version}
+  image: percona/percona-server-mongodb:${percona_server_mongodb_version}
 #  tls:
 #    mode: preferTLS
 #    # 90 days in hours
@@ -590,6 +591,7 @@ spec:
 %{ for schedule in backupSchedule ~}
       - name: ${schedule.name}
         schedule: ${schedule.schedule}
+        enabled: true
         keep: ${schedule.keep}
         storageName: ${backupStorageName}
 %{ endfor ~}

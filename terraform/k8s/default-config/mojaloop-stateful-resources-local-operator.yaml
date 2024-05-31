@@ -290,6 +290,7 @@ central-ledger-db:
 bulk-mongodb:
   local_operator_config:
     cr_version: 1.14.0 
+    percona_server_mongodb_version: 6.0.4-3
     resource_namespace: mojaloop
     override_service_name: mongodb-bulk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -328,6 +329,7 @@ bulk-mongodb:
 cep-mongodb:
   local_operator_config:
     cr_version: 1.14.0
+    percona_server_mongodb_version: 6.0.4-3
     resource_namespace: mojaloop
     override_service_name: mongodb-cep-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -366,6 +368,7 @@ cep-mongodb:
 reporting-events-mongodb:
   local_operator_config:
     cr_version: 1.14.0
+    percona_server_mongodb_version: 6.0.4-3
     resource_namespace: mojaloop
     override_service_name: mongodb-reporting-events-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -584,6 +587,7 @@ mojaloop-kafka:
 ttk-mongodb:
   local_operator_config:
     cr_version: 1.14.0
+    percona_server_mongodb_version: 6.0.4-3
     resource_namespace: mojaloop
     override_service_name: mongodb-ttk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
