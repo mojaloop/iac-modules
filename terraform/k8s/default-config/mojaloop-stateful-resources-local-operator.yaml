@@ -1,7 +1,6 @@
 thirdparty-auth-svc-db:
   local_operator_config:
     cr_version: 1.14.0 
-    storage_class_name: longhorn  
     resource_namespace: thirdparty-db
     override_service_name: mysql-thirdparty-auth-svc-db
     resource_operator_crd_version: 1.15.0
@@ -54,7 +53,6 @@ thirdparty-auth-svc-db:
 mysql-consent-oracle-db:
   local_operator_config:
     cr_version: 1.14.0 
-    storage_class_name: longhorn
     resource_namespace: thirdparty-db
     override_service_name:
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -110,7 +108,6 @@ mysql-consent-oracle-db:
 mcm-db:
   local_operator_config:
     cr_version: 1.14.0 
-    storage_class_name: longhorn
     resource_namespace: mcm-db
     override_service_name: mcm-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -166,7 +163,6 @@ mcm-db:
 account-lookup-db:
   local_operator_config:
     cr_version: 1.14.0 
-    storage_class_name: longhorn  
     resource_namespace: mojaloop-db
     override_service_name: account-lookup-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -230,7 +226,6 @@ account-lookup-db:
 central-ledger-db:
   local_operator_config:
     cr_version: 1.14.0 
-    storage_class_name: longhorn  
     resource_namespace: mojaloop-db
     override_service_name: central-ledger-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -294,7 +289,6 @@ central-ledger-db:
 bulk-mongodb:
   local_operator_config:
     cr_version: 1.14.0 
-    storage_class_name: longhorn  
     resource_namespace: mojaloop
     override_service_name: mongodb-bulk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -304,19 +298,19 @@ bulk-mongodb:
     secret_config:       
       generate_secret_name: mongodb-bulk-secret
       generate_secret_keys:
-          - MONGODB_BACKUP_USER
-          - MONGODB_BACKUP_PASSWORD
-          - MONGODB_DATABASE_ADMIN_USER
-          - MONGODB_DATABASE_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_ADMIN_USER
-          - MONGODB_CLUSTER_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_MONITOR_USER
-          - MONGODB_CLUSTER_MONITOR_PASSWORD
-          - MONGODB_USER_ADMIN_USER
-          - MONGODB_USER_ADMIN_PASSWORD
-          - PMM_SERVER_USER
-          - PMM_SERVER_PASSWORD
-          - PMM_SERVER_API_KEY     
+          - mongodb_backup_user
+          - mongodb_backup_password
+          - mongodb_database_admin_user
+          - mongodb_database_admin_password
+          - mongodb_cluster_admin_user
+          - mongodb_cluster_admin_password
+          - mongodb_cluster_monitor_user
+          - mongodb_cluster_monitor_password
+          - mongodb_user_admin_user
+          - mongodb_user_admin_password
+          - pmm_server_user
+          - pmm_server_password
+          - pmm_server_api_key     
           - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
@@ -333,7 +327,6 @@ bulk-mongodb:
 cep-mongodb:
   local_operator_config:
     cr_version: 1.14.0
-    storage_class_name: longhorn       
     resource_namespace: mojaloop
     override_service_name: mongodb-cep-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -343,19 +336,19 @@ cep-mongodb:
     secret_config:    
       generate_secret_name: mongodb-cep-secret
       generate_secret_keys:
-        - MONGODB_BACKUP_USER
-        - MONGODB_BACKUP_PASSWORD
-        - MONGODB_DATABASE_ADMIN_USER
-        - MONGODB_DATABASE_ADMIN_PASSWORD
-        - MONGODB_CLUSTER_ADMIN_USER
-        - MONGODB_CLUSTER_ADMIN_PASSWORD
-        - MONGODB_CLUSTER_MONITOR_USER
-        - MONGODB_CLUSTER_MONITOR_PASSWORD
-        - MONGODB_USER_ADMIN_USER
-        - MONGODB_USER_ADMIN_PASSWORD
-        - PMM_SERVER_USER
-        - PMM_SERVER_PASSWORD
-        - PMM_SERVER_API_KEY     
+        - mongodb_backup_user
+        - mongodb_backup_password
+        - mongodb_database_admin_user
+        - mongodb_database_admin_password
+        - mongodb_cluster_admin_user
+        - mongodb_cluster_admin_password
+        - mongodb_cluster_monitor_user
+        - mongodb_cluster_monitor_password
+        - mongodb_user_admin_user
+        - mongodb_user_admin_password
+        - pmm_server_user
+        - pmm_server_password
+        - pmm_server_api_key     
         - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
@@ -372,7 +365,6 @@ cep-mongodb:
 reporting-events-mongodb:
   local_operator_config:
     cr_version: 1.14.0
-    storage_class_name: longhorn       
     resource_namespace: mojaloop
     override_service_name: mongodb-reporting-events-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -382,19 +374,19 @@ reporting-events-mongodb:
     secret_config:    
       generate_secret_name: mongodb-reporting-events-secret
       generate_secret_keys:
-        - MONGODB_BACKUP_USER
-        - MONGODB_BACKUP_PASSWORD
-        - MONGODB_DATABASE_ADMIN_USER
-        - MONGODB_DATABASE_ADMIN_PASSWORD
-        - MONGODB_CLUSTER_ADMIN_USER
-        - MONGODB_CLUSTER_ADMIN_PASSWORD
-        - MONGODB_CLUSTER_MONITOR_USER
-        - MONGODB_CLUSTER_MONITOR_PASSWORD
-        - MONGODB_USER_ADMIN_USER
-        - MONGODB_USER_ADMIN_PASSWORD
-        - PMM_SERVER_USER
-        - PMM_SERVER_PASSWORD
-        - PMM_SERVER_API_KEY     
+        - mongodb_backup_user
+        - mongodb_backup_password
+        - mongodb_database_admin_user
+        - mongodb_database_admin_password
+        - mongodb_cluster_admin_user
+        - mongodb_cluster_admin_password
+        - mongodb_cluster_monitor_user
+        - mongodb_cluster_monitor_password
+        - mongodb_user_admin_user
+        - mongodb_user_admin_password
+        - pmm_server_user
+        - pmm_server_password
+        - pmm_server_api_key     
         - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
@@ -591,7 +583,6 @@ mojaloop-kafka:
 ttk-mongodb:
   local_operator_config:
     cr_version: 1.14.0
-    storage_class_name: longhorn       
     resource_namespace: mojaloop
     override_service_name: mongodb-ttk-mongodb
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -601,19 +592,19 @@ ttk-mongodb:
     secret_config:    
       generate_secret_name: mongodb-ttk-secret
       generate_secret_keys:
-        - MONGODB_BACKUP_USER
-        - MONGODB_BACKUP_PASSWORD
-        - MONGODB_DATABASE_ADMIN_USER
-        - MONGODB_DATABASE_ADMIN_PASSWORD
-        - MONGODB_CLUSTER_ADMIN_USER
-        - MONGODB_CLUSTER_ADMIN_PASSWORD
-        - MONGODB_CLUSTER_MONITOR_USER
-        - MONGODB_CLUSTER_MONITOR_PASSWORD
-        - MONGODB_USER_ADMIN_USER
-        - MONGODB_USER_ADMIN_PASSWORD
-        - PMM_SERVER_USER
-        - PMM_SERVER_PASSWORD
-        - PMM_SERVER_API_KEY     
+        - mongodb_backup_user
+        - mongodb_backup_password
+        - mongodb_database_admin_user
+        - mongodb_database_admin_password
+        - mongodb_cluster_admin_user
+        - mongodb_cluster_admin_password
+        - mongodb_cluster_monitor_user
+        - mongodb_cluster_monitor_password
+        - mongodb_user_admin_user
+        - mongodb_user_admin_password
+        - pmm_server_user
+        - pmm_server_password
+        - pmm_server_api_key     
         - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []

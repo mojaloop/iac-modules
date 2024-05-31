@@ -84,8 +84,8 @@ resource "local_file" "percona-crs" {
       cr_version         = each.value.local_operator_config.cr_version
       replica_count      = each.value.logical_service_config.replica_count
       namespace          = each.value.local_operator_config.resource_namespace
-      storage_class_name = each.value.local_operator_config.storage_class_name
-      storage_size       = each.value.logical_service_config.storage_size
+      storage_class_name = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_class_name : each.value.local_operator_config.mongodb_data.storage_class_name
+      storage_size       = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_size : each.value.local_operator_config.mongodb_data.storage_size
       existing_secret    = each.value.local_operator_config.secret_config.generate_secret_name
 
       
