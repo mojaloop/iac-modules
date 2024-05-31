@@ -298,19 +298,19 @@ bulk-mongodb:
     secret_config:       
       generate_secret_name: mongodb-bulk-secret
       generate_secret_keys:
-          - mongodb_backup_user
-          - mongodb_backup_password
-          - mongodb_database_admin_user
-          - mongodb_database_admin_password
-          - mongodb_cluster_admin_user
-          - mongodb_cluster_admin_password
-          - mongodb_cluster_monitor_user
-          - mongodb_cluster_monitor_password
-          - mongodb_user_admin_user
-          - mongodb_user_admin_password
-          - pmm_server_user
-          - pmm_server_password
-          - pmm_server_api_key     
+          - mongodb-backup-user
+          - mongodb-backup-password
+          - mongodb-database-admin-user
+          - mongodb-database-admin-password
+          - mongodb-cluster-admin-user
+          - mongodb-cluster-admin-password
+          - mongodb-cluster-monitor-user
+          - mongodb-cluster-monitor-password
+          - mongodb-user-admin-user
+          - mongodb-user-admin-password
+          - pmm-server-user
+          - pmm-server-password
+          - pmm-server-api-key     
           - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
@@ -336,20 +336,20 @@ cep-mongodb:
     secret_config:    
       generate_secret_name: mongodb-cep-secret
       generate_secret_keys:
-        - mongodb_backup_user
-        - mongodb_backup_password
-        - mongodb_database_admin_user
-        - mongodb_database_admin_password
-        - mongodb_cluster_admin_user
-        - mongodb_cluster_admin_password
-        - mongodb_cluster_monitor_user
-        - mongodb_cluster_monitor_password
-        - mongodb_user_admin_user
-        - mongodb_user_admin_password
-        - pmm_server_user
-        - pmm_server_password
-        - pmm_server_api_key     
-        - mongodb-passwords
+          - mongodb-backup-user
+          - mongodb-backup-password
+          - mongodb-database-admin-user
+          - mongodb-database-admin-password
+          - mongodb-cluster-admin-user
+          - mongodb-cluster-admin-password
+          - mongodb-cluster-monitor-user
+          - mongodb-cluster-monitor-password
+          - mongodb-user-admin-user
+          - mongodb-user-admin-password
+          - pmm-server-user
+          - pmm-server-password
+          - pmm-server-api-key     
+          - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
@@ -374,20 +374,20 @@ reporting-events-mongodb:
     secret_config:    
       generate_secret_name: mongodb-reporting-events-secret
       generate_secret_keys:
-        - mongodb_backup_user
-        - mongodb_backup_password
-        - mongodb_database_admin_user
-        - mongodb_database_admin_password
-        - mongodb_cluster_admin_user
-        - mongodb_cluster_admin_password
-        - mongodb_cluster_monitor_user
-        - mongodb_cluster_monitor_password
-        - mongodb_user_admin_user
-        - mongodb_user_admin_password
-        - pmm_server_user
-        - pmm_server_password
-        - pmm_server_api_key     
-        - mongodb-passwords
+          - mongodb-backup-user
+          - mongodb-backup-password
+          - mongodb-database-admin-user
+          - mongodb-database-admin-password
+          - mongodb-cluster-admin-user
+          - mongodb-cluster-admin-password
+          - mongodb-cluster-monitor-user
+          - mongodb-cluster-monitor-password
+          - mongodb-user-admin-user
+          - mongodb-user-admin-password
+          - pmm-server-user
+          - pmm-server-password
+          - pmm-server-api-key     
+          - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
@@ -592,20 +592,20 @@ ttk-mongodb:
     secret_config:    
       generate_secret_name: mongodb-ttk-secret
       generate_secret_keys:
-        - mongodb_backup_user
-        - mongodb_backup_password
-        - mongodb_database_admin_user
-        - mongodb_database_admin_password
-        - mongodb_cluster_admin_user
-        - mongodb_cluster_admin_password
-        - mongodb_cluster_monitor_user
-        - mongodb_cluster_monitor_password
-        - mongodb_user_admin_user
-        - mongodb_user_admin_password
-        - pmm_server_user
-        - pmm_server_password
-        - pmm_server_api_key     
-        - mongodb-passwords
+          - mongodb-backup-user
+          - mongodb-backup-password
+          - mongodb-database-admin-user
+          - mongodb-database-admin-password
+          - mongodb-cluster-admin-user
+          - mongodb-cluster-admin-password
+          - mongodb-cluster-monitor-user
+          - mongodb-cluster-monitor-password
+          - mongodb-user-admin-user
+          - mongodb-user-admin-password
+          - pmm-server-user
+          - pmm-server-password
+          - pmm-server-api-key     
+          - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
