@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/keycloak/install
+    path: ${find_in_parent_folders("kustomization/keycloak/install", "apps/keycloak/install")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

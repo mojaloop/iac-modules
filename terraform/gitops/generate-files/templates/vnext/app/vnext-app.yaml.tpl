@@ -10,7 +10,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/vnext
+    path: ${find_in_parent_folders("kustomization/vnext", "apps/vnext")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:

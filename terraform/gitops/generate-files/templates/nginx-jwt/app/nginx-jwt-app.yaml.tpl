@@ -10,7 +10,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/nginx-jwt
+    path: ${find_in_parent_folders("kustomization/nginx-jwt", "apps/nginx-jwt")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

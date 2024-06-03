@@ -10,7 +10,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/mcm
+    path: ${find_in_parent_folders("kustomization/mcm", "apps/mcm")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

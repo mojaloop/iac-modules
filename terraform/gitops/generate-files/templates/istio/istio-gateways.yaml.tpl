@@ -10,7 +10,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/istio/istio-gateways
+    path: ${find_in_parent_folders("kustomization/istio/istio-gateways", "apps/istio/istio-gateways")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

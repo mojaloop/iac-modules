@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/certmanager/charts/certmanager
+    path: ${find_in_parent_folders("kustomization/certmanager/charts/certmanager", "apps/certmanager/charts/certmanager")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

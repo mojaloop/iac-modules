@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/storage
+    path: ${find_in_parent_folders("kustomization/storage", "apps/storage")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/ory
+    path: ${find_in_parent_folders("kustomization/ory", "apps/ory")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:

@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/monitoring/post-config
+    path: ${find_in_parent_folders("kustomization/monitoring/post-config", "apps/monitoring/post-config")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

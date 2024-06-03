@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/monitoring
+    path: ${find_in_parent_folders("kustomization/monitoring", "apps/monitoring")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:

@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/external-dns
+    path: ${find_in_parent_folders("kustomization/external-dns", "apps/external-dns")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

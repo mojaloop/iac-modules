@@ -10,7 +10,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/ingress
+    path: ${find_in_parent_folders("kustomization/ingress", "apps/ingress")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:

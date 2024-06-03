@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/certmanager/clusterissuers
+    path: ${find_in_parent_folders("kustomization/certmanager/clusterissuers", "apps/certmanager/clusterissuers")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

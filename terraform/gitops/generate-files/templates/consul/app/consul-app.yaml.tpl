@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/consul
+    path: ${find_in_parent_folders("kustomization/consul", "apps/consul")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

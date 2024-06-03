@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/vault/charts/vault-config-operator
+    path: ${find_in_parent_folders("kustomization/vault/charts/vault-config-operator", "apps/vault/charts/vault-config-operator")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

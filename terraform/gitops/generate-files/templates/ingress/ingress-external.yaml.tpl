@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/ingress/charts/nginx-external
+    path: ${find_in_parent_folders("kustomization/ingress/charts/nginx-external", "apps/ingress/charts/nginx-external")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:

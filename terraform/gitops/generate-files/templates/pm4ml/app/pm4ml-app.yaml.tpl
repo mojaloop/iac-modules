@@ -10,7 +10,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/${pm4ml_release_name}
+    path: ${find_in_parent_folders("kustomization/${pm4ml_release_name}", "apps/${pm4ml_release_name}")}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
