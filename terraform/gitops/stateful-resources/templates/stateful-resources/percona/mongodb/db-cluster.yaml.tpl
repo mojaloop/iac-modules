@@ -661,8 +661,8 @@ spec:
             - "-c"
           args:
             - >
-              "mongo \"mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}-mongos\" 
-              --eval 'db.createUser({user: \"${database_user}\",pwd: \"$${MONGODB_USER_PASSWORD}\",roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})'"
+               echo "db.createUser({user: \"${database_user}\",pwd: \"process.env.MONGODB_USER_PASSWORD\",roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" > init.js
+               mongosh "mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}-mongos" < init.js
               EOF
           env:
             - name: MONGODB_USER_ADMIN_USER
