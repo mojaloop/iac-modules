@@ -666,7 +666,6 @@ spec:
                chmod +x ~/init.js;
                echo "running init.js";
                mongosh "mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}-mongos" < ~/init.js
-               EOF
           env:
             - name: MONGODB_USER_ADMIN_USER
               valueFrom:
