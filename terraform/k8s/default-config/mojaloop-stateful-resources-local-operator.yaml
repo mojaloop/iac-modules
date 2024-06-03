@@ -292,7 +292,7 @@ bulk-mongodb:
     cr_version: 1.14.0 
     percona_server_mongodb_version: 6.0.4-3
     resource_namespace: mojaloop
-    override_service_name: mongodb-bulk-mongodb
+    override_service_name: bulk-mongodb-mongos
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
@@ -370,7 +370,7 @@ reporting-events-mongodb:
     cr_version: 1.14.0
     percona_server_mongodb_version: 6.0.4-3
     resource_namespace: mojaloop
-    override_service_name: mongodb-reporting-events-mongodb
+    override_service_name: reporting-events-mongodb-mongos
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
@@ -589,7 +589,7 @@ ttk-mongodb:
     cr_version: 1.14.0
     percona_server_mongodb_version: 6.0.4-3
     resource_namespace: mojaloop
-    override_service_name: mongodb-ttk-mongodb
+    override_service_name: ttk-mongodb-mongos
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
