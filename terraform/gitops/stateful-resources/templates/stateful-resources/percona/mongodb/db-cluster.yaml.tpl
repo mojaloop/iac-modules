@@ -661,8 +661,11 @@ spec:
             - "-c"
           args:
             - >
-               echo "db.createUser({user: \"${database_user}\",pwd: \"process.env.MONGODB_USER_PASSWORD\",roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" > init.js
-               mongosh "mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}-mongos" < init.js
+               echo "#!/usr/bin/env node" > ~/init.js             
+               echo "db.createUser({user: \"${database_user}\",pwd: \"process.env.MONGODB_USER_PASSWORD\",roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js
+               chmod +x ~/init.js;
+               echo "running init.js";
+               mongosh "mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}-mongos" < ~/init.js
                EOF
           env:
             - name: MONGODB_USER_ADMIN_USER
