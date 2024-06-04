@@ -96,7 +96,8 @@ spec:
         long_query_time=${database_config.long_query_time}
         innodb_use_native_aio=${database_config.innodb_use_native_aio}
         max_connections=${database_config.max_connections}
-        innodb_buffer_pool_size=${database_config.innodb_buffer_pool_size}       
+        innodb_buffer_pool_size=${database_config.innodb_buffer_pool_size} 
+        wsrep_auto_increment_control=OFF      
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
 #      [sst]
