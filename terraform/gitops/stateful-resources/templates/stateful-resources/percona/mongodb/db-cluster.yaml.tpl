@@ -606,8 +606,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-4"    
 spec:
-  pxcCluster: ${cluster_name}
-  storageName: ${backupStorageName}
+  clusterName: ${cluster_name}
+  storageName: ${backupStorageName}  
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
