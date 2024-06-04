@@ -596,8 +596,8 @@ spec:
         storageName: ${backupStorageName}
 %{ endfor ~}
 ---
-apiVersion: pxc.percona.com/v1
-kind: PerconaXtraDBClusterBackup
+apiVersion: psmdb.percona.com/v1
+kind: PerconaServerMongoDBBackup
 metadata:
   finalizers:
     - delete-s3-backup
