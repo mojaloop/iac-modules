@@ -652,6 +652,7 @@ spec:
           bucket: ${minio_percona_backup_bucket}
           credentialsSecret: ${percona_credentials_secret}
           endpointUrl: ${minio_api_url}
+          prefix: ${cluster_name}
       azure-blob:
         type: azure
         azure:
