@@ -5,7 +5,7 @@
 resource "aws_security_group" "ingress" {
   name   = "${local.base_domain}-ingress"
   vpc_id = module.base_infra.vpc_id
-  tags = merge({ Name = "${local.base_domain}-ingress" }, local.common_tags)
+  tags   = merge({ Name = "${local.base_domain}-ingress" }, local.common_tags)
 }
 
 resource "aws_security_group_rule" "ingress_http" {
@@ -92,7 +92,7 @@ resource "aws_security_group_rule" "ingress_egress_all" {
 resource "aws_security_group" "self" {
   name   = "${local.base_domain}-self"
   vpc_id = module.base_infra.vpc_id
-  tags = merge({ Name = "${local.base_domain}-self" }, local.common_tags)
+  tags   = merge({ Name = "${local.base_domain}-self" }, local.common_tags)
 }
 
 resource "aws_security_group_rule" "self_self" {
@@ -115,8 +115,8 @@ resource "aws_security_group_rule" "internal_ssh" {
 
 resource "aws_security_group_rule" "self_master" {
   type              = "ingress"
-  from_port         = 6443
-  to_port           = 6443
+  from_port         = var.kubeapi_port
+  to_port           = var.kubeapi_port
   protocol          = "TCP"
   cidr_blocks       = [var.vpc_cidr]
   security_group_id = aws_security_group.self.id
