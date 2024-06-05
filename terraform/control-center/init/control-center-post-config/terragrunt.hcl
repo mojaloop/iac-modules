@@ -29,6 +29,9 @@ dependency "control_center_deploy" {
       netmaker_host_name = "test"
       netmaker_api_host  = "test"
     }
+    minio_server_url      = "temporary-dummy-id"
+    minio_root_user       = "temporary-dummy-id"
+    minio_root_password   = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "deep_map_only"
@@ -69,6 +72,10 @@ inputs = {
   netmaker_version    = local.env_vars.netmaker_version
   gitlab_admin_rbac_group          = local.env_vars.gitlab_admin_rbac_group
   gitlab_readonly_rbac_group       = local.env_vars.gitlab_readonly_rbac_group
+  loki_data_expiry                 = local.env_vars.loki_data_expiry
+  tempo_data_expiry_days           = local.env_vars.tempo_data_expiry_days
+  longhorn_backup_data_expiry      = local.env_vars.longhorn_backup_data_expiry  
+  private_subdomain_string         = local.private_subdomain_string
 }
 
 locals {
@@ -80,12 +87,13 @@ locals {
   )
   env_map = { for val in local.env_vars.envs :
     val["env"] => {
-      domain                            = val["domain"]
-      enable_vault_oauth_to_gitlab      = val["enable_vault_oauth_to_gitlab"]
-      enable_grafana_oauth_to_gitlab    = val["enable_grafana_oauth_to_gitlab"]
-      enable_argocd_oauth_to_gitlab     = val["enable_argocd_oauth_to_gitlab"]
+      domain                 = val["domain"]
+      vault_oidc_domain      = try(val["vault_oidc_domain"],"")
+      grafana_oidc_domain    = try(val["grafana_oidc_domain"],"")
+      argocd_oidc_domain     = try(val["argocd_oidc_domain"],"")
     }
   }
+  private_subdomain_string = "int"
 }
 
 include "root" {
@@ -106,6 +114,10 @@ terraform {
       version = "${local.common_vars.gitlab_provider_version}"
     }
     vault = "${local.common_vars.vault_provider_version}"
+    minio = {
+      source = "aminueza/minio"
+      version = "${local.common_vars.minio_provider_version}" 
+    }
   }
 }
 provider "vault" {
@@ -115,6 +127,11 @@ provider "vault" {
 provider "gitlab" {
   token = "${dependency.control_center_deploy.outputs.gitlab_root_token}"
   base_url = "https://${dependency.control_center_deploy.outputs.gitlab_server_hostname}"
+}
+provider minio {
+  minio_server   = "${dependency.control_center_deploy.outputs.minio_server_url}"
+  minio_user     = "${dependency.control_center_deploy.outputs.minio_root_user}"
+  minio_password = "${dependency.control_center_deploy.outputs.minio_root_password}"
 }
 EOF
 }

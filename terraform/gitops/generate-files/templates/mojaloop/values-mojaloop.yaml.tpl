@@ -105,6 +105,19 @@ CONFIG:
   cl_monitoring_prefix: &CL_MONITORING_PREFIX "${central_ledger_monitoring_prefix}"
   als_monitoring_prefix: &ALS_MONITORING_PREFIX "${account_lookup_service_monitoring_prefix}"
 
+  ## TESTS
+  testCasesZipUrl: &TEST_CASES_ZIP_URL https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
+  test_cases_path_setup: &TEST_CASES_PATH_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning
+  test_cases_path_gp: &TEST_CASES_PATH_GP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/golden_path
+  test_cases_path_bulk: &TEST_CASES_PATH_BULK testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/other_tests/bulk_transfers
+  test_cases_path_tp_setup: &TEST_CASES_PATH_TP_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning_thirdparty
+  test_cases_path_tp_val: &TEST_CASES_PATH_TP_VAL testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/thirdparty
+  test_cases_path_sdk_bulk_setup: &TEST_CASES_PATH_SDK_BULK_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning_sdkbulk
+  test_cases_path_sdk_bulk_val: &TEST_CASES_PATH_SDK_BULK_VAL testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/bulk/basic
+  test_cases_path_sdk_r2p_val: &TEST_CASES_PATH_SDK_R2P_VAL testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/request-to-pay/basic
+  test_cases_path_cleanup: &TEST_CASES_PATH_CLEANUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/cleanup
+
+
   ingress_class: &INGRESS_CLASS "${ingress_class_name}"
 
   ## Endpiont Security
@@ -687,12 +700,12 @@ centralsettlement:
 transaction-requests-service:
   podLabels:
     sidecar.istio.io/inject: "${enable_istio_injection}"
-%{ if trasaction_requests_service_affinity != null ~}
+%{ if transaction_requests_service_affinity != null ~}
   affinity:
-    ${indent(8, trasaction_requests_service_affinity)}
+    ${indent(8, transaction_requests_service_affinity)}
 %{ endif ~}
   tolerations: *MOJALOOP_TOLERATIONS
-  replicaCount: ${trasaction_requests_service_replica_count}
+  replicaCount: ${transaction_requests_service_replica_count}
   ingress:
 %{ if istio_create_ingress_gateways ~}
     enabled: false
@@ -1046,9 +1059,43 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         specApi:
-          host: ${ttk_backend_public_fqdn}
+          host: ${ttk_backend_fqdn}
         adminApi:
-          host: ${ttk_backend_public_fqdn}
+          host: ${ttk_backend_fqdn}
+    config_files:
+      user_config.json:
+        LABELS: [
+          {
+            "name": "p2p",
+            "description": "tests related to p2p transfer",
+            "color": "red"
+          },
+          {
+            "name": "settlements",
+            "description": "tests related to settlements",
+            "color": "green"
+          },
+          {
+            "name": "quotes",
+            "description": "tests related to quoting service",
+            "color": "blue"
+          },
+          {
+            "name": "basic-func-tests",
+            "description": "for testing basic functionality",
+            "color": "orange"
+          },
+          {
+            "name": "prod-tests",
+            "description": "tests related to production environment",
+            "color": "black"
+          },
+          {
+            "name": "min-func-tests",
+            "description": "minimal functional tests",
+            "color": "yellow"
+          }
+        ]
     parameters: &simNames
       simNamePayerfsp: 'payerfsp'
       simNamePayeefsp: 'payeefsp'
@@ -1137,20 +1184,22 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         ui:
-          host: ${ttk_frontend_public_fqdn}
+          host: ${ttk_frontend_fqdn}
           port: 6060
           paths: ['/']
     config:
-      API_BASE_URL: https://${ttk_backend_public_fqdn}
+      API_BASE_URL: https://${ttk_backend_fqdn}
 
 ml-ttk-test-setup:
   tests:
     enabled: true
   config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_SETUP
     testSuiteName: Provisioning
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1170,10 +1219,12 @@ ml-ttk-test-val-gp:
   tests:
     enabled: true
   config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_GP
     testSuiteName: GP Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1192,10 +1243,12 @@ ml-ttk-test-val-bulk:
   tests:
     enabled: true
   config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_BULK
     testSuiteName: Bulk Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1204,10 +1257,12 @@ ml-ttk-test-setup-tp:
   tests:
     enabled: true
   config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_TP_SETUP
     testSuiteName: Third Party Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1216,10 +1271,12 @@ ml-ttk-test-val-tp:
   tests:
     enabled: true
   config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_TP_VAL
     testSuiteName: Third Party Validation Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1228,10 +1285,12 @@ ml-ttk-test-setup-sdk-bulk:
   tests:
     enabled: true
   config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_SDK_BULK_SETUP
     testSuiteName: SDK Bulk Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1240,6 +1299,8 @@ ml-ttk-test-val-sdk-bulk:
   tests:
     enabled: true
   config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_SDK_BULK_VAL
     testSuiteName: SDK Bulk Validation Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
@@ -1252,6 +1313,8 @@ ml-ttk-test-val-sdk-r2p:
   tests:
     enabled: true
   config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_SDK_R2P_VAL
     testSuiteName: SDK Request To Pay Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
@@ -1264,10 +1327,12 @@ ml-ttk-test-cleanup:
   tests:
     enabled: true
   config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_CLEANUP
     testSuiteName: Post Cleanup
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_public_fqdn}
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues

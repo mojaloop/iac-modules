@@ -44,7 +44,7 @@ resource "local_file" "kustomization" {
 resource "local_file" "namespace" {
   content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
     {
-      all_ns = distinct(concat([var.stateful_resources_namespace], local.all_logical_extra_namespaces, local.all_local_namespaces, local.all_local_extra_namespaces))
+      all_ns = distinct(concat(var.create_stateful_resources_ns ? [var.stateful_resources_namespace] : [], local.all_logical_extra_namespaces, local.all_local_namespaces, local.all_local_extra_namespaces))
   })
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
@@ -55,8 +55,8 @@ resource "local_file" "stateful-resources-app-file" {
 }
 
 locals {
-  stateful_resources_name            = "common"
-  stateful_resources_template_path   = "${path.module}/../generate-files/templates/stateful-resources"
+  stateful_resources_name            = var.stateful_resources_name
+  stateful_resources_template_path   = "${path.module}/templates/stateful-resources"
   stateful_resources_output_path     = "${var.output_dir}/${local.stateful_resources_name}-stateful-resources"
   stateful_resources_app_file        = "stateful-resources-app.yaml"
   app_stateful_resources_output_path = "${var.output_dir}/app-yamls"
@@ -65,10 +65,10 @@ locals {
   managed_stateful_resources         = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service }
   local_stateful_resources           = { for local_stateful_resource in local.enabled_stateful_resources : local_stateful_resource.resource_name => local_stateful_resource if !local_stateful_resource.external_service }
   local_external_name_map            = { for stateful_resource in local.local_stateful_resources : stateful_resource.logical_service_config.logical_service_name => stateful_resource.local_resource_config.override_service_name != null ? "${stateful_resource.local_resource_config.override_service_name}.${stateful_resource.local_resource_config.resource_namespace}.svc.cluster.local" : "${stateful_resource.resource_name}.${stateful_resource.local_resource_config.resource_namespace}.svc.cluster.local" }
-  managed_external_name_map          = { for index, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => data.gitlab_project_variable.external_stateful_resource_instance_address[index].value }
+  managed_external_name_map          = { for index, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.managed_db_host }  
   external_name_map                  = merge(local.local_external_name_map, local.managed_external_name_map)
   managed_resource_password_map = { for index, stateful_resource in local.managed_stateful_resources : stateful_resource.resource_name => {
-    password    = data.vault_generic_secret.external_stateful_resource_password[index].data.value
+    vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
     namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
     secret_name = stateful_resource.logical_service_config.user_password_secret
     secret_key  = stateful_resource.logical_service_config.user_password_secret_key
@@ -86,6 +86,40 @@ locals {
   all_local_namespaces         = distinct([for stateful_resource in local.local_stateful_resources : stateful_resource.local_resource_config.resource_namespace])
 }
 
+variable "external_stateful_resource_instance_addresses" {
+}
+
+variable "create_stateful_resources_ns" {
+  type        = bool
+  description = "whether to create st res ns"
+  default     = false
+}
+
+variable "gitlab_project_url" {
+  type        = string
+  description = "gitlab_project_url"
+}
+
+variable "cluster_name" {
+  description = "Cluster name, lower case and without spaces. This will be used to set tags and name resources"
+  type        = string
+}
+
+variable "gitlab_server_url" {
+  type        = string
+  description = "gitlab_server_url"
+}
+
+variable "current_gitlab_project_id" {
+  type        = string
+  description = "current_gitlab_project_id"
+}
+
+variable "kv_path" {
+  description = "path for tenant kv engine"
+  default     = "secret"
+}
+
 variable "stateful_resources_config_file" {
   default     = "../config/stateful-resources.json"
   type        = string
@@ -98,8 +132,23 @@ variable "stateful_resources_namespace" {
   default     = "stateful-resources"
 }
 
+variable "stateful_resources_name" {
+  type        = string
+  description = "stateful_resources_name"
+}
+
+variable "output_dir" {
+  type        = string
+  description = "output_dir"
+}
+
 variable "stateful_resources_sync_wave" {
   type        = string
   description = "stateful_resources_sync_wave, wait for vault config operator"
   default     = "-5"
+}
+
+variable "managed_db_host" {
+  type        = string
+  description = "url to managed db based on haproxy"
 }

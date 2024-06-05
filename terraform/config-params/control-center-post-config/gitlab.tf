@@ -173,7 +173,7 @@ resource "gitlab_group_access_token" "gitlab_ci_pat" {
 
 resource "vault_kv_secret_v2" "vault_oauth_client_id" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_vault_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.vault_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
   name                = "${each.key}/vault_oauth_client_id"
@@ -187,7 +187,7 @@ resource "vault_kv_secret_v2" "vault_oauth_client_id" {
 
 resource "vault_kv_secret_v2" "vault_oauth_client_secret" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_vault_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.vault_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
   name                = "${each.key}/vault_oauth_client_secret"
@@ -201,7 +201,7 @@ resource "vault_kv_secret_v2" "vault_oauth_client_secret" {
 
 resource "gitlab_project_variable" "enable_vault_oidc" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_vault_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.vault_oidc_domain != ""
   }
   project   = gitlab_project.envs[each.key].id
   key       = "ENABLE_VAULT_OIDC"
@@ -212,17 +212,17 @@ resource "gitlab_project_variable" "enable_vault_oidc" {
 
 resource "gitlab_application" "vault_oidc" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_vault_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.vault_oidc_domain != ""
   }
   confidential = true
   scopes       = ["openid"]
   name         = "${each.key}_vault_oidc"
-  redirect_url = "https://vault.${each.key}.${each.value["domain"]}/ui/vault/auth/oidc/oidc/callback"
+  redirect_url = "https://vault.${each.value["vault_oidc_domain"]}.${each.value["domain"]}/ui/vault/auth/oidc/oidc/callback"
 }
 
 resource "vault_kv_secret_v2" "grafana_oauth_client_id" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_grafana_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.grafana_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
   name                = "${each.key}/grafana_oauth_client_id"
@@ -236,7 +236,7 @@ resource "vault_kv_secret_v2" "grafana_oauth_client_id" {
 
 resource "vault_kv_secret_v2" "grafana_oauth_client_secret" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_grafana_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.grafana_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
   name                = "${each.key}/grafana_oauth_client_secret"
@@ -250,7 +250,7 @@ resource "vault_kv_secret_v2" "grafana_oauth_client_secret" {
 
 resource "gitlab_project_variable" "enable_grafana_oauth" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_grafana_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.grafana_oidc_domain != ""
   }
   project   = gitlab_project.envs[each.key].id
   key       = "ENABLE_GRAFANA_OIDC"
@@ -261,17 +261,17 @@ resource "gitlab_project_variable" "enable_grafana_oauth" {
 
 resource "gitlab_application" "grafana_oidc" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_grafana_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.grafana_oidc_domain != ""
   }
   confidential = true
   scopes       = ["read_api"]
   name         = "${each.key}_grafana_oidc"
-  redirect_url = "https://grafana.${each.key}.${each.value["domain"]}/login/gitlab"
+  redirect_url = "https://grafana.${each.value["grafana_oidc_domain"]}.${each.value["domain"]}/login/gitlab"
 }
 
 resource "vault_kv_secret_v2" "argocd_oauth_client_id" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_argocd_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.argocd_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
   name                = "${each.key}/argocd_oauth_client_id"
@@ -285,7 +285,7 @@ resource "vault_kv_secret_v2" "argocd_oauth_client_id" {
 
 resource "vault_kv_secret_v2" "argocd_oauth_client_secret" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_argocd_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.argocd_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
   name                = "${each.key}/argocd_oauth_client_secret"
@@ -299,7 +299,7 @@ resource "vault_kv_secret_v2" "argocd_oauth_client_secret" {
 
 resource "gitlab_project_variable" "enable_argocd_oauth" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_argocd_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.argocd_oidc_domain != ""
   }
   project   = gitlab_project.envs[each.key].id
   key       = "ENABLE_ARGOCD_OIDC"
@@ -310,10 +310,10 @@ resource "gitlab_project_variable" "enable_argocd_oauth" {
 
 resource "gitlab_application" "argocd_oidc" {
   for_each = {
-    for key, env in var.env_map : key => env if env.enable_argocd_oauth_to_gitlab
+    for key, env in var.env_map : key => env if env.argocd_oidc_domain != ""
   }
   confidential = true
   scopes       = ["openid", "read_api", "profile", "email"]
   name         = "${each.key}_argocd_oidc"
-  redirect_url = "https://argocd.${each.key}.${each.value["domain"]}/auth/callback"
+  redirect_url = "https://argocd.${each.value["argocd_oidc_domain"]}.${each.value["domain"]}/auth/callback"
 }

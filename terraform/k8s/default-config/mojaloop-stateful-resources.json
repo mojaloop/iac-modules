@@ -71,7 +71,26 @@
             ],
             "mysql_data": {
                 "is_legacy": false,
+                "default_authentication_plugin": "mysql_native_password",
+                "basedir": "/opt/bitnami/mysql",
+                "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
+                "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
+                "datadir": "/bitnami/mysql/data",
+                "tmpdir": "/opt/bitnami/mysql/tmp",
+                "max_allowed_packet": "16M",
+                "bind-address": "*",
+                "pid-file": "/opt/bitnami/mysql/tmp/mysqld.pid",
+                "log-error": "/opt/bitnami/mysql/logs/mysqld.log",
+                "character-set-server": "UTF8",
+                "collation-server": "utf8_general_ci",
+                "long_query_time": 10.0,
+                "innodb_use_native_aio": 0,
+                "max_connections": 2000,
+                "innodb_buffer_pool_size": 2147483648,
+                "port": 3306,
                 "existing_secret": "mysql-auth-svc-secret",
+                "general_log": 0,
+                "slow_query_log": 0,
                 "root_password": "",
                 "user": "auth-svc",
                 "user_password": "",
@@ -121,7 +140,26 @@
             ],
             "mysql_data": {
                 "is_legacy": false,
+                "default_authentication_plugin": "mysql_native_password",
+                "basedir": "/opt/bitnami/mysql",
+                "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
+                "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
+                "datadir": "/bitnami/mysql/data",
+                "tmpdir": "/opt/bitnami/mysql/tmp",
+                "max_allowed_packet": "16M",
+                "bind-address": "*",
+                "pid-file": "/opt/bitnami/mysql/tmp/mysqld.pid",
+                "log-error": "/opt/bitnami/mysql/logs/mysqld.log",
+                "character-set-server": "UTF8",
+                "collation-server": "utf8_general_ci",
+                "long_query_time": 10.0,
+                "innodb_use_native_aio": 0,
+                "max_connections": 2000,
+                "innodb_buffer_pool_size": 2147483648,
+                "port": 3306,
                 "existing_secret": "mysql-consent-oracle-secret",
+                "general_log": 0,
+                "slow_query_log": 0,
                 "root_password": "",
                 "user": "consent-oracle",
                 "user_password": "",
@@ -171,7 +209,26 @@
             ],
             "mysql_data": {
                 "is_legacy": false,
+                "default_authentication_plugin": "mysql_native_password",
+                "basedir": "/opt/bitnami/mysql",
+                "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
+                "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
+                "datadir": "/bitnami/mysql/data",
+                "tmpdir": "/opt/bitnami/mysql/tmp",
+                "max_allowed_packet": "16M",
+                "bind-address": "*",
+                "pid-file": "/opt/bitnami/mysql/tmp/mysqld.pid",
+                "log-error": "/opt/bitnami/mysql/logs/mysqld.log",
+                "character-set-server": "UTF8",
+                "collation-server": "utf8_general_ci",
+                "long_query_time": 10.0,
+                "innodb_use_native_aio": 0,
+                "max_connections": 2000,
+                "innodb_buffer_pool_size": 2147483648,
+                "port": 3306,
                 "existing_secret": "mcm-db-secret",
+                "general_log": 0,
+                "slow_query_log": 0,
                 "root_password": "",
                 "user": "devdat1asql1",
                 "user_password": "",
@@ -190,6 +247,7 @@
         "enabled": true,
         "resource_name": "account-lookup-db",
         "resource_type": "mysql",
+        "communication_mode": "tcp",
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
@@ -221,7 +279,26 @@
             ],
             "mysql_data": {
                 "is_legacy": false,
+                "default_authentication_plugin": "mysql_native_password",
+                "basedir": "/opt/bitnami/mysql",
+                "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
+                "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
+                "datadir": "/bitnami/mysql/data",
+                "tmpdir": "/opt/bitnami/mysql/tmp",
+                "max_allowed_packet": "16M",
+                "bind-address": "*",
+                "pid-file": "/opt/bitnami/mysql/tmp/mysqld.pid",
+                "log-error": "/opt/bitnami/mysql/logs/mysqld.log",
+                "character-set-server": "UTF8",
+                "collation-server": "utf8_general_ci",
+                "long_query_time": 10.0,
+                "innodb_use_native_aio": 0,
+                "max_connections": 2000,
+                "innodb_buffer_pool_size": 2147483648,
+                "port": 3306,
                 "existing_secret": "mysql-account-lookup-secret",
+                "general_log": 0,
+                "slow_query_log": 0,
                 "root_password": "",
                 "user": "account_lookup",
                 "user_password": "",
@@ -262,7 +339,7 @@
             "engine": "mysql",
             "engine_version": "5.7",
             "family": "mysql5.7",
-            "instance_class": "db.t2.micro",
+            "instance_class": "db.m5.large",
             "maintenance_window": "Sun:04:00-Sun:06:00",
             "major_engine_version": "5.7",
             "monitoring_interval": "30",
@@ -308,6 +385,7 @@
         "enabled": true,
         "resource_name": "central-ledger-db",
         "resource_type": "mysql",
+        "communication_mode": "tcp",
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
@@ -340,7 +418,26 @@
             "mysql_data": {
                 "is_legacy": false,
                 "existing_secret": "mysql-central-ledger-secret",
+                "general_log": 0,
+                "slow_query_log": 0,
                 "root_password": "",
+                "default_authentication_plugin": "mysql_native_password",
+                "basedir": "/opt/bitnami/mysql",
+                "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
+                "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
+                "datadir": "/bitnami/mysql/data",
+                "tmpdir": "/opt/bitnami/mysql/tmp",
+                "max_allowed_packet": "16M",
+                "bind-address": "*",
+                "pid-file": "/opt/bitnami/mysql/tmp/mysqld.pid",
+                "log-error": "/opt/bitnami/mysql/logs/mysqld.log",
+                "character-set-server": "UTF8",
+                "collation-server": "utf8_general_ci",
+                "long_query_time": 10.0,
+                "innodb_use_native_aio": 0,
+                "max_connections": 2000,
+                "innodb_buffer_pool_size": 2147483648,
+                "port": 3306,
                 "user": "central_ledger",
                 "user_password": "",
                 "database_name": "central_ledger",
@@ -380,7 +477,7 @@
             "engine": "mysql",
             "engine_version": "5.7",
             "family": "mysql5.7",
-            "instance_class": "db.t2.micro",
+            "instance_class": "db.m5.large",
             "maintenance_window": "Sun:04:00-Sun:06:00",
             "major_engine_version": "5.7",
             "monitoring_interval": "30",
@@ -558,6 +655,8 @@
         "enabled": true,
         "resource_name": "mojaloop-kafka",
         "resource_type": "kafka",
+        "instance_address_key_name": "mojaloop-kafka-brokers",
+        "communication_mode": "tcp",
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 9092,
@@ -582,7 +681,51 @@
                     {
                       "name": "topic-event",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
+                    },
+                    {
+                      "name": "topic-event-audit",
+                      "partitions": 12,
+                      "replicationFactor": 1,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
+                    },
+                    {
+                      "name": "topic-event-log",
+                      "partitions": 12,
+                      "replicationFactor": 1,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
+                    },
+                    {
+                      "name": "topic-event-trace",
+                      "partitions": 12,
+                      "replicationFactor": 1,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
+                    },
+                    {
+                      "name": "topic-deferredsettlement-close",
+                      "partitions": 12,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -593,7 +736,7 @@
                     {
                       "name": "topic-transfer-prepare",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -604,7 +747,7 @@
                     {
                       "name": "topic-transfer-position",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -615,7 +758,7 @@
                     {
                       "name": "topic-transfer-position-batch",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -626,7 +769,7 @@
                     {
                       "name": "topic-transfer-fulfil",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -637,7 +780,7 @@
                     {
                       "name": "topic-notification-event",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -648,7 +791,7 @@
                     {
                       "name": "topic-transfer-get",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -659,7 +802,7 @@
                     {
                       "name": "topic-admin-transfer",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -670,7 +813,7 @@
                     {
                       "name": "topic-bulk-prepare",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -681,7 +824,7 @@
                     {
                       "name": "topic-bulk-fulfil",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -692,7 +835,7 @@
                     {
                       "name": "topic-bulk-processing",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -703,7 +846,7 @@
                     {
                       "name": "topic-bulk-get",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -714,7 +857,7 @@
                     {
                       "name": "topic-quotes-post",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -725,7 +868,7 @@
                     {
                       "name": "topic-quotes-put",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -736,7 +879,7 @@
                     {
                       "name": "topic-quotes-get",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -747,7 +890,7 @@
                     {
                       "name": "topic-bulkquotes-post",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -758,7 +901,7 @@
                     {
                       "name": "topic-bulkquotes-put",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -769,7 +912,7 @@
                     {
                       "name": "topic-bulkquotes-get",
                       "partitions": 12,
-                      "replicationFactor": 3,
+                      "replicationFactor": 1,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -845,6 +988,7 @@
         },
         "external_resource_config": {
             "name": "mks",
+            "port": 9092,
             "kafka_version": "3.4.0",
             "number_of_broker_nodes": 3,
             "enhanced_monitoring": "PER_TOPIC_PER_PARTITION",
@@ -854,7 +998,7 @@
                 }
             },
             "broker_node_instance_type": "kafka.t3.small",
-            "encryption_in_transit_client_broker": "TLS",
+            "encryption_in_transit_client_broker": "PLAINTEXT",
             "encryption_in_transit_in_cluster": true,
             "configuration_name": "example-configuration",
             "configuration_description": "Example configuration",

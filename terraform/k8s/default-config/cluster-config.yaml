@@ -7,11 +7,13 @@ cloud_platform_client_secret_name: AWS_SECRET_ACCESS_KEY
 k8s_cluster_module: base-k8s
 cloud_region: eu-west-1
 k8s_cluster_type: microk8s
-ansible_collection_tag: v0.18.11
-iac_terraform_modules_tag: v0.40.51sgtest
+ansible_collection_tag: v5.2.0
+iac_terraform_modules_tag: v5.2.0
 letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 longhorn_backup_object_store_destroy: true
+managed_svc_enabled: false
+addons_module_enabled: false
 nodes:
   master-generic:
     master: true
@@ -31,6 +33,7 @@ nodes:
       workload-class.mojaloop.io/KAFKA-DATA-PLANE: "enabled"
       workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE: "enabled"
       workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
+      workload-class.mojaloop.io/MONITORING: "enabled"
 vpc_cidr: "10.106.0.0/23"
 enable_k6s_test_harness: false
 k6s_docker_server_instance_type: "m5.large"
