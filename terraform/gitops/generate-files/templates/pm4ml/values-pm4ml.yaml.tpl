@@ -217,7 +217,7 @@ ttk:
   ml-testing-toolkit-backend:
     image:
       repository: mojaloop/ml-testing-toolkit
-      tag: v17.1.1
+      tag: v17.2.0
     ingress:
       enabled: false
     nameOverride: ttk-backend

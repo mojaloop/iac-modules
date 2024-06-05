@@ -128,7 +128,7 @@ CONFIG:
   cl_image: &CL_IMAGE
     registry: docker.io
     repository: mojaloop/central-ledger
-    tag: v17.7.0-snapshot.0
+    tag: v17.7.0-snapshot.4
 
   qs_image: &QS_IMAGE
     registry: docker.io
