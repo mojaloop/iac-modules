@@ -169,7 +169,13 @@ variable "vault_listening_port" {
 variable "mimir_listening_port" {
   type        = number
   default     = 9009
-  description = "which port to listen for mimir"
+  description = "which port to listen for central observability mimir"
+}
+
+variable "grafana_listening_port" {
+  type        = number
+  default     = 3000
+  description = "which port to listen for central observability grafana"
 }
 
 variable "days_retain_gitlab_snapshot" {

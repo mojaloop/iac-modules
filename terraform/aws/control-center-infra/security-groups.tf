@@ -103,8 +103,8 @@ resource "aws_security_group" "docker_server" {
 
   ingress {
     description = "central-observability grafana access"
-    from_port   = 3000
-    to_port     = 3000
+    from_port   = var.grafana_listening_port
+    to_port     = var.grafana_listening_port
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
   }
