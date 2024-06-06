@@ -154,7 +154,7 @@ account-lookup-db:
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:
-      generate_secret_name: mysql-account-lookup-secret
+      generate_secret_name: account-lookup-db-secret
       generate_secret_keys:
         - mysql-password
         - mysql-root-password
@@ -181,7 +181,7 @@ account-lookup-db:
       max_connections: 2000
       innodb_buffer_pool_size: 2147483648
       port: 3306
-      existing_secret: mysql-account-lookup-secret
+      existing_secret: account-lookup-db-secret
       general_log: 0
       slow_query_log: 0
       root_password: ""
@@ -211,7 +211,7 @@ central-ledger-db:
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:
-      generate_secret_name: mysql-central-ledger-secret
+      generate_secret_name: central-ledger-db-secret
       generate_secret_keys:
         - mysql-password
         - mysql-root-password
@@ -221,7 +221,7 @@ central-ledger-db:
         - mojaloop
     mysql_data:
       is_legacy: false
-      existing_secret: mysql-central-ledger-secret
+      existing_secret: central-ledger-db-secret
       general_log: 0
       slow_query_log: 0
       root_password: ""
