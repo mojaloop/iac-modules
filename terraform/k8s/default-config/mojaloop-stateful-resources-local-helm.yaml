@@ -346,6 +346,11 @@ mojaloop-kafka:
     generate_secret_keys: []
     generate_secret_vault_base_path:
     generate_secret_extra_namespaces: []
+    secret_config:
+      generate_secret_name: 
+      generate_secret_keys: 
+      generate_secret_vault_base_path: 
+      generate_secret_extra_namespaces: []    
     kafka_provisioning:
       enabled: true
       topics:
