@@ -83,13 +83,6 @@ output "vault_fqdn" {
   value = aws_route53_record.vault_server_private.fqdn
 }
 
-output "mimir_listening_port" {
-  value = var.mimir_listening_port
-}
-
-output "mimir_fqdn" {
-  value = aws_route53_record.central_observability_mimir_server_private.fqdn
-}
 
 
 output "gitlab_hosts_var_maps" {
@@ -125,8 +118,8 @@ output "all_hosts_var_maps" {
     base_domain            = local.base_domain
     gitlab_external_url    = "https://${aws_route53_record.gitlab_server_public.fqdn}"
     netmaker_image_version = var.netmaker_image_version
-    mimir_fqdn             = output.mimir_fqdn
-    mimir_listening_port   = output.mimir_listening_port
+    mimir_fqdn             = aws_route53_record.central_observability_mimir_server_private.fqdn
+    mimir_listening_port   = var.mimir_listening_port
   }
 }
 
