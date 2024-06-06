@@ -166,6 +166,12 @@ variable "vault_listening_port" {
   description = "which port to listen for vault"
 }
 
+variable "mimir_listening_port" {
+  type        = number
+  default     = 9009
+  description = "which port to listen for mimir"
+}
+
 variable "days_retain_gitlab_snapshot" {
   type        = number
   description = "number of days to retain gitlab snapshots"

@@ -97,3 +97,11 @@ resource "aws_route53_record" "central_observability_grafana_server_private" {
   ttl     = "300"
   records = [aws_instance.docker_server.private_ip]
 }
+
+resource "aws_route53_record" "central_observability_mimir_server_private" {
+  zone_id = module.base_infra.public_zone.id
+  name    = "mimir"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.docker_server.private_ip]
+}

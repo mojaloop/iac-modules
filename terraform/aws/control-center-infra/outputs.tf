@@ -83,6 +83,15 @@ output "vault_fqdn" {
   value = aws_route53_record.vault_server_private.fqdn
 }
 
+output "mimir_listening_port" {
+  value = var.mimir_listening_port
+}
+
+output "mimir_fqdn" {
+  value = aws_route53_record.central_observability_mimir_server_private.fqdn
+}
+
+
 output "gitlab_hosts_var_maps" {
   sensitive = true
   value = {
