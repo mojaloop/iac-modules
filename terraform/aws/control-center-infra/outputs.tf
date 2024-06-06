@@ -125,6 +125,8 @@ output "all_hosts_var_maps" {
     base_domain            = local.base_domain
     gitlab_external_url    = "https://${aws_route53_record.gitlab_server_public.fqdn}"
     netmaker_image_version = var.netmaker_image_version
+    mimir_fqdn             = output.mimir_fqdn
+    mimir_listening_port   = output.mimir_listening_port
   }
 }
 

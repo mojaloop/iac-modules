@@ -110,9 +110,9 @@ resource "aws_security_group" "docker_server" {
   }
 
   ingress {
-    description = "central-observability mimir load balancer access"
-    from_port   = 9009
-    to_port     = 9009
+    description = "central-observability mimir access"
+    from_port   = var.mimir_listening_port
+    to_port     = var.mimir_listening_port
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
   }
