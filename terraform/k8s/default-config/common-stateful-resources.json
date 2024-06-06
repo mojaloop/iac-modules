@@ -15,7 +15,7 @@
             ],
             "database_name": "keycloak"
         },
-        "local_resource_config": {
+        "local_helm_config": {
             "resource_namespace": "keycloak-db",
             "override_service_name": "postgresql-keycloak-db",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -64,7 +64,7 @@
             ],
             "database_name": "keto"
         },
-        "local_resource_config": {
+        "local_helm_config": {
             "resource_namespace": "keto-db",
             "override_service_name": "postgresql-keto-db",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
@@ -114,7 +114,7 @@
             ],
             "database_name": "kratos"
         },
-        "local_resource_config": {
+        "local_helm_config": {
             "resource_namespace": "kratos-db",
             "override_service_name": "postgresql-kratos-db",
             "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",

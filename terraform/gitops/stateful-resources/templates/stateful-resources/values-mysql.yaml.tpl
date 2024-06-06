@@ -25,7 +25,7 @@ global:
 kubeVersion: ""
 ## @param nameOverride String to partially override common.names.fullname template (will maintain the release name)
 ##
-nameOverride: ${resource.resource_name}
+nameOverride: ${key}
 ## @param fullnameOverride String to fully override common.names.fullname template
 ##
 fullnameOverride: ""
@@ -81,35 +81,35 @@ image:
   debug: false
 ## @param architecture MySQL architecture (`standalone` or `replication`)
 ##
-architecture: ${resource.local_resource_config.mysql_data.architecture}
+architecture: ${resource.local_helm_config.mysql_data.architecture}
 ## MySQL Authentication parameters
 ##
 auth:
   ## @param auth.rootPassword Password for the `root` user. Ignored if existing secret is provided
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#setting-the-root-password-on-first-run
   ##
-  rootPassword: "${resource.local_resource_config.mysql_data.root_password}"
+  rootPassword: "${resource.local_helm_config.mysql_data.root_password}"
   ## @param auth.database Name for a custom database to create
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#creating-a-database-on-first-run
   ##
-  database: ${resource.local_resource_config.mysql_data.database_name}
+  database: ${resource.local_helm_config.mysql_data.database_name}
   ## @param auth.username Name for a custom user to create
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#creating-a-database-user-on-first-run
   ##
-  username: ${resource.local_resource_config.mysql_data.user}
+  username: ${resource.local_helm_config.mysql_data.user}
   ## @param auth.replicationUser MySQL replication user
   ## ref: https://github.com/bitnami/bitnami-docker-mysql#setting-up-a-replication-cluster
   ##
-  password: "${resource.local_resource_config.mysql_data.user_password}"
+  password: "${resource.local_helm_config.mysql_data.user_password}"
   ## @param auth.replicationUser MySQL replication user
   ## ref: https://github.com/bitnami/containers/tree/main/bitnami/mysql#setting-up-a-replication-cluster
   ##
   replicationUser: replicator
   ## @param auth.replicationPassword MySQL replication user password. Ignored if existing secret is provided
   ##
-  replicationPassword: "${resource.local_resource_config.mysql_data.root_password}"
+  replicationPassword: "${resource.local_helm_config.mysql_data.root_password}"
 
-  existingSecret: "${resource.local_resource_config.mysql_data.existing_secret}"
+  existingSecret: "${resource.local_helm_config.mysql_data.existing_secret}"
 
 ## @section MySQL Primary parameters
 ##
@@ -136,39 +136,39 @@ primary:
   ##
   configuration: |-
     [mysqld]
-    default_authentication_plugin=${resource.local_resource_config.mysql_data.default_authentication_plugin}
+    default_authentication_plugin=${resource.local_helm_config.mysql_data.default_authentication_plugin}
     skip-name-resolve
     explicit_defaults_for_timestamp
-    basedir=${resource.local_resource_config.mysql_data.basedir}
-    plugin_dir=${resource.local_resource_config.mysql_data.plugin_dir}
-    port=${resource.local_resource_config.mysql_data.port}
-    socket=${resource.local_resource_config.mysql_data.socket}
-    datadir=${resource.local_resource_config.mysql_data.datadir}
-    tmpdir=${resource.local_resource_config.mysql_data.tmpdir}
-    max_allowed_packet=${resource.local_resource_config.mysql_data.max_allowed_packet}
-    bind-address=${resource.local_resource_config.mysql_data.bind-address}
-    pid-file=${resource.local_resource_config.mysql_data.pid-file}
-    log-error=${resource.local_resource_config.mysql_data.log-error}
-    character-set-server=${resource.local_resource_config.mysql_data.character-set-server}
-    collation-server=${resource.local_resource_config.mysql_data.collation-server}
-    general_log=${resource.local_resource_config.mysql_data.general_log}
-    slow_query_log=${resource.local_resource_config.mysql_data.slow_query_log}
+    basedir=${resource.local_helm_config.mysql_data.basedir}
+    plugin_dir=${resource.local_helm_config.mysql_data.plugin_dir}
+    port=${resource.local_helm_config.mysql_data.port}
+    socket=${resource.local_helm_config.mysql_data.socket}
+    datadir=${resource.local_helm_config.mysql_data.datadir}
+    tmpdir=${resource.local_helm_config.mysql_data.tmpdir}
+    max_allowed_packet=${resource.local_helm_config.mysql_data.max_allowed_packet}
+    bind-address=${resource.local_helm_config.mysql_data.bind-address}
+    pid-file=${resource.local_helm_config.mysql_data.pid-file}
+    log-error=${resource.local_helm_config.mysql_data.log-error}
+    character-set-server=${resource.local_helm_config.mysql_data.character-set-server}
+    collation-server=${resource.local_helm_config.mysql_data.collation-server}
+    general_log=${resource.local_helm_config.mysql_data.general_log}
+    slow_query_log=${resource.local_helm_config.mysql_data.slow_query_log}
     slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
-    long_query_time=${resource.local_resource_config.mysql_data.long_query_time}
-    innodb_use_native_aio=${resource.local_resource_config.mysql_data.innodb_use_native_aio}
-    max_connections=${resource.local_resource_config.mysql_data.max_connections}
-    innodb_buffer_pool_size=${resource.local_resource_config.mysql_data.innodb_buffer_pool_size}
+    long_query_time=${resource.local_helm_config.mysql_data.long_query_time}
+    innodb_use_native_aio=${resource.local_helm_config.mysql_data.innodb_use_native_aio}
+    max_connections=${resource.local_helm_config.mysql_data.max_connections}
+    innodb_buffer_pool_size=${resource.local_helm_config.mysql_data.innodb_buffer_pool_size}
 
     [client]
-    port=${resource.local_resource_config.mysql_data.port}
-    socket=${resource.local_resource_config.mysql_data.socket}
+    port=${resource.local_helm_config.mysql_data.port}
+    socket=${resource.local_helm_config.mysql_data.socket}
     default-character-set=UTF8
-    plugin_dir=${resource.local_resource_config.mysql_data.plugin_dir}
+    plugin_dir=${resource.local_helm_config.mysql_data.plugin_dir}
 
     [manager]
-    port=${resource.local_resource_config.mysql_data.port}
-    socket=${resource.local_resource_config.mysql_data.socket}
-    pid-file=${resource.local_resource_config.mysql_data.pid-file}
+    port=${resource.local_helm_config.mysql_data.port}
+    socket=${resource.local_helm_config.mysql_data.socket}
+    pid-file=${resource.local_helm_config.mysql_data.pid-file}
   ## @param primary.existingConfigmap Name of existing ConfigMap with MySQL Primary configuration.
   ## NOTE: When it's set the 'configuration' parameter is ignored
   ##
@@ -213,9 +213,9 @@ primary:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-%{ if resource.local_resource_config.mysql_data.affinity_definition != null ~}
+%{ if resource.local_helm_config.mysql_data.affinity_definition != null ~}
   affinity:
-    ${indent(4, yamlencode(resource.local_resource_config.mysql_data.affinity_definition))}
+    ${indent(4, yamlencode(resource.local_helm_config.mysql_data.affinity_definition))}
 %{ else ~}
   affinity: {}
 %{ endif ~}
@@ -390,7 +390,7 @@ primary:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: ${resource.local_resource_config.mysql_data.storage_class_name}
+    storageClass: ${resource.local_helm_config.mysql_data.storage_class_name}
     ## @param primary.persistence.annotations [object] MySQL primary persistent volume claim annotations
     ##
     annotations: {}
@@ -400,7 +400,7 @@ primary:
       - ReadWriteOnce
     ## @param primary.persistence.size MySQL primary persistent volume size
     ##
-    size: ${resource.local_resource_config.mysql_data.storage_size}
+    size: ${resource.local_helm_config.mysql_data.storage_size}
     ## @param primary.persistence.selector [object] Selector to match an existing Persistent Volume
     ## selector:
     ##   matchLabels:
@@ -428,7 +428,7 @@ primary:
     ## @param primary.service.ports.mysql MySQL Primary K8s service port
     ##
     ports:
-      mysql: ${resource.local_resource_config.mysql_data.service_port}
+      mysql: ${resource.local_helm_config.mysql_data.service_port}
 ## @section MySQL Secondary parameters
 ##
 
@@ -438,44 +438,44 @@ secondary:
   name: secondary
   ## @param secondary.replicaCount Number of MySQL secondary replicas
   ##
-  replicaCount: ${resource.local_resource_config.mysql_data.replica_count}
+  replicaCount: ${resource.local_helm_config.mysql_data.replica_count}
 
   ## @param secondary.configuration [string] Configure MySQL Secondary with a custom my.cnf file
   ## ref: https://mysql.com/kb/en/mysql/configuring-mysql-with-mycnf/#example-of-configuration-file
   ##
   configuration: |-
     [mysqld]
-    default_authentication_plugin=${resource.local_resource_config.mysql_data.default_authentication_plugin}
+    default_authentication_plugin=${resource.local_helm_config.mysql_data.default_authentication_plugin}
     skip-name-resolve
     explicit_defaults_for_timestamp
     basedir=/opt/bitnami/mysql
-    plugin_dir=${resource.local_resource_config.mysql_data.plugin_dir}
-    port=${resource.local_resource_config.mysql_data.port}
-    socket=${resource.local_resource_config.mysql_data.socket}
-    datadir=${resource.local_resource_config.mysql_data.datadir}
-    tmpdir=${resource.local_resource_config.mysql_data.tmpdir}
-    max_allowed_packet=${resource.local_resource_config.mysql_data.max_allowed_packet}
-    bind-address=${resource.local_resource_config.mysql_data.bind-address}
-    pid-file=${resource.local_resource_config.mysql_data.pid-file}
+    plugin_dir=${resource.local_helm_config.mysql_data.plugin_dir}
+    port=${resource.local_helm_config.mysql_data.port}
+    socket=${resource.local_helm_config.mysql_data.socket}
+    datadir=${resource.local_helm_config.mysql_data.datadir}
+    tmpdir=${resource.local_helm_config.mysql_data.tmpdir}
+    max_allowed_packet=${resource.local_helm_config.mysql_data.max_allowed_packet}
+    bind-address=${resource.local_helm_config.mysql_data.bind-address}
+    pid-file=${resource.local_helm_config.mysql_data.pid-file}
     log-error=/opt/bitnami/mysql/logs/mysqld.log
     character-set-server=UTF8
     collation-server=utf8_general_ci
-    general_log=${resource.local_resource_config.mysql_data.general_log}
-    slow_query_log=${resource.local_resource_config.mysql_data.slow_query_log}
+    general_log=${resource.local_helm_config.mysql_data.general_log}
+    slow_query_log=${resource.local_helm_config.mysql_data.slow_query_log}
     slow_query_log_file=/opt/bitnami/mysql/logs/mysqld.log
     long_query_time=10.0
     innodb_use_native_aio=0
 
     [client]
-    port=${resource.local_resource_config.mysql_data.port}
-    socket=${resource.local_resource_config.mysql_data.socket}
+    port=${resource.local_helm_config.mysql_data.port}
+    socket=${resource.local_helm_config.mysql_data.socket}
     default-character-set=UTF8
-    plugin_dir=${resource.local_resource_config.mysql_data.plugin_dir}
+    plugin_dir=${resource.local_helm_config.mysql_data.plugin_dir}
 
     [manager]
-    port=${resource.local_resource_config.mysql_data.port}
-    socket=${resource.local_resource_config.mysql_data.socket}
-    pid-file=${resource.local_resource_config.mysql_data.pid-file}
+    port=${resource.local_helm_config.mysql_data.port}
+    socket=${resource.local_helm_config.mysql_data.socket}
+    pid-file=${resource.local_helm_config.mysql_data.pid-file}
   ## @param secondary.existingConfigmap Name of existing ConfigMap with MySQL Secondary configuration.
   ## NOTE: When it's set the 'configuration' parameter is ignored
   ##
@@ -521,9 +521,9 @@ secondary:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-%{ if resource.local_resource_config.mysql_data.affinity_definition != null ~}
+%{ if resource.local_helm_config.mysql_data.affinity_definition != null ~}
   affinity:
-    ${indent(4, yamlencode(resource.local_resource_config.mysql_data.affinity_definition))}
+    ${indent(4, yamlencode(resource.local_helm_config.mysql_data.affinity_definition))}
 %{ else ~}
   affinity: {}
 %{ endif ~}
@@ -698,7 +698,7 @@ secondary:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: ${resource.local_resource_config.mysql_data.storage_class_name}
+    storageClass: ${resource.local_helm_config.mysql_data.storage_class_name}
     ## @param secondary.persistence.annotations [object] MySQL secondary persistent volume claim annotations
     ##
     annotations: {}
@@ -708,7 +708,7 @@ secondary:
       - ReadWriteOnce
     ## @param secondary.persistence.size MySQL secondary persistent volume size
     ##
-    size: ${resource.local_resource_config.mysql_data.storage_size}
+    size: ${resource.local_helm_config.mysql_data.storage_size}
     ## @param secondary.persistence.selector [object] Selector to match an existing Persistent Volume
     ## selector:
     ##   matchLabels:

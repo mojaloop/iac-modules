@@ -1,0 +1,437 @@
+thirdparty-auth-svc-redis:
+  enabled: false
+  app_owner: "mojaloop"
+  resource_type: redis
+  deployment_type: helm-chart
+  logical_service_config:
+    logical_service_port: 6379
+    logical_service_name: thirdparty-auth-redis
+    db_username: mojaloop
+    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: mojaloop    
+    storage_size: 10G
+    replica_count: 3    
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3         
+thirdparty-auth-svc-db:
+  enabled: false
+  app_owner: "mojaloop"
+  resource_type: mysql
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: thirdparty-auth-db
+    db_username: account_lookup
+    user_password_secret: mysql-auth-svc-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: auth-svc
+    storage_size: 10G
+    replica_count: 3    
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3      
+mysql-consent-oracle-db:
+  enabled: false
+  app_owner: "mojaloop"
+  resource_type: mysql
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: mysql-consent-oracle
+    db_username: consent-oracle
+    user_password_secret: mysql-consent-oracle-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: consent-oracle
+    storage_size: 10G
+    replica_count: 3 
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3  
+  secret_config:
+    generate_secret_name: mysql-consent-oracle-secret
+    generate_secret_keys:
+      - mysql-password
+      - mysql-root-password
+      - mysql-replication-password
+    generate_secret_vault_base_path: "/secret/generated"
+    generate_secret_extra_namespaces:
+      - mojaloop                      
+mcm-db:
+  enabled: true
+  app_owner: "mojaloop"
+  resource_type: mysql
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: mcm-db-svc
+    db_username: devdat1asql1
+    user_password_secret: mcm-db-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mcm
+    database_name: mcm
+    storage_size: 10G
+    replica_count: 3    
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3            
+account-lookup-db:
+  enabled: true
+  app_owner: "mojaloop"
+  resource_type: mysql
+  deployment_type: external
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: account-lookup-db-svc
+    db_username: account_lookup
+    user_password_secret: account-lookup-db-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: account_lookup
+    storage_size: 10G
+    replica_count: 3
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3               
+central-ledger-db:
+  enabled: true
+  app_owner: "mojaloop"
+  resource_type: mysql
+  deployment_type: external
+  logical_service_config:
+    logical_service_port: 3306
+    logical_service_name: central-ledger-db-svc
+    db_username: central_ledger
+    user_password_secret: central-ledger-db-secret
+    user_password_secret_key: mysql-password
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: central_ledger
+    storage_size: 10G
+    replica_count: 3
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3          
+bulk-mongodb:
+  enabled: true
+  app_owner: "mojaloop"
+  resource_type: mongodb
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 27017
+    logical_service_name: bulk-mongodb-svc
+    db_username: mojaloop
+    user_password_secret: mongodb-bulk-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: mlos
+    storage_size: 10G
+    replica_count: 3
+    mongo_config_server_replica_count: 3
+    mongo_proxy_replica_count: 3
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3         
+cep-mongodb:
+  enabled: false
+  app_owner: "mojaloop"
+  resource_type: mongodb
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 27017
+    logical_service_name: mongodb-cep-mongodb
+    db_username: mojaloop
+    user_password_secret: mongodb-cep-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: mojaloop
+    storage_size: 10G
+    replica_count: 3
+    mongo_config_server_replica_count: 3
+    mongo_proxy_replica_count: 3  
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3         
+reporting-events-mongodb:
+  enabled: true
+  app_owner: "mojaloop"
+  resource_type: mongodb
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 27017
+    logical_service_name: mongodb-reporting-events-mongodb
+    db_username: mojaloop
+    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: mojaloop
+    storage_size: 10G
+    replica_count: 3
+    mongo_config_server_replica_count: 3
+    mongo_proxy_replica_count: 3 
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3           
+mojaloop-kafka:
+  enabled: true
+  app_owner: "mojaloop"
+  resource_type: kafka
+  deployment_type: operator   
+  logical_service_config:
+    logical_service_port: 9092
+    logical_service_name: mojaloop-kafka-svc
+    db_username: mojaloop
+    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: mojaloop  
+    post_install_schema_config:
+      kafka_provisioning:
+        enabled: true
+        topics:
+          - name: topic-event
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-prepare
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-position
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-position-batch
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-fulfil
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-notification-event
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-transfer-get
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-admin-transfer
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulk-prepare
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulk-fulfil
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulk-processing
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulk-get
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-quotes-post
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-quotes-put
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-quotes-get
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulkquotes-post
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulkquotes-put
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000"
+          - name: topic-bulkquotes-get
+            partitions: 12
+            replicationFactor: 3
+            config:
+              cleanup.policy: delete
+              retention.ms: "-1"
+              segment.bytes: "52428800"
+              retention.bytes: "262144000" 
+
+   
+ttk-mongodb:
+  enabled: true
+  app_owner: "mojaloop"
+  resource_type: mongodb
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 27017
+    logical_service_name: ttk-mongodb-svc
+    db_username: ttk
+    user_password_secret: mongodb-ttk-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: ttk
+    storage_size: 10G
+    replica_count: 3
+    mongo_config_server_replica_count: 3
+    mongo_proxy_replica_count: 3
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3         
+ttk-redis:
+  enabled: true
+  resource_type: redis
+  app_owner: "mojaloop"
+  deployment_type: helm-chart
+  logical_service_config:
+    logical_service_port: 6379
+    logical_service_name: ttk-redis
+    db_username: mojaloop
+    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret_key: mongodb-passwords
+    secret_extra_namespaces:
+      - mojaloop
+    database_name: mojaloop 
+keycloak-db:
+  enabled: true
+  app_owner: "platform"
+  resource_type: pgsql
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 5432
+    logical_service_name: keycloak-db
+    db_username: keycloak
+    user_password_secret: pgsql-keycloak-secret
+    user_password_secret_key: password
+    secret_extra_namespaces:
+      - keycloak
+    database_name: keycloak
+keto-db:
+  enabled: true
+  app_owner: "platform"
+  resource_type: pgsql
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 5432
+    logical_service_name: keto-db
+    db_username: keto
+    user_password_secret: pgsql-keto-secret
+    user_password_secret_key: password
+    secret_extra_namespaces:
+      - ory
+    database_name: keto  
+kratos-db:
+  enabled: true
+  app_owner: "platform"
+  resource_type: pgsql
+  deployment_type: operator
+  logical_service_config:
+    logical_service_port: 5432
+    logical_service_name: kratos-db
+    db_username: kratos
+    user_password_secret: pgsql-kratos-secret
+    user_password_secret_key: password
+    secret_extra_namespaces:
+      - ory
+    database_name: kratos

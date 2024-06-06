@@ -1,11 +1,11 @@
-%{ if resource.local_resource_config.generate_secret_name != null ~}
+%{ if secret_config.generate_secret_name != null ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PasswordPolicy
 metadata:
-  name: ${resource.resource_type}-${resource.resource_name}-policy
-  namespace: ${resource.local_resource_config.resource_namespace}
+  name: ${resource.resource_type}-${key}-policy
+  namespace: ${namespace} 
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-6"
 spec:
   # Add fields here
   authentication:
@@ -28,18 +28,18 @@ spec:
         min-chars = 1
       }
       rule "charset" {
-        charset = "${try(resource.local_resource_config.generate_secret_special_chars, "!@#$%^&*")}"
+        charset = "${try(secret_config.generate_secret_special_chars, "!@#$%^&*")}"
         min-chars = 1
       }
 ---
-%{ for key in resource.local_resource_config.generate_secret_keys ~}
+%{ for secretKey in secret_config.generate_secret_keys ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
-  name: ${resource.local_resource_config.generate_secret_name}-${key}
-  namespace: ${resource.local_resource_config.resource_namespace}
+  name: ${secret_config.generate_secret_name}-${lower(replace(secretKey,"_","-"))}
+  namespace: ${namespace} 
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-6"
 spec:
   authentication:
     path: kubernetes
@@ -47,37 +47,37 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: ${resource.local_resource_config.generate_secret_vault_base_path}/${resource.resource_name}
+  path: ${secret_config.generate_secret_vault_base_path}/${key}
   secretKey: password
   secretFormat:
-    passwordPolicyName: ${resource.resource_type}-${resource.resource_name}-policy
+    passwordPolicyName: ${resource.resource_type}-${key}-policy
 ---
 %{ endfor ~}
-%{ for ns in concat([resource.local_resource_config.resource_namespace], resource.local_resource_config.generate_secret_extra_namespaces) ~}
+%{ for ns in concat([namespace], secret_config.generate_secret_extra_namespaces) ~}
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${resource.local_resource_config.generate_secret_name}
+  name: ${secret_config.generate_secret_name}
   namespace: ${ns}
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-6"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-%{ for key in resource.local_resource_config.generate_secret_keys ~}
+%{ for secretKey in secret_config.generate_secret_keys ~}
     - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
           name: default
-      name: dynamicsecret_${replace(key, "-", "_")}
-      path: ${resource.local_resource_config.generate_secret_vault_base_path}/${resource.resource_name}/${resource.local_resource_config.generate_secret_name}-${key}
+      name: dynamicsecret_${replace(secretKey, "-", "_")}
+      path: ${secret_config.generate_secret_vault_base_path}/${key}/${secret_config.generate_secret_name}-${lower(replace(secretKey,"_","-"))}
 %{ endfor ~}
   output:
-    name: ${resource.local_resource_config.generate_secret_name}
+    name: ${secret_config.generate_secret_name}
     stringData:
-%{ for key in resource.local_resource_config.generate_secret_keys ~}
-      ${key}: '{{ .dynamicsecret_${replace(key, "-", "_")}.password }}'
+%{ for secretKey in secret_config.generate_secret_keys ~}
+      ${secretKey}: '{{ .dynamicsecret_${replace(secretKey, "-", "_")}.password }}'
 %{ endfor ~}
     type: Opaque
 ---

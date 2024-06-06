@@ -1,3 +1,9 @@
+module "config_deepmerge" {
+  source  = "cloudposse/config/yaml//modules/deepmerge"
+  version = "0.2.0"
+  maps    = local.stateful_resources_config_vars_list
+}
+
 module "mojaloop" {
   count                                = var.common_var_map.mojaloop_enabled ? 1 : 0
   source                               = "../mojaloop"
@@ -56,6 +62,11 @@ module "mojaloop" {
   finance_portal_values_override_file  = var.finance_portal_values_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
+  platform_stateful_res_config         = module.config_deepmerge.merged
+  minio_api_url                        = var.minio_api_url
+  minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value  
+  external_secret_sync_wave            = var.external_secret_sync_wave
+
 }
 
 module "pm4ml" {
@@ -157,6 +168,11 @@ module "vnext" {
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
+  platform_stateful_res_config         = module.config_deepmerge.merged
+  minio_api_url                        = var.minio_api_url
+  minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value
+  external_secret_sync_wave            = var.external_secret_sync_wave
+
 }
 
 variable "app_var_map" {
@@ -167,6 +183,30 @@ variable "common_var_map" {
 }
 variable "mojaloop_stateful_resources_config_file" {
   default     = "../config/mojaloop-stateful-resources.json"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "mojaloop_stateful_res_helm_config_file" {
+  default     = "../config/mojaloop-stateful-resources-local-helm.yaml"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "mojaloop_stateful_res_op_config_file" {
+  default     = "../config/mojaloop-stateful-resources-local-operator.yaml"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "mojaloop_stateful_res_mangd_config_file" {
+  default     = "../config/mojaloop-stateful-resources-managed.yaml"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "platform_stateful_resources_config_file" {
+  default     = "../config/platform-stateful-resources.yaml"
   type        = string
   description = "where to pull stateful resources config for mojaloop"
 }
@@ -267,4 +307,10 @@ locals {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
   }
 
+  st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
+  st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
+  st_res_managed_vars           = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
+  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
+
+  stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
 }
