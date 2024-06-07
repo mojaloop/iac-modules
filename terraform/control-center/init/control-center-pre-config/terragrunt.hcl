@@ -17,7 +17,7 @@ dependency "control_center_deploy" {
     nexus_docker_repo_listening_port = "temporary-dummy-id"
     minio_fqdn                       = "temporary-dummy-id"
     mimir_fqdn                       = "temporary-dummy-id"
-    mimir_listening_port =           = "temporary-dummy-id"
+    mimir_listening_port             = "temporary-dummy-id"
     nexus_fqdn                       = "temporary-dummy-id"
     tenant_vault_listening_port      = "temporary-dummy-id"
     vault_fqdn                       = "temporary-dummy-id"
