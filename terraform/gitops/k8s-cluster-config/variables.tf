@@ -102,6 +102,11 @@ variable "minio_api_url" {
   description = "minio_api_url"
 }
 
+variable "central_observability_endpoint" {
+  type        = string
+  description = "central observability endpoint (mimir api)"
+}
+
 variable "default_ssl_certificate" {
   type        = string
   description = "default_ssl_certificate"
