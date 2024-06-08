@@ -60,12 +60,26 @@ resource "aws_launch_template" "node" {
     device_name = "/dev/sda1"
 
     ebs {
-      encrypted   = true
-      volume_type = "gp2"
-      volume_size = each.value.storage_gbs
+      encrypted             = true
+      volume_type           = "gp2"
+      volume_size           = each.value.storage_gbs
+      delete_on_termination = try(each.value.storage_delete_on_term, true)
     }
   }
+  dynamic "block_device_mappings" {
+    for_each = try(each.value.extra_vol, false) ? [each.value.extra_vol_name] : []
 
+    content {
+      device_name = each.value.extra_vol_name
+
+      ebs {
+        delete_on_termination = try(each.value.extra_vol_delete_on_term, true)
+        encrypted             = true
+        volume_size           = each.value.extra_vol_gbs
+        volume_type           = "gp2"
+      }
+    }
+  }
   network_interfaces {
     delete_on_termination = true
     security_groups       = each.value.master ? local.master_security_groups : local.agent_security_groups
