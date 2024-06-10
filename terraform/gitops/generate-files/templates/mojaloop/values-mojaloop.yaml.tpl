@@ -146,7 +146,7 @@ CONFIG:
   qs_image: &QS_IMAGE
     registry: docker.io
     repository: mojaloop/quoting-service
-    tag: v15.8.0-snapshot.21
+    tag: v15.8.0-snapshot.15
 %{ else ~}
   ml_api_adapter_image: &ML_API_ADAPTER_IMAGE {}
   cl_image: &CL_IMAGE {}
