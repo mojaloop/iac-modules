@@ -88,6 +88,7 @@ inputs = {
   transit_vault_key_name                   = local.TRANSIT_VAULT_UNSEAL_KEY_NAME
   transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
   minio_api_url                            = "${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:9000"
+  central_observability_endpoint           = "${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:${get_env("MIMIR_LISTENING_PORT")}"
   managed_db_host                          = "${dependency.k8s_deploy.outputs.haproxy_server_fqdn}"
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider

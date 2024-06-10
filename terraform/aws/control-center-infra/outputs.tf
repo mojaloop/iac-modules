@@ -71,6 +71,14 @@ output "minio_fqdn" {
   value = aws_route53_record.minio_server_private.fqdn
 }
 
+output "mimir_listening_port" {
+  value = var.mimir_listening_port
+}
+
+output "mimir_fqdn" {
+  value = aws_route53_record.central_observability_mimir_server_private.fqdn
+}
+
 output "minio_server_url" {
   value = "${aws_route53_record.minio_server_private.fqdn}:${var.minio_listening_port}"
 }
@@ -82,6 +90,8 @@ output "tenant_vault_listening_port" {
 output "vault_fqdn" {
   value = aws_route53_record.vault_server_private.fqdn
 }
+
+
 
 output "gitlab_hosts_var_maps" {
   sensitive = true
@@ -142,6 +152,8 @@ output "docker_hosts_var_maps" {
     vault_gitlab_token               = random_password.gitlab_root_token.result
     mimir_minio_user                 = var.mimir_minio_user
     mimir_minio_password             = random_password.mimir_minio_password.result
+    mimir_fqdn                       = aws_route53_record.central_observability_mimir_server_private.fqdn
+    mimir_listening_port             = var.mimir_listening_port
   }
 }
 
