@@ -136,12 +136,12 @@ CONFIG:
   ml_api_adapter_image: &ML_API_ADAPTER_IMAGE
     registry: docker.io
     repository: mojaloop/ml-api-adapter
-    tag: v14.1.0-snapshot.9
+    tag: v14.1.0-snapshot.5
 
   cl_image: &CL_IMAGE
     registry: docker.io
     repository: mojaloop/central-ledger
-    tag: v17.7.0-snapshot.11
+    tag: v17.6.2-snapshot.0
 
   qs_image: &QS_IMAGE
     registry: docker.io
