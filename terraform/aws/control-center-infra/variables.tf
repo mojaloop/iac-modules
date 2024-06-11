@@ -21,14 +21,14 @@ variable "vpc_cidr" {
 }
 
 variable "create_public_zone" {
-  default = true
-  type = bool
+  default     = true
+  type        = bool
   description = "Whether to create public zone in route53. true or false, default true"
 }
 
 variable "create_private_zone" {
-  default = true
-  type = bool
+  default     = true
+  type        = bool
   description = "Whether to create private zone in route53. true or false, default true"
 }
 
@@ -57,107 +57,125 @@ variable "delete_storage_on_term" {
 }
 
 variable "enable_github_oauth" {
-  type = bool
+  type        = bool
   description = "enable auth from github oauth app"
-  default = false
+  default     = false
 }
 
 variable "github_oauth_id" {
   type        = string
   description = "github oauth id"
-  default = ""
+  default     = ""
 }
 
 variable "github_oauth_secret" {
   type        = string
   description = "github oauth secret"
-  default = ""
-  sensitive = true
+  default     = ""
+  sensitive   = true
 }
 
 variable "smtp_server_enable" {
-  type = bool
+  type        = bool
   description = "enable smtp server (ses)"
-  default = false
+  default     = false
 }
 
 variable "smtp_server_address" {
   type        = string
   description = "smtp_server_address"
-  default = ""
+  default     = ""
 }
 
 variable "smtp_server_port" {
   type        = number
   description = "smtp_server_port"
-  default = 587
+  default     = 587
 }
 
 variable "smtp_server_user" {
   type        = string
   description = "smtp_server_user"
-  default = ""
+  default     = ""
 }
 
 variable "smtp_server_pw" {
   type        = string
   description = "smtp_server_pw"
-  default = ""
-  sensitive = true
+  default     = ""
+  sensitive   = true
 }
 
 variable "smtp_server_mail_domain" {
   type        = string
   description = "smtp_server_mail_domain"
-  default = ""
+  default     = ""
 }
 
 variable "acme_api_endpoint" {
-  type = string
+  type        = string
   description = "endpoint for acme certs"
-  default = "https://acme-v02.api.letsencrypt.org/directory"
+  default     = "https://acme-v02.api.letsencrypt.org/directory"
 }
 
 variable "nexus_docker_repo_listening_port" {
-  type       = number
-  default    = 8082
+  type        = number
+  default     = 8082
   description = "which port to listen for hosting docker repo on nexus"
 }
 
 variable "nexus_admin_listening_port" {
-  type       = number
-  default    = 8081
+  type        = number
+  default     = 8081
   description = "which port to listen for nexus admin"
 }
 
 variable "minio_listening_port" {
-  type       = number
-  default    = 9000
+  type        = number
+  default     = 9000
   description = "which port to listen for server traffic by minio"
 }
 
 variable "minio_ui_port" {
-  type       = number
-  default    = 9001
+  type        = number
+  default     = 9001
   description = "which port to listen for UI traffic by minio"
 }
 
 variable "gitlab_minio_user" {
-  type       = string
-  default    = "gitlab"
+  type        = string
+  default     = "gitlab"
   description = "Gitlab user to access minio"
 }
 
+variable "mimir_minio_user" {
+  type        = string
+  default     = "mimir"
+  description = "Mimir user to access minio"
+}
+
 variable "minio_root_user" {
-  type       = string
-  default    = "admin"
+  type        = string
+  default     = "admin"
   description = "Admin user to access minio"
 }
 
 variable "vault_listening_port" {
-  type       = number
-  default    = 8200
+  type        = number
+  default     = 8200
   description = "which port to listen for vault"
+}
+
+variable "mimir_listening_port" {
+  type        = number
+  default     = 9009
+  description = "which port to listen for central observability mimir"
+}
+
+variable "grafana_listening_port" {
+  type        = number
+  default     = 3000
+  description = "which port to listen for central observability grafana"
 }
 
 variable "days_retain_gitlab_snapshot" {
@@ -205,31 +223,31 @@ variable "docker_server_extra_vol_size" {
 variable "gitlab_version" {
   type        = string
   description = "gitlab_version"
-  default = "15.11.0"
+  default     = "15.11.0"
 }
 
 variable "gitlab_runner_version" {
   type        = string
   description = "gitlab_runner_version"
-  default = "15.11.0"
+  default     = "15.11.0"
 }
 
 variable "enable_netmaker" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "enable creation of netmaker vpc/vm"
 }
 
 variable "netmaker_image_version" {
   type        = string
   description = "netmaker_image_version"
-  default = "0.18.7"
+  default     = "0.18.7"
 }
 
 variable "netmaker_control_network_name" {
   type        = string
   description = "control center netmaker network name"
-  default = "cntrlctr"
+  default     = "cntrlctr"
 }
 
 variable "iac_group_name" {
@@ -239,9 +257,9 @@ variable "iac_group_name" {
 }
 
 locals {
-    name = var.cluster_name
-    base_domain     = "${replace(var.cluster_name, "-", "")}.${var.domain}"
-    identifying_tags = { Cluster = var.cluster_name, Domain = local.base_domain}
-    common_tags = merge(local.identifying_tags, var.tags)
-    nat_gatewway_cidr_blocks = [for ip in module.base_infra.nat_public_ips : "${ip}/32"]
+  name                     = var.cluster_name
+  base_domain              = "${replace(var.cluster_name, "-", "")}.${var.domain}"
+  identifying_tags         = { Cluster = var.cluster_name, Domain = local.base_domain }
+  common_tags              = merge(local.identifying_tags, var.tags)
+  nat_gatewway_cidr_blocks = [for ip in module.base_infra.nat_public_ips : "${ip}/32"]
 }

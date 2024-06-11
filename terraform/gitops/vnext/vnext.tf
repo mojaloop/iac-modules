@@ -40,7 +40,7 @@ module "generate_vnext_files" {
     vnext_mongodb_host                   = "${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
     vnext_mongodb_existing_secret        = module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.user_password_secret
     vnext_mongodb_port                   = module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].logical_service_config.logical_service_port
-    vnext_mongo_secret_path              = "${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].local_resource_config.generate_secret_vault_base_path}/${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].resource_name}/${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].local_resource_config.generate_secret_name}-mongodb-root-password"
+    vnext_mongo_secret_path              = "${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].secret_config.local_helm_config.secret_config.generate_secret_vault_base_path}/${local.vnext_mongodb_resource_index}/${module.vnext_stateful_resources.stateful_resources[local.vnext_mongodb_resource_index].local_helm_config.secret_config.generate_secret_name}-mongodb-root-password"
     vnext_mongodb_resource_name          = "vnext-mongodb"
     vnext_mongo_url_secret_name          = "vnext-mongodb-url" ## this goes away as well
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
@@ -89,9 +89,9 @@ locals {
   internal_interop_switch_fqdn    = "intapi.${var.private_subdomain}"
   vnext_template_path             = "${path.module}/../generate-files/templates/vnext"
   vnext_app_file                  = "vnext-app.yaml"
-  vnext_kafka_resource_index      = index(module.vnext_stateful_resources.stateful_resources.*.resource_name, "vnext-kafka")
-  vnext_redis_resource_index      = index(module.vnext_stateful_resources.stateful_resources.*.resource_name, "vnext-redis")
-  vnext_mongodb_resource_index    = index(module.vnext_stateful_resources.stateful_resources.*.resource_name, "vnext-mongodb")
+  vnext_kafka_resource_index      = "vnext-kafka"
+  vnext_redis_resource_index      = "vnext-redis"
+  vnext_mongodb_resource_index    = "vnext-mongodb"
   apiResources                    = yamldecode(file(var.rbac_api_resources_file))
   jws_key_secret                  = "switch-jws"
 }

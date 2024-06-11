@@ -113,6 +113,8 @@ locals {
   }
   all_hosts_var_maps = {
     minio_listening_port             = get_env("MINIO_LISTENING_PORT")
+    mimir_fqdn                       = get_env("MIMIR_FQDN")
+    mimir_listening_port             = get_env("MIMIR_LISTENING_PORT")
     nexus_docker_repo_listening_port = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     nexus_fqdn                       = get_env("NEXUS_FQDN")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")

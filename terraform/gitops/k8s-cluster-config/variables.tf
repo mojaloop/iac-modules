@@ -102,6 +102,11 @@ variable "minio_api_url" {
   description = "minio_api_url"
 }
 
+variable "central_observability_endpoint" {
+  type        = string
+  description = "central observability endpoint (mimir api)"
+}
+
 variable "default_ssl_certificate" {
   type        = string
   description = "default_ssl_certificate"
@@ -135,5 +140,5 @@ locals {
   longhorn_backups_credentials_secret_provider_key = "minio_longhorn_password"
   longhorn_backups_credentials_id_provider_key     = "minio_longhorn_username"
   minio_loki_bucket                                = data.gitlab_project_variable.minio_loki_bucket.value
-  minio_tempo_bucket = data.gitlab_project_variable.minio_tempo_bucket.value
+  minio_tempo_bucket                               = data.gitlab_project_variable.minio_tempo_bucket.value
 }

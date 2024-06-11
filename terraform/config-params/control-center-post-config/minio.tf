@@ -1,12 +1,13 @@
 # loki bucket , user and access policy 
 resource "minio_s3_bucket" "loki-s3-bucket" {
-  for_each = var.env_map
-  bucket   = "${each.key}-loki"
+  for_each      = var.env_map
+  bucket        = "${each.key}-loki"
+  force_destroy = true
 }
 
 resource "minio_ilm_policy" "loki-bucket-lifecycle-rules" {
   for_each = var.env_map
-  bucket = minio_s3_bucket.loki-s3-bucket[each.key].bucket
+  bucket   = minio_s3_bucket.loki-s3-bucket[each.key].bucket
   rule {
     id         = "expire ${each.key}-loki"
     expiration = var.loki_data_expiry
@@ -25,7 +26,7 @@ resource "minio_iam_user" "loki-user" {
   secret        = random_password.minio_loki_password[each.key].result
   force_destroy = true
   tags = {
-    env  = each.key
+    env     = each.key
     purpose = "loki data"
   }
 }
@@ -93,11 +94,12 @@ resource "vault_kv_secret_v2" "minio-loki-username" {
 resource "minio_s3_bucket" "tempo-s3-bucket" {
   for_each = var.env_map
   bucket   = "${each.key}-tempo"
+  force_destroy = true
 }
 
 resource "minio_ilm_policy" "tempo-bucket-lifecycle-rules" {
   for_each = var.env_map
-  bucket = minio_s3_bucket.tempo-s3-bucket[each.key].bucket
+  bucket   = minio_s3_bucket.tempo-s3-bucket[each.key].bucket
   rule {
     id         = "expire-${var.tempo_data_expiry_days}"
     expiration = var.tempo_data_expiry_days
@@ -116,7 +118,7 @@ resource "minio_iam_user" "tempo-user" {
   secret        = random_password.minio_tempo_password[each.key].result
   force_destroy = true
   tags = {
-    env  = each.key
+    env     = each.key
     purpose = "access tempo data"
   }
 }
@@ -187,11 +189,12 @@ resource "gitlab_project_variable" "minio_tempo_bucket" {
 resource "minio_s3_bucket" "longhorn-s3-bucket" {
   for_each = var.env_map
   bucket   = "${each.key}-longhorn-backup"
+  force_destroy = true
 }
 
 resource "minio_ilm_policy" "longhorn-bucket-lifecycle-rules" {
   for_each = var.env_map
-  bucket = minio_s3_bucket.longhorn-s3-bucket[each.key].bucket
+  bucket   = minio_s3_bucket.longhorn-s3-bucket[each.key].bucket
   rule {
     id         = "expire ${each.key}-longhorn"
     expiration = var.longhorn_backup_data_expiry
@@ -210,7 +213,7 @@ resource "minio_iam_user" "longhorn-user" {
   secret        = random_password.minio_longhorn_password[each.key].result
   force_destroy = true
   tags = {
-    env  = each.key
+    env     = each.key
     purpose = "longhorn backup"
   }
 }
@@ -272,4 +275,191 @@ resource "vault_kv_secret_v2" "minio-longhorn-username" {
       value = minio_iam_user.longhorn-user[each.key].name
     }
   )
+}
+
+
+# velero bucket , user and access policy 
+resource "minio_s3_bucket" "velero-s3-bucket" {
+  for_each = var.env_map
+  bucket   = "${each.key}-velero"
+  force_destroy = true
+}
+
+resource "minio_ilm_policy" "velero-bucket-lifecycle-rules" {
+  for_each = var.env_map
+  bucket   = minio_s3_bucket.velero-s3-bucket[each.key].bucket
+  rule {
+    id         = "expire-${var.velero_data_expiry}"
+    expiration = var.velero_data_expiry
+  }
+}
+
+resource "random_password" "minio_velero_password" {
+  for_each = var.env_map
+  length   = 20
+  special  = false
+}
+
+resource "minio_iam_user" "velero-user" {
+  for_each      = var.env_map
+  name          = "${each.key}-velero-user"
+  secret        = random_password.minio_velero_password[each.key].result
+  force_destroy = true
+  tags = {
+    env     = each.key
+    purpose = "access velero data"
+  }
+}
+
+resource "minio_iam_policy" "velero-iam-policy" {
+  for_each = var.env_map
+  name     = "${each.key}-velero-policy"
+  policy   = <<EOF
+{
+  "Version":"2012-10-17",
+  "Statement": [
+    {
+      "Sid":"AccessEnvveleroBucket",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": ["${minio_s3_bucket.velero-s3-bucket[each.key].arn}",
+                  "${minio_s3_bucket.velero-s3-bucket[each.key].arn}/*"
+                  ]
+    }
+  ]
+}
+EOF
+}
+
+resource "minio_iam_user_policy_attachment" "velero-policy-attachment" {
+  for_each    = var.env_map
+  user_name   = minio_iam_user.velero-user[each.key].id
+  policy_name = minio_iam_policy.velero-iam-policy[each.key].id
+}
+
+
+resource "vault_kv_secret_v2" "minio-velero-password" {
+  for_each            = var.env_map
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/minio_velero_password"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = random_password.minio_velero_password[each.key].result
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "minio-velero-username" {
+  for_each            = var.env_map
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/minio_velero_username"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = minio_iam_user.velero-user[each.key].name
+    }
+  )
+}
+
+resource "gitlab_project_variable" "minio_velero_bucket" {
+  for_each  = var.env_map
+  project   = gitlab_project.envs[each.key].id
+  key       = "minio_velero_bucket"
+  value     = minio_s3_bucket.velero-s3-bucket[each.key].id
+  protected = false
+  masked    = false
+}
+
+# percona bucket , user and access policy 
+resource "minio_s3_bucket" "percona-s3-bucket" {
+  for_each = var.env_map
+  bucket   = "${each.key}-percona"
+  force_destroy = true
+}
+
+resource "minio_ilm_policy" "percona-bucket-lifecycle-rules" {
+  for_each = var.env_map
+  bucket   = minio_s3_bucket.percona-s3-bucket[each.key].bucket
+  rule {
+    id         = "expire-${var.percona_data_expiry}"
+    expiration = var.percona_data_expiry
+  }
+}
+
+resource "random_password" "minio_percona_password" {
+  for_each = var.env_map
+  length   = 20
+  special  = false
+}
+
+resource "minio_iam_user" "percona-user" {
+  for_each      = var.env_map
+  name          = "${each.key}-percona-user"
+  secret        = random_password.minio_percona_password[each.key].result
+  force_destroy = true
+  tags = {
+    env     = each.key
+    purpose = "access percona data"
+  }
+}
+
+resource "minio_iam_policy" "percona-iam-policy" {
+  for_each = var.env_map
+  name     = "${each.key}-percona-policy"
+  policy   = <<EOF
+{
+  "Version":"2012-10-17",
+  "Statement": [
+    {
+      "Sid":"AccessEnvperconaBucket",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": ["${minio_s3_bucket.percona-s3-bucket[each.key].arn}",
+                  "${minio_s3_bucket.percona-s3-bucket[each.key].arn}/*"
+                  ]
+    }
+  ]
+}
+EOF
+}
+
+resource "minio_iam_user_policy_attachment" "percona-policy-attachment" {
+  for_each    = var.env_map
+  user_name   = minio_iam_user.percona-user[each.key].id
+  policy_name = minio_iam_policy.percona-iam-policy[each.key].id
+}
+
+
+resource "vault_kv_secret_v2" "minio-percona-password" {
+  for_each            = var.env_map
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/minio_percona_password"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = random_password.minio_percona_password[each.key].result
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "minio-percona-username" {
+  for_each            = var.env_map
+  mount               = vault_mount.kv_secret.path
+  name                = "${each.key}/minio_percona_username"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = minio_iam_user.percona-user[each.key].name
+    }
+  )
+}
+
+resource "gitlab_project_variable" "minio_percona_bucket" {
+  for_each  = var.env_map
+  project   = gitlab_project.envs[each.key].id
+  key       = "minio_percona_bucket"
+  value     = minio_s3_bucket.percona-s3-bucket[each.key].id
+  protected = false
+  masked    = false
 }

@@ -59,7 +59,7 @@ module "generate_monitoring_files" {
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
     enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)
     enable_central_observability_read  = try(var.common_var_map.enable_central_observability_read, local.enable_central_observability_read)
-    central_observability_endpoint     = try(var.common_var_map.central_observability_endpoint, local.central_observability_endpoint)
+    central_observability_endpoint     = var.central_observability_endpoint
     central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
@@ -145,6 +145,5 @@ locals {
   grafana_istio_wildcard_gateway_name = local.grafana_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
   enable_central_observability_write  = false
   enable_central_observability_read   = false
-  central_observability_endpoint      = "http://to-be-updated"
   central_observability_tenant_id     = "infitx"
 }

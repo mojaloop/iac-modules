@@ -1,6 +1,6 @@
 
 variable "iac_user_key_secret" {
-  sensitive = true
+  sensitive   = true
   description = "iam user key secret"
 }
 
@@ -44,7 +44,7 @@ variable "private_repo" {
 
 variable "private_repo_token" {
   sensitive = true
-  default = ""
+  default   = ""
 }
 
 variable "iac_terraform_modules_tag" {
@@ -62,6 +62,14 @@ variable "minio_fqdn" {
 }
 variable "minio_listening_port" {
   description = "minio_listening_port"
+}
+
+variable "mimir_fqdn" {
+  description = "central observability mimir fqdn"
+}
+
+variable "mimir_listening_port" {
+  description = "central observability mimir listening port"
 }
 
 variable "nexus_fqdn" {
