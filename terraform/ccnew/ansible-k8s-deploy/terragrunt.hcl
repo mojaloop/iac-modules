@@ -21,6 +21,8 @@ dependency "k8s_deploy" {
     bastion_os_username         = "null"
     bastion_public_ip           = "null"
     haproxy_server_fqdn         = "null"
+    private_subdomain           = "null"
+    public_subdomain            = "null"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -31,7 +33,10 @@ inputs = {
   agent_hosts   = dependency.k8s_deploy.outputs.agent_hosts
   bastion_hosts = dependency.k8s_deploy.outputs.bastion_hosts
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
-    tenant_vault_server_url = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
+    dns_cloud_api_client_id     = dependency.k8s_deploy.outputs.secrets_key_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_id_key]
+    dns_cloud_api_client_secret = dependency.k8s_deploy.outputs.secrets_key_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_secret_key]
+    dns_public_subdomain        = dependency.k8s_deploy.outputs.public_subdomain
+    dns_private_subdomain       = dependency.k8s_deploy.outputs.private_subdomain
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
@@ -69,6 +74,8 @@ locals {
   bastion_hosts_var_maps = {
     cluster_name                 = get_env("cluster_name")
     cluster_domain               = "${get_env("cluster_name")}.${get_env("domain")}"
+    dns_cloud_api_region         = get_env("cloud_region")
+    letsencrypt_email            = get_env("letsencrypt_email")
     eks_aws_secret_access_key    = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
     eks_aws_access_key_id        = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
     eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
