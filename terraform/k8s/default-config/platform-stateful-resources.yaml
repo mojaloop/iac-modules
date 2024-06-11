@@ -22,7 +22,7 @@ thirdparty-auth-svc-db:
   enabled: false
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: thirdparty-auth-db
@@ -42,7 +42,7 @@ mysql-consent-oracle-db:
   enabled: false
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: mysql-consent-oracle
@@ -71,7 +71,7 @@ mcm-db:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: mcm-db-svc
@@ -91,7 +91,7 @@ account-lookup-db:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: external
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: account-lookup-db-svc
@@ -111,7 +111,7 @@ central-ledger-db:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: external
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: central-ledger-db-svc
@@ -131,7 +131,7 @@ bulk-mongodb:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mongodb
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: bulk-mongodb-svc
@@ -153,7 +153,7 @@ cep-mongodb:
   enabled: false
   app_owner: "mojaloop"
   resource_type: mongodb
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-cep-mongodb
@@ -175,7 +175,7 @@ reporting-events-mongodb:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mongodb
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-reporting-events-mongodb
@@ -361,7 +361,7 @@ ttk-mongodb:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mongodb
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: ttk-mongodb-svc
@@ -397,7 +397,7 @@ keycloak-db:
   enabled: true
   app_owner: "platform"
   resource_type: pgsql
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 5432
     logical_service_name: keycloak-db
@@ -411,7 +411,7 @@ keto-db:
   enabled: true
   app_owner: "platform"
   resource_type: pgsql
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 5432
     logical_service_name: keto-db
@@ -425,7 +425,7 @@ kratos-db:
   enabled: true
   app_owner: "platform"
   resource_type: pgsql
-  deployment_type: operator
+  deployment_type: helm-chart
   logical_service_config:
     logical_service_port: 5432
     logical_service_name: kratos-db
