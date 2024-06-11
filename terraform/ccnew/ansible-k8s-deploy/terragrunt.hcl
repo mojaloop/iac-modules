@@ -23,6 +23,14 @@ dependency "k8s_deploy" {
     haproxy_server_fqdn         = "null"
     private_subdomain           = "null"
     public_subdomain            = "null"
+    target_group_internal_https_port = 0
+    target_group_internal_http_port = 0
+    target_group_internal_health_port = 0
+    target_group_external_https_port = 0
+    target_group_external_http_port = 0
+    target_group_external_health_port = 0
+    internal_load_balancer_dns = "null"
+    external_load_balancer_dns = "null"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -43,6 +51,8 @@ inputs = {
     external_ingress_https_port  = dependency.k8s_deploy.outputs.target_group_external_https_port
     external_ingress_http_port   = dependency.k8s_deploy.outputs.target_group_external_http_port
     external_ingress_health_port = dependency.k8s_deploy.outputs.target_group_external_health_port
+    internal_load_balancer_dns   = dependency.k8s_deploy.outputs.internal_load_balancer_dns
+    external_load_balancer_dns   = dependency.k8s_deploy.outputs.external_load_balancer_dns
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
