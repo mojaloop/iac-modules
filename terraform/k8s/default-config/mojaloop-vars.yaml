@@ -2,7 +2,7 @@ bulk_enabled: false
 mojaloop_fx_enabled: true
 third_party_enabled: false
 mcm_chart_version: 0.7.7
-mojaloop_chart_version: 16.1.0-17831.79a97d4
+mojaloop_chart_version: 16.2.0-18225.553bc50
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 #replica counts
