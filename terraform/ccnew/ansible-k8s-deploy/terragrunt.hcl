@@ -33,10 +33,10 @@ inputs = {
   agent_hosts   = dependency.k8s_deploy.outputs.agent_hosts
   bastion_hosts = dependency.k8s_deploy.outputs.bastion_hosts
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
-    dns_cloud_api_client_id     = dependency.k8s_deploy.outputs.secrets_key_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_id_key]
-    dns_cloud_api_client_secret = dependency.k8s_deploy.outputs.secrets_key_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_secret_key]
-    dns_public_subdomain        = dependency.k8s_deploy.outputs.public_subdomain
-    dns_private_subdomain       = dependency.k8s_deploy.outputs.private_subdomain
+    dns_cloud_api_client_id     = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_id_key]
+    dns_cloud_api_client_secret = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_secret_key]
+    dns_api_public_domain       = dependency.k8s_deploy.outputs.public_subdomain
+    dns_api_private_domain      = dependency.k8s_deploy.outputs.private_subdomain
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
