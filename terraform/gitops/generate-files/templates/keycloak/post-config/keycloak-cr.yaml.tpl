@@ -5,7 +5,7 @@ metadata:
 spec:
   instances: 1
   db:
-    vendor: postgres
+    vendor: mysql
     host: ${keycloak_postgres_host}
     port: ${keycloak_postgres_port}
     database: ${keycloak_postgres_database}

@@ -581,22 +581,22 @@ ttk-redis:
 keycloak-db:
   local_helm_config:
     resource_namespace: keycloak-db
-    override_service_name: postgresql-keycloak-db
+    override_service_name: mysql-keycloak-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-    resource_helm_chart: postgresql
-    resource_helm_chart_version: 12.6.8
-    resource_helm_values_ref: values-pgsql.yaml.tpl
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:
-      generate_secret_name: pgsql-keycloak-secret
+      generate_secret_name: mysql-keycloak-secret
       generate_secret_keys:
         - password
-        - postgres-password
+        - mysql-password
         - replication-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - keycloak
-    pgsql_data:
-      existing_secret: pgsql-keycloak-secret
+    mysql_data:
+      existing_secret: mysql-keycloak-secret
       root_password: ""
       user: keycloak
       user_password: ""
@@ -610,23 +610,23 @@ keycloak-db:
 keto-db:
   local_helm_config:
     resource_namespace: keto-db
-    override_service_name: postgresql-keto-db
+    override_service_name: mysql-keto-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-    resource_helm_chart: postgresql
-    resource_helm_chart_version: 12.6.8
-    resource_helm_values_ref: values-pgsql.yaml.tpl
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:    
-      generate_secret_name: pgsql-keto-secret
+      generate_secret_name: mysql-keto-secret
       generate_secret_keys:
         - password
-        - postgres-password
+        - mysql-password
         - replication-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - ory
       generate_secret_special_chars: _
-    pgsql_data:
-      existing_secret: pgsql-keto-secret
+    mysql_data:
+      existing_secret: mysql-keto-secret
       root_password: ""
       user: keto
       user_password: ""
@@ -640,23 +640,23 @@ keto-db:
 kratos-db:
   local_helm_config:
     resource_namespace: kratos-db
-    override_service_name: postgresql-kratos-db
+    override_service_name: mysql-kratos-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-    resource_helm_chart: postgresql
-    resource_helm_chart_version: 12.6.8
-    resource_helm_values_ref: values-pgsql.yaml.tpl
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:    
-      generate_secret_name: pgsql-kratos-secret
+      generate_secret_name: mysql-kratos-secret
       generate_secret_keys:
         - password
-        - postgres-password
+        - mysql-password
         - replication-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - ory
       generate_secret_special_chars: _
-    pgsql_data:
-      existing_secret: pgsql-kratos-secret
+    mysql_data:
+      existing_secret: mysql-kratos-secret
       root_password: ""
       user: kratos
       user_password: ""
