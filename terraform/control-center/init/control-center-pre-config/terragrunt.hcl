@@ -49,7 +49,7 @@ inputs = {
   control_center_cloud_provider    = get_env("CONTROL_CENTER_CLOUD_PROVIDER")
 
   enable_central_observability_grafana_oidc       = local.env_vars.enable_central_observability_grafana_oidc
-  central_observability_grafana_oidc_redirect_url = local.central_observability_grafana_oidc_redirect_url
+  central_observability_grafana_oidc_redirect_url = "https://${dependency.control_center_deploy.outputs.gitlab_server_hostname}/login/gitlab"
 }
 
 locals {
@@ -60,7 +60,6 @@ locals {
     file("${find_in_parent_folders("common-vars.yaml")}")
   )
 
-  central_observability_grafana_oidc_redirect_url = "https://${dependency.control_center_deploy.outputs.gitlab_server_hostname}/login/gitlab"
 }
 
 include "root" {
