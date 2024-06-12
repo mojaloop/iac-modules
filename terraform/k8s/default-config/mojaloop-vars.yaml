@@ -2,7 +2,7 @@ bulk_enabled: false
 mojaloop_fx_enabled: true
 third_party_enabled: false
 mcm_chart_version: 0.7.7
-mojaloop_chart_version: 16.2.0-18217.8e42727
+mojaloop_chart_version: 16.2.0-18225.553bc50
 ttk_testcases_tag: 16.1.0-fx-snapshot
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
