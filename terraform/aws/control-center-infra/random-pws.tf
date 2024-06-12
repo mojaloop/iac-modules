@@ -56,3 +56,8 @@ resource "random_password" "mimir_minio_password" {
   length  = 20
   special = true
 }
+
+resource "random_password" "central_observability_grafana_root_password" {
+  length  = 20
+  special = true
+}
