@@ -24,6 +24,16 @@ output "minio_root_user" {
   value     = var.minio_root_user
 }
 
+output "central_observability_grafana_root_password" {
+  sensitive = true
+  value     = random_password.central_observability_grafana_root_password.result
+}
+
+output "central_observability_grafana_root_user" {
+  sensitive = true
+  value     = var.central_observability_grafana_root_user
+}
+
 output "admin_s3_access_secret" {
   sensitive = true
   value     = random_password.admin_s3_access_secret.result
@@ -154,6 +164,9 @@ output "docker_hosts_var_maps" {
     mimir_minio_password             = random_password.mimir_minio_password.result
     mimir_fqdn                       = aws_route53_record.central_observability_mimir_server_private.fqdn
     mimir_listening_port             = var.mimir_listening_port
+
+    central_observability_grafana_root_user     = var.central_observability_grafana_root_user
+    central_observability_grafana_root_password = random_password.central_observability_grafana_root_password.result
   }
 }
 

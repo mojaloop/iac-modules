@@ -160,6 +160,12 @@ variable "minio_root_user" {
   description = "Admin user to access minio"
 }
 
+variable "central_observability_grafana_root_user" {
+  type        = string
+  default     = "admin"
+  description = "Admin user to access central_observability_grafana"
+}
+
 variable "vault_listening_port" {
   type        = number
   default     = 8200
