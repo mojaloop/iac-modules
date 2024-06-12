@@ -47,6 +47,9 @@ inputs = {
   iac_templates_tag                = get_env("IAC_TEMPLATES_TAG")
   iac_terraform_modules_tag        = get_env("IAC_TERRAFORM_MODULES_TAG")
   control_center_cloud_provider    = get_env("CONTROL_CENTER_CLOUD_PROVIDER")
+
+  enable_central_observability_grafana_oidc       = local.env_vars.enable_central_observability_grafana_oidc
+  central_observability_grafana_oidc_redirect_url = local.central_observability_grafana_oidc_redirect_url
 }
 
 locals {
@@ -56,6 +59,8 @@ locals {
   common_vars = yamldecode(
     file("${find_in_parent_folders("common-vars.yaml")}")
   )
+
+  central_observability_grafana_oidc_redirect_url = "https://${dependency.control_center_deploy.outputs.gitlab_server_hostname}/login/gitlab"
 }
 
 include "root" {
