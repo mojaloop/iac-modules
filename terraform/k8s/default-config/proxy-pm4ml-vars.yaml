@@ -1,0 +1,20 @@
+pm4ml: proxypm4mltest
+proxy_pm4ml_enabled: true
+proxy_pm4ml_chart_version: 0.0.1
+pm4ml_ingress_internal_lb: false
+scheme_a_config:
+  pm4ml_external_mcm_public_fqdn: mcm.dev.labsk8s601.mojaloop.live
+  pm4ml_external_switch_client_id: dfsp-jwt
+  pm4ml_external_switch_oidc_url: https://keycloak.dev.labsk8s601.mojaloop.live
+  pm4ml_external_switch_oidc_token_route: realms/dfsps/protocol/openid-connect/token
+  pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret"
+  pm4ml_external_switch_fqdn: extapi.dev.labsk8s601.mojaloop.live
+scheme_b_config:
+  pm4ml_external_mcm_public_fqdn: mcm.dev.labsk8s601.mojaloop.live
+  pm4ml_external_switch_client_id: dfsp-jwt
+  pm4ml_external_switch_oidc_url: https://keycloak.dev.labsk8s601.mojaloop.live
+  pm4ml_external_switch_oidc_token_route: realms/dfsps/protocol/openid-connect/token
+  pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret"
+  pm4ml_external_switch_fqdn: extapi.dev.labsk8s601.mojaloop.live
+pm4ml_proxy_id: proxypm4mltest
+pm4ml_ttk_enabled: false

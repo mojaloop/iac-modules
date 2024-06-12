@@ -17,6 +17,7 @@ argocd_lovely_plugin_version: 0.18.0
 mcm_enabled: true
 mojaloop_enabled: true
 pm4ml_enabled: false
+proxy_pm4ml_enabled: false
 vnext_enabled: false
 grafana_crd_version_tag: v5.6.0
 prometheus_crd_version: 8.0.1
