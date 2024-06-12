@@ -10,7 +10,7 @@ module "generate_keycloak_files" {
     keycloak_postgres_host                = "${try(module.common_stateful_resources.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.logical_service_name,"")}.${var.stateful_resources_namespace}.svc.cluster.local"
     keycloak_postgres_password_secret     = try(module.common_stateful_resources.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.user_password_secret,"")
     keycloak_postgres_port                = try(module.common_stateful_resources.stateful_resources[local.keycloak_postgres_resource_index].logical_service_config.logical_service_port,"")
-    keycloak_postgres_password_secret_key = "password"
+    keycloak_postgres_password_secret_key = "mysql-password"
     keycloak_fqdn                              = local.keycloak_fqdn
     keycloak_istio_wildcard_gateway_name       = local.keycloak_istio_wildcard_gateway_name
     keycloak_istio_gateway_name                = local.keycloak_istio_gateway_name
