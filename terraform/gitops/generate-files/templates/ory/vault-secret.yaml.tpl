@@ -95,7 +95,7 @@ spec:
   output:
     name: keto-secret
     stringData:
-      dsn: 'mysql://${keto_postgres_user}:{{ .ketopasswordsecret.${keto_postgres_password_secret_key} }}@${keto_postgres_host}:${keto_postgres_port}/${keto_postgres_database}?max_conns=20&max_idle_conns=4'
+      dsn: 'mysql://${keto_postgres_user}:{{ .ketopasswordsecret.${keto_postgres_password_secret_key} }}@tcp(${keto_postgres_host}:${keto_postgres_port})/${keto_postgres_database}?max_conns=20&max_idle_conns=4'
     type: Opaque
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
@@ -138,7 +138,7 @@ spec:
   output:
     name: kratos-secret
     stringData:
-      dsn: 'mysql://${kratos_postgres_user}:{{ .kratospaswordsecret.${kratos_postgres_password_secret_key} }}@${kratos_postgres_host}:${kratos_postgres_port}/${kratos_postgres_database}?max_conns=20&max_idle_conns=4'
+      dsn: 'mysql://${kratos_postgres_user}:{{ .kratospaswordsecret.${kratos_postgres_password_secret_key} }}@tcp(${kratos_postgres_host}:${kratos_postgres_port})/${kratos_postgres_database}?max_conns=20&max_idle_conns=4'
       smtpConnectionURI: "smtps://test:test@mailslurper:1025/?skip_ssl_verify=true"
       secretsDefault: "{{ .kratosdefaultsecret.secret }}"
       secretsCookie: "{{ .kratoscookiesecret.secret }}"
