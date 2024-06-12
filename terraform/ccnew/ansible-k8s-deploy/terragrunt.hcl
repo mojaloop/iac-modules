@@ -31,6 +31,14 @@ dependency "k8s_deploy" {
     target_group_external_health_port = 0
     internal_load_balancer_dns = "null"
     external_load_balancer_dns = "null"
+    secrets_key_map = {
+      external_dns_cred_id_key = "testkey1"
+      external_dns_cred_secret_key = "testkey2"
+    }
+    secrets_var_map = {
+      testkey1 = "testval1"
+      testkey2 = "testval1"
+    }
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
