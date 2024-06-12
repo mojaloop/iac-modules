@@ -396,13 +396,13 @@ ttk-redis:
 keycloak-db:
   enabled: true
   app_owner: "platform"
-  resource_type: pgsql
+  resource_type: mysql
   deployment_type: helm-chart
   logical_service_config:
-    logical_service_port: 5432
+    logical_service_port: 3306
     logical_service_name: keycloak-db
     db_username: keycloak
-    user_password_secret: pgsql-keycloak-secret
+    user_password_secret: mysql-keycloak-secret
     user_password_secret_key: password
     secret_extra_namespaces:
       - keycloak
@@ -410,13 +410,13 @@ keycloak-db:
 keto-db:
   enabled: true
   app_owner: "platform"
-  resource_type: pgsql
+  resource_type: mysql
   deployment_type: helm-chart
   logical_service_config:
-    logical_service_port: 5432
+    logical_service_port: 3306
     logical_service_name: keto-db
     db_username: keto
-    user_password_secret: pgsql-keto-secret
+    user_password_secret: mysql-keto-secret
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
@@ -424,13 +424,13 @@ keto-db:
 kratos-db:
   enabled: true
   app_owner: "platform"
-  resource_type: pgsql
+  resource_type: mysql
   deployment_type: helm-chart
   logical_service_config:
-    logical_service_port: 5432
+    logical_service_port: 3306
     logical_service_name: kratos-db
     db_username: kratos
-    user_password_secret: pgsql-kratos-secret
+    user_password_secret: mysql-kratos-secret
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory

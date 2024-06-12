@@ -596,6 +596,26 @@ keycloak-db:
       generate_secret_extra_namespaces:
         - keycloak
     mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      general_log: 0
+      slow_query_log: 0    
       existing_secret: mysql-keycloak-secret
       root_password: ""
       user: keycloak
@@ -605,7 +625,7 @@ keycloak-db:
       storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
-      service_port: 5432
+      service_port: 3306
       affinity_definition: {}
 keto-db:
   local_helm_config:
@@ -626,6 +646,26 @@ keto-db:
         - ory
       generate_secret_special_chars: _
     mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      general_log: 0
+      slow_query_log: 0    
       existing_secret: mysql-keto-secret
       root_password: ""
       user: keto
@@ -635,7 +675,7 @@ keto-db:
       storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
-      service_port: 5432
+      service_port: 3306
       affinity_definition: {}
 kratos-db:
   local_helm_config:
@@ -656,6 +696,26 @@ kratos-db:
         - ory
       generate_secret_special_chars: _
     mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      general_log: 0
+      slow_query_log: 0
       existing_secret: mysql-kratos-secret
       root_password: ""
       user: kratos
@@ -665,6 +725,6 @@ kratos-db:
       storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
-      service_port: 5432
+      service_port: 3306
       affinity_definition: {}
 
