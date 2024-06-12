@@ -589,9 +589,9 @@ keycloak-db:
     secret_config:
       generate_secret_name: mysql-keycloak-secret
       generate_secret_keys:
-        - password
         - mysql-password
-        - replication-password
+        - mysql-root-password
+        - mysql-replication-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - keycloak
@@ -638,9 +638,9 @@ keto-db:
     secret_config:    
       generate_secret_name: mysql-keto-secret
       generate_secret_keys:
-        - password
         - mysql-password
-        - replication-password
+        - mysql-root-password
+        - mysql-replication-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - ory
@@ -688,9 +688,9 @@ kratos-db:
     secret_config:    
       generate_secret_name: mysql-kratos-secret
       generate_secret_keys:
-        - password
         - mysql-password
-        - replication-password
+        - mysql-root-password
+        - mysql-replication-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - ory
