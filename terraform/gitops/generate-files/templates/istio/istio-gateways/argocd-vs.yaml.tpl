@@ -11,7 +11,11 @@ spec:
   - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
 %{ endif ~}
   hosts:
-    - '${argocd_fqdn}'
+%{ if argocd_wildcard_gateway == "external" ~}
+    - '${argocd_public_fqdn}'
+%{ else ~}
+    - '${argocd_private_fqdn}'
+%{ endif ~}  
   http:
     - match:
         - uri:

@@ -22,7 +22,8 @@ dependency "k8s_deploy" {
     bastion_public_ip           = "null"
     haproxy_server_fqdn         = "null"
   }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+  skip_outputs = local.skip_outputs
+  mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
 
@@ -40,7 +41,7 @@ inputs = {
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
-  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps, 
+  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps,
   {
     registry_mirror_fqdn        = dependency.k8s_deploy.outputs.haproxy_server_fqdn
   }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
@@ -60,9 +61,13 @@ inputs = {
   ansible_playbook_name         = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
   ansible_destroy_playbook_name = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
   master_node_supports_traffic = (local.total_agent_count == 0) ? true : false
+  stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
+  current_gitlab_project_id       = local.GITLAB_CURRENT_PROJECT_ID
+
 }
 
 locals {
+  skip_outputs = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
   env_vars = yamldecode(
   file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
   common_vars = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
@@ -72,19 +77,20 @@ locals {
   CLUSTER_NAME                     = get_env("cluster_name")
   NEXUS_DOCKER_REPO_LISTENING_PORT = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
   NEXUS_FQDN                       = get_env("NEXUS_FQDN")
+  GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
 
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
 
   bastion_hosts_yaml_maps = {
-    netmaker_join_tokens = yamlencode([get_env("NETMAKER_OPS_TOKEN")])
+    netmaker_join_tokens = yamlencode(concat([get_env("NETMAKER_OPS_TOKEN")], [get_env("NETMAKER_ENV_TOKEN")]))
   }
   bastion_hosts_var_maps = {
     netmaker_image_version       = get_env("NETMAKER_VERSION")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
     minio_fqdn                   = get_env("MINIO_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")
-    netmaker_master_key          = get_env("METMAKER_MASTER_KEY")
+    netmaker_master_key          = get_env("METMAKER_MASTER_KEY") 
     netmaker_api_host            = get_env("NETMAKER_HOST_NAME")
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
     external_secrets_version     = local.common_vars.external_secrets_version
@@ -99,6 +105,7 @@ locals {
     cluster_name                 = get_env("cluster_name")
     netmaker_env_network_name    = get_env("cluster_name")
     cluster_domain               = "${get_env("cluster_name")}.${get_env("domain")}"
+    argocd_domain                = "${get_env("argocd_oidc_domain")}.${get_env("domain")}"
     oidc_admin_group             = get_env("gitlab_admin_rbac_group")
     eks_aws_secret_access_key    = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
     eks_aws_access_key_id        = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
@@ -117,3 +124,5 @@ locals {
 include "root" {
   path = find_in_parent_folders()
 }
+
+skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")

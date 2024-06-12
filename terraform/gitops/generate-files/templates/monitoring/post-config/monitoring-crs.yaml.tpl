@@ -23,14 +23,22 @@ spec:
                     secretKeyRef:
                       key: ${admin_secret_pw_key}
                       name: ${admin_secret}
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: 'workload-class.mojaloop.io/MONITORING'
+                    operator: In
+                    values: ['enabled']
   config:
     unified_alerting:
       enabled: "false"
     alerting:
       enabled: "true"
     server:
-      domain: "${public_subdomain}"
-      root_url: https://grafana.${public_subdomain}
+      domain: "${grafana_subdomain}"
+      root_url: https://grafana.${grafana_subdomain}
     auth.gitlab:
       enabled: "${enable_oidc}"
       allow_sign_up: "true"
@@ -80,6 +88,26 @@ spec:
     editable: true
 ---
 apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: tempo
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Tempo
+    type: tempo
+    access: proxy
+    url: http://tempo-grafana-tempo-query-frontend:3200
+    jsonData:
+      httpHeaderName1: 'X-Scope-OrgID'
+    secureJsonData:
+      httpHeaderValue1: 'single-tenant'
+    isDefault: false
+    editable: true
+---
+apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
   name: default
@@ -87,6 +115,15 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: monitoring
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"      
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -155,7 +192,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.0/monitoring/dashboards/messaging/dashboard-kafka-topic-overview.json"
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.6/monitoring/dashboards/messaging/dashboard-kafka-topic-overview.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -169,5 +206,5 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.0/monitoring/dashboards/messaging/dashboard-kafka-cluster-overview.json"
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.6/monitoring/dashboards/messaging/dashboard-kafka-cluster-overview.json"
 ---

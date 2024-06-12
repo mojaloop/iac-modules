@@ -86,11 +86,8 @@ kratos:
     selfservice:
       default_browser_return_url: https://${auth_fqdn}/ui/welcome
       allowed_return_urls:
-        - https://${auth_fqdn}/ui
-        - https://${keycloak_fqdn}
-%{ for fqdnItem in bof_managed_portal_fqdns ~}
-        - https://${fqdnItem}
-%{ endfor ~}
+        - https://*.${private_subdomain}
+        - https://*.${public_subdomain}
 
       methods:
         password:

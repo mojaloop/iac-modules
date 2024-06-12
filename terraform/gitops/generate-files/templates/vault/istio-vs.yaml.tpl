@@ -7,13 +7,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "${vault_sync_wave}"
 spec:
   gateways:
-%{ if vault_wildcard_gateway == "external" ~}
-  - ${istio_external_gateway_namespace}/${istio_external_wildcard_gateway_name}
-%{ else ~}
-  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
-%{ endif ~}
+  - ${vault_istio_gateway_namespace}/${vault_istio_wildcard_gateway_name}
   hosts:
-  - 'vault.${public_subdomain}'
+  - ${vault_fqdn}
   http:
     - match:
         - uri:

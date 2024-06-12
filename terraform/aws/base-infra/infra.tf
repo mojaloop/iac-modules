@@ -18,6 +18,9 @@ module "vpc" {
   enable_dns_hostnames          = true
   enable_dns_support            = true
   enable_nat_gateway            = true
+  single_nat_gateway            = true
+  one_nat_gateway_per_az        = false
+  reuse_nat_ips                 = false
   manage_default_security_group = false
   manage_default_network_acl    = false
   manage_default_route_table    = false
@@ -34,7 +37,7 @@ module "subnet_addrs" {
 
   base_cidr_block = var.vpc_cidr
   networks = [
-    for subnet in concat(local.private_subnets_list, local.public_subnets_list) : {
+    for subnet in local.subnet_list : {
       name     = subnet
       new_bits = var.block_size
     }

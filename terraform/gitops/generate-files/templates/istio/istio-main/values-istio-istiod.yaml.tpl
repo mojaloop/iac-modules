@@ -193,7 +193,6 @@ meshConfig:
       ISTIO_META_DNS_CAPTURE: "true"
       # Enable automatic address allocation, optional
       ISTIO_META_DNS_AUTO_ALLOCATE: "true"
-%{ if ory_stack_enabled ~}
   extensionProviders:
     - name: ${oathkeeper_auth_provider_name}
       envoyExtAuthzHttp:
@@ -204,7 +203,6 @@ meshConfig:
         statusOnError: "500"
         pathPrefix: /decisions
         includeRequestHeadersInCheck: ["authorization", "cookie"]
-%{ endif ~}
 global:
   # Used to locate istiod.
   istioNamespace: ${istio_namespace}
@@ -311,7 +309,7 @@ global:
 
     # Per Component log level for proxy, applies to gateways and sidecars. If a component level is
     # not set, then the global "logLevel" will be used.
-    componentLogLevel: "misc:debug"
+    componentLogLevel: "misc:${istio_proxy_log_level}"
 
     # If set, newly injected sidecars will have core dumps enabled.
     enableCoreDump: false
@@ -334,7 +332,7 @@ global:
 
     # Log level for proxy, applies to gateways and sidecars.
     # Expected values are: trace|debug|info|warning|error|critical|off
-    logLevel: debug
+    logLevel: ${istio_proxy_log_level}
 
     #If set to true, istio-proxy container will have privileged securityContext
     privileged: false

@@ -1,4 +1,7 @@
 longhorn:
+  preUpgradeChecker:
+    # -- Setting that allows Longhorn to perform pre-upgrade checks. Disable this setting when installing Longhorn using Argo CD or other GitOps solutions.
+    jobEnabled: false
   longhornManager:
     tolerations:
     - operator: "Exists"
@@ -7,16 +10,18 @@ longhorn:
     # Set the number of replicas based on how many nodes are deployed; https://longhorn.io/docs/0.8.1/references/settings/#default-replica-count
     defaultClassReplicaCount: ${replica_count}
     reclaimPolicy: ${reclaim_policy}
+    defaultDataLocality: strict-local
 
   defaultSettings:
     backupTarget: "s3://${longhorn_backups_bucket_name}@${cloud_region}/"
     backupTargetCredentialSecret: ${longhorn_credentials_secret}
     nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
-    defaultDataLocality: disabled
+    defaultDataLocality: strict-local
     replicaAutoBalance: disabled
     autoDeletePodWhenVolumeDetachedUnexpectedly: true
     replicaReplenishmentWaitInterval: 360
-    taintToleration: ":"
+    backupstorePollInterval: 0
+    taintToleration: ~
   enablePSP: false
 
 %{ if k8s_cluster_type == "microk8s" ~}
