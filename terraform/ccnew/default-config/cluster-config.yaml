@@ -5,14 +5,14 @@ dns_provider: aws
 k8s_cluster_module: base-k8s
 cloud_region: eu-west-1
 k8s_cluster_type: microk8s
-ansible_collection_tag: vexp-cck8s22
-iac_terraform_modules_tag: vexp-cck8s2
+ansible_collection_tag: vexp-cck8s38
+iac_terraform_modules_tag: vexp-cck8s4
 letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 nodes:
   master-generic:
     master: true
-    instance_type: "m5.4xlarge"
+    instance_type: "m5.xlarge"
     node_count: 3
     storage_gbs: 100
     node_taints: []
