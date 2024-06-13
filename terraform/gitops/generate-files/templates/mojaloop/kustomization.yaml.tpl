@@ -15,6 +15,9 @@ helmCharts:
   repo: ${mojaloop_chart_repo}
   valuesFile: values-mojaloop.yaml
   namespace: ${mojaloop_namespace}
+  additionalValuesFiles:
+  - values-mojaloop-override.yaml
+  - values-mojaloop-addons.yaml
 - name: finance-portal
   releaseName: ${finance_portal_release_name}
   version: ${finance_portal_chart_version}
@@ -22,6 +25,8 @@ helmCharts:
   valuesFile: values-finance-portal.yaml
   namespace: ${mojaloop_namespace}
   includeCRDs: true
+  additionalValuesFiles:
+  - values-finance-portal-override.yaml
 - name: reporting-k8s-templates
   releaseName: reporting-templates
   version: ${reporting_templates_chart_version}

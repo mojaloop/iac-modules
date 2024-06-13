@@ -4,7 +4,7 @@ gitlab_provider_version: "~> 16.0"
 vault_provider_version: "~> 3.16"
 cert_manager_chart_version: 1.12.2
 consul_chart_version: 1.4.0
-longhorn_chart_version: 1.4.4
+longhorn_chart_version: 1.6.1
 external_dns_chart_version: 6.24.1
 vault_chart_version: 0.24.1
 vault_config_operator_helm_chart_version: 0.8.16
@@ -17,16 +17,24 @@ argocd_lovely_plugin_version: 0.18.0
 mcm_enabled: true
 mojaloop_enabled: true
 pm4ml_enabled: false
+vnext_enabled: false
+grafana_crd_version_tag: v5.6.0
+prometheus_crd_version: 8.0.1
 prometheus_operator_version: 8.22.8
+prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: 3.5.11
 grafana_version: 10.2.3
-tempo_chart_version: 2.6.0
+tempo_chart_version: 3.1.0
 loki_chart_version: 2.13.0
-ory_stack_enabled: true
-loki_ingester_pvc_size: 50Gi
+loki_ingester_pvc_size: 10Gi
 prometheus_pvc_size: 50Gi
+loki_retention_enabled: true
 loki_ingester_retention_period: 72h
+loki_ingester_max_chunk_age: 2h
 prometheus_retention_period: 10d
+tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
 microk8s_version: 1.29/stable
 alertmanager_enabled: false
+istio_proxy_log_level: warn
+longhorn_backup_job_enabled: false

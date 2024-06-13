@@ -42,6 +42,7 @@ inputs = {
   iac_group_name                 = local.env_vars.iac_group_name
   netmaker_image_version         = local.env_vars.netmaker_version
   delete_storage_on_term         = local.env_vars.delete_storage_on_term
+  docker_server_extra_vol_size   = local.env_vars.docker_server_extra_vol_size
 }
 
 locals {

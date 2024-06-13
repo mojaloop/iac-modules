@@ -14,6 +14,11 @@ spec:
   target:
     name: ${longhorn_credentials_secret} # Name for the secret to be created on the cluster
     creationPolicy: Owner
+    template:
+      data:
+        AWS_ENDPOINTS: http://${minio_api_url}/
+        AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
+        AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic

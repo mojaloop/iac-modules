@@ -1,0 +1,288 @@
+account-lookup-service:
+  account-lookup-service:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  account-lookup-service-admin:
+    replicaCount: 1
+quoting-service:
+  quoting-service:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  quoting-service-handler:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+ml-api-adapter:
+  ml-api-adapter-service:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  ml-api-adapter-handler-notification:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+centralledger:
+  centralledger-service:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  centralledger-handler-transfer-prepare:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  centralledger-handler-transfer-position:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  centralledger-handler-transfer-position-batch:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  centralledger-handler-transfer-get:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  centralledger-handler-transfer-fulfil:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  centralledger-handler-timeout:
+    config:
+      event_log_filter: ""
+      log_level: warn
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  centralledger-handler-admin-transfer:
+    replicaCount: 1
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+centralsettlement:
+  centralsettlement-service:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+  centralsettlement-handler-deferredsettlement:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+  centralsettlement-handler-grosssettlement:
+    replicaCount: 0
+    config:
+      event_log_filter: ""
+  centralsettlement-handler-rules:
+    replicaCount: 1
+    config:
+      event_log_filter: ""
+transaction-requests-service:
+  replicaCount: 1
+  readinessProbe:
+    initialDelaySeconds: 5
+    timeoutSeconds: 2
+  livenessProbe:
+    initialDelaySeconds: 5
+    timeoutSeconds: 1
+    periodSeconds: 1
+  sidecar:
+    readinessProbe:
+      initialDelaySeconds: 5
+    livenessProbe:
+      initialDelaySeconds: 5
+thirdparty:
+  auth-svc:
+    replicaCount: 1
+  consent-oracle:
+    replicaCount: 1
+  tp-api-svc:
+    replicaCount: 1
+mojaloop-bulk:
+  bulk-api-adapter:
+    bulk-api-adapter-service:
+      replicaCount: 1
+      config:
+        event_log_filter: ""
+    bulk-api-adapter-handler-notification:
+      replicaCount: 1
+      config:
+        event_log_filter: ""
+  bulk-centralledger:
+    cl-handler-bulk-transfer-prepare:
+      replicaCount: 1
+      config:
+        event_log_filter: ""
+    cl-handler-bulk-transfer-fulfil:
+      replicaCount: 1
+      config:
+        event_log_filter: ""
+    cl-handler-bulk-transfer-processing:
+      replicaCount: 1
+      config:
+        event_log_filter: ""
+    cl-handler-bulk-transfer-get:
+      replicaCount: 1
+      config:
+        event_log_filter: ""

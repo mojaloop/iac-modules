@@ -21,13 +21,12 @@ module "base_infra" {
 }
 
 module "post_config" {
-  source                     = "../post-config-k8s"
-  name                       = var.cluster_name
-  domain                     = var.domain
-  tags                       = var.tags
-  private_zone_id            = module.base_infra.private_zone.id
-  public_zone_id             = module.base_infra.public_zone.id
-  longhorn_backup_s3_destroy = var.longhorn_backup_object_store_destroy
+  source          = "../post-config-k8s"
+  name            = var.cluster_name
+  domain          = var.domain
+  tags            = var.tags
+  private_zone_id = module.base_infra.public_int_zone.id
+  public_zone_id  = module.base_infra.public_zone.id
 }
 
 module "k6s_test_harness" {
@@ -47,7 +46,9 @@ module "k6s_test_harness" {
 }
 
 module "eks" {
-  source = "terraform-aws-modules/eks/aws"
+  source      = "terraform-aws-modules/eks/aws"
+  version     = "~> 19.21"
+  enable_irsa = true
 
   cluster_name                    = local.eks_name
   cluster_version                 = var.kubernetes_version
@@ -86,6 +87,10 @@ module "eks" {
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
     update_launch_template_default_version = true
+    autoscaling_group_tags = {
+      "k8s.io/cluster-autoscaler/enabled" : true,
+      "k8s.io/cluster-autoscaler/${local.eks_name}" : "owned",
+    }
   }
   self_managed_node_groups = local.self_managed_node_groups
   tags                     = var.tags
@@ -136,11 +141,14 @@ locals {
       launch_template_use_name_prefix = false
       iam_role_name                   = "${local.eks_name}-${node_pool_key}"
       iam_role_use_name_prefix        = false
-      bootstrap_extra_args            = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
-      post_bootstrap_user_data        = <<-EOT
+      vpc_security_group_ids = [
+        module.eks.cluster_primary_security_group_id
+      ]
+      bootstrap_extra_args     = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
+      post_bootstrap_user_data = <<-EOT
         yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
       EOT
-      ebs_optimized                   = true
+      ebs_optimized            = true
       block_device_mappings = {
         xvda = {
           device_name = "/dev/xvda"
@@ -172,6 +180,7 @@ locals {
     }
   }
 }
+
 
 data "aws_ami" "eks_default" {
   most_recent = true

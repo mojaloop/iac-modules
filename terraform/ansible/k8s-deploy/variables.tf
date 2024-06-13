@@ -105,3 +105,12 @@ variable "ansible_debug" {
   type    = string
   default = ""
 }
+
+variable "stateful_resources_config_file" {
+  type = string
+}
+
+variable "current_gitlab_project_id" {
+  type        = string
+  description = "current_gitlab_project_id"
+}

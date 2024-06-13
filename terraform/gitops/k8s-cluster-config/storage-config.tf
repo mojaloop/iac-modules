@@ -11,11 +11,13 @@ module "generate_storage_files" {
     replica_count                                    = var.longhorn_replica_count
     longhorn_backups_credentials_id_provider_key     = "${var.cluster_name}/${local.longhorn_backups_credentials_id_provider_key}"
     longhorn_backups_credentials_secret_provider_key = "${var.cluster_name}/${local.longhorn_backups_credentials_secret_provider_key}"
+    minio_api_url                                    = var.minio_api_url
     gitlab_project_url                               = var.gitlab_project_url
     longhorn_namespace                               = var.longhorn_namespace
     external_secret_sync_wave                        = var.external_secret_sync_wave
     longhorn_job_sync_wave                           = var.longhorn_job_sync_wave
     storage_sync_wave                                = var.storage_sync_wave
+    longhorn_backup_job_enabled                      = try(var.common_var_map.longhorn_backup_job_enabled, false)
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
   template_path   = local.storage_template_path
@@ -25,8 +27,8 @@ module "generate_storage_files" {
 }
 
 locals {
-  storage_template_path              = "${path.module}/../generate-files/templates/storage"
-  storage_app_file                   = "storage-app.yaml"
+  storage_template_path = "${path.module}/../generate-files/templates/storage"
+  storage_app_file      = "storage-app.yaml"
 }
 
 variable "longhorn_chart_repo" {

@@ -1,15 +1,15 @@
 resource "gitlab_group" "gitlab_admin_rbac_group" {
-  name        = var.gitlab_admin_rbac_group
-  path        = var.gitlab_admin_rbac_group
-  description = "${var.gitlab_admin_rbac_group} group"
+  name                              = var.gitlab_admin_rbac_group
+  path                              = var.gitlab_admin_rbac_group
+  description                       = "${var.gitlab_admin_rbac_group} group"
   require_two_factor_authentication = true
   two_factor_grace_period           = var.two_factor_grace_period
 }
 
 resource "gitlab_group" "gitlab_readonly_rbac_group" {
-  name        = var.gitlab_readonly_rbac_group
-  path        = var.gitlab_readonly_rbac_group
-  description = "${var.gitlab_readonly_rbac_group} group"
+  name                              = var.gitlab_readonly_rbac_group
+  path                              = var.gitlab_readonly_rbac_group
+  description                       = "${var.gitlab_readonly_rbac_group} group"
   require_two_factor_authentication = true
   two_factor_grace_period           = var.two_factor_grace_period
 }
@@ -149,6 +149,24 @@ resource "gitlab_group_variable" "minio_listening_port" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "mimir_fqdn" {
+  group             = gitlab_group.iac.id
+  key               = "MIMIR_FQDN"
+  value             = var.mimir_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "mimir_listening_port" {
+  group             = gitlab_group.iac.id
+  key               = "MIMIR_LISTENING_PORT"
+  value             = var.mimir_listening_port
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_group_variable" "vault_fqdn" {
   group             = gitlab_group.iac.id
   key               = "VAULT_FQDN"
@@ -167,7 +185,7 @@ resource "gitlab_group_variable" "tenant_vault_listening_port" {
   environment_scope = "*"
 }
 resource "gitlab_application" "tenant_vault_oidc" {
-  count     = var.enable_vault_oidc ? 1 : 0
+  count        = var.enable_vault_oidc ? 1 : 0
   confidential = true
   scopes       = ["openid"]
   name         = "tenant_vault_oidc"

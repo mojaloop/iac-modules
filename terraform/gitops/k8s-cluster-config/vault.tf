@@ -25,11 +25,6 @@ module "generate_vault_files" {
     vault_k8s_auth_path                      = var.vault_k8s_auth_path
     public_subdomain                         = var.public_subdomain
     ingress_class                            = var.vault_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
-    istio_internal_wildcard_gateway_name     = local.istio_internal_wildcard_gateway_name
-    istio_internal_gateway_namespace         = var.istio_internal_gateway_namespace
-    istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
-    istio_external_gateway_namespace         = var.istio_external_gateway_namespace
-    vault_wildcard_gateway                   = local.vault_wildcard_gateway
     istio_create_ingress_gateways            = var.istio_create_ingress_gateways
     consul_namespace                         = var.consul_namespace
     gitlab_server_url                        = var.gitlab_server_url
@@ -40,6 +35,10 @@ module "generate_vault_files" {
     transit_vault_url                        = var.transit_vault_url
     transit_vault_key_name                   = var.transit_vault_key_name
     local_vault_kv_root_path                 = local.local_vault_kv_root_path
+    vault_subdomain                          = local.vault_subdomain
+    vault_fqdn                               = local.vault_fqdn
+    vault_istio_gateway_namespace            = local.vault_istio_gateway_namespace
+    vault_istio_wildcard_gateway_name        = local.vault_istio_wildcard_gateway_name
   }
 
   file_list       = [for f in fileset(local.vault_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vault_app_file, f))]
@@ -50,8 +49,14 @@ module "generate_vault_files" {
 }
 
 locals {
-  vault_template_path              = "${path.module}/../generate-files/templates/vault"
-  vault_app_file                   = "vault-app.yaml"
+  vault_wildcard_gateway            = var.vault_ingress_internal_lb ? "internal" : "external"
+  local_vault_kv_root_path          = "secret"
+  vault_template_path               = "${path.module}/../generate-files/templates/vault"
+  vault_app_file                    = "vault-app.yaml"
+  vault_subdomain                   = local.vault_wildcard_gateway == "external" ? var.public_subdomain : var.private_subdomain
+  vault_fqdn                        = local.vault_wildcard_gateway == "external" ? "vault.${var.public_subdomain}" : "vault.${var.private_subdomain}"
+  vault_istio_gateway_namespace     = local.vault_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  vault_istio_wildcard_gateway_name = local.vault_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
 }
 
 variable "vault_sync_wave" {
@@ -143,9 +148,4 @@ variable "vault_k8s_auth_path" {
 variable "enable_vault_oidc" {
   type    = bool
   default = false
-}
-
-locals {
-  vault_wildcard_gateway = var.vault_ingress_internal_lb ? "internal" : "external"
-  local_vault_kv_root_path = "secret"
 }

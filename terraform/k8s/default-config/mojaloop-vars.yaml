@@ -2,38 +2,12 @@ bulk_enabled: false
 third_party_enabled: false
 mcm_chart_version: 0.7.7
 mojaloop_chart_version: 16.0.0
+ttk_testcases_tag: 16.0.0
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
-#replica counts
-account_lookup_service_replica_count: 1
-account_lookup_service_admin_replica_count: 1
-quoting_service_replica_count: 1
-quoting_service_handler_replica_count: 1
-ml_api_adapter_service_replica_count: 1
-ml_api_adapter_handler_notifications_replica_count: 1
-central_ledger_service_replica_count: 1
-central_ledger_handler_transfer_prepare_replica_count: 1
-central_ledger_handler_transfer_position_replica_count: 1
-central_ledger_handler_transfer_position_batch_replica_count: 1
-central_ledger_handler_transfer_get_replica_count: 1
-central_ledger_handler_transfer_fulfil_replica_count: 1
-central_ledger_handler_admin_transfer_replica_count: 1
-central_settlement_service_replica_count: 1
-central_settlement_handler_deferredsettlement_replica_count: 1
-central_settlement_handler_grosssettlement_replica_count: 1
-central_settlement_handler_rules_replica_count: 1
-trasaction_requests_service_replica_count: 1
-auth_service_replica_count: 1
-consent_oracle_replica_count: 1
-tp_api_svc_replica_count: 1
-bulk_api-adapter_service_replica_count: 1
-bulk_api_adapter_handler_notification_replica_count: 1
-cl_handler_bulk_transfer_prepare_replica_count: 1
-cl_handler_bulk_transfer_fulfil_replica_count: 1
-cl_handler_bulk_transfer_processing_replica_count: 1
-cl_handler_bulk_transfer_get_replica_count: 1
+finance_portal_ingress_internal_lb: true
 onboarding_collection_tag: 15.2.0
-grafana_dashboard_tag: 15.2.0
+grafana_dashboard_tag: 16.1.1-snapshot.2 # TODO: update once v16.1.x is published
 enable_istio_injection: true
 central_ledger_handler_transfer_position_batch_processing_enabled: false
 central_ledger_handler_transfer_position_batch_size: 100
@@ -47,6 +21,7 @@ account_lookup_service_monitoring_prefix: "moja_als_"
 ttk_gp_testcase_labels: "p2p"
 jws_rotation_period_hours: 672
 jws_rotation_renew_before_hours: 1
+fspiop_use_ory_for_auth: true
 mojaloop_tolerations:
   - key: "moja-enabled"
     operator: "Equal"

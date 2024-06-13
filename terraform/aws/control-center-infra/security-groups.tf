@@ -60,7 +60,7 @@ resource "aws_security_group" "docker_server" {
     cidr_blocks = [var.vpc_cidr]
   }
 
-  
+
   ingress {
     description = "nexus admin access"
     from_port   = var.nexus_admin_listening_port
@@ -91,7 +91,7 @@ resource "aws_security_group" "docker_server" {
     to_port     = var.minio_ui_port
     protocol    = "tcp"
     cidr_blocks = [var.vpc_cidr]
-  } 
+  }
 
   ingress {
     description = "vault access"
@@ -102,13 +102,30 @@ resource "aws_security_group" "docker_server" {
   }
 
   ingress {
+    description = "central-observability grafana access"
+    from_port   = var.grafana_listening_port
+    to_port     = var.grafana_listening_port
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+  }
+
+  ingress {
+    description = "central-observability mimir access"
+    from_port   = var.mimir_listening_port
+    to_port     = var.mimir_listening_port
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+  }
+
+
+  ingress {
     description = "wireguard access"
     from_port   = 51820
     to_port     = 51825
     protocol    = "udp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0

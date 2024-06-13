@@ -5,7 +5,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_public_fqdn}/api/<.*>
+    url: <http|https>://${mcm_fqdn}/api/<.*>
     methods:
       - POST
       - GET
@@ -35,7 +35,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_public_fqdn}/pm4mlapi/<.*>
+    url: <http|https>://${mcm_fqdn}/pm4mlapi/<.*>
     methods:
       - POST
       - GET

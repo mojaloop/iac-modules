@@ -51,11 +51,7 @@ variable "ingress_sync_wave" {
   description = "ingress_sync_wave"
   default     = "-7"
 }
-variable "default_ssl_certificate" {
-  type        = string
-  description = "default_ssl_certificate"
-  default     = "default-lets-enc"
-}
+
 variable "wildcare_certificate_wave" {
   type        = string
   description = "nginx_internal_namespace"

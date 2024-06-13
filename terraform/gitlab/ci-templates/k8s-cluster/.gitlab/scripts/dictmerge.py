@@ -15,6 +15,14 @@ import os
 
 yaml.Dumper.ignore_aliases = lambda *args : True
 
+# Custom Dumper to handle single quoted integers
+class CustomDumper(yaml.Dumper):
+    def represent_data(self, data):
+        if isinstance(data, str) and data.isdigit():
+            return self.represent_scalar('tag:yaml.org,2002:str', data, style="'")
+
+        return super(CustomDumper, self).represent_data(data)
+
 def mergedicts(dict1, dict2):
     for k in set(dict1.keys()).union(dict2.keys()):
         if k in dict1 and k in dict2:
@@ -118,9 +126,9 @@ if fileName == "pm4ml-vars.yaml":
         mergedItems.append(dict(mergedicts(data1, item)))
     mergedDict["pm4mls"] = mergedItems
     with open(outputFilename, 'w') as file:
-        yaml.dump(mergedDict, file, indent=4 , default_flow_style=False)
+        yaml.dump(mergedDict, file, indent=4 , default_flow_style=False, Dumper=CustomDumper)
 
-elif fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources.json" , "mojaloop-rbac-api-resources.yaml" ):
+elif fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources.json" , "mojaloop-rbac-api-resources.yaml","vnext-stateful-resources.json" ):
     mergeListOfDicts(data1, data2, fileName, outputFilename, defaultExt)
 
 elif defaultExt == ".yaml":

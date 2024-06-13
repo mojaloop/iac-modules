@@ -1,6 +1,6 @@
 pm4ml: pm4mltest
 pm4ml_enabled: true
-pm4ml_chart_version: 9.0.11
+pm4ml_chart_version: 9.1.5
 pm4ml_external_mcm_public_fqdn: mcm.dev.labsk8s601.mojaloop.live
 pm4ml_ingress_internal_lb: false
 pm4ml_external_switch_client_id: dfsp-jwt
