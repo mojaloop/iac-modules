@@ -80,3 +80,7 @@ locals {
     zitadel_local_location    = local.ansible_output_dir
   }
 }
+
+output "zitadel_local_location" {
+  value = local.ansible_output_dir
+}
