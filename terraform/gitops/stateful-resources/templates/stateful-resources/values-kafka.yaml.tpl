@@ -967,7 +967,7 @@ metrics:
 provisioning:
   ## @param provisioning.enabled Enable kafka provisioning Job
   ##
-  enabled: ${resource.local_helm_config.kafka_provisioning.enabled}
+  enabled: ${resource.logical_service_config.post_install_schema_config.kafka_provisioning.enabled}
   ## @param provisioning.numPartitions Default number of partitions for topics when unspecified
   ##
   numPartitions: 1

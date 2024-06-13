@@ -351,8 +351,6 @@ mojaloop-kafka:
       generate_secret_keys: 
       generate_secret_vault_base_path: 
       generate_secret_extra_namespaces: []    
-    kafka_provisioning:
-      enabled: true
     kafka_data:
       storage_size: 8Gi
       storage_class_name: longhorn
