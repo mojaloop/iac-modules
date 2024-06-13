@@ -27,3 +27,8 @@ resource "zitadel_human_user" "default" {
   is_email_verified  = true
   initial_password   = "#Password1!"
 }
+
+resource "zitadel_instance_member" "default" {
+  user_id = zitadel_human_user.default.id
+  roles   = ["IAM_OWNER"]
+}
