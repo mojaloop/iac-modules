@@ -131,7 +131,7 @@ module "proxy_pm4ml" {
   istio_internal_wildcard_gateway_name   = local.istio_internal_wildcard_gateway_name
   local_vault_kv_root_path               = local.local_vault_kv_root_path
   vault_root_ca_name                     = "pki-${var.cluster_name}"
-  app_var_map                            = local.pm4ml_var_map
+  app_var_map                            = local.proxy_pm4ml_var_map
 }
 
 module "vnext" {
@@ -296,6 +296,10 @@ locals {
 
   pm4ml_var_map = {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
+  }
+
+  proxy_pm4ml_var_map = {
+    for pm4ml in var.app_var_map.proxy_pm4mls : pm4ml.pm4ml => pm4ml
   }
 
 }
