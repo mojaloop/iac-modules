@@ -115,7 +115,7 @@ ttk:
     config_files:
       user_config.json: {
         "VERSION": 1,
-        "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4001",
+        "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-inter-scheme-proxy-adapter:4000",
         "SEND_CALLBACK_ENABLE": true,
         "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
         "DEFAULT_REQUEST_TIMEOUT": 15000,

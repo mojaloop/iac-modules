@@ -35,6 +35,9 @@ module "generate_pm4ml_files" {
     inter_scheme_proxy_adapter_b_fqdn               = local.inter_scheme_proxy_adapter_b_fqdns[each.key]
     callback_fqdn_scheme_a                          = local.inter_scheme_proxy_adapter_a_fqdns[each.key]
     callback_fqdn_scheme_b                          = local.inter_scheme_proxy_adapter_b_fqdns[each.key]
+    redis_port                                      = "6379"
+    redis_host                                      = "redis-master"
+    redis_replica_count                             = "1"
     nat_ip_list                                     = local.nat_cidr_list
     proxy_pm4ml_chart_version                       = each.value.proxy_pm4ml_chart_version
     pm4ml_external_switch_a_client_secret           = var.pm4ml_external_switch_a_client_secret
