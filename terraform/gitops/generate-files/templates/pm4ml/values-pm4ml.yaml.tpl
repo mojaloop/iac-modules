@@ -112,7 +112,6 @@ scheme-adapter:
   sdk-scheme-adapter-api-svc:
     image:
       tag: v23.1.2-snapshot.2
-%{ endif ~}
 %{ if enable_sdk_bulk_transaction_support ~}
     kafka: &kafkaConfig
       host: ${kafka_host}
