@@ -110,7 +110,7 @@ locals {
   pm4ml_var_map = var.app_var_map
 
   pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
-  
+
   portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "portal-${pm4ml.pm4ml}.${var.private_subdomain}" }
   admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "admin-portal-${pm4ml.pm4ml}.${var.private_subdomain}"}
   experience_api_fqdns      = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "exp-${pm4ml.pm4ml}.${var.public_subdomain}"  : "exp-${pm4ml.pm4ml}.${var.private_subdomain}"}
@@ -143,10 +143,6 @@ variable "auth_fqdn" {
 
 variable "oathkeeper_auth_provider_name" {
   type = string
-}
-
-variable "pta_portal_fqdns" {
-  description = "fqdns for pm4ml payment token adapter portal"
 }
 
 variable "pm4ml_vault_k8s_role_name" {

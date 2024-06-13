@@ -64,7 +64,7 @@ module "mojaloop" {
   managed_db_host                      = var.managed_db_host
   platform_stateful_res_config         = module.config_deepmerge.merged
   minio_api_url                        = var.minio_api_url
-  minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value  
+  minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
 
 }
@@ -105,7 +105,6 @@ module "pm4ml" {
   local_vault_kv_root_path               = local.local_vault_kv_root_path
   auth_fqdn                              = local.auth_fqdn
   oathkeeper_auth_provider_name          = local.oathkeeper_auth_provider_name
-  pta_portal_fqdns                       = local.pm4ml_pta_portal_fqdns
   vault_root_ca_name                     = "pki-${var.cluster_name}"
   app_var_map                            = local.pm4ml_var_map
   bof_release_name                       = local.bof_release_name
