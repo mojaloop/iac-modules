@@ -53,6 +53,7 @@ resource "random_password" "netmaker_admin_password" {
 }
 
 resource "random_password" "mimir_minio_password" {
-  length  = 20
-  special = true
+  length           = 20
+  special          = true
+  override_special = "_"
 }
