@@ -67,7 +67,6 @@ module "generate_pm4ml_files" {
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
-    fx_support_enabled                              = each.value.fx_support_enabled
     supported_currencies                            = each.value.supported_currencies
     fxp_id                                          = each.value.fxp_id
     core_connector_selected                         = each.value.core_connector_selected

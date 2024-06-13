@@ -119,27 +119,6 @@ CONFIG:
   tolerations: &MOJALOOP_TOLERATIONS []
 %{ endif ~}
 
-%{ if mojaloop_fx_enabled ~}
-  ml_api_adapter_image: &ML_API_ADAPTER_IMAGE
-    registry: docker.io
-    repository: mojaloop/ml-api-adapter
-    tag: v14.1.0-snapshot.5
-
-  cl_image: &CL_IMAGE
-    registry: docker.io
-    repository: mojaloop/central-ledger
-    tag: v17.7.0-snapshot.0
-
-  qs_image: &QS_IMAGE
-    registry: docker.io
-    repository: mojaloop/quoting-service
-    tag: v15.8.0-snapshot.15
-%{ else ~}
-  ml_api_adapter_image: &ML_API_ADAPTER_IMAGE {}
-  cl_image: &CL_IMAGE {}
-  qs_image: &QS_IMAGE {}
-%{ endif ~}
-
 global:
   config:
     forensicloggingsidecar_disabled: true
@@ -238,7 +217,6 @@ account-lookup-service:
 
 quoting-service:
   quoting-service:
-    image: *QS_IMAGE
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
@@ -274,7 +252,6 @@ quoting-service:
       config:
         prefix: *QUOTING_MONITORING_PREFIX
   quoting-service-handler:
-    image: *QS_IMAGE
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if quoting_service_affinity != null ~}
@@ -312,7 +289,6 @@ quoting-service:
 
 ml-api-adapter:
   ml-api-adapter-service:
-    image: *ML_API_ADAPTER_IMAGE
 %{ if ml_api_adapter_service_affinity != null ~}
     affinity:
       ${indent(8, ml_api_adapter_service_affinity)}
@@ -336,7 +312,6 @@ ml-api-adapter:
       config:
         prefix: *ML_API_ADAPTER_MONITORING_PREFIX
   ml-api-adapter-handler-notification:
-    image: *ML_API_ADAPTER_IMAGE
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
 %{ if ml_api_adapter_handler_notifications_affinity != null ~}
@@ -365,7 +340,6 @@ ml-api-adapter:
 
 centralledger:
   centralledger-service:
-    image: *CL_IMAGE
 %{ if centralledger_service_affinity != null ~}
     affinity:
       ${indent(8, centralledger_service_affinity)}
@@ -398,7 +372,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-prepare:
-    image: *CL_IMAGE
 %{ if central_ledger_handler_transfer_prepare_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_prepare_affinity)}
@@ -429,7 +402,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-position:
-    image: *CL_IMAGE
 %{ if central_ledger_handler_transfer_position_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_affinity)}
@@ -460,7 +432,6 @@ centralledger:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-position-batch:
     enabled: *CL_BATCH_PROCESSING_ENABLED
-    image: *CL_IMAGE
 %{ if central_ledger_handler_transfer_position_batch_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_batch_affinity)}
@@ -492,7 +463,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-get:
-    image: *CL_IMAGE
 %{ if central_ledger_handler_transfer_get_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_get_affinity)}
@@ -522,7 +492,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-fulfil:
-    image: *CL_IMAGE
 %{ if central_ledger_handler_transfer_fulfil_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_fulfil_affinity)}
@@ -553,7 +522,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-timeout:
-    image: *CL_IMAGE
     tolerations: *MOJALOOP_TOLERATIONS
     config:
       kafka_host: *KAFKA_HOST
@@ -578,7 +546,6 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-admin-transfer:
-    image: *CL_IMAGE
 %{ if central_ledger_handler_admin_transfer_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_admin_transfer_affinity)}

@@ -1,6 +1,6 @@
 pm4ml: pm4mltest
 pm4ml_enabled: true
-pm4ml_chart_version: 9.1.3
+pm4ml_chart_version: 9.0.11
 pm4ml_external_mcm_public_fqdn: mcm.dev.labsk8s601.mojaloop.live
 pm4ml_ingress_internal_lb: false
 pm4ml_external_switch_client_id: dfsp-jwt
@@ -16,7 +16,6 @@ core_connector_selected: ttk
 ## custom_core_connector_endpoint is only required if core_connector_selected is set to "custom"
 custom_core_connector_endpoint: 'pm4mltest-mojaloop-core-connector:3003'
 pm4ml_reserve_notification: false
-fx_support_enabled: true
 supported_currencies: "EUR"
 fxp_id: "fxp"
 core_connector_config: {}

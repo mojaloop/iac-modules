@@ -111,9 +111,6 @@ prometheus:
 scheme-adapter:
   sdk-scheme-adapter-api-svc:
     image:
-%{ if fx_support_enabled ~}
-      tag: v23.5.0-snapshot.4
-%{ else ~}
       tag: v23.1.2-snapshot.2
 %{ endif ~}
 %{ if enable_sdk_bulk_transaction_support ~}
@@ -137,7 +134,6 @@ scheme-adapter:
         "test": "test"
       }
     env:
-      LOG_LEVEL: debug
       DFSP_ID: *dfspId
       CACHE_URL: redis://${redis_host}:${redis_port}
       AUTO_ACCEPT_QUOTES: false
@@ -167,12 +163,10 @@ scheme-adapter:
 %{ endif ~}
 %{ endif ~}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
-%{ if fx_support_enabled ~}
       FX_QUOTES_ENDPOINT: "${pm4ml_external_switch_fqdn}"
       FX_TRANSFERS_ENDPOINT: "${pm4ml_external_switch_fqdn}"
       SUPPORTED_CURRENCIES: "${supported_currencies}"
       GET_SERVICES_FXP_RESPONSE: "${fxp_id}"
-%{ endif ~}
 %{ if enable_sdk_bulk_transaction_support ~}
       ENABLE_BACKEND_EVENT_HANDLER: true
       ENABLE_FSPIOP_EVENT_HANDLER: true
@@ -215,9 +209,6 @@ ttk:
 %{ if ttk_enabled ~}
   enabled: true
   ml-testing-toolkit-backend:
-    image:
-      repository: mojaloop/ml-testing-toolkit
-      tag: v17.1.1
     ingress:
       enabled: false
     nameOverride: ttk-backend
@@ -264,9 +255,6 @@ ttk:
       api_definitions__mojaloop_connector_outbound_2.1__callback_map.json: []
 
   ml-testing-toolkit-frontend:
-    image:
-      repository: mojaloop/ml-testing-toolkit-ui
-      tag: v15.5.0-snapshot.1
     ingress:
       enabled: false
     nameOverride: ttk-frontend

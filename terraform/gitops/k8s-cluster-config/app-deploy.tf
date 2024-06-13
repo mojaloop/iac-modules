@@ -47,7 +47,6 @@ module "mojaloop" {
   mcm_chart_version                    = var.app_var_map.mcm_chart_version
   mojaloop_enabled                     = var.common_var_map.mojaloop_enabled
   bulk_enabled                         = var.app_var_map.bulk_enabled
-  mojaloop_fx_enabled                  = var.app_var_map.mojaloop_fx_enabled
   third_party_enabled                  = var.app_var_map.third_party_enabled
   mojaloop_ingress_internal_lb         = var.app_var_map.mojaloop_ingress_internal_lb
   mcm_ingress_internal_lb              = var.app_var_map.mcm_ingress_internal_lb
