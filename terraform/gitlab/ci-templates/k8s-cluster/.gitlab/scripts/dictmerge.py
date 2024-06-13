@@ -114,7 +114,7 @@ else:
     data2 = {}
 
 
-if fileName == "pm4ml-vars.yaml":
+if fileName in ( "pm4ml-vars.yaml" , "proxy-pm4ml-vars.yaml" ):
     mergedItems=[]
     mergedDict = {}
     if data2 == {} or len(data2["pm4mls"]) == 0:

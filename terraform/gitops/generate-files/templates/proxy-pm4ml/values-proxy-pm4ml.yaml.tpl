@@ -32,13 +32,13 @@ inter-scheme-proxy-adapter:
     OAUTH_REFRESH_SECONDS_A: 3600
     OAUTH_TOKEN_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_oidc_url}/${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
     OAUTH_REFRESH_SECONDS_B: 3600
-    MGMT_API_WS_URL_A: "${pm4ml_release_name}-management-api"
+    MGMT_API_WS_URL_A: "${pm4ml_release_name}-management-api-a"
     MGMT_API_WS_PORT_A: 4005
-    MGMT_API_WS_URL_B: "${pm4ml_release_name}-management-api"
+    MGMT_API_WS_URL_B: "${pm4ml_release_name}-management-api-b"
     MGMT_API_WS_PORT_B: 4005
     PM4ML_ENABLED: true
 
-management-api-service-a: 
+management-api-a: 
   enabled: true
   image:
     tag: 5.0.0-snapshot.2
@@ -72,7 +72,7 @@ management-api-service-a:
     CERT_MANAGER_SERVER_CERT_SECRET_NAMESPACE: ${server_cert_secret_namespace}
     WHITELIST_IP: "${nat_ip_list}"
 
-management-api-service-b:
+management-api-b:
   enabled: true
   image:
     tag: 5.0.0-snapshot.2
