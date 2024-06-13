@@ -2,7 +2,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: ${pm4ml_release_name}-connector-gateway
+  name: ${pm4ml_release_name}-connector-gateway-a
   annotations: {
     external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
   }
@@ -11,7 +11,28 @@ spec:
     istio: ${istio_external_gateway_name}
   servers:
   - hosts:
-    - '${mojaloop_connnector_fqdn}'
+    - '${inter_scheme_proxy_adapter_a_fqdn}'
+    port:
+      name: https-connector
+      number: 443
+      protocol: HTTPS
+    tls:
+      credentialName: ${vault_certman_secretname}
+      mode: MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ${pm4ml_release_name}-connector-gateway-b
+  annotations: {
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+  }
+spec:
+  selector:
+    istio: ${istio_external_gateway_name}
+  servers:
+  - hosts:
+    - '${inter_scheme_proxy_adapter_b_fqdn}'
     port:
       name: https-connector
       number: 443
@@ -23,12 +44,12 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: ${pm4ml_release_name}-connector-vs
+  name: ${pm4ml_release_name}-connector-vs-a
 spec:
   gateways:
   - ${pm4ml_release_name}-connector-gateway
   hosts:
-  - '${mojaloop_connnector_fqdn}'
+  - '${inter_scheme_proxy_adapter_a_fqdn}'
   http:
     - name: "inter-scheme-proxy-adapter"
       match:
@@ -39,6 +60,26 @@ spec:
             host: ${pm4ml_release_name}-inter-scheme-proxy-adapter
             port:
               number: 4000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ${pm4ml_release_name}-connector-vs-b
+spec:
+  gateways:
+  - ${pm4ml_release_name}-connector-gateway
+  hosts:
+  - '${inter_scheme_proxy_adapter_b_fqdn}'
+  http:
+    - name: "inter-scheme-proxy-adapter"
+      match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-inter-scheme-proxy-adapter
+            port:
+              number: 4100
 
 ---
 apiVersion: networking.istio.io/v1alpha3

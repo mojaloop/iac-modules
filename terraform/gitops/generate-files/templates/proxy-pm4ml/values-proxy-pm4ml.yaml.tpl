@@ -8,21 +8,13 @@ PROXY_ID: &proxyId "proxy1"
 inter-scheme-proxy-adapter:
   enabled: true
   envFromSecrets:
-    OAUTH_CLIENT_KEY_A:
-      secret:
-        name: "${pm4ml_external_switch_client_secret}"
-        key: "${pm4ml_external_switch_client_id}"
     OAUTH_CLIENT_SECRET_A:
       secret:
-        name: "${pm4ml_external_switch_client_secret}"
+        name: "${pm4ml_external_switch_a_client_secret}"
         key: "${pm4ml_external_switch_client_secret_key}"
-    OAUTH_CLIENT_KEY_B:
-      secret:
-        name: "${pm4ml_external_switch_client_secret}"
-        key: "${pm4ml_external_switch_client_id}"
     OAUTH_CLIENT_SECRET_B:
       secret:
-        name: "${pm4ml_external_switch_client_secret}"
+        name: "${pm4ml_external_switch_b_client_secret}"
         key: "${pm4ml_external_switch_client_secret_key}"
 
   env:
@@ -32,11 +24,13 @@ inter-scheme-proxy-adapter:
     INBOUND_LISTEN_PORT_B: 4100
     OUTBOUND_MUTUAL_TLS_ENABLED_A: true
     OUTBOUND_MUTUAL_TLS_ENABLED_B: true
-    PEER_ENDPOINT_A: "${pm4ml_external_switch_fqdn}"
-    PEER_ENDPOINT_B: "${pm4ml_external_switch_fqdn}"
-    OAUTH_TOKEN_ENDPOINT_A: "${pm4ml_external_switch_oidc_url}/${pm4ml_external_switch_oidc_token_route}"
+    PEER_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_fqdn}"
+    PEER_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_fqdn}"
+    OAUTH_TOKEN_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_oidc_url}/${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
+    OAUTH_CLIENT_KEY_A: "${scheme_a_config.pm4ml_external_switch_client_id}"
+    OAUTH_CLIENT_KEY_B: "${scheme_b_config.pm4ml_external_switch_client_id}"
     OAUTH_REFRESH_SECONDS_A: 3600
-    OAUTH_TOKEN_ENDPOINT_B: "${pm4ml_external_switch_oidc_url}/${pm4ml_external_switch_oidc_token_route}"
+    OAUTH_TOKEN_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_oidc_url}/${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
     OAUTH_REFRESH_SECONDS_B: 3600
     MGMT_API_WS_URL_A: "${pm4ml_release_name}-management-api"
     MGMT_API_WS_PORT_A: 4005
@@ -52,15 +46,15 @@ management-api-service-a:
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
     DFSP_ID: *proxyId
-    HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}"
-    OIDC_TOKEN_ROUTE: "${pm4ml_external_switch_oidc_token_route}"
-    MCM_SERVER_ENDPOINT: "${mcm_host_url}/pm4mlapi"
+    HUB_IAM_PROVIDER_URL: "${scheme_a_config.pm4ml_external_switch_oidc_url}"
+    OIDC_TOKEN_ROUTE: "${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
+    MCM_SERVER_ENDPOINT: "https://${scheme_a_config.pm4ml_external_mcm_public_fqdn}/pm4mlapi"
     MCM_CLIENT_REFRESH_INTERVAL: 300
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
     AUTH_ENABLED: true
-    AUTH_CLIENT_ID: ${pm4ml_external_switch_client_id}
-    CLIENT_SECRET_NAME: ${pm4ml_external_switch_client_secret}
+    AUTH_CLIENT_ID: ${scheme_a_config.pm4ml_external_switch_client_id}
+    CLIENT_SECRET_NAME: ${pm4ml_external_switch_a_client_secret}
     CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
     MCM_CLIENT_SECRETS_LOCATION: /tls
     VAULT_ENDPOINT: ${vault_endpoint}
@@ -70,9 +64,9 @@ management-api-service-a:
     VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
     VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
     VAULT_MOUNT_PKI: ${vault_pki_mount}
-    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_release_name}
-    MOJALOOP_CONNECTOR_FQDN: "${mojaloop_connnector_fqdn}"
-    CALLBACK_URL: "${callback_url}"
+    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_release_name}/scheme-a
+    MOJALOOP_CONNECTOR_FQDN: "${inter_scheme_proxy_adapter_a_fqdn}"
+    CALLBACK_URL: "${callback_url_scheme_a}"
     CERT_MANAGER_ENABLED: true
     CERT_MANAGER_SERVER_CERT_SECRET_NAME: ${server_cert_secret_name}
     CERT_MANAGER_SERVER_CERT_SECRET_NAMESPACE: ${server_cert_secret_namespace}
@@ -86,15 +80,15 @@ management-api-service-b:
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
     DFSP_ID: *proxyId
-    HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}"
-    OIDC_TOKEN_ROUTE: "${pm4ml_external_switch_oidc_token_route}"
-    MCM_SERVER_ENDPOINT: "${mcm_host_url}/pm4mlapi"
+    HUB_IAM_PROVIDER_URL: "${scheme_b_config.pm4ml_external_switch_oidc_url}"
+    OIDC_TOKEN_ROUTE: "${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
+    MCM_SERVER_ENDPOINT: "https://${scheme_b_config.pm4ml_external_mcm_public_fqdn}/pm4mlapi"
     MCM_CLIENT_REFRESH_INTERVAL: 300
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
     AUTH_ENABLED: true
-    AUTH_CLIENT_ID: ${pm4ml_external_switch_client_id}
-    CLIENT_SECRET_NAME: ${pm4ml_external_switch_client_secret}
+    AUTH_CLIENT_ID: ${scheme_b_config.pm4ml_external_switch_client_id}
+    CLIENT_SECRET_NAME: ${pm4ml_external_switch_b_client_secret}
     CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
     MCM_CLIENT_SECRETS_LOCATION: /tls
     VAULT_ENDPOINT: ${vault_endpoint}
@@ -104,9 +98,9 @@ management-api-service-b:
     VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
     VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
     VAULT_MOUNT_PKI: ${vault_pki_mount}
-    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_release_name}
-    MOJALOOP_CONNECTOR_FQDN: "${mojaloop_connnector_fqdn}"
-    CALLBACK_URL: "${callback_url}"
+    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_release_name}/scheme-b
+    MOJALOOP_CONNECTOR_FQDN: "${inter_scheme_proxy_adapter_b_fqdn}"
+    CALLBACK_URL: "${callback_url_scheme_b}"
     CERT_MANAGER_ENABLED: true
     CERT_MANAGER_SERVER_CERT_SECRET_NAME: ${server_cert_secret_name}
     CERT_MANAGER_SERVER_CERT_SECRET_NAMESPACE: ${server_cert_secret_namespace}

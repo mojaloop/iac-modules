@@ -2,7 +2,7 @@ module "generate_pm4ml_files" {
   for_each = var.app_var_map
   source   = "../generate-files"
   var_map = {
-    proxy_pm4ml_enabled                             = each.value.proxy_pm4ml_enabled
+    pm4ml_enabled                                   = each.value.pm4ml_enabled
     gitlab_project_url                              = var.gitlab_project_url
     proxy_pm4ml_chart_repo                          = var.proxy_pm4ml_chart_repo
     pm4ml_release_name                              = each.key
@@ -15,9 +15,9 @@ module "generate_pm4ml_files" {
     istio_external_wildcard_gateway_name            = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace                = var.istio_external_gateway_namespace
     pm4ml_wildcard_gateway                          = each.value.pm4ml_ingress_internal_lb ? "internal" : "external"
-    dfsp_id                                         = each.value.pm4ml_dfsp_id
+    proxy_id                                        = each.value.pm4ml_proxy_id
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
-    mcm_host_url                                    = "https://${each.value.pm4ml_external_mcm_public_fqdn}"
+    scheme_a_config                                 = each.value.pm4ml_scheme_a_config
     server_cert_secret_namespace                    = each.key
     server_cert_secret_name                         = var.vault_certman_secretname
     vault_certman_secretname                        = var.vault_certman_secretname
@@ -28,22 +28,19 @@ module "generate_pm4ml_files" {
     pm4ml_vault_k8s_role_name                       = "${var.pm4ml_vault_k8s_role_name}-${each.key}"
     k8s_auth_path                                   = var.k8s_auth_path
     pm4ml_secret_path                               = "${var.local_vault_kv_root_path}/${each.key}"
-    callback_url                                    = "https://${local.mojaloop_connnector_fqdns[each.key]}"
-    mojaloop_connnector_fqdn                        = local.mojaloop_connnector_fqdns[each.key]
-    callback_fqdn                                   = local.mojaloop_connnector_fqdns[each.key]
+    callback_url_scheme_a                           = "https://${local.inter_scheme_proxy_adapter_a_fqdns[each.key]}"
+    callback_url_scheme_b                           = "https://${local.inter_scheme_proxy_adapter_b_fqdns[each.key]}"
+    inter_scheme_proxy_adapter_a_fqdn               = local.inter_scheme_proxy_adapter_a_fqdns[each.key]
+    inter_scheme_proxy_adapter_b_fqdn               = local.inter_scheme_proxy_adapter_b_fqdns[each.key]
+    callback_fqdn_scheme_a                          = local.inter_scheme_proxy_adapter_a_fqdns[each.key]
+    callback_fqdn_scheme_b                          = local.inter_scheme_proxy_adapter_b_fqdns[each.key]
     nat_ip_list                                     = local.nat_cidr_list
-    pm4ml_oidc_client_id                            = "${var.pm4ml_oidc_client_id_prefix}-${each.key}"
-    pm4ml_oidc_client_secret_secret_name            = join("$", ["", "{${replace("${var.pm4ml_oidc_client_secret_secret_prefix}-${each.key}", "-", "_")}}"])
-    pm4ml_oidc_client_secret_secret                 = "${var.pm4ml_oidc_client_secret_secret_prefix}-${each.key}"
-    vault_secret_key                                = var.vault_secret_key
-    pm4ml_external_switch_fqdn                      = each.value.pm4ml_external_switch_fqdn
     pm4ml_chart_version                             = each.value.pm4ml_chart_version
-    pm4ml_external_switch_client_id                 = each.value.pm4ml_external_switch_client_id
-    pm4ml_external_switch_oidc_url                  = each.value.pm4ml_external_switch_oidc_url
-    pm4ml_external_switch_oidc_token_route          = each.value.pm4ml_external_switch_oidc_token_route
-    pm4ml_external_switch_client_secret             = var.pm4ml_external_switch_client_secret
+    pm4ml_external_switch_a_client_secret           = var.pm4ml_external_switch_a_client_secret
+    pm4ml_external_switch_b_client_secret           = var.pm4ml_external_switch_b_client_secret
     pm4ml_external_switch_client_secret_key         = "token"
-    pm4ml_external_switch_client_secret_vault_key   = "${var.kv_path}/${var.cluster_name}/${each.key}/${each.value.pm4ml_external_switch_client_secret_vault_path}"
+    pm4ml_external_switch_a_client_secret_vault_key = "${var.kv_path}/${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_secret_vault_path}"
+    pm4ml_external_switch_b_client_secret_vault_key = "${var.kv_path}/${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_secret_vault_path}"
     pm4ml_external_switch_client_secret_vault_value = "value"
     istio_external_gateway_name                     = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
@@ -67,13 +64,14 @@ module "generate_pm4ml_files" {
 
 locals {
   pm4ml_template_path = "${path.module}/../generate-files/templates/proxy-pm4ml"
-  pm4ml_app_file      = "pm4ml-app.yaml"
+  pm4ml_app_file      = "proxy-pm4ml-app.yaml"
 
   pm4ml_var_map = var.app_var_map
 
   pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
   
-  mojaloop_connnector_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "conn-${pm4ml.pm4ml}.${var.public_subdomain}" : "conn-${pm4ml.pm4ml}.${var.private_subdomain}" }
+  inter_scheme_proxy_adapter_a_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "conn-a-${pm4ml.pm4ml}.${var.public_subdomain}" : "conn-${pm4ml.pm4ml}.${var.private_subdomain}" }
+  inter_scheme_proxy_adapter_b_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "conn-b-${pm4ml.pm4ml}.${var.public_subdomain}" : "conn-${pm4ml.pm4ml}.${var.private_subdomain}" }
   pm4ml_ttk_frontend_fqdns  = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}" : "ttkfront-${pm4ml.pm4ml}.${var.private_subdomain}" }
   pm4ml_ttk_backend_fqdns   = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}" : "ttkback-${pm4ml.pm4ml}.${var.private_subdomain}"}
 
@@ -100,8 +98,8 @@ variable "pm4ml_ingress_internal_lb" {
   default     = true
 }
 
-variable "pm4ml_chart_repo" {
-  description = "repo for pm4ml charts"
+variable "proxy_pm4ml_chart_repo" {
+  description = "repo for proxy pm4ml charts"
   type        = string
   default     = "https://pm4ml.github.io/mojaloop-payment-manager-helm/repo"
 }
@@ -112,12 +110,6 @@ variable "pm4ml_sync_wave" {
   default     = 0
 }
 
-variable "vault_secret_key" {
-  type = string
-}
-variable "pm4ml_oidc_client_secret_secret_prefix" {
-  type = string
-}
 
 variable "pm4ml_service_account_name" {
   type        = string
@@ -125,10 +117,16 @@ variable "pm4ml_service_account_name" {
   default     = "pm4ml"
 }
 
-variable "pm4ml_external_switch_client_secret" {
+variable "pm4ml_external_switch_a_client_secret" {
   type        = string
-  description = "secret name for client secret to connect to switch idm"
-  default     = "pm4ml-external-switch-client-secret"
+  description = "secret name for client secret to connect to switch-a idm"
+  default     = "pm4ml-external-switch-a-client-secret"
+}
+
+variable "pm4ml_external_switch_b_client_secret" {
+  type        = string
+  description = "secret name for client secret to connect to switch-b idm"
+  default     = "pm4ml-external-switch-b-client-secret"
 }
 
 locals {

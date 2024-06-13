@@ -8,7 +8,7 @@ resources:
   - vault-rbac.yaml
   - vault-certificate.yaml
 helmCharts:
-- name: mojaloop-payment-manager-proxy
+- name: mojaloop-proxy-payment-manager
   releaseName: ${pm4ml_release_name}
   version: ${proxy_pm4ml_chart_version}
   repo: ${proxy_pm4ml_chart_repo}
