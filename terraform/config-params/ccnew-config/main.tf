@@ -12,3 +12,9 @@ output "org_names" {
     for org in data.zitadel_org.default : org.name
   ])
 }
+
+output "org_ids" {
+  value = toset([
+    for org in data.zitadel_org.default : org.id
+  ])
+}
