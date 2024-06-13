@@ -65,7 +65,7 @@ resource "local_file" "strimzi-crs" {
       node_pool_name     = "${each.key}-nodepool"
       node_pool_size     = each.value.local_operator_config.node_pool_size
       namespace          = each.value.local_operator_config.resource_namespace
-      kafka_topics       = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : []
+      kafka_topics       = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
 
       strimzi_kafka_grafana_dashboards_version = local.strimzi_kafka_grafana_dashboards_version
       strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
@@ -88,7 +88,7 @@ resource "local_file" "percona-crs" {
       storage_size       = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_size : each.value.local_operator_config.mongodb_data.storage_size
       existing_secret    = each.value.local_operator_config.secret_config.generate_secret_name
 
-      
+
       mongo_config_server_replica_count = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_config_server_replica_count : ""
       mongo_proxy_replica_count         = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_proxy_replica_count : ""
       mongod_replica_count              = each.value.logical_service_config.replica_count
