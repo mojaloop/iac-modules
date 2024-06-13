@@ -1,10 +1,10 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ${vault_certman_secretname}
+  name: ${vault_certman_secretname}-scheme-a
   namespace: ${pm4ml_namespace}
 spec:
-  secretName: ${vault_certman_secretname}
+  secretName: ${vault_certman_secretname}-scheme-a
   duration: 696h0m0s
   renewBefore: 360h0m0s
   privateKey:
@@ -34,10 +34,10 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: ${vault_certman_secretname}
+  name: ${vault_certman_secretname}-scheme-b
   namespace: ${pm4ml_namespace}
 spec:
-  secretName: ${vault_certman_secretname}
+  secretName: ${vault_certman_secretname}-scheme-b
   duration: 696h0m0s
   renewBefore: 360h0m0s
   privateKey:

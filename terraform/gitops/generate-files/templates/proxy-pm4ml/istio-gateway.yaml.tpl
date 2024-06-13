@@ -17,7 +17,7 @@ spec:
       number: 443
       protocol: HTTPS
     tls:
-      credentialName: ${vault_certman_secretname}
+      credentialName: ${vault_certman_secretname}-scheme-a
       mode: MUTUAL
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -38,7 +38,7 @@ spec:
       number: 443
       protocol: HTTPS
     tls:
-      credentialName: ${vault_certman_secretname}
+      credentialName: ${vault_certman_secretname}-scheme-b
       mode: MUTUAL
 ---
 apiVersion: networking.istio.io/v1alpha3
