@@ -17,7 +17,7 @@ dependency "k8s_deploy" {
 }
 
 inputs = {
-  public_subdomain = dependency.k8s_deploy.outputs.public_subdomain
+  tenancy_domain = dependency.k8s_deploy.outputs.public_subdomain
 }
 
 locals {
