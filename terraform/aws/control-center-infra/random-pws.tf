@@ -18,8 +18,9 @@ resource "random_password" "gitlab_s3_access_secret" {
 }
 
 resource "random_password" "minio_root_password" {
-  length  = 20
-  special = false
+  length           = 20
+  special          = false
+  override_special = "_"
 }
 
 resource "random_password" "admin_s3_access_secret" {
@@ -53,6 +54,7 @@ resource "random_password" "netmaker_admin_password" {
 }
 
 resource "random_password" "mimir_minio_password" {
-  length  = 20
-  special = true
+  length           = 20
+  special          = true
+  override_special = "_"
 }
