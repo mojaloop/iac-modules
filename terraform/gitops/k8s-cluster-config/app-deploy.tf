@@ -123,30 +123,15 @@ module "proxy_pm4ml" {
   gitlab_server_url                      = var.gitlab_server_url
   kv_path                                = var.kv_path
   cert_manager_service_account_name      = var.cert_manager_service_account_name
-  ory_namespace                          = var.ory_namespace
-  keycloak_fqdn                          = local.keycloak_fqdn
-  keycloak_name                          = var.keycloak_name
-  keycloak_namespace                     = var.keycloak_namespace
   vault_namespace                        = var.vault_namespace
   cert_manager_namespace                 = var.cert_manager_namespace
-  vault_secret_key                       = var.vault_secret_key
-  pm4ml_oidc_client_secret_secret_prefix = var.pm4ml_oidc_client_secret_secret
-  pm4ml_oidc_client_id_prefix            = var.pm4ml_oidc_client_id_prefix
-  keycloak_pm4ml_realm_name              = var.keycloak_pm4ml_realm_name
   istio_external_gateway_name            = var.istio_external_gateway_name
   istio_internal_gateway_name            = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name   = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name   = local.istio_internal_wildcard_gateway_name
   local_vault_kv_root_path               = local.local_vault_kv_root_path
-  auth_fqdn                              = local.auth_fqdn
-  oathkeeper_auth_provider_name          = local.oathkeeper_auth_provider_name
   vault_root_ca_name                     = "pki-${var.cluster_name}"
   app_var_map                            = local.pm4ml_var_map
-  bof_release_name                       = local.bof_release_name
-  role_assign_svc_user                   = var.role_assign_svc_user
-  role_assign_svc_secret_prefix          = "role-assign-svc-secret-"
-  portal_admin_user                      = var.portal_admin_user
-  portal_admin_secret_prefix             = "portal-admin-secret-"
 }
 
 module "vnext" {
