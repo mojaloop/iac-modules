@@ -7,14 +7,6 @@ data "zitadel_org" "default" {
   id       = each.value
 }
 
-output "org_names" {
-  value = toset([
-    for org in data.zitadel_org.default : org.name
-  ])
-}
-
-output "org_ids" {
-  value = toset([
-    for org in data.zitadel_org.default : org.id
-  ])
+output "org_id" {
+  value = [for org in data.zitadel_org.default : org.id if org.is_default][0]
 }
