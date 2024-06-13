@@ -1,10 +1,4 @@
 
-
-# this should be set to the FSPID assigned by the mojaloop hub to this DFSP
-dfspId: &dfspId "${dfsp_id}"
-
-PROXY_ID: &proxyId "proxy1"
-
 inter-scheme-proxy-adapter:
   enabled: true
   envFromSecrets:
@@ -19,7 +13,7 @@ inter-scheme-proxy-adapter:
 
   env:
     LOG_LEVEL: info
-    PROXY_ID: *proxyId
+    PROXY_ID: "${proxy_id}"
     INBOUND_LISTEN_PORT_A: 4000
     INBOUND_LISTEN_PORT_B: 4100
     OUTBOUND_MUTUAL_TLS_ENABLED_A: true
@@ -45,7 +39,7 @@ management-api-a:
   serviceAccountName: ${pm4ml_service_account_name}
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
-    DFSP_ID: *proxyId
+    DFSP_ID: "${proxy_id}"
     HUB_IAM_PROVIDER_URL: "${scheme_a_config.pm4ml_external_switch_oidc_url}"
     OIDC_TOKEN_ROUTE: "${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
     MCM_SERVER_ENDPOINT: "https://${scheme_a_config.pm4ml_external_mcm_public_fqdn}/pm4mlapi"
@@ -79,7 +73,7 @@ management-api-b:
   serviceAccountName: ${pm4ml_service_account_name}
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
-    DFSP_ID: *proxyId
+    DFSP_ID: "${proxy_id}"
     HUB_IAM_PROVIDER_URL: "${scheme_b_config.pm4ml_external_switch_oidc_url}"
     OIDC_TOKEN_ROUTE: "${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
     MCM_SERVER_ENDPOINT: "https://${scheme_b_config.pm4ml_external_mcm_public_fqdn}/pm4mlapi"
@@ -125,7 +119,7 @@ ttk:
         "SEND_CALLBACK_ENABLE": true,
         "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
         "DEFAULT_REQUEST_TIMEOUT": 15000,
-        "FSPID": *proxyId
+        "FSPID": "${proxy_id}"
       }
 
   ml-testing-toolkit-frontend:
