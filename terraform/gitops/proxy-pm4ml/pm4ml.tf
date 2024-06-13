@@ -18,6 +18,7 @@ module "generate_pm4ml_files" {
     proxy_id                                        = each.value.pm4ml_proxy_id
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
     scheme_a_config                                 = each.value.pm4ml_scheme_a_config
+    scheme_b_config                                 = each.value.pm4ml_scheme_b_config
     server_cert_secret_namespace                    = each.key
     server_cert_secret_name                         = var.vault_certman_secretname
     vault_certman_secretname                        = var.vault_certman_secretname
