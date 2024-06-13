@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config?ref=${get_env("iac_terraform_modules_tag")}"
 }
 dependency "ansible_k8s_deploy" {
   config_path  = "../ansible-k8s-deploy"
