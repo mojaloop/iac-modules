@@ -984,7 +984,7 @@ provisioning:
   ##     flush.messages: 1
   ##
   topics:
-    ${indent(4, yamlencode(resource.local_helm_config.kafka_provisioning.topics))}
+    ${indent(4, yamlencode(resource.logical_service_config.post_install_schema_config.kafka_provisioning.topics))}
   ## @param provisioning.nodeSelector Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
