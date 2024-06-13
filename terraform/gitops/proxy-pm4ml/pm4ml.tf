@@ -35,7 +35,7 @@ module "generate_pm4ml_files" {
     callback_fqdn_scheme_a                          = local.inter_scheme_proxy_adapter_a_fqdns[each.key]
     callback_fqdn_scheme_b                          = local.inter_scheme_proxy_adapter_b_fqdns[each.key]
     nat_ip_list                                     = local.nat_cidr_list
-    pm4ml_chart_version                             = each.value.pm4ml_chart_version
+    proxy_pm4ml_chart_version                       = each.value.proxy_pm4ml_chart_version
     pm4ml_external_switch_a_client_secret           = var.pm4ml_external_switch_a_client_secret
     pm4ml_external_switch_b_client_secret           = var.pm4ml_external_switch_b_client_secret
     pm4ml_external_switch_client_secret_key         = "token"
