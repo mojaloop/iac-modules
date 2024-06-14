@@ -3,7 +3,8 @@ inter-scheme-proxy-adapter:
   image:
     registry: docker.io
     repository: geka1302/inter-scheme-proxy-adapter
-    tag: 0.3.1-snapshot.8-1
+    tag: 0.3.1-snapshot.8-2
+  ## Disabling liveness probes temporarily
   readinessProbe: |
     exec:
       command:
@@ -26,7 +27,7 @@ inter-scheme-proxy-adapter:
         key: "${pm4ml_external_switch_client_secret_key}"
 
   env:
-    LOG_LEVEL: info
+    LOG_LEVEL: debug
     PROXY_ID: "${proxy_id}"
     INBOUND_LISTEN_PORT_A: 4000
     INBOUND_LISTEN_PORT_B: 4100
