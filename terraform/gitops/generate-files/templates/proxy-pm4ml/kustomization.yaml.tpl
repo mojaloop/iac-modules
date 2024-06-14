@@ -14,3 +14,9 @@ helmCharts:
   repo: ${proxy_pm4ml_chart_repo}
   valuesFile: values-proxy-pm4ml.yaml
   namespace: ${pm4ml_namespace}
+- name: redis
+  releaseName: redis
+  version: "17.6.0"
+  repo: "https://charts.bitnami.com/bitnami"
+  valuesFile: values-redis.yaml
+  namespace: ${pm4ml_namespace}
