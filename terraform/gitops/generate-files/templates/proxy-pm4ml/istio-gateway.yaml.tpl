@@ -47,7 +47,7 @@ metadata:
   name: ${pm4ml_release_name}-connector-vs-a
 spec:
   gateways:
-  - ${pm4ml_release_name}-connector-gateway
+  - ${pm4ml_release_name}-connector-gateway-a
   hosts:
   - '${inter_scheme_proxy_adapter_a_fqdn}'
   http:
@@ -67,7 +67,7 @@ metadata:
   name: ${pm4ml_release_name}-connector-vs-b
 spec:
   gateways:
-  - ${pm4ml_release_name}-connector-gateway
+  - ${pm4ml_release_name}-connector-gateway-b
   hosts:
   - '${inter_scheme_proxy_adapter_b_fqdn}'
   http:
