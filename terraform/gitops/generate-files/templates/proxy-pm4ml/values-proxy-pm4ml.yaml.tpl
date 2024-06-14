@@ -3,7 +3,7 @@ inter-scheme-proxy-adapter:
   image:
     registry: docker.io
     repository: geka1302/inter-scheme-proxy-adapter
-    tag: 0.3.1-snapshot.7
+    tag: 0.3.1-snapshot.8-1
   readinessProbe: |
     httpGet:
       path: /health
