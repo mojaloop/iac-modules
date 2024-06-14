@@ -3,7 +3,7 @@ inter-scheme-proxy-adapter:
   image:
     registry: ghcr.io
     repository: infitx-org/inter-scheme-proxy-adapter
-    tag: 0.3.1-snapshot.4
+    tag: 0.3.1-snapshot.7
   enabled: true
   envFromSecrets:
     OAUTH_CLIENT_SECRET_A:
