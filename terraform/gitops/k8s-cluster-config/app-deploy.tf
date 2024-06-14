@@ -64,7 +64,7 @@ module "mojaloop" {
   managed_db_host                      = var.managed_db_host
   platform_stateful_res_config         = module.config_deepmerge.merged
   minio_api_url                        = var.minio_api_url
-  minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value  
+  minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
 
 }

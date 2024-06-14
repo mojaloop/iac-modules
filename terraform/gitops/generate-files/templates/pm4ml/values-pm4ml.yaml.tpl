@@ -159,6 +159,10 @@ scheme-adapter:
 %{ endif ~}
 %{ endif ~}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
+      FX_QUOTES_ENDPOINT: "${pm4ml_external_switch_fqdn}"
+      FX_TRANSFERS_ENDPOINT: "${pm4ml_external_switch_fqdn}"
+      SUPPORTED_CURRENCIES: "${supported_currencies}"
+      GET_SERVICES_FXP_RESPONSE: "${fxp_id}"
 %{ if enable_sdk_bulk_transaction_support ~}
       ENABLE_BACKEND_EVENT_HANDLER: true
       ENABLE_FSPIOP_EVENT_HANDLER: true
@@ -214,6 +218,37 @@ ttk:
         "DEFAULT_REQUEST_TIMEOUT": 15000,
         "FSPID": *dfspId
       }
+      system_config.json:
+        {
+          "API_DEFINITIONS":
+            [
+              {
+                "type": "mojaloop_connector_outbound",
+                "version": "2.1",
+                "folderPath": "mojaloop_connector_outbound_2.1",
+                "asynchronous": false,
+                "hostnames": [],
+                "prefix": "/sdk-out",
+              },
+              {
+                "type": "mojaloop_connector_backend",
+                "version": "2.1",
+                "folderPath": "mojaloop_connector_backend_2.1",
+                "asynchronous": false,
+              },
+              {
+                "type": "core_connector",
+                "version": "1.4",
+                "folderPath": "payment_manager_1.4",
+                "hostnames": [],
+                "prefix": "/cc-send",
+              },
+            ],
+        }
+      rules_response__default.json: https://raw.githubusercontent.com/infitx-org/convening-narirobi-pocs/main/ttk-rules/core_connector_response_rules.json
+      api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.4.0/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/main/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_outbound_2.1__callback_map.json: []
 
   ml-testing-toolkit-frontend:
     ingress:

@@ -317,16 +317,16 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
+      datasourceName: "Prometheus"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${strimzi_kafka_grafana_dashboards_version}/examples/metrics/grafana-dashboards/${dashboard_name}.json"
 ---
 %{ endfor ~}
 
-%{ for topic in kafka_topics ~}
+%{ for name, topic in kafka_topics ~}
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: ${topic.name}
+  name: ${name}
   namespace: ${namespace}
   labels:
     strimzi.io/cluster: ${kafka_cluster_name}
@@ -335,5 +335,5 @@ spec:
   replicas: ${topic.replicationFactor}
   config:
     ${indent(4, yamlencode(topic.config))}
----    
+---
 %{ endfor ~}

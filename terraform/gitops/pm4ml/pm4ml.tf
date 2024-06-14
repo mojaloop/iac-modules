@@ -67,6 +67,8 @@ module "generate_pm4ml_files" {
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
+    supported_currencies                            = each.value.supported_currencies
+    fxp_id                                          = each.value.fxp_id
     core_connector_selected                         = each.value.core_connector_selected
     custom_core_connector_endpoint                  = each.value.custom_core_connector_endpoint
     ttk_backend_fqdn                                = local.pm4ml_ttk_backend_fqdns[each.key]
@@ -108,7 +110,7 @@ locals {
   pm4ml_var_map = var.app_var_map
 
   pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
-  
+
   portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "portal-${pm4ml.pm4ml}.${var.private_subdomain}" }
   admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "admin-portal-${pm4ml.pm4ml}.${var.private_subdomain}"}
   experience_api_fqdns      = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "exp-${pm4ml.pm4ml}.${var.public_subdomain}"  : "exp-${pm4ml.pm4ml}.${var.private_subdomain}"}

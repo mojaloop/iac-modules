@@ -919,6 +919,39 @@
                         "segment.bytes": "52428800",
                         "retention.bytes": "262144000"
                       }
+                    },
+                    {
+                      "name": "topic-fx-quotes-post",
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
+                    },
+                    {
+                      "name": "topic-fx-quotes-put",
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
+                    },
+                    {
+                      "name": "topic-fx-quotes-get",
+                      "partitions": 12,
+                      "replicationFactor": 3,
+                      "config": {
+                        "cleanup.policy": "delete",
+                        "retention.ms": "-1",
+                        "segment.bytes": "52428800",
+                        "retention.bytes": "262144000"
+                      }
                     }
                 ]
             },

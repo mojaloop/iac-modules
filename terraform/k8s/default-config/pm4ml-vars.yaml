@@ -16,5 +16,7 @@ core_connector_selected: ttk
 ## custom_core_connector_endpoint is only required if core_connector_selected is set to "custom"
 custom_core_connector_endpoint: 'pm4mltest-mojaloop-core-connector:3003'
 pm4ml_reserve_notification: false
+supported_currencies: "EUR"
+fxp_id: "fxp"
 core_connector_config: {}
 payment_token_adapter_config: {}
