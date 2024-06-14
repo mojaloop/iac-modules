@@ -96,13 +96,14 @@ locals {
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
 
   bastion_hosts_var_maps = {
-    cluster_name                 = get_env("cluster_name")
-    cluster_domain               = "${get_env("cluster_name")}.${get_env("domain")}"
-    dns_cloud_api_region         = get_env("cloud_region")
-    letsencrypt_email            = get_env("letsencrypt_email")
-    eks_aws_secret_access_key    = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
-    eks_aws_access_key_id        = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
-    eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
+    cluster_name                  = get_env("cluster_name")
+    cluster_domain                = "${get_env("cluster_name")}.${get_env("domain")}"
+    dns_cloud_api_region          = get_env("cloud_region")
+    letsencrypt_email             = get_env("letsencrypt_email")
+    eks_aws_secret_access_key     = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
+    eks_aws_access_key_id         = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
+    eks_aws_region                = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
+    zitadel_terraform_modules_tag = get_env("iac_terraform_modules_tag")
   }
 }
 
