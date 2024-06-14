@@ -1,9 +1,9 @@
 
 inter-scheme-proxy-adapter:
   image:
-    registry: docker.io
-    repository: geka1302/inter-scheme-proxy-adapter
-    tag: 0.3.0
+    registry: ghcr.io
+    repository: infitx-org/inter-scheme-proxy-adapter
+    tag: 0.3.1-snapshot.4
   enabled: true
   envFromSecrets:
     OAUTH_CLIENT_SECRET_A:
