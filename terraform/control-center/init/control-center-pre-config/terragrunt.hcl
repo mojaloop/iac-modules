@@ -21,6 +21,8 @@ dependency "control_center_deploy" {
     nexus_fqdn                       = "temporary-dummy-id"
     tenant_vault_listening_port      = "temporary-dummy-id"
     vault_fqdn                       = "temporary-dummy-id"
+    
+    central_observability_grafana_server_url = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
