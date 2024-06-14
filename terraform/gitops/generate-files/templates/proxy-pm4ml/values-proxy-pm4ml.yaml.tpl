@@ -4,8 +4,18 @@ inter-scheme-proxy-adapter:
     registry: docker.io
     repository: geka1302/inter-scheme-proxy-adapter
     tag: 0.3.1-snapshot.7
-  readinessProbe: '{}'
-  livenessProbe: '{}'
+  readinessProbe: |
+    httpGet:
+      path: /health
+      port: 4000
+    initialDelaySeconds: 15
+    periodSeconds: 15
+  livenessProbe: |
+    httpGet:
+      path: /health
+      port: 4000
+    initialDelaySeconds: 15
+    periodSeconds: 15
   enabled: true
   envFromSecrets:
     OAUTH_CLIENT_SECRET_A:
