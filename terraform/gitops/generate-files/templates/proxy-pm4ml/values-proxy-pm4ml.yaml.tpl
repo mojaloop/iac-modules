@@ -1,5 +1,9 @@
 
 inter-scheme-proxy-adapter:
+  image:
+    registry: docker.io
+    repository: geka1302/inter-scheme-proxy-adapter
+    tag: 0.3.0
   enabled: true
   envFromSecrets:
     OAUTH_CLIENT_SECRET_A:
