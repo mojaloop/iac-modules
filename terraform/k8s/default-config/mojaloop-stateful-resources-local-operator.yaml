@@ -531,6 +531,7 @@ keycloak-db:
       replica_count: 0
       service_port: 3306
       affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
 keto-db:
   local_operator_config:
     cr_version: 1.14.0 
@@ -586,6 +587,7 @@ keto-db:
       replica_count: 0
       service_port: 3306
       affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
 kratos-db:
   local_operator_config:
     cr_version: 1.14.0 
@@ -641,3 +643,4 @@ kratos-db:
       replica_count: 0
       service_port: 3306
       affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
