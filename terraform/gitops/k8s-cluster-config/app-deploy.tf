@@ -49,7 +49,6 @@ module "mojaloop" {
   mojaloop_enabled                     = var.common_var_map.mojaloop_enabled
   bulk_enabled                         = var.app_var_map.bulk_enabled
   third_party_enabled                  = var.app_var_map.third_party_enabled
-  stateful_resources_config_file       = var.mojaloop_stateful_resources_config_file
   local_vault_kv_root_path             = local.local_vault_kv_root_path
   app_var_map                          = var.app_var_map
   auth_fqdn                            = local.auth_fqdn
@@ -157,7 +156,6 @@ module "vnext" {
   mcm_enabled                          = var.common_var_map.mcm_enabled
   mcm_chart_version                    = var.app_var_map.mcm_chart_version
   vnext_enabled                        = var.common_var_map.vnext_enabled
-  stateful_resources_config_file       = var.vnext_stateful_resources_config_file
   local_vault_kv_root_path             = local.local_vault_kv_root_path
   app_var_map                          = var.app_var_map
   auth_fqdn                            = local.auth_fqdn
@@ -180,11 +178,6 @@ variable "app_var_map" {
 }
 variable "common_var_map" {
   type = any
-}
-variable "mojaloop_stateful_resources_config_file" {
-  default     = "../config/mojaloop-stateful-resources.json"
-  type        = string
-  description = "where to pull stateful resources config for mojaloop"
 }
 
 variable "mojaloop_stateful_res_helm_config_file" {
@@ -209,12 +202,6 @@ variable "platform_stateful_resources_config_file" {
   default     = "../config/platform-stateful-resources.yaml"
   type        = string
   description = "where to pull stateful resources config for mojaloop"
-}
-
-variable "vnext_stateful_resources_config_file" {
-  default     = "../config/vnext-stateful-resources.json"
-  type        = string
-  description = "where to pull stateful resources config for vnext"
 }
 
 variable "private_network_cidr" {

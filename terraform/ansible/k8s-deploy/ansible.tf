@@ -1,3 +1,8 @@
+module "config_deepmerge" {
+  source  = "cloudposse/config/yaml//modules/deepmerge"
+  version = "0.2.0"
+  maps    = local.stateful_resources_config_vars_list
+}
 
 resource "local_sensitive_file" "ansible_inventory" {
   content = templatefile(
@@ -93,35 +98,40 @@ locals {
     kubeconfig_local_location = local.ansible_output_dir
   }
 
-  stateful_resources               = jsondecode(file(var.stateful_resources_config_file))
-  enabled_stateful_resources       = { for stateful_resource in local.stateful_resources : stateful_resource.resource_name => stateful_resource if stateful_resource.enabled }
-  managed_rds_stateful_resources   = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service && managed_resource.resource_type == "mysql" }
-  managed_kafka_stateful_resources = { for managed_resource in local.enabled_stateful_resources : managed_resource.resource_name => managed_resource if managed_resource.external_service && managed_resource.resource_type == "kafka" }
+  st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
+  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
+
+  stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
+
+  stateful_resources               = module.config_deepmerge.merged
+  enabled_stateful_resources       = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
+  managed_rds_stateful_resources   = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
+  managed_kafka_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
 
 
   external_rds_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_rds_stateful_resource_instance_address : address.key => address.value }
   external_kafka_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_kafka_stateful_resource_instance_address : address.key => address.value }
 
   
-  managed_kafka_brokers_list                    = { for service in local.managed_kafka_stateful_resources : service.resource_name => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }
+  managed_kafka_brokers_list  = { for key, service in local.managed_kafka_stateful_resources : key => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }
 
 
-  managed_rds_svc_port_maps = [for service in local.managed_rds_stateful_resources :
+  managed_rds_svc_port_maps = [for key, service in local.managed_rds_stateful_resources :
     {
       "local_listening_port" = service.logical_service_config.logical_service_port
       "mode"                 = service.communication_mode
-      "name"                 = service.resource_name
+      "name"                 = key
       "dest_fqdn"            = local.external_rds_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]
       "dest_port"            = service.external_resource_config.port
     }
   ]
 
-  managed_kafka_svc_maps = [for service in local.managed_kafka_stateful_resources :
+  managed_kafka_svc_maps = [for key, service in local.managed_kafka_stateful_resources :
     {
       "local_listening_port"       = service.logical_service_config.logical_service_port
-      "managed_kafka_brokers_list" = local.managed_kafka_brokers_list[service.resource_name]
+      "managed_kafka_brokers_list" = local.managed_kafka_brokers_list[key]
       "mode"                       = service.communication_mode
-      "name"                       = service.resource_name
+      "name"                       = key
       "dest_port"                  = service.external_resource_config.port
     }
 
