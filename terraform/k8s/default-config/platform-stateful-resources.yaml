@@ -92,6 +92,7 @@ account-lookup-db:
   app_owner: "mojaloop"
   resource_type: mysql
   deployment_type: helm-chart
+  communication_mode: tcp
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: account-lookup-db-svc
@@ -112,6 +113,7 @@ central-ledger-db:
   app_owner: "mojaloop"
   resource_type: mysql
   deployment_type: helm-chart
+  communication_mode: tcp
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: central-ledger-db-svc
@@ -197,7 +199,8 @@ mojaloop-kafka:
   enabled: true
   app_owner: "mojaloop"
   resource_type: kafka
-  deployment_type: operator
+  deployment_type: operator   
+  communication_mode: tcp
   logical_service_config:
     logical_service_port: 9092
     logical_service_name: mojaloop-kafka-svc

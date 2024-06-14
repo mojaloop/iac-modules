@@ -195,11 +195,6 @@ variable "kv_path" {
   default     = "secret"
 }
 
-variable "stateful_resources_config_file" {
-  default     = "../config/stateful-resources.json"
-  type        = string
-  description = "where to pull stateful resources config"
-}
 
 variable "stateful_resources_namespace" {
   type        = string
