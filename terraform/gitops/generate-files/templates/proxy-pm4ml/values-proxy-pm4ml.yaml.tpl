@@ -4,8 +4,8 @@ inter-scheme-proxy-adapter:
     registry: docker.io
     repository: geka1302/inter-scheme-proxy-adapter
     tag: 0.3.1-snapshot.7
-  readinessProbe: null
-  livenessProbe: null
+  readinessProbe: '{}'
+  livenessProbe: '{}'
   enabled: true
   envFromSecrets:
     OAUTH_CLIENT_SECRET_A:
