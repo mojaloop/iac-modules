@@ -405,11 +405,15 @@ keycloak-db:
     logical_service_port: 3306
     logical_service_name: keycloak-db
     db_username: keycloak
-    user_password_secret: mysql-keycloak-secret
+    user_password_secret: keycloak-db-secret
     user_password_secret_key: password
     secret_extra_namespaces:
       - keycloak
     database_name: keycloak
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3     
 keto-db:
   enabled: true
   app_owner: "platform"
@@ -419,11 +423,15 @@ keto-db:
     logical_service_port: 3306
     logical_service_name: keto-db
     db_username: keto
-    user_password_secret: mysql-keto-secret
+    user_password_secret: keto-db-secret
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
     database_name: keto  
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3     
 kratos-db:
   enabled: true
   app_owner: "platform"
@@ -433,8 +441,12 @@ kratos-db:
     logical_service_port: 3306
     logical_service_name: kratos-db
     db_username: kratos
-    user_password_secret: mysql-kratos-secret
+    user_password_secret: kratos-db-secret
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
     database_name: kratos
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3      

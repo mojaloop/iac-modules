@@ -440,7 +440,7 @@ keycloak-db:
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:
-      generate_secret_name: mysql-keycloak-secret
+      generate_secret_name: keycloak-db-secret
       generate_secret_keys:
         - mysql-password
         - mysql-root-password
@@ -469,7 +469,7 @@ keycloak-db:
       port: 3306
       general_log: 0
       slow_query_log: 0    
-      existing_secret: mysql-keycloak-secret
+      existing_secret: keycloak-db-secret
       root_password: ""
       user: keycloak
       user_password: ""
@@ -489,7 +489,7 @@ keto-db:
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:    
-      generate_secret_name: mysql-keto-secret
+      generate_secret_name: keto-db-secret
       generate_secret_keys:
         - mysql-password
         - mysql-root-password
@@ -519,7 +519,7 @@ keto-db:
       port: 3306
       general_log: 0
       slow_query_log: 0    
-      existing_secret: mysql-keto-secret
+      existing_secret: keto-db-secret
       root_password: ""
       user: keto
       user_password: ""
@@ -539,7 +539,7 @@ kratos-db:
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:    
-      generate_secret_name: mysql-kratos-secret
+      generate_secret_name: kratos-db-secret
       generate_secret_keys:
         - mysql-password
         - mysql-root-password
@@ -569,7 +569,7 @@ kratos-db:
       port: 3306
       general_log: 0
       slow_query_log: 0
-      existing_secret: mysql-kratos-secret
+      existing_secret: kratos-db-secret
       root_password: ""
       user: kratos
       user_password: ""
