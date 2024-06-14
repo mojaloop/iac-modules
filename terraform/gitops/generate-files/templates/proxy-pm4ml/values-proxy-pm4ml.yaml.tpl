@@ -1,8 +1,8 @@
 
 inter-scheme-proxy-adapter:
   image:
-    registry: ghcr.io
-    repository: infitx-org/inter-scheme-proxy-adapter
+    registry: docker.io
+    repository: geka1302/inter-scheme-proxy-adapter
     tag: 0.3.1-snapshot.7
   enabled: true
   envFromSecrets:
