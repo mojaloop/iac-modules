@@ -6,15 +6,15 @@ spec:
   instances: 1
   db:
     vendor: mysql
-    host: ${keycloak_postgres_host}
-    port: ${keycloak_postgres_port}
-    database: ${keycloak_postgres_database}
+    host: ${keycloak_mysql_host}
+    port: ${keycloak_mysql_port}
+    database: ${keycloak_mysql_database}
     usernameSecret:
       name: keycloak-user
       key: username
     passwordSecret:
-      name: ${keycloak_postgres_password_secret}
-      key: ${keycloak_postgres_password_secret_key}
+      name: ${keycloak_mysql_password_secret}
+      key: ${keycloak_mysql_password_secret_key}
   ingress:
     enabled: false
   transaction:
