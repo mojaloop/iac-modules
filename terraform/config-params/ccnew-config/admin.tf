@@ -14,7 +14,7 @@ locals {
 
 resource "zitadel_human_user" "admin" {
   org_id             = local.org_id
-  user_name          = "rootauto@zitadel.zitadel.${var.tenancy_domain}"
+  user_name          = "rootauto@zitadel.${var.zitadel_fqdn}"
   first_name         = "root"
   last_name          = "admin"
   nick_name          = "admin"
