@@ -20,6 +20,7 @@ inputs = {
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_vars.dns_provider
   app_var_map                          = (local.CLOUD_PLATFORM == "bare-metal") ? local.cloud_platform_vars : null
+  wireguard_port                       = local.env_vars.wireguard_port
 }
 
 locals {
