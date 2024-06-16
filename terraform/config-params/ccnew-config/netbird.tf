@@ -44,3 +44,9 @@ resource "zitadel_machine_user" "service_user" {
   with_secret       = true
   access_token_type = "ACCESS_TOKEN_TYPE_JWT"
 }
+
+resource "zitadel_org_member" "service_user_role" {
+  org_id  = local.org_id
+  user_id = zitadel_machine_user.service_user.id
+  roles   = ["ORG_OWNER"]
+}
