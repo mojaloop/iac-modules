@@ -127,7 +127,19 @@ if fileName == "pm4ml-vars.yaml":
     mergedDict["pm4mls"] = mergedItems
     with open(outputFilename, 'w') as file:
         yaml.dump(mergedDict, file, indent=4 , default_flow_style=False, Dumper=CustomDumper)
-
+elif fileName == "proxy-pm4ml-vars.yaml":
+    mergedItems=[]
+    mergedDict = {}
+    if data2 == {} or len(data2["proxy_pm4mls"]) == 0:
+        print("custom-config/proxy-pm4ml-vars.yaml is empty, please provide the correct configuration in case if its a proxy payment manager deployment")
+        with open(outputFilename, 'w') as file:
+            yaml.dump(mergedDict, file, indent=4 , default_flow_style=False)
+        exit(1)
+    for item in data2["proxy_pm4mls"]:
+        mergedItems.append(dict(mergedicts(data1, item)))
+    mergedDict["proxy_pm4mls"] = mergedItems
+    with open(outputFilename, 'w') as file:
+        yaml.dump(mergedDict, file, indent=4 , default_flow_style=False, Dumper=CustomDumper)
 elif fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources.json" , "mojaloop-rbac-api-resources.yaml","vnext-stateful-resources.json" ):
     mergeListOfDicts(data1, data2, fileName, outputFilename, defaultExt)
 

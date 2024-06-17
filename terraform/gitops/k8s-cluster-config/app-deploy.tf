@@ -114,6 +114,36 @@ module "pm4ml" {
   portal_admin_secret_prefix             = "portal-admin-secret-"
 }
 
+module "proxy_pm4ml" {
+  count                                  = var.common_var_map.proxy_pm4ml_enabled ? 1 : 0
+  source                                 = "../proxy-pm4ml"
+  nat_public_ips                         = var.nat_public_ips
+  internal_load_balancer_dns             = var.internal_load_balancer_dns
+  external_load_balancer_dns             = var.external_load_balancer_dns
+  private_subdomain                      = var.private_subdomain
+  public_subdomain                       = var.public_subdomain
+  secrets_key_map                        = var.secrets_key_map
+  properties_key_map                     = var.properties_key_map
+  output_dir                             = var.output_dir
+  gitlab_project_url                     = var.gitlab_project_url
+  cluster_name                           = var.cluster_name
+  current_gitlab_project_id              = var.current_gitlab_project_id
+  gitlab_group_name                      = var.gitlab_group_name
+  gitlab_api_url                         = var.gitlab_api_url
+  gitlab_server_url                      = var.gitlab_server_url
+  kv_path                                = var.kv_path
+  cert_manager_service_account_name      = var.cert_manager_service_account_name
+  vault_namespace                        = var.vault_namespace
+  cert_manager_namespace                 = var.cert_manager_namespace
+  istio_external_gateway_name            = var.istio_external_gateway_name
+  istio_internal_gateway_name            = var.istio_internal_gateway_name
+  istio_external_wildcard_gateway_name   = local.istio_external_wildcard_gateway_name
+  istio_internal_wildcard_gateway_name   = local.istio_internal_wildcard_gateway_name
+  local_vault_kv_root_path               = local.local_vault_kv_root_path
+  vault_root_ca_name                     = "pki-${var.cluster_name}"
+  app_var_map                            = local.proxy_pm4ml_var_map
+}
+
 module "vnext" {
   count                                = var.common_var_map.vnext_enabled ? 1 : 0
   source                               = "../vnext"
@@ -305,6 +335,9 @@ locals {
 
   pm4ml_var_map = {
     for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
+  }
+  proxy_pm4ml_var_map = {
+    for pm4ml in var.app_var_map.proxy_pm4mls : pm4ml.pm4ml => pm4ml
   }
 
   st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
