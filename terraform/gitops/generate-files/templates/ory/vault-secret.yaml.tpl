@@ -91,11 +91,11 @@ spec:
         serviceAccount:
             name: default
       name: ketopasswordsecret
-      path: ${keto_postgres_secret_path}
+      path: ${keto_mysql_secret_path}
   output:
     name: keto-secret
     stringData:
-      dsn: 'postgresql://${keto_postgres_user}:{{ .ketopasswordsecret.${keto_postgres_password_secret_key} }}@${keto_postgres_host}:${keto_postgres_port}/${keto_postgres_database}?max_conns=20&max_idle_conns=4'
+      dsn: 'mysql://${keto_mysql_user}:{{ .ketopasswordsecret.${keto_mysql_password_secret_key} }}@tcp(${keto_mysql_host}:${keto_mysql_port})/${keto_mysql_database}?max_conns=20&max_idle_conns=4'
     type: Opaque
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
@@ -113,7 +113,7 @@ spec:
         serviceAccount:
             name: default
       name: kratospaswordsecret
-      path: ${kratos_postgres_secret_path}
+      path: ${kratos_mysql_secret_path}
     - authentication:
         path: kubernetes
         role: policy-admin
@@ -138,7 +138,7 @@ spec:
   output:
     name: kratos-secret
     stringData:
-      dsn: 'postgresql://${kratos_postgres_user}:{{ .kratospaswordsecret.${kratos_postgres_password_secret_key} }}@${kratos_postgres_host}:${kratos_postgres_port}/${kratos_postgres_database}?max_conns=20&max_idle_conns=4'
+      dsn: 'mysql://${kratos_mysql_user}:{{ .kratospaswordsecret.${kratos_mysql_password_secret_key} }}@tcp(${kratos_mysql_host}:${kratos_mysql_port})/${kratos_mysql_database}?max_conns=20&max_idle_conns=4'
       smtpConnectionURI: "smtps://test:test@mailslurper:1025/?skip_ssl_verify=true"
       secretsDefault: "{{ .kratosdefaultsecret.secret }}"
       secretsCookie: "{{ .kratoscookiesecret.secret }}"

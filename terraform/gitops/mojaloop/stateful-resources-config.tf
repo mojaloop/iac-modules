@@ -6,7 +6,6 @@ module "mojaloop_stateful_resources" {
   gitlab_project_url                            = var.gitlab_project_url
   gitlab_server_url                             = var.gitlab_server_url
   current_gitlab_project_id                     = var.current_gitlab_project_id
-  stateful_resources_config_file                = var.stateful_resources_config_file
   stateful_resources                            = local.mojaloop_stateful_resources
   stateful_resources_namespace                  = var.stateful_resources_namespace
   create_stateful_resources_ns                  = false
@@ -19,9 +18,6 @@ module "mojaloop_stateful_resources" {
 
 }
 
-variable "stateful_resources_config_file" {
-  type = string
-}
 variable "stateful_resources_namespace" {
   type    = string
   default = "stateful-resources"
@@ -44,9 +40,7 @@ data "gitlab_project_variable" "external_stateful_resource_instance_address" {
 }
 
 locals {
-  #stateful_resources         = jsondecode(file(var.stateful_resources_config_file))
   mojaloop_stateful_resources = { for key, resource in var.platform_stateful_res_config : key => resource if (resource.app_owner == "mojaloop" && resource.enabled )}
-  #enabled_stateful_resources  = { for stateful_resource in local.stateful_resources : stateful_resource.resource_name => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources  = { for key, managed_resource in local.mojaloop_stateful_resources :  key => managed_resource if managed_resource.deployment_type == "external"  }
   external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
 }

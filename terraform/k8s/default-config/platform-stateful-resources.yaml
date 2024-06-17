@@ -92,6 +92,7 @@ account-lookup-db:
   app_owner: "mojaloop"
   resource_type: mysql
   deployment_type: helm-chart
+  communication_mode: tcp
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: account-lookup-db-svc
@@ -112,6 +113,7 @@ central-ledger-db:
   app_owner: "mojaloop"
   resource_type: mysql
   deployment_type: helm-chart
+  communication_mode: tcp
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: central-ledger-db-svc
@@ -197,7 +199,8 @@ mojaloop-kafka:
   enabled: true
   app_owner: "mojaloop"
   resource_type: kafka
-  deployment_type: operator
+  deployment_type: operator   
+  communication_mode: tcp
   logical_service_config:
     logical_service_port: 9092
     logical_service_name: mojaloop-kafka-svc
@@ -282,42 +285,54 @@ ttk-redis:
 keycloak-db:
   enabled: true
   app_owner: "platform"
-  resource_type: pgsql
+  resource_type: mysql
   deployment_type: helm-chart
   logical_service_config:
-    logical_service_port: 5432
+    logical_service_port: 3306
     logical_service_name: keycloak-db
     db_username: keycloak
-    user_password_secret: pgsql-keycloak-secret
+    user_password_secret: keycloak-db-secret
     user_password_secret_key: password
     secret_extra_namespaces:
       - keycloak
     database_name: keycloak
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3     
 keto-db:
   enabled: true
   app_owner: "platform"
-  resource_type: pgsql
+  resource_type: mysql
   deployment_type: helm-chart
   logical_service_config:
-    logical_service_port: 5432
+    logical_service_port: 3306
     logical_service_name: keto-db
     db_username: keto
-    user_password_secret: pgsql-keto-secret
+    user_password_secret: keto-db-secret
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
-    database_name: keto
+    database_name: keto  
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3     
 kratos-db:
   enabled: true
   app_owner: "platform"
-  resource_type: pgsql
+  resource_type: mysql
   deployment_type: helm-chart
   logical_service_config:
-    logical_service_port: 5432
+    logical_service_port: 3306
     logical_service_name: kratos-db
     db_username: kratos
-    user_password_secret: pgsql-kratos-secret
+    user_password_secret: kratos-db-secret
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
     database_name: kratos
+  backup_schedule:  
+  - name: "sat-night-backup"
+    schedule: "0 0 * * 6"
+    keep: 3      
