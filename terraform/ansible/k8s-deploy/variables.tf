@@ -106,7 +106,11 @@ variable "ansible_debug" {
   default = ""
 }
 
-variable "stateful_resources_config_file" {
+variable "platform_stateful_resources_config_file" {
+  type = string
+}
+
+variable "managed_stateful_resources_config_file" {
   type = string
 }
 
