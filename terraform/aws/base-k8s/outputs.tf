@@ -47,6 +47,10 @@ output "target_group_external_health_port" {
   value = var.target_group_external_health_port
 }
 
+output "target_group_vpn_port" {
+  value = var.wireguard_port
+}
+
 output "private_network_cidr" {
   value = var.vpc_cidr
 }

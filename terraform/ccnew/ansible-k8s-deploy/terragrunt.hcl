@@ -29,6 +29,7 @@ dependency "k8s_deploy" {
     target_group_external_https_port = 0
     target_group_external_http_port = 0
     target_group_external_health_port = 0
+    target_group_vpn_port = 0
     internal_load_balancer_dns = "null"
     external_load_balancer_dns = "null"
     secrets_key_map = {
@@ -61,6 +62,7 @@ inputs = {
     external_ingress_health_port = dependency.k8s_deploy.outputs.target_group_external_health_port
     internal_load_balancer_dns   = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns   = dependency.k8s_deploy.outputs.external_load_balancer_dns
+    stunner_nodeport_port        = dependency.k8s_deploy.outputs.target_group_vpn_port
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
