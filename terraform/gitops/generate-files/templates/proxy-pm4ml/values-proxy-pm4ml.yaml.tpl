@@ -1,7 +1,8 @@
 
 %{ if length(imagePullSecrets) > 0 }
-imagePullSecrets:
-  ${indent(2, imagePullSecrets)}
+global:
+  imagePullSecrets:
+    ${indent(4, imagePullSecrets)}
 %{ endif }
 
 inter-scheme-proxy-adapter:
