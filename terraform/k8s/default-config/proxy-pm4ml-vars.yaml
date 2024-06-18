@@ -18,3 +18,4 @@ pm4ml_scheme_b_config:
   pm4ml_external_switch_fqdn: extapi.dev.switch-b.mojaloop.live
 pm4ml_proxy_id: proxypm4mltest
 pm4ml_ttk_enabled: false
+imagePullSecrets: []

@@ -1,9 +1,14 @@
 
+%{ if length(imagePullSecrets) > 0 }
+imagePullSecrets:
+  ${indent(2, imagePullSecrets)}
+%{ endif }
+
 inter-scheme-proxy-adapter:
   image:
-    registry: docker.io
-    repository: geka1302/inter-scheme-proxy-adapter
-    tag: 0.3.1-snapshot.8-2
+    registry: ghcr.io
+    repository: infitx-org/inter-scheme-proxy-adapter
+    tag: 0.4.2-snapshot.0
   ## Disabling liveness probes temporarily
   readinessProbe: |
     exec:

@@ -55,7 +55,7 @@ module "generate_pm4ml_files" {
     pm4ml_istio_gateway_namespace                   = local.pm4ml_istio_gateway_namespaces[each.key]
     pm4ml_istio_wildcard_gateway_name               = local.pm4ml_istio_wildcard_gateway_names[each.key]
     pm4ml_istio_gateway_name                        = local.pm4ml_istio_gateway_names[each.key]
-
+    imagePullSecrets                                = each.value.imagePullSecrets
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
