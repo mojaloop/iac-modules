@@ -10,7 +10,7 @@ resource "vault_jwt_auth_backend" "oidc" {
 }
 
 resource "vault_jwt_auth_backend_role" "techops_admin_oidc" {
-  backend               = vault_jwt_auth_backend.gitlab_oidc.path
+  backend               = vault_jwt_auth_backend.oidc.path
   role_name             = var.admin_rbac_group
   token_policies        = [vault_policy.admin.name]
   bound_audiences       = [zitadel_application_oidc.vault_ui.client_id]
