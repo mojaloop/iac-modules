@@ -61,9 +61,11 @@ resource "local_file" "strimzi-crs" {
   for_each = { for key, stateful_resource in local.strimzi_operator_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/strimzi/kafka/kafka-with-dual-role-nodes.yaml.tpl",
     {
-      kafka_cluster_name = each.key
-      node_pool_name     = "${each.key}-nodepool"
-      node_pool_size     = each.value.local_operator_config.node_pool_size
+      kafka_cluster_name     = each.key
+      node_pool_name         = "${each.key}-nodepool"
+      node_pool_size         = each.value.local_operator_config.node_pool_size
+      node_pool_storage_size = each.value.local_operator_config.kafka_data.storage_size
+      node_pool_affinity     = each.value.local_operator_config.kafka_data.affinity_definition
       namespace          = each.value.local_operator_config.resource_namespace
       kafka_topics       = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
 
@@ -80,13 +82,14 @@ resource "local_file" "percona-crs" {
   for_each = { for key, stateful_resource in local.percona_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/percona/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
-      cluster_name       = each.key
-      cr_version         = each.value.local_operator_config.cr_version
-      replica_count      = each.value.logical_service_config.replica_count
-      namespace          = each.value.local_operator_config.resource_namespace
-      storage_class_name = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_class_name : each.value.local_operator_config.mongodb_data.storage_class_name
-      storage_size       = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_size : each.value.local_operator_config.mongodb_data.storage_size
-      existing_secret    = each.value.local_operator_config.secret_config.generate_secret_name
+      cluster_name        = each.key
+      cr_version          = each.value.local_operator_config.cr_version
+      replica_count       = each.value.logical_service_config.replica_count
+      namespace           = each.value.local_operator_config.resource_namespace
+      storage_class_name  = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_class_name : each.value.local_operator_config.mongodb_data.storage_class_name
+      storage_size        = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_size : each.value.local_operator_config.mongodb_data.storage_size
+      existing_secret     = each.value.local_operator_config.secret_config.generate_secret_name
+      affinity_definition = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.affinity_definition : each.value.local_operator_config.mongodb_data.affinity_definition
 
 
       mongo_config_server_replica_count = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_config_server_replica_count : ""

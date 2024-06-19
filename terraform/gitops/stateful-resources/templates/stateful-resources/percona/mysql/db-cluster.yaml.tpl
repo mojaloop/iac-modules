@@ -168,7 +168,10 @@ spec:
 #      whenUnsatisfiable: DoNotSchedule
     affinity:
       antiAffinityTopologyKey: "kubernetes.io/hostname"
-#      advanced:
+%{ if affinity_definition != null ~}      
+      advanced:
+        ${indent(8, yamlencode(affinity_definition))}
+%{ endif ~}  
 #        nodeAffinity:
 #          requiredDuringSchedulingIgnoredDuringExecution:
 #            nodeSelectorTerms:
