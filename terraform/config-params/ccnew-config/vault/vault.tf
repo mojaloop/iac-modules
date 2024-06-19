@@ -22,3 +22,10 @@ resource "zitadel_application_oidc" "vault_ui" {
   id_token_userinfo_assertion = true
   additional_origins          = []
 }
+
+resource "zitadel_project_role" "techops_admin" {
+  project_id   = zitadel_project.vault.id
+  org_id       = local.org_id
+  role_key     = var.admin_rbac_group
+  display_name = "Techops Admin"
+}
