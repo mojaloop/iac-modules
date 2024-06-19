@@ -43,7 +43,7 @@ resource "zitadel_action" "flat_roles" {
         })
       })
 
-      api.v1.claims.setClaim('my:zitadel:grants', grants)
+      api.v1.claims.setClaim('${var.oidc_provider_group_claim_prefix}', grants)
     }
   EOF
 }
