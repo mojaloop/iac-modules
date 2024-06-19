@@ -59,7 +59,7 @@ spec:
         - destination:
             host: ${pm4ml_release_name}-inter-scheme-proxy-adapter
             port:
-              number: 4000
+              number: 4100
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -79,7 +79,7 @@ spec:
         - destination:
             host: ${pm4ml_release_name}-inter-scheme-proxy-adapter
             port:
-              number: 4100
+              number: 4000
 
 ---
 apiVersion: networking.istio.io/v1alpha3

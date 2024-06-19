@@ -9,7 +9,7 @@ inter-scheme-proxy-adapter:
   image:
     registry: ghcr.io
     repository: infitx-org/inter-scheme-proxy-adapter
-    tag: 0.4.2-snapshot.0
+    tag: 0.4.2-snapshot.2
   ## Disabling liveness probes temporarily
   readinessProbe: |
     exec:
@@ -39,8 +39,9 @@ inter-scheme-proxy-adapter:
     INBOUND_LISTEN_PORT_B: 4100
     OUTBOUND_MUTUAL_TLS_ENABLED_A: true
     OUTBOUND_MUTUAL_TLS_ENABLED_B: true
-    PEER_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_fqdn}"
-    PEER_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_fqdn}"
+    # TODO: The protocol should be constructed in the service. Adding https here as a temporary fix
+    PEER_ENDPOINT_A: "https://${scheme_a_config.pm4ml_external_switch_fqdn}"
+    PEER_ENDPOINT_B: "https://${scheme_b_config.pm4ml_external_switch_fqdn}"
     OAUTH_TOKEN_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_oidc_url}/${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
     OAUTH_CLIENT_KEY_A: "${scheme_a_config.pm4ml_external_switch_client_id}"
     OAUTH_CLIENT_KEY_B: "${scheme_b_config.pm4ml_external_switch_client_id}"
