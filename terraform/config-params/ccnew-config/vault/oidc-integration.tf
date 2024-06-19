@@ -19,7 +19,7 @@ resource "vault_jwt_auth_backend_role" "techops_admin_oidc" {
   role_type             = "oidc"
   allowed_redirect_uris = ["https://${var.vault_fqdn}/ui/vault/auth/oidc/oidc/callback"]
   bound_claims = {
-    var.oidc_provider_group_claim = var.admin_rbac_group
+    "${var.oidc_provider_group_claim}" = var.admin_rbac_group
   }
 }
 
