@@ -18,7 +18,12 @@ variable "kv_path" {
   default     = "secret"
 }
 
-variable "oidc_provider_group_claim" {
+variable "oidc_provider_group_claim_prefix" {
   type        = string
   description = "groups"
+}
+
+variable "oidc_debug_log" {
+  type    = bool
+  default = false
 }
