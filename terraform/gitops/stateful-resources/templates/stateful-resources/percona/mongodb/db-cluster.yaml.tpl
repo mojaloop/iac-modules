@@ -100,7 +100,7 @@ spec:
 %{ if affinity_definition != null ~}      
       advanced:
         ${indent(8, yamlencode(affinity_definition))}
-%{ endif ~}   
+%{ endif ~}
 #        nodeAffinity:
 #          requiredDuringSchedulingIgnoredDuringExecution:
 #            nodeSelectorTerms:
