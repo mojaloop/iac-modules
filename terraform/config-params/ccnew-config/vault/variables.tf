@@ -17,3 +17,8 @@ variable "kv_path" {
   description = "path for kv engine"
   default     = "secret"
 }
+
+variable "oidc_provider_group_claim" {
+  type        = string
+  description = "groups"
+}
