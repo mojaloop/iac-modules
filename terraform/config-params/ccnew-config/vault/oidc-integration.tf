@@ -21,6 +21,7 @@ resource "vault_jwt_auth_backend_role" "techops_admin_oidc" {
   bound_claims = {
     "${var.oidc_provider_group_claim}" = var.admin_rbac_group
   }
+  verbose_oidc_logging = true
 }
 
 resource "vault_policy" "admin" {
