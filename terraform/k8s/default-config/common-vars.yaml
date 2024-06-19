@@ -38,3 +38,5 @@ microk8s_version: 1.29/stable
 alertmanager_enabled: false
 istio_proxy_log_level: warn
 longhorn_backup_job_enabled: false
+enable_central_observability_write: false
+enable_central_observability_read: false

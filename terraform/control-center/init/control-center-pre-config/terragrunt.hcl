@@ -21,6 +21,8 @@ dependency "control_center_deploy" {
     nexus_fqdn                       = "temporary-dummy-id"
     tenant_vault_listening_port      = "temporary-dummy-id"
     vault_fqdn                       = "temporary-dummy-id"
+    
+    central_observability_grafana_server_url = "temporary-dummy-id"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -47,6 +49,9 @@ inputs = {
   iac_templates_tag                = get_env("IAC_TEMPLATES_TAG")
   iac_terraform_modules_tag        = get_env("IAC_TERRAFORM_MODULES_TAG")
   control_center_cloud_provider    = get_env("CONTROL_CENTER_CLOUD_PROVIDER")
+
+  enable_central_observability_grafana_oidc       = local.env_vars.enable_central_observability_grafana_oidc
+  central_observability_grafana_oidc_redirect_url = "${dependency.control_center_deploy.outputs.central_observability_grafana_server_url}/login/gitlab"
 }
 
 locals {
@@ -56,6 +61,7 @@ locals {
   common_vars = yamldecode(
     file("${find_in_parent_folders("common-vars.yaml")}")
   )
+
 }
 
 include "root" {
