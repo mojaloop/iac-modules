@@ -107,6 +107,8 @@ locals {
     eks_aws_access_key_id         = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
     eks_aws_region                = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
     zitadel_terraform_modules_tag = get_env("iac_terraform_modules_tag")
+    netbird_terraform_modules_tag = get_env("iac_terraform_modules_tag")
+    vault_terraform_modules_tag   = get_env("iac_terraform_modules_tag")
   }
 }
 
