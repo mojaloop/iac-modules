@@ -423,17 +423,12 @@ mojaloop-kafka:
       storage_class_name: longhorn
       service_port: 9092
       replica_count: 1
-      dataplane_affinity_definition:
-        type: soft
-        key: workload-class.mojaloop.io/KAFKA-DATA-PLANE
-        values:
-          - enabled
-      controlplane_affinity_definition:
+      affinity_definition:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: workload-class.mojaloop.io/KAFKA-CONTROL-PLANE
+                  - key: workload-class.mojaloop.io/KAFKA-DATA-PLANE
                     operator: In
                     values:
                       - enabled
