@@ -13,7 +13,7 @@ resource "zitadel_application_oidc" "vault_ui" {
   grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE"]
   post_logout_redirect_uris   = ["https://${var.vault_fqdn}/ui"]
   app_type                    = "OIDC_APP_TYPE_WEB"
-  auth_method_type            = "OIDC_AUTH_METHOD_TYPE_NONE"
+  auth_method_type            = "OIDC_AUTH_METHOD_TYPE_BASIC"
   version                     = "OIDC_VERSION_1_0"
   dev_mode                    = false
   access_token_type           = "OIDC_TOKEN_TYPE_BEARER"
