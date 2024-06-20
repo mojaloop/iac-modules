@@ -56,11 +56,9 @@ inter-scheme-proxy-adapter:
 
 management-api-a: 
   enabled: true
-  image:
-    tag: 5.0.0-snapshot.2
   serviceAccountName: ${pm4ml_service_account_name}
   env:
-    CACHE_URL: redis://${redis_host}:${redis_port}
+    ENABLE_UI_API_SERVER: false
     DFSP_ID: "${proxy_id}"
     HUB_IAM_PROVIDER_URL: "${scheme_a_config.pm4ml_external_switch_oidc_url}"
     OIDC_TOKEN_ROUTE: "${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
@@ -90,11 +88,9 @@ management-api-a:
 
 management-api-b:
   enabled: true
-  image:
-    tag: 5.0.0-snapshot.2
   serviceAccountName: ${pm4ml_service_account_name}
   env:
-    CACHE_URL: redis://${redis_host}:${redis_port}
+    ENABLE_UI_API_SERVER: false
     DFSP_ID: "${proxy_id}"
     HUB_IAM_PROVIDER_URL: "${scheme_b_config.pm4ml_external_switch_oidc_url}"
     OIDC_TOKEN_ROUTE: "${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
