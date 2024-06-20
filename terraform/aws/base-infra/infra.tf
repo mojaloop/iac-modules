@@ -84,7 +84,7 @@ resource "aws_instance" "bastion" {
   instance_type               = "t2.micro"
   subnet_id                   = element(module.vpc.public_subnets, 0)
   user_data                   = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
-  key_name                    = local.cluster_domain
+  key_name                    = aws_key_pair.generated_key.key_name
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.bastion.id, module.vpc.default_security_group_id]
 
@@ -104,6 +104,6 @@ resource "tls_private_key" "ec2_ssh_key" {
 }
 
 resource "aws_key_pair" "generated_key" {
-  key_name   = local.cluster_domain
   public_key = tls_private_key.ec2_ssh_key.public_key_openssh
+  tags       = merge({ Name = "${local.cluster_domain}-keypair" }, local.common_tags)
 }
