@@ -14,11 +14,3 @@ helmCharts:
   repo: ${proxy_pm4ml_chart_repo}
   valuesFile: values-proxy-pm4ml.yaml
   namespace: ${pm4ml_namespace}
-## Added the redis temporarily because its a dependency for management service.
-## We need to cleanup management service as we don't need the functionality which depends on redis.
-- name: redis
-  releaseName: redis
-  version: "17.6.0"
-  repo: "https://charts.bitnami.com/bitnami"
-  valuesFile: values-redis.yaml
-  namespace: ${pm4ml_namespace}
