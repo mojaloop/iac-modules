@@ -111,12 +111,14 @@ locals {
     {
       network_name = var.netmaker_control_network_name
       node_keys    = ["ops"]
+      network_cidr = var.cc_netmaker_network_cidr
     }
   ]
-  env_netmaker_networks = [for key in keys(var.env_map) :
+  env_netmaker_networks = [for key,env in var.env_map :
     {
       network_name = key
       node_keys    = ["k8s"]
+      network_cidr = env.netmaker_network_cidr
     }
   ]
 }
