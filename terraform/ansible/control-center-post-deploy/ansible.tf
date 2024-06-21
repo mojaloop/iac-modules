@@ -27,7 +27,6 @@ resource "null_resource" "run_ansible" {
   }
 
   provisioner "local-exec" {
-    when        = destroy
     command     = <<-EOT
           ansible-galaxy collection install $destroy_ansible_collection_complete_url
           ansible-playbook "$destroy_ansible_playbook" -i "$destroy_ansible_inventory"
