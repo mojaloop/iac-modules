@@ -25,6 +25,16 @@ resource "null_resource" "run_ansible" {
     EOT
     working_dir = path.module
   }
+
+  provisioner "local-exec" {
+    when        = destroy
+    command     = <<-EOT
+          ansible-galaxy collection install $destroy_ansible_collection_complete_url
+          ansible-playbook "$destroy_ansible_playbook" -i "$destroy_ansible_inventory"
+    EOT
+    working_dir = path.module
+  }
+
   triggers = {
     inventory_file_sha_hex = local_sensitive_file.ansible_inventory.id
     ansible_collection_tag = var.ansible_collection_tag
