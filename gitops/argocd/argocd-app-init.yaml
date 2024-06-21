@@ -23,6 +23,7 @@ spec:
       targetRevision: 7.1.5
 
       helm:
+        releaseName: argocd
         valuesObject:
           fullnameOverride: argocd
           applicationSet:
