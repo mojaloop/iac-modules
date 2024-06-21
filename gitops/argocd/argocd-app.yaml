@@ -55,7 +55,7 @@ spec:
               kustomize.buildOptions: "--enable-helm --load-restrictor LoadRestrictionsNone"
 
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
-              timeout.reconciliation: "10s"
+              #timeout.reconciliation: "10s"
 
               # dex.config: |
               #   connectors:
@@ -211,12 +211,12 @@ spec:
             extensions:
               enabled: true
               extensionList:
-                - name: metrics
-                  env:
-                    - name: EXTENSION_URL
-                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension.tar.gz
-                    - name: EXTENSION_CHECKSUM_URL
-                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension_checksums.txt
+                # - name: metrics
+                #   env:
+                #     - name: EXTENSION_URL
+                #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension.tar.gz
+                #     - name: EXTENSION_CHECKSUM_URL
+                #       value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension_checksums.txt
                 - name: rollout
                   env:
                     - name: EXTENSION_URL
