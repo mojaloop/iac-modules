@@ -36,7 +36,7 @@ spec:
           crds:
             install: true
             annotations:
-              argocd.argoproj.io/sync-wave: "-1"
+              argocd.argoproj.io/sync-wave: "-11"
           global:
             image:
               tag: v2.12.0-rc1
@@ -54,7 +54,7 @@ spec:
             cm:
               url: http://argo.${argocd_subdomain}
               exec.enabled: "true"
-              kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
+              kustomize.buildOptions: "--enable-helm --load-restrictor LoadRestrictionsNone"
 
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
               timeout.reconciliation: "10s"
@@ -68,12 +68,12 @@ spec:
               #         issuer: https://accounts.google.com
               #         clientID: $dex.client.id # read from argo-secrets
               #         clientSecret: $dex.client.secret # read from argo-secrets
-              extension.config: |-
-                extensions:
-                  - name: metrics
-                    backend:
-                      services:
-                      - url: http://argocd-metrics-server.argocd.svc.cluster.local:9003
+              # extension.config: |-
+              #   extensions:
+              #     - name: metrics
+              #       backend:
+              #         services:
+              #         - url: http://argocd-metrics-server.argocd.svc.cluster.local:9003
 
             params:
               server.insecure: true
@@ -115,7 +115,7 @@ spec:
             metrics:
               enabled: false
               serviceMonitor:
-                enabled: true
+                enabled: false
                 namespace: argocd
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
@@ -184,9 +184,9 @@ spec:
                     mountPath: /usr/local/bin/envsubst
 
             metrics:
-              enabled: true
+              enabled: false
               serviceMonitor:
-                enabled: true
+                enabled: false
                 namespace: argocd
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
@@ -201,15 +201,14 @@ spec:
             #     cpu: 400m
             #     memory: 512Mi
             metrics:
-              enabled: true
+              enabled: false
               serviceMonitor:
-                enabled: true
+                enabled: false
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
                 namespace: argocd
             ingress:
-              enabled: true
-              ingressClassName: "nginx"
+              enabled: false
 
             extensions:
               enabled: true
@@ -244,9 +243,9 @@ spec:
                 cpu: 120m
                 memory: 256Mi
             metrics:
-              enabled: true
+              enabled: false
               serviceMonitor:
-                enabled: true
+                enabled: false
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
                 namespace: argocd
