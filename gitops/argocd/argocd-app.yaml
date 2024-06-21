@@ -15,9 +15,9 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
 
-    # automated:
-    #   prune: true
-    #   selfHeal: true
+    automated:
+      prune: false
+      selfHeal: true
 
   sources:
     # Do not use official repo has argo do not allow (yet) kustomize patch inside Application # https://github.com/argoproj/argo-cd/issues/16352
@@ -31,6 +31,7 @@ spec:
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
+        releaseName: argocd
         valuesObject:
           fullnameOverride: argocd
           crds:
