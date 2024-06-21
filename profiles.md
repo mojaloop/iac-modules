@@ -21,7 +21,7 @@ not require a specific order. For example, a profile that disables
 event sidecars and another that sets up a medium scale environment
 can use the following structure:
 
-```txt
+```
 📁 env1
 ├──📁 default-config
 |   ├── platform-stateful-resources.yaml
@@ -45,7 +45,7 @@ and allows splitting the configuration into multiple files for better organizati
 The prefix can control the order or can be descriptive or do both, depending
 on the needs. For example:
 
-```txt
+```
 📁 env1
 ├──📁 default-config
 |   ├── ...
@@ -66,7 +66,7 @@ on the needs. For example:
 
 In simpler cases profile files can be put directly in the `profiles` directory:
 
-```txt
+```
 📁 env1
 ├──📁 default-config
 |   ├── ...
