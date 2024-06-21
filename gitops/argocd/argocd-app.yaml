@@ -38,8 +38,6 @@ spec:
             annotations:
               argocd.argoproj.io/sync-wave: "-11"
           global:
-            image:
-              tag: v2.12.0-rc1
             domain: argo.${argocd_subdomain}
             logging:
               format: json
