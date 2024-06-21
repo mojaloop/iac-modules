@@ -1,8 +1,10 @@
+shopt -s nullglob globstar extglob
+
 mkdir -p $CONFIG_PATH
 for configFile in $(ls default-config/)
 do
     echo $configFile
-    python3 .gitlab/scripts/dictmerge.py default-config/$configFile custom-config/$configFile $CONFIG_PATH;
+    python3 .gitlab/scripts/dictmerge.py default-config/$configFile profiles/**/?(*-)$configFile custom-config/$configFile $CONFIG_PATH;
 done;
 
 # for configFile in {'mojaloop-stateful-resources.json','common-stateful-resources.json','mojaloop-rbac-api-resources.yaml'};
