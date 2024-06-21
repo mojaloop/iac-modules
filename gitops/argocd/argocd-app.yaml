@@ -40,7 +40,7 @@ spec:
           global:
             image:
               tag: v2.12.0-rc1
-            domain: argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+            domain: argo.${argocd_subdomain}
             logging:
               format: json
 
@@ -52,7 +52,7 @@ spec:
             secret:
               createSecret: false
             cm:
-              url: http://argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
+              url: http://argo.${argocd_subdomain}
               exec.enabled: "true"
               kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
 
