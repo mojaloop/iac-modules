@@ -55,6 +55,7 @@ cache:
   script:
     - source $(which gitlab-terraform)
     - source setcivars.sh
+    - source set-ansible-destroy-preq-vars.sh
     - yq eval '.' environment.yaml -o=json > environment.json
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./environment.json); do export $var; done
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store; fi
