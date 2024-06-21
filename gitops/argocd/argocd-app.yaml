@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: infra-argocd-helm
+  name: ${argocd_appname}
   namespace: argocd
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
@@ -17,7 +17,7 @@ spec:
 
     automated:
       prune: false
-      selfHeal: true
+      selfHeal: false
 
   sources:
     # Do not use official repo has argo do not allow (yet) kustomize patch inside Application # https://github.com/argoproj/argo-cd/issues/16352
@@ -56,7 +56,7 @@ spec:
               kustomize.buildOptions: "--enable-helm --load-restrictor LoadRestrictionsNone"
 
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
-              #timeout.reconciliation: "10s"
+              timeout.reconciliation: "10s"
 
               # dex.config: |
               #   connectors:
