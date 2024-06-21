@@ -80,6 +80,16 @@ In simpler cases profile files can be put directly in the `profiles` directory:
 |   └── ...
 ```
 
+### Environment Specific Profiles
+
+Configuration files can be environment specific. This can be achieved by
+appending the environment type in front of the extension. For example,
+`mojaloop-values-override.prod.yaml` will be applied only to the `prod`
+environment.
+
+The environment type is defined in the `ENV_TYPE` environment variable,
+that must be defined in the pipeline.
+
 ## Reusable Profiles
 
 To achieve reusability, profiles can be cloned as git submodules in the
