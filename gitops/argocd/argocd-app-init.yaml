@@ -11,13 +11,11 @@ metadata:
 spec:
   project: default
   syncPolicy:
+    automated:
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
-
-    # automated:
-    #   prune: true
-    #   selfHeal: true
 
   sources:
     - chart: argo-cd
