@@ -24,6 +24,7 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${argocd_namespace}
+    targetRevision: ${argocd_release_version}
 
   sources:
     - chart: argo-cd
