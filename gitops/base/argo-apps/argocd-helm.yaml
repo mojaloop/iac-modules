@@ -24,12 +24,11 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${argocd_namespace}
-    targetRevision: ${argocd_release_version}
 
   sources:
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: ${argocd_helm_version}
+      targetRevision: ${argocd_release_version}
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
