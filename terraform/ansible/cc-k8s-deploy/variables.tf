@@ -93,3 +93,7 @@ variable "ansible_debug" {
   type    = string
   default = ""
 }
+variable "bastion_hosts_yaml_fragments" {
+  type    = string
+  default = ""
+}

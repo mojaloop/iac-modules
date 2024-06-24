@@ -2,17 +2,18 @@
 resource "local_sensitive_file" "ansible_inventory" {
   content = templatefile(
     "${path.module}/templates/inventory.yaml.tmpl",
-    { all_hosts               = merge(var.master_hosts, var.agent_hosts, var.bastion_hosts),
-      master_hosts            = var.master_hosts,
-      agent_hosts             = var.agent_hosts,
-      bastion_hosts           = var.bastion_hosts,
-      bastion_hosts_var_maps  = var.bastion_hosts_var_maps,
-      agent_hosts_var_maps    = merge(var.agent_hosts_var_maps, local.jumphostmap),
-      master_hosts_var_maps   = merge(var.master_hosts_var_maps, local.jumphostmap),
-      all_hosts_var_maps      = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map, local.all_hosts_var_maps),
-      agent_hosts_yaml_maps   = var.agent_hosts_yaml_maps,
-      master_hosts_yaml_maps  = var.master_hosts_yaml_maps,
-      bastion_hosts_yaml_maps = var.bastion_hosts_yaml_maps
+    { all_hosts                    = merge(var.master_hosts, var.agent_hosts, var.bastion_hosts),
+      master_hosts                 = var.master_hosts,
+      agent_hosts                  = var.agent_hosts,
+      bastion_hosts                = var.bastion_hosts,
+      bastion_hosts_var_maps       = var.bastion_hosts_var_maps,
+      agent_hosts_var_maps         = merge(var.agent_hosts_var_maps, local.jumphostmap),
+      master_hosts_var_maps        = merge(var.master_hosts_var_maps, local.jumphostmap),
+      all_hosts_var_maps           = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map, local.all_hosts_var_maps),
+      agent_hosts_yaml_maps        = var.agent_hosts_yaml_maps,
+      master_hosts_yaml_maps       = var.master_hosts_yaml_maps,
+      bastion_hosts_yaml_maps      = var.bastion_hosts_yaml_maps
+      bastion_hosts_yaml_fragments = var.bastion_hosts_yaml_fragments
     }
 
   )
