@@ -1,10 +1,10 @@
 region: eu-west-1
-domain: mojalabs.io
+domain: mojaloop.live
 tenant: labs11
 enable_github_oauth: false
 enable_netmaker_oidc: true
 enable_central_observability_grafana_oidc: true
-ansible_collection_tag: v0.18.15
+ansible_collection_tag: v5.2.7-rc01
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
 smtp_server_enable: false
