@@ -133,7 +133,6 @@ init:
       - $CONFIG_PATH/*.yaml
       - $CONFIG_PATH/*.yml
       - $CONFIG_PATH/*.json
-  when: manual
 
 validate:
   extends: .terraform:validate

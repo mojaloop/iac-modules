@@ -108,7 +108,6 @@ init:
     - !reference [.source, script]
     # We need to reconfigure the initialized cache
     - terragrunt run-all init -upgrade -input=false -reconfigure
-  when: manual
 
 validate:
   extends: .terraform:validate
