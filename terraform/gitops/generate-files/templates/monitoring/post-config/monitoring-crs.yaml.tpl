@@ -125,18 +125,31 @@ spec:
     matchLabels:
       dashboards: "grafana"      
 ---
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaDashboard
+# metadata:
+#   name: mysql
+# spec:
+#   folder: default
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+#   grafanaCom:
+#     id: 14057
+#     revision: 1
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: mysql
+  name: mysql-exporter-quickstart
 spec:
   folder: default
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  grafanaCom:
-    id: 14057
-    revision: 1
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.3.0-snapshot.0/monitoring/dashboards/messaging/dashboard-mysql-exporter-quickstart.json"
 ---
 # apiVersion: grafana.integreatly.org/v1beta1
 # kind: GrafanaDashboard
