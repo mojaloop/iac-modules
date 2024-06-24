@@ -93,8 +93,3 @@ variable "ansible_debug" {
   type    = string
   default = ""
 }
-
-variable "bastion_hosts_anchor_maps" {
-  type        = map(any)
-  description = "map for bastion hosts to include anchors"
-}
