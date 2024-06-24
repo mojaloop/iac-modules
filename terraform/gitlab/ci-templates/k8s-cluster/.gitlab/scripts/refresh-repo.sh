@@ -13,9 +13,9 @@ mkdir -p $TMP_TEMPLATE_DIR/${CURRENT_ENV_NAME}
 cp -r ${CI_TEMPLATE_PATH}/. ${K8S_TEMPLATE_PATH}/. $TMP_TEMPLATE_DIR/${CURRENT_ENV_NAME}
 TMP_REPO_DIR=/tmp/gitclone${CURRENT_ENV_NAME}
 mkdir -p $TMP_REPO_DIR
-git clone ${BASE_GITLAB_URL}/${CURRENT_ENV_NAME} $TMP_REPO_DIR
-git submodule update --remote
+git clone --recurse-submodules ${BASE_GITLAB_URL}/${CURRENT_ENV_NAME} $TMP_REPO_DIR
 cd $TMP_REPO_DIR
+git submodule update --remote
 cp -r $TMP_TEMPLATE_DIR/${CURRENT_ENV_NAME}/. .
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
