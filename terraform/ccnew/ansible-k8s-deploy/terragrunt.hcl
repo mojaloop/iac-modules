@@ -75,6 +75,7 @@ inputs = {
     microk8s_dev_skip      = try(local.env_vars.microk8s_dev_skip, false)
   } : {})
   bastion_hosts_yaml_maps       = dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps
+  bastion_hosts_anchor_maps     = local.bastion_hosts_anchor_maps
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
   ansible_bastion_key           = dependency.k8s_deploy.outputs.bastion_ssh_key
