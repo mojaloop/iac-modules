@@ -30,8 +30,8 @@ spec:
       repoURL: https://argoproj.github.io/argo-helm
       targetRevision: ${argocd_helm_version}
 
-      # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
+        releaseName: ${argocd_helm_release}
         valuesObject:
           fullnameOverride: ${argocd_helm_release}
           crds:
