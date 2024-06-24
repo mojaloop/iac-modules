@@ -109,7 +109,7 @@ locals {
     zitadel_terraform_modules_tag = get_env("iac_terraform_modules_tag")
     netbird_terraform_modules_tag = get_env("iac_terraform_modules_tag")
     vault_terraform_modules_tag   = get_env("iac_terraform_modules_tag")
-    argocd_application_gitrepo_tag = get_env("iac_terraform_modules_tag")
+    default_application_gitrepo_tag = get_env("iac_terraform_modules_tag")
   }
 }
 
