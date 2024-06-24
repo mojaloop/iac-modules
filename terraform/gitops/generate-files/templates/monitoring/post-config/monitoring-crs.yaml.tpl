@@ -125,18 +125,6 @@ spec:
     matchLabels:
       dashboards: "grafana"      
 ---
-# apiVersion: grafana.integreatly.org/v1beta1
-# kind: GrafanaDashboard
-# metadata:
-#   name: mysql
-# spec:
-#   folder: default
-#   instanceSelector:
-#     matchLabels:
-#       dashboards: "grafana"
-#   grafanaCom:
-#     id: 14057
-#     revision: 1
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
@@ -149,21 +137,8 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.3.0-snapshot.0/monitoring/dashboards/datastore/dashboard-mysql-exporter-quickstart.json"
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v${grafana_dashboard_tag}/monitoring/dashboards/datastore/dashboard-mysql-exporter-quickstart.json"
 ---
-# apiVersion: grafana.integreatly.org/v1beta1
-# kind: GrafanaDashboard
-# metadata:
-#   name: mysql-cluster-overview
-# spec:
-#   folder: default
-#   instanceSelector:
-#     matchLabels:
-#       dashboards: "grafana"
-#   grafanaCom:
-#     id: 15641
-#     revision: 2
-# ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
@@ -172,13 +147,12 @@ spec:
   folder: default
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"   
+      datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  grafanaCom:
-    id: 2583
-    revision: 2
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v${grafana_dashboard_tag}/monitoring/dashboards/datastore/dashboard-mongodb.json"
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
