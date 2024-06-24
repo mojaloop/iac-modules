@@ -104,8 +104,8 @@ locals {
     eks_aws_secret_access_key     = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
     eks_aws_access_key_id         = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
     eks_aws_region                = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
-  })
   }
+
   bastion_hosts_yaml_maps = templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", {
     application_gitrepo_tag      = get_env("iac_terraform_modules_tag")
     dns_public_subdomain         = dependency.k8s_deploy.outputs.public_subdomain
@@ -123,6 +123,7 @@ locals {
     letsencrypt_email             = get_env("letsencrypt_email")
     dns_cloud_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_id_key]
     dns_cloud_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_secret_key]
+    })
 }
 
 include "root" {
