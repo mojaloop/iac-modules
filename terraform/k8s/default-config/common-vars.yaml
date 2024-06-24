@@ -24,6 +24,7 @@ prometheus_operator_version: 8.22.8
 prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: 3.5.11
 grafana_version: 10.2.3
+grafana_dashboard_tag: "16.1.1-snapshot.2" # TODO: update once v16.1.x is published
 tempo_chart_version: 3.1.0
 loki_chart_version: 2.13.0
 loki_ingester_pvc_size: 10Gi
