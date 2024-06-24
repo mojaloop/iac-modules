@@ -50,4 +50,4 @@ bastion:
     ${varmapkey}:
       ${indent(6, varmapval)}
     %{~ endfor ~}
-    ${indent(4, bastion_hosts_yaml_fragments)}
+    ${indent(4, yamldecode(bastion_hosts_yaml_fragments))}
