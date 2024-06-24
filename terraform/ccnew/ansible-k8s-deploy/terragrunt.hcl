@@ -74,7 +74,24 @@ inputs = {
     microk8s_version       = try(local.common_vars.microk8s_version, "1.29/stable")
     microk8s_dev_skip      = try(local.env_vars.microk8s_dev_skip, false)
   } : {})
-  bastion_hosts_yaml_maps       = dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps
+  bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", {
+    application_gitrepo_tag      = get_env("iac_terraform_modules_tag")
+    dns_public_subdomain         = dependency.k8s_deploy.outputs.public_subdomain
+    dns_private_subdomain        = dependency.k8s_deploy.outputs.private_subdomain
+    internal_ingress_https_port  = dependency.k8s_deploy.outputs.target_group_internal_https_port
+    internal_ingress_http_port   = dependency.k8s_deploy.outputs.target_group_internal_http_port
+    internal_ingress_health_port = dependency.k8s_deploy.outputs.target_group_internal_health_port
+    external_ingress_https_port  = dependency.k8s_deploy.outputs.target_group_external_https_port
+    external_ingress_http_port   = dependency.k8s_deploy.outputs.target_group_external_http_port
+    external_ingress_health_port = dependency.k8s_deploy.outputs.target_group_external_health_port
+    internal_load_balancer_dns   = dependency.k8s_deploy.outputs.internal_load_balancer_dns
+    external_load_balancer_dns   = dependency.k8s_deploy.outputs.external_load_balancer_dns
+    wireguard_ingress_port        = dependency.k8s_deploy.outputs.target_group_vpn_port
+    dns_cloud_api_region          = get_env("cloud_region")
+    letsencrypt_email             = get_env("letsencrypt_email")
+    dns_cloud_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_id_key]
+    dns_cloud_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_secret_key]
+    }))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
   ansible_bastion_key           = dependency.k8s_deploy.outputs.bastion_ssh_key
@@ -106,24 +123,6 @@ locals {
     eks_aws_region                = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
   }
 
-  bastion_hosts_yaml_maps = templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", {
-    application_gitrepo_tag      = get_env("iac_terraform_modules_tag")
-    dns_public_subdomain         = dependency.k8s_deploy.outputs.public_subdomain
-    dns_private_subdomain        = dependency.k8s_deploy.outputs.private_subdomain
-    internal_ingress_https_port  = dependency.k8s_deploy.outputs.target_group_internal_https_port
-    internal_ingress_http_port   = dependency.k8s_deploy.outputs.target_group_internal_http_port
-    internal_ingress_health_port = dependency.k8s_deploy.outputs.target_group_internal_health_port
-    external_ingress_https_port  = dependency.k8s_deploy.outputs.target_group_external_https_port
-    external_ingress_http_port   = dependency.k8s_deploy.outputs.target_group_external_http_port
-    external_ingress_health_port = dependency.k8s_deploy.outputs.target_group_external_health_port
-    internal_load_balancer_dns   = dependency.k8s_deploy.outputs.internal_load_balancer_dns
-    external_load_balancer_dns   = dependency.k8s_deploy.outputs.external_load_balancer_dns
-    wireguard_ingress_port        = dependency.k8s_deploy.outputs.target_group_vpn_port
-    dns_cloud_api_region          = get_env("cloud_region")
-    letsencrypt_email             = get_env("letsencrypt_email")
-    dns_cloud_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_id_key]
-    dns_cloud_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_secret_key]
-    })
 }
 
 include "root" {
