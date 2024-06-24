@@ -1,4 +1,4 @@
-argocd:
+argocd_override:
   initial_application_gitrepo_tag: ${application_gitrepo_tag}
   apps:
     argocd:
