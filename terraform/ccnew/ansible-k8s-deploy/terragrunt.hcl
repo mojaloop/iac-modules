@@ -74,7 +74,7 @@ inputs = {
     microk8s_version       = try(local.common_vars.microk8s_version, "1.29/stable")
     microk8s_dev_skip      = try(local.env_vars.microk8s_dev_skip, false)
   } : {})
-  bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, yamlencode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", {
+  bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", {
     application_gitrepo_tag      = get_env("iac_terraform_modules_tag")
     dns_public_subdomain         = dependency.k8s_deploy.outputs.public_subdomain
     dns_private_subdomain        = dependency.k8s_deploy.outputs.private_subdomain
