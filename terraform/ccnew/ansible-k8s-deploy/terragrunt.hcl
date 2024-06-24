@@ -75,7 +75,7 @@ inputs = {
     microk8s_dev_skip      = try(local.env_vars.microk8s_dev_skip, false)
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps) 
-  bastion_hosts_yaml_fragments = yamlencode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", {
+  bastion_hosts_yaml_fragments   = templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", {
     application_gitrepo_tag      = get_env("iac_terraform_modules_tag")
     dns_public_subdomain         = dependency.k8s_deploy.outputs.public_subdomain
     dns_private_subdomain        = dependency.k8s_deploy.outputs.private_subdomain
@@ -92,7 +92,7 @@ inputs = {
     letsencrypt_email             = get_env("letsencrypt_email")
     dns_cloud_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_id_key]
     dns_cloud_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_secret_key]
-    }))
+    })
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
   ansible_bastion_key           = dependency.k8s_deploy.outputs.bastion_ssh_key
