@@ -21,7 +21,7 @@ not require a specific order. For example, a profile that disables
 event sidecars and another that sets up a medium scale environment
 can use the following structure:
 
-```
+```text
 📁 env1
 ├──📁 default-config
 |   ├── platform-stateful-resources.yaml
@@ -45,7 +45,7 @@ and allows splitting the configuration into multiple files for better organizati
 The prefix can control the order or can be descriptive or do both, depending
 on the needs. For example:
 
-```
+```text
 📁 env1
 ├──📁 default-config
 |   ├── ...
@@ -66,7 +66,7 @@ on the needs. For example:
 
 In simpler cases profile files can be put directly in the `profiles` directory:
 
-```
+```text
 📁 env1
 ├──📁 default-config
 |   ├── ...
@@ -85,7 +85,8 @@ In simpler cases profile files can be put directly in the `profiles` directory:
 Configuration files can be environment specific. This can be achieved by
 appending the environment type in front of the extension. For example,
 `mojaloop-values-override.prod.yaml` will be applied only to the `prod`
-environment.
+environment. The environment specific profiles are applied after the generic
+profiles.
 
 The environment type is defined in the `ENV_TYPE` environment variable,
 that must be defined in the pipeline.
