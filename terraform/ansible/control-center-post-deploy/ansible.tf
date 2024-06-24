@@ -32,6 +32,7 @@ resource "null_resource" "run_ansible" {
           ansible-playbook "$destroy_ansible_playbook" -i "$destroy_ansible_inventory"
     EOT
     working_dir = path.module
+    when        = "destroy"
   }
 
   triggers = {
