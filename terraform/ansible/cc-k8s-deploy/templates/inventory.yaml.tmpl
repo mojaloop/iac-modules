@@ -50,3 +50,6 @@ bastion:
     ${varmapkey}:
       ${indent(6, varmapval)}
     %{~ endfor ~}
+    %{~ for varmapkey, varmapvarray in bastion_hosts_anchor_maps ~}
+    ${varmapkey}: &${varmapvarray[0]} '${varmapvarray[1]}'
+    %{~ endfor ~}
