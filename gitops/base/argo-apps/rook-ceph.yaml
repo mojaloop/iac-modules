@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rook-ceph
-  namespace: argocd
+  name: ${utils_rook_ceph_app_name}
+  namespace: ${utils_rook_ceph_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
 
@@ -24,18 +24,18 @@ spec:
   sources:
     - chart: rook-ceph
       repoURL: https://charts.rook.io/release
-      targetRevision: ${rook_ceph_version}
+      targetRevision: ${utils_rook_ceph_helm_version}
 
       helm:
         releaseName: rook-ceph
         valuesObject:
           csi:
-            kubeletDirPath: ${rook_csi_kubelet_dir_path}
+            kubeletDirPath: ${rutils_rook_ceph_rook_csi_kubelet_dir_path}
           enableDiscoveryDaemon: true
 
     - chart: rook-ceph-cluster
       repoURL: https://charts.rook.io/release
-      targetRevision: ${rook_ceph_version}
+      targetRevision: ${utils_rook_ceph_helm_version}
 
       helm:
         releaseName: rook-ceph-cluster

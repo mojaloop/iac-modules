@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: ${argocd_appname}
-  namespace: ${argocd_namespace}
+  namespace: ${argocd_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-11"
 
@@ -23,17 +23,17 @@ spec:
 
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${argocd_namespace}
+    namespace: ${argocd_helm_namespace}
 
   sources:
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: ${argocd_release_version}
+      targetRevision: ${argocd_helm_version}
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
         valuesObject:
-          fullnameOverride: ${argocd_appname}
+          fullnameOverride: ${argocd_helm_release}
           crds:
             install: true
           global:
@@ -149,7 +149,7 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "kustomize build . --load-restrictor LoadRestrictionsNone -o raw-kustomization.yaml",
+                        "kustomize build . --enable-helm --load-restrictor LoadRestrictionsNone -o raw-kustomization.yaml",
                       ]
                   generate:
                     command: ["sh", "-c"]
