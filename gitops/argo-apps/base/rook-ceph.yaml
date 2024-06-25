@@ -26,18 +26,18 @@ spec:
   sources:
     - chart: rook-ceph
       repoURL: https://charts.rook.io/release
-      targetRevision: ${utils_rook_ceph_helm_version}
+      targetRevision: ${ARGOCD_ENV_utils_rook_ceph_helm_version}
 
       helm:
         releaseName: rook-ceph
         valuesObject:
           csi:
-            kubeletDirPath: ${utils_rook_ceph_rook_csi_kubelet_dir_path}
+            kubeletDirPath: ${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}
           enableDiscoveryDaemon: true
 
     - chart: rook-ceph-cluster
       repoURL: https://charts.rook.io/release
-      targetRevision: ${utils_rook_ceph_helm_version}
+      targetRevision: ${ARGOCD_ENV_utils_rook_ceph_helm_version}
 
       helm:
         releaseName: rook-ceph-cluster
