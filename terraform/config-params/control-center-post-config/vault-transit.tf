@@ -41,10 +41,18 @@ path "${vault_mount.transit.path}/decrypt/${vault_transit_secret_backend_key.uns
 EOT
 }
 
+resource "vault_token_auth_backend_role" "vault_token_auth_backend_role" {
+  for_each               = var.env_map  
+  role_name              = "${each.key}-auth-backend-role"
+  token_period           = "86400"
+  token_explicit_max_ttl = "115200"
+}
+
 resource "vault_token" "env_token" {
   for_each  = var.env_map
   policies  = [vault_policy.env_transit[each.key].name]
   no_parent = true
+  role_name = [vault_token_auth_backend_role.vault_token_auth_backend_role[each.key].role_name]
 }
 
 resource "vault_kv_secret_v2" "env_token" {
