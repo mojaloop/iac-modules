@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   #- ../../../base/argo-apps/argocd-helm.yaml
-  - ../../../base/argo-apps/rook-ceph.yaml
+  - ../../../base/rook-ceph.yaml
   # - ../../../argo-apps/base/external-dns
   # - ../../../argo-apps/base/cert-manager-helm.yaml
   # - ../../../argo-apps/base/external-secrets-op-helm.yaml
