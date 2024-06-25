@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: r${ARGOCD_ENV_utils_rook_ceph_app_name}
+  name: ${ARGOCD_ENV_utils_rook_ceph_app_name}
   namespace: ${ARGOCD_ENV_utils_rook_ceph_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
@@ -21,7 +21,7 @@ spec:
       selfHeal: true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: argocd
+    namespace: ${ARGOCD_ENV_utils_rook_ceph_namespace}
   sources:
     - chart: rook-ceph
       repoURL: https://charts.rook.io/release
