@@ -1,14 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rook-ceph
-  namespace: argocd
+  name: r${ARGOCD_ENV_utils_rook_ceph_app_name}
+  namespace: ${ARGOCD_ENV_utils_rook_ceph_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
 
-  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
-  # finalizers:
-  #   - resources-finalizer.argocd.argoproj.io
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 
 spec:
   project: default
