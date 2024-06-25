@@ -18,14 +18,12 @@ metadata:
   name: mongodb
 spec:
   folder: default
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v${grafana_dashboard_tag}/monitoring/dashboards/datastore/dashboard-mongodb.json"
-
+  grafanaCom:
+    id: 2583
+    revision: 2
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -33,12 +31,13 @@ metadata:
   name: redis
 spec:
   folder: default
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  grafanaCom:
-    id: 14091
-    revision: 1
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v${grafana_dashboard_tag}/monitoring/dashboards/datastore/dashboard-redis-exporter-quickstart.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
