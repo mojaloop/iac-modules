@@ -149,7 +149,7 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "kustomize build . --enable-helm --load-restrictor LoadRestrictionsNone -o raw-kustomization.yaml",
+                        "kustomize build . --load-restrictor LoadRestrictionsNone -o raw-kustomization.yaml",
                       ]
                   generate:
                     command: ["sh", "-c"]
