@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: ${ARGOCD_ENV_utils_rook_ceph_app_name}
-  namespace: ${ARGOCD_ENV_utils_rook_ceph_namespace}
+  namespace: ${ARGOCD_ENV_argocd_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
 
