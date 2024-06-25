@@ -44,7 +44,7 @@ EOT
 resource "vault_token_auth_backend_role" "vault_token_auth_backend_role" {
   for_each               = var.env_map  
   role_name              = "${each.key}-auth-backend-role"
-  token_period           = "86400"
+  token_period           = "3600"
   token_explicit_max_ttl = "115200"
 }
 
