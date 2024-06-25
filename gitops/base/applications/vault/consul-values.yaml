@@ -1,0 +1,11 @@
+global:
+  name: consul
+  enabled: false
+  gossipEncryption:
+    autoGenerate: true
+server:
+  enabled: true
+  storage: ${consul_storage_size}
+  replicas: ${consul_replicas}
+connectInject:
+  enabled: false

@@ -1,11 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: argocd
-
 resources:
-  - ../../../base/argo-apps/argocd-helm.yaml
-  - .../../../base/argo-apps/rook-ceph.yaml
+  #- ../../../base/argo-apps/argocd-helm.yaml
+  - ../../../../base/argo-apps/rook-ceph.yaml
   # - ../../../argo-apps/base/external-dns
   # - ../../../argo-apps/base/cert-manager-helm.yaml
   # - ../../../argo-apps/base/external-secrets-op-helm.yaml

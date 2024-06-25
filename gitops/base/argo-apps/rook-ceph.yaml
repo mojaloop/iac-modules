@@ -4,7 +4,7 @@ metadata:
   name: ${utils_rook_ceph_app_name}
   namespace: ${utils_rook_ceph_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-10"
+    argocd.argoproj.io/sync-wave: "${utils_rook_ceph_sync_wave}"
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
   # finalizers:
@@ -30,7 +30,7 @@ spec:
         releaseName: rook-ceph
         valuesObject:
           csi:
-            kubeletDirPath: ${rutils_rook_ceph_rook_csi_kubelet_dir_path}
+            kubeletDirPath: ${utils_rook_ceph_rook_csi_kubelet_dir_path}
           enableDiscoveryDaemon: true
 
     - chart: rook-ceph-cluster
