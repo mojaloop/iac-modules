@@ -20,7 +20,9 @@ spec:
     automated:
       prune: true
       selfHeal: true
-
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argocd
   sources:
     - chart: rook-ceph
       repoURL: https://charts.rook.io/release
