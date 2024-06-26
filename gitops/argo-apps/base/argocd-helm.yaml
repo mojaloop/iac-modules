@@ -163,13 +163,13 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "cp kustomization.yaml pre-subst.yaml && envsubst < pre-subst.yaml > kustomization.yaml && rm pre-subst.yaml && kustomize build . --enable-helm --load-restrictor LoadRestrictionsNone -o raw-kustomization.yaml",
+                        "cp kustomization.yaml pre-subst.yaml && envsubst < pre-subst.yaml > kustomization.yaml && rm pre-subst.yaml && kustomize build . --enable-helm --load-restrictor LoadRestrictionsNone -o raw-kustomization.yaml && cat raw-kustomization.yaml > /dev/stderr",
                       ]
                   generate:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "cat raw-kustomization.yaml >  /dev/stderr && cat kustomization.yaml >  /dev/stderr",
+                        "envsubst < raw-kustomization.yaml > processed-kustomization.yaml && cp processed-kustomization.yaml /dev/stdout",
                       ]
                   discover:
                     fileName: "kustomization.*"
