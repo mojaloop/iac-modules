@@ -46,7 +46,7 @@ spec:
           value: "${ARGOCD_ENV_vault_consul_storage_size}"
 
         - name: "consul_replicas"
-          value: "${ARGOCD_ENV_vault_consul_replicas}"
+          value: "'${ARGOCD_ENV_vault_consul_replicas}'"
 
         - name: "consul_namespace"
           value: "${ARGOCD_ENV_vault_consul_namespace}"
