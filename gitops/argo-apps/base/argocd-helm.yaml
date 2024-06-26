@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${argocd_appname}
-  namespace: ${argocd_app_namespace}
+  name: ${ARGOCD_ENV_utils_argocd_app_name}
+  namespace: ${ARGOCD_ENV_utils_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-11"
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
   # finalizers:
@@ -23,21 +23,21 @@ spec:
 
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${argocd_helm_namespace}
+    namespace: ${ARGOCD_ENV_utils_argocd_namespace}
 
   sources:
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: ${argocd_helm_version}
+      targetRevision: ${ARGOCD_ENV_utils_argocd_helm_version}
 
       helm:
-        releaseName: ${argocd_helm_release}
+        releaseName: ${ARGOCD_ENV_utils_argocd_helm_release}
         valuesObject:
-          fullnameOverride: ${argocd_helm_release}
+          fullnameOverride: ${ARGOCD_ENV_utils_argocd_helm_release}
           crds:
             install: true
           global:
-            domain: argo.${argocd_subdomain}
+            domain: argo.${ARGOCD_ENV_utils_argocd_dns_public_subdomain}
             logging:
               format: json
 
@@ -49,7 +49,7 @@ spec:
             secret:
               createSecret: false
             cm:
-              url: http://argo.${argocd_subdomain}
+              url: http://argo.${ARGOCD_ENV_utils_argocd_dns_public_subdomain}
               exec.enabled: "true"
               kustomize.buildOptions: "--enable-helm --load-restrictor LoadRestrictionsNone"
 
