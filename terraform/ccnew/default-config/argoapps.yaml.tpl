@@ -2,9 +2,10 @@ argocd_override:
   initial_application_gitrepo_tag: "${application_gitrepo_tag}"
   apps:        
     utils:
-      argocd_helm:
-        dns_public_subdomain: "${dns_public_subdomain}"
-        dns_private_subdomain: "${dns_private_subdomain}"
+      sub_apps:
+        argocd_helm:
+          dns_public_subdomain: "${dns_public_subdomain}"
+          dns_private_subdomain: "${dns_private_subdomain}"
       application_gitrepo_tag: "${application_gitrepo_tag}"
     dns_utils:
       application_gitrepo_tag: "${application_gitrepo_tag}"
