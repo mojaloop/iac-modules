@@ -29,7 +29,7 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_argocd_app_namespace}
 
-  sources:
+  source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
     path: gitops/applications/base/vault
