@@ -739,7 +739,7 @@ metadata:
   name: ${percona_credentials_secret}
   namespace: ${namespace}
 spec:
-  refreshInterval: 1h
+  refreshInterval: 5m
 
   secretStoreRef:
     kind: ClusterSecretStore
