@@ -5,7 +5,7 @@ resources:
   #- ../../../base/argo-apps/argocd-helm.yaml
   - ../../../base/rook-ceph.yaml
   # - ../../../argo-apps/base/external-dns
-  - ../../../base/cert-manager.yaml
+  #- ../../../base/cert-manager.yaml
   # - ../../../argo-apps/base/external-secrets-op-helm.yaml
   # - ../../../argo-apps/base/istio.yaml
   # - ../../../argo-apps/base/crossplane.yaml

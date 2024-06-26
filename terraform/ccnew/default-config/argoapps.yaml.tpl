@@ -9,6 +9,8 @@ argocd_override:
           dns_private_subdomain: "${dns_private_subdomain}"
     utils:
       application_gitrepo_tag: "${application_gitrepo_tag}"
+    dns_utils:
+      application_gitrepo_tag: "${application_gitrepo_tag}"
       sub_apps:
         cert_manager:
           dns_public_subdomain: "${dns_public_subdomain}"
@@ -31,12 +33,12 @@ argocd_override:
       application_gitrepo_tag: "${application_gitrepo_tag}"
       sub_apps:
         istio:
-          external_ingress_https_port: "${external_ingress_https_port}"
-          external_ingress_http_port: "${external_ingress_http_port}"
-          external_ingress_health_port: "${external_ingress_health_port}"
-          internal_ingress_https_port: "${internal_ingress_https_port}"
-          internal_ingress_http_port: "${internal_ingress_http_port}"
-          internal_ingress_health_port: "${internal_ingress_health_port}"
+          external_ingress_https_port: "'${external_ingress_https_port}'"
+          external_ingress_http_port: "'${external_ingress_http_port}'"
+          external_ingress_health_port: "'${external_ingress_health_port}'"
+          internal_ingress_https_port: "'${internal_ingress_https_port}'"
+          internal_ingress_http_port: "'${internal_ingress_http_port}'"
+          internal_ingress_health_port: "'${internal_ingress_health_port}'"
           dns_public_subdomain: "${dns_public_subdomain}"
           dns_private_subdomain: "${dns_private_subdomain}"
     zitadel:
@@ -50,7 +52,7 @@ argocd_override:
       application_gitrepo_tag: "${application_gitrepo_tag}"
       sub_apps:
         netbird:
-          stunner_nodeport_port: "${wireguard_ingress_port}"
+          stunner_nodeport_port: "'${wireguard_ingress_port}'"
           terraform_modules_tag: "${application_gitrepo_tag}"
           dns_public_subdomain: "${dns_public_subdomain}"
           dns_private_subdomain: "${dns_private_subdomain}"
