@@ -36,32 +36,32 @@ spec:
     plugin:
       name: envsubst
       env:
-        - name: vault_keys_secret
+        - name: "vault_keys_secret"
           value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
 
-        - name: vault_namespace
+        - name: "vault_namespace"
           value: "${ARGOCD_ENV_vault_vault_vault_namespace}"
 
-        - name: consul_storage_size
+        - name: "consul_storage_size"
           value: "${ARGOCD_ENV_vault_vault_consul_storage_size}"
 
-        - name: consul_replicas
+        - name: "consul_replicas"
           value: "${ARGOCD_ENV_vault_vault_consul_replicas}"
 
-        - name: consul_namespace
+        - name: "consul_namespace"
           value: "${ARGOCD_ENV_vault_vault_consul_namespace}"
 
-        - name: consul_app_name
+        - name: "consul_app_name"
           value: "${ARGOCD_ENV_vault_vault_consul_app_name}"
 
-        - name: consul_helm_version
+        - name: "consul_helm_version"
           value: "${ARGOCD_ENV_vault_vault_consul_helm_version}"
 
-        - name: vault_app_name
+        - name: "vault_app_name"
           value: "${ARGOCD_ENV_vault_vault_vault_app_name}"
 
-        - name: vault_helm_version
+        - name: "vault_helm_version"
           value: "${ARGOCD_ENV_vault_vault_vault_helm_version}"
 
-        - name: vault_sync_wave
+        - name: "vault_sync_wave"
           value: "${ARGOCD_ENV_vault_vault_vault_sync_wave}"
