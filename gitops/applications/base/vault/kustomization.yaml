@@ -21,4 +21,4 @@ helmCharts:
       vault:
         statefulSet:
           annotations:
-            argocd.argoproj.io/sync-wave: "${vault_sync_wave}"
+            argocd.argoproj.io/sync-wave: ${vault_sync_wave}
