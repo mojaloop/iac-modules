@@ -12,13 +12,19 @@ metadata:
 spec:
   project: default
   syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
-      - PrunePropagationPolicy=foreground
-
     automated:
       prune: true
       selfHeal: true
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=background
+      - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_utils_rook_ceph_namespace}

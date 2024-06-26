@@ -116,6 +116,20 @@ spec:
                     hs.status = "Progressing"
                     hs.message = "Waiting for VaultSecret"
                     return hs
+
+                ceph.rook.io/CephBlockPool:
+                  health.lua: |
+                    hs = {}
+                    if obj.status ~= nil then
+                      if obj.status.phase == "Healthy" then
+                        hs.status = "Healthy"
+                        hs.message = "CephBlockPool Ready"
+                        return hs
+                      end
+                    end
+                    hs.status = "Progressing"
+                    hs.message = "Waiting for CephBlockPool"
+                    return hs
               # dex.config: |
               #   connectors:
               #     - id: google
