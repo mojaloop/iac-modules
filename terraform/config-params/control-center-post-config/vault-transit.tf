@@ -39,28 +39,28 @@ path "${vault_mount.transit.path}/decrypt/${vault_transit_secret_backend_key.uns
   capabilities = [ "update" ]
 }
 
-#path "auth/token/roles/${each.key}-auth-backend-role" {
-#  capabilities = ["read", "list"]
-#}
+path "auth/token/roles/${each.key}-auth-backend-role" {
+  capabilities = ["read", "list"]
+}
+path "auth/token/lookup-self" {
+  capabilities = ["read", "list"]  
+}
 EOT
 }
 
-#resource "vault_token_auth_backend_role" "vault_token_auth_backend_role" {
-#  for_each               = var.env_map  
-#  role_name              = "${each.key}-auth-backend-role"
-#  token_period           = var.env_token_period
-#  token_explicit_max_ttl = var.env_token_explicit_max_ttl
-#  allowed_policies       = [vault_policy.env_transit[each.key].name]
-#}
+resource "vault_token_auth_backend_role" "vault_token_auth_backend_role" {
+  for_each               = var.env_map  
+  role_name              = "${each.key}-auth-backend-role"
+  token_period           = var.env_token_period
+  token_explicit_max_ttl = var.env_token_explicit_max_ttl
+  allowed_policies       = [vault_policy.env_transit[each.key].name]
+}
 
 resource "vault_token" "env_token" {
   for_each  = var.env_map
   policies  = [vault_policy.env_transit[each.key].name]
   no_parent = true
-  
-  #role_name = vault_token_auth_backend_role.vault_token_auth_backend_role[each.key].role_name
-  ttl              = var.env_token_period
-  explicit_max_ttl = var.env_token_explicit_max_ttl
+  role_name = vault_token_auth_backend_role.vault_token_auth_backend_role[each.key].role_name
 }
 
 resource "vault_kv_secret_v2" "env_token" {
