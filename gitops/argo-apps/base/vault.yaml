@@ -1,59 +1,67 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${vault_app_name}
-  namespace: ${vault_namespace}
+  name: ${ARGOCD_ENV_vault_argocd_app_name}
+  namespace: ${ARGOCD_ENV_argocd_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "${vault_sync_wave}"
+    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_vault_sync_wave}"
 
-  # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
-  # finalizers:
-  #   - resources-finalizer.argocd.argoproj.io
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 
 spec:
   project: default
   syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
-      - PrunePropagationPolicy=foreground
-
     automated:
       prune: true
       selfHeal: true
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=background
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_argocd_app_namespace}
 
   sources:
-    repoURL: ${argocd_gitrepo_base_url}/${argocd_gitrepo_owner}/${argocd_gitrepo_repo}.git
-    targetRevision: main
-    path: gitops/base/applications/vault
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
+    path: gitops/applications/base/vault
     plugin:
       name: envsubst
       env:
         - name: vault_keys_secret
-          value: "${utils_vault_vault_keys_secret}"
+          value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
 
         - name: vault_namespace
-          value: "${utils_vault_vault_namespace}"
+          value: "${ARGOCD_ENV_vault_vault_vault_namespace}"
 
         - name: consul_storage_size
-          value: "${utils_vault_consul_storage_size}"
+          value: "${ARGOCD_ENV_vault_vault_consul_storage_size}"
 
         - name: consul_replicas
-          value: "${utils_vault_consul_replicas}"
+          value: "${ARGOCD_ENV_vault_vault_consul_replicas}"
 
         - name: consul_namespace
-          value: "${utils_vault_consul_namespace}"
+          value: "${ARGOCD_ENV_vault_vault_consul_namespace}"
 
         - name: consul_app_name
-          value: "${utils_vault_consul_app_name}"
+          value: "${ARGOCD_ENV_vault_vault_consul_app_name}"
 
         - name: consul_helm_version
-          value: "${utils_vault_consul_helm_version}"
+          value: "${ARGOCD_ENV_vault_vault_consul_helm_version}"
 
         - name: vault_app_name
-          value: "${utils_vault_vault_app_name}"
+          value: "${ARGOCD_ENV_vault_vault_vault_app_name}"
 
         - name: vault_helm_version
-          value: "${utils_vault_vault_helm_version}"
+          value: "${ARGOCD_ENV_vault_vault_vault_helm_version}"
 
         - name: vault_sync_wave
-          value: "${utils_vault_vault_sync_wave}"
+          value: "${ARGOCD_ENV_vault_vault_vault_sync_wave}"
