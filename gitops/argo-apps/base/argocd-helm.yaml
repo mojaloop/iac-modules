@@ -121,7 +121,7 @@ spec:
                   health.lua: |
                     hs = {}
                     if obj.status ~= nil then
-                      if obj.status.phase == "Healthy" then
+                      if obj.status.phase == "Ready" then
                         hs.status = "Healthy"
                         hs.message = "CephBlockPool Ready"
                         return hs
