@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_utils_argocd_app_name}
+  name: ${ARGOCD_ENV_utils_argocd_helm_app_name}
   namespace: ${ARGOCD_ENV_utils_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
@@ -28,16 +28,16 @@ spec:
   sources:
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: ${ARGOCD_ENV_utils_argocd_helm_version}
+      targetRevision: ${ARGOCD_ENV_utils_argocd_helm_helm_version}
 
       helm:
-        releaseName: ${ARGOCD_ENV_utils_argocd_helm_release}
+        releaseName: ${ARGOCD_ENV_utils_argocd_helm_app_name}
         valuesObject:
-          fullnameOverride: ${ARGOCD_ENV_utils_argocd_helm_release}
+          fullnameOverride: ${ARGOCD_ENV_utils_argocd_helm_app_name}
           crds:
             install: true
           global:
-            domain: argo.${ARGOCD_ENV_utils_argocd_dns_public_subdomain}
+            domain: argo.${ARGOCD_ENV_utils_argocd_helm_public_ingress_access_domain}
             logging:
               format: json
 
@@ -49,7 +49,7 @@ spec:
             secret:
               createSecret: false
             cm:
-              url: http://argo.${ARGOCD_ENV_utils_argocd_dns_public_subdomain}
+              url: http://argo.${ARGOCD_ENV_utils_argocd_helm_public_ingress_access_domain}
               exec.enabled: "true"
               kustomize.buildOptions: "--enable-helm --load-restrictor LoadRestrictionsNone"
 
