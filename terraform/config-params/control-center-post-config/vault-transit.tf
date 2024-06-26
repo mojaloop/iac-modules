@@ -38,6 +38,10 @@ path "${vault_mount.transit.path}/encrypt/${vault_transit_secret_backend_key.uns
 path "${vault_mount.transit.path}/decrypt/${vault_transit_secret_backend_key.unseal_key[each.key].name}" {
   capabilities = [ "update" ]
 }
+
+path "auth/token/roles/${each.key}-auth-backend-role" {
+  capabilities = ["read", "list"]
+}
 EOT
 }
 
@@ -46,6 +50,7 @@ resource "vault_token_auth_backend_role" "vault_token_auth_backend_role" {
   role_name              = "${each.key}-auth-backend-role"
   token_period           = var.env_token_period
   token_explicit_max_ttl = var.env_token_explicit_max_ttl
+  allowed_policies       = [vault_policy.env_transit[each.key].name]
 }
 
 resource "vault_token" "env_token" {
