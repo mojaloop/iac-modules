@@ -5,7 +5,7 @@ global:
     autoGenerate: true
 server:
   enabled: true
-  storage: ${consul_storage_size}
-  replicas: ${consul_replicas}
+  storage: ${ARGOCD_ENV_consul_storage_size}
+  replicas: ${ARGOCD_ENV_consul_replicas}
 connectInject:
   enabled: false

@@ -5,20 +5,20 @@ resources:
 
 helmCharts:
   - name: consul
-    releaseName: ${consul_app_name}
-    version: ${consul_helm_version}
+    releaseName: ${ARGOCD_ENV_consul_app_name}
+    version: ${ARGOCD_ENV_consul_helm_version}
     repo: https://helm.releases.hashicorp.com
     valuesFile: consul-values.yaml
-    namespace: ${consul_namespace}
+    namespace: ${ARGOCD_ENV_consul_namespace}
 
   - name: vault
-    releaseName: ${vault_app_name}
-    version: ${vault_helm_version}
+    releaseName: ${ARGOCD_ENV_vault_app_name}
+    version: ${ARGOCD_ENV_vault_helm_version}
     repo: https://helm.releases.hashicorp.com
     valuesFile: vault-values.yaml
-    namespace: ${vault_namespace}
+    namespace: ${ARGOCD_ENV_vault_namespace}
     valuesInline:
       vault:
         statefulSet:
           annotations:
-            argocd.argoproj.io/sync-wave: ${vault_sync_wave}
+            argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_vault_sync_wave}

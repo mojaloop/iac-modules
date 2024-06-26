@@ -19,7 +19,7 @@ server:
       }
       storage "consul" {
         path = "vault"
-        address = "consul-server.${consul_namespace}.svc.cluster.local:8500"
+        address = "consul-server.${ARGOCD_ENV_consul_namespace}.svc.cluster.local:8500"
       }
       service_registration "kubernetes" {}
 
@@ -57,7 +57,7 @@ server:
                 app: vault
   ingress:
     enabled: false
-  logLevel: ${vault_log_level}
+  logLevel: ${ARGOCD_ENV_vault_log_level}
 
 ui:
   enabled: true
