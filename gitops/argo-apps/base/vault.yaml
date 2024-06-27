@@ -34,7 +34,7 @@ spec:
     targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
     path: gitops/applications/base/vault
     plugin:
-      name: envsubst
+      name: envsubsthelm
       env:
         - name: "vault_keys_secret"
           value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
