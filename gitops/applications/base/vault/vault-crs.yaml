@@ -27,35 +27,4 @@ roleRef:
   name: vault-secret-all
   apiGroup: rbac.authorization.k8s.io
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: post-config
-  namespace: "${ARGOCD_ENV_vault_namespace}"
-data:
-  bootstrap.sh: |
-    #!/bin/bash
-    set -e
-    export VAULT_ADDR=http://127.0.0.1:8200
-    export VAULT_SKIP_VERIFY=true
-    while true;do
-      curl --connect-timeout 15 -s $VAULT_ADDR/v1/sys/health?sealedcode\=204&uninitcode=\204 > /dev/null && break
-    done
-    if [ $(vault status -format=json | jq .initialized) == "false" ]
-    then
-      vault operator init -key-shares=1 -key-threshold=1 -format=json > /tmp/output.json
-      export VAULT_ROOT_TOKEN=$(cat /tmp/output.json | jq .root_token | tr -d '"')
-      export RECOVERY_KEY=$(cat /tmp/output.json | jq .unseal_keys_b64[0] | tr -d '"')
-      vault operator unseal $RECOVERY_KEY
-      if [ $VAULT_ROOT_TOKEN != "" ]
-      then
-        kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} --from-file=vault-keys.json=/tmp/output.json --save-config --dry-run=client -o yaml | kubectl apply -f -
-      else
-        echo "VAULT_ROOT_TOKEN not parsed correctly, exiting"
-        exit 1
-      fi
-    else
-      echo "vault already initialized"
-    fi
----
 
