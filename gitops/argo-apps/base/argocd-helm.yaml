@@ -159,15 +159,12 @@ spec:
               create: true
               plugins:
                 envsubst:
-                  init:
+                  generate:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build  . --enable-helm --load-restrictor LoadRestrictionsNone | sed -e 's/${/$${/g' > raw-kustomization.yaml",
+                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build  . --enable-helm --load-restrictor LoadRestrictionsNone | sed -e 's/${/$${/g' > raw-kustomization.yaml && cp raw-kustomization.yaml /dev/stdout",
                       ]
-                  generate:
-                    command: ["sh", "-c"]
-                    args: ["cp raw-kustomization.yaml /dev/stdout"]
                   discover:
                     fileName: "kustomization.*"
 
