@@ -33,8 +33,6 @@ spec:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
     path: gitops/applications/base/vault
-    kustomize:
-      version: v5.3.0
     plugin:
       name: envsubsthelm
       env:
