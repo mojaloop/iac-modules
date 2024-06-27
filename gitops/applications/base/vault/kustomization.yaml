@@ -6,14 +6,14 @@ resources:
 helmCharts:
   - name: consul
     releaseName: ${ARGOCD_ENV_consul_app_name}
-    version: 1.4.0
+    version: ${ARGOCD_ENV_consul_helm_version}
     repo: https://helm.releases.hashicorp.com
     valuesFile: consul-values.yaml
     namespace: ${ARGOCD_ENV_consul_namespace}
 
   - name: vault
     releaseName: ${ARGOCD_ENV_vault_app_name}
-    version: 0.24.0
+    version: ${ARGOCD_ENV_vault_helm_version}
     repo: https://helm.releases.hashicorp.com
     valuesFile: vault-values.yaml
     namespace: ${ARGOCD_ENV_vault_namespace}
