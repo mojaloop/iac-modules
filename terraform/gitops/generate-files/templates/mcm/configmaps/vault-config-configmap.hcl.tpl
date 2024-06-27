@@ -175,6 +175,19 @@ spec:
         credentialName: {{ .Data.host }}-clientcert-tls
         sni: {{ .Data.fqdn }}
 ---
+{{- define "DFSP_TTK_ENV_JSON" -}}
+{
+  "inputValues": {
+    "HOST_ACCOUNT_LOOKUP_SERVICE": "http://${mojaloop_release_name}-account-lookup-service",
+    "HOST_CENTRAL_LEDGER": "http://${mojaloop_release_name}-centralledger-service",
+    "DFSP_CALLBACK_URL": "http://{{ .Data.fqdn }}",
+    "DFSP_NAME": "{{ .Data.host }}",
+    "currency": "{{ .Data.currency_code }}",
+    "hub_operator": "NOT_APPLICABLE",
+    "NET_DEBIT_CAP": "50000"
+  }
+}
+{{- end }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -183,18 +196,7 @@ metadata:
 data:
   cli-add-dfsp-config.json: |
     {"logLevel":"2","mode":"outbound"}
-  cli-add-dfsp-environment.json: |
-    {
-      "inputValues": {
-        "HOST_ACCOUNT_LOOKUP_SERVICE": "http://${mojaloop_release_name}-account-lookup-service",
-        "HOST_CENTRAL_LEDGER": "http://${mojaloop_release_name}-centralledger-service",
-        "DFSP_CALLBACK_URL": "http://{{ .Data.fqdn }}",
-        "DFSP_NAME": "{{ .Data.host }}",
-        "currency": "{{ .Data.currency_code }}",
-        "hub_operator": "NOT_APPLICABLE",
-        "NET_DEBIT_CAP": "50000"
-      }
-    }
+  cli-add-dfsp-environment.json: {{ DFSP_TTK_ENV_JSON }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -203,6 +205,9 @@ metadata:
   namespace: ${mojaloop_namespace}
 spec:
   template:
+    metadata:
+      annotations:
+        checksum/config: {{ "DFSP_TTK_ENV_JSON" | sha256Hex }}
     spec:
       volumes:
         - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
