@@ -126,7 +126,7 @@ locals {
   prometheus_process_exporter_version = "0.4.2"
   tempo_chart_version                 = "3.1.0"
   grafana_version                     = "10.2.3"
-  grafana_dashboard_tag               = "16.1.1-snapshot.2" # TODO: update once v16.1.x is published
+  grafana_dashboard_tag               = "16.3.0-snapshot.17" # TODO: update once v16.1.x is published
   grafana_operator_version            = "3.5.11"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file                 = "monitoring-app.yaml"
