@@ -10,6 +10,8 @@ helmCharts:
     repo: https://helm.releases.hashicorp.com
     valuesFile: consul-values.yaml
     namespace: ${ARGOCD_ENV_consul_namespace}
+    apiVersions:
+      - policy/v1/PodDisruptionBudget
 
   - name: vault
     releaseName: ${ARGOCD_ENV_vault_app_name}
