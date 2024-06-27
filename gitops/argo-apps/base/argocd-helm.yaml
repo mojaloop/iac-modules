@@ -167,10 +167,7 @@ spec:
                       ]
                   generate:
                     command: ["sh", "-c"]
-                    args:
-                      [
-                        "envsubst < raw-kustomization.yaml > processed-kustomization.yaml && cp processed-kustomization.yaml /dev/stdout",
-                      ]
+                    args: ["cp raw-kustomization.yaml /dev/stdout"]
                   discover:
                     fileName: "kustomization.*"
 
