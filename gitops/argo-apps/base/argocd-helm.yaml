@@ -163,7 +163,7 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "mv kustomization.yaml pre-subst.yaml && envsubst < pre-subst.yaml > kustomization.yaml && rm pre-subst.yaml && kustomize build . --enable-helm --load-restrictor LoadRestrictionsNone -o raw-kustomization.yaml",
+                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build  . --enable-helm --load-restrictor LoadRestrictionsNone | sed -e 's/${/$${/g' > raw-kustomization.yaml",
                       ]
                   generate:
                     command: ["sh", "-c"]
