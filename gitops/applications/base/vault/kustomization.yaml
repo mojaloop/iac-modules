@@ -11,7 +11,6 @@ helmCharts:
     repo: https://helm.releases.hashicorp.com
     valuesFile: consul-values.yaml
     namespace: ${ARGOCD_ENV_consul_namespace}
-    kubeVersion: "1.29"
     apiVersions:
       - policy/v1/PodDisruptionBudget
 

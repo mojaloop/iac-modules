@@ -51,7 +51,7 @@ spec:
             cm:
               url: http://argo.${ARGOCD_ENV_utils_argocd_helm_public_ingress_access_domain}
               exec.enabled: "true"
-              kustomize.buildOptions: "--enable-helm --load-restrictor LoadRestrictionsNone"
+              kustomize.buildOptions: "--enable-helm --helm-kube-version 1.29-0 --load-restrictor LoadRestrictionsNone"
 
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
               timeout.reconciliation: "10s"
@@ -180,7 +180,7 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build  . --enable-helm --load-restrictor LoadRestrictionsNone > /dev/stdout",
+                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build  . --enable-helm --helm-kube-version 1.29-0 --load-restrictor LoadRestrictionsNone > /dev/stdout",
                       ]
 
           ## Controller ##
