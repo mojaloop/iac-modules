@@ -237,6 +237,29 @@ spec:
                     name: custom-tools
 
             extraContainers:
+              - name: envsubsthelm
+                command: [/var/run/argocd/argocd-cmp-server]
+                image: quay.io/argoproj/argocd:v2.10.2
+                securityContext:
+                  runAsNonRoot: true
+                  runAsUser: 999
+                volumeMounts:
+                  - mountPath: /var/run/argocd
+                    name: var-files
+                  - mountPath: /home/argocd/cmp-server/plugins
+                    name: plugins
+                  - mountPath: /tmp
+                    name: tmp
+
+                  # Register plugins into sidecar
+                  - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+                    subPath: envsubsthelm.yaml
+                    name: cmp-plugin
+
+                  # Important: Mount tools into $PATH
+                  - name: custom-tools
+                    subPath: envsubst
+                    mountPath: /usr/local/bin/envsubst
               - name: envsubst
                 command: [/var/run/argocd/argocd-cmp-server]
                 image: quay.io/argoproj/argocd:v2.10.2
