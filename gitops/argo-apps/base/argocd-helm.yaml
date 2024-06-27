@@ -163,7 +163,7 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "cp kustomization.yaml pre-subst.yaml && envsubst < pre-subst.yaml > kustomization.yaml && rm pre-subst.yaml && kustomize build . --enable-helm --load-restrictor LoadRestrictionsNone -o raw-kustomization.yaml && cat raw-kustomization.yaml > /dev/stderr",
+                        "mv kustomization.yaml pre-subst.yaml && envsubst < pre-subst.yaml > kustomization.yaml && rm pre-subst.yaml && kustomize build . --enable-helm --load-restrictor LoadRestrictionsNone -o raw-kustomization.yaml",
                       ]
                   generate:
                     command: ["sh", "-c"]
