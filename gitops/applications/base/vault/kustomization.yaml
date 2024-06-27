@@ -12,7 +12,7 @@ helmCharts:
     valuesFile: consul-values.yaml
     namespace: ${ARGOCD_ENV_consul_namespace}
     apiVersions:
-      - policy/v1/PodDisruptionBudget
+      - policy/v1
 
   - name: vault
     releaseName: ${ARGOCD_ENV_vault_app_name}
