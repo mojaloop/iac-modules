@@ -233,7 +233,7 @@ spec:
                 command: [sh, -c]
                 args:
                   - apk add wget git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/
-                  - wget -qO- https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.3.0/kustomize_v5.3.0_linux_amd64.tar.gz | tar -xvzf - && mv kustomize /custom-tools/kustomize_5_3_0
+                  - wget -q -O /tmp/kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.3.0/kustomize_v5.3.0_linux_amd64.tar.gz && cd /tmp; tar -xvzf /tmp/kustomize.tar.gz; mv kustomize /custom-tools/kustomize_5_3_0
                 volumeMounts:
                   - mountPath: /custom-tools
                     name: custom-tools
