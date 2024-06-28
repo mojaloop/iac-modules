@@ -218,7 +218,7 @@ ttk:
         "GITHUB_CONFIG": {
           "TEST_CASES_REPO_OWNER": "mojaloop",
           "TEST_CASES_REPO_NAME": "testing-toolkit-test-cases",
-          "TEST_CASES_REPO_DEFAULT_RELEASE_TAG": "latest",
+          "TEST_CASES_REPO_DEFAULT_RELEASE_TAG": "${ttk_testcases_tag}",
           "TEST_CASES_REPO_BASE_PATH": "collections/pm4ml"
         },
         "DEFAULT_REQUEST_TIMEOUT": 15000,
