@@ -6,9 +6,6 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_vault_sync_wave}
 
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-
 spec:
   project: default
   syncPolicy:
