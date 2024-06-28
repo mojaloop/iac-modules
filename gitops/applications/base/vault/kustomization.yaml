@@ -20,8 +20,3 @@ helmCharts:
     repo: https://helm.releases.hashicorp.com
     valuesFile: vault-values.yaml
     namespace: ${ARGOCD_ENV_vault_namespace}
-    valuesInline:
-      vault:
-        statefulSet:
-          annotations:
-            argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_vault_sync_wave}

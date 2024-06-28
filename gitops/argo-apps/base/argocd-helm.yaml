@@ -227,21 +227,7 @@ spec:
                 configMap:
                   name: argocd-cmp-cm
 
-            volumeMounts:
-              - mountPath: /usr/local/bin/kustomize
-                name: custom-tools
-                subPath: kustomize
-
             initContainers:
-              - name: download-tools2
-                image: alpine:3.8
-                command: [sh, -c]
-                args:
-                  - wget -qO- https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.3.0/kustomize_v5.3.0_linux_amd64.tar.gz | tar -xvzf - && mv kustomize /custom-tools/
-                volumeMounts:
-                  - mountPath: /custom-tools
-                    name: custom-tools
-
               - name: download-tools
                 image: golang:1.22.4-alpine3.20
                 command: [sh, -c]
@@ -303,6 +289,7 @@ spec:
               - name: envsubst
                 command: [/var/run/argocd/argocd-cmp-server]
                 image: quay.io/argoproj/argocd
+                args: [--loglevel, debug]
                 securityContext:
                   runAsNonRoot: true
                   runAsUser: 999
