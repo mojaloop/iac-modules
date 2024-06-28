@@ -1,0 +1,26 @@
+ingress:
+  enabled: false
+image:
+  tag: {{ netbird_image_version }}
+env:
+  # Endpoints
+  NETBIRD_MGMT_API_ENDPOINT: https://netbird.{{ dns_public_subdomain }}:443
+  NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.{{ dns_public_subdomain }}:443
+  # OIDC
+  AUTH_AUTHORITY: https://zitadel.{{ dns_public_subdomain }}
+  USE_AUTH0: false
+  AUTH_SUPPORTED_SCOPES: openid profile email offline_access api
+  AUTH_REDIRECT_URI: /nb-auth
+  AUTH_SILENT_REDIRECT_URI: /nb-silent-auth
+
+envRaw:
+  - name: AUTH_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: netbird-management
+        key: netbird_dashboard_client_id
+  - name: AUTH_AUDIENCE
+    valueFrom:
+      secretKeyRef:
+        name: netbird-management
+        key: netbird_dashboard_client_id

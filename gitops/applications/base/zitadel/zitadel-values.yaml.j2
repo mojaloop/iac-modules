@@ -1,0 +1,38 @@
+zitadel:
+  masterkeySecretName: masterkey
+  configmapConfig:
+    ExternalPort: 443
+    ExternalSecure: true
+    ExternalDomain: zitadel.{{ dns_public_subdomain }}
+    TLS:
+      Enabled: false
+    FirstInstance:
+      Org:
+        Machine:
+          Machine:
+            Username: zitadel-admin-sa
+            Name: Admin
+          MachineKey:
+            ExpirationDate: "2026-01-01T00:00:00Z"
+            # Type: 1 means JSON. This is currently the only supported machine key type.
+            Type: 1
+    Database:
+      Cockroach:
+        Host: zitadel-db-cockroachdb-public
+        User:
+          SSL:
+            Mode: verify-full
+        Admin:
+          SSL:
+            Mode: verify-full
+  secretConfig:
+    Database:
+      Cockroach:
+        User:
+          Password: xyz
+        Admin:
+          Password: abc
+
+  dbSslCaCrtSecret: zitadel-db-cockroachdb-ca-secret
+  dbSslAdminCrtSecret: zitadel-db-cockroachdb-client-secret
+  dbSslUserCrtSecret: zitadel-db-cockroachdb-zitadel-secret

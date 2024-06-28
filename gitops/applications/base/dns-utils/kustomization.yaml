@@ -3,27 +3,13 @@ kind: Kustomization
 resources:
   - namespaces.yaml
   - crossplane-providers.yaml
+  - ext-dns-external-secret.yaml
   - istio-gateway-crs.yaml
   - istio-external-ingress-gateway-values.yaml
   - istio-internal-ingress-gateway-values.yaml
   - lets-encrypt-cluster-issuer.yaml
 
 helmCharts:
-  - name: kubernetes-secret-generator
-    releaseName: kubernetes-secret-generator
-    version: ${kubernetes_secret_generator_helm_version}
-    namespace: default
-    repo: https://helm.mittwald.de
-    includeCRDs: true
-
-  - name: reflector
-    releaseName: reflector
-    version: ${reflector_helm_version}
-    repo: https://emberstack.github.io/helm-charts
-    namespace: reflector
-    valuesInline:
-      nameOverride: reflector
-
   - name: base
     releaseName: istio-base
     version: ${istio_helm_version}
@@ -55,13 +41,3 @@ helmCharts:
     repo: https://charts.bitnami.com/bitnami
     valuesFile: ext-dns-values.yaml
     namespace: ${external_dns_namespace}
-
-  - name: crossplane
-    releaseName: crossplane
-    version: ${crossplane_helm_version}
-    repo: https://charts.crossplane.io/stable
-    namespace: ${crossplane_namespace}
-    includeCRDs: true
-    valuesInline:
-      args:
-        - --${crossplane_debug}

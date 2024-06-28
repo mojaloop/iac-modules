@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
   - namespaces.yaml
   - vault-crs.yaml
+  - external-secretstore.yaml
+  - vault-xplane-terraform.yaml
 
 helmCharts:
   - name: consul
@@ -20,3 +22,10 @@ helmCharts:
     repo: https://helm.releases.hashicorp.com
     valuesFile: vault-values.yaml
     namespace: ${ARGOCD_ENV_vault_namespace}
+
+  - name: vault-config-operator
+    releaseName: ${ARGOCD_ENV_vault_config_operator_app_name}
+    version: ${ARGOCD_ENV_vault_config_operator_helm_version}
+    repo: https://redhat-cop.github.io/vault-config-operator
+    valuesFile: vault-config-operator-values.yaml
+    namespace: ${ARGOCD_ENV_vault_config_operator_namespace}

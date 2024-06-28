@@ -1,0 +1,60 @@
+apiVersion: tf.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: netbird-pre-config
+spec:
+  # Note that unlike most provider configs this one supports an array of
+  # credentials. This is because each Terraform workspace uses a single
+  # Crossplane provider config, but could use multiple Terraform providers each
+  # with their own credentials.
+  credentials:
+    - filename: zitadel-admin-sa.json
+      source: Secret
+      secretRef:
+        namespace: {{ zitadel_namespace }}
+        name: zitadel-admin-sa
+        key: zitadel-admin-sa.json
+  # This optional configuration block can be used to inject HCL into any
+  # workspace that uses this provider config, for example to setup Terraform
+  # providers.
+  configuration: |
+    terraform { 
+        backend "kubernetes" {
+          secret_suffix     = "providerconfig-netbird-pre-config"
+          namespace         = "{{ crossplane_namespace }}"
+          in_cluster_config = true
+        }
+        required_providers {
+          zitadel = {
+            source = "zitadel/zitadel"
+            version = "{{ zitadel_tf_provider_version }}"
+          }
+        }
+      }
+      provider "zitadel" {
+          jwt_profile_file = "${path.module}/zitadel-admin-sa.json"
+          domain = "zitadel.{{ dns_public_subdomain }}"
+      }
+---
+apiVersion: tf.upbound.io/v1beta1
+kind: Workspace
+metadata:
+  name: netbird-pre-config
+spec:
+  forProvider:
+    # Use any module source supported by terraform init -from-module.
+    source: Remote
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/netbird?ref={{ netbird_terraform_modules_tag }}
+    # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
+    vars:
+      - key: dashboard_fqdn
+        value: netbird-dashboard.{{ dns_public_subdomain }}
+      - key: zitadel_fqdn
+        value: zitadel.{{ dns_public_subdomain }}
+        
+  # All Terraform outputs are written to the connection secret.
+  providerConfigRef:
+    name: netbird-pre-config
+  writeConnectionSecretToRef:
+    namespace: {{ netbird_namespace }}
+    name: {{ netbird_preconfig_secret }}
