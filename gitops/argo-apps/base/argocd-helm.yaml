@@ -263,7 +263,7 @@ spec:
 
                   - name: custom-tools
                     subPath: kustomize_5_3_0
-                    mountPath: /usr/local/bin/kustomize_5_3_0
+                    mountPath: /usr/local/bin/kust
 
               - name: envsubsthelm
                 command: [/var/run/argocd/argocd-cmp-server]
