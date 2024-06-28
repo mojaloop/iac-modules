@@ -35,4 +35,4 @@ spec:
       helm:
         valuesObject:
           args:
-            - --{{ crossplane_debug }}
+            - --{{ ARGOCD_ENV_utils_crossplane_debug }}
