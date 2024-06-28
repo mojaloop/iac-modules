@@ -4,12 +4,11 @@ kind: Kustomization
 resources:
   - ../../../base/argocd-helm.yaml
   - ../../../base/rook-ceph.yaml
-  # - ../../../argo-apps/base/external-dns
-  #- ../../../base/cert-manager.yaml
-  # - ../../../argo-apps/base/external-secrets-op-helm.yaml
-  # - ../../../argo-apps/base/istio.yaml
-  # - ../../../argo-apps/base/crossplane.yaml
-  # - ./../../argo-apps/base/rook-ceph.yaml
+  - ./../../base/external-secrets.yaml
+  - ../../../base/reflector.yaml
+  - ../../../base/crossplane.yaml
+  - ../../../base/kubernetes-secret-generator.yaml
+
   # - ../../../argo-apps/base/zitadel.yaml
   # - ../../../argo-apps/base/netbird.yaml
   # - ./../../argo-apps/base/rook-ceph.yaml
