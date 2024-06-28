@@ -244,8 +244,26 @@ spec:
                 args:
                   - while true; do echo "running"; sleep 300; done
                 volumeMounts:
-                  - mountPath: /custom-tools
-                    name: custom-tools
+                  - mountPath: /var/run/argocd
+                    name: var-files
+                  - mountPath: /home/argocd/cmp-server/plugins
+                    name: plugins
+                  - mountPath: /tmp
+                    name: tmp
+
+                  # Register plugins into sidecar
+                  - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+                    subPath: envsubsthelm.yaml
+                    name: cmp-plugin
+
+                  # Important: Mount tools into $PATH
+                  - name: custom-tools
+                    subPath: envsubst
+                    mountPath: /usr/local/bin/envsubst
+
+                  - name: custom-tools
+                    subPath: kustomize_5_3_0
+                    mountPath: /usr/local/bin/kustomize_5_3_0
 
               - name: envsubsthelm
                 command: [/var/run/argocd/argocd-cmp-server]
