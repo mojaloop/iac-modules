@@ -239,7 +239,7 @@ spec:
 
             extraContainers:
               - name: debug-tools
-                image: golang:1.22.4-alpine3.20
+                image: quay.io/argoproj/argocd
                 command: [sh, -c]
                 args:
                   - while true; do echo "running"; sleep 300; done
