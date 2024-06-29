@@ -2,29 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespaces.yaml
-  - crossplane-providers.yaml
-  - ext-dns-external-secret.yaml
+  - dns-external-secrets.yaml
   - istio-gateway-crs.yaml
-  - istio-external-ingress-gateway-values.yaml
-  - istio-internal-ingress-gateway-values.yaml
   - lets-encrypt-cluster-issuer.yaml
 
 helmCharts:
-  - name: base
-    releaseName: istio-base
-    version: ${istio_helm_version}
-    repo: https://istio-release.storage.googleapis.com/charts
-    valuesFile: istio-base-values.yaml
-    namespace: ${istio_namespace}
-    includeCRDs: true
-
-  - name: istiod
-    releaseName: istiod
-    version: ${istio_helm_version}
-    repo: https://istio-release.storage.googleapis.com/charts
-    valuesFile: istio-istiod-values.yaml
-    namespace: ${istio_namespace}
-
   - name: cert-manager
     releaseName: cert-manager
     version: ${certmanager_helm_version}

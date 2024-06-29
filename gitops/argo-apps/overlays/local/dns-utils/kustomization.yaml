@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ../../../base/external-dns.yaml
   - ../../../base/cert-manager.yaml
+  - ../../../base/istio-gw.yaml

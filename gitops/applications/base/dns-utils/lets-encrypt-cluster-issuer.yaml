@@ -7,30 +7,21 @@ spec:
     # You must replace this email address with your own.
     # Let's Encrypt will use this to contact you about expiring
     # certificates, and issues related to your account.
-    email: {{ letsencrypt_email }}
-    server: {{ letsencrypt_server }}
+    email: { { letsencrypt_email } }
+    server: { { letsencrypt_server } }
     privateKeySecretRef:
       # Secret resource that will be used to store the account's private key.
       name: letsencrypt-issuer-account-key
     solvers:
-    - selector:
-        dnsZones:
-          - "{{ dns_public_subdomain }}"
-      dns01:
-        route53:
-          region: {{ dns_cloud_api_region }}
-          accessKeyIDSecretRef:
-            name: cert-manager-credentials
-            key: clientid
-          secretAccessKeySecretRef:
-            name: cert-manager-credentials
-            key: clientsecret
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: cert-manager-credentials
-type: Opaque
-data:
-  clientid: {{ dns_cloud_api_client_id | b64encode }}
-  clientsecret: {{ dns_cloud_api_client_secret | b64encode }}
+      - selector:
+          dnsZones:
+            - "{{ dns_public_subdomain }}"
+        dns01:
+          route53:
+            region: { { dns_cloud_api_region } }
+            accessKeyIDSecretRef:
+              name: cert-manager-credentials
+              key: clientid
+            secretAccessKeySecretRef:
+              name: cert-manager-credentials
+              key: clientsecret

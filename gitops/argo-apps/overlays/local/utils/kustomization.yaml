@@ -9,6 +9,4 @@ resources:
   - ../../../base/crossplane.yaml
   - ../../../base/kubernetes-secret-generator.yaml
   - ../../../base/utils-post-config.yaml
-  # - ../../../argo-apps/base/zitadel.yaml
-  # - ../../../argo-apps/base/netbird.yaml
-  # - ./../../argo-apps/base/rook-ceph.yaml
+  - ../../../base/istio.yaml
