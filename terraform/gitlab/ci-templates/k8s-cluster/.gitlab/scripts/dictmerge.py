@@ -122,12 +122,20 @@ if fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources
         exit(1)
 else:
     for custom_config_file in custom_config_files:
-        data1 = dict(mergedicts(data1, load_custom_config(custom_config_file)))
+        if fileName == "pm4ml-vars.yaml":
+            data2 = load_custom_config(custom_config_file)
+            if "pm4mls" not in data2 or len(data2["pm4mls"]) == 0:
+                print(custom_config_file, " pm4mls is empty, please provide the correct configuration in case if it is a payment manager deployment")
+                exit(1)
+            merged = {'pm4mls': {name: dict(mergedicts(data1, pm4ml)) for name, pm4ml in data2['pm4mls'].items()}}
+        else:
+            data1 = dict(mergedicts(data1, load_custom_config(custom_config_file)))
+            merged = data1
     if defaultExt == ".yaml":
         #result = yaml.dump(dict(data1), indent=4, sort_keys=True)
         with open(outputFilename, 'w') as file:
-            yaml.dump(dict(data1), file, indent=4, default_flow_style=False)
+            yaml.dump(merged, file, indent=4, default_flow_style=False)
     elif defaultExt == ".json":
         with open(outputFilename, 'w') as file:
-            json.dump(dict(data1), file, indent=4)
+            json.dump(merged, file, indent=4)
 
