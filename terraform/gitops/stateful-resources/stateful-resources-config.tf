@@ -61,7 +61,7 @@ resource "local_file" "strimzi-crs" {
   for_each = { for key, stateful_resource in local.strimzi_operator_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/strimzi/kafka/kafka-with-dual-role-nodes.yaml.tpl",
     {
-      kafka_cluster_name     = "${var.cluster_name}-${each.key}"
+      kafka_cluster_name     = each.key
       node_pool_name         = "${each.key}-nodepool"
       node_pool_size         = each.value.local_operator_config.node_pool_size
       node_pool_storage_size = each.value.local_operator_config.kafka_data.storage_size
