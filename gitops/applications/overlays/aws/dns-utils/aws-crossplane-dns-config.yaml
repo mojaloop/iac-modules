@@ -1,0 +1,88 @@
+---
+apiVersion: iam.aws.crossplane.io/v1beta1
+kind: AccessKey
+metadata:
+  name: route53-user-key
+spec:
+  forProvider:
+    userNameRef:
+      name: route53-user
+  providerConfigRef:
+    name: tenancy-aws
+  writeConnectionSecretToRef:
+    name: access-key-secret
+    namespace: default
+---
+apiVersion: iam.aws.crossplane.io/v1beta1
+kind: User
+metadata:
+  name: route53-user
+  labels:
+    tenancy: "true"
+spec:
+  forProvider:
+    tags:
+      - key: k1
+        value: v1
+  providerConfigRef:
+    name: tenancy-aws
+---
+apiVersion: iam.aws.crossplane.io/v1beta1
+kind: UserPolicyAttachment
+metadata:
+  name: sample-userpolicyattachment
+spec:
+  forProvider:
+    # policyArn: arn:aws:iam::aws:policy/AmazonEC2FullAccess
+    policyArnRef:
+      name: external-dns-cert-man
+    userNameRef:
+      name: route53-user
+  providerConfigRef:
+    name: tenancy-aws
+---
+apiVersion: iam.aws.crossplane.io/v1beta1
+kind: Policy
+metadata:
+  name: external-dns-cert-man
+spec:
+  forProvider:
+    name: external-dns-cert-man
+    document: |
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": [
+              "route53:ChangeResourceRecordSets"
+            ],
+            "Resource": [
+              "arn:aws:route53:::hostedzone/${var.public_zone_id}",
+              "arn:aws:route53:::hostedzone/${var.private_zone_id}"
+            ]
+          },
+          {
+            "Effect": "Allow",
+            "Action": [ 
+              "route53:GetChange"
+            ],
+            "Resource": [ 
+              "arn:aws:route53:::change/*" 
+            ]
+          },
+          {
+            "Effect": "Allow",
+            "Action": [
+              "route53:ListHostedZones",
+              "route53:ListResourceRecordSets",
+              "route53:ListHostedZonesByName"
+            ],
+            "Resource": [
+              "*"
+            ]
+          }
+        ]
+      }
+  providerConfigRef:
+    name: tenancy-aws

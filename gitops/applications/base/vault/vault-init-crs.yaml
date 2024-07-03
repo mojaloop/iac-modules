@@ -54,4 +54,36 @@ data:
       echo "vault already initialized"
     fi
 ---
-
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: insert-cloud-secrets
+spec:
+  ttlSecondsAfterFinished: 30
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: vault-client
+          image: hashicorp/vault
+          command:
+            - /bin/sh
+            - "-c"
+          args:
+            - >
+              export VAULT_ADDR=http://127.0.0.1:8200
+              export VAULT_SKIP_VERIFY=true
+              export VAULT_ROOT_TOKEN=$(echo $VAULT_TOKEN_JSON | jq .root_token | tr -d '"')
+              vault login -no-print $VAULT_ROOT_TOKEN
+              vault kv put -mount=$VAULT_KV_SECRET_PATH cloud-api-access cloud_platform_api_client_id=${RGOCD_ENV_cloud_platform_api_client_id} cloud_platform_api_client_secret=${RGOCD_ENV_cloud_platform_api_client_secret}
+          env:
+            - name: VAULT_TOKEN_JSON
+              valueFrom:
+                secretKeyRef:
+                  name: ${ARGOCD_ENV_vault_keys_secret}
+                  key: vault-keys.json
+            - name: VAULT_KV_SECRET_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: ${ARGOCD_ENV_post_config_output_secret}
+                  key: kv_path

@@ -39,8 +39,8 @@ spec:
         - name: "vault_keys_secret"
           value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
 
-        - name: "vault_namespace"
-          value: "${ARGOCD_ENV_vault_vault_namespace}"
+        - name: "istio_namespace"
+          value: "${ARGOCD_ENV_utils_istio_namespace}"
 
         - name: "consul_storage_size"
           value: "${ARGOCD_ENV_vault_consul_storage_size}"

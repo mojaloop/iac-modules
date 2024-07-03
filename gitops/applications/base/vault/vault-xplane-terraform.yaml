@@ -52,9 +52,10 @@ spec:
       k8s_admin_role_name: ${ARGOCD_ENV_vault_k8s_admin_role_name}
       k8s_admin_auth_path: ${ARGOCD_ENV_vault_k8s_admin_auth_path}
       read_all_kv_secrets_policy_name: ${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}
+      kv_path: ${ARGOCD_ENV_vault_kv_secret}
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: vault-post-config
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_vault_namespace}
-    name: vault-post-config-tf-output
+    name: ${ARGOCD_ENV_post_config_output_secret}

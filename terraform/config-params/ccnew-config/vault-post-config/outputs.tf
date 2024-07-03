@@ -13,3 +13,7 @@ output "read_all_kv_secrets_policy_name" {
 output "admin_policy_name" {
   value = vault_policy.vault_admin.name
 }
+
+output "kv_path" {
+  value = var.kv_path
+}
