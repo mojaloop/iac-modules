@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_utils_istio_argocd_app_name}
+  name: ${ARGOCD_ENV_utils_istio_app_name}
   namespace: ${ARGOCD_ENV_utils_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
@@ -36,32 +36,38 @@ spec:
     plugin:
       name: envsubsthelm
       env:
-        - name: "vault_keys_secret"
-          value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+        - name: "istio_helm_version"
+          value: "${ARGOCD_ENV_utils_istio_helm_version}"
 
         - name: "istio_namespace"
           value: "${ARGOCD_ENV_utils_istio_namespace}"
 
-        - name: "consul_storage_size"
-          value: "${ARGOCD_ENV_vault_consul_storage_size}"
+        - name: "istio_external_gateway_namespace"
+          values: "${ARGOCD_ENV_utils_istio_external_gateway_namespace}"
 
-        - name: "consul_replicas"
-          value: "'${ARGOCD_ENV_vault_consul_replicas}'"
+        - name: "istio_internal_gateway_namespace"
+          value: "${ARGOCD_ENV_utils_istio_internal_gateway_namespace}"
 
-        - name: "consul_namespace"
-          value: "${ARGOCD_ENV_vault_consul_namespace}"
+        - name: "istio_internal_gateway_name"
+          values: "${ARGOCD_ENV_utils_istio_internal_gateway_name}"
 
-        - name: "consul_app_name"
-          value: "${ARGOCD_ENV_vault_consul_app_name}"
+        - name: "istio_external_gateway_name"
+          value: "${ARGOCD_ENV_utils_istio_external_gateway_name}"
 
-        - name: "consul_helm_version"
-          value: "${ARGOCD_ENV_vault_consul_helm_version}"
+        - name: "external_ingress_https_port"
+          value: "${ARGOCD_ENV_utils_istio_external_ingress_https_port}"
 
-        - name: "vault_app_name"
-          value: "${ARGOCD_ENV_vault_vault_app_name}"
+        - name: "external_ingress_http_port"
+          value: "${ARGOCD_ENV_utils_istio_external_ingress_http_port}"
 
-        - name: "vault_helm_version"
-          value: "${ARGOCD_ENV_vault_vault_helm_version}"
+        - name: "external_ingress_health_port"
+          value: "${ARGOCD_ENV_utils_istio_external_ingress_health_port}"
 
-        - name: "vault_sync_wave"
-          value: "${ARGOCD_ENV_vault_vault_sync_wave}"
+        - name: "internal_ingress_https_port"
+          value: "${ARGOCD_ENV_utils_istio_internal_ingress_https_port}"
+
+        - name: "internal_ingress_http_port"
+          value: "${ARGOCD_ENV_utils_istio_internal_ingress_http_port}"
+
+        - name: "internal_ingress_health_port"
+          value: "${ARGOCD_ENV_utils_istio_internal_ingress_health_port}"

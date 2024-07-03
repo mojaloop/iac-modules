@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: { { istio_namespace } }
+  name: ${istio_namespace}
 ---
 apiVersion: v1
 kind: Namespace
