@@ -281,7 +281,7 @@ global:
 
     # Per Component log level for proxy, applies to gateways and sidecars. If a component level is
     # not set, then the global "logLevel" will be used.
-    componentLogLevel: "misc:{{ istio_proxy_log_level }}"
+    componentLogLevel: "misc:${ARGOCD_ENV_istio_proxy_log_level}"
 
     # If set, newly injected sidecars will have core dumps enabled.
     enableCoreDump: false
