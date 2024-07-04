@@ -28,7 +28,7 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_utils_cert_manager_namespace}
-  source:
+  sources:
     - chart: cert-manager
       repoURL: https://charts.jetstack.io
       targetRevision: ${ARGOCD_ENV_utils_cert_manager_helm_version}
