@@ -4,8 +4,8 @@ output "secrets_var_map" {
     iac_user_key_id     = aws_iam_access_key.ci_iam_user_key[0].id
     iac_user_key_secret = aws_iam_access_key.ci_iam_user_key[0].secret
     } : {}, var.create_ext_dns_user ? {
-    route53_external_dns_access_key = aws_iam_access_key.route53-external-dns[0].id
-    route53_external_dns_secret_key = aws_iam_access_key.route53-external-dns[0].secret
+    route53_external_dns_access_key = aws_iam_access_key.route53_external_dns[0].id
+    route53_external_dns_secret_key = aws_iam_access_key.route53_external_dns[0].secret
   } : {})
 }
 
