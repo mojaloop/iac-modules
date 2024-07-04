@@ -10,6 +10,7 @@ iac_terraform_modules_tag: vexp-cck8s4
 letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 microk8s_dev_skip: false
+iac_group_name: iac_admin
 nodes:
   master-generic:
     master: true
