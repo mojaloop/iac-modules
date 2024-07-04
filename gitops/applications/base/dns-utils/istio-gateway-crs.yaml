@@ -2,100 +2,100 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-cert-internal
-  namespace: {{ istio_namespace }}
+  namespace: ${istio_namespace}
 spec:
-  secretName: {{ default_internal_ssl_certificate }}
+  secretName: ${default_internal_ssl_certificate}
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
-  commonName: {{ dns_private_subdomain }}
+  commonName: ${ARGOCD_ENV_dns_private_subdomain}
   dnsNames:
-    - "{{ dns_private_subdomain }}"
-    - "*.{{ dns_private_subdomain }}"
+    - "${ARGOCD_ENV_dns_private_subdomain}"
+    - "*.${ARGOCD_ENV_dns_private_subdomain}"
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "{{ istio_external_gateway_namespace }}, {{ istio_internal_gateway_namespace }}"  # Control destination namespaces
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "${istio_external_gateway_namespace}, ${istio_internal_gateway_namespace}" # Control destination namespaces
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "{{ istio_external_gateway_namespace }}, {{ istio_internal_gateway_namespace }}" # Control auto-reflection namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "${istio_external_gateway_namespace}, ${istio_internal_gateway_namespace}" # Control auto-reflection namespaces
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-cert-external
-  namespace: {{ istio_namespace }}
+  namespace: ${istio_namespace}
 spec:
-  secretName: {{ default_external_ssl_certificate }}
+  secretName: ${default_external_ssl_certificate}
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
-  commonName: {{ dns_public_subdomain }}
+  commonName: ${dns_public_subdomain}
   dnsNames:
-    - "{{ dns_public_subdomain }}"
-    - "*.{{ dns_public_subdomain }}"
+    - "${ARGOCD_ENV_dns_public_subdomain}"
+    - "*.${ARGOCD_ENV_dns_public_subdomain}"
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "{{ istio_external_gateway_namespace }}, {{ istio_internal_gateway_namespace }}"  # Control destination namespaces
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "${istio_external_gateway_namespace}, ${istio_internal_gateway_namespace}" # Control destination namespaces
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "{{ istio_external_gateway_namespace }}, {{ istio_internal_gateway_namespace }}" # Control auto-reflection namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "${istio_external_gateway_namespace}, ${istio_internal_gateway_namespace}" # Control auto-reflection namespaces
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: proxy-protocol
-  namespace: {{ istio_external_gateway_namespace }}
+  namespace: ${istio_external_gateway_namespace}
 spec:
   configPatches:
-  - applyTo: LISTENER_FILTER
-    patch:
-      operation: INSERT_FIRST
-      value:
-        name: proxy_protocol
-        typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
+    - applyTo: LISTENER_FILTER
+      patch:
+        operation: INSERT_FIRST
+        value:
+          name: proxy_protocol
+          typed_config:
+            "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
   workloadSelector:
     labels:
-      istio: {{ istio_external_gateway_name }}
+      istio: ${istio_external_gateway_name}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: {{ istio_internal_wildcard_gateway_name }}
-  namespace: {{ istio_internal_gateway_namespace }}
+  name: ${istio_internal_wildcard_gateway_name}
+  namespace: ${istio_internal_gateway_namespace}
   annotations:
-    external-dns.alpha.kubernetes.io/target: {{ internal_load_balancer_dns }}
+    external-dns.alpha.kubernetes.io/target: ${internal_load_balancer_dns}
 spec:
   selector:
-    istio: {{ istio_internal_gateway_name }}
+    istio: ${istio_internal_gateway_name}
   servers:
-  - hosts:
-    - '*.{{ dns_private_subdomain }}'
-    port:
-      name: https
-      number: 443
-      protocol: HTTPS
-    tls:
-      credentialName: {{ default_internal_ssl_certificate }}
-      mode: SIMPLE
+    - hosts:
+        - "*.${ARGOCD_ENV_dns_private_subdomain}"
+      port:
+        name: https
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: ${default_internal_ssl_certificate}
+        mode: SIMPLE
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: {{ istio_external_wildcard_gateway_name }}
-  namespace: {{ istio_external_gateway_namespace }}
+  name: ${istio_external_wildcard_gateway_name}
+  namespace: ${istio_external_gateway_namespace}
   annotations:
-    external-dns.alpha.kubernetes.io/target: {{ external_load_balancer_dns }}
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
 spec:
   selector:
-    istio: {{ istio_external_gateway_name }}
+    istio: ${istio_external_gateway_name}
   servers:
-  - hosts:
-    - '*.{{ dns_public_subdomain }}'
-    port:
-      name: https
-      number: 443
-      protocol: HTTPS
-    tls:
-      credentialName: {{ default_external_ssl_certificate }}
-      mode: SIMPLE
+    - hosts:
+        - "*.${ARGOCD_ENV_dns_public_subdomain}"
+      port:
+        name: https
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: ${default_external_ssl_certificate}
+        mode: SIMPLE

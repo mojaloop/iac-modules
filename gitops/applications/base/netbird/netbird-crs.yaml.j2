@@ -7,7 +7,7 @@ spec:
   gateways:
   - {{ istio_external_gateway_namespace }}/{{ istio_external_wildcard_gateway_name }}
   hosts:
-    - 'netbird.{{ dns_public_subdomain }}'
+    - 'netbird.${ARGOCD_ENV_dns_public_subdomain}'
   http:
     - match:
         - uri:
@@ -43,7 +43,7 @@ spec:
   gateways:
   - {{ istio_external_gateway_namespace }}/{{ istio_external_wildcard_gateway_name }}
   hosts:
-    - 'netbird-dashboard.{{ dns_public_subdomain }}'
+    - 'netbird-dashboard.${ARGOCD_ENV_dns_public_subdomain}'
   http:
     - match:
         - uri:

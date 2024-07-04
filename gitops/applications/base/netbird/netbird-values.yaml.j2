@@ -3,7 +3,7 @@ configuration: |-
       "Stuns": [
         {
           "Proto": "udp",
-          "URI": "stun:netbird.{{ dns_public_subdomain }}:{{ stunner_nodeport_port }}",
+          "URI": "stun:netbird.${ARGOCD_ENV_dns_public_subdomain}:{{ stunner_nodeport_port }}",
           "Username": "",
           "Password": ""
         }
@@ -15,7 +15,7 @@ configuration: |-
         "Turns": [
           {
             "Proto": "udp",
-            "URI": "turn:netbird.{{ dns_public_subdomain }}:{{ stunner_nodeport_port }}",
+            "URI": "turn:netbird.${ARGOCD_ENV_dns_public_subdomain}:{{ stunner_nodeport_port }}",
             "Username": "ref+k8s://v1/Secret/{{ stunner_impl_namespace }}/{{ stunner_auth_secret }}/username+",
             "Password": "ref+k8s://v1/Secret/{{ stunner_impl_namespace }}/{{ stunner_auth_secret }}/password+"
           }
@@ -23,14 +23,14 @@ configuration: |-
       },
       "Signal": {
         "Proto": "https",
-        "URI": "netbird.{{ dns_public_subdomain }}:443",
+        "URI": "netbird.${ARGOCD_ENV_dns_public_subdomain}:443",
         "Username": "",
         "Password": ""
       },
       "HttpConfig": {
-        "AuthIssuer": "https://zitadel.{{ dns_public_subdomain }}",
+        "AuthIssuer": "https://zitadel.${ARGOCD_ENV_dns_public_subdomain}",
         "AuthAudience": "ref+k8s://v1/Secret/netbird/{{ netbird_preconfig_secret }}/netbird_dashboard_client_id+",
-        "OIDCConfigEndpoint": "https://zitadel.{{ dns_public_subdomain }}/.well-known/openid-configuration",
+        "OIDCConfigEndpoint": "https://zitadel.${ARGOCD_ENV_dns_public_subdomain}/.well-known/openid-configuration",
         "LetsEncryptDomain": "",
         "CertFile": "",
         "CertKey": "",
@@ -40,14 +40,14 @@ configuration: |-
       "IdpManagerConfig": {
         "ManagerType": "zitadel",
         "ClientConfig": {
-          "Issuer": "https://zitadel.{{ dns_public_subdomain }}",
-          "TokenEndpoint": "https://zitadel.{{ dns_public_subdomain }}/oauth/v2/token",
+          "Issuer": "https://zitadel.${ARGOCD_ENV_dns_public_subdomain}",
+          "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_dns_public_subdomain}/oauth/v2/token",
           "ClientID": "ref+k8s://v1/Secret/netbird/{{ netbird_preconfig_secret }}/netbird_service_user_client_id+",
           "ClientSecret": "ref+k8s://v1/Secret/netbird/{{ netbird_preconfig_secret }}/netbird_service_user_client_secret+",
           "GrantType": "client_credentials"
         },
         "ExtraConfig": {
-            "ManagementEndpoint": "https://zitadel.{{ dns_public_subdomain }}/management/v1"
+            "ManagementEndpoint": "https://zitadel.${ARGOCD_ENV_dns_public_subdomain}/management/v1"
         }
       },
       "DeviceAuthorizationFlow": {
@@ -97,7 +97,7 @@ management:
 
   podCommand:
     xtraArgs:
-      - --single-account-mode-domain={{ dns_public_subdomain }}
+      - --single-account-mode-domain=${ARGOCD_ENV_dns_public_subdomain}
 signal:
   image:
     tag: {{ netbird_image_version }}

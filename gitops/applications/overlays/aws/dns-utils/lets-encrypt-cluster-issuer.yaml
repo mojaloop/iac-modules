@@ -7,21 +7,21 @@ spec:
     # You must replace this email address with your own.
     # Let's Encrypt will use this to contact you about expiring
     # certificates, and issues related to your account.
-    email: { { letsencrypt_email } }
-    server: { { letsencrypt_server } }
+    email: ${ARGOCD_ENV_letsencrypt_email}
+    server: ${ARGOCD_ENV_letsencrypt_server}
     privateKeySecretRef:
       # Secret resource that will be used to store the account's private key.
       name: letsencrypt-issuer-account-key
     solvers:
       - selector:
           dnsZones:
-            - "{{ dns_public_subdomain }}"
+            - "${ARGOCD_ENV_dns_public_subdomain}"
         dns01:
           route53:
-            region: { { dns_cloud_api_region } }
+            region: ${ARGOCD_ENV_dns_cloud_api_region}
             accessKeyIDSecretRef:
-              name: cert-manager-credentials
+              name: ${ARGOCD_ENV_certmanager_credentials_secret}
               key: clientid
             secretAccessKeySecretRef:
-              name: cert-manager-credentials
+              name: ${ARGOCD_ENV_certmanager_credentials_secret}
               key: clientsecret

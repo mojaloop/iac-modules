@@ -3,4 +3,5 @@ kind: Kustomization
 
 resources:
   - ../../../../applications/base/dns-utils
-  - aws-crossplane-dns-config.yaml
+  - aws-dynamic-secrets-dns-config.yaml
+  - lets-encrypt-cluster-issuer.yaml

@@ -9,6 +9,7 @@ argocd_override:
       application_gitrepo_tag: "${application_gitrepo_tag}"
     dns_utils:
       application_gitrepo_tag: "${application_gitrepo_tag}"
+      ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
       sub_apps:
         cert_manager:
           dns_public_subdomain: "${dns_public_subdomain}"
@@ -17,8 +18,6 @@ argocd_override:
         ext_dns:
           dns_public_subdomain: "${dns_public_subdomain}"
           dns_private_subdomain: "${dns_private_subdomain}"
-          dns_cloud_api_client_secret: "${dns_cloud_api_client_secret}"
-          dns_cloud_api_client_id: "${dns_cloud_api_client_id}"
           dns_cloud_api_region: "${dns_cloud_api_region}"
     vault:
       application_gitrepo_tag: "${application_gitrepo_tag}"

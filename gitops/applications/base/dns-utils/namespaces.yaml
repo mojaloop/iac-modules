@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${external_dns_namespace}
+  name: ${ARGOCD_ENV_external_dns_namespace}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${certmanager_namespace}
+  name: ${ARGOCD_ENV_certmanager_namespace}
 ---
 

@@ -50,8 +50,6 @@ inputs = {
   agent_hosts   = dependency.k8s_deploy.outputs.agent_hosts
   bastion_hosts = dependency.k8s_deploy.outputs.bastion_hosts
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
-    dns_cloud_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_id_key]
-    dns_cloud_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_secret_key]
     dns_public_subdomain         = dependency.k8s_deploy.outputs.public_subdomain
     dns_private_subdomain        = dependency.k8s_deploy.outputs.private_subdomain
     internal_ingress_https_port  = dependency.k8s_deploy.outputs.target_group_internal_https_port
@@ -63,6 +61,7 @@ inputs = {
     internal_load_balancer_dns   = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns   = dependency.k8s_deploy.outputs.external_load_balancer_dns
     stunner_nodeport_port        = dependency.k8s_deploy.outputs.target_group_vpn_port
+    cloud_platform               = local.env_vars.cloud_platform
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
@@ -87,11 +86,10 @@ inputs = {
     external_ingress_health_port = dependency.k8s_deploy.outputs.target_group_external_health_port
     internal_load_balancer_dns   = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns   = dependency.k8s_deploy.outputs.external_load_balancer_dns
-    wireguard_ingress_port        = dependency.k8s_deploy.outputs.target_group_vpn_port
-    dns_cloud_api_region          = get_env("cloud_region")
-    letsencrypt_email             = get_env("letsencrypt_email")
-    dns_cloud_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_id_key]
-    dns_cloud_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.external_dns_cred_secret_key]
+    wireguard_ingress_port       = dependency.k8s_deploy.outputs.target_group_vpn_port
+    dns_cloud_api_region         = get_env("cloud_region")
+    letsencrypt_email            = get_env("letsencrypt_email")
+    ext_dns_cloud_policy         = dependency.k8s_deploy.outputs.ext_dns_cloud_policy
     }))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
@@ -112,7 +110,6 @@ locals {
   ANSIBLE_BASE_OUTPUT_DIR          = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE                 = get_env("k8s_cluster_type")
   CLUSTER_NAME                     = get_env("cluster_name")
-
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
 

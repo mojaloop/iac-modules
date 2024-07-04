@@ -1,0 +1,48 @@
+---
+apiVersion: aws.vault.upbound.io/v1alpha1
+kind: SecretBackend
+metadata:
+  name: cc-aws
+spec:
+  providerConfigRef:
+    name: vault-provider-config
+  forProvider:
+    path: cc-aws
+    accessKeySecretRef:
+      key: aws_access_key_id
+      name: secret-backend-creds
+      namespace: ${ARGOCD_ENV_vault_namespace}
+    secretKeySecretRef:
+      key: aws_secret_access_key
+      name: secret-backend-creds
+      namespace: ${ARGOCD_ENV_vault_namespace}
+    #defaultLeaseTtlSeconds: 6000
+---
+#makes k8s secret from cloud api creds put in vault by job
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: secret-backend-creds
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  refreshInterval: 5m
+
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-secret-store
+
+  target:
+    name: secret-backend-creds # Name for the secret to be created on the cluster
+    creationPolicy: Owner
+
+  data:
+    - secretKey: aws_access_key_id
+      remoteRef:
+        key: ${ARGOCD_ENV_vault_kv_secret}/cloud-api-access
+        property: cloud_platform_api_client_id
+    - secretKey: aws_secret_access_key
+      remoteRef:
+        key: ${ARGOCD_ENV_vault_kv_secret}/cloud-api-access
+        property: cloud_platform_api_client_secret
+---
+

@@ -42,3 +42,7 @@ output "post_config_properties_key_map" {
     cert_manager_credentials_client_secret_name_key = "cert_manager_credentials_client_secret_name"
   } : {})
 }
+
+output "ext_dns_cloud_policy" {
+  value = aws_iam_policy.route53_external_dns.arn
+}

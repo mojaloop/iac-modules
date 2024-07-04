@@ -7,7 +7,7 @@ spec:
   gateways:
   - {{ istio_external_gateway_namespace }}/{{ istio_external_wildcard_gateway_name }}
   hosts:
-    - 'zitadel.{{ dns_public_subdomain }}'
+    - 'zitadel.${ARGOCD_ENV_dns_public_subdomain}'
   http:
     - match:
         - uri:

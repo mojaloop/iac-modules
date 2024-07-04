@@ -1,0 +1,10 @@
+provider: aws
+aws:
+  credentials:
+    accessKeyIDSecretRef:
+      name: ${ARGOCD_ENV_external_dns_credentials_secret}
+      key: ""
+    secretAccessKeySecretRef:
+      name: ${ARGOCD_ENV_external_dns_credentials_secret}
+      key: ""
+  region: ${ARGOCD_ENV_dns_cloud_api_region}

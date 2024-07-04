@@ -55,6 +55,10 @@ output "private_network_cidr" {
   value = var.vpc_cidr
 }
 
+output "ext_dns_cloud_policy" {
+  value = module.post_config.ext_dns_cloud_policy
+}
+
 ###new items
 
 output "bastion_ssh_key" {

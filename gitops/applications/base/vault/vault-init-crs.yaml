@@ -43,9 +43,15 @@ data:
       export VAULT_ROOT_TOKEN=$(cat /tmp/output.json | jq .root_token | tr -d '"')
       export RECOVERY_KEY=$(cat /tmp/output.json | jq .unseal_keys_b64[0] | tr -d '"')
       vault operator unseal $RECOVERY_KEY
+      cat << EOF > /tmp/creds.json
+        {
+          "token_name": "vault-provider-token",
+          "token": "$VAULT_ROOT_TOKEN"
+        }
+      EOF
       if [ $VAULT_ROOT_TOKEN != "" ]
       then
-        kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} --from-file=vault-keys.json=/tmp/output.json --save-config --dry-run=client -o yaml | kubectl apply -f -
+        kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} --from-literal=root_token=$VAULT_ROOT_TOKEN --from-file=creds=/tmp/creds.json --from-file=vault-keys.json=/tmp/output.json --save-config --dry-run=client -o yaml | kubectl apply -f -
       else
         echo "VAULT_ROOT_TOKEN not parsed correctly, exiting"
         exit 1
@@ -87,3 +93,5 @@ spec:
                 secretKeyRef:
                   name: ${ARGOCD_ENV_post_config_output_secret}
                   key: kv_path
+---
+

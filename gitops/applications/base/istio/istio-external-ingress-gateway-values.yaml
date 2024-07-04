@@ -40,17 +40,17 @@ service:
       port: 15021
       protocol: TCP
       targetPort: 15021
-      nodePort: ${external_ingress_health_port}
+      nodePort: ${ARGOCD_ENV_external_ingress_health_port}
     - name: http2
       port: 80
       protocol: TCP
       targetPort: 80
-      nodePort: ${external_ingress_http_port}
+      nodePort: ${ARGOCD_ENV_external_ingress_http_port}
     - name: https
       port: 443
       protocol: TCP
       targetPort: 443
-      nodePort: ${external_ingress_https_port}
+      nodePort: ${ARGOCD_ENV_external_ingress_https_port}
   annotations: {}
   loadBalancerIP: ""
   loadBalancerSourceRanges: []

@@ -1,3 +1,18 @@
+---
+apiVersion: vault.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: vault-provider-config
+spec:
+  address: http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200
+  credentials:
+    secretRef:
+      key: creds
+      name: ${ARGOCD_ENV_vault_keys_secret}
+      namespace: ${ARGOCD_ENV_vault_namespace}
+    source: Secret
+  skip_child_token: true
+---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:

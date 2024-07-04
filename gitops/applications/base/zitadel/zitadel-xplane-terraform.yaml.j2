@@ -34,7 +34,7 @@ spec:
       }
       provider "zitadel" {
           jwt_profile_file = "${path.module}/zitadel-admin-sa.json"
-          domain = "zitadel.{{ dns_public_subdomain }}"
+          domain = "zitadel.${ARGOCD_ENV_dns_public_subdomain}"
       }
 ---
 apiVersion: tf.upbound.io/v1beta1
@@ -50,7 +50,7 @@ spec:
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     vars:
       - key: zitadel_fqdn
-        value: zitadel.{{ dns_public_subdomain }}
+        value: zitadel.${ARGOCD_ENV_dns_public_subdomain}
       - key: oidc_provider_group_claim_prefix
         value: {{ zitadel_grant_prefix }}
         

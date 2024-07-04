@@ -17,20 +17,24 @@ resource "aws_iam_user_group_membership" "iac_group" {
   ]
 }
 # IAM user with permissions to be able to update route53 records, for use with external-dns
-resource "aws_iam_user" "route53-external-dns" {
+resource "aws_iam_user" "route53_external_dns" {
   count = var.create_ext_dns_user ? 1 : 0
   name  = "${local.base_domain}-external-dns"
   tags  = merge({ Name = "${local.base_domain}-route53-external-dns" }, var.tags)
 }
-resource "aws_iam_access_key" "route53-external-dns" {
+resource "aws_iam_access_key" "route53_external_dns" {
   count = var.create_ext_dns_user ? 1 : 0
-  user  = aws_iam_user.route53-external-dns[0].name
+  user  = aws_iam_user.route53_external_dns[0].name
+}
+
+resource "aws_iam_user_policy_attachment" "route53_external_dns" {
+  count      = var.create_ext_dns_user ? 1 : 0
+  user       = aws_iam_user.route53_external_dns[0].name
+  policy_arn = aws_iam_policy.route53_external_dns.arn
 }
 # IAM Policy to allow external-dns user to update the given zone and cert-manager to create validation records
-resource "aws_iam_user_policy" "route53-external-dns" {
-  count = var.create_ext_dns_user ? 1 : 0
-  name  = "${local.base_domain}-external-dns"
-  user  = aws_iam_user.route53-external-dns[0].name
+resource "aws_iam_policy" "route53_external_dns" {
+  name = "${local.base_domain}-external-dns"
 
   policy = <<EOF
 {
