@@ -40,4 +40,4 @@ spec:
           value: "${ARGOCD_ENV_utils_post_config_terraform_crossplane_modules_version}"
 
         - name: "vault_crossplane_modules_version"
-          value: "${RGOCD_ENV_utils_post_config_vault_crossplane_modules_version}"
+          value: "${ARGOCD_ENV_utils_post_config_vault_crossplane_modules_version}"
