@@ -85,7 +85,7 @@ spec:
           value: "${ARGOCD_ENV_vault_vault_dns_public_subdomain}"
 
         - name: "vault_tf_provider_version"
-          value: "${ARGOCD_ENV_vault_vault_tf_provider_version}"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
 
         - name: "vault_terraform_modules_tag"
-          value: "${ARGOCD_ENV_vault_vault_terraform_modules_tag}"
+          value: "${ARGOCD_ENV_vault_vault_vault_terraform_modules_tag}"
