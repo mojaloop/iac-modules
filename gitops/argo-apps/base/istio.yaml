@@ -11,6 +11,11 @@ metadata:
 
 spec:
   project: default
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions:
+        - .webhooks[]?.failurePolicy
   syncPolicy:
     automated:
       prune: true
