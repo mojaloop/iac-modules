@@ -39,6 +39,12 @@ spec:
           csi:
             kubeletDirPath: ${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}
           enableDiscoveryDaemon: true
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
 
     - chart: rook-ceph-cluster
       repoURL: https://charts.rook.io/release
