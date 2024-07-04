@@ -2,6 +2,7 @@ argocd_override:
   initial_application_gitrepo_tag: "${application_gitrepo_tag}"
   apps:        
     utils:
+      application_gitrepo_tag: "${application_gitrepo_tag}"
       sub_apps:
         argocd_helm:
           dns_public_subdomain: "${dns_public_subdomain}"
@@ -13,24 +14,20 @@ argocd_override:
           internal_ingress_https_port: "'${internal_ingress_https_port}'"
           internal_ingress_http_port: "'${internal_ingress_http_port}'"
           internal_ingress_health_port: "'${internal_ingress_health_port}'"
-      application_gitrepo_tag: "${application_gitrepo_tag}"
     dns_utils:
       application_gitrepo_tag: "${application_gitrepo_tag}"
-      ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
       sub_apps:
-        cert_manager:
-          dns_public_subdomain: "${dns_public_subdomain}"
-          dns_private_subdomain: "${dns_private_subdomain}"
-          letsencrypt_email: "${letsencrypt_email}"
         ext_dns:
           dns_public_subdomain: "${dns_public_subdomain}"
           dns_private_subdomain: "${dns_private_subdomain}"
           dns_cloud_api_region: "${dns_cloud_api_region}"
-        post-config:
+        cr_config:
           internal_load_balancer_dns: "${internal_load_balancer_dns}"
           external_load_balancer_dns: "${external_load_balancer_dns}"
           dns_public_subdomain: "${dns_public_subdomain}"
           dns_private_subdomain: "${dns_private_subdomain}"
+          ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
+          letsencrypt_email: "${letsencrypt_email}"
           ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
     vault:
       application_gitrepo_tag: "${application_gitrepo_tag}"
