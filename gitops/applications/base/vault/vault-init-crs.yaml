@@ -91,7 +91,7 @@ spec:
             - name: VAULT_KV_SECRET_PATH
               valueFrom:
                 secretKeyRef:
-                  name: ${ARGOCD_ENV_post_config_output_secret}
+                  name: ${ARGOCD_ENV_tf_post_config_output_secret}
                   key: kv_path
 ---
 

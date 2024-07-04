@@ -3,6 +3,7 @@ apiVersion: vault.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: vault-provider-config
+  namespace: ${ARGOCD_ENV_vault_namespace}
 spec:
   address: http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200
   credentials:
@@ -37,7 +38,7 @@ spec:
     terraform {
         backend "kubernetes" {
           secret_suffix     = "providerconfig-vault-post-config"
-          namespace         = "{{ crossplane_namespace }}"
+          namespace         = "${ARGOCD_ENV_vault_namespace}"
           in_cluster_config = true
         }
         required_providers {
@@ -73,4 +74,4 @@ spec:
     name: vault-post-config
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_vault_namespace}
-    name: ${ARGOCD_ENV_post_config_output_secret}
+    name: ${ARGOCD_ENV_tf_post_config_output_secret}

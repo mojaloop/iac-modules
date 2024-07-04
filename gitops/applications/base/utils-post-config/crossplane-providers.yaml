@@ -3,7 +3,7 @@ kind: Provider
 metadata:
   name: provider-terraform
 spec:
-  package: xpkg.upbound.io/upbound/provider-terraform:v0.16.0
+  package: xpkg.upbound.io/upbound/provider-terraform:v${ARGOCD_ENV_terraform_crossplane_modules_version}
   controllerConfigRef:
     name: debug-config
 ---
@@ -14,3 +14,12 @@ metadata:
 spec:
   args:
     - --debug
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-vault
+spec:
+  package: xpkg.upbound.io/upbound/provider-vault:v${ARGOCD_ENV_vault_crossplane_modules_version}
+  controllerConfigRef:
+    name: debug-config

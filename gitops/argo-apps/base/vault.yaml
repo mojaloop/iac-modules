@@ -65,3 +65,18 @@ spec:
 
         - name: "vault_sync_wave"
           value: "${ARGOCD_ENV_vault_vault_sync_wave}"
+
+        - name: "vault_k8s_admin_auth_path"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+        - name: "vault_k8s_admin_role_name"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+        - name: "vault_read_all_kv_secrets_policy_name"
+          value: "${ARGOCD_ENV_vault_post_config_read_all_kv_secrets_policy_name}"
+
+        - name: "vault_kv_secret"
+          value: "${ARGOCD_ENV_vault_vault_kv_secret}"
+
+        - name: "tf_post_config_output_secret"
+          value: "vault-tf-post-config"

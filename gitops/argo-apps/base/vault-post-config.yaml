@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_vault_argocd_app_name}
+  name: ${ARGOCD_ENV_vault_argocd_app_name}-${ARGOCD_ENV_vault_post_config_app_name}
   namespace: ${ARGOCD_ENV_vault_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_vault_post_config_sync_wave}
@@ -42,26 +42,14 @@ spec:
         - name: "vault_namespace"
           value: "${ARGOCD_ENV_vault_vault_namespace}"
 
-        - name: "consul_storage_size"
-          value: "${ARGOCD_ENV_vault_consul_storage_size}"
+        - name: "vault_k8s_admin_auth_path"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
 
-        - name: "consul_replicas"
-          value: "'${ARGOCD_ENV_vault_consul_replicas}'"
+        - name: "vault_k8s_admin_role_name"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
 
-        - name: "consul_namespace"
-          value: "${ARGOCD_ENV_vault_consul_namespace}"
+        - name: "vault_read_all_kv_secrets_policy_name"
+          value: "${ARGOCD_ENV_vault_post_config_read_all_kv_secrets_policy_name}"
 
-        - name: "consul_app_name"
-          value: "${ARGOCD_ENV_vault_consul_app_name}"
-
-        - name: "consul_helm_version"
-          value: "${ARGOCD_ENV_vault_consul_helm_version}"
-
-        - name: "vault_app_name"
-          value: "${ARGOCD_ENV_vault_vault_app_name}"
-
-        - name: "vault_helm_version"
-          value: "${ARGOCD_ENV_vault_vault_helm_version}"
-
-        - name: "vault_sync_wave"
-          value: "${ARGOCD_ENV_vault_vault_sync_wave}"
+        - name: "vault_kv_secret"
+          value: "${ARGOCD_ENV_vault_vault_kv_secret}"
