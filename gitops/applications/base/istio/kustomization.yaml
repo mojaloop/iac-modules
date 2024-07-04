@@ -6,29 +6,29 @@ resources:
 helmCharts:
   - name: base
     releaseName: istio-base
-    version: ${istio_helm_version}
+    version: ${ARGOCD_ENV_istio_helm_version}
     repo: https://istio-release.storage.googleapis.com/charts
     valuesFile: istio-base-values.yaml
-    namespace: $istio_namespace}
+    namespace: ${ARGOCD_ENV_istio_namespace}
     includeCRDs: true
 
   - name: istiod
     releaseName: istiod
-    version: ${istio_helm_version}
+    version: ${ARGOCD_ENV_istio_helm_version}
     repo: https://istio-release.storage.googleapis.com/charts
     valuesFile: istio-istiod-values.yaml
-    namespace: $istio_namespace}
+    namespace: ${ARGOCD_ENV_istio_namespace}
 
   - name: gateway
     releaseName: int-gateway
-    version: ${istio_helm_version}
+    version: ${ARGOCD_ENV_istio_helm_version}
     repo: https://istio-release.storage.googleapis.com/charts
     valuesFile: istio-internal-ingress-gateway-values.yaml
-    namespace: ${istio_internal_gateway_namespace}
+    namespace: ${ARGOCD_ENV_ARGOCD_ENV_istio_internal_gateway_namespace}
 
   - name: gateway
     releaseName: ext-gateway
-    version: ${istio_helm_version}
+    version: ${ARGOCD_ENV_istio_helm_version}
     repo: https://istio-release.storage.googleapis.com/charts
     valuesFile: istio-external-ingress-gateway-values.yaml
-    namespace: ${istio_external_gateway_namespace}
+    namespace: ${ARGOCD_ENV_ARGOCD_ENV_istio_external_gateway_namespace}

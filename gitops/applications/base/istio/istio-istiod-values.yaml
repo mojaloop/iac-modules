@@ -190,7 +190,7 @@ meshConfig:
       holdApplicationUntilProxyStarts: true
 global:
   # Used to locate istiod.
-  istioNamespace: {{ istio_namespace }}
+  istioNamespace: { { ARGOCD_ENV_istio_namespace } }
   # List of cert-signers to allow "approve" action in the istio cluster role
   #
   # certSigners:
@@ -262,8 +262,6 @@ global:
   # own webhook configurations.
   operatorManageWebhooks: false
 
-  
-
   # Kubernetes >=v1.11.0 will create two PriorityClass, including system-cluster-critical and
   # system-node-critical, it is better to configure this in order to make sure your Istio pods
   # will not be killed because of low priority class.
@@ -306,7 +304,7 @@ global:
 
     # Log level for proxy, applies to gateways and sidecars.
     # Expected values are: trace|debug|info|warning|error|critical|off
-    logLevel: {{ istio_proxy_log_level }}
+    logLevel: { { istio_proxy_log_level } }
 
     #If set to true, istio-proxy container will have privileged securityContext
     privileged: false
@@ -412,7 +410,7 @@ global:
   #     endpoints:
   #     - fromRegistry: reg1
   #     gateways:
-  #     - registryServiceName: istio-ingressgateway.${istio_namespace}.svc.cluster.local
+  #     - registryServiceName: istio-ingressgateway.${ARGOCD_ENV_istio_namespace}.svc.cluster.local
   #       port: 443
   #
   meshNetworks: {}

@@ -1,5 +1,5 @@
 # Name allows overriding the release name. Generally this should not be set
-name: ${istio_external_gateway_name}
+name: ${ARGOCD_ENV_istio_external_gateway_name}
 # revision declares which revision this gateway is a part of
 revision: ""
 
@@ -75,7 +75,7 @@ autoscaling:
 env: {}
 
 # Labels to apply to all resources
-labels: { istio: "${istio_external_gateway_name}" }
+labels: { istio: "${ARGOCD_ENV_istio_external_gateway_name}" }
 
 # Annotations to apply to all resources
 annotations: {}
