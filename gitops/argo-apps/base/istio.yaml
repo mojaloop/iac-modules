@@ -43,13 +43,13 @@ spec:
           value: "${ARGOCD_ENV_utils_istio_namespace}"
 
         - name: "istio_external_gateway_namespace"
-          values: "${ARGOCD_ENV_utils_istio_external_gateway_namespace}"
+          value: "${ARGOCD_ENV_utils_istio_external_gateway_namespace}"
 
         - name: "istio_internal_gateway_namespace"
           value: "${ARGOCD_ENV_utils_istio_internal_gateway_namespace}"
 
         - name: "istio_internal_gateway_name"
-          values: "${ARGOCD_ENV_utils_istio_internal_gateway_name}"
+          value: "${ARGOCD_ENV_utils_istio_internal_gateway_name}"
 
         - name: "istio_external_gateway_name"
           value: "${ARGOCD_ENV_utils_istio_external_gateway_name}"
