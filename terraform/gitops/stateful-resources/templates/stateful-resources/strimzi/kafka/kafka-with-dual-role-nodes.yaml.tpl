@@ -298,7 +298,7 @@ spec:
       replacement: $1
       action: replace
     - source_labels: []
-      target_label: 'strimzi_io_cluster'
+      targetLabel: 'strimzi_io_cluster'
       replacement: ${kafka_cluster_metrics_label}
       action: replace
 
