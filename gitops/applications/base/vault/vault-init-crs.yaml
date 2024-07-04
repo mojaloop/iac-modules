@@ -64,6 +64,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: insert-cloud-secrets
+  namespace: "${ARGOCD_ENV_vault_namespace}"
 spec:
   ttlSecondsAfterFinished: 30
   template:
