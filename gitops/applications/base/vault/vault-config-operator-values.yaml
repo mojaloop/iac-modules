@@ -41,4 +41,4 @@ kube_rbac_proxy:
       memory: 64Mi
 
 enableMonitoring: false
-enableCertManager: true
+enableCertManager: false
