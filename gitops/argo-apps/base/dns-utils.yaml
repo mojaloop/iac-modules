@@ -83,3 +83,6 @@ spec:
 
         - name: "letsencrypt_email"
           value: "${ARGOCD_ENV_dns_utils_cr_config_letsencrypt_email}"
+
+        - name: "cert_manager_namespace"
+          value: "${ARGOCD_ENV_dns_utils_cr_config_cert_manager_namespace}"
