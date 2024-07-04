@@ -14,7 +14,7 @@ iac_group_name: iac_admin
 nodes:
   master-generic:
     master: true
-    instance_type: "m5.xlarge"
+    instance_type: "m5.2xlarge"
     node_count: 3
     storage_gbs: 100
     node_taints: []
