@@ -49,7 +49,7 @@ spec:
           value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
 
         - name: "vault_read_all_kv_secrets_policy_name"
-          value: "${ARGOCD_ENV_vault_post_config_read_all_kv_secrets_policy_name}"
+          value: "${ARGOCD_ENV_vault_post_config_vault_read_all_kv_secrets_policy_name}"
 
         - name: "vault_kv_secret"
-          value: "${ARGOCD_ENV_vault_vault_kv_secret}"
+          value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
