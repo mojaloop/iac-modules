@@ -3,9 +3,4 @@ kind: Namespace
 metadata:
   name: ${ARGOCD_ENV_external_dns_namespace}
 ---
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: ${ARGOCD_ENV_certmanager_namespace}
----
 

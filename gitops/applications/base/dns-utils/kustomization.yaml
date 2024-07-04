@@ -6,16 +6,6 @@ resources:
   - istio-gateway-crs.yaml
 
 helmCharts:
-  - name: cert-manager
-    releaseName: cert-manager
-    version: ${ARGOCD_ENV_certmanager_helm_version}
-    repo: https://charts.jetstack.io
-    namespace: ${ARGOCD_ENV_certmanager_namespace}
-    includeCRDs: true
-    valuesInline:
-      crds:
-        enabled: true
-
   - name: external-dns
     releaseName: external-dns
     version: ${ARGOCD_ENV_external_dns_helm_version}
