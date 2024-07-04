@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
-    path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/vault
+    path: gitops/applications/base/vault
     plugin:
       name: envsubsthelm
       env:
