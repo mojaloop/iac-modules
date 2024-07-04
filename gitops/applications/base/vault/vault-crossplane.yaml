@@ -29,7 +29,7 @@ spec:
       source: Secret
       secretRef:
         namespace: ${ARGOCD_ENV_vault_namespace}
-        name: ${ARGOCD_ENV_vault_vault_keys_secret}
+        name: ${ARGOCD_ENV_vault_keys_secret}
         key: vault-keys.json
   # This optional configuration block can be used to inject HCL into any
   # workspace that uses this provider config, for example to setup Terraform
@@ -42,14 +42,14 @@ spec:
           in_cluster_config = true
         }
         required_providers {
-          vault = "${ARGOCD_ENV_vault_vault_tf_provider_version}"
+          vault = "${ARGOCD_ENV_vault_tf_provider_version}"
         }
       }
       variable "root_token" {
         type = string
       }
       provider "vault" {
-        address = "https://vault.${ARGOCD_ENV_vault_vault_dns_public_subdomain}"
+        address = "https://vault.${ARGOCD_ENV_dns_public_subdomain}"
         token   = var.root_token
       }
 ---
@@ -62,7 +62,7 @@ spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
     source: Remote
-    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/vault-post-config?ref=${ARGOCD_ENV_vault_vault_vault_terraform_modules_tag}
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/vault-post-config?ref=${ARGOCD_ENV_vault_terraform_modules_tag}
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     vars:
       k8s_admin_role_name: ${ARGOCD_ENV_vault_k8s_admin_role_name}
