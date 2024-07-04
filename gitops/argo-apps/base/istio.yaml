@@ -71,3 +71,6 @@ spec:
 
         - name: "internal_ingress_health_port"
           value: "${ARGOCD_ENV_utils_istio_internal_ingress_health_port}"
+
+        - name: "istio_proxy_log_level"
+          value: "${ARGOCD_ENV_utils_istio_proxy_log_level}"
