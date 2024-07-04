@@ -20,6 +20,8 @@ inputs = {
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_vars.dns_provider
   app_var_map                          = (local.CLOUD_PLATFORM == "bare-metal") ? local.cloud_platform_vars : null
+  create_ext_dns_user                  = false
+  create_ci_iam_user                   = true
 }
 
 locals {
