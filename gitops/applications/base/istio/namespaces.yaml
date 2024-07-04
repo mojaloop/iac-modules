@@ -6,11 +6,11 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${ARGOCD_ENV_ARGOCD_ENV_istio_internal_gateway_namespace}
+  name: ${ARGOCD_ENV_istio_internal_gateway_namespace}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${ARGOCD_ENV_ARGOCD_ENV_istio_external_gateway_namespace}
+  name: ${ARGOCD_ENV_istio_external_gateway_namespace}
 ---
 
