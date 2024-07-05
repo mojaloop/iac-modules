@@ -80,15 +80,14 @@ spec:
             - >
               export VAULT_ADDR="http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200";
               export VAULT_SKIP_VERIFY=true;
-              export VAULT_ROOT_TOKEN=$(echo $VAULT_TOKEN_JSON | jq .root_token | tr -d '"');
               vault login -no-print $VAULT_ROOT_TOKEN;
               vault kv put -mount=$VAULT_KV_SECRET_PATH cloud-api-access cloud_platform_api_client_id=${RGOCD_ENV_cloud_platform_api_client_id} cloud_platform_api_client_secret=${RGOCD_ENV_cloud_platform_api_client_secret};
           env:
-            - name: VAULT_TOKEN_JSON
+            - name: VAULT_ROOT_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: ${ARGOCD_ENV_vault_keys_secret}
-                  key: vault-keys.json
+                  key: root_token
             - name: VAULT_KV_SECRET_PATH
               valueFrom:
                 secretKeyRef:
