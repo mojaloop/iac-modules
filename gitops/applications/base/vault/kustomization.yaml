@@ -29,3 +29,12 @@ helmCharts:
     valuesFile: vault-config-operator-values.yaml
     namespace: ${ARGOCD_ENV_vault_config_operator_namespace}
     includeCRDs: true
+
+patches:
+  - target:
+      kind: Deployment
+      name: vault-config-operator
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: ${ARGOCD_ENV_vault_config_operator_namespace}
