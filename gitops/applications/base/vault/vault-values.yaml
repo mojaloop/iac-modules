@@ -6,7 +6,7 @@ server:
     - type: configMap
       name: post-config
   readinessProbe:
-    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+    path: "/v1/sys/health"
 
   ha:
     enabled: true
