@@ -65,10 +65,15 @@ spec:
     module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/vault-post-config?ref=${ARGOCD_ENV_vault_terraform_modules_tag}
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     vars:
-      k8s_admin_role_name: ${ARGOCD_ENV_vault_k8s_admin_role_name}
-      k8s_admin_auth_path: ${ARGOCD_ENV_vault_k8s_admin_auth_path}
-      read_all_kv_secrets_policy_name: ${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}
-      kv_path: ${ARGOCD_ENV_vault_kv_secret}
+      - key: "k8s_admin_role_name"
+        value: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
+      - key: "k8s_admin_auth_path"
+        value: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+      - key: "read_all_kv_secrets_policy_name"
+        value: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
+      - key: "kv_path"
+        value: "${ARGOCD_ENV_vault_kv_secret}"
+
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: vault-post-config
