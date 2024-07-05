@@ -249,8 +249,13 @@ mojaloop-kafka:
 mojaloop-redis:
   enabled: true
   app_owner: mojaloop
-  resource_type: kafka
+  resource_type: redis
   deployment_type: operator
+  logical_service_config:
+    secret_extra_namespaces:
+      - mojaloop
+    logical_service_port: 6379
+    logical_service_name: mojaloop-redis-svc
 ttk-mongodb:
   enabled: true
   app_owner: "mojaloop"

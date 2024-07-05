@@ -439,6 +439,11 @@ mojaloop-redis:
   local_operator_config:
     resource_namespace: mojaloop
     nodes: 3
+    secret_config:
+      generate_secret_name:
+      generate_secret_keys: []
+      generate_secret_vault_base_path:
+      generate_secret_extra_namespaces: []
 ttk-mongodb:
   local_operator_config:
     cr_version: 1.14.0

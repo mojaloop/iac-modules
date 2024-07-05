@@ -86,7 +86,7 @@ resource "local_file" "redis-crs" {
       namespace              = each.value.local_operator_config.resource_namespace
       nodes                  = each.value.local_operator_config.nodes
   })
-  filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
+  filename = "${local.stateful_resources_output_path}/redis-cluster-${each.key}.yaml"
 }
 
 resource "local_file" "percona-crs" {
