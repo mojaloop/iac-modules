@@ -38,3 +38,30 @@ patches:
       - op: add
         path: /metadata/namespace
         value: ${ARGOCD_ENV_vault_config_operator_namespace}
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Issuer
+      name: selfsigned-issuer
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: ${ARGOCD_ENV_vault_config_operator_namespace}
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Certificate
+      name: vault-config-operator-webhook-service-cert
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: ${ARGOCD_ENV_vault_config_operator_namespace}
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Certificate
+      name: vault-config-operator-metrics-service-cert
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: ${ARGOCD_ENV_vault_config_operator_namespace}
