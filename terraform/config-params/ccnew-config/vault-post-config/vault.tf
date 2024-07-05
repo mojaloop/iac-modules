@@ -17,12 +17,12 @@ resource "vault_auth_backend" "kubernetes_admin" {
 }
 
 resource "vault_kubernetes_auth_backend_config" "local" {
-  backend         = vault_auth_backend.kubernetes.path
+  backend         = vault_auth_backend.kubernetes_admin.path
   kubernetes_host = "https://kubernetes.default.svc:443"
 }
 
 resource "vault_kubernetes_auth_backend_role" "k8s_admin" {
-  backend                          = vault_auth_backend.kubernetes.path
+  backend                          = vault_auth_backend.kubernetes_admin.path
   role_name                        = var.k8s_admin_role_name
   bound_service_account_names      = ["*"]
   bound_service_account_namespaces = ["vault"]
@@ -43,7 +43,7 @@ resource "vault_policy" "read_all_kv_secrets" {
   name = var.read_all_kv_secrets_policy_name
 
   policy = <<EOT
-path "${lvar.kv_path}/*" {
+path "${var.kv_path}/*" {
   capabilities = ["read", "list"]
 }
 EOT
