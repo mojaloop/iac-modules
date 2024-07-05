@@ -1,3 +1,17 @@
+domainFilters:
+  - ${ARGOCD_ENV_dns_public_subdomain}
+  - ${ARGOCD_ENV_dns_private_subdomain}
+txtOwnerId: ${ARGOCD_ENV_cluster_name}
+policy: sync
+dryRun: false
+interval: 1m
+triggerLoopOnEvent: true
+txtPrefix: extdns
+sources:
+  - service
+  - ingress
+  - istio-virtualservice
+
 provider: aws
 aws:
   credentials:
