@@ -49,7 +49,7 @@ spec:
             value: "${ARGOCD_ENV_dns_utils_cr_config_dns_public_subdomain}"
 
           - name: "dns_cloud_api_region"
-            value: "${ARGOCD_ENV_dns_utils_dns_cloud_api_region}"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_dns_cloud_api_region}"
 
           - name: "istio_internal_gateway_name"
             value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_gateway_name}"
@@ -106,7 +106,7 @@ spec:
             value: "${ARGOCD_ENV_dns_utils_cr_config_dns_public_subdomain}"
 
           - name: "dns_cloud_api_region"
-            value: "${ARGOCD_ENV_dns_utils_dns_cloud_api_region}"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_dns_cloud_api_region}"
 
           - name: "istio_internal_gateway_name"
             value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_gateway_name}"
