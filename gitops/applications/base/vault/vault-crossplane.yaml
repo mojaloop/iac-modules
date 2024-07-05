@@ -47,7 +47,7 @@ spec:
         type = string
       }
       provider "vault" {
-        address = "https://vault.${ARGOCD_ENV_dns_public_subdomain}"
+        address = "http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
         token   = var.root_token
       }
 ---
