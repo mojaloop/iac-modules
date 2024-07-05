@@ -3,6 +3,7 @@ apiVersion: vault.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: vault-provider-config
+  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   address: http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200
   credentials:
@@ -17,6 +18,7 @@ apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: vault-post-config
+  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   # Note that unlike most provider configs this one supports an array of
   # credentials. This is because each Terraform workspace uses a single
@@ -36,7 +38,7 @@ spec:
     terraform {
         backend "kubernetes" {
           secret_suffix     = "providerconfig-vault-post-config"
-          namespace         = "crossplane-system"
+          namespace         = "${ARGOCD_ENV_vault_namespace}"
           in_cluster_config = true
         }
         required_providers {
