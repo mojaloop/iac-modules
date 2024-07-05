@@ -28,3 +28,4 @@ helmCharts:
     repo: https://redhat-cop.github.io/vault-config-operator
     valuesFile: vault-config-operator-values.yaml
     namespace: ${ARGOCD_ENV_vault_config_operator_namespace}
+    includeCRDs: true
