@@ -78,7 +78,7 @@ spec:
             - "-c"
           args:
             - >
-              export VAULT_ADDR=http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200;
+              export VAULT_ADDR="http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200";
               export VAULT_SKIP_VERIFY=true;
               export VAULT_ROOT_TOKEN=$(echo $VAULT_TOKEN_JSON | jq .root_token | tr -d '"');
               vault login -no-print $VAULT_ROOT_TOKEN;

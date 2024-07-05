@@ -89,3 +89,9 @@ spec:
 
         - name: "vault_terraform_modules_tag"
           value: "${ARGOCD_ENV_vault_vault_vault_terraform_modules_tag}"
+
+        - name: "vault_config_operator_app_name"
+          value: "${ARGOCD_ENV_vault_vault_config_operator_app_name}"
+
+        - name: "vault_config_operator_namespace"
+          value: "${ARGOCD_ENV_vault_vault_config_operator_namespace}"
