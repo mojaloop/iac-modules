@@ -369,7 +369,7 @@ spec:
                 image: golang:1.22.4-alpine3.20
                 command: [sh, -c]
                 args:
-                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/
+                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/ && wget -qO yq https://github.com/mikefarah/yq/releases/download/v4.44.2/yq_linux_amd64 && chmod +x yq && mv yq  /custom-tools/
                 volumeMounts:
                   - mountPath: /custom-tools
                     name: custom-tools
@@ -398,6 +398,10 @@ spec:
                     subPath: envsubst
                     mountPath: /usr/local/bin/envsubst
 
+                  - name: custom-tools
+                    subPath: yq
+                    mountPath: /usr/local/bin/yq
+
               - name: envsubsthelm
                 command: [/var/run/argocd/argocd-cmp-server]
                 image: quay.io/argoproj/argocd
@@ -423,6 +427,10 @@ spec:
                     subPath: envsubst
                     mountPath: /usr/local/bin/envsubst
 
+                  - name: custom-tools
+                    subPath: yq
+                    mountPath: /usr/local/bin/yq
+
               - name: envsubst
                 command: [/var/run/argocd/argocd-cmp-server]
                 image: quay.io/argoproj/argocd
@@ -447,6 +455,10 @@ spec:
                   - name: custom-tools
                     subPath: envsubst
                     mountPath: /usr/local/bin/envsubst
+
+                  - name: custom-tools
+                    subPath: yq
+                    mountPath: /usr/local/bin/yq
 
             metrics:
               enabled: false
