@@ -97,7 +97,7 @@ spec:
           value: "${ARGOCD_ENV_vault_vault_config_operator_namespace}"
 
         - name: "cloud_platform_api_client_secret"
-          value: "${ARGOCD_ENV_vault_cloud_platform_api_client_secret}"
+          value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_secret}"
 
         - name: "cloud_platform_api_client_id"
-          value: "${ARGOCD_ENV_vault_cloud_platform_api_client_id}"
+          value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_id}"
