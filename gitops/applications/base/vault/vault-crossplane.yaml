@@ -3,7 +3,6 @@ apiVersion: vault.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: vault-provider-config
-  namespace: ${ARGOCD_ENV_vault_namespace}
 spec:
   address: http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200
   credentials:
@@ -18,7 +17,6 @@ apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: vault-post-config
-  namespace: ${ARGOCD_ENV_vault_namespace}
 spec:
   # Note that unlike most provider configs this one supports an array of
   # credentials. This is because each Terraform workspace uses a single
@@ -38,7 +36,7 @@ spec:
     terraform {
         backend "kubernetes" {
           secret_suffix     = "providerconfig-vault-post-config"
-          namespace         = "${ARGOCD_ENV_vault_namespace}"
+          namespace         = "crossplane-system"
           in_cluster_config = true
         }
         required_providers {
