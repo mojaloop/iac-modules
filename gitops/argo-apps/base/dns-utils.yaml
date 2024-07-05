@@ -87,6 +87,12 @@ spec:
           - name: "cert_manager_namespace"
             value: "${ARGOCD_ENV_dns_utils_cr_config_cert_manager_namespace}"
 
+          - name: "certmanager_credentials_secret"
+            value: "certmanager-credentials"
+
+          - name: "external_dns_credentials_secret"
+            value: "ext-dns-credentials"
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
       path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/dns-utils
@@ -143,3 +149,9 @@ spec:
 
           - name: "cert_manager_namespace"
             value: "${ARGOCD_ENV_dns_utils_cr_config_cert_manager_namespace}"
+
+          - name: "certmanager_credentials_secret"
+            value: "certmanager-credentials"
+
+          - name: "external_dns_credentials_secret"
+            value: "ext-dns-credentials"
