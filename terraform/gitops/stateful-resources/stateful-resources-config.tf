@@ -77,6 +77,18 @@ resource "local_file" "strimzi-crs" {
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
 
+resource "local_file" "redis-crs" {
+
+  for_each = { for key, stateful_resource in local.redis_operator_stateful_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/redis/redis-cluster.yaml.tpl",
+    {
+      name                   = each.key
+      namespace              = each.value.local_operator_config.resource_namespace
+      nodes                  = each.value.local_operator_config.nodes
+  })
+  filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
+}
+
 resource "local_file" "percona-crs" {
 
   for_each = { for key, stateful_resource in local.percona_stateful_resources : key => stateful_resource }
@@ -132,6 +144,7 @@ locals {
   operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
   internal_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if(resource.deployment_type == "operator" || resource.deployment_type == "helm-chart") }
   strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
+  redis_operator_stateful_resources   = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "redis" }
   percona_stateful_resources          = { for key, resource in local.operator_stateful_resources : key => resource if(resource.resource_type == "mysql" || resource.resource_type == "mongodb") }
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
