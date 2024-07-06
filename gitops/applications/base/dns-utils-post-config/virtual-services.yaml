@@ -1,0 +1,50 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vault-ui
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  ggateways:
+    - ${ARGOCD_ENV_vault_istio_gateway_namespace}/${ARGOCD_ENV_vault_istio_wildcard_gateway_name}
+  hosts:
+    - "argocd.${ARGOCD_ENV_vault_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /ui
+      route:
+        - destination:
+            host: vault-ui
+            port:
+              number: 8200
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: argocd
+  namespace: ${ARGOCD_ENV_argocd_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_argocd_istio_gateway_namespace}/${ARGOCD_ENV_argocd_istio_wildcard_gateway_name}
+  hosts:
+    - "argocd.${ARGOCD_ENV_argocd_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: argocd-server
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: argocd-server-dtrl
+  namespace: ${ARGOCD_ENV_argocd_namespace}
+spec:
+  host: argocd-server
+  trafficPolicy:
+    tls:
+      mode: SIMPLE

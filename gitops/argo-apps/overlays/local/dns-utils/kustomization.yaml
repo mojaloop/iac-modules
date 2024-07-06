@@ -3,3 +3,4 @@ kind: Kustomization
 
 resources:
   - ../../../base/dns-utils.yaml
+  - ../../../base/dns-utils-post-config.yaml
