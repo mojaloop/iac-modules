@@ -37,7 +37,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
-    path: gitops/applications/base/istio
+    path: gitops/applications/base/istio-gw
     plugin:
       name: envsubst
       env:
