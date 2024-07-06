@@ -93,6 +93,12 @@ spec:
           - name: "external_dns_credentials_secret"
             value: "ext-dns-credentials"
 
+          - name: "default_internal_ssl_certificate"
+            value: "internal-wildcard"
+
+          - name: "default_external_ssl_certificate"
+            value: "external-wildcard"
+
           - name: "dns_utils_namespace"
             value: "${ARGOCD_ENV_dns_utils_app_namespace}"
 
@@ -161,6 +167,12 @@ spec:
 
           - name: "external_dns_credentials_secret"
             value: "ext-dns-credentials"
+
+          - name: "default_internal_ssl_certificate"
+            value: "internal-wildcard"
+
+          - name: "default_external_ssl_certificate"
+            value: "external-wildcard"
 
           - name: "dns_utils_namespace"
             value: "${ARGOCD_ENV_dns_utils_app_namespace}"
