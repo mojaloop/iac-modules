@@ -108,6 +108,12 @@ spec:
           - name: "vault_namespace"
             value: "${ARGOCD_ENV_vault_namespace}"
 
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
       path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/dns-utils
@@ -185,3 +191,9 @@ spec:
 
           - name: "vault_namespace"
             value: "${ARGOCD_ENV_vault_namespace}"
+
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
