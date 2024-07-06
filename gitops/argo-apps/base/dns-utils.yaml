@@ -103,10 +103,10 @@ spec:
             value: "${ARGOCD_ENV_dns_utils_app_namespace}"
 
           - name: "vault_read_all_kv_secrets_policy_name"
-            value: "${ARGOCD_ENV_dns_utils_vault_read_all_kv_secrets_policy_name}"
+            value: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
 
           - name: "vault_namespace"
-            value: "${ARGOCD_ENV_dns_utils_vault_namespace}"
+            value: "${ARGOCD_ENV_vault_namespace}"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
@@ -181,7 +181,7 @@ spec:
             value: "${ARGOCD_ENV_dns_utils_app_namespace}"
 
           - name: "vault_read_all_kv_secrets_policy_name"
-            value: "${ARGOCD_ENV_dns_utils_vault_read_all_kv_secrets_policy_name}"
+            value: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
 
           - name: "vault_namespace"
-            value: "${ARGOCD_ENV_dns_utils_vault_namespace}"
+            value: "${ARGOCD_ENV_vault_namespace}"
