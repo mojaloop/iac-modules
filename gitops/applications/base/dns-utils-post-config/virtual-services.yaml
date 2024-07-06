@@ -4,7 +4,7 @@ metadata:
   name: vault-ui
   namespace: ${ARGOCD_ENV_vault_namespace}
 spec:
-  ggateways:
+  gateways:
     - ${ARGOCD_ENV_vault_istio_gateway_namespace}/${ARGOCD_ENV_vault_istio_wildcard_gateway_name}
   hosts:
     - "argocd.${ARGOCD_ENV_vault_dns_subdomain}"
