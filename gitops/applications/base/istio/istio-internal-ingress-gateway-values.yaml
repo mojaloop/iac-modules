@@ -79,7 +79,8 @@ env: {}
 labels: { istio: "${ARGOCD_ENV_istio_internal_gateway_name}" }
 
 # Annotations to apply to all resources
-annotations: {}
+annotations:
+  argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_istio_gw_sync_wave}"
 
 nodeSelector: {}
 
