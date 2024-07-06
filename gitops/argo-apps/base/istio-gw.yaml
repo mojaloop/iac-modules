@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_utils_istio_app_name}
+  name: ${ARGOCD_ENV_utils_istio_app_name}-gw
   namespace: ${ARGOCD_ENV_utils_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_istio_gw_sync_wave}
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io

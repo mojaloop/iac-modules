@@ -1,5 +1,5 @@
 # Name allows overriding the release name. Generally this should not be set
-name: ${ARGOCD_ENV_istio_external_gateway_name}
+name: ${ARGOCD_ENV_istio_internal_gateway_name}
 # revision declares which revision this gateway is a part of
 revision: ""
 
@@ -25,6 +25,7 @@ podAnnotations:
   prometheus.io/path: "/stats/prometheus"
   inject.istio.io/templates: "gateway"
   sidecar.istio.io/inject: "true"
+  argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_istio_gw_sync_wave}"
 
 # Define the security context for the pod.
 # If unset, this will be automatically set to the minimum privileges required to bind to port 80 and 443.
@@ -40,21 +41,21 @@ service:
       port: 15021
       protocol: TCP
       targetPort: 15021
-      nodePort: ${ARGOCD_ENV_external_ingress_health_port}
+      nodePort: ${ARGOCD_ENV_internal_ingress_health_port}
     - name: http2
       port: 80
       protocol: TCP
       targetPort: 80
-      nodePort: ${ARGOCD_ENV_external_ingress_http_port}
+      nodePort: ${ARGOCD_ENV_internal_ingress_http_port}
     - name: https
       port: 443
       protocol: TCP
       targetPort: 443
-      nodePort: ${ARGOCD_ENV_external_ingress_https_port}
+      nodePort: ${ARGOCD_ENV_internal_ingress_https_port}
   annotations: {}
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   externalIPs: []
 
 resources:
@@ -75,11 +76,10 @@ autoscaling:
 env: {}
 
 # Labels to apply to all resources
-labels: { istio: "${ARGOCD_ENV_istio_external_gateway_name}" }
+labels: { istio: "${ARGOCD_ENV_istio_internal_gateway_name}" }
 
 # Annotations to apply to all resources
-annotations:
-  argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_istio_gw_sync_wave}"
+annotations: {}
 
 nodeSelector: {}
 
