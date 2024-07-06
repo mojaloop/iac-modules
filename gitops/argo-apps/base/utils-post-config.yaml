@@ -34,7 +34,7 @@ spec:
     targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
     path: gitops/applications/base/utils-post-config
     plugin:
-      name: envsubsthelm
+      name: envsubst
       env:
         - name: "terraform_crossplane_modules_version"
           value: "${ARGOCD_ENV_utils_post_config_terraform_crossplane_modules_version}"

@@ -97,7 +97,7 @@ spec:
       targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
       path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/dns-utils
       plugin:
-        name: envsubsthelm
+        name: envsubst
         env:
           - name: "external_dns_helm_version"
             value: "${ARGOCD_ENV_dns_utils_ext_dns_helm_version}"

@@ -29,27 +29,51 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_vault_app_namespace}
 
-  source:
-    repoURL: ${ARGOCD_ENV_argocd_repo_url}
-    targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
-    path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/vault-post-config
-    plugin:
-      name: envsubst
-      env:
-        - name: "vault_keys_secret"
-          value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+  sources:
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
+      path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/vault-post-config
+      plugin:
+        name: envsubst
+        env:
+          - name: "vault_keys_secret"
+            value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
 
-        - name: "vault_namespace"
-          value: "${ARGOCD_ENV_vault_vault_namespace}"
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
 
-        - name: "vault_k8s_admin_auth_path"
-          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
 
-        - name: "vault_k8s_admin_role_name"
-          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
 
-        - name: "vault_read_all_kv_secrets_policy_name"
-          value: "${ARGOCD_ENV_vault_post_config_vault_read_all_kv_secrets_policy_name}"
+          - name: "vault_read_all_kv_secrets_policy_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_read_all_kv_secrets_policy_name}"
 
-        - name: "vault_kv_secret"
-          value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
+          - name: "vault_kv_secret"
+            value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
+
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
+      path: gitops/applications/base/vault-post-config
+      plugin:
+        name: envsubst
+        env:
+          - name: "vault_keys_secret"
+            value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+          - name: "vault_read_all_kv_secrets_policy_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_read_all_kv_secrets_policy_name}"
+
+          - name: "vault_kv_secret"
+            value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"

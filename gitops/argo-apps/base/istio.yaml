@@ -39,7 +39,7 @@ spec:
     targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
     path: gitops/applications/base/istio
     plugin:
-      name: envsubsthelm
+      name: envsubst
       env:
         - name: "istio_helm_version"
           value: "${ARGOCD_ENV_utils_istio_helm_version}"
@@ -79,3 +79,6 @@ spec:
 
         - name: "istio_proxy_log_level"
           value: "${ARGOCD_ENV_utils_istio_proxy_log_level}"
+
+        - name: "istio_gw_sync_wave"
+          value: "${ARGOCD_ENV_utils_istio_gw_sync_wave}"

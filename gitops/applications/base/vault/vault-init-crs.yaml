@@ -65,8 +65,10 @@ kind: Job
 metadata:
   name: insert-cloud-secrets
   namespace: "${ARGOCD_ENV_vault_namespace}"
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
-  ttlSecondsAfterFinished: 30
   template:
     spec:
       restartPolicy: OnFailure

@@ -295,28 +295,13 @@ spec:
               create: true
               plugins:
                 envsubst:
-                  init:
-                    command: ["sh", "-c"]
-                    args:
-                      [
-                        'kustomize build . --load-restrictor LoadRestrictionsNone | yq  --unwrapScalar=false ''(.. |= select(. == "$*") style="double")'' - > raw-kustomization.yaml',
-                      ]
-                  generate:
-                    command: ["sh", "-c"]
-                    args:
-                      [
-                        "envsubst < raw-kustomization.yaml > processed-kustomization.yaml && cp processed-kustomization.yaml /dev/stdout",
-                      ]
-                  discover:
-                    fileName: "kustomization.*"
-                envsubsthelm:
                   discover:
                     fileName: "kustomization.*"
                   generate:
                     command: ["sh", "-c"]
                     args:
                       [
-                        'for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build . --enable-helm --helm-kube-version 1.29-0 --load-restrictor LoadRestrictionsNone | yq  --unwrapScalar=false ''(.. |= select(. == "$*") style="double")'' - > /dev/stdout',
+                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build . --enable-helm --helm-kube-version 1.29-0 --load-restrictor LoadRestrictionsNone > /dev/stdout",
                       ]
 
           ## Controller ##
@@ -389,38 +374,6 @@ spec:
                     name: tmp
 
                   # Register plugins into sidecar
-                  - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-                    subPath: envsubsthelm.yaml
-                    name: cmp-plugin
-
-                  # Important: Mount tools into $PATH
-                  - name: custom-tools
-                    subPath: envsubst
-                    mountPath: /usr/local/bin/envsubst
-
-                  - name: custom-tools
-                    subPath: yq
-                    mountPath: /usr/local/bin/yq
-
-              - name: envsubsthelm
-                command: [/var/run/argocd/argocd-cmp-server]
-                image: quay.io/argoproj/argocd
-                args: [--loglevel, debug]
-                securityContext:
-                  runAsNonRoot: true
-                  runAsUser: 999
-                volumeMounts:
-                  - mountPath: /var/run/argocd
-                    name: var-files
-                  - mountPath: /home/argocd/cmp-server/plugins
-                    name: plugins
-                  - mountPath: /tmp
-                    name: tmp
-
-                  # Register plugins into sidecar
-                  - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-                    subPath: envsubsthelm.yaml
-                    name: cmp-plugin
 
                   # Important: Mount tools into $PATH
                   - name: custom-tools
