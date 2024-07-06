@@ -36,6 +36,9 @@ spec:
       plugin:
         name: envsubst
         env:
+          - name: "cluster_name"
+            value: "${ARGOCD_ENV_cluster_name}"
+
           - name: "external_dns_helm_version"
             value: "${ARGOCD_ENV_dns_utils_ext_dns_helm_version}"
 
@@ -120,6 +123,9 @@ spec:
       plugin:
         name: envsubst
         env:
+          - name: "cluster_name"
+            value: "${ARGOCD_ENV_cluster_name}"
+
           - name: "external_dns_helm_version"
             value: "${ARGOCD_ENV_dns_utils_ext_dns_helm_version}"
 
