@@ -2,12 +2,12 @@
 apiVersion: aws.vault.upbound.io/v1alpha1
 kind: SecretBackend
 metadata:
-  name: cc-aws
+  name: cc-cloud-provider
 spec:
   providerConfigRef:
     name: vault-provider-config
   forProvider:
-    path: cc-aws
+    path: cc-cloud-provider
     accessKeySecretRef:
       key: aws_access_key_id
       name: secret-backend-creds
