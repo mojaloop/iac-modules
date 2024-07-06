@@ -105,7 +105,7 @@ locals {
     "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
     "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
   }
-  
+
   pm4ml_keycloak_realm_env_secret_map = merge(
     { for key, pm4ml in local.pm4ml_var_map : "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.vault_secret_key },
     { for key, pm4ml in local.pm4ml_var_map : "portal-admin-secret-${key}" => var.vault_secret_key },
@@ -113,7 +113,8 @@ locals {
   )
 
   keycloak_realm_env_secret_map = merge(
-    (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_keycloak_realm_env_secret_map : local.pm4ml_keycloak_realm_env_secret_map,
+    (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_keycloak_realm_env_secret_map : {},
+    var.common_var_map.pm4ml_enabled ? local.pm4ml_keycloak_realm_env_secret_map : {},
     {
       "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
       "${var.role_assign_svc_secret}"          = var.vault_secret_key
