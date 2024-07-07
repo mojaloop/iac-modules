@@ -182,6 +182,12 @@ variable "iac_group_name" {
   default     = "admin"
 }
 
+variable "create_haproxy_dns_record" {
+  type        = bool
+  description = "whether to create public dns record for private ip of bastion for haproxy"
+  default     = true
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

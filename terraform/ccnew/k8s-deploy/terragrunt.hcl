@@ -22,6 +22,7 @@ inputs = {
   app_var_map                          = (local.CLOUD_PLATFORM == "bare-metal") ? local.cloud_platform_vars : null
   create_ext_dns_user                  = false
   create_ci_iam_user                   = true
+  create_haproxy_dns_record            = false
   iac_group_name                       = local.env_vars.iac_group_name
 }
 
