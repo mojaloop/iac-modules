@@ -11,7 +11,7 @@ sources:
   - service
   - ingress
   - istio-virtualservice
-
+logLevel: debug
 provider: aws
 aws:
   credentials:
