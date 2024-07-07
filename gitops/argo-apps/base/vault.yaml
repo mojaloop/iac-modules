@@ -16,14 +16,14 @@ spec:
       prune: true
       selfHeal: true
     retry:
-      limit: 10
+      limit: 20
       backoff:
-        duration: 5s
+        duration: 10s
         maxDuration: 3m0s
         factor: 2
     syncOptions:
       - CreateNamespace=true
-      - PrunePropagationPolicy=background
+      - PrunePropagationPolicy=foreground
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
@@ -42,20 +42,8 @@ spec:
         - name: "vault_namespace"
           value: "${ARGOCD_ENV_vault_vault_namespace}"
 
-        - name: "consul_storage_size"
-          value: "${ARGOCD_ENV_vault_consul_storage_size}"
-
-        - name: "consul_replicas"
-          value: "'${ARGOCD_ENV_vault_consul_replicas}'"
-
         - name: "consul_namespace"
           value: "${ARGOCD_ENV_vault_consul_namespace}"
-
-        - name: "consul_app_name"
-          value: "${ARGOCD_ENV_vault_consul_app_name}"
-
-        - name: "consul_helm_version"
-          value: "${ARGOCD_ENV_vault_consul_helm_version}"
 
         - name: "vault_app_name"
           value: "${ARGOCD_ENV_vault_vault_app_name}"

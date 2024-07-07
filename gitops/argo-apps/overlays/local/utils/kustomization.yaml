@@ -12,3 +12,4 @@ resources:
   - ../../../base/istio.yaml
   - ../../../base/istio-gw.yaml
   - ../../../base/cert-manager.yaml
+  - ../../../base/consul.yaml
