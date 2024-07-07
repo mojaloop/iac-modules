@@ -43,7 +43,7 @@ spec:
           value: "${ARGOCD_ENV_vault_vault_namespace}"
 
         - name: "consul_namespace"
-          value: "${ARGOCD_ENV_vault_consul_namespace}"
+          value: "${ARGOCD_ENV_consul_namespace}"
 
         - name: "vault_app_name"
           value: "${ARGOCD_ENV_vault_vault_app_name}"
