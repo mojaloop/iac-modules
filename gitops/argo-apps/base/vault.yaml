@@ -83,3 +83,6 @@ spec:
 
         - name: "cloud_platform_api_client_id"
           value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_id}"
+
+        - name: "vault_log_level"
+          value: "${ARGOCD_ENV_vault_vault_vault_log_level}"
