@@ -7,7 +7,7 @@ spec:
   gateways:
     - ${ARGOCD_ENV_vault_istio_gateway_namespace}/${ARGOCD_ENV_vault_istio_wildcard_gateway_name}
   hosts:
-    - "argocd.${ARGOCD_ENV_vault_dns_subdomain}"
+    - "vault.${ARGOCD_ENV_vault_dns_subdomain}"
   http:
     - match:
         - uri:
