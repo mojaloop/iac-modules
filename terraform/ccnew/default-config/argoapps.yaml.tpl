@@ -5,6 +5,7 @@ argocd_override:
       application_gitrepo_tag: "${application_gitrepo_tag}"
       sub_apps:
         argocd_helm:
+          public_ingress_access_domain: "${argocd_public_ingress_access_domain}"
           dns_public_subdomain: "${dns_public_subdomain}"
           dns_private_subdomain: "${dns_private_subdomain}"
         istio:
@@ -34,8 +35,7 @@ argocd_override:
       sub_apps:
         vault:
           vault_terraform_modules_tag: "${application_gitrepo_tag}"
-          dns_public_subdomain: "${dns_public_subdomain}"
-          dns_private_subdomain: "${dns_private_subdomain}"
+          public_ingress_access_domain: "${vault_public_ingress_access_domain}"
           cloud_platform_api_client_id: "${cloud_platform_api_client_id}"
           cloud_platform_api_client_secret: "${cloud_platform_api_client_secret}"
     zitadel:

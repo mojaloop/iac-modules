@@ -11,6 +11,8 @@ letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 microk8s_dev_skip: false
 iac_group_name: iac_admin
+vault_public_access: true
+argocd_public_access: true
 nodes:
   master-generic:
     master: true

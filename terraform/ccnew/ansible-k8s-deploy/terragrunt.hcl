@@ -92,6 +92,8 @@ inputs = {
     ext_dns_cloud_policy              = dependency.k8s_deploy.outputs.ext_dns_cloud_policy
     cloud_platform_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_id_key]
     cloud_platform_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_secret_key]
+    argocd_public_ingress_access_domain = local.env_vars.argocd_public_access
+    vault_public_ingress_access_domain = local.env_vars.vault_public_access
     }))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
