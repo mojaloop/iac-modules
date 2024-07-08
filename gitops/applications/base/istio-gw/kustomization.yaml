@@ -9,11 +9,11 @@ helmCharts:
     version: ${ARGOCD_ENV_istio_helm_version}
     repo: https://istio-release.storage.googleapis.com/charts
     valuesFile: istio-internal-ingress-gateway-values.yaml
-    namespace: ${ARGOCD_ENV_ARGOCD_ENV_istio_internal_gateway_namespace}
+    namespace: ${ARGOCD_ENV_istio_internal_gateway_namespace}
 
   - name: gateway
     releaseName: ext-gateway
     version: ${ARGOCD_ENV_istio_helm_version}
     repo: https://istio-release.storage.googleapis.com/charts
     valuesFile: istio-external-ingress-gateway-values.yaml
-    namespace: ${ARGOCD_ENV_ARGOCD_ENV_istio_external_gateway_namespace}
+    namespace: ${ARGOCD_ENV_istio_external_gateway_namespace}
