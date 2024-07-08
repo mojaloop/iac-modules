@@ -20,8 +20,8 @@ spec:
           route53:
             region: ${ARGOCD_ENV_dns_cloud_api_region}
             accessKeyIDSecretRef:
-              name: ${ARGOCD_ENV_certmanager_credentials_secret}
+              name: ${ARGOCD_ENV_cert_manager_credentials_secret}
               key: access_key
             secretAccessKeySecretRef:
-              name: ${ARGOCD_ENV_certmanager_credentials_secret}
+              name: ${ARGOCD_ENV_cert_manager_credentials_secret}
               key: secret_key

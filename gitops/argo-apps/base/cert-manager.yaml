@@ -37,4 +37,4 @@ spec:
           crds:
             enabled: true
           deploymentAnnotations:
-            secret.reloader.stakater.com/reload: "true"
+            secret.reloader.stakater.com/reload: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
