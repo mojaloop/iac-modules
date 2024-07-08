@@ -60,7 +60,7 @@ data:
       if [ $(vault status -format=json | jq .sealed) == "true" ]
       then
         echo "unsealing vault"
-        vault operator unseal $(kubectl get secret -n ${ARGOCD_ENV_vault_namespace} ${ARGOCD_ENV_vault_keys_secret} jsonpath="{.data.root_token}" | base64 -d)
+        vault operator unseal $(kubectl get secret -n ${ARGOCD_ENV_vault_namespace} ${ARGOCD_ENV_vault_keys_secret} -o jsonpath="{.data.root_token}" | base64 -d)
       else
         echo "vault already unsealed"
       fi
