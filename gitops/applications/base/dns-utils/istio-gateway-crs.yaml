@@ -8,7 +8,7 @@ spec:
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
-  commonName: ${ARGOCD_ENV_ARGOCD_ENV_dns_private_subdomain}
+  commonName: ${ARGOCD_ENV_dns_private_subdomain}
   dnsNames:
     - "${ARGOCD_ENV_dns_private_subdomain}"
     - "*.${ARGOCD_ENV_dns_private_subdomain}"
@@ -17,7 +17,7 @@ spec:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
       reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "${ARGOCD_ENV_istio_external_gateway_namespace}, ${ARGOCD_ENV_istio_internal_gateway_namespace}" # Control destination namespaces
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "${ARGOCD_ENV_istio_external_gateway_namespace}, ${ARGOCD_ENV_ARGOCD_ENV_istio_internal_gateway_namespace}" # Control auto-reflection namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "${ARGOCD_ENV_istio_external_gateway_namespace}, ${ARGOCD_ENV_istio_internal_gateway_namespace}" # Control auto-reflection namespaces
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -91,7 +91,7 @@ spec:
     istio: ${ARGOCD_ENV_istio_external_gateway_name}
   servers:
     - hosts:
-        - "*.${ARGOCD_ENV_ARGOCD_ENV_dns_public_subdomain}"
+        - "*.${ARGOCD_ENV_dns_public_subdomain}"
       port:
         name: https
         number: 443
