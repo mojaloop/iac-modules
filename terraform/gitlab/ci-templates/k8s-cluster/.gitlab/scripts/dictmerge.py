@@ -125,10 +125,8 @@ else:
     for custom_config_file in custom_config_files:
         if fileName == "pm4ml-vars.yaml":
             data2 = load_custom_config(custom_config_file)
-            if "pm4mls" not in data2 or len(data2["pm4mls"]) == 0:
-                print(custom_config_file, " pm4mls is empty, please provide the correct configuration in case if it is a payment manager deployment")
-                exit(1)
-            merged = dict(mergedicts(merged, {'pm4mls': {name: dict(mergedicts(data1, pm4ml)) for name, pm4ml in data2['pm4mls'].items()}}))
+            if "pm4mls" in data2 and len(data2["pm4mls"]) > 0:
+                merged = dict(mergedicts(merged, {'pm4mls': {name: dict(mergedicts(data1, pm4ml)) for name, pm4ml in data2['pm4mls'].items()}}))
         else:
             data1 = dict(mergedicts(data1, load_custom_config(custom_config_file)))
             merged = data1
