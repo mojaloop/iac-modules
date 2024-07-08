@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_utils_cert_manager_app_name}
+  name: ${ARGOCD_ENV_utils_reloader_app_name}
   namespace: ${ARGOCD_ENV_argocd_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
@@ -27,14 +27,13 @@ spec:
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_utils_cert_manager_namespace}
+    namespace: ${ARGOCD_ENV_utils_reloader_namespace}
   sources:
-    - chart: cert-manager
-      repoURL: https://charts.jetstack.io
-      targetRevision: ${ARGOCD_ENV_utils_cert_manager_helm_version}
+    - chart: reloader
+      repoURL: https://stakater.github.io/stakater-charts
+      targetRevision: ${ARGOCD_ENV_utils_reloader_helm_version}
       helm:
         valuesObject:
-          crds:
-            enabled: true
-          deploymentAnnotations:
-            secret.reloader.stakater.com/reload: true
+          nameOverride: reloader
+          reloader:
+            resourceLabelSelector: "reloader=enabled"

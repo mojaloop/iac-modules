@@ -12,5 +12,10 @@ helmCharts:
     repo: https://charts.bitnami.com/bitnami
     valuesFile: ext-dns-values.yaml
     namespace: ${ARGOCD_ENV_external_dns_namespace}
-    additionalValuesFiles:
-      - ext-dns-values.yaml
+patches:
+  - target:
+      kind: Deployment
+    patch: |
+      - op: add
+        path: /metadata/annotations/secret.reloader.stakater.com~1reload
+        value: ${ARGOCD_ENV_external_dns_credentials_secret}

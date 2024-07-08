@@ -6,6 +6,7 @@ resources:
   - ../../../base/rook-ceph.yaml
   - ../../../base/external-secrets.yaml
   - ../../../base/reflector.yaml
+  - ../../../base/reloader.yaml
   - ../../../base/crossplane.yaml
   - ../../../base/kubernetes-secret-generator.yaml
   - ../../../base/utils-post-config.yaml
