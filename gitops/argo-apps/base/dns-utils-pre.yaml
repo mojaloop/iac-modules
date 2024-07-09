@@ -1,0 +1,211 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_dns_utils_argocd_app_name}-pre
+  namespace: ${ARGOCD_ENV_dns_utils_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_dns_utils_pre_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_dns_utils_app_namespace}
+
+  sources:
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
+      path: gitops/applications/base/dns-utils-pre
+      plugin:
+        name: envsubst
+        env:
+          - name: "cluster_name"
+            value: "${ARGOCD_ENV_cluster_name}"
+
+          - name: "external_dns_helm_version"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_helm_version}"
+
+          - name: "external_dns_namespace"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_namespace}"
+
+          - name: "dns_private_subdomain"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_private_subdomain}"
+
+          - name: "dns_public_subdomain"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_public_subdomain}"
+
+          - name: "dns_cloud_api_region"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_dns_cloud_api_region}"
+
+          - name: "istio_internal_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_gateway_name}"
+
+          - name: "istio_external_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_external_gateway_name}"
+
+          - name: "istio_internal_wildcard_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_wildcard_gateway_name}"
+
+          - name: "istio_external_wildcard_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_external_wildcard_gateway_name}"
+
+          - name: "istio_external_gateway_namespace"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_external_gateway_namespace}"
+
+          - name: "istio_internal_gateway_namespace"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_gateway_namespace}"
+
+          - name: "internal_load_balancer_dns"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_internal_load_balancer_dns}"
+
+          - name: "external_load_balancer_dns"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_external_load_balancer_dns}"
+
+          - name: "ext_dns_cloud_policy"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_ext_dns_cloud_policy}"
+
+          - name: "letsencrypt_server"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_letsencrypt_server}"
+
+          - name: "letsencrypt_email"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_letsencrypt_email}"
+
+          - name: "cert_manager_namespace"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_cert_manager_namespace}"
+
+          - name: "external_dns_credentials_secret"
+            value: "ext-dns-credentials"
+
+          - name: "default_internal_ssl_certificate"
+            value: "internal-wildcard"
+
+          - name: "default_external_ssl_certificate"
+            value: "external-wildcard"
+
+          - name: "dns_utils_namespace"
+            value: "${ARGOCD_ENV_dns_utils_app_namespace}"
+
+          - name: "vault_read_all_kv_secrets_policy_name"
+            value: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
+
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_namespace}"
+
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
+
+          - name: "cert_manager_credentials_secret"
+            value: "${ARGOCD_ENV_cert_manager_credentials_secret}"
+
+          - name: "istio_namespace"
+            value: "${ARGOCD_ENV_istio_namespace}"
+
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
+      path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/dns-utils-pre
+      plugin:
+        name: envsubst
+        env:
+          - name: "cluster_name"
+            value: "${ARGOCD_ENV_cluster_name}"
+
+          - name: "external_dns_helm_version"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_helm_version}"
+
+          - name: "external_dns_namespace"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_namespace}"
+
+          - name: "dns_private_subdomain"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_private_subdomain}"
+
+          - name: "dns_public_subdomain"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_public_subdomain}"
+
+          - name: "dns_cloud_api_region"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_dns_cloud_api_region}"
+
+          - name: "istio_internal_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_gateway_name}"
+
+          - name: "istio_external_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_external_gateway_name}"
+
+          - name: "istio_internal_wildcard_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_wildcard_gateway_name}"
+
+          - name: "istio_external_wildcard_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_external_wildcard_gateway_name}"
+
+          - name: "istio_external_gateway_namespace"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_external_gateway_namespace}"
+
+          - name: "istio_internal_gateway_namespace"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_gateway_namespace}"
+
+          - name: "internal_load_balancer_dns"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_internal_load_balancer_dns}"
+
+          - name: "external_load_balancer_dns"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_external_load_balancer_dns}"
+
+          - name: "ext_dns_cloud_policy"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_ext_dns_cloud_policy}"
+
+          - name: "letsencrypt_server"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_letsencrypt_server}"
+
+          - name: "letsencrypt_email"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_letsencrypt_email}"
+
+          - name: "cert_manager_namespace"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_cert_manager_namespace}"
+
+          - name: "external_dns_credentials_secret"
+            value: "ext-dns-credentials"
+
+          - name: "default_internal_ssl_certificate"
+            value: "internal-wildcard"
+
+          - name: "default_external_ssl_certificate"
+            value: "external-wildcard"
+
+          - name: "dns_utils_namespace"
+            value: "${ARGOCD_ENV_dns_utils_app_namespace}"
+
+          - name: "vault_read_all_kv_secrets_policy_name"
+            value: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
+
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_namespace}"
+
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
+
+          - name: "cert_manager_credentials_secret"
+            value: "${ARGOCD_ENV_cert_manager_credentials_secret}"
+
+          - name: "istio_namespace"
+            value: "${ARGOCD_ENV_istio_namespace}"

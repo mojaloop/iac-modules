@@ -8,20 +8,19 @@ resources:
   - zitadel-xplane-terraform.yaml
 
 helmCharts:
-
   - name: cockroachdb
     releaseName: zitadel-db
-    version: {{ cockroachdb_helm_version }}
+    version: ${ARGOCD_ENV_cockroachdb_helm_version}
     repo: https://charts.cockroachdb.com/
     valuesFile: cockroach-db-values.yaml
-    namespace: {{ zitadel_namespace }}
+    namespace: ${ARGOCD_ENV_zitadel_namespace}
 
   - name: zitadel
     releaseName: zitadel
-    version: {{ zitadel_helm_version }}
+    version: ${ARGOCD_ENV_zitadel_helm_version}
     repo: https://charts.zitadel.com
     valuesFile: zitadel-values.yaml
-    namespace: {{ zitadel_namespace }}
+    namespace: ${ARGOCD_ENV_zitadel_namespace}
 
 patches:
   - target:

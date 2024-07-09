@@ -3,7 +3,7 @@ zitadel:
   configmapConfig:
     ExternalPort: 443
     ExternalSecure: true
-    ExternalDomain: zitadel.${ARGOCD_ENV_dns_public_subdomain}
+    ExternalDomain: zitadel.${ARGOCD_ENV_zitdadel_dns_subdomain}
     TLS:
       Enabled: false
     FirstInstance:
