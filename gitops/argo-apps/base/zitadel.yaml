@@ -4,7 +4,7 @@ metadata:
   name: ${ARGOCD_ENV_zitadel_argocd_app_name}
   namespace: ${ARGOCD_ENV_zitadel_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_zitadel_sync_wave}
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_sync_wave}
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -35,7 +35,6 @@ spec:
     path: gitops/applications/base/vault
     plugin:
       name: envsubst
-
       env:
         - name: "zitadel_release_name"
           value: "${ARGOCD_ENV_security_zitadel_app_name}"
