@@ -47,4 +47,4 @@ spec:
   host: argocd-server
   trafficPolicy:
     tls:
-      mode: NONE
+      mode: DISABLE
