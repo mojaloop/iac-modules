@@ -11,6 +11,8 @@ include "root" {
 inputs = {
   tags                         = local.tags
   deployment_name              = local.CLUSTER_NAME
+  vpc_cidr                     = local.env_vars.managed_vpc_cidr
+
 
   managed_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")

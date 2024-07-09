@@ -35,6 +35,7 @@ nodes:
       workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
       workload-class.mojaloop.io/MONITORING: "enabled"
 vpc_cidr: "10.106.0.0/23"
+managed_vpc_cidr: "10.28.0.0/23"
 enable_k6s_test_harness: false
 k6s_docker_server_instance_type: "m5.large"
 master_node_supports_traffic: true
