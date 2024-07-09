@@ -371,7 +371,7 @@ spec:
               #         - url: http://argocd-metrics-server.argocd.svc.cluster.local:9003
 
             params:
-              server.insecure: false
+              server.insecure: true
               # Mandatory for extensions to work
               server.enable.proxy.extension: "true"
             rbac:
