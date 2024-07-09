@@ -40,5 +40,5 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v${grafana_dashboard_tag}/monitoring/dashboards/infrastructure/prometheus-remote-write.json"
+  url: "https://raw.githubusercontent.com/mojaloop/helm/${grafana_dashboard_tag}/monitoring/dashboards/infrastructure/prometheus-remote-write.json"
 ---
