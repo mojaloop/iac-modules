@@ -33,7 +33,7 @@ kind: GrafanaDashboard
 metadata:
   name: mojaloop-prometheus-remote-write
 spec:
-  folder: kubernetes
+  folder: monitoring
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "Prometheus" 
