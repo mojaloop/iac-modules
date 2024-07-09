@@ -38,18 +38,11 @@ argocd_override:
           public_ingress_access_domain: "${vault_public_ingress_access_domain}"
           cloud_platform_api_client_id: "${cloud_platform_api_client_id}"
           cloud_platform_api_client_secret: "${cloud_platform_api_client_secret}"
-    zitadel:
+    security:
       application_gitrepo_tag: "${application_gitrepo_tag}"
       sub_apps:
         zitadel:
           terraform_modules_tag: "${application_gitrepo_tag}"
-          dns_public_subdomain: "${dns_public_subdomain}"
-          dns_private_subdomain: "${dns_private_subdomain}"
-    netbird:
-      application_gitrepo_tag: "${application_gitrepo_tag}"
-      sub_apps:
         netbird:
           stunner_nodeport_port: "'${wireguard_ingress_port}'"
           terraform_modules_tag: "${application_gitrepo_tag}"
-          dns_public_subdomain: "${dns_public_subdomain}"
-          dns_private_subdomain: "${dns_private_subdomain}"
