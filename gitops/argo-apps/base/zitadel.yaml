@@ -70,10 +70,10 @@ spec:
           value: "${ARGOCD_ENV_security_zitadel_istio_gateway_namespace}"
 
         - name: "zitadel_istio_wildcard_gateway_name"
-          value: "${ARGOCD_ENV_security_zitadel_istio_wildcard_gateway_name}"
+          value: "${ARGOCD_ENV_zitadel_istio_wildcard_gateway_name}"
 
         - name: "zitdadel_dns_subdomain"
           value: "${ARGOCD_ENV_zitdadel_dns_subdomain}"
 
         - name: "zitadel_post_config_output_secret"
-          value: "${ARGOCD_ENV_zitdadel_post_config_output_secret}"
+          value: "${ARGOCD_ENV_security_zitadel_zitdadel_post_config_output_secret}"
