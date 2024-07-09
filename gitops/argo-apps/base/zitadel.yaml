@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_zitadel_argocd_app_name}
-  namespace: ${ARGOCD_ENV_zitadel_app_namespace}
+  name: ${ARGOCD_ENV_security_zitadel_app_name}
+  namespace: ${ARGOCD_ENV_argocd_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_sync_wave}
 
@@ -27,12 +27,12 @@ spec:
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_zitadel_app_namespace}
+    namespace: ${ARGOCD_ENV_security_namespace}
 
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
-    targetRevision: ${ARGOCD_ENV_zitadel_application_gitrepo_tag}
-    path: gitops/applications/base/vault
+    targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
+    path: gitops/applications/base/zitadel
     plugin:
       name: envsubst
       env:
@@ -67,10 +67,10 @@ spec:
           value: "${ARGOCD_ENV_security_cockroachdb_app_name}"
 
         - name: "zitadel_istio_gateway_namespace"
-          value: "${ARGOCD_ENV_zitadel_istio_gateway_namespace}"
+          value: "${ARGOCD_ENV_security_zitadel_istio_gateway_namespace}"
 
         - name: "zitadel_istio_wildcard_gateway_name"
-          value: "${ARGOCD_ENV_zitadel_istio_wildcard_gateway_name}"
+          value: "${ARGOCD_ENV_security_zitadel_istio_wildcard_gateway_name}"
 
         - name: "zitdadel_dns_subdomain"
           value: "${ARGOCD_ENV_zitdadel_dns_subdomain}"
