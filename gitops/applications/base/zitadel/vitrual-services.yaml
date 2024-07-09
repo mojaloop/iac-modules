@@ -7,7 +7,7 @@ spec:
   gateways:
     - ${ARGOCD_ENV_zitadel_istio_gateway_namespace}/${ARGOCD_ENV_zitadel_istio_wildcard_gateway_name}
   hosts:
-    - "zitadel.${ARGOCD_ENV_zitdadel_dns_subdomain}"
+    - "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
   http:
     - match:
         - uri:
