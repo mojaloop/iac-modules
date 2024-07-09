@@ -28,11 +28,11 @@ percona-mongodb:
 redis:
   enabled: true
   install_type: operator
-  helm_chart: redis-operator
+  helm_chart: ot-helm/redis-operator
   namespace: redis
   release_name: redis
-  helm_chart_version: 1.0.0
-  helm_chart_repo: https://localhost/redis # not used
+  helm_chart_version: 0.16.4
+  helm_chart_repo: https://ot-container-kit.github.io/helm-charts/
   helm_chart_values_file: values-redis.yaml
 # percona-postgresql:
 #   enabled: true
