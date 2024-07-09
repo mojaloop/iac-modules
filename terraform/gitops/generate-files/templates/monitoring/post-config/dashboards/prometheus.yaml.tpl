@@ -28,3 +28,17 @@ spec:
       dashboards: "grafana"
   url: "https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/prometheus/dashboards/prometheus.json"
 ---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mojaloop-prometheus-remote-write
+spec:
+  folder: kubernetes
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v${grafana_dashboard_tag}/monitoring/dashboards/infrastructure/prometheus-remote-write.json"
+---

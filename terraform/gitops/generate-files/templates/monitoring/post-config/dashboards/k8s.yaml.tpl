@@ -19,7 +19,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.0.0-snapshot.6/monitoring/dashboards/kubernetes/kubernetes-monitoring-dashboard.json"
+  url: "https://raw.githubusercontent.com/mojaloop/helm/v${grafana_dashboard_tag}/monitoring/dashboards/kubernetes/kubernetes-monitoring-dashboard.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
