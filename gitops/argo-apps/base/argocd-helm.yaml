@@ -49,7 +49,7 @@ spec:
             secret:
               createSecret: false
             cm:
-              url: https://argo.${ARGOCD_ENV_utils_argocd_dns_subdomain}
+              url: https://argo.${ARGOCD_ENV_argocd_dns_subdomain}
               exec.enabled: "true"
               kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
@@ -67,6 +67,17 @@ spec:
                     hs.status = "Progressing"
                     hs.message = ""
                     if obj.status ~= nil then
+                      if obj.status.resources ~= nil then
+                        for i, resource in ipairs(obj.status.resources) do
+                          if resource.health ~= nil then
+                            if resource.health.status == "Degraded" then
+                              hs.status = "Progressing"
+                              hs.message = resource.health.name .. " Resource degraded"
+                              return hs
+                            end
+                          end
+                        end
+                      end
                       if obj.status.health ~= nil then
                         hs.status = obj.status.health.status
                         if obj.status.health.message ~= nil then
@@ -105,13 +116,13 @@ spec:
                       if obj.status.conditions ~= nil then
 
                         -- Always Handle Issuing First to ensure consistent behaviour
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "Issuing" and condition.status == "True" then
-                            hs.status = "Progressing"
-                            hs.message = condition.message
-                            return hs
+                          for i, condition in ipairs(obj.status.conditions) do
+                            if condition.type == "Issuing" and condition.status == "True" then
+                              hs.status = "Progressing"
+                              hs.message = condition.message
+                              return hs
+                            end
                           end
-                        end
 
                         for i, condition in ipairs(obj.status.conditions) do
                           if condition.type == "Ready" and condition.status == "False" then
