@@ -181,7 +181,7 @@ spec:
                     hs.status = "Progressing"
                     hs.message = "Waiting for cluster secret store"
                     return hs
-                    
+
                 "*.upbound.io/*":
                   health.lua: |
                     health_status = {
@@ -329,7 +329,7 @@ spec:
               #         - url: http://argocd-metrics-server.argocd.svc.cluster.local:9003
 
             params:
-              server.insecure: true
+              server.insecure: false
               # Mandatory for extensions to work
               server.enable.proxy.extension: "true"
             rbac:
