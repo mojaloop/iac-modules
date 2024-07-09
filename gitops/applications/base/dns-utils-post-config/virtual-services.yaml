@@ -36,15 +36,4 @@ spec:
         - destination:
             host: argocd-server
             port:
-              number: 443
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: argocd-server-dtrl
-  namespace: ${ARGOCD_ENV_argocd_namespace}
-spec:
-  host: argocd-server
-  trafficPolicy:
-    tls:
-      mode: DISABLE
+              number: 80
