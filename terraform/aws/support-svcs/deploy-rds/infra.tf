@@ -8,7 +8,7 @@ module "rds" {
   for_each   = var.rds_services
   source     = "terraform-aws-modules/rds/aws"
 
-  identifier = each.key
+  identifier = "${var.deployment_name}-${each.key}"
 
   engine              = each.value.external_resource_config.engine
   engine_version      = each.value.external_resource_config.engine_version
@@ -30,7 +30,7 @@ module "rds" {
   # Enhanced Monitoring - see example for details on how to create the role
   # by yourself, in case you don't want to create it automatically
   monitoring_interval    = each.value.external_resource_config.monitoring_interval
-  monitoring_role_name   = "${each.value.external_resource_config.db_name}-RDSMonitoringRole"
+  monitoring_role_name   = "${var.deployment_name}-${each.value.external_resource_config.db_name}-RDSMonitoringRole"
   create_monitoring_role = true
 
   tags = each.value.external_resource_config.tags
