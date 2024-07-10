@@ -7,8 +7,4 @@ init:
   provisioning:
     enabled: true
   jobAnnotations:
-<<<<<<< HEAD:gitops/applications/base/zitadel-pre/cockroach-db-values.yaml
     argocd.argoproj.io/hook: Sync
-=======
-    argocd.argoproj.io/hook: Sync
->>>>>>> 0e820109 (add argo hook):gitops/applications/base/zitadel/cockroach-db-values.yaml
