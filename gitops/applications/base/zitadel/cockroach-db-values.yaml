@@ -6,3 +6,5 @@ storage:
 init:
   provisioning:
     enabled: true
+  jobAnnotations:
+    argocd.argoproj.io/hook: Sync
