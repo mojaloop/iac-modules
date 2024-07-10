@@ -25,6 +25,32 @@ spec:
         #   key: password
         # imagePullSecrets:
         #   - name: regcred
+  redisLeader:
+    readinessProbe:
+      failureThreshold: 5
+      initialDelaySeconds: 15
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 5
+    livenessProbe:
+      failureThreshold: 5
+      initialDelaySeconds: 15
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 5
+  redisFollower:
+    readinessProbe:
+      failureThreshold: 5
+      initialDelaySeconds: 15
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 5
+    livenessProbe:
+      failureThreshold: 5
+      initialDelaySeconds: 15
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 5
   redisExporter:
     enabled: false
     image: bitnami/redis-exporter:1.61.0
