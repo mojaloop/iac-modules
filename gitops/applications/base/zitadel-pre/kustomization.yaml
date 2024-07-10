@@ -12,3 +12,11 @@ helmCharts:
     repo: https://charts.cockroachdb.com/
     valuesFile: cockroach-db-values.yaml
     namespace: ${ARGOCD_ENV_zitadel_namespace}
+
+patches:
+  - target:
+      kind: CronJob
+    patch: |
+      - op: replace
+        path: /apiVersion
+        value: batch/v1
