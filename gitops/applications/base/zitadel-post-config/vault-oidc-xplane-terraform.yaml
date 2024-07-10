@@ -28,7 +28,7 @@ spec:
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
-    name: zitadel-post-config
+    name: zitadel-vault-oidc-config
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_zitadel_namespace}
     name: zitadel-vault-oidc-config
