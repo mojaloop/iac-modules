@@ -16,10 +16,11 @@ CONFIG: &CONFIG
     livenessProbe:
       initialDelaySeconds: 5
 PROXY: &PROXY
-  proxy_cache:
-      enabled: false
-      proxyConfig:
-          host: mojaloop-redis-leader
+  config:
+    proxy_cache:
+        enabled: false
+        proxyConfig:
+            host: mojaloop-redis-leader
 account-lookup-service:
   account-lookup-service:
     <<: [*CONFIG, *PROXY]
