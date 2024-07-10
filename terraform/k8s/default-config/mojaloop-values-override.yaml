@@ -1,226 +1,57 @@
-account-lookup-service:
-  account-lookup-service:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
+CONFIG: &CONFIG
+  replicaCount: 1
+  config:
+    event_log_filter: ""
+    log_level: warn
+  livenessProbe:
+    initialDelaySeconds: 5
+    timeoutSeconds: 2
+  readinessProbe:
+    initialDelaySeconds: 5
+    timeoutSeconds: 1
+    periodSeconds: 1
+  sidecar:
     readinessProbe:
       initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    livenessProbe:
+      initialDelaySeconds: 5
+PROXY: &PROXY
+  proxy_cache:
+      enabled: false
+      proxyConfig:
+          host: mojaloop-redis-leader
+account-lookup-service:
+  account-lookup-service:
+    <<: [*CONFIG, *PROXY]
   account-lookup-service-admin:
     replicaCount: 1
 quoting-service:
   quoting-service:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: *CONFIG
   quoting-service-handler:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: [*CONFIG, *PROXY]
 ml-api-adapter:
   ml-api-adapter-service:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: *CONFIG
   ml-api-adapter-handler-notification:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: [*CONFIG, *PROXY]
 centralledger:
   centralledger-service:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: *CONFIG
   centralledger-handler-transfer-prepare:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: [*CONFIG, *PROXY]
   centralledger-handler-transfer-position:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: *CONFIG
   centralledger-handler-transfer-position-batch:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: *CONFIG
   centralledger-handler-transfer-get:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: *CONFIG
   centralledger-handler-transfer-fulfil:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: *CONFIG
   centralledger-handler-timeout:
-    config:
-      event_log_filter: ""
-      log_level: warn
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: *CONFIG
   centralledger-handler-admin-transfer:
-    replicaCount: 1
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
-    sidecar:
-      readinessProbe:
-        initialDelaySeconds: 5
-      livenessProbe:
-        initialDelaySeconds: 5
+    <<: *CONFIG
 centralsettlement:
   centralsettlement-service:
     replicaCount: 1
