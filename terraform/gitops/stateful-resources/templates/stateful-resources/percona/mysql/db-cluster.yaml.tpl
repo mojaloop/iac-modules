@@ -168,7 +168,10 @@ spec:
 #      whenUnsatisfiable: DoNotSchedule
     affinity:
       antiAffinityTopologyKey: "kubernetes.io/hostname"
-#      advanced:
+%{ if affinity_definition != null ~}      
+      advanced:
+        ${indent(8, yamlencode(affinity_definition))}
+%{ endif ~}  
 #        nodeAffinity:
 #          requiredDuringSchedulingIgnoredDuringExecution:
 #            nodeSelectorTerms:
@@ -736,7 +739,7 @@ metadata:
   name: ${percona_credentials_secret}
   namespace: ${namespace}
 spec:
-  refreshInterval: 1h
+  refreshInterval: 5m
 
   secretStoreRef:
     kind: ClusterSecretStore

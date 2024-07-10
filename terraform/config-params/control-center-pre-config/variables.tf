@@ -34,6 +34,18 @@ variable "netmaker_oidc_redirect_url" {
   default     = ""
 }
 
+variable "enable_central_observability_grafana_oidc" {
+  type        = bool
+  default     = true
+  description = "enable oidc config of central_observability_grafana"
+}
+
+variable "central_observability_grafana_oidc_redirect_url" {
+  description = "netmaker_oidc_redirect_url"
+  default     = ""
+}
+
+
 variable "private_repo_user" {
   default = ""
 }

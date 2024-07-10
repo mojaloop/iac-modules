@@ -15,8 +15,14 @@ spec:
     volumes:
       - id: 0
         type: persistent-claim
-        size: 20Gi
+        size: ${node_pool_storage_size}
         deleteClaim: false
+%{ if node_pool_affinity != null ~}           
+  template:
+    pod:
+      affinity:
+        ${indent(8, yamlencode(node_pool_affinity))}
+%{ endif ~}        
 ---
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
@@ -291,6 +297,12 @@ spec:
       targetLabel: node_ip
       replacement: $1
       action: replace
+    - source_labels: []
+      targetLabel: 'strimzi_io_cluster'
+      replacement: ${kafka_cluster_metrics_label}
+      action: replace
+
+   
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder

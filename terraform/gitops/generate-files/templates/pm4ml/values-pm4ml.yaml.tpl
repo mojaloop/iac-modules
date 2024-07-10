@@ -215,6 +215,12 @@ ttk:
         "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4001",
         "SEND_CALLBACK_ENABLE": true,
         "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
+        "GITHUB_CONFIG": {
+          "TEST_CASES_REPO_OWNER": "mojaloop",
+          "TEST_CASES_REPO_NAME": "testing-toolkit-test-cases",
+          "TEST_CASES_REPO_DEFAULT_RELEASE_TAG": "${ttk_testcases_tag}",
+          "TEST_CASES_REPO_BASE_PATH": "collections/pm4ml"
+        },
         "DEFAULT_REQUEST_TIMEOUT": 15000,
         "FSPID": *dfspId
       }
@@ -245,11 +251,38 @@ ttk:
               },
             ],
         }
-      rules_response__default.json: https://raw.githubusercontent.com/infitx-org/convening-narirobi-pocs/main/ttk-rules/core_connector_response_rules.json
+      rules_response__default.json: https://raw.githubusercontent.com/mojaloop/testing-toolkit-test-cases/v16.1.0-fx-snapshot.1/rules/pm4ml/fxp_response_rules.json
       api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.4.0/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
       api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/main/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
       api_definitions__mojaloop_connector_outbound_2.1__callback_map.json: []
-
+    extraEnvironments:
+      pm4ml-default-environment.json: {
+        "inputValues": {
+          "ENABLE_WS_ASSERTIONS": true,
+          "WS_ASSERTION_TIMEOUT": 5000,
+          "RETRY_MAX_ATTEMPTS": 100,
+          "FROM_DISPLAY_NAME": "Display-Test",
+          "FROM_FIRST_NAME": "Firstname-Test",
+          "FROM_MIDDLE_NAME": "Middlename-Test",
+          "FROM_LAST_NAME": "Lastname-Test",
+          "FROM_DOB": "1984-01-01",
+          "FROM_FSP_ID": "testpayer",
+          "HOME_TRANSACTION_ID": "123ABC",
+          "NOTE": "test",
+          "P2P_AMOUNT": "10",
+          "P2P_CURRENCY": "EUR",
+          "P2P_SOURCE_PARTY_ID_1": "16665551001",
+          "P2P_DESTINATION_PARTY_ID_1": "16665551002",
+          "FX_SOURCE_PARTY_ID_1": "16665551001",
+          "FX_DESTINATION_PARTY_ID_1": "16665551002",
+          "FXP1_ID": "testfxp",
+          "FX_PAYERDFSP_ID": "testpayer",
+          "FX_PAYEEDFSP_ID": "testpayee",
+          "FX_SOURCE_CURRENCY": "EUR",
+          "FX_TARGET_CURRENCY": "XXX",
+          "FX_SOURCE_AMOUNT": "10"
+        }
+      }
   ml-testing-toolkit-frontend:
     ingress:
       enabled: false

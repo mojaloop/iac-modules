@@ -326,6 +326,7 @@ bulk-mongodb:
       storage_size: 8Gi
       storage_class_name: longhorn
       service_port: 27017
+      affinity_definition: {}      
 cep-mongodb:
   local_operator_config:
     cr_version: 1.14.0
@@ -365,6 +366,7 @@ cep-mongodb:
       storage_size: 8Gi
       storage_class_name: longhorn
       service_port: 27017
+      affinity_definition: {}      
 reporting-events-mongodb:
   local_operator_config:
     cr_version: 1.14.0
@@ -404,6 +406,7 @@ reporting-events-mongodb:
       storage_size: 8Gi
       storage_class_name: longhorn
       service_port: 27017
+      affinity_definition: {}      
 mojaloop-kafka:
   local_operator_config:
     resource_namespace: mojaloop
@@ -423,17 +426,12 @@ mojaloop-kafka:
       storage_class_name: longhorn
       service_port: 9092
       replica_count: 1
-      dataplane_affinity_definition:
-        type: soft
-        key: workload-class.mojaloop.io/KAFKA-DATA-PLANE
-        values:
-          - enabled
-      controlplane_affinity_definition:
+      affinity_definition:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: workload-class.mojaloop.io/KAFKA-CONTROL-PLANE
+                  - key: workload-class.mojaloop.io/KAFKA-DATA-PLANE
                     operator: In
                     values:
                       - enabled
@@ -476,6 +474,7 @@ ttk-mongodb:
       storage_size: 8Gi
       storage_class_name: longhorn
       service_port: 27017
+      affinity_definition: {}      
 
 keycloak-db:
   local_operator_config:

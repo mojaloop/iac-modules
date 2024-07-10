@@ -38,6 +38,7 @@ variables:
   K8S_TEMPLATE_PATH: terraform/k8s
   TMP_TEMPLATES_DIR: /tmp/iac-templates
   TMP_GIT_REPO: /tmp/git-iac-templates
+  GIT_SUBMODULE_STRATEGY: recursive
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 

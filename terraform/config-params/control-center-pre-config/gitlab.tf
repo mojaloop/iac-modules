@@ -192,6 +192,15 @@ resource "gitlab_application" "tenant_vault_oidc" {
   redirect_url = "https://${var.vault_fqdn}/ui/vault/auth/oidc/oidc/callback"
 }
 
+resource "gitlab_application" "central_observability_grafana_oidc" {
+  count        = var.enable_central_observability_grafana_oidc ? 1 : 0
+  confidential = true
+  scopes       = ["profile", "email", "openid"]
+  name         = "central_observability_grafana_oidc"
+  redirect_url = var.central_observability_grafana_oidc_redirect_url
+}
+
+
 locals {
   private_repo_docker_credentials = base64encode("${var.private_repo_user}:${var.private_repo_token}")
   docker_auth_config = jsonencode({
