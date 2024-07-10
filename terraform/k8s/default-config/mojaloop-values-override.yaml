@@ -1,58 +1,52 @@
-CONFIG: &CONFIG
-  replicaCount: 1
-  config:
-    event_log_filter: ""
-    log_level: warn
-  livenessProbe:
-    initialDelaySeconds: 5
-    timeoutSeconds: 2
-  readinessProbe:
-    initialDelaySeconds: 5
-    timeoutSeconds: 1
-    periodSeconds: 1
-  sidecar:
-    readinessProbe:
-      initialDelaySeconds: 5
+_DEFINE:
+  DEPLOYMENT: &DEPLOYMENT
+    replicaCount: 1
     livenessProbe:
       initialDelaySeconds: 5
-PROXY: &PROXY
-  config:
-    proxy_cache:
-        enabled: false
-        proxyConfig:
-            host: mojaloop-redis-leader
+      timeoutSeconds: 2
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    sidecar:
+      readinessProbe:
+        initialDelaySeconds: 5
+      livenessProbe:
+        initialDelaySeconds: 5
+  CONFIG: &CONFIG
+    config: &BASE_CONFIG
+      event_log_filter: ""
+      log_level: warn
+  PROXY_CONFIG: &PROXY_CONFIG
+    config:
+      <<: *BASE_CONFIG
+      proxy_cache:
+          enabled: false
+          proxyConfig:
+              host: mojaloop-redis-leader
+  SERVICE: &SERVICE
+    <<: [*DEPLOYMENT, *CONFIG]
+  SERVICE_WITH_PROXY: &SERVICE_WITH_PROXY
+    <<: [*DEPLOYMENT, *PROXY_CONFIG]
 account-lookup-service:
-  account-lookup-service:
-    <<: [*CONFIG, *PROXY]
+  account-lookup-service: *SERVICE_WITH_PROXY
   account-lookup-service-admin:
     replicaCount: 1
 quoting-service:
-  quoting-service:
-    <<: *CONFIG
-  quoting-service-handler:
-    <<: [*CONFIG, *PROXY]
+  quoting-service: *SERVICE
+  quoting-service-handler: *SERVICE_WITH_PROXY
 ml-api-adapter:
-  ml-api-adapter-service:
-    <<: *CONFIG
-  ml-api-adapter-handler-notification:
-    <<: [*CONFIG, *PROXY]
+  ml-api-adapter-service: *SERVICE
+  ml-api-adapter-handler-notification: *SERVICE_WITH_PROXY
 centralledger:
-  centralledger-service:
-    <<: *CONFIG
-  centralledger-handler-transfer-prepare:
-    <<: [*CONFIG, *PROXY]
-  centralledger-handler-transfer-position:
-    <<: *CONFIG
-  centralledger-handler-transfer-position-batch:
-    <<: *CONFIG
-  centralledger-handler-transfer-get:
-    <<: *CONFIG
-  centralledger-handler-transfer-fulfil:
-    <<: *CONFIG
-  centralledger-handler-timeout:
-    <<: *CONFIG
-  centralledger-handler-admin-transfer:
-    <<: *CONFIG
+  centralledger-service: *SERVICE
+  centralledger-handler-transfer-prepare: *SERVICE_WITH_PROXY
+  centralledger-handler-transfer-position: *SERVICE
+  centralledger-handler-transfer-position-batch: *SERVICE
+  centralledger-handler-transfer-get: *SERVICE
+  centralledger-handler-transfer-fulfil: *SERVICE
+  centralledger-handler-timeout: *SERVICE
+  centralledger-handler-admin-transfer: *SERVICE
 centralsettlement:
   centralsettlement-service:
     replicaCount: 1
