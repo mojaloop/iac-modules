@@ -103,7 +103,7 @@ persistence:
   annotations: {}
   # existingClaim: existing-pvc
   accessMode: ReadWriteOnce
-  #storageClass:
+  storageClass: "-"
   size: 8Gi
 
 extraVolumeMounts: []
