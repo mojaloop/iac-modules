@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_nexus_application_gitrepo_tag}
-    path: gitops/applications/base/vault
+    path: gitops/applications/base/nexus
     plugin:
       name: envsubst
       env:
