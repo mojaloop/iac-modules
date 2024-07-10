@@ -46,3 +46,9 @@ argocd_override:
         netbird:
           stunner_nodeport_port: "'${wireguard_ingress_port}'"
           terraform_modules_tag: "${application_gitrepo_tag}"
+    nexus:
+      application_gitrepo_tag: "${application_gitrepo_tag}"
+      sub_apps:
+        nexus:
+          nexus_ansible_collections_tag: ${ansible_collections_tag}
+
