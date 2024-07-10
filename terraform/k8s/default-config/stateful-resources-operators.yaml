@@ -28,7 +28,7 @@ percona-mongodb:
 redis:
   enabled: true
   install_type: operator
-  helm_chart: ot-helm/redis-operator
+  helm_chart: redis-operator
   namespace: redis
   release_name: redis
   helm_chart_version: 0.16.4
