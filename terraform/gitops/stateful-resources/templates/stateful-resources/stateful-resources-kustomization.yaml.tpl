@@ -17,7 +17,7 @@ resources:
 # %{ endfor }
 
 # %{ for key,stateful_resource in redis_operator_stateful_resources }
-- kafka-with-dual-role-nodes-${key}.yaml
+- redis-cluster-${key}.yaml
 # %{ endfor }
 
 # %{ for key,stateful_resource in percona_stateful_resources }

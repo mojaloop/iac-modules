@@ -43,6 +43,7 @@ resource "local_file" "kustomization" {
       helm_stateful_resources             = local.helm_stateful_resources
       managed_stateful_resources          = local.managed_stateful_resources
       strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
+      redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
   })
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
