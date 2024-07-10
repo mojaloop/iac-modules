@@ -297,6 +297,12 @@ spec:
       targetLabel: node_ip
       replacement: $1
       action: replace
+    - source_labels: []
+      targetLabel: 'strimzi_io_cluster'
+      replacement: ${kafka_cluster_metrics_label}
+      action: replace
+
+   
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
