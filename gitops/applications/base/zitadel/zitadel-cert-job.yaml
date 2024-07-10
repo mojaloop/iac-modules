@@ -64,12 +64,12 @@ spec:
               EOF
               )
               export APISERVER=https://kubernetes.default.svc SERVICEACCOUNT=/var/run/secrets/kubernetes.io/serviceaccount
-              export NAMESPACE=$(cat ${{SERVICEACCOUNT}/namespace) TOKEN=$(cat ${{SERVICEACCOUNT}/token) CACERT=${{SERVICEACCOUNT}/ca.crt
+              export NAMESPACE=$(cat $${SERVICEACCOUNT}/namespace) TOKEN=$(cat $${SERVICEACCOUNT}/token) CACERT=$${SERVICEACCOUNT}/ca.crt
               curl \
-              --cacert ${{CACERT} \
-              --header "Authorization: Bearer ${{TOKEN}" \
+              --cacert $${CACERT} \
+              --header "Authorization: Bearer $${TOKEN}" \
               --header "Content-Type: application/json" \
-              -X POST ${{APISERVER}/api/v1/namespaces/${{NAMESPACE}/secrets \
+              -X POST $${APISERVER}/api/v1/namespaces/$${NAMESPACE}/secrets \
               --data "$(echo -n $SECRET | tr -d '\n')"
           image: cockroachdb/cockroach:v23.1.8
           imagePullPolicy: IfNotPresent
