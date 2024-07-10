@@ -86,3 +86,6 @@ spec:
 
         - name: "vault_namespace"
           value: "${ARGOCD_ENV_vault_namespace}"
+
+        - name: "vault_tf_provider_version"
+          value: "${ARGOCD_ENV_vault_tf_provider_version}"
