@@ -19,7 +19,7 @@ kind: GrafanaDashboard
 metadata:
   name: prometheus-overview
 spec:
-  folder: kubernetes
+  folder: monitoring
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "Prometheus" 
