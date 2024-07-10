@@ -13,7 +13,7 @@ spec:
       - name: TF_VAR_admin_policy_name
         secretKeyRef:
           namespace: ${ARGOCD_ENV_vault_namespace}
-          name: ${ARGOCD_ENV_tf_vault_post_config_output_secret}
+          name: ${ARGOCD_ENV_vault_tf_post_config_output_secret}
           key: admin_policy_name
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     vars:
