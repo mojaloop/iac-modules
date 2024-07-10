@@ -64,10 +64,10 @@ spec:
           value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
 
         - name: "tf_post_config_output_secret"
-          value: "${ARGOCD_ENV_vault_vault_tf_post_config_output_secret}"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_post_config_output_secret}"
 
         - name: "vault_tf_provider_version"
-          value: "${ARGOCD_ENV_vault_vault_vault_vault_tf_post_config_output_secret}"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
 
         - name: "vault_terraform_modules_tag"
           value: "${ARGOCD_ENV_vault_vault_vault_terraform_modules_tag}"
