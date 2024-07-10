@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - vitrual-services.yaml
   - zitadel-xplane-terraform.yaml
+  - vault-oidc-xplane-terraform.yaml

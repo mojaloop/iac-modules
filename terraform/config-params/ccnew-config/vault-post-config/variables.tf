@@ -15,3 +15,7 @@ variable "read_all_kv_secrets_policy_name" {
   default     = "read-all-kv-secrets"
   description = "policy name for reading all kv secrets"
 }
+variable "admin_policy_name" {
+  description = "policy name for admins"
+  default     = "vault-admin"
+}

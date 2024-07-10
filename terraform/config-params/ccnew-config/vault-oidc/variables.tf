@@ -13,9 +13,9 @@ variable "admin_rbac_group" {
   description = "rbac group in idm for admin access via oidc"
 }
 
-variable "kv_path" {
-  description = "path for kv engine"
-  default     = "secret"
+variable "admin_policy_name" {
+  description = "policy name for admins"
+  default     = "vault-admin"
 }
 
 variable "oidc_provider_group_claim_prefix" {

@@ -31,7 +31,7 @@ resource "vault_kubernetes_auth_backend_role" "k8s_admin" {
 }
 
 resource "vault_policy" "vault_admin" {
-  name = "vault-admin"
+  name = var.admin_policy_name
 
   policy = <<EOT
 path "/*" {
