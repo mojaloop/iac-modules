@@ -247,7 +247,7 @@ mojaloop-kafka:
           topic-fx-quotes-put: *topicConfig
           topic-fx-quotes-get: *topicConfig
 mojaloop-redis:
-  enabled: true
+  enabled: false
   app_owner: mojaloop
   resource_type: redis
   deployment_type: operator

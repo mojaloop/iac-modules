@@ -26,7 +26,7 @@ percona-mongodb:
   helm_chart_repo: https://percona.github.io/percona-helm-charts/
   helm_chart_values_file: values-percona-mongodb.yaml
 redis:
-  enabled: true
+  enabled: false
   install_type: operator
   helm_chart: redis-operator
   namespace: redis
