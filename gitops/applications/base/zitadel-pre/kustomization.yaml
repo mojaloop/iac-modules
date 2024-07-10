@@ -4,8 +4,6 @@ resources:
   - namespaces.yaml
   - zitadel-cert-job.yaml
   - zitadel-random-secrets.yaml
-  - vitrual-services.yaml
-  - zitadel-xplane-terraform.yaml
 
 helmCharts:
   - name: cockroachdb
@@ -14,11 +12,3 @@ helmCharts:
     repo: https://charts.cockroachdb.com/
     valuesFile: cockroach-db-values.yaml
     namespace: ${ARGOCD_ENV_zitadel_namespace}
-
-patches:
-  - target:
-      kind: CronJob
-    patch: |
-      - op: replace
-        path: /apiVersion
-        value: batch/v1

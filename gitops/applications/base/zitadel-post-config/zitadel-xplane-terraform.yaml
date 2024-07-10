@@ -8,7 +8,7 @@ spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
     source: Remote
-    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/zitadel?ref=${ARGOCD_ENV_vault_terraform_modules_tag}
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/zitadel?ref=${ARGOCD_ENV_terraform_modules_tag}
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     vars:
       - key: zitadel_fqdn
@@ -53,7 +53,7 @@ spec:
         required_providers {
           zitadel = {
             source = "zitadel/zitadel"
-            version = "${ARGOCD_ENV_zitadel_tf_provider_version}"
+            version = "${ARGOCD_ENV_tf_provider_version}"
           }
         }
       }

@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_security_zitadel_app_name}-pre
+  name: ${ARGOCD_ENV_security_zitadel_app_name}-post-config
   namespace: ${ARGOCD_ENV_argocd_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_sync_wave}
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_zitadel_post_config_sync_wave}
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
-    path: gitops/applications/base/zitadel-pre
+    path: gitops/applications/base/zitadel-post-config
     plugin:
       name: envsubst
       env:
