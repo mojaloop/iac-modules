@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - ../../../base/zitadel-pre.yaml
   - ../../../base/zitadel-helm.yaml
+  - ../../../base/zitadel-post-config.yaml
   #- ../../../base/netbird.yaml

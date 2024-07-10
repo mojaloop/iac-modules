@@ -3,3 +3,8 @@ tls:
 storage:
   persistentVolume:
     size: ${ARGOCD_ENV_cockroachdb_pvc_size}
+init:
+  provisioning:
+    enabled: true
+  jobAnnotations:
+    argocd.argoproj.io/hook: Sync
