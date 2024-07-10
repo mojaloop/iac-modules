@@ -25,6 +25,8 @@ spec:
         value: vault.${ARGOCD_ENV_zitadel_dns_subdomain}
       - key: admin_rbac_group
         value: ${ARGOCD_ENV_vault_rbac_admin_group}
+      - key: oidc_debug_log
+        value: true
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
