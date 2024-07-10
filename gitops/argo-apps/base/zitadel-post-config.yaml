@@ -82,7 +82,7 @@ spec:
           value: "${ARGOCD_ENV_vault_tf_post_config_output_secret}"
 
         - name: "vault_keys_secret"
-          value: "${ARGOCD_ENV_security_vault_keys_secret}"
+          value: "${ARGOCD_ENV_vault_keys_secret}"
 
         - name: "vault_namespace"
           value: "${ARGOCD_ENV_vault_namespace}"
