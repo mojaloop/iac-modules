@@ -8,7 +8,7 @@ image:
 imagePullSecrets: []
 
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "nexus"
 
 commonLabels: {}
 
