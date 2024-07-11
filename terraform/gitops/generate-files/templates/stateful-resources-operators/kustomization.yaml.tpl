@@ -2,8 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - namespace.yaml
-helmGlobals:
-  chartHome: helm-charts
 helmCharts:
 %{ for stateful_resources_operator in stateful_resources_operators ~}
 - name: ${stateful_resources_operator.helm_chart}
