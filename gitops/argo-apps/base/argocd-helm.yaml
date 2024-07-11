@@ -358,7 +358,7 @@ spec:
                     end
 
                     return health_status
-              oidc.config:
+              oidc.config: |
                 name: Zitadel
                 issuer: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}
                 clientID: ${ARGOCD_ENV_argocd_oidc_client_id_string}
