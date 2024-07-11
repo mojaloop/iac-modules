@@ -358,17 +358,17 @@ spec:
                     end
 
                     return health_status
-            oidc.config:
-              name: Zitadel
-              issuer: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}
-              clientID: ${ARGOCD_ENV_argocd_oidc_client_id_string}
-              clientSecret: ${ARGOCD_ENV_argocd_oidc_client_secret_string}
-              requestedScopes:
-                - openid
-                - profile
-                - email
-                - groups
-              logoutURL: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}/oidc/v1/end_session
+              oidc.config:
+                name: Zitadel
+                issuer: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}
+                clientID: ${ARGOCD_ENV_argocd_oidc_client_id_string}
+                clientSecret: ${ARGOCD_ENV_argocd_oidc_client_secret_string}
+                requestedScopes:
+                  - openid
+                  - profile
+                  - email
+                  - groups
+                logoutURL: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}/oidc/v1/end_session
             rbac:
               scopes: "[groups]"
               policy.csv: |
