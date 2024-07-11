@@ -2,28 +2,18 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: nexus-ui
-  namespace: ${ARGOCD_ENV_nexus_namespace} 
+  namespace: ${ARGOCD_ENV_nexus_namespace}
 spec:
   gateways:
-  - istio-ingress-int/internal-wildcard-gateway
+    - ${ARGOCD_ENV_nexus_istio_gateway_namespace}/${ARGOCD_ENV_nexus_istio_wildcard_gateway_name}
   hosts:
-    - 'nexus.int.devinfra.devbaremetal.moja-onprem.net'
+    - "nexus.${ARGOCD_ENV_nexus_dns_subdomain}"
   http:
     - match:
         - uri:
             prefix: /
       route:
         - destination:
-            host: nexus-app-nexus3
+            host: nexus
             port:
-              number: 80      
----              
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: nexus-server-dtrl
-spec:
-  host: nexus-server
-  trafficPolicy:
-    tls:
-      mode: SIMPLE                
+              number: 8081
