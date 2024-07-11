@@ -358,31 +358,28 @@ spec:
                     end
 
                     return health_status
-              # dex.config: |
-              #   connectors:
-              #     - id: google
-              #       name: Google
-              #       type: oidc
-              #       config:
-              #         issuer: https://accounts.google.com
-              #         clientID: $dex.client.id # read from argo-secrets
-              #         clientSecret: $dex.client.secret # read from argo-secrets
-              # extension.config: |-
-              #   extensions:
-              #     - name: metrics
-              #       backend:
-              #         services:
-              #         - url: http://argocd-metrics-server.argocd.svc.cluster.local:9003
-
+            oidc.config:
+              name: Zitadel
+              issuer: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}
+              clientID: ${ARGOCD_ENV_argocd_oidc_client_id_string}
+              clientSecret: ${ARGOCD_ENV_argocd_oidc_client_secret_string}
+              requestedScopes:
+                - openid
+                - profile
+                - email
+                - groups
+              logoutURL: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}/oidc/v1/end_session
+            rbac:
+              scopes: "[groups]"
+              policy.csv: |
+                g, ${ARGOCD_ENV_zitadel_grant_prefix}:${ARGOCD_ENV_utils_argocd_helm_admin_rbac_group}, role:admin
+                g, ${ARGOCD_ENV_zitadel_grant_prefix}:${ARGOCD_ENV_utils_argocd_helm_user_rbac_group}, role:readonly
+              policy.default: ""
             params:
               server.insecure: true
               # Mandatory for extensions to work
               server.enable.proxy.extension: "true"
-            rbac:
-              policy.default: role:readonly
-              policy.csv: |-
-                p, role:readonly, extensions, invoke, metrics, allow
-                p, role:admin, extensions, invoke, metrics, allow
+
             cmp:
               create: true
               plugins:

@@ -4,3 +4,4 @@ resources:
   - vitrual-services.yaml
   - zitadel-xplane-terraform.yaml
   - vault-oidc-xplane-terraform.yaml
+  - argocd-oidc-xplane-terraform.yaml
