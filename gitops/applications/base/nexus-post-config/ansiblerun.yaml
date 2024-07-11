@@ -1,0 +1,14 @@
+apiVersion: ansible.crossplane.io/v1alpha1
+kind: AnsibleRun
+metadata:
+  name: ${ARGOCD_ENV_nexus_post_config_app_name}
+  namespace: ${ARGOCD_ENV_nexus_namespace}  
+spec:
+  providerConfigRef:
+    name: ${ARGOCD_ENV_nexus_post_config_app_name}
+  forProvider:
+    playbookInline: |
+      ---
+      - hosts: localhost
+        roles:
+         - mojaloop.iac.nexus_server

@@ -49,6 +49,6 @@ argocd_override:
     nexus:
       application_gitrepo_tag: "${application_gitrepo_tag}"
       sub_apps:
-        nexus:
-          nexus_ansible_collections_tag: ${ansible_collections_tag}
+        post_config:
+          ansible_collections_tag: ${ansible_collections_tag}
 
