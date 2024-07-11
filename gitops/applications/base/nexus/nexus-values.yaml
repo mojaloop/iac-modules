@@ -1,7 +1,7 @@
 image:
   repository: sonatype/nexus3
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}
-  tag: ""
+  tag: "3.56.0"
   pullPolicy: IfNotPresent
   pullSecrets: []
 
