@@ -4,6 +4,7 @@ resources:
   - namespaces.yaml
   - zitadel-cert-job.yaml
   - zitadel-random-secrets.yaml
+  - local-external-secrets-store.yaml
 
 helmCharts:
   - name: cockroachdb
