@@ -103,7 +103,7 @@ persistence:
   annotations: {}
   # existingClaim: existing-pvc
   accessMode: ReadWriteOnce
-  storageClass: longhorn
+  storageClass: ""
   size: 8Gi
 
 extraVolumeMounts: []
