@@ -30,8 +30,7 @@ _DEFINE:
     <<: [*DEPLOYMENT, *PROXY_CONFIG]
 account-lookup-service:
   account-lookup-service: *SERVICE_WITH_PROXY
-  account-lookup-service-admin:
-    replicaCount: 1
+  account-lookup-service-admin: *SERVICE_WITH_PROXY
 quoting-service:
   quoting-service: *SERVICE
   quoting-service-handler: *SERVICE_WITH_PROXY
