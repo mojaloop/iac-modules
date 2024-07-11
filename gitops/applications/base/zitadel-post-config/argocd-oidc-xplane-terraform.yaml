@@ -23,16 +23,9 @@ spec:
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: zitadel-argocd-oidc-config
-  publishConnectionDetailsTo:
+  writeConnectionSecretToRef:
+    namespace: ${ARGOCD_ENV_zitadel_namespace}
     name: ${ARGOCD_ENV_argocd_oidc_secret}
-    metadata:
-      labels:
-        app.kubernetes.io/part-of: argocd
-      annotations:
-        reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-        reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "${ARGOCD_ENV_argocd_namespace}"
-        reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-        reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "${ARGOCD_ENV_argocd_namespace}"
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig

@@ -49,7 +49,7 @@ spec:
             secret:
               createSecret: false
             cm:
-              url: https://argo.${ARGOCD_ENV_argocd_dns_subdomain}
+              url: https://argocd.${ARGOCD_ENV_argocd_dns_subdomain}
               exec.enabled: "true"
               kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
