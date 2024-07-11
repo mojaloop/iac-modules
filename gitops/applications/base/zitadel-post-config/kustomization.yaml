@@ -5,4 +5,4 @@ resources:
   - zitadel-xplane-terraform.yaml
   - vault-oidc-xplane-terraform.yaml
   - argocd-oidc-xplane-terraform.yaml
-  - external-secret-pushtoargo.yaml
+  - external-secret-to-argo.yaml
