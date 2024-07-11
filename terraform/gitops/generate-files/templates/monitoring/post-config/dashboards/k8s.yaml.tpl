@@ -19,23 +19,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.0.0-snapshot.6/monitoring/dashboards/kubernetes/kubernetes-monitoring-dashboard.json"
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: k8s-addons-prometheus
-spec:
-  folder: kubernetes
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
-  grafanaCom:
-    id: 19105
-    revision: 3
+  url: "https://raw.githubusercontent.com/mojaloop/helm/${grafana_dashboard_tag}/monitoring/dashboards/kubernetes/kubernetes-monitoring-dashboard.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
