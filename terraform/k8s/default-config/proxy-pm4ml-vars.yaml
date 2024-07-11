@@ -1,6 +1,6 @@
 pm4ml: proxypm4mltest
 pm4ml_enabled: true
-proxy_pm4ml_chart_version: 0.0.1
+proxy_pm4ml_chart_version: 1.0.0
 pm4ml_ingress_internal_lb: false
 pm4ml_scheme_a_config:
   pm4ml_external_mcm_public_fqdn: mcm.dev.switch-a.mojaloop.live

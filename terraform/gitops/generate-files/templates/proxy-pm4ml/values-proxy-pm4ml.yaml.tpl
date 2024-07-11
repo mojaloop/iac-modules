@@ -9,7 +9,7 @@ inter-scheme-proxy-adapter:
   image:
     registry: ghcr.io
     repository: infitx-org/inter-scheme-proxy-adapter
-    tag: 0.4.4-snapshot.1
+    tag: 1.0.0-snapshot.1
   ## Disabling liveness probes temporarily
   readinessProbe: |
     exec:
@@ -53,6 +53,7 @@ inter-scheme-proxy-adapter:
     MGMT_API_WS_URL_B: "${pm4ml_release_name}-management-api-b"
     MGMT_API_WS_PORT_B: 4005
     PM4ML_ENABLED: true
+    CHECK_PEER_JWS_INTERVAL: 1800000
 
 management-api-a: 
   enabled: true
