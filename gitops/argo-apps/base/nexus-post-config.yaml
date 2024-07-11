@@ -46,4 +46,4 @@ spec:
           value: ${ARGOCD_ENV_nexus_post_config_ansible_collections_tag}
 
         - name: "nexus_ansible_repo_url"
-          value: ${ARGOCD_ENV_ansible_gitrepo_url|
+          value: ${ARGOCD_ENV_ansible_gitrepo_url}
