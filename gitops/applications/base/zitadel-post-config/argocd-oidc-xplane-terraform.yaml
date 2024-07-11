@@ -66,8 +66,9 @@ spec:
           zitadel = {
             source = "zitadel/zitadel"
             version = "${ARGOCD_ENV_tf_provider_version}"
+          }
         }
-      }
+    }
 
       provider "zitadel" {
           domain = "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
