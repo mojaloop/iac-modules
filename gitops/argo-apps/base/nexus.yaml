@@ -38,9 +38,6 @@ spec:
       env:
         - name: "nexus_namespace"
           value: "${ARGOCD_ENV_nexus_nexus_namespace}"
-        
-        - name: "vault_namespace"
-          value: "${ARGOCD_ENV_vault_namespace}"          
 
         - name: "nexus_app_name"
           value: "${ARGOCD_ENV_nexus_nexus_app_name}"
