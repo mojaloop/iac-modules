@@ -39,6 +39,7 @@ resource "zitadel_project_role" "argocd_users_role" {
 }
 
 resource "kubernetes_config_map_v1_data" "argocd_rbac_cm" {
+  force = true
   metadata {
     name      = "argocd-rbac-cm"
     namespace = var.argocd_namespace
