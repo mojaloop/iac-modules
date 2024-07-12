@@ -13,7 +13,7 @@ metadata:
 spec:
   project: default
   ignoreDifferences:
-    - group: ""
+    - group: "*"
       name: "argocd-rbac-cm"
       kind: ConfigMap
       jsonPointers:
