@@ -17,4 +17,5 @@ spec:
       ---
       - hosts: all
         roles:
-         - mojaloop.iac.nexus_server              
+         - mojaloop.iac.nexus_server
+        connection: local        
