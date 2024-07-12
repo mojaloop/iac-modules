@@ -7,8 +7,11 @@ spec:
   providerConfigRef:
     name: ${ARGOCD_ENV_nexus_post_config_app_name}
   forProvider:
-    playbookInline: |
-      ---
-      - hosts: localhost
-        roles:
-         - mojaloop.iac.nexus_server
+    roles:
+    - mojaloop.iac.nexus_server
+    varFiles:
+    - source: SecretKey
+      secretKeyRef:
+        namespace: ${ARGOCD_ENV_nexus_namespace}  
+        name: secret_vars
+        key: secret_vars.yaml
