@@ -19,6 +19,10 @@ spec:
         value: ${ARGOCD_ENV_argocd_admin_rbac_group}
       - key: user_rbac_group
         value: ${ARGOCD_ENV_argocd_user_rbac_group}
+      - key: oidc_provider_group_claim_prefix
+        value: ${ARGOCD_ENV_zitadel_grant_prefix}
+      - key: argocd_namespace
+        value: ${ARGOCD_ENV_argocd_namespace}
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
@@ -60,6 +64,10 @@ spec:
             source = "zitadel/zitadel"
             version = "${ARGOCD_ENV_tf_provider_version}"
           }
+          kubernetes = {
+            source = "hashicorp/kubernetes"
+            version = "2.31.0"
+          }
         }
     }
 
@@ -67,3 +75,4 @@ spec:
           domain = "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
           jwt_profile_file = "$${path.module}/zitadel-admin-sa.json"
       }
+      provider "kubernetes" {}

@@ -37,13 +37,13 @@ resource "zitadel_action" "flat_roles" {
       }
 
       let grants = [];
-      ctx.v1.user.grants.grants.forEach(claim => {
-        claim.roles.forEach(role => {
-            grants.push(claim.projectId+':'+role)  
-        })
-      })
+      ctx.v1.user.grants.grants.forEach((claim) => {
+        claim.roles.forEach((role) => {
+          grants.push(role);
+        });
+      });
 
-      api.v1.claims.setClaim('${var.oidc_provider_group_claim_prefix}', grants)
+      api.v1.claims.setClaim("groups", grants);
     }
   EOF
 }

@@ -19,3 +19,12 @@ variable "user_rbac_group" {
   description = "rbac group in idm for user access via oidc"
   default     = "argocd_users"
 }
+
+variable "oidc_provider_group_claim_prefix" {
+  type        = string
+  description = "groups"
+}
+variable "argocd_namespace" {
+  type        = string
+  description = "ns argocd is installed in"
+}
