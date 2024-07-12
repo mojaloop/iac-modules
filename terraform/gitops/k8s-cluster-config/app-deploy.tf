@@ -55,6 +55,7 @@ module "mojaloop" {
   ory_namespace                        = var.ory_namespace
   bof_release_name                     = local.bof_release_name
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
+  vault_root_ca_name                   = "pki-${var.cluster_name}"
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   mojaloop_values_override_file        = var.mojaloop_values_override_file
