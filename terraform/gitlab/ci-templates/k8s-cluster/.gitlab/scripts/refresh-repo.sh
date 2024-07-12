@@ -15,7 +15,7 @@ TMP_REPO_DIR=/tmp/gitclone${CURRENT_ENV_NAME}
 mkdir -p $TMP_REPO_DIR
 git clone --recurse-submodules ${BASE_GITLAB_URL}/${CURRENT_ENV_NAME} $TMP_REPO_DIR
 cd $TMP_REPO_DIR
-git submodule update --remote
+./submodule-update.sh
 cp -r $TMP_TEMPLATE_DIR/${CURRENT_ENV_NAME}/. .
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"

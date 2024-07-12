@@ -103,6 +103,23 @@ git submodule add https://gitlab.controlcenter.moja-onprem.net/profiles/xxx.git 
 There are multiple ways to make use of git submodules, but the ones
 that are potentially useful are:
 
+1. **Declarative** - Git submodules can be declared in a file named
+   `submodules.yaml` in the repository root. This file is processed each time the
+   `refresh-templates` action is executed. If this file is present, only
+   the submodules declared in it will be automatically updated. Any other
+   submodules can still be updated manually. The file `submodules.yaml` should
+   contain a map of submodule paths and their respective URLs and references.
+   For example:
+
+   ```yaml
+   profiles/xxx:
+      url: https://example.com/profiles/xxx.git
+      ref: stable
+   profiles/yyy:
+      url: https://example.com/profiles/yyy.git
+      ref: v1.0
+   ```
+
 1. **Branch tracking** - Git submodules can be configured to track a specific
    branch and can be updated to the latest version by running the
    `refresh-templates` action from the pipeline.
