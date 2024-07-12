@@ -38,23 +38,14 @@ resource "zitadel_project_role" "argocd_users_role" {
   display_name = "ArgoCd Users"
 }
 
-resource "kubernetes_config_map_v1" "argocd_rbac_cm" {
+resource "kubernetes_config_map_v1_data" "argocd_rbac_cm" {
   metadata {
     name      = "argocd-rbac-cm"
     namespace = var.argocd_namespace
-    labels = {
-      "app.kubernetes.io/part-of"   = "argocd"
-      "app.kubernetes.io/component" = "server"
-      "app.kubernetes.io/instance"  = "argocd"
-      "app.kubernetes.io/name"      = "argocd-rbac-cm"
-    }
   }
 
   data = {
-    "policy.csv"       = local.policy
-    "policy.default"   = ""
-    "policy.matchMode" = "glob"
-    "scopes"           = "[${var.oidc_provider_group_claim_prefix}]"
+    "policy.csv" = local.policy
   }
 
 
