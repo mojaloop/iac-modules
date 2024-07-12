@@ -199,7 +199,7 @@ mojaloop-kafka:
   enabled: true
   app_owner: "mojaloop"
   resource_type: kafka
-  deployment_type: operator   
+  deployment_type: operator
   communication_mode: tcp
   logical_service_config:
     logical_service_port: 9092
@@ -246,6 +246,16 @@ mojaloop-kafka:
           topic-fx-quotes-post: *topicConfig
           topic-fx-quotes-put: *topicConfig
           topic-fx-quotes-get: *topicConfig
+mojaloop-redis:
+  enabled: false
+  app_owner: mojaloop
+  resource_type: redis
+  deployment_type: operator
+  logical_service_config:
+    secret_extra_namespaces:
+      - mojaloop
+    logical_service_port: 6379
+    logical_service_name: mojaloop-redis-svc
 ttk-mongodb:
   enabled: true
   app_owner: "mojaloop"
@@ -296,10 +306,10 @@ keycloak-db:
     secret_extra_namespaces:
       - keycloak
     database_name: keycloak
-  backup_schedule:  
+  backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
-    keep: 3     
+    keep: 3
 keto-db:
   enabled: true
   app_owner: "platform"
@@ -313,11 +323,11 @@ keto-db:
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
-    database_name: keto  
-  backup_schedule:  
+    database_name: keto
+  backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
-    keep: 3     
+    keep: 3
 kratos-db:
   enabled: true
   app_owner: "platform"
@@ -332,7 +342,7 @@ kratos-db:
     secret_extra_namespaces:
       - ory
     database_name: kratos
-  backup_schedule:  
+  backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
-    keep: 3      
+    keep: 3
