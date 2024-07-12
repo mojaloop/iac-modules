@@ -177,6 +177,30 @@ spec:
                     hs.message = "Waiting for VaultSecret"
                     return hs
 
+                redhatcop.redhat.io/KubernetesAuthEngineRole:
+                  health.lua: |
+                    hs = {}
+                    if obj.status ~= nil then
+                      if obj.status.conditions ~= nil then
+                        for i, condition in ipairs(obj.status.conditions) do
+                          if condition.type == "ReconcileSuccessful" and condition.status == "False" then
+                            hs.status = "Degraded"
+                            hs.message = condition.message
+                            return hs
+                          end
+                          if condition.type == "ReconcileSuccessful" and condition.status == "True" then
+                            hs.status = "Healthy"
+                            hs.message = condition.message
+                            return hs
+                          end
+                        end
+                      end
+                    end
+
+                    hs.status = "Progressing"
+                    hs.message = "Waiting for KubernetesAuthEngineRole"
+                    return hs
+
                 ceph.rook.io/CephBlockPool:
                   health.lua: |
                     hs = {}
@@ -233,6 +257,29 @@ spec:
                     end
                     hs.status = "Progressing"
                     hs.message = "Waiting for ClusterSecretStore"
+                    return hs
+
+                external-secrets.io/SecretStore:
+                  health.lua: |
+                    local hs = {}
+                    if obj.status ~= nil then
+                      if obj.status.conditions ~= nil then
+                        for i, condition in ipairs(obj.status.conditions) do
+                          if condition.type == "Ready" and condition.status == "False" then
+                            hs.status = "Degraded"
+                            hs.message = condition.message
+                            return hs
+                          end
+                          if condition.type == "Ready" and condition.status == "True" then
+                            hs.status = "Healthy"
+                            hs.message = condition.message
+                            return hs
+                          end
+                        end
+                      end
+                    end
+                    hs.status = "Progressing"
+                    hs.message = "Waiting for SecretStore"
                     return hs
 
                 "*.upbound.io/*":

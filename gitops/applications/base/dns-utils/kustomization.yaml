@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - external-secrets.yaml
   - istio-gateway-crs.yaml
+  - dynamic-secrets.yaml
