@@ -9,7 +9,7 @@ db:
 api:
   image:
     name: ghcr.io/pm4ml/connection-manager-api
-    version: v1.9.8-snapshot.0
+    version: v2.0.0
   url: https://${mcm_fqdn}
   extraTLS:
     rootCert:
