@@ -8,10 +8,10 @@ spec:
     name: ${ARGOCD_ENV_nexus_post_config_app_name}
   forProvider:
     roles:
-    - mojaloop.iac.nexus_server
+    - "mojaloop.iac.nexus_server"
     varFiles:
     - source: SecretKey
       secretKeyRef:
         namespace: ${ARGOCD_ENV_nexus_namespace}  
-        name: secret_vars
+        name: nexus-ansible-secret-vars
         key: secret_vars.yaml
