@@ -22,6 +22,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
+      - RespectIgnoreDifferences=true
 
     automated:
       prune: false
