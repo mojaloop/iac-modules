@@ -54,7 +54,7 @@ resource "kubernetes_config_map_v1" "argocd_rbac_cm" {
     "policy.csv"       = local.policy
     "policy.default"   = ""
     "policy.matchMode" = "glob"
-    "scopes"           = ["${var.oidc_provider_group_claim_prefix}"]
+    "scopes"           = "[${var.oidc_provider_group_claim_prefix}]"
   }
 
 
