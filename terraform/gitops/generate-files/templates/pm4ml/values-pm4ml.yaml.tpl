@@ -27,8 +27,6 @@ frontend:
     LOGIN_PROVIDER: ${keycloak_pm4ml_realm_name}
 
 experience-api:
-  image:
-    tag: 2.0.15-snapshot
   ingress:
     enabled: false
   env:
@@ -54,8 +52,6 @@ mojaloop-payment-token-adapter:
   ${indent(2, yamlencode(payment_token_adapter_config))}
 
 management-api:
-  image:
-    tag: 5.0.0-snapshot.2
   serviceAccountName: ${pm4ml_service_account_name}
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
