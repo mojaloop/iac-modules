@@ -12,6 +12,12 @@ metadata:
 
 spec:
   project: default
+  ignoreDifferences:
+    - group: ""
+      name: "argocd-rbac-cm"
+      kind: ConfigMap
+      jsonPointers:
+        - /spec/data/policy.csv
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
