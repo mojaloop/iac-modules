@@ -424,7 +424,7 @@ spec:
                   - groups
                 logoutURL: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}/oidc/v1/end_session
             rbac:
-              scopes: "[${ARGOCD_ENV_zitadel_grant_prefix}]"
+              scopes: "[${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}]"
               policy.default: ""
             params:
               server.insecure: true

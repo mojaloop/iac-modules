@@ -55,7 +55,7 @@ spec:
             value: "${ARGOCD_ENV_argocd_istio_gateway_namespace}"
 
           - name: "vault_namespace"
-            value: "${ARGOCD_ENV_vault_namespace}"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
 
           - name: "argocd_namespace"
-            value: "${ARGOCD_ENV_argocd_namespace}"
+            value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"

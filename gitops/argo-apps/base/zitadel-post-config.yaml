@@ -79,25 +79,25 @@ spec:
           value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
 
         - name: "vault_tf_post_config_output_secret"
-          value: "${ARGOCD_ENV_vault_tf_post_config_output_secret}"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_post_config_output_secret}"
 
         - name: "vault_keys_secret"
-          value: "${ARGOCD_ENV_vault_keys_secret}"
+          value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
 
         - name: "vault_namespace"
-          value: "${ARGOCD_ENV_vault_namespace}"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
 
         - name: "vault_tf_provider_version"
-          value: "${ARGOCD_ENV_vault_tf_provider_version}"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
 
         - name: "argocd_namespace"
-          value: "${ARGOCD_ENV_argocd_namespace}"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
 
         - name: "argocd_oidc_secret"
-          value: "${ARGOCD_ENV_argocd_oidc_secret}"
+          value: "${ARGOCD_ENV_utils_argocd_helm_oidc_secret}"
 
         - name: "argocd_admin_rbac_group"
-          value: "${ARGOCD_ENV_argocd_admin_rbac_group}"
+          value: "${ARGOCD_ENV_utils_argocd_helm_admin_rbac_group}"
 
         - name: "argocd_user_rbac_group"
-          value: "${ARGOCD_ENV_argocd_user_rbac_group}"
+          value: "${ARGOCD_ENV_utils_argocd_helm_user_rbac_group}"

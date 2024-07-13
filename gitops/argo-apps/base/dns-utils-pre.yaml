@@ -103,22 +103,22 @@ spec:
             value: "${ARGOCD_ENV_dns_utils_app_namespace}"
 
           - name: "vault_read_all_kv_secrets_policy_name"
-            value: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
+            value: "${ARGOCD_ENV_vault_post_config_vault_read_all_kv_secrets_policy_name}"
 
           - name: "vault_namespace"
-            value: "${ARGOCD_ENV_vault_namespace}"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
 
           - name: "vault_k8s_admin_auth_path"
-            value: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
 
           - name: "vault_k8s_admin_role_name"
-            value: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
 
           - name: "cert_manager_credentials_secret"
-            value: "${ARGOCD_ENV_cert_manager_credentials_secret}"
+            value: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
 
           - name: "istio_namespace"
-            value: "${ARGOCD_ENV_istio_namespace}"
+            value: "${ARGOCD_ENV_utils_istio_namespace}"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
@@ -193,19 +193,19 @@ spec:
             value: "${ARGOCD_ENV_dns_utils_app_namespace}"
 
           - name: "vault_read_all_kv_secrets_policy_name"
-            value: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
+            value: "${ARGOCD_ENV_vault_post_config_vault_read_all_kv_secrets_policy_name}"
 
           - name: "vault_namespace"
-            value: "${ARGOCD_ENV_vault_namespace}"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
 
           - name: "vault_k8s_admin_auth_path"
-            value: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
 
           - name: "vault_k8s_admin_role_name"
-            value: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
 
           - name: "cert_manager_credentials_secret"
-            value: "${ARGOCD_ENV_cert_manager_credentials_secret}"
+            value: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
 
           - name: "istio_namespace"
-            value: "${ARGOCD_ENV_istio_namespace}"
+            value: "${ARGOCD_ENV_utils_istio_namespace}"
