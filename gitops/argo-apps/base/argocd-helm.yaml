@@ -18,6 +18,11 @@ spec:
       kind: ConfigMap
       jsonPointers:
         - /data/policy.csv
+    - group: ""
+      name: "argocd-cm"
+      kind: ConfigMap
+      jsonPointers:
+        - /data/oidc.config
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
@@ -412,17 +417,6 @@ spec:
                     end
 
                     return health_status
-              oidc.config: |
-                name: Zitadel
-                issuer: https://zitadel.${ARGOCD_ENV_security_zitadel_dns_subdomain}
-                clientID: ${ARGOCD_ENV_argocd_oidc_client_id_string}
-                clientSecret: ${ARGOCD_ENV_argocd_oidc_client_secret_string}
-                requestedScopes:
-                  - openid
-                  - profile
-                  - email
-                  - groups
-                logoutURL: https://zitadel.${ARGOCD_ENV_security_zitadel_dns_subdomain}/oidc/v1/end_session
             rbac:
               scopes: "[${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}]"
               policy.default: ""
@@ -602,8 +596,6 @@ spec:
 
           ## Server ##
           server:
-            deploymentAnnotations:
-              secret.reloader.stakater.com/reload: "${ARGOCD_ENV_utils_argocd_helm_oidc_secret}"
             # resources:
             #   limits:
             #     cpu: 400m

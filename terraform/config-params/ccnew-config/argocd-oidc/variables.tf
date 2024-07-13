@@ -24,3 +24,9 @@ variable "argocd_namespace" {
   type        = string
   description = "ns argocd is installed in"
 }
+
+variable "oidc_secret_name" {
+  type        = string
+  description = "name of oidc secret for clientid/secret"
+  default     = "argo-oidc-secret"
+}

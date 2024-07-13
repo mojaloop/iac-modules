@@ -37,6 +37,21 @@ resource "zitadel_project_role" "argocd_users_role" {
   role_key     = var.user_rbac_group
   display_name = "ArgoCd Users"
 }
+resource "kubernetes_secret_v1" "oidc_config" {
+  metadata {
+    name = var.oidc_secret_name
+    labels = {
+      "app.kubernetes.io/part-of" = "argocd"
+    }
+  }
+
+  data = {
+    oidc_client_id     = zitadel_application_oidc.argocd.client_id
+    oidc_client_secret = zitadel_application_oidc.argocd.client_secret
+  }
+
+  type = "Opaque"
+}
 
 resource "kubernetes_config_map_v1_data" "argocd_rbac_cm" {
   force = true
@@ -51,9 +66,35 @@ resource "kubernetes_config_map_v1_data" "argocd_rbac_cm" {
 
 
 }
+
+resource "kubernetes_config_map_v1_data" "argocd_cm" {
+  force = true
+  metadata {
+    name      = "argocd-cm"
+    namespace = var.argocd_namespace
+  }
+
+  data = {
+    "oidc.config" = local.oidc_config
+  }
+
+  depends_on = [kubernetes_secret_v1.oidc_config]
+}
 locals {
-  policy = <<EOF
+  policy      = <<EOF
 g, ${zitadel_project.argocd.id}:${var.admin_rbac_group}, role:admin
 g, ${zitadel_project.argocd.id}:${var.user_rbac_group}, role:readonly
+EOF
+  oidc_config = <<EOF
+name: Zitadel
+issuer: https://${var.zitadel_fqdn}
+clientID: join("$", kubernetes_secret_v1.oidc_config.metadata.name, ":oidc_client_id")
+clientSecret: join("$", kubernetes_secret_v1.oidc_config.metadata.name, ":oidc_client_secret")
+requestedScopes:
+  - openid
+  - profile
+  - email
+  - groups
+logoutURL: https://${var.zitadel_fqdn}/oidc/v1/end_session
 EOF
 }
