@@ -59,3 +59,45 @@ spec:
 
           - name: "argocd_namespace"
             value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+
+          - name: "dns_private_subdomain"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_private_subdomain}"
+
+          - name: "dns_public_subdomain"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_public_subdomain}"
+
+          - name: "istio_internal_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_gateway_name}"
+
+          - name: "istio_external_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_external_gateway_name}"
+
+          - name: "istio_internal_wildcard_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_wildcard_gateway_name}"
+
+          - name: "istio_external_wildcard_gateway_name"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_external_wildcard_gateway_name}"
+
+          - name: "istio_external_gateway_namespace"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_external_gateway_namespace}"
+
+          - name: "istio_internal_gateway_namespace"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_istio_internal_gateway_namespace}"
+
+          - name: "internal_load_balancer_dns"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_internal_load_balancer_dns}"
+
+          - name: "external_load_balancer_dns"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_external_load_balancer_dns}"
+
+          - name: "default_internal_ssl_certificate"
+            value: "internal-wildcard"
+
+          - name: "default_external_ssl_certificate"
+            value: "external-wildcard"
+
+          - name: "dns_utils_namespace"
+            value: "${ARGOCD_ENV_dns_utils_app_namespace}"
+
+          - name: "istio_namespace"
+            value: "${ARGOCD_ENV_utils_istio_namespace}"
