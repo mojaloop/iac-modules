@@ -602,7 +602,7 @@ spec:
 
           ## Server ##
           server:
-            podAnnotations:
+            deploymentAnnotations:
               secret.reloader.stakater.com/reload: "${ARGOCD_ENV_utils_argocd_helm_oidc_secret}"
             # resources:
             #   limits:
