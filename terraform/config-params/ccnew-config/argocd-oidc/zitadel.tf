@@ -88,8 +88,8 @@ EOF
   oidc_config = <<EOF
 name: Zitadel
 issuer: https://${var.zitadel_fqdn}
-clientID: join("$", kubernetes_secret_v1.oidc_config.metadata.name, ":oidc_client_id")
-clientSecret: join("$", kubernetes_secret_v1.oidc_config.metadata.name, ":oidc_client_secret")
+clientID: ${join("$", kubernetes_secret_v1.oidc_config.metadata.name, ":oidc_client_id")}
+clientSecret: ${join("$", kubernetes_secret_v1.oidc_config.metadata.name, ":oidc_client_secret")}
 requestedScopes:
   - openid
   - profile
