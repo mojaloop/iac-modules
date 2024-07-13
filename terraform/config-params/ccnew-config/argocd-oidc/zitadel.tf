@@ -82,8 +82,8 @@ resource "kubernetes_config_map_v1_data" "argocd_cm" {
   depends_on = [kubernetes_secret_v1.oidc_config]
 }
 locals {
-  formattedclientidstring     = format("$%s:oidc_client_id", kubernetes_secret_v1.oidc_config.metadata.name)
-  formattedclientsecretstring = format("$%s:oidc_client_secret", kubernetes_secret_v1.oidc_config.metadata.name)
+  formattedclientidstring     = format("$%s:oidc_client_id", var.oidc_secret_name)
+  formattedclientsecretstring = format("$%s:oidc_client_secret", var.oidc_secret_name)
 
   policy      = <<EOF
 g, ${zitadel_project.argocd.id}:${var.admin_rbac_group}, role:admin
