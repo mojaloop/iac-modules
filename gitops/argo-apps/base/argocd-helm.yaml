@@ -56,7 +56,7 @@ spec:
             secret:
               createSecret: false
             cm:
-              url: https://argocd.${ARGOCD_ENV_argocd_dns_subdomain}
+              url: https://argocd.${ARGOCD_ENV_utils_argocd_helm_dns_subdomain}
               exec.enabled: "true"
               kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
@@ -414,7 +414,7 @@ spec:
                     return health_status
               oidc.config: |
                 name: Zitadel
-                issuer: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}
+                issuer: https://zitadel.${ARGOCD_ENV_security_zitadel_dns_subdomain}
                 clientID: ${ARGOCD_ENV_argocd_oidc_client_id_string}
                 clientSecret: ${ARGOCD_ENV_argocd_oidc_client_secret_string}
                 requestedScopes:
@@ -422,7 +422,7 @@ spec:
                   - profile
                   - email
                   - groups
-                logoutURL: https://zitadel.${ARGOCD_ENV_argocd_dns_subdomain}/oidc/v1/end_session
+                logoutURL: https://zitadel.${ARGOCD_ENV_security_zitadel_dns_subdomain}/oidc/v1/end_session
             rbac:
               scopes: "[${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}]"
               policy.default: ""
