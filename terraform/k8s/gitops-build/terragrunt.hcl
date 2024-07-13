@@ -102,10 +102,10 @@ locals {
   tags                          = local.env_vars.tags
   gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
   gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
-  common_vars                   = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"), local.env_vars)
-  pm4ml_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"), local.env_vars)
-  mojaloop_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"), local.env_vars)
-  vnext_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}"), local.env_vars)
+  common_vars                   = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}", local.env_vars))
+  pm4ml_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}", local.env_vars))
+  mojaloop_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}", local.env_vars))
+  vnext_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}", local.env_vars))
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
     internal_load_balancer_dns       = "",
