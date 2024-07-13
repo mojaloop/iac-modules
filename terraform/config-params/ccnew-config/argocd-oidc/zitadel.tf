@@ -82,6 +82,9 @@ resource "kubernetes_config_map_v1_data" "argocd_cm" {
   depends_on = [kubernetes_secret_v1.oidc_config]
 }
 locals {
+  formattedclientidstring     = format("$%s:oidc_client_id", kubernetes_secret_v1.oidc_config.metadata.name)
+  formattedclientsecretstring = format("$%s:oidc_client_secret", kubernetes_secret_v1.oidc_config.metadata.name)
+
   policy      = <<EOF
 g, ${zitadel_project.argocd.id}:${var.admin_rbac_group}, role:admin
 g, ${zitadel_project.argocd.id}:${var.user_rbac_group}, role:readonly
@@ -89,8 +92,8 @@ EOF
   oidc_config = <<EOF
 name: Zitadel
 issuer: https://${var.zitadel_fqdn}
-clientID: ${join("$", kubernetes_secret_v1.oidc_config.metadata.name, ":oidc_client_id")}
-clientSecret: ${join("$", kubernetes_secret_v1.oidc_config.metadata.name, ":oidc_client_secret")}
+clientID: ${local.formattedclientidstring}
+clientSecret: ${local.formattedclientsecretstring}
 requestedScopes:
   - openid
   - profile
