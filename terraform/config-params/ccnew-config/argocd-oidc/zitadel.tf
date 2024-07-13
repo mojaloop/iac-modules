@@ -39,7 +39,8 @@ resource "zitadel_project_role" "argocd_users_role" {
 }
 resource "kubernetes_secret_v1" "oidc_config" {
   metadata {
-    name = var.oidc_secret_name
+    name      = var.oidc_secret_name
+    namespace = var.argocd_namespace
     labels = {
       "app.kubernetes.io/part-of" = "argocd"
     }
