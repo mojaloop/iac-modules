@@ -118,7 +118,7 @@ locals {
 
   managed_rds_svc_port_maps = [for key, service in local.managed_rds_stateful_resources :
     {
-      "local_listening_port" = service.logical_service_config.haproxy_listening_port
+      "local_listening_port" = service.external_resource_config.haproxy_listening_port
       "mode"                 = service.communication_mode
       "name"                 = key
       "dest_fqdn"            = local.external_rds_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]
