@@ -27,7 +27,6 @@ spec:
         value: "dns-access"
       - key: "default_lease_ttl_seconds"
         value: "3600"
-terraform/aws/config-param/ccnew-config/vault-post-config
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: vault-post-config
