@@ -57,6 +57,9 @@ spec:
           - name: "dns_cloud_api_region"
             value: "${ARGOCD_ENV_dns_utils_cr_config_dns_cloud_api_region}"
 
+          - name: "ext_dns_cloud_policy"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_ext_dns_cloud_policy}"
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
       path: gitops/applications/base/vault-post-config
