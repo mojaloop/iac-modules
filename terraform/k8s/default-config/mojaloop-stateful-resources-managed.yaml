@@ -26,6 +26,7 @@ account-lookup-db:
       - name: character_set_server
         value: utf8mb4
     port: "3306"
+    haproxy_listening_port: "3306"
     skip_final_snapshot: true
     multi_az: false
     storage_encrypted: false
@@ -63,6 +64,7 @@ central-ledger-db:
       - name: character_set_server
         value: utf8mb4
     port: "3306"
+    haproxy_listening_port: "3307"
     skip_final_snapshot: true
     multi_az: false
     storage_encrypted: false
