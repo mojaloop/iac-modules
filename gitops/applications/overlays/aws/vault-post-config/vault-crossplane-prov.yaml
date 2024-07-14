@@ -26,7 +26,7 @@ spec:
       - key: "dns_access_role"
         value: "dns-access"
       - key: "default_lease_ttl_seconds"
-        value: 3600
+        value: "3600"
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
