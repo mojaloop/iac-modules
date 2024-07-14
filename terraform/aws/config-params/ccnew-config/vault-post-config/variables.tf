@@ -18,10 +18,14 @@ variable "region" {
 variable "kv_path" {
   description = "path for kv2 engine"
 }
-variable "secret_key_path" {
-  description = "path for secret key"
+variable "secret_key_name" {
+  description = "key for secret key"
 }
 
-variable "access_key_path" {
-  description = "path for access key"
+variable "access_key_name" {
+  description = "key for access key"
+}
+
+variable "credential_path" {
+  description = "path for credentials"
 }

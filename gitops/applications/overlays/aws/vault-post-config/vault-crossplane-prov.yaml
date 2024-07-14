@@ -11,10 +11,12 @@ spec:
     module: git::https://github.com/mojaloop/iac-modules.git//terraform/aws/config-params/ccnew-config/vault-post-config?ref=${ARGOCD_ENV_vault_terraform_modules_tag}
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     vars:
-      - key: "access_key_path"
-        value: "cloud-api-access/cloud_platform_api_client_id"
-      - key: "secret_key_path"
-        value: "cloud-api-access/cloud_platform_api_client_secret"
+      - key: "access_key_name"
+        value: "cloud_platform_api_client_id"
+      - key: "secret_key_name"
+        value: "cloud_platform_api_client_secret"
+      - key: "credential_path"
+        value: "cloud-api-access"
       - key: "region"
         value: "${ARGOCD_ENV_dns_cloud_api_region}"
       - key: "kv_path"
