@@ -19,7 +19,7 @@ spec:
         value: "${ARGOCD_ENV_dns_cloud_api_region}"
       - key: "kv_path"
         value: "${ARGOCD_ENV_vault_kv_secret}"
-      - key: "cloud_policy"
+      - key: "ext_dns_cloud_policy"
         value: "${ARGOCD_ENV_ext_dns_cloud_policy}"
       - key: "backend_path"
         value: "cc-cloud-provider"
@@ -27,7 +27,7 @@ spec:
         value: "dns-access"
       - key: "default_lease_ttl_seconds"
         value: "3600"
-
+terraform/aws/config-param/ccnew-config/vault-post-config
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: vault-post-config
