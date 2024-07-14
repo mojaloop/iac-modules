@@ -52,7 +52,7 @@ argocd_override:
           ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
           letsencrypt_email: "${letsencrypt_email}"
           ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
-          dns_cloud_api_region: "${dns_cloud_api_region}"
+          dns_cloud_api_region: "${cloud_region}"
     vault:
       iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
       sub_apps:
