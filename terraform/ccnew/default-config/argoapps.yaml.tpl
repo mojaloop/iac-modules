@@ -1,8 +1,8 @@
 argocd_override:
-  initial_iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
+  initial_application_gitrepo_tag: "${iac_terraform_modules_tag}"
   apps:        
     utils:
-      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         argocd_helm:
           public_ingress_access_domain: "${argocd_public_access}"
@@ -40,7 +40,7 @@ argocd_override:
           terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
           ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
     dns_utils:
-      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         ext_dns:
           helm_version: "${external_dns_helm_version}"
@@ -54,7 +54,7 @@ argocd_override:
           ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
           dns_cloud_api_region: "${cloud_region}"
     vault:
-      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         vault:
           helm_version: "${vault_helm_version}"
@@ -65,7 +65,7 @@ argocd_override:
         vault_config_operator:
           helm_version: "${vault_config_operator_helm_version}"
     security:
-      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         zitadel:
           public_ingress_access_domain: "${zitadel_public_access}"
@@ -87,7 +87,7 @@ argocd_override:
           image_version: "${netbird_image_version}"
         
     nexus:
-      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         nexus:
           helm_version: "${nexus_helm_version}"
