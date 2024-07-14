@@ -1,8 +1,8 @@
 argocd_override:
-  initial_application_gitrepo_tag: "${application_gitrepo_tag}"
+  initial_iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
   apps:        
     utils:
-      application_gitrepo_tag: "${application_gitrepo_tag}"
+      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         argocd_helm:
           public_ingress_access_domain: "${argocd_public_access}"
@@ -40,7 +40,7 @@ argocd_override:
           terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
           ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
     dns_utils:
-      application_gitrepo_tag: "${application_gitrepo_tag}"
+      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         ext_dns:
           helm_version: "${external_dns_helm_version}"
@@ -54,22 +54,22 @@ argocd_override:
           ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
           dns_cloud_api_region: "${dns_cloud_api_region}"
     vault:
-      application_gitrepo_tag: "${application_gitrepo_tag}"
+      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         vault:
           helm_version: "${vault_helm_version}"
           public_ingress_access_domain: "${vault_public_access}"
           vault_tf_provider_version: "${vault_tf_provider_version}"
-          vault_terraform_modules_tag: "${application_gitrepo_tag}"
+          vault_terraform_modules_tag: "${iac_terraform_modules_tag}"
           vault_log_level: "${vault_log_level}"
         vault_config_operator:
           helm_version: "${vault_config_operator_helm_version}"
     security:
-      application_gitrepo_tag: "${application_gitrepo_tag}"
+      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         zitadel:
           public_ingress_access_domain: "${zitadel_public_access}"
-          terraform_modules_tag: "${application_gitrepo_tag}"
+          terraform_modules_tag: "${iac_terraform_modules_tag}"
           helm_version: "${zitadel_helm_version}"
           zitadel_tf_provider_version: "${zitadel_tf_provider_version}"
           vault_rbac_admin_group: "${vault_rbac_admin_group}"
@@ -80,14 +80,14 @@ argocd_override:
           pvc_size: "${cockroachdb_storage_size}"
         netbird:
           stunner_nodeport_port: "'${wireguard_ingress_port}'"
-          terraform_modules_tag: "${application_gitrepo_tag}"
+          terraform_modules_tag: "${iac_terraform_modules_tag}"
           public_ingress_access_domain: "${netbird_public_access}"
           helm_version: "${netbird_helm_version}"
           dashboard_chart_version: "${netbird_dashboard_helm_version}"
           image_version: "${netbird_image_version}"
         
     nexus:
-      application_gitrepo_tag: "${application_gitrepo_tag}"
+      iac_terraform_modules_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         nexus:
           helm_version: "${nexus_helm_version}"
