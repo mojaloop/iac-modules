@@ -52,7 +52,7 @@ spec:
             value: "${ARGOCD_ENV_dns_utils_cr_config_dns_public_subdomain}"
 
           - name: "dns_cloud_api_region"
-            value: "${ARGOCD_ENV_dns_utils_ext_dns_dns_cloud_api_region}"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_cloud_api_region}"
 
           - name: "letsencrypt_server"
             value: "${ARGOCD_ENV_dns_utils_cr_config_letsencrypt_server}"

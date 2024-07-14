@@ -16,6 +16,7 @@ spec:
       key: aws_secret_access_key
       name: secret-backend-creds
       namespace: ${ARGOCD_ENV_vault_namespace}
+    region: ${ARGOCD_ENV_dns_cloud_api_region}
     defaultLeaseTtlSeconds: 3600
 ---
 #makes k8s secret from cloud api creds put in vault by job

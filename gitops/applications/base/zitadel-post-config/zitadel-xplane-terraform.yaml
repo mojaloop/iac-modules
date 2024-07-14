@@ -53,7 +53,7 @@ spec:
         required_providers {
           zitadel = {
             source = "zitadel/zitadel"
-            version = "${ARGOCD_ENV_tf_provider_version}"
+            version = "${ARGOCD_ENV_zitadel_tf_provider_version}"
           }
         }
       }

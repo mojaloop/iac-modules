@@ -45,8 +45,8 @@ spec:
         - name: "zitadel_helm_version"
           value: "${ARGOCD_ENV_security_zitadel_helm_version}"
 
-        - name: "tf_provider_version"
-          value: "${ARGOCD_ENV_security_zitadel_tf_provider_version}"
+        - name: "zitadel_tf_provider_version"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
 
         - name: "terraform_modules_tag"
           value: "${ARGOCD_ENV_security_zitadel_terraform_modules_tag}"
@@ -94,10 +94,10 @@ spec:
           value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
 
         - name: "argocd_oidc_secret"
-          value: "${ARGOCD_ENV_utils_argocd_helm_oidc_secret}"
+          value: "${ARGOCD_ENV_security_zitadel_argocd_helm_oidc_secret}"
 
         - name: "argocd_admin_rbac_group"
-          value: "${ARGOCD_ENV_utils_argocd_helm_admin_rbac_group}"
+          value: "${ARGOCD_ENV_security_zitadel_argocd_admin_rbac_group}"
 
         - name: "argocd_user_rbac_group"
-          value: "${ARGOCD_ENV_utils_argocd_helm_user_rbac_group}"
+          value: "${ARGOCD_ENV_security_zitadel_argocd_helm_user_rbac_group}"

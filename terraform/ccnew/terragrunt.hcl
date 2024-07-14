@@ -12,7 +12,7 @@ terraform {
   required_providers {
     local = {
       source = "hashicorp/local"
-      version = "${local.common_vars.local_provider_version}"
+      version = "${local.common_vars.local_tf_provider_version}"
     }
   }
 }
