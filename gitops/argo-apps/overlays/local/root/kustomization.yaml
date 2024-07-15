@@ -34,4 +34,4 @@ resources:
   - ../../../base/nexus-pre.yaml
   - ../../../base/nexus-post-config.yaml
   # gitlab
-  - ../../../base/gitlab.yaml
+  #- ../../../base/gitlab.yaml
