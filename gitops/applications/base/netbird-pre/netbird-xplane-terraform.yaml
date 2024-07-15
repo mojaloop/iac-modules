@@ -58,4 +58,4 @@ spec:
     name: netbird-pre-config
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_netbird_namespace}
-    name: ${ARGOCD_ENV_netbird_preconfig_secret}
+    name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
