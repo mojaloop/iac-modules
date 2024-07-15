@@ -18,9 +18,11 @@ envRaw:
     valueFrom:
       secretKeyRef:
         name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+        namespace: ${ARGOCD_ENV_argocd_namespace}
         key: netbird_dashboard_client_id
   - name: AUTH_AUDIENCE
     valueFrom:
       secretKeyRef:
         name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+        namespace: ${ARGOCD_ENV_argocd_namespace}
         key: netbird_dashboard_client_id
