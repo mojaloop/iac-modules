@@ -7,14 +7,14 @@ repositories:
 releases:
   - name: netbird
     namespace: ${ARGOCD_ENV_netbird_namespace}
-    version: ${ARGOCD_ENV_netbird_chart_version}
+    version: ${ARGOCD_ENV_netbird_helm_version}
     chart: netbird/netbird
     values:
       - netbird-values.yaml
 
   - name: netbird-dashboard
     namespace: ${ARGOCD_ENV_netbird_namespace}
-    version: ${ARGOCD_ENV_netbird_dashboard_chart_version}
+    version: ${ARGOCD_ENV_netbird_dashboard_helm_version}
     chart: netbird-dashboard/netbird-dashboard
     values:
       - netbird-ui-values.yaml
