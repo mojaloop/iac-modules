@@ -7,15 +7,15 @@ if [ ! -f "$CONFIG_FILE" ]; then
   exit 1
 fi
 
-readarray submodules < <(yq -o=j -I=0 'to_entries[]' $CONFIG_FILE)
+readarray submodules < <(yq -o=j -I=0 eval 'to_entries | .[]' $CONFIG_FILE)
 
 echo $submodules
 
 # Loop through each submodule
 for submodule in "${submodules[@]}"; do
-  path=$(echo "$submodule" | yq '.key' -)
-  ref=$(echo "$submodule" | yq '.value.ref' -)
-  url=$(echo "$submodule" | yq '.value.url' -)
+  path=$(echo "$submodule" | yq eval '.key' -)
+  ref=$(echo "$submodule" | yq eval '.value.ref' -)
+  url=$(echo "$submodule" | yq eval '.value.url' -)
 
   # Check if the submodule directory exists
   if [ -d "$path" ]; then
