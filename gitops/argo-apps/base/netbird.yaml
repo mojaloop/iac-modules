@@ -74,3 +74,6 @@ spec:
 
         - name: "netbird_dashboard_image_version"
           value: "${ARGOCD_ENV_security_netbird_dashboard_image_version}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
