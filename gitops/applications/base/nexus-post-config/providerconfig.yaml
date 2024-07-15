@@ -10,4 +10,4 @@ spec:
     collections:
       - name: ${ARGOCD_ENV_nexus_ansible_repo_url}
         type: git
-        version: ${ARGOCD_ENV_nexus_ansible_collections_tag}
+        version: ${ARGOCD_ENV_nexus_ansible_collection_tag}

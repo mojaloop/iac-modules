@@ -1,48 +1,37 @@
 ---
-apiVersion: aws.vault.upbound.io/v1alpha1
-kind: SecretBackend
+apiVersion: tf.upbound.io/v1beta1
+kind: Workspace
 metadata:
-  name: cc-cloud-provider
-spec:
-  providerConfigRef:
-    name: vault-provider-config
-  forProvider:
-    path: cc-cloud-provider
-    accessKeySecretRef:
-      key: aws_access_key_id
-      name: secret-backend-creds
-      namespace: ${ARGOCD_ENV_vault_namespace}
-    secretKeySecretRef:
-      key: aws_secret_access_key
-      name: secret-backend-creds
-      namespace: ${ARGOCD_ENV_vault_namespace}
-    defaultLeaseTtlSeconds: 3600
----
-#makes k8s secret from cloud api creds put in vault by job
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: secret-backend-creds
+  name: vault-aws-post-config
   namespace: ${ARGOCD_ENV_vault_namespace}
 spec:
-  refreshInterval: 5m
-
-  secretStoreRef:
-    kind: ClusterSecretStore
-    name: vault-secret-store
-
-  target:
-    name: secret-backend-creds # Name for the secret to be created on the cluster
-    creationPolicy: Owner
-
-  data:
-    - secretKey: aws_access_key_id
-      remoteRef:
-        key: ${ARGOCD_ENV_vault_kv_secret}/cloud-api-access
-        property: cloud_platform_api_client_id
-    - secretKey: aws_secret_access_key
-      remoteRef:
-        key: ${ARGOCD_ENV_vault_kv_secret}/cloud-api-access
-        property: cloud_platform_api_client_secret
----
-
+  forProvider:
+    # Use any module source supported by terraform init -from-module.
+    source: Remote
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/aws/config-params/ccnew-config/vault-post-config?ref=${ARGOCD_ENV_vault_terraform_modules_tag}
+    # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
+    vars:
+      - key: "access_key_name"
+        value: "cloud_platform_api_client_id"
+      - key: "secret_key_name"
+        value: "cloud_platform_api_client_secret"
+      - key: "credential_path"
+        value: "cloud-api-access"
+      - key: "region"
+        value: "${ARGOCD_ENV_dns_cloud_api_region}"
+      - key: "kv_path"
+        value: "${ARGOCD_ENV_vault_kv_secret}"
+      - key: "ext_dns_cloud_policy"
+        value: "${ARGOCD_ENV_ext_dns_cloud_policy}"
+      - key: "backend_path"
+        value: "cc-cloud-provider"
+      - key: "dns_access_role"
+        value: "dns-access"
+      - key: "default_lease_ttl_seconds"
+        value: "3600"
+  # All Terraform outputs are written to the connection secret.
+  providerConfigRef:
+    name: vault-post-config
+  writeConnectionSecretToRef:
+    namespace: ${ARGOCD_ENV_vault_namespace}
+    name: vault-aws-post-config

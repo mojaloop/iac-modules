@@ -74,9 +74,8 @@ inputs = {
     microk8s_dev_skip      = try(local.env_vars.microk8s_dev_skip, false)
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps) 
-  bastion_hosts_yaml_fragments   = yamlencode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", {
-    application_gitrepo_tag           = get_env("iac_terraform_modules_tag")
-    ansible_collections_tag           = local.env_vars.ansible_collection_tag
+  bastion_hosts_yaml_fragments   = yamlencode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", merge({
+    nexus_ansible_collection_tag      =  local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     dns_public_subdomain              = dependency.k8s_deploy.outputs.public_subdomain
     dns_private_subdomain             = dependency.k8s_deploy.outputs.private_subdomain
     internal_ingress_https_port       = dependency.k8s_deploy.outputs.target_group_internal_https_port
@@ -88,14 +87,10 @@ inputs = {
     internal_load_balancer_dns        = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns        = dependency.k8s_deploy.outputs.external_load_balancer_dns
     wireguard_ingress_port            = dependency.k8s_deploy.outputs.target_group_vpn_port
-    dns_cloud_api_region              = get_env("cloud_region")
-    letsencrypt_email                 = get_env("letsencrypt_email")
     ext_dns_cloud_policy              = dependency.k8s_deploy.outputs.ext_dns_cloud_policy
     cloud_platform_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_id_key]
     cloud_platform_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_secret_key]
-    argocd_public_ingress_access_domain = local.env_vars.argocd_public_access
-    vault_public_ingress_access_domain = local.env_vars.vault_public_access
-    }))
+    } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
   ansible_bastion_key           = dependency.k8s_deploy.outputs.bastion_ssh_key

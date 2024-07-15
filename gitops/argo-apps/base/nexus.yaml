@@ -38,9 +38,9 @@ spec:
       env:
         - name: "nexus_namespace"
           value: "${ARGOCD_ENV_nexus_nexus_namespace}"
-        
+
         - name: "vault_namespace"
-          value: "${ARGOCD_ENV_vault_namespace}"          
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
 
         - name: "nexus_app_name"
           value: "${ARGOCD_ENV_nexus_nexus_app_name}"
@@ -49,10 +49,10 @@ spec:
           value: "${ARGOCD_ENV_nexus_nexus_helm_version}"
 
         - name: "nexus_istio_gateway_namespace"
-          value: "${ARGOCD_ENV_nexus_istio_gateway_namespace}"
+          value: "${ARGOCD_ENV_nexus_nexus_istio_gateway_namespace}"
 
         - name: "nexus_istio_wildcard_gateway_name"
-          value: "${ARGOCD_ENV_nexus_istio_wildcard_gateway_name}"
+          value: "${ARGOCD_ENV_nexus_nexus_istio_wildcard_gateway_name}"
 
         - name: "nexus_dns_subdomain"
-          value: "${ARGOCD_ENV_nexus_dns_subdomain}"
+          value: "${ARGOCD_ENV_nexus_nexus_dns_subdomain}"

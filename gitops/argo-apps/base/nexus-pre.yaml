@@ -40,10 +40,10 @@ spec:
           value: "${ARGOCD_ENV_nexus_nexus_namespace}"
 
         - name: "vault_k8s_admin_auth_path"
-          value: "${ARGOCD_ENV_nexus_pre_vault_k8s_admin_auth_path}"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
 
         - name: "vault_k8s_admin_role_name"
-          value: "${ARGOCD_ENV_nexus_pre_vault_k8s_admin_role_name}"
-        
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
         - name: "vault_namespace"
-          value: "${ARGOCD_ENV_vault_namespace}"                    
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
