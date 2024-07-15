@@ -268,7 +268,7 @@ central-ledger-db:
       innodb_use_native_aio: 0
       max_connections: 2000
       innodb_buffer_pool_size: 2147483648
-      port: 3306
+      port: 3307
       user: central_ledger
       user_password: ""
       database_name: central_ledger
