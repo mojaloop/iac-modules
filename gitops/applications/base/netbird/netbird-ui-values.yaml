@@ -1,7 +1,7 @@
 ingress:
   enabled: false
 image:
-  tag: ${ARGOCD_ENV_netbird_image_version}
+  tag: ${ARGOCD_ENV_netbird_dashboard_image_version}
 env:
   # Endpoints
   NETBIRD_MGMT_API_ENDPOINT: https://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443

@@ -455,8 +455,6 @@ spec:
 
                 helmfile:
                   init:
-                    # Init always happens immediately before generate, but its output is not treated as manifests.
-                    # This is a good place to, for example, download chart dependencies.
                     command: [sh]
                     args: [-c, "in-pod-kubeconfig.sh"]
 
