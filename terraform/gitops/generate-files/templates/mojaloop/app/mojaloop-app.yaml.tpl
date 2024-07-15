@@ -4,7 +4,7 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${mojaloop_sync_wave}"
-# %{ if updater_image_list }
+# %{ if length(updater_image_list) > 0 }
     argocd-image-updater.argoproj.io/image-list: ${updater_image_list}
     argocd-image-updater.argoproj.io/write-back-target: kustomization
     argocd-image-updater.argoproj.io/write-back-method: git
