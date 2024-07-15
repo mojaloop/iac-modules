@@ -10,7 +10,7 @@ metadata:
     argocd-image-updater.argoproj.io/write-back-method: git
     # %{ for alias in updater_alias }
     argocd-image-updater.argoproj.io/${alias}.update-strategy: digest
-    # %{ endif }
+    # %{ endfor }
   name: moja
   namespace: argocd
   finalizers:
