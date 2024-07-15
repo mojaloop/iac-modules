@@ -69,6 +69,9 @@ spec:
         - name: "netbird_namespace"
           value: "${ARGOCD_ENV_security_netbird_namespace}"
 
+        - name: "zitadel_namespace"
+          value: "${ARGOCD_ENV_security_zitadel_namespace}"
+
         - name: "stunner_nodeport_port"
           value: "${ARGOCD_ENV_security_netbird_stunner_nodeport_port}"
 
