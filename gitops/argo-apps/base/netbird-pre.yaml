@@ -75,5 +75,5 @@ spec:
         - name: "stunner_gateway_operator_helm_version"
           value: "${ARGOCD_ENV_security_netbird_stunner_gateway_operator_helm_version}"
 
-        - name: "management_turn_secret"
-          value: "${ARGOCD_ENV_security_netbird_management_turn_secret}"
+        - name: "stunner_auth_secret"
+          value: "${ARGOCD_ENV_security_netbird_stunner_auth_secret}"
