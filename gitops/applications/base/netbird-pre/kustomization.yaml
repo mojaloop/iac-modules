@@ -11,3 +11,4 @@ helmCharts:
     version: ${ARGOCD_ENV_stunner_gateway_operator_helm_version}
     repo: https://l7mp.io/stunner
     namespace: ${ARGOCD_ENV_stunner_system_namespace}
+    includeCRDs: true
