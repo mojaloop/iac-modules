@@ -511,8 +511,6 @@ spec:
             volumes:
               - name: custom-tools
                 emptyDir: {}
-              - name: helm-working-dir
-                emptyDir: {}
               - name: cmp-plugin
                 configMap:
                   name: argocd-cmp-cm
@@ -532,9 +530,7 @@ spec:
                     value: /helm-working-dir
                 command: ["/bin/sh", "-c"]
                 args:
-                  helm plugin install https://github.com/aslafy-z/helm-git --version 0.16.0;
-                  helm plugin install https://github.com/databus23/helm-diff --version 3.9.8;
-                  chmod -R 777 $HELM_DATA_HOME;
+                  - helm plugin install https://github.com/aslafy-z/helm-git --version 0.16.0 && helm plugin install https://github.com/databus23/helm-diff --version 3.9.8 && chmod -R 777 $HELM_DATA_HOME;
 
               - name: download-tools
                 image: golang:1.22.4-alpine3.20
