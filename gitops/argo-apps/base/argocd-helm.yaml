@@ -646,6 +646,11 @@ spec:
                   - name: custom-tools
                     subPath: helmfile
                     mountPath: /usr/local/bin/helmfile
+
+                  - name: custom-tools
+                    subPath: envsubst
+                    mountPath: /usr/local/bin/envsubst
+
                   - name: helm-working-dir
                     mountPath: /helm-working-dir
 
