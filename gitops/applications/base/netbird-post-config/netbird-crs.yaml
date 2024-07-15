@@ -5,9 +5,9 @@ metadata:
   namespace: ${ARGOCD_ENV_netbird_namespace}
 spec:
   gateways:
-    - ${ARGOCD_ENV_istio_external_gateway_namespace}/${ARGOCD_ENV_istio_external_wildcard_gateway_name}
+    - ${ARGOCD_ENV_netbird_istio_gateway_namespace}/${ARGOCD_ENV_netbird_istio_wildcard_gateway_name}
   hosts:
-    - "netbird.${ARGOCD_ENV_dns_public_subdomain}"
+    - "nexus.${ARGOCD_ENV_netbird_dns_subdomain}"
   http:
     - match:
         - uri:
@@ -41,9 +41,9 @@ metadata:
   namespace: ${ARGOCD_ENV_netbird_namespace}
 spec:
   gateways:
-    - ${ARGOCD_ENV_istio_external_gateway_namespace}/${ARGOCD_ENV_istio_external_wildcard_gateway_name}
+    - ${ARGOCD_ENV_netbird_istio_gateway_namespace}/${ARGOCD_ENV_netbird_istio_wildcard_gateway_name}
   hosts:
-    - "netbird-dashboard.${ARGOCD_ENV_dns_public_subdomain}"
+    - "nexus.${ARGOCD_ENV_netbird_dns_subdomain}"
   http:
     - match:
         - uri:

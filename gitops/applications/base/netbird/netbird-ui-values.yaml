@@ -4,10 +4,10 @@ image:
   tag: ${ARGOCD_ENV_netbird_image_version}
 env:
   # Endpoints
-  NETBIRD_MGMT_API_ENDPOINT: https://netbird.${ARGOCD_ENV_dns_public_subdomain}:443
-  NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.${ARGOCD_ENV_dns_public_subdomain}:443
+  NETBIRD_MGMT_API_ENDPOINT: https://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443
+  NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443
   # OIDC
-  AUTH_AUTHORITY: https://zitadel.${ARGOCD_ENV_dns_public_subdomain}
+  AUTH_AUTHORITY: https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
   USE_AUTH0: false
   AUTH_SUPPORTED_SCOPES: openid profile email offline_access api
   AUTH_REDIRECT_URI: /nb-auth
@@ -17,10 +17,10 @@ envRaw:
   - name: AUTH_CLIENT_ID
     valueFrom:
       secretKeyRef:
-        name: netbird-management
+        name: ${ARGOCD_ENV_netbird_preconfig_secret}
         key: netbird_dashboard_client_id
   - name: AUTH_AUDIENCE
     valueFrom:
       secretKeyRef:
-        name: netbird-management
+        name: ${ARGOCD_ENV_netbird_preconfig_secret}
         key: netbird_dashboard_client_id

@@ -453,6 +453,16 @@ spec:
                         "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build . --enable-helm --helm-kube-version 1.29-0 --load-restrictor LoadRestrictionsNone > /dev/stdout",
                       ]
 
+                helmfile:
+                  discover:
+                    fileName: "helmfile.yaml"
+                  generate:
+                    command: ["sh", "-c"]
+                    args:
+                      [
+                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && helmfile template --quiet -f helmfile.yaml > /dev/stdout",
+                      ]
+
           ## Controller ##
           controller:
             # resources:
@@ -490,20 +500,47 @@ spec:
             #   requests:
             #     cpu: 250m
             #     memory: 512Mi
+            env:
+              - name: HELM_CACHE_HOME
+                value: /helm-working-dir
+              - name: HELM_CONFIG_HOME
+                value: /helm-working-dir
+              - name: HELM_DATA_HOME
+                value: /helm-working-dir
 
             volumes:
               - name: custom-tools
+                emptyDir: {}
+              - name: helm-working-dir
                 emptyDir: {}
               - name: cmp-plugin
                 configMap:
                   name: argocd-cmp-cm
 
             initContainers:
+              - name: helm-plugins
+                image: alpine/helm:${ARGOCD_ENV_helm_version}
+                volumeMounts:
+                  - name: helm-working-dir
+                    mountPath: /helm-working-dir
+                env:
+                  - name: HELM_CACHE_HOME
+                    value: /helm-working-dir
+                  - name: HELM_CONFIG_HOME
+                    value: /helm-working-dir
+                  - name: HELM_DATA_HOME
+                    value: /helm-working-dir
+                command: ["/bin/sh", "-c"]
+                args:
+                  helm plugin install https://github.com/aslafy-z/helm-git --version 0.16.0;
+                  helm plugin install https://github.com/databus23/helm-diff --version 3.9.8;
+                  chmod -R 777 $HELM_DATA_HOME;
+
               - name: download-tools
                 image: golang:1.22.4-alpine3.20
                 command: [sh, -c]
                 args:
-                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/
+                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/ && wget -qO- https://github.com/helmfile/helmfile/releases/download/v${ARGOCD_ENV_helmfile_version}/helmfile_${ARGOCD_ENV_helmfile_version}_linux_amd64.tar.gz | tar xvz helmfile && mv helmfile /custom-tools/
                 volumeMounts:
                   - mountPath: /custom-tools
                     name: custom-tools
@@ -527,8 +564,10 @@ spec:
                     subPath: envsubst
                     mountPath: /usr/local/bin/envsubst
                   - name: custom-tools
-                    subPath: yq
-                    mountPath: /usr/local/bin/yq
+                    subPath: helmfile
+                    mountPath: /usr/local/bin/helmfile
+                  - name: helm-working-dir
+                    mountPath: /helm-working-dir
 
               - name: envsubstappofapp
                 command: [/var/run/argocd/argocd-cmp-server]
@@ -554,9 +593,6 @@ spec:
                   - name: custom-tools
                     subPath: envsubst
                     mountPath: /usr/local/bin/envsubst
-                  - name: custom-tools
-                    subPath: yq
-                    mountPath: /usr/local/bin/yq
 
               - name: envsubst
                 command: [/var/run/argocd/argocd-cmp-server]
@@ -582,9 +618,40 @@ spec:
                   - name: custom-tools
                     subPath: envsubst
                     mountPath: /usr/local/bin/envsubst
+
+              - name: helmfile
+                command: [/var/run/argocd/argocd-cmp-server]
+                image: quay.io/argoproj/argocd
+                args: [--loglevel, debug]
+                securityContext:
+                  runAsNonRoot: true
+                  runAsUser: 999
+                env:
+                  - name: HELM_CACHE_HOME
+                    value: /helm-working-dir
+                  - name: HELM_CONFIG_HOME
+                    value: /helm-working-dir
+                  - name: HELM_DATA_HOME
+                    value: /helm-working-dir
+                volumeMounts:
+                  - mountPath: /var/run/argocd
+                    name: var-files
+                  - mountPath: /home/argocd/cmp-server/plugins
+                    name: plugins
+                  - mountPath: /tmp
+                    name: tmp
+
+                  # Register plugins into sidecar
+                  - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+                    subPath: helmfile.yaml
+                    name: cmp-plugin
+
+                  # Important: Mount tools into $PATH
                   - name: custom-tools
-                    subPath: yq
-                    mountPath: /usr/local/bin/yq
+                    subPath: helmfile
+                    mountPath: /usr/local/bin/helmfile
+                  - name: helm-working-dir
+                    mountPath: /helm-working-dir
 
             metrics:
               enabled: false

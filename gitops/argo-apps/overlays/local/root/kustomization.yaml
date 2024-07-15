@@ -26,10 +26,12 @@ resources:
   - ../../../base/zitadel-pre.yaml
   - ../../../base/zitadel-helm.yaml
   - ../../../base/zitadel-post-config.yaml
-  #- ../../../base/netbird.yaml
+  - ../../../base/netbird-pre.yaml
+  - ../../../base/netbird.yaml
+  - ../../../base/netbird-post-config.yaml
   # nexus
   - ../../../base/nexus.yaml
   - ../../../base/nexus-pre.yaml
   - ../../../base/nexus-post-config.yaml
   # gitlab
-  - ../../../base/gitlab.yaml 
+  - ../../../base/gitlab.yaml

@@ -1,0 +1,79 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_security_netbird_app_name}-pre
+  namespace: ${ARGOCD_ENV_security_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_netbird_pre_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_security_app_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
+    path: gitops/applications/base/netbird-pre
+    plugin:
+      name: envsubst
+      env:
+        - name: "zitadel_tf_provider_version"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
+
+        - name: "zitadel_dns_subdomain"
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
+
+        - name: "terraform_modules_tag"
+          value: "${ARGOCD_ENV_security_netbird_terraform_modules_tag}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+        - name: "netbird_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_security_netbird_istio_gateway_namespace}"
+
+        - name: "netbird_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_security_netbird_istio_wildcard_gateway_name}"
+
+        - name: "netbird_dns_subdomain"
+          value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
+
+        - name: "netbird_preconfig_output_secret"
+          value: "${ARGOCD_ENV_security_netbird_preconfig_output_secret}"
+
+        - name: "stunner_system_namespace"
+          value: "${ARGOCD_ENV_security_netbird_stunner_system_namespace}"
+
+        - name: "stunner_impl_namespace"
+          value: "${ARGOCD_ENV_security_netbird_stunner_impl_namespace}"
+
+        - name: "netbird_namespace"
+          value: "${ARGOCD_ENV_security_netbird_namespace}"
+
+        - name: "stunner_nodeport_port"
+          value: "${ARGOCD_ENV_security_netbird_stunner_nodeport_port}"
+
+        - name: "stunner_gateway_operator_helm_version"
+          value: "${ARGOCD_ENV_security_netbird_stunner_gateway_operator_helm_version}"
+
+        - name: "management_turn_secret"
+          value: "${ARGOCD_ENV_security_netbird_management_turn_secret}"
