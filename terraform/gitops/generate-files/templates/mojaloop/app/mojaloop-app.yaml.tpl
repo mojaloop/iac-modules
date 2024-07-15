@@ -1,9 +1,14 @@
-%{ if mojaloop_enabled ~}
+# %{ if mojaloop_enabled }
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${mojaloop_sync_wave}"
+    # %{ if updater_image_list }
+    argocd-image-updater.argoproj.io/image-list: ${join(",", updater_image_list)}
+    argocd-image-updater.argoproj.io/write-back-target: kustomization
+    argocd-image-updater.argoproj.io/write-back-method: git
+    # %{ endif }
   name: moja
   namespace: argocd
   finalizers:
@@ -31,4 +36,4 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
-%{ endif ~}
+# %{ endif }
