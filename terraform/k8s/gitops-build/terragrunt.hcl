@@ -102,11 +102,10 @@ locals {
   tags                          = local.env_vars.tags
   gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
   gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
-  common_vars                   = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
-  pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"))
-  mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
-  vnext_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}"))
-   
+  common_vars                   = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}", local.env_vars))
+  pm4ml_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}", local.env_vars))
+  mojaloop_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}", local.env_vars))
+  vnext_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}", local.env_vars))
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
     internal_load_balancer_dns       = "",
@@ -119,7 +118,7 @@ locals {
     target_group_external_http_port  = 32080,
     haproxy_server_fqdn              = "haproxy.${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",
     private_network_cidr             = "${get_env("vpc_cidr")}"
-  }, yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}")))
+  }, yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}", local.env_vars)))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
   CLUSTER_NAME                  = get_env("cluster_name")
