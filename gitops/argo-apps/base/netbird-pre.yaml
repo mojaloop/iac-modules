@@ -80,3 +80,9 @@ spec:
 
         - name: "stunner_auth_secret"
           value: "${ARGOCD_ENV_security_netbird_stunner_auth_secret}"
+
+        - name: "vault_k8s_admin_auth_path"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+        - name: "vault_k8s_admin_role_name"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
