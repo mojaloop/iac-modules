@@ -16,8 +16,8 @@ configuration: |-
         {
           "Proto": "udp",
           "URI": "turn:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}",
-          "Username": "ref+k8s://v1/Secret/${ARGOCD_ENV_stunner_impl_namespace}/${ARGOCD_ENV_stunner_auth_secret}/username+",
-          "Password": "ref+k8s://v1/Secret/${ARGOCD_ENV_stunner_impl_namespace}/${ARGOCD_ENV_stunner_auth_secret}/password+"
+          "Username": "ref+k8s://v1/Secret/${ARGOCD_ENV_argocd_namespace}/${ARGOCD_ENV_stunner_auth_secret}/username+",
+          "Password": "ref+k8s://v1/Secret/${ARGOCD_ENV_argocd_namespace}/${ARGOCD_ENV_stunner_auth_secret}/password+"
         }
       ]
     },
