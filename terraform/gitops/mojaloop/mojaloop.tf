@@ -195,7 +195,8 @@ module "generate_mojaloop_files" {
     mojaloop_override_values_file_exists                              = local.mojaloop_override_values_file_exists
     finance_portal_override_values_file_exists                        = local.finance_portal_override_values_file_exists
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
-    updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${key}=${value}"])
+    updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}=${key}:${value}"])
+    updater_alias                                                     = [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}"]
 
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]

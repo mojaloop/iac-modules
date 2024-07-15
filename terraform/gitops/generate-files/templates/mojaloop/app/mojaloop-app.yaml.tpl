@@ -5,9 +5,11 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${mojaloop_sync_wave}"
     # %{ if updater_image_list }
-    argocd-image-updater.argoproj.io/image-list: ${join(",", updater_image_list)}
+    argocd-image-updater.argoproj.io/image-list: ${updater_image_list}
     argocd-image-updater.argoproj.io/write-back-target: kustomization
     argocd-image-updater.argoproj.io/write-back-method: git
+    # %{ for alias in updater_alias }
+    argocd-image-updater.argoproj.io/${alias}.update-strategy: digest
     # %{ endif }
   name: moja
   namespace: argocd
