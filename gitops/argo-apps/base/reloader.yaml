@@ -36,4 +36,6 @@ spec:
         valuesObject:
           nameOverride: reloader
           reloader:
+            reloadOnCreate: true
+            reloadStrategy: annotations
             resourceLabelSelector: "reloader=enabled"
