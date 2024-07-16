@@ -57,5 +57,5 @@ spec:
   providerConfigRef:
     name: netbird-pre-config
   writeConnectionSecretToRef:
-    namespace: ${ARGOCD_ENV_argocd_namespace}
+    namespace: ${ARGOCD_ENV_netbird_namespace}
     name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
