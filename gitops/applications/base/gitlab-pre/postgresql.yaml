@@ -478,4 +478,4 @@ spec:
 #      pg_audit: true
 #    custom:
 #    - name: pg_cron
-#      version: 1.6.1
+#      version: 1.6.1 # trying
