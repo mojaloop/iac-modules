@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_gitlab_pre_argocd_app_name}
+  name: ${ARGOCD_ENV_gitlab_pre_app_name}
   namespace: ${ARGOCD_ENV_gitlab_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_gitlab_sync_wave}
@@ -44,9 +44,9 @@ spec:
 
         - name: "postgres_replicas"
           value: ${ARGOCD_ENV_gitlab_pre_postgres_replicas}
-        
+
         - name: "postgres_proxy_replicas"
           value: ${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}
-        
+
         - name: "postgres_storage_size"
           value: ${ARGOCD_ENV_gitlab_pre_postgres_storage_size}
