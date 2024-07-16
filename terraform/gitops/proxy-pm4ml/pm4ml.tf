@@ -15,7 +15,7 @@ module "generate_pm4ml_files" {
     istio_external_wildcard_gateway_name            = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace                = var.istio_external_gateway_namespace
     pm4ml_wildcard_gateway                          = each.value.pm4ml_ingress_internal_lb ? "internal" : "external"
-    proxy_id                                        = each.value.pm4ml_proxy_id
+    proxy_id                                        = each.key
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
     scheme_a_config                                 = each.value.pm4ml_scheme_a_config
     scheme_b_config                                 = each.value.pm4ml_scheme_b_config
