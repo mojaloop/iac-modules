@@ -43,8 +43,8 @@ module "generate_pm4ml_files" {
     pm4ml_external_switch_a_client_secret           = var.pm4ml_external_switch_a_client_secret
     pm4ml_external_switch_b_client_secret           = var.pm4ml_external_switch_b_client_secret
     pm4ml_external_switch_client_secret_key         = "token"
-    pm4ml_external_switch_a_client_secret_vault_key = "${var.kv_path}/${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_secret_vault_path}"
-    pm4ml_external_switch_b_client_secret_vault_key = "${var.kv_path}/${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_secret_vault_path}"
+    pm4ml_external_switch_a_client_secret_vault_key = "${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_secret_vault_path}"
+    pm4ml_external_switch_b_client_secret_vault_key = "${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_secret_vault_path}"
     pm4ml_external_switch_client_secret_vault_value = "value"
     istio_external_gateway_name                     = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name

@@ -64,22 +64,3 @@ spec:
     stringData:
       secret: '{{ .secret.${vault_secret_key} }}'
     type: Opaque
----
-apiVersion: redhatcop.redhat.io/v1alpha1
-kind: RandomSecret
-metadata:
-  name: ${pm4ml_external_switch_client_secret}
-  namespace: ${pm4ml_namespace}
-  annotations:
-    argocd.argoproj.io/sync-wave: "-3"
-spec:
-  authentication:
-    path: kubernetes
-    role: policy-admin
-    serviceAccount:
-      name: default
-  isKVSecretsEngineV2: false
-  path: ${pm4ml_external_switch_client_secret_vault_key}
-  secretKey: ${pm4ml_external_switch_client_secret_vault_value}
-  secretFormat:
-    passwordPolicyName: keycloak-client-secret
