@@ -7,7 +7,7 @@ spec:
   gateways:
     - ${ARGOCD_ENV_netbird_istio_gateway_namespace}/${ARGOCD_ENV_netbird_istio_wildcard_gateway_name}
   hosts:
-    - "nexus.${ARGOCD_ENV_netbird_dns_subdomain}"
+    - "netbird.${ARGOCD_ENV_netbird_dns_subdomain}"
   http:
     - match:
         - uri:
@@ -43,7 +43,7 @@ spec:
   gateways:
     - ${ARGOCD_ENV_netbird_istio_gateway_namespace}/${ARGOCD_ENV_netbird_istio_wildcard_gateway_name}
   hosts:
-    - "nexus.${ARGOCD_ENV_netbird_dns_subdomain}"
+    - "netbird-dashboard.${ARGOCD_ENV_netbird_dns_subdomain}"
   http:
     - match:
         - uri:
