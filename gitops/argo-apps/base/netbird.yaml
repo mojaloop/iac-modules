@@ -27,7 +27,7 @@ spec:
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_security_zitadel_namespace}
+    namespace: ${ARGOCD_ENV_security_namespace}
 
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
