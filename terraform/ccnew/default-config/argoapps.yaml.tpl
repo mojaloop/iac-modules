@@ -96,3 +96,12 @@ argocd_override:
           public_ingress_access_domain: "${nexus_public_access}"
         post_config:
           ansible_collection_tag: ${nexus_ansible_collection_tag}
+
+    gitlab:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      sub_apps:
+        gitlab:
+          helm_version: "${gitlab_helm_version}"
+          public_ingress_access_domain: "${gitlab_public_access}"
+        post_config:
+          ansible_collection_tag: ${gitlab_ansible_collection_tag}

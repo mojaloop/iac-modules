@@ -40,6 +40,12 @@ global:
       - main
       - ci
       - embedding
+    database: gitlab
+    username: gitlab
+    password:
+      secret: postgresl-secret
+      key: postgres-user-password
+    host: postgresql  
   clickhouse:
     enabled: false
     # main:
