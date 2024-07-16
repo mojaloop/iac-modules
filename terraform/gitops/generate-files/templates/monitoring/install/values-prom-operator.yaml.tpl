@@ -63,6 +63,12 @@ kubelet:
       targetLabel: kubernetes_io_hostname
       replacement: $${1}
       action: replace
+    - sourceLabels: [__name__]
+      regex: 'apiserver_request_duration_seconds_bucket'
+      action: drop
+
+kubeApiServer:
+  enabled: false	
 
 commonLabels:
   build: argocd
