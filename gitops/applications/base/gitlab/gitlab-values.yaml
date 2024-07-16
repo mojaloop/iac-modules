@@ -43,7 +43,7 @@ global:
     database: gitlab
     username: gitlab
     password:
-      secret: postgresl-secret
+      secret: gitlab-postgresql-credentials
       key: postgres-user-password
     host: postgresql  
   clickhouse:

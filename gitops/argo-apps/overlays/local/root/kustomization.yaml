@@ -15,6 +15,8 @@ resources:
   - ../../../base/istio-gw.yaml
   - ../../../base/cert-manager.yaml
   - ../../../base/consul.yaml
+  - ../../../base/percona-operator.yaml
+  - ../../../base/redis-operator.yaml
   # vault
   - ../../../base/vault.yaml
   - ../../../base/vault-post-config.yaml
@@ -34,4 +36,4 @@ resources:
   - ../../../base/nexus-pre.yaml
   - ../../../base/nexus-post-config.yaml
   # gitlab
-  #- ../../../base/gitlab.yaml
+  - ../../../base/gitlab-pre.yaml
