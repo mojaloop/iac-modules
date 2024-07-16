@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
-    path: gitops/applications/base/gitlab
+    path: gitops/applications/base/gitlab-pre
     plugin:
       name: envsubst
       env:
