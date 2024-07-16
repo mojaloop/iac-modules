@@ -454,17 +454,13 @@ spec:
                       ]
 
                 helmfile:
-                  init:
-                    command: [sh]
-                    args: [-c, "in-pod-kubeconfig.sh"]
-
                   discover:
                     fileName: "helmfile.yaml"
                   generate:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && helmfile template --quiet -f helmfile.yaml > /dev/stdout",
+                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && sed -i -e 's/ref+/reff+/g' $f.sub && mv $f.sub $f ; done && helmfile template --quiet -f helmfile.yaml > helmfileout.yaml && sed -i -e 's/reff+/ref+/g' helmfileout.yaml && cp helmfileout.yaml /dev/stdout",
                       ]
 
           ## Controller ##
@@ -534,13 +530,13 @@ spec:
                     value: /helm-working-dir
                 command: ["/bin/sh", "-c"]
                 args:
-                  - helm plugin install https://github.com/databus23/helm-diff --version 3.9.8 && rm -rf /helm-working-dir/plugins/https* && helm plugin install https://github.com/aslafy-z/helm-git --version 0.16.0 && rm -rf /helm-working-dir/plugins/https* && chmod -R 777 $HELM_DATA_HOME
+                  - helm plugin install https://github.com/aslafy-z/helm-git --version 0.16.0 && rm -rf /helm-working-dir/plugins/https* && chmod -R 777 $HELM_DATA_HOME
 
               - name: download-tools
                 image: golang:1.22.4-alpine3.20
                 command: [sh, -c]
                 args:
-                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/ && wget -qO- https://github.com/helmfile/helmfile/releases/download/v${ARGOCD_ENV_helmfile_version}/helmfile_${ARGOCD_ENV_helmfile_version}_linux_amd64.tar.gz | tar xvz helmfile && mv helmfile /custom-tools/ && wget https://gist.githubusercontent.com/enriched/11c7d81aa271b258f835620b1aca2e55/raw/2017a4202da30506b1fedc2981afed41e259fe77/in-pod-kubeconfig.sh && chmod +x in-pod-kubeconfig.sh && mv in-pod-kubeconfig.sh /custom-tools/
+                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/ && wget -qO- https://github.com/helmfile/helmfile/releases/download/v${ARGOCD_ENV_helmfile_version}/helmfile_${ARGOCD_ENV_helmfile_version}_linux_amd64.tar.gz | tar xvz helmfile && mv helmfile /custom-tools/
                 volumeMounts:
                   - mountPath: /custom-tools
                     name: custom-tools
@@ -566,10 +562,6 @@ spec:
                   - name: custom-tools
                     subPath: helmfile
                     mountPath: /usr/local/bin/helmfile
-
-                  - name: custom-tools
-                    subPath: in-pod-kubeconfig.sh
-                    mountPath: /usr/local/bin/in-pod-kubeconfig.sh
 
                   - name: helm-working-dir
                     mountPath: /helm-working-dir
@@ -659,10 +651,6 @@ spec:
                   - name: custom-tools
                     subPath: envsubst
                     mountPath: /usr/local/bin/envsubst
-
-                  - name: custom-tools
-                    subPath: in-pod-kubeconfig.sh
-                    mountPath: /usr/local/bin/in-pod-kubeconfig.sh
 
                   - name: helm-working-dir
                     mountPath: /helm-working-dir

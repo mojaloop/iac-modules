@@ -1,8 +1,8 @@
 repositories:
   - name: netbird
-    url: git+https://github.com/totmicro/helms@charts/netbird?ref=main
+    url: git+https://github.com/mojaloop/netbird-charts@charts/netbird?ref=main
   - name: netbird-dashboard
-    url: git+https://github.com/totmicro/helms@charts/netbird-dashboard?ref=main
+    url: git+https://github.com/mojaloop/netbird-charts@charts/netbird-dashboard?ref=main
 
 releases:
   - name: netbird

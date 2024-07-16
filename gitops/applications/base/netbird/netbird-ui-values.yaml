@@ -13,16 +13,10 @@ env:
   AUTH_REDIRECT_URI: /nb-auth
   AUTH_SILENT_REDIRECT_URI: /nb-silent-auth
 
-envRaw:
-  - name: AUTH_CLIENT_ID
-    valueFrom:
-      secretKeyRef:
-        name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
-        namespace: ${ARGOCD_ENV_argocd_namespace}
-        key: netbird_dashboard_client_id
-  - name: AUTH_AUDIENCE
-    valueFrom:
-      secretKeyRef:
-        name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
-        namespace: ${ARGOCD_ENV_argocd_namespace}
-        key: netbird_dashboard_client_id
+envFromSecret:
+  AUTH_CLIENT_ID:
+    secretKey: netbird_dashboard_client_id
+    secretName: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+  AUTH_AUDIENCE:
+    secretKey: netbird_dashboard_client_id
+    secretName: ${ARGOCD_ENV_netbird_preconfig_output_secret}

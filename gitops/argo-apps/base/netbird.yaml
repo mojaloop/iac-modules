@@ -57,9 +57,6 @@ spec:
         - name: "stunner_nodeport_port"
           value: "${ARGOCD_ENV_security_netbird_stunner_nodeport_port}"
 
-        - name: "netbird_preconfig_output_secret"
-          value: "${ARGOCD_ENV_security_netbird_preconfig_output_secret}"
-
         - name: "netbird_helm_version"
           value: "${ARGOCD_ENV_security_netbird_helm_version}"
 
@@ -74,6 +71,3 @@ spec:
 
         - name: "netbird_dashboard_image_version"
           value: "${ARGOCD_ENV_security_netbird_dashboard_image_version}"
-
-        - name: "argocd_namespace"
-          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
