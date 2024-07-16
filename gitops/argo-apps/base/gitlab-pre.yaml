@@ -40,13 +40,13 @@ spec:
           value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
 
         - name: "redis_cluster_size"
-          value: ${ARGOCD_ENV_gitlab_pre_redis_cluster_size}
+          value: "${ARGOCD_ENV_gitlab_pre_redis_cluster_size}"
 
         - name: "postgres_replicas"
-          value: ${ARGOCD_ENV_gitlab_pre_postgres_replicas}
+          value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
 
         - name: "postgres_proxy_replicas"
-          value: ${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}
+          value: "${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}"
 
         - name: "postgres_storage_size"
-          value: ${ARGOCD_ENV_gitlab_pre_postgres_storage_size}
+          value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"
