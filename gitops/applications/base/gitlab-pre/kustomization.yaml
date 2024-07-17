@@ -1,5 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - postgresql.yaml
   - redis.yaml
+
+helmCharts:
+- name: pg-db
+  releaseName: ${ARGOCD_ENV_gitlab_app_name}
+  version: ${ARGOCD_ENV_pgdb_helm_version}
+  repo: https://percona.github.io/percona-helm-charts/
+  valuesFile: gitlab-db-values.yaml
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
