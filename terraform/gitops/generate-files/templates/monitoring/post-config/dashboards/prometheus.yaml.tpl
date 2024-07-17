@@ -45,7 +45,7 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: mojaloop-prometheus-remote-write
+  name: mojaloop-prometheus-stats
 spec:
   folder: monitoring
   datasources:
