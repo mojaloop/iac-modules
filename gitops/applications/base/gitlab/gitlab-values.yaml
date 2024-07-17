@@ -163,10 +163,10 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-redis-settings
   redis:
-    auth:
-      enabled: true
-      secret: gitlab-redis-secret
-      key: password
+    # auth:
+    #   enabled: true
+    #   secret: gitlab-redis-secret
+    #   key: password
     host: gitlab-redis-leader-additional.gitlab.svc
     port: 6379
     # user: webservice
