@@ -1170,7 +1170,7 @@ prometheus:
 ## https://docs.gitlab.com/charts/architecture/decisions#redis
 ## https://docs.gitlab.com/charts/installation/deployment.html#redis
 redis:
-  install: true
+  install: false
   auth:
     existingSecret: gitlab-redis-secret
     existingSecretKey: redis-password
@@ -1184,7 +1184,7 @@ redis:
 ## Installation & configuration of stable/postgresql
 ## See requirements.yaml for current version
 postgresql:
-  install: true
+  install: false
   auth:
     ## These need to be set, for the sake of bitnami/postgresql upgrade patterns.
     ## They are overridden by use of `existingSecret`
