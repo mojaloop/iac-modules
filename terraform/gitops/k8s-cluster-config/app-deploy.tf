@@ -66,7 +66,7 @@ module "mojaloop" {
   minio_api_url                        = var.minio_api_url
   minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
-
+  pm4mls                               = merge(locals.pm4ml_var_map, locals.proxy_pm4ml_var_map)
 }
 
 module "pm4ml" {
