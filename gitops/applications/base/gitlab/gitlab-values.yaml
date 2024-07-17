@@ -228,7 +228,7 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-minio-settings
   minio:
-    enabled: false
+    enabled: true
     credentials: {}
       # secret:
 
