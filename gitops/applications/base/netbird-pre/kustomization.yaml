@@ -4,6 +4,7 @@ resources:
   - namespaces.yaml
   - vault-secrets.yaml
   - netbird-xplane-terraform.yaml
+  - stunner-crs.yaml
 
 helmCharts:
   - name: stunner-gateway-operator
