@@ -489,7 +489,7 @@ spec:
       - phone
       - offline_access
       - microprofile-jwt
-# {% for id, client in pm4mls }
+# %{ for id, client in pm4mls }
     - clientId: ${id}
       name: ${id}
       enabled: ${client.pm4ml_enabled}
@@ -498,7 +498,7 @@ spec:
       webOrigins: ['/*']
       serviceAccountsEnabled: true
       protocol: openid-connect
-# {% endfor }
+# %{ endfor }
     clientScopes:
     - id: 3674c397-3692-41ae-b045-1cc2f235ce36
       name: web-origins
