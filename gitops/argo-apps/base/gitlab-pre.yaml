@@ -67,4 +67,13 @@ spec:
           value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"
 
         - name: "pgdb_helm_version"
-          value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"              
+          value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
+
+        - name: "vault_k8s_admin_auth_path"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+        - name: "vault_k8s_admin_role_name"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"          

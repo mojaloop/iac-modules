@@ -163,10 +163,10 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-redis-settings
   redis:
-    # auth:
-    #   enabled: true
-    #   secret: gitlab-redis-secret
-    #   key: password
+    auth:
+      enabled: true
+      secret: gitlab-redis-secret
+      key: redis-password
     host: gitlab-redis-leader-additional.gitlab.svc
     port: 6379
     # user: webservice
@@ -1171,9 +1171,9 @@ prometheus:
 ## https://docs.gitlab.com/charts/installation/deployment.html#redis
 redis:
   install: false
-  # auth:
-  #   existingSecret: gitlab-redis-secret
-  #   existingSecretKey: redis-password
+  auth:
+    existingSecret: gitlab-redis-secret
+    existingSecretKey: redis-password
   #   usePasswordFiles: true
   architecture: standalone
   cluster:
