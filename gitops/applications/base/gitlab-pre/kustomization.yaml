@@ -10,3 +10,10 @@ helmCharts:
   repo: https://percona.github.io/percona-helm-charts/
   valuesFile: gitlab-db-values.yaml
   namespace: ${ARGOCD_ENV_gitlab_namespace}
+
+- name: pg-db
+  releaseName: gitaly
+  version: ${ARGOCD_ENV_pgdb_helm_version}
+  repo: https://percona.github.io/percona-helm-charts/
+  valuesFile: gitaly-db-values.yaml
+  namespace: ${ARGOCD_ENV_gitlab_namespace}  

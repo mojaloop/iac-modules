@@ -63,3 +63,12 @@ alertmanager_enabled: false
 
 gitlab_helm_version: "8.1.2"
 gitlab_public_access: true
+gitlab_redis_cluster_size: "'3'"
+gitlab_postgres_replicas: "'1'"
+gitlab_postgres_proxy_replicas: "'1'"
+gitlab_postgres_storage_size: "10Gi"
+gitlab_pgdb_helm_version: "2.4.0"
+gitlab_gitaly_postgres_replicas: "'1'"
+gitlab_gitaly_postgres_proxy_replicas: "'1'"
+gitlab_gitaly_postgres_storage_size: "5Gi"
+gitlab_gitaly_pgdb_helm_version: "2.4.0"     
