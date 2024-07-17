@@ -57,14 +57,14 @@ spec:
         - name: "gitlab_app_name"
           value: "${ARGOCD_ENV_gitlab_gitlab_app_name}"
 
-        - name: "gitaly_postgres_replicas"
-          value: "${ARGOCD_ENV_gitlab_pre_gitaly_postgres_replicas}"
+        - name: "praefect_postgres_replicas"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_replicas}"
 
-        - name: "gitaly_postgres_proxy_replicas"
-          value: "${ARGOCD_ENV_gitlab_pre_gitaly_postgres_proxy_replicas}"
+        - name: "praefect_postgres_proxy_replicas"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_proxy_replicas}"
 
-        - name: "gitaly_postgres_storage_size"
-          value: "${ARGOCD_ENV_gitlab_pre_gitaly_postgres_storage_size}"
+        - name: "praefect_postgres_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"
 
         - name: "pgdb_helm_version"
           value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"              

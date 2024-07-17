@@ -137,7 +137,7 @@ users:
 
 instances:
 - name: instance1
-  replicas: 3
+  replicas: ${ARGOCD_ENV_praefect_postgres_replicas}
 
   affinity:
     podAntiAffinity:
@@ -219,11 +219,11 @@ instances:
     - ReadWriteOnce
     resources:
       requests:
-        storage: 5Gi
+        storage: ${ARGOCD_ENV_praefect_postgres_storage_size}
 
 proxy:
   pgBouncer:
-    replicas: 3
+    replicas: ${ARGOCD_ENV_praefect_postgres_proxy_replicas}
     image: percona/percona-postgresql-operator:2.4.0-ppg16.3-pgbouncer1.22.1
 #    exposeSuperusers: true
 #    resources:
