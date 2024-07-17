@@ -13,12 +13,12 @@ spec:
   project: default
   ignoreDifferences:
     - group: ""
-      name: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}-mirror"
+      name: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
       kind: Secret
       jsonPointers:
         - /data
     - group: ""
-      name: "ext-dns-credentials-mirror"
+      name: "ext-dns-credentials"
       kind: Secret
       jsonPointers:
         - /data
