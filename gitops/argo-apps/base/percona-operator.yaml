@@ -34,3 +34,5 @@ spec:
       repoURL: https://percona.github.io/percona-helm-charts/
       targetRevision: ${ARGOCD_ENV_utils_percona_helm_version}
       includeCRDs: true
+      valuesObject:
+        watchAllNamespaces: true
