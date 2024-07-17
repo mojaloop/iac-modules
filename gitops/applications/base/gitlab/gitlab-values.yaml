@@ -98,7 +98,7 @@ global:
 
   # Override the API version to use for PodDisruptionBudget
   pdb:
-    apiVersion: ""
+    apiVersion: "v1"
 
   # Override the API version to use for CronJob
   batch:
