@@ -83,3 +83,6 @@ spec:
 
           - name: "cert_manager_credentials_secret"
             value: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
+
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"

@@ -20,20 +20,21 @@ spec:
           route53:
             region: ${ARGOCD_ENV_dns_cloud_api_region}
             accessKeyIDSecretRef:
-              name: ${ARGOCD_ENV_cert_manager_credentials_secret}-mirror
+              name: ${ARGOCD_ENV_cert_manager_credentials_secret}
               key: access_key
             secretAccessKeySecretRef:
-              name: ${ARGOCD_ENV_cert_manager_credentials_secret}-mirror
+              name: ${ARGOCD_ENV_cert_manager_credentials_secret}
               key: secret_key
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: ${ARGOCD_ENV_cert_manager_credentials_secret}-mirror
+  name: ${ARGOCD_ENV_cert_manager_credentials_secret}
   namespace: ${ARGOCD_ENV_cert_manager_namespace}
   labels:
     reloader: enabled
   annotations:
-    reflector.v1.k8s.emberstack.com/reflects: ${ARGOCD_ENV_cert_manager_credentials_secret}
+    reflector.v1.k8s.emberstack.com/reflects: ${ARGOCD_ENV_vault_namespace}/${ARGOCD_ENV_cert_manager_credentials_secret}
 data:
-  placeholder: none
+  access_key: none
+  secret_key: none
