@@ -11,6 +11,17 @@ metadata:
 
 spec:
   project: default
+  ignoreDifferences:
+    - group: ""
+      name: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}-mirror"
+      kind: Secret
+      jsonPointers:
+        - /data
+    - group: ""
+      name: "ext-dns-credentials-mirror"
+      kind: Secret
+      jsonPointers:
+        - /data
   syncPolicy:
     automated:
       prune: true
@@ -25,6 +36,7 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
       - PruneLast=true
+      - RespectIgnoreDifferences=true
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_dns_utils_app_namespace}

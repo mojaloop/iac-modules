@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - lets-encrypt-cluster-issuer.yaml
+  - ext-dns-secret-mirror.yaml
 
 helmCharts:
   - name: external-dns
@@ -17,4 +18,4 @@ patches:
     patch: |
       - op: add
         path: /metadata/annotations/secret.reloader.stakater.com~1reload
-        value: ${ARGOCD_ENV_external_dns_credentials_secret}
+        value: ${ARGOCD_ENV_external_dns_credentials_secret}-mirror
