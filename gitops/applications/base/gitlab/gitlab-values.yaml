@@ -90,7 +90,7 @@ global:
 
   # Override the API version to use for HorizontalPodAutoscaler
   hpa:
-    apiVersion: ""
+    apiVersion: "v2"
 
   # Enable KEDA globally (https://keda.sh/)
   keda:
