@@ -30,6 +30,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: ${ARGOCD_ENV_cert_manager_credentials_secret}-mirror
+  namespace: ${ARGOCD_ENV_cert_manager_namespace}
   labels:
     reloader: enabled
   annotations:
