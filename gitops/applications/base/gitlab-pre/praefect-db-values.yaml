@@ -30,17 +30,17 @@ customReplicationTLSSecret:
 # openshift: true
 
 users:
-  - name: gitlab
+  - name: praefect
     databases:
-      - gitlab
+      - praefect
     options: "SUPERUSER"
     password:
       type: ASCII
-    secretName: "gitlab-postgresql-credentials"
+    secretName: "praefect-postgresql-credentials"
 
 # databaseInitSQL:
 #   key: init.sql
-#   name: cluster1-init-sql
+#   name: praefect-init-db
 
 # dataSource:
 #   postgresCluster:

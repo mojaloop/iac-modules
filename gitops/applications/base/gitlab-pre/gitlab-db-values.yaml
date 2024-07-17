@@ -40,7 +40,7 @@ users:
 
 # databaseInitSQL:
 #   key: init.sql
-#   name: cluster1-init-sql
+#   name: gitlab-init-db
 
 # dataSource:
 #   postgresCluster:
