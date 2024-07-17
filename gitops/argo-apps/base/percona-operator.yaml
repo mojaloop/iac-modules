@@ -25,7 +25,7 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
       - PruneLast=true
-      - ServerSideApply=true      
+      - ServerSideApply=true
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_utils_percona_namespace}
@@ -33,6 +33,6 @@ spec:
     - chart: pg-operator
       repoURL: https://percona.github.io/percona-helm-charts/
       targetRevision: ${ARGOCD_ENV_utils_percona_helm_version}
-      includeCRDs: true
-      valuesObject:
-        watchAllNamespaces: true
+      helm:
+        valuesObject:
+          watchAllNamespaces: true
