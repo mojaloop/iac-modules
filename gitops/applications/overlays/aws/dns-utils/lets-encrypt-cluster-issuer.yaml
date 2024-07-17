@@ -36,5 +36,4 @@ metadata:
   annotations:
     reflector.v1.k8s.emberstack.com/reflects: ${ARGOCD_ENV_vault_namespace}/${ARGOCD_ENV_cert_manager_credentials_secret}
 data:
-  access_key: none
-  secret_key: none
+  placeholder: none
