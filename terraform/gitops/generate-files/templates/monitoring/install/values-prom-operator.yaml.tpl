@@ -36,7 +36,11 @@ prometheus:
   - name: central-monitoring
     url: ${central_observability_endpoint}/api/v1/push
     headers:
-      X-Scope-OrgID: ${central_observability_tenant_id}    
+      X-Scope-OrgID: ${central_observability_tenant_id} 
+    writeRelabelConfigs:
+    - sourceLabels: [__name__]
+      regex: 'apiserver_request_duration_seconds_bucket'
+      action: drop
 %{endif ~} 
 
 %{if enable_central_observability_read ~}
@@ -63,10 +67,10 @@ kubelet:
       targetLabel: kubernetes_io_hostname
       replacement: $${1}
       action: replace
-    metricRelabelings:      
-    - sourceLabels: [__name__]
-      regex: 'apiserver_request_duration_seconds_bucket'
-      action: drop
+    # metricRelabelings:      
+    # - sourceLabels: [__name__]
+    #  regex: 'apiserver_request_duration_seconds_bucket'
+    #  action: drop
 
 kubeApiServer:
   enabled: false	
