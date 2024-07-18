@@ -1,14 +1,17 @@
 apiVersion: redis.redis.opstreelabs.in/v1beta2
-kind: RedisReplication
+kind: RedisCluster
 metadata:
-  name: gitlab-redis-replication
-  namespace:  ${ARGOCD_ENV_gitlab_namespace}  
+  name: gitlab-redis
+  namespace:  ${ARGOCD_ENV_gitlab_namespace}
 spec:
   clusterSize: ${ARGOCD_ENV_redis_cluster_size}
-  # redisConfig:
-  #   additionalRedisConfig: redis-external-config
+  clusterVersion: v7
+  persistenceEnabled: true
+  podSecurityContext:
+    runAsUser: 1000
+    fsGroup: 1000
   kubernetesConfig:
-    image: quay.io/opstree/redis:v7.0.12
+    image: quay.io/opstree/redis:v7.2.3
     imagePullPolicy: IfNotPresent
     resources:
       requests:
@@ -22,9 +25,35 @@ spec:
         key: redis-password
         # imagePullSecrets:
         #   - name: regcred
+  redisLeader:
+    readinessProbe:
+      failureThreshold: 5
+      initialDelaySeconds: 15
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 5
+    livenessProbe:
+      failureThreshold: 5
+      initialDelaySeconds: 15
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 5
+  redisFollower:
+    readinessProbe:
+      failureThreshold: 5
+      initialDelaySeconds: 15
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 5
+    livenessProbe:
+      failureThreshold: 5
+      initialDelaySeconds: 15
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 5
   redisExporter:
     enabled: false
-    image: quay.io/opstree/redis-exporter:v1.44.0
+    image: quay.io/opstree/redis-exporter:v1.45.0
     imagePullPolicy: Always
     resources:
       requests:
@@ -33,34 +62,37 @@ spec:
       limits:
         cpu: 100m
         memory: 128Mi
+        # Environment Variables for Redis Exporter
+        # env:
+        # - name: REDIS_EXPORTER_INCL_SYSTEM_METRICS
+        #   value: "true"
+        # - name: UI_PROPERTIES_FILE_NAME
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: game-demo
+        #       key: ui_properties_file_name
+        # - name: SECRET_USERNAME
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: mysecret
+        #       key: username
+        #  redisLeader:
+        #    redisConfig:
+        #      additionalRedisConfig: redis-external-config
+        #  redisFollower:
+        #    redisConfig:
+        #      additionalRedisConfig: redis-external-config
   storage:
     volumeClaimTemplate:
       spec:
-        # storageClassName: standard
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
             storage: 1Gi
----
-apiVersion: redis.redis.opstreelabs.in/v1beta2
-kind: RedisSentinel
-metadata:
-  name: gitlab-redis-sentinel
-  namespace:  ${ARGOCD_ENV_gitlab_namespace}  
-spec:
-  clusterSize: ${ARGOCD_ENV_redis_cluster_size}
-  podSecurityContext:
-    runAsUser: 1000
-    fsGroup: 1000
-  redisSentinelConfig:
-    redisReplicationName: gitlab-redis-replication
-  kubernetesConfig:
-    image: quay.io/opstree/redis-sentinel:v7.0.12
-    imagePullPolicy: IfNotPresent
-    resources:
-      requests:
-        cpu: 101m
-        memory: 128Mi
-      limits:
-        cpu: 101m
-        memory: 128Mi
+    nodeConfVolume: true
+    nodeConfVolumeClaimTemplate:
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Mi
