@@ -44,3 +44,12 @@ spec:
 
         - name: "gitlab_helm_version"
           value: "${ARGOCD_ENV_gitlab_gitlab_helm_version}"
+
+        - name: "gitlab_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_gitlab_gitlab_istio_gateway_namespace}"
+
+        - name: "gitlab_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_gitlab_gitlab_istio_wildcard_gateway_name}"
+
+        - name: "gitlab_dns_subdomain"
+          value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"          

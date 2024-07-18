@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gitlab-webservice
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_gitlab_istio_gateway_namespace}/${ARGOCD_ENV_gitlab_istio_wildcard_gateway_name}
+  hosts:
+    - "gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: gitlab-webservice-default
+            port:
+              number: 8080

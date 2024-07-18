@@ -172,7 +172,7 @@ global:
       enabled: true
       secret: gitlab-redis-secret
       key: redis-password
-    host: gitlab-redis-leader-additional.gitlab.svc
+    host: gitlab-redis-leader.gitlab.svc
     port: 6379
     # user: webservice
     # sentinels:
