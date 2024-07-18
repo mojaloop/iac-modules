@@ -30,6 +30,7 @@ patches:
       kind: Job
       metadata:
         name: mcm-connection-manager-migration-job
+        namespace: ${mcm_namespace}
       spec:
         template:
           spec:
