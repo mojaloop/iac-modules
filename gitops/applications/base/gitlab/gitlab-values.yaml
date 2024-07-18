@@ -1200,9 +1200,9 @@ prometheus:
 ## https://docs.gitlab.com/charts/installation/deployment.html#redis
 redis:
   install: false
-  auth:
-    existingSecret: gitlab-redis-secret
-    existingSecretKey: redis-password
+  # auth:
+  #   existingSecret: gitlab-redis-secret
+  #   existingSecretKey: redis-password
   #   usePasswordFiles: true
   architecture: standalone
   cluster:
