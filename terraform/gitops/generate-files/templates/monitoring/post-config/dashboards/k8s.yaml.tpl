@@ -24,22 +24,6 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: k8s-addons-trivy-operator
-spec:
-  folder: kubernetes
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
-  grafanaCom:
-    id: 16337
-    revision: 12
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
   name: k8s-system-api-server
 spec:
   folder: kubernetes
