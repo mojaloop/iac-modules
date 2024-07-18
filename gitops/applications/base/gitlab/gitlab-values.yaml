@@ -27,7 +27,8 @@ global:
   common:
     labels: {}
 
-  image: {}
+  image:
+    {}
     # Registry value override is only available for the following Charts:
     # - Spamcheck
     # - Mailroom
@@ -113,14 +114,16 @@ global:
     ## Enterprise license for this GitLab installation
     ## Secret created according to https://docs.gitlab.com/charts/installation/secrets#initial-enterprise-license
     ## If allowing shared-secrets generation, this is OPTIONAL.
-    license: {}
+    license:
+      {}
       # secret: RELEASE-gitlab-license
       # key: license
 
   ## Initial root password for this GitLab installation
   ## Secret created according to https://docs.gitlab.com/charts/installation/secrets#initial-root-password
   ## If allowing shared-secrets generation, this is OPTIONAL.
-  initialRootPassword: {}
+  initialRootPassword:
+    {}
     # secret: RELEASE-gitlab-initial-root-password
     # key: password
 
@@ -132,7 +135,7 @@ global:
     keepalivesInterval:
     keepalivesCount:
     tcpUserTimeout:
-    password: 
+    password:
       useSecret: true
       secret: "gitlab-postgresql-credentials"
       key: password
@@ -144,7 +147,8 @@ global:
     applicationName: gitlab
     # preparedStatements: false
     # databaseTasks: true
-    main: {}
+    main:
+      {}
       # host: postgresql.hostedsomewhere.else
       # port: 123
       # username: gitlab
@@ -152,7 +156,8 @@ global:
       # applicationName:
       # preparedStatements: false
       # databaseTasks: true
-    ci: {}
+    ci:
+      {}
       # host: postgresql.hostedsomewhere.else
       # port: 123
       # username: gitlab
@@ -181,7 +186,8 @@ global:
   ## https://docs.gitlab.com/charts/charts/globals#configure-gitaly-settings
   gitaly:
     enabled: true
-    authToken: {}
+    authToken:
+      {}
       # secret:
       # key:
     # serviceName:
@@ -229,7 +235,8 @@ global:
   ## https://docs.gitlab.com/charts/charts/globals#configure-minio-settings
   minio:
     enabled: true
-    credentials: {}
+    credentials:
+      {}
       # secret:
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-appconfig-settings
@@ -255,7 +262,8 @@ global:
     maxRequestDurationSeconds:
 
     ## https://docs.gitlab.com/charts/charts/globals#cron-jobs-related-settings
-    cron_jobs: {}
+    cron_jobs:
+      {}
       ## Flag stuck CI builds as failed
       # stuck_ci_jobs_worker:
       #   cron: "0 * * * *"
@@ -346,31 +354,36 @@ global:
     object_store:
       enabled: false
       proxy_download: true
-      storage_options: {}
+      storage_options:
+        {}
         # server_side_encryption:
         # server_side_encryption_kms_key_id
-      connection: {}
+      connection:
+        {}
         # secret:
         # key:
     lfs:
       enabled: true
       proxy_download: true
       bucket: git-lfs
-      connection: {}
+      connection:
+        {}
         # secret:
         # key:
     artifacts:
       enabled: true
       proxy_download: true
       bucket: gitlab-artifacts
-      connection: {}
+      connection:
+        {}
         # secret:
         # key:
     uploads:
       enabled: true
       proxy_download: true
       bucket: gitlab-uploads
-      connection: {}
+      connection:
+        {}
         # secret:
         # key:
     packages:
@@ -439,7 +452,8 @@ global:
         key: secret
       pollInterval: 60
       deliveryMethod: webhook
-      authToken: {}
+      authToken:
+        {}
         # secret:
         # key:
 
@@ -466,7 +480,8 @@ global:
         key: secret
       pollInterval: 60
       deliveryMethod: webhook
-      authToken: {}
+      authToken:
+        {}
         # secret:
         # key:
 
@@ -486,7 +501,8 @@ global:
       #   key:
 
     ## https://docs.gitlab.com/charts/charts/globals#kas-settings
-    gitlab_kas: {}
+    gitlab_kas:
+      {}
       # secret:
       # key:
       # enabled:
@@ -494,7 +510,8 @@ global:
       # internalUrl:
 
     ## https://docs.gitlab.com/charts/charts/globals#suggested-reviewers-settings
-    suggested_reviewers: {}
+    suggested_reviewers:
+      {}
       # secret:
       # key:
 
@@ -551,12 +568,14 @@ global:
       routingRules: []
 
     # Config that only applies to the defaults on initial install
-    initialDefaults: {}
+    initialDefaults:
+      {}
       # signupEnabled:
   ## End of global.appConfig
 
   oauth:
-    gitlab-pages: {}
+    gitlab-pages:
+      {}
       # secret:
       # appIdKey:
       # appSecretKey:
@@ -612,7 +631,8 @@ global:
     authToken: {}
     # secret:
     # key:
-    hostKeys: {}
+    hostKeys:
+      {}
       # secret:
     ## https://docs.gitlab.com/charts/charts/globals#tcp-proxy-protocol
     tcp:
@@ -621,7 +641,8 @@ global:
   ## Rails application secrets
   ## Secret created according to https://docs.gitlab.com/charts/installation/secrets#gitlab-rails-secret
   ## If allowing shared-secrets generation, this is OPTIONAL.
-  railsSecrets: {}
+  railsSecrets:
+    {}
     # secret:
 
   ## Rails generic setting, applicable to all Rails-based containers
@@ -635,12 +656,15 @@ global:
   registry:
     bucket: registry
 
-    certificate: {}
+    certificate:
+      {}
       # secret:
-    httpSecret: {}
+    httpSecret:
+      {}
       # secret:
       # key:
-    notificationSecret: {}
+    notificationSecret:
+      {}
       # secret:
       # key:
     tls:
@@ -652,7 +676,8 @@ global:
       rateLimiting:
         password: {}
     # https://docs.docker.com/registry/notifications/#configuration
-    notifications: {}
+    notifications:
+      {}
       # endpoints:
       #   - name: FooListener
       #     url: https://foolistener.com/event
@@ -696,13 +721,16 @@ global:
       enabled: true
       bucket: gitlab-pages
       # proxy_download: true
-      connection: {}
+      connection:
+        {}
         # secret:
         # key:
-    apiSecret: {}
+    apiSecret:
+      {}
       # secret:
       # key:
-    authSecret: {}
+    authSecret:
+      {}
       # secret:
       # key:
     namespaceInPath: false
@@ -711,7 +739,8 @@ global:
   ## Secret created according to https://docs.gitlab.com/charts/installation/secrets#gitlab-runner-secret
   ## If allowing shared-secrets generation, this is OPTIONAL.
   runner:
-    registrationToken: {}
+    registrationToken:
+      {}
       # secret:
 
   ## https://docs.gitlab.com/charts/charts/globals#outgoing-email
@@ -757,7 +786,6 @@ global:
   ## Global Deployment Annotations
   deployment:
     annotations: {}
-
 
   # Setting a global nodeAffinity only applies to the registry chart for now.
   # See issue https://gitlab.com/gitlab-com/gl-infra/production-engineering/-/issues/25403 for more information
@@ -886,7 +914,8 @@ global:
 
 upgradeCheck:
   enabled: false
-  image: {}
+  image:
+    {}
     # repository:
     # tag:
     # pullPolicy: IfNotPresent
@@ -932,7 +961,7 @@ nginx-ingress: &nginx-ingress
     addHeaders:
       Referrer-Policy: strict-origin-when-cross-origin
     config: &nginx-ingress-controller-config
-      annotation-value-word-blocklist: "load_module,lua_package,_by_lua,location,root,proxy_pass,serviceaccount,{,},',\""
+      annotation-value-word-blocklist: 'load_module,lua_package,_by_lua,location,root,proxy_pass,serviceaccount,{,},'',"'
       hsts: "true"
       hsts-include-subdomains: "false"
       hsts-max-age: "63072000"
@@ -943,9 +972,9 @@ nginx-ingress: &nginx-ingress
       server-tokens: "false"
       # Configure smaller defaults for upstream-keepalive-*, see https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration
       upstream-keepalive-connections: 100 # Limit of 100 held-open connections
-      upstream-keepalive-time:        30s # 30 second limit for connection reuse
-      upstream-keepalive-timeout:       5 # 5 second timeout to hold open idle connections
-      upstream-keepalive-requests:   1000 # 1000 requests per connection, before recycling
+      upstream-keepalive-time: 30s # 30 second limit for connection reuse
+      upstream-keepalive-timeout: 5 # 5 second timeout to hold open idle connections
+      upstream-keepalive-requests: 1000 # 1000 requests per connection, before recycling
 
     service:
       externalTrafficPolicy: "Local"
@@ -1004,9 +1033,9 @@ nginx-ingress-geo:
     electionID: ingress-controller-leader-geo
     ingressClassResource:
       name: '{{ include "gitlab.geo.ingress.class.name" $ | quote }}'
-      controllerValue: 'k8s.io/nginx-ingress-geo'
+      controllerValue: "k8s.io/nginx-ingress-geo"
   # A pre-defined/static external IP can be configured with global.hosts.externalGeoIP.
-  externalIpTpl: '{{ .Values.global.hosts.externalGeoIP }}'
+  externalIpTpl: "{{ .Values.global.hosts.externalGeoIP }}"
 
 haproxy:
   install: false
@@ -1262,7 +1291,7 @@ shared-secrets:
 ## Installation & configuration of gitlab/gitlab-runner
 ## See requirements.yaml for current version
 gitlab-runner:
-  install: true
+  install: false
   rbac:
     create: true
   runners:
