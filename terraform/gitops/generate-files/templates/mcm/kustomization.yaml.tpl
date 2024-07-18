@@ -26,15 +26,15 @@ helmCharts:
   namespace: ${mcm_namespace}
 patches:
   - patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
+      apiVersion: batch/v1
+      kind: Job
       metadata:
-        name: mcm-connection-manager-api
+        name: mcm-connection-manager-migration-job
       spec:
         template:
           spec:
             containers:
-            - name: connection-manager-api
+            - name: db-migration
               env:
                 - name: DFSP_SEED
                   value: ${dfsp_seed}
