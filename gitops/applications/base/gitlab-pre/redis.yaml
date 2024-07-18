@@ -96,3 +96,26 @@ spec:
         resources:
           requests:
             storage: 1Mi
+---
+apiVersion: redis.redis.opstreelabs.in/v1beta2
+kind: RedisSentinel
+metadata:
+  name: gitlab-redis-sentinel
+  namespace:  ${ARGOCD_ENV_gitlab_namespace}  
+spec:
+  clusterSize: ${ARGOCD_ENV_redis_cluster_size}
+  podSecurityContext:
+    runAsUser: 1000
+    fsGroup: 1000
+  redisSentinelConfig:
+    redisReplicationName: redis-replication
+  kubernetesConfig:
+    image: quay.io/opstree/redis-sentinel:v7.0.12
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 101m
+        memory: 128Mi
+      limits:
+        cpu: 101m
+        memory: 128Mi
