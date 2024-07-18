@@ -41,14 +41,6 @@ spec:
         resources:
           requests:
             storage: 1Gi
-    volumeMount:
-      volume:
-        - name: example-config
-          configMap:
-            name: example-configmap
-      mountPath:
-        - mountPath: /config
-          name: example-config
 ---
 apiVersion: redis.redis.opstreelabs.in/v1beta2
 kind: RedisSentinel
