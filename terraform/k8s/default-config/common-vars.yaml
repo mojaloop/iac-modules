@@ -25,12 +25,14 @@ prometheus_operator_version: 8.22.8
 prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: 3.5.11
 grafana_version: 10.2.3
+grafana_dashboard_tag: v16.3.0-snapshot.24 # TODO: update once v16.1.x is published
 tempo_chart_version: 3.1.0
 loki_chart_version: 2.13.0
 loki_ingester_pvc_size: 10Gi
 prometheus_pvc_size: 50Gi
 loki_retention_enabled: true
 loki_ingester_retention_period: 72h
+loki_ingester_max_chunk_age: 2h
 prometheus_retention_period: 10d
 tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
@@ -38,3 +40,5 @@ microk8s_version: 1.29/stable
 alertmanager_enabled: false
 istio_proxy_log_level: warn
 longhorn_backup_job_enabled: false
+enable_central_observability_write: false
+enable_central_observability_read: false

@@ -86,7 +86,27 @@ variable "longhorn_backup_data_expiry" {
   default = "7d"
 }
 
+variable "velero_data_expiry" {
+  description = "number of days to expire minio velero bucket data"
+  default = "7d"
+}
+
+variable "percona_data_expiry" {
+  description = "number of days to expire minio percona bucket data"
+  default = "7d"
+}
+
 variable "private_subdomain_string" {
   description = "the string in the internal subdomain to distiguish with publci subdomain"
   default     = "internal"
+}
+
+variable "env_token_period" {
+  description = "indicates that the token generated using this role should never expire. The token should be renewed within the duration specified by this value. At each renewal, the token's TTL will be set to the value of this field. Specified in seconds"
+  default = "7776000"   # 90 days
+}
+
+variable "env_token_explicit_max_ttl" {
+  description = "Tokens can have an explicit max TTL set on them. This value becomes a hard limit on the token's lifetime in seconds"
+  default = "7776000"   # 90 days
 }

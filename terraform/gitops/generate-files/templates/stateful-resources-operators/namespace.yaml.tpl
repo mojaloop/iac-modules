@@ -1,4 +1,4 @@
-%{ for ns in all_ns ~}
+%{ for ns in stateful_resources_operators_ns ~}
 apiVersion: v1
 kind: Namespace
 metadata:

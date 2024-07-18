@@ -547,6 +547,7 @@ centralledger:
       db_database: *CL_DB_DATABASE
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
+      batch_processing_enabled: *CL_BATCH_PROCESSING_ENABLED
     ingress:
 %{ if istio_create_ingress_gateways ~}
       enabled: false

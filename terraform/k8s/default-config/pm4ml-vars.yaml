@@ -10,11 +10,14 @@ pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret"
 pm4ml_external_switch_fqdn: extapi.dev.labsk8s601.mojaloop.live
 pm4ml_dfsp_id: pm4mltest
 pm4ml_ttk_enabled: true
+ttk_testcases_tag: v16.0.1
 enable_sdk_bulk_transaction_support: false
 ## core_connector_selected can be one of the following values: "ttk", "cc", "custom"
 core_connector_selected: ttk
 ## custom_core_connector_endpoint is only required if core_connector_selected is set to "custom"
 custom_core_connector_endpoint: 'pm4mltest-mojaloop-core-connector:3003'
 pm4ml_reserve_notification: false
+supported_currencies: "EUR"
+fxp_id: "fxp"
 core_connector_config: {}
 payment_token_adapter_config: {}

@@ -1,8 +1,18 @@
+shopt -s nullglob globstar extglob
+
+ENV_TYPE=${ENV_TYPE:-dev}
+YAML_ENV_CONFIG=${configFile/%.yaml/.$ENV_TYPE.yaml}
+JSON_ENV_CONFIG=${configFile/%.json/.$ENV_TYPE.json}
+
 mkdir -p $CONFIG_PATH
-for configFile in {'aws-vars.yaml','cluster-config.yaml','common-vars.yaml','mojaloop-rbac-permissions.yaml','mojaloop-vars.yaml','pm4ml-vars.yaml','bare-metal-vars.yaml','pm4ml-rbac-permissions.yaml','mojaloop-stateful-resources.json','common-stateful-resources.json','mojaloop-rbac-api-resources.yaml','vnext-vars.yaml','vnext-stateful-resources.json','addons-vars.yaml','addons-stateful-resources.json','mojaloop-values-override.yaml'};
+for configFile in $(ls default-config/)
 do
     echo $configFile
-    python3 .gitlab/scripts/dictmerge.py default-config/$configFile custom-config/$configFile $CONFIG_PATH;
+    python3 .gitlab/scripts/dictmerge.py \
+        default-config/$configFile \
+        profiles/**/?(*-)$configFile \
+        profiles/**/?(*-)@($YAML_ENV_CONFIG|$JSON_ENV_CONFIG) \
+        custom-config/$configFile $CONFIG_PATH;
 done;
 
 # for configFile in {'mojaloop-stateful-resources.json','common-stateful-resources.json','mojaloop-rbac-api-resources.yaml'};

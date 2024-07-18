@@ -13,3 +13,11 @@ output "mojaloop_kafka_port" {
 output "storage_class_name" {
   value = var.storage_class_name
 }
+
+output "mojaloop_stateful_resources" {
+  value = var.common_var_map.mojaloop_enabled ? module.mojaloop[0].stateful_resources : null
+}
+
+output "common_stateful_resources" {
+  value = module.common_stateful_resources.stateful_resources
+}

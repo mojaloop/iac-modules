@@ -5,7 +5,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
 spec:
-  refreshInterval: 1h
+  refreshInterval: 5m
 
   secretStoreRef:
     kind: ClusterSecretStore

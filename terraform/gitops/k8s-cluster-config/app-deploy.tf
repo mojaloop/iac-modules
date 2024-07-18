@@ -1,3 +1,9 @@
+module "config_deepmerge" {
+  source  = "cloudposse/config/yaml//modules/deepmerge"
+  version = "0.2.0"
+  maps    = local.stateful_resources_config_vars_list
+}
+
 module "mojaloop" {
   count                                = var.common_var_map.mojaloop_enabled ? 1 : 0
   source                               = "../mojaloop"
@@ -43,17 +49,24 @@ module "mojaloop" {
   mojaloop_enabled                     = var.common_var_map.mojaloop_enabled
   bulk_enabled                         = var.app_var_map.bulk_enabled
   third_party_enabled                  = var.app_var_map.third_party_enabled
-  stateful_resources_config_file       = var.mojaloop_stateful_resources_config_file
   local_vault_kv_root_path             = local.local_vault_kv_root_path
   app_var_map                          = var.app_var_map
   auth_fqdn                            = local.auth_fqdn
   ory_namespace                        = var.ory_namespace
   bof_release_name                     = local.bof_release_name
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
+  vault_root_ca_name                   = "pki-${var.cluster_name}"
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   mojaloop_values_override_file        = var.mojaloop_values_override_file
+  finance_portal_values_override_file  = var.finance_portal_values_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
+  managed_db_host                      = var.managed_db_host
+  platform_stateful_res_config         = module.config_deepmerge.merged
+  minio_api_url                        = var.minio_api_url
+  minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value
+  external_secret_sync_wave            = var.external_secret_sync_wave
+
 }
 
 module "pm4ml" {
@@ -144,7 +157,6 @@ module "vnext" {
   mcm_enabled                          = var.common_var_map.mcm_enabled
   mcm_chart_version                    = var.app_var_map.mcm_chart_version
   vnext_enabled                        = var.common_var_map.vnext_enabled
-  stateful_resources_config_file       = var.vnext_stateful_resources_config_file
   local_vault_kv_root_path             = local.local_vault_kv_root_path
   app_var_map                          = var.app_var_map
   auth_fqdn                            = local.auth_fqdn
@@ -154,6 +166,12 @@ module "vnext" {
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
+  managed_db_host                      = var.managed_db_host
+  platform_stateful_res_config         = module.config_deepmerge.merged
+  minio_api_url                        = var.minio_api_url
+  minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value
+  external_secret_sync_wave            = var.external_secret_sync_wave
+
 }
 
 variable "app_var_map" {
@@ -162,16 +180,29 @@ variable "app_var_map" {
 variable "common_var_map" {
   type = any
 }
-variable "mojaloop_stateful_resources_config_file" {
-  default     = "../config/mojaloop-stateful-resources.json"
+
+variable "mojaloop_stateful_res_helm_config_file" {
+  default     = "../config/mojaloop-stateful-resources-local-helm.yaml"
   type        = string
   description = "where to pull stateful resources config for mojaloop"
 }
 
-variable "vnext_stateful_resources_config_file" {
-  default     = "../config/vnext-stateful-resources.json"
+variable "mojaloop_stateful_res_op_config_file" {
+  default     = "../config/mojaloop-stateful-resources-local-operator.yaml"
   type        = string
-  description = "where to pull stateful resources config for vnext"
+  description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "mojaloop_stateful_res_mangd_config_file" {
+  default     = "../config/mojaloop-stateful-resources-managed.yaml"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "platform_stateful_resources_config_file" {
+  default     = "../config/platform-stateful-resources.yaml"
+  type        = string
+  description = "where to pull stateful resources config for mojaloop"
 }
 
 variable "private_network_cidr" {
@@ -243,6 +274,10 @@ variable "mojaloop_values_override_file" {
   type = string
 }
 
+variable "finance_portal_values_override_file" {
+  type = string
+}
+
 variable "argocd_ingress_internal_lb" {
   default     = true
   description = "whether argocd should only be available on private network"
@@ -256,8 +291,12 @@ variable "argocd_namespace" {
 locals {
   auth_fqdn = "auth.${var.public_subdomain}"
 
-  pm4ml_var_map = {
-    for pm4ml in var.app_var_map.pm4mls : pm4ml.pm4ml => pm4ml
-  }
+  pm4ml_var_map = var.app_var_map.pm4mls
 
+  st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
+  st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
+  st_res_managed_vars           = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
+  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
+
+  stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
 }

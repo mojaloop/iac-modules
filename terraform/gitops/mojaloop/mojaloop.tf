@@ -46,57 +46,57 @@ module "generate_mojaloop_files" {
     ttk_backend_fqdn                                                  = local.ttk_backend_fqdn
     ttk_istio_gateway_namespace                                       = local.ttk_istio_gateway_namespace
     ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name
-    kafka_host                                                        = "${module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    kafka_port                                                        = module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port
-    account_lookup_db_existing_secret                                 = module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret
-    account_lookup_db_user                                            = module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.username
-    account_lookup_db_host                                            = "${module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    account_lookup_db_port                                            = module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.logical_service_port
-    account_lookup_db_database                                        = module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.database_name
-    central_ledger_db_existing_secret                                 = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret
-    central_ledger_db_user                                            = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.username
-    central_ledger_db_host                                            = "${module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    central_ledger_db_port                                            = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port
-    central_ledger_db_database                                        = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name
-    central_settlement_db_existing_secret                             = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret
-    central_settlement_db_user                                        = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.username
-    central_settlement_db_host                                        = "${module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    central_settlement_db_port                                        = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port
-    central_settlement_db_database                                    = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name
-    quoting_db_existing_secret                                        = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret
-    quoting_db_user                                                   = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.username
-    quoting_db_host                                                   = "${module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    quoting_db_port                                                   = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port
-    quoting_db_database                                               = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name
-    cep_mongodb_database                                              = module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.database_name
-    cep_mongodb_user                                                  = module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.username
-    cep_mongodb_host                                                  = "${module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    cep_mongodb_existing_secret                                       = module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.user_password_secret
-    cep_mongodb_port                                                  = module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.logical_service_port
-    cl_mongodb_database                                               = module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.database_name
-    cl_mongodb_user                                                   = module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.username
-    cl_mongodb_host                                                   = "${module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    cl_mongodb_existing_secret                                        = module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.user_password_secret
-    cl_mongodb_port                                                   = module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.logical_service_port
-    ttk_mongodb_database                                              = module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.database_name
-    ttk_mongodb_user                                                  = module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.username
-    ttk_mongodb_host                                                  = "${module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    ttk_mongodb_existing_secret                                       = module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.user_password_secret
-    ttk_mongodb_port                                                  = module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.logical_service_port
-    third_party_consent_db_existing_secret                            = module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.user_password_secret
-    third_party_consent_db_user                                       = module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.username
-    third_party_consent_db_host                                       = "${module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    third_party_consent_db_port                                       = module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.logical_service_port
-    third_party_consent_db_database                                   = module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.database_name
-    third_party_auth_db_existing_secret                               = module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.user_password_secret
-    third_party_auth_db_user                                          = module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.username
-    third_party_auth_db_host                                          = "${module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    third_party_auth_db_port                                          = module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.logical_service_port
-    third_party_auth_db_database                                      = module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.database_name
-    third_party_auth_redis_host                                       = "${module.mojaloop_stateful_resources.stateful_resources[local.third_party_redis_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    third_party_auth_redis_port                                       = module.mojaloop_stateful_resources.stateful_resources[local.third_party_redis_resource_index].logical_service_config.logical_service_port
-    ttksims_redis_host                                                = "${module.mojaloop_stateful_resources.stateful_resources[local.ttk_redis_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    ttksims_redis_port                                                = module.mojaloop_stateful_resources.stateful_resources[local.ttk_redis_resource_index].logical_service_config.logical_service_port
+    kafka_host                                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    kafka_port                                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port, "")
+    account_lookup_db_existing_secret                                 = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret, "")
+    account_lookup_db_user                                            = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.db_username, "")
+    account_lookup_db_host                                            = "${try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    account_lookup_db_port                                            = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.logical_service_port, "")
+    account_lookup_db_database                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.database_name, "")
+    central_ledger_db_existing_secret                                 = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret, "")
+    central_ledger_db_user                                            = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.db_username, "")
+    central_ledger_db_host                                            = "${try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    central_ledger_db_port                                            = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port, "")
+    central_ledger_db_database                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name, "")
+    central_settlement_db_existing_secret                             = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret, "")
+    central_settlement_db_user                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.db_username, "")
+    central_settlement_db_host                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    central_settlement_db_port                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port, "")
+    central_settlement_db_database                                    = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name, "")
+    quoting_db_existing_secret                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret, "")
+    quoting_db_user                                                   = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.db_username, "")
+    quoting_db_host                                                   = "${try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    quoting_db_port                                                   = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port, "")
+    quoting_db_database                                               = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name, "")
+    cep_mongodb_database                                              = try(module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.database_name, "")
+    cep_mongodb_user                                                  = try(module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.db_username, "")
+    cep_mongodb_host                                                  = "${try(module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    cep_mongodb_existing_secret                                       = try(module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.user_password_secret, "")
+    cep_mongodb_port                                                  = try(module.mojaloop_stateful_resources.stateful_resources[local.cep_mongodb_resource_index].logical_service_config.logical_service_port, "")
+    cl_mongodb_database                                               = try(module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.database_name, "")
+    cl_mongodb_user                                                   = try(module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.db_username, "")
+    cl_mongodb_host                                                   = "${try(module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    cl_mongodb_existing_secret                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.user_password_secret, "")
+    cl_mongodb_port                                                   = try(module.mojaloop_stateful_resources.stateful_resources[local.bulk_mongodb_resource_index].logical_service_config.logical_service_port, "")
+    ttk_mongodb_database                                              = try(module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.database_name, "")
+    ttk_mongodb_user                                                  = try(module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.db_username, "")
+    ttk_mongodb_host                                                  = "${try(module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    ttk_mongodb_existing_secret                                       = try(module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.user_password_secret, "")
+    ttk_mongodb_port                                                  = try(module.mojaloop_stateful_resources.stateful_resources[local.ttk_mongodb_resource_index].logical_service_config.logical_service_port, "")
+    third_party_consent_db_existing_secret                            = try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.user_password_secret, "")
+    third_party_consent_db_user                                       = try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.db_username, "")
+    third_party_consent_db_host                                       = "${try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    third_party_consent_db_port                                       = try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.logical_service_port, "")
+    third_party_consent_db_database                                   = try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_consent_oracle_db_resource_index].logical_service_config.database_name, "")
+    third_party_auth_db_existing_secret                               = try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.user_password_secret, "")
+    third_party_auth_db_user                                          = try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.db_username, "")
+    third_party_auth_db_host                                          = "${try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    third_party_auth_db_port                                          = try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.logical_service_port, "")
+    third_party_auth_db_database                                      = try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_auth_db_resource_index].logical_service_config.database_name, "")
+    third_party_auth_redis_host                                       = "${try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_redis_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    third_party_auth_redis_port                                       = try(module.mojaloop_stateful_resources.stateful_resources[local.third_party_redis_resource_index].logical_service_config.logical_service_port, "")
+    ttksims_redis_host                                                = "${try(module.mojaloop_stateful_resources.stateful_resources[local.ttk_redis_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    ttksims_redis_port                                                = try(module.mojaloop_stateful_resources.stateful_resources[local.ttk_redis_resource_index].logical_service_config.logical_service_port, "")
     account_lookup_service_replica_count                              = try(var.app_var_map.account_lookup_service_replica_count, 1)
     account_lookup_service_admin_replica_count                        = try(var.app_var_map.account_lookup_service_admin_replica_count, 1)
     quoting_service_replica_count                                     = try(var.app_var_map.quoting_service_replica_count, 1)
@@ -147,7 +147,7 @@ module "generate_mojaloop_files" {
     quoting_service_monitoring_prefix                                 = try(var.app_var_map.quoting_service_monitoring_prefix, "moja_qs_")
     ml_api_adapter_monitoring_prefix                                  = try(var.app_var_map.ml_api_adapter_monitoring_prefix, "moja_ml_")
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
-    grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, var.mojaloop_chart_version)
+    grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, "v${var.mojaloop_chart_version}")
     bof_release_name                                                  = var.bof_release_name
     ory_namespace                                                     = var.ory_namespace
     bof_role_perm_operator_host                                       = "${var.bof_release_name}-security-role-perm-operator-svc.${var.ory_namespace}.svc.cluster.local"
@@ -155,17 +155,17 @@ module "generate_mojaloop_files" {
     central_admin_host                                                = "${var.mojaloop_release_name}-centralledger-service"
     central_settlements_host                                          = "${var.mojaloop_release_name}-centralsettlement-service"
     account_lookup_service_host                                       = "${var.mojaloop_release_name}-account-lookup-service"
-    reporting_db_secret_name                                          = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret
-    reporting_db_user                                                 = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.username
-    reporting_db_host                                                 = "${module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    reporting_db_port                                                 = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port
-    reporting_db_database                                             = module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name
+    reporting_db_secret_name                                          = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.user_password_secret, "")
+    reporting_db_user                                                 = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.db_username, "")
+    reporting_db_host                                                 = "${try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    reporting_db_port                                                 = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.logical_service_port, "")
+    reporting_db_database                                             = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_cl_resource_index].logical_service_config.database_name, "")
     reporting_db_secret_key                                           = "mysql-password"
-    reporting_events_mongodb_database                                 = module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.database_name
-    reporting_events_mongodb_user                                     = module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.username
-    reporting_events_mongodb_host                                     = "${module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    reporting_events_mongodb_existing_secret                          = module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.user_password_secret
-    reporting_events_mongodb_port                                     = module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_port
+    reporting_events_mongodb_database                                 = try(module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.database_name, "")
+    reporting_events_mongodb_user                                     = try(module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.db_username, "")
+    reporting_events_mongodb_host                                     = "${try(module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    reporting_events_mongodb_existing_secret                          = try(module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.user_password_secret, "")
+    reporting_events_mongodb_port                                     = try(module.mojaloop_stateful_resources.stateful_resources[local.reporting_events_mongodb_resource_index].logical_service_config.logical_service_port, "")
     keto_read_url                                                     = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     keto_write_url                                                    = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     kratos_service_name                                               = "kratos-public.${var.ory_namespace}.svc.cluster.local"
@@ -192,8 +192,11 @@ module "generate_mojaloop_files" {
     jws_rotation_period_hours                                         = try(var.app_var_map.jws_rotation_period_hours, var.jws_rotation_period_hours)
     mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
-    override_values_file_exists                                       = local.override_values_file_exists
-    fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth     
+    mojaloop_override_values_file_exists                              = local.mojaloop_override_values_file_exists
+    finance_portal_override_values_file_exists                        = local.finance_portal_override_values_file_exists
+    fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
+    updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}=${key}:${value}"])
+    updater_alias                                                     = [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}"]
 
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
@@ -204,9 +207,16 @@ module "generate_mojaloop_files" {
 }
 
 resource "local_file" "mojaloop_values_override" {
-  count      = local.override_values_file_exists ? 1 : 0
+  count      = local.mojaloop_override_values_file_exists ? 1 : 0
   content    = file(var.mojaloop_values_override_file)
   filename   = "${local.output_path}/values-mojaloop-override.yaml"
+  depends_on = [module.generate_mojaloop_files]
+}
+
+resource "local_file" "finance_portal_values_override" {
+  count      = local.finance_portal_override_values_file_exists ? 1 : 0
+  content    = file(var.finance_portal_values_override_file)
+  filename   = "${local.output_path}/values-finance-portal-override.yaml"
   depends_on = [module.generate_mojaloop_files]
 }
 
@@ -229,20 +239,21 @@ locals {
   mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
   mojaloop_app_file                            = "mojaloop-app.yaml"
   output_path                                  = "${var.output_dir}/mojaloop"
-  ml_als_resource_index                        = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "account-lookup-db")
-  ml_cl_resource_index                         = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "central-ledger-db")
-  bulk_mongodb_resource_index                  = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "bulk-mongodb")
-  ttk_mongodb_resource_index                   = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "ttk-mongodb")
-  cep_mongodb_resource_index                   = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "cep-mongodb")
-  mojaloop_kafka_resource_index                = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "mojaloop-kafka")
-  third_party_redis_resource_index             = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "thirdparty-auth-svc-redis")
-  third_party_auth_db_resource_index           = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "thirdparty-auth-svc-db")
-  third_party_consent_oracle_db_resource_index = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "mysql-consent-oracle-db")
-  ttk_redis_resource_index                     = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "ttk-redis")
-  reporting_events_mongodb_resource_index      = index(module.mojaloop_stateful_resources.stateful_resources.*.resource_name, "reporting-events-mongodb")
+  ml_als_resource_index                        = "account-lookup-db"
+  ml_cl_resource_index                         = "central-ledger-db"
+  bulk_mongodb_resource_index                  = "bulk-mongodb"
+  ttk_mongodb_resource_index                   = "ttk-mongodb"
+  cep_mongodb_resource_index                   = "cep-mongodb"
+  mojaloop_kafka_resource_index                = "mojaloop-kafka"
+  third_party_redis_resource_index             = "thirdparty-auth-svc-redis"
+  third_party_auth_db_resource_index           = "thirdparty-auth-svc-db"
+  third_party_consent_oracle_db_resource_index = "mysql-consent-oracle-db"
+  ttk_redis_resource_index                     = "ttk-redis"
+  reporting_events_mongodb_resource_index      = "reporting-events-mongodb"
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
   jws_key_secret                               = "switch-jws"
-  override_values_file_exists                  = fileexists(var.mojaloop_values_override_file)
+  mojaloop_override_values_file_exists         = fileexists(var.mojaloop_values_override_file)
+  finance_portal_override_values_file_exists   = fileexists(var.finance_portal_values_override_file)
 }
 
 variable "app_var_map" {
@@ -382,6 +393,10 @@ variable "rbac_api_resources_file" {
 }
 
 variable "mojaloop_values_override_file" {
+  type = string
+}
+
+variable "finance_portal_values_override_file" {
   type = string
 }
 

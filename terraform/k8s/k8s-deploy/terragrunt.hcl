@@ -33,8 +33,9 @@ locals {
     file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}")
   )
   enabled_node_pools = {for node_key, node in local.env_vars.nodes : node_key => node  if node != null}
-  total_agent_count = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
+  total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
+  
   tags                      = local.env_vars.tags
   CLUSTER_NAME              = get_env("cluster_name")
   CLUSTER_DOMAIN            = get_env("domain")
@@ -54,8 +55,8 @@ generate "required_providers_override" {
   if_exists = "overwrite_terragrunt"
 
   contents = <<EOF
-terraform { 
-  
+terraform {
+
   required_providers {
     %{if get_env("cloud_platform") == "aws"}
     aws   = "${local.cloud_platform_vars.aws_provider_version}"
@@ -69,3 +70,5 @@ provider "aws" {
 %{endif}
 EOF
 }
+
+skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")

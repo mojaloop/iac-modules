@@ -1,3 +1,9 @@
+module "config_deepmerge" {
+  source  = "cloudposse/config/yaml//modules/deepmerge"
+  version = "0.2.0"
+  maps    = local.stateful_resources_config_vars_list
+}
+
 module "deploy_rds" {
   count = length(local.rds_services) > 0 ? 1 : 0
   source  = "../deploy-rds"
@@ -14,7 +20,7 @@ module "deploy_msk" {
   deployment_name = var.deployment_name
   tags = var.tags
   msk_services = local.msk_services
-  security_group_id = aws_security_group.managed_svcs[0].id
+  security_group_id = aws_security_group.managed_svcs.*.id
   private_subnets = module.base_infra[0].private_subnets
 }
 

@@ -11,6 +11,7 @@ module "generate_monitoring_files" {
     grafana_operator_version            = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                     = try(var.common_var_map.grafana_version, local.grafana_version)
     opentelemetry_chart_version          = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
+    grafana_dashboard_tag               = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
     tempo_chart_version                 = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
     monitoring_namespace                = var.monitoring_namespace
     gitlab_server_url                   = var.gitlab_server_url
@@ -35,6 +36,7 @@ module "generate_monitoring_files" {
     prometheus_pvc_size                 = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
     loki_retention_enabled              = try(var.common_var_map.loki_retention_enabled, local.loki_retention_enabled)
     loki_ingester_retention_period      = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
+    loki_ingester_max_chunk_age         = try(var.common_var_map.loki_ingester_max_chunk_age, local.loki_ingester_max_chunk_age)
     prometheus_retention_period         = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                = try(var.common_var_map.alertmanager_enabled, false)
     minio_loki_credentials_secret_name  = "minio-loki-credentials-secret"
@@ -54,6 +56,13 @@ module "generate_monitoring_files" {
     grafana_fqdn                        = local.grafana_fqdn
     grafana_istio_gateway_namespace     = local.grafana_istio_gateway_namespace
     grafana_istio_wildcard_gateway_name = local.vault_istio_wildcard_gateway_name
+
+    # central observability configs
+    cluster_label                      = var.cluster_name # cluster identifier in central observability stack
+    enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)
+    enable_central_observability_read  = try(var.common_var_map.enable_central_observability_read, local.enable_central_observability_read)
+    central_observability_endpoint     = var.central_observability_endpoint
+    central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -119,6 +128,7 @@ locals {
   prometheus_process_exporter_version = "0.4.2"
   tempo_chart_version                 = "3.1.0"
   grafana_version                     = "10.2.3"
+  grafana_dashboard_tag               = "v16.3.0-snapshot.17" # TODO: update once v16.1.x is published
   grafana_operator_version            = "3.5.11"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file                 = "monitoring-app.yaml"
@@ -126,6 +136,7 @@ locals {
   prometheus_pvc_size                 = "50Gi"
   loki_retention_enabled              = true
   loki_ingester_retention_period      = "72h"
+  loki_ingester_max_chunk_age         = "2h"
   prometheus_retention_period         = "10d"
   tempo_retention_period              = "72h"
   prom_tsdb_min_block_duration        = "30m"
@@ -136,4 +147,7 @@ locals {
   grafana_fqdn                        = local.grafana_wildcard_gateway == "external" ? "grafana.${var.public_subdomain}" : "grafana.${var.private_subdomain}"
   grafana_istio_gateway_namespace     = local.grafana_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   grafana_istio_wildcard_gateway_name = local.grafana_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  enable_central_observability_write  = false
+  enable_central_observability_read   = false
+  central_observability_tenant_id     = "infitx"
 }

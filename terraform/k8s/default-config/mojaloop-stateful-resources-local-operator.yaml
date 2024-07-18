@@ -1,0 +1,654 @@
+thirdparty-auth-svc-db:
+  local_operator_config:
+    cr_version: 1.14.0
+    resource_namespace: thirdparty-db
+    override_service_name: mysql-thirdparty-auth-svc-db
+    resource_operator_crd_version: 1.15.0
+    resource_operator_cr_ref: percona/mysql/db-cluster.yaml.tpl
+    secret_config:
+      generate_secret_name: mysql-auth-svc-secret
+      generate_secret_keys:
+          - root
+          - xtrabackup
+          - monitor
+          - proxyadmin
+          - operator
+          - replication
+          - mysql-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mojaloop
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      existing_secret: mysql-auth-svc-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      user: auth-svc
+      user_password: ""
+      database_name: auth-svc
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
+mysql-consent-oracle-db:
+  local_operator_config:
+    cr_version: 1.14.0
+    resource_namespace: thirdparty-db
+    override_service_name:
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    secret_config:
+      generate_secret_name: mysql-consent-oracle-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+        - mysql-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mojaloop
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      existing_secret: mysql-consent-oracle-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      user: consent-oracle
+      user_password: ""
+      database_name: consent-oracle
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
+mcm-db:
+  local_operator_config:
+    cr_version: 1.14.0
+    resource_namespace: mcm-db
+    override_service_name: mcm-db-haproxy
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    secret_config:
+      generate_secret_name: mcm-db-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+        - mysql-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mcm
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      existing_secret: mcm-db-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      user: devdat1asql1
+      user_password: ""
+      database_name: mcm
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
+account-lookup-db:
+  local_operator_config:
+    cr_version: 1.14.0
+    resource_namespace: mojaloop-db
+    override_service_name: account-lookup-db-haproxy
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    secret_config:
+      generate_secret_name: account-lookup-db-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+        - mysql-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mojaloop
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      existing_secret: mysql-account-lookup-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      user: account_lookup
+      user_password: ""
+      database_name: account_lookup
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload-class.mojaloop.io/RDBMS-ALS-LIVE
+                    operator: In
+                    values:
+                      - enabled
+      pxc_strict_mode: PERMISSIVE
+central-ledger-db:
+  local_operator_config:
+    cr_version: 1.14.0
+    resource_namespace: mojaloop-db
+    override_service_name: central-ledger-db-haproxy
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    secret_config:
+      generate_secret_name: central-ledger-db-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+        - mysql-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - mojaloop
+    mysql_data:
+      is_legacy: false
+      existing_secret: mysql-central-ledger-secret
+      general_log: 0
+      slow_query_log: 0
+      root_password: ""
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      user: central_ledger
+      user_password: ""
+      database_name: central_ledger
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload-class.mojaloop.io/RDBMS-CENTRAL-LEDGER-LIVE
+                    operator: In
+                    values:
+                      - enabled
+      pxc_strict_mode: PERMISSIVE
+bulk-mongodb:
+  local_operator_config:
+    cr_version: 1.14.0
+    percona_server_mongodb_version: 6.0.4-3
+    resource_namespace: mojaloop
+    override_service_name: bulk-mongodb-mongos
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mongodb
+    resource_helm_chart_version: 13.3.1
+    resource_helm_values_ref: values-mongodb.yaml.tpl
+    secret_config:
+      generate_secret_name: mongodb-bulk-secret
+      generate_secret_keys:
+          - MONGODB_BACKUP_USER
+          - MONGODB_BACKUP_PASSWORD
+          - MONGODB_DATABASE_ADMIN_USER
+          - MONGODB_DATABASE_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_ADMIN_USER
+          - MONGODB_CLUSTER_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_MONITOR_USER
+          - MONGODB_CLUSTER_MONITOR_PASSWORD
+          - MONGODB_USER_ADMIN_USER
+          - MONGODB_USER_ADMIN_PASSWORD
+          - PMM_SERVER_USER
+          - PMM_SERVER_PASSWORD
+          - PMM_SERVER_API_KEY
+          - mongodb-passwords
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces: []
+      generate_secret_special_chars: _
+    mongodb_data:
+      existing_secret: mongodb-bulk-secret
+      root_password: ""
+      user: mojaloop
+      user_password: ""
+      database_name: mlos
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 27017
+      affinity_definition: {}
+cep-mongodb:
+  local_operator_config:
+    cr_version: 1.14.0
+    percona_server_mongodb_version: 6.0.4-3
+    resource_namespace: mojaloop
+    override_service_name: mongodb-cep-mongodb
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mongodb
+    resource_helm_chart_version: 13.3.1
+    resource_helm_values_ref: values-mongodb.yaml.tpl
+    secret_config:
+      generate_secret_name: mongodb-cep-secret
+      generate_secret_keys:
+          - MONGODB_BACKUP_USER
+          - MONGODB_BACKUP_PASSWORD
+          - MONGODB_DATABASE_ADMIN_USER
+          - MONGODB_DATABASE_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_ADMIN_USER
+          - MONGODB_CLUSTER_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_MONITOR_USER
+          - MONGODB_CLUSTER_MONITOR_PASSWORD
+          - MONGODB_USER_ADMIN_USER
+          - MONGODB_USER_ADMIN_PASSWORD
+          - PMM_SERVER_USER
+          - PMM_SERVER_PASSWORD
+          - PMM_SERVER_API_KEY
+          - mongodb-passwords
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces: []
+      generate_secret_special_chars: _
+    mongodb_data:
+      existing_secret: mongodb-cep-secret
+      root_password: ""
+      user: mojaloop
+      user_password: ""
+      database_name: mojaloop
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 27017
+      affinity_definition: {}
+reporting-events-mongodb:
+  local_operator_config:
+    cr_version: 1.14.0
+    percona_server_mongodb_version: 6.0.4-3
+    resource_namespace: mojaloop
+    override_service_name: reporting-events-mongodb-mongos
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mongodb
+    resource_helm_chart_version: 13.3.1
+    resource_helm_values_ref: values-mongodb.yaml.tpl
+    secret_config:
+      generate_secret_name: mongodb-reporting-events-secret
+      generate_secret_keys:
+          - MONGODB_BACKUP_USER
+          - MONGODB_BACKUP_PASSWORD
+          - MONGODB_DATABASE_ADMIN_USER
+          - MONGODB_DATABASE_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_ADMIN_USER
+          - MONGODB_CLUSTER_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_MONITOR_USER
+          - MONGODB_CLUSTER_MONITOR_PASSWORD
+          - MONGODB_USER_ADMIN_USER
+          - MONGODB_USER_ADMIN_PASSWORD
+          - PMM_SERVER_USER
+          - PMM_SERVER_PASSWORD
+          - PMM_SERVER_API_KEY
+          - mongodb-passwords
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces: []
+      generate_secret_special_chars: _
+    mongodb_data:
+      existing_secret: mongodb-reporting-events-secret
+      root_password: ""
+      user: mojaloop
+      user_password: ""
+      database_name: mojaloop
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 27017
+      affinity_definition: {}
+mojaloop-kafka:
+  local_operator_config:
+    resource_namespace: mojaloop
+    override_service_name: mojaloop-kafka-kafka-brokers
+    node_pool_size: 3
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: kafka
+    resource_helm_chart_version: 26.5.0
+    resource_helm_values_ref: values-kafka.yaml.tpl
+    secret_config:
+      generate_secret_name:
+      generate_secret_keys: []
+      generate_secret_vault_base_path:
+      generate_secret_extra_namespaces: []
+    kafka_data:
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 9092
+      replica_count: 1
+      affinity_definition:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: workload-class.mojaloop.io/KAFKA-DATA-PLANE
+                    operator: In
+                    values:
+                      - enabled
+mojaloop-redis:
+  local_operator_config:
+    resource_namespace: mojaloop
+    nodes: 1
+    secret_config:
+      generate_secret_name:
+      generate_secret_keys: []
+      generate_secret_vault_base_path:
+      generate_secret_extra_namespaces: []
+ttk-mongodb:
+  local_operator_config:
+    cr_version: 1.14.0
+    percona_server_mongodb_version: 6.0.4-3
+    resource_namespace: mojaloop
+    override_service_name: ttk-mongodb-mongos
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mongodb
+    resource_helm_chart_version: 13.3.1
+    resource_helm_values_ref: values-mongodb.yaml.tpl
+    secret_config:
+      generate_secret_name: mongodb-ttk-secret
+      generate_secret_keys:
+          - MONGODB_BACKUP_USER
+          - MONGODB_BACKUP_PASSWORD
+          - MONGODB_DATABASE_ADMIN_USER
+          - MONGODB_DATABASE_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_ADMIN_USER
+          - MONGODB_CLUSTER_ADMIN_PASSWORD
+          - MONGODB_CLUSTER_MONITOR_USER
+          - MONGODB_CLUSTER_MONITOR_PASSWORD
+          - MONGODB_USER_ADMIN_USER
+          - MONGODB_USER_ADMIN_PASSWORD
+          - PMM_SERVER_USER
+          - PMM_SERVER_PASSWORD
+          - PMM_SERVER_API_KEY
+          - mongodb-passwords
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces: []
+      generate_secret_special_chars: _
+    mongodb_data:
+      existing_secret: mongodb-ttk-secret
+      root_password: ""
+      user: ttk
+      user_password: ""
+      database_name: ttk
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      service_port: 27017
+      affinity_definition: {}
+
+keycloak-db:
+  local_operator_config:
+    cr_version: 1.14.0
+    resource_namespace: keycloak-db
+    override_service_name: keycloak-db-haproxy
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    secret_config:
+      generate_secret_name: keycloak-db-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+        - mysql-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - keycloak
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      general_log: 0
+      slow_query_log: 0
+      existing_secret: keycloak-db-secret
+      root_password: ""
+      user: keycloak
+      user_password: ""
+      database_name: keycloak
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
+keto-db:
+  local_operator_config:
+    cr_version: 1.14.0
+    resource_namespace: keto-db
+    override_service_name: keto-db-haproxy
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    secret_config:
+      generate_secret_name: keto-db-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+        - mysql-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - ory
+      generate_secret_special_chars: _
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      general_log: 0
+      slow_query_log: 0
+      existing_secret: keto-db-secret
+      root_password: ""
+      user: keto
+      user_password: ""
+      database_name: keto
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE
+kratos-db:
+  local_operator_config:
+    cr_version: 1.14.0
+    resource_namespace: kratos-db
+    override_service_name: kratos-db-haproxy
+    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_chart: mysql
+    resource_helm_chart_version: 9.7.0
+    resource_helm_values_ref: values-mysql.yaml.tpl
+    secret_config:
+      generate_secret_name: kratos-db-secret
+      generate_secret_keys:
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+        - mysql-password
+      generate_secret_vault_base_path: "/secret/generated"
+      generate_secret_extra_namespaces:
+        - ory
+      generate_secret_special_chars: _
+    mysql_data:
+      is_legacy: false
+      default_authentication_plugin: mysql_native_password
+      basedir: "/opt/bitnami/mysql"
+      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
+      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
+      datadir: "/bitnami/mysql/data"
+      tmpdir: "/opt/bitnami/mysql/tmp"
+      max_allowed_packet: 16M
+      bind-address: "*"
+      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
+      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
+      character-set-server: UTF8
+      collation-server: utf8_general_ci
+      long_query_time: 10
+      innodb_use_native_aio: 0
+      max_connections: 2000
+      innodb_buffer_pool_size: 2147483648
+      port: 3306
+      general_log: 0
+      slow_query_log: 0
+      existing_secret: kratos-db-secret
+      root_password: ""
+      user: kratos
+      user_password: ""
+      database_name: kratos
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 3306
+      affinity_definition: {}
+      pxc_strict_mode: PERMISSIVE

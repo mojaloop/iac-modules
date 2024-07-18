@@ -10,7 +10,7 @@
 ## @param global.namespaceOverride Override the namespace for resource deployed by the chart, but can itself be overridden by the local namespaceOverride
 ##
 global:
-  storageClass: ${resource.local_resource_config.mongodb_data.storage_class_name}
+  storageClass: ${resource.local_helm_config.mongodb_data.storage_class_name}
 
 
 ## @section Common parameters
@@ -18,7 +18,7 @@ global:
 
 ## @param nameOverride String to partially override mongodb.fullname template (will maintain the release name)
 ##
-nameOverride: ${resource.resource_name}
+nameOverride: ${key}
 ## @param fullnameOverride String to fully override mongodb.fullname template
 ##
 fullnameOverride: ""
@@ -51,24 +51,24 @@ auth:
   ## @param auth.username DEPRECATED: use `auth.usernames` instead
   ## @param auth.password DEPRECATED: use `auth.passwords` instead
   ## @param auth.database DEPRECATED: use `auth.databases` instead
-  database: ${resource.local_resource_config.mongodb_data.database_name}
-  username: ${resource.local_resource_config.mongodb_data.user}
+  database: ${resource.local_helm_config.mongodb_data.database_name}
+  username: ${resource.local_helm_config.mongodb_data.user}
   ## @param auth.replicaSetKey Key used for authentication in the replicaset (only when `architecture=replicaset`)
   ##
   replicaSetKey: ""
   ## @param auth.existingSecret Existing secret with MongoDB(&reg;) credentials (keys: `mongodb-password`, `mongodb-root-password`, ` mongodb-replica-set-key`)
   ## NOTE: When it's set the previous parameters are ignored.
   ##
-  existingSecret: "${resource.local_resource_config.mongodb_data.existing_secret}"
+  existingSecret: "${resource.local_helm_config.mongodb_data.existing_secret}"
 
 persistence:
   ## @param persistence.enabled Enable MongoDB(&reg;) data persistence using PVC
   ##
   enabled: true
-  size: ${resource.local_resource_config.mongodb_data.storage_size}
+  size: ${resource.local_helm_config.mongodb_data.storage_size}
 service:
   ports:
-    mongodb: ${resource.local_resource_config.mongodb_data.service_port}
+    mongodb: ${resource.local_helm_config.mongodb_data.service_port}
 volumePermissions:
   ## @param volumePermissions.enabled Enable init container that changes the owner and group of the persistent volume(s) mountpoint to `runAsUser:fsGroup`
   ##

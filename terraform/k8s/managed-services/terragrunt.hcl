@@ -11,7 +11,11 @@ include "root" {
 inputs = {
   tags                         = local.tags
   deployment_name              = local.CLUSTER_NAME
-  managed_services_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
+  vpc_cidr                     = local.env_vars.managed_vpc_cidr
+
+
+  managed_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
+  platform_stateful_resources_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
 }
 
 locals {
@@ -37,8 +41,8 @@ generate "required_providers_override" {
   if_exists = "overwrite_terragrunt"
 
   contents = <<EOF
-terraform { 
-  
+terraform {
+
   required_providers {
     %{if get_env("managed_svc_cloud_platform") == "aws"}
     aws   = "${local.aws_provider_version}"
@@ -52,3 +56,5 @@ provider "aws" {
 %{endif}
 EOF
 }
+
+skip = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")

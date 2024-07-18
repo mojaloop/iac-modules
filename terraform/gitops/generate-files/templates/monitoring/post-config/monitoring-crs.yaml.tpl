@@ -145,85 +145,11 @@ spec:
       dashboards: "grafana"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
+kind: GrafanaFolder
 metadata:
-  name: mysql
+  name: monitoring
 spec:
-  folder: default
   instanceSelector:
     matchLabels:
-      dashboards: "grafana"
-  grafanaCom:
-    id: 14057
-    revision: 1
----
-# apiVersion: grafana.integreatly.org/v1beta1
-# kind: GrafanaDashboard
-# metadata:
-#   name: mysql-cluster-overview
-# spec:
-#   folder: default
-#   instanceSelector:
-#     matchLabels:
-#       dashboards: "grafana"
-#   grafanaCom:
-#     id: 15641
-#     revision: 2
-# ---
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: mongodb
-spec:
-  folder: default
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"   
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  grafanaCom:
-    id: 2583
-    revision: 2
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: redis
-spec:
-  folder: default
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  grafanaCom:
-    id: 14091
-    revision: 1
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: kafka-topic-overview
-spec:
-  folder: default
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.6/monitoring/dashboards/messaging/dashboard-kafka-topic-overview.json"
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: kafka-cluster-overview
-spec:
-  folder: default
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/v16.1.0-snapshot.6/monitoring/dashboards/messaging/dashboard-kafka-cluster-overview.json"
+      dashboards: "grafana"      
 ---

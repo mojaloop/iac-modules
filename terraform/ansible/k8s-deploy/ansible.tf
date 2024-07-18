@@ -1,3 +1,8 @@
+module "config_deepmerge" {
+  source  = "cloudposse/config/yaml//modules/deepmerge"
+  version = "0.2.0"
+  maps    = local.stateful_resources_config_vars_list
+}
 
 resource "local_sensitive_file" "ansible_inventory" {
   content = templatefile(
@@ -12,7 +17,7 @@ resource "local_sensitive_file" "ansible_inventory" {
       all_hosts_var_maps          = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map, local.all_hosts_var_maps),
       agent_hosts_yaml_maps       = var.agent_hosts_yaml_maps,
       master_hosts_yaml_maps      = var.master_hosts_yaml_maps,
-      bastion_hosts_yaml_maps     = var.bastion_hosts_yaml_maps,
+      bastion_hosts_yaml_maps     = merge(var.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
       test_harness_hosts          = var.test_harness_hosts,
       test_harness_hosts_var_maps = merge(var.test_harness_hosts_var_maps, local.jumphostmap)
     }
@@ -36,7 +41,7 @@ resource "null_resource" "run_ansible" {
     EOT
     working_dir = path.module
   }
- 
+
   depends_on = [
     local_sensitive_file.ansible_inventory,
     local_sensitive_file.ec2_ssh_key
@@ -53,12 +58,12 @@ resource "null_resource" "destroy_ansible_actions" {
           ansible-playbook "$destroy_ansible_playbook" -i "$destroy_ansible_inventory"
     EOT
     working_dir = path.module
-  } 
+  }
 
- depends_on = [
+  depends_on = [
     local_sensitive_file.ansible_inventory,
     local_sensitive_file.ec2_ssh_key,
- ]
+  ]
 
 }
 
@@ -67,6 +72,19 @@ resource "local_sensitive_file" "ec2_ssh_key" {
   filename        = "${local.ansible_output_dir}/sshkey"
   file_permission = "0600"
 }
+
+data "gitlab_project_variable" "external_rds_stateful_resource_instance_address" {
+  for_each = local.managed_rds_stateful_resources
+  project  = var.current_gitlab_project_id
+  key      = each.value.external_resource_config.instance_address_key_name
+}
+
+data "gitlab_project_variable" "external_kafka_stateful_resource_instance_address" {
+  for_each = local.managed_kafka_stateful_resources
+  project  = var.current_gitlab_project_id
+  key      = each.value.external_resource_config.instance_address_key_name
+}
+
 
 locals {
   jumphostmap = {
@@ -80,4 +98,46 @@ locals {
     kubeconfig_local_location = local.ansible_output_dir
   }
 
+  st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
+  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
+
+  stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
+
+  stateful_resources               = module.config_deepmerge.merged
+  enabled_stateful_resources       = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
+  managed_rds_stateful_resources   = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
+  managed_kafka_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
+
+
+  external_rds_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_rds_stateful_resource_instance_address : address.key => address.value }
+  external_kafka_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_kafka_stateful_resource_instance_address : address.key => address.value }
+
+  
+  managed_kafka_brokers_list  = { for key, service in local.managed_kafka_stateful_resources : key => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }
+
+
+  managed_rds_svc_port_maps = [for key, service in local.managed_rds_stateful_resources :
+    {
+      "local_listening_port" = service.logical_service_config.logical_service_port
+      "mode"                 = service.communication_mode
+      "name"                 = key
+      "dest_fqdn"            = local.external_rds_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]
+      "dest_port"            = service.external_resource_config.port
+    }
+  ]
+
+  managed_kafka_svc_maps = [for key, service in local.managed_kafka_stateful_resources :
+    {
+      "local_listening_port"       = service.logical_service_config.logical_service_port
+      "managed_kafka_brokers_list" = local.managed_kafka_brokers_list[key]
+      "mode"                       = service.communication_mode
+      "name"                       = key
+      "dest_port"                  = service.external_resource_config.port
+    }
+
+  ]
+  bastion_hosts_yaml_maps = {
+    managed_rds_svc   = yamlencode(local.managed_rds_svc_port_maps)
+    managed_kafka_svc = yamlencode(local.managed_kafka_svc_maps)
+  }
 }
