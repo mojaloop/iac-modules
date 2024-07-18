@@ -170,8 +170,8 @@ global:
   redis:
     auth:
       enabled: false
-      secret: gitlab-redis-secret
-      key: redis-password
+      # secret: gitlab-redis-secret
+      # key: redis-password
     host: mymaster
     port: 26379
     # user: webservice
@@ -180,8 +180,8 @@ global:
         port: 26379
     sentinelAuth:
       enabled: false
-      secret: gitlab-redis-secret
-      key: redis-password
+      # secret: gitlab-redis-secret
+      # key: redis-password
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-gitaly-settings
   gitaly:
