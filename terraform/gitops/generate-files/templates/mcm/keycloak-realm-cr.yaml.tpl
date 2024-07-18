@@ -475,11 +475,10 @@ spec:
 # %{ for id, client in pm4mls }
     - clientId: ${id}
       name: ${id}
-      enabled: ${client.pm4ml_enabled}
+      enabled: true
       clientAuthenticatorType: client-secret
-      redirectUris: ['/*']
-      webOrigins: ['/*']
       serviceAccountsEnabled: true
+      standardFlowEnabled: false
       protocol: openid-connect
 # %{ endfor }
     clientScopes:
