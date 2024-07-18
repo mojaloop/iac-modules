@@ -24,3 +24,17 @@ helmCharts:
   repo: ${mcm_chart_repo}
   valuesFile: values-mcm.yaml
   namespace: ${mcm_namespace}
+patches:
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: mcm-connection-manager-api
+      spec:
+        template:
+          spec:
+            containers:
+            - name: connection-manager-api
+              env:
+                name: DFSP_SEED
+                value: ${dfsp_seed}
