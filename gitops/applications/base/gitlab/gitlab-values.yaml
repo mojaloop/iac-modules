@@ -169,7 +169,7 @@ global:
   ## https://docs.gitlab.com/charts/charts/globals#configure-redis-settings
   redis:
     auth:
-      enabled: true
+      enabled: false
       secret: gitlab-redis-secret
       key: redis-password
     host: mymaster
@@ -179,7 +179,7 @@ global:
       - host: redis-sentinel.gitlab.svc
         port: 26379
     sentinelAuth:
-      enabled: true
+      enabled: false
       secret: gitlab-redis-secret
       key: redis-password
 
