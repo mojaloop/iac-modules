@@ -89,7 +89,7 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: {storage_size}
+            storage: ${storage_size}
     nodeConfVolume: true
     nodeConfVolumeClaimTemplate:
       spec:
