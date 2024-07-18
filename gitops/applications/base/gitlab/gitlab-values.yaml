@@ -178,10 +178,10 @@ global:
     sentinels:
       - host: redis-sentinel.gitlab.svc
         port: 26379
-    # sentinelAuth:
-    #   enabled: false
-      # secret: gitlab-redis-secret
-      # key: redis-password
+    sentinelAuth:
+      enabled: true
+      secret: gitlab-redis-secret
+      key: redis-password
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-gitaly-settings
   gitaly:
