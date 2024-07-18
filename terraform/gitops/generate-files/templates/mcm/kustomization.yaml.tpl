@@ -29,7 +29,7 @@ patches:
       apiVersion: batch/v1
       kind: Job
       metadata:
-        name: mcm-connection-manager-migration-job
+        name: mcm-migration-job
         namespace: ${mcm_namespace}
       spec:
         template:
