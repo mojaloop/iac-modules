@@ -24,18 +24,3 @@ helmCharts:
   repo: ${mcm_chart_repo}
   valuesFile: values-mcm.yaml
   namespace: ${mcm_namespace}
-patches:
-  - patch: |-
-      apiVersion: batch/v1
-      kind: Job
-      metadata:
-        name: mcm-migration-job
-        namespace: ${mcm_namespace}
-      spec:
-        template:
-          spec:
-            containers:
-            - name: db-migration
-              env:
-                - name: DFSP_SEED
-                  value: ${dfsp_seed}

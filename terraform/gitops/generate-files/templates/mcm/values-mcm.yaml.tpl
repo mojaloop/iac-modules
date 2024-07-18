@@ -5,6 +5,7 @@ db:
   host: ${db_host}
   port: ${db_port}
   schema: ${db_schema}
+  dfspSeed: ${dfsp_seed}
 
 api:
   image:
