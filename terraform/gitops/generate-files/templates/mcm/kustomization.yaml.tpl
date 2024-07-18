@@ -36,5 +36,5 @@ patches:
             containers:
             - name: connection-manager-api
               env:
-                name: DFSP_SEED
-                value: ${dfsp_seed}
+                - name: DFSP_SEED
+                  value: ${dfsp_seed}
