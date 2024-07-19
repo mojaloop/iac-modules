@@ -6,4 +6,5 @@ pm4ml_scheme_a_config:
 pm4ml_scheme_b_config:
   domain: buffer.${domain}
 pm4ml_ttk_enabled: false
-imagePullSecrets: []
+imagePullSecrets:
+  - ghcr-login-secret
