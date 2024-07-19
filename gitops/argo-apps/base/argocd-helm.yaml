@@ -665,6 +665,8 @@ spec:
 
           ## Server ##
           server:
+            podAnnotations:
+              secret.reloader.stakater.com/reload: ${${ARGOCD_ENV_security_zitadel_argocd_oidc_secret}}
             # resources:
             #   limits:
             #     cpu: 400m

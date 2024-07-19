@@ -37,4 +37,5 @@ spec:
           nameOverride: reloader
           reloader:
             reloadStrategy: default
+            reloadOnCreate: true
             resourceLabelSelector: "reloader=enabled"

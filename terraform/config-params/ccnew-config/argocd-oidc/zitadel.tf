@@ -43,6 +43,7 @@ resource "kubernetes_secret_v1" "oidc_config" {
     namespace = var.argocd_namespace
     labels = {
       "app.kubernetes.io/part-of" = "argocd"
+      "reloader"                  = "enabled"
     }
   }
 
