@@ -1,0 +1,48 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: git-lfs
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: git-lfs
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "1000"
+    maxSize: "2G"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-artifacts
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-artifacts
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "1000"
+    maxSize: "2G"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-uploads
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-uploads
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "1000"
+    maxSize: "2G"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-packages
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-packages
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "1000"
+    maxSize: "2G"
+    

@@ -79,4 +79,4 @@ spec:
           value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
 
         - name: "vault_namespace"
-          value: "${ARGOCD_ENV_vault_vault_namespace}"          
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
