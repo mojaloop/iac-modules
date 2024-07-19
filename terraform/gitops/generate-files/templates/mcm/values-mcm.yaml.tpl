@@ -10,7 +10,7 @@ db:
 api:
   image:
     name: ghcr.io/pm4ml/connection-manager-api
-    version: v2.1.0-dfsp-seed.0
+    version: v2.1.0
   url: https://${mcm_fqdn}
   extraTLS:
     rootCert:
