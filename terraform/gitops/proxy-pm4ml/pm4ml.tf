@@ -66,9 +66,18 @@ module "generate_pm4ml_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
+resource "local_file" "proxy_values_override" {
+  for_each   = var.app_var_map
+  count      = local.proxy_override_values_file_exists ? 1 : 0
+  content    = file(var.proxy_values_override_file)
+  filename   = "${var.output_dir}/${each.key}/values-proxy-pm4ml-override.yaml"
+  depends_on = [module.generate_pm4ml_files]
+}
+
 locals {
   pm4ml_template_path = "${path.module}/../generate-files/templates/proxy-pm4ml"
   pm4ml_app_file      = "proxy-pm4ml-app.yaml"
+  proxy_override_values_file_exists         = fileexists(var.proxy_values_override_file)
 
   pm4ml_var_map = var.app_var_map
 
@@ -85,6 +94,9 @@ locals {
 
 }
 
+variable "proxy_values_override_file" {
+  type = string
+}
 
 variable "app_var_map" {
   type = any

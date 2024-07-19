@@ -9,7 +9,6 @@ inter-scheme-proxy-adapter:
   image:
     registry: ghcr.io
     repository: infitx-org/inter-scheme-proxy-adapter
-    tag: 1.0.0-snapshot.3
   ## Disabling liveness probes temporarily
   readinessProbe: |
     exec:

@@ -142,6 +142,8 @@ module "proxy_pm4ml" {
   local_vault_kv_root_path               = local.local_vault_kv_root_path
   vault_root_ca_name                     = "pki-${var.cluster_name}"
   app_var_map                            = local.proxy_pm4ml_var_map
+  proxy_values_override_file             = var.proxy_values_override_file
+
 }
 
 module "vnext" {
@@ -301,6 +303,10 @@ variable "rbac_api_resources_file" {
 }
 
 variable "mojaloop_values_override_file" {
+  type = string
+}
+
+variable "proxy_values_override_file" {
   type = string
 }
 
