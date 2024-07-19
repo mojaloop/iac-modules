@@ -176,7 +176,7 @@ global:
     port: 26379
     # user: webservice
     sentinels:
-      - host: redis-sentinel.gitlab.svc
+      - host: redis.gitlab.svc
         port: 26379
     sentinelAuth:
       enabled: false
