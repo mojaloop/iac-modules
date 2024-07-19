@@ -42,8 +42,8 @@ inter-scheme-proxy-adapter:
     PEER_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_fqdn}"
     PEER_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_fqdn}"
     OAUTH_TOKEN_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_oidc_url}/${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
-    OAUTH_CLIENT_KEY_A: "${proxy_id}-a"
-    OAUTH_CLIENT_KEY_B: "${proxy_id}-b"
+    OAUTH_CLIENT_KEY_A: "${proxy_id}"
+    OAUTH_CLIENT_KEY_B: "${proxy_id}"
     OAUTH_REFRESH_SECONDS_A: 3600
     OAUTH_TOKEN_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_oidc_url}/${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
     OAUTH_REFRESH_SECONDS_B: 3600
@@ -67,7 +67,7 @@ management-api-a:
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
     AUTH_ENABLED: true
-    AUTH_CLIENT_ID: ${proxy_id}-a
+    AUTH_CLIENT_ID: ${proxy_id}
     CLIENT_SECRET_NAME: ${pm4ml_external_switch_a_client_secret}
     CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
     MCM_CLIENT_SECRETS_LOCATION: /tls
@@ -99,7 +99,7 @@ management-api-b:
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
     AUTH_ENABLED: true
-    AUTH_CLIENT_ID: ${proxy_id}-b
+    AUTH_CLIENT_ID: ${proxy_id}
     CLIENT_SECRET_NAME: ${pm4ml_external_switch_b_client_secret}
     CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
     MCM_CLIENT_SECRETS_LOCATION: /tls
