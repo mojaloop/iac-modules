@@ -105,6 +105,7 @@ argocd_override:
           public_ingress_access_domain: "${gitlab_public_access}"
         pre:
           redis_cluster_size: "${gitlab_redis_cluster_size}"
+          redis_storage_size: "${gitlab_redis_storage_size}"          
           postgres_replicas: "${gitlab_postgres_replicas}"
           postgres_proxy_replicas: "${gitlab_postgres_proxy_replicas}"
           postgres_storage_size: "${gitlab_postgres_storage_size}"

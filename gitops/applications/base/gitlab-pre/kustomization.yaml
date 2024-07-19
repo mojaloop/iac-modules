@@ -17,3 +17,10 @@ helmCharts:
   repo: https://percona.github.io/percona-helm-charts/
   valuesFile: praefect-db-values.yaml
   namespace: ${ARGOCD_ENV_gitlab_namespace}  
+
+- name: redis
+  releaseName: redis
+  version: ${ARGOCD_ENV_redis_helm_version}
+  repo: oci://registry-1.docker.io/bitnamicharts/
+  valuesFile: redis-values.yaml
+  namespace: ${ARGOCD_ENV_gitlab_namespace}    
