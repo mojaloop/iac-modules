@@ -39,13 +39,13 @@ inter-scheme-proxy-adapter:
     OUTBOUND_MUTUAL_TLS_ENABLED_A: true
     OUTBOUND_MUTUAL_TLS_ENABLED_B: true
     # INCOMING_HEADERS_REMOVAL: 'some-header'
-    PEER_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_fqdn}"
-    PEER_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_fqdn}"
-    OAUTH_TOKEN_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_oidc_url}/${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
+    PEER_ENDPOINT_A: "${peer_domain_a}"
+    PEER_ENDPOINT_B: "${peer_domain_b}"
+    OAUTH_TOKEN_ENDPOINT_A: "${oidc_origin_a}/${oidc_path_a}"
     OAUTH_CLIENT_KEY_A: "${proxy_id}"
     OAUTH_CLIENT_KEY_B: "${proxy_id}"
     OAUTH_REFRESH_SECONDS_A: 3600
-    OAUTH_TOKEN_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_oidc_url}/${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
+    OAUTH_TOKEN_ENDPOINT_B: "${oidc_origin_b}/${oidc_path_b}"
     OAUTH_REFRESH_SECONDS_B: 3600
     MGMT_API_WS_URL_A: "${proxy_id}-management-api-a"
     MGMT_API_WS_PORT_A: 4005
@@ -60,9 +60,9 @@ management-api-a:
   env:
     ENABLE_UI_API_SERVER: false
     DFSP_ID: "${proxy_id}"
-    HUB_IAM_PROVIDER_URL: "${scheme_a_config.pm4ml_external_switch_oidc_url}"
-    OIDC_TOKEN_ROUTE: "${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
-    MCM_SERVER_ENDPOINT: "https://${scheme_a_config.pm4ml_external_mcm_public_fqdn}/pm4mlapi"
+    HUB_IAM_PROVIDER_URL: "${oidc_origin_a}"
+    OIDC_TOKEN_ROUTE: "${oidc_path_a}"
+    MCM_SERVER_ENDPOINT: "https://${mcm_domain_a}/pm4mlapi"
     MCM_CLIENT_REFRESH_INTERVAL: 300
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
@@ -92,9 +92,9 @@ management-api-b:
   env:
     ENABLE_UI_API_SERVER: false
     DFSP_ID: "${proxy_id}"
-    HUB_IAM_PROVIDER_URL: "${scheme_b_config.pm4ml_external_switch_oidc_url}"
-    OIDC_TOKEN_ROUTE: "${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
-    MCM_SERVER_ENDPOINT: "https://${scheme_b_config.pm4ml_external_mcm_public_fqdn}/pm4mlapi"
+    HUB_IAM_PROVIDER_URL: "${oidc_origin_b}"
+    OIDC_TOKEN_ROUTE: "${oidc_path_b}"
+    MCM_SERVER_ENDPOINT: "https://${mcm_domain_b}/pm4mlapi"
     MCM_CLIENT_REFRESH_INTERVAL: 300
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
