@@ -89,3 +89,6 @@ spec:
 
         - name: "netbird_rbac_admin_group"
           value: "${ARGOCD_ENV_security_netbird_rbac_admin_group}"
+
+        - name: "zitadel_post_config_output_secret"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
