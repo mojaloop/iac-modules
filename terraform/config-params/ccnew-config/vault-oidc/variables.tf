@@ -27,3 +27,7 @@ variable "oidc_debug_log" {
   type    = bool
   default = false
 }
+
+variable "zitadel_admin_human_user_id" {
+  description = "admin zitadel human user id"
+}

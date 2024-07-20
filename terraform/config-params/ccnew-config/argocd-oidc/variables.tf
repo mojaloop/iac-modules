@@ -30,3 +30,7 @@ variable "oidc_secret_name" {
   description = "name of oidc secret for clientid/secret"
   default     = "argo-oidc-secret"
 }
+
+variable "zitadel_admin_human_user_id" {
+  description = "admin zitadel human user id"
+}

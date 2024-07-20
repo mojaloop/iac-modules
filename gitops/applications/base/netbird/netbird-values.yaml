@@ -69,7 +69,7 @@ configuration: |-
         "Domain": "",
         "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
         "DeviceAuthEndpoint": "",
-        "Scope": "openid profile email offline_access api groups"
+        "Scope": "openid profile email offline_access api groups",
         "UseIDToken": false,
         "RedirectURLs": ["http://localhost:53000/","http://localhost:54000/"]
       }
@@ -98,6 +98,7 @@ management:
   podCommand:
     xtraArgs:
       - --single-account-mode-domain=${ARGOCD_ENV_netbird_dns_subdomain}
+      - --log-level=${ARGOCD_ENV_netbird_log_level}
 signal:
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}

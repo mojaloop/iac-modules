@@ -29,3 +29,10 @@ resource "zitadel_project_role" "techops_admin" {
   role_key     = var.admin_rbac_group
   display_name = "Techops Admin"
 }
+
+resource "zitadel_user_grant" "zitadel_admin_argocd_admin" {
+  project_id = zitadel_project.vault.id
+  org_id     = local.org_id
+  role_keys  = [zitadel_project_role.techops_admin.role_key]
+  user_id    = var.zitadel_admin_human_user_id
+}

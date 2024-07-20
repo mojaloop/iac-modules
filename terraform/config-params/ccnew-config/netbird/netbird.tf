@@ -51,3 +51,17 @@ resource "zitadel_org_member" "service_user_role" {
   user_id = zitadel_machine_user.service_user.id
   roles   = ["ORG_USER_MANAGER"]
 }
+
+resource "zitadel_project_role" "techops_admin" {
+  project_id   = zitadel_project.netbird.id
+  org_id       = local.org_id
+  role_key     = var.admin_rbac_group
+  display_name = "Techops Admin"
+}
+
+resource "zitadel_user_grant" "zitadel_admin_argocd_admin" {
+  project_id = zitadel_project.netbird.id
+  org_id     = local.org_id
+  role_keys  = [zitadel_project_role.techops_admin.role_key]
+  user_id    = var.zitadel_admin_human_user_id
+}
