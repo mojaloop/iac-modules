@@ -29,7 +29,7 @@ configuration: |-
     },
     "HttpConfig": {
       "AuthIssuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
-      "AuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_dashboard_client_id+",
+      "AuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
       "OIDCConfigEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/.well-known/openid-configuration",
       "LetsEncryptDomain": "",
       "CertFile": "",
@@ -42,7 +42,7 @@ configuration: |-
       "ClientConfig": {
         "Issuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
         "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
-        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_service_user_client_id+",
+        "ClientID": "netclient",
         "ClientSecret": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_service_user_client_secret+",
         "GrantType": "client_credentials"
       },
@@ -53,9 +53,9 @@ configuration: |-
     "DeviceAuthorizationFlow": {
       "Provider": "hosted",
       "ProviderConfig": {
-        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
         "ClientSecret": "",
-        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
         "AuthorizationEndpoint": "",
         "Scope": "openid",
         "UseIDToken": false,
@@ -64,12 +64,12 @@ configuration: |-
     },
     "PKCEAuthorizationFlow": {
       "ProviderConfig": {
-        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
         "ClientSecret": "",
         "Domain": "",
-        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
         "DeviceAuthEndpoint": "",
-        "Scope": "openid profile email offline_access api",
+        "Scope": "openid profile email offline_access api groups"
         "UseIDToken": false,
         "RedirectURLs": ["http://localhost:53000/","http://localhost:54000/"]
       }
