@@ -35,7 +35,8 @@ configuration: |-
       "CertFile": "",
       "CertKey": "",
       "AuthUserIDClaim": "",
-      "IdpSignKeyRefreshEnabled": true
+      "IdpSignKeyRefreshEnabled": true,
+      "ExtraAuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_api_admin_user_client_id+",
     },
     "IdpManagerConfig": {
       "ManagerType": "zitadel",
@@ -87,6 +88,7 @@ configuration: |-
 management:
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
+    repository: dfryklavel/netbird-mgmt
   ingress:
     enabled: false
   ingressGrpc:

@@ -65,3 +65,12 @@ resource "zitadel_user_grant" "zitadel_admin_argocd_admin" {
   role_keys  = [zitadel_project_role.techops_admin.role_key]
   user_id    = var.zitadel_admin_human_user_id
 }
+
+resource "zitadel_machine_user" "netbird_api_admin" {
+  org_id            = local.org_id
+  user_name         = "netbird-api-admin"
+  name              = "netbird-api-admin"
+  description       = "Netbird API admin user"
+  with_secret       = true
+  access_token_type = "ACCESS_TOKEN_TYPE_JWT"
+}
