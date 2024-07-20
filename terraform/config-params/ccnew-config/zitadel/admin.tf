@@ -4,12 +4,10 @@ resource "zitadel_human_user" "admin" {
   first_name         = "root"
   last_name          = "admin"
   nick_name          = "admin"
-  display_name       = "admin"
+  display_name       = "Zitadel Admin"
   preferred_language = "en"
   gender             = "GENDER_MALE"
-  phone              = "+41799999999"
-  is_phone_verified  = true
-  email              = "test@zitadel.com"
+  email              = "admin@${var.zitadel_fqdn}"
   is_email_verified  = true
   initial_password   = "#Password1!"
 }
