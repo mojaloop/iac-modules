@@ -42,7 +42,7 @@ configuration: |-
       "ClientConfig": {
         "Issuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
         "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
-        "ClientID": "netclient",
+        "ClientID": "netbird",
         "ClientSecret": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_service_user_client_secret+",
         "GrantType": "client_credentials"
       },
