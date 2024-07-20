@@ -87,7 +87,7 @@ configuration: |-
 
 management:
   image:
-    tag: ${ARGOCD_ENV_netbird_image_version}
+    tag: latest
     repository: dfryklavel/netbird-mgmt
   ingress:
     enabled: false
