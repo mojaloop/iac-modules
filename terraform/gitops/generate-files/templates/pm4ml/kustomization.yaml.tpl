@@ -16,6 +16,8 @@ helmCharts:
   repo: ${pm4ml_chart_repo}
   valuesFile: values-pm4ml.yaml
   namespace: ${pm4ml_namespace}
+  additionalValuesFiles:
+  - values-pm4ml-override.yaml
 - name: finance-portal # admin-portal
   releaseName: ${admin_portal_release_name}
   version: ${admin_portal_chart_version}
@@ -23,5 +25,3 @@ helmCharts:
   valuesFile: values-admin-portal.yaml
   namespace: ${pm4ml_namespace}
   includeCRDs: true
-  additionalValuesFiles:
-  - values-pm4ml-override.yaml
