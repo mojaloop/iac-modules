@@ -21,3 +21,6 @@ output "netbird_api_admin_user_client_secret" {
   sensitive = true
 }
 
+output "netbird_project_id" {
+  value = zitadel_project.netbird.id
+}

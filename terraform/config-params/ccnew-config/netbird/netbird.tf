@@ -59,7 +59,7 @@ resource "zitadel_project_role" "techops_admin" {
   display_name = "Techops Admin"
 }
 
-resource "zitadel_user_grant" "zitadel_admin_argocd_admin" {
+resource "zitadel_user_grant" "zitadel_admin_techops_admin" {
   project_id = zitadel_project.netbird.id
   org_id     = local.org_id
   role_keys  = [zitadel_project_role.techops_admin.role_key]
@@ -73,4 +73,11 @@ resource "zitadel_machine_user" "netbird_api_admin" {
   description       = "Netbird API admin user"
   with_secret       = true
   access_token_type = "ACCESS_TOKEN_TYPE_JWT"
+}
+
+resource "zitadel_user_grant" "zitadel_netbird_api_admin_techops_admin" {
+  project_id = zitadel_project.netbird.id
+  org_id     = local.org_id
+  role_keys  = [zitadel_project_role.techops_admin.role_key]
+  user_id    = zitadel_machine_user.netbird_api_admin.id
 }
