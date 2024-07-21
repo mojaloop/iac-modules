@@ -74,3 +74,6 @@ spec:
 
         - name: "netbird_log_level"
           value: "${ARGOCD_ENV_security_netbird_log_level}"
+
+        - name: "zitadel_grant_prefix"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
