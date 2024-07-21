@@ -54,9 +54,9 @@ configuration: |-
     "DeviceAuthorizationFlow": {
       "Provider": "hosted",
       "ProviderConfig": {
-        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
+        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
         "ClientSecret": "",
-        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
+        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
         "AuthorizationEndpoint": "",
         "Scope": "openid",
         "UseIDToken": false,
