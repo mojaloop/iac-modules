@@ -112,6 +112,7 @@ module "pm4ml" {
   role_assign_svc_secret_prefix          = "role-assign-svc-secret-"
   portal_admin_user                      = var.portal_admin_user
   portal_admin_secret_prefix             = "portal-admin-secret-"
+  pm4ml_values_override_file             = var.pm4ml_values_override_file
 }
 
 module "proxy_pm4ml" {
@@ -307,6 +308,10 @@ variable "mojaloop_values_override_file" {
 }
 
 variable "proxy_values_override_file" {
+  type = string
+}
+
+variable "pm4ml_values_override_file" {
   type = string
 }
 

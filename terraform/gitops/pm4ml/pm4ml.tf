@@ -104,9 +104,17 @@ module "generate_pm4ml_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
+resource "local_file" "proxy_values_override" {
+  for_each   = local.pm4ml_override_values_file_exists ? var.app_var_map : {}
+  content    = file(var.pm4ml_values_override_file)
+  filename   = "${var.output_dir}/${each.key}/values-pm4ml-override.yaml"
+  depends_on = [module.generate_pm4ml_files]
+}
+
 locals {
   pm4ml_template_path = "${path.module}/../generate-files/templates/pm4ml"
   pm4ml_app_file      = "pm4ml-app.yaml"
+  pm4ml_override_values_file_exists         = fileexists(var.pm4ml_values_override_file)
 
   pm4ml_var_map = var.app_var_map
 
@@ -133,6 +141,9 @@ locals {
   pm4ml_external_wildcard_exp_hosts          = [for pm4ml_name, pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml_name] if local.pm4ml_wildcard_gateways[pm4ml_name] == "external"]
 }
 
+variable "pm4ml_values_override_file" {
+  type = string
+}
 
 variable "app_var_map" {
   type = any

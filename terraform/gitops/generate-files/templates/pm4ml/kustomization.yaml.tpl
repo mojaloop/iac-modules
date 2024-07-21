@@ -23,3 +23,5 @@ helmCharts:
   valuesFile: values-admin-portal.yaml
   namespace: ${pm4ml_namespace}
   includeCRDs: true
+  additionalValuesFiles:
+  - values-pm4ml-override.yaml
