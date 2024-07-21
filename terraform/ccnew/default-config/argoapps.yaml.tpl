@@ -88,6 +88,7 @@ argocd_override:
           dashboard_chart_version: "${netbird_dashboard_helm_version}"
           image_version: "${netbird_image_version}"
           stunner_gateway_operator_helm_version: "${stunner_gateway_operator_helm_version}"
+          log_level: "${netbird_log_level}""
     nexus:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
