@@ -101,6 +101,7 @@ management:
     xtraArgs:
       - --single-account-mode-domain=${ARGOCD_ENV_netbird_dns_subdomain}
       - --log-level=${ARGOCD_ENV_netbird_log_level}
+      - --disable-anonymous-metrics=true
 signal:
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
