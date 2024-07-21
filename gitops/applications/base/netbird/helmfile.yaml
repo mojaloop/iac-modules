@@ -1,8 +1,8 @@
 repositories:
   - name: netbird
-    url: git+https://github.com/mojaloop/netbird-charts@charts/netbird?ref=${netbird_helm_version}
+    url: git+https://github.com/mojaloop/netbird-charts@charts/netbird?ref=${ARGOCD_ENV_netbird_helm_version}
   - name: netbird-dashboard
-    url: git+https://github.com/mojaloop/netbird-charts@charts/netbird-dashboard?ref=${netbird_dashboard_helm_version}
+    url: git+https://github.com/mojaloop/netbird-charts@charts/netbird-dashboard?ref=${ARGOCD_ENV_netbird_dashboard_helm_version}
 
 releases:
   - name: netbird
