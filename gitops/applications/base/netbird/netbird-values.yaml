@@ -29,20 +29,21 @@ configuration: |-
     },
     "HttpConfig": {
       "AuthIssuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
-      "AuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_dashboard_client_id+",
+      "AuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
       "OIDCConfigEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/.well-known/openid-configuration",
       "LetsEncryptDomain": "",
       "CertFile": "",
       "CertKey": "",
       "AuthUserIDClaim": "",
-      "IdpSignKeyRefreshEnabled": true
+      "IdpSignKeyRefreshEnabled": true,
+      "ExtraAuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_project_id+"
     },
     "IdpManagerConfig": {
       "ManagerType": "zitadel",
       "ClientConfig": {
         "Issuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
         "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
-        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_service_user_client_id+",
+        "ClientID": "netbird",
         "ClientSecret": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_service_user_client_secret+",
         "GrantType": "client_credentials"
       },
@@ -64,12 +65,12 @@ configuration: |-
     },
     "PKCEAuthorizationFlow": {
       "ProviderConfig": {
-        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
         "ClientSecret": "",
         "Domain": "",
-        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
         "DeviceAuthEndpoint": "",
-        "Scope": "openid profile email offline_access api",
+        "Scope": "openid profile email offline_access api groups ${ARGOCD_ENV_zitadel_grant_prefix}",
         "UseIDToken": false,
         "RedirectURLs": ["http://localhost:53000/","http://localhost:54000/"]
       }
@@ -86,7 +87,8 @@ configuration: |-
 
 management:
   image:
-    tag: ${ARGOCD_ENV_netbird_image_version}
+    tag: latest
+    repository: dfryklavel/netbird-mgmt
   ingress:
     enabled: false
   ingressGrpc:
@@ -98,6 +100,8 @@ management:
   podCommand:
     xtraArgs:
       - --single-account-mode-domain=${ARGOCD_ENV_netbird_dns_subdomain}
+      - --log-level=${ARGOCD_ENV_netbird_log_level}
+      - --disable-anonymous-metrics=true
 signal:
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}

@@ -9,14 +9,14 @@ env:
   # OIDC
   AUTH_AUTHORITY: https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
   USE_AUTH0: false
-  AUTH_SUPPORTED_SCOPES: openid profile email offline_access api
+  AUTH_SUPPORTED_SCOPES: openid profile email offline_access api groups
   AUTH_REDIRECT_URI: /nb-auth
   AUTH_SILENT_REDIRECT_URI: /nb-silent-auth
 
 envFromSecret:
   AUTH_CLIENT_ID:
-    secretKey: netbird_dashboard_client_id
+    secretKey: netbird_client_id
     secretName: ${ARGOCD_ENV_netbird_preconfig_output_secret}
   AUTH_AUDIENCE:
-    secretKey: netbird_dashboard_client_id
+    secretKey: netbird_client_id
     secretName: ${ARGOCD_ENV_netbird_preconfig_output_secret}

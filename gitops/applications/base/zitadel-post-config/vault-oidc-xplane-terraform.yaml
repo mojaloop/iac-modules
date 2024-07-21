@@ -15,6 +15,12 @@ spec:
           namespace: ${ARGOCD_ENV_vault_namespace}
           name: ${ARGOCD_ENV_vault_tf_post_config_output_secret}
           key: admin_policy_name
+      - name: TF_VAR_zitadel_admin_human_user_id
+        secretKeyRef:
+          namespace: ${ARGOCD_ENV_zitadel_namespace}
+          name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+          key: zitadel_admin_human_user_id
+
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     vars:
       - key: zitadel_fqdn

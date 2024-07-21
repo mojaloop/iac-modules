@@ -47,11 +47,19 @@ spec:
     source: Remote
     module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/netbird?ref=${ARGOCD_ENV_terraform_modules_tag}
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
+    env:
+      - name: TF_VAR_zitadel_admin_human_user_id
+        secretKeyRef:
+          namespace: ${ARGOCD_ENV_zitadel_namespace}
+          name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+          key: zitadel_admin_human_user_id
     vars:
       - key: dashboard_fqdn
         value: netbird-dashboard.${ARGOCD_ENV_netbird_dns_subdomain}
       - key: zitadel_fqdn
         value: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
+      - key: admin_rbac_group
+        value: ${ARGOCD_ENV_netbird_rbac_admin_group}
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
