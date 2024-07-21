@@ -36,7 +36,7 @@ configuration: |-
       "CertKey": "",
       "AuthUserIDClaim": "",
       "IdpSignKeyRefreshEnabled": true,
-      "ExtraAuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_api_admin_user_client_id+"
+      "ExtraAuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_project_id+"
     },
     "IdpManagerConfig": {
       "ManagerType": "zitadel",
