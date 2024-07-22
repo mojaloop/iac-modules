@@ -85,13 +85,6 @@ resource "zitadel_machine_user" "netbird_api_admin" {
 resource "zitadel_user_grant" "zitadel_netbird_api_admin_techops_admin" {
   project_id = zitadel_project.netbird.id
   org_id     = local.org_id
-  role_keys  = [zitadel_project_role.techops_admin.role_key]
-  user_id    = zitadel_machine_user.netbird_api_admin.id
-}
-
-resource "zitadel_user_grant" "zitadel_netbird_api_admin_techops_user" {
-  project_id = zitadel_project.netbird.id
-  org_id     = local.org_id
-  role_keys  = [zitadel_project_role.techops_user.role_key]
+  role_keys  = [zitadel_project_role.techops_admin.role_key, zitadel_project_role.techops_user.role_key]
   user_id    = zitadel_machine_user.netbird_api_admin.id
 }
