@@ -89,15 +89,19 @@ apiVersion: external-secrets.io/v1beta1
 kind: SecretStore
 metadata:
   name: gitlab-k8s-secret-store
-  namespace: ${ARGOCD_ENV_vault_namespace}
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   provider:
     kubernetes:
       auth:
         serviceAccount:
           name: "gitlab-secret-creator"
-          #namespace: ${ARGOCD_ENV_gitlab_namespace}
       remoteNamespace: ${ARGOCD_ENV_gitlab_namespace} 
+      server:
+        caProvider:
+          type: ConfigMap
+          name: kube-root-ca.crt
+          key: ca.crt      
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
