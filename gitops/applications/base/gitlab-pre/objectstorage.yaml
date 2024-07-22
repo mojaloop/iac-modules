@@ -45,4 +45,62 @@ spec:
   additionalConfig:
     maxObjects: "1000"
     maxSize: "2G"
-    
+---
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: gitlab-k8s-secret-store
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  provider:
+    kubernetes:
+      server: https://kubernetes.default.svc
+      auth:
+        serviceAccount:
+          name: "vault"
+          namespace: ${ARGOCD_ENV_gitlab_namespace}
+      remoteNamespace: ${ARGOCD_ENV_vault_namespace} 
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-lfs
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+  
+  data:
+  - secretKey: AWS_ACCESS_KEY_ID
+    remoteRef:
+      key: gitlab-lfs
+      property: AWS_ACCESS_KEY_ID
+  - secretKey: AWS_SECRET_ACCESS_KEY
+    remoteRef:
+      key: gitlab-lfs
+      property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-lfs
+    creationPolicy: Owner
+    template:
+      data:
+        inventory: |
+             s3:
+              v4auth: true
+              regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+              pathstyle: true
+              region: us-east-1
+              accesskey: {{.AWS_ACCESS_KEY_ID}}
+              secretkey: {{.AWS_SECRET_ACCESS_KEY}}
+
+
+      metadata:
+        annotations:
+          reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+          reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "${ARGOCD_ENV_nexus_namespace}"
+          reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
+          reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "${ARGOCD_ENV_nexus_namespace}"    
