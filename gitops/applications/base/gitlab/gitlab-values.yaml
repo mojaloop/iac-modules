@@ -358,9 +358,9 @@ global:
         {}
         # server_side_encryption:
         # server_side_encryption_kms_key_id
-      connection:
-        secret: gitlab-secret-registry
-        key: connection
+      connection: {}
+        # secret: gitlab-secret-registry
+        # key: connection
     lfs:
       enabled: true
       proxy_download: true
@@ -652,6 +652,10 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-registry-settings
   registry:
+    storage:
+      secret: gitlab-secret-registry
+      key: connection
+
     bucket: registry
 
     certificate:
