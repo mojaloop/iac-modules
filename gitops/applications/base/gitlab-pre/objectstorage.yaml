@@ -130,7 +130,7 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        inventory: |
+        connection: |
              s3:
               v4auth: true
               regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
@@ -138,3 +138,112 @@ spec:
               region: us-east-1
               accesskey: {{.AWS_ACCESS_KEY_ID}}
               secretkey: {{.AWS_SECRET_ACCESS_KEY}}
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-artifacts
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+  
+  data:
+  - secretKey: AWS_ACCESS_KEY_ID
+    remoteRef:
+      key: gitlab-artifacts
+      property: AWS_ACCESS_KEY_ID
+  - secretKey: AWS_SECRET_ACCESS_KEY
+    remoteRef:
+      key: gitlab-artifacts
+      property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-artifacts
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+             s3:
+              v4auth: true
+              regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+              pathstyle: true
+              region: us-east-1
+              accesskey: {{.AWS_ACCESS_KEY_ID}}
+              secretkey: {{.AWS_SECRET_ACCESS_KEY}}      
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-uploads
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+  
+  data:
+  - secretKey: AWS_ACCESS_KEY_ID
+    remoteRef:
+      key: gitlab-uploads
+      property: AWS_ACCESS_KEY_ID
+  - secretKey: AWS_SECRET_ACCESS_KEY
+    remoteRef:
+      key: gitlab-uploads
+      property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-uploads
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+             s3:
+              v4auth: true
+              regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+              pathstyle: true
+              region: us-east-1
+              accesskey: {{.AWS_ACCESS_KEY_ID}}
+              secretkey: {{.AWS_SECRET_ACCESS_KEY}}      
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-packages
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+  
+  data:
+  - secretKey: AWS_ACCESS_KEY_ID
+    remoteRef:
+      key: gitlab-packages
+      property: AWS_ACCESS_KEY_ID
+  - secretKey: AWS_SECRET_ACCESS_KEY
+    remoteRef:
+      key: gitlab-packages
+      property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-packages
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+             s3:
+              v4auth: true
+              regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+              pathstyle: true
+              region: us-east-1
+              accesskey: {{.AWS_ACCESS_KEY_ID}}
+              secretkey: {{.AWS_SECRET_ACCESS_KEY}}      
+                                                                  
