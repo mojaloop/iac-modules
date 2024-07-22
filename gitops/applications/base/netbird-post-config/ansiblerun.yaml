@@ -9,6 +9,8 @@ spec:
   forProvider:
     vars:
       ANSIBLE_VERBOSITY: "5"
+      K8S_AUTH_API_KEY: "/run/secrets/kubernetes.io/serviceaccount/token"
+      K8S_AUTH_SSL_CA_CERT: "/run/secrets/kubernetes.io/serviceaccount/ca.crt"
     inventories:
       - source: Secret
         secretRef:
@@ -21,6 +23,3 @@ spec:
         roles:
          - mojaloop.iac.netbird
         connection: local
-  writeConnectionSecretToRef:
-    namespace: ${ARGOCD_ENV_netbird_namespace}
-    name: ${ARGOCD_ENV_netbird_postconfig_output_secret}

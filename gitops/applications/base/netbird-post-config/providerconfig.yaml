@@ -11,3 +11,6 @@ spec:
       - name: ${ARGOCD_ENV_netbird_ansible_repo_url}
         type: git
         version: ${ARGOCD_ENV_netbird_ansible_collection_tag}
+
+      - name: kubernetes.core
+        version: 5.0.0
