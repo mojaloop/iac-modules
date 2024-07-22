@@ -8,7 +8,6 @@ metadata:
   name: ${name}
   namespace: ${namespace}
 spec:
-  persistenceEnabled: true
   podSecurityContext:
     runAsUser: 1000
     fsGroup: 1000
@@ -28,6 +27,7 @@ spec:
         # imagePullSecrets:
         #   - name: regcred
 # %{ if nodes >= 3 }
+  persistenceEnabled: true
   clusterSize: ${nodes}
   clusterVersion: v7
   redisLeader:
