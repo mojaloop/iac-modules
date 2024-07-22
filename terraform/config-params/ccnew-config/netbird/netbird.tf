@@ -8,9 +8,9 @@ resource "zitadel_application_oidc" "netbird" {
   project_id                  = zitadel_project.netbird.id
   org_id                      = local.org_id
   name                        = "netbird"
-  redirect_uris               = ["https://${var.dashboard_fqdn}/nb-auth", "https://${var.dashboard_fqdn}/nb-silent-auth", "http://localhost:53000"]
+  redirect_uris               = ["https://${var.dashboard_fqdn}/nb-auth", "https://${var.dashboard_fqdn}/nb-silent-auth"]
   response_types              = ["OIDC_RESPONSE_TYPE_CODE"]
-  grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE", "OIDC_GRANT_TYPE_REFRESH_TOKEN", "OIDC_GRANT_TYPE_DEVICE_CODE"]
+  grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE", "OIDC_GRANT_TYPE_REFRESH_TOKEN"]
   post_logout_redirect_uris   = ["https://${var.dashboard_fqdn}/"]
   app_type                    = "OIDC_APP_TYPE_USER_AGENT"
   auth_method_type            = "OIDC_AUTH_METHOD_TYPE_NONE"
