@@ -7,6 +7,8 @@ spec:
   providerConfigRef:
     name: ${ARGOCD_ENV_netbird_post_config_app_name}
   forProvider:
+    vars:
+      ANSIBLE_VERBOSITY: "5"
     inventories:
       - source: Secret
         secretRef:
