@@ -1,11 +1,13 @@
 apiVersion: redis.redis.opstreelabs.in/v1beta2
+# %{ if nodes >= 3 }
 kind: RedisCluster
+# %{ else }
+kind: Redis
+# %{ endif }
 metadata:
   name: ${name}
   namespace: ${namespace}
 spec:
-  clusterSize: ${nodes}
-  clusterVersion: v7
   persistenceEnabled: true
   podSecurityContext:
     runAsUser: 1000
@@ -25,6 +27,9 @@ spec:
         #   key: password
         # imagePullSecrets:
         #   - name: regcred
+# %{ if nodes >= 3 }
+  clusterSize: ${nodes}
+  clusterVersion: v7
   redisLeader:
     readinessProbe:
       failureThreshold: 5
@@ -51,6 +56,7 @@ spec:
       periodSeconds: 15
       successThreshold: 1
       timeoutSeconds: 5
+# %{ endif }
   redisExporter:
     enabled: false
     image: quay.io/opstree/redis-exporter:v1.45.0
@@ -90,6 +96,13 @@ spec:
         resources:
           requests:
             storage: ${storage_size}
+            # nodeSelector:
+            #   kubernetes.io/hostname: minikube
+            # podSecurityContext: {}
+            # priorityClassName:
+            # affinity:
+            # Tolerations: []
+# %{ if nodes >= 3 }
     nodeConfVolume: true
     nodeConfVolumeClaimTemplate:
       spec:
@@ -98,3 +111,4 @@ spec:
         resources:
           requests:
             storage: 1Mi
+# %{ endif }
