@@ -70,6 +70,11 @@ output "bastion_public_ip" {
   value = module.base_infra.bastion_public_ip
 }
 
+output "bastion_private_ip" {
+  value = module.base_infra.bastion_private_ip
+}
+
+
 output "bastion_os_username" {
   value = var.os_user_name
 }
