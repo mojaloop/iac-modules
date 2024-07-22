@@ -394,20 +394,28 @@ global:
       when:
       proxy_download: true
       bucket: gitlab-mr-diffs
-      connection: {}
+      connection:
+        secret: gitlab-rails-secret-mr-diffs
+        key: connection   
     terraformState:
       enabled: false
       bucket: gitlab-terraform-state
-      connection: {}
+      connection:
+        secret: gitlab-rails-secret-terraform-state
+        key: connection  
     ciSecureFiles:
       enabled: false
       bucket: gitlab-ci-secure-files
-      connection: {}
+      connection:
+        secret: gitlab-rails-secret-ci-secure-files
+        key: connection  
     dependencyProxy:
       enabled: false
       proxy_download: true
       bucket: gitlab-dependency-proxy
-      connection: {}
+      connection:
+        secret: gitlab-rails-secret-dependency-proxy
+        key: connection  
 
     backups:
       bucket: gitlab-backups
