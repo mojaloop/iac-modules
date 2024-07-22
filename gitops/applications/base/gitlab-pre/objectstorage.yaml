@@ -85,18 +85,6 @@ spec:
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: gitlab-terraform-state
-  namespace: ${ARGOCD_ENV_gitlab_namespace}
-spec:
-  bucketName: gitlab-terraform-state
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"  
---- 
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
-metadata:
   name: gitlab-ci-secure-files
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
