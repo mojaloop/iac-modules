@@ -23,7 +23,7 @@ _DEFINE:
       proxy_cache:
           enabled: false
           proxyConfig:
-              host: mojaloop-redis-leader
+              host: mojaloop-redis
   SERVICE: &SERVICE
     <<: [*DEPLOYMENT, *CONFIG]
   SERVICE_WITH_PROXY: &SERVICE_WITH_PROXY

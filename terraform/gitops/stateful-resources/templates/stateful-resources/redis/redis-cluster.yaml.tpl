@@ -111,4 +111,13 @@ spec:
         resources:
           requests:
             storage: 1Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+spec:
+  type: ExternalName
+  externalName: mojaloop-redis-leader.${namespace}.svc.cluster.local
 # %{ endif }
