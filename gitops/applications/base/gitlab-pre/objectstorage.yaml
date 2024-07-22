@@ -46,6 +46,18 @@ spec:
     maxObjects: "1000"
     maxSize: "2G"
 --- 
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: registry
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: registry
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "1000"
+    maxSize: "2G"
+--- 
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -131,13 +143,18 @@ spec:
     template:
       data:
         connection: |
-             s3:
-              v4auth: true
-              regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
-              pathstyle: true
+              provider: AWS
+              # Specify the region
               region: us-east-1
-              accesskey: {{.AWS_ACCESS_KEY_ID}}
-              secretkey: {{.AWS_SECRET_ACCESS_KEY}}
+              # Specify access/secret keys
+              aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+              aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+              # The below settings are for S3 compatible endpoints
+              #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+              aws_signature_version: 4
+              host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
+              endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+              path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -167,13 +184,18 @@ spec:
     template:
       data:
         connection: |
-             s3:
-              v4auth: true
-              regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
-              pathstyle: true
+              provider: AWS
+              # Specify the region
               region: us-east-1
-              accesskey: {{.AWS_ACCESS_KEY_ID}}
-              secretkey: {{.AWS_SECRET_ACCESS_KEY}}      
+              # Specify access/secret keys
+              aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+              aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+              # The below settings are for S3 compatible endpoints
+              #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+              aws_signature_version: 4
+              host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
+              endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+              path_style: true    
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -203,13 +225,18 @@ spec:
     template:
       data:
         connection: |
-             s3:
-              v4auth: true
-              regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
-              pathstyle: true
+              provider: AWS
+              # Specify the region
               region: us-east-1
-              accesskey: {{.AWS_ACCESS_KEY_ID}}
-              secretkey: {{.AWS_SECRET_ACCESS_KEY}}      
+              # Specify access/secret keys
+              aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+              aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+              # The below settings are for S3 compatible endpoints
+              #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+              aws_signature_version: 4
+              host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
+              endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+              path_style: true    
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -239,11 +266,51 @@ spec:
     template:
       data:
         connection: |
+              provider: AWS
+              # Specify the region
+              region: us-east-1
+              # Specify access/secret keys
+              aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+              aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+              # The below settings are for S3 compatible endpoints
+              #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+              aws_signature_version: 4
+              host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
+              endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+              path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-secret-registry
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+  
+  data:
+  - secretKey: AWS_ACCESS_KEY_ID
+    remoteRef:
+      key: registry
+      property: AWS_ACCESS_KEY_ID
+  - secretKey: AWS_SECRET_ACCESS_KEY
+    remoteRef:
+      key: registry
+      property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-secret-registry
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
              s3:
               v4auth: true
               regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
               pathstyle: true
               region: us-east-1
               accesskey: {{.AWS_ACCESS_KEY_ID}}
-              secretkey: {{.AWS_SECRET_ACCESS_KEY}}      
-                                                                  
+              secretkey: {{.AWS_SECRET_ACCESS_KEY}}                                                           
