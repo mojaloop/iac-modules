@@ -1,7 +1,7 @@
 tf_version: ">= 1.2"
 local_provider_version: "~> 2.4"
 gitlab_provider_version: "~> 16.0"
-vault_provider_version: "3.21" # https://github.com/hashicorp/terraform-provider-vault/issues/1900
+vault_provider_version: "~> 3.25" # https://github.com/hashicorp/terraform-provider-vault/issues/1900
 cert_manager_chart_version: 1.12.2
 consul_chart_version: 1.4.0
 longhorn_chart_version: 1.6.1
