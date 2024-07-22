@@ -76,6 +76,7 @@ inputs = {
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps) 
   bastion_hosts_yaml_fragments   = yamlencode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/argoapps.yaml.tpl")}", merge({
     nexus_ansible_collection_tag      =  local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
+    netbird_ansible_collection_tag    = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     dns_public_subdomain              = dependency.k8s_deploy.outputs.public_subdomain
     dns_private_subdomain             = dependency.k8s_deploy.outputs.private_subdomain
     internal_ingress_https_port       = dependency.k8s_deploy.outputs.target_group_internal_https_port

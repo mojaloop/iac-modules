@@ -90,6 +90,7 @@ argocd_override:
           stunner_gateway_operator_helm_version: "${stunner_gateway_operator_helm_version}"
           log_level: "${netbird_log_level}"
           vpc_cidr: "${vpc_cidr}"
+          ansible_collection_tag: ${netbird_ansible_collection_tag}
     nexus:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -97,7 +98,7 @@ argocd_override:
           helm_version: "${nexus_helm_version}"
           public_ingress_access_domain: "${nexus_public_access}"
         post_config:
-          ansible_collection_tag: ${nexus_ansible_collection_tag}
+          ansible_collection_tag: "${nexus_ansible_collection_tag}"
 
     gitlab:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
