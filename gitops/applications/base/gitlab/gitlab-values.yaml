@@ -1341,6 +1341,7 @@ traefik:
 gitlab:
   ## https://docs.gitlab.com/charts/charts/gitlab/toolbox
   toolbox:
+    enabled: false
     replicas: 1
     antiAffinityLabels:
       matchLabels:
