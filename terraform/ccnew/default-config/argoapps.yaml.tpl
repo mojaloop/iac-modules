@@ -89,6 +89,7 @@ argocd_override:
           image_version: "${netbird_image_version}"
           stunner_gateway_operator_helm_version: "${stunner_gateway_operator_helm_version}"
           log_level: "${netbird_log_level}"
+          vpc_cidr: "${vpc_cidr}"
     nexus:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:

@@ -4,7 +4,7 @@ metadata:
   name: ${ARGOCD_ENV_security_netbird_app_name}-post-config
   namespace: ${ARGOCD_ENV_security_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_netbird_sync_wave}
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_netbird_post_sync_wave}
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -47,3 +47,33 @@ spec:
 
         - name: "netbird_namespace"
           value: "${ARGOCD_ENV_security_netbird_namespace}"
+
+        - name: "netbird_post_config_app_name"
+          value: "${ARGOCD_ENV_security_netbird_app_name}-post-config"
+
+        - name: "netbird_preconfig_output_secret"
+          value: "${ARGOCD_ENV_security_netbird_preconfig_output_secret}"
+
+        - name: "netbird_postconfig_output_secret"
+          value: "${ARGOCD_ENV_security_netbird_postconfig_output_secret}"
+
+        - name: "netbird_ansible_collection_tag"
+          value: ${ARGOCD_ENV_security_netbird_ansible_collection_tag}
+
+        - name: "netbird_ansible_repo_url"
+          value: ${ARGOCD_ENV_ansible_gitrepo_url}
+
+        - name: "cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+
+        - name: "cluster_cidr"
+          value: "${ARGOCD_ENV_security_netbird_vpc_cidr}"
+
+        - name: "rbac_user_group"
+          value: "${ARGOCD_ENV_security_netbird_rbac_user_group}"
+
+        - name: "rbac_admin_group"
+          value: "${ARGOCD_ENV_security_netbird_rbac_admin_group}"
+
+        - name: "zitadel_grant_prefix"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"

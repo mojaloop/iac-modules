@@ -1,0 +1,24 @@
+apiVersion: ansible.crossplane.io/v1alpha1
+kind: AnsibleRun
+metadata:
+  name: ${ARGOCD_ENV_netbird_post_config_app_name}
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+spec:
+  providerConfigRef:
+    name: ${ARGOCD_ENV_netbird_post_config_app_name}
+  forProvider:
+    inventories:
+      - source: Secret
+        secretRef:
+          namespace: ${ARGOCD_ENV_netbird_namespace}
+          name: netbird-ansible-secret-vars
+          key: inventory
+    playbookInline: |
+      ---
+      - hosts: all
+        roles:
+         - mojaloop.iac.netbird
+        connection: local
+  writeConnectionSecretToRef:
+    namespace: ${ARGOCD_ENV_netbird_namespace}
+    name: ${ARGOCD_ENV_netbird_postconfig_output_secret}
