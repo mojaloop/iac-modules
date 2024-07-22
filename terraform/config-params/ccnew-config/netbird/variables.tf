@@ -13,6 +13,11 @@ variable "admin_rbac_group" {
   description = "rbac group in idm for admin access via oidc"
 }
 
+variable "user_rbac_group" {
+  type        = string
+  description = "rbac group in idm for user access via oidc"
+}
+
 variable "zitadel_admin_human_user_id" {
   description = "admin zitadel human user id"
 }

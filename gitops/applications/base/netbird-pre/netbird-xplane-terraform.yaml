@@ -60,6 +60,8 @@ spec:
         value: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
       - key: admin_rbac_group
         value: ${ARGOCD_ENV_netbird_rbac_admin_group}
+      - key: user_rbac_group
+        value: ${ARGOCD_ENV_netbird_rbac_user_group}
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
