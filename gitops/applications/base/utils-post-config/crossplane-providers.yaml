@@ -46,11 +46,11 @@ spec:
       template:
         spec:
           containers:
-            command:
-              - /usr/bin/dumb-init
-              - sh
-              - -c
-              - /usr/local/bin/pip install kubernetes && exec "$@"
-              - --
-              - crossplane-ansible-provider
-            name: package-runtime
+            - name: package-runtime
+              command:
+                - /usr/bin/dumb-init
+                - sh
+                - -c
+                - /usr/local/bin/pip install kubernetes && exec "$@"
+                - --
+                - crossplane-ansible-provider
