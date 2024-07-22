@@ -28,6 +28,7 @@ terraform_crossplane_modules_version: "0.16.0"
 ansible_crossplane_modules_version: "0.6.0"
 
 istio_proxy_log_level: warn
+zitadel_log_level: info
 crossplane_log_level: debug
 vault_log_level: debug
 argocd_public_access: false

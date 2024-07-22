@@ -77,6 +77,7 @@ argocd_override:
           vault_rbac_admin_group: "${vault_rbac_admin_group}"
           argocd_user_rbac_group: "${argocd_user_rbac_group}"
           argocd_admin_rbac_group: "${argocd_admin_rbac_group}"
+          log_level: "${zitadel_log_level}"
         cockroachdb:
           helm_version: "${cockroachdb_helm_version}"
           pvc_size: "${cockroachdb_storage_size}"
