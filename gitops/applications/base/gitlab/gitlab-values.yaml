@@ -390,7 +390,7 @@ global:
         secret: gitlab-rails-secret-packages
         key: connection      
     externalDiffs:
-      enabled: false
+      enabled: true
       when:
       proxy_download: true
       bucket: gitlab-mr-diffs
@@ -398,19 +398,19 @@ global:
         secret: gitlab-rails-secret-mr-diffs
         key: connection   
     terraformState:
-      enabled: false
+      enabled: true
       bucket: gitlab-terraform-state
       connection:
         secret: gitlab-rails-secret-terraform-state
         key: connection  
     ciSecureFiles:
-      enabled: false
+      enabled: true
       bucket: gitlab-ci-secure-files
       connection:
         secret: gitlab-rails-secret-ci-secure-files
         key: connection  
     dependencyProxy:
-      enabled: false
+      enabled: true
       proxy_download: true
       bucket: gitlab-dependency-proxy
       connection:
