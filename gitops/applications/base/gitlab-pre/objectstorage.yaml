@@ -45,7 +45,46 @@ spec:
   additionalConfig:
     maxObjects: "1000"
     maxSize: "2G"
+--- 
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitlab-sercret-creator
+  namespace: ${ARGOCD_ENV_gitlab_namespace}      
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+  name: gitlab-secret-role
+rules:
+- apiGroups: [""]
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - selfsubjectrulesreviews
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gitlab-sercret-creator
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+subjects:
+  - kind: ServiceAccount
+    name: gitlab-secret-creator
+roleRef:
+  kind: Role
+  name: gitlab-secret-role
+  apiGroup: rbac.authorization.k8s.io
+---  
 apiVersion: external-secrets.io/v1beta1
 kind: SecretStore
 metadata:
@@ -54,18 +93,17 @@ metadata:
 spec:
   provider:
     kubernetes:
-      server: https://kubernetes.default.svc
       auth:
         serviceAccount:
-          name: "vault"
+          name: "gitlab-sercret-creator"
           namespace: ${ARGOCD_ENV_gitlab_namespace}
-      remoteNamespace: ${ARGOCD_ENV_vault_namespace} 
+      remoteNamespace: ${ARGOCD_ENV_gitlab_namespace} 
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: gitlab-rails-secret-lfs
-  namespace: ${ARGOCD_ENV_vault_namespace}
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   refreshInterval: 1m
 
@@ -96,11 +134,3 @@ spec:
               region: us-east-1
               accesskey: {{.AWS_ACCESS_KEY_ID}}
               secretkey: {{.AWS_SECRET_ACCESS_KEY}}
-
-
-      metadata:
-        annotations:
-          reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-          reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "${ARGOCD_ENV_nexus_namespace}"
-          reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-          reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "${ARGOCD_ENV_nexus_namespace}"    
