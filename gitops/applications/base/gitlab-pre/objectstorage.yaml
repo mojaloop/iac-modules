@@ -96,7 +96,7 @@ spec:
       auth:
         serviceAccount:
           name: "gitlab-secret-creator"
-          namespace: ${ARGOCD_ENV_gitlab_namespace}
+          #namespace: ${ARGOCD_ENV_gitlab_namespace}
       remoteNamespace: ${ARGOCD_ENV_gitlab_namespace} 
 ---
 apiVersion: external-secrets.io/v1beta1
