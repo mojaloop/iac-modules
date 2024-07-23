@@ -3,6 +3,8 @@ kind: AnsibleRun
 metadata:
   name: ${ARGOCD_ENV_netbird_post_config_app_name}
   namespace: ${ARGOCD_ENV_netbird_namespace}
+  annotations:
+    ansible.crossplane.io/runPolicy: CheckWhenObserve
 spec:
   providerConfigRef:
     name: ${ARGOCD_ENV_netbird_post_config_app_name}
