@@ -9,6 +9,6 @@ helmCharts:
   repo: https://prometheus-community.github.io/helm-charts/
 - name: grafana-mimir
   releaseName: central-monitoring
-  version: 2.13.0
+  version: 1.2.7
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-mimir.yaml
