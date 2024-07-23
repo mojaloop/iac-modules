@@ -55,6 +55,10 @@ output "private_network_cidr" {
   value = var.vpc_cidr
 }
 
+output "internal_k8s_network_cidr" {
+  value = module.base_infra.private_subnets_cidr_blocks
+}
+
 output "ext_dns_cloud_policy" {
   value = module.post_config.ext_dns_cloud_policy
 }
