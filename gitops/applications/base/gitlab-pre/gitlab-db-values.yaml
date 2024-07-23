@@ -297,9 +297,9 @@ proxy:
 #      customTLSSecret:
 #        name: keycloakdb-pgbouncer.tls
 #
-      config:
-        global:
-          query_wait_timeout: "600"
+    config:
+      global:
+        query_wait_timeout: "600"
 
 backups:
   pgbackrest:
