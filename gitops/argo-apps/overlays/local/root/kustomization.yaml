@@ -38,3 +38,5 @@ resources:
   # gitlab
   - ../../../base/gitlab-pre.yaml
   - ../../../base/gitlab.yaml
+  # monitoring
+  - ../../../base/monitoring-pre.yaml
