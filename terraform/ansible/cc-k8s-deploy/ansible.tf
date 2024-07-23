@@ -78,10 +78,9 @@ locals {
   }
   all_hosts_var_maps = {
     kubeconfig_local_location = local.ansible_output_dir
-    zitadel_local_location    = local.ansible_output_dir
   }
 }
 
-output "zitadel_local_location" {
+output "ansible_output_dir" {
   value = local.ansible_output_dir
 }
