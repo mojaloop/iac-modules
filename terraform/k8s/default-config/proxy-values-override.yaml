@@ -3,7 +3,7 @@ inter-scheme-proxy-adapter:
     tag: 1.1.0-snapshot.1
 management-api-a:
   image:
-    tag: 6.0.1-snapshot.1
+    tag: 6.0.1
 management-api-b:
   image:
-    tag: 6.0.1-snapshot.1
+    tag: 6.0.1
