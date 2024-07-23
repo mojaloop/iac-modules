@@ -5,6 +5,7 @@ resources:
   - vault-secrets.yaml
   - netbird-xplane-terraform.yaml
   - stunner-crs.yaml
+  - ext-secret-pre.yaml
 
 helmCharts:
   - name: stunner-gateway-operator
