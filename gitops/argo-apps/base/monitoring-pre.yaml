@@ -27,6 +27,7 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
       - PruneLast=true
+      - ServerSideApply=true
   destination:
     server: "https://kubernetes.default.svc"
     # namespace: ${ARGOCD_ENV_monitoring_pre_namespace}
