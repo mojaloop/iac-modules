@@ -80,3 +80,57 @@ spec:
 
         - name: "vault_namespace"
           value: "${ARGOCD_ENV_vault_vault_namespace}"
+        
+        - name: "git_lfs_max_objects"
+          value: "${ARGOCD_ENV_gitlab_pre_git_lfs_max_objects}"
+        
+        - name: "git_lfs_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_git_lfs_storage_size}"
+
+        - name: "gitlab_artifacts_max_objects"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_artifacts_max_objects}"
+
+        - name: "gitlab_artifacts_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_artifacts_storage_size}"
+
+        - name: "gitlab_uploads_max_objects"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_uploads_max_objects}"
+
+        - name: "gitlab_uploads_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_uploads_storage_size}"
+
+        - name: "gitlab_packages_max_objects"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_packages_max_objects}"
+
+        - name: "gitlab_packages_storage_size"        
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_packages_storage_size}"
+
+        - name: "gitlab_registry_max_objects"
+          value: "${ARGOCD_ENV_gitlab_registry_max_objects}"
+
+        - name: "gitlab_registry_storage_size"
+          value: "${ARGOCD_ENV_gitlab_registry_storage_size}"
+
+        - name: "gitlab_mrdiffs_max_objects"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_mrdiffs_max_objects}"
+
+        - name: "gitlab_mrdiffs_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_mrdiffs_storage_size}"
+
+        - name: "gitlab_tfstate_max_objects"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_tfstate_max_objects}"
+
+        - name: "gitlab_tfstate_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_tfstate_storage_size}"
+
+        - name: "gitlab_cisecurefiles_max_objects"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_cisecurefiles_max_objects}"
+
+        - name: "gitlab_cisecurefiles_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_cisecurefiles_storage_size}"
+
+        - name: "gitlab_dep_proxy_max_objects"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_dep_proxy_max_objects}"
+
+        - name: "gitlab_dep_proxy_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_dep_proxy_storage_size}"

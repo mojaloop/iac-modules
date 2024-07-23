@@ -299,6 +299,7 @@ proxy:
 #
     config:
       global:
+        pool_mode: transaction
         query_wait_timeout: "600"
 
 backups:

@@ -7,8 +7,8 @@ spec:
   bucketName: git-lfs
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"
+    maxObjects: ${ARGOCD_ENV_git_lfs_max_objects}
+    maxSize: ${ARGOCD_ENV_git_lfs_storage_size}
 ---
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
@@ -19,8 +19,8 @@ spec:
   bucketName: gitlab-artifacts
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"
+    maxObjects: ${ARGOCD_ENV_gitlab_artifacts_max_objects}
+    maxSize: ${ARGOCD_ENV_gitlab_artifacts_storage_size}
 ---
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
@@ -31,8 +31,8 @@ spec:
   bucketName: gitlab-uploads
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"
+    maxObjects: ${ARGOCD_ENV_gitlab_uploads_max_objects}
+    maxSize: ${ARGOCD_ENV_gitlab_uploads_storage_size}
 ---
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
@@ -43,8 +43,8 @@ spec:
   bucketName: gitlab-packages
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"
+    maxObjects: ${ARGOCD_ENV_gitlab_packages_max_objects}
+    maxSize: ${ARGOCD_ENV_gitlab_packages_storage_size}
 --- 
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
@@ -55,8 +55,8 @@ spec:
   bucketName: registry
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"
+    maxObjects: ${ARGOCD_ENV_gitlab_registry_max_objects}
+    maxSize: ${ARGOCD_ENV_gitlab_registry_storage_size}
 --- 
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
@@ -67,8 +67,8 @@ spec:
   bucketName: gitlab-mr-diffs
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"
+    maxObjects: ${ARGOCD_ENV_gitlab_mrdiffs_max_objects}
+    maxSize: ${ARGOCD_ENV_gitlab_mrdiffs_storage_size}
 --- 
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
@@ -79,8 +79,8 @@ spec:
   bucketName: gitlab-terraform-state
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"  
+    maxObjects: ${ARGOCD_ENV_gitlab_tfstate_max_objects}
+    maxSize: ${ARGOCD_ENV_gitlab_tfstate_storage_size}
 --- 
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
@@ -91,8 +91,8 @@ spec:
   bucketName: gitlab-ci-secure-files
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"                
+    maxObjects: ${ARGOCD_ENV_gitlab_cisecurefiles_max_objects}
+    maxSize: ${ARGOCD_ENV_gitlab_cisecurefiles_storage_size}               
 --- 
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
@@ -103,8 +103,8 @@ spec:
   bucketName: gitlab-dependency-proxy
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000"
-    maxSize: "2G"  
+    maxObjects: ${ARGOCD_ENV_gitlab_dep_proxy_max_objects}
+    maxSize: ${ARGOCD_ENV_gitlab_dep_proxy_storage_size}
 --- 
 apiVersion: v1
 kind: ServiceAccount
