@@ -32,6 +32,7 @@ dependency "k8s_deploy" {
     target_group_vpn_port = 0
     internal_load_balancer_dns = "null"
     external_load_balancer_dns = "null"
+    internal_k8s_network_cidr = ["none"]
     secrets_key_map = {
       iac_user_cred_id_key = "testkey1"
       iac_user_cred_secret_key = "testkey2"
@@ -89,6 +90,7 @@ inputs = {
     external_load_balancer_dns        = dependency.k8s_deploy.outputs.external_load_balancer_dns
     wireguard_ingress_port            = dependency.k8s_deploy.outputs.target_group_vpn_port
     ext_dns_cloud_policy              = dependency.k8s_deploy.outputs.ext_dns_cloud_policy
+    internal_k8s_cidr                 = dependency.k8s_deploy.outputs.internal_k8s_network_cidr[0]
     cloud_platform_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_id_key]
     cloud_platform_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_secret_key]
     } , local.common_vars, local.env_vars)))

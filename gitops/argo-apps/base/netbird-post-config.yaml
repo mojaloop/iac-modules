@@ -70,7 +70,7 @@ spec:
           value: "${ARGOCD_ENV_cluster_name}"
 
         - name: "cluster_cidr"
-          value: "${ARGOCD_ENV_security_netbird_vpc_cidr}"
+          value: "${ARGOCD_ENV_security_netbird_internal_k8s_cidr}"
 
         - name: "rbac_user_group"
           value: "${ARGOCD_ENV_security_netbird_rbac_user_group}"
