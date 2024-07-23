@@ -54,11 +54,14 @@ spec:
         - name: "netbird_preconfig_output_secret"
           value: "${ARGOCD_ENV_security_netbird_preconfig_output_secret}"
 
-        - name: "token_secret_name"
-          value: "${ARGOCD_ENV_security_netbird_token_secret_name}"
+        - name: "setup_key_secret_name"
+          value: "${ARGOCD_ENV_security_netbird_setup_key_secret_name}"
 
-        - name: "token_secret_key"
-          value: "${ARGOCD_ENV_security_netbird_token_secret_key}"
+        - name: "gw_setup_key_secret_key"
+          value: "${ARGOCD_ENV_security_netbird_gw_setup_key_secret_key}"
+
+        - name: "build_setup_key_secret_key"
+          value: "${ARGOCD_ENV_security_netbird_build_setup_key_secret_key}"
 
         - name: "netbird_ansible_collection_tag"
           value: ${ARGOCD_ENV_security_netbird_ansible_collection_tag}
