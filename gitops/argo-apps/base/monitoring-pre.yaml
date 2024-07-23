@@ -6,7 +6,7 @@ metadata:
   # namespace: ${ARGOCD_ENV_monitoring_app_namespace}
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: '1'
+    argocd.argoproj.io/sync-wave: "10"
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -47,7 +47,7 @@ spec:
         #   value: "${ARGOCD_ENV_gitlab_pre_redis_cluster_size}"
 
         # - name: "redis_storage_size"
-        #   value: "${ARGOCD_ENV_gitlab_pre_redis_storage_size}"          
+        #   value: "${ARGOCD_ENV_gitlab_pre_redis_storage_size}"
 
         # - name: "postgres_replicas"
         #   value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
