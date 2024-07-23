@@ -197,7 +197,7 @@ module "generate_mojaloop_files" {
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
     updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}=${key}:${value}"])
     updater_alias                                                     = [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}"]
-
+    hub_name                                                          = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
