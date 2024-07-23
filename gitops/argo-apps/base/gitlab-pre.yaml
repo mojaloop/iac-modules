@@ -43,7 +43,7 @@ spec:
           value: "${ARGOCD_ENV_gitlab_pre_redis_cluster_size}"
 
         - name: "redis_storage_size"
-          value: "${ARGOCD_ENV_gitlab_pre_redis_storage_size}"          
+          value: "${ARGOCD_ENV_gitlab_pre_redis_storage_size}"
 
         - name: "postgres_replicas"
           value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
@@ -80,10 +80,10 @@ spec:
 
         - name: "vault_namespace"
           value: "${ARGOCD_ENV_vault_vault_namespace}"
-        
+
         - name: "git_lfs_max_objects"
           value: "${ARGOCD_ENV_gitlab_pre_git_lfs_max_objects}"
-        
+
         - name: "git_lfs_storage_size"
           value: "${ARGOCD_ENV_gitlab_pre_git_lfs_storage_size}"
 
@@ -102,14 +102,14 @@ spec:
         - name: "gitlab_packages_max_objects"
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_packages_max_objects}"
 
-        - name: "gitlab_packages_storage_size"        
+        - name: "gitlab_packages_storage_size"
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_packages_storage_size}"
 
         - name: "gitlab_registry_max_objects"
-          value: "${ARGOCD_ENV_gitlab_registry_max_objects}"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_registry_max_objects}"
 
         - name: "gitlab_registry_storage_size"
-          value: "${ARGOCD_ENV_gitlab_registry_storage_size}"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_egistry_storage_size}"
 
         - name: "gitlab_mrdiffs_max_objects"
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_mrdiffs_max_objects}"
