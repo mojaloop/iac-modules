@@ -34,8 +34,8 @@ spec:
     kind: StatefulSet
     name: "central-monitoring-grafana-mimir-compactor"
     jsonPointers:
-      - /spec/volumeClaimTemplates/0/apiVersion
-      - /spec/volumeClaimTemplates/0/kind
+      - /spec/volumeClaimTemplates
+      # - /spec/volumeClaimTemplates/0/kind
   destination:
     server: "https://kubernetes.default.svc"
     # namespace: ${ARGOCD_ENV_monitoring_pre_namespace}
