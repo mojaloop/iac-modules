@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# resources:
+# - https://raw.githubusercontent.com/grafana/grafana-operator/v5.6.0/deploy/kustomize/base/crds.yaml
+helmCharts:
+- name: grafana-mimir
+  releaseName: central-monitoring
+  version: 1.2.7
+  repo: oci://registry-1.docker.io/bitnamicharts
+  valuesFile: values-mimir.yaml
+  namespace: monitoring

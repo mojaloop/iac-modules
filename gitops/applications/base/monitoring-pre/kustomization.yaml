@@ -7,9 +7,3 @@ helmCharts:
   releaseName: prometheus-operator-crds
   version: 8.0.1
   repo: https://prometheus-community.github.io/helm-charts/
-- name: grafana-mimir
-  releaseName: central-monitoring
-  version: 1.2.7
-  repo: oci://registry-1.docker.io/bitnamicharts
-  valuesFile: values-mimir.yaml
-  namespace: monitoring

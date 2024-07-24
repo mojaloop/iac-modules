@@ -40,3 +40,4 @@ resources:
   - ../../../base/gitlab.yaml
   # monitoring
   - ../../../base/monitoring-pre.yaml
+  - ../../../base/monitoring.yaml

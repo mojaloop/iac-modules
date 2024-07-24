@@ -1,0 +1,86 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # name: ${ARGOCD_ENV_monitoring_pre_app_name}
+  name: monitoring
+  # namespace: ${ARGOCD_ENV_monitoring_app_namespace}
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ServerSideApply=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    # namespace: ${ARGOCD_ENV_monitoring_pre_namespace}
+    namespace: monitoring
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+    path: gitops/applications/base/monitoring
+    plugin:
+      name: envsubst
+      env:
+        - name: "gitlab_namespace"
+          value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
+
+        # - name: "redis_cluster_size"
+        #   value: "${ARGOCD_ENV_gitlab_pre_redis_cluster_size}"
+
+        # - name: "redis_storage_size"
+        #   value: "${ARGOCD_ENV_gitlab_pre_redis_storage_size}"
+
+        # - name: "postgres_replicas"
+        #   value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
+
+        # - name: "postgres_proxy_replicas"
+        #   value: "${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}"
+
+        # - name: "postgres_storage_size"
+        #   value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"
+
+        # - name: "pgdb_helm_version"
+        #   value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
+
+        # - name: "gitlab_app_name"
+        #   value: "${ARGOCD_ENV_gitlab_gitlab_app_name}"
+
+        # - name: "praefect_postgres_replicas"
+        #   value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_replicas}"
+
+        # - name: "praefect_postgres_proxy_replicas"
+        #   value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_proxy_replicas}"
+
+        # - name: "praefect_postgres_storage_size"
+        #   value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"
+
+        # - name: "pgdb_helm_version"
+        #   value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
+
+        # - name: "vault_k8s_admin_auth_path"
+        #   value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+        # - name: "vault_k8s_admin_role_name"
+        #   value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+        # - name: "vault_namespace"
+        #   value: "${ARGOCD_ENV_vault_vault_namespace}"
