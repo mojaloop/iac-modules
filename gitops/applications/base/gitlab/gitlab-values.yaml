@@ -224,7 +224,6 @@ global:
       port: 5432
       user: praefect
       dbName: praefect
-      #sslMode: enable
     # serviceName:
     service:
       name: praefect
