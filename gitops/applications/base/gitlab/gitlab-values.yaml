@@ -1350,6 +1350,9 @@ gitlab:
     antiAffinityLabels:
       matchLabels:
         app: gitaly
+    backups:
+      cron:
+        enabled: false
   ## https://docs.gitlab.com/charts/charts/gitlab/migrations
   #   migrations:
   #     enabled: false
