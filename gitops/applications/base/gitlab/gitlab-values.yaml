@@ -224,6 +224,7 @@ global:
       port: 5432
       user: praefect
       dbName: praefect
+      sslMode: verify-ca
     # serviceName:
     service:
       name: praefect
