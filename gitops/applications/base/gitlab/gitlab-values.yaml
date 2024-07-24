@@ -1367,7 +1367,7 @@ gitlab:
             "-c",
             "cd srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb",
           ]
-        image: registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ee
+        image: registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ee:v17.1.2
         env:
           - name: TOKEN_VALUE
             valueFrom:
