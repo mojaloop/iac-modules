@@ -36,8 +36,8 @@ resources:
   - ../../../base/nexus-pre.yaml
   - ../../../base/nexus-post-config.yaml
   # gitlab
-  # - ../../../base/gitlab-pre.yaml
-  # - ../../../base/gitlab.yaml
+  - ../../../base/gitlab-pre.yaml
+  - ../../../base/gitlab.yaml
   # monitoring
   - ../../../base/monitoring-pre.yaml
   - ../../../base/monitoring.yaml
