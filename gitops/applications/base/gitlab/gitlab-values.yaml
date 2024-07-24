@@ -1359,7 +1359,7 @@ gitlab:
       - name: ruby-script-volume
         configMap:
           name: ruby-script
-    extraContainers: |
+    extraInitContainers: |
       - name: post-configure
         command:
           [
