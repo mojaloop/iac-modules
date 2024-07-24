@@ -1114,6 +1114,7 @@ ml-testing-toolkit:
         inputValues:
           SIMPAYER_CURRENCY: ${ttk_test_currency1}
           SIMPAYEE_CURRENCY: ${ttk_test_currency1}
+          HUB_NAME: *HUB_NAME
           currency: ${ttk_test_currency1}
           currency2: ${ttk_test_currency2}
           cgscurrency: ${ttk_test_currency3}
