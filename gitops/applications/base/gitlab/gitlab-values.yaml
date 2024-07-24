@@ -1374,19 +1374,36 @@ gitlab:
               secretKeyRef:
                 name: ${ARGOCD_ENV_gitlab_root_token_secret_name}
                 key: ${ARGOCD_ENV_gitlab_root_token_secret_key}
+          - name: CONFIG_TEMPLATE_DIRECTORY
+            value: /var/opt/gitlab/templates
+          - name: CONFIG_DIRECTORY
+            value: /srv/gitlab/config
         volumeMounts:
-          - name: toolbox-config
-            mountPath: /config
-            readOnly: true
-          - name: init-toolbox-secrets
-            mountPath: /init-config
-            readOnly: true
-          - name: toolbox-secrets
-            mountPath: /init-secrets
-            readOnly: false
           - name: ruby-script-volume
             mountPath: /tmp/maketoken.rb
             subPath: maketoken.rb
+          - name: toolbox-config
+            mountPath: /var/opt/gitlab/templates
+          - name: toolbox-config
+            mountPath: /etc/krb5.conf
+            subPath: krb5.conf
+          - name: toolbox-config
+            mountPath: /srv/gitlab/config/initializers/smtp_settings.rb
+            subPath: smtp_settings.rb
+          - name: toolbox-secrets
+            readOnly: true
+            mountPath: /etc/gitlab
+          - name: toolbox-secrets
+            mountPath: /srv/gitlab/config/secrets.yml
+            subPath: rails-secrets/secrets.yml
+          - name: toolbox-tmp
+            mountPath: /srv/gitlab/tmp
+          - name: etc-ssl-certs
+            readOnly: true
+            mountPath: /etc/ssl/certs/
+          - name: etc-pki-ca-trust-extracted-pem
+            readOnly: true
+            mountPath: /etc/pki/ca-trust/extracted/pem
   ## https://docs.gitlab.com/charts/charts/gitlab/migrations
   #   migrations:
   #     enabled: false
