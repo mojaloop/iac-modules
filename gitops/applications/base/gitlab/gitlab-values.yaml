@@ -213,8 +213,8 @@ global:
     authToken: {}
     autoMigrate: true
     dbSecret:
-       secret: praefect-postgresql-credentials
-       key: password
+      secret: praefect-postgresql-credentials
+      key: password
     virtualStorages:
       - name: default
         gitalyReplicas: 3
@@ -364,7 +364,8 @@ global:
         {}
         # server_side_encryption:
         # server_side_encryption_kms_key_id
-      connection: {}
+      connection:
+        {}
         # secret: gitlab-secret-registry
         # key: connection
     lfs:
@@ -394,7 +395,7 @@ global:
       bucket: gitlab-packages
       connection:
         secret: gitlab-rails-secret-packages
-        key: connection      
+        key: connection
     externalDiffs:
       enabled: true
       when:
@@ -402,26 +403,26 @@ global:
       bucket: gitlab-mr-diffs
       connection:
         secret: gitlab-rails-secret-mr-diffs
-        key: connection   
+        key: connection
     terraformState:
       enabled: true
       bucket: gitlab-terraform-state
       connection:
         secret: gitlab-rails-secret-terraform-state
-        key: connection  
+        key: connection
     ciSecureFiles:
       enabled: true
       bucket: gitlab-ci-secure-files
       connection:
         secret: gitlab-rails-secret-ci-secure-files
-        key: connection  
+        key: connection
     dependencyProxy:
       enabled: true
       proxy_download: true
       bucket: gitlab-dependency-proxy
       connection:
         secret: gitlab-rails-secret-dependency-proxy
-        key: connection  
+        key: connection
 
     backups:
       bucket: gitlab-backups
@@ -624,7 +625,7 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/gitlab/kas/
   kas:
-    enabled: false
+    enabled: true
     service:
       apiExternalPort: 8153 # port for connections from the GitLab backend
     tls:
