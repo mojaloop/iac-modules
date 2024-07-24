@@ -61,7 +61,7 @@ global:
     allowClusterRoles: true
   ## https://docs.gitlab.com/charts/charts/globals#configure-host-settings
   hosts:
-    domain: example.com
+    domain: ${ARGOCD_ENV_gitlab_dns_subdomain}
     hostSuffix:
     https: true
     externalIP:
