@@ -207,17 +207,23 @@ global:
       # secretName:
 
   praefect:
-    enabled: false
+    enabled: true
     ntpHost: pool.ntp.org
     replaceInternalGitaly: true
     authToken: {}
     autoMigrate: true
-    dbSecret: {}
+    dbSecret:
+       secret: praefect-postgresql-credentials
+       key: password
     virtualStorages:
       - name: default
         gitalyReplicas: 3
         maxUnavailable: 1
     psql:
+      host: praefect-pg-db-pgbouncer.gitlab.svc
+      port: 5432
+      user: praefect
+      dbName: praefect
       sslMode: disable
     # serviceName:
     service:
