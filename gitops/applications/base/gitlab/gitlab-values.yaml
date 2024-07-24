@@ -1352,9 +1352,9 @@ gitlab:
         app: gitaly
     backups:
       objectStorage:
-        backend: "gcs"
-      cron:
-        enabled: false
+        config:
+          secret: gitlab-rails-secret-backups
+          key: connection
   ## https://docs.gitlab.com/charts/charts/gitlab/migrations
   #   migrations:
   #     enabled: false
