@@ -140,3 +140,9 @@ spec:
 
         - name: "gitlab_runner_cache_storage_size"
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_runner_cache_storage_size}"
+
+        - name: "gitlab_root_token_secret_name"
+          value: "root-token-secret"
+
+        - name: "gitlab_root_token_secret_key"
+          value: "token"
