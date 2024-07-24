@@ -17,6 +17,7 @@ resources:
   - ../../../base/consul.yaml
   - ../../../base/percona-operator.yaml
   - ../../../base/redis-operator.yaml
+  - ../../../base/monitoring-pre.yaml
   # vault
   - ../../../base/vault.yaml
   - ../../../base/vault-post-config.yaml
@@ -39,5 +40,4 @@ resources:
   - ../../../base/gitlab-pre.yaml
   - ../../../base/gitlab.yaml
   # monitoring
-  - ../../../base/monitoring-pre.yaml
   # - ../../../base/monitoring.yaml
