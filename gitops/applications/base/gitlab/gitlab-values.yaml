@@ -1300,26 +1300,25 @@ shared-secrets:
 ## Installation & configuration of gitlab/gitlab-runner
 ## See requirements.yaml for current version
 gitlab-runner:
-  install: false
+  install: true
   rbac:
     create: true
   runners:
     locked: false
     # Set secret to an arbitrary value because the runner chart renders the gitlab-runner.secret template only if it is not empty.
     # The parent/GitLab chart overrides the template to render the actual secret name.
-    secret: "nonempty"
+    secret: "gitlab-runner-cache"
     config: |
       [[runners]]
         [runners.kubernetes]
         image = "ubuntu:22.04"
-        {{- if .Values.global.minio.enabled }}
         [runners.cache]
           Type = "s3"
           Path = "gitlab-runner"
           Shared = true
           [runners.cache.s3]
-            ServerAddress = {{ include "gitlab-runner.cache-tpl.s3ServerAddress" . }}
-            BucketName = "runner-cache"
+            ServerAddress = rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
+            BucketName = "gitlab-runner-cache"
             BucketLocation = "us-east-1"
             Insecure = false
         {{ end }}

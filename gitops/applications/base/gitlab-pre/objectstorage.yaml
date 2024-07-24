@@ -106,6 +106,18 @@ spec:
     maxObjects: "${ARGOCD_ENV_gitlab_dep_proxy_max_objects}"
     maxSize: "${ARGOCD_ENV_gitlab_dep_proxy_storage_size}"
 --- 
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-runner-cache
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-runner-cache
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+--- 
 apiVersion: v1
 kind: ServiceAccount
 metadata:
