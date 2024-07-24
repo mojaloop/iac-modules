@@ -1,3 +1,26 @@
+#!/bin/bash
+LOCKFILE="/tmp/myscript.lock"
+
+# Function to remove the lock file on exit
+cleanup() {
+    echo "cleaning up lockfile"
+    rm -f "$LOCKFILE"
+}
+
+# Trap signals and remove lock file if script exits unexpectedly
+trap cleanup EXIT
+
+# Check if the lock file exists
+if [ -e "$LOCKFILE" ]; then
+    echo "Script is already running."
+    exit 1
+fi
+
+# Create the lock file
+touch "$LOCKFILE"
+
+# actual script work below
+
 source setlocalvars.sh
 
 git pull
@@ -11,3 +34,6 @@ exit -1
 fi
 
 terragrunt run-all apply --terragrunt-non-interactive
+
+# Cleanup lock file on normal exit
+cleanup
