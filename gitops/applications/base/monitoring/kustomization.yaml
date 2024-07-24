@@ -17,7 +17,7 @@ patches:
       name: central-monitoring-grafana-mimir-compactor
     patch: |-
       - op: add
-        path: /spec/volumeClaimTemplates/0
+        path: /spec/volumeClaimTemplates/-
         value:
           name: apiVersion
           value: v1
