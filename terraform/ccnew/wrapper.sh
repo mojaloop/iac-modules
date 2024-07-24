@@ -35,5 +35,4 @@ fi
 
 terragrunt run-all apply --terragrunt-non-interactive
 
-# Cleanup lock file on normal exit
-cleanup
+# no need to call cleanup manually. We are using trap function
