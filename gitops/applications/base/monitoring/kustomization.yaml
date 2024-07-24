@@ -10,8 +10,4 @@ helmCharts:
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-mimir.yaml
   namespace: monitoring
-- name: grafana-operator
-  releaseName: grafana
-  version: 4.4.11
-  repo: oci://registry-1.docker.io/bitnamicharts
-  valuesFile: values-grafana-operator.yaml
+
