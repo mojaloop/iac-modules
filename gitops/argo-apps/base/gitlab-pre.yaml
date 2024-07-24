@@ -109,7 +109,7 @@ spec:
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_registry_max_objects}"
 
         - name: "gitlab_registry_storage_size"
-          value: "${ARGOCD_ENV_gitlab_pre_gitlab_egistry_storage_size}"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_registry_storage_size}"
 
         - name: "gitlab_mrdiffs_max_objects"
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_mrdiffs_max_objects}"
