@@ -426,7 +426,7 @@ global:
 
     backups:
       bucket: gitlab-backups
-      tmpBucket: tmp
+      tmpBucket: gitlab-backups-tmp
 
     ## https://docs.gitlab.com/charts/charts/globals#outgoing-email
     ## Microsoft Graph Mailer settings
