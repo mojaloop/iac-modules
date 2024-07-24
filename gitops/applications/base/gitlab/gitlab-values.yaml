@@ -1355,6 +1355,38 @@ gitlab:
         config:
           secret: gitlab-rails-secret-backups
           key: connection
+    extraVolumes:
+      - name: ruby-script-volume
+        configMap:
+          name: ruby-script
+    extraContainers:
+      - name: post-configure
+        command:
+          [
+            "bash",
+            "-c",
+            "cd srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb",
+          ]
+        image: registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ee
+        env:
+          - name: TOKEN_VALUE
+            valueFrom:
+              secretKeyRef:
+                name: ${ARGOCD_ENV_gitlab_root_token_secret_name}
+                key: ${ARGOCD_ENV_gitlab_root_token_secret_key}
+        volumeMounts:
+          - name: toolbox-config
+            mountPath: /config
+            readOnly: true
+          - name: init-toolbox-secrets
+            mountPath: /init-config
+            readOnly: true
+          - name: toolbox-secrets
+            mountPath: /init-secrets
+            readOnly: false
+          - name: ruby-script-volume
+            mountPath: /tmp/maketoken.rb
+            subPath: maketoken.rb
   ## https://docs.gitlab.com/charts/charts/gitlab/migrations
   #   migrations:
   #     enabled: false
