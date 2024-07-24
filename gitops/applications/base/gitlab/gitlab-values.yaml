@@ -1351,6 +1351,8 @@ gitlab:
       matchLabels:
         app: gitaly
     backups:
+      objectStorage:
+        backend: "gcs"
       cron:
         enabled: false
   ## https://docs.gitlab.com/charts/charts/gitlab/migrations
