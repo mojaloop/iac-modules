@@ -575,8 +575,7 @@ global:
 
     # Config that only applies to the defaults on initial install
     initialDefaults:
-      {}
-      # signupEnabled:
+      signupEnabled: false
   ## End of global.appConfig
 
   oauth:
