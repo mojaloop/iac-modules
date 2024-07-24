@@ -3,6 +3,9 @@ third_party_enabled: false
 mcm_chart_version: 1.1.0
 mojaloop_chart_version: 16.0.0
 ttk_testcases_tag: 16.0.0
+ttk_test_currency1: EUR
+ttk_test_currency2: USD
+ttk_test_currency3: CAD
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 finance_portal_ingress_internal_lb: true

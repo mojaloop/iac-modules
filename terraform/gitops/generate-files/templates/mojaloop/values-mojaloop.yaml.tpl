@@ -3,7 +3,7 @@ CONFIG:
   ## HUB CONFIGURATION
   hub_participant: &HUB_PARTICIPANT
     id: 1
-    name: "${hub_name}"
+    name: &HUB_NAME "${hub_name}"
 
   ## ACCOUNT-LOOKUP BACKEND
   als_db_database: &ALS_DB_DATABASE "${account_lookup_db_database}"
@@ -957,16 +957,15 @@ mojaloop-ttk-simulators:
               host: ttksim1.${ingress_subdomain}
 
         extraEnvironments:
-          hub-k8s-default-environment.json: &ttksim1InputValues {
-            "inputValues": {
-              "TTKSIM1_CURRENCY": "${ttk_test_currency1}",
-              "TTKSIM2_CURRENCY": "${ttk_test_currency1}",
-              "TTKSIM3_CURRENCY": "${ttk_test_currency1}",
-              "TTKSIM1_FSPID": "ttksim1",
-              "TTKSIM2_FSPID": "ttksim2",
-              "TTKSIM3_FSPID": "ttksim3"
-            }
-          }
+          hub-k8s-default-environment.json: &ttksim1InputValues
+            inputValues:
+              HUB_NAME: *HUB_NAME
+              TTKSIM1_CURRENCY: "${ttk_test_currency1}"
+              TTKSIM2_CURRENCY: "${ttk_test_currency1}"
+              TTKSIM3_CURRENCY: "${ttk_test_currency1}"
+              TTKSIM1_FSPID: "ttksim1"
+              TTKSIM2_FSPID: "ttksim2"
+              TTKSIM3_FSPID: "ttksim3"
         config:
           mongodb:
             host: *TTK_MONGO_HOST
@@ -1111,70 +1110,67 @@ ml-testing-toolkit:
       simNameTTKSim3: 'ttksim3'
     extraEnvironments:
       hub-k8s-cgs-environment.json: null
-      hub-k8s-default-environment.json: &ttkInputValues {
-        "inputValues": {
-          "SIMPAYER_CURRENCY": "${ttk_test_currency1}",
-          "SIMPAYEE_CURRENCY": "${ttk_test_currency1}",
-          "currency": "${ttk_test_currency1}",
-          "currency2": "${ttk_test_currency2}",
-          "cgscurrency": "${ttk_test_currency3}",
-          "SIMPLE_ROUTING_MODE_ENABLED": ${quoting_service_simple_routing_mode_enabled},
-          "ON_US_TRANSFERS_ENABLED": false,
-          "ENABLE_WS_ASSERTIONS": true,
-          "NET_DEBIT_CAP": "10000000",
-          "accept": "application/vnd.interoperability.parties+json;version=1.1",
-          "acceptParties": "application/vnd.interoperability.parties+json;version=1.1",
-          "acceptPartiesOld": "application/vnd.interoperability.parties+json;version=1.0",
-          "acceptPartiesNotSupported": "application/vnd.interoperability.parties+json;version=2.0",
-          "acceptParticipants": "application/vnd.interoperability.participants+json;version=1.1",
-          "acceptParticipantsOld": "application/vnd.interoperability.participants+json;version=1.0",
-          "acceptParticipantsNotSupported": "application/vnd.interoperability.participants+json;version=2.0",
-          "acceptQuotes": "application/vnd.interoperability.quotes+json;version=1.1",
-          "acceptQuotesOld": "application/vnd.interoperability.quotes+json;version=1.0",
-          "acceptQuotesNotSupported": "application/vnd.interoperability.quotes+json;version=2.0",
-          "acceptTransfers": "application/vnd.interoperability.transfers+json;version=1.1",
-          "acceptTransfersOld": "application/vnd.interoperability.transfers+json;version=1.0",
-          "acceptTransfersNotSupported": "application/vnd.interoperability.transfers+json;version=2.0",
-          "acceptTransactionRequests": "application/vnd.interoperability.transactionRequests+json;version=1.1",
-          "acceptTransactionRequestsOld": "application/vnd.interoperability.transactionRequests+json;version=1.0",
-          "acceptTransactionRequestsNotSupported": "application/vnd.interoperability.transactionRequests+json;version=2.0",
-          "acceptAuthorizations": "application/vnd.interoperability.authorizations+json;version=1.1",
-          "acceptAuthorizationsOld": "application/vnd.interoperability.authorizations+json;version=1.0",
-          "acceptAuthorizationsNotSupported": "application/vnd.interoperability.authorizations+json;version=2.0",
-          "acceptBulkTransfers": "application/vnd.interoperability.bulkTransfers+json;version=1.1",
-          "acceptBulkTransfersOld": "application/vnd.interoperability.bulkTransfers+json;version=1.0",
-          "acceptBulkTransfersNotSupported": "application/vnd.interoperability.bulkTransfers+json;version=2.0",
-          "contentType": "application/vnd.interoperability.parties+json;version=1.1",
-          "contentTypeTransfers": "application/vnd.interoperability.transfers+json;version=1.1",
-          "contentTypeTransfersOld": "application/vnd.interoperability.transfers+json;version=1.0",
-          "contentTypeTransfersNotSupported": "application/vnd.interoperability.transfers+json;version=2.0",
-          "contentTypeParties": "application/vnd.interoperability.parties+json;version=1.1",
-          "contentTypePartiesOld": "application/vnd.interoperability.parties+json;version=1.0",
-          "contentTypePartiesNotSupported": "application/vnd.interoperability.parties+json;version=2.0",
-          "contentTypeParticipants": "application/vnd.interoperability.participants+json;version=1.1",
-          "contentTypeParticipantsOld": "application/vnd.interoperability.participants+json;version=1.0",
-          "contentTypeParticipantsNotSupported": "application/vnd.interoperability.participants+json;version=2.0",
-          "contentTypeQuotes": "application/vnd.interoperability.quotes+json;version=1.1",
-          "contentTypeQuotesOld": "application/vnd.interoperability.quotes+json;version=1.0",
-          "contentTypeQuotesNotSupported": "application/vnd.interoperability.quotes+json;version=2.0",
-          "contentTypeTransactionRequests": "application/vnd.interoperability.transactionRequests+json;version=1.1",
-          "contentTypeTransactionRequestsOld": "application/vnd.interoperability.transactionRequests+json;version=1.0",
-          "contentTypeTransactionRequestsNotSupported": "application/vnd.interoperability.transactionRequests+json;version=2.0",
-          "contentTypeAuthorizations": "application/vnd.interoperability.authorizations+json;version=1.1",
-          "contentTypeAuthorizationsOld": "application/vnd.interoperability.authorizations+json;version=1.0",
-          "contentTypeAuthorizationsNotSupported": "application/vnd.interoperability.authorizations+json;version=2.0",
-          "contentBulkTransfers": "application/vnd.interoperability.bulkTransfers+json;version=1.1",
-          "contentBulkTransfersOld": "application/vnd.interoperability.bulkTransfers+json;version=1.0",
-          "contentBulkTransfersNotSupported": "application/vnd.interoperability.bulkTransfers+json;version=2.0",
-          "expectedPartiesVersion": "1.1",
-          "expectedParticipantsVersion": "1.1",
-          "expectedQuotesVersion": "1.1",
-          "expectedTransfersVersion": "1.1",
-          "expectedAuthorizationsVersion": "1.1",
-          "expectedTransactionRequestsVersion": "1.1"
-        }
-      }
-
+      hub-k8s-default-environment.json: &ttkInputValues
+        inputValues:
+          SIMPAYER_CURRENCY: ${ttk_test_currency1}
+          SIMPAYEE_CURRENCY: ${ttk_test_currency1}
+          currency: ${ttk_test_currency1}
+          currency2: ${ttk_test_currency2}
+          cgscurrency: ${ttk_test_currency3}
+          SIMPLE_ROUTING_MODE_ENABLED: ${quoting_service_simple_routing_mode_enabled}
+          ON_US_TRANSFERS_ENABLED: false
+          ENABLE_WS_ASSERTIONS: true
+          NET_DEBIT_CAP: "10000000"
+          accept: application/vnd.interoperability.parties+json;version=1.1
+          acceptParties: application/vnd.interoperability.parties+json;version=1.1
+          acceptPartiesOld: application/vnd.interoperability.parties+json;version=1.0
+          acceptPartiesNotSupported: application/vnd.interoperability.parties+json;version=2.0
+          acceptParticipants: application/vnd.interoperability.participants+json;version=1.1
+          acceptParticipantsOld: application/vnd.interoperability.participants+json;version=1.0
+          acceptParticipantsNotSupported: application/vnd.interoperability.participants+json;version=2.0
+          acceptQuotes: application/vnd.interoperability.quotes+json;version=1.1
+          acceptQuotesOld: application/vnd.interoperability.quotes+json;version=1.0
+          acceptQuotesNotSupported: application/vnd.interoperability.quotes+json;version=2.0
+          acceptTransfers: application/vnd.interoperability.transfers+json;version=1.1
+          acceptTransfersOld: application/vnd.interoperability.transfers+json;version=1.0
+          acceptTransfersNotSupported: application/vnd.interoperability.transfers+json;version=2.0
+          acceptTransactionRequests: application/vnd.interoperability.transactionRequests+json;version=1.1
+          acceptTransactionRequestsOld: application/vnd.interoperability.transactionRequests+json;version=1.0
+          acceptTransactionRequestsNotSupported: application/vnd.interoperability.transactionRequests+json;version=2.0
+          acceptAuthorizations: application/vnd.interoperability.authorizations+json;version=1.1
+          acceptAuthorizationsOld: application/vnd.interoperability.authorizations+json;version=1.0
+          acceptAuthorizationsNotSupported: application/vnd.interoperability.authorizations+json;version=2.0
+          acceptBulkTransfers: application/vnd.interoperability.bulkTransfers+json;version=1.1
+          acceptBulkTransfersOld: application/vnd.interoperability.bulkTransfers+json;version=1.0
+          acceptBulkTransfersNotSupported: application/vnd.interoperability.bulkTransfers+json;version=2.0
+          contentType: application/vnd.interoperability.parties+json;version=1.1
+          contentTypeTransfers: application/vnd.interoperability.transfers+json;version=1.1
+          contentTypeTransfersOld: application/vnd.interoperability.transfers+json;version=1.0
+          contentTypeTransfersNotSupported: application/vnd.interoperability.transfers+json;version=2.0
+          contentTypeParties: application/vnd.interoperability.parties+json;version=1.1
+          contentTypePartiesOld: application/vnd.interoperability.parties+json;version=1.0
+          contentTypePartiesNotSupported: application/vnd.interoperability.parties+json;version=2.0
+          contentTypeParticipants: application/vnd.interoperability.participants+json;version=1.1
+          contentTypeParticipantsOld: application/vnd.interoperability.participants+json;version=1.0
+          contentTypeParticipantsNotSupported: application/vnd.interoperability.participants+json;version=2.0
+          contentTypeQuotes: application/vnd.interoperability.quotes+json;version=1.1
+          contentTypeQuotesOld: application/vnd.interoperability.quotes+json;version=1.0
+          contentTypeQuotesNotSupported: application/vnd.interoperability.quotes+json;version=2.0
+          contentTypeTransactionRequests: application/vnd.interoperability.transactionRequests+json;version=1.1
+          contentTypeTransactionRequestsOld: application/vnd.interoperability.transactionRequests+json;version=1.0
+          contentTypeTransactionRequestsNotSupported: application/vnd.interoperability.transactionRequests+json;version=2.0
+          contentTypeAuthorizations: application/vnd.interoperability.authorizations+json;version=1.1
+          contentTypeAuthorizationsOld: application/vnd.interoperability.authorizations+json;version=1.0
+          contentTypeAuthorizationsNotSupported: application/vnd.interoperability.authorizations+json;version=2.0
+          contentBulkTransfers: application/vnd.interoperability.bulkTransfers+json;version=1.1
+          contentBulkTransfersOld: application/vnd.interoperability.bulkTransfers+json;version=1.0
+          contentBulkTransfersNotSupported: application/vnd.interoperability.bulkTransfers+json;version=2.0
+          expectedPartiesVersion: "1.1"
+          expectedParticipantsVersion: "1.1"
+          expectedQuotesVersion: "1.1"
+          expectedTransfersVersion: "1.1"
+          expectedAuthorizationsVersion: "1.1"
+          expectedTransactionRequestsVersion: "1.1"
   ml-testing-toolkit-frontend:
     tolerations: *MOJALOOP_TOLERATIONS
     ingress:
