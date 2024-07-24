@@ -8,3 +8,16 @@ helmCharts:
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-mimir.yaml
 
+
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: Statefulsets
+      name: central-monitoring-grafana-mimir-compactor
+    patch: |-
+      - op: add
+        path: /spec/volumeClaimTemplates/0
+        value:
+          name: apiVersion
+          value: v1
