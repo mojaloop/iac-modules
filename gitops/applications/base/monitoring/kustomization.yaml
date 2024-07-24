@@ -19,5 +19,4 @@ patches:
       - op: add
         path: /spec/volumeClaimTemplates/-
         value:
-          name: apiVersion
-          value: v1
+          apiVersion: v1
