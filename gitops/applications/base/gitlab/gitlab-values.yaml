@@ -625,7 +625,7 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/gitlab/kas/
   kas:
-    enabled: true
+    enabled: false
     service:
       apiExternalPort: 8153 # port for connections from the GitLab backend
     tls:
