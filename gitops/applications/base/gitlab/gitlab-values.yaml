@@ -1355,11 +1355,11 @@ gitlab:
         config:
           secret: gitlab-rails-secret-backups
           key: connection
-    extraVolumes:
+    extraVolumes: |
       - name: ruby-script-volume
         configMap:
           name: ruby-script
-    extraContainers:
+    extraContainers: |
       - name: post-configure
         command:
           [
