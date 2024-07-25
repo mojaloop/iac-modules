@@ -21,7 +21,7 @@ patches:
     patch: |
       - op: add
         path: /spec/template/spec/containers/0/args/2
-        value: "cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb"
+        value: "cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb && "
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
