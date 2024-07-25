@@ -161,3 +161,6 @@ spec:
 
         - name: "gitlab_oidc_secret"
           value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"                             
+
+        - name: "zitadel_post_config_output_secret"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
