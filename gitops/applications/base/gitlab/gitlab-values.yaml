@@ -1361,12 +1361,13 @@ gitlab:
           name: ruby-script
     extraContainers: |
       - name: post-configure
-        command:
-          [
-            "/bin/bash",
-            "-c",
-            "cp -v -r -L /etc/gitlab/.s3cfg $HOME/.s3cfg && while true; do echo waiting; sleep 300; done",
-          ]
+        args: [
+          - /bin/bash
+          - '-c'
+          - >-
+            cp -v -r -L /etc/gitlab/.s3cfg $HOME/.s3cfg && while sleep 3600; do :;
+            done
+        ]
         image: registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ee:v17.1.2
         env:
           - name: TOKEN_VALUE
