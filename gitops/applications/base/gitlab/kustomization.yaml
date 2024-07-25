@@ -20,10 +20,10 @@ patches:
       name: gitlab-toolbox
     patch: |
       - op: add
-        path: /spec/template/spec/containers/toolbox/args/2
+        path: /spec/template/spec/containers/0/args/2
         value: "cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb"
       - op: add
-        path: /spec/template/spec/containers/toolbox/env/-
+        path: /spec/template/spec/containers/0/env/-
         value:
           name: TOKEN_VALUE
           valueFrom:
@@ -31,7 +31,7 @@ patches:
               name: ${ARGOCD_ENV_gitlab_root_token_secret_name}
               key: ${ARGOCD_ENV_gitlab_root_token_secret_key}
       - op: add
-        path: /spec/template/spec/containers/toolbox/volumeMounts/-
+        path: /spec/template/spec/containers/0/volumeMounts/-
         value:
           name: ruby-script-volume
           mountPath: /tmp/maketoken.rb
