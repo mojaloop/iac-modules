@@ -42,14 +42,14 @@ inter-scheme-proxy-adapter:
     PEER_ENDPOINT_A: "${peer_domain_a}"
     PEER_ENDPOINT_B: "${peer_domain_b}"
     OAUTH_TOKEN_ENDPOINT_A: "${oidc_origin_a}/${oidc_path_a}"
-    OAUTH_CLIENT_KEY_A: "${proxy_id}"
-    OAUTH_CLIENT_KEY_B: "${proxy_id}"
+    OAUTH_CLIENT_KEY_A: "${client_id_a}"
+    OAUTH_CLIENT_KEY_B: "${client_id_b}"
     OAUTH_REFRESH_SECONDS_A: 3600
     OAUTH_TOKEN_ENDPOINT_B: "${oidc_origin_b}/${oidc_path_b}"
     OAUTH_REFRESH_SECONDS_B: 3600
-    MGMT_API_WS_URL_A: "${proxy_id}-management-api-a"
+    MGMT_API_WS_URL_A: "${pm4ml_release_name}-management-api-a"
     MGMT_API_WS_PORT_A: 4005
-    MGMT_API_WS_URL_B: "${proxy_id}-management-api-b"
+    MGMT_API_WS_URL_B: "${pm4ml_release_name}-management-api-b"
     MGMT_API_WS_PORT_B: 4005
     PM4ML_ENABLED: true
     CHECK_PEER_JWS_INTERVAL: 1800000
@@ -67,7 +67,7 @@ management-api-a:
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
     AUTH_ENABLED: true
-    AUTH_CLIENT_ID: ${proxy_id}
+    AUTH_CLIENT_ID: ${client_id_a}
     CLIENT_SECRET_NAME: ${pm4ml_external_switch_a_client_secret}
     CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
     MCM_CLIENT_SECRETS_LOCATION: /tls
@@ -78,7 +78,7 @@ management-api-a:
     VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
     VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
     VAULT_MOUNT_PKI: ${vault_pki_mount}
-    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${proxy_id}/scheme-a
+    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_namespace}/scheme-a
     MOJALOOP_CONNECTOR_FQDN: "${inter_scheme_proxy_adapter_a_fqdn}"
     CALLBACK_URL: "${callback_url_scheme_a}"
     CERT_MANAGER_ENABLED: true
@@ -99,7 +99,7 @@ management-api-b:
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
     AUTH_ENABLED: true
-    AUTH_CLIENT_ID: ${proxy_id}
+    AUTH_CLIENT_ID: ${client_id_b}
     CLIENT_SECRET_NAME: ${pm4ml_external_switch_b_client_secret}
     CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
     MCM_CLIENT_SECRETS_LOCATION: /tls
@@ -110,7 +110,7 @@ management-api-b:
     VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
     VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
     VAULT_MOUNT_PKI: ${vault_pki_mount}
-    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${proxy_id}/scheme-b
+    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_namespace}/scheme-b
     MOJALOOP_CONNECTOR_FQDN: "${inter_scheme_proxy_adapter_b_fqdn}"
     CALLBACK_URL: "${callback_url_scheme_b}"
     CERT_MANAGER_ENABLED: true
@@ -133,7 +133,7 @@ ttk:
     config_files:
       user_config.json: {
         "VERSION": 1,
-        "CALLBACK_ENDPOINT": "http://${proxy_id}-inter-scheme-proxy-adapter:4000",
+        "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-inter-scheme-proxy-adapter:4000",
         "SEND_CALLBACK_ENABLE": true,
         "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
         "DEFAULT_REQUEST_TIMEOUT": 15000,

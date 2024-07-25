@@ -15,8 +15,10 @@ module "generate_pm4ml_files" {
     istio_external_wildcard_gateway_name            = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace                = var.istio_external_gateway_namespace
     pm4ml_wildcard_gateway                          = each.value.pm4ml_ingress_internal_lb ? "internal" : "external"
-    proxy_id                                        = each.key
+    proxy_id                                        = try(each.value.pm4ml_proxy_id, each.key)
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
+    client_id_a        =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_id, each.key)
+    client_id_b        =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_id, each.key)
     peer_domain_a      =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_fqdn, "extapi.${each.value.pm4ml_scheme_a_config.domain}")
     peer_domain_b      =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_fqdn, "extapi.${each.value.pm4ml_scheme_b_config.domain}")
     oidc_origin_a      =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.pm4ml_scheme_a_config.domain}")
