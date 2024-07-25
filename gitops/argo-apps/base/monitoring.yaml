@@ -32,9 +32,9 @@ spec:
   ignoreDifferences:
   - group: apps
     kind: StatefulSet
-    name: ".*grafana-mimir.*"
+    name: "central-monitoring-grafana-mimir-compactor"
     jsonPointers:
-      # - /spec/volumeClaimTemplates/-/kind
+      - /spec/volumeClaimTemplates/-/kind
       - /spec/volumeClaimTemplates/0/apiVersion
   destination:
     server: "https://kubernetes.default.svc"
