@@ -1363,7 +1363,7 @@ gitlab:
       - name: post-configure
         command:
           [
-            "bash",
+            "/bin/bash",
             "-c",
             "cp -v -r -L /etc/gitlab/.s3cfg $HOME/.s3cfg && while true; do echo waiting; sleep 300; done",
           ]
