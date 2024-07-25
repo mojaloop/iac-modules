@@ -1359,35 +1359,35 @@ gitlab:
       - name: ruby-script-volume
         configMap:
           name: ruby-script
-    extraInitContainers: |
-      - name: post-configure
-        args:
-          - /bin/bash
-          - '-c'
-          - 'cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb'
-        image: registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ee:v17.1.2
-        env:
-          - name: TOKEN_VALUE
-            valueFrom:
-              secretKeyRef:
-                name: ${ARGOCD_ENV_gitlab_root_token_secret_name}
-                key: ${ARGOCD_ENV_gitlab_root_token_secret_key}
-          - name: CONFIG_TEMPLATE_DIRECTORY
-            value: /var/opt/gitlab/templates
-          - name: CONFIG_DIRECTORY
-            value: /srv/gitlab/config
-        volumeMounts:
-          - name: ruby-script-volume
-            mountPath: /tmp/maketoken.rb
-            subPath: maketoken.rb
-          - name: toolbox-config
-            mountPath: /var/opt/gitlab/templates
-          - name: toolbox-secrets
-            readOnly: true
-            mountPath: /etc/gitlab
-          - name: toolbox-secrets
-            mountPath: /srv/gitlab/config/secrets.yml
-            subPath: rails-secrets/secrets.yml
+    # extraInitContainers: |
+    #   - name: post-configure
+    #     args:
+    #       - /bin/bash
+    #       - '-c'
+    #       - 'cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb'
+    #     image: registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ee:v17.1.2
+    #     env:
+    #       - name: TOKEN_VALUE
+    #         valueFrom:
+    #           secretKeyRef:
+    #             name: ${ARGOCD_ENV_gitlab_root_token_secret_name}
+    #             key: ${ARGOCD_ENV_gitlab_root_token_secret_key}
+    #       - name: CONFIG_TEMPLATE_DIRECTORY
+    #         value: /var/opt/gitlab/templates
+    #       - name: CONFIG_DIRECTORY
+    #         value: /srv/gitlab/config
+    #     volumeMounts:
+    #       - name: ruby-script-volume
+    #         mountPath: /tmp/maketoken.rb
+    #         subPath: maketoken.rb
+    #       - name: toolbox-config
+    #         mountPath: /var/opt/gitlab/templates
+    #       - name: toolbox-secrets
+    #         readOnly: true
+    #         mountPath: /etc/gitlab
+    #       - name: toolbox-secrets
+    #         mountPath: /srv/gitlab/config/secrets.yml
+    #         subPath: rails-secrets/secrets.yml
 
   ## https://docs.gitlab.com/charts/charts/gitlab/migrations
   #   migrations:

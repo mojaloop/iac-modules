@@ -11,3 +11,28 @@ helmCharts:
     repo: https://charts.gitlab.io/
     valuesFile: gitlab-values.yaml
     namespace: ${ARGOCD_ENV_gitlab_namespace}
+
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: gitlab-toolbox
+    patch: |
+      - op: add
+        path: /spec/containers/toolbox/args/2
+        value: "cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb"
+      - op: add
+        path: /spec/containers/toolbox/env/-
+        value:
+          name: TOKEN_VALUE
+          valueFrom:
+            secretKeyRef:
+              name: ${ARGOCD_ENV_gitlab_root_token_secret_name}
+              key: ${ARGOCD_ENV_gitlab_root_token_secret_key}
+      - op: add
+        path: /spec/containers/toolbox/volumeMounts/-
+        value:
+          name: ruby-script-volume
+          mountPath: /tmp/maketoken.rb
+          subPath: maketoken.rb
