@@ -52,7 +52,7 @@ resource "kubernetes_secret_v1" "oidc_config" {
       "name"          = "openid_connect"
       "scope"         = ["openid", "profile", "email"]
       "response_type" = "code"
-      "issuer"        = var.zitadel_fqdn
+      "issuer"        = "https://${var.zitadel_fqdn}"
       "discovery"     = "true"
       "client_options" = {
         "identifier"  = zitadel_application_oidc.gitlab.client_id
