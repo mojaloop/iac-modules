@@ -30,6 +30,7 @@ spec:
       - ServerSideApply=true
       - RespectIgnoreDifferences=true
   ignoreDifferences:
+  # TODO: ignore diffs using a pattern rather than manual hardcoded names
   - group: apps
     kind: StatefulSet
     name: "central-monitoring-grafana-mimir-compactor"
