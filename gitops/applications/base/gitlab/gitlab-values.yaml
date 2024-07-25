@@ -1365,7 +1365,7 @@ gitlab:
           [
             "bash",
             "-c",
-            "while true; do echo waiting; sleep 300; done",
+            "cp -v -r -L /etc/gitlab/.s3cfg $HOME/.s3cfg && while true; do echo waiting; sleep 300; done",
           ]
         image: registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ee:v17.1.2
         env:
@@ -1374,6 +1374,34 @@ gitlab:
               secretKeyRef:
                 name: ${ARGOCD_ENV_gitlab_root_token_secret_name}
                 key: ${ARGOCD_ENV_gitlab_root_token_secret_key}
+          - name: ARTIFACTS_BUCKET_NAME
+            value: gitlab-artifacts
+          - name: REGISTRY_BUCKET_NAME
+            value: registry
+          - name: LFS_BUCKET_NAME
+            value: git-lfs
+          - name: UPLOADS_BUCKET_NAME
+            value: gitlab-uploads
+          - name: PACKAGES_BUCKET_NAME
+            value: gitlab-packages
+          - name: EXTERNAL_DIFFS_BUCKET_NAME
+            value: gitlab-mr-diffs
+          - name: TERRAFORM_STATE_BUCKET_NAME
+            value: gitlab-terraform-state
+          - name: CI_SECURE_FILES_BUCKET_NAME
+            value: gitlab-ci-secure-files
+          - name: BACKUP_BUCKET_NAME
+            value: gitlab-backups
+          - name: BACKUP_BACKEND
+            value: s3
+          - name: TMP_BUCKET_NAME
+            value: gitlab-backups-tmp
+          - name: PAGES_BUCKET_NAME
+            value: gitlab-pages
+          - name: GITALY_FEATURE_DEFAULT_ON
+            value: '1'
+          - name: ENABLE_BOOTSNAP
+            value: '1'
           - name: CONFIG_TEMPLATE_DIRECTORY
             value: /var/opt/gitlab/templates
           - name: CONFIG_DIRECTORY
