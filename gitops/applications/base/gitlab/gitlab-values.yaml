@@ -531,6 +531,8 @@ global:
     ## https://docs.gitlab.com/charts/charts/globals#omniauth
     omniauth:
       enabled: true
+      label: "Zitadel"
+      icon: "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/ui/console/assets/icons/favicon-32x32.png"
       autoSignInWithProvider: 'openid_connect'
       syncProfileFromProvider: ['openid_connect']
       syncProfileAttributes: [email]

@@ -61,4 +61,7 @@ spec:
           value: "token"
 
         - name: "gitlab_oidc_secret"
-          value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"  
+          value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"
+
+        - name: "zitadel_dns_subdomain"
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"  

@@ -55,9 +55,13 @@ resource "kubernetes_secret_v1" "oidc_config" {
       "issuer"        = "https://${var.zitadel_fqdn}"
       "discovery"     = "true"
       "client_options" = {
-        "identifier"  = zitadel_application_oidc.gitlab.client_id
-        "secret"      = zitadel_application_oidc.gitlab.client_secret
-        "redirect_ur" = "https://${var.gitlab_fqdn}/users/auth/openid_connect/callback"
+        "identifier"             = zitadel_application_oidc.gitlab.client_id
+        "secret"                 = zitadel_application_oidc.gitlab.client_secret
+        "redirect_ur"            = "https://${var.gitlab_fqdn}/users/auth/openid_connect/callback"
+        "authorization_endpoint" = "https://${var.zitadel_fqdn}/oauth/v2/authorize"
+        token_endpoint           = "https://${var.zitadel_fqdn}/oauth/v2/token"
+        userinfo_endpoint        = "https://${var.zitadel_fqdn}/oidc/v1/userinfo"
+        jwks_uri                 = "https://${var.zitadel_fqdn}/oauth/v2/keys"
       }
     })
   }
