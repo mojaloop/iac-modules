@@ -20,7 +20,7 @@ patches:
       name: gitlab-toolbox
     patch: |
       - op: add
-        path: /spec/containers/toolbox/args/2
+        path: /spec/containers/toolbox/args/-
         value: "cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb"
       - op: add
         path: /spec/containers/toolbox/env/-
