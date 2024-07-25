@@ -530,20 +530,20 @@ global:
 
     ## https://docs.gitlab.com/charts/charts/globals#omniauth
     omniauth:
-      enabled: false
-      autoSignInWithProvider:
-      syncProfileFromProvider: []
+      enabled: true
+      autoSignInWithProvider: 'openid_connect'
+      syncProfileFromProvider: ['openid_connect']
       syncProfileAttributes: [email]
-      allowSingleSignOn: [saml]
+      allowSingleSignOn: ['openid_connect']
       blockAutoCreatedUsers: true
       autoLinkLdapUser: false
       autoLinkSamlUser: false
       autoLinkUser: []
       externalProviders: []
       allowBypassTwoFactor: []
-      providers: []
-      # - secret: gitlab-google-oauth2
-      #   key: provider
+      providers: 
+       - secret: ${ARGOCD_ENV_gitlab_oidc_secret}
+         key: provider
 
     ## https://docs.gitlab.com/charts/charts/globals#kerberos
     kerberos:

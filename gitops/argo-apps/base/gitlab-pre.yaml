@@ -146,3 +146,18 @@ spec:
 
         - name: "gitlab_root_token_secret_key"
           value: "token"
+
+        - name: "gitlab_dns_subdomain"
+          value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
+
+        - name: "gitlab_admin_rbac_group"
+          value: "${ARGOCD_ENV_gitlab_gitlab_admin_rbac_group}" 
+
+        - name: "gitlab_user_rbac_group"
+          value: "${ARGOCD_ENV_gitlab_gitlab_user_rbac_group}"
+
+        - name: "zitadel_namespace"
+          value: "${ARGOCD_ENV_security_zitadel_namespace}"     
+
+        - name: "gitlab_oidc_secret"
+          value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"                             

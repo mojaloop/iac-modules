@@ -59,3 +59,6 @@ spec:
 
         - name: "gitlab_root_token_secret_key"
           value: "token"
+
+        - name: "gitlab_oidc_secret"
+          value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"  
