@@ -151,10 +151,10 @@ spec:
           value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
 
         - name: "gitlab_admin_rbac_group"
-          value: "${ARGOCD_ENV_gitlab_gitlab_admin_rbac_group}" 
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_admin_rbac_group}" 
 
         - name: "gitlab_user_rbac_group"
-          value: "${ARGOCD_ENV_gitlab_gitlab_user_rbac_group}"
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_user_rbac_group}"
 
         - name: "zitadel_namespace"
           value: "${ARGOCD_ENV_security_zitadel_namespace}"     
