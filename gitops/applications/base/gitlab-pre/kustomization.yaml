@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - vault-secrets.yaml
   - objectstorage.yaml
+  - gitlab-oidc-xplane-terraform.yaml
 
 helmCharts:
 - name: pg-db
