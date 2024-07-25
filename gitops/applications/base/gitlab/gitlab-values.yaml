@@ -1364,8 +1364,7 @@ gitlab:
         args:
           - /bin/bash
           - '-c'
-          - >-
-            while sleep 3600; do :;done
+          - 'cd srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb'
         image: registry.gitlab.com/gitlab-org/build/cng/gitlab-toolbox-ee:v17.1.2
         env:
           - name: TOKEN_VALUE
@@ -1373,34 +1372,6 @@ gitlab:
               secretKeyRef:
                 name: ${ARGOCD_ENV_gitlab_root_token_secret_name}
                 key: ${ARGOCD_ENV_gitlab_root_token_secret_key}
-          - name: ARTIFACTS_BUCKET_NAME
-            value: gitlab-artifacts
-          - name: REGISTRY_BUCKET_NAME
-            value: registry
-          - name: LFS_BUCKET_NAME
-            value: git-lfs
-          - name: UPLOADS_BUCKET_NAME
-            value: gitlab-uploads
-          - name: PACKAGES_BUCKET_NAME
-            value: gitlab-packages
-          - name: EXTERNAL_DIFFS_BUCKET_NAME
-            value: gitlab-mr-diffs
-          - name: TERRAFORM_STATE_BUCKET_NAME
-            value: gitlab-terraform-state
-          - name: CI_SECURE_FILES_BUCKET_NAME
-            value: gitlab-ci-secure-files
-          - name: BACKUP_BUCKET_NAME
-            value: gitlab-backups
-          - name: BACKUP_BACKEND
-            value: s3
-          - name: TMP_BUCKET_NAME
-            value: gitlab-backups-tmp
-          - name: PAGES_BUCKET_NAME
-            value: gitlab-pages
-          - name: GITALY_FEATURE_DEFAULT_ON
-            value: '1'
-          - name: ENABLE_BOOTSNAP
-            value: '1'
           - name: CONFIG_TEMPLATE_DIRECTORY
             value: /var/opt/gitlab/templates
           - name: CONFIG_DIRECTORY
@@ -1411,26 +1382,13 @@ gitlab:
             subPath: maketoken.rb
           - name: toolbox-config
             mountPath: /var/opt/gitlab/templates
-          - name: toolbox-config
-            mountPath: /etc/krb5.conf
-            subPath: krb5.conf
-          - name: toolbox-config
-            mountPath: /srv/gitlab/config/initializers/smtp_settings.rb
-            subPath: smtp_settings.rb
           - name: toolbox-secrets
             readOnly: true
             mountPath: /etc/gitlab
           - name: toolbox-secrets
             mountPath: /srv/gitlab/config/secrets.yml
             subPath: rails-secrets/secrets.yml
-          - name: toolbox-tmp
-            mountPath: /srv/gitlab/tmp
-          - name: etc-ssl-certs
-            readOnly: true
-            mountPath: /etc/ssl/certs/
-          - name: etc-pki-ca-trust-extracted-pem
-            readOnly: true
-            mountPath: /etc/pki/ca-trust/extracted/pem
+
   ## https://docs.gitlab.com/charts/charts/gitlab/migrations
   #   migrations:
   #     enabled: false
