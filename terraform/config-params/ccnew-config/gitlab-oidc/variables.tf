@@ -27,6 +27,10 @@ variable "zitadel_admin_human_user_id" {
   description = "admin zitadel human user id"
 }
 
+variable "gitlab_namespace" {
+  description = "gitlab namespace"
+}
+
 variable "oidc_secret_name" {
   type        = string
   description = "name of oidc secret for clientid/secret"
