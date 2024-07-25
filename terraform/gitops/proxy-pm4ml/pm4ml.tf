@@ -8,17 +8,25 @@ module "generate_pm4ml_files" {
     pm4ml_release_name                              = each.key
     pm4ml_namespace                                 = each.key
     storage_class_name                              = var.storage_class_name
-    pm4ml_sync_wave                                 = var.pm4ml_sync_wave + index(keys(var.app_var_map), each.key)
+    pm4ml_sync_wave                                 = var.pm4ml_sync_wave
     external_load_balancer_dns                      = var.external_load_balancer_dns
     istio_internal_wildcard_gateway_name            = var.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace                = var.istio_internal_gateway_namespace
     istio_external_wildcard_gateway_name            = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace                = var.istio_external_gateway_namespace
     pm4ml_wildcard_gateway                          = each.value.pm4ml_ingress_internal_lb ? "internal" : "external"
-    proxy_id                                        = each.value.pm4ml_proxy_id
+    proxy_id                                        = try(each.value.pm4ml_proxy_id, each.key)
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
-    scheme_a_config                                 = each.value.pm4ml_scheme_a_config
-    scheme_b_config                                 = each.value.pm4ml_scheme_b_config
+    client_id_a        =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_id, each.key)
+    client_id_b        =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_id, each.key)
+    peer_domain_a      =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_fqdn, "extapi.${each.value.pm4ml_scheme_a_config.domain}")
+    peer_domain_b      =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_fqdn, "extapi.${each.value.pm4ml_scheme_b_config.domain}")
+    oidc_origin_a      =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.pm4ml_scheme_a_config.domain}")
+    oidc_origin_b      =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.pm4ml_scheme_b_config.domain}")
+    oidc_path_a        =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_secret_vault_path, "realms/dfsps/protocol/openid-connect/token")
+    oidc_path_b        =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_secret_vault_path, "realms/dfsps/protocol/openid-connect/token")
+    mcm_domain_a       =try(each.value.pm4ml_scheme_a_config.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.pm4ml_scheme_a_config.domain}")
+    mcm_domain_b       =try(each.value.pm4ml_scheme_b_config.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.pm4ml_scheme_b_config.domain}")
     server_cert_secret_namespace                    = each.key
     server_cert_secret_name                         = var.vault_certman_secretname
     vault_certman_secretname                        = var.vault_certman_secretname
@@ -43,8 +51,8 @@ module "generate_pm4ml_files" {
     pm4ml_external_switch_a_client_secret           = var.pm4ml_external_switch_a_client_secret
     pm4ml_external_switch_b_client_secret           = var.pm4ml_external_switch_b_client_secret
     pm4ml_external_switch_client_secret_key         = "token"
-    pm4ml_external_switch_a_client_secret_vault_key = "${var.kv_path}/${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_secret_vault_path}"
-    pm4ml_external_switch_b_client_secret_vault_key = "${var.kv_path}/${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_secret_vault_path}"
+    pm4ml_external_switch_a_client_secret_vault_key = "${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_secret_vault_path}"
+    pm4ml_external_switch_b_client_secret_vault_key = "${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_secret_vault_path}"
     pm4ml_external_switch_client_secret_vault_value = "value"
     istio_external_gateway_name                     = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
@@ -66,9 +74,17 @@ module "generate_pm4ml_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
+resource "local_file" "proxy_values_override" {
+  for_each   = local.proxy_override_values_file_exists ? var.app_var_map : {}
+  content    = file(var.proxy_values_override_file)
+  filename   = "${var.output_dir}/${each.key}/values-proxy-pm4ml-override.yaml"
+  depends_on = [module.generate_pm4ml_files]
+}
+
 locals {
   pm4ml_template_path = "${path.module}/../generate-files/templates/proxy-pm4ml"
   pm4ml_app_file      = "proxy-pm4ml-app.yaml"
+  proxy_override_values_file_exists         = fileexists(var.proxy_values_override_file)
 
   pm4ml_var_map = var.app_var_map
 
@@ -85,6 +101,9 @@ locals {
 
 }
 
+variable "proxy_values_override_file" {
+  type = string
+}
 
 variable "app_var_map" {
   type = any

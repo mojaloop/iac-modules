@@ -12,9 +12,9 @@ module "generate_mojaloop_files" {
     mojaloop_test_sync_wave                                           = var.mojaloop_test_sync_wave
     internal_ttk_enabled                                              = var.internal_ttk_enabled
     ttk_testcases_tag                                                 = try(var.app_var_map.ttk_testcases_tag, var.mojaloop_chart_version)
-    ttk_test_currency1                                                = var.ttk_test_currency1
-    ttk_test_currency2                                                = var.ttk_test_currency2
-    ttk_test_currency3                                                = var.ttk_test_currency3
+    ttk_test_currency1                                                = var.app_var_map.ttk_test_currency1
+    ttk_test_currency2                                                = var.app_var_map.ttk_test_currency2
+    ttk_test_currency3                                                = var.app_var_map.ttk_test_currency3
     internal_sim_enabled                                              = var.internal_sim_enabled
     mojaloop_thirdparty_support_enabled                               = var.third_party_enabled
     bulk_enabled                                                      = var.bulk_enabled
@@ -197,7 +197,7 @@ module "generate_mojaloop_files" {
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
     updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}=${key}:${value}"])
     updater_alias                                                     = [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}"]
-
+    hub_name                                                          = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -307,24 +307,6 @@ variable "mojaloop_test_sync_wave" {
 variable "internal_ttk_enabled" {
   description = "whether internal ttk instance is enabled or not"
   default     = true
-}
-
-variable "ttk_test_currency1" {
-  description = "Test currency for TTK GP tests"
-  type        = string
-  default     = "EUR"
-}
-
-variable "ttk_test_currency2" {
-  description = "Test currency2 for TTK GP tests"
-  type        = string
-  default     = "USD"
-}
-
-variable "ttk_test_currency3" {
-  description = "Test cgs currency for TTK GP tests"
-  type        = string
-  default     = "CAD"
 }
 
 variable "internal_sim_enabled" {

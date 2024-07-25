@@ -1,21 +1,12 @@
-pm4ml: proxypm4mltest
 pm4ml_enabled: true
 proxy_pm4ml_chart_version: 1.0.0
 pm4ml_ingress_internal_lb: false
 pm4ml_scheme_a_config:
-  pm4ml_external_mcm_public_fqdn: mcm.dev.switch-a.mojaloop.live
-  pm4ml_external_switch_client_id: dfsp-jwt-a
-  pm4ml_external_switch_oidc_url: https://keycloak.dev.switch-a.mojaloop.live
-  pm4ml_external_switch_oidc_token_route: realms/dfsps/protocol/openid-connect/token
-  pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret_a"
-  pm4ml_external_switch_fqdn: extapi.dev.switch-a.mojaloop.live
+  domain: ${env}.${domain}
+  pm4ml_external_switch_client_secret_vault_path: mcm_client_secret_a
 pm4ml_scheme_b_config:
-  pm4ml_external_mcm_public_fqdn: mcm.dev.switch-b.mojaloop.live
-  pm4ml_external_switch_client_id: dfsp-jwt-b
-  pm4ml_external_switch_oidc_url: https://keycloak.dev.switch-b.mojaloop.live
-  pm4ml_external_switch_oidc_token_route: realms/dfsps/protocol/openid-connect/token
-  pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret_b"
-  pm4ml_external_switch_fqdn: extapi.dev.switch-b.mojaloop.live
-pm4ml_proxy_id: proxypm4mltest
+  domain: buffer.${domain}
+  pm4ml_external_switch_client_secret_vault_path: mcm_client_secret_b
 pm4ml_ttk_enabled: false
-imagePullSecrets: []
+imagePullSecrets:
+  - ghcr-login-secret

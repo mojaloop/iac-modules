@@ -46,4 +46,3 @@ spec:
       remoteRef:
         key: ${pm4ml_external_switch_b_client_secret_vault_key}
         property: ${pm4ml_external_switch_client_secret_vault_value}
----

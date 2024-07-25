@@ -1,15 +1,14 @@
 
-%{ if length(imagePullSecrets) > 0 }
+# %{ if length(imagePullSecrets) > 0 }
 global:
   imagePullSecrets:
     ${indent(4, imagePullSecrets)}
-%{ endif }
+# %{ endif }
 
 inter-scheme-proxy-adapter:
   image:
     registry: ghcr.io
     repository: infitx-org/inter-scheme-proxy-adapter
-    tag: 1.0.0-snapshot.3
   ## Disabling liveness probes temporarily
   readinessProbe: |
     exec:
@@ -40,13 +39,13 @@ inter-scheme-proxy-adapter:
     OUTBOUND_MUTUAL_TLS_ENABLED_A: true
     OUTBOUND_MUTUAL_TLS_ENABLED_B: true
     # INCOMING_HEADERS_REMOVAL: 'some-header'
-    PEER_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_fqdn}"
-    PEER_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_fqdn}"
-    OAUTH_TOKEN_ENDPOINT_A: "${scheme_a_config.pm4ml_external_switch_oidc_url}/${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
-    OAUTH_CLIENT_KEY_A: "${scheme_a_config.pm4ml_external_switch_client_id}"
-    OAUTH_CLIENT_KEY_B: "${scheme_b_config.pm4ml_external_switch_client_id}"
+    PEER_ENDPOINT_A: "${peer_domain_a}"
+    PEER_ENDPOINT_B: "${peer_domain_b}"
+    OAUTH_TOKEN_ENDPOINT_A: "${oidc_origin_a}/${oidc_path_a}"
+    OAUTH_CLIENT_KEY_A: "${client_id_a}"
+    OAUTH_CLIENT_KEY_B: "${client_id_b}"
     OAUTH_REFRESH_SECONDS_A: 3600
-    OAUTH_TOKEN_ENDPOINT_B: "${scheme_b_config.pm4ml_external_switch_oidc_url}/${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
+    OAUTH_TOKEN_ENDPOINT_B: "${oidc_origin_b}/${oidc_path_b}"
     OAUTH_REFRESH_SECONDS_B: 3600
     MGMT_API_WS_URL_A: "${pm4ml_release_name}-management-api-a"
     MGMT_API_WS_PORT_A: 4005
@@ -55,20 +54,20 @@ inter-scheme-proxy-adapter:
     PM4ML_ENABLED: true
     CHECK_PEER_JWS_INTERVAL: 1800000
 
-management-api-a: 
+management-api-a:
   enabled: true
   serviceAccountName: ${pm4ml_service_account_name}
   env:
     ENABLE_UI_API_SERVER: false
     DFSP_ID: "${proxy_id}"
-    HUB_IAM_PROVIDER_URL: "${scheme_a_config.pm4ml_external_switch_oidc_url}"
-    OIDC_TOKEN_ROUTE: "${scheme_a_config.pm4ml_external_switch_oidc_token_route}"
-    MCM_SERVER_ENDPOINT: "https://${scheme_a_config.pm4ml_external_mcm_public_fqdn}/pm4mlapi"
+    HUB_IAM_PROVIDER_URL: "${oidc_origin_a}"
+    OIDC_TOKEN_ROUTE: "${oidc_path_a}"
+    MCM_SERVER_ENDPOINT: "https://${mcm_domain_a}/pm4mlapi"
     MCM_CLIENT_REFRESH_INTERVAL: 300
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
     AUTH_ENABLED: true
-    AUTH_CLIENT_ID: ${scheme_a_config.pm4ml_external_switch_client_id}
+    AUTH_CLIENT_ID: ${client_id_a}
     CLIENT_SECRET_NAME: ${pm4ml_external_switch_a_client_secret}
     CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
     MCM_CLIENT_SECRETS_LOCATION: /tls
@@ -79,7 +78,7 @@ management-api-a:
     VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
     VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
     VAULT_MOUNT_PKI: ${vault_pki_mount}
-    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_release_name}/scheme-a
+    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_namespace}/scheme-a
     MOJALOOP_CONNECTOR_FQDN: "${inter_scheme_proxy_adapter_a_fqdn}"
     CALLBACK_URL: "${callback_url_scheme_a}"
     CERT_MANAGER_ENABLED: true
@@ -93,14 +92,14 @@ management-api-b:
   env:
     ENABLE_UI_API_SERVER: false
     DFSP_ID: "${proxy_id}"
-    HUB_IAM_PROVIDER_URL: "${scheme_b_config.pm4ml_external_switch_oidc_url}"
-    OIDC_TOKEN_ROUTE: "${scheme_b_config.pm4ml_external_switch_oidc_token_route}"
-    MCM_SERVER_ENDPOINT: "https://${scheme_b_config.pm4ml_external_mcm_public_fqdn}/pm4mlapi"
+    HUB_IAM_PROVIDER_URL: "${oidc_origin_b}"
+    OIDC_TOKEN_ROUTE: "${oidc_path_b}"
+    MCM_SERVER_ENDPOINT: "https://${mcm_domain_b}/pm4mlapi"
     MCM_CLIENT_REFRESH_INTERVAL: 300
     PRIVATE_KEY_LENGTH: 2048
     PRIVATE_KEY_ALGORITHM: rsa
     AUTH_ENABLED: true
-    AUTH_CLIENT_ID: ${scheme_b_config.pm4ml_external_switch_client_id}
+    AUTH_CLIENT_ID: ${client_id_b}
     CLIENT_SECRET_NAME: ${pm4ml_external_switch_b_client_secret}
     CLIENT_SECRET_KEY: ${pm4ml_external_switch_client_secret_key}
     MCM_CLIENT_SECRETS_LOCATION: /tls
@@ -111,7 +110,7 @@ management-api-b:
     VAULT_PKI_SERVER_ROLE: ${vault_pki_server_role}
     VAULT_PKI_CLIENT_ROLE: ${vault_pki_client_role}
     VAULT_MOUNT_PKI: ${vault_pki_mount}
-    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_release_name}/scheme-b
+    VAULT_MOUNT_KV: ${pm4ml_secret_path}/${pm4ml_namespace}/scheme-b
     MOJALOOP_CONNECTOR_FQDN: "${inter_scheme_proxy_adapter_b_fqdn}"
     CALLBACK_URL: "${callback_url_scheme_b}"
     CERT_MANAGER_ENABLED: true
@@ -121,7 +120,7 @@ management-api-b:
 
 
 ttk:
-%{ if ttk_enabled ~}
+# %{ if ttk_enabled }
   enabled: true
   ml-testing-toolkit-backend:
     image:
@@ -152,7 +151,7 @@ ttk:
     config:
       API_BASE_URL: https://${ttk_backend_fqdn}
 
-%{ else ~}
+# %{ else }
   enabled: false
-%{ endif ~}
+# %{ endif }
 

@@ -66,7 +66,7 @@ module "mojaloop" {
   minio_api_url                        = var.minio_api_url
   minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
-
+  pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
 }
 
 module "pm4ml" {
@@ -112,6 +112,7 @@ module "pm4ml" {
   role_assign_svc_secret_prefix          = "role-assign-svc-secret-"
   portal_admin_user                      = var.portal_admin_user
   portal_admin_secret_prefix             = "portal-admin-secret-"
+  pm4ml_values_override_file             = var.pm4ml_values_override_file
 }
 
 module "proxy_pm4ml" {
@@ -142,6 +143,8 @@ module "proxy_pm4ml" {
   local_vault_kv_root_path               = local.local_vault_kv_root_path
   vault_root_ca_name                     = "pki-${var.cluster_name}"
   app_var_map                            = local.proxy_pm4ml_var_map
+  proxy_values_override_file             = var.proxy_values_override_file
+
 }
 
 module "vnext" {
@@ -301,6 +304,14 @@ variable "rbac_api_resources_file" {
 }
 
 variable "mojaloop_values_override_file" {
+  type = string
+}
+
+variable "proxy_values_override_file" {
+  type = string
+}
+
+variable "pm4ml_values_override_file" {
   type = string
 }
 
