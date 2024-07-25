@@ -13,7 +13,7 @@ zitadel_helm_version: "7.15.0"
 cockroachdb_helm_version: "13.0.2"
 netbird_helm_version: "1.0.2"
 netbird_dashboard_helm_version: "1.0.0"
-netbird_image_version: "0.28.0"
+netbird_image_version: "0.28.6"
 stunner_gateway_operator_helm_version: "0.19.0"
 nexus_helm_version: "4.44.0"
 cert_manager_helm_version: 1.15.0
