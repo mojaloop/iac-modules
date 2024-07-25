@@ -32,10 +32,22 @@ spec:
   ignoreDifferences:
   - group: apps
     kind: StatefulSet
-    name: "central-monitoring-grafana-mimir-compactor|central-monitoring-grafana-mimir-ingester"
+    name: "central-monitoring-grafana-mimir-compactor"
     jsonPointers:
       - /spec/volumeClaimTemplates/0/kind
       - /spec/volumeClaimTemplates/0/apiVersion
+  - group: apps
+    kind: StatefulSet
+    name: "central-monitoring-grafana-mimir-ingester"
+    jsonPointers:
+      - /spec/volumeClaimTemplates/0/kind
+      - /spec/volumeClaimTemplates/0/apiVersion
+  - group: apps
+    kind: StatefulSet
+    name: "central-monitoring-grafana-mimir-store-gateway"
+    jsonPointers:
+      - /spec/volumeClaimTemplates/0/kind
+      - /spec/volumeClaimTemplates/0/apiVersion            
   destination:
     server: "https://kubernetes.default.svc"
     # namespace: ${ARGOCD_ENV_monitoring_pre_namespace}
