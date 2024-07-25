@@ -18,11 +18,6 @@ variable "admin_policy_name" {
   default     = "gitlab-admin"
 }
 
-variable "oidc_provider_group_claim_prefix" {
-  type        = string
-  description = "groups"
-}
-
 variable "oidc_debug_log" {
   type    = bool
   default = false
