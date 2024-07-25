@@ -32,7 +32,7 @@ spec:
   ignoreDifferences:
   - group: apps
     kind: StatefulSet
-    name: "central-monitoring-grafana-mimir-compactor"
+    name: "central-monitoring-grafana-mimir-compactor|central-monitoring-grafana-mimir-ingester"
     jsonPointers:
       - /spec/volumeClaimTemplates/0/kind
       - /spec/volumeClaimTemplates/0/apiVersion
