@@ -537,7 +537,7 @@ global:
       syncProfileFromProvider: ['openid_connect']
       syncProfileAttributes: ["openid", "profile", "email"]
       allowSingleSignOn: ['openid_connect']
-      blockAutoCreatedUsers: true
+      blockAutoCreatedUsers: false
       autoLinkLdapUser: false
       autoLinkSamlUser: false
       autoLinkUser: []
