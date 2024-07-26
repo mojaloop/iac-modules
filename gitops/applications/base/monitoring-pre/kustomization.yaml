@@ -8,11 +8,6 @@ helmCharts:
   releaseName: prometheus-operator-crds
   version: 8.0.1
   repo: https://prometheus-community.github.io/helm-charts/
-- name: kube-prometheus
-  releaseName: prom
-  version: 8.22.8
-  repo: oci://registry-1.docker.io/bitnamicharts
-  valuesFile: values-prom-operator.yaml
 - name: grafana-operator
   releaseName: grafana
   version: 3.5.11
