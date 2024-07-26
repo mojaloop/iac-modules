@@ -1,3 +1,4 @@
+# TODO: add proper templates
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
@@ -9,20 +10,3 @@ helmCharts:
   valuesFile: values-mimir.yaml
   namespace: monitoring
   
-# - name: mimir-distributed
-#   releaseName: central-monitoring
-#   version: 5.4.0
-#   repo: https://grafana.github.io/helm-charts
-#   valuesFile: values-mimir.yaml
-
-# patches:
-#   - target:
-#       group: apps
-#       version: v1
-#       kind: StatefulSet
-#       name: central-monitoring-grafana-mimir-compactor
-#     patch: |-
-#       - op: add
-#         path: /spec/volumeClaimTemplates/-
-#         value:
-#           apiVersion: v1
