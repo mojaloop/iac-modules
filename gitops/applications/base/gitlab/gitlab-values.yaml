@@ -544,9 +544,12 @@ global:
       externalProviders: []
       allowBypassTwoFactor: []
       providers: 
-       - name: openid_connect
-         secret: ${ARGOCD_ENV_gitlab_oidc_secret}
+       - secret: ${ARGOCD_ENV_gitlab_oidc_secret}
          key: provider
+         args:
+           name: openid_connect
+           issuer: https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
+           scope: ["openid","profile","email"]
 
     ## https://docs.gitlab.com/charts/charts/globals#kerberos
     kerberos:
