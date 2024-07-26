@@ -63,7 +63,7 @@ resource "kubernetes_secret_v1" "oidc_config" {
         "identifier"             = zitadel_application_oidc.gitlab.client_id
         "secret"                 = zitadel_application_oidc.gitlab.client_secret
         "host"                   = var.zitadel_fqdn
-        "redirect_ur"            = "https://${var.gitlab_fqdn}/users/auth/openid_connect/callback"
+        "redirect_uri"            = "https://${var.gitlab_fqdn}/users/auth/openid_connect/callback"
         "authorization_endpoint" = "https://${var.zitadel_fqdn}/oauth/v2/authorize"
         token_endpoint           = "https://${var.zitadel_fqdn}/oauth/v2/token"
         userinfo_endpoint        = "https://${var.zitadel_fqdn}/oidc/v1/userinfo"
