@@ -8,5 +8,3 @@ pm4ml_scheme_b_config:
   domain: buffer.${domain}
   pm4ml_external_switch_client_secret_vault_path: mcm_client_secret_b
 pm4ml_ttk_enabled: false
-imagePullSecrets:
-  - ghcr-login-secret
