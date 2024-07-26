@@ -77,7 +77,6 @@ resource "kubernetes_secret_v1" "oidc_config" {
           "jwks_uri"               = "https://${var.zitadel_fqdn}/oauth/v2/keys"
           "gitlab" = {
             "groups_attribute" = "${var.oidc_provider_group_claim_prefix}"
-            "external_groups"  = ["${zitadel_project.gitlab.id}:${var.admin_rbac_group}", "${zitadel_project.gitlab.id}:${var.user_rbac_group}"]
             "admin_groups"     = ["${zitadel_project.gitlab.id}:${var.admin_rbac_group}"]
           }
         }
