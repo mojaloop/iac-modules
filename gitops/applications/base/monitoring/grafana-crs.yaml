@@ -54,3 +54,40 @@ spec:
     #   client_id: ${client_id}
     #   client_secret: ${client_secret}
     #   role_attribute_path: "is_admin && 'Admin' || 'Viewer'"
+
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: mimir
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Mimir
+    type: prometheus
+    access: proxy
+    # url: ${prom-mojaloop-url}
+    url: central-monitoring-grafana-mimir-gateway
+    isDefault: true
+    editable: true
+---
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: prometheus
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Prometheus
+    type: prometheus
+    access: proxy
+    # url: ${prom-mojaloop-url}
+    url: prometheus-operated
+    isDefault: true
+    editable: true
+---
