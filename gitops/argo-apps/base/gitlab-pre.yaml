@@ -151,25 +151,28 @@ spec:
           value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
 
         - name: "gitlab_admin_rbac_group"
-          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_admin_rbac_group}" 
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_admin_rbac_group}"
 
         - name: "gitlab_user_rbac_group"
           value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_user_rbac_group}"
 
         - name: "zitadel_namespace"
-          value: "${ARGOCD_ENV_security_zitadel_namespace}"     
+          value: "${ARGOCD_ENV_security_zitadel_namespace}"
 
         - name: "gitlab_oidc_secret"
-          value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"                             
+          value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"
 
         - name: "zitadel_post_config_output_secret"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
 
         - name: "terraform_modules_tag"
-          value: "${ARGOCD_ENV_security_zitadel_terraform_modules_tag}"          
+          value: "${ARGOCD_ENV_security_zitadel_terraform_modules_tag}"
 
         - name: "zitadel_tf_provider_version"
-          value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"   
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
 
         - name: "zitadel_dns_subdomain"
-          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"       
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
+
+        - name: "zitadel_grant_prefix"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"

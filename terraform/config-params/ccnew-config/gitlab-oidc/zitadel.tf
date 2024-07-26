@@ -68,8 +68,8 @@ resource "kubernetes_secret_v1" "oidc_config" {
           userinfo_endpoint        = "https://${var.zitadel_fqdn}/oidc/v1/userinfo"
           jwks_uri                 = "https://${var.zitadel_fqdn}/oauth/v2/keys"
           "gitlab" = {
-            "groups_attribute" = "groups"
-            "external_groups"  = ["Freelancer"]
+            "groups_attribute" = "${var.oidc_provider_group_claim_prefix}"
+            "external_groups"  = ["${zitadel_project.gitlab.id}:${var.admin_rbac_group}"]
           }
         }
       }

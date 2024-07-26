@@ -23,8 +23,12 @@ spec:
         value: gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}
       - key: admin_rbac_group
         value: ${ARGOCD_ENV_gitlab_admin_rbac_group}
+      - key: user_rbac_group
+        value: ${ARGOCD_ENV_gitlab_user_rbac_group}
       - key: gitlab_namespace
         value: ${ARGOCD_ENV_gitlab_namespace}
+      - key: oidc_provider_group_claim_prefix
+        value: ${ARGOCD_ENV_zitadel_grant_prefix}
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
