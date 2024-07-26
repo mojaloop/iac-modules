@@ -1,2 +1,4 @@
 grafana:
   enabled: false
+operator:
+  resources:
