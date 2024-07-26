@@ -1,5 +1,6 @@
 env: dev
 domain: labsk8s2010.mojaloop.live
+currency: EUR
 cloud_platform: aws
 dns_provider: aws
 managed_svc_cloud_platform: aws
