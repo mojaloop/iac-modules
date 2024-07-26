@@ -533,19 +533,19 @@ global:
       enabled: true
       label: "Zitadel"
       icon: "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/ui/console/assets/icons/favicon-32x32.png"
-      autoSignInWithProvider: 'openid_connect'
-      syncProfileFromProvider: ['openid_connect']
-      syncProfileAttributes: ["openid", "profile", "email"]
-      allowSingleSignOn: ['openid_connect']
+      autoSignInWithProvider:
+      syncProfileFromProvider: ["openid_connect"]
+      syncProfileAttributes: ["openid", "profile", "email", "groups"]
+      allowSingleSignOn: ["openid_connect"]
       blockAutoCreatedUsers: false
       autoLinkLdapUser: false
       autoLinkSamlUser: false
       autoLinkUser: []
       externalProviders: []
       allowBypassTwoFactor: []
-      providers: 
-       - secret: ${ARGOCD_ENV_gitlab_oidc_secret}
-         key: provider
+      providers:
+        - secret: ${ARGOCD_ENV_gitlab_oidc_secret}
+          key: provider
 
     ## https://docs.gitlab.com/charts/charts/globals#kerberos
     kerberos:
