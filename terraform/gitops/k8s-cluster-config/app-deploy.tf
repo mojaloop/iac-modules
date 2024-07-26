@@ -332,8 +332,8 @@ variable "argocd_namespace" {
 locals {
   auth_fqdn = "auth.${var.public_subdomain}"
 
-  pm4ml_var_map = var.app_var_map.pm4mls
-  proxy_pm4ml_var_map = var.app_var_map.proxy_pm4mls
+  pm4ml_var_map = try(var.app_var_map.pm4mls, {})
+  proxy_pm4ml_var_map = try(var.app_var_map.proxy_pm4mls, {})
 
   st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
   st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
