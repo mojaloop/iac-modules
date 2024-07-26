@@ -54,7 +54,7 @@ resource "kubernetes_secret_v1" "oidc_config" {
       "icon"  = "https://${var.zitadel_fqdn}/ui/console/assets/icons/favicon-32x32.png"
       "args" = {
       "name"          = "openid_connect"
-      "scope"         = ["openid", "profile", "email"]
+      "scope"         = ["openid", "profile", "email" , "groups"]
       "response_type" = "code"
       "issuer"        = "https://${var.zitadel_fqdn}"
       "discovery"     = true
