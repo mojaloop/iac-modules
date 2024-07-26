@@ -65,7 +65,7 @@ resource "kubernetes_secret_v1" "oidc_config" {
         "response_type"      = "code"
         "issuer"             = "https://${var.zitadel_fqdn}"
         "discovery"          = true
-        "client_auth_method" = "jwt_bearer"
+        "client_auth_method" = "query"
         "client_options" = {
           "identifier"             = zitadel_application_oidc.gitlab.client_id
           "secret"                 = zitadel_application_oidc.gitlab.client_secret
