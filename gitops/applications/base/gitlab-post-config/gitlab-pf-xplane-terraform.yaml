@@ -24,7 +24,8 @@ spec:
   # Crossplane provider config, but could use multiple Terraform providers each
   # with their own credentials.
   credentials:
-    - filename: terraform.tfvars.json
+    - env:
+        name: TF_VAR_token
       source: Secret
       secretRef:
         namespace: ${ARGOCD_ENV_gitlab_namespace}
