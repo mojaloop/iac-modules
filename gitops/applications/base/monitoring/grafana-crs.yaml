@@ -69,7 +69,7 @@ spec:
     type: prometheus
     access: proxy
     # url: ${prom-mojaloop-url}
-    url: central-monitoring-grafana-mimir-gateway
+    url: http://central-monitoring-grafana-mimir-gateway/prometheus
     isDefault: true
     editable: true
 ---
@@ -87,7 +87,7 @@ spec:
     type: prometheus
     access: proxy
     # url: ${prom-mojaloop-url}
-    url: prometheus-operated
-    isDefault: true
+    url: http://prometheus-operated:9090
+    isDefault: false 
     editable: true
 ---
