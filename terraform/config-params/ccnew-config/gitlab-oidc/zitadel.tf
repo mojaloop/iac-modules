@@ -30,6 +30,13 @@ resource "zitadel_project_role" "techops_admin" {
   display_name = "Techops Admin"
 }
 
+resource "zitadel_project_role" "techops_user" {
+  project_id   = zitadel_project.gitlab.id
+  org_id       = local.org_id
+  role_key     = var.user_rbac_group
+  display_name = "Techops User"
+}
+
 resource "zitadel_user_grant" "zitadel_admin_gitlab_admin" {
   project_id = zitadel_project.gitlab.id
   org_id     = local.org_id
@@ -69,7 +76,7 @@ resource "kubernetes_secret_v1" "oidc_config" {
           jwks_uri                 = "https://${var.zitadel_fqdn}/oauth/v2/keys"
           "gitlab" = {
             "groups_attribute" = "${var.oidc_provider_group_claim_prefix}"
-            "external_groups"  = ["${zitadel_project.gitlab.id}:${var.admin_rbac_group}"]
+            "external_groups"  = ["${zitadel_project.gitlab.id}:${var.admin_rbac_group}", "${zitadel_project.gitlab.id}:${var.user_rbac_group}"]
           }
         }
       }
