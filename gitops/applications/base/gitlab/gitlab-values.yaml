@@ -544,7 +544,8 @@ global:
       externalProviders: []
       allowBypassTwoFactor: []
       providers: 
-       - secret: ${ARGOCD_ENV_gitlab_oidc_secret}
+       - name: openid_connect
+         secret: ${ARGOCD_ENV_gitlab_oidc_secret}
          key: provider
 
     ## https://docs.gitlab.com/charts/charts/globals#kerberos
