@@ -1,3 +1,8 @@
+mimir:
+  overrideConfiguration:
+    limits:
+      max_global_series_per_user: 1000000
+
 distributor:
   resourcesPreset: large
 
