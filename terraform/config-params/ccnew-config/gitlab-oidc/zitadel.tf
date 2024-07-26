@@ -49,6 +49,10 @@ resource "kubernetes_secret_v1" "oidc_config" {
 
   data = {
     "provider" = jsonencode({
+      "name = "openid_connect"
+      "label" = "Zitadel"
+      "icon"  = "https://${var.zitadel_fqdn}/ui/console/assets/icons/favicon-32x32.png"
+      "args" = {
       "name"          = "openid_connect"
       "scope"         = ["openid", "profile", "email"]
       "response_type" = "code"
@@ -65,6 +69,7 @@ resource "kubernetes_secret_v1" "oidc_config" {
         userinfo_endpoint        = "https://${var.zitadel_fqdn}/oidc/v1/userinfo"
         jwks_uri                 = "https://${var.zitadel_fqdn}/oauth/v2/keys"
       }
+    }
     })
   }
 
