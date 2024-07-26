@@ -37,7 +37,7 @@ spec:
     alerting:
       enabled: "true"
     auth.anonymous:
-      enabled: true
+      enabled: "true"
       org_name: "Main Org."
       org_role: "Admin"      
     # server:
