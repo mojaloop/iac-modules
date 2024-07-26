@@ -39,5 +39,6 @@ resources:
   # gitlab
   - ../../../base/gitlab-pre.yaml
   - ../../../base/gitlab.yaml
+  - ../../../base/gitlab-post-config.yaml
   # monitoring
   - ../../../base/monitoring.yaml

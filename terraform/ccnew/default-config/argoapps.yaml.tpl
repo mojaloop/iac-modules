@@ -107,6 +107,7 @@ argocd_override:
         gitlab:
           helm_version: "${gitlab_helm_version}"
           public_ingress_access_domain: "${gitlab_public_access}"
+          terraform_modules_tag: "${iac_terraform_modules_tag}"
         pre:
           redis_cluster_size: "${gitlab_redis_cluster_size}"
           redis_storage_size: "${gitlab_redis_storage_size}"          

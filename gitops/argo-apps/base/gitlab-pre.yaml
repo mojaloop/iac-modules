@@ -166,7 +166,7 @@ spec:
           value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
 
         - name: "terraform_modules_tag"
-          value: "${ARGOCD_ENV_security_zitadel_terraform_modules_tag}"
+          value: "${ARGOCD_ENV_gitlab_gitlab_terraform_modules_tag}"
 
         - name: "zitadel_tf_provider_version"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
