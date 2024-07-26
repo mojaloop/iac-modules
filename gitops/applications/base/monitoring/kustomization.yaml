@@ -12,9 +12,9 @@ helmCharts:
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-mimir.yaml
   namespace: monitoring
-# - name: kube-prometheus
-#   releaseName: prom
-#   version: 8.22.8
-#   repo: oci://registry-1.docker.io/bitnamicharts
-#   valuesFile: values-kube-prometheus.yaml
-#   namespace: monitoring
+- name: kube-prometheus
+  releaseName: prom
+  version: 8.22.8
+  repo: oci://registry-1.docker.io/bitnamicharts
+  valuesFile: values-kube-prometheus.yaml
+  namespace: monitoring
