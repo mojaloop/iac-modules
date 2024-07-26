@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - grafana-crs.yaml 
+  - virtual-service.yaml
 helmCharts:
 - name: grafana-mimir
   releaseName: central-monitoring
