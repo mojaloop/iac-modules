@@ -10,6 +10,6 @@ data:
     if token.nil?
         token = user.personal_access_tokens.create(scopes: [:api], name: 'rootapitoken', expires_at: 1.days.from_now)
     end
-    token.set_token('ENV["TOKEN_VALUE"]')
+    token.set_token(ENV["TOKEN_VALUE"])
     token.save!
     user.save!
