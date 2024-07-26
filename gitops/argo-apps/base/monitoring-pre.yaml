@@ -13,6 +13,13 @@ metadata:
 
 spec:
   project: default
+  ignoreDifferences:
+    # TODO: ignore diffs using a pattern rather than manual hardcoded names
+    - group: apps
+      kind: Deployment
+      name: ""
+      jsonPointers:
+        - /spec/template/spec/containers/0/resources
   syncPolicy:
     automated:
       prune: true
@@ -28,6 +35,7 @@ spec:
       - PrunePropagationPolicy=foreground
       - PruneLast=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
   destination:
     server: "https://kubernetes.default.svc"
     # namespace: ${ARGOCD_ENV_monitoring_pre_namespace}
