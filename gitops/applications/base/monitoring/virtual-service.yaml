@@ -6,9 +6,11 @@ metadata:
   namespace: monitoring
 spec:
   gateways:
-    - ${ARGOCD_ENV_gitlab_istio_gateway_namespace}/${ARGOCD_ENV_gitlab_istio_wildcard_gateway_name}
+    # - ${ARGOCD_ENV_gitlab_istio_gateway_namespace}/${ARGOCD_ENV_gitlab_istio_wildcard_gateway_name}
+    - istio-ingress-ext/external-wildcard-gateway 
   hosts:
-    - "grafana.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    # - "grafana.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    - grafana.cc32.ccnew.mojaloop.live
   http:
     - match:
         - uri:
