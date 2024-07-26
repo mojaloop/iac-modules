@@ -901,7 +901,9 @@ global:
       internalApi: {}
 
   ## https://docs.gitlab.com/charts/charts/globals
-  extraEnv: {}
+  extraEnv:
+    GITLAB_LOG_LEVEL: DEBUG
+
   #   SOME_KEY: some_value
   #   SOME_OTHER_KEY: some_other_value
 
