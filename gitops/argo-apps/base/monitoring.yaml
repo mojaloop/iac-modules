@@ -55,14 +55,16 @@ spec:
     namespace: monitoring
 
   source:
-    repoURL: ${ARGOCD_ENV_argocd_repo_url}
-    targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+    # repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    repoURL: 'https://github.com/mojaloop/iac-modules.git'
+    # targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+    targetRevision: feature/cc-k8s
     path: gitops/applications/base/monitoring
-    plugin:
-      name: envsubst
-      env:
-        - name: "gitlab_namespace"
-          value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
+    # plugin:
+    #   name: envsubst
+    #   env:
+    #     - name: "gitlab_namespace"
+    #       value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
 
         # - name: "redis_cluster_size"
         #   value: "${ARGOCD_ENV_gitlab_pre_redis_cluster_size}"
