@@ -8,10 +8,10 @@ alertmanager:
     storageClass: null
     size: 10Gi
 prometheus:
-  # persistence:
-  #   enabled: true
-  #   storageClass: longhorn
-  #   size: 10Gi
+  persistence:
+    enabled: true
+    storageClass: null
+    size: 10Gi
   retention: 1d
   # setting these to prevent oom issue https://github.com/prometheus/prometheus/issues/6934#issuecomment-1099293120
   disableCompaction: false #this is the default anyway
