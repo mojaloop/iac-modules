@@ -2,13 +2,13 @@
 apiVersion: tf.upbound.io/v1beta1
 kind: Workspace
 metadata:
-  name: zitadel-argocd-oidc-config
+  name: zitadel-k8s-oidc-config
   namespace: ${ARGOCD_ENV_zitadel_namespace}
 spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
     source: Remote
-    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/argocd-oidc?ref=${ARGOCD_ENV_terraform_modules_tag}
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/k8s-oidc?ref=${ARGOCD_ENV_terraform_modules_tag}
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     env:
       - name: TF_VAR_zitadel_admin_human_user_id
@@ -19,26 +19,24 @@ spec:
     vars:
       - key: zitadel_fqdn
         value: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
-      - key: argocd_fqdn
-        value: argocd.${ARGOCD_ENV_zitadel_dns_subdomain}
       - key: admin_rbac_group
-        value: ${ARGOCD_ENV_argocd_admin_rbac_group}
+        value: ${ARGOCD_ENV_k8s_admin_rbac_group}
       - key: user_rbac_group
-        value: ${ARGOCD_ENV_argocd_user_rbac_group}
-      - key: argocd_namespace
-        value: ${ARGOCD_ENV_argocd_namespace}
+        value: ${ARGOCD_ENV_k8s_user_rbac_group}
+      - key: oidc_provider_group_claim_prefix
+        value: ${ARGOCD_ENV_zitadel_grant_prefix}
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
-    name: zitadel-argocd-oidc-config
+    name: zitadel-k8s-oidc-config
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_zitadel_namespace}
-    name: ${ARGOCD_ENV_argocd_oidc_secret}
+    name: ${ARGOCD_ENV_k8s_oidc_post_config_output_secret}
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
-  name: zitadel-argocd-oidc-config
+  name: zitadel-k8s-oidc-config
   namespace: ${ARGOCD_ENV_zitadel_namespace}
 spec:
   # Note that unlike most provider configs this one supports an array of
@@ -59,7 +57,7 @@ spec:
   configuration: |
     terraform { 
         backend "kubernetes" {
-          secret_suffix     = "providerconfig-argocd-oidc-config"
+          secret_suffix     = "providerconfig-k8s-oidc-config"
           namespace         = "${ARGOCD_ENV_zitadel_namespace}"
           in_cluster_config = true
         }

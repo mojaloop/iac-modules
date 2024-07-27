@@ -72,7 +72,7 @@ spec:
   configuration: |
     terraform { 
         backend "kubernetes" {
-          secret_suffix     = "providerconfig-zitadel-post-config"
+          secret_suffix     = "providerconfig-vault-oidc-config"
           namespace         = "${ARGOCD_ENV_zitadel_namespace}"
           in_cluster_config = true
         }

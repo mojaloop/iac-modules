@@ -101,3 +101,12 @@ spec:
 
         - name: "argocd_user_rbac_group"
           value: "${ARGOCD_ENV_security_zitadel_argocd_user_rbac_group}"
+
+        - name: "k8s_admin_rbac_group"
+          value: "${ARGOCD_ENV_security_zitadel_k8s_admin_rbac_group}"
+
+        - name: "k8s_user_rbac_group"
+          value: "${ARGOCD_ENV_security_zitadel_k8s_user_rbac_group}"
+
+        - name: "k8s_oidc_post_config_output_secret"
+          value: "${ARGOCD_ENV_security_zitadel_k8s_oidc_post_config_output_secret}"
