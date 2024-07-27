@@ -22,7 +22,8 @@ prometheus:
       value: 30m
   externalLabels:
     cluster: control-center
-
+  prometheus:
+    resourcesPreset: large
   remoteWrite:
     - name: central-monitoring
       url: http://central-monitoring-grafana-mimir-gateway/api/v1/push
