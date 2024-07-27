@@ -9,3 +9,7 @@ variable "gitlab_readonly_rbac_group" {
   description = "rbac group in gitlab for readonly access via oidc"
   default     = "tenant-users"
 }
+variable "two_factor_grace_period" {
+  description = "two_factor_grace_period in hours"
+  default     = 0
+}
