@@ -10,13 +10,6 @@ helmCharts:
   - name: grafana-operator
     releaseName: grafana
     version: ${ARGOCD_ENV_grafana_operator_version}
-    repo: oci://registry-1.docker.io/bitnamicharts
+    repo: https://charts.bitnami.com/bitnami
     valuesFile: values-grafana-operator.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-#resources is coming up empty, removing until we actually set to some real values
-patches:
-  - target:
-      kind: Deployment
-    patch: |
-      - op: remove
-        path: /spec/template/spec/containers/0/resources
