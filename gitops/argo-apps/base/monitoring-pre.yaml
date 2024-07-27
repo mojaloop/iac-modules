@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_utils_monitoring_pre_app_name}
-  namespace: ${ARGOCD_ENV_argocd_app_namespace}
+  name: ${ARGOCD_ENV_monitoring_pre_app_name}
+  namespace: ${ARGOCD_ENV_monitoring_pre_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_utils_sync_wave}"
+    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_monitoring_pre_sync_wave}"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 
@@ -27,23 +27,23 @@ spec:
       - ServerSideApply=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_utils_monitoring_pre_namespace}
+    namespace: ${ARGOCD_ENV_monitoring_pre_namespace}
 
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
-    targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
+    targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag}
     path: gitops/applications/base/monitoring-pre
     plugin:
       name: envsubst
       env:
         - name: "monitoring_namespace"
-          value: "${ARGOCD_ENV_utils_monitoring_pre_namespace}"
+          value: "${ARGOCD_ENV_monitoring_pre_namespace}"
 
         - name: "grafana_operator_version"
-          value: "${ARGOCD_ENV_utils_monitoring_pre_grafana_operator_version}"
+          value: "${ARGOCD_ENV_monitoring_pre_grafana_operator_version}"
 
         - name: "prometheus_crd_version"
-          value: "${ARGOCD_ENV_utils_monitoring_pre_prometheus_crd_version}"
+          value: "${ARGOCD_ENV_monitoring_pre_prometheus_crd_version}"
 
         - name: "grafana_crd_version_tag"
-          value: "${ARGOCD_ENV_utils_monitoring_pre_grafana_crd_version_tag}"
+          value: "${ARGOCD_ENV_monitoring_pre_grafana_crd_version_tag}"

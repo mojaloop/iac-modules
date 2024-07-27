@@ -1,20 +1,18 @@
 # TODO: add proper templates
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: monitoring
 resources:
-  - grafana-crs.yaml 
-  - virtual-service.yaml
+  - grafana-crs.yaml
 helmCharts:
-- name: grafana-mimir
-  releaseName: central-monitoring
-  version: 1.2.10
-  repo: oci://registry-1.docker.io/bitnamicharts
-  valuesFile: values-mimir.yaml
-  namespace: monitoring
-- name: kube-prometheus
-  releaseName: prom
-  version: 8.22.8
-  repo: oci://registry-1.docker.io/bitnamicharts
-  valuesFile: values-kube-prometheus.yaml
-  namespace: monitoring
+  - name: grafana-mimir
+    releaseName: central-monitoring
+    version: ${ARGOCD_ENV_grafana_mimir_helm_version}
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesFile: values-mimir.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
+  - name: kube-prometheus
+    releaseName: prom
+    version: ${ARGOCD_ENV_kube_prometheus_helm_version}
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesFile: values-kube-prometheus.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
