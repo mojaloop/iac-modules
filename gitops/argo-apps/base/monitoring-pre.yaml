@@ -1,25 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  # name: ${ARGOCD_ENV_monitoring_pre_app_name}
-  name: monitoring-pre
-  # namespace: ${ARGOCD_ENV_monitoring_app_namespace}
-  namespace: argocd
+  name: ${ARGOCD_ENV_utils_monitoring_pre_app_name}
+  namespace: ${ARGOCD_ENV_argocd_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-10"
-
+    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_utils_sync_wave}"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 
 spec:
   project: default
-  ignoreDifferences:
-    # TODO: ignore diffs using a pattern rather than manual hardcoded names
-    - group: apps
-      kind: Deployment
-      name: ""
-      jsonPointers:
-        - /spec/template/spec/containers/0/resources
   syncPolicy:
     automated:
       prune: true
@@ -35,61 +25,25 @@ spec:
       - PrunePropagationPolicy=foreground
       - PruneLast=true
       - ServerSideApply=true
-      - RespectIgnoreDifferences=true
   destination:
     server: "https://kubernetes.default.svc"
-    # namespace: ${ARGOCD_ENV_monitoring_pre_namespace}
-    namespace: monitoring
+    namespace: ${ARGOCD_ENV_utils_monitoring_pre_namespace}
 
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
-    # targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
-    targetRevision: feature/cc-k8s
+    targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
     path: gitops/applications/base/monitoring-pre
     plugin:
       name: envsubst
       env:
-        - name: "gitlab_namespace"
-          value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
+        - name: "monitoring_namespace"
+          value: "${ARGOCD_ENV_utils_monitoring_pre_namespace}"
 
-        # - name: "redis_cluster_size"
-        #   value: "${ARGOCD_ENV_gitlab_pre_redis_cluster_size}"
+        - name: "grafana_operator_version"
+          value: "${ARGOCD_ENV_utils_monitoring_pre_grafana_operator_version}"
 
-        # - name: "redis_storage_size"
-        #   value: "${ARGOCD_ENV_gitlab_pre_redis_storage_size}"
+        - name: "prometheus_crd_version"
+          value: "${ARGOCD_ENV_utils_monitoring_pre_prometheus_crd_version}"
 
-        # - name: "postgres_replicas"
-        #   value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
-
-        # - name: "postgres_proxy_replicas"
-        #   value: "${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}"
-
-        # - name: "postgres_storage_size"
-        #   value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"
-
-        # - name: "pgdb_helm_version"
-        #   value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
-
-        # - name: "gitlab_app_name"
-        #   value: "${ARGOCD_ENV_gitlab_gitlab_app_name}"
-
-        # - name: "praefect_postgres_replicas"
-        #   value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_replicas}"
-
-        # - name: "praefect_postgres_proxy_replicas"
-        #   value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_proxy_replicas}"
-
-        # - name: "praefect_postgres_storage_size"
-        #   value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"
-
-        # - name: "pgdb_helm_version"
-        #   value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
-
-        # - name: "vault_k8s_admin_auth_path"
-        #   value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
-
-        # - name: "vault_k8s_admin_role_name"
-        #   value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
-
-        # - name: "vault_namespace"
-        #   value: "${ARGOCD_ENV_vault_vault_namespace}"
+        - name: "grafana_crd_version_tag"
+          value: "${ARGOCD_ENV_utils_monitoring_pre_grafana_crd_version_tag}"

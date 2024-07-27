@@ -1,15 +1,22 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: monitoring
 resources:
-- https://raw.githubusercontent.com/grafana/grafana-operator/v5.6.0/deploy/kustomize/base/crds.yaml
+  - https://raw.githubusercontent.com/grafana/grafana-operator/v${ARGOCD_ENV_grafana_crd_version_tag}/deploy/kustomize/base/crds.yaml
 helmCharts:
-- name: prometheus-operator-crds
-  releaseName: prometheus-operator-crds
-  version: 8.0.1
-  repo: https://prometheus-community.github.io/helm-charts/
-- name: grafana-operator
-  releaseName: grafana
-  version: 3.5.11
-  repo: oci://registry-1.docker.io/bitnamicharts
-  valuesFile: values-grafana-operator.yaml
+  - name: prometheus-operator-crds
+    releaseName: prometheus-operator-crds
+    version: ${ARGOCD_ENV_prometheus_crd_version}
+    repo: https://prometheus-community.github.io/helm-charts/
+  - name: grafana-operator
+    releaseName: grafana
+    version: ${ARGOCD_ENV_grafana_operator_version}
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesFile: values-grafana-operator.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
+#resources is coming up empty, removing until we actually set to some real values
+patches:
+  - target:
+      kind: Deployment
+    patch: |
+      - op: remove
+        path: /spec/template/spec/containers/0/resources
