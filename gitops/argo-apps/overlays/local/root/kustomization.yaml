@@ -41,4 +41,4 @@ resources:
   - ../../../base/gitlab.yaml
   - ../../../base/gitlab-post-config.yaml
   # monitoring
-  #- ../../../base/monitoring.yaml
+  - ../../../base/monitoring.yaml
