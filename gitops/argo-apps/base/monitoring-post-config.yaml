@@ -82,7 +82,13 @@ spec:
           value: "creds.json"
 
         - name: "grafana_tf_provider_version"
-          value: "${ARGOCD_ENV_security_monitoring_grafana_tf_provider_version}"
+          value: "${ARGOCD_ENV_monitoring_grafana_tf_provider_version}"
 
         - name: "grafana_image_version"
           value: "${ARGOCD_ENV_monitoring_grafana_image_version}"
+
+        - name: "admin_rbac_group"
+          value: "${ARGOCD_ENV_monitoring_grafana_admin_rbac_group}"
+
+        - name: "user_rbac_group"
+          value: "${ARGOCD_ENV_monitoring_grafana_user_rbac_group}"
