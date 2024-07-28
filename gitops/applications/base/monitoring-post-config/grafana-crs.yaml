@@ -33,6 +33,8 @@ spec:
           #           operator: In
           #           values: ['enabled']
   config:
+    feature_toggles:
+      ssoSettingsApi: true
     unified_alerting:
       enabled: "false"
     alerting:
