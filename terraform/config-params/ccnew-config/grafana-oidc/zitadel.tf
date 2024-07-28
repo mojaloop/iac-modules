@@ -48,20 +48,18 @@ resource "zitadel_project_role" "grafana_users_role" {
 resource "grafana_sso_settings" "zitadel_sso_settings" {
   provider_name = "generic_oauth"
   oauth2_settings {
-    name                  = "Zitadel"
-    auth_url              = "https://${var.zitadel_fqdn}/oauth/v2/authorize"
-    token_url             = "https://${var.zitadel_fqdn}/oauth/v2/token"
-    api_url               = "https://${var.zitadel_fqdn}/oidc/v1/userinfo"
-    client_id             = zitadel_application_oidc.grafana.client_id
-    client_secret         = zitadel_application_oidc.grafana.client_secret
-    allow_sign_up         = true
-    auto_login            = false
-    scopes                = "openid profile email groups zitadel:grants"
-    use_pkce              = true
-    use_refresh_token     = true
-    role_attribute_path   = "is_admin && 'Admin' || 'Viewer'"
-    groups_attribute_path = var.oidc_provider_group_claim_prefix
-    allowed_groups        = "${zitadel_project.grafana.id}:${var.user_rbac_group},${zitadel_project.grafana.id}:${var.admin_rbac_group}"
+    name                = "Zitadel"
+    auth_url            = "https://${var.zitadel_fqdn}/oauth/v2/authorize"
+    token_url           = "https://${var.zitadel_fqdn}/oauth/v2/token"
+    api_url             = "https://${var.zitadel_fqdn}/oidc/v1/userinfo"
+    client_id           = zitadel_application_oidc.grafana.client_id
+    client_secret       = zitadel_application_oidc.grafana.client_secret
+    allow_sign_up       = true
+    auto_login          = false
+    scopes              = "openid profile email groups zitadel:grants"
+    use_pkce            = true
+    use_refresh_token   = true
+    role_attribute_path = "contains(\"zitadel:grants\"[*], '${var.admin_rbac_group}') && 'Admin' || contains(\"zitadel:grants\"[*], '${var.user_rbac_group}')&& 'Viewer' || 'Viewer'"
   }
 }
 

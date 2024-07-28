@@ -33,6 +33,8 @@ spec:
           #           operator: In
           #           values: ['enabled']
   config:
+    log:
+      level: "debug"
     unified_alerting:
       enabled: "true"
     auth.anonymous:
