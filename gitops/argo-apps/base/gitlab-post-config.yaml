@@ -40,7 +40,7 @@ spec:
           value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
 
         - name: "terraform_modules_tag"
-          value: "${ARGOCD_ENV_gitlab_gitlab_terraform_modules_tag}" 
+          value: "${ARGOCD_ENV_gitlab_gitlab_terraform_modules_tag}"
 
         - name: "gitlab_dns_subdomain"
-          value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"          
+          value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"

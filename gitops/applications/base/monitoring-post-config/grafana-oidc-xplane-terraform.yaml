@@ -22,9 +22,9 @@ spec:
       - key: grafana_fqdn
         value: grafana.${ARGOCD_ENV_grafana_dns_subdomain}
       - key: admin_rbac_group
-        value: ${ARGOCD_ENV_grafana_admin_rbac_group}
+        value: ${ARGOCD_ENV_admin_rbac_group}
       - key: user_rbac_group
-        value: ${ARGOCD_ENV_grafana_user_rbac_group}
+        value: ${ARGOCD_ENV_user_rbac_group}
       - key: grafana_namespace
         value: ${ARGOCD_ENV_monitoring_namespace}
       - key: oidc_provider_group_claim_prefix

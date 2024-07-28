@@ -42,9 +42,6 @@ spec:
         - name: "terraform_modules_tag"
           value: "${ARGOCD_ENV_monitoring_post_config_terraform_modules_tag}"
 
-        - name: "grafana_dns_subdomain"
-          value: "${ARGOCD_ENV_monitoring_grafana_dns_subdomain}"
-
         - name: "zitadel_post_config_output_secret"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
 
@@ -92,3 +89,12 @@ spec:
 
         - name: "user_rbac_group"
           value: "${ARGOCD_ENV_monitoring_grafana_user_rbac_group}"
+
+        - name: "grafana_dns_subdomain"
+          value: "${ARGOCD_ENV_monitoring_grafana_dns_subdomain}"
+
+        - name: "grafana_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_monitoring_grafana_istio_wildcard_gateway_name}"
+
+        - name: "grafana_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_monitoring_grafana_istio_gateway_namespace}"
