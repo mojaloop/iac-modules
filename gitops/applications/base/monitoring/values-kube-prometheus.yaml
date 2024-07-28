@@ -1,3 +1,5 @@
+operator:
+  resourcesPreset: medium
 alertmanager:
   enabled: false
   # externalConfig: true
@@ -22,8 +24,7 @@ prometheus:
       value: 30m
   externalLabels:
     cluster: control-center
-  prometheus:
-    resourcesPreset: large
+  resourcesPreset: medium
   remoteWrite:
     - name: central-monitoring
       url: http://central-monitoring-grafana-mimir-gateway/api/v1/push
