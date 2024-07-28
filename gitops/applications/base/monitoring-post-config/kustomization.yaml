@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
   - grafana-crs.yaml
   - virtual-service.yaml
+  - vault-secrets.yaml
+  - grafana-oidc-xplane-terraform.yaml

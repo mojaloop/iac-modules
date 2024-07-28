@@ -1,0 +1,88 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_monitoring_post_config_app_name}
+  namespace: ${ARGOCD_ENV_monitoring_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_monitoring_post_config_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_monitoring_post_config_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag}
+    path: gitops/applications/base/monitoring-post-config
+    plugin:
+      name: envsubst
+      env:
+        - name: "monitoring_namespace"
+          value: "${ARGOCD_ENV_monitoring_monitoring_namespace}"
+
+        - name: "terraform_modules_tag"
+          value: "${ARGOCD_ENV_monitoring_post_config_terraform_modules_tag}"
+
+        - name: "grafana_dns_subdomain"
+          value: "${ARGOCD_ENV_monitoring_grafana_dns_subdomain}"
+
+        - name: "zitadel_post_config_output_secret"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
+
+        - name: "zitadel_namespace"
+          value: "${ARGOCD_ENV_security_zitadel_namespace}"
+
+        - name: "zitadel_tf_provider_version"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
+
+        - name: "zitadel_dns_subdomain"
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
+
+        - name: "zitadel_grant_prefix"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
+
+        - name: "vault_k8s_admin_auth_path"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+        - name: "vault_k8s_admin_role_name"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+        - name: "grafana_admin_secret"
+          value: "grafana-admin-secret"
+
+        - name: "grafana_admin_secret_user_key"
+          value: "username"
+
+        - name: "grafana_admin_secret_pw_key"
+          value: "admin-password"
+
+        - name: "grafana_admin_creds_json_key"
+          value: "creds.json"
+
+        - name: "grafana_tf_provider_version"
+          value: "${ARGOCD_ENV_security_monitoring_grafana_tf_provider_version}"
+
+        - name: "grafana_image_version"
+          value: "${ARGOCD_ENV_monitoring_grafana_image_version}"

@@ -121,3 +121,20 @@ argocd_override:
           praefect_pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
     monitoring:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      sub_apps:
+        pre:
+          grafana_crd_version_tag: "${grafana_crd_version_tag}"
+          prometheus_crd_version: "${prometheus_crd_version}"
+          grafana_operator_version: "${grafana_operator_version}"
+        monitoring:
+          kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
+          grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
+          prometheus_pvc_size: "${prometheus_pvc_size}"
+          prometheus_retention_period: "${prometheus_retention_period}"
+          alertmanager_enabled: "${alertmanager_enabled}"
+        grafana:
+          public_ingress_access_domain: "${grafana_public_access}"
+          tf_provider_version: "${grafana_tf_provider_version}"
+          image_version: "${grafana_image_version}"
+        post_config:
+          terraform_modules_tag: "${iac_terraform_modules_tag}"

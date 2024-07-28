@@ -2,6 +2,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: Grafana
 metadata:
   name: grafana
+  namespace: ${ARGOCD_ENV_monitoring_namespace}
   labels:
     dashboards: "grafana"
 spec:
@@ -11,18 +12,18 @@ spec:
         spec:
           containers:
             - name: grafana
-              # image: grafana/grafana:${grafana_version} TODO: update later
-              # env:
-              #   - name: GF_SECURITY_ADMIN_USER
-              #     valueFrom:
-              #       secretKeyRef:
-              #         key: ${admin_secret_user_key}
-              #         name: ${admin_secret}
-              #   - name: GF_SECURITY_ADMIN_PASSWORD
-              #     valueFrom:
-              #       secretKeyRef:
-              #         key: ${admin_secret_pw_key}
-              #         name: ${admin_secret}
+              image: grafana/grafana:${ARGOCD_ENV_grafana_image_version}
+              env:
+                - name: GF_SECURITY_ADMIN_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: ${ARGOCD_ENV_grafana_admin_secret_user_key}
+                      name: ${ARGOCD_ENV_grafana_admin_secret}
+                - name: GF_SECURITY_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: ${ARGOCD_ENV_grafana_admin_secret_pw_key}
+                      name: ${ARGOCD_ENV_grafana_admin_secret}
           # affinity:
           #   nodeAffinity:
           #     requiredDuringSchedulingIgnoredDuringExecution:
@@ -40,17 +41,6 @@ spec:
       enabled: "true"
       org_name: "Main Org."
       org_role: "Admin"
-    # server:
-    #   domain: "${grafana_subdomain}"
-    #   root_url: https://grafana.${grafana_subdomain}
-    # auth.gitlab:
-    #   enabled: "${enable_oidc}"
-    #   allow_sign_up: "true"
-    #   scopes: read_api
-    #   auth_url: ${gitlab_server_url}/oauth/authorize
-    #   token_url: ${gitlab_server_url}/oauth/token
-    #   api_url: ${gitlab_server_url}/api/v4
-    #   allowed_groups: ${groups}
-    #   client_id: ${client_id}
-    #   client_secret: ${client_secret}
-    #   role_attribute_path: "is_admin && 'Admin' || 'Viewer'"
+    server:
+      domain: "${ARGOCD_ENV_grafana_dns_subdomain}"
+      root_url: https://grafana.${ARGOCD_ENV_grafana_dns_subdomain}
