@@ -54,7 +54,7 @@ grafana_crd_version_tag: "5.10.0"
 prometheus_crd_version: "13.0.2"
 prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: "4.4.12"
-grafana_image_version: 10.2.3
+grafana_image_version: 11.1.3
 prometheus_pvc_size: 50Gi
 prometheus_retention_period: 10d
 alertmanager_enabled: false
