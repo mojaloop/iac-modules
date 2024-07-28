@@ -1,5 +1,6 @@
 operator:
-  resourcesPreset: medium
+  resourcesPreset: small
+  logLevel: debug
 alertmanager:
   enabled: false
   # externalConfig: true
@@ -10,6 +11,7 @@ alertmanager:
     storageClass: null
     size: 10Gi
 prometheus:
+  logLevel: debug
   persistence:
     enabled: true
     storageClass: null
@@ -24,7 +26,7 @@ prometheus:
       value: 30m
   externalLabels:
     cluster: control-center
-  resourcesPreset: medium
+  resourcesPreset: large
   remoteWrite:
     - name: central-monitoring
       url: http://central-monitoring-grafana-mimir-gateway/api/v1/push

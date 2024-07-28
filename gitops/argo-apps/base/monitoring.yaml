@@ -47,6 +47,10 @@ spec:
       jsonPointers:
         - /spec/volumeClaimTemplates/0/kind
         - /spec/volumeClaimTemplates/0/apiVersion
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      jsonPointers:
+        - /spec/endpoints/0/relabelings/0/action
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_monitoring_monitoring_namespace}
