@@ -59,11 +59,6 @@ resource "grafana_sso_settings" "zitadel_sso_settings" {
     scopes              = "openid profile email groups zitadel:grants"
     use_pkce            = true
     use_refresh_token   = true
-    role_attribute_path = "contains(\"zitadel:grants\"[*], '${var.admin_rbac_group}') && 'Admin' || contains(\"zitadel:grants\"[*], '${var.user_rbac_group}')&& 'Viewer' || 'Viewer'"
+    role_attribute_path = "contains(\"zitadel:grants\"[*], '${zitadel_project.grafana.id}:${var.admin_rbac_group}') && 'Admin' || contains(\"zitadel:grants\"[*], '${zitadel_project.grafana.id}:${var.user_rbac_group}') && 'Viewer'"
   }
 }
-
-
-
-
-
