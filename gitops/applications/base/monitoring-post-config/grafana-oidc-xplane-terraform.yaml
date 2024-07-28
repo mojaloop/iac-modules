@@ -91,6 +91,6 @@ spec:
           jwt_profile_file = "$${path.module}/zitadel-admin-sa.json"
       }
       provider "grafana" {
-          url  = "http://grafana.${ARGOCD_ENV_grafana_dns_subdomain}/"
+          url  = "https://grafana.${ARGOCD_ENV_grafana_dns_subdomain}/"
           auth = var.token
       }

@@ -12,6 +12,9 @@ spec:
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: gitlab-postconfig-config
+  writeConnectionSecretToRef:
+    namespace: ${ARGOCD_ENV_gitlab_namespace}
+    name: ${ARGOCD_ENV_gitlab_post_config_output_secret}
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig

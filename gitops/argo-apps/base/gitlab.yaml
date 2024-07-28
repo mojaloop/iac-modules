@@ -55,13 +55,13 @@ spec:
           value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
 
         - name: "gitlab_root_token_secret_name"
-          value: "root-token-secret"
+          value: "${ARGOCD_ENV_gitlab_gitlab_root_token_secret_name}"
 
         - name: "gitlab_root_token_secret_key"
-          value: "token"
+          value: "${ARGOCD_ENV_gitlab_gitlab_root_token_secret_key}"
 
         - name: "gitlab_oidc_secret"
           value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"
 
         - name: "zitadel_dns_subdomain"
-          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"  
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"

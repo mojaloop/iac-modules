@@ -44,3 +44,6 @@ spec:
 
         - name: "gitlab_dns_subdomain"
           value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
+
+        - name: "gitlab_post_config_output_secret"
+          value: "${ARGOCD_ENV_gitlab_post_config_output_secret}"
