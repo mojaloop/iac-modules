@@ -44,3 +44,44 @@ spec:
     server:
       domain: "${ARGOCD_ENV_grafana_dns_subdomain}"
       root_url: https://grafana.${ARGOCD_ENV_grafana_dns_subdomain}
+
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: mimir
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Mimir
+    type: prometheus
+    access: proxy
+    # url: ${prom-mojaloop-url}
+    url: http://central-monitoring-grafana-mimir-gateway/prometheus
+    isDefault: true
+    editable: true
+    jsonData:
+      httpHeaderName1: "X-Scope-OrgID"
+    secureJsonData:
+      httpHeaderValue1: "infitx"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: prometheus
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Prometheus
+    type: prometheus
+    access: proxy
+    # url: ${prom-mojaloop-url}
+    url: http://prometheus-operated:9090
+    isDefault: false
+    editable: true
+---
+
