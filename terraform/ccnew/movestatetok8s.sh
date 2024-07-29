@@ -1,4 +1,4 @@
-
+#!/bin/bash
 cat <<'EOT' >terragrunt.hcl
 skip = true
 generate "backend" {
