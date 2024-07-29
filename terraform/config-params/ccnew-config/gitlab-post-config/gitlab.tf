@@ -24,3 +24,20 @@ resource "gitlab_project" "bootstrap" {
   initialize_with_readme = true
   shared_runners_enabled = true
 }
+
+resource "gitlab_group" "tenancy_internal" {
+  name                              = "tenancy-internal"
+  path                              = "tenancy-internal"
+  description                       = "tenancy internal"
+  require_two_factor_authentication = true
+  two_factor_grace_period           = var.two_factor_grace_period
+}
+
+resource "gitlab_project" "tenancy_docs" {
+  name                   = "tenancy-docs"
+  namespace_id           = gitlab_group.tenancy_internal.id
+  initialize_with_readme = true
+  shared_runners_enabled = false
+  visibility_level       = "internal"
+  pages_access_level     = "enabled"
+}
