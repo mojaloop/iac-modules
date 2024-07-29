@@ -87,6 +87,9 @@ spec:
         - name: "vault_namespace"
           value: "${ARGOCD_ENV_vault_vault_namespace}"
 
+        - name: "vault_dns_subdomain"
+          value: "${ARGOCD_ENV_vault_vault_dns_subdomain}"
+
         - name: "vault_tf_provider_version"
           value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
 

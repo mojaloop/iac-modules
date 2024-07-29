@@ -28,7 +28,7 @@ spec:
       - key: oidc_provider_group_claim_prefix
         value: ${ARGOCD_ENV_zitadel_grant_prefix}
       - key: vault_fqdn
-        value: vault.${ARGOCD_ENV_zitadel_dns_subdomain}
+        value: vault.${ARGOCD_ENV_vault_dns_subdomain}
       - key: admin_rbac_group
         value: ${ARGOCD_ENV_vault_rbac_admin_group}
       - key: oidc_debug_log
