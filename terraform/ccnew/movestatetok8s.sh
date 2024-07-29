@@ -7,8 +7,8 @@ generate "backend" {
 terraform {
   backend "kubernetes" {
     secret_suffix    = "state"
-    config_path      = "${KUBECONFIG_LOCATION}"
-    namespace        = "${K8S_STATE_NAMESPACE}"
+    config_path      = "${get_env(KUBECONFIG_LOCATION)}"
+    namespace        = "${get_env(K8S_STATE_NAMESPACE)}"
   }
 }
 EOF
@@ -26,11 +26,7 @@ rm -rf /tmp/bootstrap /tmp/templates || true
 git config --global user.email "root@{{ gitlab_fqdn }}"
 git config --global user.name "root"
 git clone https://root:{{ gitlab_access_token }}@{{ gitlab_fqdn }}/iac/bootstrap.git /tmp/bootstrap
-cp -rf ansible-k8s-deploy/ default-config/ k8s-deplooy/ *.sh terragrunt.hcl /tmp/bootstrap
-git clone https://github.com/mojaloop/iac-modules.git /tmp/templates
-cd /tmp/templates/iac-modules
-git checkout $iac_terraform_modules_tag
-cp -r /tmp/templates/iac-modules/gitlab/ci-templates/bootstrap-v2/. /tmp/bootstrap
+cp -rf ansible-k8s-deploy/ default-config/ k8s-deplooy/ *.sh terragrunt.hcl ../gitlab/ci-templates/bootstrap-v2/. /tmp/bootstrap
 cd /tmp/bootstrap
 git add .
 git commit -m "Push bootstrap files to GitLab"
