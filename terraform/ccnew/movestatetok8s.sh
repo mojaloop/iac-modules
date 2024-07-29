@@ -1,4 +1,11 @@
 #!/bin/bash
+
+source setlocalvars.sh
+export output_dir=$(terragrunt run-all --terragrunt-exclude-dir k8s-deploy/ output ansible_output_dir | tr -d '"')
+source $output_dir/gitlabenv.sh
+export KUBECONFIG_LOCATION=$output_dir/kubeconfig
+export K8S_STATE_NAMESPACE=gitlab
+
 cat <<'EOT' >terragrunt.hcl
 skip = true
 generate "backend" {
@@ -16,11 +23,6 @@ EOF
 }
 EOT
 
-source setlocalvars.sh
-export output_dir=$(terragrunt run-all --terragrunt-exclude-dir k8s-deploy/ output ansible_output_dir | tr -d '"')
-source $output_dir/gitlabenv.sh
-export KUBECONFIG_LOCATION=$output_dir/kubeconfig
-export K8S_STATE_NAMESPACE=gitlab
 terragrunt run-all init -migrate-state -force-copy
 rm -rf /tmp/bootstrap || true
 git config --global user.email "root@{{ gitlab_fqdn }}"
