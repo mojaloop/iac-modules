@@ -15,4 +15,19 @@ EOF
 }
 EOT
 
+
+source setlocalvars.sh
+export output_dir=$(terragrunt run-all --terragrunt-exclude-dir k8s-deploy/ output ansible_output_dir | tr -d '"')
+source $output_dir/gitlabenv.sh
+export KUBECONFIG_LOCATION=$output_dir/kubeconfig
+export K8S_STATE_NAMESPACE=gitlab
 terragrunt run-all init -migrate-state -force-copy
+rm -rf /tmp/bootstrap || true
+git config --global user.email "root@{{ gitlab_fqdn }}"
+git config --global user.name "root"
+git clone https://root:{{ gitlab_access_token }}@{{ gitlab_fqdn }}/iac/bootstrap.git /tmp/bootstrap
+cp ansible-k8s-deploy/ default-config/ k8s-deplooy/ *.sh terragrunt.hcl /tmp/bootstrap
+cd /tmp/bootstrap
+git add .
+git commit -m "Push bootstrap files to GitLab"
+git push
