@@ -20,7 +20,7 @@ spec:
       - key: zitadel_fqdn
         value: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
       - key: argocd_fqdn
-        value: argocd.${ARGOCD_ENV_zitadel_dns_subdomain}
+        value: argocd.${ARGOCD_ENV_argocd_dns_subdomain}
       - key: admin_rbac_group
         value: ${ARGOCD_ENV_argocd_admin_rbac_group}
       - key: user_rbac_group
