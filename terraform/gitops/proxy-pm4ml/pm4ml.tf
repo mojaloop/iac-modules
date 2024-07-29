@@ -23,8 +23,8 @@ module "generate_pm4ml_files" {
     peer_domain_b      =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_fqdn, "extapi.${each.value.pm4ml_scheme_b_config.domain}")
     oidc_origin_a      =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.pm4ml_scheme_a_config.domain}")
     oidc_origin_b      =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.pm4ml_scheme_b_config.domain}")
-    oidc_path_a        =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_secret_vault_path, "realms/dfsps/protocol/openid-connect/token")
-    oidc_path_b        =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_secret_vault_path, "realms/dfsps/protocol/openid-connect/token")
+    oidc_path_a        =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_oidc_token_route, "realms/dfsps/protocol/openid-connect/token")
+    oidc_path_b        =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_oidc_token_route, "realms/dfsps/protocol/openid-connect/token")
     mcm_domain_a       =try(each.value.pm4ml_scheme_a_config.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.pm4ml_scheme_a_config.domain}")
     mcm_domain_b       =try(each.value.pm4ml_scheme_b_config.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.pm4ml_scheme_b_config.domain}")
     server_cert_secret_namespace                    = each.key
