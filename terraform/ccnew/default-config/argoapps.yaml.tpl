@@ -51,7 +51,6 @@ argocd_override:
           dns_private_subdomain: "${dns_private_subdomain}"
           ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
           letsencrypt_email: "${letsencrypt_email}"
-          ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
           dns_cloud_api_region: "${cloud_region}"
     vault:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
