@@ -22,10 +22,10 @@ source $output_dir/gitlabenv.sh
 export KUBECONFIG_LOCATION=$output_dir/kubeconfig
 export K8S_STATE_NAMESPACE=gitlab
 terragrunt run-all init -migrate-state -force-copy
-rm -rf /tmp/bootstrap /tmp/templates || true
+rm -rf /tmp/bootstrap || true
 git config --global user.email "root@{{ gitlab_fqdn }}"
 git config --global user.name "root"
-git clone https://root:{{ gitlab_access_token }}@{{ gitlab_fqdn }}/iac/bootstrap.git /tmp/bootstrap
+git clone https://root:${gitlab_access_token}@${gitlab_fqdn}/iac/bootstrap.git /tmp/bootstrap
 cp -rf ansible-k8s-deploy/ default-config/ k8s-deplooy/ *.sh terragrunt.hcl ../gitlab/ci-templates/bootstrap-v2/. /tmp/bootstrap
 cd /tmp/bootstrap
 git add .
