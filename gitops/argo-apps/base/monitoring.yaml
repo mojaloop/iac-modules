@@ -74,4 +74,7 @@ spec:
 
         - name: "mimir_max_global_series_per_user"
           value: "${ARGOCD_ENV_monitoring_monitoring_mimir_max_global_series_per_user}"
-        
+        - name: "mimir_ingestion_rate"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_ingestion_rate}"
+        - name: "mimir_ingestion_burst_size"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_ingestion_burst_size}"        
