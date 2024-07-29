@@ -31,6 +31,7 @@ resource "gitlab_group" "tenancy_internal" {
   description                       = "tenancy internal"
   require_two_factor_authentication = true
   two_factor_grace_period           = var.two_factor_grace_period
+  visibility_level                  = "internal"
 }
 
 resource "gitlab_project" "tenancy_docs" {
