@@ -8,7 +8,7 @@ data:
     user = User.where(id: 1).first
     token = user.personal_access_tokens.where(name: 'rootapitoken').first
     if token.nil?
-        token = user.personal_access_tokens.create(scopes: [:api], name: 'rootapitoken', expires_at: 1.days.from_now)
+        token = user.personal_access_tokens.create(scopes: [:api], name: 'rootapitoken', expires_at: 30.days.from_now)
     end
     token.set_token(ENV["TOKEN_VALUE"])
     token.save!
