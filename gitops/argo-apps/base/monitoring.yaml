@@ -71,3 +71,7 @@ spec:
 
         - name: "kube_prometheus_helm_version"
           value: "${ARGOCD_ENV_monitoring_monitoring_kube_prometheus_helm_version}"
+
+        - name: "mimir_max_global_series_per_user"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_max_global_series_per_user}"
+        

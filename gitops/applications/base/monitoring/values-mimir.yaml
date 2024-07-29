@@ -1,7 +1,7 @@
 mimir:
   overrideConfiguration:
     limits:
-      max_global_series_per_user: 1000000
+      max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: 200000
       ingestion_burst_size: 200000
 
