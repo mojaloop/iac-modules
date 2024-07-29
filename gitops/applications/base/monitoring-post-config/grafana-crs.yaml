@@ -37,10 +37,10 @@ spec:
       level: "debug"
     unified_alerting:
       enabled: "true"
-    auth.anonymous:
-      enabled: "true"
-      org_name: "Main Org."
-      org_role: "Admin"
+    # auth.anonymous:
+    #   enabled: "true"
+    #   org_name: "Main Org."
+    #   org_role: "Admin"
     server:
       domain: "${ARGOCD_ENV_grafana_dns_subdomain}"
       root_url: https://grafana.${ARGOCD_ENV_grafana_dns_subdomain}
@@ -58,14 +58,13 @@ spec:
     name: Mimir
     type: prometheus
     access: proxy
-    # url: ${prom-mojaloop-url}
     url: http://central-monitoring-grafana-mimir-gateway/prometheus
     isDefault: true
     editable: true
     jsonData:
       httpHeaderName1: "X-Scope-OrgID"
     secureJsonData:
-      httpHeaderValue1: "infitx"
+      httpHeaderValue1: "infitx" # TODO: possibly expose it as configurable env var
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -79,7 +78,6 @@ spec:
     name: Prometheus
     type: prometheus
     access: proxy
-    # url: ${prom-mojaloop-url}
     url: http://prometheus-operated:9090
     isDefault: false
     editable: true
