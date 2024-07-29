@@ -23,6 +23,7 @@ dependency "k8s_deploy" {
     haproxy_server_fqdn         = "null"
     private_subdomain           = "null"
     public_subdomain            = "null"
+    ext_dns_cloud_policy        = "null"
     target_group_internal_https_port = 0
     target_group_internal_http_port = 0
     target_group_internal_health_port = 0
