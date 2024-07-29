@@ -1,3 +1,4 @@
+
 cat <<'EOT' >terragrunt.hcl
 skip = true
 generate "backend" {
@@ -7,14 +8,13 @@ generate "backend" {
 terraform {
   backend "kubernetes" {
     secret_suffix    = "state"
-    config_path      = "${get_env(KUBECONFIG_LOCATION)}"
-    namespace        = "${get_env(K8S_STATE_NAMESPACE)}"
+    config_path      = "${get_env("KUBECONFIG_LOCATION")}"
+    namespace        = "${get_env("K8S_STATE_NAMESPACE")}"
   }
 }
 EOF
 }
 EOT
-
 
 source setlocalvars.sh
 export output_dir=$(terragrunt run-all --terragrunt-exclude-dir k8s-deploy/ output ansible_output_dir | tr -d '"')
