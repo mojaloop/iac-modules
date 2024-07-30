@@ -1,11 +1,11 @@
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: muz-test
-#   namespace: monitoring
-# spec:
-#   bucketName: muz-test
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "1000"
-#     maxSize: "2Gi"
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: mimir-bucket
+  namespace: ${ARGOCD_ENV_monitoring_namespace}
+spec:
+  bucketName: mimir-bucket
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_mimir_bucket_max_objects}"
+    maxSize: "${ARGOCD_ENV_mimir_bucket_storage_size}"

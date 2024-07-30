@@ -48,3 +48,9 @@ spec:
 
         - name: "grafana_crd_version_tag"
           value: "${ARGOCD_ENV_monitoring_pre_grafana_crd_version_tag}"
+
+        - name: "mimir_bucket_max_objects"
+          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_max_objects}"
+
+        - name: "mimir_bucket_storage_size"
+          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_storage_size}"          
