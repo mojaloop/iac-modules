@@ -1266,6 +1266,7 @@ postgresql:
 ## https://docs.gitlab.com/charts/charts/registry/
 
 registry:
+  bucket: registry
   storage:
     secret: gitlab-secret-registry
     key: connection
