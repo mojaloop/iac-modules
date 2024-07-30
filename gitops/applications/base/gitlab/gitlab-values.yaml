@@ -714,8 +714,8 @@ global:
 
     # Settings utilized by other services referencing registry:
     enabled: true
-    host: ${ARGOCD_ENV_gitlab_app_name}-registry.gitlab.svc
-    port: 5000
+    host: gl-registry.${ARGOCD_ENV_gitlab_registry_dns_subdomain}
+    port: 443
     api:
       protocol: http
       port: 5000

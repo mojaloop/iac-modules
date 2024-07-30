@@ -54,6 +54,15 @@ spec:
         - name: "gitlab_dns_subdomain"
           value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
 
+        - name: "gitlab_registry_dns_subdomain"
+          value: "${ARGOCD_ENV_gitlab_registry_dns_subdomain}"
+
+        - name: "gitlab_registry_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_gitlab_registry_istio_gateway_namespace}"
+
+        - name: "gitlab_registry_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_gitlab_registry_istio_wildcard_gateway_name}"
+
         - name: "gitlab_root_token_secret_name"
           value: "${ARGOCD_ENV_gitlab_gitlab_root_token_secret_name}"
 
