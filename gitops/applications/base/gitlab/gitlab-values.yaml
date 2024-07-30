@@ -714,11 +714,10 @@ global:
 
     # Settings utilized by other services referencing registry:
     enabled: true
-    host:
-    # port: 443
+    host: ${ARGOCD_ENV_gitlab_app_name}-registry.gitlab.svc
+    port: 5000
     api:
       protocol: http
-      serviceName: registry
       port: 5000
     tokenIssuer: gitlab-issuer
 
