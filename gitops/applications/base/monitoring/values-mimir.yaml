@@ -19,6 +19,7 @@ mimir:
 distributor:
   resourcesPreset: large
   extraEnvVarsCM: mimir-bucket
+  extraEnvVarsSecret: mimir-bucket
 
 ingester:
   resourcesPreset: large
