@@ -24,9 +24,9 @@ module "generate_pm4ml_files" {
     auth_fqdn                                       = var.auth_fqdn
     admin_portal_release_name                       = "admin-portal"
     admin_portal_chart_version                      = try(var.app_var_map.admin_portal_chart_version, var.admin_portal_chart_version)
-    dfsp_id                                         = each.value.pm4ml_dfsp_id
+    dfsp_id                                         = try(each.value.pm4ml_dfsp_id, each.key)
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
-    mcm_host_url                                    = "https://${each.value.pm4ml_external_mcm_public_fqdn}"
+    mcm_host_url                                    = "https://${try(each.value.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.domain}")}"
     server_cert_secret_namespace                    = each.key
     server_cert_secret_name                         = var.vault_certman_secretname
     vault_certman_secretname                        = var.vault_certman_secretname
@@ -52,10 +52,10 @@ module "generate_pm4ml_files" {
     vault_secret_key                                = var.vault_secret_key
     keycloak_namespace                              = var.keycloak_namespace
     keycloak_name                                   = var.keycloak_name
-    pm4ml_external_switch_fqdn                      = each.value.pm4ml_external_switch_fqdn
+    pm4ml_external_switch_fqdn                      = try(each.value.pm4ml_external_switch_fqdn, "extapi.${each.value.domain}")
     pm4ml_chart_version                             = each.value.pm4ml_chart_version
-    pm4ml_external_switch_client_id                 = each.value.pm4ml_external_switch_client_id
-    pm4ml_external_switch_oidc_url                  = each.value.pm4ml_external_switch_oidc_url
+    pm4ml_external_switch_client_id                 = try(each.value.pm4ml_external_switch_client_id, each.key)
+    pm4ml_external_switch_oidc_url                  = try(each.value.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.domain}")
     pm4ml_external_switch_oidc_token_route          = each.value.pm4ml_external_switch_oidc_token_route
     pm4ml_external_switch_client_secret             = var.pm4ml_external_switch_client_secret
     pm4ml_external_switch_client_secret_key         = "token"
@@ -68,7 +68,7 @@ module "generate_pm4ml_files" {
     kafka_port                                      = "9092"
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
     ttk_testcases_tag                               = each.value.ttk_testcases_tag
-    supported_currencies                            = each.value.supported_currencies
+    supported_currencies                            = try(each.value.supported_currencies, each.value.currency)
     fxp_id                                          = each.value.fxp_id
     core_connector_selected                         = each.value.core_connector_selected
     custom_core_connector_endpoint                  = each.value.custom_core_connector_endpoint
