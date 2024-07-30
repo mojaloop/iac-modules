@@ -8,8 +8,7 @@ mimir:
       access_key_id: $${AWS_ACCESS_KEY_ID}
       secret_access_key: $${AWS_SECRET_ACCESS_KEY}
       bucket_name: $${BUCKET_NAME}
-      # endpoint: http://$${BUCKET_HOST}
-      endpoint: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
+      endpoint: $${BUCKET_HOST}
       insecure: true
       bucket_lookup_type: path
   overrideConfiguration:
@@ -23,10 +22,10 @@ distributor:
 
 ingester:
   resourcesPreset: large
+  extraEnvVarsCM: mimir-bucket
 
 compactor: 
   extraEnvVarsCM: mimir-bucket
-  extraEnvVarsSecret: mimir-bucket
 
 storeGateway: 
   extraEnvVarsCM: mimir-bucket
