@@ -1,4 +1,4 @@
-domain: ${replace(env,"/pm$/",""}.${domain}
+domain: ${replace(env,"/pm$/","")}.${domain}
 pm4ml_enabled: true
 pm4ml_chart_version: 9.1.5
 pm4ml_ingress_internal_lb: false
