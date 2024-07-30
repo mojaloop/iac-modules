@@ -14,7 +14,7 @@ generate "backend" {
   contents  = <<EOF
 terraform {
   backend "kubernetes" {
-    secret_suffix    = "state"
+    secret_suffix    = "${replace(path_relative_to_include(), "/", "-")}-state"
     config_path      = "${get_env("KUBECONFIG_LOCATION")}"
     namespace        = "${get_env("K8S_STATE_NAMESPACE")}"
   }
