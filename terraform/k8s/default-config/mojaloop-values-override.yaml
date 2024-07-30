@@ -43,12 +43,12 @@ ml-api-adapter:
 centralledger:
   centralledger-service: *SERVICE
   centralledger-handler-transfer-prepare: *SERVICE_WITH_PROXY
-  centralledger-handler-transfer-position: *SERVICE
-  centralledger-handler-transfer-position-batch: *SERVICE
-  centralledger-handler-transfer-get: *SERVICE
-  centralledger-handler-transfer-fulfil: *SERVICE
-  centralledger-handler-timeout: *SERVICE
-  centralledger-handler-admin-transfer: *SERVICE
+  centralledger-handler-transfer-position: *SERVICE_WITH_PROXY
+  centralledger-handler-transfer-position-batch: *SERVICE_WITH_PROXY
+  centralledger-handler-transfer-get: *SERVICE_WITH_PROXY
+  centralledger-handler-transfer-fulfil: *SERVICE_WITH_PROXY
+  centralledger-handler-timeout: *SERVICE_WITH_PROXY
+  centralledger-handler-admin-transfer: *SERVICE_WITH_PROXY
 centralsettlement:
   centralsettlement-service:
     replicaCount: 1
