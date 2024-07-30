@@ -11,6 +11,7 @@ mimir:
       # endpoint: http://$${BUCKET_HOST}
       endpoint: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
       insecure: true
+      bucket_lookup_type: path
   overrideConfiguration:
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
