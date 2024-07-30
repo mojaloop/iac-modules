@@ -213,6 +213,13 @@ resource "local_file" "mojaloop_values_override" {
   depends_on = [module.generate_mojaloop_files]
 }
 
+resource "local_file" "mcm_values_override" {
+  count      = local.mcm_override_values_file_exists ? 1 : 0
+  content    = file(var.mcm_values_override_file)
+  filename   = "${local.output_path}/values-mcm-override.yaml"
+  depends_on = [module.generate_mojaloop_files]
+}
+
 resource "local_file" "finance_portal_values_override" {
   count      = local.finance_portal_override_values_file_exists ? 1 : 0
   content    = file(var.finance_portal_values_override_file)
@@ -253,6 +260,7 @@ locals {
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
   jws_key_secret                               = "switch-jws"
   mojaloop_override_values_file_exists         = fileexists(var.mojaloop_values_override_file)
+  mcm_override_values_file_exists              = fileexists(var.mcm_values_override_file)
   finance_portal_override_values_file_exists   = fileexists(var.finance_portal_values_override_file)
 }
 
@@ -375,6 +383,10 @@ variable "rbac_api_resources_file" {
 }
 
 variable "mojaloop_values_override_file" {
+  type = string
+}
+
+variable "mcm_values_override_file" {
   type = string
 }
 
