@@ -216,7 +216,7 @@ resource "local_file" "mojaloop_values_override" {
 resource "local_file" "mcm_values_override" {
   count      = local.mcm_override_values_file_exists ? 1 : 0
   content    = file(var.mcm_values_override_file)
-  filename   = "${local.output_path}/values-mcm-override.yaml"
+  filename   = "${local.output_path_mcm}/values-mcm-override.yaml"
   depends_on = [module.generate_mojaloop_files]
 }
 
@@ -246,6 +246,7 @@ locals {
   mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
   mojaloop_app_file                            = "mojaloop-app.yaml"
   output_path                                  = "${var.output_dir}/mojaloop"
+  output_path_mcm                              = "${var.output_dir}/mcm"
   ml_als_resource_index                        = "account-lookup-db"
   ml_cl_resource_index                         = "central-ledger-db"
   bulk_mongodb_resource_index                  = "bulk-mongodb"
