@@ -28,9 +28,10 @@ rm -rf /tmp/bootstrap || true
 git config --global user.email "root@{{ gitlab_fqdn }}"
 git config --global user.name "root"
 git clone https://root:${gitlab_access_token}@${gitlab_fqdn}/iac/bootstrap.git /tmp/bootstrap
-cp -rf ansible-k8s-deploy/terragrunt.hcl /tmp/bootstrap/ansible-k8s-deploy
-cp -rf default-config/ /tmp/bootstrap
-cp -rf k8s-deploy/terragrunt.hcl /tmp/bootstrap/k8s-deploy
+mkdir -p /tmp/bootstrap/ansible-k8s-deploy /tmp/bootstrap/k8s-deploy
+cp -rf ansible-k8s-deploy/terragrunt.hcl /tmp/bootstrap/ansible-k8s-deploy/
+cp -rf default-config /tmp/bootstrap
+cp -rf k8s-deploy/terragrunt.hcl /tmp/bootstrap/k8s-deploy/
 cp -rf *.sh terragrunt.hcl /tmp/bootstrap
 cp -rf ../gitlab/ci-templates/bootstrap-v2/. /tmp/bootstrap
 cd /tmp/bootstrap
