@@ -1,15 +1,15 @@
 minio:
-  enabled: true
+  enabled: false
 
 mimir:
   blockStorage:
     backend: s3
     config: |
-      access_key_id: ${S3_ACCESS_KEY_ID}
-      secret_access_key: ${S3_SECRET_ACCESS_KEY}
-      bucket_name: mimir
-      endpoint: s3.us-east-1.amazonaws.com
-      insecure: false
+      access_key_id: ${AWS_ACCESS_KEY_ID}
+      secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+      bucket_name: ${BUCKET_NAME}
+      endpoint: ${BUCKET_HOST}:${BUCKET_PORT}
+      insecure: true
   overrideConfiguration:
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
