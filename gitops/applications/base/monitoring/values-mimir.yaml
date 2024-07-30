@@ -4,12 +4,12 @@ minio:
 mimir:
   blockStorage:
     backend: s3
-    config: |
-      access_key_id: ${AWS_ACCESS_KEY_ID}
-      secret_access_key: ${AWS_SECRET_ACCESS_KEY}
-      bucket_name: ${BUCKET_NAME}
-      endpoint: ${BUCKET_HOST}:${BUCKET_PORT}
-      insecure: true
+    # config: |
+    #   access_key_id: ${AWS_ACCESS_KEY_ID}
+    #   secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+    #   bucket_name: ${BUCKET_NAME}
+    #   endpoint: ${BUCKET_HOST}:${BUCKET_PORT}
+    #   insecure: true
   overrideConfiguration:
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
@@ -18,8 +18,10 @@ mimir:
 
 distributor:
   resourcesPreset: large
-  extraEnvVarsCM: mimir-bucket
-  extraEnvVarsSecret: mimir-bucket
 
 ingester:
   resourcesPreset: large
+
+# storeGateway: 
+#   extraEnvVarsCM: mimir-bucket
+#   extraEnvVarsSecret: mimir-bucket
