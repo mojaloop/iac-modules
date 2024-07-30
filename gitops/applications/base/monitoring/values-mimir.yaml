@@ -1,3 +1,6 @@
+minio:
+  enabled: false
+
 mimir:
   overrideConfiguration:
     limits:
