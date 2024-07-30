@@ -1267,6 +1267,7 @@ postgresql:
 
 registry:
   enabled: true
+  minio.bucket: registry
   storage:
     secret: gitlab-secret-registry
     key: connection
