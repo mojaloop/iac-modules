@@ -4,7 +4,7 @@ minio:
 mimir:
   blockStorage:
     backend: s3
-    config: |
+    config:
       access_key_id: '${AWS_ACCESS_KEY_ID}'
       secret_access_key: ${AWS_SECRET_ACCESS_KEY}
       bucket_name: ${BUCKET_NAME}
