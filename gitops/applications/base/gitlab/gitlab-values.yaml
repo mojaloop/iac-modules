@@ -668,6 +668,47 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-registry-settings
   registry:
+    bucket: registry
+
+    certificate:
+      {}
+      # secret:
+    httpSecret:
+      {}
+      # secret:
+      # key:
+    notificationSecret:
+      {}
+      # secret:
+      # key:
+    tls:
+      enabled: false
+      # secretName:
+    redis:
+      cache:
+        password: {}
+      rateLimiting:
+        password: {}
+    # https://docs.docker.com/registry/notifications/#configuration
+    notifications:
+      {}
+      # endpoints:
+      #   - name: FooListener
+      #     url: https://foolistener.com/event
+      #     timeout: 500ms
+      #     threshold: 10 # DEPRECATED: use maxretries instead https://gitlab.com/gitlab-org/container-registry/-/issues/1243.
+      #     maxretries: 5
+      #     backoff: 1s
+      #     headers:
+      #       FooBar: ['1', '2']
+      #       Authorization:
+      #         secret: gitlab-registry-authorization-header
+      #       SpecificPassword:
+      #         secret: gitlab-registry-specific-password
+      #         key: password
+      # events: {}
+
+    # Settings utilized by other services referencing registry:
     enabled: true
     host: gl-registry.${ARGOCD_ENV_gitlab_registry_dns_subdomain}
     port: 443
@@ -1228,55 +1269,6 @@ registry:
   storage:
     secret: gitlab-secret-registry
     key: connection
-
-  bucket: registry
-
-  certificate:
-    {}
-    # secret:
-  httpSecret:
-    {}
-    # secret:
-    # key:
-  notificationSecret:
-    {}
-    # secret:
-    # key:
-  tls:
-    enabled: false
-    # secretName:
-  redis:
-    cache:
-      password: {}
-    rateLimiting:
-      password: {}
-  # https://docs.docker.com/registry/notifications/#configuration
-  notifications:
-    {}
-    # endpoints:
-    #   - name: FooListener
-    #     url: https://foolistener.com/event
-    #     timeout: 500ms
-    #     threshold: 10 # DEPRECATED: use maxretries instead https://gitlab.com/gitlab-org/container-registry/-/issues/1243.
-    #     maxretries: 5
-    #     backoff: 1s
-    #     headers:
-    #       FooBar: ['1', '2']
-    #       Authorization:
-    #         secret: gitlab-registry-authorization-header
-    #       SpecificPassword:
-    #         secret: gitlab-registry-specific-password
-    #         key: password
-    # events: {}
-
-  # Settings utilized by other services referencing registry:
-  enabled: true
-  host: gl-registry.${ARGOCD_ENV_gitlab_registry_dns_subdomain}
-  port: 443
-  api:
-    protocol: http
-    port: 5000
-  tokenIssuer: gitlab-issuer
 
 ## Automatic shared secret generation
 ## https://docs.gitlab.com/charts/installation/secrets
