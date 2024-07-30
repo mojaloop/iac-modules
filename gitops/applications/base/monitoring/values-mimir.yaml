@@ -1,5 +1,5 @@
 minio:
-  enabled: false
+  enabled: true
 
 mimir:
   blockStorage:
@@ -22,6 +22,6 @@ distributor:
 ingester:
   resourcesPreset: large
 
-# storeGateway: 
-#   extraEnvVarsCM: mimir-bucket
-#   extraEnvVarsSecret: mimir-bucket
+storeGateway: 
+  extraEnvVarsCM: mimir-bucket
+  extraEnvVarsSecret: mimir-bucket
