@@ -22,12 +22,12 @@ distributor:
 
 ingester:
   resourcesPreset: large
-  extraEnvVarsCM: mimir-bucket
-  extraEnvVarsSecret: mimir-bucket
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
 querier:
-  extraEnvVarsCM: mimir-bucket
-  extraEnvVarsSecret: mimir-bucket
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
 query-frontend: 
   extraEnvVarsCM: mimir-bucket
