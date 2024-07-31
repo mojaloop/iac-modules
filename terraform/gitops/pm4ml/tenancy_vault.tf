@@ -13,6 +13,5 @@ resource "vault_kv_secret_v2" "mcm_client" {
   disable_read = true
   lifecycle {
     ignore_changes  = [data_json]
-    prevent_destroy = true
   }
 }
