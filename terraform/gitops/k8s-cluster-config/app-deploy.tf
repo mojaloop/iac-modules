@@ -113,6 +113,8 @@ module "pm4ml" {
   role_assign_svc_secret_prefix          = "role-assign-svc-secret-"
   portal_admin_user                      = var.portal_admin_user
   portal_admin_secret_prefix             = "portal-admin-secret-"
+  mcm_admin_user                         = var.mcm_admin_user
+  mcm_admin_secret_prefix                = "mcm-admin-secret-"
   pm4ml_values_override_file             = var.pm4ml_values_override_file
 }
 
@@ -298,6 +300,16 @@ variable "portal_admin_secret" {
 variable "portal_admin_user" {
   type    = string
   default = "portal_admin"
+}
+
+variable "mcm_admin_secret" {
+  type    = string
+  default = "mcm-admin-secret"
+}
+
+variable "mcm_admin_user" {
+  type    = string
+  default = "mcm_admin"
 }
 
 variable "rbac_api_resources_file" {

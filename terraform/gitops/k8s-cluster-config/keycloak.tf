@@ -119,6 +119,7 @@ locals {
       "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
       "${var.role_assign_svc_secret}"          = var.vault_secret_key
       "${var.portal_admin_secret}"             = var.vault_secret_key
+      "${var.mcm_admin_secret}"                = var.vault_secret_key
     }
   )
 }

@@ -84,6 +84,9 @@ module "generate_pm4ml_files" {
     portal_admin_secret                             = "${var.portal_admin_secret_prefix}${each.key}"
     portal_admin_secret_name                        = join("$", ["", "{${replace("${var.portal_admin_secret_prefix}${each.key}", "-", "_")}}"])
     portal_admin_user                               = var.portal_admin_user
+    mcm_admin_secret                                = "${var.mcm_admin_secret_prefix}${each.key}"
+    mcm_admin_secret_name                           = join("$", ["", "{${replace("${var.mcm_admin_secret_prefix}${each.key}", "-", "_")}}"])
+    mcm_admin_user                                  = var.mcm_admin_user
     role_assign_svc_secret                          = "${var.role_assign_svc_secret_prefix}${each.key}"
     role_assign_svc_secret_name                     = join("$", ["", "{${replace("${var.role_assign_svc_secret_prefix}${each.key}", "-", "_")}}"])
     role_assign_svc_user                            = var.role_assign_svc_user
@@ -244,6 +247,10 @@ variable "portal_admin_user" {
   type = string
 }
 
+variable "mcm_admin_user" {
+  type = string
+}
+
 variable "role_assign_svc_user" {
   type = string
 }
@@ -253,6 +260,10 @@ variable "role_assign_svc_secret_prefix" {
 }
 
 variable "portal_admin_secret_prefix" {
+  type = string
+}
+
+variable "mcm_admin_secret_prefix" {
   type = string
 }
 
