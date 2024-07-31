@@ -86,6 +86,8 @@ module "generate_mcm_files" {
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     switch_dfspid                        = var.switch_dfspid
+    pm4mls                               = {for name, value in var.pm4mls : name => value if !value.pm4ml_enabled || can(value.pm4ml_scheme_a_config)}
+    dfsp_seed                            = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}" if length(try(value.currency, "")) > 0])
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -208,6 +210,10 @@ variable "keycloak_namespace" {
 
 variable "fspiop_use_ory_for_auth" {
   type = bool
+}
+
+variable "pm4mls" {
+  type = any
 }
 
 locals {

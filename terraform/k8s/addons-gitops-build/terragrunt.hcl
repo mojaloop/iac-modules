@@ -57,6 +57,7 @@ locals {
   gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
   common_vars                   = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
   pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"))
+  proxy_pm4ml_vars              = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}"))
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
   vnext_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}"))
   addons_vars                   = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/addons-vars.yaml")}"))

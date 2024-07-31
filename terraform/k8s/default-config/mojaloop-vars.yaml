@@ -1,12 +1,15 @@
 bulk_enabled: false
 third_party_enabled: false
-mcm_chart_version: 0.7.7
+mcm_chart_version: 1.1.0
 mojaloop_chart_version: 16.0.0
-ttk_testcases_tag: 16.0.0
+ttk_testcases_tag: 16.1.0
+ttk_test_currency1: ${currency}
+ttk_test_currency2: USD
+ttk_test_currency3: CAD
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 finance_portal_ingress_internal_lb: true
-onboarding_collection_tag: 15.2.0
+onboarding_collection_tag: 16.1.0
 grafana_dashboard_tag: v16.3.0-snapshot.24 # TODO: update once v16.1.x is published
 enable_istio_injection: true
 central_ledger_handler_transfer_position_batch_processing_enabled: false

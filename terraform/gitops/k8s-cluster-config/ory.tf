@@ -42,6 +42,8 @@ module "generate_ory_files" {
     role_assign_svc_user                 = var.role_assign_svc_user
     portal_admin_secret_name             = join("$", ["", "{${replace(var.portal_admin_secret, "-", "_")}}"])
     portal_admin_user                    = var.portal_admin_user
+    mcm_admin_secret_name                = join("$", ["", "{${replace(var.mcm_admin_secret, "-", "_")}}"])
+    mcm_admin_user                       = var.mcm_admin_user
     oidc_providers                       = local.oidc_providers
     permissionExclusions                 = local.permissionExclusions
     mojaloopRoles                        = local.mojaloopRoles

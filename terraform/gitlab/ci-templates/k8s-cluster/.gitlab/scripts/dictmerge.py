@@ -127,14 +127,17 @@ else:
             data2 = load_custom_config(custom_config_file)
             if "pm4mls" in data2 and len(data2["pm4mls"]) > 0:
                 merged = dict(mergedicts(merged, {'pm4mls': {name: dict(mergedicts(data1, pm4ml)) for name, pm4ml in data2['pm4mls'].items()}}))
+        elif fileName == "proxy-pm4ml-vars.yaml":
+            data2 = load_custom_config(custom_config_file)
+            if "proxy_pm4mls" in data2 and len(data2["proxy_pm4mls"]) > 0:
+                merged = dict(mergedicts(merged, {'proxy_pm4mls': {name: dict(mergedicts(data1, pm4ml)) for name, pm4ml in data2['proxy_pm4mls'].items()}}))
         else:
             data1 = dict(mergedicts(data1, load_custom_config(custom_config_file)))
             merged = data1
     if defaultExt == ".yaml":
         #result = yaml.dump(dict(data1), indent=4, sort_keys=True)
         with open(outputFilename, 'w') as file:
-            yaml.dump(merged, file, indent=4, default_flow_style=False)
+            yaml.dump(merged, file, indent=4, default_flow_style=False, Dumper=CustomDumper)
     elif defaultExt == ".json":
         with open(outputFilename, 'w') as file:
             json.dump(merged, file, indent=4)
-

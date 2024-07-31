@@ -64,4 +64,3 @@ spec:
     stringData:
       secret: '{{ .secret.${vault_secret_key} }}'
     type: Opaque
----
