@@ -6,4 +6,4 @@ resources:
   - vault-secrets.yaml
   - grafana-oidc-xplane-terraform.yaml
   - dashboards/k8s.yaml
-  - default.yaml
+  - dashboards/default.yaml
