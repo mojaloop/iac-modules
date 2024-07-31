@@ -450,7 +450,7 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build . --enable-helm --helm-kube-version 1.29-0 --load-restrictor LoadRestrictionsNone > /dev/stdout",
+                        "for f in *.yaml */*.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build . --enable-helm --helm-kube-version 1.29-0 --load-restrictor LoadRestrictionsNone > /dev/stdout",
                       ]
 
                 helmfile:
@@ -460,7 +460,7 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && sed -i -e 's/ref+/reff+/g' $f.sub && mv $f.sub $f ; done && helmfile template --quiet -f helmfile.yaml > helmfileout.yaml && sed -i -e 's/reff+/ref+/g' helmfileout.yaml && cp helmfileout.yaml /dev/stdout",
+                        "for f in *.yaml */*.yaml ; do cat $f | envsubst > $f.sub && sed -i -e 's/ref+/reff+/g' $f.sub && mv $f.sub $f ; done && helmfile template --quiet -f helmfile.yaml > helmfileout.yaml && sed -i -e 's/reff+/ref+/g' helmfileout.yaml && cp helmfileout.yaml /dev/stdout",
                       ]
 
           ## Controller ##
