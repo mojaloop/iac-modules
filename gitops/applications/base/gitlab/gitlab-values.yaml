@@ -63,12 +63,15 @@ global:
   hosts:
     domain: ${ARGOCD_ENV_gitlab_dns_subdomain}
     hostSuffix:
-    https: true
+    https: false
     externalIP:
     ssh:
-    gitlab: {}
+    gitlab:
+      https: true
     minio: {}
-    registry: {}
+    registry:
+      https: false
+      host: gitlab-registry.gitlab.svc
     tls: {}
     smartcard: {}
     kas: {}
@@ -710,8 +713,9 @@ global:
 
     # Settings utilized by other services referencing registry:
     enabled: true
-    host: gl-registry.${ARGOCD_ENV_gitlab_registry_dns_subdomain}
-    port: 443
+    https: false
+    host: gitlab-registry.gitlab.svc
+    port: 5000
     api:
       protocol: http
       port: 5000
