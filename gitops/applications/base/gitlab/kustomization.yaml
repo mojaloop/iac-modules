@@ -20,12 +20,12 @@ patches:
       name: gitlab-toolbox
     patch: |
       - op: add
-        path: /spec/template/spec/containers/0
+        path: /spec/template/spec/containers/0/lifecycle
         value: 
-          lifecycle:
-            postStart:
-              exec:
-                command: ["cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb && cp -v -r -L /etc/gitlab/.s3cfg $HOME/.s3cfg && while sleep 3600; do :; done"]
+          postStart:
+            exec:
+              command:
+                - "cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb && cp -v -r -L /etc/gitlab/.s3cfg $HOME/.s3cfg && while sleep 3600; do :; done"
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
