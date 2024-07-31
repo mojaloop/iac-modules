@@ -238,8 +238,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -279,8 +279,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -320,8 +320,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -361,8 +361,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -402,8 +402,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -443,8 +443,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -484,8 +484,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -525,8 +525,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -560,7 +560,7 @@ spec:
           s3:
            bucket: registry
            v4auth: true
-           regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+           regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
            pathstyle: true
            region: us-east-1
            accesskey: {{.AWS_ACCESS_KEY_ID}}
@@ -603,8 +603,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -644,6 +644,6 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
