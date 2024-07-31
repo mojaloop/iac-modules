@@ -23,6 +23,8 @@ distributor:
 ingester:
   resourcesPreset: large
   extraEnvVarsCM: mimir-bucket
+  extraEnvVarsSecret: mimir-bucket
+
 
 compactor: 
   extraEnvVarsCM: mimir-bucket
