@@ -99,3 +99,6 @@ spec:
 
         - name: "grafana_istio_gateway_namespace"
           value: "${ARGOCD_ENV_monitoring_grafana_istio_gateway_namespace}"
+
+        - name: "mojaloop_dashboards_tag"
+          value: "${ARGOCD_ENV_monitoring_grafana_mojaloop_dashboards_tag}"  
