@@ -54,3 +54,9 @@ spec:
 
         - name: "mimir_bucket_storage_size"
           value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_storage_size}"          
+
+        - name: "mimir_bucket_name"
+          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_name}"          
+
+
+          
