@@ -26,6 +26,8 @@ ingester:
 
 compactor: 
   extraEnvVarsCM: mimir-bucket
+  extraEnvVarsSecret: mimir-bucket
+
 
 storeGateway: 
   extraEnvVarsCM: mimir-bucket
