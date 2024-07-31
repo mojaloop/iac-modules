@@ -10,7 +10,7 @@ mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 finance_portal_ingress_internal_lb: true
 onboarding_collection_tag: 16.1.0
-grafana_dashboard_tag: v16.3.0-snapshot.21 # TODO: update once v16.1.x is published
+grafana_dashboard_tag: v16.3.0-snapshot.24 # TODO: update once v16.1.x is published
 enable_istio_injection: true
 central_ledger_handler_transfer_position_batch_processing_enabled: false
 central_ledger_handler_transfer_position_batch_size: 100
