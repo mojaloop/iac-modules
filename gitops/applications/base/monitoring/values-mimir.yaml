@@ -16,6 +16,8 @@ mimir:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}
       ingestion_burst_size: ${ARGOCD_ENV_mimir_ingestion_burst_size}
+      compactor_blocks_retention_period: 3d
+
 
 distributor:
   resourcesPreset: large
