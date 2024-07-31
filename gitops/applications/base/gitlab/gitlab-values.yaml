@@ -712,7 +712,7 @@ global:
     # Settings utilized by other services referencing registry:
     enabled: true
     api:
-      serviceName:
+      serviceName: gitlab-registry.gitlab.svc.cluster.local
       protocol: http
       port: 5000
     tokenIssuer: gitlab-issuer
