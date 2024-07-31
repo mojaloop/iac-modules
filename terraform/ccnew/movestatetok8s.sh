@@ -1,10 +1,7 @@
 #!/bin/bash
 set -e
 source setlocalvars.sh
-export output_dir=$ANSIBLE_BASE_OUTPUT_DIR/k8s-deploy
 source $output_dir/gitlabenv.sh
-export KUBECONFIG_LOCATION=$output_dir/kubeconfig
-export K8S_STATE_NAMESPACE=gitlab
 
 cat <<'EOT' >terragrunt.hcl
 skip = true

@@ -5,3 +5,6 @@ export destroy_ansible_playbook="mojaloop.iac.cc${k8s_cluster_type}_cluster_dest
 export d_ansible_collection_url="git+https://github.com/mojaloop/iac-ansible-collection-roles.git#/mojaloop/iac"
 export destroy_ansible_inventory="$ANSIBLE_BASE_OUTPUT_DIR/k8s-deploy/inventory"
 export destroy_ansible_collection_complete_url=$d_ansible_collection_url,$ansible_collection_tag
+export movek8s_output_dir="$ANSIBLE_BASE_OUTPUT_DIR/k8s-deploy"
+export KUBECONFIG_LOCATION=$movek8s_output_dir/kubeconfig
+export K8S_STATE_NAMESPACE=kube-system
