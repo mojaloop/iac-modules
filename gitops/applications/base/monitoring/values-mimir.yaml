@@ -25,11 +25,17 @@ ingester:
   extraEnvVarsCM: mimir-bucket
   extraEnvVarsSecret: mimir-bucket
 
+querier:
+  extraEnvVarsCM: mimir-bucket
+  extraEnvVarsSecret: mimir-bucket
+
+query-frontend: 
+  extraEnvVarsCM: mimir-bucket
+  extraEnvVarsSecret: mimir-bucket
 
 compactor: 
   extraEnvVarsCM: mimir-bucket
   extraEnvVarsSecret: mimir-bucket
-
 
 storeGateway: 
   extraEnvVarsCM: mimir-bucket
