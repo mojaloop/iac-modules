@@ -1,0 +1,14 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: test-dashboard
+spec:
+  folder: default
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus" 
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: https://raw.githubusercontent.com/mojaloop/helm/${ARGOCD_ENV_mojaloop_dashboards_tag}/monitoring/dashboards/datastore/dashboard-mysql-exporter-quickstart.json
+---
