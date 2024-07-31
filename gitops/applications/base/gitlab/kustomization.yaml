@@ -25,7 +25,10 @@ patches:
           postStart:
             exec:
               command:
-                - "cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb && cp -v -r -L /etc/gitlab/.s3cfg $HOME/.s3cfg && while sleep 3600; do :; done"
+                - /bin/bash
+                - '-c'
+                - >-
+                  cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
