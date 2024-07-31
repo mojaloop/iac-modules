@@ -69,9 +69,7 @@ global:
     gitlab:
       https: true
     minio: {}
-    registry:
-      https: false
-      host: gitlab-registry.gitlab.svc
+    registry: {}
     tls: {}
     smartcard: {}
     kas: {}
@@ -713,10 +711,8 @@ global:
 
     # Settings utilized by other services referencing registry:
     enabled: true
-    https: false
-    host: gitlab-registry.gitlab.svc
-    port: 5000
     api:
+      serviceName:
       protocol: http
       port: 5000
     tokenIssuer: gitlab-issuer
