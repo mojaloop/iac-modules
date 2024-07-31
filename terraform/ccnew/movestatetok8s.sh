@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 source setlocalvars.sh
-source $output_dir/gitlabenv.sh
+source $movek8s_output_dir/gitlabenv.sh
 
 cat <<'EOT' >terragrunt.hcl
 skip = true
