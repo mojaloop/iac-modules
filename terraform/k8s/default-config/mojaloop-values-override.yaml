@@ -23,9 +23,9 @@ _DEFINE:
       proxy_cache:
         enabled: false
         proxyConfig:
-          host: mojaloop-redis
+          host: mojaloop-redis # this points to mojaloop-redis-leader when using RedisCluster
           cluster:
-            - host: mojaloop-redis-leader
+            - host: mojaloop-redis # this points to mojaloop-redis-leader when using RedisCluster
               port: 6379
   SERVICE: &SERVICE
     <<: [*DEPLOYMENT, *CONFIG]
