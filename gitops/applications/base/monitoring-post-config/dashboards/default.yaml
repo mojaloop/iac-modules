@@ -19,7 +19,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/${ARGOCD_ENV_mojaloop_dashboards_tag}/monitoring/dashboards/datastore/dashboard-mysql-exporter-quickstart.json"
+  url: https://raw.githubusercontent.com/mojaloop/helm/${ARGOCD_ENV_mojaloop_dashboards_tag}/monitoring/dashboards/datastore/dashboard-mysql-exporter-quickstart.json
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
