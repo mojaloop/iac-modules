@@ -83,3 +83,6 @@ spec:
 
         - name: "zitadel_grant_prefix"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
+          
+        - name: "mojaloop_dashboards_tag"
+          value: "${ARGOCD_ENV_monitoring_grafana_mojaloop_dashboards_tag}"  
