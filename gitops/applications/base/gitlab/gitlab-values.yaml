@@ -709,6 +709,7 @@ global:
       # events: {}
 
     # Settings utilized by other services referencing registry:
+    https: false
     enabled: true
     host: gitlab-registry.gitlab.svc
     port: 5000
