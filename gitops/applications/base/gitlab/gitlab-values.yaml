@@ -1273,7 +1273,7 @@ registry:
     secret: gitlab-secret-registry
     key: connection
     redirect:
-      disable: false
+      disable: true
 
 ## Automatic shared secret generation
 ## https://docs.gitlab.com/charts/installation/secrets
