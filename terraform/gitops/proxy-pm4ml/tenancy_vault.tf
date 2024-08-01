@@ -13,7 +13,6 @@ resource "vault_kv_secret_v2" "mcm_client_a" {
   disable_read = true
   lifecycle {
     ignore_changes  = [data_json]
-    prevent_destroy = true
   }
 }
 
@@ -25,6 +24,5 @@ resource "vault_kv_secret_v2" "mcm_client_b" {
   data_json    = jsonencode({ value = "dummy" })
   lifecycle {
     ignore_changes  = [data_json]
-    prevent_destroy = true
   }
 }
