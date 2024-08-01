@@ -37,6 +37,7 @@ variables:
   CC_TEMPLATE_PATH: terraform/control-center/init
   CC_TMP_GIT_REPO: /tmp/git-cc-iac-templates
   CC_TMP_TEMPLATES_DIR: /tmp/cc-iac-templates
+  KUBE_IN_CLUSTER_CONFIG: true
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
