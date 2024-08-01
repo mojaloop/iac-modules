@@ -42,3 +42,21 @@ resource "gitlab_project" "tenancy_docs" {
   visibility_level       = "internal"
   pages_access_level     = "enabled"
 }
+
+resource "gitlab_group_variable" "vault_auth_path" {
+  group             = gitlab_group.iac.id
+  key               = "VAULT_AUTH_PATH"
+  value             = var.gitlab_runner_jwt_path
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "vault_auth_role" {
+  group             = gitlab_group.iac.id
+  key               = "VAULT_AUTH_ROLE"
+  value             = var.gitlab_runner_role_name
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}

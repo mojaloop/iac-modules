@@ -47,3 +47,18 @@ spec:
 
         - name: "gitlab_post_config_output_secret"
           value: "${ARGOCD_ENV_gitlab_post_config_output_secret}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+        - name: "vault_dns_subdomain"
+          value: "${ARGOCD_ENV_vault_vault_dns_subdomain}"
+
+        - name: "vault_tf_provider_version"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
+
+        - name: "vault_keys_secret"
+          value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+
+        - name: "vault_kv_secret"
+          value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
