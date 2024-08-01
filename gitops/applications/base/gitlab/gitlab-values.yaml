@@ -1272,6 +1272,8 @@ registry:
   storage:
     secret: gitlab-secret-registry
     key: connection
+    redirect:
+      disable: false
 
 ## Automatic shared secret generation
 ## https://docs.gitlab.com/charts/installation/secrets
