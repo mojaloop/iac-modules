@@ -711,9 +711,11 @@ global:
 
     # Settings utilized by other services referencing registry:
     enabled: true
+    host:
+    # port: 443
     api:
-      serviceName: gitlab-registry.gitlab.svc.cluster.local
       protocol: http
+      serviceName: gitlab-registry
       port: 5000
     tokenIssuer: gitlab-issuer
 
