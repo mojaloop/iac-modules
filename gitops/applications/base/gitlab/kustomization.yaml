@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - virtualservice.yaml
   - ruby-script-config-map.yaml
+  - rbac-runner.yaml
 
 helmCharts:
   - name: gitlab
