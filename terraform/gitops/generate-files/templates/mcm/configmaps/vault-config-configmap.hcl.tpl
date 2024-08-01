@@ -30,7 +30,7 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication: 
+    - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
@@ -53,7 +53,7 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication: 
+    - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
@@ -191,6 +191,7 @@ data:
         "DFSP_CALLBACK_URL": "http://{{ .Data.fqdn }}",
         "DFSP_NAME": "{{ .Data.host }}",
         "currency": "{{ .Data.currency_code }}",
+        "isProxy": "{{ .Data.isProxy }}",
         "hub_operator": "NOT_APPLICABLE",
         "NET_DEBIT_CAP": "50000"
       }
