@@ -715,7 +715,7 @@ global:
     # port: 443
     api:
       protocol: http
-      serviceName: gitlab-registry
+      serviceName: registry
       port: 5000
     tokenIssuer: gitlab-issuer
 
