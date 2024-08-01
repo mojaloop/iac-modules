@@ -190,6 +190,7 @@ data:
         "HOST_CENTRAL_LEDGER": "http://${mojaloop_release_name}-centralledger-service",
         "DFSP_CALLBACK_URL": "http://{{ .Data.fqdn }}",
         "DFSP_NAME": "{{ .Data.host }}",
+        "HUB_NAME": "${hub_name}",
         "currency": "{{ .Data.currency_code }}",
         "isProxy": "{{ .Data.isProxy }}",
         "hub_operator": "NOT_APPLICABLE",

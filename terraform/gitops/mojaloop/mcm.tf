@@ -88,6 +88,7 @@ module "generate_mcm_files" {
     switch_dfspid                        = var.switch_dfspid
     pm4mls                               = {for name, value in var.pm4mls : name => value if !value.pm4ml_enabled || can(value.pm4ml_scheme_a_config)}
     dfsp_seed                            = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}${can(value.pm4ml_scheme_a_config)?":proxy":""}" if length(try(value.currency, "")) > 0])
+    hub_name                             = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
