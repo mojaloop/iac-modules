@@ -124,6 +124,7 @@ locals {
     eks_aws_secret_access_key     = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
     eks_aws_access_key_id         = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
     eks_aws_region                = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
+    pipeline_executor             = try(get_env("PIPELINE_EXECUTOR"), false) #disables one-off tasks that are only run in initial boostrap container
   }
 
 }

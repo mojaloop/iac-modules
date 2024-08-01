@@ -38,6 +38,7 @@ variables:
   CC_TMP_GIT_REPO: /tmp/git-cc-iac-templates
   CC_TMP_TEMPLATES_DIR: /tmp/cc-iac-templates
   KUBE_IN_CLUSTER_CONFIG: true
+  PIPELINE_EXECUTOR: true
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
