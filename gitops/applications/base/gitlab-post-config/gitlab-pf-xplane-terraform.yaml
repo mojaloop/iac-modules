@@ -12,8 +12,10 @@ spec:
     vars:
       - key: gitlab_fqdn
         value: gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}
-      - key: "kv_path"
-        value: "${ARGOCD_ENV_vault_kv_secret}"
+      - key: kv_path
+        value: ${ARGOCD_ENV_vault_kv_secret}
+      - key: vault_fqdn
+        value: vault.${ARGOCD_ENV_vault_dns_subdomain}
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:

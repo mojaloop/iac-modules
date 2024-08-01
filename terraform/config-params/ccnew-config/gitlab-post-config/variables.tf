@@ -32,3 +32,7 @@ variable "kv_path" {
   description = "path for kv engine"
   default     = "secret"
 }
+
+variable "vault_fqdn" {
+  description = "fqdn for vault"
+}
