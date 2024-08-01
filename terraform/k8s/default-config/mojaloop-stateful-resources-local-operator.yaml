@@ -438,7 +438,9 @@ mojaloop-kafka:
 mojaloop-redis:
   local_operator_config:
     resource_namespace: mojaloop
-    nodes: 1
+    nodes: 3
+    redis_data:
+      storage_size: 1Gi
     secret_config:
       generate_secret_name:
       generate_secret_keys: []

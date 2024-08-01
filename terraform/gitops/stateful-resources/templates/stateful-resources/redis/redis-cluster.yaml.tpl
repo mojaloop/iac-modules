@@ -1,17 +1,18 @@
 apiVersion: redis.redis.opstreelabs.in/v1beta2
+# %{ if nodes >= 3 }
 kind: RedisCluster
+# %{ else }
+kind: Redis
+# %{ endif }
 metadata:
   name: ${name}
   namespace: ${namespace}
 spec:
-  clusterSize: ${nodes}
-  clusterVersion: v7
-  persistenceEnabled: true
   podSecurityContext:
     runAsUser: 1000
     fsGroup: 1000
   kubernetesConfig:
-    image: redis:7.2.5
+    image: quay.io/opstree/redis:v7.2.3
     imagePullPolicy: IfNotPresent
     resources:
       requests:
@@ -25,6 +26,10 @@ spec:
         #   key: password
         # imagePullSecrets:
         #   - name: regcred
+# %{ if nodes >= 3 }
+  persistenceEnabled: true
+  clusterSize: ${nodes}
+  clusterVersion: v7
   redisLeader:
     readinessProbe:
       failureThreshold: 5
@@ -51,9 +56,10 @@ spec:
       periodSeconds: 15
       successThreshold: 1
       timeoutSeconds: 5
+# %{ endif }
   redisExporter:
     enabled: false
-    image: bitnami/redis-exporter:1.61.0
+    image: quay.io/opstree/redis-exporter:v1.45.0
     imagePullPolicy: Always
     resources:
       requests:
@@ -89,7 +95,14 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 1Gi
+            storage: ${storage_size}
+            # nodeSelector:
+            #   kubernetes.io/hostname: minikube
+            # podSecurityContext: {}
+            # priorityClassName:
+            # affinity:
+            # Tolerations: []
+# %{ if nodes >= 3 }
     nodeConfVolume: true
     nodeConfVolumeClaimTemplate:
       spec:
@@ -98,3 +111,13 @@ spec:
         resources:
           requests:
             storage: 1Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+spec:
+  type: ExternalName
+  externalName: mojaloop-redis-leader.${namespace}.svc.cluster.local
+# %{ endif }

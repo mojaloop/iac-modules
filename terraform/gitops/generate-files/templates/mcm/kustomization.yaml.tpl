@@ -24,3 +24,5 @@ helmCharts:
   repo: ${mcm_chart_repo}
   valuesFile: values-mcm.yaml
   namespace: ${mcm_namespace}
+  additionalValuesFiles:
+  - values-mcm-override.yaml
