@@ -1319,7 +1319,7 @@ gitlab-runner:
     locked: false
     # Set secret to an arbitrary value because the runner chart renders the gitlab-runner.secret template only if it is not empty.
     # The parent/GitLab chart overrides the template to render the actual secret name.
-    secret: "gitlab-runner-cache"
+    secret: "gitlab-runner-cache-secret"
     config: |
       [[runners]]
         [runners.kubernetes]
@@ -1334,7 +1334,7 @@ gitlab-runner:
             BucketLocation = "us-east-1"
             Insecure = false
     cache:
-      secretName: "gitlab-runner-cache"
+      secretName: "gitlab-runner-cache-secret"
   podAnnotations:
     gitlab.com/prometheus_scrape: "true"
     gitlab.com/prometheus_port: 9252
