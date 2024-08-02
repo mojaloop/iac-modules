@@ -5,10 +5,11 @@ resources:
   - virtual-service.yaml
   - vault-secrets.yaml
   - grafana-oidc-xplane-terraform.yaml
-  - dashboards-k8s.yaml
   - dashboards-default.yaml
+  - dashboards-k8s.yaml
+  - dashboards-kafka.yaml
+  - dashboards-loki.yaml
   - dashboards-longhorn.yaml
   - dashboards-mojaloop.yaml
-  - dashboards-loki.yaml
-  - dashboards-kafka.yaml
+  - dashboards-prometheus.yaml
   - istio-crs.yaml
