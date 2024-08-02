@@ -82,4 +82,12 @@ spec:
     isDefault: false
     editable: true
 ---
-
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: monitoring
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"      
+---
