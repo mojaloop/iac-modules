@@ -15,7 +15,7 @@ spec:
   folder: kubernetes
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -32,7 +32,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 15761
     revision: 16
@@ -48,7 +48,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 15762
     revision: 17
@@ -64,7 +64,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 15757
     revision: 36
@@ -80,7 +80,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 15758
     revision: 32
@@ -96,7 +96,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 15759
     revision: 28
@@ -112,7 +112,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 15760
     revision: 26
