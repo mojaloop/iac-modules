@@ -5,5 +5,5 @@ resources:
   - virtual-service.yaml
   - vault-secrets.yaml
   - grafana-oidc-xplane-terraform.yaml
-  - dashboards/k8s.yaml
-  # - dashboards/default.yaml
+  - dashboards-k8s.yaml
+  - dashboards-default.yaml
