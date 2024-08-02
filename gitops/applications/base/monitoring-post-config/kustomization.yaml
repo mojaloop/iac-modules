@@ -7,3 +7,5 @@ resources:
   - grafana-oidc-xplane-terraform.yaml
   - dashboards-k8s.yaml
   - dashboards-default.yaml
+  - dashboards-longhorn.yaml
+  - istio-crs.yaml
