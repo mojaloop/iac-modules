@@ -27,9 +27,7 @@ nodes:
 vpc_cidr: "10.106.0.0/23"
 master_node_supports_traffic: true
 tags:
-  {
-    "Origin": "Terraform",
-    "mojaloop/cost_center": "mlf-iac-sandbox",
-    "mojaloop/env": "ft-sbox-rw",
-    "mojaloop/owner": "James-Bush",
-  }
+  Origin: Terraform
+  mojaloop/cost_center: mlf-iac-sandbox
+  mojaloop/env: ft-sbox-rw
+  mojaloop/owner: James-Bush
