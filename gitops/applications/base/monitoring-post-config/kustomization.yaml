@@ -8,4 +8,5 @@ resources:
   - dashboards-k8s.yaml
   - dashboards-default.yaml
   - dashboards-longhorn.yaml
+  - dashboards-mojaloop.yaml
   - istio-crs.yaml
