@@ -19,8 +19,9 @@ mimir:
       compactor_blocks_retention_period: ${ARGOCD_ENV_mimir_retention_period}
 
 metrics:
-  serviceMonitor:
-    enabled: true
+  enabled: true
+  # serviceMonitor:
+  #   enabled: true
 
 distributor:
   resourcesPreset: large
