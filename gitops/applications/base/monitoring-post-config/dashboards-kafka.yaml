@@ -2,7 +2,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
   name: kafka
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   instanceSelector:
@@ -13,7 +13,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-cruise-control
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -29,7 +29,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-bridge
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -45,7 +45,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-connect
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -61,7 +61,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-exporter
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -77,7 +77,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-mirror-maker-2
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -93,7 +93,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka-oauth
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -109,7 +109,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kafka
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -125,7 +125,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-kraft
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -141,7 +141,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-operators
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
@@ -157,7 +157,7 @@ apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: strimzi-zookeeper
-  namespace: mojaloop
+
 spec:
   allowCrossNamespaceImport: true
   folder: kafka
