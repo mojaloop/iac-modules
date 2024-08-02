@@ -15,7 +15,7 @@ spec:
   folder: default
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Mimir" 
+      datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
