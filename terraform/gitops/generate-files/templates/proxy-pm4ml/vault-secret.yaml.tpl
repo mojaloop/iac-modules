@@ -15,6 +15,10 @@ spec:
   target:
     name: ${pm4ml_external_switch_a_client_secret} # Name for the secret to be created on the cluster
     creationPolicy: Owner
+    template:
+      metadata:
+        labels:
+          reloader: enabled
 
   data:
     - secretKey: ${pm4ml_external_switch_client_secret_key} # Key given to the secret to be created on the cluster
@@ -40,6 +44,10 @@ spec:
   target:
     name: ${pm4ml_external_switch_b_client_secret} # Name for the secret to be created on the cluster
     creationPolicy: Owner
+    template:
+      metadata:
+        labels:
+          reloader: enabled
 
   data:
     - secretKey: ${pm4ml_external_switch_client_secret_key} # Key given to the secret to be created on the cluster
