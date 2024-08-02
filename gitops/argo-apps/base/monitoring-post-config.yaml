@@ -102,3 +102,7 @@ spec:
 
         - name: "mojaloop_dashboards_tag"
           value: "${ARGOCD_ENV_monitoring_grafana_mojaloop_dashboards_tag}"  
+
+        - name: "dashboard_datasource_name"
+          # value: "${ARGOCD_ENV_monitoring_grafana_dashboard_datasource_name}"            
+          value: "Mimir"            
