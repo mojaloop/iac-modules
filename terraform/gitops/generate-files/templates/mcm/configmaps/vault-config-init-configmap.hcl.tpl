@@ -32,7 +32,7 @@ template {
 empty-text
   EOH
   destination = "/vault/secrets/tmp/notneeded"
-  command     = "VAULT_ADDR='http://127.0.0.1:8100';vault write secret/whitelist_fsps loopback=\"127.0.0.1/32\" && vault write secret/whitelist_pm4mls loopback=\"127.0.0.1/32\""
+  command     = "VAULT_ADDR='http://127.0.0.1:8100';(vault read secret/whitelist_fsps || vault write secret/whitelist_fsps loopback=\"127.0.0.1/32\") && (vault read secret/whitelist_pm4mls || vault write secret/whitelist_pm4mls loopback=\"127.0.0.1/32\")"
 }
 
 
