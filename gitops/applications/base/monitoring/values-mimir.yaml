@@ -18,6 +18,9 @@ mimir:
       ingestion_burst_size: ${ARGOCD_ENV_mimir_ingestion_burst_size}
       compactor_blocks_retention_period: ${ARGOCD_ENV_mimir_retention_period}
 
+metrics:
+  serviceMonitor:
+    enabled: true
 
 distributor:
   resourcesPreset: large
