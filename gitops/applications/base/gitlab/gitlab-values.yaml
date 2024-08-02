@@ -1332,7 +1332,7 @@ gitlab-runner:
             ServerAddress = "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
             BucketName = "gitlab-runner-cache"
             BucketLocation = "us-east-1"
-            Insecure = false
+            Insecure = true
     cache:
       secretName: "gitlab-runner-cache-secret"
   podAnnotations:
