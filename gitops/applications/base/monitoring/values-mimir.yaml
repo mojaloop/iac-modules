@@ -27,7 +27,7 @@ distributor:
   resourcesPreset: large
 
 ingester:
-  resourcesPreset: large
+  resourcesPreset: xlarge
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
