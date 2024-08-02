@@ -647,3 +647,33 @@ spec:
           host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
           endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
           path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-runner-cache
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-runner-cache
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-runner-cache
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-runner-cache
+    creationPolicy: Owner
+    template:
+      data:
+        accesskey: "{{.AWS_ACCESS_KEY_ID}}"
+        secretkey: "{{.AWS_SECRET_ACCESS_KEY}}"
