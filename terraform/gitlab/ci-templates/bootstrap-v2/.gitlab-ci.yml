@@ -129,7 +129,7 @@ build:
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
     - export CLOUD_PLATFORM_API_CLIENT_ID="$(vault kv get -field=cloud_platform_api_client_id -mount=secret cloud-api-access)"
     - export CLOUD_PLATFORM_API_CLIENT_SECRET="$(vault kv get -field=cloud_platform_api_client_secret -mount=secret cloud-api-access)"
-    - source gitlab/scripts/${cloud_platform}-source-env-vars.sh
+    - source .gitlab/scripts/${cloud_platform}-source-env-vars.sh
     - terragrunt run-all plan --terragrunt-non-interactive -input=false
   when: manual
 
@@ -145,7 +145,7 @@ deploy:
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
     - export CLOUD_PLATFORM_API_CLIENT_ID="$(vault kv get -field=cloud_platform_api_client_id -mount=secret cloud-api-access)"
     - export CLOUD_PLATFORM_API_CLIENT_SECRET="$(vault kv get -field=cloud_platform_api_client_secret -mount=secret cloud-api-access)"
-    - source gitlab/scripts/${cloud_platform}-source-env-vars.sh
+    - source .gitlab/scripts/${cloud_platform}-source-env-vars.sh
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
   artifacts:
     paths:
