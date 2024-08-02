@@ -1,11 +1,11 @@
 argocd_override:
   initial_application_gitrepo_tag: "${iac_terraform_modules_tag}"
-  apps:        
+  apps:
     utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         argocd_helm:
-          public_ingress_access_domain: "${argocd_public_access}"
+          public_ingress_access_domain: "'${argocd_public_access}'"
           helm_version: "${argocd_helm_version}"
         rook_ceph:
           helm_version: "${rook_ceph_helm_version}"
@@ -69,7 +69,7 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         zitadel:
-          public_ingress_access_domain: "${zitadel_public_access}"
+          public_ingress_access_domain: "'${zitadel_public_access}'"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           helm_version: "${zitadel_helm_version}"
           zitadel_tf_provider_version: "${zitadel_tf_provider_version}"
@@ -83,7 +83,7 @@ argocd_override:
         netbird:
           stunner_nodeport_port: "'${wireguard_ingress_port}'"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
-          public_ingress_access_domain: "${netbird_public_access}"
+          public_ingress_access_domain: "'${netbird_public_access}'"
           helm_version: "${netbird_helm_version}"
           dashboard_chart_version: "${netbird_dashboard_helm_version}"
           image_version: "${netbird_image_version}"
@@ -96,7 +96,7 @@ argocd_override:
       sub_apps:
         nexus:
           helm_version: "${nexus_helm_version}"
-          public_ingress_access_domain: "${nexus_public_access}"
+          public_ingress_access_domain: "'${nexus_public_access}'"
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
 
@@ -105,17 +105,17 @@ argocd_override:
       sub_apps:
         gitlab:
           helm_version: "${gitlab_helm_version}"
-          public_ingress_access_domain: "${gitlab_public_access}"
+          public_ingress_access_domain: "'${gitlab_public_access}'"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
         pre:
           redis_cluster_size: "${gitlab_redis_cluster_size}"
-          redis_storage_size: "${gitlab_redis_storage_size}"          
-          postgres_replicas: "${gitlab_postgres_replicas}"
-          postgres_proxy_replicas: "${gitlab_postgres_proxy_replicas}"
+          redis_storage_size: "${gitlab_redis_storage_size}"
+          postgres_replicas: "'${gitlab_postgres_replicas}'"
+          postgres_proxy_replicas: "'${gitlab_postgres_proxy_replicas}'"
           postgres_storage_size: "${gitlab_postgres_storage_size}"
           pgdb_helm_version: "${gitlab_pgdb_helm_version}"
-          praefect_postgres_replicas: "${gitlab_praefect_postgres_replicas}"
-          praefect_postgres_proxy_replicas: "${gitlab_praefect_postgres_proxy_replicas}"
+          praefect_postgres_replicas: "'${gitlab_praefect_postgres_replicas}'"
+          praefect_postgres_proxy_replicas: "'${gitlab_praefect_postgres_proxy_replicas}'"
           praefect_postgres_storage_size: "${gitlab_praefect_postgres_storage_size}"
           praefect_pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
     monitoring:
@@ -129,10 +129,10 @@ argocd_override:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
-          prometheus_retention_period: "${prometheus_retention_period}"
-          alertmanager_enabled: "${alertmanager_enabled}"
+          prometheus_retention_period: "'${prometheus_retention_period}'"
+          alertmanager_enabled: "'${alertmanager_enabled}'"
         grafana:
-          public_ingress_access_domain: "${grafana_public_access}"
+          public_ingress_access_domain: "'${grafana_public_access}'"
           tf_provider_version: "${grafana_tf_provider_version}"
           image_version: "${grafana_image_version}"
         post_config:
