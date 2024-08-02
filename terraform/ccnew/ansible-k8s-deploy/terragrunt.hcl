@@ -77,7 +77,7 @@ inputs = {
     kubernetes_oidc_enabled = try(local.env_vars.kubernetes_oidc_enabled, false)
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps) 
-  bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml")", merge({
+  bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml"), merge({
     nexus_ansible_collection_tag      =  local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     netbird_ansible_collection_tag    = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     dns_public_subdomain              = dependency.k8s_deploy.outputs.public_subdomain
