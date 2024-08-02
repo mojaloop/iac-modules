@@ -50,7 +50,6 @@ cache:
     - ${TF_ROOT}/**/.terragrunt-cache
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
-    - ${ANSIBLE_BASE_OUTPUT_DIR}/**/keylist.json
 
 .source:
   script:
