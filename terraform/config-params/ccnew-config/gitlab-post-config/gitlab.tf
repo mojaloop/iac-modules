@@ -69,3 +69,41 @@ resource "gitlab_group_variable" "vault_fqdn" {
   masked            = false
   environment_scope = "*"
 }
+
+resource "gitlab_group_variable" "private_repo_user" {
+  group             = gitlab_group.iac.id
+  key               = "PRIVATE_REPO_USER"
+  value             = var.private_repo_user
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "private_repo" {
+  group             = gitlab_group.iac.id
+  key               = "PRIVATE_REPO"
+  value             = var.private_repo
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "private_repo_token_vault_path" {
+  group             = gitlab_group.iac.id
+  key               = "PRIVATE_REPO_TOKEN_PATH"
+  value             = "${gitlab_project.bootstrap.name}/private-repo-token"
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "vault_kv_secret_v2" "private_repo_token" {
+  mount               = var.kv_path
+  name                = "${gitlab_project.bootstrap.name}/private-repo-token"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      token = var.private_repo_token
+    }
+  )
+}

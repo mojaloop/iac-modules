@@ -36,3 +36,19 @@ variable "kv_path" {
 variable "vault_fqdn" {
   description = "fqdn for vault"
 }
+
+variable "private_repo_user" {
+  description = "repo user name for private iac repo"
+  default     = "null"
+}
+
+variable "private_repo" {
+  description = "repo location for private iac"
+  default     = "null"
+}
+
+variable "private_repo_token" {
+  description = "token for private iac repo"
+  default     = "null"
+  sensitive   = true
+}

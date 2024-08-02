@@ -1,4 +1,19 @@
+source externalrunner.sh
+source scripts/setlocalvars.sh
+terragrunt run-all init -upgrade
+cat <<'EOT' >terragrunt.hcl
 skip = true
+remote_state {
+  backend = "local"
+  config = {
+    path = "${get_parent_terragrunt_dir()}/${path_relative_to_include()}/terraform.tfstate"
+  }
+
+  generate = {
+    path = "backend.tf"
+    if_exists = "overwrite"
+  }
+}
 
 generate "required_providers" {
   path = "required_providers.tf"
@@ -16,10 +31,11 @@ terraform {
     }
   }
 }
-
 EOF
 }
 
 locals {
   common_vars = yamldecode(file("${get_env("CONFIG_PATH")}/common-vars.yaml"))
 }
+EOT
+terragrunt run-all init -migrate-state -force-copy

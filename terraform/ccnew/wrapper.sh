@@ -20,8 +20,8 @@ fi
 touch "$LOCKFILE"
 
 # actual script work below
-
-source setlocalvars.sh
+source externalrunner.sh
+source scripts/setlocalvars.sh
 
 git pull
 
