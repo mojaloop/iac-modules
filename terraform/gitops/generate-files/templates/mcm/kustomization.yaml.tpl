@@ -17,6 +17,8 @@ configMapGenerator:
       - config-init.hcl=configmaps/vault-config-init-configmap.hcl
 generatorOptions:
   disableNameSuffixHash: true
+  labels:
+    reloader: enabled
 helmCharts:
 - name: connection-manager
   releaseName: mcm
