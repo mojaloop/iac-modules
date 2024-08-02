@@ -9,4 +9,5 @@ resources:
   - dashboards-default.yaml
   - dashboards-longhorn.yaml
   - dashboards-mojaloop.yaml
+  - dashboards-loki.yaml
   - istio-crs.yaml
