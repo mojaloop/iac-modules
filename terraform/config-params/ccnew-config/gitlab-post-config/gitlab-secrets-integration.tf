@@ -18,6 +18,7 @@ EOT
 resource "vault_jwt_auth_backend_role" "gitlab_runner" {
   backend           = vault_jwt_auth_backend.gitlab_secrets.path
   role_name         = var.gitlab_runner_role_name
+  bound_audiences   = ["https://${var.vault_fqdn}"]
   token_policies    = [vault_policy.gitlab_ci_runner.name]
   bound_claims_type = "glob"
   bound_claims = {
