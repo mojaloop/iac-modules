@@ -20,8 +20,8 @@ mimir:
 
 metrics:
   enabled: true
-  # serviceMonitor:
-  #   enabled: true
+  serviceMonitor:
+    enabled: true
 
 distributor:
   resourcesPreset: large
