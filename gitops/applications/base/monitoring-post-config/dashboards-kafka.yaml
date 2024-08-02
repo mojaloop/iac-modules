@@ -1,0 +1,171 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: kafka
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-cruise-control
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-cruise-control.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-kafka-bridge
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-bridge.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-kafka-connect
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-connect.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-kafka-exporter
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-exporter.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-kafka-mirror-maker-2
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-mirror-maker-2.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-kafka-oauth
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-oauth.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-kafka
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-kraft
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kraft.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-operators
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-operators.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: strimzi-zookeeper
+  namespace: mojaloop
+spec:
+  allowCrossNamespaceImport: true
+  folder: kafka
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+  url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-zookeeper.json"
+---
