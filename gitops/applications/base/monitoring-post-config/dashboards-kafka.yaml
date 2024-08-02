@@ -22,7 +22,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-cruise-control.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
@@ -38,7 +38,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-bridge.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
@@ -54,7 +54,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-connect.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
@@ -70,7 +70,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-exporter.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
@@ -86,7 +86,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-mirror-maker-2.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
@@ -102,7 +102,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka-oauth.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
@@ -118,7 +118,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kafka.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
@@ -134,7 +134,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-kraft.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
@@ -150,7 +150,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-operators.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
@@ -166,6 +166,6 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/0.41.0/examples/metrics/grafana-dashboards/strimzi-zookeeper.json"
 ---

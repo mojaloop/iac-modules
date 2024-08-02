@@ -6,7 +6,7 @@ spec:
   folder: monitoring
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -20,7 +20,7 @@ spec:
   folder: monitoring
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -34,7 +34,7 @@ spec:
   folder: monitoring
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"

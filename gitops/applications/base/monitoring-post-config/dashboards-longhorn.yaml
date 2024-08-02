@@ -25,7 +25,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS-LONGHORN"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 17626
     revision: 1

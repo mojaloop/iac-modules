@@ -83,7 +83,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 7639
     revision: 194
@@ -99,7 +99,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 11829
     revision: 194
@@ -115,7 +115,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 7636
     revision: 194
@@ -131,7 +131,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 7630
     revision: 194
@@ -147,7 +147,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 7645
     revision: 194
