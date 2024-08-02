@@ -85,8 +85,6 @@ management-api-a:
     CERT_MANAGER_SERVER_CERT_SECRET_NAME: ${server_cert_secret_name}
     CERT_MANAGER_SERVER_CERT_SECRET_NAMESPACE: ${server_cert_secret_namespace}
     WHITELIST_IP: "${nat_ip_list}"
-  annotations:
-    reloader.stakater.com/auto: 'true'
 
 management-api-b:
   enabled: true
@@ -119,8 +117,6 @@ management-api-b:
     CERT_MANAGER_SERVER_CERT_SECRET_NAME: ${server_cert_secret_name}
     CERT_MANAGER_SERVER_CERT_SECRET_NAMESPACE: ${server_cert_secret_namespace}
     WHITELIST_IP: "${nat_ip_list}"
-  annotations:
-    reloader.stakater.com/auto: 'true'
 
 
 ttk:

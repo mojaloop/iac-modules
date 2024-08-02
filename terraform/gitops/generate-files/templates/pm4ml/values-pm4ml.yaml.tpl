@@ -83,8 +83,6 @@ management-api:
     WHITELIST_IP: "${nat_ip_list}"
   ingress:
     enabled: false
-  annotations:
-    reloader.stakater.com/auto: 'true'
 
 prometheus:
   server:
