@@ -4,7 +4,7 @@ metadata:
   name: ${ARGOCD_ENV_gitlab_gitlab_app_name}-pre
   namespace: ${ARGOCD_ENV_gitlab_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_gitlab_sync_wave}
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_gitlab_pre_sync_wave}
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
