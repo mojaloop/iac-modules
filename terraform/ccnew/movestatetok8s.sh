@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+source externalrunner.sh
 source scripts/setlocalvars.sh
 source $movek8s_output_dir/gitlabenv.sh
 
