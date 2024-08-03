@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e
 source externalrunner.sh
 source scripts/setlocalvars.sh
 terragrunt run-all init -upgrade
