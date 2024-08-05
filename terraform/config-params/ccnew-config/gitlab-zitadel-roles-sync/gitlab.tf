@@ -49,9 +49,9 @@ resource "gitlab_group_membership" "iac_add" {
 locals {
   admin_users                    = { for user_grant in data.zitadel_user_grants.active : user_grant.email => user_grant if contains(user_grant.role_keys, "gitlab_administrators") }
   non_admin_users                = { for user_grant in data.zitadel_user_grants.active : user_grant.email => user_grant if contains(user_grant.role_keys, "gitlab_users") }
-  gitlab_admin_users             = { for gitlab_user in data.gitlab_data.gitlab_users.all_users : gitlab_user.email => gitlab_user if gitlab_user.is_admin }
-  gitlab_non_admin_users         = { for gitlab_user in data.gitlab_data.gitlab_users.all_users : gitlab_user.email => gitlab_user if !gitlab_user.is_admin }
-  all_gitlab_users               = { for gitlab_user in data.gitlab_data.gitlab_users.all_users : gitlab_user.email => gitlab_user }
+  gitlab_admin_users             = { for gitlab_user in data.gitlab_users.all_users : gitlab_user.email => gitlab_user if gitlab_user.is_admin }
+  gitlab_non_admin_users         = { for gitlab_user in data.gitlab_users.all_users : gitlab_user.email => gitlab_user if !gitlab_user.is_admin }
+  all_gitlab_users               = { for gitlab_user in data.gitlab_users.all_users : gitlab_user.email => gitlab_user }
   need_to_update_admin_users     = { for key, user in local.gitlab_admin_users : key => user if !contains(local.admin_users.keys, key) }
   need_to_update_non_admin_users = { for key, user in local.gitlab_non_admin_users : key => user if !contains(local.non_admin_users.keys, key) }
   need_to_add_users              = { for user_grant in data.zitadel_user_grants.active : user_grant.email => user_grant if !contains(local.all_gitlab_users.keys, user_grant.email) }
