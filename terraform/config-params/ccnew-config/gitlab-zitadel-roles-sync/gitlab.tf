@@ -1,42 +1,12 @@
 data "gitlab_users" "all_users" {
 }
 
-data "gitlab_groups" "non_admin" {
-  search = var.gitlab_readonly_rbac_group
-}
-
-data "gitlab_groups" "admin" {
-  search = var.gitlab_admin_rbac_group
-}
-
 data "gitlab_groups" "iac" {
   search = "iac"
 }
 
-data "gitlab_group_membership" "non_admin" {
-  group_id = data.gitlab_groups.non_admin.id
-}
-
-data "gitlab_group_membership" "admin" {
-  group_id = data.gitlab_groups.admin.id
-}
-
 data "gitlab_group_membership" "iac" {
   group_id = data.gitlab_groups.iac.id
-}
-
-resource "gitlab_group_membership" "admin_update" {
-  for_each     = local.need_to_update_admin_users
-  group_id     = data.gitlab_groups.admin.id
-  user_id      = each.value.user_id
-  access_level = "maintainer"
-}
-
-resource "gitlab_group_membership" "non_admin_update" {
-  for_each     = local.need_to_update_non_admin_users
-  group_id     = data.gitlab_groups.non_admin.id
-  user_id      = each.value.user_id
-  access_level = "developer"
 }
 
 resource "gitlab_group_membership" "admin_iac_update" {
@@ -53,8 +23,6 @@ resource "gitlab_group_membership" "non_admin_iac_update" {
   access_level = "developer"
 }
 
-
-
 data "zitadel_user_grants" "active" {
   project_name = "gitlab"
 }
@@ -70,21 +38,8 @@ resource "gitlab_user" "zitadel_users" {
   reset_password   = false
 }
 
-resource "gitlab_group_membership" "admin_add" {
-  for_each     = { for key, user in gitlab_user.zitadel_users : key => user if user.is_admin }
-  group_id     = data.gitlab_groups.admin.id
-  user_id      = each.key
-  access_level = "maintainer"
-}
 
-resource "gitlab_group_membership" "non_admin_add" {
-  for_each     = { for key, user in gitlab_user.zitadel_users : key => user if !user.is_admin }
-  group_id     = data.gitlab_groups.non_admin.id
-  user_id      = each.key
-  access_level = "developer"
-}
-
-resource "gitlab_group_membership" "admin_iac_add" {
+resource "gitlab_group_membership" "iac_add" {
   for_each     = gitlab_user.zitadel_users
   group_id     = data.gitlab_groups.iac.id
   user_id      = each.key
