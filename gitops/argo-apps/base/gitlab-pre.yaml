@@ -159,12 +159,6 @@ spec:
         - name: "zitadel_namespace"
           value: "${ARGOCD_ENV_security_zitadel_namespace}"
 
-        - name: "gitlab_oidc_secret"
-          value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"
-
-        - name: "zitadel_post_config_output_secret"
-          value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
-
         - name: "terraform_modules_tag"
           value: "${ARGOCD_ENV_gitlab_gitlab_terraform_modules_tag}"
 
@@ -174,5 +168,5 @@ spec:
         - name: "zitadel_dns_subdomain"
           value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
 
-        - name: "zitadel_grant_prefix"
-          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
+        - name: gitlab_zitadel_project_name
+          value: ${ARGOCD_ENV_gitlab_gitlab_app_name}

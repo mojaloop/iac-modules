@@ -1,0 +1,6 @@
+provider_installation {
+dev_overrides {
+"zitadel/zitadel" = "/tmp/config"
+}
+direct {}
+}

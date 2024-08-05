@@ -2,54 +2,53 @@
 apiVersion: tf.upbound.io/v1beta1
 kind: Workspace
 metadata:
-  name: zitadel-gitlab-oidc-config
-  namespace: ${ARGOCD_ENV_zitadel_namespace}
+  name: gitlab-zitadel-roles-sync
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
     source: Remote
-    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/gitlab-oidc?ref=${ARGOCD_ENV_terraform_modules_tag}
-    # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
-    env:
-      - name: TF_VAR_zitadel_admin_human_user_id
-        secretKeyRef:
-          namespace: ${ARGOCD_ENV_zitadel_namespace}
-          name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
-          key: zitadel_admin_human_user_id
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/gitlab-zitadel-roles-sync?ref=${ARGOCD_ENV_terraform_modules_tag}
     vars:
-      - key: zitadel_fqdn
-        value: zitadel.${ARGOCD_ENV_gitlab_dns_subdomain}
-      - key: gitlab_fqdn
-        value: gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}
       - key: admin_rbac_group
         value: ${ARGOCD_ENV_gitlab_admin_rbac_group}
       - key: user_rbac_group
         value: ${ARGOCD_ENV_gitlab_user_rbac_group}
-      - key: gitlab_namespace
-        value: ${ARGOCD_ENV_gitlab_namespace}
-      - key: oidc_provider_group_claim_prefix
-        value: ${ARGOCD_ENV_zitadel_grant_prefix}
       - key: gitlab_zitadel_project_name
         value: ${ARGOCD_ENV_gitlab_zitadel_project_name}
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
-    name: zitadel-gitlab-oidc-config
+    name: gitlab-zitadel-roles-sync
   writeConnectionSecretToRef:
-    namespace: ${ARGOCD_ENV_zitadel_namespace}
-    name: ${ARGOCD_ENV_gitlab_oidc_secret}
+    namespace: ${ARGOCD_ENV_gitlab_namespace}
+    name: gitlab-zitadel-roles-sync-output
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
-  name: zitadel-gitlab-oidc-config
-  namespace: ${ARGOCD_ENV_zitadel_namespace}
+  name: gitlab-zitadel-roles-sync
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   # Note that unlike most provider configs this one supports an array of
   # credentials. This is because each Terraform workspace uses a single
   # Crossplane provider config, but could use multiple Terraform providers each
   # with their own credentials.
   credentials:
+    - filename: .terraformrc
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_gitlab_namespace}
+        name: terraformrc
+        key: .terraformrc
+
+    - filename: terraform.tfvars.json
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_gitlab_namespace}
+        name: root-token-secret
+        key: token.json
+
     - filename: zitadel-admin-sa.json
       source: Secret
       secretRef:
@@ -63,24 +62,33 @@ spec:
   configuration: |
     terraform { 
         backend "kubernetes" {
-          secret_suffix     = "providerconfig-zitadel-post-config"
-          namespace         = "${ARGOCD_ENV_zitadel_namespace}"
+          secret_suffix     = "gitlab-zitadel-roles-sync"
+          namespace         = "${ARGOCD_ENV_gitlab_namespace}"
           in_cluster_config = true
         }
         required_providers {
+          gitlab = {
+            source = "gitlabhq/gitlab"
+            version = "~> 16.0"
+          }
+
           zitadel = {
             source = "zitadel/zitadel"
             version = "${ARGOCD_ENV_zitadel_tf_provider_version}"
           }
-          kubernetes = {
-            source = "hashicorp/kubernetes"
-            version = "2.31.0"
-          }
+          
         }
-    }
-
+     }
+      variable "token" {
+        type = string
+      }    
+      
       provider "zitadel" {
           domain = "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
           jwt_profile_file = "$${path.module}/zitadel-admin-sa.json"
       }
-      provider "kubernetes" {}
+
+      provider "gitlab" {
+        token = var.token
+        base_url = "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
+      }

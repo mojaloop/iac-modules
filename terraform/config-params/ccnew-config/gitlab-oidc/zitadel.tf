@@ -1,5 +1,5 @@
 resource "zitadel_project" "gitlab" {
-  name                   = "gitlab"
+  name                   = var.gitlab_zitadel_project_name
   org_id                 = local.org_id
   project_role_assertion = true
 }
