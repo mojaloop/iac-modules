@@ -67,7 +67,6 @@ spec:
       selector: {}
       template:
         spec:
-          securityContext: {}
           volumes:
             - emptyDir: {}
               name: additional
@@ -77,6 +76,7 @@ spec:
               securityContext:
                 runAsUser: 0
                 privileged: true
+                runAsNonRoot: false
               command: [sh, -c]
               args:
                 [
@@ -87,10 +87,6 @@ spec:
                   name: additional
           containers:
             - name: package-runtime
-              securityContext:
-                runAsUser: 2000
-                runAsGroup: 2000
-                runAsNonRoot: true
               volumeMounts:
                 - mountPath: /tmp/config
                   name: additional
