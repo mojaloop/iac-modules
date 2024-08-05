@@ -12,6 +12,9 @@ spec:
     vars:
       - key: gitlab_zitadel_project_name
         value: ${ARGOCD_ENV_gitlab_zitadel_project_name}
+    env:
+      TF_CLI_CONFIG_FILE: ./.terraformrc
+      TF_LOG: debug
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: gitlab-zitadel-roles-sync
@@ -25,7 +28,6 @@ metadata:
   name: gitlab-zitadel-roles-sync
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  pluginCache: false
   # Note that unlike most provider configs this one supports an array of
   # credentials. This is because each Terraform workspace uses a single
   # Crossplane provider config, but could use multiple Terraform providers each
