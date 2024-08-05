@@ -64,6 +64,7 @@ metadata:
 spec:
   deploymentTemplate:
     spec:
+      selector: {}
       volumes:
         - emptyDir: {}
           name: additional
