@@ -19,7 +19,7 @@ resource "gitlab_group_membership" "admin_iac_update" {
 resource "gitlab_user" "zitadel_users" {
   for_each         = local.need_to_add_users
   name             = each.value.name
-  username         = each.value.user_name
+  username         = replace(each.value.user_name, "@", "AT")
   email            = each.key
   is_admin         = contains(each.value.role_keys, "gitlab_administrators")
   can_create_group = true
