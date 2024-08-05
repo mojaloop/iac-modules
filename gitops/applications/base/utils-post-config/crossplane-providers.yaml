@@ -73,10 +73,13 @@ spec:
           initContainers:
             - name: configure
               image: golang:1.20-alpine3.18
+              securityContext:
+                runAsUser: 0
+                privileged: true
               command: [sh, -c]
               args:
                 [
-                  "apk add git && git clone https://github.com/mojaloop/terraform-provider-zitadel && cd terraform-provider-zitadel && git checkout feature/add-user-grant-datasource && go build . && cp terraform-provider-zitadel /tmp/config/",
+                  "apk add git && git clone https://github.com/mojaloop/terraform-provider-zitadel && cd terraform-provider-zitadel && git checkout feature/add-user-grant-datasource && go build . && cp terraform-provider-zitadel /tmp/config/ && chmod +rwx /tmp/config/terraform-provider-zitadel",
                 ]
               volumeMounts:
                 - mountPath: /tmp/config
