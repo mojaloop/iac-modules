@@ -13,8 +13,8 @@ spec:
       - key: gitlab_zitadel_project_name
         value: ${ARGOCD_ENV_gitlab_zitadel_project_name}
     env:
-      TF_CLI_CONFIG_FILE: ./.terraformrc
-      TF_LOG: debug
+      - name: TF_CLI_CONFIG_FILE
+        value: ./.terraformrc
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: gitlab-zitadel-roles-sync
