@@ -73,8 +73,8 @@ spec:
           initContainers:
             - name: configure
               image: golang:1.20-alpine3.18
-              args:
-                - while sleep 3600; do :; done
+              command: [sh, -c]
+              args: ["while true; do sleep 30; done;"]
               volumeMounts:
                 - mountPath: /tmp/config
                   name: additional
