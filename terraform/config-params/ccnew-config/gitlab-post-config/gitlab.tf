@@ -1,15 +1,3 @@
-resource "gitlab_group" "gitlab_admin_rbac_group" {
-  name        = var.gitlab_admin_rbac_group
-  path        = var.gitlab_admin_rbac_group
-  description = "${var.gitlab_admin_rbac_group} group"
-}
-
-resource "gitlab_group" "gitlab_readonly_rbac_group" {
-  name        = var.gitlab_readonly_rbac_group
-  path        = var.gitlab_readonly_rbac_group
-  description = "${var.gitlab_readonly_rbac_group} group"
-}
-
 resource "gitlab_group" "iac" {
   name                              = "iac"
   path                              = "iac"
@@ -143,5 +131,5 @@ resource "gitlab_project" "envs" {
 }
 
 locals {
-  environment_list = split("," , trimsuffix(var.environment_list, ","))
+  environment_list = split(",", trimspace(var.environment_list))
 }
