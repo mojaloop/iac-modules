@@ -1,2 +1,3 @@
-- mojaloop-dev
-- dfsp-dev
+environments:
+  - env: devpm4ml
+  - env: mojaloop
