@@ -61,7 +61,7 @@ cache:
     - export CLOUD_PLATFORM_API_CLIENT_ID="$(vault kv get -field=cloud_platform_api_client_id -mount=secret cloud-api-access)"
     - export CLOUD_PLATFORM_API_CLIENT_SECRET="$(vault kv get -field=cloud_platform_api_client_secret -mount=secret cloud-api-access)"
     - export PRIVATE_REPO_TOKEN="$(vault kv get -field=token -mount=secret ${PRIVATE_REPO_TOKEN_PATH})"
-    #- export GITLAB_SEED_TOKEN="$(vault kv get -field=value secret/bootstrap/gitlab_root_token)"
+    - export GITLAB_SEED_TOKEN="$(vault kv get -field=value secret/gitlab/gitlab_ci_pat)"
     - source .gitlab/scripts/${cloud_platform}-source-env-vars.sh
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store; fi
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then git config --global credential.helper 'store --file ~/.gitcredentials.store'; fi
