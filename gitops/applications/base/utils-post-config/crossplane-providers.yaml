@@ -90,3 +90,6 @@ spec:
               volumeMounts:
                 - mountPath: /tmp/config
                   name: additional
+  serviceAccountTemplate:
+    metadata:
+      name: crossplane-terraform-sa

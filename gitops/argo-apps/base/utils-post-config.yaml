@@ -44,3 +44,6 @@ spec:
 
         - name: "ansible_crossplane_modules_version"
           value: "${ARGOCD_ENV_utils_post_config_ansible_crossplane_modules_version}"
+
+        - name: "crossplane_namespace"
+          value: "${ARGOCD_ENV_utils_crossplane_namespace}"
