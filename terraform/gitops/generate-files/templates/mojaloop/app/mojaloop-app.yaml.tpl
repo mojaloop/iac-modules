@@ -26,6 +26,9 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
+    managedNamespaceMetadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-nodejs: "true"
     automated:
       prune: true
       selfHeal: true

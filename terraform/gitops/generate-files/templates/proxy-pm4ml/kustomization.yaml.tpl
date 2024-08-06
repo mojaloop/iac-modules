@@ -4,6 +4,7 @@ resources:
   - vault-secret.yaml
 %{ if istio_create_ingress_gateways ~}
   - istio-gateway.yaml
+  - opentelemetry-instrumentation.yaml
 %{ endif ~}
   - vault-rbac.yaml
   - vault-certificate.yaml

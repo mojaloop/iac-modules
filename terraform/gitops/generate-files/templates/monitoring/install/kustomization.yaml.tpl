@@ -1,7 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:  
+resources:
+    # grafana crds
   - https://raw.githubusercontent.com/grafana/grafana-operator/${grafana_crd_version_tag}/deploy/kustomize/base/crds.yaml
+    # opentelemetry crds
+  - https://raw.githubusercontent.com/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator-${opentelemetry_chart_version}/charts/opentelemetry-operator/crds/crd-opentelemetry.io_opampbridges.yaml
+  - https://raw.githubusercontent.com/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator-${opentelemetry_chart_version}/charts/opentelemetry-operator/crds/crd-opentelemetrycollector.yaml
+  - https://raw.githubusercontent.com/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator-${opentelemetry_chart_version}/charts/opentelemetry-operator/crds/crd-opentelemetryinstrumentation.yaml
   - vault-secret.yaml
   - istio-vs.yaml
   - process-exporter-service-monitor.yaml
@@ -34,6 +39,12 @@ helmCharts:
   version: ${tempo_chart_version}
   repo: oci://registry-1.docker.io/bitnamicharts
   valuesFile: values-tempo.yaml
+  namespace: ${monitoring_namespace}
+- name: opentelemetry-operator
+  releaseName: opentelemetry-operator
+  version: ${opentelemetry_chart_version}
+  repo: https://open-telemetry.github.io/opentelemetry-helm-charts
+  valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
 - name: prometheus-process-exporter
   releaseName: process-exporter

@@ -8,6 +8,7 @@ resources:
   - istio-gateway.yaml
 %{ endif ~}
   - vault-rbac.yaml
+  - opentelemetry-instrumentation.yaml
   - vault-certificate.yaml
 helmCharts:
 - name: mojaloop-payment-manager
