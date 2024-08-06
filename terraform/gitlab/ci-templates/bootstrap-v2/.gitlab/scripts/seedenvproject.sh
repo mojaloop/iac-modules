@@ -29,7 +29,7 @@ mkdir -p $TMP_REPO_DIR
 TMP_BOOTSTRAP_REPO=/tmp/data/bootstrap
 git clone ${BASE_GITLAB_URL}/bootstrap.git $TMP_BOOTSTRAP_REPO
 
-yq eval '.envs | .[] | select(.env == '\"$ENV_NAME\"')' $TMP_BOOTSTRAP_REPO/$CONFIG_PATH/environment.yaml
+env_name=$(yq eval '.environments | .[] | select( . == '\"$ENV_NAME\"')' $TMP_BOOTSTRAP_REPO/custom-config/environment.yaml)
 
 # Cloning the gitlab env repo
 git clone ${BASE_GITLAB_URL}/${ENV_NAME} $TMP_REPO_DIR
@@ -39,7 +39,7 @@ cp -r $TMP_TEMPLATE_DIR/${ENV_NAME}/. .
 # populating the cluster-config in custom-config 
 if  [ !  -d custom-config ]; then
    mkdir -p custom-config
-   yq eval '.envs | .[] | select( . == '\"$ENV_NAME\"')' $TMP_BOOTSTRAP_REPO/$CONFIG_PATH/environment.yaml > custom-config/cluster-config.yaml
+   echo "env: "$env_name > custom-config/cluster-config.yaml
    echo "pm4mls:
 - pm4ml: pm4mltest1
   pm4ml_enabled: false
