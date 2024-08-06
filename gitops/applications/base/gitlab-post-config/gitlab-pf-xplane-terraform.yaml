@@ -16,8 +16,8 @@ spec:
         value: ${ARGOCD_ENV_vault_kv_secret}
       - key: vault_fqdn
         value: vault.${ARGOCD_ENV_vault_dns_subdomain}
-      # - key: environment_list
-      #   value: ${ARGOCD_ENV_environment_list}
+      - key: environment_list
+        value: ${ARGOCD_ENV_environment_list}
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
