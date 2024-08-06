@@ -108,6 +108,31 @@ resource "vault_kv_secret_v2" "private_repo_token" {
   )
 }
 
+# ci token 
+resource "vault_kv_secret_v2" "gitlab_ci_pat" {
+  mount               = vault_mount.kv_secret.path
+  name                = "gitlab/gitlab_ci_pat"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = gitlab_group_access_token.gitlab_ci_pat.token
+    }
+  )
+}
+
+resource "gitlab_group_access_token" "gitlab_ci_pat" {
+  group        = gitlab_group.iac.id
+  name         = "gitlab ci pat"
+  access_level = "owner"
+  scopes       = ["api"]
+  expires_at   = formatdate("YYYY-MM-DD", timeadd(timestamp(), "8736h"))
+  lifecycle {
+    ignore_changes = [
+      expires_at,
+    ]
+  }
+}
+
 # environment projects
 resource "gitlab_project" "envs" {
   for_each               = toset(local.environment_list)
