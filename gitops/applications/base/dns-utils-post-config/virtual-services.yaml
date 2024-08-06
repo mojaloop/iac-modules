@@ -47,7 +47,7 @@ spec:
   gateways:
     - ${ARGOCD_ENV_rook_ceph_bucket_config_istio_gateway_namespace}/${ARGOCD_ENV_rook_ceph_bucket_config_istio_wildcard_gateway_name}
   hosts:
-    - ${ARGOCD_ENV_rook_ceph_bucket_config_app_name}.${ARGOCD_ENV_rook_ceph_bucket_config_dns_subdomain}"
+    - "${ARGOCD_ENV_rook_ceph_bucket_config_app_name}.${ARGOCD_ENV_rook_ceph_bucket_config_dns_subdomain}"
   http:
     - match:
         - uri:
