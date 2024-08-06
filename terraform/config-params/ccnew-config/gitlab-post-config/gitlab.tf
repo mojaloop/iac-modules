@@ -108,17 +108,9 @@ resource "vault_kv_secret_v2" "private_repo_token" {
   )
 }
 
-resource "vault_mount" "kv_secret" {
-  path                      = var.kv_path
-  type                      = "kv-v2"
-  options                   = { version = "2" }
-  default_lease_ttl_seconds = "120"
-}
-
-
 # ci token 
 resource "vault_kv_secret_v2" "gitlab_ci_pat" {
-  mount               = vault_mount.kv_secret.path
+  mount               = var.kv_path
   name                = "gitlab/gitlab_ci_pat"
   delete_all_versions = true
   data_json = jsonencode(
