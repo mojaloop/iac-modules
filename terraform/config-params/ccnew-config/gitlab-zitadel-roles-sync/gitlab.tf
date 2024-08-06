@@ -24,7 +24,7 @@ resource "gitlab_user" "zitadel_users" {
   is_admin         = contains(each.value.role_keys, "gitlab_administrators")
   can_create_group = true
   is_external      = false
-  password         = "#Password1!"
+  password         = random_password.password[each.key].result
 }
 
 
@@ -62,4 +62,11 @@ output "need_to_update_users" {
 }
 output "need_to_add_users" {
   value = local.need_to_add_users
+}
+
+resource "random_password" "password" {
+  for_each         = local.need_to_add_users
+  length           = 20
+  special          = true
+  override_special = "!#$"
 }

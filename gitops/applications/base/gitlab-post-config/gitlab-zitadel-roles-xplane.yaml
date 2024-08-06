@@ -74,6 +74,12 @@ spec:
             source = "zitadel/zitadel"
             version = "${ARGOCD_ENV_zitadel_tf_provider_version}"
           }
+
+          random = {
+            source = "hashicorp/random"
+            version = "3.6.2"
+          }
+
           
         }
      }
@@ -90,3 +96,5 @@ spec:
         token = var.token
         base_url = "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
       }
+
+      provider "random" {}
