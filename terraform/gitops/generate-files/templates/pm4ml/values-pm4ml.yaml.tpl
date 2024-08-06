@@ -27,8 +27,6 @@ frontend:
     LOGIN_PROVIDER: ${keycloak_pm4ml_realm_name}
 
 experience-api:
-  image:
-    tag: 2.0.15-snapshot
   ingress:
     enabled: false
   env:
@@ -54,8 +52,6 @@ mojaloop-payment-token-adapter:
   ${indent(2, yamlencode(payment_token_adapter_config))}
 
 management-api:
-  image:
-    tag: 5.0.0-snapshot.2
   serviceAccountName: ${pm4ml_service_account_name}
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
@@ -108,21 +104,21 @@ prometheus:
 
 scheme-adapter:
   sdk-scheme-adapter-api-svc:
-%{ if enable_sdk_bulk_transaction_support ~}
+#%{ if enable_sdk_bulk_transaction_support}
     kafka: &kafkaConfig
       host: ${kafka_host}
       port: ${kafka_port}
-%{ endif ~}
+#%{ endif}
     redis: &redisConfig
       host: ${redis_host}
       port: ${redis_port}
     config:
       simName: *dfspId
-%{ if enable_sdk_bulk_transaction_support ~}
+#%{ if enable_sdk_bulk_transaction_support}
       bulkTransactionSupportEnabled: true
-%{ else ~}
+#%{ else}
       bulkTransactionSupportEnabled: false
-%{ endif ~}
+#%{ endif}
       ## TODO: sdk chart is not accepting empty jws values if JWS params enabled. Need to fix.
       jwsSigningKey: "test"
       jwsVerificationKeys: {
@@ -149,29 +145,29 @@ scheme-adapter:
       OAUTH_CLIENT_SECRET_KEY: "${pm4ml_external_switch_client_secret_key}"
       OAUTH_CLIENT_SECRET_NAME: "${pm4ml_external_switch_client_secret}"
       RESERVE_NOTIFICATION: ${pm4ml_reserve_notification}
-%{ if core_connector_selected == "ttk" ~}
+#%{ if core_connector_selected == "ttk"}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
-%{ else ~}
-%{ if core_connector_selected == "cc" ~}
+#%{ else}
+#%{ if core_connector_selected == "cc"}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
-%{ else ~}
+#%{ else}
       BACKEND_ENDPOINT: "${custom_core_connector_endpoint}"
-%{ endif ~}
-%{ endif ~}
+#%{ endif}
+#%{ endif}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
       FX_QUOTES_ENDPOINT: "${pm4ml_external_switch_fqdn}"
       FX_TRANSFERS_ENDPOINT: "${pm4ml_external_switch_fqdn}"
       SUPPORTED_CURRENCIES: "${supported_currencies}"
       GET_SERVICES_FXP_RESPONSE: "${fxp_id}"
-%{ if enable_sdk_bulk_transaction_support ~}
+#%{ if enable_sdk_bulk_transaction_support}
       ENABLE_BACKEND_EVENT_HANDLER: true
       ENABLE_FSPIOP_EVENT_HANDLER: true
       REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
-%{ else ~}
+#%{ else}
       REQUEST_PROCESSING_TIMEOUT_SECONDS: 10
-%{ endif ~}
+#%{ endif}
 
-%{ if enable_sdk_bulk_transaction_support ~}
+#%{ if enable_sdk_bulk_transaction_support}
   sdk-scheme-adapter-dom-evt-handler:
     enabled: true
     kafka: *kafkaConfig
@@ -185,7 +181,7 @@ scheme-adapter:
     redis: *redisConfig
     config:
       simName: *dfspId
-%{ endif ~}
+#%{ endif}
 redis:
   replica:
     replicaCount: ${redis_replica_count}
@@ -202,7 +198,7 @@ redis:
     storageClass: ${storage_class_name}
 
 ttk:
-%{ if ttk_enabled ~}
+#%{ if ttk_enabled}
   enabled: true
   ml-testing-toolkit-backend:
     ingress:
@@ -291,9 +287,9 @@ ttk:
     config:
       API_BASE_URL: https://${ttk_backend_fqdn}
 
-%{ else ~}
+#%{ else}
   enabled: false
-%{ endif ~}
+#%{ endif}
 
 keycloak:
   enabled: false

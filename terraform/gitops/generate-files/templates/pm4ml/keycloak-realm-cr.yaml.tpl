@@ -363,6 +363,15 @@ spec:
       - type: password
         value: ${portal_admin_secret_name}
       groups: []
+    - username: ${mcm_admin_user}
+      enabled: true
+      email: ${mcm_admin_user}@none.com
+      firstName: Mcm
+      lastName: Admin
+      credentials:
+      - type: password
+        value: ${mcm_admin_secret_name}
+      groups: []
     clients:
     - clientId: account
       name: "$${client_account}"

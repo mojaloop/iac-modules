@@ -59,6 +59,7 @@ module "mojaloop" {
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   mojaloop_values_override_file        = var.mojaloop_values_override_file
+  mcm_values_override_file             = var.mcm_values_override_file
   finance_portal_values_override_file  = var.finance_portal_values_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
@@ -66,7 +67,7 @@ module "mojaloop" {
   minio_api_url                        = var.minio_api_url
   minio_percona_backup_bucket          = data.gitlab_project_variable.minio_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
-
+  pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
 }
 
 module "pm4ml" {
@@ -112,6 +113,41 @@ module "pm4ml" {
   role_assign_svc_secret_prefix          = "role-assign-svc-secret-"
   portal_admin_user                      = var.portal_admin_user
   portal_admin_secret_prefix             = "portal-admin-secret-"
+  mcm_admin_user                         = var.mcm_admin_user
+  mcm_admin_secret_prefix                = "mcm-admin-secret-"
+  pm4ml_values_override_file             = var.pm4ml_values_override_file
+}
+
+module "proxy_pm4ml" {
+  count                                  = var.common_var_map.proxy_pm4ml_enabled ? 1 : 0
+  source                                 = "../proxy-pm4ml"
+  nat_public_ips                         = var.nat_public_ips
+  internal_load_balancer_dns             = var.internal_load_balancer_dns
+  external_load_balancer_dns             = var.external_load_balancer_dns
+  private_subdomain                      = var.private_subdomain
+  public_subdomain                       = var.public_subdomain
+  secrets_key_map                        = var.secrets_key_map
+  properties_key_map                     = var.properties_key_map
+  output_dir                             = var.output_dir
+  gitlab_project_url                     = var.gitlab_project_url
+  cluster_name                           = var.cluster_name
+  current_gitlab_project_id              = var.current_gitlab_project_id
+  gitlab_group_name                      = var.gitlab_group_name
+  gitlab_api_url                         = var.gitlab_api_url
+  gitlab_server_url                      = var.gitlab_server_url
+  kv_path                                = var.kv_path
+  cert_manager_service_account_name      = var.cert_manager_service_account_name
+  vault_namespace                        = var.vault_namespace
+  cert_manager_namespace                 = var.cert_manager_namespace
+  istio_external_gateway_name            = var.istio_external_gateway_name
+  istio_internal_gateway_name            = var.istio_internal_gateway_name
+  istio_external_wildcard_gateway_name   = local.istio_external_wildcard_gateway_name
+  istio_internal_wildcard_gateway_name   = local.istio_internal_wildcard_gateway_name
+  local_vault_kv_root_path               = local.local_vault_kv_root_path
+  vault_root_ca_name                     = "pki-${var.cluster_name}"
+  app_var_map                            = local.proxy_pm4ml_var_map
+  proxy_values_override_file             = var.proxy_values_override_file
+
 }
 
 module "vnext" {
@@ -266,11 +302,33 @@ variable "portal_admin_user" {
   default = "portal_admin"
 }
 
+variable "mcm_admin_secret" {
+  type    = string
+  default = "mcm-admin-secret"
+}
+
+variable "mcm_admin_user" {
+  type    = string
+  default = "mcm_admin"
+}
+
 variable "rbac_api_resources_file" {
   type = string
 }
 
 variable "mojaloop_values_override_file" {
+  type = string
+}
+
+variable "mcm_values_override_file" {
+  type = string
+}
+
+variable "proxy_values_override_file" {
+  type = string
+}
+
+variable "pm4ml_values_override_file" {
   type = string
 }
 
@@ -291,7 +349,8 @@ variable "argocd_namespace" {
 locals {
   auth_fqdn = "auth.${var.public_subdomain}"
 
-  pm4ml_var_map = var.app_var_map.pm4mls
+  pm4ml_var_map = try(var.app_var_map.pm4mls, {})
+  proxy_pm4ml_var_map = try(var.app_var_map.proxy_pm4mls, {})
 
   st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
   st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
