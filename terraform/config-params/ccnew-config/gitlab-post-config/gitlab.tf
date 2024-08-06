@@ -107,3 +107,12 @@ resource "vault_kv_secret_v2" "private_repo_token" {
     }
   )
 }
+
+# environment projects
+resource "gitlab_project" "envs" {
+  for_each               = var.environment_list
+  name                   = each.value
+  namespace_id           = gitlab_group.iac.id
+  initialize_with_readme = true
+  shared_runners_enabled = true
+}
