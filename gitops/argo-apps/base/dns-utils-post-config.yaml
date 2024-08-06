@@ -101,3 +101,18 @@ spec:
 
           - name: "istio_namespace"
             value: "${ARGOCD_ENV_utils_istio_namespace}"
+
+          - name: "rook_ceph_namespace"
+            value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
+
+          - name: "rook_ceph_bucket_config_app_name"
+            value: "${ARGOCD_ENV_utils_rook_ceph_bucket_config_app_name}"
+
+          - name: "rook_ceph_bucket_config_dns_subdomain"
+            value: "${ARGOCD_ENV_utils_rook_ceph_bucket_config_dns_subdomain}"
+
+          - name: "rook_ceph_bucket_config_istio_wildcard_gateway_name"
+            value: "${ARGOCD_ENV_utils_rook_ceph_bucket_config_istio_wildcard_gateway_name}"
+
+          - name: "rook_ceph_bucket_config_istio_gateway_namespace"
+            value: "${ARGOCD_ENV_utils_rook_ceph_bucket_config_istio_gateway_namespace}"
