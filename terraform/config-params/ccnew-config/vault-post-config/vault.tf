@@ -4,13 +4,6 @@ resource "vault_mount" "kv_secret" {
   options                   = { version = "2" }
   default_lease_ttl_seconds = "120"
 }
-
-resource "vault_mount" "transit" {
-  path        = "transit"
-  type        = "transit"
-  description = "transit mount for cluster vault unsealing"
-}
-
 resource "vault_auth_backend" "kubernetes_admin" {
   type = "kubernetes"
   path = var.k8s_admin_auth_path
