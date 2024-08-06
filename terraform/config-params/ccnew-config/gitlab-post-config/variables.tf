@@ -55,4 +55,5 @@ variable "private_repo_token" {
 
 variable "environment_list" {
   description = "env repos to pre-create"
+  default = ["mojaloop-dev"]
 }
