@@ -120,9 +120,9 @@ argocd_override:
           praefect_pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
         post_config:
           environment_list: 
-{% for env in environment_list %}
-              - {{ env.value }}
-{% endfor %}          
+%{ for env in environment_list ~}
+              - "${env}"
+%{ endfor ~}          
     monitoring:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
