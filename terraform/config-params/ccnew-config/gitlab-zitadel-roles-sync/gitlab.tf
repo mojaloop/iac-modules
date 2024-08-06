@@ -24,8 +24,10 @@ resource "gitlab_user" "zitadel_users" {
   is_admin         = contains(each.value.role_keys, "gitlab_administrators")
   can_create_group = true
   is_external      = false
-  reset_password   = true
+  password         = "#Password1!"
 }
+
+
 
 resource "gitlab_group_membership" "iac_add" {
   for_each     = gitlab_user.zitadel_users
