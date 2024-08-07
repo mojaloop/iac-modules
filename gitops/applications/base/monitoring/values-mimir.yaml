@@ -21,13 +21,13 @@ mimir:
 metrics:
   enabled: true
   serviceMonitor:
-    enabled: true
+    enabled: false
     jobLabel: 'app.kubernetes.io/component'    
     relabelings:
     - sourceLabels: [namespace,job]
       separator: /
       regex: (.*)
-      targetLabel: job2
+      targetLabel: job
       replacement: $${1}
       action: replace
 
