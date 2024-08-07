@@ -7,7 +7,7 @@ data "gitlab_group" "iac" {
 resource "gitlab_project" "envs" {
   for_each               = toset(local.environment_list)
   name                   = each.value
-  namespace_id           = gitlab_group.iac.id
+  namespace_id           = data.gitlab_group.iac.id
   initialize_with_readme = true
   shared_runners_enabled = true
 }
@@ -19,7 +19,7 @@ locals {
 #environment preq
 
 resource "gitlab_group_variable" "nexus_fqdn" {
-  group             = gitlab_group.iac.id
+  group             = data.gitlab_group.iac.id
   key               = "NEXUS_FQDN"
   value             = var.nexus_fqdn
   protected         = true
@@ -28,7 +28,7 @@ resource "gitlab_group_variable" "nexus_fqdn" {
 }
 
 resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
-  group             = gitlab_group.iac.id
+  group             = data.gitlab_group.iac.id
   key               = "NEXUS_DOCKER_REPO_LISTENING_PORT"
   value             = var.nexus_docker_repo_listening_port
   protected         = true
@@ -38,7 +38,7 @@ resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
 
 # to be changed
 resource "gitlab_group_variable" "ceph_obj_store_gw_fqdn" {
-  group             = gitlab_group.iac.id
+  group             = data.gitlab_group.iac.id
   key               = "CEPH_OBJECTSTORE_FQDN"
   value             = var.ceph_obj_store_gw_fqdn
   protected         = true
@@ -48,7 +48,7 @@ resource "gitlab_group_variable" "ceph_obj_store_gw_fqdn" {
 
 # to be changed
 resource "gitlab_group_variable" "ceph_obj_store_gw_port" {
-  group             = gitlab_group.iac.id
+  group             = data.gitlab_group.iac.id
   key               = "CEPH_OBJECTSTORE_PORT"
   value             = var.ceph_obj_store_gw_port
   protected         = true
