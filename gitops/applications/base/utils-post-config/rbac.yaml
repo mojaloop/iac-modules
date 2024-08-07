@@ -7,7 +7,7 @@ rules:
     resources: ["clusterroles", "clusterrolebindings"]
     verbs: ["*"]
   - apiGroups: ["objectbucket.io"]
-    resources: ["objectbucketclaim"]
+    resources: ["objectbucketclaims"]
     verbs: ["*"] 
   - apiGroups: ["apiextensions.k8s.io"]
     resources: ["customresourcedefinitions"]
