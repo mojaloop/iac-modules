@@ -41,7 +41,3 @@ variable "private_repo_token" {
   default     = "null"
   sensitive   = true
 }
-
-variable "environment_list" {
-  description = "env repos to pre-create"
-}
