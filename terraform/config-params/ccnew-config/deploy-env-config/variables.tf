@@ -47,3 +47,8 @@ variable "storage_class" {
   description = "object storage class of ceph"
   default     = "ceph-bucket"
 }
+
+variable "namespace" {
+  description = "namespace to create the buckets"
+  default     = "gitlab"
+}
