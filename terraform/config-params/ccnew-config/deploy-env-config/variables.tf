@@ -26,3 +26,8 @@ variable "ceph_obj_store_gw_port" {
   description = "port for ceph object storage gw"
   default     = 443
 }
+
+variable "tenant_vault_listening_port" {
+  description = "port for vault"
+  default     = 443
+}

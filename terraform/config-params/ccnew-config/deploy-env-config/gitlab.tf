@@ -55,3 +55,12 @@ resource "gitlab_group_variable" "ceph_obj_store_gw_port" {
   masked            = false
   environment_scope = "*"
 }
+
+resource "gitlab_group_variable" "tenant_vault_listening_port" {
+  group             = data.gitlab_group.iac.id
+  key               = "TENANT_VAULT_LISTENING_PORT"
+  value             = var.tenant_vault_listening_port
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}

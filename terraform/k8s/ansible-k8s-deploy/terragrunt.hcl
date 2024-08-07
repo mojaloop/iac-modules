@@ -88,10 +88,8 @@ locals {
   bastion_hosts_var_maps = {
     netmaker_image_version       = get_env("NETMAKER_VERSION")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
-    minio_fqdn                   = get_env("MINIO_FQDN")
+    minio_fqdn                   = get_env("CEPH_OBJECTSTORE_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")
-    netmaker_master_key          = get_env("METMAKER_MASTER_KEY") 
-    netmaker_api_host            = get_env("NETMAKER_HOST_NAME")
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
     external_secrets_version     = local.common_vars.external_secrets_version
     argocd_version               = local.common_vars.argocd_version
@@ -112,7 +110,7 @@ locals {
     eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
   }
   all_hosts_var_maps = {
-    minio_listening_port             = get_env("MINIO_LISTENING_PORT")
+    minio_listening_port             = get_env("CEPH_OBJECTSTORE_PORT")
     nexus_docker_repo_listening_port = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     nexus_fqdn                       = get_env("NEXUS_FQDN")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
