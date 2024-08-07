@@ -24,8 +24,8 @@ metrics:
     enabled: true
     jobLabel: 'app.kubernetes.io/component'    
     relabelings:
-    - sourceLabels: ['job']
-      separator: ;
+    - sourceLabels: [namespace,job]
+      separator: /;
       regex: (.*)
       targetLabel: job2
       replacement: '${1}'
