@@ -82,3 +82,21 @@ resource "gitlab_group_variable" "vault_server_url" {
   masked            = false
   environment_scope = "*"
 }
+
+resource "gitlab_group_variable" "gitlab_admin_rbac_group" {
+  group             = data.gitlab_group.iac.id
+  key               = "GITLAB_ADMIN_RBAC_GROUP"
+  value             = var.gitlab_admin_rbac_group
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "gitlab_readonly_rbac_group" {
+  group             = data.gitlab_group.iac.id
+  key               = "GITLAB_READONLY_RBAC_GROUP"
+  value             = var.gitlab_readonly_rbac_group
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
