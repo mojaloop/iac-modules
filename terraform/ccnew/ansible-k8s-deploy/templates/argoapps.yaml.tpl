@@ -122,7 +122,7 @@ argocd_override:
           
     deploy_env:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
-      subapps:
+      sub_apps:
         config:
           environment_list: "%{ for env in environment_list ~} ${env}, %{ endfor ~}"
 
