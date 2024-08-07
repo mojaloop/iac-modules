@@ -1,0 +1,15 @@
+
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-writes
+spec:
+  folder: monitoring
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/grafana/mimir/main/operations/mimir-mixin-compiled/dashboards/mimir-writes.json"
+---

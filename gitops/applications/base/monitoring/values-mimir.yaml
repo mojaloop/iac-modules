@@ -32,6 +32,8 @@ metrics:
       action: replace
 
 
+# TODO: expose the resource sizing as configurable params
+
 distributor:
   resourcesPreset: large
 
