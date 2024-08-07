@@ -64,3 +64,12 @@ resource "gitlab_group_variable" "tenant_vault_listening_port" {
   masked            = false
   environment_scope = "*"
 }
+
+resource "gitlab_group_variable" "kv_secret_path" {
+  group             = data.gitlab_group.iac.id
+  key               = "KV_SECRET_PATH"
+  value             = var.kv_path
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
