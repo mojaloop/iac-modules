@@ -2,32 +2,34 @@
 apiVersion: tf.upbound.io/v1beta1
 kind: Workspace
 metadata:
-  name: gitlab-postconfig-config
+  name: envs-config
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
     source: Remote
-    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/gitlab-post-config?ref=${ARGOCD_ENV_terraform_modules_tag}
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/deploy-env-config?ref=${ARGOCD_ENV_terraform_modules_tag}
     vars:
-      - key: gitlab_fqdn
-        value: gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}
       - key: kv_path
         value: ${ARGOCD_ENV_vault_kv_secret}
-      - key: vault_fqdn
-        value: vault.${ARGOCD_ENV_vault_dns_subdomain}
+      - key: nexus_fqdn
+        value: nexus.${ARGOCD_ENV_nexus_dns_subdomain}
+      - key: ceph_obj_store_gw_fqdn
+        value: rook-ceph-s3.${ARGOCD_ENV_ceph_dns_subdomain}
+      - key: environment_list
+        value: ${ARGOCD_ENV_environment_list}
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
-    name: gitlab-postconfig-config
+    name: env-config
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_gitlab_namespace}
-    name: ${ARGOCD_ENV_gitlab_post_config_output_secret}
+    name: ${ARGOCD_ENV_deploy_env_config_output_secret}
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
-  name: gitlab-postconfig-config
+  name: env-config
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   # Note that unlike most provider configs this one supports an array of

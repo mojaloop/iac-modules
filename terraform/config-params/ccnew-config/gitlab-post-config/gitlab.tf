@@ -120,16 +120,3 @@ resource "gitlab_group_access_token" "gitlab_ci_pat" {
     ]
   }
 }
-
-# environment projects
-resource "gitlab_project" "envs" {
-  for_each               = toset(local.environment_list)
-  name                   = each.value
-  namespace_id           = gitlab_group.iac.id
-  initialize_with_readme = true
-  shared_runners_enabled = true
-}
-
-locals {
-  environment_list = split(",", trimspace(var.environment_list))
-}

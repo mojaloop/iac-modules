@@ -118,8 +118,15 @@ argocd_override:
           praefect_postgres_proxy_replicas: "${gitlab_praefect_postgres_proxy_replicas}"
           praefect_postgres_storage_size: "${gitlab_praefect_postgres_storage_size}"
           praefect_pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
-        post_config:
-          environment_list: "${join(",", environment_list)}"
+
+          
+    deploy_env:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      subapps:
+        config:
+          environment_list: "%{ for env in environment_list ~} ${env}, %{ endfor ~}"
+
+
     monitoring:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:

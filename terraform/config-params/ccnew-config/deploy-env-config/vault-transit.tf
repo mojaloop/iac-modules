@@ -1,3 +1,5 @@
+# env related
+
 resource "vault_mount" "transit" {
   path        = "transit"
   type        = "transit"
@@ -48,6 +50,24 @@ resource "vault_kv_secret_v2" "env_token" {
   data_json = jsonencode(
     {
       value = vault_token.env_token[each.value].client_token
+    }
+  )
+}
+
+resource "random_password" "vault_root_token" {
+  length           = 30
+  special          = true
+  override_special = "_"
+}
+
+
+resource "vault_kv_secret_v2" "vault_root_token" {
+  mount               = var.kv_path
+  name                = "tenancy/vault_root_token"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = random_password.vault_root_token.result
     }
   )
 }
