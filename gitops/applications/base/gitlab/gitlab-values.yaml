@@ -540,7 +540,7 @@ global:
       allowSingleSignOn: ["openid_connect"]
       blockAutoCreatedUsers: false
       autoLinkLdapUser: false
-      autoLinkSamlUser: false
+      autoLinkSamlUser: true
       autoLinkUser: []
       externalProviders: []
       allowBypassTwoFactor: []
