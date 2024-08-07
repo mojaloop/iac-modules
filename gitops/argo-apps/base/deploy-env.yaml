@@ -70,4 +70,10 @@ spec:
           value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
 
         - name: "vault_tf_provider_version"
-          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"          
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
+
+        - name: "ceph_max_objects"
+          value: "${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_objects}"
+         
+        - name: "ceph_max_size"
+          value: "${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_size}"

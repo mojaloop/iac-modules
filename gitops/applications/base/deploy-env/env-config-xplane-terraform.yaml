@@ -18,7 +18,12 @@ spec:
         value: rook-ceph-s3.${ARGOCD_ENV_ceph_dns_subdomain}
       - key: environment_list
         value: ${ARGOCD_ENV_environment_list}
-
+      - key: storage_class
+        value: "ceph-bucket"
+      - key: max_objects
+        value: ${ARGOCD_ENV_ceph_max_objects}
+      - key: max_size
+        value: ${ARGOCD_ENV_ceph_max_size}
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: env-config
@@ -83,3 +88,5 @@ spec:
         token = var.token
         base_url = "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
       }
+
+      provider "kubernetes" {}

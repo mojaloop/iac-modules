@@ -5,7 +5,7 @@ data "gitlab_group" "iac" {
 
 # environment projects
 resource "gitlab_project" "envs" {
-  for_each               = toset(local.environment_list)
+  for_each               = local.environment_list
   name                   = each.value
   namespace_id           = data.gitlab_group.iac.id
   initialize_with_readme = true
@@ -13,7 +13,7 @@ resource "gitlab_project" "envs" {
 }
 
 locals {
-  environment_list = split("," , trimsuffix(var.environment_list, ","))
+  environment_list = toset(split("," ,var.environment_list))
 }
 
 #environment preq

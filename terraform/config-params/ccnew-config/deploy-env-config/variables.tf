@@ -31,3 +31,19 @@ variable "tenant_vault_listening_port" {
   description = "port for vault"
   default     = 443
 }
+
+variable "max_objects" {
+  description = "port for vault"
+  default     = 1000
+}
+
+variable "max_size" {
+  description = "port for vault"
+  default     = 100G
+}
+
+
+variable "storage_class" {
+  description = "port for vault"
+  default     = "ceph-bucket"
+}
