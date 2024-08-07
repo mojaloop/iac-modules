@@ -21,7 +21,7 @@ mimir:
 metrics:
   enabled: true
   serviceMonitor:
-    enabled: false
+    enabled: true
     jobLabel: 'app.kubernetes.io/component'    
     relabelings:
     - sourceLabels: [namespace,job]
