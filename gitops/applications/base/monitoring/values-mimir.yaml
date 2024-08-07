@@ -22,7 +22,7 @@ metrics:
   enabled: true
   serviceMonitor:
     enabled: true
-    jobLabel: 'app.kubernetes.io/component'    
+    jobLabel: 'app.kubernetes.io/component'
     relabelings:
     - sourceLabels: [namespace,job]
       separator: /
