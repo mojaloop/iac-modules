@@ -28,7 +28,7 @@ metrics:
       separator: ;
       regex: (.*)
       targetLabel: job2
-      replacement: ${1}
+      replacement: '${1}'
       action: replace
 
 
