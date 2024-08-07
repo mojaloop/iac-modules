@@ -5,9 +5,6 @@ metadata:
   name: mimir-writes
 spec:
   folder: monitoring
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"

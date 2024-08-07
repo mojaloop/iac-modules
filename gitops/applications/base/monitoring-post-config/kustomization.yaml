@@ -10,6 +10,7 @@ resources:
   - dashboards-kafka.yaml
   - dashboards-loki.yaml
   - dashboards-longhorn.yaml
+  - dashboards-mimir.yaml
   - dashboards-mojaloop.yaml
   - dashboards-prometheus.yaml
   - istio-crs.yaml
