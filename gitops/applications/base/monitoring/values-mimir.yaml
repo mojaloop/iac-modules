@@ -22,6 +22,7 @@ metrics:
   enabled: true
   serviceMonitor:
     enabled: true
+    jobLabel: 'app.kubernetes.io/component'    
 
 distributor:
   resourcesPreset: large
