@@ -23,6 +23,14 @@ metrics:
   serviceMonitor:
     enabled: true
     jobLabel: 'app.kubernetes.io/component'    
+    relabelings:
+    - sourceLabels: [job]
+      separator: ;
+      regex: (.*)
+      targetLabel: job2
+      replacement: ${1}
+      action: replace
+
 
 distributor:
   resourcesPreset: large
