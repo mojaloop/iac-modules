@@ -33,17 +33,17 @@ variable "tenant_vault_listening_port" {
 }
 
 variable "max_objects" {
-  description = "port for vault"
+  description = "max number of objects in a bucket"
   default     = 1000
 }
 
 variable "max_size" {
-  description = "port for vault"
-  default     = 100G
+  description = "max size of objects in a bucket"
+  default     = "100G"
 }
 
 
 variable "storage_class" {
-  description = "port for vault"
+  description = "object storage class of ceph"
   default     = "ceph-bucket"
 }
