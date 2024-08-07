@@ -124,7 +124,8 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         config:
-          environment_list: "%{ for env in environment_list ~} ${env}, %{ endfor ~}"
+          environment_list:  “${join(“,”, environment_list)}”
+          terraform_modules_tag: "${iac_terraform_modules_tag}"
 
 
     monitoring:
