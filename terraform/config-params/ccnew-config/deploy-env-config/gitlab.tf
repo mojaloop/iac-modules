@@ -73,3 +73,12 @@ resource "gitlab_group_variable" "kv_secret_path" {
   masked            = false
   environment_scope = "*"
 }
+
+resource "gitlab_group_variable" "vault_server_url" {
+  group             = data.gitlab_group.iac.id
+  key               = "VAULT_SERVER_URL"
+  value             = "https://$VAULT_FQDN"
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
