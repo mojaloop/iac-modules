@@ -52,7 +52,7 @@ spec:
           value: "${ARGOCD_ENV_nexus_nexus_dns_subdomain}"
 
         - name: "ceph_dns_subdomain"
-          value: "${ARGOCD_ENV_utils_rook_ceph_dns_subdomain}"
+          value: "${ARGOCD_ENV_utils_rook_ceph_bucket_config_dns_subdomain}"
 
         - name: "vault_kv_secret"
           value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
