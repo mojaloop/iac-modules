@@ -7,14 +7,14 @@ resource "vault_mount" "transit" {
 }
 
 resource "vault_transit_secret_backend_key" "unseal_key" {
-  for_each = toset(local.environment_list)
-  backend  = vault_mount.transit.path
-  name     = "unseal-key-${each.value}"
+  for_each         = local.environment_list
+  backend          = vault_mount.transit.path
+  name             = "unseal-key-${each.value}"
   deletion_allowed = true
 }
 
 resource "vault_policy" "env_transit" {
-  for_each = toset(local.environment_list)
+  for_each = local.environment_list
   name     = "env-transit-${each.value}"
 
   policy = <<EOT
@@ -37,13 +37,13 @@ EOT
 }
 
 resource "vault_token" "env_token" {
-  for_each  = toset(local.environment_list)
+  for_each  = local.environment_list
   policies  = [vault_policy.env_transit[each.value].name]
   no_parent = true
 }
 
 resource "vault_kv_secret_v2" "env_token" {
-  for_each            = toset(local.environment_list)
+  for_each            = local.environment_list
   mount               = var.kv_path
   name                = "${each.value}/env_token"
   delete_all_versions = true
@@ -70,4 +70,13 @@ resource "vault_kv_secret_v2" "vault_root_token" {
       value = random_password.vault_root_token.result
     }
   )
+}
+
+resource "gitlab_project_variable" "transit_vault_unseal_key_name" {
+  for_each  = local.environment_list
+  project   = gitlab_project.envs[each.key].id
+  key       = "TRANSIT_VAULT_UNSEAL_KEY_NAME"
+  value     = vault_transit_secret_backend_key.unseal_key[each.key].name
+  protected = false
+  masked    = false
 }

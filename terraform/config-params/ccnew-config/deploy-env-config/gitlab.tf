@@ -13,7 +13,7 @@ resource "gitlab_project" "envs" {
 }
 
 locals {
-  environment_list = toset(split("," ,var.environment_list))
+  environment_list = toset(split(",", var.environment_list))
 }
 
 #environment preq

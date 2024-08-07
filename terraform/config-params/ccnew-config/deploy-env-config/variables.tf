@@ -9,7 +9,7 @@ variable "nexus_fqdn" {
 }
 
 variable "environment_list" {
-  description = "env repos to pre-create"         
+  description = "env repos to pre-create"
 }
 
 
