@@ -30,6 +30,13 @@ resource "zitadel_project_role" "techops_admin" {
   display_name = "Techops Admin"
 }
 
+resource "zitadel_project_role" "techops_maintainer" {
+  project_id   = zitadel_project.gitlab.id
+  org_id       = local.org_id
+  role_key     = var.maintainer_rbac_group
+  display_name = "Techops IaC Maintainer"
+}
+
 resource "zitadel_project_role" "techops_user" {
   project_id   = zitadel_project.gitlab.id
   org_id       = local.org_id

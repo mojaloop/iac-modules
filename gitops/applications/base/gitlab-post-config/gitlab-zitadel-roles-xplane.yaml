@@ -12,6 +12,12 @@ spec:
     vars:
       - key: gitlab_zitadel_project_name
         value: ${ARGOCD_ENV_gitlab_zitadel_project_name}
+      - key: admin_rbac_group
+        value: ${ARGOCD_ENV_gitlab_admin_rbac_group}
+      - key: maintainer_rbac_group
+        value: ${ARGOCD_ENV_gitlab_maintainer_rbac_groupp}
+      - key: user_rbac_group
+        value: ${ARGOCD_ENV_gitlab_user_rbac_group}
     env:
       - name: TF_CLI_CONFIG_FILE
         value: ./.terraformrc
