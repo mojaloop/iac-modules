@@ -14,7 +14,7 @@ helmCharts:
     valuesFile: values-kube-prometheus.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: grafana-loki
-    releaseName: central-monitoring
+    releaseName: control-center-loki
     version: ${ARGOCD_ENV_loki_helm_version}
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesFile: values-loki.yaml
