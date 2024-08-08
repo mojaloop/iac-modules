@@ -19,7 +19,7 @@ resource "vault_policy" "env_transit" {
 
   policy = <<EOT
 path "${var.kv_path}/data/${each.value}/*" {
-  capabilities = ["read", "list"]
+  capabilities = ["read", "list","create","update","delete"]
 }
 
 path "${var.kv_path}/data/tenancy/*" {
