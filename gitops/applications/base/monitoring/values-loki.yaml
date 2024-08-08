@@ -7,8 +7,7 @@ loki:
     limits_config:
       retention_period: ${ARGOCD_ENV_ctrl_cntr_loki_retention_period}
     ingester:
-      # max_chunk_age: ${loki_ingester_max_chunk_age}
-      max_chunk_age: "2h"
+      max_chunk_age: ${ARGOCD_ENV_ctrl_cntr_loki_ingester_max_chunk_age}
     schema_config:
       configs:
       - from: 2020-10-24
