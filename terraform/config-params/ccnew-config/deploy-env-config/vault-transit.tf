@@ -66,3 +66,9 @@ resource "gitlab_project_variable" "transit_vault_unseal_key_name" {
   protected = false
   masked    = false
 }
+
+resource "random_password" "vault_root_token" {
+  length           = 30
+  special          = true
+  override_special = "_"
+}
