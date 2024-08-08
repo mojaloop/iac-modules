@@ -5,8 +5,7 @@ loki:
       retention_enabled: true # enable deletion using compactor
       shared_store: s3
     limits_config:
-      # retention_period: ${loki_ingester_retention_period}
-      retention_period: "10d"
+      retention_period: ${ARGOCD_ENV_ctrl_cntr_loki_retention_period}
     ingester:
       # max_chunk_age: ${loki_ingester_max_chunk_age}
       max_chunk_age: "2h"
