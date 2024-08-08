@@ -41,7 +41,7 @@ metrics:
 ingester:
   persistence:
     # size: ${loki_ingester_pvc_size}
-    size: "10Gi"
+    # size: "10Gi"
     # storageClass: ${storage_class_name}
     # storageClass: ${storage_class_name}
   extraArgs: ["-config.expand-env"]
