@@ -26,7 +26,7 @@ path "${var.kv_path}/data/tenancy/*" {
   capabilities = ["read", "list"]
 }
 
-path "auth/token/lookup-self" {
+path "auth/token/*" {
     capabilities = ["read","create","update"]
 }
 
