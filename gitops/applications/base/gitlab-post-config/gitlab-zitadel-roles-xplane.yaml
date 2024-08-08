@@ -15,7 +15,7 @@ spec:
       - key: admin_rbac_group
         value: ${ARGOCD_ENV_gitlab_admin_rbac_group}
       - key: maintainer_rbac_group
-        value: ${ARGOCD_ENV_gitlab_maintainer_rbac_groupp}
+        value: ${ARGOCD_ENV_gitlab_maintainer_rbac_group}
       - key: user_rbac_group
         value: ${ARGOCD_ENV_gitlab_user_rbac_group}
     env:
