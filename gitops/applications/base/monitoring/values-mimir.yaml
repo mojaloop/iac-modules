@@ -59,3 +59,7 @@ storeGateway:
   resourcesPreset: large
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+
+
+memcachedchunks:
+  nameOverride: test-muz
