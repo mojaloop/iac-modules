@@ -41,6 +41,8 @@ variables:
   IGNORE_TF_DEPRECATION_WARNING: true 
   KUBE_IN_CLUSTER_CONFIG: true
   VAULT_ADDR: http://vault-active.vault.svc.cluster.local:8200
+  VAULT_FQDN: vault-active.vault.svc.cluster.local
+  VAULT_SERVER_URL: http://vault-active.vault.svc.cluster.local:8200
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
