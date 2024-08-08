@@ -83,3 +83,5 @@ spec:
         - name: "mimir_retention_period"
           value: "${ARGOCD_ENV_monitoring_monitoring_mimir_retention_period}"        
 
+        - name: "loki_helm_version"
+          value: "${ARGOCD_ENV_monitoring_monitoring_loki_helm_version}"
