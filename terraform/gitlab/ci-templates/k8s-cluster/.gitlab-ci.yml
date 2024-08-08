@@ -27,7 +27,7 @@ stages:
 
 variables:
   IMAGE_TAG: latest
-  TF_STATE_BASE_ADDRESS: $CI_API_V4_URL/projects/$CI_PROJECT_ID/terraform/state
+  #TF_STATE_BASE_ADDRESS: $CI_API_V4_URL/projects/$CI_PROJECT_ID/terraform/state
   SAST_DISABLED: "true"
   CONFIG_PATH: merged-config
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
@@ -38,7 +38,9 @@ variables:
   K8S_TEMPLATE_PATH: terraform/k8s
   TMP_TEMPLATES_DIR: /tmp/iac-templates
   TMP_GIT_REPO: /tmp/git-iac-templates
-  IGNORE_TF_DEPRECATION_WARNING: true  
+  IGNORE_TF_DEPRECATION_WARNING: true 
+  KUBE_IN_CLUSTER_CONFIG: true
+  VAULT_ADDR: http://vault-active.vault.svc.cluster.local:8200
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
@@ -62,10 +64,8 @@ cache:
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./addons-vars.yaml); do export $var; done
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
     - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
-    - export NETMAKER_OPS_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netmaker_ops_token)"
-    - export NETMAKER_ENV_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netmaker_env_token)"
     - export $cloud_platform_client_secret_name="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/cloud_platform_client_secret)"
-    - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/gitlab_ci_pat)"
+    - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
     - export VAULT_GITLAB_ROOT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/vault_root_token)"
     - export METMAKER_MASTER_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/netmaker_master_key)"
     - source setcivars.sh
