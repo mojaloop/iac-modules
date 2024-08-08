@@ -85,3 +85,5 @@ spec:
 
         - name: "loki_helm_version"
           value: "${ARGOCD_ENV_monitoring_monitoring_loki_helm_version}"
+        - name: "ctrl_cntr_loki_bucket_name"
+          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"

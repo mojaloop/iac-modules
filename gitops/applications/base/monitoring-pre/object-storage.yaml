@@ -9,3 +9,15 @@ spec:
   additionalConfig:
     maxObjects: "${ARGOCD_ENV_mimir_bucket_max_objects}"
     maxSize: "${ARGOCD_ENV_mimir_bucket_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
+  namespace: ${ARGOCD_ENV_monitoring_namespace}
+spec:
+  bucketName: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_ctrl_cntr_loki_bucket_max_objects}"
+    maxSize: "${ARGOCD_ENV_ctrl_cntr_loki_bucket_storage_size}"
