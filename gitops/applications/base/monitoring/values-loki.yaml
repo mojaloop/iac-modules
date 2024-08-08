@@ -39,11 +39,6 @@ metrics:
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
 ingester:
-  # persistence:
-    # size: ${loki_ingester_pvc_size}
-    # size: "10Gi"
-    # storageClass: ${storage_class_name}
-    # storageClass: ${storage_class_name}
   extraArgs: ["-config.expand-env"]
   extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
