@@ -26,6 +26,10 @@ path "${var.kv_path}/data/tenancy/*" {
   capabilities = ["read", "list"]
 }
 
+path "auth/token/lookup-self" {
+    capabilities = ["read"]
+}
+
 path "${vault_mount.transit.path}/encrypt/${vault_transit_secret_backend_key.unseal_key[each.value].name}" {
   capabilities = [ "update" ]
 }
