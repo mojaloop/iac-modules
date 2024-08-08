@@ -49,14 +49,14 @@ resource "gitlab_group_variable" "vault_auth_role" {
   environment_scope = "*"
 }
 
-resource "gitlab_group_variable" "vault_fqdn" {
+/*resource "gitlab_group_variable" "vault_fqdn" {
   group             = gitlab_group.iac.id
   key               = "VAULT_FQDN"
   value             = var.vault_fqdn
   protected         = true
   masked            = false
   environment_scope = "*"
-}
+}*/
 
 resource "gitlab_group_variable" "private_repo_user" {
   group             = gitlab_group.iac.id
