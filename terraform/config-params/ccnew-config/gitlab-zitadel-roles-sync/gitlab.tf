@@ -34,9 +34,9 @@ locals {
   } if contains(keys(local.all_gitlab_users), user_grant.email) && contains(user_grant.role_keys, var.user_rbac_group) }
 
   zitadel_to_gitlab_role_map = {
-    var.admin_rbac_group      = "owner"
-    var.maintainer_rbac_group = "maintainer"
-    var.user_rbac_group       = "developer"
+    "${var.admin_rbac_group}"      = "owner"
+    "${var.maintainer_rbac_group}" = "maintainer"
+    "${var.user_rbac_group}"       = "developer"
   }
 }
 
