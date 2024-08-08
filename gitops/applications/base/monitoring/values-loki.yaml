@@ -39,7 +39,7 @@ metrics:
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
 ingester:
-  persistence:
+  # persistence:
     # size: ${loki_ingester_pvc_size}
     # size: "10Gi"
     # storageClass: ${storage_class_name}
