@@ -9,7 +9,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   grafanaCom:
     id: 2842
     revision: 17
@@ -25,7 +25,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   grafanaCom:
     id: 5336
     revision: 9
@@ -41,7 +41,7 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
   grafanaCom:
     id: 5342
     revision: 9
