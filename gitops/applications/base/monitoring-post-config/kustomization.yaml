@@ -13,4 +13,5 @@ resources:
   - dashboards-mimir.yaml
   - dashboards-mojaloop.yaml
   - dashboards-prometheus.yaml
+  - dashboards-rook-ceph.yaml
   - istio-crs.yaml

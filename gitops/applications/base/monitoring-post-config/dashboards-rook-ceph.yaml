@@ -1,0 +1,48 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: ceph-cluster
+spec:
+  folder: monitoring
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
+  grafanaCom:
+    id: 2842
+    revision: 17
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: ceph-osd-single
+spec:
+  folder: monitoring
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
+  grafanaCom:
+    id: 5336
+    revision: 9
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: ceph-pools
+spec:
+  folder: monitoring
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
+  grafanaCom:
+    id: 5342
+    revision: 9
+---
