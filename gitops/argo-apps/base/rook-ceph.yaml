@@ -57,3 +57,7 @@ spec:
         valuesObject:
           monitoring:
             enabled: true
+          cephClusterSpec:
+            # prometheusEndpoint: http://prometheus-operated:9090
+            prometheusEndpoint: http://central-monitoring-grafana-mimir-gateway/prometheus
+
