@@ -52,3 +52,6 @@ spec:
 
       helm:
         releaseName: rook-ceph-cluster
+        valuesObject:
+          monitoring:
+            enabled: true
