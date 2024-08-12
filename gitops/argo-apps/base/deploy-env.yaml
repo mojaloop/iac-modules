@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_deploy_env_config_app_name}-post-config
+  name: ${ARGOCD_ENV_deploy_env_config_app_name}
   namespace: ${ARGOCD_ENV_deploy_env_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_deploy_env_config_sync_wave}
@@ -77,3 +77,9 @@ spec:
          
         - name: "ceph_max_size"
           value: "${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_size}"
+
+        - key: netbird_version
+          value: ${ARGOCD_ENV_security_netbird_image_version}
+      
+        - key: netbird_dns_subdomain
+          value: ${ARGOCD_ENV_security_netbird_dns_subdomain}

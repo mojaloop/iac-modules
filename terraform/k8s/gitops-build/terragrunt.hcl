@@ -137,7 +137,7 @@ locals {
   GITLAB_TOKEN                  = get_env("GITLAB_CI_PAT")
   ENV_VAULT_TOKEN               = get_env("ENV_VAULT_TOKEN")
   KV_SECRET_PATH                = get_env("KV_SECRET_PATH")
-  VAULT_GITLAB_ROOT_TOKEN       = get_env("VAULT_GITLAB_ROOT_TOKEN")
+  VAULT_GITLAB_ROOT_TOKEN       = get_env("ENV_VAULT_TOKEN")
   TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
   argocd_ingress_internal_lb    = strcontains(try(get_env("argocd_oidc_domain"),"int."),"int.")? true : false

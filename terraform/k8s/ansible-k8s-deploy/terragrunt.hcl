@@ -86,7 +86,9 @@ locals {
     #netmaker_join_tokens = yamlencode(concat([get_env("NETMAKER_OPS_TOKEN")], [get_env("NETMAKER_ENV_TOKEN")]))
   }
   bastion_hosts_var_maps = {
-    #netmaker_image_version       = get_env("NETMAKER_VERSION")
+    netbird_version              = get_env("NETBIRD_VERSION")
+    netbird_api_host             = get_env("NETBIRD_API_HOST")
+    netbird_setup_key            = get_env("NETBIRD_SETUP_KEY")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
     minio_fqdn                   = get_env("CEPH_OBJECTSTORE_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")

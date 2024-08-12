@@ -100,3 +100,21 @@ resource "gitlab_group_variable" "gitlab_readonly_rbac_group" {
   masked            = false
   environment_scope = "*"
 }
+
+resource "gitlab_group_variable" "netbird_api_host" {
+  group             = data.gitlab_group.iac.id
+  key               = "NETBIRD_API_HOST"
+  value             = var.netbird_api_host
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "netbird_version" {
+  group             = data.gitlab_group.iac.id
+  key               = "NETBIRD_VERSION"
+  value             = var.netbird_version
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}

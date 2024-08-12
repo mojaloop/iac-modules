@@ -64,3 +64,11 @@ variable "gitlab_readonly_rbac_group" {
   description = "rbac group in gitlab for readonly access via oidc"
   default     = "tenant-viewers"
 }
+
+variable "netbird_api_host" {
+  description = "fqdn for netbird"
+}
+
+variabke "netbird_version" {
+  description = "netbird version"
+}

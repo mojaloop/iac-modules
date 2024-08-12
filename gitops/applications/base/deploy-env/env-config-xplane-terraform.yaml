@@ -24,6 +24,10 @@ spec:
         value: "${ARGOCD_ENV_ceph_max_objects}"
       - key: max_size
         value: ${ARGOCD_ENV_ceph_max_size}
+      - key: netbird_version
+        value: ${ARGOCD_ENV_netbird_version}
+      - key: netbird_api_host
+        value: netbird.${ARGOCD_ENV_netbird_dns_subdomain}
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: env-config
