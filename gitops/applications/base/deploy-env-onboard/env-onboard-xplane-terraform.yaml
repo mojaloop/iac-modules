@@ -16,6 +16,8 @@ spec:
         value: "argocd.${ARGOCD_ENV_argocd_domain}"
       - key: grafana_fqdn
         value: "grafana.${ARGOCD_ENV_grafana_domain}"
+      - key: env_name
+        value: "${ARGOCD_ENV_env_name}"
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${deploy_env_onboard_app_name}
