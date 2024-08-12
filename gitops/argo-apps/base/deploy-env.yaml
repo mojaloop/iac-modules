@@ -79,7 +79,7 @@ spec:
           value: "${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_size}"
 
         - key: netbird_version
-          value: ${ARGOCD_ENV_security_netbird_image_version}
+          value: "${ARGOCD_ENV_security_netbird_image_version}"
       
         - key: netbird_dns_subdomain
-          value: ${ARGOCD_ENV_security_netbird_dns_subdomain}
+          value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
