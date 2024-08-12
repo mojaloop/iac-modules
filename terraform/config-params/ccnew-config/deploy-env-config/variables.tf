@@ -69,6 +69,6 @@ variable "netbird_api_host" {
   description = "fqdn for netbird"
 }
 
-variabke "netbird_version" {
+variable "netbird_version" {
   description = "netbird version"
 }
