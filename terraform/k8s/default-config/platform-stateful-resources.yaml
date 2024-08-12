@@ -91,7 +91,7 @@ account-lookup-db:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: external
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: account-lookup-db-svc
@@ -111,7 +111,7 @@ central-ledger-db:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: external
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: central-ledger-db-svc
