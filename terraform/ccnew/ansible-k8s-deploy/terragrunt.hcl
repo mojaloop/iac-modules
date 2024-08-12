@@ -69,7 +69,7 @@ inputs = {
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
   all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps,
   {
-    registry_mirror_fqdn        = dependency.k8s_deploy.outputs.haproxy_server_fqdn
+    registry_mirror_fqdn        = local.nexus_fqdn
   }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.env_vars.microk8s_version, "1.30/stable")
@@ -117,6 +117,7 @@ locals {
   ANSIBLE_BASE_OUTPUT_DIR          = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE                 = get_env("k8s_cluster_type")
   CLUSTER_NAME                     = get_env("cluster_name")
+  nexus_fqdn                       = get_env("NEXUS_FQDN")  
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
 

@@ -33,7 +33,6 @@ variables:
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
   GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
   TEMPLATE_REPO_URL: https://github.com/mojaloop/iac-modules.git
-  VAULT_ADDR: $VAULT_SERVER_URL
   CI_TEMPLATE_PATH: terraform/gitlab/ci-templates/k8s-cluster
   K8S_TEMPLATE_PATH: terraform/k8s
   TMP_TEMPLATES_DIR: /tmp/iac-templates
@@ -41,8 +40,6 @@ variables:
   IGNORE_TF_DEPRECATION_WARNING: true 
   KUBE_IN_CLUSTER_CONFIG: true
   VAULT_ADDR: http://vault-active.vault.svc.cluster.local:8200
-  VAULT_FQDN: vault-active.vault.svc.cluster.local
-  VAULT_SERVER_URL: http://vault-active.vault.svc.cluster.local:8200
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
@@ -126,7 +123,7 @@ init:
   stage: init
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all init -input=false -reconfigure
@@ -140,7 +137,7 @@ validate:
   extends: .terraform:validate
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all validate-inputs
@@ -151,7 +148,7 @@ build:
   extends: .terraform:build
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
   when: manual
@@ -160,7 +157,7 @@ deploy-infra:
   extends: .terraform:deploy
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
@@ -177,7 +174,7 @@ deploy-managed-srvcs:
   extends: .terraform:deploy
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - cd managed-services
@@ -194,7 +191,7 @@ refresh-templates:
   stage: refresh-templates
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
@@ -204,7 +201,7 @@ destroy:
   extends: .terraform:destroy
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all destroy --terragrunt-non-interactive -input=false
@@ -217,7 +214,7 @@ apps:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
