@@ -11,7 +11,6 @@ alertmanager:
     storageClass: null
     size: 10Gi
 prometheus:
-  replicaCount: 2
   logLevel: debug
   persistence:
     enabled: true
