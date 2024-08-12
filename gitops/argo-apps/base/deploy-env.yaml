@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_deploy_env_config_app_name}
+  name: ${ARGOCD_ENV_deploy_env_config_app_name}-post-config
   namespace: ${ARGOCD_ENV_deploy_env_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_deploy_env_config_sync_wave}
