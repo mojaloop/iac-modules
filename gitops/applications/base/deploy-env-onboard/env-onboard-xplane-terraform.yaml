@@ -36,6 +36,13 @@ spec:
   # Crossplane provider config, but could use multiple Terraform providers each
   # with their own credentials.
   credentials:
+    - filename: zitadel-admin-sa.json
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_zitadel_namespace}
+        name: zitadel-admin-sa
+        key: zitadel-admin-sa.json
+          
     - filename: terraform.tfvars.json
       source: Secret
       secretRef:
