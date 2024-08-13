@@ -135,6 +135,19 @@ variable "istio_external_gateway_namespace" {
   description = "istio_external_gateway_namespace"
   default     = "istio-ingress-ext"
 }
+
+variable "opentelemetry_enabled" {
+  type        = bool
+  description = "bool that enables opentelemetry in cluster"
+  default     = false
+} 
+
+variable "opentelemetry_namespace_filtering" {
+  type        = bool
+  description = "bool that enables tracing by namespace"
+  default     = false
+}
+
 variable "cert_manager_service_account_name" {
   type        = string
   description = "cert_manager_service_account_name"
