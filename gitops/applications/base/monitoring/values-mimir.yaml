@@ -35,33 +35,33 @@ metrics:
 # TODO: expose the resource config as configurable params
 # resource preset guide: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
 distributor:
-  replicaCount: 2
+  replicaCount: ${ARGOCD_ENV_mimir_distributor_replica_count}
   resourcesPreset: medium
 
 ingester:
-  replicaCount: 3
+  replicaCount: ${ARGOCD_ENV_mimir_ingester_replica_count}
   resourcesPreset: xlarge
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
 querier:
-  replicaCount: 2
+  replicaCount: ${ARGOCD_ENV_mimir_querier_replica_count}
   resourcesPreset: large
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
 query-frontend: 
-  replicaCount: 1
+  replicaCount: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
 compactor: 
-  replicaCount: 1
+  replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
 storeGateway: 
-  replicaCount: 2
+  replicaCount: ${ARGOCD_ENV_mimir_store_gateway_replica_count}
   resourcesPreset: large
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
