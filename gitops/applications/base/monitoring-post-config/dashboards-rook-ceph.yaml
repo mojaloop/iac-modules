@@ -1,9 +1,18 @@
 apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: storage
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"      
+---
+apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: ceph-cluster
 spec:
-  folder: monitoring
+  folder: storage
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -19,7 +28,7 @@ kind: GrafanaDashboard
 metadata:
   name: ceph-osd-single
 spec:
-  folder: monitoring
+  folder: storage
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -35,7 +44,7 @@ kind: GrafanaDashboard
 metadata:
   name: ceph-pools
 spec:
-  folder: monitoring
+  folder: storage
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
