@@ -38,6 +38,8 @@ spec:
         valuesObject:
           csi:
             kubeletDirPath: ${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}
+            serviceMonitor:
+              interval: 60s
           enableDiscoveryDaemon: true
           monitoring:
             enabled: true
@@ -57,6 +59,7 @@ spec:
         valuesObject:
           monitoring:
             enabled: true
+            interval: 60s
           cephClusterSpec:
             dashboard:
               prometheusEndpoint: http://central-monitoring-grafana-mimir-gateway.monitoring.svc.cluster.local/prometheus
