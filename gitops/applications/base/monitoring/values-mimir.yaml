@@ -32,12 +32,13 @@ metrics:
       action: replace
 
 
-# TODO: expose the resource sizing as configurable params
+# TODO: expose the resource config as configurable params
 
 distributor:
   resourcesPreset: large
 
 ingester:
+  replicaCount: 3
   resourcesPreset: xlarge
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
