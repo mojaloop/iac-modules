@@ -126,6 +126,8 @@ argocd_override:
         config:
           environment_list:  "${join(",", environment_list)}"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
+        onboard:
+          terraform_modules_tag: "${iac_terraform_modules_tag}"          
 
 
     monitoring:
