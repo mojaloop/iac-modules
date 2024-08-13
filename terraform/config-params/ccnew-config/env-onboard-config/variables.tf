@@ -13,3 +13,7 @@ variable "vault_fqdn" {
 variable "argocd_fqdn" {
   description = "fqdn for vault"
 }
+
+variable "kv_path" {
+  description = "key value secret path"
+}

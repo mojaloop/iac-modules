@@ -18,6 +18,8 @@ spec:
         value: "grafana.${ARGOCD_ENV_grafana_domain}.${ARGOCD_ENV_domain}"
       - key: env_name
         value: "${ARGOCD_ENV_env_name}"
+      - key: "kv_path"
+        value: "${ARGOCD_ENV_vault_kv_secret}"        
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
@@ -42,7 +44,7 @@ spec:
         namespace: ${ARGOCD_ENV_zitadel_namespace}
         name: zitadel-admin-sa
         key: zitadel-admin-sa.json
-          
+
     - filename: terraform.tfvars.json
       source: Secret
       secretRef:

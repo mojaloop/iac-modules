@@ -40,6 +40,30 @@ resource "zitadel_application_oidc" "grafana" {
   additional_origins          = []
 }
 
+resource "vault_kv_secret_v2" "env_grafana_oidc_client_id" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/grafana_oidc_client_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value     = zitadel_application_oidc.grafana.client_id
+
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "env_grafana_oidc_client_secret" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/grafana_oidc_client_secret"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value     = zitadel_application_oidc.grafana.client_secret
+
+    }
+  )
+}
+
 resource "zitadel_application_oidc" "vault_ui" {
   project_id                  = zitadel_project.env.id
   org_id                      = local.org_id
@@ -59,6 +83,30 @@ resource "zitadel_application_oidc" "vault_ui" {
   additional_origins          = []
 }
 
+resource "vault_kv_secret_v2" "env_vault_oidc_client_id" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/vault_oidc_client_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value     = zitadel_application_oidc.vault_ui.client_id
+
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "env_vault_oidc_client_secret" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/vault_oidc_client_secret"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value     = zitadel_application_oidc.vault_ui.client_secret
+
+    }
+  )
+}
+
 resource "zitadel_application_oidc" "argocd" {
   project_id                  = zitadel_project.env.id
   org_id                      = local.org_id
@@ -76,4 +124,28 @@ resource "zitadel_application_oidc" "argocd" {
   id_token_role_assertion     = true
   id_token_userinfo_assertion = true
   additional_origins          = []
+}
+
+resource "vault_kv_secret_v2" "env_argocd_oidc_client_id" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/argocd_oidc_client_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value     = zitadel_application_oidc.argocd.client_id
+
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "env_argocd_oidc_client_secret" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/argocd_oidc_client_secret"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value     = zitadel_application_oidc.argocd.client_secret
+
+    }
+  )
 }
