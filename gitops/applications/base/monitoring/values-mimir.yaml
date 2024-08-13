@@ -35,7 +35,8 @@ metrics:
 # TODO: expose the resource config as configurable params
 
 distributor:
-  resourcesPreset: large
+  replicaCount: 2
+  resourcesPreset: medium
 
 ingester:
   replicaCount: 3
