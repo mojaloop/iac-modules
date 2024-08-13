@@ -35,7 +35,14 @@ metrics:
 # TODO: expose the resource config as configurable params
 
 distributor:
-  resourcesPreset: large
+  resources:
+    requests:
+      cpu: "1"
+      memory: "2Gi"
+    # limits:
+    #   memory: "512Mi"
+    #   cpu: "500m"
+  # resourcesPreset: large
 
 ingester:
   replicaCount: 3
