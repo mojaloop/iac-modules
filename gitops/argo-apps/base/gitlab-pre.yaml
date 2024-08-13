@@ -182,3 +182,6 @@ spec:
 
         - name: "zitadel_grant_prefix"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_gitlab_app_namespace}"          
