@@ -20,10 +20,10 @@ spec:
         value: "${ARGOCD_ENV_env_name}"
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
-    name: ${deploy_env_onboard_app_name}
+    name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_deploy_env_onboard_app_namespace}
-    name: ${deploy_env_onboard_app_name}-secret
+    name: ${ARGOCD_ENV_deploy_env_onboard_app_name}-secret
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
@@ -56,7 +56,7 @@ spec:
   configuration: |
     terraform { 
         backend "kubernetes" {
-          secret_suffix     = "providerconfig-gitlab-post-config"
+          secret_suffix     = "providerconfig-deploy-env-onboard"
           namespace         = "${ARGOCD_ENV_deploy_env_onboard_app_namespace}"
           in_cluster_config = true
         }
