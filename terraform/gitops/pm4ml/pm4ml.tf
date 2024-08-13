@@ -67,6 +67,8 @@ module "generate_pm4ml_files" {
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
+    opentelemetry_enabled                           = var.opentelemetry_enabled
+    opentelemetry_namespace_filtering               = var.opentelemetry_namespace_filtering
     ttk_testcases_tag                               = each.value.ttk_testcases_tag
     supported_currencies                            = try(each.value.supported_currencies, each.value.currency)
     fxp_id                                          = each.value.fxp_id
@@ -249,6 +251,18 @@ variable "portal_admin_user" {
 
 variable "mcm_admin_user" {
   type = string
+}
+
+variable "opentelemetry_enabled" {
+  type        = bool
+  description = "bool that enables opentelemetry in cluster"
+  default     = false
+} 
+
+variable "opentelemetry_namespace_filtering" {
+  type        = bool
+  description = "bool that enables tracing by namespace"
+  default     = false
 }
 
 variable "role_assign_svc_user" {

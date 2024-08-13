@@ -10,7 +10,7 @@ module "generate_monitoring_files" {
     loki_release_name                   = local.loki_release_name
     grafana_operator_version            = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                     = try(var.common_var_map.grafana_version, local.grafana_version)
-    opentelemetry_chart_version          = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
+    opentelemetry_chart_version         = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     grafana_dashboard_tag               = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
     tempo_chart_version                 = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
     monitoring_namespace                = var.monitoring_namespace

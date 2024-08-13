@@ -1,4 +1,6 @@
 pm4ml_enabled: true
+opentelemetry_enabled: false
+opentelemetry_namespace_filtering_enabled: false
 proxy_pm4ml_chart_version: 1.0.0
 pm4ml_ingress_internal_lb: false
 pm4ml_scheme_a_config:

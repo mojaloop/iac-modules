@@ -20,9 +20,11 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
+  %{ if opentelemetry_namespace_filtering ~}
     managedNamespaceMetadata:
       annotations:
         instrumentation.opentelemetry.io/inject-nodejs: "true"
+  %{ endif ~}
     automated:
       prune: true
       selfHeal: true

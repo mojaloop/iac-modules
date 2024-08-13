@@ -149,6 +149,18 @@ variable "cert_manager_service_account_name" {
   description = "cert_manager_service_account_name"
 }
 
+variable "opentelemetry_enabled" {
+  type        = bool
+  description = "should opentelemetry be enabled"
+  default     = false
+}
+
+variable "opentelemetry_namespace_filtering" {
+  type        = bool
+  description = "should opentelemetry trace all pods in the application namespace"
+  default     = false
+}
+
 variable "vault_namespace" {
   type        = string
   description = "vault_namespace"

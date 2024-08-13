@@ -49,6 +49,8 @@ module "mojaloop" {
   mojaloop_enabled                     = var.common_var_map.mojaloop_enabled
   bulk_enabled                         = var.app_var_map.bulk_enabled
   third_party_enabled                  = var.app_var_map.third_party_enabled
+  opentelemetry_enabled                = var.common_var_map.opentelemetry_enabled
+  opentelemetry_namespace_filtering    = var.common_var_map.opentelemetry_namespace_filtering
   local_vault_kv_root_path             = local.local_vault_kv_root_path
   app_var_map                          = var.app_var_map
   auth_fqdn                            = local.auth_fqdn
@@ -116,6 +118,8 @@ module "pm4ml" {
   mcm_admin_user                         = var.mcm_admin_user
   mcm_admin_secret_prefix                = "mcm-admin-secret-"
   pm4ml_values_override_file             = var.pm4ml_values_override_file
+  opentelemetry_enabled                  = var.common_var_map.opentelemetry_enabled
+  opentelemetry_namespace_filtering      = var.common_var_map.opentelemetry_namespace_filtering
 }
 
 module "proxy_pm4ml" {
@@ -147,6 +151,8 @@ module "proxy_pm4ml" {
   vault_root_ca_name                     = "pki-${var.cluster_name}"
   app_var_map                            = local.proxy_pm4ml_var_map
   proxy_values_override_file             = var.proxy_values_override_file
+  opentelemetry_enabled                  = var.common_var_map.opentelemetry_enabled
+  opentelemetry_namespace_filtering      = var.common_var_map.opentelemetry_namespace_filtering
 
 }
 
