@@ -11,11 +11,11 @@ spec:
     module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/env-onboard-config?ref=${ARGOCD_ENV_deploy_env_onboard_terraform_modules_tag}
     vars:
       - key: vault_fqdn
-        value: "vault.${ARGOCD_ENV_vault_domain}"
+        value: "vault.${ARGOCD_ENV_vault_domain}.${ARGOCD_ENV_domain}"
       - key: argocd_fqdn
-        value: "argocd.${ARGOCD_ENV_argocd_domain}"
+        value: "argocd.${ARGOCD_ENV_argocd_domain}.${ARGOCD_ENV_domain}"
       - key: grafana_fqdn
-        value: "grafana.${ARGOCD_ENV_grafana_domain}"
+        value: "grafana.${ARGOCD_ENV_grafana_domain}.${ARGOCD_ENV_domain}"
       - key: env_name
         value: "${ARGOCD_ENV_env_name}"
   # All Terraform outputs are written to the connection secret.
