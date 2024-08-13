@@ -83,4 +83,12 @@ spec:
 
         - name: "zitadel_grant_prefix"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
-          
+
+        - name: "environment_list"
+          value: "${ARGOCD_ENV_deploy_env_config_environment_list}"
+
+        - name: "zitadel_tf_provider_version"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
+
+        - name: "netbird_tf_provider_version"
+          value: "${ARGOCD_ENV_security_netbird_netbird_tf_provider_version}"

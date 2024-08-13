@@ -5,3 +5,11 @@ resources:
   - external-secret.yaml
   - providerconfig.yaml
   - ansiblerun.yaml
+  - netbird-post-terraform.yaml
+
+secretGenerator:
+  - name: terraformrc
+    files:
+      - .terraformrc=.terraformrc.yaml
+    options:
+      disableNameSuffixHash: true

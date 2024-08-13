@@ -9,9 +9,25 @@ data "zitadel_org" "default" {
 
 
 locals {
-  org_id = [for org in data.zitadel_org.default : org.id if org.is_default][0]
+  org_id             = [for org in data.zitadel_org.default : org.id if org.is_default][0]
+  netbird_project_id = [for project in data.zitadel_projects.netbird : project.id if project != null][0]
 }
 
+
+data "zitadel_projects" "netbird" {
+  org_id      = local.org_id
+  name        = "netbird"
+  name_method = "TEXT_QUERY_METHOD_CONTAINS_IGNORE_CASE"
+}
+
+
+
+resource "zitadel_project_role" "env_vpn_user" {
+  project_id   = local.netbird_project_id
+  org_id       = local.org_id
+  role_key     = var.admin_rbac_group
+  display_name = "${var.env_name}-vpn-user"
+}
 
 resource "zitadel_project" "env" {
   name                   = var.env_name
@@ -46,7 +62,7 @@ resource "vault_kv_secret_v2" "env_grafana_oidc_client_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value     = zitadel_application_oidc.grafana.client_id
+      value = zitadel_application_oidc.grafana.client_id
 
     }
   )
@@ -58,7 +74,7 @@ resource "vault_kv_secret_v2" "env_grafana_oidc_client_secret" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value     = zitadel_application_oidc.grafana.client_secret
+      value = zitadel_application_oidc.grafana.client_secret
 
     }
   )
@@ -89,7 +105,7 @@ resource "vault_kv_secret_v2" "env_vault_oidc_client_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value     = zitadel_application_oidc.vault_ui.client_id
+      value = zitadel_application_oidc.vault_ui.client_id
 
     }
   )
@@ -101,7 +117,7 @@ resource "vault_kv_secret_v2" "env_vault_oidc_client_secret" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value     = zitadel_application_oidc.vault_ui.client_secret
+      value = zitadel_application_oidc.vault_ui.client_secret
 
     }
   )
@@ -132,7 +148,7 @@ resource "vault_kv_secret_v2" "env_argocd_oidc_client_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value     = zitadel_application_oidc.argocd.client_id
+      value = zitadel_application_oidc.argocd.client_id
 
     }
   )
@@ -144,7 +160,7 @@ resource "vault_kv_secret_v2" "env_argocd_oidc_client_secret" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value     = zitadel_application_oidc.argocd.client_secret
+      value = zitadel_application_oidc.argocd.client_secret
 
     }
   )

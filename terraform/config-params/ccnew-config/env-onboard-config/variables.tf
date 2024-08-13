@@ -17,3 +17,8 @@ variable "argocd_fqdn" {
 variable "kv_path" {
   description = "key value secret path"
 }
+
+variable "user_rbac_group" {
+  type        = string
+  description = "rbac group in idm for user access via netbird"
+}

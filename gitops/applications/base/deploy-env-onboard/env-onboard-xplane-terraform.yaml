@@ -18,8 +18,10 @@ spec:
         value: "grafana.${ARGOCD_ENV_grafana_domain}.${ARGOCD_ENV_domain}"
       - key: env_name
         value: "${ARGOCD_ENV_env_name}"
-      - key: "kv_path"
-        value: "${ARGOCD_ENV_vault_kv_secret}"        
+      - key: kv_path
+        value: "${ARGOCD_ENV_vault_kv_secret}"
+      - key: user_rbac_group
+        value: ${ARGOCD_ENV_netbird_rbac_user_group}
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
@@ -38,6 +40,13 @@ spec:
   # Crossplane provider config, but could use multiple Terraform providers each
   # with their own credentials.
   credentials:
+    - filename: .terraformrc
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_deploy_env_onboard_app_namespace}
+        name: terraformrc
+        key: .terraformrc
+
     - filename: zitadel-admin-sa.json
       source: Secret
       secretRef:
@@ -78,6 +87,15 @@ spec:
           }
 
           vault = "${ARGOCD_ENV_vault_tf_provider_version}"
+
+          netbird = {
+            source = "github.com/netbirdio/netbird"
+            version = "${ARGOCD_ENV_netbird_tf_provider_version}"
+          }
+          kubernetes = {
+            source = "hashicorp/kubernetes"
+            version = "2.31.0"
+          }
         }
      }
 
@@ -96,3 +114,9 @@ spec:
       }
 
       provider "kubernetes" {}
+
+      provider "netbird" {
+        server_url        = "https://netbird.${ARGOCD_ENV_zitadel_dns_subdomain}:443"
+        oauth_credentials = "$${path.module}/netbird-oauth.json"
+        oauth_issuer      = "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token"
+      }

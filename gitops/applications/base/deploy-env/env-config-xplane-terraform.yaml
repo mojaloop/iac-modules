@@ -76,6 +76,11 @@ spec:
             version = "~> 16.0"
           }
           vault = "${ARGOCD_ENV_vault_tf_provider_version}"
+          
+          kubernetes = {
+            source = "hashicorp/kubernetes"
+            version = "2.31.0"
+          }
         }
      }
 

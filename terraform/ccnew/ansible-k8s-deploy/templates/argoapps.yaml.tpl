@@ -91,6 +91,7 @@ argocd_override:
           log_level: "${netbird_log_level}"
           internal_k8s_cidr: "${internal_k8s_cidr}"
           ansible_collection_tag: ${netbird_ansible_collection_tag}
+          netbird_tf_provider_version: "${netbird_tf_provider_version}"
     nexus:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
