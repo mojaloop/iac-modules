@@ -39,5 +39,5 @@ resource "netbird_route" "env_k8s" {
 data "netbird_groups" "all" {
 }
 locals {
-  cc_user_group_id = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, "${local.netbird_project_id}:${var.user_rbac_group}")][0]
+  cc_user_group_id = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, "${local.netbird_project_id}:${var.netbird_user_rbac_group}")][0]
 }

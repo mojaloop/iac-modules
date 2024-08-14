@@ -25,7 +25,7 @@ data "zitadel_projects" "netbird" {
 resource "zitadel_project_role" "env_vpn_user" {
   project_id   = local.netbird_project_id
   org_id       = local.org_id
-  role_key     = var.admin_rbac_group
+  role_key     = var.netbird_admin_rbac_group
   display_name = "${var.env_name}-vpn-user"
 }
 
@@ -80,6 +80,28 @@ resource "vault_kv_secret_v2" "env_grafana_oidc_client_secret" {
   )
 }
 
+resource "zitadel_user_grant" "zitadel_admin_grafana_admin" {
+  project_id = zitadel_project.env.id
+  org_id     = local.org_id
+  role_keys  = [zitadel_project_role.grafana_admins_role.role_key]
+  user_id    = var.zitadel_admin_human_user_id
+}
+
+resource "zitadel_project_role" "grafana_admins_role" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = var.grafana_admin_rbac_group
+  display_name = "Grafana Admins"
+}
+
+resource "zitadel_project_role" "grafana_users_role" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = var.grafana_user_rbac_group
+  display_name = "Grafana Users"
+}
+
+
 resource "zitadel_application_oidc" "vault_ui" {
   project_id                  = zitadel_project.env.id
   org_id                      = local.org_id
@@ -123,6 +145,27 @@ resource "vault_kv_secret_v2" "env_vault_oidc_client_secret" {
   )
 }
 
+resource "zitadel_user_grant" "zitadel_admin_vault_admin" {
+  project_id = zitadel_project.env.id
+  org_id     = local.org_id
+  role_keys  = [zitadel_project_role.vault_admins_role.role_key]
+  user_id    = var.zitadel_admin_human_user_id
+}
+
+resource "zitadel_project_role" "vault_admins_role" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = var.vault_admin_rbac_group
+  display_name = "Vault Admins"
+}
+
+resource "zitadel_project_role" "vault_users_role" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = var.vault_user_rbac_group
+  display_name = "Vault Users"
+}
+
 resource "zitadel_application_oidc" "argocd" {
   project_id                  = zitadel_project.env.id
   org_id                      = local.org_id
@@ -164,4 +207,25 @@ resource "vault_kv_secret_v2" "env_argocd_oidc_client_secret" {
 
     }
   )
+}
+
+resource "zitadel_user_grant" "zitadel_admin_argocd_admin" {
+  project_id = zitadel_project.env.id
+  org_id     = local.org_id
+  role_keys  = [zitadel_project_role.argocd_admins_role.role_key]
+  user_id    = var.zitadel_admin_human_user_id
+}
+
+resource "zitadel_project_role" "argocd_admins_role" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = var.argocd_admin_rbac_group
+  display_name = "Argocd Admins"
+}
+
+resource "zitadel_project_role" "argocd_users_role" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = var.argocd_user_rbac_group
+  display_name = "Argocd Users"
 }

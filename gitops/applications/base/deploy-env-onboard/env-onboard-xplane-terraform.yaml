@@ -9,6 +9,12 @@ spec:
     # Use any module source supported by terraform init -from-module.
     source: Remote
     module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/env-onboard-config?ref=${ARGOCD_ENV_deploy_env_onboard_terraform_modules_tag}
+    env:
+      - name: TF_VAR_zitadel_admin_human_user_id
+        secretKeyRef:
+          namespace: ${ARGOCD_ENV_zitadel_namespace}
+          name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+          key: zitadel_admin_human_user_id    
     vars:
       - key: vault_fqdn
         value: "vault.${ARGOCD_ENV_vault_domain}.${ARGOCD_ENV_domain}"
@@ -20,8 +26,24 @@ spec:
         value: "${ARGOCD_ENV_env_name}"
       - key: kv_path
         value: "${ARGOCD_ENV_vault_kv_secret}"
-      - key: user_rbac_group
-        value: ${ARGOCD_ENV_netbird_rbac_user_group}
+      - key: netbird_user_rbac_group
+        value: ${ARGOCD_ENV_netbird_user_rbac_group}
+      - key: netbird_admin_rbac_group
+        value: ${ARGOCD_ENV_netbird_admin_rbac_group}        
+      - key: zitadel_fqdn
+        value: "${ARGOCD_ENV_zitadel_fqdn}"        
+      - key: "vault_admin_rbac_group"
+        value: "${ARGOCD_ENV_vault_admin_rbac_group}"                         
+      - key: "grafana_admin_rbac_group"
+        value: "${ARGOCD_ENV_grafana_admin_rbac_group}"
+      - key: "argocd_admin_rbac_group"
+        value: "${ARGOCD_ENV_argocd_admin_rbac_group}"
+      - key: "vault_user_rbac_group"
+        value: "${ARGOCD_ENV_vault_user_rbac_group}"                         
+      - key: "grafana_user_rbac_group"
+        value: "${ARGOCD_ENV_grafana_user_rbac_group}"
+      - key: "argocd_user_rbac_group"
+        value: "${ARGOCD_ENV_argocd_user_rbac_group}"                   
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
@@ -67,6 +89,13 @@ spec:
         namespace: ${ARGOCD_ENV_vault_namespace}
         name: ${ARGOCD_ENV_vault_keys_secret}
         key: vault-keys.json
+
+    - filename: netbird-oauth.json
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_netbird_namespace}
+        name: netbird-ansible-secret-vars
+        key: netbird-oauth.json
 
   # This optional configuration block can be used to inject HCL into any
   # workspace that uses this provider config, for example to setup Terraform
