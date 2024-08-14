@@ -95,9 +95,9 @@ resource "local_file" "percona-crs" {
       percona_server_mongodb_version    = each.value.resource_type == "mongodb" ? each.value.local_operator_config.percona_server_mongodb_version : ""
 
 
-      minio_percona_backup_bucket = var.minio_percona_backup_bucket
-      minio_percona_secret        = "percona-backups-secret"
-      minio_api_url               = "http://${var.minio_api_url}"
+      ceph_percona_backup_bucket = var.ceph_percona_backup_bucket
+      ceph_percona_secret        = "percona-backups-secret"
+      ceph_api_url               = "http://${var.ceph_api_url}"
       backupSchedule              = each.value.backup_schedule
       backupStorageName           = "${each.key}-backup-storage"
 
@@ -155,8 +155,8 @@ locals {
   all_local_helm_namespaces     = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
   all_local_op_namespaces       = distinct([for stateful_resource in local.operator_stateful_resources : try(stateful_resource.local_operator_config.resource_namespace, "")])
 
-  percona_credentials_secret_provider_key = "minio_percona_password"
-  percona_credentials_id_provider_key     = "minio_percona_username"
+  percona_credentials_secret_provider_key = "ceph_percona_password"
+  percona_credentials_id_provider_key     = "ceph_percona_username"
 
   strimzi_kafka_grafana_dashboards_version = "0.41.0"
 }
@@ -238,12 +238,12 @@ variable "stateful_resources" {
   type = any
 }
 
-variable "minio_api_url" {
+variable "ceph_api_url" {
   type        = string
-  description = "minio_api_url"
+  description = "ceph_api_url"
 }
 
-variable "minio_percona_backup_bucket" {
+variable "ceph_percona_backup_bucket" {
   type        = string
-  description = "minio_percona_backup_bucket"
+  description = "ceph_percona_backup_bucket"
 }

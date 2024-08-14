@@ -83,10 +83,6 @@ output "bastion_os_username" {
   value = var.os_user_name
 }
 
-output "haproxy_server_fqdn" {
-  value = module.base_infra.haproxy_server_fqdn
-}
-
 output "dns_provider" {
   value = var.dns_provider
 }

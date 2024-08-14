@@ -649,9 +649,9 @@ spec:
 #            xbstream:
 #            - "--someflag=abc"
         s3:
-          bucket: ${minio_percona_backup_bucket}
+          bucket: ${ceph_percona_backup_bucket}
           credentialsSecret: ${percona_credentials_secret}
-          endpointUrl: ${minio_api_url}
+          endpointUrl: ${ceph_api_url}
       azure-blob:
         type: azure
         azure:
@@ -747,7 +747,7 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        AWS_ENDPOINTS: http://${minio_api_url}/
+        AWS_ENDPOINTS: http://${ceph_api_url}/
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
 

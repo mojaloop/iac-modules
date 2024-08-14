@@ -35,7 +35,6 @@ dependency "k8s_deploy" {
       external_dns_cred_id_key         = "route53_external_dns_access_key"
       external_dns_cred_secret_key     = "route53_external_dns_secret_key"
     }
-    haproxy_server_fqdn  = local.cloud_platform_vars.haproxy_server_fqdn
     private_network_cidr = local.cloud_platform_vars.private_network_cidr
     dns_provider = "aws"
   }
@@ -86,9 +85,9 @@ inputs = {
   enable_grafana_oidc                      = local.ENABLE_GRAFANA_OIDC
   kv_path                                  = local.KV_SECRET_PATH
   transit_vault_key_name                   = local.TRANSIT_VAULT_UNSEAL_KEY_NAME
-  transit_vault_url                        = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
-  minio_api_url                            = "${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:9000"
-  managed_db_host                          = "${dependency.k8s_deploy.outputs.haproxy_server_fqdn}"
+  transit_vault_url                        = "https://${dependency.k8s_deploy.outputs.vault_fqdn}"
+  ceph_api_url                            = "${dependency.k8s_deploy.outputs.ceph_fqdn}"
+  managed_db_host                          = "${dependency.k8s_deploy.outputs.managed_db_host}"
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
   rbac_api_resources_file                  = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""
@@ -119,7 +118,6 @@ locals {
     target_group_internal_http_port  = 31080,
     target_group_external_https_port = 32443,
     target_group_external_http_port  = 32080,
-    haproxy_server_fqdn              = "haproxy.${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",
     private_network_cidr             = "${get_env("vpc_cidr")}"
   }, yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}")))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
