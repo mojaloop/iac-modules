@@ -6,6 +6,10 @@ variable "env_name" {
   description = "name of environment"
 }
 
+variable "gitlab_namespace" {
+  description = "gitlab_namespace"
+}
+
 variable "vault_fqdn" {
   description = "fqdn for vault"
 }
