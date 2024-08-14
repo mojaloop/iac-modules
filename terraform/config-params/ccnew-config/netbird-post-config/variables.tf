@@ -34,4 +34,10 @@ variable "setup_key_secret_namespace" {
   description = "ns to create secret"
 }
 
+variable "cc_cluster_name" {
+  description = "control center cluster name"
+}
 
+variable "cc_cluster_cidr" {
+  description = "control center cluster name"
+}
