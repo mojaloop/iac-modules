@@ -44,7 +44,7 @@ spec:
             version = "${ARGOCD_ENV_zitadel_tf_provider_version}"
           }
           netbird = {
-            source = "netbirdio/netbird"
+            source = "example.com/netbirdio/netbird"
             version = "${ARGOCD_ENV_netbird_tf_provider_version}"
           }
           kubernetes = {

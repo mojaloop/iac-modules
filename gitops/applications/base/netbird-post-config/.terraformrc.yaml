@@ -1,6 +1,6 @@
 filesystem_mirror {
     path    = "/tmp/config"
-    include = ["netbirdio/netbird"]
+    include = ["example.com/netbirdio/netbird"]
   }
   direct {
   }
