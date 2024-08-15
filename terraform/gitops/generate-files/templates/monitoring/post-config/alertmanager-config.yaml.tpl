@@ -78,6 +78,6 @@ spec:
         key: ${alertmanager_slack_external_secret_ref}
         property: webhook
 
-%{ endif ~}
-%{ endif ~}
+%{ endif ~} # alertmanager_slack_integration_enabled
+%{ endif ~} # alertmanager_enabled
 
