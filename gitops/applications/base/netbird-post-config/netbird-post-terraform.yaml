@@ -72,7 +72,7 @@ spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
     source: Remote
-    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/netbird-post-config?ref=${ARGOCD_ENV_terraform_modules_tag}
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/netbird-post-config?ref=${ARGOCD_ENV_netbird_terraform_modules_tag}
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     env:
       - name: TF_VAR_netbird_project_id
