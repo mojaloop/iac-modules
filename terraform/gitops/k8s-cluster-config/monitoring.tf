@@ -40,6 +40,7 @@ module "generate_monitoring_files" {
     prometheus_retention_period            = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                   = try(var.common_var_map.alertmanager_enabled, false)
     alertmanager_slack_integration_enabled = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
+    alertmanager_jira_integration_enabled  = try(var.common_var_map.alertmanager_jira_integration_enabled, false)
     minio_loki_credentials_secret_name     = "minio-loki-credentials-secret"
     minio_api_url                          = var.minio_api_url
     minio_loki_bucket                      = local.minio_loki_bucket
