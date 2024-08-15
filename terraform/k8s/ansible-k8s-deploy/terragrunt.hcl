@@ -90,7 +90,7 @@ locals {
     netbird_api_host             = get_env("NETBIRD_API_HOST")
     netbird_setup_key            = get_env("NETBIRD_SETUP_KEY")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
-    ceph_fqdn                   = get_env("CEPH_OBJECTSTORE_FQDN")
+    ceph_fqdn                    = get_env("CEPH_OBJECTSTORE_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
     external_secrets_version     = local.common_vars.external_secrets_version
