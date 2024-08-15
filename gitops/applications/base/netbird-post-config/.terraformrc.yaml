@@ -1,6 +1,7 @@
 filesystem_mirror {
     path    = "/tmp/config"
-    include = ["example.com/netbirdio/netbird"]
+    include = ["github.com/netbirdio/netbird"]
   }
   direct {
+    exclude = ["github.com/netbirdio/netbird"]
   }
