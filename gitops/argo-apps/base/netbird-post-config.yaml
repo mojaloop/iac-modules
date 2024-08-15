@@ -95,3 +95,6 @@ spec:
 
         - name: "netbird_tf_provider_version"
           value: "${ARGOCD_ENV_security_netbird_netbird_tf_provider_version}"
+
+        - name: "netbird_terraform_modules_tag"
+          value: "${ARGOCD_ENV_security_netbird_terraform_modules_tag}"
