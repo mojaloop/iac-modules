@@ -14,12 +14,14 @@ spec:
     receiver: 'slack'
 
   receivers:
+%{ if alertmanager_slack_integration_enabled  ~}
   - name: slack
     slackConfigs:
     - apiURL: 
         name: alertmanager-slack-alert-notifications
         key: webhook
       sendResolved: true
+%{ endif ~}
       # Commenting jira integration temporarily. We are not using it currently
 #   - name: jira
 #     opsgenieConfigs:
@@ -51,6 +53,7 @@ spec:
 #       remoteRef: 
 #         key: ${alertmanager_jira_secret_ref}
 #         property: value
+%{ if alertmanager_slack_integration_enabled  ~}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -73,3 +76,5 @@ spec:
         property: webhook
 
 %{ endif ~}
+%{ endif ~}
+
