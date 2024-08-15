@@ -94,7 +94,7 @@ spec:
               command: [sh, -c]
               args:
                 [
-                  "apk add git && git clone https://github.com/mojaloop/terraform-provider-netbird && cd terraform-provider-zitadel && git checkout dev && go build . && mkdir -p /tmp/config/github.com/netbirdio/netbird/99.99.99/linux_amd64 && cp terraform-provider-netbird /tmp/config/github.com/netbirdio/netbird/99.99.99/linux_amd64/  && chmod +rwx /tmp/config/github.com/netbirdio/netbird/99.99.99/linux_amd64/terraform-provider-netbird",
+                  "apk add git && git clone https://github.com/mojaloop/terraform-provider-netbird && cd terraform-provider-netbird && git checkout dev && go build . && mkdir -p /tmp/config/github.com/netbirdio/netbird/99.99.99/linux_amd64 && cp terraform-provider-netbird /tmp/config/github.com/netbirdio/netbird/99.99.99/linux_amd64/  && chmod +rwx /tmp/config/github.com/netbirdio/netbird/99.99.99/linux_amd64/terraform-provider-netbird",
                 ]
               volumeMounts:
                 - mountPath: /tmp/config
