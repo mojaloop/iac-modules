@@ -60,15 +60,12 @@ metadata:
     argocd.argoproj.io/sync-wave: "-11"
 spec:
   refreshInterval: 5m
-
   secretStoreRef:
     kind: ClusterSecretStore
     name: tenant-vault-secret-store
-
   target:
     name: alertmanager-slack-alert-notifications
     creationPolicy: Owner
-
   data:
     - secretKey: webhook
       remoteRef: 

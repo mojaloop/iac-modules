@@ -150,5 +150,5 @@ locals {
   enable_central_observability_read   = false
   central_observability_tenant_id     = "infitx"
 
-  alertmanager_slack_external_secret_name = "slack-dev-alert-notifications"
+  alertmanager_slack_external_secret_name = var.common_var_map.alertmanager_prod_alerts_enabled ? "slack-prod-alert-notifications" : "slack-dev-alert-notifications"
 }
