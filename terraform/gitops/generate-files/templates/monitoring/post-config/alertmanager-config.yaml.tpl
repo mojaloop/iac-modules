@@ -10,8 +10,8 @@ spec:
     groupBy: ['job']
     groupWait: 30s
     groupInterval: 5m
-    repeatInterval: 12h
-    receiver: 'jira'
+    repeatInterval: 24h
+    receiver: 'slack'
 
   receivers:
   - name: jira
@@ -20,6 +20,13 @@ spec:
         name: alertmanager-jira-secret
         key: data
       tags: ${grafana_subdomain}
+  - name: slack
+    slackConfigs:
+    - apiURL: 
+        name: alertmanager-slack-alert-notifications
+        key: webhook
+      sendResolved: true
+     
 
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -44,4 +51,28 @@ spec:
       remoteRef: 
         key: ${alertmanager_jira_secret_ref}
         property: value
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: alertmanager-slack-alert-notifications-custom-resource
+  annotations:
+    argocd.argoproj.io/sync-wave: "-11"
+spec:
+  refreshInterval: 5m
+
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+
+  target:
+    name: alertmanager-slack-alert-notifications
+    creationPolicy: Owner
+
+  data:
+    - secretKey: webhook
+      remoteRef: 
+        key: ${alertmanager_slack_external_secret_ref}
+        property: webhook
+
 %{ endif ~}
