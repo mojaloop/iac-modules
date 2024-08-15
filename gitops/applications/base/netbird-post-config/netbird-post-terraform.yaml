@@ -1,7 +1,7 @@
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
-  name: netbird-post-config
+  name: netbird-post-config-terraform
 spec:
   # Note that unlike most provider configs this one supports an array of
   # credentials. This is because each Terraform workspace uses a single
@@ -102,7 +102,7 @@ spec:
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
-    name: netbird-post-config
+    name: netbird-post-config-terraform
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_netbird_namespace}
     name: ${ARGOCD_ENV_setup_key_secret_name}
