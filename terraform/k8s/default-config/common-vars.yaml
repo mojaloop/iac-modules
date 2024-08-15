@@ -39,7 +39,7 @@ istio_egress_gateway_max_replicas: 5
 microk8s_version: 1.29/stable
 alertmanager_enabled: false
 alertmanager_prod_alerts_enabled: false
-alertmanager_slack_integration_enabled: true
+alertmanager_slack_integration_enabled: false
 alertmanager_jira_integration_enabled: false
 istio_proxy_log_level: warn
 longhorn_backup_job_enabled: false
