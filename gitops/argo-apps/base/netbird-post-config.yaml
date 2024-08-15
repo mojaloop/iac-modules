@@ -98,3 +98,6 @@ spec:
 
         - name: "netbird_terraform_modules_tag"
           value: "${ARGOCD_ENV_security_netbird_terraform_modules_tag}"
+
+        - name: "zitadel_dns_subdomain"
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
