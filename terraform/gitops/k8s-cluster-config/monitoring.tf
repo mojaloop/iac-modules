@@ -65,6 +65,8 @@ module "generate_monitoring_files" {
     enable_central_observability_read  = try(var.common_var_map.enable_central_observability_read, local.enable_central_observability_read)
     central_observability_endpoint     = var.central_observability_endpoint
     central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
+
+    alertmanager_fqdn = local.alertmanager_fqdn
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -152,6 +154,7 @@ locals {
   enable_central_observability_read   = false
   central_observability_tenant_id     = "infitx"
 
+  alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"
   alertmanager_prod_alerts_enabled        = try(var.common_var_map.alertmanager_prod_alerts_enabled, false)
   alertmanager_slack_external_secret_name = local.alertmanager_prod_alerts_enabled ? "slack-prod-alert-notifications" : "slack-dev-alert-notifications"
 }
