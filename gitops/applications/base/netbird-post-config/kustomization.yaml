@@ -9,6 +9,7 @@ resources:
 
 secretGenerator:
   - name: terraformrc
+    namespace: ${ARGOCD_ENV_netbird_namespace}
     files:
       - .terraformrc=.terraformrc.yaml
     options:
