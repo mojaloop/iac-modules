@@ -34,6 +34,7 @@ api:
     serverCertSecretName: ${server_cert_secret_name}
     serverCertSecretNamespace: ${server_cert_secret_namespace}
   switchFQDN: ${switch_domain}
+  switchId: ${hub_name}
   vault:
     auth:
       k8s:
