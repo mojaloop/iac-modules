@@ -10,7 +10,7 @@ resource "netbird_setup_key" "cc_gw_setup_key" {
 resource "netbird_setup_key" "build_server_setup_key" {
   name        = "build host setup key"
   type        = "one-off"
-  auto_groups = [netbird_group.user_group_id.id]
+  auto_groups = [local.user_group_id]
   ephemeral   = true
   usage_limit = 1
   expires_in  = 86400
