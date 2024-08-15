@@ -3,7 +3,7 @@ alertmanager:
   externalConfig: true
   configuration:
     name: alertmanager-config
-  externalUrl: ${alertmanager_fqdn}
+  externalUrl: "https://${alertmanager_fqdn}"
   persistence:
     enabled: true
     storageClass: ${storage_class_name}
