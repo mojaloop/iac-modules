@@ -4,7 +4,7 @@ resources:
   - external-secret.yaml
   - providerconfig.yaml
   - ansiblerun.yaml
-  #- netbird-post-terraform.yaml
+  - netbird-post-terraform.yaml
 
 secretGenerator:
   - name: terraformrc
