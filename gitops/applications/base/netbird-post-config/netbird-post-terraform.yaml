@@ -8,6 +8,12 @@ spec:
   # Crossplane provider config, but could use multiple Terraform providers each
   # with their own credentials.
   credentials:
+    - filename: ansible.out
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_netbird_namespace}
+        name: ansible_output
+        key: test
     - filename: .terraformrc
       source: Secret
       secretRef:
