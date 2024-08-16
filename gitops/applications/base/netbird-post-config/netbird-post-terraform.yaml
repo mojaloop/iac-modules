@@ -111,4 +111,4 @@ spec:
     name: netbird-post-config-terraform
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_netbird_namespace}
-    name: ${ARGOCD_ENV_setup_key_secret_name}
+    name: netbird-post-config-terraform
