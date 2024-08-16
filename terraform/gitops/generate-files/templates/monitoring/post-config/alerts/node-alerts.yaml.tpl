@@ -98,15 +98,15 @@ spec:
       annotations:
         summary: Host out of inodes (instance {{ $labels.instance }})
         description: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
-    - alert: HostFilesystemDeviceError
-      expr: 'node_filesystem_device_error == 1'
-      for: 0m
-      labels:
-        severity: critical
-      annotations:
-        summary: Host filesystem device error (instance {{ $labels.instance }})
-        description: "{{ $labels.instance }}: Device error with the {{ $labels.mountpoint }} filesystem\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+# Node exporder does not have access to complete filesystem (for security reasons). This alert keeps on firing. Therefore, silencing it
+#     - alert: HostFilesystemDeviceError
+#       expr: 'node_filesystem_device_error == 1'
+#       for: 0m
+#       labels:
+#         severity: critical
+#       annotations:
+#         summary: Host filesystem device error (instance {{ $labels.instance }})
+#         description: "{{ $labels.instance }}: Device error with the {{ $labels.mountpoint }} filesystem\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostInodesWillFillIn24Hours
       expr: '(node_filesystem_files_free{fstype!="msdosfs"} / node_filesystem_files{fstype!="msdosfs"} * 100 < 10 and predict_linear(node_filesystem_files_free{fstype!="msdosfs"}[1h], 24 * 3600) < 0 and ON (instance, device, mountpoint) node_filesystem_readonly{fstype!="msdosfs"} == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
