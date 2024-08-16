@@ -41,9 +41,10 @@ resource "netbird_route" "cc_k8s_access" {
 data "netbird_groups" "all" {}
 locals {
   #first time the netbird api user logs in, the admin and users groups get created because the api user is a member of those, so we grab them from the groups datasource
-  user_group_id    = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, var.user_rbac_group)][0]
-  environment_list = toset(split(",", var.environment_list))
-  cc_peers_list    = concat([local.user_group_id], netbird_group.cc_env_k8s_peers.*.id)
+  user_group_id              = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, var.user_rbac_group)][0]
+  environment_list           = toset(split(",", var.environment_list))
+  cc_peers_list              = concat([local.user_group_id], local.cc_env_k8s_peers_group_ids)
+  cc_env_k8s_peers_group_ids = [for group in netbird_group.cc_env_k8s_peers : group.id]
 }
 
 resource "kubernetes_secret_v1" "setup_keys" {
