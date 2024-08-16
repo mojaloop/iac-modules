@@ -12,7 +12,7 @@ spec:
       source: Secret
       secretRef:
         namespace: ${ARGOCD_ENV_netbird_namespace}
-        name: ansible_output
+        name: ansible-output
         key: test
     - filename: .terraformrc
       source: Secret
