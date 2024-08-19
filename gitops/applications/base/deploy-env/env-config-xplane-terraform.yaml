@@ -28,6 +28,8 @@ spec:
         value: "${ARGOCD_ENV_netbird_version}"
       - key: netbird_api_host
         value: "netbird.${ARGOCD_ENV_netbird_dns_subdomain}"
+      - key: argocd_namespace
+        value: ${ARGOCD_ENV_argocd_namespace}
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: env-config

@@ -12,6 +12,33 @@ resource "gitlab_project" "envs" {
   shared_runners_enabled = true
 }
 
+resource "gitlab_project_access_token" "envs" {
+  for_each     = local.environment_list  
+  project      = gitlab_project.envs[each.key].id 
+  name         = "Argocd project access token"
+  access_level = "reporter"
+
+  scopes = ["read_api", "read_registry"]
+}
+
+
+resource "kubernetes_secret_v1" "setup_keys" {
+  for_each               = local.environment_list  
+  metadata {
+    name      = "${each.value}-repo-secret"
+    namespace = var.argocd_namespace
+  }
+  labels = {
+      "argocd.argoproj.io/secret-type" = "repository"
+  }  
+  data = {
+    "password" = gitlab_project_access_token.envs[each.key].token
+    "url"      = gitlab_project.envs[each.key].http_url_to_repo
+    "username" = gitlab_project_access_token.envs[each.key].id
+  }
+  type = "Opaque"
+}
+
 locals {
   environment_list = toset(split(",", var.environment_list))
 }

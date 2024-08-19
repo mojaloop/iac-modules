@@ -72,3 +72,7 @@ variable "netbird_api_host" {
 variable "netbird_version" {
   description = "netbird version"
 }
+
+variable "argocd_namespace" {
+  description = "argocd ns"
+}

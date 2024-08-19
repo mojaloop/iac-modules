@@ -83,3 +83,6 @@ spec:
       
         - name: "netbird_dns_subdomain"
           value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_deploy_env_app_namespace}"           
