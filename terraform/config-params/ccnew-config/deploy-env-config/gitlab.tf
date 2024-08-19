@@ -137,7 +137,7 @@ resource "gitlab_group_variable" "gitlab_readonly_rbac_group" {
 resource "gitlab_group_variable" "netbird_api_host" {
   group             = data.gitlab_group.iac.id
   key               = "NETBIRD_API_HOST"
-  value             = var.netbird_api_host
+  value             = "https://${var.netbird_api_host}:443"
   protected         = true
   masked            = false
   environment_scope = "*"
