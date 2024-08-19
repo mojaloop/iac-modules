@@ -1,3 +1,4 @@
+#setup key for bastion host(s) to use for acting as gw to env private cluster
 resource "netbird_setup_key" "env_gw" {
   name        = "${var.env_name}-gw"
   type        = "reusable"
@@ -6,7 +7,7 @@ resource "netbird_setup_key" "env_gw" {
   usage_limit = 0
   expires_in  = 86400
 }
-
+#setup key for k8s peers to use to connect to cc priv network
 resource "netbird_setup_key" "env_k8s" {
   name        = "${var.env_name}-k8s"
   type        = "reusable"
@@ -19,11 +20,11 @@ resource "netbird_setup_key" "env_k8s" {
 resource "netbird_group" "env_gw" {
   name = "${var.env_name}-gw"
 }
-
+#make group for vpn users for just this env cluster private network
 resource "netbird_group" "env_users" {
   name = "${local.netbird_project_id}:${var.env_name}-vpn-users"
 }
-
+#route to allow private traffic into en k8s network from cc user group and the env_users group, env gw is the gateway peer
 resource "netbird_route" "env_k8s" {
   description = "${var.env_name}-k8s"
   enabled     = true
@@ -35,7 +36,7 @@ resource "netbird_route" "env_k8s" {
   network     = var.env_cidr
   network_id  = "${var.env_name}-k8s"
 }
-
+#use this to grab the group ids
 data "netbird_groups" "all" {
 }
 locals {

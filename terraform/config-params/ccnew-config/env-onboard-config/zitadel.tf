@@ -13,7 +13,7 @@ locals {
   netbird_project_id = [for project_id in data.zitadel_projects.netbird.project_ids : project_id][0]
 }
 
-
+#find the netbird project id
 data "zitadel_projects" "netbird" {
   org_id      = local.org_id
   name        = "netbird"
@@ -21,14 +21,15 @@ data "zitadel_projects" "netbird" {
 }
 
 
-
+#make a role inside netbird project for regular env vpn users
 resource "zitadel_project_role" "env_vpn_user" {
   project_id   = local.netbird_project_id
   org_id       = local.org_id
-  role_key     = var.netbird_admin_rbac_group
-  display_name = "${var.env_name}-vpn-user"
+  role_key     = "${var.env_name}-vpn-users"
+  display_name = "${var.env_name}-vpn-users"
 }
 
+#create zitadel project for env to house oidc apps and related roles
 resource "zitadel_project" "env" {
   name                   = var.env_name
   org_id                 = local.org_id
