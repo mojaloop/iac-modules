@@ -111,6 +111,10 @@ spec:
         }
         
         required_providers {
+          gitlab = {
+            source = "gitlabhq/gitlab"
+            version = "~> 16.0"
+          }        
 
           zitadel = {
             source = "zitadel/zitadel"
@@ -151,3 +155,8 @@ spec:
         oauth_credentials = "$${path.module}/netbird-oauth.json"
         oauth_issuer      = "https://${ARGOCD_ENV_zitadel_fqdn}/oauth/v2/token"
       }
+
+      provider "gitlab" {
+        token = var.token
+        base_url = "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
+      }      

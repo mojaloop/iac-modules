@@ -1,6 +1,9 @@
 provider_installation {
-dev_overrides {
-"github.com/netbirdio/netbird" = "/tmp/config"
-}
-direct {}
+  filesystem_mirror {
+    path = "/tmp/config"
+    include = ["github.com/netbirdio/netbird"]
+  }
+  direct {
+    exclude = ["github.com/netbirdio/netbird"]
+  }
 }
