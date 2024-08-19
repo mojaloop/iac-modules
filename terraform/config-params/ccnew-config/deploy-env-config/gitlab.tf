@@ -27,10 +27,10 @@ resource "kubernetes_secret_v1" "setup_keys" {
   metadata {
     name      = "${each.value}-repo-secret"
     namespace = var.argocd_namespace
-  }
-  labels = {
+    labels = {
       "argocd.argoproj.io/secret-type" = "repository"
-  }  
+  } 
+  } 
   data = {
     "password" = gitlab_project_access_token.envs[each.key].token
     "url"      = gitlab_project.envs[each.key].http_url_to_repo
