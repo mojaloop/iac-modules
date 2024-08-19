@@ -160,5 +160,5 @@ spec:
 
       provider "gitlab" {
         token = var.token
-        base_url = "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
+        base_url = "https://${ARGOCD_ENV_gitlab_fqdn}"
       }      
