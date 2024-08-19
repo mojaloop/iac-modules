@@ -20,6 +20,10 @@ resource "netbird_group" "env_gw" {
   name = "${var.env_name}-gw"
 }
 
+data "netbird_group" "env_k8s" {
+  name     = "${var.env_name}-k8s-peers"
+}
+
 resource "netbird_group" "env_users" {
   name = "${local.netbird_project_id}:${var.env_name}-vpn-users"
 }
