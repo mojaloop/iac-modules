@@ -17,6 +17,10 @@ resource "gitlab_project_access_token" "envs" {
   project      = gitlab_project.envs[each.key].id 
   name         = "Argocd project access token"
   access_level = "reporter"
+  rotation_configuration = {
+    expiration_days    = 365
+    rotate_before_days = 364
+  }
 
   scopes = ["read_api", "read_registry"]
 }
