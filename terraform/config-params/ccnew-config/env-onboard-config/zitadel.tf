@@ -10,7 +10,7 @@ data "zitadel_org" "default" {
 
 locals {
   org_id             = [for org in data.zitadel_org.default : org.id if org.is_default][0]
-  netbird_project_id = [for project in data.zitadel_projects.netbird : project.id if project != null][0]
+  netbird_project_id = [for project_id in data.zitadel_projects.netbird : project_id][0]
 }
 
 
