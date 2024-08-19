@@ -10,7 +10,7 @@ resource "netbird_setup_key" "env_gw" {
 resource "netbird_setup_key" "env_k8s" {
   name        = "${var.env_name}-k8s"
   type        = "reusable"
-  auto_groups = [data.netbird_group.env_k8s.id]
+  auto_groups = [local.env_k8s_peers_group_id]
   ephemeral   = true
   usage_limit = 0
   expires_in  = 86400
@@ -20,10 +20,6 @@ resource "netbird_group" "env_gw" {
   name = "${var.env_name}-gw"
 }
 
-data "netbird_group" "env_k8s" {
-  name     = "${var.env_name}-k8s-peers"
-}
-
 resource "netbird_group" "env_users" {
   name = "${local.netbird_project_id}:${var.env_name}-vpn-users"
 }
@@ -31,7 +27,7 @@ resource "netbird_group" "env_users" {
 resource "netbird_route" "env_k8s" {
   description = "${var.env_name}-k8s"
   enabled     = true
-  groups      = [netbird_group.env_users.id, local.cc_user_group_id]
+  groups      = [local.env_k8s_peers_group_id, local.cc_user_group_id]
   keep_route  = true
   masquerade  = true
   metric      = 9999
@@ -43,7 +39,8 @@ resource "netbird_route" "env_k8s" {
 data "netbird_groups" "all" {
 }
 locals {
-  cc_user_group_id = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, "${local.netbird_project_id}:${var.netbird_user_rbac_group}")][0]
+  cc_user_group_id       = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, "${local.netbird_project_id}:${var.netbird_user_rbac_group}")][0]
+  env_k8s_peers_group_id = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, "${var.env_name}-k8s-peers")][0]
 }
 
 
