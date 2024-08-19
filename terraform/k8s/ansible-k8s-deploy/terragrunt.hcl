@@ -39,8 +39,8 @@ inputs = {
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
     tenant_vault_server_url = "https://${local.vault_fqdn}"
   })
-  agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
-  master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
+  agent_hosts_var_maps          = merge(dependency.k8s_deploy.outputs.agent_hosts_var_maps, local.agent_hosts_var_maps)
+  master_hosts_var_maps         = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps)
   all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps,
   {
     registry_mirror_fqdn        = local.NEXUS_FQDN
@@ -87,10 +87,20 @@ locals {
   bastion_hosts_yaml_maps = {
     #netmaker_join_tokens = yamlencode(concat([get_env("NETMAKER_OPS_TOKEN")], [get_env("NETMAKER_ENV_TOKEN")]))
   }
+  agent_hosts_var_maps  = {
+    netbird_version              = get_env("NETBIRD_VERSION")
+    netbird_api_host             = get_env("NETBIRD_API_HOST")
+    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY")   
+  }
+  master_hosts_var_maps  = {
+    netbird_version              = get_env("NETBIRD_VERSION")
+    netbird_api_host             = get_env("NETBIRD_API_HOST")
+    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY")   
+  }
   bastion_hosts_var_maps = {
     netbird_version              = get_env("NETBIRD_VERSION")
     netbird_api_host             = get_env("NETBIRD_API_HOST")
-    netbird_setup_key            = get_env("NETBIRD_SETUP_KEY")
+    netbird_setup_key            = get_env("NETBIRD_GW_SETUP_KEY")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
     ceph_fqdn                    = get_env("CEPH_OBJECTSTORE_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")

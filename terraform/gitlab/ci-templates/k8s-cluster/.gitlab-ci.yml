@@ -65,7 +65,8 @@ cache:
     - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
     - export $cloud_platform_client_secret_name="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/cloud_platform_client_secret)"
     - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
-    - export NETBIRD_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_setup_key)"
+    - export NETBIRD_GW_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_gw_setup_key)"
+    - export NETBIRD_K8S_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_k8s_setup_key)"    
     - source setcivars.sh
     - echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store
     - git config --global credential.helper 'store --file ~/.gitcredentials.store'

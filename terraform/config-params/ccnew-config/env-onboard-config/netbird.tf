@@ -41,3 +41,28 @@ data "netbird_groups" "all" {
 locals {
   cc_user_group_id = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, "${local.netbird_project_id}:${var.netbird_user_rbac_group}")][0]
 }
+
+
+resource "vault_kv_secret_v2" "env_netbird_gw_setup_key" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/netbird_gw_setup_key"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = netbird_setup_key.env_gw.key
+
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "env_netbird_k8s_setup_key" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/netbird_k8s_setup_key"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = netbird_setup_key.env_k8s.key
+
+    }
+  )
+}
