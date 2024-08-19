@@ -38,7 +38,7 @@ resource "kubernetes_secret_v1" "setup_keys" {
   data = {
     "password" = gitlab_project_access_token.envs[each.key].token
     "url"      = gitlab_project.envs[each.key].http_url_to_repo
-    "username" = gitlab_project_access_token.envs[each.key].id
+    "username" = "${each.value}token"
   }
   type = "Opaque"
 }
