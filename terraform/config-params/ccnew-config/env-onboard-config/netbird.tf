@@ -27,7 +27,7 @@ resource "netbird_group" "env_users" {
 resource "netbird_route" "env_k8s" {
   description = "${var.env_name}-k8s"
   enabled     = true
-  groups      = [local.env_k8s_peers_group_id, local.cc_user_group_id]
+  groups      = [netbird_group.env_users.id, local.cc_user_group_id]
   keep_route  = true
   masquerade  = true
   metric      = 9999
