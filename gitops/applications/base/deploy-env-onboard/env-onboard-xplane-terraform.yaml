@@ -147,7 +147,7 @@ spec:
       provider "kubernetes" {}
 
       provider "netbird" {
-        server_url        = "https://netbird.${ARGOCD_ENV_zitadel_dns_subdomain}:443"
+        server_url        = "https://${ARGOCD_ENV_netbird_fqdn}:443"
         oauth_credentials = "$${path.module}/netbird-oauth.json"
-        oauth_issuer      = "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token"
+        oauth_issuer      = "https://${ARGOCD_ENV_zitadel_fqdn}/oauth/v2/token"
       }
