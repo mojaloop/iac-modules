@@ -24,6 +24,8 @@ spec:
         value: "grafana.${ARGOCD_ENV_grafana_domain}.${ARGOCD_ENV_domain}"
       - key: env_name
         value: "${ARGOCD_ENV_env_name}"
+      - key: env_cidr
+        value: "${ARGOCD_ENV_env_cidr}"        
       - key: kv_path
         value: "${ARGOCD_ENV_vault_kv_secret}"
       - key: netbird_user_rbac_group
