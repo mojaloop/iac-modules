@@ -37,7 +37,7 @@ inputs = {
   agent_hosts   = dependency.k8s_deploy.outputs.agent_hosts
   bastion_hosts = dependency.k8s_deploy.outputs.bastion_hosts
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
-    tenant_vault_server_url = "http://${dependency.k8s_deploy.outputs.vault_server_fqdn}:8200"
+    tenant_vault_server_url = "https://${local.vault_fqdn}"
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
@@ -78,6 +78,8 @@ locals {
   NEXUS_DOCKER_REPO_LISTENING_PORT = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
   NEXUS_FQDN                       = get_env("NEXUS_FQDN")
   GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
+  vault_fqdn                       = get_env("VAULT_FQDN")
+
 
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
