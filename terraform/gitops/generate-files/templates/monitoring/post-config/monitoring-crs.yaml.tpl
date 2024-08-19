@@ -49,7 +49,7 @@ spec:
       allowed_groups: ${groups}
       client_id: ${client_id}
       client_secret: ${client_secret}
-      role_attribute_path: "is_admin && 'Admin' || 'Viewer'"
+      role_attribute_path: "is_admin && 'Admin' || 'Editor'"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
