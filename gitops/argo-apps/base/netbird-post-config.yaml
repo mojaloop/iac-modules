@@ -101,3 +101,6 @@ spec:
 
         - name: "zitadel_dns_subdomain"
           value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"

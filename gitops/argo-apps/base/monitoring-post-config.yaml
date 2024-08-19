@@ -101,7 +101,10 @@ spec:
           value: "${ARGOCD_ENV_monitoring_grafana_istio_gateway_namespace}"
 
         - name: "mojaloop_dashboards_tag"
-          value: "${ARGOCD_ENV_monitoring_grafana_mojaloop_dashboards_tag}"  
+          value: "${ARGOCD_ENV_monitoring_grafana_mojaloop_dashboards_tag}"
 
         - name: "dashboard_datasource_name"
-          value: "${ARGOCD_ENV_monitoring_grafana_dashboard_datasource_name}"            
+          value: "${ARGOCD_ENV_monitoring_grafana_dashboard_datasource_name}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"

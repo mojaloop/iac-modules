@@ -20,7 +20,8 @@ spec:
           namespace: ${ARGOCD_ENV_zitadel_namespace}
           name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
           key: zitadel_admin_human_user_id
-
+      - name: TF_CLI_CONFIG_FILE
+        value: ./.terraformrc
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     vars:
       - key: zitadel_fqdn
@@ -65,6 +66,13 @@ spec:
         namespace: ${ARGOCD_ENV_vault_namespace}
         name: ${ARGOCD_ENV_vault_keys_secret}
         key: vault-keys.json
+
+    - filename: .terraformrc
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_argocd_namespace}
+        name: terraformrc
+        key: .terraformrc
 
   # This optional configuration block can be used to inject HCL into any
   # workspace that uses this provider config, for example to setup Terraform

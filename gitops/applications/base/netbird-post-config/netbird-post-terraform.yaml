@@ -17,7 +17,7 @@ spec:
     - filename: .terraformrc
       source: Secret
       secretRef:
-        namespace: ${ARGOCD_ENV_netbird_namespace}
+        namespace: ${ARGOCD_ENV_argocd_namespace}
         name: terraformrc
         key: .terraformrc
 
@@ -51,7 +51,7 @@ spec:
           }
           netbird = {
                 source  = "github.com/netbirdio/netbird"
-                version = "99.99.99"
+                version = "${ARGOCD_ENV_netbird_tf_provider_version}"
               }
           kubernetes = {
             source = "hashicorp/kubernetes"
@@ -86,6 +86,8 @@ spec:
           namespace: ${ARGOCD_ENV_netbird_namespace}
           name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
           key: netbird_project_id
+      - name: TF_CLI_CONFIG_FILE
+        value: ./.terraformrc
     vars:
       - key: admin_rbac_group
         value: ${ARGOCD_ENV_netbird_rbac_admin_group}

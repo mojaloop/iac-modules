@@ -3,10 +3,3 @@ kind: Kustomization
 resources:
   - gitlab-pf-xplane-terraform.yaml
   - gitlab-zitadel-roles-xplane.yaml
-
-secretGenerator:
-  - name: terraformrc
-    files:
-      - .terraformrc=.terraformrc.yaml
-    options:
-      disableNameSuffixHash: true

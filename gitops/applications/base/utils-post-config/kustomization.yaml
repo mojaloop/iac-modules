@@ -3,3 +3,11 @@ kind: Kustomization
 resources:
   - rbac.yaml
   - crossplane-providers.yaml
+
+secretGenerator:
+  - name: terraformrc
+    namespace: ${ARGOCD_ENV_argocd_namespace}
+    files:
+      - .terraformrc=.terraformrc.yaml
+    options:
+      disableNameSuffixHash: true

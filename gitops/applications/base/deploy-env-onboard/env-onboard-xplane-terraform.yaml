@@ -14,7 +14,9 @@ spec:
         secretKeyRef:
           namespace: ${ARGOCD_ENV_zitadel_namespace}
           name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
-          key: zitadel_admin_human_user_id    
+          key: zitadel_admin_human_user_id
+      - name: TF_CLI_CONFIG_FILE
+        value: ./.terraformrc
     vars:
       - key: vault_fqdn
         value: "vault.${ARGOCD_ENV_vault_domain}.${ARGOCD_ENV_domain}"
@@ -25,29 +27,29 @@ spec:
       - key: env_name
         value: "${ARGOCD_ENV_env_name}"
       - key: env_cidr
-        value: "${ARGOCD_ENV_env_cidr}"        
+        value: "${ARGOCD_ENV_env_cidr}"
       - key: kv_path
         value: "${ARGOCD_ENV_vault_kv_secret}"
       - key: netbird_user_rbac_group
         value: ${ARGOCD_ENV_netbird_user_rbac_group}
       - key: netbird_admin_rbac_group
-        value: ${ARGOCD_ENV_netbird_admin_rbac_group}        
+        value: ${ARGOCD_ENV_netbird_admin_rbac_group}
       - key: zitadel_fqdn
-        value: "${ARGOCD_ENV_zitadel_fqdn}"        
+        value: "${ARGOCD_ENV_zitadel_fqdn}"
       - key: "vault_admin_rbac_group"
-        value: "${ARGOCD_ENV_vault_admin_rbac_group}"                         
+        value: "${ARGOCD_ENV_vault_admin_rbac_group}"
       - key: "grafana_admin_rbac_group"
         value: "${ARGOCD_ENV_grafana_admin_rbac_group}"
       - key: "argocd_admin_rbac_group"
         value: "${ARGOCD_ENV_argocd_admin_rbac_group}"
       - key: "vault_user_rbac_group"
-        value: "${ARGOCD_ENV_vault_user_rbac_group}"                         
+        value: "${ARGOCD_ENV_vault_user_rbac_group}"
       - key: "grafana_user_rbac_group"
         value: "${ARGOCD_ENV_grafana_user_rbac_group}"
       - key: "argocd_user_rbac_group"
         value: "${ARGOCD_ENV_argocd_user_rbac_group}"
       - key: "gitlab_namespace"
-        value: "${ARGOCD_ENV_gitlab_namespace}"            
+        value: "${ARGOCD_ENV_gitlab_namespace}"
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
@@ -69,7 +71,7 @@ spec:
     - filename: .terraformrc
       source: Secret
       secretRef:
-        namespace: argocd
+        namespace: ${ARGOCD_ENV_argocd_namespace}
         name: terraformrc
         key: .terraformrc
 
@@ -127,7 +129,7 @@ spec:
 
           netbird = {
             source = "github.com/netbirdio/netbird"
-            version = "99.99.99"
+            version = "${ARGOCD_ENV_netbird_tf_provider_version}"
           }
           kubernetes = {
             source = "hashicorp/kubernetes"
@@ -161,4 +163,4 @@ spec:
       provider "gitlab" {
         token = var.token
         base_url = "https://${ARGOCD_ENV_gitlab_fqdn}"
-      }      
+      }

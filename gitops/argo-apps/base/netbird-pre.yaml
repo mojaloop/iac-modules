@@ -95,3 +95,6 @@ spec:
 
         - name: "zitadel_post_config_output_secret"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"

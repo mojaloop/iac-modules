@@ -42,7 +42,7 @@ spec:
     - filename: .terraformrc
       source: Secret
       secretRef:
-        namespace: ${ARGOCD_ENV_gitlab_namespace}
+        namespace: ${ARGOCD_ENV_argocd_namespace}
         name: terraformrc
         key: .terraformrc
 
