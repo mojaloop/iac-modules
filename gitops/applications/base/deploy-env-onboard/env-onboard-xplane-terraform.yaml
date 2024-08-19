@@ -67,7 +67,7 @@ spec:
     - filename: .terraformrc
       source: Secret
       secretRef:
-        namespace: ${ARGOCD_ENV_deploy_env_onboard_app_namespace}
+        namespace: argocd
         name: terraformrc
         key: .terraformrc
 
