@@ -1,7 +1,7 @@
 data "kubernetes_secret_v1" "loki_bucket" {
   metadata {
-      "name"      = "${var.env_name}-loki-bucket"
-      "namespace" = var.gitlab_namespace
+      name      = "${var.env_name}-loki-bucket"
+      namespace = var.gitlab_namespace
   }
 }
 
@@ -31,8 +31,8 @@ resource "vault_kv_secret_v2" "loki_bucket_secret_key_id" {
 
 data "kubernetes_secret_v1" "tempo_bucket" {
   metadata {
-      "name"      = "${var.env_name}-tempo-bucket"
-      "namespace" = var.gitlab_namespace
+      name      = "${var.env_name}-tempo-bucket"
+      namespace = var.gitlab_namespace
   }
 }
 
@@ -60,8 +60,8 @@ resource "vault_kv_secret_v2" "tempo_bucket_secret_key_id" {
 
 data "kubernetes_secret_v1" "longhorn_backup_bucket" {
   metadata {
-      "name"      = "${var.env_name}-longhorn-backup-bucket"
-      "namespace" = var.gitlab_namespace
+      name      = "${var.env_name}-longhorn-backup-bucket"
+      namespace = var.gitlab_namespace
   }
 }
 
@@ -89,8 +89,8 @@ resource "vault_kv_secret_v2" "longhorn_backup_bucket_secret_key_id" {
 
 data "kubernetes_secret_v1" "velero_bucket" {
   metadata {
-      "name"      = "${var.env_name}-velero-bucket"
-      "namespace" = var.gitlab_namespace
+      name      = "${var.env_name}-velero-bucket"
+      namespace = var.gitlab_namespace
   }
 }
 
@@ -118,8 +118,8 @@ resource "vault_kv_secret_v2" "velero_bucket_secret_key_id" {
 
 data "kubernetes_secret_v1" "percona_bucket" {
   metadata {
-      "name"      = "${var.env_name}-percona-bucket"
-      "namespace" = var.gitlab_namespace
+      name      = "${var.env_name}-percona-bucket"
+      namespace = var.gitlab_namespace
   }
 }
 
