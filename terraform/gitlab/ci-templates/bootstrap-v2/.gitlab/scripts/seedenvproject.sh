@@ -39,7 +39,10 @@ cp -r $TMP_TEMPLATE_DIR/${ENV_NAME}/. .
 # populating the cluster-config in custom-config 
 if  [ !  -d custom-config ]; then
    mkdir -p custom-config
-   echo "env: "$env_name > custom-config/cluster-config.yaml
+   echo "env: ${env_name}
+argocd_oidc_domain: \"int.${env_name}\"
+grafana_oidc_domain: \"int.${env_name}\"
+vault_oidc_domain: \"int.${env_name}\"" > custom-config/cluster-config.yaml
    echo "pm4mls:
 - pm4ml: pm4mltest1
   pm4ml_enabled: false
