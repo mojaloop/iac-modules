@@ -153,7 +153,7 @@ promtail:
         pipeline_stages:
           - cri: {}
           - multiline:
-              firstline: '^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}\.\d{3}'
+              firstline: '^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}\.\d{3}|^{'
               max_wait_time: 3s
               max_lines: 128
         kubernetes_sd_configs:
