@@ -6,6 +6,10 @@ variable "env_name" {
   description = "name of environment"
 }
 
+variable "env_cidr" {
+  description = "vpc cidr of environment"
+}
+
 variable "gitlab_namespace" {
   description = "gitlab_namespace"
 }
