@@ -10,7 +10,7 @@ resource "netbird_setup_key" "env_gw" {
 resource "netbird_setup_key" "env_k8s" {
   name        = "${var.env_name}-k8s"
   type        = "reusable"
-  auto_groups = [netbird_group.env_k8s.id]
+  auto_groups = [data.netbird_group.env_k8s.id]
   ephemeral   = true
   usage_limit = 0
   expires_in  = 86400
