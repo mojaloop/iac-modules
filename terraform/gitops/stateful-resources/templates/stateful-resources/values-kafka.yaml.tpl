@@ -967,7 +967,7 @@ metrics:
 provisioning:
   ## @param provisioning.enabled Enable kafka provisioning Job
   ##
-  enabled: ${resource.logical_service_config.post_install_schema_config.kafka_provisioning.enabled}
+  enabled: ${resource.local_helm_config.kafka_provisioning.enabled}
   ## @param provisioning.numPartitions Default number of partitions for topics when unspecified
   ##
   numPartitions: 1
@@ -984,7 +984,7 @@ provisioning:
   ##     flush.messages: 1
   ##
   topics:
-    ${indent(4, yamlencode(resource.logical_service_config.post_install_schema_config.kafka_provisioning.topics))}
+    ${indent(4, yamlencode(resource.local_helm_config.kafka_provisioning.topics))}
   ## @param provisioning.nodeSelector Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##

@@ -1,10 +1,9 @@
 region: eu-west-1
-domain: mojaloop.live
+domain: mojalabs.io
 tenant: labs11
 enable_github_oauth: false
 enable_netmaker_oidc: true
-enable_central_observability_grafana_oidc: true
-ansible_collection_tag: v5.2.7-rc01
+ansible_collection_tag: v0.18.15
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
 smtp_server_enable: false
@@ -20,20 +19,17 @@ tempo_data_expiry_days: 7d
 longhorn_backup_data_expiry: 1d
 velero_data_expiry: 1d
 percona_backup_data_expiry: 3d
-controlcenter_netmaker_network_cidr: "10.20.30.0/24"
 envs:
   - env: dev
     domain: labsk8s604.mojaloop.live
     vault_oidc_domain: int.dev
     grafana_oidc_domain: int.dev
     argocd_oidc_domain: int.dev
-    netmaker_network_cidr: "10.20.31.0/24"
   - env: test
     domain: labsk8s604.mojaloop.live
     vault_oidc_domain: int.test
     grafana_oidc_domain: int.test
     argocd_oidc_domain: int.test
-    netmaker_network_cidr: "10.20.32.0/24"
 tags:
   {
     "Origin": "Terraform",

@@ -15,7 +15,7 @@ output "storage_class_name" {
 }
 
 output "mojaloop_stateful_resources" {
-  value = var.common_var_map.mojaloop_enabled ? module.mojaloop[0].stateful_resources : null
+  value = module.mojaloop[0].stateful_resources
 }
 
 output "common_stateful_resources" {

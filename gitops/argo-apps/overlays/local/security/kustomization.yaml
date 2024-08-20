@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../../base/zitadel-pre.yaml
+  - ../../../base/zitadel-helm.yaml
+  - ../../../base/zitadel-post-config.yaml
+  #- ../../../base/netbird.yaml

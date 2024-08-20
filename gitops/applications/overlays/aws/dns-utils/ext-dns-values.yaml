@@ -1,0 +1,24 @@
+domainFilters:
+  - ${ARGOCD_ENV_dns_public_subdomain}
+  - ${ARGOCD_ENV_dns_private_subdomain}
+txtOwnerId: ${ARGOCD_ENV_cluster_name}
+policy: sync
+dryRun: false
+interval: 1m
+triggerLoopOnEvent: true
+txtPrefix: extdns
+sources:
+  - service
+  - ingress
+  - istio-virtualservice
+logLevel: debug
+provider: aws
+aws:
+  credentials:
+    accessKeyIDSecretRef:
+      name: ${ARGOCD_ENV_external_dns_credentials_secret}
+      key: "access_key"
+    secretAccessKeySecretRef:
+      name: ${ARGOCD_ENV_external_dns_credentials_secret}
+      key: "secret_key"
+  region: ${ARGOCD_ENV_dns_cloud_api_region}

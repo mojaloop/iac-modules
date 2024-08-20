@@ -1,2 +1,2 @@
-reporting-events-processor-svc:
-  replicaCount: 1
+#placeholder to avoid merge failire
+test: value

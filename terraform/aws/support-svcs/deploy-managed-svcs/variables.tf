@@ -11,12 +11,8 @@ variable "tags" {
   type        = map(string)
 }
 
-variable "platform_stateful_resources_config_file" {
-  type = string
-}
-
-variable "managed_stateful_resources_config_file" {
-  type = string
+variable "managed_services_config_file" {
+  description = "location of json config file for databases to create"
 }
 
 variable "az_count" {
@@ -43,17 +39,8 @@ variable "vpc_cidr" {
 locals {
   identifying_tags = { vpc = var.deployment_name}
   common_tags = merge(local.identifying_tags, var.tags)
-  
-  st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
-  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
-
-  stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
-
-  stateful_resources               = module.config_deepmerge.merged
-  enabled_stateful_resources       = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
-  
-  external_services = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
-  rds_services      = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
-  msk_services      = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
-
+  managed_services = jsondecode(file(var.managed_services_config_file))
+  external_services = { for managed_service in local.managed_services : managed_service.resource_name => managed_service if managed_service.external_service}
+  rds_services = { for managed_service in local.managed_services : managed_service.resource_name => managed_service if managed_service.external_service && managed_service.resource_type == "mysql" }
+  msk_services = { for managed_service in local.managed_services : managed_service.resource_name => managed_service if managed_service.external_service && managed_service.resource_type == "kafka" }
 }

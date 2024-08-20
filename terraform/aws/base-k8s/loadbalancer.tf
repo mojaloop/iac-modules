@@ -2,11 +2,11 @@
 # Internal load balancer
 #
 resource "aws_lb" "internal" { #  for internal traffic, including kube traffic
-  internal           = true
-  load_balancer_type = "network"
+  internal                         = true
+  load_balancer_type               = "network"
   enable_cross_zone_load_balancing = true
-  subnets            = module.base_infra.private_subnets
-  tags = merge({ Name = "${local.base_domain}-internal" }, local.common_tags)
+  subnets                          = module.base_infra.private_subnets
+  tags                             = merge({ Name = "${local.base_domain}-internal" }, local.common_tags)
 }
 
 resource "aws_lb_listener" "internal_kubeapi" {
@@ -23,7 +23,7 @@ resource "aws_lb_target_group" "internal_kubeapi" {
   port     = var.kubeapi_port
   protocol = "TCP"
   vpc_id   = module.base_infra.vpc_id
-  tags = merge({ Name = "${local.base_domain}-internal-kubeapi" }, local.common_tags)
+  tags     = merge({ Name = "${local.base_domain}-internal-kubeapi" }, local.common_tags)
 }
 
 resource "aws_lb_listener" "internal_https" {
@@ -95,7 +95,7 @@ resource "aws_lb" "lb" {
   internal           = false
   load_balancer_type = "network"
   subnets            = module.base_infra.public_subnets
-  tags = merge({ Name = "${local.base_domain}-public" }, local.common_tags)
+  tags               = merge({ Name = "${local.base_domain}-public" }, local.common_tags)
 }
 
 resource "aws_lb_listener" "external_https" {
@@ -131,11 +131,11 @@ resource "aws_lb_listener" "wireguard" {
 }
 
 resource "aws_lb_target_group" "external_https" {
-  port     = var.target_group_external_https_port
-  protocol = "TCP"
-  vpc_id   = module.base_infra.vpc_id
+  port               = var.target_group_external_https_port
+  protocol           = "TCP"
+  vpc_id             = module.base_infra.vpc_id
   preserve_client_ip = true
-  proxy_protocol_v2 = true
+  proxy_protocol_v2  = true
 
   health_check {
     interval            = 10
@@ -150,11 +150,11 @@ resource "aws_lb_target_group" "external_https" {
 }
 
 resource "aws_lb_target_group" "external_http" {
-  port     = var.target_group_external_http_port
-  protocol = "TCP"
-  vpc_id   = module.base_infra.vpc_id
+  port               = var.target_group_external_http_port
+  protocol           = "TCP"
+  vpc_id             = module.base_infra.vpc_id
   preserve_client_ip = true
-  proxy_protocol_v2 = true
+  proxy_protocol_v2  = true
 
   health_check {
     interval            = 10
@@ -177,7 +177,7 @@ resource "aws_lb_target_group" "wireguard" {
   # check tcp port 80 (ingress) for now, but probably need to add a http sidecar or something to act as a health check for wireguard
   health_check {
     protocol = "TCP"
-    port     = var.target_group_external_http_port
+    port     = var.target_group_external_https_port
   }
 
   tags = merge({ Name = "${local.base_domain}-wireguard" }, local.common_tags)

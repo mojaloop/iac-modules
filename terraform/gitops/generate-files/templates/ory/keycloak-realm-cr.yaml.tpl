@@ -124,15 +124,6 @@ spec:
       - type: password
         value: ${portal_admin_secret_name}
       groups: []
-    - username: ${mcm_admin_user}
-      enabled: true
-      email: ${mcm_admin_user}@none.com
-      firstName: Mcm
-      lastName: Admin
-      credentials:
-      - type: password
-        value: ${mcm_admin_secret_name}
-      groups: []
     clients:
     - id: fe42ec55-74e7-494b-8028-a5910fde47b2
       clientId: account

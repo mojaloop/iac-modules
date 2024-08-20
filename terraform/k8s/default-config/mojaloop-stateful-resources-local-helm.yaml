@@ -351,6 +351,153 @@ mojaloop-kafka:
       generate_secret_keys: 
       generate_secret_vault_base_path: 
       generate_secret_extra_namespaces: []    
+    kafka_provisioning:
+      enabled: true
+      topics:
+        - name: topic-event
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-prepare
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-position
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-position-batch
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-fulfil
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-notification-event
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-transfer-get
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-admin-transfer
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulk-prepare
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulk-fulfil
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulk-processing
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulk-get
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-quotes-post
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-quotes-put
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-quotes-get
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulkquotes-post
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulkquotes-put
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
+        - name: topic-bulkquotes-get
+          partitions: 12
+          replicationFactor: 3
+          config:
+            cleanup.policy: delete
+            retention.ms: "-1"
+            segment.bytes: "52428800"
+            retention.bytes: "262144000"
     kafka_data:
       storage_size: 8Gi
       storage_class_name: longhorn
@@ -434,42 +581,22 @@ ttk-redis:
 keycloak-db:
   local_helm_config:
     resource_namespace: keycloak-db
-    override_service_name: mysql-keycloak-db
+    override_service_name: postgresql-keycloak-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-    resource_helm_chart: mysql
-    resource_helm_chart_version: 9.7.0
-    resource_helm_values_ref: values-mysql.yaml.tpl
+    resource_helm_chart: postgresql
+    resource_helm_chart_version: 12.6.8
+    resource_helm_values_ref: values-pgsql.yaml.tpl
     secret_config:
-      generate_secret_name: keycloak-db-secret
+      generate_secret_name: pgsql-keycloak-secret
       generate_secret_keys:
-        - mysql-password
-        - mysql-root-password
-        - mysql-replication-password
+        - password
+        - postgres-password
+        - replication-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - keycloak
-    mysql_data:
-      is_legacy: false
-      default_authentication_plugin: mysql_native_password
-      basedir: "/opt/bitnami/mysql"
-      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
-      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
-      datadir: "/bitnami/mysql/data"
-      tmpdir: "/opt/bitnami/mysql/tmp"
-      max_allowed_packet: 16M
-      bind-address: "*"
-      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
-      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
-      character-set-server: UTF8
-      collation-server: utf8_general_ci
-      long_query_time: 10
-      innodb_use_native_aio: 0
-      max_connections: 2000
-      innodb_buffer_pool_size: 2147483648
-      port: 3306
-      general_log: 0
-      slow_query_log: 0    
-      existing_secret: keycloak-db-secret
+    pgsql_data:
+      existing_secret: pgsql-keycloak-secret
       root_password: ""
       user: keycloak
       user_password: ""
@@ -478,48 +605,28 @@ keycloak-db:
       storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
-      service_port: 3306
+      service_port: 5432
       affinity_definition: {}
 keto-db:
   local_helm_config:
     resource_namespace: keto-db
-    override_service_name: mysql-keto-db
+    override_service_name: postgresql-keto-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-    resource_helm_chart: mysql
-    resource_helm_chart_version: 9.7.0
-    resource_helm_values_ref: values-mysql.yaml.tpl
+    resource_helm_chart: postgresql
+    resource_helm_chart_version: 12.6.8
+    resource_helm_values_ref: values-pgsql.yaml.tpl
     secret_config:    
-      generate_secret_name: keto-db-secret
+      generate_secret_name: pgsql-keto-secret
       generate_secret_keys:
-        - mysql-password
-        - mysql-root-password
-        - mysql-replication-password
+        - password
+        - postgres-password
+        - replication-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - ory
       generate_secret_special_chars: _
-    mysql_data:
-      is_legacy: false
-      default_authentication_plugin: mysql_native_password
-      basedir: "/opt/bitnami/mysql"
-      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
-      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
-      datadir: "/bitnami/mysql/data"
-      tmpdir: "/opt/bitnami/mysql/tmp"
-      max_allowed_packet: 16M
-      bind-address: "*"
-      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
-      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
-      character-set-server: UTF8
-      collation-server: utf8_general_ci
-      long_query_time: 10
-      innodb_use_native_aio: 0
-      max_connections: 2000
-      innodb_buffer_pool_size: 2147483648
-      port: 3306
-      general_log: 0
-      slow_query_log: 0    
-      existing_secret: keto-db-secret
+    pgsql_data:
+      existing_secret: pgsql-keto-secret
       root_password: ""
       user: keto
       user_password: ""
@@ -528,48 +635,28 @@ keto-db:
       storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
-      service_port: 3306
+      service_port: 5432
       affinity_definition: {}
 kratos-db:
   local_helm_config:
     resource_namespace: kratos-db
-    override_service_name: mysql-kratos-db
+    override_service_name: postgresql-kratos-db
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-    resource_helm_chart: mysql
-    resource_helm_chart_version: 9.7.0
-    resource_helm_values_ref: values-mysql.yaml.tpl
+    resource_helm_chart: postgresql
+    resource_helm_chart_version: 12.6.8
+    resource_helm_values_ref: values-pgsql.yaml.tpl
     secret_config:    
-      generate_secret_name: kratos-db-secret
+      generate_secret_name: pgsql-kratos-secret
       generate_secret_keys:
-        - mysql-password
-        - mysql-root-password
-        - mysql-replication-password
+        - password
+        - postgres-password
+        - replication-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - ory
       generate_secret_special_chars: _
-    mysql_data:
-      is_legacy: false
-      default_authentication_plugin: mysql_native_password
-      basedir: "/opt/bitnami/mysql"
-      plugin_dir: "/opt/bitnami/mysql/lib/plugin"
-      socket: "/opt/bitnami/mysql/tmp/mysql.sock"
-      datadir: "/bitnami/mysql/data"
-      tmpdir: "/opt/bitnami/mysql/tmp"
-      max_allowed_packet: 16M
-      bind-address: "*"
-      pid-file: "/opt/bitnami/mysql/tmp/mysqld.pid"
-      log-error: "/opt/bitnami/mysql/logs/mysqld.log"
-      character-set-server: UTF8
-      collation-server: utf8_general_ci
-      long_query_time: 10
-      innodb_use_native_aio: 0
-      max_connections: 2000
-      innodb_buffer_pool_size: 2147483648
-      port: 3306
-      general_log: 0
-      slow_query_log: 0
-      existing_secret: kratos-db-secret
+    pgsql_data:
+      existing_secret: pgsql-kratos-secret
       root_password: ""
       user: kratos
       user_password: ""
@@ -578,6 +665,6 @@ kratos-db:
       storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
-      service_port: 3306
+      service_port: 5432
       affinity_definition: {}
 

@@ -30,7 +30,7 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication:
+    - authentication: 
         path: kubernetes
         role: policy-admin
         serviceAccount:
@@ -53,7 +53,7 @@ metadata:
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication:
+    - authentication: 
         path: kubernetes
         role: policy-admin
         serviceAccount:
@@ -190,9 +190,7 @@ data:
         "HOST_CENTRAL_LEDGER": "http://${mojaloop_release_name}-centralledger-service",
         "DFSP_CALLBACK_URL": "http://{{ .Data.fqdn }}",
         "DFSP_NAME": "{{ .Data.host }}",
-        "HUB_NAME": "${hub_name}",
         "currency": "{{ .Data.currency_code }}",
-        "isProxy": "{{ .Data.isProxy }}",
         "hub_operator": "NOT_APPLICABLE",
         "NET_DEBIT_CAP": "50000"
       }
@@ -242,10 +240,10 @@ spec:
                 -u http://moja-ml-testing-toolkit-backend:5050 \
                 --report-format html \
                 --report-auto-filename-enable true \
-                --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${ttk_backend_fqdn}" \
+                --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${public_subdomain}" \
                 --save-report true \
                 --report-name standard_provisioning_collection \
-                --save-report-base-url https://${ttk_backend_fqdn};
+                --save-report-base-url http://ttkbackend.${public_subdomain};
               export TEST_RUNNER_EXIT_CODE="$?";
 
               echo "Test Runner finished with exit code:

@@ -27,7 +27,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
-  refreshInterval: 5m
+  refreshInterval: 1h
 
   secretStoreRef:
     kind: ClusterSecretStore
@@ -36,10 +36,6 @@ spec:
   target:
     name: ${pm4ml_external_switch_client_secret} # Name for the secret to be created on the cluster
     creationPolicy: Owner
-    template:
-      metadata:
-        labels:
-          reloader: enabled
 
   data:
     - secretKey: ${pm4ml_external_switch_client_secret_key} # Key given to the secret to be created on the cluster
@@ -68,3 +64,4 @@ spec:
     stringData:
       secret: '{{ .secret.${vault_secret_key} }}'
     type: Opaque
+---

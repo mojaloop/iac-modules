@@ -97,10 +97,7 @@ spec:
 #            prefixCompression: true
     affinity:
       antiAffinityTopologyKey: "kubernetes.io/hostname"
-%{ if affinity_definition != null ~}      
-      advanced:
-        ${indent(8, yamlencode(affinity_definition))}
-%{ endif ~}
+#      advanced:
 #        nodeAffinity:
 #          requiredDuringSchedulingIgnoredDuringExecution:
 #            nodeSelectorTerms:
@@ -553,10 +550,10 @@ spec:
       ${backupStorageName}:
         type: s3
         s3:
-          bucket: ${minio_percona_backup_bucket}
+          bucket: ${ceph_percona_backup_bucket}
           region: us-east-1
           credentialsSecret: ${percona_credentials_secret}
-          endpointUrl: ${minio_api_url}
+          endpointUrl: ${ceph_api_url}
           insecureSkipTLSVerify: false
           prefix: ${cluster_name}
 #      azure-blob:
@@ -620,7 +617,7 @@ metadata:
   name: ${percona_credentials_secret}
   namespace: ${namespace}
 spec:
-  refreshInterval: 5m
+  refreshInterval: 1h
 
   secretStoreRef:
     kind: ClusterSecretStore
@@ -631,7 +628,7 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        AWS_ENDPOINTS: http://${minio_api_url}/
+        AWS_ENDPOINTS: http://${ceph_api_url}/
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
 

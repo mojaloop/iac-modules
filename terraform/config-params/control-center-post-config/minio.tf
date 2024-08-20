@@ -94,7 +94,6 @@ resource "vault_kv_secret_v2" "minio-loki-username" {
 resource "minio_s3_bucket" "tempo-s3-bucket" {
   for_each = var.env_map
   bucket   = "${each.key}-tempo"
-  force_destroy = true
 }
 
 resource "minio_ilm_policy" "tempo-bucket-lifecycle-rules" {
@@ -189,7 +188,6 @@ resource "gitlab_project_variable" "minio_tempo_bucket" {
 resource "minio_s3_bucket" "longhorn-s3-bucket" {
   for_each = var.env_map
   bucket   = "${each.key}-longhorn-backup"
-  force_destroy = true
 }
 
 resource "minio_ilm_policy" "longhorn-bucket-lifecycle-rules" {
@@ -282,7 +280,6 @@ resource "vault_kv_secret_v2" "minio-longhorn-username" {
 resource "minio_s3_bucket" "velero-s3-bucket" {
   for_each = var.env_map
   bucket   = "${each.key}-velero"
-  force_destroy = true
 }
 
 resource "minio_ilm_policy" "velero-bucket-lifecycle-rules" {
@@ -375,7 +372,6 @@ resource "gitlab_project_variable" "minio_velero_bucket" {
 resource "minio_s3_bucket" "percona-s3-bucket" {
   for_each = var.env_map
   bucket   = "${each.key}-percona"
-  force_destroy = true
 }
 
 resource "minio_ilm_policy" "percona-bucket-lifecycle-rules" {

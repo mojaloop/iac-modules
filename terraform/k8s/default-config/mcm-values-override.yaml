@@ -1,6 +1,0 @@
-api:
-  image:
-    version: v2.1.0
-ui:
-  image:
-    version: 1.8.4

@@ -37,13 +37,13 @@ inputs = {
   agent_hosts   = dependency.k8s_deploy.outputs.agent_hosts
   bastion_hosts = dependency.k8s_deploy.outputs.bastion_hosts
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
-    tenant_vault_server_url = "http://${dependency.k8s_deploy.outputs.haproxy_server_fqdn}:8200"
+    tenant_vault_server_url = "https://${local.vault_fqdn}"
   })
-  agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
-  master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
+  agent_hosts_var_maps          = merge(dependency.k8s_deploy.outputs.agent_hosts_var_maps, local.agent_hosts_var_maps)
+  master_hosts_var_maps         = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps)
   all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps,
   {
-    registry_mirror_fqdn        = dependency.k8s_deploy.outputs.haproxy_server_fqdn
+    registry_mirror_fqdn        = local.NEXUS_FQDN
   }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.common_vars.microk8s_version, "1.29/stable")
@@ -61,10 +61,8 @@ inputs = {
   ansible_playbook_name         = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
   ansible_destroy_playbook_name = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
   master_node_supports_traffic = (local.total_agent_count == 0) ? true : false
-
-  managed_stateful_resources_config_file   = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
-  platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
-  current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
+  stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources.json")
+  current_gitlab_project_id       = local.GITLAB_CURRENT_PROJECT_ID
 
 }
 
@@ -80,20 +78,32 @@ locals {
   NEXUS_DOCKER_REPO_LISTENING_PORT = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
   NEXUS_FQDN                       = get_env("NEXUS_FQDN")
   GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
+  vault_fqdn                       = get_env("VAULT_FQDN")
+
 
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
 
   bastion_hosts_yaml_maps = {
-    netmaker_join_tokens = yamlencode(concat([get_env("NETMAKER_OPS_TOKEN")], [get_env("NETMAKER_ENV_TOKEN")]))
+    #netmaker_join_tokens = yamlencode(concat([get_env("NETMAKER_OPS_TOKEN")], [get_env("NETMAKER_ENV_TOKEN")]))
+  }
+  agent_hosts_var_maps  = {
+    netbird_version              = get_env("NETBIRD_VERSION")
+    netbird_api_host             = get_env("NETBIRD_API_HOST")
+    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY")   
+  }
+  master_hosts_var_maps  = {
+    netbird_version              = get_env("NETBIRD_VERSION")
+    netbird_api_host             = get_env("NETBIRD_API_HOST")
+    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY")   
   }
   bastion_hosts_var_maps = {
-    netmaker_image_version       = get_env("NETMAKER_VERSION")
+    netbird_version              = get_env("NETBIRD_VERSION")
+    netbird_api_host             = get_env("NETBIRD_API_HOST")
+    netbird_setup_key            = get_env("NETBIRD_GW_SETUP_KEY")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
-    minio_fqdn                   = get_env("MINIO_FQDN")
+    ceph_fqdn                    = get_env("CEPH_OBJECTSTORE_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")
-    netmaker_master_key          = get_env("METMAKER_MASTER_KEY") 
-    netmaker_api_host            = get_env("NETMAKER_HOST_NAME")
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
     external_secrets_version     = local.common_vars.external_secrets_version
     argocd_version               = local.common_vars.argocd_version
@@ -114,9 +124,7 @@ locals {
     eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
   }
   all_hosts_var_maps = {
-    minio_listening_port             = get_env("MINIO_LISTENING_PORT")
-    mimir_fqdn                       = get_env("MIMIR_FQDN")
-    mimir_listening_port             = get_env("MIMIR_LISTENING_PORT")
+    ceph_listening_port             = get_env("CEPH_OBJECTSTORE_PORT")
     nexus_docker_repo_listening_port = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     nexus_fqdn                       = get_env("NEXUS_FQDN")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")

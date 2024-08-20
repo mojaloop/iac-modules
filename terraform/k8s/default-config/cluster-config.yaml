@@ -1,6 +1,5 @@
 env: dev
 domain: labsk8s2010.mojaloop.live
-currency: EUR
 cloud_platform: aws
 dns_provider: aws
 managed_svc_cloud_platform: aws
@@ -8,8 +7,8 @@ cloud_platform_client_secret_name: AWS_SECRET_ACCESS_KEY
 k8s_cluster_module: base-k8s
 cloud_region: eu-west-1
 k8s_cluster_type: microk8s
-ansible_collection_tag: v5.2.6
-iac_terraform_modules_tag: v5.3.4
+ansible_collection_tag: vexp-cck8sargoroot1001
+iac_terraform_modules_tag: vexp-cck8sargoroot1001
 letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 longhorn_backup_object_store_destroy: true
@@ -36,7 +35,6 @@ nodes:
       workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
       workload-class.mojaloop.io/MONITORING: "enabled"
 vpc_cidr: "10.106.0.0/23"
-managed_vpc_cidr: "10.28.0.0/23"
 enable_k6s_test_harness: false
 k6s_docker_server_instance_type: "m5.large"
 master_node_supports_traffic: true

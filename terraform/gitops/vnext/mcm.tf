@@ -4,7 +4,7 @@ module "generate_mcm_files" {
     mcm_enabled                          = var.mcm_enabled
     db_password_secret                   = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret
     db_password_secret_key               = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret_key
-    db_user                              = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.db_username
+    db_user                              = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.username
     db_schema                            = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
     db_port                              = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
     db_host                              = "${module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"

@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://raw.githubusercontent.com/grafana/grafana-operator/v${ARGOCD_ENV_grafana_crd_version_tag}/deploy/kustomize/base/crds.yaml
+  - object-storage.yaml
+helmCharts:
+  - name: prometheus-operator-crds
+    releaseName: prometheus-operator-crds
+    version: ${ARGOCD_ENV_prometheus_crd_version}
+    repo: https://prometheus-community.github.io/helm-charts/
+  - name: grafana-operator
+    releaseName: grafana
+    version: ${ARGOCD_ENV_grafana_operator_version}
+    repo: https://charts.bitnami.com/bitnami
+    valuesFile: values-grafana-operator.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}

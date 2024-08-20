@@ -47,8 +47,20 @@ output "target_group_external_health_port" {
   value = var.target_group_external_health_port
 }
 
+output "target_group_vpn_port" {
+  value = var.wireguard_port
+}
+
 output "private_network_cidr" {
   value = var.vpc_cidr
+}
+
+output "internal_k8s_network_cidr" {
+  value = module.base_infra.private_subnets_cidr_blocks
+}
+
+output "ext_dns_cloud_policy" {
+  value = module.post_config.ext_dns_cloud_policy
 }
 
 ###new items
@@ -62,12 +74,13 @@ output "bastion_public_ip" {
   value = module.base_infra.bastion_public_ip
 }
 
-output "bastion_os_username" {
-  value = var.os_user_name
+output "bastion_private_ip" {
+  value = module.base_infra.bastion_private_ip
 }
 
-output "haproxy_server_fqdn" {
-  value = module.base_infra.haproxy_server_fqdn
+
+output "bastion_os_username" {
+  value = var.os_user_name
 }
 
 output "dns_provider" {

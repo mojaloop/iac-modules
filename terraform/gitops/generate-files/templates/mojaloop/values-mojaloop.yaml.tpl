@@ -1,10 +1,5 @@
 # Custom YAML TEMPLATE Anchors
 CONFIG:
-  ## HUB CONFIGURATION
-  hub_participant: &HUB_PARTICIPANT
-    id: 1
-    name: &HUB_NAME "${hub_name}"
-
   ## ACCOUNT-LOOKUP BACKEND
   als_db_database: &ALS_DB_DATABASE "${account_lookup_db_database}"
   als_db_password: &ALS_DB_PASSWORD ""
@@ -130,12 +125,12 @@ CONFIG:
     jwsSigningKeySecret: &JWS_SIGNING_KEY_SECRET
       name: ${jws_key_secret}
       key: ${jws_key_secret_private_key_key}
-# %{ if mojaloop_tolerations != null }
+%{ if mojaloop_tolerations != null ~}
   tolerations: &MOJALOOP_TOLERATIONS
     ${indent(4, mojaloop_tolerations)}
-# %{ else }
+%{ else ~}
   tolerations: &MOJALOOP_TOLERATIONS []
-# %{ endif }
+%{ endif ~}
 
 global:
   config:
@@ -145,16 +140,15 @@ account-lookup-service:
   account-lookup-service:
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
-# %{ if account_lookup_service_affinity != null }
+%{ if account_lookup_service_affinity != null ~}
     affinity:
       ${indent(8, account_lookup_service_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${account_lookup_service_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *ALS_DB_PASSWORD
@@ -179,25 +173,24 @@ account-lookup-service:
         maxByteSize: 10000000
         expiresIn: 61000
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: account-lookup-service.${ingress_subdomain}
     metrics:
       config:
         prefix: *ALS_MONITORING_PREFIX
   account-lookup-service-admin:
-# %{ if account_lookup_admin_service_affinity != null }
+%{ if account_lookup_admin_service_affinity != null ~}
     affinity:
       ${indent(8, account_lookup_admin_service_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${account_lookup_service_admin_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *ALS_DB_PASSWORD
@@ -222,11 +215,11 @@ account-lookup-service:
         maxByteSize: 10000000
         expiresIn: 61000
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: account-lookup-service-admin.${ingress_subdomain}
     metrics:
@@ -239,16 +232,15 @@ quoting-service:
   quoting-service:
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
-# %{ if quoting_service_affinity != null }
+%{ if quoting_service_affinity != null ~}
     affinity:
       ${indent(6, quoting_service_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${quoting_service_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       kafka_producer_quote_post_topic: 'topic-quotes-post'
@@ -262,11 +254,11 @@ quoting-service:
       db_database: *QUOTING_DB_DATABASE
       endpointSecurity: *ENDPOINT_SECURITY
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: quoting-service.${ingress_subdomain}
     metrics:
@@ -275,16 +267,15 @@ quoting-service:
   quoting-service-handler:
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
-# %{ if quoting_service_affinity != null }
+%{ if quoting_service_affinity != null ~}
     affinity:
       ${indent(6, quoting_service_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${quoting_service_handler_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       simple_routing_mode_enabled: ${quoting_service_simple_routing_mode_enabled}
@@ -298,11 +289,11 @@ quoting-service:
       db_database: *QUOTING_DB_DATABASE
       endpointSecurity: *ENDPOINT_SECURITY
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: quoting-service-handler.${ingress_subdomain}
     metrics:
@@ -311,22 +302,21 @@ quoting-service:
 
 ml-api-adapter:
   ml-api-adapter-service:
-# %{ if ml_api_adapter_service_affinity != null }
+%{ if ml_api_adapter_service_affinity != null ~}
     affinity:
       ${indent(8, ml_api_adapter_service_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${ml_api_adapter_service_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       #annotations:
         #nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -337,25 +327,24 @@ ml-api-adapter:
   ml-api-adapter-handler-notification:
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
-# %{ if ml_api_adapter_handler_notifications_affinity != null }
+%{ if ml_api_adapter_handler_notifications_affinity != null ~}
     affinity:
       ${indent(8, ml_api_adapter_handler_notifications_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       endpointSecurity: *ENDPOINT_SECURITY
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: ml-api-adapter-handler-notification.${ingress_subdomain}
     metrics:
@@ -364,14 +353,13 @@ ml-api-adapter:
 
 centralledger:
   centralledger-service:
-# %{ if centralledger_service_affinity != null }
+%{ if centralledger_service_affinity != null ~}
     affinity:
       ${indent(8, centralledger_service_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_service_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -383,11 +371,11 @@ centralledger:
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       annotations:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -397,14 +385,13 @@ centralledger:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-prepare:
-# %{ if central_ledger_handler_transfer_prepare_affinity != null }
+%{ if central_ledger_handler_transfer_prepare_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_prepare_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_prepare_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -417,25 +404,24 @@ centralledger:
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       batch_processing_enabled: *CL_BATCH_PROCESSING_ENABLED
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-prepare.${ingress_subdomain}
     metrics:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-position:
-# %{ if central_ledger_handler_transfer_position_affinity != null }
+%{ if central_ledger_handler_transfer_position_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_position_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -447,11 +433,11 @@ centralledger:
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-position.${ingress_subdomain}
     metrics:
@@ -459,14 +445,13 @@ centralledger:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-position-batch:
     enabled: *CL_BATCH_PROCESSING_ENABLED
-# %{ if central_ledger_handler_transfer_position_batch_affinity != null }
+%{ if central_ledger_handler_transfer_position_batch_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_batch_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_position_batch_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -480,25 +465,24 @@ centralledger:
       batch_size: ${central_ledger_handler_transfer_position_batch_size}
       batch_consume_timeout_in_ms: ${central_ledger_handler_transfer_position_batch_consume_timeout_ms}
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-position-batch.${ingress_subdomain}
     metrics:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-get:
-# %{ if central_ledger_handler_transfer_get_affinity != null }
+%{ if central_ledger_handler_transfer_get_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_get_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_get_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -510,25 +494,24 @@ centralledger:
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-get.${ingress_subdomain}
     metrics:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-transfer-fulfil:
-# %{ if central_ledger_handler_transfer_fulfil_affinity != null }
+%{ if central_ledger_handler_transfer_fulfil_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_transfer_fulfil_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_fulfil_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -541,11 +524,11 @@ centralledger:
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
       batch_processing_enabled: *CL_BATCH_PROCESSING_ENABLED
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-transfer-fulfil.${ingress_subdomain}
     metrics:
@@ -554,7 +537,6 @@ centralledger:
   centralledger-handler-timeout:
     tolerations: *MOJALOOP_TOLERATIONS
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -565,27 +547,25 @@ centralledger:
       db_database: *CL_DB_DATABASE
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
-      batch_processing_enabled: *CL_BATCH_PROCESSING_ENABLED
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-timeout.${ingress_subdomain}
     metrics:
       config:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-admin-transfer:
-# %{ if central_ledger_handler_admin_transfer_affinity != null }
+%{ if central_ledger_handler_admin_transfer_affinity != null ~}
     affinity:
       ${indent(8, central_ledger_handler_admin_transfer_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_admin_transfer_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CL_DB_PASSWORD
@@ -597,11 +577,11 @@ centralledger:
       cache_enabled: *CL_CACHE_ENABLED
       cache_expires_in_ms: *CL_CACHE_EXPIRES_IN_MS
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hostname: central-ledger-admin-transfer.${ingress_subdomain}
     metrics:
@@ -610,24 +590,23 @@ centralledger:
 centralsettlement:
   centralsettlement-service:
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       annotations:
         nginx.ingress.kubernetes.io/rewrite-target: /v2/$2
       path: /settlements(/|$)(.*)
       hostname: interop-switch.${ingress_subdomain}
-# %{ if central_settlement_service_affinity != null }
+%{ if central_settlement_service_affinity != null ~}
     affinity:
       ${indent(8, central_settlement_service_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_service_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CS_DB_PASSWORD
@@ -637,14 +616,13 @@ centralsettlement:
       db_port: *CS_DB_PORT
       db_database: *CS_DB_DATABASE
   centralsettlement-handler-deferredsettlement:
-# %{ if central_settlement_handler_deferredsettlement_affinity != null }
+%{ if central_settlement_handler_deferredsettlement_affinity != null ~}
     affinity:
       ${indent(8, central_settlement_handler_deferredsettlement_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_deferredsettlement_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CS_DB_PASSWORD
@@ -654,14 +632,13 @@ centralsettlement:
       db_port: *CS_DB_PORT
       db_database: *CS_DB_DATABASE
   centralsettlement-handler-grosssettlement:
-# %{ if central_settlement_handler_grosssettlement_affinity != null }
+%{ if central_settlement_handler_grosssettlement_affinity != null ~}
     affinity:
       ${indent(8, central_settlement_handler_grosssettlement_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_grosssettlement_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CS_DB_PASSWORD
@@ -671,14 +648,13 @@ centralsettlement:
       db_port: *CS_DB_PORT
       db_database: *CS_DB_DATABASE
   centralsettlement-handler-rules:
-# %{ if central_settlement_handler_rules_affinity != null }
+%{ if central_settlement_handler_rules_affinity != null ~}
     affinity:
       ${indent(8, central_settlement_handler_rules_affinity)}
-# %{ endif }
+%{ endif ~}
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_rules_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
       db_password: *CS_DB_PASSWORD
@@ -691,20 +667,18 @@ centralsettlement:
 transaction-requests-service:
   podLabels:
     sidecar.istio.io/inject: "${enable_istio_injection}"
-# %{ if transaction_requests_service_affinity != null }
+%{ if transaction_requests_service_affinity != null ~}
   affinity:
     ${indent(8, transaction_requests_service_affinity)}
-# %{ endif }
+%{ endif ~}
   tolerations: *MOJALOOP_TOLERATIONS
   replicaCount: ${transaction_requests_service_replica_count}
-  config:
-    hub_participant: *HUB_PARTICIPANT
   ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
     enabled: false
-# %{ else }
+%{ else ~}
     enabled: true
-# %{ endif }
+%{ endif ~}
     className: *INGRESS_CLASS
     hostname: transaction-request-service.${ingress_subdomain}
 
@@ -717,7 +691,6 @@ thirdparty:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${auth_service_replica_count}
     config:
-      hub_participant: *HUB_PARTICIPANT
       db_host: *TP_AUTH_SVC_DB_HOST
       db_port: *TP_AUTH_SVC_DB_PORT
       db_user: *TP_AUTH_SVC_DB_USER
@@ -727,11 +700,11 @@ thirdparty:
       redis_host: *TP_AUTH_SVC_REDIS_HOST
       redis_port: *TP_AUTH_SVC_REDIS_PORT
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       hostname: auth-service.upgtest.${ingress_subdomain}
       className: *INGRESS_CLASS
 
@@ -747,11 +720,11 @@ thirdparty:
       db_secret: *TP_ALS_CONSENT_SVC_DB_SECRET
       db_database: *TP_ALS_CONSENT_SVC_DB_DATABASE
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       hostname: consent-oracle.upgtest.${ingress_subdomain}
       className: *INGRESS_CLASS
 
@@ -761,14 +734,12 @@ thirdparty:
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${tp_api_svc_replica_count}
-    config:
-      hub_participant: *HUB_PARTICIPANT
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       hostname: tp-api-svc.upgtest.${ingress_subdomain}
       className: *INGRESS_CLASS
 
@@ -779,11 +750,11 @@ thirdparty:
 simulator:
   tolerations: *MOJALOOP_TOLERATIONS
   ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
     enabled: false
-# %{ else }
+%{ else ~}
     enabled: true
-# %{ endif }
+%{ endif ~}
     className: *INGRESS_CLASS
     hostname: moja-simulator.${ingress_subdomain}
 
@@ -794,7 +765,6 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${bulk_api-adapter_service_replica_count}
       config:
-        hub_participant: *HUB_PARTICIPANT
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         mongo_host: *OBJSTORE_MONGO_HOST
@@ -804,11 +774,11 @@ mojaloop-bulk:
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
       ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
         enabled: false
-# %{ else }
+%{ else ~}
         enabled: true
-# %{ endif }
+%{ endif ~}
         className: *INGRESS_CLASS
         hostname: bulk-api-adapter.${ingress_subdomain}
     bulk-api-adapter-handler-notification:
@@ -819,7 +789,6 @@ mojaloop-bulk:
         sidecar.istio.io/inject: "${enable_istio_injection}"
       replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
       config:
-        hub_participant: *HUB_PARTICIPANT
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         mongo_host: *OBJSTORE_MONGO_HOST
@@ -834,7 +803,6 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_prepare_replica_count}
       config:
-        hub_participant: *HUB_PARTICIPANT
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         db_password: *CL_DB_PASSWORD
@@ -853,7 +821,6 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_fulfil_replica_count}
       config:
-        hub_participant: *HUB_PARTICIPANT
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         db_password: *CL_DB_PASSWORD
@@ -872,7 +839,6 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_processing_replica_count}
       config:
-        hub_participant: *HUB_PARTICIPANT
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         db_password: *CL_DB_PASSWORD
@@ -891,7 +857,6 @@ mojaloop-bulk:
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_get_replica_count}
       config:
-        hub_participant: *HUB_PARTICIPANT
         kafka_host: *KAFKA_HOST
         kafka_port: *KAFKA_PORT
         db_password: *CL_DB_PASSWORD
@@ -957,15 +922,16 @@ mojaloop-ttk-simulators:
               host: ttksim1.${ingress_subdomain}
 
         extraEnvironments:
-          hub-k8s-default-environment.json: &ttksim1InputValues
-            inputValues:
-              HUB_NAME: *HUB_NAME
-              TTKSIM1_CURRENCY: "${ttk_test_currency1}"
-              TTKSIM2_CURRENCY: "${ttk_test_currency1}"
-              TTKSIM3_CURRENCY: "${ttk_test_currency1}"
-              TTKSIM1_FSPID: "ttksim1"
-              TTKSIM2_FSPID: "ttksim2"
-              TTKSIM3_FSPID: "ttksim3"
+          hub-k8s-default-environment.json: &ttksim1InputValues {
+            "inputValues": {
+              "TTKSIM1_CURRENCY": "${ttk_test_currency1}",
+              "TTKSIM2_CURRENCY": "${ttk_test_currency1}",
+              "TTKSIM3_CURRENCY": "${ttk_test_currency1}",
+              "TTKSIM1_FSPID": "ttksim1",
+              "TTKSIM2_FSPID": "ttksim2",
+              "TTKSIM3_FSPID": "ttksim3"
+            }
+          }
         config:
           mongodb:
             host: *TTK_MONGO_HOST
@@ -1052,11 +1018,11 @@ ml-testing-toolkit:
         secret: *TTK_MONGO_SECRET
         database: *TTK_MONGO_DATABASE
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hosts:
         specApi:
@@ -1110,76 +1076,78 @@ ml-testing-toolkit:
       simNameTTKSim3: 'ttksim3'
     extraEnvironments:
       hub-k8s-cgs-environment.json: null
-      hub-k8s-default-environment.json: &ttkInputValues
-        inputValues:
-          SIMPAYER_CURRENCY: ${ttk_test_currency1}
-          SIMPAYEE_CURRENCY: ${ttk_test_currency1}
-          HUB_NAME: *HUB_NAME
-          currency: ${ttk_test_currency1}
-          currency2: ${ttk_test_currency2}
-          cgscurrency: ${ttk_test_currency3}
-          SIMPLE_ROUTING_MODE_ENABLED: ${quoting_service_simple_routing_mode_enabled}
-          ON_US_TRANSFERS_ENABLED: false
-          ENABLE_WS_ASSERTIONS: true
-          NET_DEBIT_CAP: "10000000"
-          accept: application/vnd.interoperability.parties+json;version=1.1
-          acceptParties: application/vnd.interoperability.parties+json;version=1.1
-          acceptPartiesOld: application/vnd.interoperability.parties+json;version=1.0
-          acceptPartiesNotSupported: application/vnd.interoperability.parties+json;version=2.0
-          acceptParticipants: application/vnd.interoperability.participants+json;version=1.1
-          acceptParticipantsOld: application/vnd.interoperability.participants+json;version=1.0
-          acceptParticipantsNotSupported: application/vnd.interoperability.participants+json;version=2.0
-          acceptQuotes: application/vnd.interoperability.quotes+json;version=1.1
-          acceptQuotesOld: application/vnd.interoperability.quotes+json;version=1.0
-          acceptQuotesNotSupported: application/vnd.interoperability.quotes+json;version=2.0
-          acceptTransfers: application/vnd.interoperability.transfers+json;version=1.1
-          acceptTransfersOld: application/vnd.interoperability.transfers+json;version=1.0
-          acceptTransfersNotSupported: application/vnd.interoperability.transfers+json;version=2.0
-          acceptTransactionRequests: application/vnd.interoperability.transactionRequests+json;version=1.1
-          acceptTransactionRequestsOld: application/vnd.interoperability.transactionRequests+json;version=1.0
-          acceptTransactionRequestsNotSupported: application/vnd.interoperability.transactionRequests+json;version=2.0
-          acceptAuthorizations: application/vnd.interoperability.authorizations+json;version=1.1
-          acceptAuthorizationsOld: application/vnd.interoperability.authorizations+json;version=1.0
-          acceptAuthorizationsNotSupported: application/vnd.interoperability.authorizations+json;version=2.0
-          acceptBulkTransfers: application/vnd.interoperability.bulkTransfers+json;version=1.1
-          acceptBulkTransfersOld: application/vnd.interoperability.bulkTransfers+json;version=1.0
-          acceptBulkTransfersNotSupported: application/vnd.interoperability.bulkTransfers+json;version=2.0
-          contentType: application/vnd.interoperability.parties+json;version=1.1
-          contentTypeTransfers: application/vnd.interoperability.transfers+json;version=1.1
-          contentTypeTransfersOld: application/vnd.interoperability.transfers+json;version=1.0
-          contentTypeTransfersNotSupported: application/vnd.interoperability.transfers+json;version=2.0
-          contentTypeParties: application/vnd.interoperability.parties+json;version=1.1
-          contentTypePartiesOld: application/vnd.interoperability.parties+json;version=1.0
-          contentTypePartiesNotSupported: application/vnd.interoperability.parties+json;version=2.0
-          contentTypeParticipants: application/vnd.interoperability.participants+json;version=1.1
-          contentTypeParticipantsOld: application/vnd.interoperability.participants+json;version=1.0
-          contentTypeParticipantsNotSupported: application/vnd.interoperability.participants+json;version=2.0
-          contentTypeQuotes: application/vnd.interoperability.quotes+json;version=1.1
-          contentTypeQuotesOld: application/vnd.interoperability.quotes+json;version=1.0
-          contentTypeQuotesNotSupported: application/vnd.interoperability.quotes+json;version=2.0
-          contentTypeTransactionRequests: application/vnd.interoperability.transactionRequests+json;version=1.1
-          contentTypeTransactionRequestsOld: application/vnd.interoperability.transactionRequests+json;version=1.0
-          contentTypeTransactionRequestsNotSupported: application/vnd.interoperability.transactionRequests+json;version=2.0
-          contentTypeAuthorizations: application/vnd.interoperability.authorizations+json;version=1.1
-          contentTypeAuthorizationsOld: application/vnd.interoperability.authorizations+json;version=1.0
-          contentTypeAuthorizationsNotSupported: application/vnd.interoperability.authorizations+json;version=2.0
-          contentBulkTransfers: application/vnd.interoperability.bulkTransfers+json;version=1.1
-          contentBulkTransfersOld: application/vnd.interoperability.bulkTransfers+json;version=1.0
-          contentBulkTransfersNotSupported: application/vnd.interoperability.bulkTransfers+json;version=2.0
-          expectedPartiesVersion: "1.1"
-          expectedParticipantsVersion: "1.1"
-          expectedQuotesVersion: "1.1"
-          expectedTransfersVersion: "1.1"
-          expectedAuthorizationsVersion: "1.1"
-          expectedTransactionRequestsVersion: "1.1"
+      hub-k8s-default-environment.json: &ttkInputValues {
+        "inputValues": {
+          "SIMPAYER_CURRENCY": "${ttk_test_currency1}",
+          "SIMPAYEE_CURRENCY": "${ttk_test_currency1}",
+          "currency": "${ttk_test_currency1}",
+          "currency2": "${ttk_test_currency2}",
+          "cgscurrency": "${ttk_test_currency3}",
+          "SIMPLE_ROUTING_MODE_ENABLED": ${quoting_service_simple_routing_mode_enabled},
+          "ON_US_TRANSFERS_ENABLED": false,
+          "ENABLE_WS_ASSERTIONS": true,
+          "NET_DEBIT_CAP": "10000000",
+          "accept": "application/vnd.interoperability.parties+json;version=1.1",
+          "acceptParties": "application/vnd.interoperability.parties+json;version=1.1",
+          "acceptPartiesOld": "application/vnd.interoperability.parties+json;version=1.0",
+          "acceptPartiesNotSupported": "application/vnd.interoperability.parties+json;version=2.0",
+          "acceptParticipants": "application/vnd.interoperability.participants+json;version=1.1",
+          "acceptParticipantsOld": "application/vnd.interoperability.participants+json;version=1.0",
+          "acceptParticipantsNotSupported": "application/vnd.interoperability.participants+json;version=2.0",
+          "acceptQuotes": "application/vnd.interoperability.quotes+json;version=1.1",
+          "acceptQuotesOld": "application/vnd.interoperability.quotes+json;version=1.0",
+          "acceptQuotesNotSupported": "application/vnd.interoperability.quotes+json;version=2.0",
+          "acceptTransfers": "application/vnd.interoperability.transfers+json;version=1.1",
+          "acceptTransfersOld": "application/vnd.interoperability.transfers+json;version=1.0",
+          "acceptTransfersNotSupported": "application/vnd.interoperability.transfers+json;version=2.0",
+          "acceptTransactionRequests": "application/vnd.interoperability.transactionRequests+json;version=1.1",
+          "acceptTransactionRequestsOld": "application/vnd.interoperability.transactionRequests+json;version=1.0",
+          "acceptTransactionRequestsNotSupported": "application/vnd.interoperability.transactionRequests+json;version=2.0",
+          "acceptAuthorizations": "application/vnd.interoperability.authorizations+json;version=1.1",
+          "acceptAuthorizationsOld": "application/vnd.interoperability.authorizations+json;version=1.0",
+          "acceptAuthorizationsNotSupported": "application/vnd.interoperability.authorizations+json;version=2.0",
+          "acceptBulkTransfers": "application/vnd.interoperability.bulkTransfers+json;version=1.1",
+          "acceptBulkTransfersOld": "application/vnd.interoperability.bulkTransfers+json;version=1.0",
+          "acceptBulkTransfersNotSupported": "application/vnd.interoperability.bulkTransfers+json;version=2.0",
+          "contentType": "application/vnd.interoperability.parties+json;version=1.1",
+          "contentTypeTransfers": "application/vnd.interoperability.transfers+json;version=1.1",
+          "contentTypeTransfersOld": "application/vnd.interoperability.transfers+json;version=1.0",
+          "contentTypeTransfersNotSupported": "application/vnd.interoperability.transfers+json;version=2.0",
+          "contentTypeParties": "application/vnd.interoperability.parties+json;version=1.1",
+          "contentTypePartiesOld": "application/vnd.interoperability.parties+json;version=1.0",
+          "contentTypePartiesNotSupported": "application/vnd.interoperability.parties+json;version=2.0",
+          "contentTypeParticipants": "application/vnd.interoperability.participants+json;version=1.1",
+          "contentTypeParticipantsOld": "application/vnd.interoperability.participants+json;version=1.0",
+          "contentTypeParticipantsNotSupported": "application/vnd.interoperability.participants+json;version=2.0",
+          "contentTypeQuotes": "application/vnd.interoperability.quotes+json;version=1.1",
+          "contentTypeQuotesOld": "application/vnd.interoperability.quotes+json;version=1.0",
+          "contentTypeQuotesNotSupported": "application/vnd.interoperability.quotes+json;version=2.0",
+          "contentTypeTransactionRequests": "application/vnd.interoperability.transactionRequests+json;version=1.1",
+          "contentTypeTransactionRequestsOld": "application/vnd.interoperability.transactionRequests+json;version=1.0",
+          "contentTypeTransactionRequestsNotSupported": "application/vnd.interoperability.transactionRequests+json;version=2.0",
+          "contentTypeAuthorizations": "application/vnd.interoperability.authorizations+json;version=1.1",
+          "contentTypeAuthorizationsOld": "application/vnd.interoperability.authorizations+json;version=1.0",
+          "contentTypeAuthorizationsNotSupported": "application/vnd.interoperability.authorizations+json;version=2.0",
+          "contentBulkTransfers": "application/vnd.interoperability.bulkTransfers+json;version=1.1",
+          "contentBulkTransfersOld": "application/vnd.interoperability.bulkTransfers+json;version=1.0",
+          "contentBulkTransfersNotSupported": "application/vnd.interoperability.bulkTransfers+json;version=2.0",
+          "expectedPartiesVersion": "1.1",
+          "expectedParticipantsVersion": "1.1",
+          "expectedQuotesVersion": "1.1",
+          "expectedTransfersVersion": "1.1",
+          "expectedAuthorizationsVersion": "1.1",
+          "expectedTransactionRequestsVersion": "1.1"
+        }
+      }
+
   ml-testing-toolkit-frontend:
     tolerations: *MOJALOOP_TOLERATIONS
     ingress:
-# %{ if istio_create_ingress_gateways }
+%{ if istio_create_ingress_gateways ~}
       enabled: false
-# %{ else }
+%{ else ~}
       enabled: true
-# %{ endif }
+%{ endif ~}
       className: *INGRESS_CLASS
       hosts:
         ui:

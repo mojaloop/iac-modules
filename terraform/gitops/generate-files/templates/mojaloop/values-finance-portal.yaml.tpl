@@ -107,7 +107,7 @@ reporting-events-processor-svc:
   kafka:
     host: ${kafka_host}
     port: ${kafka_port}
-    topicEvent: topic-event-audit
+    topicEvent: topic-event
     consumerGroup: reporting_events_processor_consumer_group
     clientId: reporting_events_processor_consumer
 

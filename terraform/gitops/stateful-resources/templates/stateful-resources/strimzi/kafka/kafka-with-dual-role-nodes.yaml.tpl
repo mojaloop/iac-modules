@@ -15,14 +15,8 @@ spec:
     volumes:
       - id: 0
         type: persistent-claim
-        size: ${node_pool_storage_size}
+        size: 20Gi
         deleteClaim: false
-# %{ if node_pool_affinity != null }
-  template:
-    pod:
-      affinity:
-        ${indent(8, yamlencode(node_pool_affinity))}
-# %{ endif }
 ---
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
@@ -297,11 +291,6 @@ spec:
       targetLabel: node_ip
       replacement: $1
       action: replace
-    - targetLabel: 'strimzi_io_cluster'
-      replacement: ${kafka_cluster_metrics_label}
-      action: replace
-
-
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
@@ -314,7 +303,7 @@ spec:
     matchLabels:
       dashboards: "grafana"
 ---
-# %{ for dashboard_name in strimzi_kafka_grafana_dashboards_list }
+%{ for dashboard_name in strimzi_kafka_grafana_dashboards_list ~}
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
@@ -328,16 +317,16 @@ spec:
       dashboards: "grafana"
   datasources:
     - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"
+      datasourceName: "Prometheus" 
   url: "https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/${strimzi_kafka_grafana_dashboards_version}/examples/metrics/grafana-dashboards/${dashboard_name}.json"
 ---
-# %{ endfor }
+%{ endfor ~}
 
-# %{ for name, topic in kafka_topics }
+%{ for topic in kafka_topics ~}
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: ${name}
+  name: ${topic.name}
   namespace: ${namespace}
   labels:
     strimzi.io/cluster: ${kafka_cluster_name}
@@ -346,5 +335,5 @@ spec:
   replicas: ${topic.replicationFactor}
   config:
     ${indent(4, yamlencode(topic.config))}
----
-# %{ endfor }
+---    
+%{ endfor ~}

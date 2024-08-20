@@ -1,0 +1,66 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_utils_rook_ceph_app_name}
+  namespace: ${ARGOCD_ENV_utils_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_utils_rook_ceph_namespace}
+  sources:
+    - chart: rook-ceph
+      repoURL: https://charts.rook.io/release
+      targetRevision: ${ARGOCD_ENV_utils_rook_ceph_helm_version}
+
+      helm:
+        releaseName: rook-ceph
+        valuesObject:
+          csi:
+            kubeletDirPath: ${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}
+            serviceMonitor:
+              interval: 60s
+          enableDiscoveryDaemon: true
+          monitoring:
+            enabled: true
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+
+    - chart: rook-ceph-cluster
+      repoURL: https://charts.rook.io/release
+      targetRevision: ${ARGOCD_ENV_utils_rook_ceph_helm_version}
+
+      helm:
+        releaseName: rook-ceph-cluster
+        valuesObject:
+          monitoring:
+            enabled: true
+            interval: 60s
+          cephClusterSpec:
+            dashboard:
+              prometheusEndpoint: http://central-monitoring-grafana-mimir-gateway.monitoring.svc.cluster.local/prometheus
+

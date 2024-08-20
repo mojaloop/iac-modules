@@ -57,7 +57,6 @@ cache:
     - source setcivars.sh
     - yq eval '.' environment.yaml -o=json > environment.json
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./environment.json); do export $var; done
-    - source set-ansible-destroy-preq-vars.sh    
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store; fi
     - if [ "$PRIVATE_REPO_USER" == "nullvalue" ]; then git config --global credential.helper 'store --file ~/.gitcredentials.store'; fi
     - git config --global advice.detachedHead false

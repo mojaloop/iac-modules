@@ -247,7 +247,7 @@
         "enabled": true,
         "resource_name": "account-lookup-db",
         "resource_type": "mysql",
-        "communication_mode": "tcp",
+        "communication_mode": "tcp", 
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
@@ -385,7 +385,7 @@
         "enabled": true,
         "resource_name": "central-ledger-db",
         "resource_type": "mysql",
-        "communication_mode": "tcp",
+        "communication_mode": "tcp", 
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
@@ -681,51 +681,7 @@
                     {
                       "name": "topic-event",
                       "partitions": 12,
-                      "replicationFactor": 1,
-                      "config": {
-                        "cleanup.policy": "delete",
-                        "retention.ms": "-1",
-                        "segment.bytes": "52428800",
-                        "retention.bytes": "262144000"
-                      }
-                    },
-                    {
-                      "name": "topic-event-audit",
-                      "partitions": 12,
-                      "replicationFactor": 1,
-                      "config": {
-                        "cleanup.policy": "delete",
-                        "retention.ms": "-1",
-                        "segment.bytes": "52428800",
-                        "retention.bytes": "262144000"
-                      }
-                    },
-                    {
-                      "name": "topic-event-log",
-                      "partitions": 12,
-                      "replicationFactor": 1,
-                      "config": {
-                        "cleanup.policy": "delete",
-                        "retention.ms": "-1",
-                        "segment.bytes": "52428800",
-                        "retention.bytes": "262144000"
-                      }
-                    },
-                    {
-                      "name": "topic-event-trace",
-                      "partitions": 12,
-                      "replicationFactor": 1,
-                      "config": {
-                        "cleanup.policy": "delete",
-                        "retention.ms": "-1",
-                        "segment.bytes": "52428800",
-                        "retention.bytes": "262144000"
-                      }
-                    },
-                    {
-                      "name": "topic-deferredsettlement-close",
-                      "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -736,7 +692,7 @@
                     {
                       "name": "topic-transfer-prepare",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -747,7 +703,7 @@
                     {
                       "name": "topic-transfer-position",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -758,7 +714,7 @@
                     {
                       "name": "topic-transfer-position-batch",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -769,7 +725,7 @@
                     {
                       "name": "topic-transfer-fulfil",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -780,7 +736,7 @@
                     {
                       "name": "topic-notification-event",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -791,7 +747,7 @@
                     {
                       "name": "topic-transfer-get",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -802,7 +758,7 @@
                     {
                       "name": "topic-admin-transfer",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -813,7 +769,7 @@
                     {
                       "name": "topic-bulk-prepare",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -824,7 +780,7 @@
                     {
                       "name": "topic-bulk-fulfil",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -835,7 +791,7 @@
                     {
                       "name": "topic-bulk-processing",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -846,7 +802,7 @@
                     {
                       "name": "topic-bulk-get",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -857,7 +813,7 @@
                     {
                       "name": "topic-quotes-post",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -868,7 +824,7 @@
                     {
                       "name": "topic-quotes-put",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -879,7 +835,7 @@
                     {
                       "name": "topic-quotes-get",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -890,7 +846,7 @@
                     {
                       "name": "topic-bulkquotes-post",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -901,7 +857,7 @@
                     {
                       "name": "topic-bulkquotes-put",
                       "partitions": 12,
-                      "replicationFactor": 1,
+                      "replicationFactor": 3,
                       "config": {
                         "cleanup.policy": "delete",
                         "retention.ms": "-1",
@@ -911,39 +867,6 @@
                     },
                     {
                       "name": "topic-bulkquotes-get",
-                      "partitions": 12,
-                      "replicationFactor": 1,
-                      "config": {
-                        "cleanup.policy": "delete",
-                        "retention.ms": "-1",
-                        "segment.bytes": "52428800",
-                        "retention.bytes": "262144000"
-                      }
-                    },
-                    {
-                      "name": "topic-fx-quotes-post",
-                      "partitions": 12,
-                      "replicationFactor": 3,
-                      "config": {
-                        "cleanup.policy": "delete",
-                        "retention.ms": "-1",
-                        "segment.bytes": "52428800",
-                        "retention.bytes": "262144000"
-                      }
-                    },
-                    {
-                      "name": "topic-fx-quotes-put",
-                      "partitions": 12,
-                      "replicationFactor": 3,
-                      "config": {
-                        "cleanup.policy": "delete",
-                        "retention.ms": "-1",
-                        "segment.bytes": "52428800",
-                        "retention.bytes": "262144000"
-                      }
-                    },
-                    {
-                      "name": "topic-fx-quotes-get",
                       "partitions": 12,
                       "replicationFactor": 3,
                       "config": {

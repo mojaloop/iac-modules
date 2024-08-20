@@ -3,7 +3,6 @@ alertmanager:
   externalConfig: true
   configuration:
     name: alertmanager-config
-  externalUrl: "https://${alertmanager_fqdn}"
   persistence:
     enabled: true
     storageClass: ${storage_class_name}
@@ -29,26 +28,6 @@ prometheus:
     value: ${prom_tsdb_min_block_duration}
   - name: storage.tsdb.max-block-duration
     value: ${prom_tsdb_max_block_duration}
-  externalLabels:
-    cluster: ${cluster_label}
-
-%{if enable_central_observability_write ~}
-  remoteWrite:
-  - name: central-monitoring
-    url: ${central_observability_endpoint}/api/v1/push
-    headers:
-      X-Scope-OrgID: ${central_observability_tenant_id} 
-%{endif ~} 
-
-%{if enable_central_observability_read ~}
-  remoteRead:
-  - name: central-monitoring
-    url: ${central_observability_endpoint}/api/v1/read
-    headers:
-      X-Scope-OrgID: ${central_observability_tenant_id}    
-%{endif ~} 
-
-
 operator:
   nodeAffinityPreset:
     type: hard
@@ -64,19 +43,6 @@ kubelet:
       targetLabel: kubernetes_io_hostname
       replacement: $${1}
       action: replace
-    metricRelabelings:      
-    - sourceLabels: ['__name__']
-      regex: 'apiserver_request_duration_seconds_bucket|apiserver_request_sli_duration_seconds_bucket'
-      action: drop
-    - sourceLabels: ['__name__']
-      regex: 'apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket'
-      action: drop      
-    - sourceLabels: ['__name__']
-      regex: 'etcd_request_duration_seconds_bucket'
-      action: drop
-
-kubeApiServer:
-  enabled: false	
 
 commonLabels:
   build: argocd

@@ -41,14 +41,10 @@ path "${vault_mount.transit.path}/decrypt/${vault_transit_secret_backend_key.uns
 EOT
 }
 
-
 resource "vault_token" "env_token" {
   for_each  = var.env_map
   policies  = [vault_policy.env_transit[each.key].name]
   no_parent = true
-  
-  ttl              =  var.env_token_period
-  explicit_max_ttl = var.env_token_explicit_max_ttl
 }
 
 resource "vault_kv_secret_v2" "env_token" {

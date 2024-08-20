@@ -33,9 +33,8 @@ locals {
     file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}")
   )
   enabled_node_pools = {for node_key, node in local.env_vars.nodes : node_key => node  if node != null}
-  total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
+  total_agent_count = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
-  
   tags                      = local.env_vars.tags
   CLUSTER_NAME              = get_env("cluster_name")
   CLUSTER_DOMAIN            = get_env("domain")

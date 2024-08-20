@@ -5,7 +5,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
   name: ${velero_credentials_secret}
 spec:
-  refreshInterval: 5m
+  refreshInterval: 1h
 
   secretStoreRef:
     kind: ClusterSecretStore
@@ -16,7 +16,7 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        AWS_ENDPOINTS: http://${minio_api_url}/
+        AWS_ENDPOINTS: http://${ceph_api_url}/
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
 

@@ -5,7 +5,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
   name: ${velero_bsl_credentials_secret}
 spec:
-  refreshInterval: 5m
+  refreshInterval: 1h
 
   secretStoreRef:
     kind: ClusterSecretStore

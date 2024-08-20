@@ -7,14 +7,14 @@ resource "aws_route53_record" "gitlab_server_public" {
 }
 
 resource "aws_route53_zone" "public_netmaker" {
-  count         = var.enable_netmaker ? 1 : 0
+  count  = var.enable_netmaker ? 1 : 0
   force_destroy = var.route53_zone_force_destroy
-  name          = "netmaker.${module.base_infra.public_zone.name}"
-  tags          = merge({ Name = "${local.name}-public-netmaker" }, local.common_tags)
+  name  = "netmaker.${module.base_infra.public_zone.name}"
+  tags = merge({ Name = "${local.name}-public-netmaker" }, local.common_tags)
 }
 
 resource "aws_route53_record" "public_netmaker_ns" {
-  count   = var.enable_netmaker ? 1 : 0
+  count  = var.enable_netmaker ? 1 : 0
   zone_id = module.base_infra.public_zone.id
   name    = "netmaker.${module.base_infra.public_zone.name}"
   type    = "NS"
@@ -23,7 +23,7 @@ resource "aws_route53_record" "public_netmaker_ns" {
 }
 
 resource "aws_route53_record" "netmaker_dashboard" {
-  count   = var.enable_netmaker ? 1 : 0
+  count  = var.enable_netmaker ? 1 : 0
   zone_id = aws_route53_zone.public_netmaker[0].id
   name    = "dashboard.${aws_route53_zone.public_netmaker[0].name}"
   type    = "A"
@@ -32,7 +32,7 @@ resource "aws_route53_record" "netmaker_dashboard" {
 }
 
 resource "aws_route53_record" "netmaker_api" {
-  count   = var.enable_netmaker ? 1 : 0
+  count  = var.enable_netmaker ? 1 : 0
   zone_id = aws_route53_zone.public_netmaker[0].id
   name    = "api.${aws_route53_zone.public_netmaker[0].name}"
   type    = "A"
@@ -41,7 +41,7 @@ resource "aws_route53_record" "netmaker_api" {
 }
 
 resource "aws_route53_record" "netmaker_broker" {
-  count   = var.enable_netmaker ? 1 : 0
+  count  = var.enable_netmaker ? 1 : 0
   zone_id = aws_route53_zone.public_netmaker[0].id
   name    = "broker.${aws_route53_zone.public_netmaker[0].name}"
   type    = "A"
@@ -50,7 +50,7 @@ resource "aws_route53_record" "netmaker_broker" {
 }
 
 resource "aws_route53_record" "netmaker_stun" {
-  count   = var.enable_netmaker ? 1 : 0
+  count  = var.enable_netmaker ? 1 : 0
   zone_id = aws_route53_zone.public_netmaker[0].id
   name    = "stun.${aws_route53_zone.public_netmaker[0].name}"
   type    = "A"
@@ -85,22 +85,6 @@ resource "aws_route53_record" "vault_server_private" {
 resource "aws_route53_record" "gitlab_runner_server_private" {
   zone_id = module.base_infra.public_zone.id
   name    = "gitlab_runner"
-  type    = "A"
-  ttl     = "300"
-  records = [aws_instance.docker_server.private_ip]
-}
-
-resource "aws_route53_record" "central_observability_grafana_server_private" {
-  zone_id = module.base_infra.public_zone.id
-  name    = "grafana"
-  type    = "A"
-  ttl     = "300"
-  records = [aws_instance.docker_server.private_ip]
-}
-
-resource "aws_route53_record" "central_observability_mimir_server_private" {
-  zone_id = module.base_infra.public_zone.id
-  name    = "mimir"
   type    = "A"
   ttl     = "300"
   records = [aws_instance.docker_server.private_ip]
