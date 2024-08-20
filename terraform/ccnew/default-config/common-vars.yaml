@@ -4,7 +4,7 @@ local_tf_provider_version: "~> 2.4"
 gitlab_tf_provider_version: "~> 16.0"
 vault_tf_provider_version: "~> 3.16"
 zitadel_tf_provider_version: "99.99.99"
-netbird_tf_provider_version: "~> 0.1"
+netbird_tf_provider_version: "99.99.99"
 grafana_tf_provider_version: 3.6.0
 argocd_helm_version: "7.3.2"
 rook_ceph_helm_version: "1.14.5"
