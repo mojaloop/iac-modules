@@ -17,6 +17,8 @@ configMapGenerator:
       - config-init.hcl=configmaps/vault-config-init-configmap.hcl
 generatorOptions:
   disableNameSuffixHash: true
+  labels:
+    reloader: enabled
 helmCharts:
 - name: connection-manager
   releaseName: mcm
@@ -24,3 +26,5 @@ helmCharts:
   repo: ${mcm_chart_repo}
   valuesFile: values-mcm.yaml
   namespace: ${mcm_namespace}
+  additionalValuesFiles:
+  - values-mcm-override.yaml

@@ -43,6 +43,7 @@ resource "local_file" "kustomization" {
       helm_stateful_resources             = local.helm_stateful_resources
       managed_stateful_resources          = local.managed_stateful_resources
       strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
+      redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
   })
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
@@ -61,11 +62,15 @@ resource "local_file" "strimzi-crs" {
   for_each = { for key, stateful_resource in local.strimzi_operator_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/strimzi/kafka/kafka-with-dual-role-nodes.yaml.tpl",
     {
-      kafka_cluster_name = each.key
-      node_pool_name     = "${each.key}-nodepool"
-      node_pool_size     = each.value.local_operator_config.node_pool_size
-      namespace          = each.value.local_operator_config.resource_namespace
-      kafka_topics       = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : []
+      kafka_cluster_name          = each.key
+      kafka_cluster_metrics_label = var.cluster_name
+
+      node_pool_name         = "${each.key}-nodepool"
+      node_pool_size         = each.value.local_operator_config.node_pool_size
+      node_pool_storage_size = each.value.local_operator_config.kafka_data.storage_size
+      node_pool_affinity     = each.value.local_operator_config.kafka_data.affinity_definition
+      namespace              = each.value.local_operator_config.resource_namespace
+      kafka_topics           = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
 
       strimzi_kafka_grafana_dashboards_version = local.strimzi_kafka_grafana_dashboards_version
       strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
@@ -75,20 +80,34 @@ resource "local_file" "strimzi-crs" {
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
 
+resource "local_file" "redis-crs" {
+
+  for_each = { for key, stateful_resource in local.redis_operator_stateful_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/redis/redis-cluster.yaml.tpl",
+    {
+      name                   = each.key
+      namespace              = each.value.local_operator_config.resource_namespace
+      nodes                  = each.value.local_operator_config.nodes
+      storage_size           = each.value.local_operator_config.redis_data.storage_size
+  })
+  filename = "${local.stateful_resources_output_path}/redis-cluster-${each.key}.yaml"
+}
+
 resource "local_file" "percona-crs" {
 
   for_each = { for key, stateful_resource in local.percona_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/percona/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
-      cluster_name       = each.key
-      cr_version         = each.value.local_operator_config.cr_version
-      replica_count      = each.value.logical_service_config.replica_count
-      namespace          = each.value.local_operator_config.resource_namespace
-      storage_class_name = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_class_name : each.value.local_operator_config.mongodb_data.storage_class_name
-      storage_size       = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_size : each.value.local_operator_config.mongodb_data.storage_size
-      existing_secret    = each.value.local_operator_config.secret_config.generate_secret_name
+      cluster_name        = each.key
+      cr_version          = each.value.local_operator_config.cr_version
+      replica_count       = each.value.logical_service_config.replica_count
+      namespace           = each.value.local_operator_config.resource_namespace
+      storage_class_name  = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_class_name : each.value.local_operator_config.mongodb_data.storage_class_name
+      storage_size        = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_size : each.value.local_operator_config.mongodb_data.storage_size
+      existing_secret     = each.value.local_operator_config.secret_config.generate_secret_name
+      affinity_definition = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.affinity_definition : each.value.local_operator_config.mongodb_data.affinity_definition
 
-      
+
       mongo_config_server_replica_count = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_config_server_replica_count : ""
       mongo_proxy_replica_count         = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_proxy_replica_count : ""
       mongod_replica_count              = each.value.logical_service_config.replica_count
@@ -106,9 +125,9 @@ resource "local_file" "percona-crs" {
       percona_credentials_secret              = "percona-s3-credentials-${each.key}"
       external_secret_sync_wave               = var.external_secret_sync_wave
 
-      database_name    = each.value.logical_service_config.database_name
-      database_user    = each.value.logical_service_config.db_username
-      database_config  = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data : each.value.local_operator_config.mongodb_data
+      database_name   = each.value.logical_service_config.database_name
+      database_user   = each.value.logical_service_config.db_username
+      database_config = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data : each.value.local_operator_config.mongodb_data
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
@@ -129,7 +148,8 @@ locals {
   operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
   internal_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if(resource.deployment_type == "operator" || resource.deployment_type == "helm-chart") }
   strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
-  percona_stateful_resources          = { for key, resource in local.operator_stateful_resources : key => resource if ( resource.resource_type == "mysql" || resource.resource_type == "mongodb" )}
+  redis_operator_stateful_resources   = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "redis" }
+  percona_stateful_resources          = { for key, resource in local.operator_stateful_resources : key => resource if(resource.resource_type == "mysql" || resource.resource_type == "mongodb") }
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }
@@ -150,10 +170,10 @@ locals {
     stateful_resources_name      = local.stateful_resources_name
   }
 
-  all_logical_extra_namespaces  = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.logical_service_config.secret_extra_namespaces, "")])
+  all_logical_extra_namespaces = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.logical_service_config.secret_extra_namespaces, "")])
   #all_local_extra_namespaces    = flatten([for stateful_resource in local.stateful_resources : try(stateful_resource.secret_config.generate_secret_extra_namespaces, "")])
-  all_local_helm_namespaces     = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
-  all_local_op_namespaces       = distinct([for stateful_resource in local.operator_stateful_resources : try(stateful_resource.local_operator_config.resource_namespace, "")])
+  all_local_helm_namespaces = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
+  all_local_op_namespaces   = distinct([for stateful_resource in local.operator_stateful_resources : try(stateful_resource.local_operator_config.resource_namespace, "")])
 
   percona_credentials_secret_provider_key = "ceph_percona_password"
   percona_credentials_id_provider_key     = "ceph_percona_username"
@@ -195,11 +215,6 @@ variable "kv_path" {
   default     = "secret"
 }
 
-variable "stateful_resources_config_file" {
-  default     = "../config/stateful-resources.json"
-  type        = string
-  description = "where to pull stateful resources config"
-}
 
 variable "stateful_resources_namespace" {
   type        = string

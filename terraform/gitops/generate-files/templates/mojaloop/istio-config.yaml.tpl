@@ -77,6 +77,8 @@ spec:
       match:
         - uri:
             prefix: /quotes
+        - uri:
+            prefix: /fxQuotes
       route:
         - destination:
             host: ${mojaloop_release_name}-quoting-service
@@ -86,6 +88,8 @@ spec:
       match:
         - uri:
             prefix: /transfers
+        - uri:
+            prefix: /fxTransfers
       route:
         - destination:
             host: ${mojaloop_release_name}-ml-api-adapter-service
@@ -162,6 +166,8 @@ spec:
       match:
         - uri:
             prefix: /quotes
+        - uri:
+            prefix: /fxQuotes
       route:
         - destination:
             host: ${mojaloop_release_name}-quoting-service
@@ -171,6 +177,8 @@ spec:
       match:
         - uri:
             prefix: /transfers
+        - uri:
+            prefix: /fxTransfers
       route:
         - destination:
             host: ${mojaloop_release_name}-ml-api-adapter-service

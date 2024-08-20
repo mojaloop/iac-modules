@@ -27,8 +27,8 @@ locals {
   base_utils_template_path               = "${path.module}/../generate-files/templates/base-utils"
   base_utils_app_file                    = "base-utils-app.yaml"
   ceph_velero_bucket                    = data.gitlab_project_variable.ceph_velero_bucket.value
-  velero_credentials_secret_provider_key = "velero_bucket_secret_key_id"
-  velero_credentials_id_provider_key     = "velero_bucket_access_key_id"
+  velero_credentials_secret_provider_key = "ceph_velero_password"
+  velero_credentials_id_provider_key     = "ceph_velero_username"
 }
 
 variable "reflector_chart_version" {

@@ -27,8 +27,6 @@ frontend:
     LOGIN_PROVIDER: ${keycloak_pm4ml_realm_name}
 
 experience-api:
-  image:
-    tag: 2.0.15-snapshot
   ingress:
     enabled: false
   env:
@@ -54,8 +52,6 @@ mojaloop-payment-token-adapter:
   ${indent(2, yamlencode(payment_token_adapter_config))}
 
 management-api:
-  image:
-    tag: 5.0.0-snapshot.2
   serviceAccountName: ${pm4ml_service_account_name}
   env:
     CACHE_URL: redis://${redis_host}:${redis_port}
@@ -108,21 +104,21 @@ prometheus:
 
 scheme-adapter:
   sdk-scheme-adapter-api-svc:
-%{ if enable_sdk_bulk_transaction_support ~}
+#%{ if enable_sdk_bulk_transaction_support}
     kafka: &kafkaConfig
       host: ${kafka_host}
       port: ${kafka_port}
-%{ endif ~}
+#%{ endif}
     redis: &redisConfig
       host: ${redis_host}
       port: ${redis_port}
     config:
       simName: *dfspId
-%{ if enable_sdk_bulk_transaction_support ~}
+#%{ if enable_sdk_bulk_transaction_support}
       bulkTransactionSupportEnabled: true
-%{ else ~}
+#%{ else}
       bulkTransactionSupportEnabled: false
-%{ endif ~}
+#%{ endif}
       ## TODO: sdk chart is not accepting empty jws values if JWS params enabled. Need to fix.
       jwsSigningKey: "test"
       jwsVerificationKeys: {
@@ -149,25 +145,29 @@ scheme-adapter:
       OAUTH_CLIENT_SECRET_KEY: "${pm4ml_external_switch_client_secret_key}"
       OAUTH_CLIENT_SECRET_NAME: "${pm4ml_external_switch_client_secret}"
       RESERVE_NOTIFICATION: ${pm4ml_reserve_notification}
-%{ if core_connector_selected == "ttk" ~}
+#%{ if core_connector_selected == "ttk"}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-ttk-backend:4040"
-%{ else ~}
-%{ if core_connector_selected == "cc" ~}
+#%{ else}
+#%{ if core_connector_selected == "cc"}
       BACKEND_ENDPOINT: "${pm4ml_release_name}-mojaloop-core-connector:3003"
-%{ else ~}
+#%{ else}
       BACKEND_ENDPOINT: "${custom_core_connector_endpoint}"
-%{ endif ~}
-%{ endif ~}
+#%{ endif}
+#%{ endif}
       MGMT_API_WS_URL: "${pm4ml_release_name}-management-api"
-%{ if enable_sdk_bulk_transaction_support ~}
+      FX_QUOTES_ENDPOINT: "${pm4ml_external_switch_fqdn}"
+      FX_TRANSFERS_ENDPOINT: "${pm4ml_external_switch_fqdn}"
+      SUPPORTED_CURRENCIES: "${supported_currencies}"
+      GET_SERVICES_FXP_RESPONSE: "${fxp_id}"
+#%{ if enable_sdk_bulk_transaction_support}
       ENABLE_BACKEND_EVENT_HANDLER: true
       ENABLE_FSPIOP_EVENT_HANDLER: true
       REQUEST_PROCESSING_TIMEOUT_SECONDS: 30
-%{ else ~}
+#%{ else}
       REQUEST_PROCESSING_TIMEOUT_SECONDS: 10
-%{ endif ~}
+#%{ endif}
 
-%{ if enable_sdk_bulk_transaction_support ~}
+#%{ if enable_sdk_bulk_transaction_support}
   sdk-scheme-adapter-dom-evt-handler:
     enabled: true
     kafka: *kafkaConfig
@@ -181,7 +181,7 @@ scheme-adapter:
     redis: *redisConfig
     config:
       simName: *dfspId
-%{ endif ~}
+#%{ endif}
 redis:
   replica:
     replicaCount: ${redis_replica_count}
@@ -198,7 +198,7 @@ redis:
     storageClass: ${storage_class_name}
 
 ttk:
-%{ if ttk_enabled ~}
+#%{ if ttk_enabled}
   enabled: true
   ml-testing-toolkit-backend:
     ingress:
@@ -211,10 +211,74 @@ ttk:
         "CALLBACK_ENDPOINT": "http://${pm4ml_release_name}-sdk-scheme-adapter-api-svc:4001",
         "SEND_CALLBACK_ENABLE": true,
         "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
+        "GITHUB_CONFIG": {
+          "TEST_CASES_REPO_OWNER": "mojaloop",
+          "TEST_CASES_REPO_NAME": "testing-toolkit-test-cases",
+          "TEST_CASES_REPO_DEFAULT_RELEASE_TAG": "${ttk_testcases_tag}",
+          "TEST_CASES_REPO_BASE_PATH": "collections/pm4ml"
+        },
         "DEFAULT_REQUEST_TIMEOUT": 15000,
         "FSPID": *dfspId
       }
-
+      system_config.json:
+        {
+          "API_DEFINITIONS":
+            [
+              {
+                "type": "mojaloop_connector_outbound",
+                "version": "2.1",
+                "folderPath": "mojaloop_connector_outbound_2.1",
+                "asynchronous": false,
+                "hostnames": [],
+                "prefix": "/sdk-out",
+              },
+              {
+                "type": "mojaloop_connector_backend",
+                "version": "2.1",
+                "folderPath": "mojaloop_connector_backend_2.1",
+                "asynchronous": false,
+              },
+              {
+                "type": "core_connector",
+                "version": "1.4",
+                "folderPath": "payment_manager_1.4",
+                "hostnames": [],
+                "prefix": "/cc-send",
+              },
+            ],
+        }
+      rules_response__default.json: https://raw.githubusercontent.com/mojaloop/testing-toolkit-test-cases/v16.1.0-fx-snapshot.1/rules/pm4ml/fxp_response_rules.json
+      api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.4.0/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/main/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_outbound_2.1__callback_map.json: []
+    extraEnvironments:
+      pm4ml-default-environment.json: {
+        "inputValues": {
+          "ENABLE_WS_ASSERTIONS": true,
+          "WS_ASSERTION_TIMEOUT": 5000,
+          "RETRY_MAX_ATTEMPTS": 100,
+          "FROM_DISPLAY_NAME": "Display-Test",
+          "FROM_FIRST_NAME": "Firstname-Test",
+          "FROM_MIDDLE_NAME": "Middlename-Test",
+          "FROM_LAST_NAME": "Lastname-Test",
+          "FROM_DOB": "1984-01-01",
+          "FROM_FSP_ID": "testpayer",
+          "HOME_TRANSACTION_ID": "123ABC",
+          "NOTE": "test",
+          "P2P_AMOUNT": "10",
+          "P2P_CURRENCY": "EUR",
+          "P2P_SOURCE_PARTY_ID_1": "16665551001",
+          "P2P_DESTINATION_PARTY_ID_1": "16665551002",
+          "FX_SOURCE_PARTY_ID_1": "16665551001",
+          "FX_DESTINATION_PARTY_ID_1": "16665551002",
+          "FXP1_ID": "testfxp",
+          "FX_PAYERDFSP_ID": "testpayer",
+          "FX_PAYEEDFSP_ID": "testpayee",
+          "FX_SOURCE_CURRENCY": "EUR",
+          "FX_TARGET_CURRENCY": "XXX",
+          "FX_SOURCE_AMOUNT": "10"
+        }
+      }
   ml-testing-toolkit-frontend:
     ingress:
       enabled: false
@@ -223,9 +287,9 @@ ttk:
     config:
       API_BASE_URL: https://${ttk_backend_fqdn}
 
-%{ else ~}
+#%{ else}
   enabled: false
-%{ endif ~}
+#%{ endif}
 
 keycloak:
   enabled: false

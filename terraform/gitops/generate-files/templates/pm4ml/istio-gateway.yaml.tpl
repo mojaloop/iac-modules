@@ -44,7 +44,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: ${admin_portal_release_name}-admin-ui-vs
+  name: ${admin_portal_release_name}-${pm4ml_namespace}-admin-ui-vs
 spec:
   gateways:
   - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}

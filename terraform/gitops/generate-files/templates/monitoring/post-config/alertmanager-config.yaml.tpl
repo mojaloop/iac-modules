@@ -10,17 +10,28 @@ spec:
     groupBy: ['job']
     groupWait: 30s
     groupInterval: 5m
-    repeatInterval: 12h
-    receiver: 'jira'
+    repeatInterval: 24h
+    receiver: 'slack'
 
   receivers:
+%{ if alertmanager_slack_integration_enabled  ~}
+  - name: slack
+    slackConfigs:
+    - apiURL: 
+        name: alertmanager-slack-alert-notifications
+        key: webhook
+      sendResolved: true
+%{ endif ~}
+%{ if alertmanager_jira_integration_enabled ~}
   - name: jira
     opsgenieConfigs:
     - apiKey: 
         name: alertmanager-jira-secret
         key: data
-      tags: ${grafana_subdomain}
+      tags: ${grafana_subdomain}     
+%{ endif ~}
 
+%{ if alertmanager_jira_integration_enabled ~}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -29,7 +40,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-11"
 spec:
-  refreshInterval: 1h
+  refreshInterval: 5m
 
   secretStoreRef:
     kind: ClusterSecretStore
@@ -45,3 +56,27 @@ spec:
         key: ${alertmanager_jira_secret_ref}
         property: value
 %{ endif ~}
+%{ if alertmanager_slack_integration_enabled  ~}
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: alertmanager-slack-alert-notifications-custom-resource
+  annotations:
+    argocd.argoproj.io/sync-wave: "-11"
+spec:
+  refreshInterval: 5m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+  target:
+    name: alertmanager-slack-alert-notifications
+    creationPolicy: Owner
+  data:
+    - secretKey: webhook
+      remoteRef: 
+        key: ${alertmanager_slack_external_secret_ref}
+        property: webhook
+
+%{ endif ~} 
+%{ endif ~} 

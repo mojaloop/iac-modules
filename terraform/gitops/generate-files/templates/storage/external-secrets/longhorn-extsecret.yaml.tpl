@@ -5,7 +5,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
   name: ${longhorn_credentials_secret}
 spec:
-  refreshInterval: 1h
+  refreshInterval: 5m
 
   secretStoreRef:
     kind: ClusterSecretStore

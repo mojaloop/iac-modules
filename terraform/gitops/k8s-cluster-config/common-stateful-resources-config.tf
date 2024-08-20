@@ -6,7 +6,6 @@ module "common_stateful_resources" {
   gitlab_project_url                            = var.gitlab_project_url
   gitlab_server_url                             = var.gitlab_server_url
   current_gitlab_project_id                     = var.current_gitlab_project_id
-  stateful_resources_config_file                = var.stateful_resources_config_file
   stateful_resources                            = local.common_stateful_resources
   stateful_resources_namespace                  = var.stateful_resources_namespace
   create_stateful_resources_ns                  = true
@@ -18,9 +17,6 @@ module "common_stateful_resources" {
   external_secret_sync_wave                     = var.external_secret_sync_wave
 }
 
-variable "stateful_resources_config_file" {
-  type = string
-}
 variable "stateful_resources_namespace" {
   type    = string
   default = "stateful-resources"
@@ -34,7 +30,6 @@ data "gitlab_project_variable" "external_stateful_resource_instance_address" {
 }
 
 locals {
-  #stateful_resources         = jsondecode(file(var.stateful_resources_config_file))
   common_stateful_resources  = { for key, resource in module.config_deepmerge.merged : key => resource if (resource.app_owner == "platform" && resource.enabled )}
   enabled_stateful_resources = { for key, stateful_resource in module.config_deepmerge.merged  : key => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }

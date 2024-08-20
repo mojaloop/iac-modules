@@ -24,9 +24,9 @@ module "generate_pm4ml_files" {
     auth_fqdn                                       = var.auth_fqdn
     admin_portal_release_name                       = "admin-portal"
     admin_portal_chart_version                      = try(var.app_var_map.admin_portal_chart_version, var.admin_portal_chart_version)
-    dfsp_id                                         = each.value.pm4ml_dfsp_id
+    dfsp_id                                         = try(each.value.pm4ml_dfsp_id, each.key)
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
-    mcm_host_url                                    = "https://${each.value.pm4ml_external_mcm_public_fqdn}"
+    mcm_host_url                                    = "https://${try(each.value.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.domain}")}"
     server_cert_secret_namespace                    = each.key
     server_cert_secret_name                         = var.vault_certman_secretname
     vault_certman_secretname                        = var.vault_certman_secretname
@@ -52,14 +52,14 @@ module "generate_pm4ml_files" {
     vault_secret_key                                = var.vault_secret_key
     keycloak_namespace                              = var.keycloak_namespace
     keycloak_name                                   = var.keycloak_name
-    pm4ml_external_switch_fqdn                      = each.value.pm4ml_external_switch_fqdn
+    pm4ml_external_switch_fqdn                      = try(each.value.pm4ml_external_switch_fqdn, "extapi.${each.value.domain}")
     pm4ml_chart_version                             = each.value.pm4ml_chart_version
-    pm4ml_external_switch_client_id                 = each.value.pm4ml_external_switch_client_id
-    pm4ml_external_switch_oidc_url                  = each.value.pm4ml_external_switch_oidc_url
+    pm4ml_external_switch_client_id                 = try(each.value.pm4ml_external_switch_client_id, each.key)
+    pm4ml_external_switch_oidc_url                  = try(each.value.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.domain}")
     pm4ml_external_switch_oidc_token_route          = each.value.pm4ml_external_switch_oidc_token_route
     pm4ml_external_switch_client_secret             = var.pm4ml_external_switch_client_secret
     pm4ml_external_switch_client_secret_key         = "token"
-    pm4ml_external_switch_client_secret_vault_key   = "${var.kv_path}/${var.cluster_name}/${each.key}/${each.value.pm4ml_external_switch_client_secret_vault_path}"
+    pm4ml_external_switch_client_secret_vault_key   = "${var.cluster_name}/${each.key}/${each.value.pm4ml_external_switch_client_secret_vault_path}"
     pm4ml_external_switch_client_secret_vault_value = "value"
     istio_external_gateway_name                     = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
@@ -67,6 +67,9 @@ module "generate_pm4ml_files" {
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
+    ttk_testcases_tag                               = each.value.ttk_testcases_tag
+    supported_currencies                            = try(each.value.supported_currencies, each.value.currency)
+    fxp_id                                          = each.value.fxp_id
     core_connector_selected                         = each.value.core_connector_selected
     custom_core_connector_endpoint                  = each.value.custom_core_connector_endpoint
     ttk_backend_fqdn                                = local.pm4ml_ttk_backend_fqdns[each.key]
@@ -81,6 +84,9 @@ module "generate_pm4ml_files" {
     portal_admin_secret                             = "${var.portal_admin_secret_prefix}${each.key}"
     portal_admin_secret_name                        = join("$", ["", "{${replace("${var.portal_admin_secret_prefix}${each.key}", "-", "_")}}"])
     portal_admin_user                               = var.portal_admin_user
+    mcm_admin_secret                                = "${var.mcm_admin_secret_prefix}${each.key}"
+    mcm_admin_secret_name                           = join("$", ["", "{${replace("${var.mcm_admin_secret_prefix}${each.key}", "-", "_")}}"])
+    mcm_admin_user                                  = var.mcm_admin_user
     role_assign_svc_secret                          = "${var.role_assign_svc_secret_prefix}${each.key}"
     role_assign_svc_secret_name                     = join("$", ["", "{${replace("${var.role_assign_svc_secret_prefix}${each.key}", "-", "_")}}"])
     role_assign_svc_user                            = var.role_assign_svc_user
@@ -101,35 +107,46 @@ module "generate_pm4ml_files" {
   app_output_path = "${var.output_dir}/app-yamls"
 }
 
+resource "local_file" "proxy_values_override" {
+  for_each   = [var.app_var_map, {}][local.pm4ml_override_values_file_exists ? 0 : 1]
+  content    = templatefile(var.pm4ml_values_override_file, each.value)
+  filename   = "${var.output_dir}/${each.key}/values-pm4ml-override.yaml"
+  depends_on = [module.generate_pm4ml_files]
+}
+
 locals {
   pm4ml_template_path = "${path.module}/../generate-files/templates/pm4ml"
   pm4ml_app_file      = "pm4ml-app.yaml"
+  pm4ml_override_values_file_exists         = fileexists(var.pm4ml_values_override_file)
 
   pm4ml_var_map = var.app_var_map
 
-  pm4ml_wildcard_gateways = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
-  
-  portal_fqdns              = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "portal-${pm4ml.pm4ml}.${var.private_subdomain}" }
-  admin_portal_fqdns        = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "admin-portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "admin-portal-${pm4ml.pm4ml}.${var.private_subdomain}"}
-  experience_api_fqdns      = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "exp-${pm4ml.pm4ml}.${var.public_subdomain}"  : "exp-${pm4ml.pm4ml}.${var.private_subdomain}"}
-  mojaloop_connnector_fqdns = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "conn-${pm4ml.pm4ml}.${var.public_subdomain}" : "conn-${pm4ml.pm4ml}.${var.private_subdomain}" }
-  test_fqdns                = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "test-${pm4ml.pm4ml}.${var.public_subdomain}" :  "test-${pm4ml.pm4ml}.${var.private_subdomain}" }
-  pm4ml_ttk_frontend_fqdns  = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "ttkfront-${pm4ml.pm4ml}.${var.public_subdomain}" : "ttkfront-${pm4ml.pm4ml}.${var.private_subdomain}" }
-  pm4ml_ttk_backend_fqdns   = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "ttkback-${pm4ml.pm4ml}.${var.public_subdomain}" : "ttkback-${pm4ml.pm4ml}.${var.private_subdomain}"}
-  pm4ml_pta_portal_fqdns    = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? "pta-portal-${pm4ml.pm4ml}.${var.public_subdomain}" : "pta-portal-${pm4ml.pm4ml}.${var.private_subdomain}"}
+  pm4ml_wildcard_gateways = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => pm4ml.pm4ml_ingress_internal_lb ? "internal" : "external" }
 
-  pm4ml_istio_gateway_namespaces     = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace }
-  pm4ml_istio_wildcard_gateway_names = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name }
-  pm4ml_istio_gateway_names          = { for pm4ml in local.pm4ml_var_map : pm4ml.pm4ml => local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name }
+  portal_fqdns              = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "portal-${pm4ml_name}.${var.public_subdomain}" : "portal-${pm4ml_name}.${var.private_subdomain}" }
+  admin_portal_fqdns        = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "admin-portal-${pm4ml_name}.${var.public_subdomain}" : "admin-portal-${pm4ml_name}.${var.private_subdomain}"}
+  experience_api_fqdns      = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "exp-${pm4ml_name}.${var.public_subdomain}"  : "exp-${pm4ml_name}.${var.private_subdomain}"}
+  mojaloop_connnector_fqdns = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "conn-${pm4ml_name}.${var.public_subdomain}" : "conn-${pm4ml_name}.${var.private_subdomain}" }
+  test_fqdns                = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "test-${pm4ml_name}.${var.public_subdomain}" :  "test-${pm4ml_name}.${var.private_subdomain}" }
+  pm4ml_ttk_frontend_fqdns  = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "ttkfront-${pm4ml_name}.${var.public_subdomain}" : "ttkfront-${pm4ml_name}.${var.private_subdomain}" }
+  pm4ml_ttk_backend_fqdns   = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "ttkback-${pm4ml_name}.${var.public_subdomain}" : "ttkback-${pm4ml_name}.${var.private_subdomain}"}
+  pm4ml_pta_portal_fqdns    = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "pta-portal-${pm4ml_name}.${var.public_subdomain}" : "pta-portal-${pm4ml_name}.${var.private_subdomain}"}
 
-  pm4ml_internal_wildcard_admin_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
-  pm4ml_external_wildcard_admin_portal_hosts = [for pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
-  pm4ml_internal_wildcard_portal_hosts       = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
-  pm4ml_external_wildcard_portal_hosts       = [for pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
-  pm4ml_internal_wildcard_exp_hosts          = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "internal"]
-  pm4ml_external_wildcard_exp_hosts          = [for pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml.pm4ml] if local.pm4ml_wildcard_gateways[pm4ml.pm4ml] == "external"]
+  pm4ml_istio_gateway_namespaces     = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace }
+  pm4ml_istio_wildcard_gateway_names = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name }
+  pm4ml_istio_gateway_names          = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name }
+
+  pm4ml_internal_wildcard_admin_portal_hosts = [for pm4ml_name, pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml_name] if local.pm4ml_wildcard_gateways[pm4ml_name] == "internal"]
+  pm4ml_external_wildcard_admin_portal_hosts = [for pm4ml_name, pm4ml in local.pm4ml_var_map : local.admin_portal_fqdns[pm4ml_name] if local.pm4ml_wildcard_gateways[pm4ml_name] == "external"]
+  pm4ml_internal_wildcard_portal_hosts       = [for pm4ml_name, pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml_name] if local.pm4ml_wildcard_gateways[pm4ml_name] == "internal"]
+  pm4ml_external_wildcard_portal_hosts       = [for pm4ml_name, pm4ml in local.pm4ml_var_map : local.portal_fqdns[pm4ml_name] if local.pm4ml_wildcard_gateways[pm4ml_name] == "external"]
+  pm4ml_internal_wildcard_exp_hosts          = [for pm4ml_name, pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml_name] if local.pm4ml_wildcard_gateways[pm4ml_name] == "internal"]
+  pm4ml_external_wildcard_exp_hosts          = [for pm4ml_name, pm4ml in local.pm4ml_var_map : local.experience_api_fqdns[pm4ml_name] if local.pm4ml_wildcard_gateways[pm4ml_name] == "external"]
 }
 
+variable "pm4ml_values_override_file" {
+  type = string
+}
 
 variable "app_var_map" {
   type = any
@@ -230,6 +247,10 @@ variable "portal_admin_user" {
   type = string
 }
 
+variable "mcm_admin_user" {
+  type = string
+}
+
 variable "role_assign_svc_user" {
   type = string
 }
@@ -239,6 +260,10 @@ variable "role_assign_svc_secret_prefix" {
 }
 
 variable "portal_admin_secret_prefix" {
+  type = string
+}
+
+variable "mcm_admin_secret_prefix" {
   type = string
 }
 

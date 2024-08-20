@@ -5,7 +5,7 @@ resources:
   - vault-secret.yaml
   - istio-vs.yaml
   - process-exporter-service-monitor.yaml
-  - vault-minio-ext-secret.yaml
+  - vault-ceph-ext-secret.yaml
 helmCharts:
 - name: prometheus-operator-crds
   releaseName: prometheus-operator-crds
