@@ -50,6 +50,8 @@ compactor:
   # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
   extraArgs: ["-config.expand-env"]
   extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
+  updateStrategy:
+    type: Recreate
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
