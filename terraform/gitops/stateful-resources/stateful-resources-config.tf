@@ -175,8 +175,8 @@ locals {
   all_local_helm_namespaces = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
   all_local_op_namespaces   = distinct([for stateful_resource in local.operator_stateful_resources : try(stateful_resource.local_operator_config.resource_namespace, "")])
 
-  percona_credentials_secret_provider_key = "ceph_percona_password"
-  percona_credentials_id_provider_key     = "ceph_percona_username"
+  percona_credentials_secret_provider_key = "percona_bucket_access_key_id"
+  percona_credentials_id_provider_key     = "percona_bucket_secret_key_id"
 
   strimzi_kafka_grafana_dashboards_version = "0.41.0"
 }

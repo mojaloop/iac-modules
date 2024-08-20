@@ -44,11 +44,11 @@ module "generate_monitoring_files" {
     ceph_loki_credentials_secret_name     = "ceph-loki-credentials-secret"
     ceph_api_url                          = var.ceph_api_url
     ceph_loki_bucket                      = local.ceph_loki_bucket
-    ceph_loki_user_key                    = "${var.cluster_name}/ceph_loki_username"
-    ceph_loki_password_key                = "${var.cluster_name}/ceph_loki_password"
+    ceph_loki_user_key                    = "${var.cluster_name}/loki_bucket_access_key_id"
+    ceph_loki_password_key                = "${var.cluster_name}/loki_bucket_secret_key_id"
     ceph_tempo_credentials_secret_name    = "ceph-tempo-credentials-secret"
-    ceph_tempo_user_key                   = "${var.cluster_name}/ceph_tempo_username"
-    ceph_tempo_password_key               = "${var.cluster_name}/ceph_tempo_password"
+    ceph_tempo_user_key                   = "${var.cluster_name}/tempo_bucket_access_key_id"
+    ceph_tempo_password_key               = "${var.cluster_name}/tempo_bucket_secret_key_id"
     ceph_tempo_bucket                     = local.ceph_tempo_bucket
     tempo_retention_period                 = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
     external_secret_sync_wave              = var.external_secret_sync_wave

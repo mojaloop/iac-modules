@@ -137,8 +137,8 @@ locals {
   cert_manager_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
   external_dns_credentials_secret_provider_key     = var.secrets_key_map["external_dns_cred_secret_key"]
   external_dns_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
-  longhorn_backups_credentials_secret_provider_key = "ceph_longhorn_password"
-  longhorn_backups_credentials_id_provider_key     = "ceph_longhorn_username"
+  longhorn_backups_credentials_secret_provider_key = "longhorn_backup_bucket_secret_key_id"
+  longhorn_backups_credentials_id_provider_key     = "longhorn_backup_bucket_access_key_id"
   ceph_loki_bucket                                = data.gitlab_project_variable.ceph_loki_bucket.value
   ceph_tempo_bucket                               = data.gitlab_project_variable.ceph_tempo_bucket.value
 }

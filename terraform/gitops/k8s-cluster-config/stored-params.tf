@@ -58,7 +58,7 @@ data "gitlab_project_variable" "ceph_tempo_bucket" {
 
 data "gitlab_project_variable" "ceph_longhorn_bucket" {
   project = var.current_gitlab_project_id
-  key     = "ceph_longhorn_bucket"
+  key     = "ceph_longhorn_backup_bucket"
 }
 
 data "gitlab_project_variable" "ceph_velero_bucket" {
