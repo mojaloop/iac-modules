@@ -3,6 +3,7 @@ nat_public_ips: ["publicip"]
 internal_load_balancer_dns: 10.10.10.56
 egress_gateway_cidr: 10.10.100.0/24
 bastion_public_ip: publicip
+haproxy_server_fqdn: haproxy.dev1.devbaremetal.infitx-labs.com
 private_subdomain: ""
 public_subdomain: "dev1.devbaremetal.infitx-labs.com"
 int_interop_switch_subdomain: intapi

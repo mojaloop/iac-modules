@@ -25,12 +25,21 @@ percona-mongodb:
   helm_chart_version: 1.15.0
   helm_chart_repo: https://percona.github.io/percona-helm-charts/
   helm_chart_values_file: values-percona-mongodb.yaml
-percona-postgresql:
-  enabled: true
-  install_type: helm
-  helm_chart: pg-operator
-  namespace: percona-postgresql
-  release_name: percona-postgresql
-  helm_chart_version: 2.3.4
-  helm_chart_repo: https://percona.github.io/percona-helm-charts/
-  helm_chart_values_file: values-percona-postgresql.yaml
+redis:
+  enabled: false
+  install_type: operator
+  helm_chart: redis-operator
+  namespace: redis
+  release_name: redis
+  helm_chart_version: 0.16.4
+  helm_chart_repo: https://ot-container-kit.github.io/helm-charts/
+  helm_chart_values_file: values-redis.yaml
+# percona-postgresql:
+#   enabled: true
+#   install_type: helm
+#   helm_chart: pg-operator
+#   namespace: percona-postgresql
+#   release_name: percona-postgresql
+#   helm_chart_version: 2.3.4
+#   helm_chart_repo: https://percona.github.io/percona-helm-charts/
+#   helm_chart_values_file: values-percona-postgresql.yaml
