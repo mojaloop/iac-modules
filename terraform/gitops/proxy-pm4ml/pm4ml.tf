@@ -76,7 +76,7 @@ module "generate_pm4ml_files" {
 
 resource "local_file" "proxy_values_override" {
   for_each   = [var.app_var_map, {}][local.proxy_override_values_file_exists ? 0 : 1]
-  content    = file(var.proxy_values_override_file)
+  content    = templatefile(var.proxy_values_override_file, each.value)
   filename   = "${var.output_dir}/${each.key}/values-proxy-pm4ml-override.yaml"
   depends_on = [module.generate_pm4ml_files]
 }

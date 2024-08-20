@@ -208,21 +208,21 @@ module "generate_mojaloop_files" {
 
 resource "local_file" "mojaloop_values_override" {
   count      = local.mojaloop_override_values_file_exists ? 1 : 0
-  content    = file(var.mojaloop_values_override_file)
+  content    = templatefile(var.mojaloop_values_override_file, var.app_var_map)
   filename   = "${local.output_path}/values-mojaloop-override.yaml"
   depends_on = [module.generate_mojaloop_files]
 }
 
 resource "local_file" "mcm_values_override" {
   count      = local.mcm_override_values_file_exists ? 1 : 0
-  content    = file(var.mcm_values_override_file)
+  content    = templatefile(var.mcm_values_override_file, var.app_var_map)
   filename   = "${local.output_path_mcm}/values-mcm-override.yaml"
   depends_on = [module.generate_mojaloop_files]
 }
 
 resource "local_file" "finance_portal_values_override" {
   count      = local.finance_portal_override_values_file_exists ? 1 : 0
-  content    = file(var.finance_portal_values_override_file)
+  content    = templatefile(var.finance_portal_values_override_file, var.app_var_map)
   filename   = "${local.output_path}/values-finance-portal-override.yaml"
   depends_on = [module.generate_mojaloop_files]
 }
