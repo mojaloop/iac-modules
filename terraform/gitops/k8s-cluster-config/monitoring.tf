@@ -88,13 +88,13 @@ variable "enable_grafana_oidc" {
 variable "grafana_oidc_client_secret_secret_key" {
   type        = string
   description = "grafana_oidc_client_secret_secret_key"
-  default     = "grafana_oauth_client_secret"
+  default     = "grafana_oidc_client_secret"
 }
 
 variable "grafana_oidc_client_id_secret_key" {
   type        = string
   description = "grafana_oidc_client_id_secret_key"
-  default     = "grafana_oauth_client_id"
+  default     = "grafana_oidc_client_id"
 }
 
 variable "grafana_chart_repo" {
