@@ -23,7 +23,7 @@ path "${var.kv_path}/data/${each.value}/*" {
 }
 
 path "${var.kv_path}/metadata/${each.value}/*" {
-  capabilities = ["read", "list"]
+  capabilities = ["read", "list","create","update","delete"]
 }
 
 path "${var.kv_path}/data/tenancy/*" {
