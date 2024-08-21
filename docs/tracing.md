@@ -122,7 +122,7 @@ transaction-requests-service:
 
 ## Trace by Namespace Annotation (Intended for PM environments)
 
-Opentelemetry can track all of our applications in a given namespace. New deployments for Payment managers that have `opentelemetry_enabled` and `opentelemetry_namespace_filtering` set to `true`, will have tracing enabled without extra steps. If the environment is already deployed and tracing is been enabled, the Opentelemetry resources will be created, but the namespaces for PMs won't be updated with the new annotation. It's required to add an annotation `instrumentation.opentelemetry.io/inject-nodejs: "true"`  
+Opentelemetry can track all of our applications in a given namespace. New deployments for Payment managers that have `opentelemetry_enabled` and `opentelemetry_namespace_filtering_enable` set to `true`, will have tracing enabled without extra steps. If the environment is already deployed and tracing is been enabled, the Opentelemetry resources will be created, but the namespaces for PMs won't be updated with the new annotation. It's required to add an annotation `instrumentation.opentelemetry.io/inject-nodejs: "true"`  
 Example:
 ```yaml
 apiVersion: v1

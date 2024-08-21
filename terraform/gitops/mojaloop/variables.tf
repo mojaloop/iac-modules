@@ -155,7 +155,7 @@ variable "opentelemetry_enabled" {
   default     = false
 }
 
-variable "opentelemetry_namespace_filtering" {
+variable "opentelemetry_namespace_filtering_enable" {
   type        = bool
   description = "should opentelemetry trace all pods in the application namespace"
   default     = false

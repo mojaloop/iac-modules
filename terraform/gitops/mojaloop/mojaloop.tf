@@ -199,7 +199,7 @@ module "generate_mojaloop_files" {
     updater_alias                                                     = [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}"]
     hub_name                                                          = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     opentelemetry_enabled                                             = var.opentelemetry_enabled
-    opentelemetry_namespace_filtering                                 = var.opentelemetry_namespace_filtering
+    opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path

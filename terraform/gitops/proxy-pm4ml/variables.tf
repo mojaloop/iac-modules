@@ -142,7 +142,7 @@ variable "opentelemetry_enabled" {
   default     = false
 } 
 
-variable "opentelemetry_namespace_filtering" {
+variable "opentelemetry_namespace_filtering_enable" {
   type        = bool
   description = "bool that enables tracing by namespace"
   default     = false

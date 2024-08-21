@@ -68,7 +68,7 @@ module "generate_pm4ml_files" {
     kafka_port                                      = "9092"
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
     opentelemetry_enabled                           = var.opentelemetry_enabled
-    opentelemetry_namespace_filtering               = var.opentelemetry_namespace_filtering
+    opentelemetry_namespace_filtering_enable        = var.opentelemetry_namespace_filtering_enable
     ttk_testcases_tag                               = each.value.ttk_testcases_tag
     supported_currencies                            = try(each.value.supported_currencies, each.value.currency)
     fxp_id                                          = each.value.fxp_id
@@ -259,7 +259,7 @@ variable "opentelemetry_enabled" {
   default     = false
 } 
 
-variable "opentelemetry_namespace_filtering" {
+variable "opentelemetry_namespace_filtering_enable" {
   type        = bool
   description = "bool that enables tracing by namespace"
   default     = false

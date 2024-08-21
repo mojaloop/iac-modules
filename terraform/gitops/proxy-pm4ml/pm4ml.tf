@@ -15,7 +15,7 @@ module "generate_pm4ml_files" {
     istio_external_wildcard_gateway_name            = var.istio_external_wildcard_gateway_name
     istio_external_gateway_namespace                = var.istio_external_gateway_namespace
     opentelemetry_enabled                           = var.opentelemetry_enabled
-    opentelemetry_namespace_filtering               = var.opentelemetry_namespace_filtering
+    opentelemetry_namespace_filtering_enable        = var.opentelemetry_namespace_filtering_enable
     pm4ml_wildcard_gateway                          = each.value.pm4ml_ingress_internal_lb ? "internal" : "external"
     proxy_id                                        = try(each.value.pm4ml_proxy_id, each.key)
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
