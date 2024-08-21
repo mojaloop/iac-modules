@@ -67,15 +67,16 @@ service:
   clusterIP:
   annotations: {}
   port: 8081
-  additionalPorts: []
+  additionalPorts:
+     - port: 8083
+       name: docker-hosted
+       containerPort: 8083
+       host: nexus-docker-hosted.local
   #   - port: 8082
   #     name: docker-group
   #     containerPort: 8082
   #     host: nexus-docker.local
-  #   - port: 8083
-  #     name: docker-hosted
-  #     containerPort: 8083
-  #     host: nexus-docker-hosted.local
+
 
 metrics:
   enabled: false
