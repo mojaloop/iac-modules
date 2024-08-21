@@ -5,7 +5,6 @@ resource "netbird_setup_key" "env_gw" {
   auto_groups = [netbird_group.env_gw.id]
   ephemeral   = false
   usage_limit = 0
-  expires_in  = 86400
 }
 #setup key for k8s peers to use to connect to cc priv network
 resource "netbird_setup_key" "env_k8s" {
@@ -14,7 +13,6 @@ resource "netbird_setup_key" "env_k8s" {
   auto_groups = [local.env_k8s_peers_group_id]
   ephemeral   = true
   usage_limit = 0
-  expires_in  = 86400
 }
 
 resource "netbird_group" "env_gw" {
