@@ -13,7 +13,7 @@ spec:
       - key: kv_path
         value: ${ARGOCD_ENV_vault_kv_secret}
       - key: nexus_fqdn
-        value: nexus.${ARGOCD_ENV_nexus_dns_subdomain}
+        value: nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}
       - key: ceph_obj_store_gw_fqdn
         value: rook-ceph-s3.${ARGOCD_ENV_ceph_dns_subdomain}
       - key: environment_list
