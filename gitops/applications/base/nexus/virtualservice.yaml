@@ -11,9 +11,17 @@ spec:
   http:
     - match:
         - uri:
+            prefix: /repository
+      route:
+        - destination:
+            host: nexus
+            port:
+              number: 8083
+    - match:
+        - uri:
             prefix: /
       route:
         - destination:
             host: nexus
             port:
-              number: 8081
+              number: 8081              
