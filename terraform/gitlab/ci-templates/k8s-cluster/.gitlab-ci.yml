@@ -170,7 +170,9 @@ deploy-infra:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
-  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy.*/
+    - when: manual
 
 deploy-managed-srvcs:
   extends: .terraform:deploy
