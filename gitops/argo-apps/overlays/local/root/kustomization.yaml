@@ -42,6 +42,6 @@ resources:
   # deploy-env
   - ../../../base/deploy-env.yaml
   # monitoring
-  - ../../../base/monitoring-pre.yaml
-  - ../../../base/monitoring.yaml
-  - ../../../base/monitoring-post-config.yaml
+  #- ../../../base/monitoring-pre.yaml
+  #- ../../../base/monitoring.yaml
+  #- ../../../base/monitoring-post-config.yaml
