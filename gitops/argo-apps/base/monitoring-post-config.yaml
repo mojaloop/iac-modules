@@ -108,3 +108,12 @@ spec:
 
         - name: "argocd_namespace"
           value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+
+        - name: "mimir_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_monitoring_mimir_istio_gateway_namespace}"
+
+        - name: "mimir_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_monitoring_mimir_istio_wildcard_gateway_name}"
+
+        - name: "mimir_dns_subdomain"
+          value: "${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
