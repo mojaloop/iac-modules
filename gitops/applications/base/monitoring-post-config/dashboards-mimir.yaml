@@ -22,6 +22,17 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
+  name: mimir-overview-networking
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-overview-networking.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
   name: mimir-overview-resources
 spec:
   folder: grafana-mimir
@@ -33,13 +44,13 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: mimir-writes
+  name: mimir-queries
 spec:
   folder: grafana-mimir
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-writes.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-queries.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -55,13 +66,68 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: mimir-config
+  name: mimir-reads-networking
 spec:
   folder: grafana-mimir
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-config.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-reads-networking.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-reads-resources
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-reads-resources.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-writes
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-writes.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-writes-networking
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-writes-networking.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-writes-resources
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-writes-resources.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-compactor
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-compactor.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
