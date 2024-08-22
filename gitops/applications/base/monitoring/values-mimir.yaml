@@ -9,7 +9,7 @@ mimir:
       secret_access_key: $${AWS_SECRET_ACCESS_KEY}
       bucket_name: $${BUCKET_NAME}
       endpoint: $${BUCKET_HOST}
-      insecure: true
+      insecure: false
       bucket_lookup_type: path
   overrideConfiguration:
     limits:

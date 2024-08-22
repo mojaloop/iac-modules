@@ -24,7 +24,7 @@ loki:
         # s3 is alias for aws 
         s3forcepathstyle: true
         endpoint: ${ceph_api_url}
-        insecure: true
+        insecure: false
         access_key_id: $${CEPH_LOKI_USERNAME}
         secret_access_key: $${CEPH_LOKI_PASSWORD}
         bucketnames: ${ceph_loki_bucket}      

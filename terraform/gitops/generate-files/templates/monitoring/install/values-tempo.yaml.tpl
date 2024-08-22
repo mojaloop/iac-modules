@@ -99,7 +99,7 @@ tempo:
         s3:
           forcepathstyle: true
           endpoint: ${ceph_api_url}
-          insecure: true
+          insecure: false
           bucket: ${ceph_tempo_bucket}   
 
 

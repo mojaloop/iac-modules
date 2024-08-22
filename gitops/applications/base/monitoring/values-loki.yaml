@@ -24,7 +24,7 @@ loki:
         # s3 is alias for aws
         s3forcepathstyle: true
         endpoint: $${BUCKET_HOST}
-        insecure: true
+        insecure: false
         access_key_id: $${AWS_ACCESS_KEY_ID}
         secret_access_key: $${AWS_SECRET_ACCESS_KEY}
         bucketnames: $${BUCKET_NAME}
