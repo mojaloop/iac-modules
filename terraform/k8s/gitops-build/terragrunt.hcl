@@ -104,6 +104,10 @@ locals {
   tags                          = local.env_vars.tags
   gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
   gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
+  grafana_admin_rbac_group      = get_env("grafana_admin_rbac_group")
+  grafana_readonly_rbac_group   = get_env("grafana_user_rbac_group")
+  vault_admin_rbac_group        = get_env("vault_admin_rbac_group")
+  vault_readonly_rbac_group     = get_env("vault_user_rbac_group")    
   common_vars                   = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}", local.env_vars))
   pm4ml_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}", local.env_vars))
   proxy_pm4ml_vars              = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}", local.env_vars))

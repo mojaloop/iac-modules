@@ -37,6 +37,14 @@ resource "zitadel_project" "env" {
   project_role_check     = true
 }
 
+resource "gitlab_project_variable" "zitadel_project_id" {
+  project   = data.gitlab_project.env.id
+  key       = "zitadel_project_id"
+  value     = zitadel_project.env.id
+  protected = false
+  masked    = false
+}
+
 
 resource "zitadel_application_oidc" "grafana" {
   project_id                  = zitadel_project.env.id
@@ -88,11 +96,28 @@ resource "zitadel_project_role" "grafana_admins_role" {
   display_name = "Grafana Admins"
 }
 
+resource "gitlab_project_variable" "grafana_admin_rbac_group" {
+  project   = data.gitlab_project.env.id
+  key       = "grafana_admin_rbac_group"
+  value     = var.grafana_admin_rbac_group
+  protected = false
+  masked    = false
+}
+
+
 resource "zitadel_project_role" "grafana_users_role" {
   project_id   = zitadel_project.env.id
   org_id       = local.org_id
   role_key     = var.grafana_user_rbac_group
   display_name = "Grafana Users"
+}
+
+resource "gitlab_project_variable" "grafana_user_rbac_group" {
+  project   = data.gitlab_project.env.id
+  key       = "grafana_user_rbac_group"
+  value     = var.grafana_user_rbac_group
+  protected = false
+  masked    = false
 }
 
 
@@ -146,11 +171,27 @@ resource "zitadel_project_role" "vault_admins_role" {
   display_name = "Vault Admins"
 }
 
+resource "gitlab_project_variable" "vault_admin_rbac_group" {
+  project   = data.gitlab_project.env.id
+  key       = "vault_admin_rbac_group"
+  value     = var.vault_admin_rbac_group
+  protected = false
+  masked    = false
+}
+
 resource "zitadel_project_role" "vault_users_role" {
   project_id   = zitadel_project.env.id
   org_id       = local.org_id
   role_key     = var.vault_user_rbac_group
   display_name = "Vault Users"
+}
+
+resource "gitlab_project_variable" "vault_user_rbac_group" {
+  project   = data.gitlab_project.env.id
+  key       = "vault_user_rbac_group"
+  value     = var.vault_user_rbac_group
+  protected = false
+  masked    = false
 }
 
 resource "zitadel_application_oidc" "argocd" {
@@ -210,9 +251,25 @@ resource "zitadel_project_role" "argocd_admins_role" {
   display_name = "Argocd Admins"
 }
 
+resource "gitlab_project_variable" "argocd_admin_rbac_group" {
+  project   = data.gitlab_project.env.id
+  key       = "argocd_admin_rbac_group"
+  value     = var.argocd_admin_rbac_group
+  protected = false
+  masked    = false
+}
+
 resource "zitadel_project_role" "argocd_users_role" {
   project_id   = zitadel_project.env.id
   org_id       = local.org_id
   role_key     = var.argocd_user_rbac_group
   display_name = "Argocd Users"
+}
+
+resource "gitlab_project_variable" "argocd_user_rbac_group" {
+  project   = data.gitlab_project.env.id
+  key       = "argocd_user_rbac_group"
+  value     = var.argocd_user_rbac_group
+  protected = false
+  masked    = false
 }
