@@ -78,7 +78,7 @@ data:
             "token_policies": "vault-admin",
             "ttl": "1h",
             "oidc_scopes": ["openid"], 
-            "bound_claims": { "groups": ["${zitadel_project_id}:${vault_admin_rbac_group}"] }
+            "bound_claims": { "zitadel:grants": ["${zitadel_project_id}:${vault_admin_rbac_group}"] }
           }
     EOF
         vault write auth/oidc/role/techops-readonly -<<EOF
@@ -90,7 +90,7 @@ data:
             "token_policies": "read-secrets",
             "ttl": "1h",
             "oidc_scopes": ["openid"],
-            "bound_claims": { "groups": ["${zitadel_project_id}:${vault_readonly_rbac_group}"] }
+            "bound_claims": { "zitadel:grants": ["${zitadel_project_id}:${vault_readonly_rbac_group}"] }
           }
     EOF
     %{ endif ~}
