@@ -122,6 +122,7 @@ locals {
     oidc_admin_group             = get_env("gitlab_admin_rbac_group")
     argocd_admin_rbac_group      = get_env("argocd_admin_rbac_group")
     argocd_readonly_rbac_group   = get_env("argocd_user_rbac_group")
+    zitadel_project_id           = get_env("zitadel_project_id")
     eks_aws_secret_access_key    = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
     eks_aws_access_key_id        = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
     eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
