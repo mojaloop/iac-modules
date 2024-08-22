@@ -16,7 +16,8 @@ fi
 mkdir -p $TMP_GIT_REPO
 git clone ${TEMPLATE_REPO_URL} $TMP_GIT_REPO
 cd $TMP_GIT_REPO && git checkout ${IAC_MODULES_TAG} && git pull
-cp -r ${CI_TEMPLATE_PATH}/. ${K8S_TEMPLATE_PATH}/. .
+cp -r ${CI_TEMPLATE_PATH}/. ${K8S_TEMPLATE_PATH}/. $WORKING_DIR
+cd $WORKING_DIR
 $DIR/submodule-update.sh
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
