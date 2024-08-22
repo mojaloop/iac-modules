@@ -80,3 +80,7 @@ variable "netbird_version" {
 variable "argocd_namespace" {
   description = "argocd ns"
 }
+
+variable "kubernetes_oidc_groups_claim" {
+  description = "value to use for oidc k8s group claim"
+}

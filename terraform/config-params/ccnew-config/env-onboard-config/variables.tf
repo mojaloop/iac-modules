@@ -73,3 +73,13 @@ variable "zitadel_fqdn" {
 variable "zitadel_admin_human_user_id" {
   description = "admin zitadel human user id"
 }
+
+variable "k8s_admin_rbac_group" {
+  type        = string
+  description = "rbac group in idm for admin access via oidc"
+}
+
+variable "k8s_user_rbac_group" {
+  type        = string
+  description = "rbac group in idm for user access via oidc"
+}

@@ -240,7 +240,7 @@ resource "vault_kv_secret_v2" "env_argocd_oidc_client_secret" {
 resource "zitadel_user_grant" "zitadel_env_admin_grant" {
   project_id = zitadel_project.env.id
   org_id     = local.org_id
-  role_keys  = [zitadel_project_role.argocd_admins_role.role_key,zitadel_project_role.vault_admins_role.role_key,zitadel_project_role.grafana_admins_role.role_key]
+  role_keys  = [zitadel_project_role.argocd_admins_role.role_key, zitadel_project_role.vault_admins_role.role_key, zitadel_project_role.grafana_admins_role.role_key]
   user_id    = var.zitadel_admin_human_user_id
 }
 
@@ -270,6 +270,74 @@ resource "gitlab_project_variable" "argocd_user_rbac_group" {
   project   = data.gitlab_project.env.id
   key       = "argocd_user_rbac_group"
   value     = var.argocd_user_rbac_group
+  protected = false
+  masked    = false
+}
+
+
+resource "zitadel_application_oidc" "k8s_cli" {
+  project_id                  = zitadel_project.env.id
+  org_id                      = local.org_id
+  name                        = "${var.env}-k8s-cli"
+  redirect_uris               = ["http://localhost:8000"]
+  response_types              = ["OIDC_RESPONSE_TYPE_CODE"]
+  grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE"]
+  post_logout_redirect_uris   = ["http://localhost:8000"]
+  app_type                    = "OIDC_APP_TYPE_NATIVE"
+  auth_method_type            = "OIDC_AUTH_METHOD_TYPE_NONE"
+  version                     = "OIDC_VERSION_1_0"
+  dev_mode                    = false
+  access_token_type           = "OIDC_TOKEN_TYPE_JWT"
+  access_token_role_assertion = true
+  id_token_role_assertion     = true
+  id_token_userinfo_assertion = true
+}
+
+
+resource "zitadel_project_role" "k8s_techops_admin" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = var.k8s_admin_rbac_group
+  display_name = "Techops Admin"
+}
+
+resource "zitadel_project_role" "k8s_techops_user" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = var.k8s_user_rbac_group
+  display_name = "Techops User"
+}
+
+resource "zitadel_user_grant" "zitadel_admin_techops_admin" {
+  project_id = zitadel_project.env.id
+  org_id     = local.org_id
+  role_keys  = [zitadel_project_role.k8s_techops_admin.role_key]
+  user_id    = var.zitadel_admin_human_user_id
+}
+
+resource "vault_kv_secret_v2" "env_k8s_oidc_client_id" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/kubernetes_oidc_client_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = zitadel_application_oidc.k8s_cli.client_id
+    }
+  )
+}
+
+resource "gitlab_project_variable" "kubernetes_oidc_k8s_admin_group" {
+  project   = data.gitlab_project.env.id
+  key       = "KUBERNETES_OIDC_K8S_ADMIN_GROUP"
+  value     = "${zitadel_project.env.id}:${var.k8s_admin_rbac_group}"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "kubernetes_oidc_k8s_user_group" {
+  project   = data.gitlab_project.env.id
+  key       = "KUBERNETES_OIDC_K8S_USER_GROUP"
+  value     = "${zitadel_project.env.id}:${var.k8s_user_rbac_group}"
   protected = false
   masked    = false
 }

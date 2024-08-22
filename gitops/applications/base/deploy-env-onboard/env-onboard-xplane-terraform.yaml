@@ -50,6 +50,9 @@ spec:
         value: "${ARGOCD_ENV_argocd_user_rbac_group}"
       - key: "gitlab_namespace"
         value: "${ARGOCD_ENV_gitlab_namespace}"
+      - key: "kubernetes_oidc_groups_claim"
+        value: "${ARGOCD_ENV_kubernetes_oidc_groups_claim}"
+
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}

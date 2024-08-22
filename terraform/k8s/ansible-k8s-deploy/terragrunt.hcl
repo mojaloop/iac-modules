@@ -128,12 +128,21 @@ locals {
     eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
   }
   all_hosts_var_maps = {
-    ceph_listening_port             = get_env("CEPH_OBJECTSTORE_PORT")
+    ceph_listening_port              = get_env("CEPH_OBJECTSTORE_PORT")
     nexus_docker_repo_listening_port = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     nexus_fqdn                       = get_env("NEXUS_FQDN")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
     registry_mirror_port             = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     enable_registry_mirror           = true
+    kubernetes_oidc_enabled          = get_env("KUBERNETES_OIDC_ENABLED")
+    kubernetes_oidc_issuer           = get_env("KUBERNETES_OIDC_ISSUER")
+    kubernetes_oidc_client_id        = get_env("KUBERNETES_OIDC_CLIENT_ID")
+    kubernetes_oidc_groups_claim     = get_env("KUBERNETES_OIDC_GROUPS_CLAIM")
+    kubernetes_oidc_groups_prefix    = get_env("KUBERNETES_OIDC_GROUPS_PREFIX")
+    kubernetes_oidc_username_prefix  = get_env("KUBERNETES_OIDC_USERNAME_PREFIX")
+    kubernetes_oidc_username_claim   = get_env("KUBERNETES_OIDC_USERNAME_CLAIM")
+    kubernetes_oidc_k8s_user_group   = get_env("KUBERNETES_OIDC_K8S_USER_GROUP")
+    kubernetes_oidc_k8s_admin_group  = get_env("KUBERNETES_OIDC_K8S_ADMIN_GROUP")
   }
 }
 

@@ -13,8 +13,8 @@ resource "gitlab_project" "envs" {
 }
 
 resource "gitlab_project_access_token" "envs" {
-  for_each     = local.environment_list  
-  project      = gitlab_project.envs[each.key].id 
+  for_each     = local.environment_list
+  project      = gitlab_project.envs[each.key].id
   name         = "Argocd project access token"
   access_level = "reporter"
   rotation_configuration = {
@@ -27,14 +27,14 @@ resource "gitlab_project_access_token" "envs" {
 
 
 resource "kubernetes_secret_v1" "setup_keys" {
-  for_each               = local.environment_list  
+  for_each = local.environment_list
   metadata {
     name      = "${each.value}-repo-secret"
     namespace = var.argocd_namespace
     labels = {
       "argocd.argoproj.io/secret-type" = "repository"
-  } 
-  } 
+    }
+  }
   data = {
     "type"     = "git"
     "project"  = "default"
@@ -156,6 +156,58 @@ resource "gitlab_group_variable" "netbird_version" {
   group             = data.gitlab_group.iac.id
   key               = "NETBIRD_VERSION"
   value             = var.netbird_version
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "kubernetes_oidc_enabled" {
+  group             = data.gitlab_group.iac.id
+  key               = "KUBERNETES_OIDC_ENABLED"
+  value             = "true"
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "kubernetes_oidc_issuer" {
+  group             = data.gitlab_group.iac.id
+  key               = "KUBERNETES_OIDC_ISSUER"
+  value             = "https://${var.zitadel_fqdn}"
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "kubernetes_oidc_groups_prefix" {
+  group             = data.gitlab_group.iac.id
+  key               = "KUBERNETES_OIDC_GROUPS_PREFIX"
+  value             = ""
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+resource "gitlab_group_variable" "kubernetes_oidc_username_prefix" {
+  group             = data.gitlab_group.iac.id
+  key               = "KUBERNETES_OIDC_USERNAME_PREFIX"
+  value             = ""
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+resource "gitlab_group_variable" "kubernetes_oidc_username_claim" {
+  group             = data.gitlab_group.iac.id
+  key               = "KUBERNETES_OIDC_USERNAME_CLAIM"
+  value             = "email"
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "kubernetes_oidc_groups_claim" {
+  group             = data.gitlab_group.iac.id
+  key               = "KUBERNETES_OIDC_GROUPS_CLAIM"
+  value             = var.kubernetes_oidc_groups_claim
   protected         = true
   masked            = false
   environment_scope = "*"
