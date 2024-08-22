@@ -14,6 +14,7 @@ module "generate_monitoring_files" {
     tempo_chart_version                    = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
     monitoring_namespace                   = var.monitoring_namespace
     gitlab_server_url                      = var.gitlab_server_url
+    zitadel_server_url                     = var.zitadel_server_url
     gitlab_project_url                     = var.gitlab_project_url
     public_subdomain                       = var.public_subdomain
     client_id                              = try(data.vault_kv_secret_v2.grafana_oauth_client_id[0].data.value, "")

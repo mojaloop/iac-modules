@@ -28,6 +28,7 @@ module "generate_vault_files" {
     istio_create_ingress_gateways            = var.istio_create_ingress_gateways
     consul_namespace                         = var.consul_namespace
     gitlab_server_url                        = var.gitlab_server_url
+    zitadel_server_url                       = var.zitadel_server_url
     gitlab_admin_group_name                  = var.gitlab_admin_group_name
     gitlab_readonly_group_name               = var.gitlab_readonly_group_name
     enable_vault_oidc                        = var.enable_vault_oidc

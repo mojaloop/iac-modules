@@ -14,6 +14,12 @@ variable "gitlab_server_url" {
   description = "gitlab_server_url"
 }
 
+variable "zitadel_server_url" {
+  type        = string
+  description = "zitadel_server_url"
+}
+
+
 variable "gitlab_project_url" {
   type        = string
   description = "gitlab_project_url"

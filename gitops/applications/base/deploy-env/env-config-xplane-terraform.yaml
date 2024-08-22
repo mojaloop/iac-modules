@@ -12,6 +12,8 @@ spec:
     vars:
       - key: kv_path
         value: ${ARGOCD_ENV_vault_kv_secret}
+      - key: zitadel_fqdn
+        value: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}        
       - key: nexus_fqdn
         value: nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}
       - key: ceph_obj_store_gw_fqdn

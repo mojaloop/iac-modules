@@ -8,6 +8,10 @@ variable "nexus_fqdn" {
   description = "fqdn for nexus"
 }
 
+variable "zitadel_fqdn" {
+  description = "fqdn for zitadel"
+}
+
 variable "environment_list" {
   description = "env repos to pre-create"
 }

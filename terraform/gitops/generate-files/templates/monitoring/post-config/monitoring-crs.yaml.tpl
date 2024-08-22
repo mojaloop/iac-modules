@@ -39,13 +39,13 @@ spec:
     server:
       domain: "${grafana_subdomain}"
       root_url: https://grafana.${grafana_subdomain}
-    auth.gitlab:
+    auth.zitadel:
       enabled: "${enable_oidc}"
       allow_sign_up: "true"
       scopes: read_api
-      auth_url: ${gitlab_server_url}/oauth/authorize
-      token_url: ${gitlab_server_url}/oauth/token
-      api_url: ${gitlab_server_url}/api/v4
+      auth_url: ${zitaldel_server_url}/oauth/authorize
+      token_url: ${zitaldel_server_url}/oauth/token
+      api_url: ${zitaldel_server_url}/api/v4
       allowed_groups: ${groups}
       client_id: ${client_id}
       client_secret: ${client_secret}

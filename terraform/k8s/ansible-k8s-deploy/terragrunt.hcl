@@ -110,6 +110,7 @@ locals {
     argocd_lovely_plugin_version = local.common_vars.argocd_lovely_plugin_version
     repo_url                     = get_env("GITLAB_PROJECT_URL")
     gitlab_server_url            = get_env("CI_SERVER_URL")
+    zitadel_server_url           = get_env("ZITADEL_FQDN")
     gitlab_project_id            = get_env("GITLAB_CURRENT_PROJECT_ID")
     repo_username                = get_env("GITLAB_USERNAME")
     repo_password                = get_env("GITLAB_CI_PAT")

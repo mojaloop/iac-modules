@@ -76,6 +76,7 @@ inputs = {
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
   gitlab_server_url                        = local.GITLAB_SERVER_URL
+  zitadel_server_url                       = local.zitadel_server_url
   dns_cloud_region                         = local.CLOUD_REGION
   gitlab_readonly_group_name               = local.gitlab_readonly_rbac_group
   gitlab_admin_group_name                  = local.gitlab_admin_rbac_group
@@ -122,6 +123,7 @@ locals {
     private_network_cidr             = "${get_env("vpc_cidr")}"
   }, yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}", local.env_vars)))
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
+  zitadel_server_url            = get_env("ZITADEL_FQDN")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
   CLUSTER_NAME                  = get_env("cluster_name")
   CLUSTER_DOMAIN                = get_env("domain")

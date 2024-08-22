@@ -60,6 +60,15 @@ resource "gitlab_group_variable" "nexus_fqdn" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "nexus_fqdn" {
+  group             = data.gitlab_group.iac.id
+  key               = "ZITADEL_FQDN"
+  value             = var.zitadel_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
   group             = data.gitlab_group.iac.id
   key               = "NEXUS_DOCKER_REPO_LISTENING_PORT"
