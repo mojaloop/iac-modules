@@ -173,7 +173,7 @@ resource "gitlab_group_variable" "kubernetes_oidc_enabled" {
 resource "gitlab_group_variable" "kubernetes_oidc_issuer" {
   group             = data.gitlab_group.iac.id
   key               = "KUBERNETES_OIDC_ISSUER"
-  value             = "https://${var.zitadel_fqdn}"
+  value             = var.zitadel_fqdn
   protected         = true
   masked            = false
   environment_scope = "*"
