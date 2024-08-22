@@ -17,7 +17,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/grafana/mimir/main/operations/mimir-mixin-compiled/dashboards/mimir-overview.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-overview.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -28,7 +28,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/grafana/mimir/main/operations/mimir-mixin-compiled/dashboards/mimir-overview-resources.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-overview-resources.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -39,7 +39,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/grafana/mimir/main/operations/mimir-mixin-compiled/dashboards/mimir-writes.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-writes.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -50,7 +50,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/grafana/mimir/main/operations/mimir-mixin-compiled/dashboards/mimir-reads.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-reads.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -61,7 +61,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/grafana/mimir/main/operations/mimir-mixin-compiled/dashboards/mimir-config.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-config.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -72,5 +72,5 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/grafana/mimir/main/operations/mimir-mixin-compiled/dashboards/mimir-object-store.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-object-store.json"
 ---
