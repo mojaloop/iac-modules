@@ -96,6 +96,11 @@ variable "grafana_admin_rbac_group" {
   description = "grafana_admin_rbac_group"
 }
 
+variable "grafana_user_rbac_group" {
+  type        = string
+  description = "grafana_admin_rbac_group"
+}
+
 variable "external_secret_sync_wave" {
   type        = string
   description = "external_secret_sync_wave"

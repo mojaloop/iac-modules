@@ -21,7 +21,9 @@ module "generate_monitoring_files" {
     client_secret                          = try(data.vault_kv_secret_v2.grafana_oauth_client_secret[0].data.value, "")
     enable_oidc                            = var.enable_grafana_oidc
     storage_class_name                     = var.storage_class_name
-    groups                                 = "${var.zitadel_project_id}:${var.grafana_admin_rbac_group}"
+    zitadel_project_id                     = var.zitadel_project_id
+    grafana_admin_rbac_group               = var.grafana_admin_rbac_group
+    grafana_user_rbac_group                = var.grafana_user_rbac_group
     prom-mojaloop-url                      = "http://prometheus-operated:9090"
     admin_secret_pw_key                    = "admin-pw"
     admin_secret_user_key                  = "admin-user"

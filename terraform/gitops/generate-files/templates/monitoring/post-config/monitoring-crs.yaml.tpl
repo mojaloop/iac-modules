@@ -40,16 +40,20 @@ spec:
       domain: "${grafana_subdomain}"
       root_url: https://grafana.${grafana_subdomain}
     auth.zitadel:
+      name: "Zitadel"
       enabled: "${enable_oidc}"
       allow_sign_up: "true"
-      scopes: read_api
-      auth_url: ${zitadel_server_url}/oauth/authorize
-      token_url: ${zitadel_server_url}/oauth/token
-      api_url: ${zitadel_server_url}/api/v4
-      allowed_groups: ${groups}
-      client_id: ${client_id}
-      client_secret: ${client_secret}
-      role_attribute_path: "is_admin && 'Admin' || 'Editor'"
+      scopes: "openid profile email groups zitadel:grants"
+      auto_login: "false"
+      auth_url: "${zitadel_server_url}/oauth/v2/authorize"
+      token_url: "${zitadel_server_url}/oauth/v2/token"
+      api_url: "${zitadel_server_url}/oidc/v1/userinfo"
+      client_id: "${client_id}"
+      client_secret: "${client_secret}"
+      use_pkce: "true"
+      use_refresh_token: "true"
+      role_attribute_path: "contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_admin_rbac_group}') && 'Admin' || contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_user_rbac_group}') && 'Viewer'"
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource

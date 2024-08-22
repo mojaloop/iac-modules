@@ -101,6 +101,7 @@ inputs = {
   gitlab_admin_rbac_group                  = local.gitlab_admin_rbac_group
   zitadel_project_id                       = local.zitadel_project_id
   grafana_admin_rbac_group                 = local.grafana_admin_rbac_group
+  grafana_user_rbac_group                  = local.grafana_user_rbac_group
 }
 
 locals {
