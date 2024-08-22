@@ -104,7 +104,7 @@ variable "vault_config_operator_helm_chart_repo" {
 variable "vault_gitlab_credentials_secret_key" {
   type        = string
   description = "vault_gitlab_credentials_secret_key"
-  default     = "tenancy/gitlab_ci_pat"
+  default     = "gitlab/gitlab_ci_pat"
 }
 
 variable "vault_seal_token_secret_key" {
@@ -126,13 +126,13 @@ variable "transit_vault_key_name" {
 variable "vault_oidc_client_secret_secret_key" {
   type        = string
   description = "vault_oidc_client_secret_secret_key"
-  default     = "vault_oauth_client_secret"
+  default     = "vault_oidc_client_secret"
 }
 
 variable "vault_oidc_client_id_secret_key" {
   type        = string
   description = "vault_oidc_client_id_secret_key"
-  default     = "vault_oauth_client_id"
+  default     = "vault_oidc_client_id"
 }
 
 variable "vault_ingress_internal_lb" {
