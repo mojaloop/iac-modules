@@ -111,7 +111,7 @@ locals {
   gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
   gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
   grafana_admin_rbac_group      = get_env("grafana_admin_rbac_group")
-  grafana_readonly_rbac_group   = get_env("grafana_user_rbac_group")
+  grafana_user_rbac_group       = get_env("grafana_user_rbac_group")
   vault_admin_rbac_group        = get_env("vault_admin_rbac_group")
   vault_readonly_rbac_group     = get_env("vault_user_rbac_group")
   zitadel_project_id            = get_env("zitadel_project_id")      
