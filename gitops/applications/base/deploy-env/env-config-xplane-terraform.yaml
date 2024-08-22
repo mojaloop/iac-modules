@@ -17,7 +17,7 @@ spec:
       - key: nexus_fqdn
         value: nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}
       - key: ceph_obj_store_gw_fqdn
-        value: rook-ceph-s3.${ARGOCD_ENV_ceph_dns_subdomain}
+        value: rook-ceph-bucket.${ARGOCD_ENV_ceph_dns_subdomain}
       - key: environment_list
         value: ${ARGOCD_ENV_environment_list}
       - key: storage_class
