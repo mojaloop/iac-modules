@@ -152,7 +152,7 @@ data "gitlab_project" "env" {
 resource "gitlab_project_variable" "ceph_loki_bucket" {
   project   = data.gitlab_project.env.id
   key       = "ceph_loki_bucket"
-  value     = "${var.env_name}-loki-bucket"
+  value     = "${var.env_name}-loki"
   protected = false
   masked    = false
 }
@@ -160,7 +160,7 @@ resource "gitlab_project_variable" "ceph_loki_bucket" {
 resource "gitlab_project_variable" "ceph_tempo_bucket" {
   project   = data.gitlab_project.env.id
   key       = "ceph_tempo_bucket"
-  value     = "${var.env_name}-tempo-bucket"
+  value     = "${var.env_name}-tempo"
   protected = false
   masked    = false
 }
@@ -168,7 +168,7 @@ resource "gitlab_project_variable" "ceph_tempo_bucket" {
 resource "gitlab_project_variable" "ceph_longhorn_backup_bucket" {
   project   = data.gitlab_project.env.id
   key       = "ceph_longhorn_backup_bucket"
-  value     = "${var.env_name}-longhorn-backup-bucket"
+  value     = "${var.env_name}-longhorn-backup"
   protected = false
   masked    = false
 }
@@ -176,7 +176,7 @@ resource "gitlab_project_variable" "ceph_longhorn_backup_bucket" {
 resource "gitlab_project_variable" "ceph_velero_bucket" {
   project   = data.gitlab_project.env.id
   key       = "ceph_velero_bucket"
-  value     = "${var.env_name}-velero-bucket"
+  value     = "${var.env_name}-velero"
   protected = false
   masked    = false
 }
@@ -184,7 +184,7 @@ resource "gitlab_project_variable" "ceph_velero_bucket" {
 resource "gitlab_project_variable" "ceph_percona_bucket" {
   project   = data.gitlab_project.env.id
   key       = "ceph_percona_bucket"
-  value     = "${var.env_name}-percona-bucket"
+  value     = "${var.env_name}-percona"
   protected = false
   masked    = false
 }
