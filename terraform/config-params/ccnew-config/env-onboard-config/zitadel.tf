@@ -278,7 +278,7 @@ resource "gitlab_project_variable" "argocd_user_rbac_group" {
 resource "zitadel_application_oidc" "k8s_cli" {
   project_id                  = zitadel_project.env.id
   org_id                      = local.org_id
-  name                        = "${var.env}-k8s-cli"
+  name                        = "${var.env_name}-k8s-cli"
   redirect_uris               = ["http://localhost:8000"]
   response_types              = ["OIDC_RESPONSE_TYPE_CODE"]
   grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE"]
