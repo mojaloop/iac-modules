@@ -76,6 +76,25 @@ variable "gitlab_admin_group_name" {
   description = "gitlab_admin_group_name"
 }
 
+variable "vault_admin_rbac_group" {
+  type        = string
+  description = "vault_admin_rbac_group"
+}
+
+variable "vault_readonly_rbac_group" {
+  type        = string
+  description = "vault_readonly_rbac_group"
+}
+
+variable "zitadel_project_id" {
+  type        = string
+  description = "zitadel_project_id"
+}
+
+variable "grafana_admin_rbac_group" {
+  type        = string
+  description = "grafana_admin_rbac_group"
+}
 
 variable "external_secret_sync_wave" {
   type        = string

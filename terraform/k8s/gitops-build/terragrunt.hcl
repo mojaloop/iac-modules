@@ -96,6 +96,10 @@ inputs = {
   argocd_ingress_internal_lb               = local.argocd_ingress_internal_lb
   grafana_ingress_internal_lb              = local.grafana_ingress_internal_lb
   vault_ingress_internal_lb                = local.vault_ingress_internal_lb
+  vault_admin_rbac_group                   = local.vault_admin_rbac_group
+  vault_readonly_rbac_group                = local.vault_readonly_rbac_group
+  gitlab_admin_rbac_group                  = local.gitlab_admin_rbac_group
+  zitadel_project_id                       = local.zitadel_project_id
 }
 
 locals {

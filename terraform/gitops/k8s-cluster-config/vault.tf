@@ -31,6 +31,9 @@ module "generate_vault_files" {
     zitadel_server_url                       = var.zitadel_server_url
     gitlab_admin_group_name                  = var.gitlab_admin_group_name
     gitlab_readonly_group_name               = var.gitlab_readonly_group_name
+    vault_admin_rbac_group                   = var.vault_admin_rbac_group
+    vault_readonly_rbac_group                = var.vault_readonly_rbac_group
+    zitadel_project_id                       = var.zitadel_project_id
     enable_vault_oidc                        = var.enable_vault_oidc
     cluster_name                             = var.cluster_name
     transit_vault_url                        = var.transit_vault_url
