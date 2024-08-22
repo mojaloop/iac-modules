@@ -52,6 +52,7 @@ cache:
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+    - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
 
 .source:
   script:
@@ -166,7 +167,7 @@ deploy-infra:
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   artifacts:
     paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
@@ -183,7 +184,7 @@ deploy-managed-srvcs:
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
   artifacts:
     paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
