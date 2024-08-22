@@ -36,7 +36,7 @@ loki_ingester_max_chunk_age: 2h
 prometheus_retention_period: 10d
 tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
-microk8s_version: 1.29/stable
+microk8s_version: 1.30/stable
 alertmanager_enabled: false
 alertmanager_prod_alerts_enabled: false   # if false, alerts are sent to dev alerts slack channel
 alertmanager_slack_integration_enabled: false
