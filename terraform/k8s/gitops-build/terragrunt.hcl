@@ -100,6 +100,7 @@ inputs = {
   vault_readonly_rbac_group                = local.vault_readonly_rbac_group
   gitlab_admin_rbac_group                  = local.gitlab_admin_rbac_group
   zitadel_project_id                       = local.zitadel_project_id
+  grafana_admin_rbac_group                 = local.grafana_admin_rbac_group
 }
 
 locals {
