@@ -42,7 +42,7 @@ data "vault_kv_secret_v2" "grafana_oauth_client_id" {
   name  = "${var.cluster_name}/${var.grafana_oidc_client_id_secret_key}"
 }  
 
-data "vault_kv_secret_v2" "grafana_oauth_client_id" {
+data "vault_kv_secret_v2" "grafana_oauth_client_secret" {
   count = var.enable_grafana_oidc ? 1 : 0  
   mount = var.kv_path
   name  = "${var.cluster_name}/${var.grafana_oidc_client_secret_secret_key}"
