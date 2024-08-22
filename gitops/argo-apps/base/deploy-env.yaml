@@ -89,3 +89,6 @@ spec:
 
         - name: "zitadel_dns_subdomain"
           value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"          
+
+        - name: "kubernetes_oidc_groups_claim"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"

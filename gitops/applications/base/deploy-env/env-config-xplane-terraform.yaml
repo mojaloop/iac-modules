@@ -32,6 +32,8 @@ spec:
         value: "netbird.${ARGOCD_ENV_netbird_dns_subdomain}"
       - key: argocd_namespace
         value: ${ARGOCD_ENV_argocd_namespace}
+      - key: kubernetes_oidc_groups_claim
+        value: ${ARGOCD_ENV_kubernetes_oidc_groups_claim} 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: env-config
