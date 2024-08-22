@@ -1,10 +1,19 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: monitoring/mimir
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"      
+---
 
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
   name: mimir-overview
 spec:
-  folder: monitoring
+  folder: monitoring/mimir
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -15,7 +24,7 @@ kind: GrafanaDashboard
 metadata:
   name: mimir-overview-resources
 spec:
-  folder: monitoring
+  folder: monitoring/mimir
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -26,7 +35,7 @@ kind: GrafanaDashboard
 metadata:
   name: mimir-writes
 spec:
-  folder: monitoring
+  folder: monitoring/mimir
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -37,7 +46,7 @@ kind: GrafanaDashboard
 metadata:
   name: mimir-reads
 spec:
-  folder: monitoring
+  folder: monitoring/mimir
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -48,7 +57,7 @@ kind: GrafanaDashboard
 metadata:
   name: mimir-config
 spec:
-  folder: monitoring
+  folder: monitoring/mimir
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -59,7 +68,7 @@ kind: GrafanaDashboard
 metadata:
   name: mimir-object-store
 spec:
-  folder: monitoring
+  folder: monitoring/mimir
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
