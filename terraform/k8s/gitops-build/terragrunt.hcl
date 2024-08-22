@@ -141,7 +141,8 @@ locals {
   VAULT_GITLAB_ROOT_TOKEN       = get_env("ENV_VAULT_TOKEN")
   TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
-  ceph_fqdn                    = get_env("CEPH_OBJECTSTORE_FQDN")
+  VAULT_ADDR                    = get_env("VAULT_ADDR")
+  ceph_fqdn                     = get_env("CEPH_OBJECTSTORE_FQDN")
   argocd_ingress_internal_lb    = strcontains(try(get_env("argocd_oidc_domain"),"int."),"int.")? true : false
   grafana_ingress_internal_lb   = strcontains(try(get_env("grafana_oidc_domain"),"int."),"int.")? true : false
   vault_ingress_internal_lb     = strcontains(try(get_env("vault_oidc_domain"),"int."),"int.")? true : false
@@ -164,7 +165,7 @@ terraform {
   }
 }
 provider "vault" {
-  address = "${local.VAULT_SERVER_URL}"
+  address = "${local.VAULT_ADDR}"
   token   = "${local.VAULT_GITLAB_ROOT_TOKEN}"
 }
 provider "gitlab" {

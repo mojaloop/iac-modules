@@ -55,7 +55,7 @@ locals {
   GITLAB_SERVER_URL         = get_env("CI_SERVER_URL")
   GITLAB_CURRENT_PROJECT_ID = get_env("GITLAB_CURRENT_PROJECT_ID")
   GITLAB_TOKEN              = get_env("GITLAB_CI_PAT")
-  VAULT_SERVER_URL          = get_env("VAULT_SERVER_URL")
+  VAULT_SERVER_URL          = get_env("VAULT_ADDR")
   ENV_VAULT_TOKEN           = get_env("ENV_VAULT_TOKEN")
   KV_SECRET_PATH            = get_env("KV_SECRET_PATH")
   VAULT_GITLAB_ROOT_TOKEN   = get_env("ENV_VAULT_TOKEN")
