@@ -43,9 +43,9 @@ spec:
       enabled: "${enable_oidc}"
       allow_sign_up: "true"
       scopes: read_api
-      auth_url: ${zitaldel_server_url}/oauth/authorize
-      token_url: ${zitaldel_server_url}/oauth/token
-      api_url: ${zitaldel_server_url}/api/v4
+      auth_url: ${zitadel_server_url}/oauth/authorize
+      token_url: ${zitadel_server_url}/oauth/token
+      api_url: ${zitadel_server_url}/api/v4
       allowed_groups: ${groups}
       client_id: ${client_id}
       client_secret: ${client_secret}
