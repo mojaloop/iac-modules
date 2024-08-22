@@ -153,7 +153,7 @@ account-lookup-service:
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${account_lookup_service_replica_count}
-    config:
+    config: &ALS_CONFIG
       hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
@@ -196,31 +196,7 @@ account-lookup-service:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${account_lookup_service_admin_replica_count}
-    config:
-      hub_participant: *HUB_PARTICIPANT
-      kafka_host: *KAFKA_HOST
-      kafka_port: *KAFKA_PORT
-      db_password: *ALS_DB_PASSWORD
-      db_secret: *ALS_DB_SECRET
-      db_host: *ALS_DB_HOST
-      db_user: *ALS_DB_USER
-      db_port: *ALS_DB_PORT
-      db_database: *ALS_DB_DATABASE
-      endpointSecurity: *ENDPOINT_SECURITY
-    # Thirdparty API Config
-      featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
-      central_shared_end_point_cache:
-        expiresIn: 180000
-        generateTimeout: 30000
-        getDecoratedValue: true
-      central_shared_participant_cache:
-        expiresIn: 61000
-        generateTimeout: 30000
-        getDecoratedValue: true
-      general_cache:
-        enabled: true
-        maxByteSize: 10000000
-        expiresIn: 61000
+    config: *ALS_CONFIG
     ingress:
 # %{ if istio_create_ingress_gateways }
       enabled: false
@@ -234,6 +210,25 @@ account-lookup-service:
         prefix: *ALS_MONITORING_PREFIX
   als-oracle-pathfinder:
     enabled: false
+  account-lookup-service-handler-timeout:
+# %{ if account_lookup_admin_service_affinity != null }
+    affinity:
+      ${indent(8, account_lookup_admin_service_affinity)}
+# %{ endif }
+    tolerations: *MOJALOOP_TOLERATIONS
+    replicaCount: 1 # timeout handler is designed to run as a single instance
+    config: *ALS_CONFIG
+    ingress:
+# %{ if istio_create_ingress_gateways }
+      enabled: false
+# %{ else }
+      enabled: true
+# %{ endif }
+      className: *INGRESS_CLASS
+      hostname: account-lookup-service-timeout.${ingress_subdomain}
+    metrics:
+      config:
+        prefix: *ALS_MONITORING_PREFIX
 
 quoting-service:
   quoting-service:
