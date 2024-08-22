@@ -60,7 +60,7 @@ resource "gitlab_group_variable" "nexus_fqdn" {
   environment_scope = "*"
 }
 
-resource "gitlab_group_variable" "nexus_fqdn" {
+resource "gitlab_group_variable" "zitadel_fqdn" {
   group             = data.gitlab_group.iac.id
   key               = "ZITADEL_FQDN"
   value             = var.zitadel_fqdn
