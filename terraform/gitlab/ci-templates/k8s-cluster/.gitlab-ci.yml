@@ -231,7 +231,8 @@ refresh-deploy-infra:
       aud: $VAULT_SERVER_URL
   script:
     - !reference [.source, script]
-    - .gitlab/scripts/refresh-work.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
+    - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag [skip-ci]
+    - git checkout "$CI_COMMIT_REF_NAME" && git pull
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
