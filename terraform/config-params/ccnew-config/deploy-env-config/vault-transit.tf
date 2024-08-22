@@ -30,6 +30,10 @@ path "${var.kv_path}/data/tenancy/*" {
   capabilities = ["read", "list"]
 }
 
+path "${var.kv_path}/data/gitlab/*" {
+  capabilities = ["read", "list"]
+}
+
 path "auth/token/*" {
     capabilities = ["read","create","update"]
 }
