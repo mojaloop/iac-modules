@@ -16,8 +16,8 @@ module "generate_monitoring_files" {
     gitlab_server_url                      = var.gitlab_server_url
     gitlab_project_url                     = var.gitlab_project_url
     public_subdomain                       = var.public_subdomain
-    client_id                              = try(data.vault_generic_secret.grafana_oauth_client_id[0].data.value, "")
-    client_secret                          = try(data.vault_generic_secret.grafana_oauth_client_secret[0].data.value, "")
+    client_id                              = try(data.vault_kv_secret_v2.grafana_oauth_client_id[0].data.value, "")
+    client_secret                          = try(data.vault_kv_secret_v2.grafana_oauth_client_secret[0].data.value, "")
     enable_oidc                            = var.enable_grafana_oidc
     storage_class_name                     = var.storage_class_name
     groups                                 = var.gitlab_admin_group_name
