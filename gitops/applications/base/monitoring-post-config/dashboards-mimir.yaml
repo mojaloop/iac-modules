@@ -140,3 +140,47 @@ spec:
       dashboards: "grafana"
   url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-object-store.json"
 ---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-rollout-progress
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-rollout-progress.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-scaling
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-scaling.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-slow-queries
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-slow-queries.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-tenants
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-tenants.json"
+---
