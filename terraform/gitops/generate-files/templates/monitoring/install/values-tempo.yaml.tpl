@@ -97,10 +97,11 @@ tempo:
         wal:
           path: {{ .Values.tempo.dataDir }}/wal
         s3:
-          forcepathstyle: true
+          forcepathstyle: false
           endpoint: ${ceph_api_url}
           insecure: false
-          bucket: ${ceph_tempo_bucket}   
+          bucket: ${ceph_tempo_bucket}
+          region: us-east-1   
 
 
 compactor:
