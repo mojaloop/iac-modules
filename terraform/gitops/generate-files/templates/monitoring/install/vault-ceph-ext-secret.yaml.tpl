@@ -49,13 +49,13 @@ spec:
 
   data:
   # https://grafana.com/docs/tempo/latest/configuration/hosted-storage/s3/#amazon-s3-permissions
-    - secretKey: CEPH_ACCESS_KEY
+    - secretKey: MINIO_ACCESS_KEY
       remoteRef: 
         conversionStrategy: Default	
         decodingStrategy: None	
         key: ${ceph_tempo_user_key}
         property: value 
-    - secretKey: CEPH_SECRET_KEY
+    - secretKey: MINIO_SECRET_KEY
       remoteRef: 
         conversionStrategy: Default	
         decodingStrategy: None	      

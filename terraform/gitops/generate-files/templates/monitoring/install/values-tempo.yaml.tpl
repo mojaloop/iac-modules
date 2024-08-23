@@ -102,8 +102,8 @@ tempo:
           insecure: false
           bucket: ${ceph_tempo_bucket}
           region: us-east-1
-          access_key_id: $${CEPH_ACCESS_KEY}
-          secret_access_key: $${CEPH_SECRET_KEY}            
+          access_key: $${CEPH_ACCESS_KEY}
+          secret_key: $${CEPH_SECRET_KEY}          
 
 
 compactor:
