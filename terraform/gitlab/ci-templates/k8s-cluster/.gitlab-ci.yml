@@ -24,6 +24,7 @@ stages:
   - deploy-cluster
   - refresh-templates
   - cleanup
+  - auto-run
 
 variables:
   IMAGE_TAG: latest
@@ -170,9 +171,7 @@ deploy-infra:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy.*/
-    - when: manual
+  when: manual
 
 deploy-managed-srvcs:
   extends: .terraform:deploy
@@ -223,3 +222,26 @@ apps:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
+
+refresh-deploy-infra:
+  extends: .terraform:deploy
+  stage: auto-run
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  script:
+    - !reference [.source, script]
+    - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
+    - git checkout "$CI_COMMIT_REF_NAME" && git pull
+    - !reference [.source, script]
+    - terragrunt run-all apply --terragrunt-non-interactive -input=false
+    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
+  artifacts:
+    paths:
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
+    when: always
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy.*/
+    - when: manual

@@ -4,7 +4,7 @@ CONFIG_FILE="submodules.yaml"
 
 if [ ! -f "$CONFIG_FILE" ]; then
   git submodule update --remote
-  exit 1
+  exit 0
 fi
 
 readarray submodules < <(yq -o=j -I=0 eval 'to_entries | .[]' $CONFIG_FILE)

@@ -1,3 +1,4 @@
+set -e
 CURRENT_ENV_NAME=$1
 TMP_GIT_REPO=$2
 TMP_TEMPLATE_DIR=$3
@@ -14,7 +15,7 @@ fi
 
 mkdir -p $TMP_GIT_REPO
 git clone ${TEMPLATE_REPO_URL} $TMP_GIT_REPO
-cd $TMP_GIT_REPO && git checkout ${IAC_MODULES_TAG} && git pull
+cd $TMP_GIT_REPO && git checkout ${IAC_MODULES_TAG} && (git pull || true)
 mkdir -p $TMP_TEMPLATE_DIR/${CURRENT_ENV_NAME}
 cp -r ${CI_TEMPLATE_PATH}/. ${K8S_TEMPLATE_PATH}/. $TMP_TEMPLATE_DIR/${CURRENT_ENV_NAME}
 TMP_REPO_DIR=/tmp/gitclone${CURRENT_ENV_NAME}
