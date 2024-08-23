@@ -17,7 +17,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-overview.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-overview.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -28,7 +28,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-overview-networking.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-overview-networking.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -39,7 +39,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-overview-resources.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-overview-resources.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -50,7 +50,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-queries.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-queries.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -61,7 +61,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-reads.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-reads.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -72,7 +72,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-reads-networking.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-reads-networking.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -83,7 +83,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-reads-resources.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-reads-resources.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -94,7 +94,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-writes.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-writes.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -105,7 +105,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-writes-networking.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-writes-networking.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -116,7 +116,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-writes-resources.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-writes-resources.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -127,7 +127,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-compactor.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-compactor.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -138,7 +138,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-object-store.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-object-store.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -149,7 +149,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-rollout-progress.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-rollout-progress.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -160,7 +160,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-scaling.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-scaling.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -171,7 +171,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-slow-queries.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-slow-queries.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -182,5 +182,5 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/vexp-cck8envrefactor45/monitoring-mixin/build/mimir-tenants.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-tenants.json"
 ---
