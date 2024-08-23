@@ -39,7 +39,7 @@ spec:
     server:
       domain: "${grafana_subdomain}"
       root_url: https://grafana.${grafana_subdomain}
-    auth.zitadel:
+    auth.generic_oauth:
       name: "Zitadel"
       enabled: "${enable_oidc}"
       allow_sign_up: "true"
