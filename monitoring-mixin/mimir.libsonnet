@@ -47,6 +47,8 @@ local config =  mimir._config + {
     },
 
   container_names+: {
+    distributor: "grafana-mimir-distributor",
+    ingester: "grafana-mimir-ingester",
     // Need to over-ride because unfortunately bitnami chart is not following container names as per convention
     write: "grafana-mimir-distributor|grafana-mimir-ingester"
   }
