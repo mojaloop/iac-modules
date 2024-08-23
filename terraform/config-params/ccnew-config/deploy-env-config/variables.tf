@@ -84,3 +84,7 @@ variable "argocd_namespace" {
 variable "kubernetes_oidc_groups_claim" {
   description = "value to use for oidc k8s group claim"
 }
+
+variable "mimir_gw_fqdn" {
+  description = "fqdn for mimir gateway"
+}

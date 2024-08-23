@@ -18,6 +18,8 @@ spec:
         value: nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}
       - key: ceph_obj_store_gw_fqdn
         value: rook-ceph-bucket.${ARGOCD_ENV_ceph_dns_subdomain}
+      - key: mimir_gw_fqdn
+        value: "https://mimir.${ARGOCD_ENV_grafana_dns_subdomain}"
       - key: environment_list
         value: ${ARGOCD_ENV_environment_list}
       - key: storage_class

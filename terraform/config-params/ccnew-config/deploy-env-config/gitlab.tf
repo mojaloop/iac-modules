@@ -212,3 +212,12 @@ resource "gitlab_group_variable" "kubernetes_oidc_groups_claim" {
   masked            = false
   environment_scope = "*"
 }
+
+resource "gitlab_group_variable" "mimir_gw_fqdn" {
+  group             = data.gitlab_group.iac.id
+  key               = "MIMIR_GW_FQDN"
+  value             = var.mimir_gw_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
