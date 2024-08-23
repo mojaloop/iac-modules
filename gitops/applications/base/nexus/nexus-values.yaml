@@ -105,7 +105,7 @@ persistence:
   # existingClaim: existing-pvc
   accessMode: ReadWriteOnce
   storageClass: "-"
-  size: 8Gi
+  size: 100Gi
 
 extraVolumeMounts: []
 
