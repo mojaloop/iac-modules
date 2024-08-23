@@ -12,3 +12,6 @@ brew install jsonnet
 ```
 bash build.sh
 ```
+
+# Mixin learning resources
+- https://www.youtube.com/watch?v=GDdnL5R_l-Y
