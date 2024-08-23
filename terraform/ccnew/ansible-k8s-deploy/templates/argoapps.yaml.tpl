@@ -98,6 +98,7 @@ argocd_override:
         nexus:
           helm_version: "${nexus_helm_version}"
           public_ingress_access_domain: "${nexus_public_access}"
+          storage_size: ${nexus_storage_size}
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
 

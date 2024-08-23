@@ -56,3 +56,6 @@ spec:
 
         - name: "nexus_dns_subdomain"
           value: "${ARGOCD_ENV_nexus_nexus_dns_subdomain}"
+
+        - name: "nexus_storage_size"
+          value: "${ARGOCD_ENV_nexus_nexus_storage_size}"          

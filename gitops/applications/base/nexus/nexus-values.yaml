@@ -105,7 +105,7 @@ persistence:
   # existingClaim: existing-pvc
   accessMode: ReadWriteOnce
   storageClass: "-"
-  size: 100Gi
+  size: ${ARGOCD_ENV_nexus_storage_size}
 
 extraVolumeMounts: []
 

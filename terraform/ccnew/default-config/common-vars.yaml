@@ -40,6 +40,7 @@ vault_public_access: false
 netbird_public_access: true
 netbird_log_level: info
 nexus_public_access: false
+nexus_storage_size: 100Gi
 zitadel_public_access: true
 consul_storage_size: "3Gi"
 consul_replica_count: 1
