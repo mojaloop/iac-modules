@@ -27,6 +27,6 @@ cp -r $TMP_TEMPLATE_DIR/${CURRENT_ENV_NAME}/. .
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
 git add .
-git commit -m "refreshing templates from release ${IAC_MODULES_TAG} to project"
+git diff --cached --exit-code || git commit -m "refreshing templates from release ${IAC_MODULES_TAG} to project"
 git push
 rm -rf $TMP_REPO_DIR

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 CONFIG_FILE="submodules.yaml"
 
 if [ ! -f "$CONFIG_FILE" ]; then

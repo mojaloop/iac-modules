@@ -1,3 +1,4 @@
+set -e
 CURRENT_PROJECT_FULL_PATH=$1
 GIT_HOST=$2
 BRANCH=$3
@@ -14,6 +15,6 @@ cp -r $SRC_DIR/. $DEST_DIR_NAME/
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
 git add $DEST_DIR_NAME/.
-git commit -m "update generated configs to project"
+git diff --cached --exit-code || git commit -m "update generated configs to project"
 git push
 rm -rf $TMP_REPO_DIR
