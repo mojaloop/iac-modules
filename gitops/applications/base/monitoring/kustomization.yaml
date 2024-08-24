@@ -15,7 +15,8 @@ helmCharts:
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: grafana-loki
     releaseName: control-center-loki
-    version: ${ARGOCD_ENV_ctrl_cntr_loki_helm_version}
+    # version: ${ARGOCD_ENV_ctrl_cntr_loki_helm_version}
+    version: '2.13.0'
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesFile: values-loki.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
