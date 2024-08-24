@@ -116,7 +116,7 @@ resource "local_file" "percona-crs" {
 
       ceph_percona_backup_bucket = var.ceph_percona_backup_bucket
       ceph_percona_secret        = "percona-backups-secret"
-      ceph_api_url               = "https://${var.ceph_api_url}"
+      ceph_api_url               = "${var.ceph_api_url}"
       backupSchedule              = each.value.backup_schedule
       backupStorageName           = "${each.key}-backup-storage"
 
