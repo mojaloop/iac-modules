@@ -17,5 +17,6 @@ spec:
       containers:
       - name: s5cmd
         image: peakcom/s5cmd:latest
+        command: ["/bin/sh", "sleep", "10h"]
         ports:
         - containerPort: 80
