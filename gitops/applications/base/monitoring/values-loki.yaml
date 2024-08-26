@@ -33,6 +33,7 @@ metrics:
   enabled: true
   serviceMonitor:
     enabled: true
+    jobLabel: 'app.kubernetes.io/component'
     relabelings:
     - sourceLabels: [namespace,job]
       separator: /
@@ -40,6 +41,12 @@ metrics:
       targetLabel: job
       replacement: $${1}
       action: replace
+    - sourceLabels: [job,__meta_kubernetes_endpoints_label_app_kubernetes_io_instance]
+      separator: -
+      regex: (.*)
+      targetLabel: job
+      replacement: $${1}
+      action: replace      
 
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
