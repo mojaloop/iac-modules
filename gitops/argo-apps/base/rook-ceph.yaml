@@ -62,5 +62,6 @@ spec:
             interval: 60s
           cephClusterSpec:
             dashboard:
-              prometheusEndpoint: http://central-monitoring-grafana-mimir-gateway.monitoring.svc.cluster.local/prometheus
+              # prometheusEndpoint: http://central-monitoring-grafana-mimir-gateway.monitoring.svc.cluster.local/prometheus
+              prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
 
