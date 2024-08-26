@@ -9,6 +9,7 @@ module "generate_nginx_jwt_files" {
     nginx_jwt_helm_chart_version  = var.nginx_jwt_helm_chart_version
     nginx_jwt_namespace           = var.nginx_jwt_namespace
     istio_create_ingress_gateways = var.istio_create_ingress_gateways
+    istio_authorization_enabled   = var.istio_authorization_enabled
   }
   file_list       = ["kustomization.yaml", "values-nginx-jwt.yaml"]
   template_path   = "${path.module}/../generate-files/templates/nginx-jwt"

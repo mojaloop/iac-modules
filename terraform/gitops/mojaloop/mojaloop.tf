@@ -33,6 +33,7 @@ module "generate_mojaloop_files" {
     nginx_jwt_namespace                                               = var.nginx_jwt_namespace
     ingress_class_name                                                = try(var.app_var_map.mojaloop_ingress_internal_lb, true) ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways                                     = var.istio_create_ingress_gateways
+    istio_authorization_enabled                                       = var.istio_authorization_enabled
     istio_external_gateway_name                                       = var.istio_external_gateway_name
     external_load_balancer_dns                                        = var.external_load_balancer_dns
     istio_internal_wildcard_gateway_name                              = var.istio_internal_wildcard_gateway_name

@@ -1,0 +1,115 @@
+1. account-lookup-service
+    a) account-lookup-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-redis-leader:6379
+    c) mojaloop-redis
+    d) http://moja-centralledger-service:80
+1.5 account-lookup-service-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+2. account-lookup-service-admin
+    a) account-lookup-db-svc.stateful-resources.svc.cluster.local:3306
+    b) http://moja-centralledger-service:80
+3. centralledger-handler-admin-transfer
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+4. centralledger-handler-timeout
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+4.5 centralledger-handler-timeout-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+5. centralledger-handler-transfer-fulfil
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+5.5 centralledger-handler-transfer-fulfil-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+6. centralledger-handler-transfer-get
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+6.5 centralledger-handler-transfer-get-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+7. centralledger-handler-transfer-position
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+7.5 centralledger-handler-transfer-position-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+8. centralledger-handler-transfer-prepare
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+8.5 centralledger-handler-transfer-prepare-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+9. centralledger-service
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+10. centralsettlement-handler-deferredsettlement
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+10.5 centralsettlement-handler-deferredsettlement-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+11. centralsettlement-handler-rules
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+12. centralsettlement-service
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+12.5 centralsettlement-service-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+13. handler-pos-batch
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+13.5 handler-pos-batch-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+14. ml-api-adapter-handler-notification
+    a) http://moja-centralledger-service:80
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+14.5 ml-api-adapter-handler-notification-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+15. ml-api-adapter-service
+    a) http://moja-centralledger-service:80
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+15.5 ml-api-adapter-service-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+16. ml-testing-toolkit-backend-0 
+    whole app??? INVESTIGATE
+17. ml-testing-toolkit-frontend
+    a) ml-testing-toolkit-backend
+18. quoting-service
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+18.5 quoting-service-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+19. quoting-service-handler
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local:3306
+    b) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+    c) mojaloop-redis-leader
+19.5 quoting-service-handler-sidecar
+    a) mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+20. moja-simulator
+    a) http://moja-ml-api-adapter-service
+    b) http://moja-bulk-api-adapter-service
+    c) http://moja-transaction-requests-service
+    d) http://moja-account-lookup-service
+    e) http://moja-quoting-service
+21. moja-transaction-requests-service
+    a) http://moja-centralledger-service:80
+22. mojaloop-kafka-cruise-control
+23. mojaloop-kafka-entity-operator
+24. mojaloop-kafka-kafka-exporter
+25. mojaloop-kafka-mojaloop-kafka-nodepool
+26. mojaloop-redis-follower
+27. mojaloop-redis-leader
+28. mongodb-bulk-mongodb
+29. mongodb-reporting-events-mongodb
+30. mongodb-ttk-mongodb
+31. redis-ttk-redis-master

@@ -123,6 +123,12 @@ variable "istio_create_ingress_gateways" {
   default     = true
 }
 
+variable "istio_authorization_enabled" {
+  type        = bool
+  description = "should istio authorization be enabled"
+  default     = true
+}
+
 variable "istio_egress_gateway_name" {
   type        = string
   description = "istio_egress_gateway_name"

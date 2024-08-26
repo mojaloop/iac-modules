@@ -1,0 +1,52 @@
+1. reporting-events-processor-svc
+    a)mongodb-reporting-events-mongodb.stateful-resources.svc.cluster.local:27017
+    b)mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+2. reporting-hub-bop-api-svc
+    a)central-ledger-db-svc.stateful-resources.svc.cluster.local
+    b)mongodb-reporting-events-mongodb.stateful-resources.svc.cluster.local
+    c)"CORS_WHITELIST": [                                                                                                                                                                                          │
+│     "http://reporting-hub-bop-shell.local",                                                                                                                                                                    │
+│     "http://reporting-hub-bop-settlements-ui.local",                                                                                                                                                           │
+│     "http://reporting-hub-bop-positions-ui.local"                                                                                                                                                              │
+│   ]
+3. reporting-hub-bop-experience-api-svc
+    a)http://moja-centralledger-service:80
+    b)http://moja-centralsettlement-service:80
+    c)"CORS_WHITELIST": [                                                                                                                                                                                          │
+│     "http://reporting-hub-bop-shell.local",                                                                                                                                                                    │
+│     "http://reporting-hub-bop-settlements-ui.local",                                                                                                                                                           │
+│     "http://reporting-hub-bop-positions-ui.local"                                                                                                                                                              │
+│   ]
+3.5 fin-portal-reporting-hub-bop-experience-api-svc-sidecar
+    a)mojaloop-kafka-svc.stateful-resources.svc.cluster.local:9092
+4. reporting-hub-bop-positions-ui
+    0) ASK DEV TEAM
+    a)http://moja-centralledger-service:80
+5. reporting-hub-bop-role-ui
+    a) ASK DEV TEAM
+6. reporting-hub-bop-settlements-ui
+    a)https://finance-portal.int.dev.devbaremetal.moja-onprem.net/api/central-admin
+    b)https://finance-portal.int.dev.devbaremetal.moja-onprem.net/api/central-settlements
+    c)https://finance-portal.int.dev.devbaremetal.moja-onprem.net/api/transfers
+7. reporting-hub-bop-shell
+    a) https://finance-portal.int.dev.devbaremetal.moja-onprem.net/uis/transfers
+    b) https://finance-portal.int.dev.devbaremetal.moja-onprem.net/uis/settlements
+    c) https://finance-portal.int.dev.devbaremetal.moja-onprem.net/uis/positions
+    d) logout redirects to keycloak.dev.devbaremetal.moja-onprem.net
+    e) https://finance-portal.int.dev.devbaremetal.moja-onprem.net/uis/iam
+    f) login: https://auth.dev.devbaremetal.moja-onprem.net/kratos/self-service/login/browser
+8. reporting-hub-bop-trx-ui
+    a) https://finance-portal.int.dev.devbaremetal.moja-onprem.net/api/transfers
+9. reporting-legacy-api
+    a) central-ledger-db-svc.stateful-resources.svc.cluster.local
+10. role-assignment-service
+    a) http://moja-centralledger-service:80
+    b) "CORS_WHITELIST": [                                                                                                                                                                                          │
+│     "http://reporting-hub-bop-shell.local",                                                                                                                                                                    │
+│     "http://reporting-hub-bop-role-ui.local"                                                                                                                                                                   │
+│   ]
+    c) https://keycloak.dev.devbaremetal.moja-onprem.net
+    d) http://keto-read.ory.svc.cluster.local:80
+    e) http://keto-write.ory.svc.cluster.local:80
+    f) http://bof-security-role-perm-operator-svc.ory.svc.cluster.local:80
+    

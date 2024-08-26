@@ -33,6 +33,7 @@ module "generate_monitoring_files" {
     monitoring_post_config_sync_wave       = var.monitoring_post_config_sync_wave
     ingress_class                          = var.grafana_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways          = var.istio_create_ingress_gateways
+    istio_authorization_enabled            = var.istio_authorization_enabled
     loki_ingester_pvc_size                 = try(var.common_var_map.loki_ingester_pvc_size, local.loki_ingester_pvc_size)
     prometheus_pvc_size                    = try(var.common_var_map.prometheus_pvc_size, local.prometheus_pvc_size)
     loki_retention_enabled                 = try(var.common_var_map.loki_retention_enabled, local.loki_retention_enabled)

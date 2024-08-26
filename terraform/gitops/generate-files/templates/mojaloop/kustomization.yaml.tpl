@@ -4,6 +4,7 @@ resources:
   - ext-ingress.yaml
   - grafana.yaml
   - istio-config.yaml
+  - istio-authorization-policies.yaml
   - service-monitors.yaml
   - vault-secret.yaml
   - switch-jws-deployment.yaml

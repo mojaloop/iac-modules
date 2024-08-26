@@ -1,0 +1,240 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    checksum/config: b92aa24033fd3ad4017817ed03274b922b99ee39acd2e223db68da25d11d1408
+    cni.projectcalico.org/containerID: e980146395aca50e55e953548b380d27f944d1140a177500bd586c1b35d41ddc
+    cni.projectcalico.org/podIP: 10.1.38.49/32
+    cni.projectcalico.org/podIPs: 10.1.38.49/32
+    prometheus.io/port: "8444"
+    prometheus.io/scrape: "true"
+  creationTimestamp: "2024-07-25T18:45:29Z"
+  generateName: moja-simulator-7d99d87f4c-
+  labels:
+    app.kubernetes.io/instance: moja
+    app.kubernetes.io/name: simulator
+    pod-template-hash: 7d99d87f4c
+  name: moja-simulator-7d99d87f4c-ftwkt
+  namespace: mojaloop
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: moja-simulator-7d99d87f4c
+    uid: 48149fd5-f3fe-4700-b13a-e7bab3ce9c5d
+  resourceVersion: "27134263"
+  uid: 429139f8-6f25-4464-9aad-3736f17823cb
+spec:
+  containers:
+  - command:
+    - node
+    - src/index.js
+    env:
+    - name: LOG_LEVEL
+      valueFrom:
+        configMapKeyRef:
+          key: LOG_LEVEL
+          name: moja-simulator-config
+    - name: PARTIES_ENDPOINT
+      valueFrom:
+        configMapKeyRef:
+          key: PARTIES_ENDPOINT
+          name: moja-simulator-config
+    - name: QUOTES_ENDPOINT
+      valueFrom:
+        configMapKeyRef:
+          key: QUOTES_ENDPOINT
+          name: moja-simulator-config
+    - name: TRANSFERS_ENDPOINT
+      valueFrom:
+        configMapKeyRef:
+          key: TRANSFERS_ENDPOINT
+          name: moja-simulator-config
+    - name: BULK_TRANSFERS_ENDPOINT
+      valueFrom:
+        configMapKeyRef:
+          key: BULK_TRANSFERS_ENDPOINT
+          name: moja-simulator-config
+    - name: TRANSACTION_REQUESTS_ENDPOINT
+      valueFrom:
+        configMapKeyRef:
+          key: TRANSACTION_REQUESTS_ENDPOINT
+          name: moja-simulator-config
+    - name: TRANSFERS_FULFIL_RESPONSE_DISABLED
+      valueFrom:
+        configMapKeyRef:
+          key: TRANSFERS_FULFIL_RESPONSE_DISABLED
+          name: moja-simulator-config
+    - name: TRANSFERS_FULFILMENT
+      valueFrom:
+        configMapKeyRef:
+          key: TRANSFERS_FULFILMENT
+          name: moja-simulator-config
+    - name: TRANSFERS_CONDITION
+      valueFrom:
+        configMapKeyRef:
+          key: TRANSFERS_CONDITION
+          name: moja-simulator-config
+    - name: TRANSFERS_ILPPACKET
+      valueFrom:
+        configMapKeyRef:
+          key: TRANSFERS_ILPPACKET
+          name: moja-simulator-config
+    - name: MOCK_JWS_SIGNATURE
+      valueFrom:
+        configMapKeyRef:
+          key: MOCK_JWS_SIGNATURE
+          name: moja-simulator-config
+    - name: METRICS_DISABLED
+      valueFrom:
+        configMapKeyRef:
+          key: METRICS_DISABLED
+          name: moja-simulator-config
+    - name: METRICS_PREFIX
+      valueFrom:
+        configMapKeyRef:
+          key: METRICS_PREFIX
+          name: moja-simulator-config
+    - name: METRICS_TIMEOUT
+      valueFrom:
+        configMapKeyRef:
+          key: METRICS_TIMEOUT
+          name: moja-simulator-config
+    - name: METRICS_SERVICENAME
+      valueFrom:
+        configMapKeyRef:
+          key: METRICS_SERVICENAME
+          name: moja-simulator-config
+    - name: EVENT_SDK_VENDOR_PREFIX
+      value: mojasim
+    - name: EVENT_SDK_TRACESTATE_HEADER_ENABLED
+      value: "false"
+    - name: EVENT_SDK_ASYNC_OVERRIDE_EVENTS
+      value: log,trace
+    - name: EVENT_SDK_TRACEID_PER_VENDOR
+      value: "false"
+    - name: EVENT_SDK_LOG_FILTER
+      value: audit:*, log:warn, log:error
+    image: mojaloop/simulator:v12.3.0-snapshot.3
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /health
+        port: 8444
+        scheme: HTTP
+      initialDelaySeconds: 5
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 1
+    name: simulator
+    ports:
+    - containerPort: 8444
+      name: http
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /health
+        port: 8444
+        scheme: HTTP
+      initialDelaySeconds: 5
+      periodSeconds: 15
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources: {}
+    securityContext:
+      runAsUser: 1001
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-x6qjs
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: pve05-dev-master-1
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoSchedule
+    key: moja-enabled
+    operator: Equal
+    value: "true"
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-x6qjs
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2024-07-25T18:45:31Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2024-07-25T18:45:29Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2024-08-15T09:33:42Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2024-08-15T09:33:42Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2024-07-25T18:45:29Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://eef39774afe2d507f992d925ff20247108e558d24eefaaf6c3317d52af35ea93
+    image: docker.io/mojaloop/simulator:v12.3.0-snapshot.3
+    imageID: docker.io/mojaloop/simulator@sha256:50f5c76e4a3099e21404c4d56cf3c5dc5083f59857340d69b47513746c94f1cb
+    lastState: {}
+    name: simulator
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2024-07-25T18:45:30Z"
+  hostIP: 10.10.200.82
+  hostIPs:
+  - ip: 10.10.200.82
+  phase: Running
+  podIP: 10.1.38.49
+  podIPs:
+  - ip: 10.1.38.49
+  qosClass: BestEffort
+  startTime: "2024-07-25T18:45:29Z"

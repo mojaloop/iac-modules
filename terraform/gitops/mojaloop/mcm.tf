@@ -36,6 +36,7 @@ module "generate_mcm_files" {
     mcm_sync_wave                        = var.mcm_sync_wave
     ingress_class                        = try(var.app_var_map.mcm_ingress_internal_lb, false) ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
+    istio_authorization_enabled          = var.istio_authorization_enabled
     pki_path                             = var.vault_root_ca_name
     dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
     dfsp_internal_whitelist_secret       = local.dfsp_internal_whitelist_secret
