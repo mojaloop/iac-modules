@@ -33,6 +33,13 @@ metrics:
   enabled: true
   serviceMonitor:
     enabled: true
+    relabelings:
+    - sourceLabels: [namespace,job]
+      separator: /
+      regex: (.*)
+      targetLabel: job
+      replacement: $${1}
+      action: replace
 
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
