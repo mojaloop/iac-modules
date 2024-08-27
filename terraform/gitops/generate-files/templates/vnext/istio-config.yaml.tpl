@@ -35,9 +35,9 @@ spec:
   action: DENY
 %{ endif ~}
   rules:
-    - when:
-        - key: connection.sni
-          values: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
+    - to:
+        - operation:
+            hosts: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
 %{ if !fspiop_use_ory_for_auth ~}
       from:
         - source:

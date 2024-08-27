@@ -8,6 +8,8 @@ loki:
       retention_period: ${loki_ingester_retention_period}
     ingester: 
       max_chunk_age: ${loki_ingester_max_chunk_age}
+    query_scheduler:
+      max_outstanding_requests_per_tenant: 2048
     schema_config:
       configs:
       - from: 2020-10-24

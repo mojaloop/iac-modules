@@ -235,18 +235,44 @@ spec:
 
               unzip -d tmp_test_cases -o downloaded-test-collections.zip;
 
-              npm run cli -- \
-                -c cli-add-dfsp-config.json \
-                -e cli-add-dfsp-environment.json \
-                -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning_dfsp \
-                -u http://moja-ml-testing-toolkit-backend:5050 \
-                --report-format html \
-                --report-auto-filename-enable true \
-                --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${ttk_backend_fqdn}" \
-                --save-report true \
-                --report-name standard_provisioning_collection \
-                --save-report-base-url https://${ttk_backend_fqdn};
-              export TEST_RUNNER_EXIT_CODE="$?";
+              fxp_currencies="{{ .Data.fxpCurrencies }}"
+
+              if [ -z "$fxp_currencies" ]; then
+
+                npm run cli -- \
+                  -c cli-add-dfsp-config.json \
+                  -e cli-add-dfsp-environment.json \
+                  -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning_dfsp \
+                  -u http://moja-ml-testing-toolkit-backend:5050 \
+                  --report-format html \
+                  --report-auto-filename-enable true \
+                  --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${ttk_backend_fqdn}" \
+                  --save-report true \
+                  --report-name standard_provisioning_collection \
+                  --save-report-base-url https://${ttk_backend_fqdn};
+                export TEST_RUNNER_EXIT_CODE="$?";
+
+              else
+
+                for fxp_currency in $fxp_currencies; do
+                  echo "Onboarding FXP currency $fxp_currency"
+                  node -e "const x=require('./cli-add-dfsp-environment.json');x.inputValues.fxpCurrency='$fxp_currency';console.log(JSON.stringify(x))" > fxp.json
+                  npm run cli -- \
+                    -c cli-add-dfsp-config.json \
+                    -e fxp.json \
+                    -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning_fxp \
+                    -u http://moja-ml-testing-toolkit-backend:5050 \
+                    --report-format html \
+                    --report-auto-filename-enable true \
+                    --extra-summary-information="Test Suite:Provisioning FXP currency $fxp_currency,Environment:${ttk_backend_fqdn}" \
+                    --save-report true \
+                    --report-name standard_provisioning_collection \
+                    --save-report-base-url https://${ttk_backend_fqdn};
+                  export TEST_RUNNER_EXIT_CODE="$?";
+                  if [ "$TEST_RUNNER_EXIT_CODE" -ne 0 ]; then break; fi;
+                done;
+
+              fi
 
               echo "Test Runner finished with exit code:
               $TEST_RUNNER_EXIT_CODE";
@@ -296,9 +322,9 @@ spec:
   - from:
       - source:
           notRemoteIpBlocks: [ {{ with secret "${dfsp_external_whitelist_secret}" }}{{ range $k, $v := .Data }}"{{ $v }}",{{ end }}{{ end }}{{ with secret "${dfsp_internal_whitelist_secret}" }}{{ range $k, $v := .Data }}"{{ $v }}",{{ end }}{{ end }}"${private_network_cidr}" ]
-    when:
-      - key: connection.sni
-        values: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
+    to:
+      - operation:
+          hosts: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
   EOH
   destination = "/vault/secrets/tmp/whitelist.yaml"
   command     = "kubectl -n ${istio_external_gateway_namespace} apply -f /vault/secrets/tmp/whitelist.yaml"

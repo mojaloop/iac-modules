@@ -85,6 +85,11 @@ spec:
     access: proxy
     url: http://${loki_release_name}-grafana-loki-gateway
     jsonData:
+      derivedFields:
+        - datasourceUid: Tempo
+          matcherRegex: ((\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+))
+          name: traceid
+          url: '$${__value.raw}'
       httpHeaderName1: 'X-Scope-OrgID'
     secureJsonData:
       httpHeaderValue1: '1'
@@ -105,6 +110,29 @@ spec:
     access: proxy
     url: http://tempo-grafana-tempo-query-frontend:3200
     jsonData:
+      tracesToLogsV2:
+        datasourceUid: 'Loki'
+        spanStartTimeShift: '1h'
+        spanEndTimeShift: '-1h'
+        tags: ['job', 'instance', 'pod', 'namespace']
+        filterByTraceID: false
+        filterBySpanID: false
+        customQuery: true
+      serviceMap:
+        datasourceUid: 'Prometheus'
+      nodeGraph:
+        enabled: true
+      search:
+        hide: false
+      lokiSearch:
+        datasourceUid: 'Loki'
+      traceQuery:
+        timeShiftEnabled: true
+        spanStartTimeShift: '1h'
+        spanEndTimeShift: '-1h'
+      spanBar:
+        type: 'Tag'
+        tag: 'http.path'
       httpHeaderName1: 'X-Scope-OrgID'
     secureJsonData:
       httpHeaderValue1: 'single-tenant'
