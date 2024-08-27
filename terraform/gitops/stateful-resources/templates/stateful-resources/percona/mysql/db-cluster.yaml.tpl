@@ -750,7 +750,7 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        AWS_ENDPOINTS: "https://${ceph_api_url}"
+        AWS_ENDPOINTS: ${ceph_api_url}
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
 
