@@ -80,3 +80,8 @@ variable "vault_root_token_key" {
   type = string
   default = "VAULT_ROOT_TOKEN"
 }
+
+variable "cc_netmaker_network_cidr" {
+  type = string
+  description = "cidr for control center netmaker network"
+}
