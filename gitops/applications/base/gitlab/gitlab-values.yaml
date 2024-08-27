@@ -206,6 +206,8 @@ global:
     tls:
       enabled: false
       # secretName:
+    persistence:
+      size: ${ARGOCD_ENV_gitlab_gitaly_storage_size}
 
   praefect:
     enabled: true

@@ -98,7 +98,7 @@ argocd_override:
         nexus:
           helm_version: "${nexus_helm_version}"
           public_ingress_access_domain: "${nexus_public_access}"
-          storage_size: ${nexus_storage_size}
+          storage_size: "${nexus_storage_size}"
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
 
@@ -109,6 +109,7 @@ argocd_override:
           helm_version: "${gitlab_helm_version}"
           public_ingress_access_domain: "${gitlab_public_access}"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
+          gitaly_storage_size: "${gitaly_storage_size}"
         pre:
           redis_cluster_size: "${gitlab_redis_cluster_size}"
           redis_storage_size: "${gitlab_redis_storage_size}"          
