@@ -5,6 +5,12 @@ dependency "ansible-cc-deploy" {
   config_path  = "../ansible-cc-deploy"
   skip_outputs = true
 }
+
+dependency "docker_compose" {
+  config_path = "../"
+  skip_outputs = true
+}
+
 dependency "control_center_deploy" {
   config_path = "../control-center-deploy"
   mock_outputs = {

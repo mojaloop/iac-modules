@@ -2,6 +2,11 @@ terraform {
   source = "git::https://github.com/mojaloop/iac-modules.git//terraform/${get_env("CONTROL_CENTER_CLOUD_PROVIDER")}/control-center-infra?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
 }
 
+generate "docker_compose" {
+  path = "docker-compose.yml"
+  if_exists = "overwrite"
+  contents = file("${get_terragrunt_dir()}/../docker-compose/docker-compose.yml")
+}
 
 generate "required_providers_override" {
   path = "required_providers_override.tf"
