@@ -176,7 +176,7 @@ resource "vault_kv_secret_v2" "vault_oauth_client_id" {
     for key, env in var.env_map : key => env if env.vault_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
-  name                = "${each.key}/vault_oidc_client_id"
+  name                = "${each.key}/vault_oauth_client_id"
   delete_all_versions = true
   data_json = jsonencode(
     {
@@ -190,7 +190,7 @@ resource "vault_kv_secret_v2" "vault_oauth_client_secret" {
     for key, env in var.env_map : key => env if env.vault_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
-  name                = "${each.key}/vault_oidc_client_secret"
+  name                = "${each.key}/vault_oauth_client_secret"
   delete_all_versions = true
   data_json = jsonencode(
     {
@@ -225,7 +225,7 @@ resource "vault_kv_secret_v2" "grafana_oauth_client_id" {
     for key, env in var.env_map : key => env if env.grafana_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
-  name                = "${each.key}/grafana_oidc_client_id"
+  name                = "${each.key}/grafana_oauth_client_id"
   delete_all_versions = true
   data_json = jsonencode(
     {
@@ -239,7 +239,7 @@ resource "vault_kv_secret_v2" "grafana_oauth_client_secret" {
     for key, env in var.env_map : key => env if env.grafana_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
-  name                = "${each.key}/grafana_oidc_client_secret"
+  name                = "${each.key}/grafana_oauth_client_secret"
   delete_all_versions = true
   data_json = jsonencode(
     {
@@ -274,7 +274,7 @@ resource "vault_kv_secret_v2" "argocd_oauth_client_id" {
     for key, env in var.env_map : key => env if env.argocd_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
-  name                = "${each.key}/argocd_oidc_client_id"
+  name                = "${each.key}/argocd_oauth_client_id"
   delete_all_versions = true
   data_json = jsonencode(
     {
@@ -288,7 +288,7 @@ resource "vault_kv_secret_v2" "argocd_oauth_client_secret" {
     for key, env in var.env_map : key => env if env.argocd_oidc_domain != ""
   }
   mount               = vault_mount.kv_secret.path
-  name                = "${each.key}/argocd_oidc_client_secret"
+  name                = "${each.key}/argocd_oauth_client_secret"
   delete_all_versions = true
   data_json = jsonencode(
     {
