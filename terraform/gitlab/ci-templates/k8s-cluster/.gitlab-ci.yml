@@ -230,7 +230,7 @@ refresh-deploy-infra:
   stage: auto-run
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
