@@ -1,5 +1,5 @@
 include:
-  - template: Terraform/Base.latest.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
+  - template: Terraform/Base.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
 workflow:
   rules:
     - if: $CI_MERGE_REQUEST_IID
@@ -12,7 +12,7 @@ workflow:
     # This comes from https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Workflows/MergeRequest-Pipelines.gitlab-ci.yml
     - if: $CI_MERGE_REQUEST_IID
     - if: $CI_COMMIT_TAG
-    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 stages:
   - prepare
@@ -24,21 +24,23 @@ stages:
   - deploy-cluster
   - refresh-templates
   - cleanup
+  - auto-run
 
 variables:
   IMAGE_TAG: latest
-  TF_STATE_BASE_ADDRESS: $CI_API_V4_URL/projects/$CI_PROJECT_ID/terraform/state
+  #TF_STATE_BASE_ADDRESS: $CI_API_V4_URL/projects/$CI_PROJECT_ID/terraform/state
   SAST_DISABLED: "true"
   CONFIG_PATH: merged-config
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
   GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
   TEMPLATE_REPO_URL: https://github.com/mojaloop/iac-modules.git
-  VAULT_ADDR: $VAULT_SERVER_URL
   CI_TEMPLATE_PATH: terraform/gitlab/ci-templates/k8s-cluster
   K8S_TEMPLATE_PATH: terraform/k8s
   TMP_TEMPLATES_DIR: /tmp/iac-templates
   TMP_GIT_REPO: /tmp/git-iac-templates
-  GIT_SUBMODULE_STRATEGY: recursive
+  IGNORE_TF_DEPRECATION_WARNING: true
+  KUBE_IN_CLUSTER_CONFIG: true
+  VAULT_ADDR: http://vault-active.vault.svc.cluster.local:8200
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
@@ -51,6 +53,7 @@ cache:
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+    - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
 
 .source:
   script:
@@ -62,12 +65,11 @@ cache:
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./addons-vars.yaml); do export $var; done
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
     - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
-    - export NETMAKER_OPS_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netmaker_ops_token)"
-    - export NETMAKER_ENV_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netmaker_env_token)"
     - export $cloud_platform_client_secret_name="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/cloud_platform_client_secret)"
-    - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/gitlab_ci_pat)"
-    - export VAULT_GITLAB_ROOT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/vault_root_token)"
-    - export METMAKER_MASTER_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/netmaker_master_key)"
+    - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
+    - export NETBIRD_GW_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_gw_setup_key)"
+    - export NETBIRD_K8S_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_k8s_setup_key)"
+    - export KUBERNETES_OIDC_CLIENT_ID="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/kubernetes_oidc_client_id)"
     - source setcivars.sh
     - echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store
     - git config --global credential.helper 'store --file ~/.gitcredentials.store'
@@ -125,7 +127,7 @@ init:
   stage: init
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all init -input=false -reconfigure
@@ -139,7 +141,7 @@ validate:
   extends: .terraform:validate
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all validate-inputs
@@ -150,7 +152,7 @@ build:
   extends: .terraform:build
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
   when: manual
@@ -159,33 +161,31 @@ deploy-infra:
   extends: .terraform:deploy
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   artifacts:
     paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy.*/
-    - when: manual
+  when: manual
 
 deploy-managed-srvcs:
   extends: .terraform:deploy
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - cd managed-services
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
   artifacts:
     paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
@@ -195,7 +195,7 @@ refresh-templates:
   stage: refresh-templates
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
@@ -205,7 +205,7 @@ destroy:
   extends: .terraform:destroy
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all destroy --terragrunt-non-interactive -input=false
@@ -218,8 +218,32 @@ apps:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
+
+
+refresh-deploy-infra:
+  extends: .terraform:deploy
+  stage: auto-run
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: $VAULT_SERVER_URL
+  script:
+    - !reference [.source, script]
+    - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
+    - git checkout "$CI_COMMIT_REF_NAME" && git pull --recurse-submodules
+    - !reference [.source, script]
+    - terragrunt run-all apply --terragrunt-non-interactive -input=false
+    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
+  artifacts:
+    paths:
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
+    when: always
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy.*/
+    - when: manual

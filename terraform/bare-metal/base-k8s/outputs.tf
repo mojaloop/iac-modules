@@ -70,10 +70,6 @@ output "bastion_os_username" {
   value = var.app_var_map.os_user_name
 }
 
-output "haproxy_server_fqdn" {
-  value = var.app_var_map.haproxy_server_fqdn
-}
-
 output "master_hosts_var_maps" {
   value = {}
 }

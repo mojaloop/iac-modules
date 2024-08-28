@@ -1,0 +1,77 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_security_zitadel_app_name}
+  namespace: ${ARGOCD_ENV_security_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_zitadel_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_security_zitadel_namespace}
+
+  sources:
+    - chart: zitadel
+      repoURL: https://charts.zitadel.com
+      targetRevision: ${ARGOCD_ENV_security_zitadel_helm_version}
+      helm:
+        valuesObject:
+          zitadel:
+            masterkeySecretName: masterkey
+            configmapConfig:
+              Log:
+                Level: ${ARGOCD_ENV_security_zitadel_log_level}
+              ExternalPort: 443
+              ExternalSecure: true
+              ExternalDomain: zitadel.${ARGOCD_ENV_security_zitadel_dns_subdomain}
+              TLS:
+                Enabled: false
+              FirstInstance:
+                Org:
+                  Machine:
+                    Machine:
+                      Username: zitadel-admin-sa
+                      Name: Admin
+                    MachineKey:
+                      ExpirationDate: "2026-01-01T00:00:00Z"
+                      # Type: 1 means JSON. This is currently the only supported machine key type.
+                      Type: 1
+              Database:
+                Cockroach:
+                  Host: zitadel-db-cockroachdb-public
+                  User:
+                    SSL:
+                      Mode: verify-full
+                  Admin:
+                    SSL:
+                      Mode: verify-full
+            secretConfig:
+              Database:
+                Cockroach:
+                  User:
+                    Password: xyz
+                  Admin:
+                    Password: abc
+
+            dbSslCaCrtSecret: zitadel-db-cockroachdb-ca-secret
+            dbSslAdminCrtSecret: zitadel-db-cockroachdb-client-secret
+            dbSslUserCrtSecret: zitadel-db-cockroachdb-zitadel-secret

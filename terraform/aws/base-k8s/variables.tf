@@ -166,6 +166,28 @@ variable "dns_resolver_ip" {
   description = "which dns host to use"
 }
 
+variable "create_ci_iam_user" {
+  type        = bool
+  description = "create iam user for ci"
+  default     = false
+}
+variable "create_ext_dns_user" {
+  type        = bool
+  description = "create iam user for dns"
+  default     = true
+}
+variable "iac_group_name" {
+  type        = string
+  description = "iac group name"
+  default     = "admin"
+}
+
+variable "create_haproxy_dns_record" {
+  type        = bool
+  description = "whether to create public dns record for private ip of bastion for haproxy"
+  default     = true
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

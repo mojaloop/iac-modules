@@ -1,0 +1,679 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: git-lfs
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: git-lfs
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_git_lfs_max_objects}"
+    maxSize: "${ARGOCD_ENV_git_lfs_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-artifacts
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-artifacts
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_artifacts_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_artifacts_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-uploads
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-uploads
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_uploads_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_uploads_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-packages
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-packages
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_packages_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_packages_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: registry
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: registry
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_registry_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_registry_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-mr-diffs
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-mr-diffs
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_mrdiffs_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_mrdiffs_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-terraform-state
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-terraform-state
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_tfstate_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_tfstate_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-ci-secure-files
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-ci-secure-files
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_cisecurefiles_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_cisecurefiles_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-dependency-proxy
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-dependency-proxy
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_dep_proxy_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_dep_proxy_storage_size}"
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-runner-cache
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-runner-cache
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+---
+# change the env vars
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-backups
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-backups
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+---
+# change the env vars
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: gitlab-backups-tmp
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  bucketName: gitlab-backups-tmp
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
+    maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitlab-secret-creator
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+  name: gitlab-secret-role
+rules:
+  - apiGroups: [""]
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - selfsubjectrulesreviews
+    verbs:
+      - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gitlab-secret-creator
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+subjects:
+  - kind: ServiceAccount
+    name: gitlab-secret-creator
+roleRef:
+  kind: Role
+  name: gitlab-secret-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: gitlab-k8s-secret-store
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  provider:
+    kubernetes:
+      auth:
+        serviceAccount:
+          name: "gitlab-secret-creator"
+      remoteNamespace: ${ARGOCD_ENV_gitlab_namespace}
+      server:
+        caProvider:
+          type: ConfigMap
+          name: kube-root-ca.crt
+          key: ca.crt
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-lfs
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: git-lfs
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: git-lfs
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-lfs
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-artifacts
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-artifacts
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-artifacts
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-artifacts
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-uploads
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-uploads
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-uploads
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-uploads
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-packages
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-packages
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-packages
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-packages
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-mr-diffs
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-mr-diffs
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-mr-diffs
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-mr-diffs
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-ci-secure-files
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-ci-secure-files
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-ci-secure-files
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-ci-secure-files
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-terraform-state
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-terraform-state
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-terraform-state
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-terraform-state
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-dependency-proxy
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-dependency-proxy
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-dependency-proxy
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-dependency-proxy
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-secret-registry
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: registry
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: registry
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-secret-registry
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          s3:
+           bucket: registry
+           v4auth: true
+           regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+           pathstyle: true
+           region: us-east-1
+           accesskey: {{.AWS_ACCESS_KEY_ID}}
+           secretkey: {{.AWS_SECRET_ACCESS_KEY}}
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-backups
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-backups
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-backups
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-backups
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-backups-tmp
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-backups-tmp
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-backups-tmp
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-rails-secret-backups-tmp
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: us-east-1
+          # Specify access/secret keys
+          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          path_style: true
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-runner-cache-secret
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: gitlab-runner-cache
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: gitlab-runner-cache
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: gitlab-runner-cache-secret
+    creationPolicy: Owner
+    template:
+      data:
+        accesskey: "{{.AWS_ACCESS_KEY_ID}}"
+        secretkey: "{{.AWS_SECRET_ACCESS_KEY}}"

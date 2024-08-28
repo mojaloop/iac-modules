@@ -16,17 +16,20 @@ module "base_infra" {
   az_count                   = var.az_count
   route53_zone_force_destroy = var.dns_zone_force_destroy
   bastion_ami                = module.ubuntu_focal_ami.id
-  create_haproxy_dns_record  = true
+  create_haproxy_dns_record  = var.create_haproxy_dns_record
   block_size                 = var.block_size
 }
 
 module "post_config" {
-  source          = "../post-config-k8s"
-  name            = var.cluster_name
-  domain          = var.domain
-  tags            = var.tags
-  private_zone_id = module.base_infra.public_int_zone.id
-  public_zone_id  = module.base_infra.public_zone.id
+  source              = "../post-config-k8s"
+  name                = var.cluster_name
+  domain              = var.domain
+  tags                = var.tags
+  private_zone_id     = module.base_infra.public_int_zone.id
+  public_zone_id      = module.base_infra.public_zone.id
+  create_ext_dns_user = var.create_ext_dns_user
+  create_iam_user     = var.create_ci_iam_user
+  iac_group_name      = var.iac_group_name
 }
 
 module "k6s_test_harness" {
@@ -60,12 +63,26 @@ resource "aws_launch_template" "node" {
     device_name = "/dev/sda1"
 
     ebs {
-      encrypted   = true
-      volume_type = "gp2"
-      volume_size = each.value.storage_gbs
+      encrypted             = true
+      volume_type           = "gp2"
+      volume_size           = each.value.storage_gbs
+      delete_on_termination = try(each.value.storage_delete_on_term, true)
     }
   }
+  dynamic "block_device_mappings" {
+    for_each = try(each.value.extra_vol, false) ? [each.value.extra_vol_name] : []
 
+    content {
+      device_name = each.value.extra_vol_name
+
+      ebs {
+        delete_on_termination = try(each.value.extra_vol_delete_on_term, true)
+        encrypted             = true
+        volume_size           = each.value.extra_vol_gbs
+        volume_type           = "gp2"
+      }
+    }
+  }
   network_interfaces {
     delete_on_termination = true
     security_groups       = each.value.master ? local.master_security_groups : local.agent_security_groups

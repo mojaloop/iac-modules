@@ -15,13 +15,16 @@ module "generate_monitoring_files" {
     opentelemetry_chart_version         = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     monitoring_namespace                   = var.monitoring_namespace
     gitlab_server_url                      = var.gitlab_server_url
+    zitadel_server_url                     = var.zitadel_server_url
     gitlab_project_url                     = var.gitlab_project_url
     public_subdomain                       = var.public_subdomain
-    client_id                              = try(data.vault_generic_secret.grafana_oauth_client_id[0].data.value, "")
-    client_secret                          = try(data.vault_generic_secret.grafana_oauth_client_secret[0].data.value, "")
+    client_id                              = try(data.vault_kv_secret_v2.grafana_oauth_client_id[0].data.value, "")
+    client_secret                          = try(data.vault_kv_secret_v2.grafana_oauth_client_secret[0].data.value, "")
     enable_oidc                            = var.enable_grafana_oidc
     storage_class_name                     = var.storage_class_name
-    groups                                 = var.gitlab_admin_group_name
+    zitadel_project_id                     = var.zitadel_project_id
+    grafana_admin_rbac_group               = var.grafana_admin_rbac_group
+    grafana_user_rbac_group                = var.grafana_user_rbac_group
     prom-mojaloop-url                      = "http://prometheus-operated:9090"
     admin_secret_pw_key                    = "admin-pw"
     admin_secret_user_key                  = "admin-user"
@@ -42,15 +45,15 @@ module "generate_monitoring_files" {
     alertmanager_enabled                   = try(var.common_var_map.alertmanager_enabled, false)
     alertmanager_slack_integration_enabled = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
     alertmanager_jira_integration_enabled  = try(var.common_var_map.alertmanager_jira_integration_enabled, false)
-    minio_loki_credentials_secret_name     = "minio-loki-credentials-secret"
-    minio_api_url                          = var.minio_api_url
-    minio_loki_bucket                      = local.minio_loki_bucket
-    minio_loki_user_key                    = "${var.cluster_name}/minio_loki_username"
-    minio_loki_password_key                = "${var.cluster_name}/minio_loki_password"
-    minio_tempo_credentials_secret_name    = "minio-tempo-credentials-secret"
-    minio_tempo_user_key                   = "${var.cluster_name}/minio_tempo_username"
-    minio_tempo_password_key               = "${var.cluster_name}/minio_tempo_password"
-    minio_tempo_bucket                     = local.minio_tempo_bucket
+    ceph_loki_credentials_secret_name     = "ceph-loki-credentials-secret"
+    ceph_api_url                          = var.ceph_api_url
+    ceph_loki_bucket                      = local.ceph_loki_bucket
+    ceph_loki_user_key                    = "${var.cluster_name}/loki_bucket_access_key_id"
+    ceph_loki_password_key                = "${var.cluster_name}/loki_bucket_secret_key_id"
+    ceph_tempo_credentials_secret_name    = "ceph-tempo-credentials-secret"
+    ceph_tempo_user_key                   = "${var.cluster_name}/tempo_bucket_access_key_id"
+    ceph_tempo_password_key               = "${var.cluster_name}/tempo_bucket_secret_key_id"
+    ceph_tempo_bucket                     = local.ceph_tempo_bucket
     tempo_retention_period                 = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
     external_secret_sync_wave              = var.external_secret_sync_wave
     prom_tsdb_max_block_duration           = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
@@ -89,13 +92,13 @@ variable "enable_grafana_oidc" {
 variable "grafana_oidc_client_secret_secret_key" {
   type        = string
   description = "grafana_oidc_client_secret_secret_key"
-  default     = "grafana_oauth_client_secret"
+  default     = "grafana_oidc_client_secret"
 }
 
 variable "grafana_oidc_client_id_secret_key" {
   type        = string
   description = "grafana_oidc_client_id_secret_key"
-  default     = "grafana_oauth_client_id"
+  default     = "grafana_oidc_client_id"
 }
 
 variable "grafana_chart_repo" {

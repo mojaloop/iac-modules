@@ -1,0 +1,113 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  namespace: ${ARGOCD_ENV_monitoring_namespace}
+  labels:
+    dashboards: "grafana"
+spec:
+  deployment:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: grafana
+              image: grafana/grafana:${ARGOCD_ENV_grafana_image_version}
+              env:
+                - name: GF_SECURITY_ADMIN_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: ${ARGOCD_ENV_grafana_admin_secret_user_key}
+                      name: ${ARGOCD_ENV_grafana_admin_secret}
+                - name: GF_SECURITY_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: ${ARGOCD_ENV_grafana_admin_secret_pw_key}
+                      name: ${ARGOCD_ENV_grafana_admin_secret}
+          # affinity:
+          #   nodeAffinity:
+          #     requiredDuringSchedulingIgnoredDuringExecution:
+          #       nodeSelectorTerms:
+          #       - matchExpressions:
+          #         - key: 'workload-class.mojaloop.io/MONITORING'
+          #           operator: In
+          #           values: ['enabled']
+  config:
+    log:
+      level: "debug"
+    unified_alerting:
+      enabled: "true"
+    # auth.anonymous:
+    #   enabled: "true"
+    #   org_name: "Main Org."
+    #   org_role: "Admin"
+    server:
+      domain: "${ARGOCD_ENV_grafana_dns_subdomain}"
+      root_url: https://grafana.${ARGOCD_ENV_grafana_dns_subdomain}
+
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: mimir
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Mimir
+    type: prometheus
+    access: proxy
+    url: http://central-monitoring-grafana-mimir-gateway/prometheus
+    isDefault: true
+    editable: true
+    jsonData:
+      httpHeaderName1: "X-Scope-OrgID"
+    secureJsonData:
+      httpHeaderValue1: "infitx" # TODO: possibly expose it as configurable env var
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: prometheus
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus-operated:9090
+    isDefault: false
+    editable: true
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: loki
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Loki
+    type: loki
+    access: proxy
+    url: http://control-center-loki-grafana-loki-gateway
+    jsonData:
+      httpHeaderName1: 'X-Scope-OrgID'
+    secureJsonData:
+      httpHeaderValue1: '1'
+    isDefault: false
+    editable: true
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: monitoring
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"      
+---
