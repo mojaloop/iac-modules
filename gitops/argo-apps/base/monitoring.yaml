@@ -1,0 +1,106 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_monitoring_monitoring_app_name}
+  namespace: ${ARGOCD_ENV_monitoring_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
+  ignoreDifferences:
+    # TODO: ignore diffs using a pattern rather than manual hardcoded names
+    - group: apps
+      kind: StatefulSet
+      name: "central-monitoring-grafana-mimir-compactor"
+      jsonPointers:
+        - /spec/volumeClaimTemplates/0/kind
+        - /spec/volumeClaimTemplates/0/apiVersion
+    - group: apps
+      kind: StatefulSet
+      name: "central-monitoring-grafana-mimir-ingester"
+      jsonPointers:
+        - /spec/volumeClaimTemplates/0/kind
+        - /spec/volumeClaimTemplates/0/apiVersion
+    - group: apps
+      kind: StatefulSet
+      name: "central-monitoring-grafana-mimir-store-gateway"
+      jsonPointers:
+        - /spec/volumeClaimTemplates/0/kind
+        - /spec/volumeClaimTemplates/0/apiVersion
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+      jsonPointers:
+        - /spec/endpoints/0/relabelings/0/action
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_monitoring_monitoring_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    # targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag} TODO: revert to tag
+    targetRevision: "feature/cc-k8s-rebase"
+    path: gitops/applications/base/monitoring
+    plugin:
+      name: envsubst
+      env:
+        - name: "monitoring_namespace"
+          value: "${ARGOCD_ENV_monitoring_pre_namespace}"
+
+        - name: "grafana_mimir_helm_version"
+          value: "${ARGOCD_ENV_monitoring_monitoring_grafana_mimir_helm_version}"
+
+        - name: "kube_prometheus_helm_version"
+          value: "${ARGOCD_ENV_monitoring_monitoring_kube_prometheus_helm_version}"
+
+        - name: "mimir_bucket_name"
+          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_name}"
+        - name: "mimir_max_global_series_per_user"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_max_global_series_per_user}"
+        - name: "mimir_ingestion_rate"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_ingestion_rate}"
+        - name: "mimir_ingestion_burst_size"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_ingestion_burst_size}"
+        - name: "mimir_retention_period"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_retention_period}"
+
+        - name: "ctrl_cntr_loki_bucket_name"
+          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
+        - name: "ctrl_cntr_loki_helm_version"
+          value: "${ARGOCD_ENV_monitoring_monitoring_ctrl_cntr_loki_helm_version}"
+        - name: "ctrl_cntr_loki_retention_period"
+          value: "${ARGOCD_ENV_monitoring_monitoring_ctrl_cntr_loki_retention_period}"
+        - name: "ctrl_cntr_loki_ingester_max_chunk_age"
+          value: "${ARGOCD_ENV_monitoring_monitoring_ctrl_cntr_loki_ingester_max_chunk_age}"
+
+        - name: "mimir_distributor_replica_count"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_distributor_replica_count}"
+        - name: "mimir_ingester_replica_count"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_ingester_replica_count}"
+        - name: "mimir_querier_replica_count"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_querier_replica_count}"
+        - name: "mimir_query_frontend_replica_count"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_query_frontend_replica_count}"
+        - name: "mimir_compactor_replica_count"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_compactor_replica_count}"
+        - name: "mimir_store_gateway_replica_count"
+          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_store_gateway_replica_count}"

@@ -1,0 +1,106 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_security_netbird_app_name}-post-config
+  namespace: ${ARGOCD_ENV_security_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_netbird_post_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_security_app_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
+    path: gitops/applications/base/netbird-post-config
+    plugin:
+      name: envsubst
+      env:
+        - name: "netbird_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_security_netbird_istio_gateway_namespace}"
+
+        - name: "netbird_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_security_netbird_istio_wildcard_gateway_name}"
+
+        - name: "netbird_dns_subdomain"
+          value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
+
+        - name: "netbird_namespace"
+          value: "${ARGOCD_ENV_security_netbird_namespace}"
+
+        - name: "zitadel_namespace"
+          value: "${ARGOCD_ENV_security_zitadel_namespace}"
+
+        - name: "netbird_post_config_app_name"
+          value: "${ARGOCD_ENV_security_netbird_app_name}-post-config"
+
+        - name: "netbird_preconfig_output_secret"
+          value: "${ARGOCD_ENV_security_netbird_preconfig_output_secret}"
+
+        - name: "setup_key_secret_name"
+          value: "${ARGOCD_ENV_security_netbird_setup_key_secret_name}"
+
+        - name: "gw_setup_key_secret_key"
+          value: "${ARGOCD_ENV_security_netbird_gw_setup_key_secret_key}"
+
+        - name: "build_setup_key_secret_key"
+          value: "${ARGOCD_ENV_security_netbird_build_setup_key_secret_key}"
+
+        - name: "netbird_ansible_collection_tag"
+          value: ${ARGOCD_ENV_security_netbird_ansible_collection_tag}
+
+        - name: "netbird_ansible_repo_url"
+          value: ${ARGOCD_ENV_ansible_gitrepo_url}
+
+        - name: "cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+
+        - name: "cluster_cidr"
+          value: "${ARGOCD_ENV_security_netbird_internal_k8s_cidr}"
+
+        - name: "netbird_rbac_user_group"
+          value: "${ARGOCD_ENV_security_netbird_rbac_user_group}"
+
+        - name: "netbird_rbac_admin_group"
+          value: "${ARGOCD_ENV_security_netbird_rbac_admin_group}"
+
+        - name: "zitadel_grant_prefix"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
+
+        - name: "environment_list"
+          value: "${ARGOCD_ENV_deploy_env_config_environment_list}"
+
+        - name: "zitadel_tf_provider_version"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
+
+        - name: "netbird_tf_provider_version"
+          value: "${ARGOCD_ENV_security_netbird_netbird_tf_provider_version}"
+
+        - name: "netbird_terraform_modules_tag"
+          value: "${ARGOCD_ENV_security_netbird_terraform_modules_tag}"
+
+        - name: "zitadel_dns_subdomain"
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"

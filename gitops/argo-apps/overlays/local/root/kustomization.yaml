@@ -1,0 +1,47 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # utils
+  - ../../../base/argocd-helm.yaml
+  - ../../../base/rook-ceph.yaml
+  - ../../../base/external-secrets.yaml
+  - ../../../base/reflector.yaml
+  - ../../../base/reloader.yaml
+  - ../../../base/crossplane.yaml
+  - ../../../base/kubernetes-secret-generator.yaml
+  - ../../../base/utils-post-config.yaml
+  - ../../../base/istio.yaml
+  - ../../../base/istio-gw.yaml
+  - ../../../base/cert-manager.yaml
+  - ../../../base/consul.yaml
+  - ../../../base/percona-operator.yaml
+  - ../../../base/redis-operator.yaml
+  # vault
+  - ../../../base/vault.yaml
+  - ../../../base/vault-post-config.yaml
+  # dns-utils
+  - ../../../base/dns-utils.yaml
+  - ../../../base/dns-utils-post-config.yaml
+  - ../../../base/dns-utils-pre.yaml
+  # security
+  - ../../../base/zitadel-pre.yaml
+  - ../../../base/zitadel-helm.yaml
+  - ../../../base/zitadel-post-config.yaml
+  - ../../../base/netbird-pre.yaml
+  - ../../../base/netbird.yaml
+  - ../../../base/netbird-post-config.yaml
+  # nexus
+  - ../../../base/nexus.yaml
+  - ../../../base/nexus-pre.yaml
+  - ../../../base/nexus-post-config.yaml
+  # gitlab
+  - ../../../base/gitlab-pre.yaml
+  - ../../../base/gitlab.yaml
+  - ../../../base/gitlab-post-config.yaml
+  # deploy-env
+  - ../../../base/deploy-env.yaml
+  # monitoring
+  - ../../../base/monitoring-pre.yaml
+  - ../../../base/monitoring.yaml
+  - ../../../base/monitoring-post-config.yaml

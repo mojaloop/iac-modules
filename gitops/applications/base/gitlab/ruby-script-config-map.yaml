@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ruby-script
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+data:
+  maketoken.rb: |
+    user = User.where(id: 1).first
+    token = user.personal_access_tokens.where(name: 'rootapitoken').first
+    if token.nil?
+        token = user.personal_access_tokens.create(scopes: [:api], name: 'rootapitoken', expires_at: 30.days.from_now)
+    end
+    token.set_token(ENV["TOKEN_VALUE"])
+    token.save!
+    user.save!

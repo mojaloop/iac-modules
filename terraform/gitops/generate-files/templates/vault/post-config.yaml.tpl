@@ -64,8 +64,8 @@ data:
     %{ if enable_vault_oidc ~}
         vault auth enable oidc
         vault write auth/oidc/config \
-          bound_issuer="${gitlab_server_url}" \
-          oidc_discovery_url="${gitlab_server_url}" \
+          bound_issuer="${zitadel_server_url}" \
+          oidc_discovery_url="${zitadel_server_url}" \
           oidc_client_id="$${OIDC_CLIENT_ID}" \
           oidc_client_secret="$${OIDC_CLIENT_SECRET}" \
           default_role="techops-admin"
@@ -78,7 +78,7 @@ data:
             "token_policies": "vault-admin",
             "ttl": "1h",
             "oidc_scopes": ["openid"], 
-            "bound_claims": { "groups": ["${gitlab_admin_group_name}"] }
+            "bound_claims": { "zitadel:grants": ["${zitadel_project_id}:${vault_admin_rbac_group}"] }
           }
     EOF
         vault write auth/oidc/role/techops-readonly -<<EOF
@@ -90,7 +90,7 @@ data:
             "token_policies": "read-secrets",
             "ttl": "1h",
             "oidc_scopes": ["openid"],
-            "bound_claims": { "groups": ["${gitlab_readonly_group_name}"] }
+            "bound_claims": { "zitadel:grants": ["${zitadel_project_id}:${vault_readonly_rbac_group}"] }
           }
     EOF
     %{ endif ~}

@@ -1,0 +1,88 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_vault_argocd_app_name}-${ARGOCD_ENV_vault_post_config_app_name}
+  namespace: ${ARGOCD_ENV_vault_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_vault_post_config_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_vault_app_namespace}
+
+  sources:
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
+      path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/vault-post-config
+      plugin:
+        name: envsubst
+        env:
+          - name: "vault_keys_secret"
+            value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+          - name: "vault_read_all_kv_secrets_policy_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_read_all_kv_secrets_policy_name}"
+
+          - name: "vault_kv_secret"
+            value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
+
+          - name: "dns_cloud_api_region"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_cloud_api_region}"
+
+          - name: "ext_dns_cloud_policy"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_ext_dns_cloud_policy}"
+
+          - name: "vault_terraform_modules_tag"
+            value: "${ARGOCD_ENV_vault_vault_vault_terraform_modules_tag}"
+
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
+      path: gitops/applications/base/vault-post-config
+      plugin:
+        name: envsubst
+        env:
+          - name: "vault_keys_secret"
+            value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+          - name: "vault_read_all_kv_secrets_policy_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_read_all_kv_secrets_policy_name}"
+
+          - name: "vault_kv_secret"
+            value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"

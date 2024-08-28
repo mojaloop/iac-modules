@@ -1,0 +1,97 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_gitlab_gitlab_app_name}-post-config
+  namespace: ${ARGOCD_ENV_gitlab_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_gitlab_post_config_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_gitlab_gitlab_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+    path: gitops/applications/base/gitlab-post-config
+    plugin:
+      name: envsubst
+      env:
+        - name: "gitlab_namespace"
+          value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
+
+        - name: "terraform_modules_tag"
+          value: "${ARGOCD_ENV_gitlab_gitlab_terraform_modules_tag}"
+
+        - name: "gitlab_dns_subdomain"
+          value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
+
+        - name: "gitlab_post_config_output_secret"
+          value: "${ARGOCD_ENV_gitlab_post_config_output_secret}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+        - name: "vault_dns_subdomain"
+          value: "${ARGOCD_ENV_vault_vault_dns_subdomain}"
+
+        - name: "vault_tf_provider_version"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
+
+        - name: "vault_keys_secret"
+          value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+
+        - name: "vault_kv_secret"
+          value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
+
+        - name: gitlab_zitadel_project_name
+          value: ${ARGOCD_ENV_gitlab_gitlab_app_name}
+
+        - name: "gitlab_admin_rbac_group"
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_admin_rbac_group}"
+
+        - name: "gitlab_user_rbac_group"
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_user_rbac_group}"
+
+        - name: "gitlab_maintainer_rbac_group"
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_maintainer_rbac_group}"
+
+        - name: "zitadel_namespace"
+          value: "${ARGOCD_ENV_security_zitadel_namespace}"
+
+        - name: "gitlab_oidc_secret"
+          value: "${ARGOCD_ENV_gitlab_gitlab_oidc_secret}"
+
+        - name: "zitadel_post_config_output_secret"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
+
+        - name: "terraform_modules_tag"
+          value: "${ARGOCD_ENV_gitlab_gitlab_terraform_modules_tag}"
+
+        - name: "zitadel_tf_provider_version"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
+
+        - name: "zitadel_dns_subdomain"
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"

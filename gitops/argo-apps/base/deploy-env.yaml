@@ -1,0 +1,97 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_deploy_env_config_app_name}
+  namespace: ${ARGOCD_ENV_deploy_env_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_deploy_env_config_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_deploy_env_config_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+    path: gitops/applications/base/deploy-env
+    plugin:
+      name: envsubst
+      env:
+        - name: "gitlab_namespace"
+          value: "${ARGOCD_ENV_deploy_env_config_namespace}"
+
+        - name: "terraform_modules_tag"
+          value: "${ARGOCD_ENV_deploy_env_config_terraform_modules_tag}"
+
+        - name: "environment_list"
+          value: "${ARGOCD_ENV_deploy_env_config_environment_list}"
+
+        - name: "vault_dns_subdomain"
+          value: "${ARGOCD_ENV_vault_vault_dns_subdomain}"
+
+        - name: "nexus_dns_subdomain"
+          value: "${ARGOCD_ENV_nexus_nexus_dns_subdomain}"
+
+        - name: "ceph_dns_subdomain"
+          value: "${ARGOCD_ENV_utils_rook_ceph_bucket_config_dns_subdomain}"
+
+        - name: "grafana_dns_subdomain"
+          value: "${ARGOCD_ENV_monitoring_grafana_dns_subdomain}"          
+
+        - name: "vault_kv_secret"
+          value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
+
+        - name: "gitlab_dns_subdomain"
+          value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+        - name: "deploy_env_config_output_secret"
+          value: "${ARGOCD_ENV_deploy_env_config_output_secret}"
+
+        - name: "vault_keys_secret"
+          value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+
+        - name: "vault_tf_provider_version"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
+
+        - name: "ceph_max_objects"
+          value: "${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_objects}"
+
+        - name: "ceph_max_size"
+          value: "${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_size}"
+
+        - name: "netbird_version"
+          value: "${ARGOCD_ENV_security_netbird_image_version}"
+
+        - name: "netbird_dns_subdomain"
+          value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+
+        - name: "zitadel_dns_subdomain"
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"          
+
+        - name: "kubernetes_oidc_groups_claim"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"

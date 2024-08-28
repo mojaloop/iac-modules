@@ -1,0 +1,9 @@
+provider_installation {
+filesystem_mirror {
+path = "/tmp/config"
+include = ["github.com/netbirdio/netbird", "zitadel/zitadel"]
+}
+direct {
+exclude = ["github.com/netbirdio/netbird", "zitadel/zitadel"]
+}
+}

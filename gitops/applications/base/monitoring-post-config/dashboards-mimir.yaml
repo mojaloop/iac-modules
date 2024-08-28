@@ -1,0 +1,186 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: grafana-mimir
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"      
+---
+
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-overview
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-overview.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-overview-networking
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-overview-networking.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-overview-resources
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-overview-resources.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-queries
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-queries.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-reads
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-reads.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-reads-networking
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-reads-networking.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-reads-resources
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-reads-resources.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-writes
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-writes.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-writes-networking
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-writes-networking.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-writes-resources
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-writes-resources.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-compactor
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-compactor.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-object-store
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-object-store.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-rollout-progress
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-rollout-progress.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-scaling
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-scaling.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-slow-queries
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-slow-queries.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mimir-tenants
+spec:
+  folder: grafana-mimir
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/50d8293f5d18022cb3756420195a21e0adcbfc34/monitoring-mixin/build/mimir-tenants.json"
+---

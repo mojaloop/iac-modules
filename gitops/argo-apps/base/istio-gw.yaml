@@ -1,0 +1,81 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_utils_istio_app_name}-gw
+  namespace: ${ARGOCD_ENV_utils_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_istio_gw_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions:
+        - .webhooks[]?.failurePolicy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_utils_app_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
+    path: gitops/applications/base/istio-gw
+    plugin:
+      name: envsubst
+      env:
+        - name: "istio_helm_version"
+          value: "${ARGOCD_ENV_utils_istio_helm_version}"
+
+        - name: "istio_namespace"
+          value: "${ARGOCD_ENV_utils_istio_namespace}"
+
+        - name: "istio_external_gateway_namespace"
+          value: "${ARGOCD_ENV_utils_istio_external_gateway_namespace}"
+
+        - name: "istio_internal_gateway_namespace"
+          value: "${ARGOCD_ENV_utils_istio_internal_gateway_namespace}"
+
+        - name: "istio_internal_gateway_name"
+          value: "${ARGOCD_ENV_utils_istio_internal_gateway_name}"
+
+        - name: "istio_external_gateway_name"
+          value: "${ARGOCD_ENV_utils_istio_external_gateway_name}"
+
+        - name: "external_ingress_https_port"
+          value: "${ARGOCD_ENV_utils_istio_external_ingress_https_port}"
+
+        - name: "external_ingress_http_port"
+          value: "${ARGOCD_ENV_utils_istio_external_ingress_http_port}"
+
+        - name: "external_ingress_health_port"
+          value: "${ARGOCD_ENV_utils_istio_external_ingress_health_port}"
+
+        - name: "internal_ingress_https_port"
+          value: "${ARGOCD_ENV_utils_istio_internal_ingress_https_port}"
+
+        - name: "internal_ingress_http_port"
+          value: "${ARGOCD_ENV_utils_istio_internal_ingress_http_port}"
+
+        - name: "internal_ingress_health_port"
+          value: "${ARGOCD_ENV_utils_istio_internal_ingress_health_port}"
+
+        - name: "istio_proxy_log_level"
+          value: "${ARGOCD_ENV_utils_istio_proxy_log_level}"

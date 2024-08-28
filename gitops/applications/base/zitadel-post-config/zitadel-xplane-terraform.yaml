@@ -1,0 +1,73 @@
+---
+apiVersion: tf.upbound.io/v1beta1
+kind: Workspace
+metadata:
+  name: zitadel-post-config
+  namespace: ${ARGOCD_ENV_zitadel_namespace}
+spec:
+  forProvider:
+    # Use any module source supported by terraform init -from-module.
+    source: Remote
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/zitadel?ref=${ARGOCD_ENV_terraform_modules_tag}
+    # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
+    vars:
+      - key: zitadel_fqdn
+        value: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
+      - key: oidc_provider_group_claim_prefix
+        value: ${ARGOCD_ENV_zitadel_grant_prefix}
+    env:
+      - name: TF_CLI_CONFIG_FILE
+        value: ./.terraformrc
+
+  # All Terraform outputs are written to the connection secret.
+  providerConfigRef:
+    name: zitadel-post-config
+  writeConnectionSecretToRef:
+    namespace: ${ARGOCD_ENV_zitadel_namespace}
+    name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+---
+apiVersion: tf.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: zitadel-post-config
+  namespace: ${ARGOCD_ENV_zitadel_namespace}
+spec:
+  # Note that unlike most provider configs this one supports an array of
+  # credentials. This is because each Terraform workspace uses a single
+  # Crossplane provider config, but could use multiple Terraform providers each
+  # with their own credentials.
+  credentials:
+    - filename: zitadel-admin-sa.json
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_zitadel_namespace}
+        name: zitadel-admin-sa
+        key: zitadel-admin-sa.json
+
+    - filename: .terraformrc
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_argocd_namespace}
+        name: terraformrc
+        key: .terraformrc
+  # This optional configuration block can be used to inject HCL into any
+  # workspace that uses this provider config, for example to setup Terraform
+  # providers.
+  configuration: |
+    terraform { 
+        backend "kubernetes" {
+          secret_suffix     = "providerconfig-zitadel-post-config"
+          namespace         = "${ARGOCD_ENV_zitadel_namespace}"
+          in_cluster_config = true
+        }
+        required_providers {
+          zitadel = {
+            source = "zitadel/zitadel"
+            version = "${ARGOCD_ENV_zitadel_tf_provider_version}"
+          }
+        }
+      }
+      provider "zitadel" {
+          domain = "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+          jwt_profile_file = "$${path.module}/zitadel-admin-sa.json"
+      }

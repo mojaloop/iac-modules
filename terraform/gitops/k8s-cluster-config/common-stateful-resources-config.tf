@@ -12,8 +12,8 @@ module "common_stateful_resources" {
   kv_path                                       = var.kv_path
   external_stateful_resource_instance_addresses = local.external_stateful_resource_instance_addresses
   managed_db_host                               = var.managed_db_host
-  minio_api_url                                 = var.minio_api_url
-  minio_percona_backup_bucket                   = data.gitlab_project_variable.minio_percona_backup_bucket.value
+  ceph_api_url                                 = var.ceph_api_url
+  ceph_percona_backup_bucket                   = data.gitlab_project_variable.ceph_percona_backup_bucket.value
   external_secret_sync_wave                     = var.external_secret_sync_wave
 }
 
