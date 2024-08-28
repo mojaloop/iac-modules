@@ -115,7 +115,7 @@ central-ledger-db:
   deployment_type: helm-chart
   communication_mode: tcp
   logical_service_config:
-    logical_service_port: 3307
+    logical_service_port: 3306
     logical_service_name: central-ledger-db-svc
     db_username: central_ledger
     user_password_secret: central-ledger-db-secret

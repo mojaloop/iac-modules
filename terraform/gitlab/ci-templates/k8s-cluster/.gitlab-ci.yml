@@ -114,7 +114,7 @@ fmt:
   stage: lint
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: $VAULT_SERVER_URL
+      aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
     - terragrunt hclfmt -check -diff
