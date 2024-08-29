@@ -27,12 +27,14 @@ spec:
   project: default
   syncPolicy:
     managedNamespaceMetadata:
+  %{ if istio_create_ingress_gateways ~}
       labels:
         istio-injection: enabled
-#  %{ if opentelemetry_namespace_filtering_enable ~}
+  %{ endif ~}
+  %{ if opentelemetry_namespace_filtering_enable ~}
       annotations:
         instrumentation.opentelemetry.io/inject-nodejs: "true"
-#  %{ endif ~}
+  %{ endif ~}
     automated:
       prune: true
       selfHeal: true
