@@ -3,35 +3,26 @@ operator:
   logLevel: debug
 alertmanager:
   enabled: false
-  # externalConfig: true
-  # configuration:
-  #   name: alertmanager-config
-  persistence:
-    enabled: true
-    storageClass: null
-    size: 10Gi
 prometheus:
-  logLevel: debug
   persistence:
     enabled: true
-    storageClass: null
-    size: 10Gi
-  retention: 1d
+    size: ${ARGOCD_ENV_prometheus_pvc_size}
+  retention: ${ARGOCD_ENV_prometheus_retention_period}
   # setting these to prevent oom issue https://github.com/prometheus/prometheus/issues/6934#issuecomment-1099293120
   disableCompaction: false #this is the default anyway
   additionalArgs:
     - name: storage.tsdb.min-block-duration
-      value: 30m
+      value: ${ARGOCD_ENV_tsdb_min_block_duration}
     - name: storage.tsdb.max-block-duration
-      value: 30m
+      value: ${ARGOCD_ENV_tsdb_max_block_duration}
   externalLabels:
-    cluster: control-center
-  resourcesPreset: large
+    cluster: ${ARGOCD_ENV_cluster_label_value}
+  resourcesPreset: ${ARGOCD_ENV_resources_preset_bitnami}
   remoteWrite:
     - name: central-monitoring
       url: http://central-monitoring-grafana-mimir-gateway/api/v1/push
       headers:
-        X-Scope-OrgID: infitx
+        X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
 
 kubelet:
   serviceMonitor:
@@ -44,10 +35,6 @@ kubelet:
         replacement: "${1}"
         action: replace
 
-# commonLabels:
-#   build: argocd
-# commonAnnotations:
-#   build: argocd
 
 node-exporter:
   serviceMonitor:
