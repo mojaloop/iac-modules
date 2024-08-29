@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: ${ns}
-%{ if istio_create_ingress_gateways ~}
+%{ if enable_istio_injection ~}
   labels:
     istio-injection: enabled
 %{ endif ~}
