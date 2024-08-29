@@ -4,7 +4,7 @@ metadata:
   namespace: ${namespace}
   name: ${cluster_name}
   finalizers:
-    - delete-pxc-pods-in-order
+    - percona.com/delete-pxc-pods-in-order
 #    - delete-ssl
 #    - delete-proxysql-pvc
 #    - delete-pxc-pvc
@@ -33,7 +33,8 @@ spec:
 #        memory: 200M
 #        cpu: 200m
 #  enableCRValidationWebhook: true
-#  tls:
+  tls:
+    enabled: true
 #    SANs:
 #      - pxc-1.example.com
 #      - pxc-2.example.com
@@ -42,7 +43,11 @@ spec:
 #      name: special-selfsigned-issuer
 #      kind: ClusterIssuer
 #      group: cert-manager.io
-  allowUnsafeConfigurations: false
+#  unsafeFlags:
+#    tls: false
+#    pxcSize: false
+#    proxySize: false
+#    backupIfUnhealthy: false
 #  pause: false
   updateStrategy: SmartUpdate
   upgradeOptions:
@@ -703,13 +708,13 @@ spec:
 #        podSecurityContext:
 #          fsGroup: 1001
 #          supplementalGroups: [1001, 1002, 1003]
-        # volume:
-        #   persistentVolumeClaim:
-        #     storageClassName: standard
-        #     accessModes: [ "ReadWriteOnce" ]
-        #     resources:
-        #       requests:
-        #         storage: 6G
+        volume:
+           persistentVolumeClaim:
+             storageClassName: ${backupStorageName}
+             accessModes: [ "ReadWriteOnce" ]
+             resources:
+               requests:
+                 storage: 6G
     schedule:
 %{ for schedule in backupSchedule ~}
       - name: ${schedule.name}
