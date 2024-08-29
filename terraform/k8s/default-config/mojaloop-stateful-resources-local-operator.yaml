@@ -1,6 +1,6 @@
 thirdparty-auth-svc-db:
   local_operator_config:
-    cr_version: 1.16.0
+    cr_version: 1.15.0
     resource_namespace: thirdparty-db
     override_service_name: mysql-thirdparty-auth-svc-db
     resource_operator_crd_version: 1.15.0
@@ -53,7 +53,7 @@ thirdparty-auth-svc-db:
       pxc_strict_mode: PERMISSIVE
 mysql-consent-oracle-db:
   local_operator_config:
-    cr_version: 1.16.0
+    cr_version: 1.15.0
     resource_namespace: thirdparty-db
     override_service_name:
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -108,7 +108,7 @@ mysql-consent-oracle-db:
       pxc_strict_mode: PERMISSIVE
 mcm-db:
   local_operator_config:
-    cr_version: 1.16.0
+    cr_version: 1.15.0
     resource_namespace: mcm-db
     override_service_name: mcm-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -163,7 +163,7 @@ mcm-db:
       pxc_strict_mode: PERMISSIVE
 account-lookup-db:
   local_operator_config:
-    cr_version: 1.16.0
+    cr_version: 1.15.0
     resource_namespace: mojaloop-db
     override_service_name: account-lookup-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -226,7 +226,7 @@ account-lookup-db:
       pxc_strict_mode: PERMISSIVE
 central-ledger-db:
   local_operator_config:
-    cr_version: 1.16.0
+    cr_version: 1.15.0
     resource_namespace: mojaloop-db
     override_service_name: central-ledger-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -489,7 +489,7 @@ ttk-mongodb:
 
 keycloak-db:
   local_operator_config:
-    cr_version: 1.16.0
+    cr_version: 1.15.0
     resource_namespace: keycloak-db
     override_service_name: keycloak-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -544,7 +544,7 @@ keycloak-db:
       pxc_strict_mode: PERMISSIVE
 keto-db:
   local_operator_config:
-    cr_version: 1.16.0
+    cr_version: 1.15.0
     resource_namespace: keto-db
     override_service_name: keto-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -600,7 +600,7 @@ keto-db:
       pxc_strict_mode: PERMISSIVE
 kratos-db:
   local_operator_config:
-    cr_version: 1.16.0
+    cr_version: 1.15.0
     resource_namespace: kratos-db
     override_service_name: kratos-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
