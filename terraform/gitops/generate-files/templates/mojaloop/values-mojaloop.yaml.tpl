@@ -153,7 +153,7 @@ account-lookup-service:
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: ${account_lookup_service_replica_count}
-    config: &ALS_CONFIG
+    config:
       hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
       kafka_port: *KAFKA_PORT
@@ -196,7 +196,31 @@ account-lookup-service:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${account_lookup_service_admin_replica_count}
-    config: *ALS_CONFIG
+    config:
+      hub_participant: *HUB_PARTICIPANT
+      kafka_host: *KAFKA_HOST
+      kafka_port: *KAFKA_PORT
+      db_password: *ALS_DB_PASSWORD
+      db_secret: *ALS_DB_SECRET
+      db_host: *ALS_DB_HOST
+      db_user: *ALS_DB_USER
+      db_port: *ALS_DB_PORT
+      db_database: *ALS_DB_DATABASE
+      endpointSecurity: *ENDPOINT_SECURITY
+    # Thirdparty API Config
+      featureEnableExtendedPartyIdType: ${mojaloop_thirdparty_support_enabled}
+      central_shared_end_point_cache:
+        expiresIn: 180000
+        generateTimeout: 30000
+        getDecoratedValue: true
+      central_shared_participant_cache:
+        expiresIn: 61000
+        generateTimeout: 30000
+        getDecoratedValue: true
+      general_cache:
+        enabled: true
+        maxByteSize: 10000000
+        expiresIn: 61000
     ingress:
 # %{ if istio_create_ingress_gateways }
       enabled: false
@@ -210,25 +234,6 @@ account-lookup-service:
         prefix: *ALS_MONITORING_PREFIX
   als-oracle-pathfinder:
     enabled: false
-  account-lookup-service-handler-timeout:
-# %{ if account_lookup_admin_service_affinity != null }
-    affinity:
-      ${indent(8, account_lookup_admin_service_affinity)}
-# %{ endif }
-    tolerations: *MOJALOOP_TOLERATIONS
-    replicaCount: 1 # timeout handler is designed to run as a single instance
-    config: *ALS_CONFIG
-    ingress:
-# %{ if istio_create_ingress_gateways }
-      enabled: false
-# %{ else }
-      enabled: true
-# %{ endif }
-      className: *INGRESS_CLASS
-      hostname: account-lookup-service-timeout.${ingress_subdomain}
-    metrics:
-      config:
-        prefix: *ALS_MONITORING_PREFIX
 
 quoting-service:
   quoting-service:
@@ -312,6 +317,8 @@ ml-api-adapter:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${ml_api_adapter_service_replica_count}
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     config:
       hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
@@ -363,6 +370,8 @@ centralledger:
     affinity:
       ${indent(8, centralledger_service_affinity)}
 # %{ endif }
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_service_replica_count}
     config:
@@ -396,6 +405,8 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_transfer_prepare_affinity)}
 # %{ endif }
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_prepare_replica_count}
     config:
@@ -427,6 +438,8 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_transfer_position_affinity)}
 # %{ endif }
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_position_replica_count}
     config:
@@ -460,6 +473,8 @@ centralledger:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_position_batch_replica_count}
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     config:
       hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
@@ -490,6 +505,8 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_transfer_get_affinity)}
 # %{ endif }
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_get_replica_count}
     config:
@@ -520,6 +537,8 @@ centralledger:
     affinity:
       ${indent(8, central_ledger_handler_transfer_fulfil_affinity)}
 # %{ endif }
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_transfer_fulfil_replica_count}
     config:
@@ -548,6 +567,8 @@ centralledger:
         prefix: *CL_MONITORING_PREFIX
   centralledger-handler-timeout:
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     config:
       hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
@@ -579,6 +600,8 @@ centralledger:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_ledger_handler_admin_transfer_replica_count}
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     config:
       hub_participant: *HUB_PARTICIPANT
       kafka_host: *KAFKA_HOST
@@ -619,6 +642,8 @@ centralsettlement:
     affinity:
       ${indent(8, central_settlement_service_affinity)}
 # %{ endif }
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_service_replica_count}
     config:
@@ -636,6 +661,8 @@ centralsettlement:
     affinity:
       ${indent(8, central_settlement_handler_deferredsettlement_affinity)}
 # %{ endif }
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_deferredsettlement_replica_count}
     config:
@@ -653,6 +680,8 @@ centralsettlement:
     affinity:
       ${indent(8, central_settlement_handler_grosssettlement_affinity)}
 # %{ endif }
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_grosssettlement_replica_count}
     config:
@@ -670,6 +699,8 @@ centralsettlement:
     affinity:
       ${indent(8, central_settlement_handler_rules_affinity)}
 # %{ endif }
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${central_settlement_handler_rules_replica_count}
     config:
@@ -732,6 +763,8 @@ thirdparty:
 
   consent-oracle:
     enabled: true
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     replicaCount: ${consent_oracle_replica_count}
     config:
@@ -772,6 +805,8 @@ thirdparty:
     tolerations: *MOJALOOP_TOLERATIONS
 
 simulator:
+  podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
   tolerations: *MOJALOOP_TOLERATIONS
   ingress:
 # %{ if istio_create_ingress_gateways }
@@ -786,6 +821,8 @@ mojaloop-bulk:
   enabled: ${bulk_enabled}
   bulk-api-adapter:
     bulk-api-adapter-service:
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${bulk_api-adapter_service_replica_count}
       config:
@@ -826,6 +863,8 @@ mojaloop-bulk:
         endpointSecurity: *ENDPOINT_SECURITY
   bulk-centralledger:
     cl-handler-bulk-transfer-prepare:
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_prepare_replica_count}
       config:
@@ -845,6 +884,8 @@ mojaloop-bulk:
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
     cl-handler-bulk-transfer-fulfil:
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_fulfil_replica_count}
       config:
@@ -864,6 +905,8 @@ mojaloop-bulk:
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
     cl-handler-bulk-transfer-processing:
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_processing_replica_count}
       config:
@@ -883,6 +926,8 @@ mojaloop-bulk:
         mongo_secret: *OBJSTORE_MONGO_SECRET
         mongo_database: *OBJSTORE_MONGO_DATABASE
     cl-handler-bulk-transfer-get:
+      podLabels:
+        sidecar.istio.io/inject: "${enable_istio_injection}"
       tolerations: *MOJALOOP_TOLERATIONS
       replicaCount: ${cl_handler_bulk_transfer_get_replica_count}
       config:
@@ -909,6 +954,8 @@ mojaloop-ttk-simulators:
     enabled: true
     sdk-scheme-adapter: &MOJA_TTK_SIM_SDK
       sdk-scheme-adapter-api-svc:
+        podLabels:
+          sidecar.istio.io/inject: "${enable_istio_injection}"
         tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
@@ -943,6 +990,8 @@ mojaloop-ttk-simulators:
     ml-testing-toolkit:
       ml-testing-toolkit-backend:
         tolerations: *MOJALOOP_TOLERATIONS
+        podLabels:
+          sidecar.istio.io/inject: "${enable_istio_injection}"
         ingress:
           enabled: false
           hosts:
@@ -977,6 +1026,8 @@ mojaloop-ttk-simulators:
             database: *TTK_MONGO_DATABASE
 
       ml-testing-toolkit-frontend:
+        podLabels:
+          sidecar.istio.io/inject: "${enable_istio_injection}"
         tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
@@ -991,6 +1042,8 @@ mojaloop-ttk-simulators:
     sdk-scheme-adapter: *MOJA_TTK_SIM_SDK
     ml-testing-toolkit:
       ml-testing-toolkit-backend:
+        podLabels:
+          sidecar.istio.io/inject: "${enable_istio_injection}"
         tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
@@ -1001,6 +1054,8 @@ mojaloop-ttk-simulators:
               host: ttksim2.${ingress_subdomain}
 
       ml-testing-toolkit-frontend:
+        podLabels:
+          sidecar.istio.io/inject: "${enable_istio_injection}"
         tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
@@ -1015,6 +1070,8 @@ mojaloop-ttk-simulators:
     sdk-scheme-adapter: *MOJA_TTK_SIM_SDK
     ml-testing-toolkit:
       ml-testing-toolkit-backend:
+        podLabels:
+          sidecar.istio.io/inject: "${enable_istio_injection}"
         tolerations: *MOJALOOP_TOLERATIONS
         ingress:
           enabled: false
@@ -1026,6 +1083,8 @@ mojaloop-ttk-simulators:
 
       ml-testing-toolkit-frontend:
         tolerations: *MOJALOOP_TOLERATIONS
+        podLabels:
+          sidecar.istio.io/inject: "${enable_istio_injection}"
         ingress:
           enabled: false
           hosts:
@@ -1037,6 +1096,8 @@ mojaloop-ttk-simulators:
 ml-testing-toolkit:
   enabled: ${internal_ttk_enabled}
   ml-testing-toolkit-backend:
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     config:
       mongodb:
@@ -1168,6 +1229,8 @@ ml-testing-toolkit:
           expectedAuthorizationsVersion: "1.1"
           expectedTransactionRequestsVersion: "1.1"
   ml-testing-toolkit-frontend:
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     tolerations: *MOJALOOP_TOLERATIONS
     ingress:
 # %{ if istio_create_ingress_gateways }
@@ -1204,6 +1267,8 @@ ml-ttk-test-setup:
     ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
     # ttlSecondsAfterFinished: 50
     generateNameEnabled: false
+    labels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     annotations:
       argocd.argoproj.io/hook: PostSync
 
@@ -1229,6 +1294,8 @@ ml-ttk-test-val-gp:
     ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
     # ttlSecondsAfterFinished: 50
     generateNameEnabled: false
+    labels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     annotations:
       argocd.argoproj.io/hook: PostSync
       argocd.argoproj.io/sync-wave: "${mojaloop_test_sync_wave}"
