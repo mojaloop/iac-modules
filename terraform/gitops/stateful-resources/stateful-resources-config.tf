@@ -107,11 +107,16 @@ resource "local_file" "percona-crs" {
       existing_secret     = each.value.local_operator_config.secret_config.generate_secret_name
       affinity_definition = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.affinity_definition : each.value.local_operator_config.mongodb_data.affinity_definition
 
+      percona_xtradb_mysql_version   = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_mysql_version : ""
+      percona_xtradb_haproxy_version = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_haproxy_version : ""
+      percona_xtradb_logcoll_version = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_logcoll_version : ""
+      percona_xtradb_backup_version  = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_backup_version : ""
 
       mongo_config_server_replica_count = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_config_server_replica_count : ""
       mongo_proxy_replica_count         = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_proxy_replica_count : ""
       mongod_replica_count              = each.value.logical_service_config.replica_count
       percona_server_mongodb_version    = each.value.resource_type == "mongodb" ? each.value.local_operator_config.percona_server_mongodb_version : ""
+      percona_backup_mongodb_version    = each.value.resource_type == "mongodb" ? each.value.local_operator_config.percona_backup_mongodb_version : ""
 
 
       ceph_percona_backup_bucket = var.ceph_percona_backup_bucket

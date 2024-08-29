@@ -56,7 +56,7 @@ spec:
 #    sse: my-cluster-name-sse
   pmm:
     enabled: false
-    image: perconalab/pmm-client:dev-latest
+    image: percona/pmm-client:2.41.2
     serverHost: monitoring-service
 #    mongodParams: --environment=ENVIRONMENT
 #    mongosParams: --environment=ENVIRONMENT
@@ -537,7 +537,7 @@ spec:
 
   backup:
     enabled: true
-    image: perconalab/percona-server-mongodb-operator:main-backup
+    image: percona/percona-backup-mongodb:${percona_backup_mongodb_version}
 #    annotations:
 #      iam.amazonaws.com/role: role-arn
 #    resources:
@@ -658,7 +658,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: init-db
-          image: percona/percona-server-mongodb:6.0.4-3
+          image: percona/percona-server-mongodb:${percona_server_mongodb_version}
           command:
             - /bin/sh
             - "-c"

@@ -56,7 +56,7 @@ spec:
     schedule: "0 4 * * *"
   pxc:
     size: ${replica_count}
-    image: percona/percona-xtradb-cluster:8.0.36-28.1
+    image: percona/percona-xtradb-cluster:${percona_xtradb_mysql_version}
     autoRecovery: true
 #    expose:
 #      enabled: true
@@ -220,7 +220,7 @@ spec:
   haproxy:
     enabled: true
     size: 2
-    image: percona/haproxy:2.8.5
+    image: percona/haproxy:${percona_xtradb_haproxy_version}
 #    imagePullPolicy: Always
 #    schedulerName: mycustom-scheduler
 #    readinessDelaySec: 15
@@ -557,7 +557,7 @@ spec:
 #     - 10.0.0.0/8
   logcollector:
     enabled: true
-    image: percona/percona-xtradb-cluster-operator:1.15.0-logcollector-fluentbit3.1.4
+    image: percona/percona-xtradb-cluster-operator:${percona_xtradb_logcoll_version}
 #    configuration: |
 #      [OUTPUT]
 #           Name  es
@@ -585,7 +585,7 @@ spec:
         cpu: 300m
   backup:
 #    allowParallel: true
-    image: percona/percona-xtradb-cluster-operator:1.15.0-pxc8.0-backup-pxb8.0.35
+    image: percona/percona-xtradb-cluster-operator:${percona_xtradb_backup_version}
 #    backoffLimit: 6
 #    serviceAccountName: percona-xtradb-cluster-operator
 #    imagePullSecrets:
