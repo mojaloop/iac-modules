@@ -63,7 +63,7 @@ module "generate_pm4ml_files" {
     pm4ml_external_switch_client_secret_vault_value = "value"
     istio_external_gateway_name                     = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
-    auto_accept_party_id                            = each.value.auto_accept_party_id
+    auto_accept_party                               = each.value.auto_accept_party
     enable_sdk_bulk_transaction_support             = each.value.enable_sdk_bulk_transaction_support
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
