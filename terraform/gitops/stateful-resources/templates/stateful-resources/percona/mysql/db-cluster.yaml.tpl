@@ -219,7 +219,7 @@ spec:
 #          command: [ "/bin/true" ]
   haproxy:
     enabled: true
-    size: 1
+    size: 2
     image: perconalab/percona-xtradb-cluster-operator:main-haproxy
 #    imagePullPolicy: Always
 #    schedulerName: mycustom-scheduler
