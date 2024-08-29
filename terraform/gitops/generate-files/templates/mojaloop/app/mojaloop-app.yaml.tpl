@@ -31,10 +31,8 @@ spec:
       labels:
         istio-injection: enabled
   %{ endif ~}
-  %{ if opentelemetry_namespace_filtering_enable ~}
       annotations:
         instrumentation.opentelemetry.io/inject-nodejs: "true"
-  %{ endif ~}
     automated:
       prune: true
       selfHeal: true
