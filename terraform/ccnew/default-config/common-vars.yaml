@@ -106,5 +106,5 @@ gitlab_gitlab_admin_rbac_group: "gitlab_administrators"
 gitlab_gitlab_user_rbac_group: "gitlab_users"
 gitaly_storage_size: "10Gi"
 
-deploy_env_config_ceph_bucket_max_objects: "'1000'"
-deploy_env_config_ceph_bucket_max_size: "20Gi"
+ceph_bucket_max_objects: "'1000000'"
+ceph_bucket_max_size: "10Gi"
