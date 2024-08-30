@@ -13,7 +13,7 @@ percona-mysql:
   helm_chart: pxc-operator
   namespace: percona-mysql
   release_name: percona-mysql
-  helm_chart_version: 1.15.0
+  helm_chart_version: 1.14.0
   helm_chart_repo: https://percona.github.io/percona-helm-charts/
   helm_chart_values_file: values-percona-mysql.yaml
 percona-mongodb:
