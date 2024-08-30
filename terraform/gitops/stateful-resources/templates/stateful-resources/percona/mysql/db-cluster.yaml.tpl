@@ -4,7 +4,7 @@ metadata:
   namespace: ${namespace}
   name: ${cluster_name}
   finalizers:
-    - percona.com/delete-pxc-pods-in-order
+    - delete-pxc-pods-in-order
 #    - delete-ssl
 #    - delete-proxysql-pvc
 #    - delete-pxc-pvc
@@ -33,8 +33,8 @@ spec:
 #        memory: 200M
 #        cpu: 200m
 #  enableCRValidationWebhook: true
-  tls:
-    enabled: true
+#  tls:
+#    enabled: true
 #    SANs:
 #      - pxc-1.example.com
 #      - pxc-2.example.com
@@ -43,6 +43,7 @@ spec:
 #      name: special-selfsigned-issuer
 #      kind: ClusterIssuer
 #      group: cert-manager.io
+  allowUnsafeConfigurations: false
 #  unsafeFlags:
 #    tls: false
 #    pxcSize: false
@@ -726,8 +727,6 @@ spec:
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterBackup
 metadata:
-  finalizers:
-    - delete-s3-backup
   name: ${cluster_name}-backup
   namespace: ${namespace}
   annotations:
