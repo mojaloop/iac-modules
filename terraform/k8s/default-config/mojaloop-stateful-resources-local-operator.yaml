@@ -1,10 +1,10 @@
 thirdparty-auth-svc-db:
   local_operator_config:
-    cr_version: 1.15.0
-    percona_xtradb_mysql_version: 8.0.36-28.1
-    percona_xtradb_haproxy_version: 2.8.5
-    percona_xtradb_logcoll_version: 1.15.0-logcollector-fluentbit3.1.4
-    percona_xtradb_backup_version: 1.15.0-pxc8.0-backup-pxb8.0.35
+    cr_version: 1.14.0
+    percona_xtradb_mysql_version: 8.0.35-27.1
+    percona_xtradb_haproxy_version: 1.14.0-haproxy
+    percona_xtradb_logcoll_version: 1.14.0-logcollector
+    percona_xtradb_backup_version: 1.14.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: thirdparty-db
     override_service_name: mysql-thirdparty-auth-svc-db
     resource_operator_crd_version: 1.15.0
@@ -57,11 +57,11 @@ thirdparty-auth-svc-db:
       pxc_strict_mode: PERMISSIVE
 mysql-consent-oracle-db:
   local_operator_config:
-    cr_version: 1.15.0
-    percona_xtradb_mysql_version: 8.0.36-28.1
-    percona_xtradb_haproxy_version: 2.8.5
-    percona_xtradb_logcoll_version: 1.15.0-logcollector-fluentbit3.1.4
-    percona_xtradb_backup_version: 1.15.0-pxc8.0-backup-pxb8.0.35
+    cr_version: 1.14.0
+    percona_xtradb_mysql_version: 8.0.35-27.1
+    percona_xtradb_haproxy_version: 1.14.0-haproxy
+    percona_xtradb_logcoll_version: 1.14.0-logcollector
+    percona_xtradb_backup_version: 1.14.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: thirdparty-db
     override_service_name:
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -116,11 +116,11 @@ mysql-consent-oracle-db:
       pxc_strict_mode: PERMISSIVE
 mcm-db:
   local_operator_config:
-    cr_version: 1.15.0
-    percona_xtradb_mysql_version: 8.0.36-28.1
-    percona_xtradb_haproxy_version: 2.8.5
-    percona_xtradb_logcoll_version: 1.15.0-logcollector-fluentbit3.1.4
-    percona_xtradb_backup_version: 1.15.0-pxc8.0-backup-pxb8.0.35
+    cr_version: 1.14.0
+    percona_xtradb_mysql_version: 8.0.35-27.1
+    percona_xtradb_haproxy_version: 1.14.0-haproxy
+    percona_xtradb_logcoll_version: 1.14.0-logcollector
+    percona_xtradb_backup_version: 1.14.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: mcm-db
     override_service_name: mcm-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -175,11 +175,11 @@ mcm-db:
       pxc_strict_mode: PERMISSIVE
 account-lookup-db:
   local_operator_config:
-    cr_version: 1.15.0
-    percona_xtradb_mysql_version: 8.0.36-28.1
-    percona_xtradb_haproxy_version: 2.8.5
-    percona_xtradb_logcoll_version: 1.15.0-logcollector-fluentbit3.1.4
-    percona_xtradb_backup_version: 1.15.0-pxc8.0-backup-pxb8.0.35
+    cr_version: 1.14.0
+    percona_xtradb_mysql_version: 8.0.35-27.1
+    percona_xtradb_haproxy_version: 1.14.0-haproxy
+    percona_xtradb_logcoll_version: 1.14.0-logcollector
+    percona_xtradb_backup_version: 1.14.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: mojaloop-db
     override_service_name: account-lookup-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -242,11 +242,11 @@ account-lookup-db:
       pxc_strict_mode: PERMISSIVE
 central-ledger-db:
   local_operator_config:
-    cr_version: 1.15.0
-    percona_xtradb_mysql_version: 8.0.36-28.1
-    percona_xtradb_haproxy_version: 2.8.5
-    percona_xtradb_logcoll_version: 1.15.0-logcollector-fluentbit3.1.4
-    percona_xtradb_backup_version: 1.15.0-pxc8.0-backup-pxb8.0.35
+    cr_version: 1.14.0
+    percona_xtradb_mysql_version: 8.0.35-27.1
+    percona_xtradb_haproxy_version: 1.14.0-haproxy
+    percona_xtradb_logcoll_version: 1.14.0-logcollector
+    percona_xtradb_backup_version: 1.14.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: mojaloop-db
     override_service_name: central-ledger-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -513,11 +513,11 @@ ttk-mongodb:
 
 keycloak-db:
   local_operator_config:
-    cr_version: 1.15.0
-    percona_xtradb_mysql_version: 8.0.36-28.1
-    percona_xtradb_haproxy_version: 2.8.5
-    percona_xtradb_logcoll_version: 1.15.0-logcollector-fluentbit3.1.4
-    percona_xtradb_backup_version: 1.15.0-pxc8.0-backup-pxb8.0.35
+    cr_version: 1.14.0
+    percona_xtradb_mysql_version: 8.0.35-27.1
+    percona_xtradb_haproxy_version: 1.14.0-haproxy
+    percona_xtradb_logcoll_version: 1.14.0-logcollector
+    percona_xtradb_backup_version: 1.14.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: keycloak-db
     override_service_name: keycloak-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -572,11 +572,11 @@ keycloak-db:
       pxc_strict_mode: PERMISSIVE
 keto-db:
   local_operator_config:
-    cr_version: 1.15.0
-    percona_xtradb_mysql_version: 8.0.36-28.1
-    percona_xtradb_haproxy_version: 2.8.5
-    percona_xtradb_logcoll_version: 1.15.0-logcollector-fluentbit3.1.4
-    percona_xtradb_backup_version: 1.15.0-pxc8.0-backup-pxb8.0.35
+    cr_version: 1.14.0
+    percona_xtradb_mysql_version: 8.0.35-27.1
+    percona_xtradb_haproxy_version: 1.14.0-haproxy
+    percona_xtradb_logcoll_version: 1.14.0-logcollector
+    percona_xtradb_backup_version: 1.14.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: keto-db
     override_service_name: keto-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -632,11 +632,11 @@ keto-db:
       pxc_strict_mode: PERMISSIVE
 kratos-db:
   local_operator_config:
-    cr_version: 1.15.0
-    percona_xtradb_mysql_version: 8.0.36-28.1
-    percona_xtradb_haproxy_version: 2.8.5
-    percona_xtradb_logcoll_version: 1.15.0-logcollector-fluentbit3.1.4
-    percona_xtradb_backup_version: 1.15.0-pxc8.0-backup-pxb8.0.35
+    cr_version: 1.14.0
+    percona_xtradb_mysql_version: 8.0.35-27.1
+    percona_xtradb_haproxy_version: 1.14.0-haproxy
+    percona_xtradb_logcoll_version: 1.14.0-logcollector
+    percona_xtradb_backup_version: 1.14.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: kratos-db
     override_service_name: kratos-db-haproxy
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
