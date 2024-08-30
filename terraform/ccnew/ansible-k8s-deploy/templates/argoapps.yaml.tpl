@@ -129,6 +129,8 @@ argocd_override:
         config:
           environment_list:  "${join(",", environment_list)}"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
+          ceph_bucket_max_objects: "${ceph_bucket_max_objects}"
+          ceph_bucket_max_size:  "${ceph_bucket_max_size}"
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"          
 
