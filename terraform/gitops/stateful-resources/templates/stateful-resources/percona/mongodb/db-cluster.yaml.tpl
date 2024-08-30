@@ -567,7 +567,7 @@ spec:
 #          endpointUrl: https://accountName.blob.core.windows.net
 #          credentialsSecret: SECRET-NAME
     pitr:
-      enabled: true
+      enabled: false
       oplogOnly: false
 #      oplogSpanMin: 10
       compressionType: gzip
@@ -603,7 +603,7 @@ apiVersion: psmdb.percona.com/v1
 kind: PerconaServerMongoDBBackup
 metadata:
   finalizers:
-    - delete-s3-backup
+    - delete-backup
   name: ${cluster_name}-backup
   namespace: ${namespace}
   annotations:

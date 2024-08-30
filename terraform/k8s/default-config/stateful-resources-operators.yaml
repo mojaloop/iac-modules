@@ -22,7 +22,7 @@ percona-mongodb:
   helm_chart: psmdb-operator
   namespace: percona-mongodb
   release_name: percona-mongodb
-  helm_chart_version: 1.15.0
+  helm_chart_version: 1.16.2
   helm_chart_repo: https://percona.github.io/percona-helm-charts/
   helm_chart_values_file: values-percona-mongodb.yaml
 redis:

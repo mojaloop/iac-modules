@@ -710,7 +710,7 @@ spec:
 #          supplementalGroups: [1001, 1002, 1003]
         volume:
            persistentVolumeClaim:
-             storageClassName: ${backupStorageName}
+             storageClassName: ${storage_class_name}
              accessModes: [ "ReadWriteOnce" ]
              resources:
                requests:
