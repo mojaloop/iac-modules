@@ -57,6 +57,7 @@ compactor:
   replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  resourcesPreset: large
 
 storeGateway: 
   replicaCount: ${ARGOCD_ENV_mimir_store_gateway_replica_count}
