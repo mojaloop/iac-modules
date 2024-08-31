@@ -25,7 +25,7 @@ prometheus:
         X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
   remoteRead:
     - name: central-monitoring
-      url: http://central-monitoring-grafana-mimir-gateway/api/v1/read
+      url: http://central-monitoring-grafana-mimir-gateway/prometheus/api/v1/read
       headers:
         X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
 
