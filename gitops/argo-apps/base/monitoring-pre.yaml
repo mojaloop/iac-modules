@@ -31,7 +31,8 @@ spec:
 
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
-    targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag} 
+    # targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag} 
+    targetRevision: muz/ccv2-dev
     path: gitops/applications/base/monitoring-pre
     plugin:
       name: envsubst
