@@ -204,6 +204,7 @@ variable "cluster_name" {
 variable "istio_create_ingress_gateways" {
   type = bool
   description = "enable istio for stateful resources"
+  default = true # default to true for now. Ask infra team.
 }
 
 variable "gitlab_server_url" {
