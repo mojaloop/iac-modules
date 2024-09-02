@@ -1,3 +1,50 @@
+%{ if istio_create_ingress_gateways ~}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: interop-gateway
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
+spec:
+  selector:
+    istio: ${istio_external_gateway_name}
+  servers:
+  - hosts:
+    - '${interop_switch_fqdn}'
+    port:
+      name: https-interop
+      number: 443
+      protocol: HTTPS
+    tls:
+      credentialName: ${vault_certman_secretname}
+      mode: MUTUAL
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: interop-jwt
+  namespace: ${istio_external_gateway_namespace}
+spec:
+  selector:
+    matchLabels:
+      app: ${istio_external_gateway_name}
+%{ if fspiop_use_ory_for_auth ~}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+%{ else ~}
+  action: DENY
+%{ endif ~}
+  rules:
+    - to:
+        - operation:
+            hosts: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
+%{ if !fspiop_use_ory_for_auth ~}
+      from:
+        - source:
+            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
+%{ endif ~}
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -216,6 +263,48 @@ spec:
             host: ${mojaloop_release_name}-ml-testing-toolkit-frontend
             port:
               number: 6060
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: mojaloop-ttkback-vs
+spec:
+  gateways:
+  - ${ttk_istio_gateway_namespace}/${ttk_istio_wildcard_gateway_name}
+  hosts:
+  - '${ttk_backend_fqdn}'
+  http:
+    - name: api
+      match:
+        - uri:
+            prefix: /api/
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+            port:
+              number: 5050
+    - name: socket
+      match:
+        - uri:
+            prefix: /socket.io/
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+            port:
+              number: 5050
+    - name: root
+      match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+            port:
+              number: 4040
+---
+%{ endif ~}
+
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -369,40 +458,21 @@ spec:
             port:
               number: 80
 ---
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: mojaloop-ttkback-vs
+  name: finance-portal-auth
+  namespace: ${portal_istio_gateway_namespace}
 spec:
-  gateways:
-  - ${ttk_istio_gateway_namespace}/${ttk_istio_wildcard_gateway_name}
-  hosts:
-  - '${ttk_backend_fqdn}'
-  http:
-    - name: api
-      match:
-        - uri:
-            prefix: /api/
-      route:
-        - destination:
-            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
-            port:
-              number: 5050
-    - name: socket
-      match:
-        - uri:
-            prefix: /socket.io/
-      route:
-        - destination:
-            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
-            port:
-              number: 5050
-    - name: root
-      match:
-        - uri:
-            prefix: /
-      route:
-        - destination:
-            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
-            port:
-              number: 4040
+  selector:
+    matchLabels:
+      app: ${portal_istio_gateway_name}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+  rules:
+    - to:
+        - operation:
+            paths:
+              - /api/*
+            hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
