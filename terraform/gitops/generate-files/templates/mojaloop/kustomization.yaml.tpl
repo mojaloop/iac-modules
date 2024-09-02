@@ -3,7 +3,10 @@ kind: Kustomization
 resources:
   - ext-ingress.yaml
   - grafana.yaml
-  - istio-config.yaml
+  - istio/authorization.yaml
+  - istio/gateways.yaml
+  - istio/mtls.yaml
+  - istio/virtual-services.yaml
   - service-monitors.yaml
   - vault-secret.yaml
   - switch-jws-deployment.yaml
