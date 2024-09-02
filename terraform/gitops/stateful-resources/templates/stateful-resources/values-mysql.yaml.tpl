@@ -802,7 +802,12 @@ secondary:
     maxUnavailable: ""
   ## @param secondary.podLabels Additional pod labels for MySQL secondary pods
   ##
-  podLabels: {}
+  podLabels:
+    %{ if istio_injection ~}
+    istio-injection: enabled
+    %{ else ~}
+    {}
+    %{ endif ~}
 
 ## @section RBAC parameters
 ##

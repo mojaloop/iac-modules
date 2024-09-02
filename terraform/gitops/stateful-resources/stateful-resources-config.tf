@@ -64,6 +64,7 @@ resource "local_file" "strimzi-crs" {
     {
       kafka_cluster_name          = each.key
       kafka_cluster_metrics_label = var.cluster_name
+      istio_injection             = var.istio_create_ingress_gateways
 
       node_pool_name         = "${each.key}-nodepool"
       node_pool_size         = each.value.local_operator_config.node_pool_size
@@ -198,6 +199,11 @@ variable "gitlab_project_url" {
 variable "cluster_name" {
   description = "Cluster name, lower case and without spaces. This will be used to set tags and name resources"
   type        = string
+}
+
+variable "istio_create_ingress_gateways" {
+  type = bool
+  description = "enable istio for stateful resources"
 }
 
 variable "gitlab_server_url" {
