@@ -5,8 +5,8 @@ dns_provider: aws
 k8s_cluster_module: base-k8s
 cloud_region: eu-west-1
 k8s_cluster_type: microk8s
-ansible_collection_tag: vexp-cck8s38
-iac_terraform_modules_tag: vexp-cck8s4
+ansible_collection_tag: v5.3.9
+iac_terraform_modules_tag: v5.3.9
 letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 microk8s_dev_skip: false
