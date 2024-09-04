@@ -42,10 +42,13 @@ if  [ !  -d custom-config ]; then
    echo "env: ${env_name}
 argocd_oidc_domain: \"int.${env_name}\"
 grafana_oidc_domain: \"int.${env_name}\"
-vault_oidc_domain: \"int.${env_name}\"" > custom-config/cluster-config.yaml
+vault_oidc_domain: \"int.${env_name}\"
+managed_vpc_cidr: 10.106.0.0/23
+managed_svc_enabled: false
+k8s_cluster_type: microk8s" > custom-config/cluster-config.yaml
    echo "pm4mls:
-- pm4ml: pm4mltest1
-  pm4ml_enabled: false
+   test-fxp:
+     pm4ml_enabled: false
 "> custom-config/pm4ml-vars.yaml
 fi
 git config --global user.email "root@${gitlab_hostname}"
