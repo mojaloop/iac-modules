@@ -76,6 +76,7 @@ spec:
           value: "${ARGOCD_ENV_monitoring_prometheus_pvc_size}"
         - name: "prometheus_retention_period"
           value: "${ARGOCD_ENV_monitoring_prometheus_retention_period}"
+        # TODO: add prometheus before the config name
         - name: "tsdb_min_block_duration"
           value: "${ARGOCD_ENV_monitoring_prometheus_tsdb_min_block_duration}"
         - name: "tsdb_max_block_duration"

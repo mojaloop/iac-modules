@@ -12,6 +12,8 @@ mimir:
       insecure: true
       bucket_lookup_type: path
   overrideConfiguration:
+    frontend:
+      max_outstanding_per_tenant: 4096
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}
