@@ -803,11 +803,7 @@ secondary:
   ## @param secondary.podLabels Additional pod labels for MySQL secondary pods
   ##
   podLabels:
-    %{ if istio_injection ~}
     istio-injection: enabled
-    %{ else ~}
-    {}
-    %{ endif ~}
 
 ## @section RBAC parameters
 ##
@@ -1096,7 +1092,8 @@ metrics:
     ## @param metrics.serviceMonitor.labels Used to pass Labels that are used by the Prometheus installed in your cluster to select Service Monitors to work with
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
     ##
-    labels: {}
+    labels:
+      istio-injection: enabled
     ## @param metrics.serviceMonitor.annotations ServiceMonitor annotations
     ##
     annotations: {}
