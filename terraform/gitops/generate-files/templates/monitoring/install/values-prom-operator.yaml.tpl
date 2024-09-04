@@ -43,7 +43,7 @@ prometheus:
 %{if enable_central_observability_read ~}
   remoteRead:
   - name: central-monitoring
-    url: ${central_observability_endpoint}/api/v1/read
+    url: ${central_observability_endpoint}/prometheus/api/v1/read
     headers:
       X-Scope-OrgID: ${central_observability_tenant_id}    
 %{endif ~} 
