@@ -168,7 +168,7 @@ refresh-templates:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
-    - .gitlab/scripts/refresh-templates.sh  $CC_TMP_GIT_REPO $CC_TMP_TEMPLATES_DIR $GITLAB_TOKEN $IAC_TERRAFORM_MODULES_TAG
+    - .gitlab/scripts/refresh-templates.sh  $CC_TMP_GIT_REPO $CC_TMP_TEMPLATES_DIR $GITLAB_SEED_TOKEN $IAC_TERRAFORM_MODULES_TAG
   when: manual
 
 #do nothing for now
