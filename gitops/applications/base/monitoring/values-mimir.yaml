@@ -54,6 +54,7 @@ querier:
 
 queryFrontend: 
   replicaCount: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
+  resourcesPreset: large
 
 compactor: 
   replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
