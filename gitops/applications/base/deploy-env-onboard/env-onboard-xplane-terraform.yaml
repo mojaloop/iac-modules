@@ -54,6 +54,12 @@ spec:
         value: "${ARGOCD_ENV_k8s_admin_rbac_group}"
       - key: "k8s_user_rbac_group"
         value: "${ARGOCD_ENV_k8s_user_rbac_group}"
+      - key: managed_services_env_cidr
+        value: "${ARGOCD_ENV_managed_services_env_cidr}"
+      - key: managed_svc_enabled
+        value: "${ARGOCD_ENV_managed_svc_enabled}"
+      - key: "k8s_cluster_type"
+        value: "${ARGOCD_ENV_k8s_cluster_type}"                
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
