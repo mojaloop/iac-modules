@@ -33,6 +33,9 @@ locals {
   K8S_CLUSTER_TYPE          = get_env("k8s_cluster_type")
   CLOUD_REGION              = get_env("cloud_region")
   aws_provider_version      = ">= 5.0.0"
+  netbird_version           = get_env("NETBIRD_VERSION")
+  netbird_api_host          = get_env("NETBIRD_API_HOST")
+  netbird_setup_key         = get_env("NETBIRD_K8S_SETUP_KEY")    
 }
 
 generate "required_providers_override" {
