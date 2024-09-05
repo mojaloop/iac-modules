@@ -198,6 +198,18 @@ variable "node_pools" {
   type = any
 }
 
+variable "netbird_version" {
+  type = string
+}
+
+variable "netbird_api_host" {
+  type = string
+}
+
+variable "netbird_setup_key" {
+  type = string
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###
