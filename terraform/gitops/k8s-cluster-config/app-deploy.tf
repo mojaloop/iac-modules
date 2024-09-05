@@ -210,8 +210,8 @@ module "vnext" {
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
   platform_stateful_res_config         = module.config_deepmerge.merged
-  ceph_api_url                        = var.ceph_api_url
-  ceph_percona_backup_bucket          = data.gitlab_project_variable.ceph_percona_backup_bucket.value
+  ceph_api_url                         = var.ceph_api_url
+  ceph_percona_backup_bucket           = data.gitlab_project_variable.ceph_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
 
 }
