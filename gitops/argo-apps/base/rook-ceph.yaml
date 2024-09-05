@@ -57,6 +57,8 @@ spec:
       helm:
         releaseName: rook-ceph-cluster
         valuesObject:
+          toolbox:
+            enabled: true
           monitoring:
             enabled: true
             interval: 60s
