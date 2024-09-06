@@ -36,8 +36,8 @@ serviceAccount:
 annotations: {}
 
 # labels to add to the operator deployment
-labels:
-  istio-injection: enabled
+# labels:
+#  istio-injection: enabled
 
 # annotations to add to the operator pod
 podAnnotations: {}
@@ -45,8 +45,8 @@ podAnnotations: {}
   # prometheus.io/port: "8080"
 
 # labels to the operator pod
-podLabels:
-  istio-injection: enabled
+# podLabels:
+#  istio-injection: enabled
   
 podSecurityContext: {}
   # runAsNonRoot: true

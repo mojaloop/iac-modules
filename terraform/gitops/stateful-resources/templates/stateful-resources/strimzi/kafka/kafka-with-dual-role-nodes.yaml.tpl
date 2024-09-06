@@ -5,7 +5,6 @@ metadata:
   namespace: ${namespace}
   labels:
     strimzi.io/cluster: ${kafka_cluster_name}
-    istio-injection: enabled
 spec:
   replicas: ${node_pool_size}
   roles:
@@ -20,10 +19,6 @@ spec:
         deleteClaim: false
 # %{ if node_pool_affinity != null }
   template:
-    podSet:
-      metadata:
-        labels:
-          istio-injection: enabled
     pod:
       affinity:
         ${indent(8, yamlencode(node_pool_affinity))}

@@ -118,8 +118,8 @@ spec:
 #    priorityClassName: high-priority
 #    annotations:
 #      iam.amazonaws.com/role: role-arn
-    labels:
-      istio-injection: enabled
+#    labels:
+#      istio-injection: enabled
 #      rack: rack-22
 #    nodeSelector:
 #      disktype: ssd

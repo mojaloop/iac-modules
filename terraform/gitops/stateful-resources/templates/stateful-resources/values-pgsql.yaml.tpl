@@ -482,12 +482,12 @@ primary:
   annotations: {}
   ## @param primary.podLabels Map of labels to add to the pods (postgresql primary)
   ##
-  podLabels: 
-    %{ if istio_injection ~}
-    istio-injection: enabled
-    %{ else ~}
-    {}
-    %{ endif ~}
+  ## podLabels: 
+  ##  %{ if istio_injection ~}
+  ##  istio-injection: enabled
+  ##  %{ else ~}
+  ##  {}
+  ##  %{ endif ~}
   ## @param primary.podAnnotations Map of annotations to add to the pods (postgresql primary)
   ##
   podAnnotations: {}
