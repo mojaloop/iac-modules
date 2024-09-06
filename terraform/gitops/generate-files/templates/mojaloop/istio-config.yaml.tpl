@@ -476,3 +476,43 @@ spec:
             paths:
               - /api/*
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
+---
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: finance-portal-peer-authentication
+  namespace: ${portal_istio_gateway_namespace}
+spec:
+  mtls:
+    mode: STRICT
+EOF
+---
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: mojaloop-peer-authentication
+  namespace: ${mojaloop_namespace}
+spec:
+  mtls:
+    mode: STRICT
+EOF
+---
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: finance-portal-db-peer-authentication
+  namespace: ${portal_istio_gateway_namespace}-db
+spec:
+  mtls:
+    mode: STRICT
+EOF
+---
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: mojaloop-db-peer-authentication
+  namespace: ${mojaloop_namespace}-db
+spec:
+  mtls:
+    mode: STRICT
+EOF
