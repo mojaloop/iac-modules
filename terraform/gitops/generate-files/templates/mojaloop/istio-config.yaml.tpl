@@ -485,7 +485,6 @@ metadata:
 spec:
   mtls:
     mode: STRICT
-EOF
 ---
 apiVersion: security.istio.io/v1
 kind: PeerAuthentication
@@ -495,7 +494,6 @@ metadata:
 spec:
   mtls:
     mode: STRICT
-EOF
 ---
 apiVersion: security.istio.io/v1
 kind: PeerAuthentication
@@ -505,7 +503,6 @@ metadata:
 spec:
   mtls:
     mode: STRICT
-EOF
 ---
 apiVersion: security.istio.io/v1
 kind: PeerAuthentication
