@@ -512,4 +512,3 @@ metadata:
 spec:
   mtls:
     mode: STRICT
-EOF
