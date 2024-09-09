@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudwatch-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudwatch-exporter
+  template:
+    metadata:
+      labels:
+        app: cloudwatch-exporter
+    spec:
+      containers:
+      - name: cloudwatch-exporter
+        image: ghcr.io/nerdswords/yet-another-cloudwatch-exporter:v0.61.2
+        args:
+        - -config.file=/tmp/config.yml
+        - -listen-address=:8080
+        volumeMounts:
+        - name: config-volume
+          mountPath: /tmp/
+          subPath: cloudwatch-exporter-config.yaml
+      volumes:
+      - name: config-volume
+        configMap:
+          name: cloudwatch-exporter-config
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudwatch-exporter
+spec:
+  selector:
+    app: cloudwatch-exporter
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP   
+
