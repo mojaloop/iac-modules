@@ -71,6 +71,7 @@ cache:
     - export NETBIRD_GW_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_gw_setup_key)"
     - export NETBIRD_K8S_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_k8s_setup_key)"
     - export KUBERNETES_OIDC_CLIENT_ID="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/kubernetes_oidc_client_id)"
+    - export GIT_CREDENTIALS="$(vault kv get -field=credentials ${KV_SECRET_PATH}/git)"
     - source setcivars.sh
     - echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store
     - if [ "$GIT_CREDENTIALS" != "" ]; then echo "$GIT_CREDENTIALS" | tr ' ' '\n' >> ~/.gitcredentials.store; fi
