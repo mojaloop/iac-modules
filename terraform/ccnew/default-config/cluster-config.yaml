@@ -1,0 +1,32 @@
+cluster_name: cc21
+domain: ccnew.mojaloop.live
+cloud_platform: aws
+dns_provider: aws
+k8s_cluster_module: base-k8s
+cloud_region: eu-west-1
+k8s_cluster_type: microk8s
+ansible_collection_tag: v5.3.9
+iac_terraform_modules_tag: v5.3.9
+letsencrypt_email: test@mojalabs.io
+dns_zone_force_destroy: true
+microk8s_dev_skip: false
+iac_group_name: iac_admin
+kubernetes_oidc_enabled: true
+nodes:
+  master-generic:
+    master: true
+    instance_type: "m5.2xlarge"
+    node_count: 3
+    storage_gbs: 100
+    node_taints: []
+    node_labels: []
+    extra_vol_gbs: 100
+    extra_vol: true
+    extra_vol_name: "/dev/sdh"
+vpc_cidr: "10.106.0.0/23"
+master_node_supports_traffic: true
+tags:
+  Origin: Terraform
+  mojaloop/cost_center: mlf-iac-sandbox
+  mojaloop/env: ft-sbox-rw
+  mojaloop/owner: James-Bush

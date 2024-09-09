@@ -1,0 +1,69 @@
+minio:
+  enabled: false
+
+mimir:
+  blockStorage:
+    backend: s3
+    config:
+      access_key_id: $${AWS_ACCESS_KEY_ID}
+      secret_access_key: $${AWS_SECRET_ACCESS_KEY}
+      bucket_name: $${BUCKET_NAME}
+      endpoint: $${BUCKET_HOST}
+      insecure: true
+      bucket_lookup_type: path
+  overrideConfiguration:
+    frontend:
+      max_outstanding_per_tenant: 4096
+    limits:
+      max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
+      ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}
+      ingestion_burst_size: ${ARGOCD_ENV_mimir_ingestion_burst_size}
+      compactor_blocks_retention_period: ${ARGOCD_ENV_mimir_retention_period}
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    jobLabel: 'app.kubernetes.io/component'
+    relabelings:
+    - sourceLabels: [namespace,job]
+      separator: /
+      regex: (.*)
+      targetLabel: job
+      replacement: $${1}
+      action: replace
+
+
+# TODO: expose the resource config as configurable params
+# resource preset guide: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
+distributor:
+  replicaCount: ${ARGOCD_ENV_mimir_distributor_replica_count}
+  resourcesPreset: medium
+
+ingester:
+  replicaCount: ${ARGOCD_ENV_mimir_ingester_replica_count}
+  resourcesPreset: xlarge
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+
+querier:
+  replicaCount: ${ARGOCD_ENV_mimir_querier_replica_count}
+  resourcesPreset: large
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+
+queryFrontend: 
+  replicaCount: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
+  resourcesPreset: large
+
+compactor: 
+  replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  resourcesPreset: large
+
+storeGateway: 
+  replicaCount: ${ARGOCD_ENV_mimir_store_gateway_replica_count}
+  resourcesPreset: large
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}

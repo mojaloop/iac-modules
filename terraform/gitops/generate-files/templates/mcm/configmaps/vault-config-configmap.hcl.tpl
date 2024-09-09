@@ -225,6 +225,7 @@ spec:
             - '-c'
           args:
             - >
+              until nslookup github.com; do sleep 5;done;
               echo "Downloading the test collection...";
 
               wget

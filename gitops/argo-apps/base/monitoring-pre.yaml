@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_monitoring_pre_app_name}
+  namespace: ${ARGOCD_ENV_monitoring_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_monitoring_pre_sync_wave}"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ServerSideApply=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_monitoring_pre_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    # targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag} 
+    targetRevision: feature/ccv2-common-branch
+    path: gitops/applications/base/monitoring-pre
+    plugin:
+      name: envsubst
+      env:
+        - name: "monitoring_namespace"
+          value: "${ARGOCD_ENV_monitoring_pre_namespace}"
+
+        - name: "grafana_operator_version"
+          value: "${ARGOCD_ENV_monitoring_pre_grafana_operator_version}"
+
+        - name: "prometheus_crd_version"
+          value: "${ARGOCD_ENV_monitoring_pre_prometheus_crd_version}"
+
+        - name: "grafana_crd_version_tag"
+          value: "${ARGOCD_ENV_monitoring_pre_grafana_crd_version_tag}"
+
+        - name: "mimir_bucket_max_objects"
+          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_max_objects}"
+        - name: "mimir_bucket_storage_size"
+          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_storage_size}"          
+        - name: "mimir_bucket_name"
+          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_name}"          
+
+        - name: "ctrl_cntr_loki_bucket_max_objects"
+          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_max_objects}"
+        - name: "ctrl_cntr_loki_bucket_storage_size"
+          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_storage_size}"          
+        - name: "ctrl_cntr_loki_bucket_name"
+          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
+          

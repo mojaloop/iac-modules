@@ -1,0 +1,26 @@
+apiVersion: ansible.crossplane.io/v1alpha1
+kind: AnsibleRun
+metadata:
+  name: ${ARGOCD_ENV_netbird_post_config_app_name}
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+  annotations:
+    ansible.crossplane.io/runPolicy: ObserveAndDelete
+spec:
+  providerConfigRef:
+    name: ${ARGOCD_ENV_netbird_post_config_app_name}
+  forProvider:
+    vars:
+      K8S_AUTH_API_KEY: "/run/secrets/kubernetes.io/serviceaccount/token"
+      K8S_AUTH_SSL_CA_CERT: "/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+    inventories:
+      - source: Secret
+        secretRef:
+          namespace: ${ARGOCD_ENV_netbird_namespace}
+          name: netbird-ansible-secret-vars
+          key: inventory
+    playbookInline: |
+      ---
+      - hosts: all
+        roles:
+         - mojaloop.iac.netbird
+        connection: local

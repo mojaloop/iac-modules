@@ -1,0 +1,88 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_dns_utils_argocd_app_name}
+  namespace: ${ARGOCD_ENV_dns_utils_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_dns_utils_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  ignoreDifferences:
+    - group: ""
+      name: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
+      kind: Secret
+      jsonPointers:
+        - /data
+    - group: ""
+      name: "ext-dns-credentials"
+      kind: Secret
+      jsonPointers:
+        - /data
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - RespectIgnoreDifferences=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_dns_utils_app_namespace}
+
+  sources:
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
+      path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/dns-utils
+      plugin:
+        name: envsubst
+        env:
+          - name: "cluster_name"
+            value: "${ARGOCD_ENV_cluster_name}"
+
+          - name: "external_dns_helm_version"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_helm_version}"
+
+          - name: "external_dns_namespace"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_namespace}"
+
+          - name: "dns_private_subdomain"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_private_subdomain}"
+
+          - name: "dns_public_subdomain"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_public_subdomain}"
+
+          - name: "dns_cloud_api_region"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_cloud_api_region}"
+
+          - name: "letsencrypt_server"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_letsencrypt_server}"
+
+          - name: "letsencrypt_email"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_letsencrypt_email}"
+
+          - name: "cert_manager_namespace"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_cert_manager_namespace}"
+
+          - name: "external_dns_credentials_secret"
+            value: "ext-dns-credentials"
+
+          - name: "dns_utils_namespace"
+            value: "${ARGOCD_ENV_dns_utils_app_namespace}"
+
+          - name: "cert_manager_credentials_secret"
+            value: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
+
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"

@@ -1,0 +1,16 @@
+apiVersion: ansible.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: ${ARGOCD_ENV_netbird_post_config_app_name}
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+spec:
+  credentials: []
+  requirements: |
+    ---
+    collections:
+      - name: ${ARGOCD_ENV_netbird_ansible_repo_url}
+        type: git
+        version: ${ARGOCD_ENV_netbird_ansible_collection_tag}
+
+      - name: kubernetes.core
+        version: 5.0.0

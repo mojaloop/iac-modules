@@ -107,16 +107,21 @@ resource "local_file" "percona-crs" {
       existing_secret     = each.value.local_operator_config.secret_config.generate_secret_name
       affinity_definition = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.affinity_definition : each.value.local_operator_config.mongodb_data.affinity_definition
 
+      percona_xtradb_mysql_version   = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_mysql_version : ""
+      percona_xtradb_haproxy_version = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_haproxy_version : ""
+      percona_xtradb_logcoll_version = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_logcoll_version : ""
+      percona_xtradb_backup_version  = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_backup_version : ""
 
       mongo_config_server_replica_count = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_config_server_replica_count : ""
       mongo_proxy_replica_count         = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_proxy_replica_count : ""
       mongod_replica_count              = each.value.logical_service_config.replica_count
       percona_server_mongodb_version    = each.value.resource_type == "mongodb" ? each.value.local_operator_config.percona_server_mongodb_version : ""
+      percona_backup_mongodb_version    = each.value.resource_type == "mongodb" ? each.value.local_operator_config.percona_backup_mongodb_version : ""
 
 
-      minio_percona_backup_bucket = var.minio_percona_backup_bucket
-      minio_percona_secret        = "percona-backups-secret"
-      minio_api_url               = "http://${var.minio_api_url}"
+      ceph_percona_backup_bucket = var.ceph_percona_backup_bucket
+      ceph_percona_secret        = "percona-backups-secret"
+      ceph_api_url               = "https://${var.ceph_api_url}"
       backupSchedule              = each.value.backup_schedule
       backupStorageName           = "${each.key}-backup-storage"
 
@@ -175,8 +180,8 @@ locals {
   all_local_helm_namespaces = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
   all_local_op_namespaces   = distinct([for stateful_resource in local.operator_stateful_resources : try(stateful_resource.local_operator_config.resource_namespace, "")])
 
-  percona_credentials_secret_provider_key = "minio_percona_password"
-  percona_credentials_id_provider_key     = "minio_percona_username"
+  percona_credentials_secret_provider_key = "percona_bucket_secret_key_id"
+  percona_credentials_id_provider_key     = "percona_bucket_access_key_id"
 
   strimzi_kafka_grafana_dashboards_version = "0.41.0"
 }
@@ -253,12 +258,12 @@ variable "stateful_resources" {
   type = any
 }
 
-variable "minio_api_url" {
+variable "ceph_api_url" {
   type        = string
-  description = "minio_api_url"
+  description = "ceph_api_url"
 }
 
-variable "minio_percona_backup_bucket" {
+variable "ceph_percona_backup_bucket" {
   type        = string
-  description = "minio_percona_backup_bucket"
+  description = "ceph_percona_backup_bucket"
 }
