@@ -68,10 +68,10 @@ spec:
   endpoints:
   - port: http
     interval: 60s
-  relabelings:
-    - sourceLabels: [job]
-      separator: ;
-      regex: (.*)
-      targetLabel: scrape_job
-      replacement: "${1}"
-      action: replace
+    relabelings:
+      - sourceLabels: [job]
+        separator: ;
+        regex: (.*)
+        targetLabel: scrape_job # need to add this label because dashbords hardcode it
+        replacement: "${1}"
+        action: replace
