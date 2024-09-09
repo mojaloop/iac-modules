@@ -145,7 +145,7 @@ locals {
         module.eks.cluster_primary_security_group_id
       ]
       bootstrap_extra_args     = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
-      post_bootstrap_user_data = ${data.template_file.post_bootstrap_user_data.rendered}
+      post_bootstrap_user_data = "${data.template_file.post_bootstrap_user_data.rendered}"
       ebs_optimized            = true
       block_device_mappings = {
         xvda = {
