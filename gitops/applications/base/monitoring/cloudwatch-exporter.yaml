@@ -20,7 +20,7 @@ spec:
         - -listen-address=:8080
         volumeMounts:
         - name: config-volume
-          mountPath: /tmp/
+          mountPath: /tmp
           subPath: cloudwatch-exporter-config.yaml
       volumes:
       - name: config-volume
