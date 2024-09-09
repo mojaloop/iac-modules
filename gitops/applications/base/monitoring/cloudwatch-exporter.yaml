@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cloudwatch-exporter
+      app.kubernetes.io/name: cloudwatch-exporter
   template:
     metadata:
       labels:
-        app: cloudwatch-exporter
+        app.kubernetes.io/name: cloudwatch-exporter
     spec:
       containers:
       - name: cloudwatch-exporter
@@ -34,7 +34,7 @@ metadata:
   name: cloudwatch-exporter
 spec:
   selector:
-    app: cloudwatch-exporter
+    app.kubernetes.io/name: cloudwatch-exporter
   ports:
   - name: http
     protocol: TCP
