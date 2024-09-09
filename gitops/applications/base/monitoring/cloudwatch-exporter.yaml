@@ -18,6 +18,13 @@ spec:
         args:
         - -config.file=/exporter/cloudwatch-exporter-config.yaml
         - -listen-address=:8080
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
         volumeMounts:
         - name: config-volume
           mountPath: /exporter
