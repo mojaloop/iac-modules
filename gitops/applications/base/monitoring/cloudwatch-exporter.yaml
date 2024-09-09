@@ -28,7 +28,7 @@ spec:
         volumeMounts:
         - name: config-volume
           mountPath: /exporter
-          subPath: cloudwatch-exporter-config.yaml
+          # subPath: cloudwatch-exporter-config.yaml
       volumes:
       - name: config-volume
         configMap:
