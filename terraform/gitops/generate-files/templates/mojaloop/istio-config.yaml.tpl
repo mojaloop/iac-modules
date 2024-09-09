@@ -459,47 +459,19 @@ spec:
               number: 80
 ---
 apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
+kind: PeerAuthentication
 metadata:
-  name: finance-portal-auth
-  namespace: ${portal_istio_gateway_namespace}
+  name: finance-portal-db-peer-authentication
+  namespace: ${mcm_namespace}-db
 spec:
-  selector:
-    matchLabels:
-      app: ${portal_istio_gateway_name}
-  action: CUSTOM
-  provider:
-    name: ${oathkeeper_auth_provider_name}
-  rules:
-    - to:
-        - operation:
-            paths:
-              - /api/*
-            hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
+  mtls:
+    mode: STRICT
 ---
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: finance-portal-peer-authentication
-  namespace: ${portal_istio_gateway_namespace}
-spec:
-  mtls:
-    mode: STRICT
----
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: mojaloop-peer-authentication
-  namespace: ${mojaloop_namespace}
-spec:
-  mtls:
-    mode: STRICT
----
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: finance-portal-db-peer-authentication
-  namespace: ${portal_istio_gateway_namespace}-db
+  namespace: ${mcm_namespace}
 spec:
   mtls:
     mode: STRICT
@@ -509,6 +481,15 @@ kind: PeerAuthentication
 metadata:
   name: mojaloop-db-peer-authentication
   namespace: ${mojaloop_namespace}-db
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: mojaloop-peer-authentication
+  namespace: ${mojaloop_namespace}
 spec:
   mtls:
     mode: STRICT
