@@ -6,6 +6,8 @@ configMapGenerator:
   - ./cloudwatch-exporter-config.yaml
   name: cloudwatch-exporter-config
 
+resources:
+- cloudwatch-exporter.yaml
 
 helmCharts:
   - name: grafana-mimir
