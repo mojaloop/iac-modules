@@ -180,7 +180,7 @@ locals {
 }
 
 data "template_file" "post_bootstrap_user_data" {
-  template = "${file("post-bootstrap-user-data.sh.tpl")}"
+  template = "${templatefile("${path.module}/templates/post-bootstrap-user-data.sh.tpl")}"
 
   vars = {
       netbird_version           = var.netbird_version
