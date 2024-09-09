@@ -23,11 +23,11 @@ spec:
           containerPort: 8080
         resources:
           requests:
-            memory: "64Mi"
-            cpu: "100m"
+            memory: 64Mi
+            cpu: 100m
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: 128Mi
+            cpu: 500m
         volumeMounts:
         - name: config-volume
           mountPath: /exporter
@@ -64,10 +64,8 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: cloudwatch-exporter  
-  # namespaceSelector:
-  #   any: true
+      app.kubernetes.io/name: cloudwatch-exporter
   endpoints:
   - port: http
-    interval: 15s
+    interval: 60s
 
