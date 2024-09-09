@@ -210,6 +210,34 @@ variable "netbird_setup_key" {
   type = string
 }
 
+variable "identity_provider_config_name" {
+   type = string 
+}
+
+variable "kubernetes_oidc_issuer" {
+   type = string 
+}
+
+variable "kubernetes_oidc_client_id" {
+   type = string 
+}
+
+variable "kubernetes_oidc_groups_claim" {
+   type = string 
+}
+
+variable "kubernetes_oidc_groups_prefix" {
+   type = string 
+}
+
+variable "kubernetes_oidc_username_claim" {
+   type = string 
+}
+
+variable "kubernetes_oidc_username_prefix" {
+   type = string 
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###
