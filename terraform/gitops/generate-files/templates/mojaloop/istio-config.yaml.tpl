@@ -462,7 +462,7 @@ apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: finance-portal-db-peer-authentication
-  namespace: ${mcm_namespace}-db
+  namespace: mcm-db
 spec:
   mtls:
     mode: STRICT
@@ -471,7 +471,7 @@ apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: finance-portal-peer-authentication
-  namespace: ${mcm_namespace}
+  namespace: mcm
 spec:
   mtls:
     mode: STRICT
