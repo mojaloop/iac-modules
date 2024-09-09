@@ -16,11 +16,11 @@ spec:
       - name: cloudwatch-exporter
         image: ghcr.io/nerdswords/yet-another-cloudwatch-exporter:v0.61.2
         args:
-        - -config.file=/tmp/config.yml
+        - -config.file=/exporter/cloudwatch-exporter-config.yaml
         - -listen-address=:8080
         volumeMounts:
         - name: config-volume
-          mountPath: /tmp
+          mountPath: /exporter
           subPath: cloudwatch-exporter-config.yaml
       volumes:
       - name: config-volume
