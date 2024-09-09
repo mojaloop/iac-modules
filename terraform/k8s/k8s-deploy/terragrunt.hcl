@@ -23,6 +23,10 @@ inputs = {
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_vars.dns_provider
   app_var_map                          = (local.CLOUD_PLATFORM == "bare-metal") ? local.cloud_platform_vars : null
+  # for eks managed service
+  netbird_version                      = local.netbird_version
+  netbird_api_host                     = local.netbird_api_host
+  netbird_setup_key                    = local.netbird_setup_key
 }
 
 locals {
@@ -46,6 +50,9 @@ locals {
   K8S_CLUSTER_TYPE          = get_env("k8s_cluster_type")
   CLOUD_REGION              = get_env("cloud_region")
   CLOUD_PLATFORM            = get_env("cloud_platform")
+  netbird_version           = get_env("NETBIRD_VERSION")
+  netbird_api_host          = get_env("NETBIRD_API_HOST")
+  netbird_setup_key         = get_env("NETBIRD_K8S_SETUP_KEY")    
 }
 
 generate "required_providers_override" {
