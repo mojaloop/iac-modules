@@ -68,4 +68,10 @@ spec:
   endpoints:
   - port: http
     interval: 60s
-
+  relabelings:
+    - sourceLabels: [job]
+      separator: ;
+      regex: (.*)
+      targetLabel: scrape_job
+      replacement: "${1}"
+      action: replace
