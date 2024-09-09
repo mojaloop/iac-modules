@@ -6,6 +6,7 @@ pm4ml_external_switch_oidc_token_route: realms/dfsps/protocol/openid-connect/tok
 pm4ml_external_switch_client_secret_vault_path: "mcmdev_client_secret"
 pm4ml_ttk_enabled: true
 ttk_testcases_tag: v16.1.0
+auto_accept_party: false
 enable_sdk_bulk_transaction_support: false
 opentelemetry_enabled: false
 opentelemetry_namespace_filtering_enable: false
