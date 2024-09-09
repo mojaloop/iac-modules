@@ -477,7 +477,7 @@ spec:
               - /api/*
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
 ---
-apiVersion: security.istio.io/v1
+apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: finance-portal-peer-authentication
@@ -486,7 +486,7 @@ spec:
   mtls:
     mode: STRICT
 ---
-apiVersion: security.istio.io/v1
+apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: mojaloop-peer-authentication
@@ -495,7 +495,7 @@ spec:
   mtls:
     mode: STRICT
 ---
-apiVersion: security.istio.io/v1
+apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: finance-portal-db-peer-authentication
@@ -504,7 +504,7 @@ spec:
   mtls:
     mode: STRICT
 ---
-apiVersion: security.istio.io/v1
+apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: mojaloop-db-peer-authentication
