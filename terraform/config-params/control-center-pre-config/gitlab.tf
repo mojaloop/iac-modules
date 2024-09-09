@@ -176,15 +176,6 @@ resource "gitlab_group_variable" "vault_fqdn" {
   environment_scope = "*"
 }
 
-resource "gitlab_group_variable" "git_credentials" {
-  group             = gitlab_group.iac.id
-  key               = "GIT_CREDENTIALS"
-  value             = ""
-  protected         = true
-  masked            = false
-  environment_scope = "*"
-}
-
 resource "gitlab_group_variable" "tenant_vault_listening_port" {
   group             = gitlab_group.iac.id
   key               = "TENANT_VAULT_LISTENING_PORT"
