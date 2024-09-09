@@ -71,6 +71,7 @@ cache:
     - export METMAKER_MASTER_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/tenancy/netmaker_master_key)"
     - source setcivars.sh
     - echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" > ~/.gitcredentials.store
+    - if [ "$GIT_CREDENTIALS" != "" ]; then echo " $GIT_CREDENTIALS" | tr ' ' '\n' >> ~/.gitcredentials.store; fi
     - git config --global credential.helper 'store --file ~/.gitcredentials.store'
     - git config --global advice.detachedHead false
     - source set-ansible-destroy-preq-vars.sh
