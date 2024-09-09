@@ -45,6 +45,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cloudwatch-exporter
+  labels:
+    app.kubernetes.io/name: cloudwatch-exporter  
 spec:
   selector:
     app.kubernetes.io/name: cloudwatch-exporter
@@ -54,4 +56,18 @@ spec:
     port: 8080
     targetPort: http
   type: ClusterIP   
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cloudwatch-exporter
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cloudwatch-exporter  
+  # namespaceSelector:
+  #   any: true
+  endpoints:
+  - port: http
+    interval: 15s
 
