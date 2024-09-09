@@ -10,7 +10,7 @@ db:
 api:
   image:
     name: ghcr.io/pm4ml/connection-manager-api
-    version: v2.1.0
+    version: v2.4.0
   url: https://${mcm_fqdn}
   extraTLS:
     rootCert:
@@ -76,6 +76,8 @@ ui:
     clientId: ${oauth_key}
     clientSecretName: ${oauth_secret_secret}
     clientSecretKey: ${oauth_secret_secret_key}
+  image:
+    version: 1.8.4
 
 ingress:
 %{ if istio_create_ingress_gateways ~}
