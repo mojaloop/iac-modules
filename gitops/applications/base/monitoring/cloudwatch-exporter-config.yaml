@@ -1,0 +1,15 @@
+apiVersion: v1alpha1
+sts-region: us-east-1 # TODO: do not hardcode. Understand what it is
+discovery:
+  jobs:
+    - type: AWS/EC2
+      regions: [us-east-1] # TODO: do not hardcode, understand what it is
+      includeContextOnInfoMetrics: true
+      searchTags:
+        - key: monitoring
+          value: true
+      period: 300
+      length: 300
+      metrics:
+        - name: CPUUtilization
+          statistics: [Average]
