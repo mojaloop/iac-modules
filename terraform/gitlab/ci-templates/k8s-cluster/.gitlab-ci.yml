@@ -233,6 +233,8 @@ apps:
 refresh-deploy-infra:
   extends: .terraform:deploy
   stage: auto-run
+  variables:
+    GIT_DEPTH: 0
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
