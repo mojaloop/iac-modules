@@ -501,6 +501,8 @@ secondary:
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
   ## Allowed values: soft, hard
   ##
+  labels:
+    istio-injection: disabled
   podAntiAffinityPreset: soft
   ## MySQL Secondary node affinity preset
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
@@ -525,6 +527,8 @@ secondary:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
+  labels:
+    istio-injection: disabled
 %{ if resource.local_helm_config.mysql_data.affinity_definition != null ~}
   affinity:
     ${indent(4, yamlencode(resource.local_helm_config.mysql_data.affinity_definition))}
