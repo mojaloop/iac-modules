@@ -15,3 +15,5 @@ discovery:
           statistics: [Maximum]
         - name: NetworkIn
           statistics: [Average, Sum]
+        - name: NetworkOut
+          statistics: [Average, Sum]
