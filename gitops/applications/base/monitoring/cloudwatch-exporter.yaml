@@ -77,33 +77,33 @@ spec:
         action: replace
 
 ---
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: cloudwatch-exporter-credentials
-  namespace: ${ARGOCD_ENV_monitoring_namespace}
-spec:
-  refreshInterval: 1m
+# apiVersion: external-secrets.io/v1beta1
+# kind: ExternalSecret
+# metadata:
+#   name: cloudwatch-exporter-credentials
+#   namespace: ${ARGOCD_ENV_monitoring_namespace}
+# spec:
+#   refreshInterval: 1m
 
-  secretStoreRef:
-    kind: ClusterSecretStore
-    name: vault-secret-store 
-  data:
-    - secretKey: AWS_ACCESS_KEY_ID
-      remoteRef:
-        key: bootstrap/aws_cloudwatch_credentials # TODO: parametrize it
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
-      remoteRef:
-        key: bootstrap/aws_cloudwatch_credentials # # TODO: parametrize it
-        property: AWS_SECRET_ACCESS_KEY
+#   secretStoreRef:
+#     kind: ClusterSecretStore
+#     name: vault-secret-store 
+#   data:
+#     - secretKey: AWS_ACCESS_KEY_ID
+#       remoteRef:
+#         key: bootstrap/aws_cloudwatch_credentials # TODO: parametrize it
+#         property: AWS_ACCESS_KEY_ID
+#     - secretKey: AWS_SECRET_ACCESS_KEY
+#       remoteRef:
+#         key: bootstrap/aws_cloudwatch_credentials # # TODO: parametrize it
+#         property: AWS_SECRET_ACCESS_KEY
 
-  target:
-    name: cloudwatch-exporter-credentials
-    creationPolicy: Owner
-    template:
-      data:
-        credentials: |
-          [default]
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+#   target:
+#     name: cloudwatch-exporter-credentials
+#     creationPolicy: Owner
+#     template:
+#       data:
+#         credentials: |
+#           [default]
+#           aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
+#           aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
