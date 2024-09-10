@@ -13,3 +13,5 @@ discovery:
       metrics:
         - name: CPUUtilization
           statistics: [Maximum]
+        - name: NetworkIn
+          statistics: [Average]
