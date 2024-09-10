@@ -63,8 +63,9 @@ spec:
 #      loadBalancerIP: 127.0.0.1
 #      annotations:
 #        networking.gke.io/load-balancer-type: "Internal"
-#      labels:
-#        rack: rack-22
+    labels:
+      istio-injection: disabled
+#      rack: rack-22
 #    replicationChannels:
 #    - name: pxc1_to_pxc2
 #      isSource: true
@@ -112,7 +113,8 @@ spec:
 #    priorityClassName: high-priority
 #    annotations:
 #      iam.amazonaws.com/role: role-arn
-#    labels:
+    labels:
+      istio-injection: disabled
 #      rack: rack-22
 #    readinessProbes:
 #      initialDelaySeconds: 15
@@ -276,7 +278,8 @@ spec:
 #      - name: private-registry-credentials
 #    annotations:
 #      iam.amazonaws.com/role: role-arn
-#    labels:
+    labels:
+      istio-injection: disabled
 #      rack: rack-22
 #    readinessProbes:
 #      initialDelaySeconds: 15
@@ -297,7 +300,8 @@ spec:
 #        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
 #      externalTrafficPolicy: Cluster
 #      internalTrafficPolicy: Cluster
-#      labels:
+      labels:
+        istio-injection: disabled
 #        rack: rack-22
 #      loadBalancerSourceRanges:
 #        - 10.0.0.0/8
@@ -309,7 +313,8 @@ spec:
 #        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
 #      externalTrafficPolicy: Cluster
 #      internalTrafficPolicy: Cluster
-#      labels:
+      labels:
+        istio-injection: disabled
 #        rack: rack-22
 #      loadBalancerSourceRanges:
 #        - 10.0.0.0/8
@@ -450,7 +455,8 @@ spec:
 #      - name: private-registry-credentials
 #    annotations:
 #      iam.amazonaws.com/role: role-arn
-#    labels:
+    labels:
+      istio-injection: disabled
 #      rack: rack-22
 #    expose:
 #      enabled: false
@@ -459,7 +465,8 @@ spec:
 #        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
 #      externalTrafficPolicy: Cluster
 #      internalTrafficPolicy: Cluster
-#      labels:
+      labels:
+        istio-injection: disabled
 #        rack: rack-22
 #      loadBalancerSourceRanges:
 #        - 10.0.0.0/8
