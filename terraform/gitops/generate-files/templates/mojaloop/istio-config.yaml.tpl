@@ -493,3 +493,51 @@ metadata:
 spec:
   mtls:
     mode: STRICT
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ${mojaloop_namespace}-isolation
+  namespace: ${mojaloop_namespace}
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces: ["${mojaloop_namespace}-db", "mcm"]
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ${mojaloop_namespace}-db-isolation
+  namespace: ${mojaloop_namespace}-db
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces: ["${mojaloop_namespace}"]
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: mcm-isolation
+  namespace: mcm
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces: ["mcm-db", "mojaloop"]
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: mcm-db-isolation
+  namespace: mcm-db
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces: ["mcm"]
