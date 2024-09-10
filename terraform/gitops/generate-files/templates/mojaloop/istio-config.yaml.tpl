@@ -504,7 +504,7 @@ spec:
   rules:
   - from:
     - source:
-        namespaces: ["${mojaloop_namespace}-db", "mcm"]
+        namespaces: ["${mojaloop_namespace}","${mojaloop_namespace}-db", "mcm"]
 ---
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
@@ -516,7 +516,7 @@ spec:
   rules:
   - from:
     - source:
-        namespaces: ["${mojaloop_namespace}"]
+        namespaces: ["${mojaloop_namespace}", "${mojaloop_namespace}-db"]
 ---
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
@@ -528,7 +528,7 @@ spec:
   rules:
   - from:
     - source:
-        namespaces: ["mcm-db", "mojaloop"]
+        namespaces: ["mcm", "mcm-db", "mojaloop"]
 ---
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
@@ -540,4 +540,4 @@ spec:
   rules:
   - from:
     - source:
-        namespaces: ["mcm"]
+        namespaces: ["mcm", "mcm-db"]
