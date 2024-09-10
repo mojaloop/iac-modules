@@ -1,7 +1,7 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
 metadata:
-  name: 'AWS managed services'
+  name: aws-managed-services
 spec:
   instanceSelector:
     matchLabels:
@@ -12,7 +12,7 @@ kind: GrafanaDashboard
 metadata:
   name: EC2
 spec:
-  folder: 'AWS managed services'
+  folder: aws-managed-services
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
