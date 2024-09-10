@@ -87,7 +87,7 @@ spec:
 
   secretStoreRef:
     kind: SecretStore
-    name: gitlab-k8s-secret-store # TODO: why do we have different secret stores for gitlab,netbird,zitadel etc? 
+    name: vault-secret-store # TODO: why do we have different secret stores for gitlab,netbird,zitadel etc? 
   data:
     - secretKey: AWS_ACCESS_KEY_ID
       remoteRef:
