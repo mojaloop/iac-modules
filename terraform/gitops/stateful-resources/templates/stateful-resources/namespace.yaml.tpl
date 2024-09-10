@@ -3,7 +3,10 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: ${ns}
-  %{ if or (eq ns "mojaloop") (eq ns "mcm") ~}
+  %{ if ns == "mojaloop" ~}
+  labels:
+    istio-injection: enabled
+  %{ elseif ns == "mcm" ~}
   labels:
     istio-injection: enabled
   %{ endif ~}
