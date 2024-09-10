@@ -20,6 +20,9 @@ spec:
 # %{ if node_pool_affinity != null }
   template:
     pod:
+      metadata:
+        labels:
+          sidecar.istio.io/inject: disabled
       affinity:
         ${indent(8, yamlencode(node_pool_affinity))}
 # %{ endif }
@@ -32,7 +35,11 @@ metadata:
   annotations:
     strimzi.io/node-pools: enabled
     strimzi.io/kraft: enabled
+    sidecar.istio.io/inject: disabled
 spec:
+  metadata:
+    labels:
+      sidecar.istio.io/inject: disabled
   kafka:
     version: 3.7.0
     metadataVersion: 3.7-IV4

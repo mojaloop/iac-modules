@@ -322,7 +322,7 @@ controller:
   ## @param controller.podLabels Extra labels for Kafka pods
   ## Ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
-   podLabels:
+  podLabels:
     istio-injection: disabled
   ## @param controller.podAnnotations Extra annotations for Kafka pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/

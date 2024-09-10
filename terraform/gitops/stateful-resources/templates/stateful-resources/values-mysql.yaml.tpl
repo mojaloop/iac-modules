@@ -186,7 +186,7 @@ primary:
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
   ##
   podLabels:
-    istio-injection: disabled
+    sidecar.istio.io/inject: false
   podAffinityPreset: ""
   ## @param primary.podAntiAffinityPreset MySQL primary pod anti-affinity preset. Ignored if `primary.affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
@@ -495,14 +495,14 @@ secondary:
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
   ##
   podLabels:
-    istio-injection: disabled
+    sidecar.istio.io/inject: false
   podAffinityPreset: ""
   ## @param secondary.podAntiAffinityPreset MySQL secondary pod anti-affinity preset. Ignored if `secondary.affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
   ## Allowed values: soft, hard
   ##
   labels:
-    istio-injection: disabled
+    sidecar.istio.io/inject: false
   podAntiAffinityPreset: soft
   ## MySQL Secondary node affinity preset
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
@@ -528,7 +528,7 @@ secondary:
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
   labels:
-    istio-injection: disabled
+    sidecar.istio.io/inject: false
 %{ if resource.local_helm_config.mysql_data.affinity_definition != null ~}
   affinity:
     ${indent(4, yamlencode(resource.local_helm_config.mysql_data.affinity_definition))}
@@ -811,7 +811,7 @@ secondary:
   ## @param secondary.podLabels Additional pod labels for MySQL secondary pods
   ##
     podLabels:
-      istio-injection: disabled
+      sidecar.istio.io/inject: false
 
 ## @section RBAC parameters
 ##
@@ -1101,7 +1101,7 @@ metrics:
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
     ##
     labels:
-      istio-injection: disabled
+      sidecar.istio.io/inject: false
     ## @param metrics.serviceMonitor.annotations ServiceMonitor annotations
     ##
     annotations: {}

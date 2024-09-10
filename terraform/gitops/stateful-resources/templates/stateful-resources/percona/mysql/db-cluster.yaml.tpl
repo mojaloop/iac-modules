@@ -64,7 +64,7 @@ spec:
 #      annotations:
 #        networking.gke.io/load-balancer-type: "Internal"
     labels:
-      istio-injection: disabled
+      sidecar.istio.io/inject: false
 #      rack: rack-22
 #    replicationChannels:
 #    - name: pxc1_to_pxc2
@@ -114,7 +114,7 @@ spec:
 #    annotations:
 #      iam.amazonaws.com/role: role-arn
     labels:
-      istio-injection: disabled
+      sidecar.istio.io/inject: false
 #      rack: rack-22
 #    readinessProbes:
 #      initialDelaySeconds: 15
@@ -279,7 +279,7 @@ spec:
 #    annotations:
 #      iam.amazonaws.com/role: role-arn
     labels:
-      istio-injection: disabled
+      sidecar.istio.io/inject: false
 #      rack: rack-22
 #    readinessProbes:
 #      initialDelaySeconds: 15
@@ -301,7 +301,7 @@ spec:
 #      externalTrafficPolicy: Cluster
 #      internalTrafficPolicy: Cluster
       labels:
-        istio-injection: disabled
+        sidecar.istio.io/inject: false
 #        rack: rack-22
 #      loadBalancerSourceRanges:
 #        - 10.0.0.0/8
@@ -314,7 +314,7 @@ spec:
 #      externalTrafficPolicy: Cluster
 #      internalTrafficPolicy: Cluster
       labels:
-        istio-injection: disabled
+        sidecar.istio.io/inject: false
 #        rack: rack-22
 #      loadBalancerSourceRanges:
 #        - 10.0.0.0/8
@@ -456,7 +456,7 @@ spec:
 #    annotations:
 #      iam.amazonaws.com/role: role-arn
     labels:
-      istio-injection: disabled
+      sidecar.istio.io/inject: false
 #      rack: rack-22
 #    expose:
 #      enabled: false
@@ -466,7 +466,7 @@ spec:
 #      externalTrafficPolicy: Cluster
 #      internalTrafficPolicy: Cluster
       labels:
-        istio-injection: disabled
+        sidecar.istio.io/inject: false
 #        rack: rack-22
 #      loadBalancerSourceRanges:
 #        - 10.0.0.0/8
