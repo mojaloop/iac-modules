@@ -73,7 +73,7 @@ spec:
         separator: ;
         regex: (.*)
         targetLabel: scrape_job # need to add this label because dashbords hardcode it
-        replacement: "${1}"
+        replacement: $${1}
         action: replace
 
 ---
