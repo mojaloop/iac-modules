@@ -14,4 +14,4 @@ discovery:
         - name: CPUUtilization
           statistics: [Maximum]
         - name: NetworkIn
-          statistics: [Average]
+          statistics: [Average, Sum]
