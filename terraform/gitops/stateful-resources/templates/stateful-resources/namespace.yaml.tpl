@@ -3,7 +3,5 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: ${ns}
-  labels:
-    istio-injection: enabled
 ---
 %{ endfor ~}
