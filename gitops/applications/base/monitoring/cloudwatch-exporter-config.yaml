@@ -29,5 +29,11 @@ discovery:
           statistics: [Sum]
         - name: DiskWriteOps
           statistics: [Sum]
+        - name: StatusCheckFailed
+          statistics: [Sum]
+        - name: StatusCheckFailed_Instance
+          statistics: [Sum]
+        - name: StatusCheckFailed_System
+          statistics: [Sum]
 
 
