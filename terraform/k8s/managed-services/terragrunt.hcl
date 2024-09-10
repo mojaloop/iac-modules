@@ -16,15 +16,6 @@ inputs = {
 
   managed_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
-
-  identity_provider_config_name    = "Zitadel"
-  kubernetes_oidc_enabled          = get_env("KUBERNETES_OIDC_ENABLED")
-  kubernetes_oidc_issuer           = get_env("KUBERNETES_OIDC_ISSUER")
-  kubernetes_oidc_client_id        = get_env("KUBERNETES_OIDC_CLIENT_ID")
-  kubernetes_oidc_groups_claim     = get_env("KUBERNETES_OIDC_GROUPS_CLAIM")
-  kubernetes_oidc_groups_prefix    = get_env("KUBERNETES_OIDC_GROUPS_PREFIX")
-  kubernetes_oidc_username_prefix  = get_env("KUBERNETES_OIDC_USERNAME_PREFIX")
-  kubernetes_oidc_username_claim   = get_env("KUBERNETES_OIDC_USERNAME_CLAIM")  
 }
 
 locals {
