@@ -167,4 +167,4 @@ URL for each one must be listed in the value, separated by space.
 The recommended settings for the PAT are:
 
 - For `GitHub`: use fine-grained token, providing access only to the profile
-repositories with read permissions for: `code`, `commit statuses`, and `metadata`.
+repositories with read permissions for: `Contents`, `Commit statuses`, and `Metadata`.
