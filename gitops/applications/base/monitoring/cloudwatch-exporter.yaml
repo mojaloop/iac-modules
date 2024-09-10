@@ -91,6 +91,8 @@ spec:
   data:
     - secretKey: AWS_ACCESS_KEY_ID
       remoteRef:
+        conversionStrategy: Default	
+        decodingStrategy: None
         key: bootstrap/aws_cloudwatch_credentials # TODO: parametrize it
         property: AWS_ACCESS_KEY_ID
     - secretKey: AWS_SECRET_ACCESS_KEY

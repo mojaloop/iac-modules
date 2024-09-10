@@ -1,0 +1,23 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaFolder
+metadata:
+  name: 'AWS managed services'
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: EC2
+spec:
+  folder: 'AWS managed services'
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: https://raw.githubusercontent.com/mojaloop/iac-modules/05be1539e3cc0183b884b086bf0c91891472b442/monitoring-mixin/build/ec2.json
+---
