@@ -171,6 +171,7 @@ deploy-infra:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
   script:
+    - !reference [.source, submodules]
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
@@ -188,6 +189,7 @@ deploy-managed-srvcs:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
   script:
+    - !reference [.source, submodules]
     - !reference [.source, script]
     - cd managed-services
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
@@ -205,6 +207,7 @@ refresh-templates:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
   script:
+    - !reference [.source, submodules]
     - !reference [.source, script]
     - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
   when: manual
@@ -215,6 +218,7 @@ destroy:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
   script:
+    - !reference [.source, submodules]
     - !reference [.source, script]
     - terragrunt run-all destroy --terragrunt-non-interactive -input=false
     - .gitlab/scripts/cleanapps.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
@@ -228,6 +232,7 @@ apps:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
   script:
+    - !reference [.source, submodules]
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
@@ -240,6 +245,7 @@ refresh-deploy-infra:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
   script:
+    - !reference [.source, submodules]
     - !reference [.source, script]
     - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
     - git checkout "$CI_COMMIT_REF_NAME" && git pull --recurse-submodules
