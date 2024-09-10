@@ -465,7 +465,7 @@ metadata:
   namespace: mcm-db
 spec:
   mtls:
-    mode: STRICT
+    mode: PERMISSIVE
 ---
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -474,7 +474,7 @@ metadata:
   namespace: mcm
 spec:
   mtls:
-    mode: STRICT
+    mode: PERMISSIVE
 ---
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -483,7 +483,7 @@ metadata:
   namespace: ${mojaloop_namespace}-db
 spec:
   mtls:
-    mode: STRICT
+    mode: PERMISSIVE
 ---
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
@@ -492,7 +492,7 @@ metadata:
   namespace: ${mojaloop_namespace}
 spec:
   mtls:
-    mode: STRICT
+    mode: PERMISSIVE # Set to PERMISSIVE to allow kafka comms
 ---
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
