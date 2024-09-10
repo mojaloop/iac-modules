@@ -102,6 +102,7 @@ module "eks" {
     groups_prefix                 = var.kubernetes_oidc_groups_prefix
     username_claim                = var.kubernetes_oidc_username_claim
     username_prefix               = var.kubernetes_oidc_username_prefix
+
   }  
   self_managed_node_groups = local.self_managed_node_groups
   tags                     = var.tags
