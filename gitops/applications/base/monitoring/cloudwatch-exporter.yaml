@@ -40,13 +40,13 @@ spec:
       - name: credentials-volume
         secret:
           secretName: cloudwatch-exporter-credentials
---- 
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: cloudwatch-exporter
   labels:
-    app.kubernetes.io/name: cloudwatch-exporter  
+    app.kubernetes.io/name: cloudwatch-exporter
 spec:
   selector:
     app.kubernetes.io/name: cloudwatch-exporter
@@ -55,7 +55,7 @@ spec:
     protocol: TCP
     port: 8080
     targetPort: http
-  type: ClusterIP   
+  type: ClusterIP
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -87,18 +87,22 @@ spec:
 
   secretStoreRef:
     kind: ClusterSecretStore
-    name: vault-secret-store 
+    name: vault-secret-store
   data:
     - secretKey: AWS_ACCESS_KEY_ID
       remoteRef:
-        conversionStrategy: Default	
-        decodingStrategy: None
         key: bootstrap/aws_cloudwatch_credentials # TODO: parametrize it
         property: AWS_ACCESS_KEY_ID
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
     - secretKey: AWS_SECRET_ACCESS_KEY
       remoteRef:
         key: bootstrap/aws_cloudwatch_credentials # # TODO: parametrize it
         property: AWS_SECRET_ACCESS_KEY
+        conversionStrategy: Default
+        decodingStrategy: None
+        metadataPolicy: None
 
   target:
     name: cloudwatch-exporter-credentials
