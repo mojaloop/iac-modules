@@ -37,9 +37,11 @@ metadata:
     strimzi.io/kraft: enabled
     sidecar.istio.io/inject: disabled
 spec:
-  metadata:
-    labels:
-      sidecar.istio.io/inject: disabled
+  template:
+    pod:
+      metadata:
+        labels:
+          sidecar.istio.io/inject: disabled
   kafka:
     version: 3.7.0
     metadataVersion: 3.7-IV4
