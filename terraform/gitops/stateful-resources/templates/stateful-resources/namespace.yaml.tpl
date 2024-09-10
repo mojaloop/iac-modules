@@ -4,13 +4,13 @@ kind: Namespace
 metadata:
   name: ${ns}
 # tried to implement OR operator but couldn't find a syntax for it.
-  %{ if ns == "mojaloop" ~}
+%{ if ns == "mojaloop" ~}
   labels:
     istio-injection: enabled
-  %{ endif ~}
-  %{ if ns == "mcm" ~}
+%{ endif ~}
+%{ if ns == "mcm" ~}
   labels:
     istio-injection: enabled
-  %{ endif ~}
+%{ endif ~}
 ---
 %{ endfor ~}
