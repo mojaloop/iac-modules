@@ -19,5 +19,33 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: https://raw.githubusercontent.com/mojaloop/iac-modules/05be1539e3cc0183b884b086bf0c91891472b442/monitoring-mixin/build/ec2.json
+  url: https://raw.githubusercontent.com/mojaloop/iac-modules/37cba5b2f7695f75404908e00eb7d9c6060258a7/monitoring-mixin/build/aws-ec2.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: aws-rds
+spec:
+  folder: aws-managed-services
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: https://raw.githubusercontent.com/mojaloop/iac-modules/37cba5b2f7695f75404908e00eb7d9c6060258a7/monitoring-mixin/build/aws-rds.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: aws-ebs
+spec:
+  folder: aws-managed-services
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: https://raw.githubusercontent.com/mojaloop/iac-modules/37cba5b2f7695f75404908e00eb7d9c6060258a7/monitoring-mixin/build/aws-ebs.json
 ---
