@@ -23,7 +23,7 @@ nameOverride: ${key}
 ##
 fullnameOverride: ""
 
-commonLabels:
+podLabels:
   sidecar.istio.io/inject: false
 
 ## @param architecture MongoDB(&reg;) architecture (`standalone` or `replicaset`)
