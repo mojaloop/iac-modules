@@ -14,6 +14,8 @@ discovery:
       searchTags:
         - key: Name
           value: 'Forem to Orbit bridge'
+      dimensionNameRequirements:
+        - InstanceId
       period: 300
       length: 300
       metrics:
