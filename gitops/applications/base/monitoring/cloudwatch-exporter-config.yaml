@@ -1,6 +1,12 @@
 apiVersion: v1alpha1
 sts-region: us-west-2 # TODO: do not hardcode. Understand what it is
 discovery:
+  exportedTagsOnMetrics:
+    ec2:
+      - Name
+    ebs:
+      - VolumeId
+
   jobs:
     - type: AWS/EC2
       regions: [us-west-2] # TODO: do not hardcode, understand what it is
@@ -35,5 +41,3 @@ discovery:
           statistics: [Sum]
         - name: StatusCheckFailed_System
           statistics: [Sum]
-
-
