@@ -493,6 +493,7 @@ metadata:
 spec:
   mtls:
     mode: PERMISSIVE # Set to PERMISSIVE to allow kafka comms
+
 ---
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
@@ -528,7 +529,7 @@ spec:
   rules:
   - from:
     - source:
-        namespaces: ["mcm", "mcm-db", "mojaloop", "vault". "ory"]
+        namespaces: ["mcm", "mcm-db", "mojaloop", "vault", "ory"]
 ---
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
@@ -541,3 +542,4 @@ spec:
   - from:
     - source:
         namespaces: ["mcm", "mcm-db"]
+
