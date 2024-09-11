@@ -35,7 +35,6 @@ metadata:
   annotations:
     strimzi.io/node-pools: enabled
     strimzi.io/kraft: enabled
-    sidecar.istio.io/inject: disabled
 spec:
   kafka:
     version: 3.7.0

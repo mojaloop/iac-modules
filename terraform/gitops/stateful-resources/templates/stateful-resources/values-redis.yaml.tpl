@@ -32,7 +32,8 @@ nameOverride: ${key}
 fullnameOverride: ""
 ## @param commonLabels Labels to add to all deployed objects
 ##
-commonLabels: {}
+commonLabels:
+  sidecar.istio.io/inject: false
 ## @param commonAnnotations Annotations to add to all deployed objects
 ##
 commonAnnotations: {}
@@ -294,8 +295,7 @@ master:
   ## @param master.podLabels Extra labels for Redis&reg; master pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
-  podLabels:
-    sidecar.istio.io/inject: false
+  podLabels: {}
   ## @param master.podAnnotations Annotations for Redis&reg; master pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   ##
@@ -694,8 +694,7 @@ replica:
   ## @param replica.podLabels Extra labels for Redis&reg; replicas pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
-  podLabels:
-    sidecar.istio.io/inject: false
+  podLabels: {}
   ## @param replica.podAnnotations Annotations for Redis&reg; replicas pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   ##
@@ -1434,8 +1433,7 @@ metrics:
   ## @param metrics.podLabels Extra labels for Redis&reg; exporter pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
-  podLabels:
-    sidecar.istio.io/inject: false
+  podLabels: {}
   ## @param metrics.podAnnotations [object] Annotations for Redis&reg; exporter pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   ##

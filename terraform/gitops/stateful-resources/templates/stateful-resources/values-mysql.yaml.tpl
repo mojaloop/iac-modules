@@ -30,6 +30,9 @@ nameOverride: ${key}
 ##
 fullnameOverride: ""
 
+commonLabels:
+  sidecar.istio.io/inject: false
+
 ## @param serviceBindings.enabled Create secret for service binding (Experimental)
 ## Ref: https://servicebinding.io/service-provider/
 
@@ -185,8 +188,7 @@ primary:
   ## @param primary.podAffinityPreset MySQL primary pod affinity preset. Ignored if `primary.affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
   ##
-  podLabels:
-    sidecar.istio.io/inject: false
+  podLabels: {}
   podAffinityPreset: ""
   ## @param primary.podAntiAffinityPreset MySQL primary pod anti-affinity preset. Ignored if `primary.affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
@@ -494,15 +496,13 @@ secondary:
   ## @param secondary.podAffinityPreset MySQL secondary pod affinity preset. Ignored if `secondary.affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
   ##
-  podLabels:
-    sidecar.istio.io/inject: false
+  podLabels: {}
   podAffinityPreset: ""
   ## @param secondary.podAntiAffinityPreset MySQL secondary pod anti-affinity preset. Ignored if `secondary.affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
   ## Allowed values: soft, hard
   ##
-  labels:
-    sidecar.istio.io/inject: false
+  labels: {}
   podAntiAffinityPreset: soft
   ## MySQL Secondary node affinity preset
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity
@@ -527,8 +527,7 @@ secondary:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
   ##
-  labels:
-    sidecar.istio.io/inject: false
+  labels: {}
 %{ if resource.local_helm_config.mysql_data.affinity_definition != null ~}
   affinity:
     ${indent(4, yamlencode(resource.local_helm_config.mysql_data.affinity_definition))}
@@ -810,8 +809,7 @@ secondary:
     maxUnavailable: ""
   ## @param secondary.podLabels Additional pod labels for MySQL secondary pods
   ##
-    podLabels:
-      sidecar.istio.io/inject: false
+    podLabels: {}
 
 ## @section RBAC parameters
 ##
@@ -1100,8 +1098,7 @@ metrics:
     ## @param metrics.serviceMonitor.labels Used to pass Labels that are used by the Prometheus installed in your cluster to select Service Monitors to work with
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
     ##
-    labels:
-      sidecar.istio.io/inject: false
+    labels: {}
     ## @param metrics.serviceMonitor.annotations ServiceMonitor annotations
     ##
     annotations: {}
