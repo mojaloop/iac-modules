@@ -2,10 +2,10 @@ apiVersion: v1alpha1
 sts-region: us-west-2 # TODO: do not hardcode. Understand what it is
 discovery:
   exportedTagsOnMetrics:
-    ec2:
+    AWS/EC2:
       - Name
-    ebs:
-      - VolumeId
+    # ebs:
+    #   - VolumeId
 
   jobs:
     - type: AWS/EC2
