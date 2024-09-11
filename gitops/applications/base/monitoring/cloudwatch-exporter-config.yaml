@@ -12,8 +12,8 @@ discovery:
       regions: [us-west-2] # TODO: do not hardcode, understand what it is
       includeContextOnInfoMetrics: true
       searchTags:
-        - key: App
-          value: forem
+        - key: Name
+          value: 'Forem to Orbit bridge'
       period: 300
       length: 300
       metrics:
