@@ -20,7 +20,7 @@ resource "netbird_route" "env_managed_svc_route" {
   count       = local.ms_enabled ? 1 : 0  
   description = "${var.env_name}-managed-svc"
   enabled     = true
-  groups      = local.access_groups
+  groups      = [netbird_group.env_users.id,local.env_k8s_peers_group_id]
   keep_route  = true
   masquerade  = true
   metric      = 9999
@@ -31,7 +31,6 @@ resource "netbird_route" "env_managed_svc_route" {
 
 locals {
   ms_enabled = tobool(var.managed_svc_enabled)
-  access_groups = local.ms_enabled && var.k8s_cluster_type != "eks" ? [netbird_group.env_users.id,local.env_k8s_peers_group_id] : [netbird_group.env_users.id]
 }
 
 resource "vault_kv_secret_v2" "env_netbird_ms_gw_setup_key" {
