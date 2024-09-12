@@ -20,7 +20,7 @@ dependency "k8s_deploy" {
     bastion_ssh_key             = "key"
     bastion_os_username         = "null"
     # bastion_public_ip           = "null"
-    bastion_public_ips          = "null"
+    bastion_public_ips          = []
     private_subdomain           = "null"
     public_subdomain            = "null"
     ext_dns_cloud_policy        = "null"
