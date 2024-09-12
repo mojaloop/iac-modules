@@ -1335,6 +1335,6 @@ mojaloop-simulator:
   enabled: ${internal_sim_enabled}
   defaults:
     config:
-      podLabels:
+      cacheLabels:
         sidecar.istio.io/inject: "false"
     tolerations: *MOJALOOP_TOLERATIONS
