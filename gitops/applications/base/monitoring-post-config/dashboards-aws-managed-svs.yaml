@@ -19,7 +19,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: https://raw.githubusercontent.com/mojaloop/iac-modules/37cba5b2f7695f75404908e00eb7d9c6060258a7/monitoring-mixin/build/aws-ec2.json
+  url: https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/monitoring-mixin/build/aws-ec2.json
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -33,7 +33,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: https://raw.githubusercontent.com/mojaloop/iac-modules/37cba5b2f7695f75404908e00eb7d9c6060258a7/monitoring-mixin/build/aws-rds.json
+  url: https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/monitoring-mixin/build/aws-rds.json
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -47,7 +47,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: https://raw.githubusercontent.com/mojaloop/iac-modules/37cba5b2f7695f75404908e00eb7d9c6060258a7/monitoring-mixin/build/aws-ebs.json
+  url: https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/monitoring-mixin/build/aws-ebs.json
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
