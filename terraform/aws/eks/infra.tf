@@ -69,6 +69,7 @@ module "eks" {
           # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
           ENABLE_PREFIX_DELEGATION = "true"
           WARM_PREFIX_TARGET       = "1"
+          ENABLE_NFTABLES          = "true"
         }
       })
     }
@@ -96,15 +97,15 @@ module "eks" {
   # oidc 
   cluster_identity_providers = {
     oidc = {
-    identity_provider_config_name = var.identity_provider_config_name
-    issuer_url                    = var.kubernetes_oidc_issuer    
-    client_id                     = var.kubernetes_oidc_client_id
-    groups_claim                  = var.kubernetes_oidc_groups_claim
-    #groups_prefix                 = var.kubernetes_oidc_groups_prefix
-    username_claim                = var.kubernetes_oidc_username_claim
-    #username_prefix               = var.kubernetes_oidc_username_prefix
+      identity_provider_config_name = var.identity_provider_config_name
+      issuer_url                    = var.kubernetes_oidc_issuer
+      client_id                     = var.kubernetes_oidc_client_id
+      groups_claim                  = var.kubernetes_oidc_groups_claim
+      #groups_prefix                 = var.kubernetes_oidc_groups_prefix
+      username_claim = var.kubernetes_oidc_username_claim
+      #username_prefix               = var.kubernetes_oidc_username_prefix
     }
-  }  
+  }
   self_managed_node_groups = local.self_managed_node_groups
   tags                     = var.tags
 }
@@ -193,12 +194,12 @@ locals {
 }
 
 data "template_file" "post_bootstrap_user_data" {
-  template = "${file("${path.module}/templates/post-bootstrap-user-data.sh.tpl")}"
+  template = file("${path.module}/templates/post-bootstrap-user-data.sh.tpl")
 
   vars = {
-      netbird_version           = var.netbird_version
-      netbird_api_host          = var.netbird_api_host
-      netbird_setup_key         = var.netbird_setup_key   
+    netbird_version   = var.netbird_version
+    netbird_api_host  = var.netbird_api_host
+    netbird_setup_key = var.netbird_setup_key
   }
 }
 
