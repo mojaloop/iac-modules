@@ -39,10 +39,15 @@ data "template_cloudinit_config" "generic" {
     content      = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
   }
 }
+# data "aws_instances" "bastion_instances" {
+#   filter {
+#     name   = "tag:Name"  # Filter by the 'Name' tag
+#     values = ["${local.cluster_domain}-bastion"]
+#   }
+# }
+
 data "aws_instances" "bastion_instances" {
-  filter {
-    name   = "tag:Name"  # Filter by the 'Name' tag
-    values = ["${local.cluster_domain}-bastion"]
+  instance_tags = {
+    Name = "${local.cluster_domain}-bastion"
   }
 }
-
