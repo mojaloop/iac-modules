@@ -73,7 +73,7 @@ resource "aws_route53_record" "haproxy_server_private" {
   type    = "A"
   ttl     = "300"
   records = [
-    data.aws_instances.bastion_instances.private_ips[0]
+    data.aws_instances.bastion_instances.private_ips[0],
     data.aws_instances.bastion_instances.private_ips[1]
   ]
 }
