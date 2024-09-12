@@ -109,11 +109,8 @@ resource "aws_launch_template" "bastion" {
     delete_on_termination       = true
     associate_public_ip_address = true
     security_groups             = [aws_security_group.bastion.id, module.vpc.default_security_group_id]
-    #subnet_id                   = element(module.vpc.public_subnets, 0)
   }
-
-  #user_data = base64encode(templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys }))
-
+  
   tag_specifications {
     resource_type = "instance"
     tags = merge({ 
