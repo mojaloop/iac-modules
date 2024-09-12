@@ -100,7 +100,7 @@ resource "aws_security_group_rule" "bastion_egress_all" {
 
 resource "aws_launch_template" "bastion" {
   name_prefix   = var.bastion_asg_config.name_prefix
-  image_id      = module.ubuntu_focal_ami.id
+  image_id      = var.bastion_ami
   instance_type = var.bastion_asg_config.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
   key_name      = module.base_infra.key_pair_name
