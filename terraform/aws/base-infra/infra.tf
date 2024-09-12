@@ -150,7 +150,7 @@ resource "aws_autoscaling_group" "bastion_asg" {
   desired_capacity    = var.bastion_asg_config.desired_capacity
   max_size            = var.bastion_asg_config.max_size
 
-  vpc_zone_identifier = module.base_infra.public_subnets
+  vpc_zone_identifier = module.vpc.public_subnets
 
   launch_template {
     id      = aws_launch_template.bastion.id
