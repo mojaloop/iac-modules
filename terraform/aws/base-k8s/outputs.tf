@@ -70,14 +70,21 @@ output "bastion_ssh_key" {
   value     = module.base_infra.ssh_private_key
 }
 
-output "bastion_public_ip" {
-  value = module.base_infra.bastion_public_ip
+# output "bastion_public_ip" {
+#   value = module.base_infra.bastion_public_ip
+# }
+
+# output "bastion_private_ip" {
+#   value = module.base_infra.bastion_private_ip
+# }
+
+output "bastion_public_ips" {
+  value = module.base_infra.bastion_public_ips
 }
 
-output "bastion_private_ip" {
-  value = module.base_infra.bastion_private_ip
+output "bastion_private_ips" {
+  value = module.base_infra.bastion_private_ips
 }
-
 
 output "bastion_os_username" {
   value = var.os_user_name
@@ -151,9 +158,14 @@ output "bastion_hosts_yaml_maps" {
   }
 }
 
+# output "bastion_hosts" {
+#   value = { bastion = module.base_infra.bastion_public_ip }
+# }
+
 output "bastion_hosts" {
-  value = { bastion = module.base_infra.bastion_public_ip }
+  value = { bastion = module.base_infra.bastion_public_ips }
 }
+
 
 output "agent_hosts" {
   value = try(merge(local.agent_hosts...), {})
