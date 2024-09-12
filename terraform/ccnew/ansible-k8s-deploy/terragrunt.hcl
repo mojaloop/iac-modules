@@ -99,7 +99,8 @@ inputs = {
   ansible_bastion_key           = dependency.k8s_deploy.outputs.bastion_ssh_key
   ansible_bastion_os_username   = dependency.k8s_deploy.outputs.bastion_os_username
   # ansible_bastion_public_ip     = dependency.k8s_deploy.outputs.bastion_public_ip
-  ansible_bastion_public_ip     = dependency.k8s_deploy.outputs.bastion_public_ips[0]
+  # ansible_bastion_public_ip     = dependency.k8s_deploy.outputs.bastion_public_ips[0]
+  ansible_bastion_public_ip = length(local.bastion_ips) > 0 ? local.bastion_ips[0] : null
   ansible_collection_tag        = local.env_vars.ansible_collection_tag
   ansible_base_output_dir       = local.ANSIBLE_BASE_OUTPUT_DIR
   ansible_playbook_name         = "cc${local.K8S_CLUSTER_TYPE}_cluster_deploy"
@@ -108,6 +109,7 @@ inputs = {
 }
 
 locals {
+  bastion_ips = dependency.k8s_deploy.outputs.bastion_public_ips
   env_vars = yamldecode(
   file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
   common_vars = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
