@@ -19,7 +19,7 @@ dependency "k8s_deploy" {
     test_harness_hosts_var_maps = {}
     bastion_ssh_key             = "key"
     bastion_os_username         = "null"
-    ansible_bastion_public_ip   = ["none"]
+    bastion_public_ips          = ["none"]
     haproxy_server_fqdn         = "null"
   }
   skip_outputs = local.skip_outputs
@@ -56,7 +56,7 @@ inputs = {
   ansible_bastion_key           = dependency.k8s_deploy.outputs.bastion_ssh_key
   ansible_bastion_os_username   = dependency.k8s_deploy.outputs.bastion_os_username
   # ansible_bastion_public_ip     = dependency.k8s_deploy.outputs.bastion_public_ip
-  ansible_bastion_public_ip     = dependency.k8s_deploy.outputs.bastion_public_ip[0]
+  ansible_bastion_public_ip     = dependency.k8s_deploy.outputs.bastion_public_ips[0]
   ansible_collection_tag        = local.env_vars.ansible_collection_tag
   ansible_base_output_dir       = local.ANSIBLE_BASE_OUTPUT_DIR
   ansible_playbook_name         = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
