@@ -145,7 +145,7 @@ resource "aws_launch_template" "bastion" {
 
 #  Create an Auto Scaling Group (ASG)
 resource "aws_autoscaling_group" "bastion_asg" {
-  name                = var.bastion_asg_config.name
+  name                = "${local.cluster_domain}-bastion"
   min_size            = var.bastion_asg_config.min_size
   desired_capacity    = var.bastion_asg_config.desired_capacity
   max_size            = var.bastion_asg_config.max_size
