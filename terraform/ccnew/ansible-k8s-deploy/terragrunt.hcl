@@ -19,7 +19,8 @@ dependency "k8s_deploy" {
     test_harness_hosts_var_maps = {}
     bastion_ssh_key             = "key"
     bastion_os_username         = "null"
-    bastion_public_ip           = "null"
+    # bastion_public_ip           = "null"
+    bastion_public_ips          = "null"
     private_subdomain           = "null"
     public_subdomain            = "null"
     ext_dns_cloud_policy        = "null"
