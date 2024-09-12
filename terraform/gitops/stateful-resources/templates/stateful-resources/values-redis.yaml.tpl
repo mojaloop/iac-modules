@@ -295,7 +295,7 @@ master:
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
   podLabels:
-    sidecar.istio.io/inject: false
+    sidecar.istio.io/inject: "false"
   ## @param master.podAnnotations Annotations for Redis&reg; master pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   ##
@@ -695,7 +695,7 @@ replica:
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
   podLabels:
-    sidecar.istio.io/inject: false
+    sidecar.istio.io/inject: "false"
   ## @param replica.podAnnotations Annotations for Redis&reg; replicas pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   ##

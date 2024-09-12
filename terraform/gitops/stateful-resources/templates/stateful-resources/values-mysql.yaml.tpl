@@ -186,7 +186,7 @@ primary:
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
   ##
   podLabels:
-    sidecar.istio.io/inject: false
+    sidecar.istio.io/inject: "false"
   podAffinityPreset: ""
   ## @param primary.podAntiAffinityPreset MySQL primary pod anti-affinity preset. Ignored if `primary.affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
@@ -495,7 +495,7 @@ secondary:
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
   ##
   podLabels:
-    sidecar.istio.io/inject: false
+    sidecar.istio.io/inject: "false"
   podAffinityPreset: ""
   ## @param secondary.podAntiAffinityPreset MySQL secondary pod anti-affinity preset. Ignored if `secondary.affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
@@ -807,7 +807,7 @@ secondary:
   ## @param secondary.podLabels Additional pod labels for MySQL secondary pods
   ##
   podLabels:
-    sidecar.istio.io/inject: false
+    sidecar.istio.io/inject: "false"
 
 ## @section RBAC parameters
 ##
