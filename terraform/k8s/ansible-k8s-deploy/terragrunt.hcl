@@ -19,8 +19,7 @@ dependency "k8s_deploy" {
     test_harness_hosts_var_maps = {}
     bastion_ssh_key             = "key"
     bastion_os_username         = "null"
-    # bastion_public_ips           = "null"
-    bastion_public_ips           = []
+    ansible_bastion_public_ip   = "null"
     haproxy_server_fqdn         = "null"
   }
   skip_outputs = local.skip_outputs

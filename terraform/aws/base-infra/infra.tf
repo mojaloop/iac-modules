@@ -99,7 +99,7 @@ resource "aws_security_group_rule" "bastion_egress_all" {
 # }
 
 resource "aws_launch_template" "bastion" {
-  name          = var.bastion_asg_config.name
+  name          = "${local.cluster_domain}-bastion"
   image_id      = var.bastion_ami
   instance_type = var.bastion_asg_config.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
