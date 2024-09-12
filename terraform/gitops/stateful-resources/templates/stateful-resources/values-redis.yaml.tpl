@@ -694,8 +694,7 @@ replica:
   ## @param replica.podLabels Extra labels for Redis&reg; replicas pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
-  podLabels:
-    sidecar.istio.io/inject: false
+  podLabels: {}
   ## @param replica.podAnnotations Annotations for Redis&reg; replicas pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   ##
@@ -1434,8 +1433,7 @@ metrics:
   ## @param metrics.podLabels Extra labels for Redis&reg; exporter pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
-  podLabels:
-    sidecar.istio.io/inject: false
+  podLabels: {}
   ## @param metrics.podAnnotations [object] Annotations for Redis&reg; exporter pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   ##
