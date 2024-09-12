@@ -103,7 +103,7 @@ resource "aws_launch_template" "bastion" {
   image_id      = var.bastion_ami
   instance_type = var.bastion_asg_config.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
-  key_name      = module.base_infra.key_pair_name
+  key_name      = local.cluster_domain
 
   network_interfaces {
     delete_on_termination       = true
