@@ -73,7 +73,6 @@ output "bastion_private_ip" {
 }
 
 output "bastion_public_ip" {
-  description = "First bastion host public IP"
   value       = module.base_infra.bastion_public_ip
 }
 
