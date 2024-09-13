@@ -65,6 +65,9 @@ api:
     vault.hashicorp.com/agent-pre-populate: "true"
     vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
+    vault.hashicorp.com/agent-pre-populate: "false"
+    proxy.istio.io/config: |
+      holdApplicationUntilProxyStarts: true
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
