@@ -8,6 +8,11 @@
 #   value       = aws_instance.bastion.private_ip
 # }
 
+output "bastion_public_ip" {
+  description = "First bastion host public IP"
+  value       = data.aws_instances.bastion_instances.public_ips[0]
+}
+
 output "bastion_public_ips" {
     description = "List of public IP addresses of bastion instances"
     value       = data.aws_instances.bastion_instances.public_ips

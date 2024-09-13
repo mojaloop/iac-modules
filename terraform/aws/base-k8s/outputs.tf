@@ -78,6 +78,11 @@ output "bastion_ssh_key" {
 #   value = module.base_infra.bastion_private_ip
 # }
 
+output "bastion_public_ip" {
+  description = "First bastion host public IP"
+  value       = module.base_infra.bastion_public_ip
+}
+
 output "bastion_public_ips" {
   value = module.base_infra.bastion_public_ips
 }
@@ -157,10 +162,6 @@ output "bastion_hosts_yaml_maps" {
     node_pool_taints = yamlencode(concat(local.node_taints...))
   }
 }
-
-# output "bastion_hosts" {
-#   value = { bastion = module.base_infra.bastion_public_ip }
-# }
 
 output "bastion_hosts" {
   value = zipmap([for i in range(length(module.base_infra.bastion_public_ips)) : "bastion${i + 1}"], module.base_infra.bastion_public_ips)
