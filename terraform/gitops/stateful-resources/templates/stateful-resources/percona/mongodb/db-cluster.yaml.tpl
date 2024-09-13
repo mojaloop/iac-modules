@@ -119,7 +119,6 @@ spec:
 #    annotations:
 #      iam.amazonaws.com/role: role-arn
 #    labels:
-#      istio-injection: enabled
 #      rack: rack-22
 #    nodeSelector:
 #      disktype: ssd

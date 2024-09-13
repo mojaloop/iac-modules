@@ -2,9 +2,8 @@ resource "local_file" "chart_values" {
   for_each = { for key, stateful_resource in local.helm_stateful_resources : key => stateful_resource }
 
   content = templatefile("${local.stateful_resources_template_path}/${each.value.local_helm_config.resource_helm_values_ref}", {
-    resource        = each.value,
-    key             = each.key,
-    istio_injection = var.istio_create_ingress_gateways
+    resource = each.value,
+    key      = each.key
   })
   filename = "${local.stateful_resources_output_path}/values-${each.value.local_helm_config.resource_helm_chart}-${each.key}.yaml"
 }
@@ -13,11 +12,10 @@ resource "local_file" "vault_crs" {
   for_each = { for key, stateful_resource in local.internal_stateful_resources : key => stateful_resource }
 
   content = templatefile("${local.stateful_resources_template_path}/vault-crs.yaml.tpl", {
-    resource        = each.value,
-    key             = each.key
-    namespace       = each.value.deployment_type == "helm-chart" ? each.value.local_helm_config.resource_namespace : each.value.local_operator_config.resource_namespace
-    secret_config   = each.value.deployment_type == "helm-chart" ? each.value.local_helm_config.secret_config : each.value.local_operator_config.secret_config
-    istio_injection = var.istio_create_ingress_gateways
+    resource      = each.value,
+    key           = each.key
+    namespace     = each.value.deployment_type == "helm-chart" ? each.value.local_helm_config.resource_namespace : each.value.local_operator_config.resource_namespace
+    secret_config = each.value.deployment_type == "helm-chart" ? each.value.local_helm_config.secret_config : each.value.local_operator_config.secret_config
   })
   filename = "${local.stateful_resources_output_path}/vault-crs-${each.key}.yaml"
 }
@@ -47,7 +45,6 @@ resource "local_file" "kustomization" {
       strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
       redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
-      istio_injection                     = var.istio_create_ingress_gateways
   })
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
 }
@@ -67,7 +64,6 @@ resource "local_file" "strimzi-crs" {
     {
       kafka_cluster_name          = each.key
       kafka_cluster_metrics_label = var.cluster_name
-      istio_injection             = var.istio_create_ingress_gateways
 
       node_pool_name         = "${each.key}-nodepool"
       node_pool_size         = each.value.local_operator_config.node_pool_size
@@ -202,12 +198,6 @@ variable "gitlab_project_url" {
 variable "cluster_name" {
   description = "Cluster name, lower case and without spaces. This will be used to set tags and name resources"
   type        = string
-}
-
-variable "istio_create_ingress_gateways" {
-  type = bool
-  description = "enable istio for stateful resources"
-  default = true # default to true for now. Ask infra team.
 }
 
 variable "gitlab_server_url" {

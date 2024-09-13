@@ -15,7 +15,6 @@ module "common_stateful_resources" {
   minio_api_url                                 = var.minio_api_url
   minio_percona_backup_bucket                   = data.gitlab_project_variable.minio_percona_backup_bucket.value
   external_secret_sync_wave                     = var.external_secret_sync_wave
-  istio_create_ingress_gateways                 = var.istio_create_ingress_gateways
 }
 
 variable "stateful_resources_namespace" {
