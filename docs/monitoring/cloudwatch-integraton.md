@@ -27,4 +27,4 @@ Cloudwatch exporter needs to authenticate with the AWS cloudwatch API. YACE uses
 Option 1 uses long-lived static credentials, while Option 2 enables short-lived, more secure authentication tokens. Currently, we are using Option 1 to accelerate development.
 
 ## Target Discovery 
-YACE can discover and filter resource targets based on tags. To maintain consistency, we should use the monitoring_enabled:true tag on all resources that need to be monitored.
+YACE can discover and filter resource targets based on tags. To maintain consistency, we should use the `monitoring_enabled:true` tag on all resources that need to be monitored.
