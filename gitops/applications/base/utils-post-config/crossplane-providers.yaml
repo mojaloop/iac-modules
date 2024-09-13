@@ -5,6 +5,7 @@ metadata:
 spec:
   args:
     - --debug
+    - --poll=60m
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
