@@ -1,16 +1,11 @@
-# output "bastion_public_ip" {
-#   description = "Bastion Instance Hostname"
-#   value       = aws_instance.bastion.public_ip
-# }
-
-# output "bastion_private_ip" {
-#   description = "Bastion Instance private ip"
-#   value       = aws_instance.bastion.private_ip
-# }
-
 output "bastion_public_ip" {
   description = "First bastion host public IP"
   value       = data.aws_instances.bastion_instances.public_ips[0]
+}
+
+output "bastion_private_ip" {
+  description = "First bastion host private IP"
+  value       = data.aws_instances.bastion_instances.private_ips[0]
 }
 
 output "bastion_public_ips" {

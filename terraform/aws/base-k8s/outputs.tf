@@ -63,20 +63,14 @@ output "ext_dns_cloud_policy" {
   value = module.post_config.ext_dns_cloud_policy
 }
 
-###new items
-
 output "bastion_ssh_key" {
   sensitive = true
   value     = module.base_infra.ssh_private_key
 }
 
-# output "bastion_public_ip" {
-#   value = module.base_infra.bastion_public_ip
-# }
-
-# output "bastion_private_ip" {
-#   value = module.base_infra.bastion_private_ip
-# }
+output "bastion_private_ip" {
+  value = module.base_infra.bastion_private_ip
+}
 
 output "bastion_public_ip" {
   description = "First bastion host public IP"
