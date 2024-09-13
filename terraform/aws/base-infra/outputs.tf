@@ -4,10 +4,11 @@ output "bastion_public_ip" {
   value       = length(data.aws_instances.bastion_instances.public_ips) > 0 ? data.aws_instances.bastion_instances.public_ips[0] : null
 }
 
-output "bastion_private_ip" {
-  description = "First bastion host private IP"
-  value       = data.aws_instances.bastion_instances.private_ips[0]
-}
+# output "bastion_private_ip" {
+#   description = "First bastion host private IP"
+#   value       = data.aws_instances.bastion_instances.private_ips[0]
+#   value       = length(data.aws_instances.bastion_instances.private_ips) > 0 ? data.aws_instances.bastion_instances.private_ips[0] : null
+# }
 
 output "bastion_public_ips" {
     description = "List of public IP addresses of bastion instances"

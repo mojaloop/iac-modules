@@ -68,9 +68,9 @@ output "bastion_ssh_key" {
   value     = module.base_infra.ssh_private_key
 }
 
-output "bastion_private_ip" {
-  value = module.base_infra.bastion_private_ip
-}
+# output "bastion_private_ip" {
+#   value = module.base_infra.bastion_private_ip
+# }
 
 output "bastion_public_ip" {
   value       = module.base_infra.bastion_public_ip
