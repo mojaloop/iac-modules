@@ -11,6 +11,7 @@ output "bastion_public_ips" {
 output "bastion_private_ips" {
     description = "List of private IP addresses of bastion instances"
     value       = data.aws_instances.bastion_instances.private_ips
+    depends_on    = [aws_autoscaling_group.bastion_asg]
 }
 
 output "ssh_private_key" {
