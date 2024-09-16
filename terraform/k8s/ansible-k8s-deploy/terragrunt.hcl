@@ -144,6 +144,7 @@ locals {
     kubernetes_oidc_username_claim   = get_env("KUBERNETES_OIDC_USERNAME_CLAIM")
     kubernetes_oidc_k8s_user_group   = get_env("KUBERNETES_OIDC_K8S_USER_GROUP")
     kubernetes_oidc_k8s_admin_group  = get_env("KUBERNETES_OIDC_K8S_ADMIN_GROUP")
+    cc_cidr_block                    = get_env("CC_CIDR_BLOCK")
   }
 }
 

@@ -211,33 +211,41 @@ variable "netbird_setup_key" {
 }
 
 variable "identity_provider_config_name" {
-   type = string 
+  type = string
 }
 
 variable "kubernetes_oidc_issuer" {
-   type = string 
+  type = string
 }
 
 variable "kubernetes_oidc_client_id" {
-   type = string 
+  type = string
 }
 
 variable "kubernetes_oidc_groups_claim" {
-   type = string 
+  type = string
 }
 
 variable "kubernetes_oidc_groups_prefix" {
-   type = string 
+  type = string
 }
 
 variable "kubernetes_oidc_username_claim" {
-   type = string 
+  type = string
 }
 
 variable "kubernetes_oidc_username_prefix" {
-   type = string 
+  type = string
 }
 
+variable "cc_cidr_block" {
+  type = string
+}
+
+variable "netbird_ip_range" {
+  type    = string
+  default = "100.64.0.0/10"
+}
 ###
 # Local copies of variables to allow for parsing
 ###

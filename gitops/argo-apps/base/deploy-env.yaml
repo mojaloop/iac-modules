@@ -55,7 +55,7 @@ spec:
           value: "${ARGOCD_ENV_utils_rook_ceph_bucket_config_dns_subdomain}"
 
         - name: "grafana_dns_subdomain"
-          value: "${ARGOCD_ENV_monitoring_grafana_dns_subdomain}"          
+          value: "${ARGOCD_ENV_monitoring_grafana_dns_subdomain}"
 
         - name: "vault_kv_secret"
           value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
@@ -91,7 +91,10 @@ spec:
           value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
 
         - name: "zitadel_dns_subdomain"
-          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"          
+          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
 
         - name: "kubernetes_oidc_groups_claim"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
+
+        - name: "cc_cidr_block"
+          value: "${ARGOCD_ENV_security_netbird_internal_k8s_cidr}"
