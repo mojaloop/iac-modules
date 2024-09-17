@@ -1,3 +1,10 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cloudwatch-exporter-service-account    # Name of the service account
+  # namespace: ${ARGOCD_ENV_monitoring_namespace} # Namespace in which the service account will be created
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -12,6 +19,7 @@ spec:
       labels:
         app.kubernetes.io/name: cloudwatch-exporter
     spec:
+      serviceAccountName: cloudwatch-exporter-service-account
       containers:
       - name: cloudwatch-exporter
         image: ghcr.io/nerdswords/yet-another-cloudwatch-exporter:v0.61.2
