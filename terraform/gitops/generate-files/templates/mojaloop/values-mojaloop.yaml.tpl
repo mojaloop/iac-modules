@@ -1212,6 +1212,10 @@ ml-ttk-test-val-gp:
     labels: ${ttk_gp_testcase_labels}
   tests:
     enabled: true
+  scheduling:
+    enabled: true
+    failedJobsHistoryLimit: 2
+    cronSchedule: '25 6 * * *'
   config:
     testCasesZipUrl: *TEST_CASES_ZIP_URL
     testCasesPathInZip: *TEST_CASES_PATH_GP
