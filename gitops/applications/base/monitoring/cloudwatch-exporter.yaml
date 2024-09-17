@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: cloudwatch-exporter-service-account    # Name of the service account
-  # namespace: ${ARGOCD_ENV_monitoring_namespace} # Namespace in which the service account will be created
+  namespace: ${ARGOCD_ENV_monitoring_namespace} # Namespace in which the service account will be created
 ---
 
 apiVersion: apps/v1
