@@ -68,3 +68,24 @@ resource "vault_kv_secret_v2" "env_netbird_k8s_setup_key" {
     }
   )
 }
+
+ # netbird group for backtunnel access
+resource "netbird_group" "env_backtunnel_gw" {
+  count = var.k8s_cluster_type == "eks" ? 1 : 0
+  name  = "${var.env_name}-backtunnel"
+}
+
+
+# netbird route for allowing access to managed vpc cidr ( subnets of rds, msk and others )
+resource "netbird_route" "env_backtunnel_gw" {
+  count       = var.k8s_cluster_type == "eks"  ? 1 : 0  
+  description = "${var.env_name}-backtunnel"
+  enabled     = true
+  groups      = [netbird_group.env_backtunnel_gw[0].id]
+  keep_route  = true
+  masquerade  = true
+  metric      = 9999
+  peer_groups = [local.env_k8s_peers_group_id]
+  network     = var.env_cidr
+  network_id  = "${var.env_name}-backtunnel"
+}
