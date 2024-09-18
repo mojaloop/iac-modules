@@ -1212,10 +1212,6 @@ ml-ttk-test-val-gp:
     labels: ${ttk_gp_testcase_labels}
   tests:
     enabled: true
-  scheduling:
-    enabled: true
-    failedJobsHistoryLimit: 2
-    cronSchedule: '25 6 * * *'
   config:
     testCasesZipUrl: *TEST_CASES_ZIP_URL
     testCasesPathInZip: *TEST_CASES_PATH_GP
@@ -1236,6 +1232,24 @@ ml-ttk-test-val-gp:
     annotations:
       argocd.argoproj.io/hook: PostSync
       argocd.argoproj.io/sync-wave: "${mojaloop_test_sync_wave}"
+
+ml-ttk-cronjob-tests:
+  configFileDefaults:
+    labels: ${ttk_gp_testcase_labels}
+  config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: *TEST_CASES_PATH_GP
+    testSuiteName: GP Tests
+    environmentName: ${ingress_subdomain}
+    saveReport: true
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
+  parameters:
+    <<: *simNames
+  testCaseEnvironmentFile:  *ttkInputValues
+  scheduling:
+    enabled: true
+    failedJobsHistoryLimit: 2
+    cronSchedule: '25 6 * * *'
 
 ml-ttk-test-val-bulk:
   tests:
