@@ -1,3 +1,6 @@
+resource "time_rotating" "setup_key_rotation" {
+  rotation_days = 89
+}
 # netbird group for managed service gateway 
 resource "netbird_group" "ms_env_gw" {
   count = local.ms_enabled ? 1 : 0
@@ -6,24 +9,22 @@ resource "netbird_group" "ms_env_gw" {
 
 #setup key for bastion host(s) in managed service vpc to use for acting as gw to env managed sevice cluster
 resource "netbird_setup_key" "ms_env_gw" {
-  count       = local.ms_enabled ? 1 : 0  
+  count       = local.ms_enabled ? 1 : 0
   name        = "${var.env_name}-managed-svc-gw"
   type        = "reusable"
   auto_groups = [netbird_group.ms_env_gw[0].id]
   ephemeral   = false
   usage_limit = 0
   expires_in  = 7776000
-  rotate_when_changed = {
-    rotation = time_rotating.setup_key_rotation.id
-  }
+  rotation_id = time_rotating.setup_key_rotation.id
 }
 
 # netbird route for allowing access to managed vpc cidr ( subnets of rds, msk and others )
 resource "netbird_route" "env_managed_svc_route" {
-  count       = local.ms_enabled ? 1 : 0  
+  count       = local.ms_enabled ? 1 : 0
   description = "${var.env_name}-managed-svc"
   enabled     = true
-  groups      = [netbird_group.env_users.id,local.env_k8s_peers_group_id]
+  groups      = [netbird_group.env_users.id, local.env_k8s_peers_group_id]
   keep_route  = true
   masquerade  = true
   metric      = 9999

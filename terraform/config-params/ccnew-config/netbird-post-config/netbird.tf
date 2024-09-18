@@ -1,5 +1,5 @@
 resource "time_rotating" "setup_key_rotation" {
-  rotation_days = 89 
+  rotation_days = 89
 }
 
 resource "netbird_setup_key" "cc_gw_setup_key" {
@@ -9,6 +9,7 @@ resource "netbird_setup_key" "cc_gw_setup_key" {
   ephemeral   = false
   usage_limit = 0
   expires_in  = 7776000
+  rotation_id = time_rotating.setup_key_rotation.id
 }
 
 resource "netbird_setup_key" "build_server_setup_key" {
@@ -18,6 +19,7 @@ resource "netbird_setup_key" "build_server_setup_key" {
   ephemeral   = true
   usage_limit = 1
   expires_in  = 7776000
+  rotation_id = time_rotating.setup_key_rotation.id
 }
 
 resource "netbird_group" "cc_gateway" {
