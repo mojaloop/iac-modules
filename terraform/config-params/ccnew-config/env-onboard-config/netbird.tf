@@ -79,7 +79,7 @@ resource "netbird_route" "env_backtunnel_gw" {
   keep_route  = true
   masquerade  = true
   metric      = 9999
-  peer_groups = [local.env_k8s_peers_group_id]
+  peer_groups = [var.env_name]
   network     = var.env_cidr
   network_id  = "${var.env_name}-backtunnel"
 }
