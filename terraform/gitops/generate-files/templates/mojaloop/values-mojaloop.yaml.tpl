@@ -1208,10 +1208,10 @@ ml-ttk-test-setup:
       argocd.argoproj.io/hook: PostSync
 
 ml-ttk-test-val-gp:
-%{ if run_full_gp_testcases = true }
+%{ if run_full_gp_testcases == true }
   configFileDefaults:
     labels: ${ttk_gp_testcase_labels}
-%{ else }
+%{ endif }
   tests:
     enabled: true
   config:
@@ -1236,10 +1236,10 @@ ml-ttk-test-val-gp:
       argocd.argoproj.io/sync-wave: "${mojaloop_test_sync_wave}"
 
 ml-ttk-cronjob-tests:
-%{ if run_full_gp_testcases = true }
+%{ if run_full_gp_testcases == true }
   configFileDefaults:
     labels: ${ttk_gp_testcase_labels}
-%{ else }
+%{ endif }
   config:
     testCasesZipUrl: *TEST_CASES_ZIP_URL
     testCasesPathInZip: *TEST_CASES_PATH_GP
