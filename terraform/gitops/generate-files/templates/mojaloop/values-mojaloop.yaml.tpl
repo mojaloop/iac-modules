@@ -1208,8 +1208,10 @@ ml-ttk-test-setup:
       argocd.argoproj.io/hook: PostSync
 
 ml-ttk-test-val-gp:
+%{ if run_full_gp_testcases = true }
   configFileDefaults:
     labels: ${ttk_gp_testcase_labels}
+%{ else }
   tests:
     enabled: true
   config:
@@ -1234,8 +1236,10 @@ ml-ttk-test-val-gp:
       argocd.argoproj.io/sync-wave: "${mojaloop_test_sync_wave}"
 
 ml-ttk-cronjob-tests:
+%{ if run_full_gp_testcases = true }
   configFileDefaults:
     labels: ${ttk_gp_testcase_labels}
+%{ else }
   config:
     testCasesZipUrl: *TEST_CASES_ZIP_URL
     testCasesPathInZip: *TEST_CASES_PATH_GP
@@ -1249,7 +1253,20 @@ ml-ttk-cronjob-tests:
   scheduling:
     enabled: true
     failedJobsHistoryLimit: 2
-    cronSchedule: '25 6 * * *'
+    cronSchedule: '15 6 * * *'
+
+ml-ttk-cronjob-cleanup:
+  scheduling:
+    enabled: true
+    cronSchedule: '0 6 * * *'
+  config:
+    testCasesZipUrl: *TEST_CASES_ZIP_URL
+    testCasesPathInZip: &ttkGitPathCleanup testing-toolkit-test-cases-16.0.0/collections/hub/cleanup
+    testSuiteName: GP Cleanup
+    environmentName: ${ingress_subdomain}
+    saveReport: true
+    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    reportName: cronjob_cleanup
 
 ml-ttk-test-val-bulk:
   tests:
