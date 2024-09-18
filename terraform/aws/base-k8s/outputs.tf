@@ -70,14 +70,24 @@ output "bastion_ssh_key" {
   value     = module.base_infra.ssh_private_key
 }
 
-output "bastion_public_ip" {
-  value = module.base_infra.bastion_public_ip
-}
-
 output "bastion_private_ip" {
   value = module.base_infra.bastion_private_ip
 }
+output "bastion_private_ips" {
+  value = module.base_infra.bastion_private_ips
+}
 
+output "bastion_public_ip" {
+  value       = module.base_infra.bastion_public_ip
+}
+
+output "bastion_public_ips" {
+  value = module.base_infra.bastion_public_ips
+}
+
+output "bastion_hosts" {
+  value = zipmap([for i in range(length(module.base_infra.bastion_public_ips)) : "bastion${i + 1}"], module.base_infra.bastion_public_ips)
+}
 
 output "bastion_os_username" {
   value = var.os_user_name
@@ -149,10 +159,6 @@ output "bastion_hosts_yaml_maps" {
     node_pool_labels = yamlencode(concat(local.node_labels...))
     node_pool_taints = yamlencode(concat(local.node_taints...))
   }
-}
-
-output "bastion_hosts" {
-  value = { bastion = module.base_infra.bastion_public_ip }
 }
 
 output "agent_hosts" {
