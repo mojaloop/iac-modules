@@ -42,6 +42,7 @@ data "netbird_groups" "all" {
 locals {
   cc_user_group_id       = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, "${local.netbird_project_id}:${var.netbird_user_rbac_group}")][0]
   env_k8s_peers_group_id = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, "${var.env_name}-k8s-peers")][0]
+  cc_gw_group_id         = [for group in data.netbird_groups.all.groups : group.id if strcontains(group.name, "cntrlcntr-gateway")][0]
 }
 
 
@@ -74,7 +75,7 @@ resource "netbird_route" "env_backtunnel_gw" {
   count       = var.k8s_cluster_type == "eks"  ? 1 : 0  
   description = "${var.env_name}-backtunnel"
   enabled     = true
-  groups      = [var.env_name]
+  groups      = [local.cc_gw_group_id]
   keep_route  = true
   masquerade  = true
   metric      = 9999
