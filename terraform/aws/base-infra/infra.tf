@@ -79,25 +79,6 @@ resource "aws_security_group_rule" "bastion_egress_all" {
   security_group_id = aws_security_group.bastion.id
 }
 
-# resource "aws_instance" "bastion" {
-#   ami                         = var.bastion_ami
-#   instance_type               = "t2.micro"
-#   subnet_id                   = element(module.vpc.public_subnets, 0)
-#   user_data                   = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
-#   key_name                    = local.cluster_domain
-#   associate_public_ip_address = true
-#   vpc_security_group_ids      = [aws_security_group.bastion.id, module.vpc.default_security_group_id]
-
-#   tags        = merge({ Name = "${local.cluster_domain}-bastion" }, local.common_tags)
-#   volume_tags = merge({ Name = "${local.cluster_domain}-bastion" }, local.common_tags)
-
-#   lifecycle {
-#     ignore_changes = [
-#       ami
-#     ]
-#   }
-# }
-
 resource "aws_launch_template" "bastion" {
   name          = "${local.cluster_domain}-bastion"
   image_id      = var.bastion_ami
