@@ -13,6 +13,9 @@ resource "netbird_setup_key" "ms_env_gw" {
   ephemeral   = false
   usage_limit = 0
   expires_in  = 7776000
+  rotate_when_changed = {
+    rotation = time_rotating.setup_key_rotation.id
+  }
 }
 
 # netbird route for allowing access to managed vpc cidr ( subnets of rds, msk and others )

@@ -1,3 +1,7 @@
+resource "time_rotating" "setup_key_rotation" {
+  rotation_days = 89 
+}
+
 #setup key for bastion host(s) to use for acting as gw to env private cluster
 resource "netbird_setup_key" "env_gw" {
   name        = "${var.env_name}-gw"
@@ -6,6 +10,9 @@ resource "netbird_setup_key" "env_gw" {
   ephemeral   = false
   usage_limit = 0
   expires_in  = 7776000
+  rotate_when_changed = {
+    rotation = time_rotating.setup_key_rotation.id
+  }
 }
 #setup key for k8s peers to use to connect to cc priv network
 resource "netbird_setup_key" "env_k8s" {
@@ -15,6 +22,9 @@ resource "netbird_setup_key" "env_k8s" {
   ephemeral   = true
   usage_limit = 0
   expires_in  = 7776000
+  rotate_when_changed = {
+    rotation = time_rotating.setup_key_rotation.id
+  }
 }
 
 resource "netbird_group" "env_gw" {

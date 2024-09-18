@@ -146,6 +146,10 @@ spec:
             source = "hashicorp/kubernetes"
             version = "2.31.0"
           }
+          time = {
+            source = "hashicorp/time"
+            version = "0.12.1"
+          }          
         }
      }
 
@@ -175,3 +179,5 @@ spec:
         token = var.token
         base_url = "https://${ARGOCD_ENV_gitlab_fqdn}"
       }
+
+      provider "time" {}
