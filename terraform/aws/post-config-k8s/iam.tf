@@ -74,36 +74,3 @@ resource "aws_iam_policy" "route53_external_dns" {
 }
 EOF
 }
-
-
-resource "aws_iam_policy" "example_policy" {
-  name        = "example-policy"
-  description = "Example IAM policy for Terraform"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = [
-          "s3:ListBucket",
-          "s3:GetObject"
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-
-# resource "vault_kv_secret_v2" "cloudwatch-exporter-password" {
-#   mount               = vault_mount.kv_secret.path
-#   name                = "bootstrap/aws_cloudwatch_credentials_test"
-#   delete_all_versions = true
-#   data_json = jsonencode(
-#     {
-#       a = "yahoo"
-#       b = "google"
-#     }
-#   )
-# }
