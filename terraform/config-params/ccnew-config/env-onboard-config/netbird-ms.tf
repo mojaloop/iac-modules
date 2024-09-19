@@ -1,6 +1,3 @@
-resource "time_rotating" "setup_key_rotation" {
-  rotation_days = 89
-}
 # netbird group for managed service gateway 
 resource "netbird_group" "ms_env_gw" {
   count = local.ms_enabled ? 1 : 0
@@ -24,7 +21,7 @@ resource "netbird_route" "env_managed_svc_route" {
   count       = local.ms_enabled ? 1 : 0
   description = "${var.env_name}-managed-svc"
   enabled     = true
-  groups      = [netbird_group.env_users.id, local.env_k8s_peers_group_id,local.cc_user_group_id]]
+  groups      = [netbird_group.env_users.id, local.env_k8s_peers_group_id,local.cc_user_group_id]
   keep_route  = true
   masquerade  = true
   metric      = 9999
