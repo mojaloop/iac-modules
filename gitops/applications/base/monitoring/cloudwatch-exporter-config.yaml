@@ -66,3 +66,36 @@ discovery:
           statistics: [Average]
         - name: BurstBalance
           statistics: [Average]
+    - type: AWS/RDS
+      regions: [us-west-1] # TODO: do not hardcode, understand what it is
+      includeContextOnInfoMetrics: true
+      searchTags: # update the search tag later
+        - key: mojaloop/owner
+          value: Samuel-Kummary # TODO: update target tags
+      dimensionNameRequirements:
+        - DBInstanceIdentifier
+      period: 300
+      length: 300
+      metrics:
+        - name: CPUUtilization
+          statistics: [Maximum]
+        - name: CPUUtilization
+          statistics: [Maximum]
+        - name: DatabaseConnections
+          statistics: [Sum]
+        - name: FreeStorageSpace
+          statistics: [Average]
+        - name: FreeableMemory
+          statistics: [Average]
+        - name: ReadThroughput
+          statistics: [Average]
+        - name: WriteThroughput
+          statistics: [Average]
+        - name: ReadIOPS
+          statistics: [Average]
+        - name: WriteIOPS
+          statistics: [Average]
+        - name: ReadLatency
+          statistics: [Average]
+        - name: WriteLatency
+          statistics: [Average]
