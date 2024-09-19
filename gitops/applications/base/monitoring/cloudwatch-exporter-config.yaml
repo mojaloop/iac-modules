@@ -67,7 +67,7 @@ discovery:
         - name: BurstBalance
           statistics: [Average]
     - type: AWS/RDS
-      regions: [us-west-1] # TODO: do not hardcode, understand what it is
+      regions: [eu-west-1] # TODO: do not hardcode, understand what it is
       includeContextOnInfoMetrics: true
       searchTags: # update the search tag later
         - key: mojaloop/owner
