@@ -96,6 +96,6 @@ discovery:
         - name: WriteIOPS
           statistics: [Average]
         - name: ReadLatency
-          statistics: [Average]
+          statistics: [Maximum]
         - name: WriteLatency
-          statistics: [Average]
+          statistics: [Maximum]
