@@ -192,6 +192,7 @@ module "generate_mojaloop_files" {
     jws_rotation_period_hours                                         = try(var.app_var_map.jws_rotation_period_hours, var.jws_rotation_period_hours)
     mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
+    run_full_gp_testcases                                             = try(var.app_var_map.run_full_gp_testcases, var.run_full_gp_testcases)
     mojaloop_override_values_file_exists                              = local.mojaloop_override_values_file_exists
     finance_portal_override_values_file_exists                        = local.finance_portal_override_values_file_exists
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
@@ -420,4 +421,9 @@ variable "jws_rotation_renew_before_hours" {
 variable "ttk_gp_testcase_labels" {
   type    = string
   default = "p2p"
+}
+
+variable "run_full_gp_testcases" {
+  type    = bool
+  default = true
 }
