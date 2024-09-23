@@ -5,7 +5,7 @@ resources:
   - virtual-service.yaml
   - vault-secrets.yaml
   - grafana-oidc-xplane-terraform.yaml
-  - dashboards-aws-managed-svs.yaml
+  # - dashboards-aws-managed-svs.yaml
   - dashboards-default.yaml
   - dashboards-k8s.yaml
   - dashboards-kafka.yaml
