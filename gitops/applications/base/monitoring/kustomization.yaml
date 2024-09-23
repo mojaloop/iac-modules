@@ -1,13 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-configMapGenerator:
-- files:
-  - ./cloudwatch-exporter-config.yaml
-  name: cloudwatch-exporter-config
+# TODO: we need to review if we need cloudwatch exporter in the first place or not
+# configMapGenerator:
+# - files:
+#   - ./cloudwatch-exporter-config.yaml
+#   name: cloudwatch-exporter-config
 
-resources:
-- cloudwatch-exporter.yaml
+# resources:
+# - cloudwatch-exporter.yaml
 
 helmCharts:
   - name: grafana-mimir

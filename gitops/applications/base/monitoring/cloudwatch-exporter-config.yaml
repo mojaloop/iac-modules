@@ -1,101 +1,101 @@
-apiVersion: v1alpha1
-sts-region: us-west-2 # TODO: do not hardcode. Understand what it is
-discovery:
-  jobs:
-    - type: AWS/EC2
-      regions: [us-west-2] # TODO: do not hardcode, understand what it is
-      includeContextOnInfoMetrics: true
-      searchTags:
-        - key: Name
-          value: "Forem to Orbit bridge"
-      dimensionNameRequirements:
-        - InstanceId
-      period: 300
-      length: 300
-      metrics:
-        - name: CPUUtilization
-          statistics: [Maximum]
-        # - name: NetworkIn
-        #   statistics: [Average, Sum]
-        # - name: NetworkOut
-        #   statistics: [Average, Sum]
-        # - name: NetworkPacketsIn
-        #   statistics: [Sum]
-        # - name: NetworkPacketsOut
-        #   statistics: [Sum]
-        # - name: DiskReadBytes
-        #   statistics: [Sum]
-        # - name: DiskWriteBytes
-        #   statistics: [Sum]
-        # - name: DiskReadOps
-        #   statistics: [Sum]
-        # - name: DiskWriteOps
-        #   statistics: [Sum]
-        - name: StatusCheckFailed
-          statistics: [Sum]
-        - name: StatusCheckFailed_Instance
-          statistics: [Sum]
-        - name: StatusCheckFailed_System
-          statistics: [Sum]
-    - type: AWS/EBS
-      regions: [us-west-2] # TODO: do not hardcode, understand what it is
-      includeContextOnInfoMetrics: true
-      searchTags: # update the search tag later
-        - key: Name
-          value: forem-community.mojaloop.io
-      dimensionNameRequirements:
-        - VolumeId
-      period: 300
-      length: 300
-      metrics:
-        - name: VolumeReadBytes
-          statistics: [Sum]
-        - name: VolumeWriteBytes
-          statistics: [Sum]
-        - name: VolumeReadOps
-          statistics: [Average]
-        - name: VolumeWriteOps
-          statistics: [Average]
-        - name: VolumeIdleTime
-          statistics: [Average]
-        - name: VolumeTotalReadTime
-          statistics: [Average]
-        - name: VolumeTotalWriteTime
-          statistics: [Average]
-        - name: VolumeQueueLength
-          statistics: [Average]
-        - name: BurstBalance
-          statistics: [Average]
-    - type: AWS/RDS
-      regions: [eu-west-1] # TODO: do not hardcode, understand what it is
-      includeContextOnInfoMetrics: true
-      searchTags: # update the search tag later
-        - key: mojaloop/owner
-          value: Samuel-Kummary # TODO: update target tags
-      dimensionNameRequirements:
-        - DBInstanceIdentifier
-      period: 300
-      length: 300
-      metrics:
-        - name: CPUUtilization
-          statistics: [Maximum]
-        - name: CPUUtilization
-          statistics: [Maximum]
-        - name: DatabaseConnections
-          statistics: [Sum]
-        - name: FreeStorageSpace
-          statistics: [Average]
-        - name: FreeableMemory
-          statistics: [Average]
-        - name: ReadThroughput
-          statistics: [Average]
-        - name: WriteThroughput
-          statistics: [Average]
-        - name: ReadIOPS
-          statistics: [Average]
-        - name: WriteIOPS
-          statistics: [Average]
-        - name: ReadLatency
-          statistics: [Maximum]
-        - name: WriteLatency
-          statistics: [Maximum]
+# apiVersion: v1alpha1
+# sts-region: us-west-2 # TODO: do not hardcode. Understand what it is
+# discovery:
+#   jobs:
+#     - type: AWS/EC2
+#       regions: [us-west-2] # TODO: do not hardcode, understand what it is
+#       includeContextOnInfoMetrics: true
+#       searchTags:
+#         - key: Name
+#           value: "Forem to Orbit bridge"
+#       dimensionNameRequirements:
+#         - InstanceId
+#       period: 300
+#       length: 300
+#       metrics:
+#         - name: CPUUtilization
+#           statistics: [Maximum]
+#         # - name: NetworkIn
+#         #   statistics: [Average, Sum]
+#         # - name: NetworkOut
+#         #   statistics: [Average, Sum]
+#         # - name: NetworkPacketsIn
+#         #   statistics: [Sum]
+#         # - name: NetworkPacketsOut
+#         #   statistics: [Sum]
+#         # - name: DiskReadBytes
+#         #   statistics: [Sum]
+#         # - name: DiskWriteBytes
+#         #   statistics: [Sum]
+#         # - name: DiskReadOps
+#         #   statistics: [Sum]
+#         # - name: DiskWriteOps
+#         #   statistics: [Sum]
+#         - name: StatusCheckFailed
+#           statistics: [Sum]
+#         - name: StatusCheckFailed_Instance
+#           statistics: [Sum]
+#         - name: StatusCheckFailed_System
+#           statistics: [Sum]
+#     - type: AWS/EBS
+#       regions: [us-west-2] # TODO: do not hardcode, understand what it is
+#       includeContextOnInfoMetrics: true
+#       searchTags: # update the search tag later
+#         - key: Name
+#           value: forem-community.mojaloop.io
+#       dimensionNameRequirements:
+#         - VolumeId
+#       period: 300
+#       length: 300
+#       metrics:
+#         - name: VolumeReadBytes
+#           statistics: [Sum]
+#         - name: VolumeWriteBytes
+#           statistics: [Sum]
+#         - name: VolumeReadOps
+#           statistics: [Average]
+#         - name: VolumeWriteOps
+#           statistics: [Average]
+#         - name: VolumeIdleTime
+#           statistics: [Average]
+#         - name: VolumeTotalReadTime
+#           statistics: [Average]
+#         - name: VolumeTotalWriteTime
+#           statistics: [Average]
+#         - name: VolumeQueueLength
+#           statistics: [Average]
+#         - name: BurstBalance
+#           statistics: [Average]
+#     - type: AWS/RDS
+#       regions: [eu-west-1] # TODO: do not hardcode, understand what it is
+#       includeContextOnInfoMetrics: true
+#       searchTags: # update the search tag later
+#         - key: mojaloop/owner
+#           value: Samuel-Kummary # TODO: update target tags
+#       dimensionNameRequirements:
+#         - DBInstanceIdentifier
+#       period: 300
+#       length: 300
+#       metrics:
+#         - name: CPUUtilization
+#           statistics: [Maximum]
+#         - name: CPUUtilization
+#           statistics: [Maximum]
+#         - name: DatabaseConnections
+#           statistics: [Sum]
+#         - name: FreeStorageSpace
+#           statistics: [Average]
+#         - name: FreeableMemory
+#           statistics: [Average]
+#         - name: ReadThroughput
+#           statistics: [Average]
+#         - name: WriteThroughput
+#           statistics: [Average]
+#         - name: ReadIOPS
+#           statistics: [Average]
+#         - name: WriteIOPS
+#           statistics: [Average]
+#         - name: ReadLatency
+#           statistics: [Maximum]
+#         - name: WriteLatency
+#           statistics: [Maximum]
