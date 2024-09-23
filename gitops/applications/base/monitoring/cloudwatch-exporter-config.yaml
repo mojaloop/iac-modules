@@ -15,22 +15,22 @@ discovery:
       metrics:
         - name: CPUUtilization
           statistics: [Maximum]
-        - name: NetworkIn
-          statistics: [Average, Sum]
-        - name: NetworkOut
-          statistics: [Average, Sum]
-        - name: NetworkPacketsIn
-          statistics: [Sum]
-        - name: NetworkPacketsOut
-          statistics: [Sum]
-        - name: DiskReadBytes
-          statistics: [Sum]
-        - name: DiskWriteBytes
-          statistics: [Sum]
-        - name: DiskReadOps
-          statistics: [Sum]
-        - name: DiskWriteOps
-          statistics: [Sum]
+        # - name: NetworkIn
+        #   statistics: [Average, Sum]
+        # - name: NetworkOut
+        #   statistics: [Average, Sum]
+        # - name: NetworkPacketsIn
+        #   statistics: [Sum]
+        # - name: NetworkPacketsOut
+        #   statistics: [Sum]
+        # - name: DiskReadBytes
+        #   statistics: [Sum]
+        # - name: DiskWriteBytes
+        #   statistics: [Sum]
+        # - name: DiskReadOps
+        #   statistics: [Sum]
+        # - name: DiskWriteOps
+        #   statistics: [Sum]
         - name: StatusCheckFailed
           statistics: [Sum]
         - name: StatusCheckFailed_Instance
