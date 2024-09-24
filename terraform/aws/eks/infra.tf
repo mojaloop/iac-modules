@@ -219,7 +219,7 @@ data "aws_ami" "eks_ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu-eks/k8s_${var.kubernetes_version}/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*"]
+    values = ["ubuntu-eks/k8s_${var.kubernetes_version}/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 
 }
