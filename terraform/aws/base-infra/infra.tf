@@ -79,22 +79,73 @@ resource "aws_security_group_rule" "bastion_egress_all" {
   security_group_id = aws_security_group.bastion.id
 }
 
-resource "aws_instance" "bastion" {
-  ami                         = var.bastion_ami
-  instance_type               = "t2.micro"
-  subnet_id                   = element(module.vpc.public_subnets, 0)
-  user_data                   = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
-  key_name                    = local.cluster_domain
-  associate_public_ip_address = true
-  vpc_security_group_ids      = [aws_security_group.bastion.id, module.vpc.default_security_group_id]
+resource "aws_launch_template" "bastion" {
+  name          = "${local.cluster_domain}-bastion"
+  image_id      = var.bastion_ami
+  instance_type = var.bastion_asg_config.instance_type
+  user_data     = data.template_cloudinit_config.generic.rendered
+  key_name      = local.cluster_domain
 
-  tags        = merge({ Name = "${local.cluster_domain}-bastion" }, local.common_tags)
-  volume_tags = merge({ Name = "${local.cluster_domain}-bastion" }, local.common_tags)
+  network_interfaces {
+    delete_on_termination       = true
+    associate_public_ip_address = true
+    security_groups             = [aws_security_group.bastion.id, module.vpc.default_security_group_id]
+  }
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = merge({ 
+      Name = "${local.cluster_domain}-bastion" 
+    }, local.common_tags)
+  }
+
+  tag_specifications {
+    resource_type = "volume"
+    tags = merge({ 
+      Name = "${local.cluster_domain}-bastion" 
+    }, local.common_tags)
+  }
+
+  tag_specifications {
+    resource_type = "network-interface"
+    tags = merge({ 
+      Name = "${local.cluster_domain}-bastion" 
+    }, local.common_tags)
+  }
 
   lifecycle {
     ignore_changes = [
-      ami
+      image_id  # Equivalent to ignoring changes to 'ami' in aws_instance
     ]
+  }
+}
+
+
+#  Create an Auto Scaling Group (ASG)
+resource "aws_autoscaling_group" "bastion_asg" {
+  name                = "${local.cluster_domain}-bastion"
+  min_size            = var.bastion_asg_config.min_size
+  desired_capacity    = var.bastion_asg_config.desired_capacity
+  max_size            = var.bastion_asg_config.max_size
+
+  vpc_zone_identifier = module.vpc.public_subnets
+
+  launch_template {
+    id      = aws_launch_template.bastion.id
+    version = "$Latest"
+  }
+
+  health_check_type         = "EC2"
+  health_check_grace_period = 300  # Allow 5 minutes for instance to become healthy
+
+  tag {
+    key                 = "Name"
+    value               = "${local.cluster_domain}-bastion"
+    propagate_at_launch = true
+  }
+
+  lifecycle {
+    ignore_changes = [desired_capacity]
   }
 }
 

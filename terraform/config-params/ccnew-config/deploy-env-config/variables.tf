@@ -88,3 +88,7 @@ variable "kubernetes_oidc_groups_claim" {
 variable "mimir_gw_fqdn" {
   description = "fqdn for mimir gateway"
 }
+
+variable "cc_cidr_block" {
+  description = "cidr block that cc is running in"
+}

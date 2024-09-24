@@ -1,11 +1,21 @@
 output "bastion_public_ip" {
-  description = "Bastion Instance Hostname"
-  value       = aws_instance.bastion.public_ip
+  description = "First bastion host public IP"
+  value       = data.aws_instances.bastion_instances.public_ips[0]
 }
 
 output "bastion_private_ip" {
-  description = "Bastion Instance private ip"
-  value       = aws_instance.bastion.private_ip
+  description = "First bastion host public IP"
+  value       = data.aws_instances.bastion_instances.private_ips[0]
+}
+
+output "bastion_public_ips" {
+    description = "List of public IP addresses of bastion instances"
+    value       = data.aws_instances.bastion_instances.public_ips
+}
+
+output "bastion_private_ips" {
+    description = "List of private IP addresses of bastion instances"
+    value       = data.aws_instances.bastion_instances.private_ips
 }
 output "ssh_private_key" {
   description = "Private key in PEM format"

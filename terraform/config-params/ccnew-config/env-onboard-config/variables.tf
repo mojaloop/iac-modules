@@ -83,3 +83,18 @@ variable "k8s_user_rbac_group" {
   type        = string
   description = "rbac group in idm for user access via oidc"
 }
+
+variable "managed_services_env_cidr" {
+  type        = string
+  description = "vpc cidr of managed_services cluster"
+}
+
+variable "managed_svc_enabled" {
+  type        = string
+  description = "if managed service enabled or not"
+} 
+
+variable "k8s_cluster_type" {
+  type        = string
+  description = "k8s distribution if its eks/microk8s"
+} 

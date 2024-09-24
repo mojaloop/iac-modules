@@ -67,8 +67,9 @@ module "eks" {
       configuration_values = jsonencode({
         env = {
           # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
-          ENABLE_PREFIX_DELEGATION = "true"
-          WARM_PREFIX_TARGET       = "1"
+          ENABLE_PREFIX_DELEGATION           = "true"
+          WARM_PREFIX_TARGET                 = "1"
+          AWS_VPC_K8S_CNI_EXCLUDE_SNAT_CIDRS = "${var.netbird_ip_range},${var.cc_cidr_block}"
         }
       })
     }
@@ -90,6 +91,19 @@ module "eks" {
     autoscaling_group_tags = {
       "k8s.io/cluster-autoscaler/enabled" : true,
       "k8s.io/cluster-autoscaler/${local.eks_name}" : "owned",
+    }
+  }
+
+  # oidc 
+  cluster_identity_providers = {
+    oidc = {
+      identity_provider_config_name = var.identity_provider_config_name
+      issuer_url                    = var.kubernetes_oidc_issuer
+      client_id                     = var.kubernetes_oidc_client_id
+      groups_claim                  = var.kubernetes_oidc_groups_claim
+      #groups_prefix                 = var.kubernetes_oidc_groups_prefix
+      username_claim = var.kubernetes_oidc_username_claim
+      #username_prefix               = var.kubernetes_oidc_username_prefix
     }
   }
   self_managed_node_groups = local.self_managed_node_groups
@@ -145,9 +159,7 @@ locals {
         module.eks.cluster_primary_security_group_id
       ]
       bootstrap_extra_args     = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
-      post_bootstrap_user_data = <<-EOT
-        yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid
-      EOT
+      post_bootstrap_user_data = "${data.template_file.post_bootstrap_user_data.rendered}"
       ebs_optimized            = true
       block_device_mappings = {
         xvda = {
@@ -181,6 +193,15 @@ locals {
   }
 }
 
+data "template_file" "post_bootstrap_user_data" {
+  template = file("${path.module}/templates/post-bootstrap-user-data.sh.tpl")
+
+  vars = {
+    netbird_version   = var.netbird_version
+    netbird_api_host  = var.netbird_api_host
+    netbird_setup_key = var.netbird_setup_key
+  }
+}
 
 data "aws_ami" "eks_default" {
   most_recent = true
@@ -198,7 +219,7 @@ data "aws_ami" "eks_ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu-eks/k8s_${var.kubernetes_version}/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["ubuntu-eks/k8s_${var.kubernetes_version}/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 
 }

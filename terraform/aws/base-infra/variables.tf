@@ -68,6 +68,26 @@ variable "route53_zone_force_destroy" {
 variable "bastion_ami" {
   description = "ami for bastion"
 }
+
+variable "bastion_asg_config" {
+  description = "Configuration settings for the Auto Scaling Group"
+  type = object({
+    name             = string
+    desired_capacity = number
+    max_size         = number
+    min_size         = number
+    instance_type    = string
+  })
+
+  default = {
+    name             = "bastion"
+    desired_capacity = 2
+    max_size         = 2
+    min_size         = 2
+    instance_type    = "t2.micro"
+  }
+}
+
 variable "netmaker_ami" {
   description = "ami for netmaker"
   default     = "none for enable_netmaker false"

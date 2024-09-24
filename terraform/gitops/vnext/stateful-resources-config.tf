@@ -12,8 +12,8 @@ module "vnext_stateful_resources" {
   kv_path                                       = var.kv_path
   external_stateful_resource_instance_addresses = local.external_stateful_resource_instance_addresses
   managed_db_host                               = var.managed_db_host
-  ceph_api_url                                 = var.ceph_api_url
-  ceph_percona_backup_bucket                   = var.ceph_percona_backup_bucket
+  ceph_api_url                                  = var.ceph_api_url
+  ceph_percona_backup_bucket                    = var.ceph_percona_backup_bucket
   external_secret_sync_wave                     = var.external_secret_sync_wave
 }
 

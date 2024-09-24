@@ -133,7 +133,7 @@ output "bastion_hosts_yaml_maps" {
 }
 
 output "bastion_hosts" {
-  value = { bastion = module.base_infra.bastion_public_ip }
+  value = zipmap([for i in range(length(module.base_infra.bastion_public_ips)) : "bastion${i + 1}"], module.base_infra.bastion_public_ips)
 }
 
 output "agent_hosts" {

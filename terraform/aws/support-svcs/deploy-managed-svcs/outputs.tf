@@ -22,7 +22,7 @@ output "bastion_hosts_var_maps" {
 }
 
 output "bastion_hosts" {
-  value = length(local.external_services) > 0 ? { bastion = module.base_infra[0].bastion_public_ip } : {}
+  value = zipmap([for i in range(length(module.base_infra[0].bastion_public_ips)) : "bastion${i + 1}"], module.base_infra[0].bastion_public_ips)
 }
 
 output "bastion_ssh_key" {

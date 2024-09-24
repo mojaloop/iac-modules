@@ -1,10 +1,15 @@
+resource "time_rotating" "setup_key_rotation" {
+  rotation_days = 89
+}
+
 resource "netbird_setup_key" "cc_gw_setup_key" {
   name        = "cc bastion gateway setup key"
   type        = "reusable"
   auto_groups = [netbird_group.cc_gateway.id]
   ephemeral   = false
   usage_limit = 0
-  expires_in  = 86400
+  expires_in  = 7776000
+  rotation_id = time_rotating.setup_key_rotation.id
 }
 
 resource "netbird_setup_key" "build_server_setup_key" {
@@ -13,7 +18,8 @@ resource "netbird_setup_key" "build_server_setup_key" {
   auto_groups = [local.user_group_id]
   ephemeral   = true
   usage_limit = 1
-  expires_in  = 86400
+  expires_in  = 7776000
+  rotation_id = time_rotating.setup_key_rotation.id
 }
 
 resource "netbird_group" "cc_gateway" {

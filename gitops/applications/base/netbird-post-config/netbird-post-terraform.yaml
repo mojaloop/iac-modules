@@ -57,6 +57,10 @@ spec:
             source = "hashicorp/kubernetes"
             version = "2.31.0"
           }
+          time = {
+            source = "hashicorp/time"
+            version = "0.12.1"
+          }              
         }
       }
       provider "zitadel" {
@@ -69,6 +73,7 @@ spec:
         oauth_issuer      = "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token"
       }
       provider "kubernetes" {}
+      provider "time" {}
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: Workspace

@@ -22,7 +22,7 @@ git clone ${BASE_GITLAB_URL}/bootstrap $CC_TMP_REPO_DIR
 cd $CC_TMP_REPO_DIR
 
 #copying necessary files to local git repo
-cp -r $CC_TMP_TEMPLATE_DIR/control-center-deploy/ $CC_TMP_TEMPLATE_DIR/control-center-pre-config/ $CC_TMP_TEMPLATE_DIR/control-center-post-config/ $CC_TMP_TEMPLATE_DIR/ansible-cc-deploy/ $CC_TMP_TEMPLATE_DIR/ansible-cc-post-deploy/  $CC_TMP_TEMPLATE_DIR/.gitlab  $CC_TMP_TEMPLATE_DIR/.gitlab-ci.yml $CC_TMP_TEMPLATE_DIR/setcivars.sh  .
+cp -r $CC_TMP_TEMPLATE_DIR/k8s-deploy/ $CC_TMP_TEMPLATE_DIR/ansible-k8s-deploy/  $CC_TMP_TEMPLATE_DIR/default-config $CC_TMP_TEMPLATE_DIR/.gitlab  $CC_TMP_TEMPLATE_DIR/.gitlab-ci.yml $CC_TMP_TEMPLATE_DIR/setcivars.sh  .
 
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"

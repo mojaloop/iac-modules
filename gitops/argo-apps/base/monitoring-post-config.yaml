@@ -40,6 +40,9 @@ spec:
         - name: "monitoring_namespace"
           value: "${ARGOCD_ENV_monitoring_monitoring_namespace}"
 
+        - name: "monitoring_application_gitrepo_tag"
+          value: "${ARGOCD_ENV_monitoring_application_gitrepo_tag}"
+
         - name: "terraform_modules_tag"
           value: "${ARGOCD_ENV_monitoring_post_config_terraform_modules_tag}"
 

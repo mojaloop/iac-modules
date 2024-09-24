@@ -9,6 +9,17 @@
         }
       },
       "version": "main"
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/nerdswords/yet-another-cloudwatch-exporter.git",
+          "subdir": "mixin"
+        }
+      },
+      "version": "v0.61.2",
+      "legacyImports": true,
+      "jsonnetpkgHome": "yace"
     }
   ],
   "legacyImports": true

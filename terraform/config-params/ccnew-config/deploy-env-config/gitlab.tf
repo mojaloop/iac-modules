@@ -221,3 +221,12 @@ resource "gitlab_group_variable" "mimir_gw_fqdn" {
   masked            = false
   environment_scope = "*"
 }
+
+resource "gitlab_group_variable" "cc_cidr_block" {
+  group             = data.gitlab_group.iac.id
+  key               = "CC_CIDR_BLOCK"
+  value             = var.cc_cidr_block
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
