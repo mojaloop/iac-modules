@@ -36,5 +36,5 @@ helmCharts:
 
 
 # %{ for key,stateful_resource in managed_stateful_resources }
-# - "${key}: ${stateful_resource}" 
+# - "${key}: ${jsonencode(stateful_resource)}" 
 # %{ endfor }
