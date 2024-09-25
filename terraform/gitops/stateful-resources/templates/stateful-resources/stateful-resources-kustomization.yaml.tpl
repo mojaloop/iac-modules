@@ -32,3 +32,9 @@ helmCharts:
   repo: ${stateful_resource.local_helm_config.resource_helm_repo}
   valuesFile: values-${stateful_resource.local_helm_config.resource_helm_chart}-${key}.yaml
 # %{ endfor }
+
+
+
+# %{ for key,stateful_resource in managed_stateful_resources }
+# - "${key}: ${stateful_resource}" 
+# %{ endfor }
