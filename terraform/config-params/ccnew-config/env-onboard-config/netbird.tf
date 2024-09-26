@@ -30,6 +30,11 @@ resource "netbird_group" "env_gw" {
 resource "netbird_group" "env_users" {
   name = "${local.netbird_project_id}:${var.env_name}-vpn-users"
 }
+
+resource "netbird_group" "env_backtunnel" {
+  count = var.k8s_cluster_type == "eks" ? 1 : 0
+  name  = "${var.env_name}-backtunnel"
+}
 #route to allow private traffic into en k8s network from cc user group and the env_users group, env gw is the gateway peer
 resource "netbird_route" "env_k8s" {
   description = "${var.env_name}-k8s"
@@ -85,7 +90,7 @@ resource "netbird_route" "env_backtunnel_gw" {
   keep_route  = true
   masquerade  = true
   metric      = 9999
-  peer_groups = [var.env_name]
+  peer_groups = [netbird_group.env_backtunnel[0].id]
   network     = var.env_cidr
   network_id  = "${var.env_name}-backtunnel"
 }
