@@ -56,3 +56,32 @@ spec:
               name: ${managed_stateful_resource.logical_service_config.user_password_secret}
               key: ${managed_stateful_resource.logical_service_config.user_password_secret_key}
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-exporter-${managed_stateful_resource.logical_service_config.database_name}
+  namespace: ${stateful_resources_namespace}
+  labels:
+    app.kubernetes.io/name: mysql-exporter-${managed_stateful_resource.logical_service_config.database_name}
+spec:
+  selector:
+    app.kubernetes.io/name: mysql-exporter-${managed_stateful_resource.logical_service_config.database_name}
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: http
+  type: ClusterIP
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mysql-exporter-${managed_stateful_resource.logical_service_config.database_name}
+  namespace: ${stateful_resources_namespace}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mysql-exporter-${managed_stateful_resource.logical_service_config.database_name}
+  endpoints:
+  - port: http
+    interval: 60s
