@@ -24,7 +24,8 @@ resource "local_file" "managed_crs" {
   for_each = local.managed_resource_password_map
 
   content = templatefile("${local.stateful_resources_template_path}/managed-crs.yaml.tpl", {
-    password_map = each.value
+    password_map              = each.value
+    managed_stateful_resource = managed_stateful_resources[each.key]
   })
   filename = "${local.stateful_resources_output_path}/managed-crs-${each.key}.yaml"
 }
@@ -85,10 +86,10 @@ resource "local_file" "redis-crs" {
   for_each = { for key, stateful_resource in local.redis_operator_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/redis/redis-cluster.yaml.tpl",
     {
-      name                   = each.key
-      namespace              = each.value.local_operator_config.resource_namespace
-      nodes                  = each.value.local_operator_config.nodes
-      storage_size           = each.value.local_operator_config.redis_data.storage_size
+      name         = each.key
+      namespace    = each.value.local_operator_config.resource_namespace
+      nodes        = each.value.local_operator_config.nodes
+      storage_size = each.value.local_operator_config.redis_data.storage_size
   })
   filename = "${local.stateful_resources_output_path}/redis-cluster-${each.key}.yaml"
 }
@@ -122,8 +123,8 @@ resource "local_file" "percona-crs" {
       ceph_percona_backup_bucket = var.ceph_percona_backup_bucket
       ceph_percona_secret        = "percona-backups-secret"
       ceph_api_url               = "https://${var.ceph_api_url}"
-      backupSchedule              = each.value.backup_schedule
-      backupStorageName           = "${each.key}-backup-storage"
+      backupSchedule             = each.value.backup_schedule
+      backupStorageName          = "${each.key}-backup-storage"
 
       percona_credentials_id_provider_key     = "${var.cluster_name}/${local.percona_credentials_id_provider_key}"
       percona_credentials_secret_provider_key = "${var.cluster_name}/${local.percona_credentials_secret_provider_key}"
