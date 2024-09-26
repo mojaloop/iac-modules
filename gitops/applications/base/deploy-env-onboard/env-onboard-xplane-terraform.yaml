@@ -59,7 +59,9 @@ spec:
       - key: managed_svc_enabled
         value: "${ARGOCD_ENV_managed_svc_enabled}"
       - key: "k8s_cluster_type"
-        value: "${ARGOCD_ENV_k8s_cluster_type}"                
+        value: "${ARGOCD_ENV_k8s_cluster_type}"
+      - key: cc_cluster_name
+        value: ${ARGOCD_ENV_cluster_name}                        
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
