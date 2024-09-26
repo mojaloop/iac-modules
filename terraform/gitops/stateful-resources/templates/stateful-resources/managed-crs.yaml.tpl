@@ -94,7 +94,7 @@ spec:
   ports:
   - name: http
     protocol: TCP
-    port: 8080
+    port: 9104
     targetPort: http
   type: ClusterIP
 ---
