@@ -29,6 +29,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql-exporter-${managed_stateful_resource.logical_service_config.database_name}
+  namespace: ${stateful_resources_namespace}
 spec:
   replicas: 1
   selector:
