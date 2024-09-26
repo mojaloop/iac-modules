@@ -98,3 +98,7 @@ variable "k8s_cluster_type" {
   type        = string
   description = "k8s distribution if its eks/microk8s"
 } 
+
+variable "cc_cluster_name" {
+  description = "control center cluster name"
+}
