@@ -84,10 +84,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-exporter-${managed_stateful_resource_name}
+  name: ${managed_stateful_resource_name}
   namespace: ${stateful_resources_namespace}
   labels:
-    app.kubernetes.io/name: mysql-exporter-${managed_stateful_resource_name}
+    app.kubernetes.io/name: ${managed_stateful_resource_name}
 spec:
   selector:
     app.kubernetes.io/name: mysql-exporter-${managed_stateful_resource_name}
@@ -101,12 +101,12 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: mysql-exporter-${managed_stateful_resource_name}
+  name: ${managed_stateful_resource_name}
   namespace: ${stateful_resources_namespace}
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: mysql-exporter-${managed_stateful_resource_name}
+      app.kubernetes.io/name: ${managed_stateful_resource_name}
   endpoints:
   - port: http
     interval: 60s
