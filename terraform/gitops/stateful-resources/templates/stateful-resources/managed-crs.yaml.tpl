@@ -43,7 +43,7 @@ spec:
       - name: mysql-exporter
         image: prom/mysqld-exporter:v0.15.1
         args:
-        - --mysqld.address=${managed_stateful_resource.logical_service_config.logical_service_name}:${managed_stateful_resource.logical_service_config.logical_service_port}
+        - --mysqld.address=${managed_stateful_resource.logical_service_config.logical_service_name}.${stateful_resources_namespace}:${managed_stateful_resource.logical_service_config.logical_service_port}
         - --mysqld.username=${managed_stateful_resource.logical_service_config.db_username}
         ports:
         - name: http

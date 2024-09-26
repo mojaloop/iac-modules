@@ -24,8 +24,9 @@ resource "local_file" "managed_crs" {
   for_each = local.managed_resource_password_map
 
   content = templatefile("${local.stateful_resources_template_path}/managed-crs.yaml.tpl", {
-    password_map              = each.value
-    managed_stateful_resource = local.managed_stateful_resources[each.key]
+    password_map                 = each.value
+    managed_stateful_resource    = local.managed_stateful_resources[each.key]
+    stateful_resources_namespace = var.stateful_resources_namespace
   })
   filename = "${local.stateful_resources_output_path}/managed-crs-${each.key}.yaml"
 }
