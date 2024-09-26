@@ -24,13 +24,24 @@ resource "local_file" "managed_crs" {
   for_each = local.managed_resource_password_map
 
   content = templatefile("${local.stateful_resources_template_path}/managed-crs.yaml.tpl", {
-    password_map                   = each.value
-    managed_stateful_resource      = local.managed_stateful_resources[each.key]
-    stateful_resources_namespace   = var.stateful_resources_namespace
-    managed_stateful_resource_name = each.key
+    password_map = each.value
   })
   filename = "${local.stateful_resources_output_path}/managed-crs-${each.key}.yaml"
 }
+
+resource "local_file" "mysql_managed_stateful_resources" {
+  for_each = local.mysql_managed_stateful_resources
+
+  content = templatefile("${local.stateful_resources_template_path}/mysql-managed-stateful-resources.yaml.tpl", {
+    managed_stateful_resource      = local.mysql_managed_stateful_resources[each.key]
+    stateful_resources_namespace   = var.stateful_resources_namespace
+    managed_stateful_resource_name = each.key
+    resource_password_vault_path   = local.managed_resource_password_map[each.key].vault_path
+  })
+  filename = "${local.stateful_resources_output_path}/managed-crs-${each.key}.yaml"
+}
+
+
 
 resource "local_file" "external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
@@ -159,6 +170,7 @@ locals {
   redis_operator_stateful_resources   = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "redis" }
   percona_stateful_resources          = { for key, resource in local.operator_stateful_resources : key => resource if(resource.resource_type == "mysql" || resource.resource_type == "mongodb") }
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
+  mysql_managed_stateful_resources    = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if managed_resource.resource_type == "mysql" }
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }
   managed_external_name_map           = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
