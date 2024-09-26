@@ -25,6 +25,31 @@ spec:
         property: value
 %{ endfor ~}
 ---
+# This secret is specific to stateful_resources_namespace 
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: ${password_map.secret_name}
+  namespace: ${stateful_resources_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-11"
+spec:
+  refreshInterval: 5m
+
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+
+  target:
+    name: ${password_map.secret_name} # Name for the secret to be created on the cluster
+    creationPolicy: Owner
+
+  data:
+    - secretKey: ${password_map.secret_key}
+      remoteRef: 
+        key: ${password_map.vault_path}
+        property: value
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
