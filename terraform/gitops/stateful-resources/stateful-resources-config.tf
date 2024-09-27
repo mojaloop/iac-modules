@@ -33,10 +33,10 @@ resource "local_file" "mysql_managed_stateful_resources" {
   for_each = local.mysql_managed_stateful_resources
 
   content = templatefile("${local.stateful_resources_template_path}/managed-mysql.yaml.tpl", {
-    managed_stateful_resource_name = each.key
-    stateful_resources_namespace   = var.stateful_resources_namespace
-    managed_stateful_resource      = local.mysql_managed_stateful_resources[each.key]
-    resource_password_vault_path   = local.managed_resource_password_map[each.key].vault_path
+    resource_name                = each.key
+    stateful_resources_namespace = var.stateful_resources_namespace
+    managed_stateful_resource    = local.mysql_managed_stateful_resources[each.key]
+    resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
   })
   filename = "${local.stateful_resources_output_path}/managed-mysql-${each.key}.yaml"
 }
