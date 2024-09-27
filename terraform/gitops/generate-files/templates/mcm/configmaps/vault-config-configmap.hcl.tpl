@@ -242,7 +242,7 @@ spec:
                 npm run cli -- \
                   -c cli-add-dfsp-config.json \
                   -e cli-add-dfsp-environment.json \
-                  -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning_dfsp \
+                  -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_dfsp.json \
                   -u http://moja-ml-testing-toolkit-backend:5050 \
                   --report-format html \
                   --report-auto-filename-enable true \
@@ -260,7 +260,7 @@ spec:
                   npm run cli -- \
                     -c cli-add-dfsp-config.json \
                     -e fxp.json \
-                    -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning_fxp \
+                    -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_fxp.json \
                     -u http://moja-ml-testing-toolkit-backend:5050 \
                     --report-format html \
                     --report-auto-filename-enable true \
