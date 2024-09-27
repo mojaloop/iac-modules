@@ -74,7 +74,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: mysql-${managed_stateful_resource_name}-metrics
+  name: mysql-${managed_stateful_resource_name}
   namespace: ${stateful_resources_namespace}
 spec:
   selector:
