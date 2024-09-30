@@ -29,6 +29,20 @@ resource "local_file" "managed_crs" {
   filename = "${local.stateful_resources_output_path}/managed-crs-${each.key}.yaml"
 }
 
+resource "local_file" "mysql_managed_stateful_resources" {
+  for_each = local.mysql_managed_stateful_resources
+
+  content = templatefile("${local.stateful_resources_template_path}/managed-mysql.yaml.tpl", {
+    resource_name                = each.key
+    stateful_resources_namespace = var.stateful_resources_namespace
+    managed_stateful_resource    = local.mysql_managed_stateful_resources[each.key]
+    resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
+  })
+  filename = "${local.stateful_resources_output_path}/managed-mysql-${each.key}.yaml"
+}
+
+
+
 resource "local_file" "external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
     { config                       = local.external_name_map
@@ -42,6 +56,7 @@ resource "local_file" "kustomization" {
     { all_local_stateful_resources        = local.internal_stateful_resources
       helm_stateful_resources             = local.helm_stateful_resources
       managed_stateful_resources          = local.managed_stateful_resources
+      mysql_managed_stateful_resources    = local.mysql_managed_stateful_resources
       strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
       redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
@@ -85,10 +100,10 @@ resource "local_file" "redis-crs" {
   for_each = { for key, stateful_resource in local.redis_operator_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/redis/redis-cluster.yaml.tpl",
     {
-      name                   = each.key
-      namespace              = each.value.local_operator_config.resource_namespace
-      nodes                  = each.value.local_operator_config.nodes
-      storage_size           = each.value.local_operator_config.redis_data.storage_size
+      name         = each.key
+      namespace    = each.value.local_operator_config.resource_namespace
+      nodes        = each.value.local_operator_config.nodes
+      storage_size = each.value.local_operator_config.redis_data.storage_size
   })
   filename = "${local.stateful_resources_output_path}/redis-cluster-${each.key}.yaml"
 }
@@ -122,8 +137,8 @@ resource "local_file" "percona-crs" {
       ceph_percona_backup_bucket = var.ceph_percona_backup_bucket
       ceph_percona_secret        = "percona-backups-secret"
       ceph_api_url               = "https://${var.ceph_api_url}"
-      backupSchedule              = each.value.backup_schedule
-      backupStorageName           = "${each.key}-backup-storage"
+      backupSchedule             = each.value.backup_schedule
+      backupStorageName          = "${each.key}-backup-storage"
 
       percona_credentials_id_provider_key     = "${var.cluster_name}/${local.percona_credentials_id_provider_key}"
       percona_credentials_secret_provider_key = "${var.cluster_name}/${local.percona_credentials_secret_provider_key}"
@@ -156,6 +171,7 @@ locals {
   redis_operator_stateful_resources   = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "redis" }
   percona_stateful_resources          = { for key, resource in local.operator_stateful_resources : key => resource if(resource.resource_type == "mysql" || resource.resource_type == "mongodb") }
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
+  mysql_managed_stateful_resources    = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if managed_resource.resource_type == "mysql" }
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }
   managed_external_name_map           = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
