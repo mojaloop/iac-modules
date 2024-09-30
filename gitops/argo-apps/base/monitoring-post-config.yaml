@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     # targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag}
-    targetRevision: feature/ccv2-common-branch
+    targetRevision: development-cto2.3
     path: gitops/applications/base/monitoring-post-config
     plugin:
       name: envsubst
