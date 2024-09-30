@@ -23,6 +23,8 @@ spec:
         key: ${resource_password_vault_path}
         property: value
 ---
+# TODO: Currently this standalone mysql exporter is deployed only for managed mysql. 
+# In the long run, perhaps a single deployment should target mysql server irrespective of deployment method (managed/operator/helm). 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
