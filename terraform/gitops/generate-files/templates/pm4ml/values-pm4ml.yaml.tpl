@@ -55,6 +55,7 @@ mojaloop-payment-token-adapter:
 management-api:
   serviceAccountName: ${pm4ml_service_account_name}
   env:
+    CACHE_URL: redis://${redis_host}:${redis_port}
     DFSP_ID: *dfspId
     HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}"
     OIDC_TOKEN_ROUTE: "${pm4ml_external_switch_oidc_token_route}"
