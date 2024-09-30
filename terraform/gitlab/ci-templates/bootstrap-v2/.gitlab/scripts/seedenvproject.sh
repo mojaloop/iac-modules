@@ -44,6 +44,7 @@ argocd_oidc_domain: \"int.${env_name}\"
 grafana_oidc_domain: \"int.${env_name}\"
 vault_oidc_domain: \"int.${env_name}\"
 managed_vpc_cidr: changeme_cidr
+domain: changeme_domain
 managed_svc_enabled: false
 k8s_cluster_type: microk8s" > custom-config/cluster-config.yaml
    echo "pm4mls:
