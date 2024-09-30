@@ -24,11 +24,17 @@ resource "netbird_setup_key" "build_server_setup_key" {
 
 resource "netbird_group" "cc_gateway" {
   name = "${var.cc_cluster_name}-gateway"
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 #create groups for each env k8s peers so we can add to the peer groups list
 resource "netbird_group" "cc_env_k8s_peers" {
   for_each = local.environment_list
   name     = "${each.key}-k8s-peers"
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 
