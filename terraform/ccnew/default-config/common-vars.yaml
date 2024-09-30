@@ -29,6 +29,9 @@ external_secrets_helm_version: "0.9.20"
 vault_crossplane_modules_version: "1.0.0"
 terraform_crossplane_modules_version: "0.16.0"
 ansible_crossplane_modules_version: "0.6.0"
+rds_crossplane_modules_version: "1.14.0"
+ec2_crossplane_modules_version: "1.14.0"
+crossplane_func_pat_version: "0.2.1"
 
 istio_egress_gateway_max_replicas: 5
 istio_proxy_log_level: warn

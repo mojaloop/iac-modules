@@ -1,0 +1,11 @@
+apiVersion: aws.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: aws-provider-config
+spec:
+  credentials:
+    source: Secret
+    secretRef: 
+      namespace: ${ARGOCD_ENV_crossplane_namespace}
+      name: secret-backend-creds
+      key: creds

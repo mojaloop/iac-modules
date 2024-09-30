@@ -63,6 +63,9 @@ spec:
           - name: "vault_terraform_modules_tag"
             value: "${ARGOCD_ENV_vault_vault_vault_terraform_modules_tag}"
 
+          - name: "crossplane_namespace"
+            value: "${ARGOCD_ENV_utils_crossplane_namespace}"         
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
       path: gitops/applications/base/vault-post-config

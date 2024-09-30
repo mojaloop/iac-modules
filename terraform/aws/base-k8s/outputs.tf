@@ -207,3 +207,7 @@ locals {
     ]
   ])
 }
+
+output "private_subnets" {
+  value = module.base_infra.private_subnets
+}
