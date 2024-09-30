@@ -44,7 +44,7 @@ experience-api:
     # this should be set to the external URL of the UI
     authLoggedInLandingUrl: "https://${portal_fqdn}/"
     authSessionSecure: false
-    CACHE_URL: redis://${redis_host}:${redis_port}
+    cacheUrl: redis://${redis_host}:${redis_port}
 
 mojaloop-core-connector:
   ${indent(2, yamlencode(core_connector_config))}
