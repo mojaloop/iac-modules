@@ -44,6 +44,7 @@ experience-api:
     # this should be set to the external URL of the UI
     authLoggedInLandingUrl: "https://${portal_fqdn}/"
     authSessionSecure: false
+    CACHE_URL: redis://${redis_host}:${redis_port}
 
 mojaloop-core-connector:
   ${indent(2, yamlencode(core_connector_config))}
@@ -54,7 +55,6 @@ mojaloop-payment-token-adapter:
 management-api:
   serviceAccountName: ${pm4ml_service_account_name}
   env:
-    CACHE_URL: redis://${redis_host}:${redis_port}
     DFSP_ID: *dfspId
     HUB_IAM_PROVIDER_URL: "${pm4ml_external_switch_oidc_url}"
     OIDC_TOKEN_ROUTE: "${pm4ml_external_switch_oidc_token_route}"
