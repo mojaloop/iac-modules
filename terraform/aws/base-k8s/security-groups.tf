@@ -151,7 +151,7 @@ resource "aws_security_group_rule" "self_https_internal" {
 
 # change to customize db port ?
 resource "aws_security_group_rule" "self_dbaccess_internal" {
-  type              = "db ingress"
+  type              = "ingress"
   from_port         = 5432
   to_port           = 5432
   protocol          = "TCP"
