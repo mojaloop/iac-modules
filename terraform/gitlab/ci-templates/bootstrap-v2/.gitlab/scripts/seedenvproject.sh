@@ -44,6 +44,7 @@ if  [ !  -d custom-config ]; then
 argocd_oidc_domain: \"int.${env_name//-/}\"
 grafana_oidc_domain: \"int.${env_name//-/}\"
 vault_oidc_domain: \"int.${env_name//-/}\"
+vpc_cidr: changeme_cidr
 managed_vpc_cidr: changeme_cidr
 domain: changeme_domain
 managed_svc_enabled: false
