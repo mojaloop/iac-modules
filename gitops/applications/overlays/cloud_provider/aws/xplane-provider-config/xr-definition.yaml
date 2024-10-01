@@ -58,7 +58,7 @@ spec:
                   userName:
                     description: The list of databases to create inside the DB server.
                     type: string
-                  masterUserPasswordSecretRef:
+                  passwordSecretRef:
                     description: The secret reference to the password of the master user.
                     type: object
                     properties:
@@ -85,9 +85,9 @@ spec:
                 - engineVersion
                 - storageGB
                 - subnets
-                - databaseName
+                # - databaseName
                 - userName
-                - masterUserPasswordSecretRef
+                - passwordSecretRef
 
             required:
             - parameters
