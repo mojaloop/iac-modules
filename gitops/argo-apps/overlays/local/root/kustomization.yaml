@@ -17,6 +17,8 @@ resources:
   - ../../../base/consul.yaml
   - ../../../base/percona-operator.yaml
   - ../../../base/redis-operator.yaml
+  # xplane database config
+  - ../../../base/xplane-provider-config.yaml
   # vault
   - ../../../base/vault.yaml
   - ../../../base/vault-post-config.yaml
