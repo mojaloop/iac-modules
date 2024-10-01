@@ -211,4 +211,4 @@ spec:
           value: "${ARGOCD_ENV_gitlab_pre_rdbms_subnet_list}"
 
         - name: "cloud_region"
-          value: "${ARGOCD_ENV_cloud_region}"
+          value: "${ARGOCD_ENV_gitlab_pre_db_provider_cloud_region}"
