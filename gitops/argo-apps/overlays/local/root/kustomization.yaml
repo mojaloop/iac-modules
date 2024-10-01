@@ -10,7 +10,7 @@ resources:
   - ../../../base/reloader.yaml
   - ../../../base/crossplane.yaml
   - ../../../base/kubernetes-secret-generator.yaml
-  # - ../../../base/utils-post-config.yaml
+  - ../../../base/utils-post-config.yaml
   - ../../../base/istio.yaml
   - ../../../base/istio-gw.yaml
   - ../../../base/cert-manager.yaml
