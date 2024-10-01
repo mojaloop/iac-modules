@@ -95,6 +95,6 @@ spec:
     subnets: ${ARGOCD_ENV_rds_subnet_list}
     databaseName: praefect
     userName: praefect
-    masterUserPasswordSecret:
+    passwordSecret:
       key: password
       name: praefect-postgresql-credentials    

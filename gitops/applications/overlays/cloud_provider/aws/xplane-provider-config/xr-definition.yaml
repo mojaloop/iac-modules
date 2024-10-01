@@ -47,18 +47,21 @@ spec:
                     description: "Port at which db server listens"
                     type: integer
                     default: 5432
+                  vpcId:
+                    description: Vpc id
+                    type: string
                   subnets:
                     description: The list of subnet-ids to create the subnetgroup
                     type: array
                     items:
                        type: string
-                  databaseName:
-                    description: The list of databases to create inside the DB server.
+                  username:
+                    description: The name of master user
                     type: string
-                  userName:
-                    description: The list of databases to create inside the DB server.
+                  dbName:
+                    description: The name of database
                     type: string
-                  passwordSecretRef:
+                  passwordSecret:
                     description: The secret reference to the password of the master user.
                     type: object
                     properties:
@@ -67,7 +70,7 @@ spec:
                         type: string
                       key:
                         description: The key in the secret.
-                        type: string                                        
+                        type: string
                   schemas:
                     description: Database schema. Atlas operator (https://atlasgo.io/integrations/kubernetes/operator) needs to be installed in the cluster. Leave empty if schema should NOT be applied.
                     type: array
@@ -85,9 +88,10 @@ spec:
                 - engineVersion
                 - storageGB
                 - subnets
-                # - databaseName
-                - userName
-                - passwordSecretRef
+                - username
+                - dbName
+                - passwordSecret
+                - vpcId
 
             required:
             - parameters

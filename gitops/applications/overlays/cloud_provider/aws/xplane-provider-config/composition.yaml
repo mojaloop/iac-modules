@@ -31,9 +31,9 @@ spec:
           kind: SubnetGroup
           spec:
             forProvider:
-              description: Subnet group for DB instance            
+              description: Subnet group for DB instance
               region: eu-west-2
-              subnetIds: [] 
+              subnetIds: []
         patches:
         - type: PatchSet
           patchSetName: metadata
@@ -41,6 +41,45 @@ spec:
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: "spec.parameters.subnets"
           toFieldPath: "spec.forProvider.subnetIds"
+      - name: securityGroup
+        base:
+          apiVersion: ec2.aws.upbound.io/v1beta1
+          kind: SecurityGroup
+          spec:
+            forProvider:
+              description: Security group for the db instance
+              region: eu-west-2
+              vpcId: testid
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.vpcId"
+          toFieldPath: "spec.forProvider.vpcId"
+      - name: securityGroupRule
+        base:
+          apiVersion: ec2.aws.upbound.io/v1beta1
+          kind: SecurityGroupRule
+          spec:
+            forProvider:
+              description: Db ingress rule
+              region: eu-west-2
+              type: ingress
+              fromPort: 5432
+              toPort: 5432
+              protocol: tcp
+              cidrBlocks:
+                - 0.0.0.0/0
+              securityGroupIdSelector:
+                matchControllerRef: true
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.vpcId"
+          toFieldPath: "spec.forProvider.vpcId"                
       - name: rdsinstance
         base:
           apiVersion: rds.aws.upbound.io/v1beta1
@@ -50,7 +89,10 @@ spec:
               region:  eu-west-2
               dbSubnetGroupNameSelector:
                 matchControllerRef: true
-              masterUsername: masteruser
+              vpcSecurityGroupIdSelector:
+                matchControllerRef: true
+              username: masteruser
+              dbName: testdb
               engine: postgres
               skipFinalSnapshot: true
               publiclyAccessible: true
@@ -62,7 +104,7 @@ spec:
         - type: PatchSet
           patchSetName: metadata
         - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.forProvider.region"          
+          toFieldPath: "spec.forProvider.region"
         - fromFieldPath: spec.parameters.size
           toFieldPath: spec.forProvider.instanceClass
           transforms:
@@ -71,14 +113,14 @@ spec:
               small: db.m5.large
               medium: db.m5.2xlarge
               large: db.m5.8xlarge
-        # - fromFieldPath: spec.parameters.databaseName  
-        #   toFieldPath: spec.forProvider.databaseName
-        - fromFieldPath: spec.parameters.userName  
-          toFieldPath: spec.forProvider.userName                         
+        - fromFieldPath: spec.parameters.username
+          toFieldPath: spec.forProvider.username
+        - fromFieldPath: spec.parameters.dbName
+          toFieldPath: spec.forProvider.dbName
         - fromFieldPath: spec.parameters.engineVersion
           toFieldPath: spec.forProvider.engineVersion
         - fromFieldPath: spec.parameters.storageGB
-          toFieldPath: spec.forProvider.allocatedStorage                       
+          toFieldPath: spec.forProvider.allocatedStorage
         - fromFieldPath: spec.parameters.passwordSecret.name
           toFieldPath: spec.forProvider.passwordSecretRef.name
         - fromFieldPath: spec.parameters.passwordSecret.key
