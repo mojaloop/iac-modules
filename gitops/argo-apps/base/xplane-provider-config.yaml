@@ -40,15 +40,3 @@ spec:
         env:
           - name: "cluster_name"
             value: "${ARGOCD_ENV_cluster_name}"
-
-          - name: "external_dns_helm_version"
-            value: "${ARGOCD_ENV_xplane_provider_config_ext_dns_helm_version}"
-
-          - name: "external_dns_namespace"
-            value: "${ARGOCD_ENV_xplane_provider_config_ext_dns_namespace}"
-
-          - name: "dns_private_subdomain"
-            value: "${ARGOCD_ENV_xplane_provider_config_cr_config_dns_private_subdomain}"
-
-          - name: "dns_public_subdomain"
-            value: "${ARGOCD_ENV_xplane_provider_config_cr_config_dns_public_subdomain}"

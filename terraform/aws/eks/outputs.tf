@@ -151,3 +151,7 @@ output "test_harness_hosts" {
 output "test_harness_hosts_var_maps" {
   value = var.enable_k6s_test_harness ? module.k6s_test_harness[0].var_map : {}
 }
+
+output "private_subnets" {
+  value = module.base_infra.private_subnets
+}

@@ -52,11 +52,22 @@ spec:
                     type: array
                     items:
                        type: string
-                  databases:
+                  databaseName:
                     description: The list of databases to create inside the DB server.
-                    type: array
-                    items:
-                      type: string
+                    type: string
+                  userName:
+                    description: The list of databases to create inside the DB server.
+                    type: string
+                  masterUserPasswordSecretRef:
+                    description: The secret reference to the password of the master user.
+                    type: object
+                    properties:
+                      name:
+                        description: The name of the secret.
+                        type: string
+                      key:
+                        description: The key in the secret.
+                        type: string                                        
                   schemas:
                     description: Database schema. Atlas operator (https://atlasgo.io/integrations/kubernetes/operator) needs to be installed in the cluster. Leave empty if schema should NOT be applied.
                     type: array
@@ -74,5 +85,9 @@ spec:
                 - engineVersion
                 - storageGB
                 - subnets
+                - databaseName
+                - userName
+                - masterUserPasswordSecretRef
+
             required:
             - parameters

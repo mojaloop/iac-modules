@@ -44,42 +44,44 @@ spec:
       - name: rdsinstance
         base:
           apiVersion: rds.aws.upbound.io/v1beta1
-          kind: Instance
+          kind: DBCluster
           spec:
             forProvider:
               region:  eu-west-2
               dbSubnetGroupNameSelector:
                 matchControllerRef: true
-              username: masteruser
+              masterUsername: masteruser
               engine: postgres
               skipFinalSnapshot: true
               publiclyAccessible: true
               allocatedStorage: 200
-              passwordSecretRef:
+              masterUserPasswordSecretRef:
                 key: password
+                name: secretName
         patches:
         - type: PatchSet
           patchSetName: metadata
         - fromFieldPath: "spec.parameters.region"
           toFieldPath: "spec.forProvider.region"          
         - fromFieldPath: spec.parameters.size
-          toFieldPath: spec.forProvider.instanceClass
+          toFieldPath: spec.forProvider.dbClusterInstanceClass
           transforms:
           - type: map
             map:
               small: db.m5.large
               medium: db.m5.2xlarge
               large: db.m5.8xlarge
+        - fromFieldPath: spec.parameters.databaseName  
+          toFieldPath: spec.forProvider.databaseName
+        - fromFieldPath: spec.parameters.userName  
+          toFieldPath: spec.forProvider.masterUsername                         
         - fromFieldPath: spec.parameters.engineVersion
           toFieldPath: spec.forProvider.engineVersion
         - fromFieldPath: spec.parameters.storageGB
           toFieldPath: spec.forProvider.allocatedStorage                       
-        - fromFieldPath: spec.id
-          toFieldPath: spec.forProvider.passwordSecretRef.name
-          transforms:
-          - type: string
-            string:
-              fmt: "%s-password"
-              type: Format
+        - fromFieldPath: spec.parameters.masterUserPasswordSecret.name
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.name
+        - fromFieldPath: spec.parameters.masterUserPasswordSecret.key
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.key
         - fromFieldPath: spec.claimRef.namespace
           toFieldPath: spec.forProvider.passwordSecretRef.namespace

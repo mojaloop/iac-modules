@@ -55,6 +55,8 @@ argocd_override:
           ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
           letsencrypt_email: "${letsencrypt_email}"
           dns_cloud_api_region: "${cloud_region}"
+    xplane_provider_config:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
     vault:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -146,6 +148,7 @@ argocd_override:
           gitlab_runner_cache_max_objects: "${gitlab_runner_cache_max_objects}"
           gitlab_runner_cache_storage_size: "${gitlab_runner_cache_storage_size}"
           rdbms_provider: "${gitlab_postgres_rdbms_provider}"
+          rdbms_subnet_list:  "${rdbms_subnet_list}"
 
           
     deploy_env:
