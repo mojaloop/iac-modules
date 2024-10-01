@@ -37,6 +37,8 @@ spec:
         valuesObject:
           zitadel:
             masterkeySecretName: masterkey
+            debug:
+              enabled: false
             configmapConfig:
               Log:
                 Level: ${ARGOCD_ENV_security_zitadel_log_level}
@@ -72,8 +74,8 @@ spec:
                     ExistingDatabase: ${ARGOCD_ENV_security_zitadel_zitadel_db_name}
                     SSL:
                       Mode: verify-full
-          dbSslCaCrtSecret: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}-pg-db-cluster-cert"
-          dbSslAdminCrtSecret: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}-pg-db-cluster-cert"
-          dbSslUserCrtSecret: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}-pg-db-cluster-cert"
-          configSecretName: ${ARGOCD_ENV_security_zitadel_config_secret_name}
-          configSecretKey: config.yaml
+            dbSslCaCrtSecret: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}-pg-db-cluster-cert"
+            dbSslAdminCrtSecret: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}-pg-db-cluster-cert"
+            dbSslUserCrtSecret: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}-pg-db-cluster-cert"
+            configSecretName: ${ARGOCD_ENV_security_zitadel_config_secret_name}
+            configSecretKey: config.yaml
