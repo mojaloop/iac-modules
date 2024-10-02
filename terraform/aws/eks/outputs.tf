@@ -155,3 +155,7 @@ output "test_harness_hosts_var_maps" {
 output "private_subnets" {
   value = module.base_infra.private_subnets
 }
+
+output "vpc_id" {
+  value = module.base_infra.vpc_id
+}
