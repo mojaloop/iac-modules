@@ -20,19 +20,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prometheus-buckets-usage-exporter
+  name: ceph-objectstore-exporter
   namespace: rook-ceph
   labels:
-    app.kubernetes.io/name: prometheus-buckets-usage-exporter
+    app.kubernetes.io/name: ceph-objectstore-exporter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: prometheus-buckets-usage-exporter
+      app.kubernetes.io/name: ceph-objectstore-exporter
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: prometheus-buckets-usage-exporter
+        app.kubernetes.io/name: ceph-objectstore-exporter
     spec:
       containers:
       - image: ghcr.io/pando85/radosgw_usage_exporter:latest
@@ -85,12 +85,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: prometheus-buckets-usage-exporter
+  name: ceph-objectstore-exporter
   labels:
-    app.kubernetes.io/name: prometheus-buckets-usage-exporter
+    app.kubernetes.io/name: ceph-objectstore-exporter
 spec:
   selector:
-    app.kubernetes.io/name: prometheus-buckets-usage-exporter
+    app.kubernetes.io/name: ceph-objectstore-exporter
   ports:
   - name: http
     port: 9242
@@ -100,13 +100,13 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: prometheus-buckets-usage-exporter
+  name: ceph-objectstore-exporter
   labels:
-    app.kubernetes.io/name: prometheus-buckets-usage-exporter
+    app.kubernetes.io/name: ceph-objectstore-exporter
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: prometheus-buckets-usage-exporter
+      app.kubernetes.io/name: ceph-objectstore-exporter
   endpoints:
   - interval: 1m
     # path: /metrics
