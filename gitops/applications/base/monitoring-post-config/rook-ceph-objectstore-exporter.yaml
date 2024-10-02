@@ -1,10 +1,14 @@
+# TODO: NOTE: move all this to rook-ceph-post-config app
+
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStoreUser
 metadata:
-  name: ceph-objectstore-exporter-user-4
+  name: ceph-objectstore-exporter-user
+  namespace: rook-ceph
 spec:
-  store: us-east-1
-  displayName: ceph-objectstore-exporter-user-4
+  store: ceph-objectstore
+  displayName: ceph-objectstore-exporter-user
+  clusterNamespace: rook-ceph # TODO: parametrize it
   capabilities:
     bucket: read
     metadata: read
@@ -15,6 +19,7 @@ spec:
 --- 
 apiVersion: apps/v1
 kind: Deployment
+namespace: rook-ceph
 metadata:
   name: prometheus-buckets-usage-exporter
   labels:
