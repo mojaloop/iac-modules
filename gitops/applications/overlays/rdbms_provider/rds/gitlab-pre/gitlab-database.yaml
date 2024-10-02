@@ -88,7 +88,7 @@ spec:
       provider: aws
       db: postgresql
   parameters:
-    region: ${ARGOCD_cloud_region}
+    region: ${ARGOCD_ENV_cloud_region}
     engineVersion: "16"
     size: small
     storageGB: ${ARGOCD_ENV_rds_postgres_storage_size}
