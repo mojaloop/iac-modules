@@ -40,7 +40,7 @@ argocd_override:
           terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
           ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
           rds_crossplane_module_version:  "${rds_crossplane_module_version}"
-          ec2_crossplane_modules_version:  "${ec2_crossplane_module_version}"
+          ec2_crossplane_module_version:  "${ec2_crossplane_module_version}"
           crossplane_func_pat_version: $"{crossplane_func_pat_version}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
