@@ -1,15 +1,15 @@
-apiVersion: ceph.rook.io/v1
-kind: CephObjectStoreUser
-metadata:
-  name: ceph-objectstore-exporter-user
-spec:
-  store: us-east-1
-  displayName: ceph-objectstore-exporter-user
-  capabilities:
-    bucket: read
-    metadata: read
-    usage: read
-    user: read
+# apiVersion: ceph.rook.io/v1
+# kind: CephObjectStoreUser
+# metadata:
+#   name: ceph-objectstore-exporter-user
+# spec:
+#   store: us-east-1
+#   displayName: ceph-objectstore-exporter-user
+#   capabilities:
+#     bucket: read
+#     metadata: read
+#     usage: read
+#     user: read
 
 --- 
 apiVersion: apps/v1
