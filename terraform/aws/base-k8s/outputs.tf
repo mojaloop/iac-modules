@@ -209,7 +209,7 @@ locals {
 }
 
 output "private_subnets" {
-  value = "[${join(",", [for s in module.base_infra.private_subnets : format("%q", s)])}]"
+  value = "[${join(",", [for s in module.base_infra.private_subnets : (s)])}]"
 }
 
 
