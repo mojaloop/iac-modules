@@ -93,9 +93,9 @@ spec:
     app.kubernetes.io/name: prometheus-buckets-usage-exporter
   ports:
   - name: http
-    port: http
+    port: 9242
     protocol: TCP
-    targetPort: 9242
+    targetPort: http
 --- 
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
