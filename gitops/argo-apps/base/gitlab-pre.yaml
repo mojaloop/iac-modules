@@ -189,8 +189,8 @@ spec:
         - name: "postgres_proxy_replicas"
           value: "${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}"
 
-        - name: "postgres_storage_size"
-          value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}Gi"
+        # - name: "postgres_storage_size"
+        #   value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}Gi"
 
         - name: "rds_postgres_storage_size"
           value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"          
@@ -204,8 +204,8 @@ spec:
         - name: "praefect_postgres_proxy_replicas"
           value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_proxy_replicas}"
 
-        - name: "praefect_postgres_storage_size"
-          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}Gi"
+        # - name: "praefect_postgres_storage_size"
+        #   value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}Gi"
 
         - name: "rds_praefect_postgres_storage_size"
           value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"                                        
