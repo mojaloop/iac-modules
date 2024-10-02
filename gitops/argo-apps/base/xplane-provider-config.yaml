@@ -40,3 +40,5 @@ spec:
         env:
           - name: "cluster_name"
             value: "${ARGOCD_ENV_cluster_name}"
+          - name: "crossplane_namespace"
+            value: "${ARGOCD_ENV_utils_crossplane_namespace}"
