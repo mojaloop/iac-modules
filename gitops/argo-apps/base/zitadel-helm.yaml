@@ -35,6 +35,7 @@ spec:
       targetRevision: ${ARGOCD_ENV_security_zitadel_helm_version}
       helm:
         valuesObject:
+          replicaCount: ${ARGOCD_ENV_security_zitadel_replicas}
           zitadel:
             masterkeySecretName: masterkey
             debug:
