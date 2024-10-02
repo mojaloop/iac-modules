@@ -92,7 +92,7 @@ spec:
     engineVersion: "16"
     size: small
     storageGB: ${ARGOCD_ENV_rds_postgres_storage_size}
-    subnets:  ${ARGOCD_ENV_rds_subnet_list}
+    subnets:  "[${ARGOCD_ENV_rds_subnet_list}]"
     databaseName: gitlab
     userName: gitlab
     masterUserPasswordSecret:
