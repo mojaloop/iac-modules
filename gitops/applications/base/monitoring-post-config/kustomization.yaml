@@ -16,4 +16,4 @@ resources:
   - dashboards-prometheus.yaml
   - dashboards-rook-ceph.yaml
   - istio-crs.yaml
-  # - rook-ceph-objectstore-exporter.yaml
+  - rook-ceph-objectstore-exporter.yaml
