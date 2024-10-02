@@ -1,7 +1,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStoreUser
 metadata:
-  name: ceph-objectstore-exporter-user
+  name: ceph-objectstore-exporter-user2
 spec:
   # store: us-east-1
   store: ceph-objectstore
