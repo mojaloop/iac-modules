@@ -42,17 +42,17 @@ spec:
           valueFrom:
             secretKeyRef:
               key: AccessKey
-              name: rook-ceph-object-user-ceph-objectstore-cosi
+              name: rook-ceph-object-user-ceph-objectstore-ceph-objectstore-exporter-user
         - name: SECRET_KEY
           valueFrom:
             secretKeyRef:
               key: SecretKey
-              name: rook-ceph-object-user-ceph-objectstore-cosi
+              name: rook-ceph-object-user-ceph-objectstore-ceph-objectstore-exporter-user
         - name: RADOSGW_SERVER
           valueFrom:
             secretKeyRef:
               key: Endpoint
-              name: rook-ceph-object-user-ceph-objectstore-cosi
+              name: rook-ceph-object-user-ceph-objectstore-ceph-objectstore-exporter-user
         - name: VIRTUAL_PORT
           value: "9242"
         - name: STORE
