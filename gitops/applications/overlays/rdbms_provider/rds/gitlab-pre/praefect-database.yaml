@@ -92,6 +92,7 @@ spec:
     engineVersion: "16"
     size: small
     storageGB: ${ARGOCD_ENV_rds_praefect_postgres_storage_size}
+    vpcId: ${ARGOCD_ENV_rds_vpc_id}
     subnets: ${ARGOCD_ENV_rds_subnet_list}
     databaseName: praefect
     userName: praefect

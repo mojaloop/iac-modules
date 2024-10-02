@@ -208,7 +208,10 @@ spec:
           value: "${ARGOCD_ENV_gitlab_pre_percona_praefect_postgres_storage_size}"
 
         - name: "rds_praefect_postgres_storage_size"
-          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"                                        
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"
+        
+        - name: "rds_vpc_id"
+          value: "${ARGOCD_ENV_gitlab_pre_rdbms_vpc_id}"                                                  
 
         - name: "rds_subnet_list"
           value: "${ARGOCD_ENV_gitlab_pre_rdbms_subnet_list}"
