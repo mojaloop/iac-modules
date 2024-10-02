@@ -126,7 +126,7 @@ argocd_override:
           praefect_postgres_replicas: "${gitlab_praefect_postgres_replicas}"
           praefect_postgres_proxy_replicas: "${gitlab_praefect_postgres_proxy_replicas}"
           praefect_postgres_storage_size: "${gitlab_praefect_postgres_storage_size}"
-          percona_praefect_postgres_storage_size: "${gitlab_praefect_postgres_storage_size}"
+          percona_praefect_postgres_storage_size: "${gitlab_praefect_postgres_storage_size}Gi"
           praefect_pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
           gitlab_artifacts_max_objects: "${gitlab_artifacts_max_objects}"
           gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
