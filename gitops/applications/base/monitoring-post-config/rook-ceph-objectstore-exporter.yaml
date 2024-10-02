@@ -3,8 +3,8 @@ kind: CephObjectStoreUser
 metadata:
   name: ceph-objectstore-exporter-user
 spec:
-  store: us-east-1
- # store: ceph-objectstore
+  # store: us-east-1
+  store: ceph-objectstore
   displayName: ceph-objectstore-exporter-user
   capabilities:
     bucket: read
