@@ -19,9 +19,9 @@ spec:
 --- 
 apiVersion: apps/v1
 kind: Deployment
-namespace: rook-ceph
 metadata:
   name: prometheus-buckets-usage-exporter
+  namespace: rook-ceph
   labels:
     app.kubernetes.io/name: prometheus-buckets-usage-exporter
 spec:
