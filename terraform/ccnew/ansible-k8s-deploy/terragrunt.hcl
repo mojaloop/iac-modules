@@ -118,7 +118,8 @@ locals {
   CLUSTER_NAME                     = get_env("cluster_name")
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
-  rdbms_subnet_list  = "["${join(",", dependency.k8s_deploy.outputs.private_subnets)}"]"
+  subnet_list        = join(",", dependency.k8s_deploy.outputs.private_subnets)
+  rdbms_subnet_list  = "["${subnet_list}"]"
   rdbms_vpc_id       = dependency.k8s_deploy.outputs.vpc_id
 
   bastion_hosts_var_maps = {
