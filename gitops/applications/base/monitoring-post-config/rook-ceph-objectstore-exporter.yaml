@@ -26,7 +26,6 @@ metadata:
     app.kubernetes.io/name: prometheus-buckets-usage-exporter
 spec:
   replicas: 1
-  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: prometheus-buckets-usage-exporter
@@ -53,14 +52,14 @@ spec:
             secretKeyRef:
               key: Endpoint
               name: rook-ceph-object-user-ceph-objectstore-ceph-objectstore-exporter-user
-        - name: VIRTUAL_PORT
-          value: "9242"
-        - name: STORE
-          value: eu-central-1a
-        - name: LOG_LEVEL
-          value: INFO
-        - name: TIMEOUT
-          value: "60"
+        # - name: VIRTUAL_PORT
+        #   value: "9242"
+        # - name: STORE
+        #   value: eu-central-1a
+        # - name: LOG_LEVEL
+        #   value: INFO
+        # - name: TIMEOUT
+        #   value: "60"
         args:
         - --insecure
         name: exporter
@@ -70,11 +69,11 @@ spec:
           protocol: TCP
         resources:
           limits:
-            cpu: 500m
+            cpu: 100m
             memory: 512Mi
           requests:
             cpu: 10m
-            memory: 40Mi
+            memory: 64Mi
         livenessProbe:
           tcpSocket:
             port: http
