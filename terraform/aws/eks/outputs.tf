@@ -153,7 +153,7 @@ output "test_harness_hosts_var_maps" {
 }
 
 output "private_subnets" {
-  value = module.base_infra.private_subnets
+  value = "[${join(",", [for s in module.base_infra.private_subnets : format("%q", s)])}]"
 }
 
 output "vpc_id" {
