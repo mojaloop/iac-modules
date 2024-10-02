@@ -77,9 +77,7 @@ spec:
         - type: PatchSet
           patchSetName: metadata
         - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.forProvider.region"
-        - fromFieldPath: "spec.parameters.vpcId"
-          toFieldPath: "spec.forProvider.vpcId"                
+          toFieldPath: "spec.forProvider.region"             
       - name: rdsinstance
         base:
           apiVersion: rds.aws.upbound.io/v1beta1
