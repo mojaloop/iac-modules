@@ -148,7 +148,7 @@ argocd_override:
           gitlab_runner_cache_max_objects: "${gitlab_runner_cache_max_objects}"
           gitlab_runner_cache_storage_size: "${gitlab_runner_cache_storage_size}"
           rdbms_provider: "${gitlab_postgres_rdbms_provider}"
-          rdbms_subnet_list:  "${rdbms_subnet_list}"
+          rdbms_subnet_list: "${rdbms_subnet_list}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
 
