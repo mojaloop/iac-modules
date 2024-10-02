@@ -1,0 +1,113 @@
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: ceph-objectstore-exporter-user
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+spec:
+  store: ceph-objectstore
+  displayName: ceph-objectstore-exporter-user
+  clusterNamespace: ${ARGOCD_ENV_rook_ceph_namespace} 
+  capabilities:
+    bucket: read
+    metadata: read
+    usage: read
+    user: read
+
+
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ceph-objectstore-exporter
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+  labels:
+    app.kubernetes.io/name: ceph-objectstore-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ceph-objectstore-exporter
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ceph-objectstore-exporter
+    spec:
+      containers:
+      - image: ghcr.io/pando85/radosgw_usage_exporter:latest
+        env:
+        - name: ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: AccessKey
+              name: rook-ceph-object-user-ceph-objectstore-ceph-objectstore-exporter-user
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: SecretKey
+              name: rook-ceph-object-user-ceph-objectstore-ceph-objectstore-exporter-user
+        - name: RADOSGW_SERVER
+          valueFrom:
+            secretKeyRef:
+              key: Endpoint
+              name: rook-ceph-object-user-ceph-objectstore-ceph-objectstore-exporter-user
+        args:
+        - --insecure
+        name: exporter
+        ports:
+        - containerPort: 9242
+          name: http
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 400m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+        livenessProbe:
+          tcpSocket:
+            port: http
+        readinessProbe:
+          tcpSocket:
+            port: http
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ceph-objectstore-exporter
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+  labels:
+    app.kubernetes.io/name: ceph-objectstore-exporter
+spec:
+  selector:
+    app.kubernetes.io/name: ceph-objectstore-exporter
+  ports:
+  - name: http
+    port: 9242
+    protocol: TCP
+    targetPort: http
+--- 
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ceph-objectstore-exporter
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+  labels:
+    app.kubernetes.io/name: ceph-objectstore-exporter
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ceph-objectstore-exporter
+  endpoints:
+  - interval: 1m
+    port: http
+

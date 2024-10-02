@@ -47,3 +47,6 @@ spec:
 
         - name: "crossplane_namespace"
           value: "${ARGOCD_ENV_utils_crossplane_namespace}"
+
+        - name: "rook_ceph_namespace"
+          value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
