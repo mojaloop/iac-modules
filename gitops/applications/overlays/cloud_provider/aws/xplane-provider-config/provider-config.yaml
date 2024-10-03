@@ -7,5 +7,5 @@ spec:
     source: Secret
     secretRef: 
       namespace: ${ARGOCD_ENV_crossplane_namespace}
-      name: secret-backend-creds
+      name: secret-aws-xplane-backend-creds
       key: creds
