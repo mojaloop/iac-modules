@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - vault-crossplane-prov.yaml
   - vault-cred-ext-secrets.yaml
+  - vault-cred-xplane-ext-secret.yaml
