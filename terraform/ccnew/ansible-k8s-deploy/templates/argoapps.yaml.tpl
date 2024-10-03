@@ -49,7 +49,7 @@ argocd_override:
           app_name: "velero"
           helm_version: "${velero_helm_version}"
           object_storage_cloud_policy: "${object_storage_cloud_policy}"
-          enable_object_storage_backend: "true"
+          enable_object_storage_backend: "${enable_object_storage_backend}"
           object_storage_region: "${cloud_region}"
           object_storage_bucket: "${object_storage_bucket_name}"
     dns_utils:
