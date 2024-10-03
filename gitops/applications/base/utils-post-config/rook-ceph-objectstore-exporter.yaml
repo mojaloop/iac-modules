@@ -4,11 +4,11 @@ apiVersion: ceph.rook.io/v1
 kind: CephObjectStoreUser
 metadata:
   name: ceph-objectstore-exporter-user
-  namespace: rook-ceph
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
 spec:
   store: ceph-objectstore
   displayName: ceph-objectstore-exporter-user
-  clusterNamespace: rook-ceph # TODO: parametrize it
+  clusterNamespace: ${ARGOCD_ENV_rook_ceph_namespace} 
   capabilities:
     bucket: read
     metadata: read
