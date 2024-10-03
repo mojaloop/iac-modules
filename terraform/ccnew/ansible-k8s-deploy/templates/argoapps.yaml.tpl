@@ -42,6 +42,15 @@ argocd_override:
           rds_crossplane_module_version:  "${rds_crossplane_module_version}"
           ec2_crossplane_module_version:  "${ec2_crossplane_module_version}"
           crossplane_func_pat_version: "${crossplane_func_pat_version}"
+    maintenance:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      sub_apps:
+        velero:
+          app_name: "velero"
+          helm_version: "${velero_helm_version}"
+          object_storage_cloud_policy: "${object_storage_cloud_policy}"
+          enable_object_storage_backend: "true"
+          object_storage_region: "${cloud_region}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
