@@ -1,0 +1,13 @@
+name: gitlabdb
+namespace: "gitlab"
+region: eu-west-1
+engineVersion: "16"
+size: small
+storageGB: 10
+vpcId: rds_vpc_id
+subnets: "s1,s2" 
+dbName: gitlab
+userName: gitlab
+passwordSecret:
+   key: password
+   name: gitlab-postgresql-credentials

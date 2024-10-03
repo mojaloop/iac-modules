@@ -1,0 +1,54 @@
+users:
+  - name: ${ARGOCD_ENV_zitadel_db_user}
+    databases:
+      - ${ARGOCD_ENV_zitadel_db_name}
+    options: "SUPERUSER"
+    password:
+      type: ASCII
+    secretName: "${ARGOCD_ENV_postgresql_secret_name}"
+
+customTLSSecret:
+  name: ""
+customReplicationTLSSecret:
+  name: ""
+ 
+instances:
+- name: instance1
+  replicas: ${ARGOCD_ENV_postgres_replicas}
+  dataVolumeClaimSpec:
+  #  storageClassName: standard
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: ${ARGOCD_ENV_postgres_storage_size}
+
+proxy:
+  pgBouncer:
+    replicas: ${ARGOCD_ENV_postgres_proxy_replicas}
+    config:
+      global:
+        pool_mode: session # https://www.pgbouncer.org/config.html (setting to trasaction will cause a fail in init and setup stages )
+        query_wait_timeout: "600"
+
+      volume:
+        volumeClaimSpec:
+        #  storageClassName: ""
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: ${ARGOCD_ENV_pgbouncer_storage_size}
+pmm:
+  enabled: false
+
+secrets:
+  name:
+  # replication user password
+  primaryuser:
+  # superuser password
+  postgres:
+  # pgbouncer user password
+  pgbouncer:
+  # pguser user password
+  pguser:

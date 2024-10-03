@@ -151,3 +151,12 @@ output "test_harness_hosts" {
 output "test_harness_hosts_var_maps" {
   value = var.enable_k6s_test_harness ? module.k6s_test_harness[0].var_map : {}
 }
+
+output "private_subnets" {
+ # value = "[${join(",", [for s in module.base_infra.private_subnets : format("'%s'", s)])}]"
+  value = module.base_infra.private_subnets
+}
+
+output "vpc_id" {
+  value = module.base_infra.vpc_id
+}

@@ -62,3 +62,9 @@ spec:
 
           - name: "cert_manager_credentials_secret"
             value: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
+
+          - name: "dns_backend_path"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_backend_path}"
+
+          - name: "dns_access_role"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_access_role}"

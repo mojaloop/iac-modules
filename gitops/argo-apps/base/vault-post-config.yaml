@@ -32,7 +32,7 @@ spec:
   sources:
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
-      path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/vault-post-config
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_cloud_provider}/vault-post-config
       plugin:
         name: envsubst
         env:
@@ -62,6 +62,30 @@ spec:
 
           - name: "vault_terraform_modules_tag"
             value: "${ARGOCD_ENV_vault_vault_vault_terraform_modules_tag}"
+
+          - name: "crossplane_namespace"
+            value: "${ARGOCD_ENV_utils_crossplane_namespace}"
+
+          - name: "dns_backend_path"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_backend_path}"
+
+          - name: "enable_dns_backend"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_enable_dns_backend}"
+
+          - name: "dns_access_role"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_dns_access_role}"
+
+          - name: "object_storage_cloud_policy"
+            value: "${ARGOCD_ENV_maintenance_pre_object_storage_cloud_policy}"
+
+          - name: "object_storage_backend_path"
+            value: "${ARGOCD_ENV_maintenance_pre_object_storage_backend_path}"
+
+          - name: "enable_object_storage_backend"
+            value: "${ARGOCD_ENV_maintenance_pre_enable_object_storage_backend}"
+
+          - name: "object_storage_access_role"
+            value: "${ARGOCD_ENV_maintenance_pre_object_storage_access_role}"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}

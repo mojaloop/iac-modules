@@ -29,8 +29,8 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_gitlab_gitlab_namespace}
 
-  source:
-    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+  sources:
+  - repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
     path: gitops/applications/base/gitlab-pre
     plugin:
@@ -45,32 +45,8 @@ spec:
         - name: "redis_storage_size"
           value: "${ARGOCD_ENV_gitlab_pre_redis_storage_size}"
 
-        - name: "postgres_replicas"
-          value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
-
-        - name: "postgres_proxy_replicas"
-          value: "${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}"
-
-        - name: "postgres_storage_size"
-          value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"
-
-        - name: "pgdb_helm_version"
-          value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
-
         - name: "gitlab_app_name"
           value: "${ARGOCD_ENV_gitlab_gitlab_app_name}"
-
-        - name: "praefect_postgres_replicas"
-          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_replicas}"
-
-        - name: "praefect_postgres_proxy_replicas"
-          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_proxy_replicas}"
-
-        - name: "praefect_postgres_storage_size"
-          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"
-
-        - name: "pgdb_helm_version"
-          value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
 
         - name: "vault_k8s_admin_auth_path"
           value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
@@ -185,3 +161,60 @@ spec:
 
         - name: "argocd_namespace"
           value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+
+  - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+    path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_gitlab_pre_rdbms_provider}/gitlab-pre
+    plugin:
+      name: envsubst
+      env:
+        - name: "gitlab_app_name"
+          value: "${ARGOCD_ENV_gitlab_gitlab_app_name}"
+
+        - name: "gitlab_namespace"
+          value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
+
+        - name: "vault_k8s_admin_auth_path"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+        - name: "vault_k8s_admin_role_name"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"          
+
+        - name: "postgres_replicas"
+          value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
+
+        - name: "postgres_proxy_replicas"
+          value: "${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}"
+
+        - name: "postgres_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_percona_postgres_storage_size}"
+
+        - name: "rds_postgres_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"          
+
+        - name: "pgdb_helm_version"
+          value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
+
+        - name: "praefect_postgres_replicas"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_replicas}"
+
+        - name: "praefect_postgres_proxy_replicas"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_proxy_replicas}"
+
+        - name: "praefect_postgres_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_percona_praefect_postgres_storage_size}"
+
+        - name: "rds_praefect_postgres_storage_size"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"
+        
+        - name: "rds_vpc_id"
+          value: "${ARGOCD_ENV_gitlab_pre_rdbms_vpc_id}"                                                  
+
+        - name: "rds_subnet_list"
+          value: "${ARGOCD_ENV_gitlab_pre_rdbms_subnet_list}"
+
+        - name: "cloud_region"
+          value: "${ARGOCD_ENV_gitlab_pre_db_provider_cloud_region}"

@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
-    path: gitops/applications/base/zitadel-pre
+    path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_security_zitadel_rdbms_provider}/zitadel-pre
     plugin:
       name: envsubst
       env:
@@ -57,15 +57,6 @@ spec:
         - name: "zitadel_grant_prefix"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
 
-        - name: "cockroachdb_helm_version"
-          value: "${ARGOCD_ENV_security_cockroachdb_helm_version}"
-
-        - name: "cockroachdb_pvc_size"
-          value: "${ARGOCD_ENV_security_cockroachdb_pvc_size}"
-
-        - name: "cockroachdb_release_name"
-          value: "${ARGOCD_ENV_security_cockroachdb_app_name}"
-
         - name: "zitadel_istio_gateway_namespace"
           value: "${ARGOCD_ENV_security_zitadel_istio_gateway_namespace}"
 
@@ -80,3 +71,33 @@ spec:
 
         - name: "argocd_namespace"
           value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+
+        - name: "postgres_replicas"
+          value: "${ARGOCD_ENV_security_postgres_replicas}"
+
+        - name: "postgres_proxy_replicas"
+          value: "${ARGOCD_ENV_security_postgres_proxy_replicas}"
+
+        - name: "postgres_storage_size"
+          value: "${ARGOCD_ENV_security_postgres_pvc_size}"
+
+        - name: "pgbouncer_storage_size"
+          value: "${ARGOCD_ENV_security_postgres_pgbouncer_pvc_size}"
+
+        - name: "pgdb_helm_version"
+          value: "${ARGOCD_ENV_security_postgres_pgdb_helm_version}"
+
+        - name: "zitadel_pg_db_release_name"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}"
+
+        - name: "postgresql_secret_name"
+          value: "${ARGOCD_ENV_security_postgres_db_credentials_secret}"
+
+        - name: "zitadel_config_secret_name"
+          value: "${ARGOCD_ENV_security_zitadel_config_secret_name}"
+
+        - name: "zitadel_db_name"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_db_name}"
+
+        - name: "zitadel_db_user"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_db_user}"

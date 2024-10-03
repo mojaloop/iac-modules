@@ -1,0 +1,97 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: dbinstances.infitx.org
+spec:
+  group: infitx.org
+  names:
+    kind: DBInstance
+    plural: dbinstances
+  claimNames:
+    kind: DBInstanceClaim
+    plural: dbinstanceclaims
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Database ID
+              parameters:
+                type: object
+                properties:
+                  region:
+                    description: Region
+                    type: string
+                  engine:
+                    description: The DB engine i.e mysql/postgres
+                    type: string
+                  engineVersion:
+                    description: The DB version depends on the DB type and versions available in the selected provider.
+                    type: string
+                  size:
+                    description: "Supported sizes: small, medium, large"
+                    type: string
+                    default: small
+                  storageGB:
+                    description: "Storage size"
+                    type: integer
+                  port:
+                    description: "Port at which db server listens"
+                    type: integer
+                    default: 5432
+                  vpcId:
+                    description: Vpc id
+                    type: string
+                  subnets:
+                    description: The list of subnet-ids to create the subnetgroup
+                    type: array
+                    items:
+                       type: string
+                  username:
+                    description: The name of master user
+                    type: string
+                  dbName:
+                    description: The name of database
+                    type: string
+                  passwordSecret:
+                    description: The secret reference to the password of the master user.
+                    type: object
+                    properties:
+                      name:
+                        description: The name of the secret.
+                        type: string
+                      key:
+                        description: The key in the secret.
+                        type: string
+                  schemas:
+                    description: Database schema. Atlas operator (https://atlasgo.io/integrations/kubernetes/operator) needs to be installed in the cluster. Leave empty if schema should NOT be applied.
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        database:
+                          description: The name of the database where to apply the schema.
+                          type: string
+                        sql:
+                          description: The SQL to apply.
+                          type: string
+                required:
+                - region
+                - engineVersion
+                - storageGB
+                - subnets
+                - username
+                - dbName
+                - passwordSecret
+                - vpcId
+
+            required:
+            - parameters

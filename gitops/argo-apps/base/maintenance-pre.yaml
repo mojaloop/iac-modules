@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_maintenance_argocd_app_name}-${ARGOCD_ENV_maintenance_pre_app_name}
+  namespace: ${ARGOCD_ENV_maintenance_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_maintenance_pre_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_maintenance_app_namespace}
+
+  sources:
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_maintenance_application_gitrepo_tag}
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_cloud_provider}/maintenance_pre
+      plugin:
+        name: envsubst
+        env:
+          - name: "object_storage_secret_name"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_secret_name}"
+
+          - name: "object_storage_secret_key"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_secret_key}"
+
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+          - name: "velero_namespace"
+            value: "${ARGOCD_ENV_maintenance_velero_namespace}"
+
+          - name: "object_storage_backend_path"
+            value: "${ARGOCD_ENV_maintenance_pre_object_storage_backend_path}"
+
+          - name: "object_storage_access_role"
+            value: "${ARGOCD_ENV_maintenance_pre_object_storage_access_role}"
