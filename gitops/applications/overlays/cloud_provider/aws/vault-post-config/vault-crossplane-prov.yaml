@@ -28,7 +28,7 @@ spec:
       - key: "enable_dns_backend"
         value: "${ARGOCD_ENV_enable_dns_backend}"
       - key: "dns_access_role"
-        value: "${ARGOCD_ENV_ext_dns_access_role}"
+        value: "${ARGOCD_ENV_dns_access_role}"
       - key: "object_storage_cloud_policy"
         value: "${ARGOCD_ENV_object_storage_cloud_policy}"
       - key: "object_storage_backend_path"
