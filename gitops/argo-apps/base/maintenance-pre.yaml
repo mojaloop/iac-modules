@@ -32,7 +32,7 @@ spec:
   sources:
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_maintenance_application_gitrepo_tag}
-      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_cloud_provider}/maintenance_pre
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_cloud_provider}/maintenance-pre
       plugin:
         name: envsubst
         env:
