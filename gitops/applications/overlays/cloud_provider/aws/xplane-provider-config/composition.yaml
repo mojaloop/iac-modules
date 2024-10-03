@@ -41,6 +41,7 @@ spec:
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: "spec.parameters.subnets"
           toFieldPath: "spec.forProvider.subnetIds"
+          
       - name: securityGroup
         base:
           apiVersion: ec2.aws.upbound.io/v1beta1

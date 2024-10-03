@@ -1,0 +1,29 @@
+apiVersion: infitx.org/v1alpha1
+kind: DBInstanceClaim
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    organization: Infitx
+    author: devops
+spec:
+  id: {{ .Values.name }}
+  compositionSelector:
+    matchLabels:
+      provider: aws
+      db: postgresql
+  parameters:
+    region: {{ .Values.region }}
+    engineVersion: "16"
+    size: {{ .Values.size }}
+    storageGB: {{ .Values.storageGB }}
+    vpcId: {{ .Values.vpcId }}
+    {{- with ( splitList "," .Values.subnets) }}
+    subnets:  
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    databaseName: {{ .Values.dbName }}
+    userName: {{ .Values.userName }}
+    masterUserPasswordSecret:
+      key: {{ .Values.passwordSecret.key }}
+      name: {{ .Values.passwordSecret.name }}
