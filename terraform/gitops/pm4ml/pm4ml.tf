@@ -263,7 +263,7 @@ variable "opentelemetry_enabled" {
   type        = bool
   description = "bool that enables opentelemetry in cluster"
   default     = false
-} 
+}
 
 variable "opentelemetry_namespace_filtering_enable" {
   type        = bool
@@ -288,5 +288,5 @@ variable "mcm_admin_secret_prefix" {
 }
 
 locals {
-  nat_cidr_list = join(", ", [for ip in var.nat_public_ips : format("%s/32", ip)])
+  nat_cidr_list = join(",", [for ip in var.nat_public_ips : format("%s/32", ip)])
 }
