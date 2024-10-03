@@ -51,6 +51,7 @@ argocd_override:
           object_storage_cloud_policy: "${object_storage_cloud_policy}"
           enable_object_storage_backend: "true"
           object_storage_region: "${cloud_region}"
+          object_storage_bucket: "${object_storage_bucket_name}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:

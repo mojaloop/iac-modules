@@ -50,3 +50,7 @@ output "ext_dns_cloud_policy" {
 output "object_storage_cloud_policy" {
   value = aws_iam_policy.object_storage_policy.arn
 }
+
+output "backup_bucket_name" {
+  value = var.backup_bucket_name
+}

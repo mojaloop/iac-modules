@@ -45,6 +45,12 @@ variable "create_ext_dns_user" {
   default     = true
 }
 
+variable "backup_bucket_name" {
+  type        = string
+  description = "bucket name for backups"
+  default     = "velero"
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

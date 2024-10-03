@@ -24,6 +24,7 @@ dependency "k8s_deploy" {
     public_subdomain            = "null"
     ext_dns_cloud_policy        = "null"
     object_storage_cloud_policy = "null"
+    object_storage_bucket_name  = "null"
     private_subnets             = "null"
     vpc_id                      = "null"    
     target_group_internal_https_port = 0
@@ -99,6 +100,7 @@ inputs = {
     rdbms_subnet_list                 = dependency.k8s_deploy.outputs.private_subnets
     rdbms_vpc_id                      = dependency.k8s_deploy.outputs.vpc_id
     object_storage_cloud_policy       = dependency.k8s_deploy.outputs.object_storage_cloud_policy
+    object_storage_bucket_name        = dependency.k8s_deploy.outputs.object_storage_bucket_name
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps

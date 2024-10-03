@@ -105,7 +105,7 @@ resource "aws_iam_policy" "object_storage_policy" {
                 "s3:ListMultipartUploadParts"
             ],
             "Resource": [
-                "arn:aws:s3:::${BUCKET}/*"
+                "arn:aws:s3:::${var.backup_bucket_name}/*"
             ]
         },
         {
@@ -114,7 +114,7 @@ resource "aws_iam_policy" "object_storage_policy" {
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::${BUCKET}"
+                "arn:aws:s3:::${var.backup_bucket_name}"
             ]
         }
     ]

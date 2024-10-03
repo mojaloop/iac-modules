@@ -63,6 +63,14 @@ output "ext_dns_cloud_policy" {
   value = module.post_config.ext_dns_cloud_policy
 }
 
+output "object_storage_cloud_policy" {
+  value = module.post_config.object_storage_cloud_policy
+}
+
+output "object_storage_bucket_name" {
+  value = module.post_config.backup_bucket_name
+}
+
 ###new items
 
 output "bastion_ssh_key" {
@@ -78,7 +86,7 @@ output "bastion_private_ips" {
 }
 
 output "bastion_public_ip" {
-  value       = module.base_infra.bastion_public_ip
+  value = module.base_infra.bastion_public_ip
 }
 
 output "bastion_public_ips" {
@@ -209,7 +217,7 @@ locals {
 }
 
 output "private_subnets" {
- # value = "[${join(",", [for s in module.base_infra.private_subnets : format("'%s'", s)])}]"
+  # value = "[${join(",", [for s in module.base_infra.private_subnets : format("'%s'", s)])}]"
   value = module.base_infra.private_subnets
 }
 
