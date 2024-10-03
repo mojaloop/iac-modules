@@ -27,12 +27,19 @@ spec:
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_maintenance_velero_namespace}
+    namespace: ${ARGOCD_ENV_maintenance_app_namespace}
   sources:
-    - chart: velero
-      repoURL: https://vmware-tanzu.github.io/helm-charts/
-      targetRevision: ${ARGOCD_ENV_maintenance_velero_helm_version}
-      helm:
-        valuesObject:
-          backupsEnabled: false
-          snapshotsEnabled: false
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_maintenance_application_gitrepo_tag}
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_cloud_provider}/maintenance
+      plugin:
+        name: envsubst
+        env:
+          - name: "velero_helm_version"
+            value: "${ARGOCD_ENV_maintenance_velero_helm_version}"
+
+          - name: "velero_namespace"
+            value: "${ARGOCD_ENV_maintenance_velero_namespace}"
+
+          - name: "velero_plugin_version"
+            value: "${ARGOCD_ENV_maintenance_velero_plugin_version}"

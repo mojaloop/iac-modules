@@ -1,0 +1,9 @@
+backupsEnabled: false
+snapshotsEnabled: false
+initContainers:
+  - name: velero-plugin-for-aws
+    image: velero/velero-plugin-for-aws:${ARGOCD_ENV_velero_plugin_version}
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+      - mountPath: /target
+        name: plugins
