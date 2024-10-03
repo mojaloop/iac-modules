@@ -55,7 +55,7 @@ spec:
             value: "${ARGOCD_ENV_maintenance_velero_namespace}"
 
           - name: "object_storage_backend_path"
-            value: "${ARGOCD_ENV_maintenance_pre_object_storage_backend_path}"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_backend_path}"
 
           - name: "object_storage_access_role"
-            value: "${ARGOCD_ENV_maintenance_pre_object_storage_access_role}"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_access_role}"
