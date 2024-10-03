@@ -22,8 +22,8 @@ spec:
     subnets:  
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    databaseName: {{ .Values.dbName }}
-    userName: {{ .Values.userName }}
-    masterUserPasswordSecret:
+    dbName: {{ .Values.dbName }}
+    username: {{ .Values.userName }}
+    passwordSecret:
       key: {{ .Values.passwordSecret.key }}
       name: {{ .Values.passwordSecret.name }}
