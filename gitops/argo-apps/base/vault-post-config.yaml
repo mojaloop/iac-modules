@@ -76,16 +76,16 @@ spec:
             value: "${ARGOCD_ENV_dns_utils_cr_config_dns_access_role}"
 
           - name: "object_storage_cloud_policy"
-            value: "${ARGOCD_ENV_maintenance_object_storage_cloud_policy}"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_cloud_policy}"
 
           - name: "object_storage_backend_path"
-            value: "${ARGOCD_ENV_maintenance_object_storage_backend_path}"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_backend_path}"
 
           - name: "enable_object_storage_backend"
-            value: "${ARGOCD_ENV_maintenance_enable_object_storage_backend}"
+            value: "${ARGOCD_ENV_maintenance_velero_enable_object_storage_backend}"
 
           - name: "object_storage_access_role"
-            value: "${ARGOCD_ENV_maintenance_object_storage_access_role}"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_access_role}"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
