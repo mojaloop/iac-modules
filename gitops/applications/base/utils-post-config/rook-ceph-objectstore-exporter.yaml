@@ -111,7 +111,5 @@ spec:
       app.kubernetes.io/name: ceph-objectstore-exporter
   endpoints:
   - interval: 1m
-    # path: /metrics
     port: http
-    # scheme: http
 
