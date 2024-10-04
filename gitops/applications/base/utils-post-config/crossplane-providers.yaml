@@ -128,3 +128,14 @@ metadata:
   name: function-patch-and-transform
 spec:
   package: xpkg.upbound.io/crossplane-contrib/function-patch-and-transform:v${ARGOCD_ENV_crossplane_func_pat_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-kubernetes
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v${ARGOCD_ENV_k8s_crossplane_module_version}
+  runtimeConfigRef:
+    apiVersion: pkg.crossplane.io/v1beta1
+    kind: DeploymentRuntimeConfig
+    name: provider-kubernetes

@@ -42,6 +42,7 @@ argocd_override:
           rds_crossplane_module_version:  "${rds_crossplane_module_version}"
           ec2_crossplane_module_version:  "${ec2_crossplane_module_version}"
           crossplane_func_pat_version: "${crossplane_func_pat_version}"
+          k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:

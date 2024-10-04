@@ -56,3 +56,6 @@ spec:
 
         - name: "crossplane_func_pat_version"
           value: "${ARGOCD_ENV_utils_post_config_crossplane_func_pat_version}"
+
+        - name: "k8s_crossplane_module_version"
+          value: "${ARGOCD_ENV_utils_post_config_k8s_crossplane_module_version}"
