@@ -48,7 +48,7 @@ output "ext_dns_cloud_policy" {
 }
 
 output "object_storage_cloud_policy" {
-  value = aws_iam_policy.object_storage_policy.arn
+  value = var.backup_enabled ? aws_iam_policy.object_storage_policy[0].arn : ""
 }
 
 output "backup_bucket_name" {

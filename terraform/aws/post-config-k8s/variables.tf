@@ -51,6 +51,18 @@ variable "backup_bucket_name" {
   default     = "velero"
 }
 
+variable "backup_enabled" {
+  type        = bool
+  description = "create backup policies and bucket in s3"
+  default     = false
+}
+
+variable "backup_bucket_force_destroy" {
+  type        = bool
+  description = "auto delete s3 bucket content"
+  default     = false
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

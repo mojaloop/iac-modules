@@ -43,3 +43,15 @@ spec:
 
           - name: "velero_plugin_version"
             value: "${ARGOCD_ENV_maintenance_velero_plugin_version}"
+
+          - name: "object_storage_region"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_region}"
+
+          - name: "object_storage_secret_name"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_secret_name}"
+
+          - name: "object_storage_secret_key"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_secret_key}"
+
+          - name: "object_storage_bucket"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_bucket}"

@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ../../../base/maintenance-pre.yaml
   - ../../../base/maintenance.yaml
-  - ../../../base/maintenance-post-config.yaml
+  #- ../../../base/maintenance-post-config.yaml

@@ -30,6 +30,8 @@ module "post_config" {
   create_ext_dns_user = var.create_ext_dns_user
   create_iam_user     = var.create_ci_iam_user
   iac_group_name      = var.iac_group_name
+  backup_bucket_name  = "${var.domain}-${var.backup_bucket_name}"
+  backup_enabled      = var.backup_enabled
 }
 
 module "k6s_test_harness" {

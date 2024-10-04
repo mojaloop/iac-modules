@@ -68,7 +68,7 @@ variable "node_pools" {
 
 variable "az_count" {
   type        = number
-  default     = 2  # revert to 1
+  default     = 2 # revert to 1
   description = "Number of azs"
 }
 
@@ -186,6 +186,17 @@ variable "create_haproxy_dns_record" {
   type        = bool
   description = "whether to create public dns record for private ip of bastion for haproxy"
   default     = true
+}
+
+variable "backup_bucket_name" {
+  type        = string
+  description = "backup"
+}
+
+variable "backup_enabled" {
+  type        = bool
+  default     = false
+  description = "enable backup bucket and policies"
 }
 
 ###

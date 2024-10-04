@@ -24,6 +24,8 @@ inputs = {
   create_ci_iam_user                   = true
   create_haproxy_dns_record            = false
   iac_group_name                       = local.env_vars.iac_group_name
+  backup_enabled                       = local.env_vars.backup_enabled
+  backup_bucket_name                   = local.env_vars.backup_bucket_name
 }
 
 locals {
