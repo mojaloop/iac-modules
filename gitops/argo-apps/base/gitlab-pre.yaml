@@ -193,7 +193,10 @@ spec:
           value: "${ARGOCD_ENV_gitlab_pre_percona_postgres_storage_size}"
 
         - name: "rds_postgres_storage_size"
-          value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"          
+          value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"
+
+        - name: "rds_postgres_instance_size"
+          value: "${ARGOCD_ENV_gitlab_pre_postgres_instance_size}"                         
 
         - name: "pgdb_helm_version"
           value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
@@ -209,6 +212,9 @@ spec:
 
         - name: "rds_praefect_postgres_storage_size"
           value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"
+
+        - name: "rds_praefect_postgres_instance_size"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_instance_size}"          
         
         - name: "rds_vpc_id"
           value: "${ARGOCD_ENV_gitlab_pre_rdbms_vpc_id}"                                                  

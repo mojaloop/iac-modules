@@ -2,7 +2,7 @@ name: gitlabdb
 namespace: "${ARGOCD_ENV_gitlab_namespace}"
 region: ${ARGOCD_ENV_cloud_region}
 engineVersion: "16"
-size: small
+size: ${ARGOCD_ENV_rds_postgres_instance_size}
 storageGB: ${ARGOCD_ENV_rds_postgres_storage_size}
 vpcId: ${ARGOCD_ENV_rds_vpc_id}
 subnets:  ${ARGOCD_ENV_rds_subnet_list}
