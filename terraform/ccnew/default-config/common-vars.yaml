@@ -34,7 +34,6 @@ ec2_crossplane_module_version: "1.14.0"
 crossplane_func_pat_version: "0.2.1"
 k8s_crossplane_module_version: "0.11.4"
 velero_helm_version: "7.2.1"
-enable_object_storage_backend: "'false'"
 
 istio_egress_gateway_max_replicas: 5
 istio_proxy_log_level: warn
