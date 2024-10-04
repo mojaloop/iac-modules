@@ -141,7 +141,7 @@ global:
       secret: "gitlab-postgresql-credentials"
       key: password
       # file:
-    host: gitlab-pg-db-pgbouncer.gitlab.svc
+    host: gitlabdb-external.gitlab.svc
     port: 5432
     username: gitlab
     database: gitlab
@@ -223,7 +223,7 @@ global:
         gitalyReplicas: 3
         maxUnavailable: 1
     psql:
-      host: praefect-pg-db-pgbouncer.gitlab.svc
+      host: praefectdb-external.gitlab.svc
       port: 5432
       user: praefect
       dbName: praefect

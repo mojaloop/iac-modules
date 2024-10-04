@@ -1,0 +1,23 @@
+apiVersion: kubernetes.crossplane.io/v1alpha2
+kind: Object
+metadata:
+  name: praefectdb-external
+spec:
+  forProvider:
+    manifest:
+      apiVersion: v1
+      spec:
+        type: ExternalName
+        externalName: sample
+      kind: Service
+      metadata:
+        namespace:  "${ARGOCD_ENV_gitlab_namespace}"
+  providerConfigRef:
+    name: kubernetes-provider
+  references:
+    - patchesFrom:
+        apiVersion: rds.aws.upbound.io/v1beta2
+        fieldPath: status.atProvider.address
+        kind: Instance
+        name: praefectdb
+      toFieldPath: spec.externalName

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: praefectdb-external
+  namespace: "${ARGOCD_ENV_gitlab_namespace}"
+spec:
+  externalName: praefect-pg-db-pgbouncer.${ARGOCD_ENV_gitlab_namespace}.svc.cluster.local
+  sessionAffinity: None
+  type: ExternalName
