@@ -101,7 +101,9 @@ spec:
                 name: secretName
             writeConnectionSecretToRef:
               namespace: dbnamespace
-              name: dbsecret                
+              name: dbsecret
+              publiclyAccessible: false
+                              
         patches:
         - type: PatchSet
           patchSetName: metadata
