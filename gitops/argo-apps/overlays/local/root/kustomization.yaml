@@ -28,7 +28,6 @@ resources:
   - ../../../base/dns-utils-pre.yaml
   # maintenance (velero,etc)
   - ../../../base/maintenance.yaml
-  - ../../../base/maintenance-post-config.yaml
   - ../../../base/maintenance-pre.yaml
   # security
   - ../../../base/zitadel-pre.yaml
