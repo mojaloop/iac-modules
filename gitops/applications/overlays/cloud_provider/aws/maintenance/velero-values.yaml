@@ -45,3 +45,7 @@ initContainers:
     volumeMounts:
       - mountPath: /target
         name: plugins
+credentials:
+  useSecret: true
+  name: ${ARGOCD_ENV_object_storage_secret_name}
+  existingSecret: true
