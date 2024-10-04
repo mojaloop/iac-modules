@@ -76,7 +76,7 @@ EOF
 }
 
 resource "aws_iam_policy" "object_storage_policy" {
-  count = var.backup_enabled ? 0 : 1
+  count = var.backup_enabled ? 1 : 0
   name  = "${var.backup_bucket_name}-object-storage"
 
   policy = <<EOF
@@ -123,7 +123,7 @@ resource "aws_iam_policy" "object_storage_policy" {
 EOF
 }
 resource "aws_s3_bucket" "backup_bucket" {
-  count         = var.backup_enabled ? 0 : 1
+  count         = var.backup_enabled ? 1 : 0
   bucket        = var.backup_bucket_name
   force_destroy = var.backup_bucket_force_destroy
   tags          = merge({ Name = var.backup_bucket_name }, var.tags)
