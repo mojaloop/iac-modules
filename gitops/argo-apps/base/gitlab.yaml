@@ -29,7 +29,7 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_gitlab_app_namespace}
 
-  source:
+  sources:
   - repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
     path: gitops/applications/base/gitlab
