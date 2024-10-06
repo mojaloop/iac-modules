@@ -8,3 +8,4 @@ helmCharts:
     repo: https://vmware-tanzu.github.io/helm-charts/
     valuesFile: velero-values.yaml
     namespace: ${ARGOCD_ENV_velero_namespace}
+    includeCRDs: true
