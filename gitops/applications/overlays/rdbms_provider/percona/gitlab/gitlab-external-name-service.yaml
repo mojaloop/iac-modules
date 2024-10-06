@@ -4,6 +4,6 @@ metadata:
   name: ${ARGOCD_ENV_gitlab_externalservice_name}
   namespace: "${ARGOCD_ENV_gitlab_namespace}"
 spec:
-  externalName: gitlab-pg-db-pgbouncer.${ARGOCD_ENV_gitlab_namespace}.svc.cluster.local
+  externalName: ${ARGOCD_ENV_gitlab_dbdeploy_name_prefix}-pgbouncer.${ARGOCD_ENV_gitlab_namespace}.svc.cluster.local
   sessionAffinity: None
   type: ExternalName

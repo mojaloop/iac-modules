@@ -1,4 +1,4 @@
-name: gitlabdb
+name: ${ARGOCD_ENV_gitlab_dbdeploy_name_prefix}
 namespace: "${ARGOCD_ENV_gitlab_namespace}"
 region: ${ARGOCD_ENV_cloud_region}
 engineVersion: "16"
