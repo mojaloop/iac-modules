@@ -36,6 +36,7 @@ variable "cluster_name" {
 variable "identity_provider_config_name" {
     type        = string
     description = "The name of the identity provider config"
+    default     = "Zitadel"
 }
 
 variable "kubernetes_oidc_issuer" {
