@@ -1,7 +1,7 @@
 apiVersion: kubernetes.crossplane.io/v1alpha2
 kind: Object
 metadata:
-  name: gitlabdb-external
+  name: ${ARGOCD_ENV_gitlab_externalservice_name}
 spec:
   forProvider:
     manifest:

@@ -99,6 +99,7 @@ inputs = {
     environment_list                  = local.environment_list.environments
     rdbms_subnet_list                 = dependency.k8s_deploy.outputs.private_subnets
     rdbms_vpc_id                      = dependency.k8s_deploy.outputs.vpc_id
+    vpc_cidr                          = get_env("vpc_cidr")
     object_storage_cloud_policy       = dependency.k8s_deploy.outputs.object_storage_cloud_policy
     object_storage_bucket_name        = dependency.k8s_deploy.outputs.object_storage_bucket_name
     } , local.common_vars, local.env_vars)))

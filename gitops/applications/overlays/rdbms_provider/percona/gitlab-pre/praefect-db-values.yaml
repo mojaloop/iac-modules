@@ -1,6 +1,7 @@
 # Default values for pg-cluster.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+fullnameOverride: praefect-db
 
 finalizers:
 # Set this if you want that operator deletes the PVCs on cluster deletion
@@ -30,13 +31,13 @@ customReplicationTLSSecret:
 # openshift: true
 
 users:
-  - name: praefect
+  - name: ${ARGOCD_ENV_praefect_db_name}
     databases:
-      - praefect
+      - ${ARGOCD_ENV_praefect_db_username}
     options: "SUPERUSER"
     password:
       type: ASCII
-    secretName: "praefect-postgresql-credentials"
+    secretName: "${ARGOCD_ENV_praefect_db_secret}"
 
 # databaseInitSQL:
 #   key: init.sql

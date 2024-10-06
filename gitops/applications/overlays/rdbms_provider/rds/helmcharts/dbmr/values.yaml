@@ -5,6 +5,7 @@ engineVersion: "16"
 size: small
 storageGB: 10
 vpcId: rds_vpc_id
+vpcCidr: "0.0.0.0/0" 
 subnets: "s1,s2" 
 dbName: gitlab
 userName: gitlab

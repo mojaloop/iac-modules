@@ -5,9 +5,10 @@ engineVersion: "16"
 size: ${ARGOCD_ENV_rds_postgres_instance_size}
 storageGB: ${ARGOCD_ENV_rds_postgres_storage_size}
 vpcId: ${ARGOCD_ENV_rds_vpc_id}
+vpcCidr: ${ARGOCD_ENV_vpc_cidr}
 subnets:  ${ARGOCD_ENV_rds_subnet_list}
-dbName: gitlab
-userName: gitlab
+dbName: ${ARGOCD_ENV_gitlab_db_name}
+userName: ${ARGOCD_ENV_gitlab_db_username}
 passwordSecret:
   key: password
-  name: gitlab-postgresql-credentials
+  name: ${ARGOCD_ENV_gitlab_db_secret}

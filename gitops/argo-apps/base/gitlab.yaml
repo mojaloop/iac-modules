@@ -78,6 +78,30 @@ spec:
         - name: "gitlab_gitaly_storage_size"
           value: "${ARGOCD_ENV_gitlab_gitlab_gitaly_storage_size}"
 
+        - name: "praefect_externalservice_name"
+          value: "${ARGOCD_ENV_gitlab_praefect_externalservice_name}"          
+
+        - name: "gitlab_externalservice_name"
+          value: "${ARGOCD_ENV_gitlab_gitlab_externalservice_name}"
+
+        - name: "gitlab_db_name"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_name}"
+
+        - name: "praefect_db_name"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_db_name}"
+
+        - name: "gitlab_db_username"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_username}"
+
+        - name: "praefect_db_username"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_db_username}"
+
+        - name: "gitlab_dbdeploy_name_prefix"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"
+
+        - name: "praefect_dbdeploy_helm_name_prefix"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_dbdeploy_helm_name_prefix}"                                
+
   - repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
     path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_gitlab_pre_rdbms_provider}/gitlab
@@ -86,3 +110,27 @@ spec:
       env:
         - name: "gitlab_namespace"
           value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
+
+        - name: "praefect_externalservice_name"
+          value: "${ARGOCD_ENV_gitlab_praefect_externalservice_name}"          
+
+        - name: "gitlab_externalservice_name"
+          value: "${ARGOCD_ENV_gitlab_gitlab_externalservice_name}" 
+
+        - name: "gitlab_db_name"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_name}"
+
+        - name: "praefect_db_name"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_db_name}"
+
+        - name: "gitlab_db_username"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_username}"
+
+        - name: "praefect_db_username"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_db_username}"
+
+        - name: "gitlab_dbdeploy_name_prefix"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"
+
+        - name: "praefect_dbdeploy_helm_name_prefix"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_dbdeploy_helm_name_prefix}"                               

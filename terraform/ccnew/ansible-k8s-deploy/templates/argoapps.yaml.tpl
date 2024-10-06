@@ -166,6 +166,7 @@ argocd_override:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
 
           
     deploy_env:

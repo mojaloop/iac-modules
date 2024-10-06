@@ -70,15 +70,16 @@ spec:
               fromPort: 5432
               toPort: 5432
               protocol: tcp
-              cidrBlocks:
-                - 0.0.0.0/0
+              cidrBlocks: []
               securityGroupIdSelector:
                 matchControllerRef: true
         patches:
         - type: PatchSet
           patchSetName: metadata
         - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.forProvider.region"             
+          toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.vpcCidr"
+          toFieldPath: "spec.forProvider.cidrBlocks"                          
       - name: rdsinstance
         base:
           apiVersion: rds.aws.upbound.io/v1beta1

@@ -18,6 +18,10 @@ spec:
     size: {{ .Values.size }}
     storageGB: {{ .Values.storageGB }}
     vpcId: {{ .Values.vpcId }}
+    {{- with ( splitList "," .Values.vpcCidr) }}
+    vpcCidr:  
+        {{- toYaml . | nindent 8 }}
+    {{- end }}    
     {{- with ( splitList "," .Values.subnets) }}
     subnets:  
         {{- toYaml . | nindent 8 }}
