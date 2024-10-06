@@ -79,10 +79,10 @@ spec:
           value: "${ARGOCD_ENV_gitlab_gitlab_gitaly_storage_size}"
 
         - name: "praefect_externalservice_name"
-          value: "${ARGOCD_ENV_gitlab_praefect_externalservice_name}"          
+          value: "${ARGOCD_ENV_gitlab_gitlab_praefect_externalservice_name}"          
 
         - name: "gitlab_externalservice_name"
-          value: "${ARGOCD_ENV_gitlab_gitlab_externalservice_name}"
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_externalservice_name}" 
 
         - name: "gitlab_db_name"
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_name}"
@@ -112,10 +112,10 @@ spec:
           value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
 
         - name: "praefect_externalservice_name"
-          value: "${ARGOCD_ENV_gitlab_praefect_externalservice_name}"          
+          value: "${ARGOCD_ENV_gitlab_gitlab_praefect_externalservice_name}"          
 
         - name: "gitlab_externalservice_name"
-          value: "${ARGOCD_ENV_gitlab_gitlab_externalservice_name}" 
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_externalservice_name}" 
 
         - name: "gitlab_db_name"
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_name}"
