@@ -429,7 +429,7 @@ spec:
                               hs.message = condition.message
                               return hs
                             end
-                            if condition.reason == "Available" and condition.status == "True" then
+                            if condition.type = "LastAsyncOperation" and condition.reason == "Success" and condition.status == "True" then
                               hs.status = "Healthy"
                               hs.message = condition.message
                               return hs
