@@ -26,6 +26,7 @@ inputs = {
   iac_group_name                       = local.env_vars.iac_group_name
   backup_enabled                       = local.env_vars.enable_object_storage_backend
   backup_bucket_name                   = local.env_vars.object_storage_bucket_name
+  kubernetes_oidc_enabled              = local.env_vars.kubernetes_oidc_enabled
 }
 
 locals {
