@@ -19,5 +19,5 @@ spec:
         apiVersion: rds.aws.upbound.io/v1beta2
         fieldPath: status.atProvider.address
         kind: Instance
-        name: gitlabdb
+        name: ${ARGOCD_ENV_gitlab_dbdeploy_name_prefix}
       toFieldPath: spec.externalName
