@@ -36,7 +36,7 @@ git clone ${BASE_GITLAB_URL}/${ENV_NAME} $TMP_REPO_DIR
 cd $TMP_REPO_DIR
 cp -r $TMP_TEMPLATE_DIR/${ENV_NAME}/. .
 
-# populating the cluster-config in custom-config 
+# populating the cluster-config in custom-config
 if  [ !  -d custom-config ]; then
    mkdir -p custom-config
    echo "env: ${env_name}
@@ -46,10 +46,6 @@ vault_oidc_domain: \"int.${env_name}\"
 managed_vpc_cidr: changeme_cidr
 managed_svc_enabled: false
 k8s_cluster_type: microk8s" > custom-config/cluster-config.yaml
-   echo "pm4mls:
-   test-fxp:
-     pm4ml_enabled: false
-"> custom-config/pm4ml-vars.yaml
 fi
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
