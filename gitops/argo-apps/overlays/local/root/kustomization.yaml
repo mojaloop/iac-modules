@@ -50,3 +50,5 @@ resources:
   - ../../../base/monitoring-pre.yaml
   - ../../../base/monitoring.yaml
   - ../../../base/monitoring-post-config.yaml
+  # k8s
+  - ../../../base/k8s-post-config.yaml
