@@ -112,12 +112,12 @@ CONFIG:
 
   ## TESTS
   testCasesZipUrl: &TEST_CASES_ZIP_URL https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-  test_cases_path_setup: &TEST_CASES_PATH_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning
+  test_cases_path_setup: &TEST_CASES_PATH_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_golden_path
   test_cases_path_gp: &TEST_CASES_PATH_GP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/golden_path
   test_cases_path_bulk: &TEST_CASES_PATH_BULK testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/other_tests/bulk_transfers
-  test_cases_path_tp_setup: &TEST_CASES_PATH_TP_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning_thirdparty
+  test_cases_path_tp_setup: &TEST_CASES_PATH_TP_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_thirdparty
   test_cases_path_tp_val: &TEST_CASES_PATH_TP_VAL testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/thirdparty
-  test_cases_path_sdk_bulk_setup: &TEST_CASES_PATH_SDK_BULK_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning_sdkbulk
+  test_cases_path_sdk_bulk_setup: &TEST_CASES_PATH_SDK_BULK_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_sdk_bulk
   test_cases_path_sdk_bulk_val: &TEST_CASES_PATH_SDK_BULK_VAL testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/bulk/basic
   test_cases_path_sdk_r2p_val: &TEST_CASES_PATH_SDK_R2P_VAL testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/request-to-pay/basic
   test_cases_path_cleanup: &TEST_CASES_PATH_CLEANUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/cleanup
@@ -1114,59 +1114,7 @@ ml-testing-toolkit:
           currency2: ${ttk_test_currency2}
           cgscurrency: ${ttk_test_currency3}
           SIMPLE_ROUTING_MODE_ENABLED: ${quoting_service_simple_routing_mode_enabled}
-          ON_US_TRANSFERS_ENABLED: false
-          ENABLE_WS_ASSERTIONS: true
           NET_DEBIT_CAP: "10000000"
-          accept: application/vnd.interoperability.parties+json;version=1.1
-          acceptParties: application/vnd.interoperability.parties+json;version=1.1
-          acceptPartiesOld: application/vnd.interoperability.parties+json;version=1.0
-          acceptPartiesNotSupported: application/vnd.interoperability.parties+json;version=2.0
-          acceptParticipants: application/vnd.interoperability.participants+json;version=1.1
-          acceptParticipantsOld: application/vnd.interoperability.participants+json;version=1.0
-          acceptParticipantsNotSupported: application/vnd.interoperability.participants+json;version=2.0
-          acceptQuotes: application/vnd.interoperability.quotes+json;version=1.1
-          acceptQuotesOld: application/vnd.interoperability.quotes+json;version=1.0
-          acceptQuotesNotSupported: application/vnd.interoperability.quotes+json;version=2.0
-          acceptTransfers: application/vnd.interoperability.transfers+json;version=1.1
-          acceptTransfersOld: application/vnd.interoperability.transfers+json;version=1.0
-          acceptTransfersNotSupported: application/vnd.interoperability.transfers+json;version=2.0
-          acceptTransactionRequests: application/vnd.interoperability.transactionRequests+json;version=1.1
-          acceptTransactionRequestsOld: application/vnd.interoperability.transactionRequests+json;version=1.0
-          acceptTransactionRequestsNotSupported: application/vnd.interoperability.transactionRequests+json;version=2.0
-          acceptAuthorizations: application/vnd.interoperability.authorizations+json;version=1.1
-          acceptAuthorizationsOld: application/vnd.interoperability.authorizations+json;version=1.0
-          acceptAuthorizationsNotSupported: application/vnd.interoperability.authorizations+json;version=2.0
-          acceptBulkTransfers: application/vnd.interoperability.bulkTransfers+json;version=1.1
-          acceptBulkTransfersOld: application/vnd.interoperability.bulkTransfers+json;version=1.0
-          acceptBulkTransfersNotSupported: application/vnd.interoperability.bulkTransfers+json;version=2.0
-          contentType: application/vnd.interoperability.parties+json;version=1.1
-          contentTypeTransfers: application/vnd.interoperability.transfers+json;version=1.1
-          contentTypeTransfersOld: application/vnd.interoperability.transfers+json;version=1.0
-          contentTypeTransfersNotSupported: application/vnd.interoperability.transfers+json;version=2.0
-          contentTypeParties: application/vnd.interoperability.parties+json;version=1.1
-          contentTypePartiesOld: application/vnd.interoperability.parties+json;version=1.0
-          contentTypePartiesNotSupported: application/vnd.interoperability.parties+json;version=2.0
-          contentTypeParticipants: application/vnd.interoperability.participants+json;version=1.1
-          contentTypeParticipantsOld: application/vnd.interoperability.participants+json;version=1.0
-          contentTypeParticipantsNotSupported: application/vnd.interoperability.participants+json;version=2.0
-          contentTypeQuotes: application/vnd.interoperability.quotes+json;version=1.1
-          contentTypeQuotesOld: application/vnd.interoperability.quotes+json;version=1.0
-          contentTypeQuotesNotSupported: application/vnd.interoperability.quotes+json;version=2.0
-          contentTypeTransactionRequests: application/vnd.interoperability.transactionRequests+json;version=1.1
-          contentTypeTransactionRequestsOld: application/vnd.interoperability.transactionRequests+json;version=1.0
-          contentTypeTransactionRequestsNotSupported: application/vnd.interoperability.transactionRequests+json;version=2.0
-          contentTypeAuthorizations: application/vnd.interoperability.authorizations+json;version=1.1
-          contentTypeAuthorizationsOld: application/vnd.interoperability.authorizations+json;version=1.0
-          contentTypeAuthorizationsNotSupported: application/vnd.interoperability.authorizations+json;version=2.0
-          contentBulkTransfers: application/vnd.interoperability.bulkTransfers+json;version=1.1
-          contentBulkTransfersOld: application/vnd.interoperability.bulkTransfers+json;version=1.0
-          contentBulkTransfersNotSupported: application/vnd.interoperability.bulkTransfers+json;version=2.0
-          expectedPartiesVersion: "1.1"
-          expectedParticipantsVersion: "1.1"
-          expectedQuotesVersion: "1.1"
-          expectedTransfersVersion: "1.1"
-          expectedAuthorizationsVersion: "1.1"
-          expectedTransactionRequestsVersion: "1.1"
   ml-testing-toolkit-frontend:
     tolerations: *MOJALOOP_TOLERATIONS
     ingress:

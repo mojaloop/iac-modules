@@ -44,6 +44,7 @@ experience-api:
     # this should be set to the external URL of the UI
     authLoggedInLandingUrl: "https://${portal_fqdn}/"
     authSessionSecure: false
+    cacheUrl: redis://${redis_host}:${redis_port}
 
 mojaloop-core-connector:
   ${indent(2, yamlencode(core_connector_config))}
@@ -262,20 +263,20 @@ ttk:
           "FROM_MIDDLE_NAME": "Middlename-Test",
           "FROM_LAST_NAME": "Lastname-Test",
           "FROM_DOB": "1984-01-01",
-          "FROM_FSP_ID": "testpayer",
+          "FROM_FSP_ID": "test-zmw-dfsp",
           "HOME_TRANSACTION_ID": "123ABC",
           "NOTE": "test",
           "P2P_AMOUNT": "10",
-          "P2P_CURRENCY": "EUR",
+          "P2P_CURRENCY": "ZMW",
           "P2P_SOURCE_PARTY_ID_1": "16665551001",
           "P2P_DESTINATION_PARTY_ID_1": "16665551002",
           "FX_SOURCE_PARTY_ID_1": "16665551001",
           "FX_DESTINATION_PARTY_ID_1": "16665551002",
           "FXP1_ID": "testfxp",
-          "FX_PAYERDFSP_ID": "testpayer",
-          "FX_PAYEEDFSP_ID": "testpayee",
-          "FX_SOURCE_CURRENCY": "EUR",
-          "FX_TARGET_CURRENCY": "XXX",
+          "FX_PAYERDFSP_ID": "test-zmw-dfsp",
+          "FX_PAYEEDFSP_ID": "test-mwk-dfsp",
+          "FX_SOURCE_CURRENCY": "ZMW",
+          "FX_TARGET_CURRENCY": "MWK",
           "FX_SOURCE_AMOUNT": "10"
         }
       }
