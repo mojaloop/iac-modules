@@ -214,7 +214,8 @@ variable "netbird_setup_key" {
 }
 
 variable "identity_provider_config_name" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "kubernetes_oidc_enabled" {
