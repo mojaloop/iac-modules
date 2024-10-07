@@ -220,6 +220,7 @@ variable "identity_provider_config_name" {
 variable "kubernetes_oidc_enabled" {
   description = "Enable or disable OIDC configuration for the cluster."
   type        = bool
+  default     = false
 }
 
 variable "kubernetes_oidc_issuer" {
