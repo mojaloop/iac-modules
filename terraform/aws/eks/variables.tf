@@ -199,15 +199,18 @@ variable "node_pools" {
 }
 
 variable "netbird_version" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "netbird_api_host" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "netbird_setup_key" {
-  type = string
+  type     = string
+  default  = ""
 }
 
 variable "identity_provider_config_name" {
@@ -220,31 +223,38 @@ variable "kubernetes_oidc_enabled" {
 }
 
 variable "kubernetes_oidc_issuer" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "kubernetes_oidc_client_id" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "kubernetes_oidc_groups_claim" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "kubernetes_oidc_groups_prefix" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "kubernetes_oidc_username_claim" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "kubernetes_oidc_username_prefix" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "cc_cidr_block" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "netbird_ip_range" {
