@@ -44,7 +44,7 @@ spec:
   sources:
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
-      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_cloud_provider}/dns-utils
+      path: gitops/applications/overlays/${ARGOCD_ENV_cloud_provider}/dns-utils
       plugin:
         name: envsubst
         env:

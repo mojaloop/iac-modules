@@ -17,8 +17,6 @@ resources:
   - ../../../base/consul.yaml
   - ../../../base/percona-operator.yaml
   - ../../../base/redis-operator.yaml
-  # xplane database config
-  - ../../../base/xplane-provider-config.yaml
   # vault
   - ../../../base/vault.yaml
   - ../../../base/vault-post-config.yaml
@@ -26,10 +24,6 @@ resources:
   - ../../../base/dns-utils.yaml
   - ../../../base/dns-utils-post-config.yaml
   - ../../../base/dns-utils-pre.yaml
-  # maintenance (velero,etc)
-  - ../../../base/maintenance.yaml
-  - ../../../base/maintenance-post-config.yaml
-  - ../../../base/maintenance-pre.yaml
   # security
   - ../../../base/zitadel-pre.yaml
   - ../../../base/zitadel-helm.yaml
@@ -43,8 +37,8 @@ resources:
   - ../../../base/nexus-post-config.yaml
   # gitlab
   - ../../../base/gitlab-pre.yaml
-  #- ../../../base/gitlab.yaml
-  #- ../../../base/gitlab-post-config.yaml
+  - ../../../base/gitlab.yaml
+  - ../../../base/gitlab-post-config.yaml
   # deploy-env
   - ../../../base/deploy-env.yaml
   # monitoring

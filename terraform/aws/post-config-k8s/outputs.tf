@@ -46,7 +46,3 @@ output "post_config_properties_key_map" {
 output "ext_dns_cloud_policy" {
   value = aws_iam_policy.route53_external_dns.arn
 }
-
-output "object_storage_cloud_policy" {
-  value = aws_iam_policy.object_storage_policy.arn
-}

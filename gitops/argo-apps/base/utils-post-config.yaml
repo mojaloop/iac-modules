@@ -47,12 +47,3 @@ spec:
 
         - name: "crossplane_namespace"
           value: "${ARGOCD_ENV_utils_crossplane_namespace}"
-
-        - name: "ec2_crossplane_module_version"
-          value: "${ARGOCD_ENV_utils_post_config_ec2_crossplane_module_version}"
-
-        - name: "rds_crossplane_module_version"
-          value: "${ARGOCD_ENV_utils_post_config_rds_crossplane_module_version}"
-
-        - name: "crossplane_func_pat_version"
-          value: "${ARGOCD_ENV_utils_post_config_crossplane_func_pat_version}"

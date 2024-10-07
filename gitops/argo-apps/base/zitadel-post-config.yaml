@@ -57,6 +57,15 @@ spec:
         - name: "zitadel_grant_prefix"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
 
+        - name: "cockroachdb_helm_version"
+          value: "${ARGOCD_ENV_security_cockroachdb_helm_version}"
+
+        - name: "cockroachdb_pvc_size"
+          value: "${ARGOCD_ENV_security_cockroachdb_pvc_size}"
+
+        - name: "cockroachdb_release_name"
+          value: "${ARGOCD_ENV_security_cockroachdb_app_name}"
+
         - name: "zitadel_istio_gateway_namespace"
           value: "${ARGOCD_ENV_security_zitadel_istio_gateway_namespace}"
 

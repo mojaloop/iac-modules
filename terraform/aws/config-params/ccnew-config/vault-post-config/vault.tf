@@ -1,24 +1,5 @@
-resource "vault_aws_secret_backend" "aws_object_storage" {
-  count                     = var.enable_object_storage_backend ? 1 : 0
-  path                      = var.object_storage_backend_path
-  access_key                = data.vault_generic_secret.credentials.data[var.access_key_name]
-  secret_key                = data.vault_generic_secret.credentials.data[var.secret_key_name]
-  region                    = var.region
-  default_lease_ttl_seconds = var.default_lease_ttl_seconds
-}
-
-resource "vault_aws_secret_backend_role" "object_storage" {
-  count           = var.enable_object_storage_backend ? 1 : 0
-  backend         = vault_aws_secret_backend.aws_object_storage[0].path
-  name            = var.object_storage_access_role
-  credential_type = "iam_user"
-  policy_arns     = [var.object_storage_cloud_policy]
-}
-
-
-resource "vault_aws_secret_backend" "aws_dns" {
-  count                     = var.enable_dns_backend ? 1 : 0
-  path                      = var.dns_backend_path
+resource "vault_aws_secret_backend" "aws" {
+  path                      = var.backend_path
   access_key                = data.vault_generic_secret.credentials.data[var.access_key_name]
   secret_key                = data.vault_generic_secret.credentials.data[var.secret_key_name]
   region                    = var.region
@@ -26,12 +7,12 @@ resource "vault_aws_secret_backend" "aws_dns" {
 }
 
 resource "vault_aws_secret_backend_role" "dns_access" {
-  count           = var.enable_dns_backend ? 1 : 0
-  backend         = vault_aws_secret_backend.aws_dns[0].path
+  backend         = vault_aws_secret_backend.aws.path
   name            = var.dns_access_role
   credential_type = "iam_user"
   policy_arns     = [var.ext_dns_cloud_policy]
 }
+
 
 data "vault_generic_secret" "credentials" {
   path = "${var.kv_path}/${var.credential_path}"

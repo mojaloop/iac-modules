@@ -102,7 +102,7 @@ module "eks" {
       client_id                     = var.kubernetes_oidc_client_id
       groups_claim                  = var.kubernetes_oidc_groups_claim
       #groups_prefix                 = var.kubernetes_oidc_groups_prefix
-      username_claim                = var.kubernetes_oidc_username_claim
+      username_claim = var.kubernetes_oidc_username_claim
       #username_prefix               = var.kubernetes_oidc_username_prefix
     }
   }

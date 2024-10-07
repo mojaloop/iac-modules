@@ -1,7 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  - ../../../base/maintenance-pre.yaml
-  - ../../../base/maintenance.yaml
-  - ../../../base/maintenance-post-config.yaml

@@ -112,12 +112,12 @@ CONFIG:
 
   ## TESTS
   testCasesZipUrl: &TEST_CASES_ZIP_URL https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-  test_cases_path_setup: &TEST_CASES_PATH_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_golden_path
+  test_cases_path_setup: &TEST_CASES_PATH_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning
   test_cases_path_gp: &TEST_CASES_PATH_GP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/golden_path
   test_cases_path_bulk: &TEST_CASES_PATH_BULK testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/other_tests/bulk_transfers
-  test_cases_path_tp_setup: &TEST_CASES_PATH_TP_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_thirdparty
+  test_cases_path_tp_setup: &TEST_CASES_PATH_TP_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning_thirdparty
   test_cases_path_tp_val: &TEST_CASES_PATH_TP_VAL testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/thirdparty
-  test_cases_path_sdk_bulk_setup: &TEST_CASES_PATH_SDK_BULK_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_sdk_bulk
+  test_cases_path_sdk_bulk_setup: &TEST_CASES_PATH_SDK_BULK_SETUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning_sdkbulk
   test_cases_path_sdk_bulk_val: &TEST_CASES_PATH_SDK_BULK_VAL testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/bulk/basic
   test_cases_path_sdk_r2p_val: &TEST_CASES_PATH_SDK_R2P_VAL testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/request-to-pay/basic
   test_cases_path_cleanup: &TEST_CASES_PATH_CLEANUP testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/cleanup

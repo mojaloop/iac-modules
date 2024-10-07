@@ -39,18 +39,6 @@ argocd_override:
           vault_crossplane_modules_version: "${vault_crossplane_modules_version}"
           terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
           ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
-          rds_crossplane_module_version:  "${rds_crossplane_module_version}"
-          ec2_crossplane_module_version:  "${ec2_crossplane_module_version}"
-          crossplane_func_pat_version: "${crossplane_func_pat_version}"
-    maintenance:
-      application_gitrepo_tag: "${iac_terraform_modules_tag}"
-      sub_apps:
-        velero:
-          app_name: "velero"
-          helm_version: "${velero_helm_version}"
-          object_storage_cloud_policy: "${object_storage_cloud_policy}"
-          enable_object_storage_backend: "true"
-          object_storage_region: "${cloud_region}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -64,8 +52,6 @@ argocd_override:
           ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
           letsencrypt_email: "${letsencrypt_email}"
           dns_cloud_api_region: "${cloud_region}"
-    xplane_provider_config:
-      application_gitrepo_tag: "${iac_terraform_modules_tag}"
     vault:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -130,38 +116,11 @@ argocd_override:
           postgres_replicas: "${gitlab_postgres_replicas}"
           postgres_proxy_replicas: "${gitlab_postgres_proxy_replicas}"
           postgres_storage_size: "${gitlab_postgres_storage_size}"
-          percona_postgres_storage_size: "${format("%sGi",trim(gitlab_postgres_storage_size,"'"))}"
           pgdb_helm_version: "${gitlab_pgdb_helm_version}"
           praefect_postgres_replicas: "${gitlab_praefect_postgres_replicas}"
           praefect_postgres_proxy_replicas: "${gitlab_praefect_postgres_proxy_replicas}"
           praefect_postgres_storage_size: "${gitlab_praefect_postgres_storage_size}"
-          percona_praefect_postgres_storage_size: "${format("%sGi",trim(gitlab_praefect_postgres_storage_size,"'"))}"
           praefect_pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
-          gitlab_artifacts_max_objects: "${gitlab_artifacts_max_objects}"
-          gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
-          git_lfs_max_objects: "${git_lfs_max_objects}"
-          git_lfs_storage_size: "${git_lfs_storage_size}"
-          gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
-          gitlab_uploads_max_objects: "${gitlab_uploads_max_objects}"
-          gitlab_uploads_storage_size: "${gitlab_uploads_storage_size}"
-          gitlab_packages_max_objects: "${gitlab_packages_max_objects}"
-          gitlab_packages_storage_size: "${gitlab_packages_storage_size}"
-          gitlab_mrdiffs_max_objects: "${gitlab_mrdiffs_max_objects}"
-          gitlab_mrdiffs_storage_size: "${gitlab_mrdiffs_storage_size}"
-          gitlab_tfstate_max_objects: "${gitlab_tfstate_max_objects}"
-          gitlab_tfstate_storage_size: "${gitlab_tfstate_storage_size}"
-          gitlab_cisecurefiles_max_objects: "${gitlab_cisecurefiles_max_objects}"
-          gitlab_cisecurefiles_storage_size: "${gitlab_cisecurefiles_storage_size}"
-          gitlab_dep_proxy_max_objects: "${gitlab_dep_proxy_max_objects}"
-          gitlab_dep_proxy_storage_size: "${gitlab_dep_proxy_storage_size}"
-          gitlab_registry_max_objects: "${gitlab_registry_max_objects}"
-          gitlab_registry_storage_size: "${gitlab_registry_storage_size}"
-          gitlab_runner_cache_max_objects: "${gitlab_runner_cache_max_objects}"
-          gitlab_runner_cache_storage_size: "${gitlab_runner_cache_storage_size}"
-          rdbms_provider: "${gitlab_postgres_rdbms_provider}"
-          rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
-          db_provider_cloud_region: "${cloud_region}"
-          rdbms_vpc_id: "${rdbms_vpc_id}"
 
           
     deploy_env:

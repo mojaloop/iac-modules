@@ -107,24 +107,3 @@ spec:
   serviceAccountTemplate:
     metadata:
       name: crossplane-terraform-sa
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-ec2
-spec:
-  package: xpkg.upbound.io/upbound/provider-aws-ec2:v${ARGOCD_ENV_ec2_crossplane_module_version}
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-rds
-spec:
-  package: xpkg.upbound.io/upbound/provider-aws-rds:v${ARGOCD_ENV_rds_crossplane_module_version}
----
-apiVersion: pkg.crossplane.io/v1beta1
-kind: Function
-metadata:
-  name: function-patch-and-transform
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/function-patch-and-transform:v${ARGOCD_ENV_crossplane_func_pat_version}
