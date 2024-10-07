@@ -68,6 +68,10 @@ argocd_override:
           dns_cloud_api_region: "${cloud_region}"
     xplane_provider_config:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      
+    k8s_config:
+      k8s_cloud_region: "${cloud_region}"
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
     vault:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -200,6 +204,3 @@ argocd_override:
           image_version: "${grafana_image_version}"
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
-    k8s_config:
-      k8s_cloud_region: "${cloud_region}"
-      application_gitrepo_tag: "${iac_terraform_modules_tag}"
