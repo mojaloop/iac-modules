@@ -46,11 +46,9 @@ output "target_group_internal_health_port" {
 output "target_group_external_health_port" {
   value = var.target_group_external_health_port
 }
-
 output "target_group_vpn_port" {
   value = var.wireguard_port
 }
-
 output "private_network_cidr" {
   value = var.vpc_cidr
 }
@@ -66,7 +64,6 @@ output "ext_dns_cloud_policy" {
 output "object_storage_cloud_policy" {
   value = module.post_config.object_storage_cloud_policy
 }
-
 output "object_storage_bucket_name" {
   value = module.post_config.backup_bucket_name
 }
@@ -84,19 +81,15 @@ output "bastion_private_ip" {
 output "bastion_private_ips" {
   value = module.base_infra.bastion_private_ips
 }
-
 output "bastion_public_ip" {
   value = module.base_infra.bastion_public_ip
 }
-
 output "bastion_public_ips" {
   value = module.base_infra.bastion_public_ips
 }
-
 output "bastion_hosts" {
   value = zipmap([for i in range(length(module.base_infra.bastion_public_ips)) : "bastion${i + 1}"], module.base_infra.bastion_public_ips)
 }
-
 output "bastion_os_username" {
   value = var.os_user_name
 }
@@ -220,8 +213,6 @@ output "private_subnets" {
   # value = "[${join(",", [for s in module.base_infra.private_subnets : format("'%s'", s)])}]"
   value = module.base_infra.private_subnets
 }
-
-
 output "vpc_id" {
   value = module.base_infra.vpc_id
 }

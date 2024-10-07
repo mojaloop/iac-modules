@@ -263,6 +263,39 @@ variable "netbird_ip_range" {
   type    = string
   default = "100.64.0.0/10"
 }
+
+variable "create_ci_iam_user" {
+  type        = bool
+  description = "create iam user for ci"
+  default     = false
+}
+variable "create_ext_dns_user" {
+  type        = bool
+  description = "create iam user for dns"
+  default     = true
+}
+variable "iac_group_name" {
+  type        = string
+  description = "iac group name"
+  default     = "admin"
+}
+
+variable "create_haproxy_dns_record" {
+  type        = bool
+  description = "whether to create public dns record for private ip of bastion for haproxy"
+  default     = true
+}
+
+variable "backup_bucket_name" {
+  type        = string
+  description = "backup"
+}
+
+variable "backup_enabled" {
+  type        = bool
+  default     = false
+  description = "enable backup bucket and policies"
+}
 ###
 # Local copies of variables to allow for parsing
 ###

@@ -157,6 +157,15 @@ resource "aws_security_group_rule" "self_https_internal" {
   cidr_blocks       = [var.vpc_cidr]
   security_group_id = aws_security_group.self.id
 }
+# change to customize db port ?
+resource "aws_security_group_rule" "self_dbaccess_internal" {
+  type              = "ingress"
+  from_port         = 5432
+  to_port           = 5432
+  protocol          = "TCP"
+  cidr_blocks       = [var.vpc_cidr]
+  security_group_id = aws_security_group.self.id
+}
 
 resource "aws_security_group_rule" "self_http_internal" {
   type              = "ingress"
