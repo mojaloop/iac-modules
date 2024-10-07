@@ -36,14 +36,15 @@ git clone ${BASE_GITLAB_URL}/${ENV_NAME} $TMP_REPO_DIR
 cd $TMP_REPO_DIR
 cp -r $TMP_TEMPLATE_DIR/${ENV_NAME}/. .
 
-# populating the cluster-config in custom-config
 if  [ !  -d custom-config ]; then
    mkdir -p custom-config
    echo "env: ${env_name}
-argocd_oidc_domain: \"int.${env_name}\"
-grafana_oidc_domain: \"int.${env_name}\"
-vault_oidc_domain: \"int.${env_name}\"
+argocd_oidc_domain: \"int.${env_name//-/}\"
+grafana_oidc_domain: \"int.${env_name//-/}\"
+vault_oidc_domain: \"int.${env_name//-/}\"
+vpc_cidr: changeme_cidr
 managed_vpc_cidr: changeme_cidr
+domain: changeme_domain
 managed_svc_enabled: false
 k8s_cluster_type: microk8s" > custom-config/cluster-config.yaml
 fi
