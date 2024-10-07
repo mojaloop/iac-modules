@@ -126,7 +126,7 @@ spec:
           jwt_profile_file = "$${path.module}/zitadel-admin-sa.json"
       }
       provider "aws" {
-        region            = "${ARGOCD_ENV_aws_region}"
+        region            = "${ARGOCD_ENV_cloud_region}"
         shared_credentials_file = "aws-creds.ini"
       }
       provider "kubernetes" {}
