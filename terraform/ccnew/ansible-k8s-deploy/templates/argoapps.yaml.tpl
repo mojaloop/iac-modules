@@ -202,3 +202,4 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
     k8s_config:
       k8s_cloud_region: "${cloud_region}"
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
