@@ -177,34 +177,34 @@ locals {
       bootstrap_extra_args     = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
       post_bootstrap_user_data = "${data.template_file.post_bootstrap_user_data.rendered}"
       ebs_optimized            = true
-      block_device_mappings = {
-        xvda = {
-          device_name = "/dev/xvda"
-          ebs = {
-            volume_size           = node_pool.storage_gbs
-            volume_type           = "gp3"
-            iops                  = 3000
-            throughput            = 150
-            encrypted             = true
-            delete_on_termination = true
+      block_device_mappings = merge(
+        {
+          xvda = {
+            device_name = "/dev/xvda"
+            ebs = {
+              volume_size           = node_pool.storage_gbs
+              volume_type           = "gp3"
+              iops                  = 3000
+              throughput            = 150
+              encrypted             = true
+              delete_on_termination = true
+            }
           }
-        }
-      }
-      dynamic "block_device_mappings" {
-        for_each = try(node_pool.extra_vol, false) ? [node_pool.extra_vol_name] : []
-
-        content {
-          device_name = node_pool.extra_vol_name
-
-          ebs {
-            delete_on_termination = true
-            encrypted             = true
-            volume_size           = node_pool.storage_gbs
-            volume_type           = "gp3"
+        },
+        node_pool.extra_vol ? {
+          xvdb = {
+            device_name = "/dev/xvdb"
+            ebs = {
+              volume_size           = node_pool.storage_gbs
+              volume_type           = "gp3"
+              iops                  = 3000
+              throughput            = 150
+              encrypted             = true
+              delete_on_termination = true
+            }
           }
-        }
-      }
-      }
+        } : {}
+      )
 
       network_interfaces = [
         {
