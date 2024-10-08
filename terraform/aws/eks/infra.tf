@@ -188,8 +188,18 @@ locals {
             encrypted             = true
             delete_on_termination = true
           }
+        },
+        xvdb = {
+          device_name = "/dev/xvdb"
+          ebs = {
+            volume_size           = node_pool.storage_gbs
+            volume_type           = "gp3"
+            iops                  = 3000
+            throughput            = 150
+            encrypted             = true
+            delete_on_termination = true
+          }
         }
-
       }
 
       network_interfaces = [
