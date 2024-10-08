@@ -124,6 +124,6 @@ spec:
       }
       provider "aws" {
         region            = "${ARGOCD_ENV_cloud_region}"
-        shared_credentials_file = "aws-creds.ini"
+        shared_credentials_files = ["${path.module}/aws-creds.ini"]
       }
       provider "kubernetes" {}
