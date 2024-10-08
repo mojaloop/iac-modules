@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_k8s_config_application_gitrepo_tag}
-    path: gitops/applications/overlays/managed_k8s/eks
+    path: gitops/applications/overlays/k8s_provider/${ARGOCD_ENV_k8s_config_k8s_cluster_type}/
     plugin:
       name: envsubst
       env:

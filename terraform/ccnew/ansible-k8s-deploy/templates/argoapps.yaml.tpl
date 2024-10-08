@@ -73,6 +73,7 @@ argocd_override:
     k8s_config:
       k8s_cloud_region: "${cloud_region}"
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      k8s_cluster_type: "${k8s_cluster_type}"
     vault:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
