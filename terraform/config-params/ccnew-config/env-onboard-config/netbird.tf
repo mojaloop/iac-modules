@@ -44,6 +44,11 @@ resource "netbird_group" "env_backtunnel" {
     create_before_destroy = true
   }
 }
+
+resource "netbird_group" "env_backtunnel" {
+  count = var.k8s_cluster_type == "eks" ? 1 : 0
+  name  = "${var.env_name}-backtunnel"
+}
 #route to allow private traffic into en k8s network from cc user group and the env_users group, env gw is the gateway peer
 resource "netbird_route" "env_k8s" {
   description = "${var.env_name}-k8s"
