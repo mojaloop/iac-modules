@@ -102,6 +102,7 @@ inputs = {
     vpc_cidr                          = get_env("vpc_cidr")
     object_storage_cloud_policy       = dependency.k8s_deploy.outputs.object_storage_cloud_policy
     object_storage_bucket_name        = dependency.k8s_deploy.outputs.object_storage_bucket_name
+    k8s_cluster_type                  = get_env("k8s_cluster_type")
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
