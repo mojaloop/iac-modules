@@ -188,18 +188,21 @@ locals {
             encrypted             = true
             delete_on_termination = true
           }
-        },
-        xvdb = {
-          device_name = "/dev/xvdb"
-          ebs = {
+        }
+      dynamic "block_device_mappings" {
+        for_each = try(node_pool.extra_vol, false) ? [node_pool.extra_vol_name] : []
+
+        content {
+          device_name = node_pool.extra_vol_name
+
+          ebs {
+            delete_on_termination = true
+            encrypted             = true
             volume_size           = node_pool.storage_gbs
             volume_type           = "gp3"
-            iops                  = 3000
-            throughput            = 150
-            encrypted             = true
-            delete_on_termination = true
           }
         }
+      }
       }
 
       network_interfaces = [
