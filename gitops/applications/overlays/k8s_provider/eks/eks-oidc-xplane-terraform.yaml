@@ -117,7 +117,7 @@ spec:
           }
           aws = {
             source = "hashicorp/aws"
-            version = "${ARGOCD_ENV_aws_tf_provider_version}"
+            version = "5.70.0"
           }
         }
     }
