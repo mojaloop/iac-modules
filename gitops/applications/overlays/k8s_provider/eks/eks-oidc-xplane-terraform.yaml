@@ -34,9 +34,6 @@ spec:
       - key: cluster_name
         value: ${ARGOCD_ENV_cluster_name}
 
-      - key: cloud_region
-        value: ${ARGOCD_ENV_cloud_region}
-
       - key: identity_provider_config_name
         value: "Zitadel"
 
