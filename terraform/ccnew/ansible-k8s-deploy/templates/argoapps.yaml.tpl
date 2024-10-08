@@ -9,6 +9,11 @@ argocd_override:
           helm_version: "${argocd_helm_version}"
         rook_ceph:
           helm_version: "${rook_ceph_helm_version}"
+          %{ if k8s_cluster_type == "microk8s" ~}
+          rook_csi_kubelet_dir_path: "/var/snap/microk8s/common/var/lib/kubelet"
+          %{ else ~}
+          rook_csi_kubelet_dir_path: "/var/lib/kubelet"
+          %{ endif ~}
         reflector:
           helm_version: "${reflector_helm_version}"
         reloader:
@@ -68,7 +73,7 @@ argocd_override:
           dns_cloud_api_region: "${cloud_region}"
     xplane_provider_config:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
-      
+
     k8s_config:
       k8s_cloud_region: "${cloud_region}"
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
