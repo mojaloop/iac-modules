@@ -189,6 +189,7 @@ locals {
             delete_on_termination = true
           }
         }
+      }
       dynamic "block_device_mappings" {
         for_each = try(node_pool.extra_vol, false) ? [node_pool.extra_vol_name] : []
 
