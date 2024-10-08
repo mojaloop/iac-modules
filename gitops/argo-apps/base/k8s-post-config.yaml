@@ -71,3 +71,9 @@ spec:
         
         - name: "zitadel_post_config_output_secret"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_post_config_output_secret}"
+
+        - name: "zitadel_tf_provider_version"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
+        
+        - name: "aws_tf_provider_version"
+          value: "${ARGOCD_ENV_k8s_config_aws_tf_provider_version}"
