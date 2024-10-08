@@ -79,7 +79,7 @@ spec:
       source: Secret
       secretRef:
         namespace: ${ARGOCD_ENV_crossplane_namespace}
-        name: aws-creds
+        name: secret-aws-xplane-backend-creds
         key: creds
         
     - filename: zitadel-admin-sa.json
