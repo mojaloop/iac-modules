@@ -34,25 +34,25 @@ spec:
       - key: cluster_name
         value: ${ARGOCD_ENV_cluster_name}
 
-      - name: cloud_region
+      - key: cloud_region
         value: ${ARGOCD_ENV_cloud_region}
 
       - key: identity_provider_config_name
         value: "Zitadel"
 
-      - name: kubernetes_oidc_issuer_url
+      - key: kubernetes_oidc_issuer_url
         value: "https://issurerurl"
 
-      - name: kubernetes_oidc_groups_claim
+      - key: kubernetes_oidc_groups_claim
         value: "groups"
 
-      - name: kubernetes_oidc_groups_prefix
+      - key: kubernetes_oidc_groups_prefix
         value: "oidc:"
 
-      - name: kubernetes_oidc_username_claim
+      - key: kubernetes_oidc_username_claim
         value: "username"
 
-      - name: kubernetes_oidc_username_prefix
+      - key: kubernetes_oidc_username_prefix
         value: "oidc:"
       # - key: oidc_provider_group_claim_prefix
       #   value: ${ARGOCD_ENV_zitadel_grant_prefix}
