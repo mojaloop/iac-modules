@@ -1,6 +1,6 @@
 output "kubernetes_oidc_client_id" {
   value     = zitadel_application_oidc.eks_cli.client_id
-  sensitive = true
+  sensitive = false
 }
 
 output "k8s_project_id" {
