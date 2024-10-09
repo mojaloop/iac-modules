@@ -64,7 +64,7 @@ spec:
           value: "${ARGOCD_ENV_k8s_config_namespace}"
 
         - name: "cluster_name"
-          value: "${ARGOCD_ENV_cluster_name}"
+          value: "${ARGOCD_ENV_k8s_config_eks_name}"
 
         - name: "cloud_region"
           value: "${ARGOCD_ENV_k8s_config_k8s_cloud_region}"
