@@ -45,6 +45,7 @@ variable "kubernetes_oidc_groups_claim" {
 variable "kubernetes_oidc_groups_prefix" {
     type        = string
     description = "A prefix that is prepended to group claims"
+    default     = ""
 }
 
 variable "kubernetes_oidc_username_claim" {
