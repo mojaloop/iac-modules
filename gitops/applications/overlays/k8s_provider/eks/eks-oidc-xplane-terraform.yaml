@@ -20,22 +20,19 @@ spec:
         value: ./.terraformrc
     vars:
       - key: zitadel_fqdn
-        value: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
+        value: "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
 
       - key: admin_rbac_group
-        value: ${ARGOCD_ENV_k8s_admin_rbac_group}
+        value: "${ARGOCD_ENV_k8s_admin_rbac_group}"
 
       - key: user_rbac_group
-        value: ${ARGOCD_ENV_k8s_user_rbac_group}
+        value: "${ARGOCD_ENV_k8s_user_rbac_group}"
 
       - key: cluster_name
-        value: ${ARGOCD_ENV_cluster_name}
+        value: "${ARGOCD_ENV_cluster_name}"
 
       - key: identity_provider_config_name
         value: "Zitadel"
-
-      - key: kubernetes_oidc_issuer_url
-        value: "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
 
       - key: kubernetes_oidc_groups_claim
         #value: ${ARGOCD_ENV_kubernetes_oidc_groups_claim}

@@ -34,11 +34,6 @@ variable "identity_provider_config_name" {
     description = "The name of the identity provider config"
 }
 
-variable "kubernetes_oidc_issuer_url" {
-    type        = string
-    description = "Issuer URL for the OpenID Connect identity provider"
-}
-
 variable "kubernetes_oidc_groups_claim" {
     type        = string
     description = "The JWT claim that the provider will use to return groups"
