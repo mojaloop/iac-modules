@@ -127,7 +127,7 @@ locals {
   CLUSTER_NAME                     = get_env("cluster_name")
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
-  eks_name           = substr("${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",0,16)
+  eks_name           = substr("${replace(replace(get_env("cluster_name"), "-", ""), ".", "-")}-${get_env("domain")}", 0, 16)
 
   bastion_hosts_var_maps = {
     cluster_name                  = get_env("cluster_name")
