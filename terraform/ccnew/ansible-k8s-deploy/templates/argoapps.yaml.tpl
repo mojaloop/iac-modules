@@ -75,6 +75,7 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       terraform_modules_tag: "${iac_terraform_modules_tag}"
       k8s_cluster_type: "${k8s_cluster_type}"
+      eks_name: "${eks_name}"
     vault:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
