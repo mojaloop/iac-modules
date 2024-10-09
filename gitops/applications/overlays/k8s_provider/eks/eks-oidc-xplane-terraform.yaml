@@ -32,7 +32,7 @@ spec:
         value: "${ARGOCD_ENV_cluster_name}"
 
       - key: identity_provider_config_name
-        value: "Zitadel"
+        value: "Zitadel-OIDC"
 
       - key: kubernetes_oidc_groups_claim
         #value: ${ARGOCD_ENV_kubernetes_oidc_groups_claim}
