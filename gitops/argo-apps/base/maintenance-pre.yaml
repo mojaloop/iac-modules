@@ -59,3 +59,6 @@ spec:
 
           - name: "object_storage_access_role"
             value: "${ARGOCD_ENV_maintenance_velero_object_storage_access_role}"
+
+          - name: "object_storage_region"
+            value: "${ARGOCD_ENV_maintenance_velero_object_storage_region}"
