@@ -20,6 +20,8 @@ variable "zitadel_admin_human_user_id" {
 variable "oidc_provider_group_claim_prefix" {
   type        = string
   description = "groups"
+  default     = ""
+
 }
 
 variable "cluster_name" {
