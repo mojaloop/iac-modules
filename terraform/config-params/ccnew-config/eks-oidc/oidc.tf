@@ -45,7 +45,7 @@ resource "zitadel_user_grant" "zitadel_admin_techops_admin" {
 
 resource "kubernetes_cluster_role_binding_v1" "oidc_cluster_admin" {
   metadata {
-    name = "oidc-cluster-admin"
+    name = "eks-oidc-cluster-admin"
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
@@ -60,7 +60,7 @@ resource "kubernetes_cluster_role_binding_v1" "oidc_cluster_admin" {
 
 resource "kubernetes_cluster_role_v1" "k8s_user_rbac" {
   metadata {
-    name = "oidc-user"
+    name = "eks-oidc-user"
   }
   rule {
     api_groups = [""]
@@ -70,7 +70,7 @@ resource "kubernetes_cluster_role_v1" "k8s_user_rbac" {
 }
 resource "kubernetes_cluster_role_binding_v1" "k8s_user_rbac" {
   metadata {
-    name = "oidc-user"
+    name = "eks-oidc-user"
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
