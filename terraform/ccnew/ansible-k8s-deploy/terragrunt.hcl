@@ -114,7 +114,7 @@ inputs = {
   ansible_base_output_dir       = local.ANSIBLE_BASE_OUTPUT_DIR
   ansible_playbook_name         = "cc${local.K8S_CLUSTER_TYPE}_cluster_deploy"
   ansible_destroy_playbook_name = "cc${local.K8S_CLUSTER_TYPE}_cluster_destroy"
-  master_node_supports_traffic = (local.total_agent_count == 0) ? true : false
+  master_node_supports_traffic  = (local.total_agent_count == 0) ? true : false
 }
 
 locals {
@@ -125,9 +125,9 @@ locals {
   ANSIBLE_BASE_OUTPUT_DIR          = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE                 = get_env("k8s_cluster_type")
   CLUSTER_NAME                     = get_env("cluster_name")
-  total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
-  total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
-  eks_name           = substr("${replace(replace(get_env("cluster_name"), "-", ""), ".", "-")}-${get_env("domain")}", 0, 16)
+  total_agent_count                = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
+  total_master_count               = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
+  eks_name                         = substr("${replace(replace(get_env("cluster_name"), "-", ""), ".", "-")}-${get_env("domain")}", 0, 16)
 
   bastion_hosts_var_maps = {
     cluster_name                  = get_env("cluster_name")
