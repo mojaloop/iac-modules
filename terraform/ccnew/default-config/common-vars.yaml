@@ -76,6 +76,7 @@ loki_ingester_max_chunk_age: 2h
 tempo_retention_period: 72h
 # monitoring/mimir
 mimir_max_global_series_per_user: "'5000000'"
+mimir_retention_period: "7d"
 mimir_max_label_names_per_series: "'35'"
 
 gitlab_helm_version: "8.1.2"

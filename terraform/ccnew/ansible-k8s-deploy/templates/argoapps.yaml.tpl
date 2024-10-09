@@ -200,6 +200,7 @@ argocd_override:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
           mimir_max_global_series_per_user: "${mimir_max_global_series_per_user}"
+          mimir_retention_period: "${mimir_retention_period}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
           prometheus_retention_period: "${prometheus_retention_period}"
           alertmanager_enabled: "${alertmanager_enabled}"
