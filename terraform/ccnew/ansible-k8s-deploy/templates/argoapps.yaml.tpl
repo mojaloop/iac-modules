@@ -206,5 +206,7 @@ argocd_override:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"
           image_version: "${grafana_image_version}"
+        mimir:
+          max_label_names_per_series: "${mimir_max_label_names_per_series}"
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
