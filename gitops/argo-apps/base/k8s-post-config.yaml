@@ -77,3 +77,6 @@ spec:
         
         - name: "aws_tf_provider_version"
           value: "${ARGOCD_ENV_k8s_config_aws_tf_provider_version}"
+
+        - name: "kubernetes_oidc_groups_claim"
+          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"

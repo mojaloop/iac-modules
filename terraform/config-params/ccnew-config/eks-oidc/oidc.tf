@@ -85,16 +85,15 @@ resource "kubernetes_cluster_role_binding_v1" "k8s_user_rbac" {
 }
 
 resource "aws_eks_identity_provider_config" "eks_cluster" {
-  #count = var.k8s_cluster_type == "eks" ? 1 : 0
   cluster_name = var.cluster_name
 
   oidc {
     client_id                     = zitadel_application_oidc.eks_cli.client_id
     identity_provider_config_name = var.identity_provider_config_name
     issuer_url                    = var.kubernetes_oidc_issuer_url
-    groups_claim                  = var.kubernetes_oidc_groups_claim
-    groups_prefix                 = var.kubernetes_oidc_groups_prefix
     username_claim                = var.kubernetes_oidc_username_claim
-    username_prefix               = var.kubernetes_oidc_username_prefix
+    groups_claim                  = var.kubernetes_oidc_groups_claim
+    #username_prefix              = var.kubernetes_oidc_username_prefix
+    #groups_prefix                = var.kubernetes_oidc_groups_prefix
   }
 }

@@ -50,9 +50,11 @@ variable "kubernetes_oidc_groups_prefix" {
 variable "kubernetes_oidc_username_claim" {
     type        = string
     description = "The JWT claim that the provider will use as the username"
+    default     = ""
 }
 
 variable "kubernetes_oidc_username_prefix" {
     type        = string
     description = "A prefix that is prepended to username claims"
+    default     = ""
 }
