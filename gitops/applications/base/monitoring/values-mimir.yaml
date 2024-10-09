@@ -19,6 +19,7 @@ mimir:
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}
       ingestion_burst_size: ${ARGOCD_ENV_mimir_ingestion_burst_size}
       compactor_blocks_retention_period: ${ARGOCD_ENV_mimir_retention_period}
+      max_label_names_per_series: ${ARGOCD_ENV_mimir_max_label_names_per_series}
 
 metrics:
   enabled: true

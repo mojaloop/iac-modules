@@ -98,6 +98,8 @@ spec:
           value: "${ARGOCD_ENV_monitoring_monitoring_mimir_ingestion_burst_size}"
         - name: "mimir_retention_period"
           value: "${ARGOCD_ENV_monitoring_monitoring_mimir_retention_period}"
+        - name: "mimir_max_label_names_per_series"
+          value: "${ARGOCD_ENV_monitoring_mimir_max_label_names_per_series}"
 
         - name: "ctrl_cntr_loki_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
