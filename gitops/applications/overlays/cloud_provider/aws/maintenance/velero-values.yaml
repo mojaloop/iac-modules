@@ -38,15 +38,7 @@ configuration:
       # for details of required/optional fields for your provider.
       config:
         region: ${ARGOCD_ENV_object_storage_region}
-initContainers:
-  - name: velero-plugin-for-aws
-    image: velero/velero-plugin-for-aws:${ARGOCD_ENV_velero_plugin_version}
-    imagePullPolicy: IfNotPresent
-    volumeMounts:
-      - mountPath: /target
-        name: plugins
-      - name: cloud-credentials
-        mountPath: /credentials
+
 credentials:
   useSecret: true
-  existingSecret: ${ARGOCD_ENV_object_storage_secret_name}
+  extraSecretRef: ${ARGOCD_ENV_object_storage_secret_name}
