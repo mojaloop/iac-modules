@@ -19,6 +19,9 @@ configuration:
         name: ${ARGOCD_ENV_object_storage_secret_name}
       # Additional provider-specific configuration. See link above
       # for details of required/optional fields for your provider.
+      config:
+        region: ${ARGOCD_ENV_object_storage_region}
+        s3ForcePathStyle: "true"
 
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
@@ -33,7 +36,11 @@ configuration:
       credential:
         key: ${ARGOCD_ENV_object_storage_secret_key}
         name: ${ARGOCD_ENV_object_storage_secret_name}
-
+      # Additional provider-specific configuration. See link above
+      # for details of required/optional fields for your provider.
+      config:
+        region: ${ARGOCD_ENV_object_storage_region}
+        s3ForcePathStyle: "true"
 initContainers:
   - name: velero-plugin-for-aws
     image: velero/velero-plugin-for-aws:${ARGOCD_ENV_velero_plugin_version}
