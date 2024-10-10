@@ -11,7 +11,7 @@ resource "vault_aws_secret_backend_role" "object_storage" {
   count           = local.enable_object_storage_backend ? 1 : 0
   backend         = vault_aws_secret_backend.aws_object_storage[0].path
   name            = var.object_storage_access_role
-  credential_type = "iam_user"
+  credential_type = "session_token"
   policy_arns     = [var.object_storage_cloud_policy]
 }
 
@@ -39,5 +39,5 @@ data "vault_generic_secret" "credentials" {
 
 locals {
   enable_object_storage_backend = tobool(var.enable_object_storage_backend)
-  enable_dns_backend = tobool(var.enable_dns_backend)
+  enable_dns_backend            = tobool(var.enable_dns_backend)
 }
