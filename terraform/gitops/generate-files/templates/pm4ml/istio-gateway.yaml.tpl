@@ -164,12 +164,11 @@ spec:
             host: ${pm4ml_release_name}-experience-api
             port:
               number: 80
-          # TODO - check why these headers are applied twice when the following is uncommented
-          # headers:
-          #   response:
-          #     add:
-          #       access-control-allow-origin: "https://${portal_fqdn}"
-          #       access-control-allow-credentials: "true"
+          headers:
+            response:
+              add:
+                access-control-allow-origin: "https://${portal_fqdn}"
+                access-control-allow-credentials: "true"
 
 ---
 apiVersion: security.istio.io/v1beta1
