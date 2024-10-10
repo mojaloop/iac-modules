@@ -16,6 +16,13 @@ spec:
           namespace: ${ARGOCD_ENV_zitadel_namespace}
           name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
           key: zitadel_admin_human_user_id
+
+      - name: TF_VAR_kubernetes_oidc_client_id
+        secretKeyRef:
+          namespace: ${ARGOCD_ENV_zitadel_namespace}
+          name: ${ARGOCD_ENV_k8s_oidc_post_config_output_secret}
+          key: kubernetes_oidc_client_id
+          
       - name: TF_CLI_CONFIG_FILE
         value: ./.terraformrc
     vars:
