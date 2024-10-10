@@ -67,7 +67,7 @@ spec:
           value: "${ARGOCD_ENV_monitoring_pre_namespace}"
 
         - name: "grafana_mimir_helm_version"
-          value: "${ARGOCD_ENV_monitoring_monitoring_grafana_mimir_helm_version}"
+          value: "${ARGOCD_ENV_monitoring_mimir_helm_version}"
 
         - name: "kube_prometheus_helm_version"
           value: "${ARGOCD_ENV_monitoring_monitoring_kube_prometheus_helm_version}"
