@@ -22,7 +22,7 @@ nexus_helm_version: "4.44.0"
 cert_manager_helm_version: 1.15.0
 consul_helm_version: 1.4.0
 external_dns_helm_version: "7.5.5"
-vault_helm_version: "0.24.1"
+vault_helm_version: "0.28.1"
 vault_config_operator_helm_version: 0.8.28
 istio_helm_version: "1.22.1"
 external_secrets_helm_version: "0.9.20"
