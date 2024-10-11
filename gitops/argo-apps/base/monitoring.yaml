@@ -125,6 +125,11 @@ spec:
 
         - name: "mimir_ingester_storage_size"
           value: "${ARGOCD_ENV_monitoring_mimir_ingester_storage_size}"
+        - name: "mimir_compactor_storage_size"
+          value: "${ARGOCD_ENV_monitoring_mimir_compactor_storage_size}"
+        - name: "mimir_store_gateway_storage_size"
+          value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_storage_size}"
+
 
 
         - name: "cloudwatch_exporter_role_arn"
