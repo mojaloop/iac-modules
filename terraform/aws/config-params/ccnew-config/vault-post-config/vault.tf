@@ -12,7 +12,7 @@ resource "vault_aws_secret_backend_role" "object_storage" {
   backend         = vault_aws_secret_backend.aws_object_storage[0].path
   name            = var.object_storage_access_role
   credential_type = "assumed_role"
-  role_arns       = [var.object_storage_cloud_role_arn]
+  role_arns       = [var.object_storage_cloud_role]
 }
 
 
