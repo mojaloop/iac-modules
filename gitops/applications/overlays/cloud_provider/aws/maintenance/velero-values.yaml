@@ -21,7 +21,9 @@ configuration:
       # for details of required/optional fields for your provider.
       config:
         region: ${ARGOCD_ENV_object_storage_region}
-        s3ForcePathStyle: "true"
+        s3ForcePathStyle: "false"
+        s3Url: "https://s3-${ARGOCD_ENV_object_storage_region}.amazonaws.com/"
+        profile: default
 
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
@@ -40,7 +42,9 @@ configuration:
       # for details of required/optional fields for your provider.
       config:
         region: ${ARGOCD_ENV_object_storage_region}
-        s3ForcePathStyle: "true"
+        s3ForcePathStyle: "false"
+        s3Url: "https://s3-${ARGOCD_ENV_object_storage_region}.amazonaws.com/"
+        profile: default
 initContainers:
   - name: velero-plugin-for-aws
     image: velero/velero-plugin-for-aws:${ARGOCD_ENV_velero_plugin_version}
