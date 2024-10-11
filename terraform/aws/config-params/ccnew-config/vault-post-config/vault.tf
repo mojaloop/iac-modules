@@ -11,8 +11,8 @@ resource "vault_aws_secret_backend_role" "object_storage" {
   count           = local.enable_object_storage_backend ? 1 : 0
   backend         = vault_aws_secret_backend.aws_object_storage[0].path
   name            = var.object_storage_access_role
-  credential_type = "session_token"
-  policy_arns     = [var.object_storage_cloud_policy]
+  credential_type = "assumed_role"
+  role_arns       = [var.object_storage_cloud_role_arn]
 }
 
 

@@ -74,12 +74,11 @@ resource "aws_iam_policy" "route53_external_dns" {
 }
 EOF
 }
-
-resource "aws_iam_policy" "object_storage_policy" {
+resource "aws_iam_role" "object_storage" {
   count = var.backup_enabled ? 1 : 0
   name  = "${var.backup_bucket_name}-object-storage"
 
-  policy = <<EOF
+  assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -121,7 +120,9 @@ resource "aws_iam_policy" "object_storage_policy" {
     ]
 }
 EOF
+  tags               = merge({ Name = var.backup_bucket_name }, var.tags)
 }
+
 resource "aws_s3_bucket" "backup_bucket" {
   count         = var.backup_enabled ? 1 : 0
   bucket        = var.backup_bucket_name

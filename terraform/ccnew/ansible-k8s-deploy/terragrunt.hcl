@@ -23,7 +23,7 @@ dependency "k8s_deploy" {
     private_subdomain           = "null"
     public_subdomain            = "null"
     ext_dns_cloud_policy        = "null"
-    object_storage_cloud_policy = "null"
+    object_storage_cloud_role   = "null"
     object_storage_bucket_name  = "null"
     private_subnets             = "null"
     vpc_id                      = "null"    
@@ -100,7 +100,7 @@ inputs = {
     rdbms_subnet_list                 = dependency.k8s_deploy.outputs.private_subnets
     rdbms_vpc_id                      = dependency.k8s_deploy.outputs.vpc_id
     vpc_cidr                          = get_env("vpc_cidr")
-    object_storage_cloud_policy       = dependency.k8s_deploy.outputs.object_storage_cloud_policy
+    object_storage_cloud_role         = dependency.k8s_deploy.outputs.object_storage_cloud_role
     object_storage_bucket_name        = dependency.k8s_deploy.outputs.object_storage_bucket_name
     rook_csi_kubelet_dir_path         = local.K8S_CLUSTER_TYPE == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
     eks_name                          = local.eks_name
