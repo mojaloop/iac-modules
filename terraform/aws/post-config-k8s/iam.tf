@@ -76,7 +76,8 @@ EOF
 }
 
 resource "aws_iam_policy" "object_storage" {
-  name = "${local.base_domain}-object_storage"
+  count = var.backup_enabled ? 1 : 0
+  name  = "${local.base_domain}-object_storage"
 
   policy = <<EOF
 {
@@ -134,7 +135,7 @@ resource "aws_iam_role" "object_storage" {
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${aws_iam_user.ci_iam_user.arn}/*"
+        "AWS": "${aws_iam_user.ci_iam_user[0].arn}/*"
       },
       "Action": "sts:AssumeRole"
     }
@@ -145,8 +146,9 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "object_storage_assume_role" {
-  role       = aws_iam_role.object_storage
-  policy_arn = aws_iam_policy.object_storage.arn
+  count      = var.backup_enabled ? 1 : 0
+  role       = aws_iam_role.object_storage[0].arn
+  policy_arn = aws_iam_policy.object_storage[0].arn
 }
 
 resource "aws_s3_bucket" "backup_bucket" {
