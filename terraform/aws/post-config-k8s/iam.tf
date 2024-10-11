@@ -135,7 +135,7 @@ resource "aws_iam_role" "object_storage" {
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${aws_iam_user.ci_iam_user[0].arn}/*"
+        "AWS": "${aws_iam_user.ci_iam_user[0].arn}"
       },
       "Action": "sts:AssumeRole"
     }
