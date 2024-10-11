@@ -110,22 +110,10 @@ module "eks" {
       #username_prefix              = var.kubernetes_oidc_username_prefix
     }
   } : {}
-  # oidc 
-  # cluster_identity_providers = {
-  #   oidc = {
-  #     identity_provider_config_name = var.identity_provider_config_name
-  #     issuer_url                    = var.kubernetes_oidc_issuer
-  #     client_id                     = var.kubernetes_oidc_client_id
-  #     groups_claim                  = var.kubernetes_oidc_groups_claim
-  #     #groups_prefix                 = var.kubernetes_oidc_groups_prefix
-  #     username_claim                = var.kubernetes_oidc_username_claim
-  #     #username_prefix               = var.kubernetes_oidc_username_prefix
-  #   }
-  # }
+
   self_managed_node_groups = local.self_managed_node_groups
   tags                     = var.tags
 }
-
 
 locals {
   eks_name                = substr(replace(local.base_domain, ".", "-"), 0, 16)
