@@ -10,6 +10,7 @@ configuration:
       provider: velero.io/aws
       # bucket is the name of the bucket to store backups in. Required.
       bucket: ${ARGOCD_ENV_object_storage_bucket}
+      prefix: "backups"
       # default indicates this location is the default backup storage location. Optional.
       default: true
       # validationFrequency defines how frequently Velero should validate the object storage. Optional.
