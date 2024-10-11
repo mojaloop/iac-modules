@@ -147,7 +147,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "object_storage_assume_role" {
   count      = var.backup_enabled ? 1 : 0
-  role       = aws_iam_role.object_storage[0].arn
+  role       = aws_iam_role.object_storage[0].name
   policy_arn = aws_iam_policy.object_storage[0].arn
 }
 
