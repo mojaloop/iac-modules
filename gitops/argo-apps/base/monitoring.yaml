@@ -123,6 +123,10 @@ spec:
         - name: "mimir_store_gateway_replica_count"
           value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_replica_count}"
 
+        - name: "mimir_ingester_storage_size"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingester_storage_size}"
+
+
         - name: "cloudwatch_exporter_role_arn"
           value: "${ARGOCD_ENV_monitoring_monitoring_cloudwatch_exporter_role_arn}"
           

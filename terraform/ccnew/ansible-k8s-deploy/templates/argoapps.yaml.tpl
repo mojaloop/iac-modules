@@ -210,5 +210,6 @@ argocd_override:
           image_version: "${grafana_image_version}"
         mimir:
           max_label_names_per_series: "${mimir_max_label_names_per_series}"
+          mimir_ingester_storage_size: "${mimir_ingester_storage_size}"
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"

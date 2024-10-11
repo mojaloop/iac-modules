@@ -79,6 +79,8 @@ mimir_max_global_series_per_user: "'5000000'"
 mimir_retention_period: "7d"
 mimir_max_label_names_per_series: "'35'"
 
+mimir_ingester_storage_size: "30Gi"
+
 gitlab_helm_version: "8.1.2"
 gitlab_public_access: true
 gitlab_redis_cluster_size: "'3'"
