@@ -102,7 +102,7 @@ module "eks" {
     }
   }
   # Conditionally include OIDC configuration if var.enable_oidc is true
-  cluster_identity_providers = var.kubernetes_oidc_enabled ? {
+  cluster_identity_providers = var.eks_oidc_enabled ? {
     oidc = {
       identity_provider_config_name = var.identity_provider_config_name
       issuer_url                    = var.kubernetes_oidc_issuer
