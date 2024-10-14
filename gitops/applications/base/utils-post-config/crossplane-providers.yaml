@@ -104,9 +104,9 @@ spec:
               volumeMounts:
                 - mountPath: /tmp/config
                   name: additional
-  serviceAccountTemplate:
-    metadata:
-      name: crossplane-terraform-sa
+  # serviceAccountTemplate:
+  #   metadata:
+  #     name: crossplane-terraform-sa
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
