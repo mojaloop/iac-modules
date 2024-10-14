@@ -54,6 +54,7 @@ argocd_override:
           enable_object_storage_backend: "'${enable_object_storage_backend}'"
           object_storage_region: "${cloud_region}"
           object_storage_bucket: "${object_storage_bucket_name}"
+          plugin_version: "${velero_plugin_version}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
