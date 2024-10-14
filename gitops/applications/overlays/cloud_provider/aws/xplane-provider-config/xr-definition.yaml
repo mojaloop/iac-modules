@@ -66,6 +66,27 @@ spec:
                   dbName:
                     description: The name of database
                     type: string
+                  storageType:
+                    description: The type of storage
+                    type: string
+                  storageIops:
+                    description: The IOPS for storage
+                    type: integer
+                  backupRetentionPeriod:
+                    description: The number of days to retain backups for
+                    type: integer
+                  preferredBackupWindow:
+                    description: The daily time range during which automated backups are created
+                    type: string
+                  allowMajorVersionUpgrade:
+                    description: Indicates that major version upgrades are allowed
+                    type: boolean
+                  autoMinorVersionUpgrade:
+                    description: Indicates that minor version upgrades are applied automatically
+                    type: boolean
+                  applyImmediately: 
+                    description: Indicates that changes should be applied immediately
+                    type: boolean                            
                   passwordSecret:
                     description: The secret reference to the password of the master user.
                     type: object
@@ -98,6 +119,14 @@ spec:
                 - passwordSecret
                 - vpcId
                 - vpcCidr
+                - storageType
+                - storageIops
+                - backupRetentionPeriod
+                - preferredBackupWindow
+                - allowMajorVersionUpgrade
+                - autoMinorVersionUpgrade
+                - applyImmediately
+
 
             required:
             - parameters

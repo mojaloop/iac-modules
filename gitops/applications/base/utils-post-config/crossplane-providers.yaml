@@ -122,6 +122,13 @@ metadata:
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-rds:v${ARGOCD_ENV_rds_crossplane_module_version}
 ---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_aws_crossplane_module_version}
+---
 apiVersion: pkg.crossplane.io/v1beta1
 kind: Function
 metadata:

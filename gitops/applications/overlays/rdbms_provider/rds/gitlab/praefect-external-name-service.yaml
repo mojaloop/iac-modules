@@ -16,8 +16,8 @@ spec:
     name: kubernetes-provider
   references:
     - patchesFrom:
-        apiVersion: rds.aws.upbound.io/v1beta2
-        fieldPath: status.atProvider.address
-        kind: Instance
+        apiVersion: rds.aws.crossplane.io/v1alpha1
+        fieldPath: status.atProvider.endpoint
+        kind: DBCluster
         name: ${ARGOCD_ENV_praefect_dbdeploy_name_prefix}
       toFieldPath: spec.externalName

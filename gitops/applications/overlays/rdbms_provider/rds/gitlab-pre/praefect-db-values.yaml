@@ -9,6 +9,11 @@ vpcCidr: ${ARGOCD_ENV_vpc_cidr}
 subnets:  ${ARGOCD_ENV_rds_subnet_list}
 dbName: ${ARGOCD_ENV_praefect_db_name}
 userName: ${ARGOCD_ENV_praefect_db_username}
+allowMajorVersionUpgrade: false
+autoMinorVersionUpgrade: false
+applyImmediately: true
+backupRetentionPeriod: ${ARGOCD_ENV_praefect_db_backup_retention_period}
+preferredBackupWindow: ${ARGOCD_ENV_praefect_db_preferred_backup_window} 
 passwordSecret:
   key: password
-  name: ${ARGOCD_ENV_praefect_db_secret}      
+  name: ${ARGOCD_ENV_praefect_db_secret}

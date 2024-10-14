@@ -31,3 +31,8 @@ spec:
     passwordSecret:
       key: {{ .Values.passwordSecret.key }}
       name: {{ .Values.passwordSecret.name }}
+    allowMajorVersionUpgrade: {{ .Values.allowMajorVersionUpgrade }}
+    autoMinorVersionUpgrade: {{ .Values.autoMinorVersionUpgrade }}
+    applyImmediately: {{ .Values.applyImmediately }}
+    backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
+    preferredBackupWindow: {{ .Values.preferredBackupWindow }}

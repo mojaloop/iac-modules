@@ -80,26 +80,35 @@ spec:
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: "spec.parameters.vpcCidr"
           toFieldPath: "spec.forProvider.cidrBlocks"                          
-      - name: rdsinstance
+      - name: dbCluster
         base:
-          apiVersion: rds.aws.upbound.io/v1beta1
-          kind: Instance
+          apiVersion: rds.aws.crossplane.io/v1alpha1
+          kind: DBCluster
           spec:
             forProvider:
-              region:  eu-west-2
+              allowMajorVersionUpgrade: false
+              applyImmediately: false
+              autoMinorVersionUpgrade: false
+              backupRetentionPeriod: 1
+              preferredBackupWindow: 07:00-09:00
+              region: eu-west-2
               dbSubnetGroupNameSelector:
                 matchControllerRef: true
               vpcSecurityGroupIdSelector:
                 matchControllerRef: true
-              username: masteruser
-              dbName: testdb
+              masterUsername: masteruser
+              databaseName: testdb
               engine: postgres
               skipFinalSnapshot: true
               publiclyAccessible: false
               allocatedStorage: 200
-              passwordSecretRef:
+              storageType: io1
+              iops: 4000              
+              masterUserPasswordSecretRef:
                 key: password
                 name: secretName
+            providerConfigRef:
+              name: crossplane-provider-config
             writeConnectionSecretToRef:
               namespace: dbnamespace
               name: dbsecret
@@ -110,27 +119,41 @@ spec:
         - fromFieldPath: "spec.parameters.region"
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: spec.parameters.size
-          toFieldPath: spec.forProvider.instanceClass
+          toFieldPath: spec.forProvider.dbClusterInstanceClass
           transforms:
           - type: map
             map:
-              small: db.m5.large
-              medium: db.m5.2xlarge
-              large: db.m5.8xlarge
+              small: db.m5d.large
+              medium: db.m5d.2xlarge
+              large: db.m5d.8xlarge
         - fromFieldPath: spec.parameters.username
-          toFieldPath: spec.forProvider.username
+          toFieldPath: spec.forProvider.masterUsername
         - fromFieldPath: spec.parameters.dbName
-          toFieldPath: spec.forProvider.dbName
+          toFieldPath: spec.forProvider.databaseName
         - fromFieldPath: spec.parameters.engineVersion
           toFieldPath: spec.forProvider.engineVersion
         - fromFieldPath: spec.parameters.storageGB
           toFieldPath: spec.forProvider.allocatedStorage
+        - fromFieldPath: spec.parameters.storageType
+          toFieldPath: spec.forProvider.storageType
+        - fromFieldPath: spec.parameters.storageIops
+          toFieldPath: spec.forProvider.iops
+        - fromFieldPath: spec.parameters.backupRetentionPeriod
+          toFieldPath: spec.forProvider.backupRetentionPeriod                               
+        - fromFieldPath: spec.parameters.preferredBackupWindow
+          toFieldPath: spec.forProvider.preferredBackupWindow
+        - fromFieldPath: spec.parameters.allowMajorVersionUpgrade
+          toFieldPath: spec.forProvider.allowMajorVersionUpgrade
+        - fromFieldPath: spec.parameters.autoMinorVersionUpgrade
+          toFieldPath: spec.forProvider.autoMinorVersionUpgrade
+        - fromFieldPath: spec.parameters.applyImmediately
+          toFieldPath: spec.forProvider.applyImmediately      
         - fromFieldPath: spec.parameters.passwordSecret.name
-          toFieldPath: spec.forProvider.passwordSecretRef.name
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.name
         - fromFieldPath: spec.parameters.passwordSecret.key
-          toFieldPath: spec.forProvider.passwordSecretRef.key
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.key
         - fromFieldPath: spec.claimRef.namespace
-          toFieldPath: spec.forProvider.passwordSecretRef.namespace
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.namespace
         - fromFieldPath: spec.claimRef.namespace
           toFieldPath: spec.writeConnectionSecretToRef.namespace
         - fromFieldPath: spec.parameters.dbName
