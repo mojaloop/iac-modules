@@ -54,3 +54,7 @@ output "object_storage_cloud_policy" {
 output "backup_bucket_name" {
   value = var.backup_bucket_name
 }
+
+output "ci_user_arn" {
+  value = aws_iam_user.ci_iam_user.arn
+}

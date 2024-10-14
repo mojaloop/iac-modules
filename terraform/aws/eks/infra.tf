@@ -60,6 +60,8 @@ module "eks" {
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
 
+  kms_key_administrators	        = [module.post_config.ci_user_arn]
+
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
   cluster_addons = {
