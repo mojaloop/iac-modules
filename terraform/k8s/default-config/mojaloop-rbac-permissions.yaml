@@ -63,6 +63,22 @@ roles:
   - transfers.quoteEvents
   - transfers.transferEvents
   - transfers.settlementEvents
+
+  # new permissions
+  - transfer.conversions
+  - transfer.conversionTerms
+  - transfer.conversionId
+  - transfer.conversionState
+  - transfer.conversionQuoteId
+  - transfer.conversionInstitution
+  - transfer.transferTerms
+  - transfers.conversions
+  - transfers.conversionTerms
+  - transfers.conversionId
+  - transfers.conversionState
+  - transfers.conversionQuoteId
+  - transfers.conversionInstitution
+  - transfers.transferTerms
 - rolename: manager
   permissions:
   - participantView
@@ -130,6 +146,22 @@ roles:
   - transfers.quoteEvents
   - transfers.transferEvents
   - transfers.settlementEvents
+
+  # new permissions
+  - transfer.conversions
+  - transfer.conversionTerms
+  - transfer.conversionId
+  - transfer.conversionState
+  - transfer.conversionQuoteId
+  - transfer.conversionInstitution
+  - transfer.transferTerms
+  - transfers.conversions
+  - transfers.conversionTerms
+  - transfers.conversionId
+  - transfers.conversionState
+  - transfers.conversionQuoteId
+  - transfers.conversionInstitution
+  - transfers.transferTerms
 - rolename: clerk
   permissions:
   - participantView
@@ -195,6 +227,22 @@ roles:
   - transfers.quoteEvents
   - transfers.transferEvents
   - transfers.settlementEvents
+
+  # new permissions
+  - transfer.conversions
+  - transfer.conversionTerms
+  - transfer.conversionId
+  - transfer.conversionState
+  - transfer.conversionQuoteId
+  - transfer.conversionInstitution
+  - transfer.transferTerms
+  - transfers.conversions
+  - transfers.conversionTerms
+  - transfers.conversionId
+  - transfers.conversionState
+  - transfers.conversionQuoteId
+  - transfers.conversionInstitution
+  - transfers.transferTerms 
 - rolename: financeManager
   permissions:
   - participantView
@@ -264,6 +312,22 @@ roles:
   - transfers.quoteEvents
   - transfers.transferEvents
   - transfers.settlementEvents
+
+  # new permissions
+  - transfer.conversions
+  - transfer.conversionTerms
+  - transfer.conversionId
+  - transfer.conversionState
+  - transfer.conversionQuoteId
+  - transfer.conversionInstitution
+  - transfer.transferTerms
+  - transfers.conversions
+  - transfers.conversionTerms
+  - transfers.conversionId
+  - transfers.conversionState
+  - transfers.conversionQuoteId
+  - transfers.conversionInstitution
+  - transfers.transferTerms
 - rolename: dfspReconciliationReports
   permissions:
   - reportingApi
