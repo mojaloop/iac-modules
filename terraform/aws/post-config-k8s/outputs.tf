@@ -56,5 +56,5 @@ output "backup_bucket_name" {
 }
 
 output "ci_user_arn" {
-  value = aws_iam_user.ci_iam_user.arn
+  value = aws_iam_user.ci_iam_user[0].arn
 }
