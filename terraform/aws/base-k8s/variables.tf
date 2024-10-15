@@ -198,7 +198,11 @@ variable "backup_enabled" {
   default     = false
   description = "enable backup bucket and policies"
 }
-
+variable "backup_bucket_force_destroy" {
+  type        = bool
+  description = "auto delete s3 bucket content"
+  default     = false
+}
 ###
 # Local copies of variables to allow for parsing
 ###

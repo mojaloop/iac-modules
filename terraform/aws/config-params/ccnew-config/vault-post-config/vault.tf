@@ -29,8 +29,16 @@ resource "vault_aws_secret_backend_role" "dns_access" {
   count           = local.enable_dns_backend ? 1 : 0
   backend         = vault_aws_secret_backend.aws_dns[0].path
   name            = var.dns_access_role
+  credential_type = "assumed_role"
+  role_arns       = [var.external_dns_cloud_role]
+}
+
+resource "vault_aws_secret_backend_role" "cert_manager_access" {
+  count           = local.enable_dns_backend ? 1 : 0
+  backend         = vault_aws_secret_backend.aws_dns[0].path
+  name            = var.cert_manager_access_role
   credential_type = "iam_user"
-  policy_arns     = [var.ext_dns_cloud_policy]
+  policy_arns     = [var.cert_manager_cloud_policy]
 }
 
 data "vault_generic_secret" "credentials" {

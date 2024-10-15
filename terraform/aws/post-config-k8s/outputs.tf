@@ -55,6 +55,10 @@ output "backup_bucket_name" {
   value = var.backup_bucket_name
 }
 
+output "external_dns_cloud_role" {
+  value = aws_iam_role.external_dns_cicd.arn
+}
+
 output "ci_user_arn" {
   value = aws_iam_user.ci_iam_user[0].arn
 }

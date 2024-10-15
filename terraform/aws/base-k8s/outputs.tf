@@ -61,6 +61,10 @@ output "ext_dns_cloud_policy" {
   value = module.post_config.ext_dns_cloud_policy
 }
 
+output "external_dns_cloud_role" {
+  value = module.post_config.external_dns_cloud_role
+}
+
 output "object_storage_cloud_role" {
   value = module.post_config.object_storage_cloud_role
 }

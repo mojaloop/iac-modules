@@ -209,8 +209,8 @@ variable "netbird_api_host" {
 }
 
 variable "netbird_setup_key" {
-  type     = string
-  default  = ""
+  type    = string
+  default = ""
 }
 
 variable "identity_provider_config_name" {
@@ -295,6 +295,11 @@ variable "backup_enabled" {
   type        = bool
   default     = false
   description = "enable backup bucket and policies"
+}
+variable "backup_bucket_force_destroy" {
+  type        = bool
+  description = "auto delete s3 bucket content"
+  default     = false
 }
 ###
 # Local copies of variables to allow for parsing
