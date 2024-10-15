@@ -67,6 +67,7 @@ argocd_override:
           dns_public_subdomain: "${dns_public_subdomain}"
           dns_private_subdomain: "${dns_private_subdomain}"
           external_dns_cloud_role: "${external_dns_cloud_role}"
+          cert_manager_cloud_policy: "${cert_manager_cloud_policy}"
           letsencrypt_email: "${letsencrypt_email}"
           dns_cloud_api_region: "${cloud_region}"
     xplane_provider_config:
