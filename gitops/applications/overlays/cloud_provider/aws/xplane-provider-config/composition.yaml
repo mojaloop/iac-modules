@@ -27,8 +27,8 @@ spec:
       resources:
       - name: subnetgroup
         base:
-          apiVersion: rds.aws.upbound.io/v1beta1
-          kind: SubnetGroup
+          apiVersion: database.aws.crossplane.io/v1beta1
+          kind: DBSubnetGroup
           spec:
             forProvider:
               description: Subnet group for DB instance
@@ -44,7 +44,7 @@ spec:
           
       - name: securityGroup
         base:
-          apiVersion: ec2.aws.upbound.io/v1beta1
+          apiVersion: ec2.aws.crossplane.io/v1beta1
           kind: SecurityGroup
           spec:
             forProvider:
@@ -60,7 +60,7 @@ spec:
           toFieldPath: "spec.forProvider.vpcId"
       - name: securityGroupRule
         base:
-          apiVersion: ec2.aws.upbound.io/v1beta1
+          apiVersion: ec2.aws.crossplane.io/v1beta1
           kind: SecurityGroupRule
           spec:
             forProvider:
@@ -70,7 +70,7 @@ spec:
               fromPort: 5432
               toPort: 5432
               protocol: tcp
-              cidrBlocks: []
+              cidrBlock: "10.106.0.0/23"
               securityGroupIdSelector:
                 matchControllerRef: true
         patches:
@@ -79,7 +79,7 @@ spec:
         - fromFieldPath: "spec.parameters.region"
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: "spec.parameters.vpcCidr"
-          toFieldPath: "spec.forProvider.cidrBlocks"                          
+          toFieldPath: "spec.forProvider.cidrBlock"                          
       - name: dbCluster
         base:
           apiVersion: rds.aws.crossplane.io/v1alpha1
