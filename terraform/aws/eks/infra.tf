@@ -21,17 +21,18 @@ module "base_infra" {
 }
 
 module "post_config" {
-  source          = "../post-config-k8s"
-  name            = var.cluster_name
-  domain          = var.domain
-  tags            = var.tags
-  private_zone_id = module.base_infra.public_int_zone.id
-  public_zone_id  = module.base_infra.public_zone.id
-  create_ext_dns_user = var.create_ext_dns_user
-  create_iam_user     = var.create_ci_iam_user
-  iac_group_name      = var.iac_group_name
-  backup_bucket_name  = "${var.domain}-${var.backup_bucket_name}"
-  backup_enabled      = var.backup_enabled
+  source                      = "../post-config-k8s"
+  name                        = var.cluster_name
+  domain                      = var.domain
+  tags                        = var.tags
+  private_zone_id             = module.base_infra.public_int_zone.id
+  public_zone_id              = module.base_infra.public_zone.id
+  create_ext_dns_user         = var.create_ext_dns_user
+  create_iam_user             = var.create_ci_iam_user
+  iac_group_name              = var.iac_group_name
+  backup_bucket_name          = "${var.domain}-${var.backup_bucket_name}"
+  backup_enabled              = var.backup_enabled
+  backup_bucket_force_destroy = var.backup_bucket_force_destroy
 }
 
 module "k6s_test_harness" {
@@ -61,7 +62,7 @@ module "eks" {
   cluster_endpoint_public_access  = false
 
   #kms_key_administrators	        = [module.post_config.ci_user_arn]
-  kms_key_owners	                = [module.post_config.ci_user_arn]
+  kms_key_owners = [module.post_config.ci_user_arn]
 
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
@@ -109,7 +110,7 @@ module "eks" {
       client_id                     = var.kubernetes_oidc_client_id
       groups_claim                  = var.kubernetes_oidc_groups_claim
       #groups_prefix                = var.kubernetes_oidc_groups_prefix
-      username_claim                = var.kubernetes_oidc_username_claim
+      username_claim = var.kubernetes_oidc_username_claim
       #username_prefix              = var.kubernetes_oidc_username_prefix
     }
   } : {}
