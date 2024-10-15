@@ -1,7 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - vitrual-services.yaml
   - zitadel-xplane-terraform.yaml
   - vault-oidc-xplane-terraform.yaml
   - argocd-oidc-xplane-terraform.yaml

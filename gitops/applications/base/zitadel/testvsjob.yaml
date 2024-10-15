@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: curl-test-zitadel-vs
+spec:
+  template:
+    spec:
+      containers:
+        - name: curl-test
+          image: curlimages/curl:latest
+          command: ["/bin/bash"]
+          args:
+            [
+              "-c",
+              "exit_status=$(curl -v -o /dev/null -w '%{http_code}' https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}); if [ $exit_status -ne 200 ]; then exit 1; fi;",
+            ]
+      restartPolicy: OnFailure
+  backoffLimit: 10
