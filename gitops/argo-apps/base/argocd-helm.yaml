@@ -418,7 +418,7 @@ spec:
 
                     return health_status
                   
-                  "rds.aws.upbound.io/*":
+                  "rds.aws.crossplane.io/*":
                     health.lua: |
                       hs = {}
                       if obj.status ~= nil then
@@ -429,6 +429,21 @@ spec:
                               hs.message = condition.message
                               return hs
                             end
+                            if condition.reason == "ReconcileError" and condition.status == "False" then
+                              hs.status = "Degraded"
+                              hs.message = condition.message
+                              return hs
+                            end
+                            if condition.reason == "Creating" and condition.status == "False" then
+                              hs.status = "Progressing"
+                              hs.message = condition.message
+                              return hs
+                            end 
+                            if condition.reason == "Available" and condition.status == "True" and condition.message = 'DB Cluster is modifying, availability may vary' then
+                              hs.status = "Progressing"
+                              hs.message = condition.message
+                              return hs
+                            end                                                                     
                             if condition.type = "LastAsyncOperation" and condition.reason == "Success" and condition.status == "True" then
                               hs.status = "Healthy"
                               hs.message = condition.message

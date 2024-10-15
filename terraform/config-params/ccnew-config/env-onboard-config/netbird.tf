@@ -43,6 +43,7 @@ resource "netbird_group" "env_backtunnel" {
   lifecycle {
     create_before_destroy = true
   }
+}
 
 
 #route to allow private traffic into en k8s network from cc user group and the env_users group, env gw is the gateway peer

@@ -54,6 +54,9 @@ spec:
         - name: "rds_crossplane_module_version"
           value: "${ARGOCD_ENV_utils_post_config_rds_crossplane_module_version}"
 
+        - name: "aws_crossplane_module_version"
+          value: "${ARGOCD_ENV_utils_post_config_aws_crossplane_module_version}"          
+
         - name: "crossplane_func_pat_version"
           value: "${ARGOCD_ENV_utils_post_config_crossplane_func_pat_version}"
 

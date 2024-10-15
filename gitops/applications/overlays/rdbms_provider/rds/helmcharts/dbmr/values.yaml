@@ -12,3 +12,8 @@ userName: gitlab
 passwordSecret:
    key: password
    name: gitlab-postgresql-credentials
+allowMajorVersionUpgrade: false
+autoMinorVersionUpgrade: false
+applyImmediately: false
+backupRetentionPeriod: 1
+preferredBackupWindow: 07:00-09:00

@@ -18,10 +18,7 @@ spec:
     size: {{ .Values.size }}
     storageGB: {{ .Values.storageGB }}
     vpcId: {{ .Values.vpcId }}
-    {{- with ( splitList "," .Values.vpcCidr) }}
-    vpcCidr:  
-        {{- toYaml . | nindent 8 }}
-    {{- end }}    
+    vpcCidr:  {{ .Values.vpcCidr }}
     {{- with ( splitList "," .Values.subnets) }}
     subnets:  
         {{- toYaml . | nindent 8 }}
@@ -31,3 +28,10 @@ spec:
     passwordSecret:
       key: {{ .Values.passwordSecret.key }}
       name: {{ .Values.passwordSecret.name }}
+    allowMajorVersionUpgrade: {{ .Values.allowMajorVersionUpgrade }}
+    autoMinorVersionUpgrade: {{ .Values.autoMinorVersionUpgrade }}
+    applyImmediately: {{ .Values.applyImmediately }}
+    backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
+    preferredBackupWindow: {{ .Values.preferredBackupWindow }}
+    storageType: {{ .Values.storageType }}
+    storageIops: {{ .Values.storageIops }}

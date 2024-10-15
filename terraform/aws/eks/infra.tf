@@ -60,6 +60,9 @@ module "eks" {
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
 
+  #kms_key_administrators	        = [module.post_config.ci_user_arn]
+  kms_key_owners	                = [module.post_config.ci_user_arn]
+
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
   cluster_addons = {
@@ -99,7 +102,7 @@ module "eks" {
     }
   }
   # Conditionally include OIDC configuration if var.enable_oidc is true
-  cluster_identity_providers = var.kubernetes_oidc_enabled ? {
+  cluster_identity_providers = var.eks_oidc_enabled ? {
     oidc = {
       identity_provider_config_name = var.identity_provider_config_name
       issuer_url                    = var.kubernetes_oidc_issuer
@@ -110,22 +113,10 @@ module "eks" {
       #username_prefix              = var.kubernetes_oidc_username_prefix
     }
   } : {}
-  # oidc 
-  # cluster_identity_providers = {
-  #   oidc = {
-  #     identity_provider_config_name = var.identity_provider_config_name
-  #     issuer_url                    = var.kubernetes_oidc_issuer
-  #     client_id                     = var.kubernetes_oidc_client_id
-  #     groups_claim                  = var.kubernetes_oidc_groups_claim
-  #     #groups_prefix                 = var.kubernetes_oidc_groups_prefix
-  #     username_claim                = var.kubernetes_oidc_username_claim
-  #     #username_prefix               = var.kubernetes_oidc_username_prefix
-  #   }
-  # }
+
   self_managed_node_groups = local.self_managed_node_groups
   tags                     = var.tags
 }
-
 
 locals {
   eks_name                = substr(replace(local.base_domain, ".", "-"), 0, 16)

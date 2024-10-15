@@ -41,6 +41,7 @@ argocd_override:
           terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
           ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
           rds_crossplane_module_version:  "${rds_crossplane_module_version}"
+          aws_crossplane_module_version:  "${aws_crossplane_module_version}"          
           ec2_crossplane_module_version:  "${ec2_crossplane_module_version}"
           crossplane_func_pat_version: "${crossplane_func_pat_version}"
           k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
@@ -176,6 +177,14 @@ argocd_override:
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
           vpc_cidr: "${vpc_cidr}"
+          gitlab_db_backup_retention_period: "${gitlab_db_backup_retention_period}"
+          gitlab_db_preferred_backup_window: "${gitlab_db_preferred_backup_window}"
+          praefect_db_backup_retention_period: "${praefect_db_backup_retention_period}"
+          praefect_db_preferred_backup_window: "${praefect_db_preferred_backup_window}"
+          gitlab_db_storage_type: "${gitlab_db_storage_type}"
+          gitlab_db_storage_iops: "${gitlab_db_storage_iops}"
+          praefect_db_storage_type: "${praefect_db_storage_type}"
+          praefect_db_storage_iops: "${praefect_db_storage_iops}"
 
           
     deploy_env:
@@ -211,5 +220,8 @@ argocd_override:
           image_version: "${grafana_image_version}"
         mimir:
           max_label_names_per_series: "${mimir_max_label_names_per_series}"
+          mimir_ingester_storage_size: "${mimir_ingester_storage_size}"
+          mimir_compactor_storage_size: "${mimir_compactor_storage_size}"
+          mimir_store_gateway_storage_size: "${mimir_store_gateway_storage_size}"
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
