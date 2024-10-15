@@ -75,6 +75,12 @@ spec:
           - name: "dns_access_role"
             value: "${ARGOCD_ENV_dns_utils_cr_config_dns_access_role}"
 
+          - name: "cert_manager_access_role"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_cert_manager_access_role}"
+
+          - name: "cert_manager_cloud_policy"
+            value: "${ARGOCD_ENV_dns_utils_cr_config_cert_manager_cloud_policy}"
+
           - name: "object_storage_cloud_role"
             value: "${ARGOCD_ENV_maintenance_velero_object_storage_cloud_role}"
 
