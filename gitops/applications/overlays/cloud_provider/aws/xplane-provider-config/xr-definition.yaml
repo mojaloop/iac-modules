@@ -52,9 +52,7 @@ spec:
                     type: string
                   vpcCidr:
                     description: Vpc CIDR
-                    type: array
-                    items:
-                       type: string                    
+                    type: string                 
                   subnets:
                     description: The list of subnet-ids to create the subnetgroup
                     type: array
