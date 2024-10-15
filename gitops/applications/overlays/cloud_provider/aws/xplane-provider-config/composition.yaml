@@ -34,6 +34,8 @@ spec:
               description: Subnet group for DB instance
               region: eu-west-2
               subnetIds: []
+            providerConfigRef:
+              name: crossplane-provider-config              
         patches:
         - type: PatchSet
           patchSetName: metadata
@@ -52,6 +54,8 @@ spec:
               groupName: db-security-group
               region: eu-west-2
               vpcId: testid
+            providerConfigRef:
+              name: crossplane-provider-config              
         patches:
         - type: PatchSet
           patchSetName: metadata
@@ -76,6 +80,8 @@ spec:
               cidrBlock: "10.106.0.0/23"
               securityGroupIdSelector:
                 matchControllerRef: true
+            providerConfigRef:
+              name: crossplane-provider-config                
         patches:
         - type: PatchSet
           patchSetName: metadata
