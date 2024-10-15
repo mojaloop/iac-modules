@@ -49,6 +49,7 @@ spec:
           spec:
             forProvider:
               description: Security group for the db instance
+              groupName: db-security-group
               region: eu-west-2
               vpcId: testid
         patches:
@@ -58,6 +59,8 @@ spec:
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: "spec.parameters.vpcId"
           toFieldPath: "spec.forProvider.vpcId"
+        - fromFieldPath: "spec.parameters.dbName"
+          toFieldPath: "spec.forProvider.groupName"          
       - name: securityGroupRule
         base:
           apiVersion: ec2.aws.crossplane.io/v1alpha1
