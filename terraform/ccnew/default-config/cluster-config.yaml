@@ -14,6 +14,7 @@ iac_group_name: iac_admin
 kubernetes_oidc_enabled: true
 enable_object_storage_backend: false
 object_storage_base_bucket_name: velero
+object_storage_force_destroy_bucket: true #prod should set to false
 nodes:
   master-generic:
     master: true

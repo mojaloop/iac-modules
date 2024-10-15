@@ -27,6 +27,7 @@ inputs = {
   backup_enabled                       = local.env_vars.enable_object_storage_backend
   backup_bucket_name                   = local.env_vars.object_storage_base_bucket_name
   eks_oidc_enabled                     = false
+  backup_bucket_force_destroy          = local.env_vars.object_storage_force_destroy_bucket
 }
 
 locals {
