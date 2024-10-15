@@ -64,7 +64,12 @@ spec:
         - fromFieldPath: "spec.parameters.vpcId"
           toFieldPath: "spec.forProvider.vpcId"
         - fromFieldPath: "spec.parameters.dbName"
-          toFieldPath: "spec.forProvider.groupName"          
+          toFieldPath: "spec.forProvider.groupName"
+          transforms:
+          - type: string
+            string:
+              type: Format
+              fmt: '%s-db-security-group'                    
       - name: securityGroupRule
         base:
           apiVersion: ec2.aws.crossplane.io/v1alpha1
