@@ -75,6 +75,33 @@ resource "aws_iam_policy" "route53_external_dns" {
 EOF
 }
 
+resource "aws_iam_role" "external_dns_cicd" {
+  count = var.backup_enabled ? 1 : 0
+  name  = "${var.backup_bucket_name}-external-dns-cicd"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "${aws_iam_user.ci_iam_user[0].arn}"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+  tags               = merge({ Name = "${var.backup_bucket_name}-object-storage" }, var.tags)
+}
+
+resource "aws_iam_role_policy_attachment" "ext_dns_assume_role" {
+  role       = aws_iam_role.external_dns_cicd.name
+  policy_arn = aws_iam_policy.route53_external_dns.arn
+}
+
 resource "aws_iam_policy" "object_storage" {
   count = var.backup_enabled ? 1 : 0
   name  = "${local.base_domain}-object_storage"

@@ -1,6 +1,6 @@
 
-variable "ext_dns_cloud_policy" {
-  description = "policy arn for dns"
+variable "external_dns_cloud_role" {
+  description = "role arn for dns"
 }
 variable "object_storage_cloud_role" {
   description = "role arn for object storage"

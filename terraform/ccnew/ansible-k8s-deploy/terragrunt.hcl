@@ -22,7 +22,7 @@ dependency "k8s_deploy" {
     bastion_public_ip           = "null"
     private_subdomain           = "null"
     public_subdomain            = "null"
-    ext_dns_cloud_policy        = "null"
+    external_dns_cloud_role     = "null"
     object_storage_cloud_role   = "null"
     object_storage_bucket_name  = "null"
     private_subnets             = "null"
@@ -92,7 +92,7 @@ inputs = {
     internal_load_balancer_dns        = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns        = dependency.k8s_deploy.outputs.external_load_balancer_dns
     wireguard_ingress_port            = dependency.k8s_deploy.outputs.target_group_vpn_port
-    ext_dns_cloud_policy              = dependency.k8s_deploy.outputs.ext_dns_cloud_policy
+    external_dns_cloud_role           = dependency.k8s_deploy.outputs.external_dns_cloud_role
     internal_k8s_cidr                 = dependency.k8s_deploy.outputs.internal_k8s_network_cidr[0]
     cloud_platform_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_id_key]
     cloud_platform_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_secret_key]
