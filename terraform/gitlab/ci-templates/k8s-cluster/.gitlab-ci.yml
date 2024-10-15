@@ -254,4 +254,5 @@ refresh-deploy-infra:
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy.*/
+    - if: $CI_PIPELINE_TRIGGERED
     - when: manual
