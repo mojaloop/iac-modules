@@ -76,8 +76,7 @@ EOF
 }
 
 resource "aws_iam_role" "external_dns_cicd" {
-  count = var.backup_enabled ? 1 : 0
-  name  = "${var.backup_bucket_name}-external-dns-cicd"
+  name = "${var.backup_bucket_name}-external-dns-cicd"
 
   assume_role_policy = <<EOF
 {
