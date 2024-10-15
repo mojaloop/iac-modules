@@ -75,6 +75,7 @@ resource "aws_iam_policy" "route53_external_dns" {
 EOF
 }
 
+
 resource "aws_iam_role" "external_dns_cicd" {
   name = "${var.backup_bucket_name}-external-dns-cicd"
 
