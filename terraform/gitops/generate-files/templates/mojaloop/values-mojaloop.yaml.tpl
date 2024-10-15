@@ -1106,6 +1106,12 @@ ml-testing-toolkit:
     extraEnvironments:
       hub-k8s-cgs-environment.json: null
       hub-k8s-default-environment.json: &ttkInputValues
+        options:
+# %{ if mojaloop_iso20022_enabled }
+          transformerName: 'fspiopToISO20022'
+# %{ else }
+          transformerName: 'none'
+# %{ endif }
         inputValues:
           SIMPAYER_CURRENCY: ${ttk_test_currency1}
           SIMPAYEE_CURRENCY: ${ttk_test_currency1}

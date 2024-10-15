@@ -200,6 +200,7 @@ module "generate_mojaloop_files" {
     hub_name                                                          = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     opentelemetry_enabled                                             = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable
+    mojaloop_iso20022_enabled                                         = var.mojaloop_iso20022_enabled
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -339,6 +340,12 @@ variable "bulk_enabled" {
 
 variable "ttksims_enabled" {
   description = "whether ttksims are enabled or not"
+  type        = bool
+  default     = false
+}
+
+variable "mojaloop_iso20022_enabled" {
+  description = "whether iso20022 is enabled enabled or not"
   type        = bool
   default     = false
 }
