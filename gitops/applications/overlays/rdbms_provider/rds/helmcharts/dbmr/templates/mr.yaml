@@ -36,3 +36,5 @@ spec:
     applyImmediately: {{ .Values.applyImmediately }}
     backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
     preferredBackupWindow: {{ .Values.preferredBackupWindow }}
+    storageType: {{ .Values.storageType }}
+    storageIops: {{ .Values.storageIops }}

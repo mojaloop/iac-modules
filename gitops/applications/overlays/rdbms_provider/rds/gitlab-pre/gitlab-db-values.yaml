@@ -17,3 +17,5 @@ preferredBackupWindow: ${ARGOCD_ENV_gitlab_db_preferred_backup_window}
 passwordSecret:
   key: password
   name: ${ARGOCD_ENV_gitlab_db_secret}
+storageType: ${ARGOCD_ENV_gitlab_db_storage_type}
+storageIops: ${ARGOCD_ENV_gitlab_db_storage_iops}

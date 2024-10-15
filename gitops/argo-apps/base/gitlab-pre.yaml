@@ -286,4 +286,16 @@ spec:
           value: "${ARGOCD_ENV_gitlab_pre_praefect_db_backup_retention_period}"
 
         - name: "praefect_db_preferred_backup_window"
-          value: "${ARGOCD_ENV_gitlab_pre_praefect_db_preferred_backup_window}"            
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_db_preferred_backup_window}" 
+
+        - name: "gitlab_db_storage_type"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_storage_type}"
+
+        - name: "gitlab_db_storage_iops"
+          value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_storage_iops}"
+
+        - name: "praefect_db_storage_type"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_db_storage_type}"
+
+        - name: "praefect_db_storage_iops"
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_db_storage_iops}"           

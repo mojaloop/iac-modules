@@ -180,6 +180,10 @@ argocd_override:
           gitlab_db_preferred_backup_window: "${gitlab_db_preferred_backup_window}"
           praefect_db_backup_retention_period: "${praefect_db_backup_retention_period}"
           praefect_db_preferred_backup_window: "${praefect_db_preferred_backup_window}"
+          gitlab_db_storage_type: "${gitlab_db_storage_type}"
+          gitlab_db_storage_iops: "${gitlab_db_storage_iops}"
+          praefect_db_storage_type: "${praefect_db_storage_type}"
+          praefect_db_storage_iops: "${praefect_db_storage_iops}"
 
           
     deploy_env:
