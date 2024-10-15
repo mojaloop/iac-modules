@@ -1282,4 +1282,7 @@ ml-ttk-test-cleanup:
 mojaloop-simulator:
   enabled: ${internal_sim_enabled}
   defaults:
+    config:
+      cacheLabels:
+        sidecar.istio.io/inject: "false"
     tolerations: *MOJALOOP_TOLERATIONS
