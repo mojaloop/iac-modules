@@ -75,9 +75,9 @@ resource "aws_iam_policy" "route53_external_dns" {
 EOF
 }
 
-resource "aws_iam_policy" "object_storage_policy" {
+resource "aws_iam_policy" "object_storage" {
   count = var.backup_enabled ? 1 : 0
-  name  = "${var.backup_bucket_name}-object-storage"
+  name  = "${local.base_domain}-object_storage"
 
   policy = <<EOF
 {
@@ -122,6 +122,35 @@ resource "aws_iam_policy" "object_storage_policy" {
 }
 EOF
 }
+
+resource "aws_iam_role" "object_storage" {
+  count = var.backup_enabled ? 1 : 0
+  name  = "${var.backup_bucket_name}-object-storage"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "${aws_iam_user.ci_iam_user[0].arn}"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+  tags               = merge({ Name = "${var.backup_bucket_name}-object-storage" }, var.tags)
+}
+
+resource "aws_iam_role_policy_attachment" "object_storage_assume_role" {
+  count      = var.backup_enabled ? 1 : 0
+  role       = aws_iam_role.object_storage[0].name
+  policy_arn = aws_iam_policy.object_storage[0].arn
+}
+
 resource "aws_s3_bucket" "backup_bucket" {
   count         = var.backup_enabled ? 1 : 0
   bucket        = var.backup_bucket_name

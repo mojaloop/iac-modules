@@ -22,7 +22,7 @@ nexus_helm_version: "4.44.0"
 cert_manager_helm_version: 1.15.0
 consul_helm_version: 1.4.0
 external_dns_helm_version: "7.5.5"
-vault_helm_version: "0.24.1"
+vault_helm_version: "0.28.1"
 vault_config_operator_helm_version: 0.8.28
 istio_helm_version: "1.22.1"
 external_secrets_helm_version: "0.9.20"
@@ -35,6 +35,7 @@ ec2_crossplane_module_version: "1.14.0"
 crossplane_func_pat_version: "0.2.1"
 k8s_crossplane_module_version: "0.11.4"
 velero_helm_version: "7.2.1"
+velero_plugin_version: "v1.10.1"
 
 istio_egress_gateway_max_replicas: 5
 istio_proxy_log_level: warn

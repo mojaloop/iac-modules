@@ -7,7 +7,7 @@ configuration:
     # a backup storage location will be created with the name "default". Optional.
     - name: cloudprovider-objectstorage
       # provider is the name for the backup storage location provider.
-      provider: velero.io/aws
+      provider: aws
       # bucket is the name of the bucket to store backups in. Required.
       bucket: ${ARGOCD_ENV_object_storage_bucket}
       # default indicates this location is the default backup storage location. Optional.
@@ -20,9 +20,8 @@ configuration:
       # Additional provider-specific configuration. See link above
       # for details of required/optional fields for your provider.
       config:
+        profile: default
         region: ${ARGOCD_ENV_object_storage_region}
-        s3ForcePathStyle: "true"
-
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
 
@@ -32,15 +31,15 @@ configuration:
     # name is the name of the volume snapshot location where snapshots are being taken. Required.
     - name: cloudprovider-objectstorage
       # provider is the name for the volume snapshot provider.
-      provider: velero.io/aws
+      provider: aws
       credential:
         key: ${ARGOCD_ENV_object_storage_secret_key}
         name: ${ARGOCD_ENV_object_storage_secret_name}
       # Additional provider-specific configuration. See link above
       # for details of required/optional fields for your provider.
       config:
+        profile: default
         region: ${ARGOCD_ENV_object_storage_region}
-        s3ForcePathStyle: "true"
 initContainers:
   - name: velero-plugin-for-aws
     image: velero/velero-plugin-for-aws:${ARGOCD_ENV_velero_plugin_version}

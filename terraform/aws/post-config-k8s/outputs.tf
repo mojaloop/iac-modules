@@ -47,8 +47,8 @@ output "ext_dns_cloud_policy" {
   value = aws_iam_policy.route53_external_dns.arn
 }
 
-output "object_storage_cloud_policy" {
-  value = var.backup_enabled ? aws_iam_policy.object_storage_policy[0].arn : ""
+output "object_storage_cloud_role" {
+  value = var.backup_enabled ? aws_iam_role.object_storage[0].arn : ""
 }
 
 output "backup_bucket_name" {

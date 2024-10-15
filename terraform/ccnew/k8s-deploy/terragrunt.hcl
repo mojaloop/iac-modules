@@ -25,7 +25,7 @@ inputs = {
   create_haproxy_dns_record            = false
   iac_group_name                       = local.env_vars.iac_group_name
   backup_enabled                       = local.env_vars.enable_object_storage_backend
-  backup_bucket_name                   = local.env_vars.object_storage_bucket_name
+  backup_bucket_name                   = local.env_vars.object_storage_base_bucket_name
   eks_oidc_enabled                     = false
 }
 

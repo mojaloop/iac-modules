@@ -61,8 +61,8 @@ output "ext_dns_cloud_policy" {
   value = module.post_config.ext_dns_cloud_policy
 }
 
-output "object_storage_cloud_policy" {
-  value = module.post_config.object_storage_cloud_policy
+output "object_storage_cloud_role" {
+  value = module.post_config.object_storage_cloud_role
 }
 output "object_storage_bucket_name" {
   value = module.post_config.backup_bucket_name
@@ -180,7 +180,7 @@ output "test_harness_hosts_var_maps" {
 }
 
 output "private_subnets" {
- # value = "[${join(",", [for s in module.base_infra.private_subnets : format("'%s'", s)])}]"
+  # value = "[${join(",", [for s in module.base_infra.private_subnets : format("'%s'", s)])}]"
   value = module.base_infra.private_subnets
 }
 

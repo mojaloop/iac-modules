@@ -2,8 +2,8 @@
 variable "ext_dns_cloud_policy" {
   description = "policy arn for dns"
 }
-variable "object_storage_cloud_policy" {
-  description = "policy arn for object storage"
+variable "object_storage_cloud_role" {
+  description = "role arn for object storage"
 }
 variable "dns_backend_path" {
   description = "auth path for cloud engine"

@@ -51,10 +51,11 @@ argocd_override:
         velero:
           app_name: "velero"
           helm_version: "${velero_helm_version}"
-          object_storage_cloud_policy: "${object_storage_cloud_policy}"
+          object_storage_cloud_role: "${object_storage_cloud_role}"
           enable_object_storage_backend: "'${enable_object_storage_backend}'"
           object_storage_region: "${cloud_region}"
           object_storage_bucket: "${object_storage_bucket_name}"
+          plugin_version: "${velero_plugin_version}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:

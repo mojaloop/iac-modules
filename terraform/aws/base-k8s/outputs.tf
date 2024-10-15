@@ -61,8 +61,8 @@ output "ext_dns_cloud_policy" {
   value = module.post_config.ext_dns_cloud_policy
 }
 
-output "object_storage_cloud_policy" {
-  value = module.post_config.object_storage_cloud_policy
+output "object_storage_cloud_role" {
+  value = module.post_config.object_storage_cloud_role
 }
 output "object_storage_bucket_name" {
   value = module.post_config.backup_bucket_name
