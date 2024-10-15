@@ -25,7 +25,7 @@ spec:
         - fromFieldPath: spec.id
           toFieldPath: metadata.name
       resources:
-      - name: subnetgroup
+      - name: dbsubnetgroup
         base:
           apiVersion: database.aws.crossplane.io/v1beta1
           kind: DBSubnetGroup
@@ -60,7 +60,7 @@ spec:
           toFieldPath: "spec.forProvider.vpcId"
       - name: securityGroupRule
         base:
-          apiVersion: ec2.aws.crossplane.io/v1beta1
+          apiVersion: ec2.aws.crossplane.io/v1alpha1
           kind: SecurityGroupRule
           spec:
             forProvider:
