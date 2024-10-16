@@ -2,7 +2,7 @@ replicaCount: ${ARGOCD_ENV_zitadel_replicas}
 zitadel:
   masterkeySecretName: masterkey
   debug:
-    enabled: true
+    enabled: false
   configmapConfig:
     Log:
       Level: ${ARGOCD_ENV_zitadel_log_level}
