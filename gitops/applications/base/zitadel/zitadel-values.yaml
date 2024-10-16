@@ -41,5 +41,5 @@ zitadel:
   dbSslCaCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
   dbSslAdminCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
   dbSslUserCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
-  configSecretName: ${ARGOCD_ENV_zitadel_config_secret_name}
+  configSecretName: "${ARGOCD_ENV_zitadel_config_secret_name}"
   configSecretKey: config.yaml

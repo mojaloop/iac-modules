@@ -68,3 +68,6 @@ spec:
 
           - name: "zitadel_pg_db_release_name"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}"
+
+          - name: "zitadel_config_secret_name"
+            value: "${ARGOCD_ENV_security_zitadel_config_secret_name}"
