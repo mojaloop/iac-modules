@@ -1,0 +1,45 @@
+replicaCount: ${ARGOCD_ENV_zitadel_replicas}
+zitadel:
+  masterkeySecretName: masterkey
+  debug:
+    enabled: false
+  configmapConfig:
+    Log:
+      Level: ${ARGOCD_ENV_zitadel_log_level}
+    ExternalPort: 443
+    ExternalSecure: true
+    ExternalDomain: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
+    TLS:
+      Enabled: false
+    FirstInstance:
+      Org:
+        Machine:
+          Machine:
+            Username: zitadel-admin-sa
+            Name: Admin
+          MachineKey:
+            ExpirationDate: "2028-01-01T00:00:00Z"
+            # Type: 1 means JSON. This is currently the only supported machine key type.
+            Type: 1
+    Database:
+      Postgres:
+        Port: 5432
+        Database: ${ARGOCD_ENV_zitadel_db_name}
+        MaxOpenConns: 20
+        MaxIdleConns: 10
+        MaxConnLifetime: 30m
+        MaxConnIdleTime: 5m
+        User:
+          Username: ${ARGOCD_ENV_zitadel_db_user}
+          SSL:
+            Mode: verify-full
+        Admin:
+          Username: ${ARGOCD_ENV_zitadel_db_user}
+          ExistingDatabase: ${ARGOCD_ENV_zitadel_db_name}
+          SSL:
+            Mode: verify-full
+  dbSslCaCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
+  dbSslAdminCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
+  dbSslUserCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
+  configSecretName: "${ARGOCD_ENV_zitadel_config_secret_name}"
+  configSecretKey: config.yaml

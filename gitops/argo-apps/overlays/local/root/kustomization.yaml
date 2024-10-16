@@ -31,7 +31,7 @@ resources:
   - ../../../base/maintenance-pre.yaml
   # security
   - ../../../base/zitadel-pre.yaml
-  - ../../../base/zitadel-helm.yaml
+  - ../../../base/zitadel.yaml
   - ../../../base/zitadel-post-config.yaml
   - ../../../base/netbird-pre.yaml
   - ../../../base/netbird.yaml
