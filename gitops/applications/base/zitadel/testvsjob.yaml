@@ -8,7 +8,7 @@ spec:
       containers:
         - name: curl-test
           image: curlimages/curl:latest
-          command: ["/bin/bash"]
+          command: ["sh"]
           args:
             [
               "-c",
