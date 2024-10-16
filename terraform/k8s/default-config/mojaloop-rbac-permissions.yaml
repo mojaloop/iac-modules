@@ -63,6 +63,28 @@ roles:
   - transfers.quoteEvents
   - transfers.transferEvents
   - transfers.settlementEvents
+
+  # new permissions
+  - transfer.conversions
+  - transfer.conversionTerms
+  - transfer.conversionId
+  - transfer.conversionState
+  - transfer.conversionQuoteId
+  - transfer.conversionInstitution
+  - transfer.transferTerms
+  - transfer.transferStateChange
+  - transfer.positionChange
+  - transfer.conversationStateChange
+  - transfers.conversions
+  - transfers.conversionTerms
+  - transfers.conversionId
+  - transfers.conversionState
+  - transfers.conversionQuoteId
+  - transfers.conversionInstitution
+  - transfers.transferTerms
+  - transfers.transferStateChange
+  - transfers.positionChange
+  - transfers.conversationStateChange
 - rolename: manager
   permissions:
   - participantView
@@ -130,6 +152,28 @@ roles:
   - transfers.quoteEvents
   - transfers.transferEvents
   - transfers.settlementEvents
+
+  # new permissions
+  - transfer.conversions
+  - transfer.conversionTerms
+  - transfer.conversionId
+  - transfer.conversionState
+  - transfer.conversionQuoteId
+  - transfer.conversionInstitution
+  - transfer.transferTerms
+  - transfer.transferStateChange
+  - transfer.positionChange
+  - transfer.conversationStateChange
+  - transfers.conversions
+  - transfers.conversionTerms
+  - transfers.conversionId
+  - transfers.conversionState
+  - transfers.conversionQuoteId
+  - transfers.conversionInstitution
+  - transfers.transferTerms
+  - transfers.transferStateChange
+  - transfers.positionChange
+  - transfers.conversationStateChange
 - rolename: clerk
   permissions:
   - participantView
@@ -195,6 +239,28 @@ roles:
   - transfers.quoteEvents
   - transfers.transferEvents
   - transfers.settlementEvents
+
+  # new permissions
+  - transfer.conversions
+  - transfer.conversionTerms
+  - transfer.conversionId
+  - transfer.conversionState
+  - transfer.conversionQuoteId
+  - transfer.conversionInstitution
+  - transfer.transferTerms
+  - transfer.transferStateChange
+  - transfer.positionChange
+  - transfer.conversationStateChange
+  - transfers.conversions
+  - transfers.conversionTerms
+  - transfers.conversionId
+  - transfers.conversionState
+  - transfers.conversionQuoteId
+  - transfers.conversionInstitution
+  - transfers.transferTerms
+  - transfers.transferStateChange
+  - transfers.positionChange
+  - transfers.conversationStateChange
 - rolename: financeManager
   permissions:
   - participantView
@@ -264,6 +330,28 @@ roles:
   - transfers.quoteEvents
   - transfers.transferEvents
   - transfers.settlementEvents
+
+  # new permissions
+  - transfer.conversions
+  - transfer.conversionTerms
+  - transfer.conversionId
+  - transfer.conversionState
+  - transfer.conversionQuoteId
+  - transfer.conversionInstitution
+  - transfer.transferTerms
+  - transfer.transferStateChange
+  - transfer.positionChange
+  - transfer.conversationStateChange
+  - transfers.conversions
+  - transfers.conversionTerms
+  - transfers.conversionId
+  - transfers.conversionState
+  - transfers.conversionQuoteId
+  - transfers.conversionInstitution
+  - transfers.transferTerms
+  - transfers.transferStateChange
+  - transfers.positionChange
+  - transfers.conversationStateChange
 - rolename: dfspReconciliationReports
   permissions:
   - reportingApi
