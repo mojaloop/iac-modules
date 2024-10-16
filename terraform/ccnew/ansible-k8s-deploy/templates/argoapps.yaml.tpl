@@ -116,7 +116,7 @@ argocd_override:
           image_version: "${netbird_image_version}"
           stunner_gateway_operator_helm_version: "${stunner_gateway_operator_helm_version}"
           log_level: "${netbird_log_level}"
-          internal_k8s_cidr: "${internal_k8s_cidr}"
+          cc_vpc_cidr: "${vpc_cidr}"
           ansible_collection_tag: ${netbird_ansible_collection_tag}
           netbird_tf_provider_version: "${netbird_tf_provider_version}"
     nexus:

@@ -97,4 +97,4 @@ spec:
           value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
 
         - name: "cc_cidr_block"
-          value: "${ARGOCD_ENV_security_netbird_internal_k8s_cidr}"
+          value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
