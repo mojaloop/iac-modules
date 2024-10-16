@@ -30,8 +30,7 @@ spec:
     namespace: ${ARGOCD_ENV_security_zitadel_namespace}
 
   sources:
-    source:
-      repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
       path: gitops/applications/base/zitadel
       plugin:
