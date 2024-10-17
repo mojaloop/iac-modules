@@ -151,3 +151,5 @@ relay:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
     enabled: false
+  env:
+    NB_AUTH_SECRET: UNUSED
