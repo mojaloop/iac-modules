@@ -191,7 +191,7 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_db_provider_cloud_region}"
 
           - name: "rds_postgres_instance_size"
-            value: "${ARGOCD_ENV_security_zitadel_rds_postgres_instance_size}"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_postgres_instance_size}"
 
           - name: "rds_postgres_storage_size"
-            value: "${ARGOCD_ENV_security_zitadel_rds_postgres_storage_size}"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_postgres_storage_size}"

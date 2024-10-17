@@ -137,3 +137,6 @@ praefect_db_storage_iops: "'5000'" # rds specific
 
 ceph_bucket_max_objects: "'1000000'"
 ceph_bucket_max_size: "10Gi"
+
+zitadel_postgres_instance_size: "small"
+zitadel_postgres_storage_size: "'20'"

@@ -104,6 +104,8 @@ argocd_override:
           argocd_user_rbac_group: "${argocd_user_rbac_group}"
           argocd_admin_rbac_group: "${argocd_admin_rbac_group}"
           log_level: "${zitadel_log_level}"
+          zitadel_postgres_instance_size: "${zitadel_postgres_instance_size}"
+          zitadel_postgres_storage_size: "${zitadel_postgres_storage_size}"
         cockroachdb:
           helm_version: "${cockroachdb_helm_version}"
           pvc_size: "${cockroachdb_storage_size}"
