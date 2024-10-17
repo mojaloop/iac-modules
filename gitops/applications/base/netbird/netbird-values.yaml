@@ -137,7 +137,7 @@ management:
           key: ${ARGOCD_ENV_netbird_datastore_encryption_key_secret_key}
 
   podCommand:
-    xtraArgs:
+    args:
       - --single-account-mode-domain=${ARGOCD_ENV_netbird_dns_subdomain}
       - --log-level=${ARGOCD_ENV_netbird_log_level}
       - --disable-anonymous-metrics=true
