@@ -62,7 +62,7 @@ module "eks" {
   cluster_endpoint_public_access  = false
 
   #kms_key_administrators	        = [module.post_config.ci_user_arn]
-  kms_key_owners = [module.post_config.ci_user_arn]
+  #kms_key_owners = [module.post_config.ci_user_arn]
   kms_key_enable_default_policy   = true
 
   # Allow CI User eks cluster access
