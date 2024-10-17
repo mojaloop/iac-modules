@@ -90,7 +90,7 @@ spec:
           - name: "zitadel_pg_db_release_name"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}"
 
-          - name: "postgresql_secret_name"
+          - name: "zitadel_db_secret_name"
             value: "${ARGOCD_ENV_security_postgres_db_credentials_secret}"
 
           - name: "zitadel_config_secret_name"
@@ -101,6 +101,17 @@ spec:
 
           - name: "zitadel_db_user"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_db_user}"
+
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
       path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_security_zitadel_rdbms_provider}/zitadel-pre
@@ -161,7 +172,7 @@ spec:
           - name: "zitadel_pg_db_release_name"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}"
 
-          - name: "postgresql_secret_name"
+          - name: "zitadel_db_secret_name"
             value: "${ARGOCD_ENV_security_postgres_db_credentials_secret}"
 
           - name: "zitadel_config_secret_name"
