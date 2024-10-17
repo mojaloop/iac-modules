@@ -77,3 +77,9 @@ spec:
 
         - name: "zitadel_grant_prefix"
           value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
+
+        - name: "netbird_datastore_encryption_key_secret"
+          value: "${ARGOCD_ENV_security_netbird_datastore_encryption_key_secret}"
+
+        - name: "netbird_datastore_encryption_key_secret_key"
+          value: "${ARGOCD_ENV_security_netbird_datastore_encryption_key_secret_key}"

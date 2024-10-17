@@ -31,6 +31,8 @@ management:
         "Username": "",
         "Password": ""
       },
+      "Datadir": "/var/lib/netbird/",
+      "DataStoreEncryptionKey": "{{ .DATASTORE_ENCRYPTION_KEY }}",
       "HttpConfig": {
         "AuthIssuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
         "AuthAudience": "{{ .NETBIRD_CLIENT_ID }}",
@@ -128,6 +130,11 @@ management:
         secretKeyRef:
           name: ${ARGOCD_ENV_stunner_auth_secret}
           key: password
+    - name: DATASTORE_ENCRYPTION_KEY
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_datastore_encryption_key_secret}
+          key: ${ARGOCD_ENV_netbird_datastore_encryption_key_secret_key}
 
   podCommand:
     xtraArgs:
