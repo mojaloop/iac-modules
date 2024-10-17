@@ -43,10 +43,7 @@ spec:
         command: 
           - "sh"
           - "-c"
-          - "curl -o /tmp/rds-ca-bundle.pem https://truststore.pki.rds.amazonaws.com/$AWS_REGION/$AWS_REGION-bundle.pem"
-        env:
-        - name: AWS_REGION
-          value: ${ARGOCD_ENV_aws_region}
+          - "curl -o /tmp/rds-ca-bundle.pem https://s3.amazonaws.com/rds-downloads/rds-ca-2019-root.pem"
         volumeMounts:
           - name: ca-bundle
             mountPath: /tmp
