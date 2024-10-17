@@ -65,12 +65,20 @@ module "eks" {
   kms_key_owners = [module.post_config.ci_user_arn]
 
   # Allow CI User eks cluster access
-  access_entries = {
-    full_access = {
-      kubernetes_groups = ["system:masters"]
-      principal_arn     = module.post_config.ci_user_arn
+  ## Only for module =>20
+  # access_entries = {
+  #   full_access = {
+  #     kubernetes_groups = ["system:masters"]
+  #     principal_arn     = module.post_config.ci_user_arn
+  #   }
+  # }
+  aws_auth_users = [
+    {
+      userarn  = module.post_config.ci_user_arn
+      username = "ci-user"
+      groups   = ["system:masters"]
     }
-  }
+  ]
 
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
