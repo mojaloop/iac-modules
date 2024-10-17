@@ -64,7 +64,6 @@ resource "aws_rds_cluster" "rds_cluster" {
   db_subnet_group_name            = module.db_subnet_group.db_subnet_group_id
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.default.id
 
-  #Option group is not supported in PostgreSQL
   network_type = var.network_type
 
   iops = var.iops
@@ -84,6 +83,8 @@ resource "aws_rds_cluster" "rds_cluster" {
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
 
   deletion_protection = var.deletion_protection
+
+  manage_master_user_password = var.manage_master_user_password
 
   tags = var.tags
 
