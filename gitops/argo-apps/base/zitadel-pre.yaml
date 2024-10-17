@@ -111,6 +111,9 @@ spec:
           - name: "vault_k8s_admin_role_name"
             value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
 
+          - name: zitadel_dbdeploy_name_prefix
+            value: "${ARGOCD_ENV_security_zitadel_dbdeploy_name_prefix}"
+
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
@@ -183,3 +186,12 @@ spec:
 
           - name: "zitadel_db_user"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_db_user}"
+
+          - name: "cloud_region"
+            value: "${ARGOCD_ENV_security_zitadel_db_provider_cloud_region}"
+
+          - name: "rds_postgres_instance_size"
+            value: "${ARGOCD_ENV_security_zitadel_rds_postgres_instance_size}"
+
+          - name: "rds_postgres_storage_size"
+            value: "${ARGOCD_ENV_security_zitadel_rds_postgres_storage_size}"

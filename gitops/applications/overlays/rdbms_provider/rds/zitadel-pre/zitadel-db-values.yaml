@@ -8,7 +8,7 @@ vpcId: ${ARGOCD_ENV_rds_vpc_id}
 vpcCidr: ${ARGOCD_ENV_vpc_cidr}
 subnets:  ${ARGOCD_ENV_rds_subnet_list}
 dbName: ${ARGOCD_ENV_zitadel_db_name}
-userName: ${ARGOCD_ENV_zitadel_db_username}
+userName: ${ARGOCD_ENV_zitadel_db_user}
 allowMajorVersionUpgrade: false
 autoMinorVersionUpgrade: false
 applyImmediately: true
