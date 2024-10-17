@@ -1,94 +1,95 @@
-configuration: |-
-  {
-    "Stuns": [
-      {
-        "Proto": "udp",
-        "URI": "stun:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}",
-        "Username": "",
-        "Password": ""
-      }
-    ],
-    "TURNConfig": {
-      "TimeBasedCredentials": false,
-      "CredentialsTTL": "12h0m0s",
-      "Secret": "secret",
-      "Turns": [
-        {
-          "Proto": "udp",
-          "URI": "turn:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}",
-          "Username": "{{ .STUNNER_AUTH_USER }}",
-          "Password": "{{ .STUNNER_AUTH_PASS }}"
-        }
-      ]
-    },
-    "Signal": {
-      "Proto": "https",
-      "URI": "netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443",
-      "Username": "",
-      "Password": ""
-    },
-    "HttpConfig": {
-      "AuthIssuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
-      "AuthAudience": "{{ .NETBIRD_CLIENT_ID }}",
-      "OIDCConfigEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/.well-known/openid-configuration",
-      "LetsEncryptDomain": "",
-      "CertFile": "",
-      "CertKey": "",
-      "AuthUserIDClaim": "",
-      "IdpSignKeyRefreshEnabled": true,
-      "ExtraAuthAudience": "{{ .NETBIRD_PROJECT_ID }}"
-    },
-    "IdpManagerConfig": {
-      "ManagerType": "zitadel",
-      "ClientConfig": {
-        "Issuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
-        "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
-        "ClientID": "netbird",
-        "ClientSecret": "{{ .NETBIRD_SERVICE_USER_CLIENT_SECRET }}"
-        "GrantType": "client_credentials"
-      },
-      "ExtraConfig": {
-          "ManagementEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/management/v1"
-      }
-    },
-    "DeviceAuthorizationFlow": {
-      "Provider": "hosted",
-      "ProviderConfig": {
-        "ClientID": "{{ .NETBIRD_CLI_CLIENT_ID }}",
-        "ClientSecret": "",
-        "Audience": "{{ .NETBIRD_CLI_CLIENT_ID }}",
-        "AuthorizationEndpoint": "",
-        "Scope": "openid",
-        "UseIDToken": false,
-        "RedirectURLs": null
-      }
-    },
-    "PKCEAuthorizationFlow": {
-      "ProviderConfig": {
-        "ClientID": "{{ .NETBIRD_CLI_CLIENT_ID }}",
-        "ClientSecret": "",
-        "Domain": "",
-        "Audience": "{{ .NETBIRD_CLI_CLIENT_ID }}",
-        "DeviceAuthEndpoint": "",
-        "Scope": "openid profile email offline_access api groups ${ARGOCD_ENV_zitadel_grant_prefix}",
-        "UseIDToken": false,
-        "RedirectURLs": ["http://localhost:53000/","http://localhost:54000/"]
-      }
-    },
-    "StoreConfig": {
-      "Engine": "sqlite"
-    },
-    "ReverseProxy": {
-      "TrustedHTTPProxies": null,
-      "TrustedHTTPProxiesCount": 0,
-      "TrustedPeers": null
-    }
-  }
+global:
+  namespace: "${ARGOCD_ENV_netbird_namespace}"
 
 management:
+  configmap: |-
+    {
+      "Stuns": [
+        {
+          "Proto": "udp",
+          "URI": "stun:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}",
+          "Username": "",
+          "Password": ""
+        }
+      ],
+      "TURNConfig": {
+        "TimeBasedCredentials": false,
+        "CredentialsTTL": "12h0m0s",
+        "Secret": "secret",
+        "Turns": [
+          {
+            "Proto": "udp",
+            "URI": "turn:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}",
+            "Username": "{{ .STUNNER_AUTH_USER }}",
+            "Password": "{{ .STUNNER_AUTH_PASS }}"
+          }
+        ]
+      },
+      "Signal": {
+        "Proto": "https",
+        "URI": "netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443",
+        "Username": "",
+        "Password": ""
+      },
+      "HttpConfig": {
+        "AuthIssuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
+        "AuthAudience": "{{ .NETBIRD_CLIENT_ID }}",
+        "OIDCConfigEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/.well-known/openid-configuration",
+        "LetsEncryptDomain": "",
+        "CertFile": "",
+        "CertKey": "",
+        "AuthUserIDClaim": "",
+        "IdpSignKeyRefreshEnabled": true,
+        "ExtraAuthAudience": "{{ .NETBIRD_PROJECT_ID }}"
+      },
+      "IdpManagerConfig": {
+        "ManagerType": "zitadel",
+        "ClientConfig": {
+          "Issuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
+          "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
+          "ClientID": "netbird",
+          "ClientSecret": "{{ .NETBIRD_SERVICE_USER_CLIENT_SECRET }}"
+          "GrantType": "client_credentials"
+        },
+        "ExtraConfig": {
+            "ManagementEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/management/v1"
+        }
+      },
+      "DeviceAuthorizationFlow": {
+        "Provider": "hosted",
+        "ProviderConfig": {
+          "ClientID": "{{ .NETBIRD_CLI_CLIENT_ID }}",
+          "ClientSecret": "",
+          "Audience": "{{ .NETBIRD_CLI_CLIENT_ID }}",
+          "AuthorizationEndpoint": "",
+          "Scope": "openid",
+          "UseIDToken": false,
+          "RedirectURLs": null
+        }
+      },
+      "PKCEAuthorizationFlow": {
+        "ProviderConfig": {
+          "ClientID": "{{ .NETBIRD_CLI_CLIENT_ID }}",
+          "ClientSecret": "",
+          "Domain": "",
+          "Audience": "{{ .NETBIRD_CLI_CLIENT_ID }}",
+          "DeviceAuthEndpoint": "",
+          "Scope": "openid profile email offline_access api groups ${ARGOCD_ENV_zitadel_grant_prefix}",
+          "UseIDToken": false,
+          "RedirectURLs": ["http://localhost:53000/","http://localhost:54000/"]
+        }
+      },
+      "StoreConfig": {
+        "Engine": "sqlite"
+      },
+      "ReverseProxy": {
+        "TrustedHTTPProxies": null,
+        "TrustedHTTPProxiesCount": 0,
+        "TrustedPeers": null
+      }
+    }
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
-    repository: dfryklavel/netbird-mgmt
   ingress:
     enabled: false
   ingressGrpc:
@@ -134,6 +135,11 @@ management:
       - --log-level=${ARGOCD_ENV_netbird_log_level}
       - --disable-anonymous-metrics=true
 signal:
+  image:
+    tag: ${ARGOCD_ENV_netbird_image_version}
+  ingress:
+    enabled: false
+relay:
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
