@@ -147,6 +147,7 @@ signal:
   ingress:
     enabled: false
 relay:
+  enabled: false
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
