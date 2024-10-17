@@ -16,8 +16,8 @@ configuration: |-
         {
           "Proto": "udp",
           "URI": "turn:netbird.${ARGOCD_ENV_netbird_dns_subdomain}:${ARGOCD_ENV_stunner_nodeport_port}",
-          "Username": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_stunner_auth_secret}/username+",
-          "Password": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_stunner_auth_secret}/password+"
+          "Username": "{{ .STUNNER_AUTH_USER }}",
+          "Password": "{{ .STUNNER_AUTH_PASS }}"
         }
       ]
     },
@@ -29,14 +29,14 @@ configuration: |-
     },
     "HttpConfig": {
       "AuthIssuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
-      "AuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_client_id+",
+      "AuthAudience": "{{ .NETBIRD_CLIENT_ID }}",
       "OIDCConfigEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/.well-known/openid-configuration",
       "LetsEncryptDomain": "",
       "CertFile": "",
       "CertKey": "",
       "AuthUserIDClaim": "",
       "IdpSignKeyRefreshEnabled": true,
-      "ExtraAuthAudience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_project_id+"
+      "ExtraAuthAudience": "{{ .NETBIRD_PROJECT_ID }}"
     },
     "IdpManagerConfig": {
       "ManagerType": "zitadel",
@@ -44,7 +44,7 @@ configuration: |-
         "Issuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
         "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
         "ClientID": "netbird",
-        "ClientSecret": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_service_user_client_secret+",
+        "ClientSecret": "{{ .NETBIRD_SERVICE_USER_CLIENT_SECRET }}"
         "GrantType": "client_credentials"
       },
       "ExtraConfig": {
@@ -54,9 +54,9 @@ configuration: |-
     "DeviceAuthorizationFlow": {
       "Provider": "hosted",
       "ProviderConfig": {
-        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "ClientID": "{{ .NETBIRD_CLI_CLIENT_ID }}",
         "ClientSecret": "",
-        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "Audience": "{{ .NETBIRD_CLI_CLIENT_ID }}",
         "AuthorizationEndpoint": "",
         "Scope": "openid",
         "UseIDToken": false,
@@ -65,10 +65,10 @@ configuration: |-
     },
     "PKCEAuthorizationFlow": {
       "ProviderConfig": {
-        "ClientID": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "ClientID": "{{ .NETBIRD_CLI_CLIENT_ID }}",
         "ClientSecret": "",
         "Domain": "",
-        "Audience": "ref+k8s://v1/Secret/${ARGOCD_ENV_netbird_namespace}/${ARGOCD_ENV_netbird_preconfig_output_secret}/netbird_cli_client_id+",
+        "Audience": "{{ .NETBIRD_CLI_CLIENT_ID }}",
         "DeviceAuthEndpoint": "",
         "Scope": "openid profile email offline_access api groups ${ARGOCD_ENV_zitadel_grant_prefix}",
         "UseIDToken": false,
@@ -96,6 +96,37 @@ management:
   persistentVolume:
     enabled: true
     size: 5Gi
+  envRaw:
+    - name: NETBIRD_CLI_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+          key: netbird_cli_client_id
+    - name: NETBIRD_SERVICE_USER_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+          key: netbird_service_user_client_secret
+    - name: NETBIRD_PROJECT_ID
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+          key: netbird_project_id
+    - name: NETBIRD_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+          key: netbird_client_id
+    - name: STUNNER_AUTH_USER
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_stunner_auth_secret}
+          key: username
+    - name: STUNNER_AUTH_PASS
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_stunner_auth_secret}
+          key: password
 
   podCommand:
     xtraArgs:

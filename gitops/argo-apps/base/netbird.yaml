@@ -34,7 +34,7 @@ spec:
     targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
     path: gitops/applications/base/netbird
     plugin:
-      name: helmfile
+      name: envsubst
       env:
         - name: "zitadel_dns_subdomain"
           value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
