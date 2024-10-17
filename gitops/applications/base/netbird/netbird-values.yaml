@@ -152,4 +152,7 @@ relay:
   ingress:
     enabled: false
   env:
-    NB_AUTH_SECRET: UNUSED
+    NB_LOG_LEVEL: info
+    NB_LISTEN_ADDRESS: ":33080"
+    NB_EXPOSED_ADDRESS: rels://netbird.example.com:443/relay
+    NB_AUTH_SECRET: rels://netbird.example.com:443/relay
