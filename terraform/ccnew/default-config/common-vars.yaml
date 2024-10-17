@@ -30,7 +30,7 @@ vault_crossplane_modules_version: "1.0.0"
 terraform_crossplane_modules_version: "0.16.0"
 ansible_crossplane_modules_version: "0.6.0"
 rds_crossplane_module_version: "1.14.0"
-aws_crossplane_module_version: "0.49.2"
+aws_crossplane_module_version: "0.37.1"
 ec2_crossplane_module_version: "1.14.0"
 crossplane_func_pat_version: "0.2.1"
 k8s_crossplane_module_version: "0.11.4"
@@ -92,13 +92,13 @@ gitlab_redis_storage_size: "'5Gi'"
 gitlab_postgres_replicas: "'1'"
 gitlab_postgres_proxy_replicas: "'1'"
 gitlab_postgres_storage_size: "'10'"
-#gitlab_postgres_storage_size: "'200'" # for rds
+#gitlab_postgres_storage_size: "'100'" # for rds
 gitlab_postgres_instance_size: "small"
 gitlab_pgdb_helm_version: "2.4.0"
 gitlab_praefect_postgres_replicas: "'1'"
 gitlab_praefect_postgres_proxy_replicas: "'1'"
 gitlab_praefect_postgres_storage_size: "'10'"
-#gitlab_praefect_postgres_storage_size: "'200'" # for rds
+#gitlab_praefect_postgres_storage_size: "'100'" # for rds add this line in custom-config/common-vars.yaml
 gitlab_praefect_postgres_instance_size: "small"
 gitlab_praefect_pgdb_helm_version: "2.4.0"
 git_lfs_max_objects: "'1000000'"
@@ -130,9 +130,9 @@ gitlab_db_preferred_backup_window: "07:00-09:00"
 praefect_db_backup_retention_period: "'1'"
 praefect_db_preferred_backup_window: "07:00-09:00"
 gitlab_db_storage_type: "io1"   # rds specific
-gitlab_db_storage_iops: "'4000'" # rds specific
+gitlab_db_storage_iops: "'5000'" # rds specific
 praefect_db_storage_type: "io1" # rds specific
-praefect_db_storage_iops: "'4000'" # rds specific
+praefect_db_storage_iops: "'5000'" # rds specific
 
 ceph_bucket_max_objects: "'1000000'"
 ceph_bucket_max_size: "10Gi"
