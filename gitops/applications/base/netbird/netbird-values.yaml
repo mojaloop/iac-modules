@@ -48,7 +48,7 @@ management:
           "Issuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
           "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
           "ClientID": "netbird",
-          "ClientSecret": "{{ .NETBIRD_SERVICE_USER_CLIENT_SECRET }}"
+          "ClientSecret": "{{ .NETBIRD_SERVICE_USER_CLIENT_SECRET }}",
           "GrantType": "client_credentials"
         },
         "ExtraConfig": {
