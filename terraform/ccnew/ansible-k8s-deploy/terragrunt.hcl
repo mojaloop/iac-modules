@@ -72,7 +72,7 @@ inputs = {
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
   all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps,
-  {netbird_version = local.env_vars.netbird_image_version},
+  {netbird_version = local.common_vars.netbird_image_version},
   (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.env_vars.microk8s_version, "1.30/stable")
