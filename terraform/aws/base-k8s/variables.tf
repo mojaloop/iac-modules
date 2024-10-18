@@ -68,7 +68,7 @@ variable "node_pools" {
 
 variable "az_count" {
   type        = number
-  default     = 2 #debug
+  default     = 3 #debug
   description = "Number of azs"
 }
 
