@@ -166,7 +166,6 @@ output "bastion_hosts_var_maps" {
 # }
 
 
-
 output "agent_hosts" {
   value = {}
 }
