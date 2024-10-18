@@ -22,7 +22,7 @@ spec:
             prefix: /management.ManagementService
       route:
         - destination:
-            host: netbird-management-grpc
+            host: netbird-management
             port:
               number: 80
     - match:

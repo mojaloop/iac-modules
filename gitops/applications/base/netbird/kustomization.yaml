@@ -15,3 +15,12 @@ helmCharts:
     version: ${ARGOCD_ENV_netbird_dashboard_helm_version}
     repo: https://totmicro.github.io/helms
     valuesFile: netbird-ui-values.yaml
+
+patches:
+  - target:
+      kind: Service
+      name: netbird-management
+    patch: |
+      - op: add
+        path: /spec/ports/0/appProtocol
+        value: http2
