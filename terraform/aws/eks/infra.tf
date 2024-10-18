@@ -72,7 +72,7 @@ module "eks" {
     ci_user = {
       kubernetes_groups = ["system:masters"]
       principal_arn     = module.post_config.ci_user_arn
-      user_name         = ci-user
+      user_name         = "ci-user"
     }
   }
   #manage_aws_auth_configmap = true
