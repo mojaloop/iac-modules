@@ -73,14 +73,14 @@ module "eks" {
   #     principal_arn     = module.post_config.ci_user_arn
   #   }
   # }
-  manage_aws_auth_configmap = true
-  aws_auth_users = [
-    {
-      userarn  = module.post_config.ci_user_arn
-      username = "ci-user"
-      groups   = ["system:masters"]
-    }
-  ]
+  #manage_aws_auth_configmap = true
+  # aws_auth_users = [
+  #   {
+  #     userarn  = module.post_config.ci_user_arn
+  #     username = "ci-user"
+  #     groups   = ["system:masters"]
+  #   }
+  # ]
   
 
   vpc_id     = module.base_infra.vpc_id
