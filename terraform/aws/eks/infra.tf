@@ -73,6 +73,7 @@ module "eks" {
   #     principal_arn     = module.post_config.ci_user_arn
   #   }
   # }
+  manage_aws_auth_configmap = true
   aws_auth_users = [
     {
       userarn  = module.post_config.ci_user_arn
@@ -80,6 +81,7 @@ module "eks" {
       groups   = ["system:masters"]
     }
   ]
+  
 
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
