@@ -65,6 +65,8 @@ management:
           "ClientSecret": "",
           "Domain": "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
           "Audience": "{{ .NETBIRD_CLI_CLIENT_ID }}",
+          "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
+          "DeviceAuthEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/device_authorization",
           "AuthorizationEndpoint": "",
           "Scope": "openid",
           "UseIDToken": false,
