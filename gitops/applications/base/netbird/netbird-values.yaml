@@ -82,7 +82,7 @@ management:
           "UseIDToken": false,
           "RedirectURLs": ["http://localhost:53000/","http://localhost:54000/"],
           "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
-          "AuthorizationEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/authorize",
+          "AuthorizationEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/authorize"
         }
       },
       "StoreConfig": {
