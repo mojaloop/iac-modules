@@ -5,6 +5,7 @@ metadata:
   labels:
     provider: aws
     db: postgresql
+    cluster: ${ARGOCD_ENV_cluster_name}
 spec:
   compositeTypeRef:
     apiVersion: infitx.org/v1alpha1
@@ -63,7 +64,7 @@ spec:
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: "spec.parameters.vpcId"
           toFieldPath: "spec.forProvider.vpcId"
-        - fromFieldPath: "spec.parameters.dbName"
+        - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.groupName"
           transforms:
           - type: string

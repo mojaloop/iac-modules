@@ -36,6 +36,9 @@ spec:
     plugin:
       name: envsubst
       env:
+        - name: "cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+
         - name: "gitlab_namespace"
           value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
 
@@ -192,6 +195,9 @@ spec:
     plugin:
       name: envsubst
       env:
+        - name: "cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+
         - name: "gitlab_app_name"
           value: "${ARGOCD_ENV_gitlab_gitlab_app_name}"
 

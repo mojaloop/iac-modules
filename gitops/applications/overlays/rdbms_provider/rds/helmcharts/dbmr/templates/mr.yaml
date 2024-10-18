@@ -1,7 +1,7 @@
 apiVersion: infitx.org/v1alpha1
 kind: DBInstanceClaim
 metadata:
-  name: {{ .Values.name }}
+  name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   namespace: {{ .Values.namespace }}
   annotations:
     organization: Infitx
@@ -12,7 +12,9 @@ spec:
     matchLabels:
       provider: aws
       db: postgresql
+      cluster: {{ .Values.namePrefix }}
   parameters:
+    namePrefix: {{ .Values.namePrefix }}
     region: {{ .Values.region }}
     engineVersion: "16"
     size: {{ .Values.size }}
