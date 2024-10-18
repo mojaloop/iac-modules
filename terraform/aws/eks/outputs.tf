@@ -165,6 +165,13 @@ output "bastion_hosts_yaml_maps" {
   }
 }
 
+output "cluster_iam_role_arn" {
+  value = module.eks.cluster_iam_role_arn
+}
+
+output "ci_user_arn" {
+  value = module.post_config.ci_user_arn
+}
 
 output "agent_hosts" {
   value = {}
