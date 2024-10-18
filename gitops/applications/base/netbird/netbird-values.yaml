@@ -37,6 +37,7 @@ management:
         "AuthIssuer": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
         "AuthAudience": "{{ .NETBIRD_CLIENT_ID }}",
         "OIDCConfigEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/.well-known/openid-configuration",
+        "AuthKeysLocation": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/keys",
         "LetsEncryptDomain": "",
         "CertFile": "",
         "CertKey": "",
@@ -62,6 +63,7 @@ management:
         "ProviderConfig": {
           "ClientID": "{{ .NETBIRD_CLI_CLIENT_ID }}",
           "ClientSecret": "",
+          "Domain": "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}",
           "Audience": "{{ .NETBIRD_CLI_CLIENT_ID }}",
           "AuthorizationEndpoint": "",
           "Scope": "openid",
@@ -78,7 +80,9 @@ management:
           "DeviceAuthEndpoint": "",
           "Scope": "openid profile email offline_access api groups ${ARGOCD_ENV_zitadel_grant_prefix}",
           "UseIDToken": false,
-          "RedirectURLs": ["http://localhost:53000/","http://localhost:54000/"]
+          "RedirectURLs": ["http://localhost:53000/","http://localhost:54000/"],
+          "TokenEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token",
+          "AuthorizationEndpoint": "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/authorize",
         }
       },
       "StoreConfig": {
@@ -140,7 +144,10 @@ management:
     args:
       - --single-account-mode-domain=${ARGOCD_ENV_netbird_dns_subdomain}
       - --log-level=${ARGOCD_ENV_netbird_log_level}
+      - --log-file=console
       - --disable-anonymous-metrics=true
+      - --port=80
+      - --dns-domain=netbird.selfhosted"
 signal:
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
