@@ -156,7 +156,7 @@ signal:
   ingress:
     enabled: false
 relay:
-  enabled: true
+  enabled: false
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
@@ -166,3 +166,31 @@ relay:
     NB_LISTEN_ADDRESS: ":33080"
     NB_EXPOSED_ADDRESS: rels://netbird.example.com:443/relay
     NB_AUTH_SECRET: rels://netbird.example.com:443/relay
+dashboard:
+  enabled: true
+  ingress:
+    enabled: false
+  image:
+    tag: ${ARGOCD_ENV_netbird_dashboard_image_version}
+  env:
+    # Endpoints
+    NETBIRD_MGMT_API_ENDPOINT: https://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443
+    NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443
+    # OIDC
+    AUTH_AUTHORITY: https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
+    USE_AUTH0: false
+    AUTH_SUPPORTED_SCOPES: openid profile email offline_access api groups
+    AUTH_REDIRECT_URI: /nb-auth
+    AUTH_SILENT_REDIRECT_URI: /nb-silent-auth
+
+  envRaw:
+    - name: AUTH_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+          key: netbird_client_id
+    - name: AUTH_AUDIENCE
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+          key: netbird_client_id
