@@ -70,9 +70,18 @@ module "eks" {
   ## Only for module =>20
   access_entries = {
     ci_user = {
-      kubernetes_groups = ["system:masters"]
+      kubernetes_groups = []
       principal_arn     = module.post_config.ci_user_arn
-      user_name         = "ci-user"
+      
+      policy_associations = {
+        ci_user = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            namespaces = []
+            type = "cluster"
+          }
+        }
+      }
     }
   }
   #manage_aws_auth_configmap = true
