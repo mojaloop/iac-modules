@@ -46,8 +46,14 @@ bastion:
     %{~ for varmapkey, varmapval in bastion_hosts_var_maps ~}
     ${varmapkey}: '${varmapval}'
     %{~ endfor ~}
+    {% comment %} %{~ for varmapkey, varmapval in bastion_hosts_yaml_maps ~}
+    ${varmapkey}:
+      ${indent(6, varmapval)}
+    %{~ endfor ~} {% endcomment %}
+    %{~ if length(bastion_hosts_yaml_maps) > 0 ~}
     %{~ for varmapkey, varmapval in bastion_hosts_yaml_maps ~}
     ${varmapkey}:
       ${indent(6, varmapval)}
     %{~ endfor ~}
+    %{~ endif ~}
     ${indent(4, yamldecode(bastion_hosts_yaml_fragments))}
