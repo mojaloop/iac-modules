@@ -67,8 +67,9 @@ module "eks" {
   #kms_key_owners = [module.post_config.ci_user_arn]
   kms_key_enable_default_policy   = true
 
-  # Allow CI User eks cluster access
+  # Cluster access entry
   ## Only from module =>20
+  enable_cluster_creator_admin_permissions = true
   authentication_mode = "API_AND_CONFIG_MAP"
   access_entries = {
     ci_user = {
