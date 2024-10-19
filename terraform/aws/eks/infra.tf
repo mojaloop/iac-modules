@@ -53,8 +53,9 @@ module "k6s_test_harness" {
 
 module "eks" {
   source      = "terraform-aws-modules/eks/aws"
-   version     = "~> 19.21"
+  #version     = "~> 19.21"
   #version     = "~> 20.1"
+  version = "~> 20.0"
   enable_irsa = true
 
   cluster_name                    = local.eks_name
@@ -67,23 +68,25 @@ module "eks" {
   kms_key_enable_default_policy   = true
 
   # Allow CI User eks cluster access
-  ## Only for module =>20
-  # access_entries = {
-  #   ci_user = {
-  #     kubernetes_groups = []
-  #     principal_arn     = module.post_config.ci_user_arn
+  ## Only from module =>20
+  authentication_mode = "API_AND_CONFIG_MAP"
+  access_entries = {
+    ci_user = {
+      kubernetes_groups = []
+      principal_arn     = module.post_config.ci_user_arn
+      type              = "STANDARD"
       
-  #     policy_associations = {
-  #       ci_user = {
-  #         policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-  #         access_scope = {
-  #           namespaces = []
-  #           type = "cluster"
-  #         }
-  #       }
-  #     }
-  #   }
-  # }
+      policy_associations = {
+        admin_access = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            namespaces = []
+            type = "cluster"
+          }
+        }
+      }
+    }
+  }
   #manage_aws_auth_configmap = true
   # aws_auth_users = [
   #   {
