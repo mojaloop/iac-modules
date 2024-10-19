@@ -68,7 +68,7 @@ module "eks" {
   kms_key_enable_default_policy   = true
 
   # Cluster access entry
-  ## Only from module =>20
+  ## Only from module =>20, terraform >=1.3.2
   enable_cluster_creator_admin_permissions = true
   authentication_mode = "API_AND_CONFIG_MAP"
   access_entries = {
@@ -88,15 +88,6 @@ module "eks" {
       }
     }
   }
-  #manage_aws_auth_configmap = true
-  # aws_auth_users = [
-  #   {
-  #     userarn  = module.post_config.ci_user_arn
-  #     username = "ci-user"
-  #     groups   = ["system:masters"]
-  #   }
-  # ]
-  
 
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
