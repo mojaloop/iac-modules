@@ -18,7 +18,7 @@ spec:
     env:
       - name: TF_VAR_zitadel_org_id
         secretKeyRef:
-          namespace: ${ARGOCD_ENV_vault_namespace}
+          namespace: ${ARGOCD_ENV_zitadel_namespace}
           name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}
           key: zitadel_org_id
 
