@@ -195,7 +195,7 @@ resource "aws_iam_role" "eks_access_role" {
       {
         Effect = "Allow",
         Principal = {
-          AWS = local.user_arns
+          AWS = local.eks_user_arns
         },
         Action = "sts:AssumeRole"
       }
@@ -204,7 +204,7 @@ resource "aws_iam_role" "eks_access_role" {
 }
 
 locals {
-  user_arns = distinct([
+  eks_user_arns = distinct([
     aws_iam_user.ci_iam_user[0].arn,
     data.aws_caller_identity.current_user.arn
   ])
