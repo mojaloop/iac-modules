@@ -157,6 +157,18 @@ spec:
           - name: "argocd_namespace"
             value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
 
+          - name: "vault_namespace"
+            value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+          - name: "vault_k8s_admin_auth_path"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+          - name: "vault_k8s_admin_role_name"
+            value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+          - name: zitadel_dbdeploy_name_prefix
+            value: "${ARGOCD_ENV_security_zitadel_dbdeploy_name_prefix}"
+
           - name: "postgres_replicas"
             value: "${ARGOCD_ENV_security_postgres_replicas}"
 
@@ -189,6 +201,15 @@ spec:
 
           - name: "cloud_region"
             value: "${ARGOCD_ENV_security_zitadel_db_provider_cloud_region}"
+
+          - name: "rds_vpc_id"
+            value: "${ARGOCD_ENV_security_zitadel_rdbms_vpc_id}"
+
+          - name: "vpc_cidr"
+            value: "${ARGOCD_ENV_security_zitadel_vpc_cidr}"
+
+          - name: "rds_subnet_list"
+            value: "${ARGOCD_ENV_security_zitadel_rdbms_subnet_list}"
 
           - name: "rds_postgres_instance_size"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_postgres_instance_size}"
