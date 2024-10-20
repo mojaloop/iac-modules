@@ -61,6 +61,9 @@ spec:
               groupName: db-security-group
               region: eu-west-2
               vpcId: testid
+              tags:
+              - key: Name
+                value: db-security-group
             providerConfigRef:
               name: crossplane-provider-config              
         patches:
@@ -78,7 +81,9 @@ spec:
               type: Format
               fmt: '%s-security-group'
         - fromFieldPath: "spec.parameters.vpcCidr"
-          toFieldPath: "spec.forProvider.ingress[0].ipRanges[0].cidrIp"                     
+          toFieldPath: "spec.forProvider.ingress[0].ipRanges[0].cidrIp"
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.forProvider.tags[0].value"
       - name: dbCluster
         base:
           apiVersion: rds.aws.crossplane.io/v1alpha1
