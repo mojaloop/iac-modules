@@ -51,6 +51,8 @@ spec:
           kind: SecurityGroup
           spec:
             forProvider:
+              ignoreIngress: true
+              ignoreEgress: true
               description: Security group for the db instance
               groupName: db-security-group
               region: eu-west-2
