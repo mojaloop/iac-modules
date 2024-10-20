@@ -27,9 +27,6 @@ spec:
               parameters:
                 type: object
                 properties:
-                  namePrefix: 
-                    description: The name prefix for the resources
-                    type: string
                   region:
                     description: Region
                     type: string
@@ -111,7 +108,6 @@ spec:
                           description: The SQL to apply.
                           type: string
                 required:
-                - namePrefix
                 - region
                 - engineVersion
                 - storageGB
