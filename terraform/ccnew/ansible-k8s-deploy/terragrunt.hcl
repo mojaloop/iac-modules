@@ -27,7 +27,7 @@ dependency "k8s_deploy" {
     object_storage_cloud_role   = "null"
     object_storage_bucket_name  = "null"
     private_subnets             = "null"
-    vpc_id                      = "null"    
+    vpc_id                      = "null"  
     target_group_internal_https_port = 0
     target_group_internal_http_port = 0
     target_group_internal_health_port = 0

@@ -160,12 +160,19 @@ output "bastion_hosts_var_maps" {
 
 output "bastion_hosts_yaml_maps" {
   sensitive = false
-  value = {
-    eks_post_install_config_map = replace(module.eks.aws_auth_configmap_yaml, "{{", "{{ '{{' }}")
-  }
+  value = {}
+  # value = {
+  #   eks_post_install_config_map = replace(module.eks.aws_auth_configmap_yaml, "{{", "{{ '{{' }}")
+  # }
 }
 
+output "cluster_iam_role_arn" {
+  value = module.eks.cluster_iam_role_arn
+}
 
+output "ci_user_arn" {
+  value = module.post_config.ci_user_arn
+}
 
 output "agent_hosts" {
   value = {}

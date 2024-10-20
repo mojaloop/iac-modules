@@ -51,7 +51,7 @@ ingester:
 
 querier:
   replicaCount: ${ARGOCD_ENV_mimir_querier_replica_count}
-  resourcesPreset: large
+  resourcesPreset: xlarge
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
@@ -63,7 +63,7 @@ compactor:
   replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
-  resourcesPreset: large
+  resourcesPreset: xlarge
   persistence:
     size: ${ARGOCD_ENV_mimir_compactor_storage_size}
 

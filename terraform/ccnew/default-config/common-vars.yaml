@@ -77,6 +77,7 @@ loki_retention_enabled: true
 loki_ingester_retention_period: 72h
 loki_ingester_max_chunk_age: 2h
 tempo_retention_period: 72h
+
 # monitoring/mimir
 mimir_max_global_series_per_user: "'5000000'"
 mimir_retention_period: "7d"
@@ -93,13 +94,13 @@ gitlab_redis_storage_size: "'5Gi'"
 gitlab_postgres_replicas: "'1'"
 gitlab_postgres_proxy_replicas: "'1'"
 gitlab_postgres_storage_size: "'10'"
-#gitlab_postgres_storage_size: "'200'" # for rds
+#gitlab_postgres_storage_size: "'100'" # for rds
 gitlab_postgres_instance_size: "small"
 gitlab_pgdb_helm_version: "2.4.0"
 gitlab_praefect_postgres_replicas: "'1'"
 gitlab_praefect_postgres_proxy_replicas: "'1'"
 gitlab_praefect_postgres_storage_size: "'10'"
-#gitlab_praefect_postgres_storage_size: "'200'" # for rds
+#gitlab_praefect_postgres_storage_size: "'100'" # for rds add this line in custom-config/common-vars.yaml
 gitlab_praefect_postgres_instance_size: "small"
 gitlab_praefect_pgdb_helm_version: "2.4.0"
 git_lfs_max_objects: "'1000000'"
@@ -130,10 +131,17 @@ gitlab_db_backup_retention_period: "'1'"
 gitlab_db_preferred_backup_window: "07:00-09:00"
 praefect_db_backup_retention_period: "'1'"
 praefect_db_preferred_backup_window: "07:00-09:00"
-gitlab_db_storage_type: "io1" # rds specific
-gitlab_db_storage_iops: "'4000'" # rds specific
+gitlab_db_storage_type: "io1"   # rds specific
+gitlab_db_storage_iops: "'5000'" # rds specific
 praefect_db_storage_type: "io1" # rds specific
-praefect_db_storage_iops: "'4000'" # rds specific
+praefect_db_storage_iops: "'5000'" # rds specific
 
 ceph_bucket_max_objects: "'1000000'"
 ceph_bucket_max_size: "10Gi"
+
+# Zitadel
+zitadel_postgres_rdbms_provider: "percona"
+zitadel_postgres_instance_size: "small"
+zitadel_postgres_storage_size: "'20'"
+zitadel_db_storage_type: "io1"   # rds specific
+zitadel_db_storage_iops: "'5000'" # rds specific

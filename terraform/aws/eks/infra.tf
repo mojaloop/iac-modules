@@ -53,7 +53,9 @@ module "k6s_test_harness" {
 
 module "eks" {
   source      = "terraform-aws-modules/eks/aws"
-  version     = "~> 19.21"
+  #version     = "~> 19.21"
+  #version     = "~> 20.1"
+  version = "~> 20.0"
   enable_irsa = true
 
   cluster_name                    = local.eks_name
@@ -62,7 +64,30 @@ module "eks" {
   cluster_endpoint_public_access  = false
 
   #kms_key_administrators	        = [module.post_config.ci_user_arn]
-  kms_key_owners = [module.post_config.ci_user_arn]
+  #kms_key_owners = [module.post_config.ci_user_arn]
+  kms_key_enable_default_policy   = true
+
+  # Cluster access entry
+  ## Only from module =>20, terraform >=1.3.2
+  enable_cluster_creator_admin_permissions = true
+  authentication_mode = "API_AND_CONFIG_MAP"
+  access_entries = {
+    ci_user = {
+      kubernetes_groups = []
+      principal_arn     = module.post_config.ci_user_arn
+      type              = "STANDARD"
+      
+      policy_associations = {
+        admin_access = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            namespaces = []
+            type = "cluster"
+          }
+        }
+      }
+    }
+  }
 
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
