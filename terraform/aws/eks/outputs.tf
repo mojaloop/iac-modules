@@ -138,6 +138,7 @@ output "all_hosts_var_maps" {
     external_interop_switch_fqdn = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
     kubeapi_loadbalancer_fqdn    = module.eks.cluster_endpoint
     eks_cluster_name             = module.eks.cluster_name
+    eks_access_role_arn          = module.post_config.eks_access_role_arn
   }
 }
 
