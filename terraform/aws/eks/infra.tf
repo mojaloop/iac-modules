@@ -62,19 +62,17 @@ module "eks" {
   cluster_version                 = var.kubernetes_version
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
-
-  #kms_key_administrators	        = [module.post_config.ci_user_arn]
-  #kms_key_owners = [module.post_config.ci_user_arn]
+  
+  # Enable the default key policy (no need for kms_key_administrators or kms_key_owners)
   kms_key_enable_default_policy   = true
 
-  # Cluster access entry
-  ## Only from module =>20, terraform >=1.3.2
+  # EKS cluster access entry - aws-auth configmap is deprecated (from module =>20)
+  ## Needs terraform >=1.3.2
   enable_cluster_creator_admin_permissions = false
   authentication_mode = "API_AND_CONFIG_MAP"
   access_entries = {
     eks_access_role = {
       kubernetes_groups = []
-      #principal_arn     = module.post_config.ci_user_arn
       principal_arn     = module.post_config.eks_access_role_arn
       type              = "STANDARD"
       
