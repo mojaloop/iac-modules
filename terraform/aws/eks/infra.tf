@@ -69,7 +69,7 @@ module "eks" {
 
   # Cluster access entry
   ## Only from module =>20, terraform >=1.3.2
-  enable_cluster_creator_admin_permissions = true
+  enable_cluster_creator_admin_permissions = false
   authentication_mode = "API_AND_CONFIG_MAP"
   access_entries = {
     eks_access_role = {
