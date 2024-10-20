@@ -70,7 +70,7 @@ spec:
           - type: string
             string:
               type: Format
-              fmt: '%s-db-security-group'                    
+              fmt: '%s-security-group'                    
       - name: securityGroupRule
         base:
           apiVersion: ec2.aws.crossplane.io/v1alpha1
