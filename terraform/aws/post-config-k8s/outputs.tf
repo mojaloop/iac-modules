@@ -62,3 +62,11 @@ output "external_dns_cloud_role" {
 output "ci_user_arn" {
   value = aws_iam_user.ci_iam_user[0].arn
 }
+
+output "current_user_arn" {
+  value = data.aws_caller_identity.current_user.arn
+}
+
+output "eks_access_role_arn" {
+  value = aws_iam_role.eks_access_role.arn
+}
