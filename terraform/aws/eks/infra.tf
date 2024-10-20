@@ -72,9 +72,10 @@ module "eks" {
   enable_cluster_creator_admin_permissions = true
   authentication_mode = "API_AND_CONFIG_MAP"
   access_entries = {
-    ci_user = {
+    eks_access_role = {
       kubernetes_groups = []
-      principal_arn     = module.post_config.ci_user_arn
+      #principal_arn     = module.post_config.ci_user_arn
+      principal_arn     = module.post_config.eks_access_role_arn
       type              = "STANDARD"
       
       policy_associations = {
