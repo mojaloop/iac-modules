@@ -66,14 +66,14 @@ module "eks" {
   kms_key_enable_default_policy   = true
 
   # Configmap auth
-  manage_aws_auth_configmap = true
-  aws_auth_roles = [
-    {
-      rolearn  = module.post_config.eks_access_role_arn
-      username = "cluster-admin"
-      groups   = ["system:masters"]
-    },
-  ]
+  # manage_aws_auth_configmap = false
+  # aws_auth_roles = [
+  #   {
+  #     rolearn  = module.post_config.eks_access_role_arn
+  #     username = "cluster-admin"
+  #     groups   = ["system:masters"]
+  #   },
+  # ]
 
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets

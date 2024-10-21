@@ -139,6 +139,7 @@ output "all_hosts_var_maps" {
     kubeapi_loadbalancer_fqdn    = module.eks.cluster_endpoint
     eks_cluster_name             = module.eks.cluster_name
     eks_access_role_arn          = module.post_config.eks_access_role_arn
+    cluster_iam_role_arn         = module.eks.cluster_iam_role_arn
   }
 }
 
