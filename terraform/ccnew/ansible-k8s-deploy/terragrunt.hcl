@@ -141,6 +141,7 @@ locals {
     private_repo_token            = try(get_env("PRIVATE_REPO_TOKEN"), "null")
     private_repo                  = try(get_env("PRIVATE_REPO"), "null")
     private_repo_user             = try(get_env("PRIVATE_REPO_USER"), "null")
+    eks_cluster_iam_role_arn      = (local.K8S_CLUSTER_TYPE == "eks") ? dependency.k8s_deploy.outputs.eks_cluster_iam_role_arn : ""
   }
 
 }
