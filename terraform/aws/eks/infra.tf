@@ -53,9 +53,8 @@ module "k6s_test_harness" {
 
 module "eks" {
   source      = "terraform-aws-modules/eks/aws"
-  #version     = "~> 19.21"
-  #version     = "~> 20.1"
-  version = "~> 20.0"
+  version     = "~> 19.21"
+  #version = "~> 20.0"
   enable_irsa = true
 
   cluster_name                    = local.eks_name
@@ -66,27 +65,15 @@ module "eks" {
   # Enable the default key policy (no need for kms_key_administrators or kms_key_owners)
   kms_key_enable_default_policy   = true
 
-  # EKS cluster access entry - aws-auth configmap is deprecated (from module =>20)
-  ## Needs terraform >=1.3.2
-  enable_cluster_creator_admin_permissions = false
-  authentication_mode = "API_AND_CONFIG_MAP"
-  access_entries = {
-    eks_access_role = {
-      kubernetes_groups = []
-      principal_arn     = module.post_config.eks_access_role_arn
-      type              = "STANDARD"
-      
-      policy_associations = {
-        admin_access = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-          access_scope = {
-            namespaces = []
-            type = "cluster"
-          }
-        }
-      }
-    }
-  }
+  # Configmap auth
+  manage_aws_auth_configmap = true
+  aws_auth_roles = [
+    {
+      rolearn  = module.post_config.eks_access_role_arn
+      username = "cluster-admin"
+      groups   = ["system:masters"]
+    },
+  ]
 
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
