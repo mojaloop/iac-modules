@@ -42,7 +42,13 @@ variable "create_iam_user" {
 variable "create_ext_dns_user" {
   type        = bool
   description = "create iam user for ext dns"
-  default     = true
+  default     = false
+}
+
+variable "create_ext_dns_role" {
+  type        = bool
+  description = "create role for assumedrole for ext dns"
+  default     = false
 }
 
 variable "backup_bucket_name" {

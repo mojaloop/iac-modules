@@ -56,7 +56,7 @@ output "backup_bucket_name" {
 }
 
 output "external_dns_cloud_role" {
-  value = var.create_ext_dns_user ? aws_iam_role.external_dns_cicd[0].arn : ""
+  value = var.create_ext_dns_role ? aws_iam_role.external_dns_cicd[0].arn : ""
 }
 
 output "ci_user_arn" {

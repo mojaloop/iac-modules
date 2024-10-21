@@ -176,6 +176,11 @@ variable "create_ext_dns_user" {
   description = "create iam user for dns"
   default     = true
 }
+variable "create_ext_dns_role" {
+  type        = bool
+  description = "create iam role for ext dns"
+  default     = false
+}
 variable "iac_group_name" {
   type        = string
   description = "iac group name"
