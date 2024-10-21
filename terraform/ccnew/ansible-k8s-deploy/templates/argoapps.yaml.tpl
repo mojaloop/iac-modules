@@ -218,7 +218,6 @@ argocd_override:
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
-          mimir_max_global_series_per_user: "${mimir_max_global_series_per_user}"
           mimir_retention_period: "${mimir_retention_period}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
           prometheus_retention_period: "${prometheus_retention_period}"
@@ -229,8 +228,9 @@ argocd_override:
           image_version: "${grafana_image_version}"
         mimir:
           max_label_names_per_series: "${mimir_max_label_names_per_series}"
-          mimir_ingester_storage_size: "${mimir_ingester_storage_size}"
-          mimir_compactor_storage_size: "${mimir_compactor_storage_size}"
-          mimir_store_gateway_storage_size: "${mimir_store_gateway_storage_size}"
+          max_global_series_per_user: "${mimir_max_global_series_per_user}"
+          ingester_storage_size: "${mimir_ingester_storage_size}"
+          compactor_storage_size: "${mimir_compactor_storage_size}"
+          store_gateway_storage_size: "${mimir_store_gateway_storage_size}"
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
