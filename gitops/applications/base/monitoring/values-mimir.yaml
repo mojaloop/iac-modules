@@ -39,7 +39,6 @@ metrics:
 # resource preset guide: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
 distributor:
   replicaCount: ${ARGOCD_ENV_mimir_distributor_replica_count}
-  # resourcesPreset: large
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_distributor_limits_cpu}
