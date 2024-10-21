@@ -231,6 +231,7 @@ argocd_override:
           max_global_series_per_user: "${mimir_max_global_series_per_user}"
           ingestion_rate: "${mimir_ingestion_rate}"
           ingestion_burst_size: "${mimir_ingestion_burst_size}"
+          retention_period: "${mimir_retention_period}"
           ingester_storage_size: "${mimir_ingester_storage_size}"
           compactor_storage_size: "${mimir_compactor_storage_size}"
           store_gateway_storage_size: "${mimir_store_gateway_storage_size}"
