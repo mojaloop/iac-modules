@@ -88,7 +88,7 @@ resource "aws_iam_role" "external_dns_cicd" {
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${try(aws_iam_user.ci_iam_user[0].arn,"")}"
+        "AWS": "${aws_iam_user.ci_iam_user[0].arn}"
       },
       "Action": "sts:AssumeRole"
     }
