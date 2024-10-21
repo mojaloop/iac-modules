@@ -240,5 +240,7 @@ argocd_override:
           ingester_storage_size: "${mimir_ingester_storage_size}"
           compactor_storage_size: "${mimir_compactor_storage_size}"
           store_gateway_storage_size: "${mimir_store_gateway_storage_size}"
+          distributor_limits_cpu: "${mimir_distributor_limits_cpu}"
+          distributor_limits_memory: "${mimir_distributor_limits_memory}"
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"

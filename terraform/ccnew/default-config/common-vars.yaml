@@ -93,6 +93,9 @@ mimir_store_gateway_replica_count: "'3'"
 mimir_ingester_storage_size: "30Gi"
 mimir_compactor_storage_size: "30Gi"
 mimir_store_gateway_storage_size: "30Gi"
+mimir_distributor_limits_cpu: "1000m"
+mimir_distributor_limits_memory: "3Gi"
+
 
 gitlab_helm_version: "8.1.2"
 gitlab_public_access: true
