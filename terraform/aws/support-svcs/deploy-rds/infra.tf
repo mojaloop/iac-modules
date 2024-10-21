@@ -8,6 +8,7 @@ module "rds" {
   for_each   = var.rds_services
   #source     = "terraform-aws-modules/rds/aws"
   source     = "../deploy-rds-cluster"
+  create     = true
 
   identifier = "${var.deployment_name}-${each.key}"
 
