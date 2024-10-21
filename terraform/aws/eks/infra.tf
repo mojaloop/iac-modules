@@ -130,8 +130,30 @@ module "eks" {
   tags                     = var.tags
 }
 
+# CI user eks
+resource "aws_iam_role" "eks_access_role" {
+  name = "${local.eks_name}-eks-access-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          AWS = local.eks_user_arns
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
 locals {
   eks_name                = substr(replace(local.base_domain, ".", "-"), 0, 16)
+  eks_user_arns = distinct([
+     module.post_config.ci_user_arn,
+    data.aws_caller_identity.current_user.arn
+  ])
   base_security_groups    = [aws_security_group.self.id, module.base_infra.default_security_group_id]
   traffic_security_groups = [aws_security_group.ingress.id]
   kubeapi_target_groups = [
@@ -225,6 +247,8 @@ locals {
     }
   }
 }
+
+data "aws_caller_identity" "current_user" {}
 
 data "template_file" "post_bootstrap_user_data" {
   template = file("${path.module}/templates/post-bootstrap-user-data.sh.tpl")
