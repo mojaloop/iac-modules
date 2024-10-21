@@ -184,28 +184,3 @@ resource "aws_s3_bucket" "backup_bucket" {
   force_destroy = var.backup_bucket_force_destroy
   tags          = merge({ Name = var.backup_bucket_name }, var.tags)
 }
-
-# CI user eks
-resource "aws_iam_role" "eks_access_role" {
-  name = "eks-access-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Principal = {
-          AWS = local.eks_user_arns
-        },
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
-}
-
-locals {
-  eks_user_arns = distinct([
-    aws_iam_user.ci_iam_user[0].arn,
-    data.aws_caller_identity.current_user.arn
-  ])
-}
