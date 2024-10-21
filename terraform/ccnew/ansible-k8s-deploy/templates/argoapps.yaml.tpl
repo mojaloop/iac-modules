@@ -232,6 +232,12 @@ argocd_override:
           ingestion_rate: "${mimir_ingestion_rate}"
           ingestion_burst_size: "${mimir_ingestion_burst_size}"
           retention_period: "${mimir_retention_period}"
+          distributor_replica_count: "${mimir_distributor_replica_count}
+          ingester_replica_count: "${mimir_ingester_replica_count}"
+          querier_replica_count: "${mimir_querier_replica_count}"
+          query_frontend_replica_count: "${mimir_query_frontend_replica_count}"
+          compactor_replica_count: "${mimir_compactor_replica_count}"
+          store_gateway_replica_count: "${mimir_store_gateway_replica_count}"
           ingester_storage_size: "${mimir_ingester_storage_size}"
           compactor_storage_size: "${mimir_compactor_storage_size}"
           store_gateway_storage_size: "${mimir_store_gateway_storage_size}"
