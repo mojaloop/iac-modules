@@ -17,7 +17,7 @@ module "rds" {
   allocated_storage   = each.value.external_resource_config.allocated_storage
   storage_encrypted   = each.value.external_resource_config.storage_encrypted
   storage_type        = each.value.external_resource_config.storage_type
-  ops                 = each.value.external_resource_config.storage_iops
+  iops                 = each.value.external_resource_config.storage_iops
   multi_az            = each.value.external_resource_config.multi_az
   skip_final_snapshot = each.value.external_resource_config.skip_final_snapshot
 
