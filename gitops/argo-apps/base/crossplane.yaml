@@ -36,3 +36,4 @@ spec:
         valuesObject:
           args:
             - --${ARGOCD_ENV_utils_crossplane_debug}
+            - --enable-usages
