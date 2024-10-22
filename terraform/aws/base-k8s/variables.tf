@@ -68,7 +68,7 @@ variable "node_pools" {
 
 variable "az_count" {
   type        = number
-  default     = 1
+  default     = 3 #debug
   description = "Number of azs"
 }
 
@@ -176,6 +176,11 @@ variable "create_ext_dns_user" {
   description = "create iam user for dns"
   default     = true
 }
+variable "create_ext_dns_role" {
+  type        = bool
+  description = "create iam role for ext dns"
+  default     = false
+}
 variable "iac_group_name" {
   type        = string
   description = "iac group name"
@@ -191,6 +196,7 @@ variable "create_haproxy_dns_record" {
 variable "backup_bucket_name" {
   type        = string
   description = "backup"
+  default     = "velero"
 }
 
 variable "backup_enabled" {

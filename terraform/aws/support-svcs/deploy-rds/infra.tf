@@ -8,6 +8,7 @@ module "rds" {
   for_each   = var.rds_services
   #source     = "terraform-aws-modules/rds/aws"
   source     = "../deploy-rds-cluster"
+  create     = true
 
   identifier = "${var.deployment_name}-${each.key}"
 
@@ -16,6 +17,8 @@ module "rds" {
   instance_class      = each.value.external_resource_config.instance_class
   allocated_storage   = each.value.external_resource_config.allocated_storage
   storage_encrypted   = each.value.external_resource_config.storage_encrypted
+  storage_type        = each.value.external_resource_config.storage_type
+  iops                 = each.value.external_resource_config.storage_iops
   multi_az            = each.value.external_resource_config.multi_az
   skip_final_snapshot = each.value.external_resource_config.skip_final_snapshot
 

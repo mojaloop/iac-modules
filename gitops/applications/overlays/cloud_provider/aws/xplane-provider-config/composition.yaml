@@ -5,6 +5,7 @@ metadata:
   labels:
     provider: aws
     db: postgresql
+    cluster: ${ARGOCD_ENV_cluster_name}
 spec:
   compositeTypeRef:
     apiVersion: infitx.org/v1alpha1
@@ -50,10 +51,19 @@ spec:
           kind: SecurityGroup
           spec:
             forProvider:
+              ingress:
+              - fromPort: 5432
+                toPort: 5432
+                ipProtocol: tcp
+                ipRanges: 
+                    - cidrIp: "10.106.0.0/23"
               description: Security group for the db instance
               groupName: db-security-group
               region: eu-west-2
               vpcId: testid
+              tags:
+              - key: Name
+                value: db-security-group
             providerConfigRef:
               name: crossplane-provider-config              
         patches:
@@ -63,37 +73,17 @@ spec:
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: "spec.parameters.vpcId"
           toFieldPath: "spec.forProvider.vpcId"
-        - fromFieldPath: "spec.parameters.dbName"
+        - fromFieldPath: "metadata.name"
           toFieldPath: "spec.forProvider.groupName"
           transforms:
           - type: string
             string:
               type: Format
-              fmt: '%s-db-security-group'                    
-      - name: securityGroupRule
-        base:
-          apiVersion: ec2.aws.crossplane.io/v1alpha1
-          kind: SecurityGroupRule
-          spec:
-            forProvider:
-              description: Db ingress rule
-              region: eu-west-2
-              type: ingress
-              fromPort: 5432
-              toPort: 5432
-              protocol: tcp
-              cidrBlock: "10.106.0.0/23"
-              securityGroupIdSelector:
-                matchControllerRef: true
-            providerConfigRef:
-              name: crossplane-provider-config                
-        patches:
-        - type: PatchSet
-          patchSetName: metadata
-        - fromFieldPath: "spec.parameters.region"
-          toFieldPath: "spec.forProvider.region"
+              fmt: '%s-security-group'
         - fromFieldPath: "spec.parameters.vpcCidr"
-          toFieldPath: "spec.forProvider.cidrBlock"                          
+          toFieldPath: "spec.forProvider.ingress[0].ipRanges[0].cidrIp"
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.forProvider.tags[0].value"
       - name: dbCluster
         base:
           apiVersion: rds.aws.crossplane.io/v1alpha1

@@ -1,3 +1,4 @@
+namePrefix: awesomecc
 name: gitlabdb
 namespace: "gitlab"
 region: eu-west-1

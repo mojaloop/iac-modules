@@ -40,9 +40,7 @@ argocd_override:
           vault_crossplane_modules_version: "${vault_crossplane_modules_version}"
           terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
           ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
-          rds_crossplane_module_version:  "${rds_crossplane_module_version}"
           aws_crossplane_module_version:  "${aws_crossplane_module_version}"          
-          ec2_crossplane_module_version:  "${ec2_crossplane_module_version}"
           crossplane_func_pat_version: "${crossplane_func_pat_version}"
           k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
     maintenance:

@@ -77,7 +77,8 @@ EOF
 
 
 resource "aws_iam_role" "external_dns_cicd" {
-  name = "${var.backup_bucket_name}-external-dns-cicd"
+  count = var.create_ext_dns_role ? 1 : 0
+  name  = "${local.base_domain}-external-dns-cicd"
 
   assume_role_policy = <<EOF
 {
@@ -94,11 +95,12 @@ resource "aws_iam_role" "external_dns_cicd" {
   ]
 }
 EOF
-  tags               = merge({ Name = "${var.backup_bucket_name}-object-storage" }, var.tags)
+  tags               = merge({ Name = "${local.base_domain}-external-dns-cicd" }, var.tags)
 }
 
 resource "aws_iam_role_policy_attachment" "ext_dns_assume_role" {
-  role       = aws_iam_role.external_dns_cicd.name
+  count      = var.create_ext_dns_role ? 1 : 0
+  role       = aws_iam_role.external_dns_cicd[0].name
   policy_arn = aws_iam_policy.route53_external_dns.arn
 }
 

@@ -1,17 +1,18 @@
 apiVersion: infitx.org/v1alpha1
 kind: DBInstanceClaim
 metadata:
-  name: {{ .Values.name }}
+  name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   namespace: {{ .Values.namespace }}
   annotations:
     organization: Infitx
     author: devops
 spec:
-  id: {{ .Values.name }}
+  id: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   compositionSelector:
     matchLabels:
       provider: aws
       db: postgresql
+      cluster: {{ .Values.namePrefix }}
   parameters:
     region: {{ .Values.region }}
     engineVersion: "16"
