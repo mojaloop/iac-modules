@@ -27,7 +27,7 @@ dependency "k8s_deploy" {
     object_storage_cloud_role   = "null"
     object_storage_bucket_name  = "null"
     private_subnets             = "null"
-    vpc_id                      = "null"    
+    vpc_id                      = "null"  
     target_group_internal_https_port = 0
     target_group_internal_http_port = 0
     target_group_internal_health_port = 0
@@ -72,6 +72,7 @@ inputs = {
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
   all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps,
+  {netbird_version = local.common_vars.netbird_image_version},
   (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.env_vars.microk8s_version, "1.30/stable")

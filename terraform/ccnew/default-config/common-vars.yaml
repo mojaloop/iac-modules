@@ -14,9 +14,10 @@ crossplane_helm_version: "1.16.0"
 kubernetes_secret_generator_helm_version: "3.4.0"
 zitadel_helm_version: "8.5.0"
 cockroachdb_helm_version: "13.0.2"
-netbird_helm_version: "1.0.2"
-netbird_dashboard_helm_version: "1.0.0"
-netbird_image_version: "0.28.6"
+netbird_helm_version: "1.4.0"
+netbird_dashboard_helm_version: "1.4.0"
+netbird_image_version: "0.30.2"
+netbird_dashboard_image_version: "v2.6.1"
 stunner_gateway_operator_helm_version: "0.19.0"
 nexus_helm_version: "4.44.0"
 cert_manager_helm_version: 1.15.0
@@ -74,14 +75,25 @@ loki_retention_enabled: true
 loki_ingester_retention_period: 72h
 loki_ingester_max_chunk_age: 2h
 tempo_retention_period: 72h
-# monitoring/mimir
-mimir_max_global_series_per_user: "'5000000'"
-mimir_retention_period: "7d"
-mimir_max_label_names_per_series: "'35'"
 
+# monitoring/mimir
+mimir_max_label_names_per_series: "'35'"
+mimir_max_global_series_per_user: "'5000000'"
+mimir_ingestion_rate: "'200000'"
+mimir_ingestion_burst_size: "'500000'"
+mimir_retention_period: "7d"
+mimir_distributor_replica_count: "'2'"
+mimir_ingester_replica_count: "'4'"
+mimir_querier_replica_count: "'2'"
+mimir_query_frontend_replica_count: "'1'"
+mimir_compactor_replica_count: "'1'"
+mimir_store_gateway_replica_count: "'3'"
 mimir_ingester_storage_size: "30Gi"
 mimir_compactor_storage_size: "30Gi"
 mimir_store_gateway_storage_size: "30Gi"
+mimir_distributor_limits_cpu: "1000m"
+mimir_distributor_limits_memory: "3Gi"
+
 
 gitlab_helm_version: "8.1.2"
 gitlab_public_access: true
@@ -134,3 +146,10 @@ praefect_db_storage_iops: "'5000'" # rds specific
 
 ceph_bucket_max_objects: "'1000000'"
 ceph_bucket_max_size: "10Gi"
+
+# Zitadel
+zitadel_postgres_rdbms_provider: "percona"
+zitadel_postgres_instance_size: "small"
+zitadel_postgres_storage_size: "'20'"
+zitadel_db_storage_type: "io1"   # rds specific
+zitadel_db_storage_iops: "'5000'" # rds specific
