@@ -54,8 +54,7 @@ module "k6s_test_harness" {
 
 module "eks" {
   source      = "terraform-aws-modules/eks/aws"
-  #version = "~> 20.26"
-  version = "~> 20.0"
+  version = "~> 20.26"
   enable_irsa = true
 
   cluster_name                    = local.eks_name
