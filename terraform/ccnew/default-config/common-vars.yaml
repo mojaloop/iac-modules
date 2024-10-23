@@ -93,7 +93,16 @@ mimir_compactor_storage_size: "30Gi"
 mimir_store_gateway_storage_size: "30Gi"
 mimir_distributor_limits_cpu: "1000m"
 mimir_distributor_limits_memory: "3Gi"
-
+mimir_ingester_limits_cpu: "1000m"
+mimir_ingester_limits_memory: "3Gi"
+mimir_querier_limits_cpu: "1000m"
+mimir_querier_limits_memory: "3Gi"
+mimir_query_frontend_limits_cpu: "1000m"
+mimir_query_frontend_limits_memory: "3Gi"
+mimir_compactor_limits_cpu: "1000m"
+mimir_compactor_limits_memory: "3Gi"
+mimir_store_gateway_limits_cpu: "1000m"
+mimir_store_gateway_limits_memory: "3Gi"
 
 gitlab_helm_version: "8.1.2"
 gitlab_public_access: true
