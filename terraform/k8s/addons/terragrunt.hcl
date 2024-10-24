@@ -5,7 +5,7 @@ include "root" {
 inputs = {
   outputDir     = get_env("GITOPS_BUILD_OUTPUT_DIR")
   clusterConfig = local.clusterConfig
-  configPath    = get_env("CONFIG_PATH")
+  configPath    = find_in_parent_folders(get_env("CONFIG_PATH"))
   gitlabUrl     = get_env("GITLAB_PROJECT_URL")
 }
 
