@@ -110,7 +110,6 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           public_ingress_access_domain: "${netbird_public_access}"
           helm_version: "${netbird_helm_version}"
-          dashboard_chart_version: "${netbird_dashboard_helm_version}"
           image_version: "${netbird_image_version}"
           dashboard_image_version: "${netbird_dashboard_image_version}"
           stunner_gateway_operator_helm_version: "${stunner_gateway_operator_helm_version}"
