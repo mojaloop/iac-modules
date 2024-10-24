@@ -8,8 +8,6 @@ resource "local_file" "config-file" {
         local.default[basename(dirname(dirname(each.value)))][basename(dirname(each.value))],
         local.override[dirname(each.value)]
       )
-      gitlabUrl : var.gitlabUrl
-      gitlabProjectUrl : var.gitlabProjectUrl
     }
   )
   filename = "${var.outputDir}/${basename(dirname(each.value))}/${basename(each.value)}"
@@ -21,7 +19,7 @@ locals {
     dirname(app) => yamldecode(templatefile(app, var.clusterConfig))
   }
   override = { # load overrides for each addon, keyed by addon-name/folder-name
-    for app in distinct([for _, v in fileset(path.module, "*/*/*"): dirname(v)]) :
+    for app in distinct([for _, v in fileset(path.module, "*/*/*") : dirname(v)]) :
     app => try(yamldecode(templatefile("${var.configPath}/${basename(app)}.yaml", var.clusterConfig)), {})
   }
 }
@@ -35,13 +33,5 @@ variable "configPath" {
 }
 
 variable "outputDir" {
-  type = string
-}
-
-variable "gitlabUrl" {
-  type = string
-}
-
-variable "gitlabProjectUrl" {
   type = string
 }
