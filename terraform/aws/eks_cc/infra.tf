@@ -68,26 +68,25 @@ module "eks" {
 
   # EKS cluster access entry - aws-auth configmap is deprecated (from module =>20)
   ## Needs terraform >=1.3.2
-  enable_cluster_creator_admin_permissions = false
-  authentication_mode = "API_AND_CONFIG_MAP"
-  #authentication_mode = "API"
-  access_entries = {
-    eks_access_role = {
-      kubernetes_groups = []
-      principal_arn     = aws_iam_role.eks_access_role.arn
-      type              = "STANDARD"
+  # enable_cluster_creator_admin_permissions = false
+  # authentication_mode = "API_AND_CONFIG_MAP"
+  # access_entries = {
+  #   eks_access_role = {
+  #     kubernetes_groups = []
+  #     principal_arn     = aws_iam_role.eks_access_role.arn
+  #     type              = "STANDARD"
       
-      policy_associations = {
-        admin_access = {
-          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-          access_scope = {
-            namespaces = []
-            type = "cluster"
-          }
-        }
-      }
-    }
-  }
+  #     policy_associations = {
+  #       admin_access = {
+  #         policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  #         access_scope = {
+  #           namespaces = []
+  #           type = "cluster"
+  #         }
+  #       }
+  #     }
+  #   }
+  # }
   
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
