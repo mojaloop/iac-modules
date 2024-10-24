@@ -162,7 +162,9 @@ output "bastion_hosts_var_maps" {
 
 output "bastion_hosts_yaml_maps" {
   sensitive = false
-  value = {}
+  value = {
+    eks_post_install_config_map = replace(module.eks.aws_auth_configmap_yaml, "{{", "{{ '{{' }}")
+  }
 }
 
 output "ci_user_arn" {
