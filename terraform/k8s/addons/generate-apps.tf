@@ -9,6 +9,7 @@ resource "local_file" "config-file" {
         local.override[dirname(each.value)]
       )
       gitlabUrl : var.gitlabUrl
+      gitlabProjectUrl : var.gitlabProjectUrl
     }
   )
   filename = "${var.outputDir}/${basename(dirname(each.value))}/${basename(each.value)}"
@@ -38,5 +39,9 @@ variable "outputDir" {
 }
 
 variable "gitlabUrl" {
+  type = string
+}
+
+variable "gitlabProjectUrl" {
   type = string
 }

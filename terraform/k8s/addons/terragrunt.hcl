@@ -3,10 +3,11 @@ include "root" {
 }
 
 inputs = {
-  outputDir     = get_env("GITOPS_BUILD_OUTPUT_DIR")
-  clusterConfig = local.clusterConfig
-  configPath    = find_in_parent_folders(get_env("CONFIG_PATH"))
-  gitlabUrl     = get_env("GITLAB_PROJECT_URL")
+  outputDir        = get_env("GITOPS_BUILD_OUTPUT_DIR")
+  clusterConfig    = local.clusterConfig
+  configPath       = find_in_parent_folders(get_env("CONFIG_PATH"))
+  gitlabUrl        = get_env("GITLAB_PROVIDER_URL")
+  gitlabProjectUrl = get_env("GITLAB_PROJECT_URL")
 }
 
 locals {
