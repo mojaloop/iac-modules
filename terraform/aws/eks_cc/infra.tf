@@ -54,8 +54,8 @@ module "k6s_test_harness" {
 
 module "eks" {
   source      = "terraform-aws-modules/eks/aws"
-  #version = "~> 20.26"
-  version = "~> 20.0.0"
+  version     = "~> 19.21"
+
   enable_irsa = true
 
   cluster_name                    = local.eks_name
@@ -68,8 +68,8 @@ module "eks" {
 
   # EKS cluster access entry - aws-auth configmap is deprecated (from module =>20)
   ## Needs terraform >=1.3.2
-  enable_cluster_creator_admin_permissions = true
-  authentication_mode = "API_AND_CONFIG_MAP"
+  # enable_cluster_creator_admin_permissions = true
+  # authentication_mode = "API_AND_CONFIG_MAP"
   # access_entries = {
   #   eks_access_role = {
   #     kubernetes_groups = []
