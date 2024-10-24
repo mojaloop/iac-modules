@@ -8,8 +8,6 @@ inputs = {
   clusterConfig            = merge(local.clusterConfig, {
     gitlabUrl              = get_env("GITLAB_PROVIDER_URL")
     gitlabProjectUrl       = get_env("GITLAB_PROJECT_URL")
-    kubernetesOidcIssuer   = get_env("KUBERNETES_OIDC_ISSUER")
-    kubernetesOidcClientId = get_env("KUBERNETES_OIDC_CLIENT_ID")
   })
 }
 
