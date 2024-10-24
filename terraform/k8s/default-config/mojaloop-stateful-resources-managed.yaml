@@ -11,7 +11,7 @@ account-lookup-db:
     engine: mysql
     engine_version: "8.0"
     family: mysql8.0
-    instance_class: db.m5.large
+    instance_class: db.m5d.large
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -50,7 +50,7 @@ central-ledger-db:
     engine: mysql
     engine_version: "8.0"
     family: mysql8.0
-    instance_class: db.m5.large
+    instance_class: db.m5d.large
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
