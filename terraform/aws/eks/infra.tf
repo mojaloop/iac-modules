@@ -144,6 +144,19 @@ locals {
      module.post_config.ci_user_arn,
     data.aws_caller_identity.current_user.arn
   ])
+  aws_auth_configmap_yaml = templatefile("${path.module}/templates/aws_auth_cm.tpl",
+    {
+      node_iam_role_arns = distinct(
+        compact(
+          concat(
+            [for group in module.eks.eks_managed_node_groups : group.iam_role_arn if group.platform != "windows"],
+            [for group in module.eks.self_managed_node_groups : group.iam_role_arn if group.platform != "windows"]
+          )
+        )
+      ),
+      iam_user_role_arns = [aws_iam_role.eks_access_role.arn]
+    }
+  )
   base_security_groups    = [aws_security_group.self.id, module.base_infra.default_security_group_id]
   traffic_security_groups = [aws_security_group.ingress.id]
   kubeapi_target_groups = [
