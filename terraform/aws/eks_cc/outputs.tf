@@ -143,23 +143,6 @@ output "all_hosts_var_maps" {
   }
 }
 
-output "aws_auth_configmap_yaml" {
-  description = "generate auth configmap"
-  value = templatefile("${path.module}/templates/aws_auth_cm.tpl",
-    {
-      node_iam_role_arns = distinct(
-      compact(
-        concat(
-          [for group in module.eks.eks_managed_node_groups : group.iam_role_arn if group.platform != "windows"],
-          [for group in module.eks.eks_managed_node_groups : group.iam_role_arn if group.platform != "windows"]
-        )
-      )
-    ),
-    iam_user_role_arns = [aws_iam_role.eks_access_role.arn]
-    }
-  )
-}
-
 output "agent_hosts_var_maps" {
   sensitive = false
   value     = {}
@@ -187,7 +170,7 @@ output "bastion_hosts_var_maps" {
 output "bastion_hosts_yaml_maps" {
   sensitive = false
   value = {
-    eks_post_install_config_map = replace(aws_auth_configmap_yaml.value, "{{", "{{ '{{' }}")
+    eks_post_install_config_map = replace(local.aws_auth_configmap_yaml, "{{", "{{ '{{' }}")
   }
 }
 
