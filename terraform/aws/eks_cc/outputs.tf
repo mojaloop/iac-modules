@@ -150,8 +150,8 @@ output "aws_auth_configmap_yaml" {
       node_iam_role_arns = distinct(
       compact(
         concat(
-          [for group in module.eks_managed_node_groups : group.iam_role_arn if group.platform != "windows"],
-          [for group in module.eks_managed_node_groups : group.iam_role_arn if group.platform != "windows"]
+          [for group in module.eks.eks_managed_node_groups : group.iam_role_arn if group.platform != "windows"],
+          [for group in module.eks.eks_managed_node_groups : group.iam_role_arn if group.platform != "windows"]
         )
       )
     ),
