@@ -54,7 +54,8 @@ module "k6s_test_harness" {
 
 module "eks" {
   source      = "terraform-aws-modules/eks/aws"
-  version     = "~> 19.21"
+  #version     = "~> 19.21"
+  version     = "19.21.0"
 
   enable_irsa = true
 
@@ -87,6 +88,14 @@ module "eks" {
   #     }
   #   }
   # }
+
+  aws_auth_roles = [
+    {
+      rolearn  = aws_iam_role.eks_access_role.arn
+      username = "k8s-admin"
+      groups   = ["system:masters"]
+    },
+  ]
   
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
