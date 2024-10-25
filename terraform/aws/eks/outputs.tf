@@ -138,8 +138,6 @@ output "all_hosts_var_maps" {
     external_interop_switch_fqdn = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
     kubeapi_loadbalancer_fqdn    = module.eks.cluster_endpoint
     eks_cluster_name             = module.eks.cluster_name
-    eks_access_role_arn          = aws_iam_role.eks_access_role.arn
-    eks_cluster_iam_role_arn     = module.eks.cluster_iam_role_arn
   }
 }
 
@@ -166,14 +164,6 @@ output "bastion_hosts_yaml_maps" {
     eks_post_install_config_map = replace(module.eks.aws_auth_configmap_yaml, "{{", "{{ '{{' }}")
     eks_cluster_iam_role_arn    = module.eks.cluster_arn
   }
-}
-
-output "eks_cluster_iam_role_arn" {
-  value = module.eks.cluster_iam_role_arn
-}
-
-output "ci_user_arn" {
-  value = module.post_config.ci_user_arn
 }
 
 output "agent_hosts" {
