@@ -202,19 +202,3 @@ output "private_subnets" {
 output "vpc_id" {
   value = module.base_infra.vpc_id
 }
-
-locals {
-  aws_auth_configmap_yaml = templatefile("${path.module}/templates/aws_auth_cm.tpl",
-    {
-      node_iam_role_arns = distinct(
-        compact(
-          concat(
-            [for group in module.eks.eks_managed_node_group : group.iam_role_arn if group.platform != "windows"],
-            [for group in module.eks.eks_managed_node_group : group.iam_role_arn if group.platform != "windows"]
-          )
-        )
-      ),
-      iam_user_role_arns = [aws_iam_role.eks_access_role.arn]
-    }
-  )
-}
