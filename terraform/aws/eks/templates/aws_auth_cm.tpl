@@ -16,6 +16,5 @@ data:
     - rolearn: ${role}
       username: cluster-admin
       groups:
-        - ["system:masters"]
-        - system:nodes
+        - system:masters
 %{ endfor ~}
