@@ -315,7 +315,7 @@ variable "bastion_instance_number" {
 }
 
 variable "bastion_instance_size" {
-  type        = number
+  type        = string
   description = "instance size of bastions to configure in asg"
   default     = "t3.small"
 }
