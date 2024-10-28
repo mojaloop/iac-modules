@@ -133,48 +133,29 @@ module "eks" {
 }
 
 # CI user eks
-# resource "aws_iam_role" "eks_access_role" {
-#   name = "${local.eks_name}-eks-access-role"
-
-#   assume_role_policy = jsonencode({
-#     Version = "2012-10-17",
-#     Statement = [
-#       {
-#         Effect = "Allow",
-#         Principal = {
-#           AWS = local.eks_user_arns
-#         },
-#         Action = "sts:AssumeRole"
-#       }
-#     ]
-#   })
-# }
-
 resource "aws_iam_role" "eks_access_role" {
-  name  = "${local.eks_name}-eks-access-role"
+  depends_on = [module.post_config]
+  name = "${local.eks_name}-eks-access-role"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": ${jsonencode(local.eks_user_arns)}
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          AWS = local.eks_user_arns
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
   tags               = merge({ Name = "${local.eks_name}-eks-access-role" }, var.tags)
 }
 
 locals {
   eks_name                = substr(replace(local.base_domain, ".", "-"), 0, 16)
   eks_user_arns = distinct([
-     module.post_config.ci_user_arn,
+    module.post_config.ci_user_arn,
     data.aws_caller_identity.current_user.arn
   ])
   aws_auth_configmap_yaml = templatefile("${path.module}/templates/aws_auth_cm.tpl",
