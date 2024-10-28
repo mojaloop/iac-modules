@@ -294,6 +294,7 @@ variable "create_haproxy_dns_record" {
 variable "backup_bucket_name" {
   type        = string
   description = "backup"
+  default     = "velero"
 }
 
 variable "backup_enabled" {
