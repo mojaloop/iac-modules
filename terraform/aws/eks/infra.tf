@@ -219,7 +219,7 @@ locals {
             }
           }
         },
-        node_pool.extra_vol ? {
+        try(node_pool.extra_vol, false) ? {
           xvdb = {
             device_name = "/dev/xvdb"
             ebs = {
