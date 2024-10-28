@@ -161,7 +161,7 @@ resource "aws_iam_role" "eks_access_role" {
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${local.eks_user_arns}"
+        "AWS": ${jsonencode(local.eks_user_arns)}
       },
       "Action": "sts:AssumeRole"
     }
