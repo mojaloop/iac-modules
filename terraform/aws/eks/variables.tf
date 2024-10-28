@@ -306,6 +306,19 @@ variable "backup_bucket_force_destroy" {
   description = "auto delete s3 bucket content"
   default     = false
 }
+
+variable "bastion_instance_number" {
+  type        = number
+  description = "number of bastions to configure in asg"
+  default     = 2
+}
+
+variable "bastion_instance_size" {
+  type        = number
+  description = "instance size of bastions to configure in asg"
+  default     = "t3.small"
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

@@ -25,10 +25,10 @@ module "base_infra" {
   block_size                 = var.block_size
   bastion_asg_config = {
     name             = "bastion"
-    desired_capacity = 2
-    max_size         = 2
-    min_size         = 2
-    instance_type    = "t3.small"
+    desired_capacity = var.bastion_instance_number
+    max_size         = var.bastion_instance_number
+    min_size         = var.bastion_instance_number
+    instance_type    = var.bastion_instance_size
   }
 }
 
