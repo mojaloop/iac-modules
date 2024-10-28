@@ -15,6 +15,7 @@ kubernetes_oidc_enabled: true
 enable_object_storage_backend: false
 object_storage_base_bucket_name: velero
 object_storage_force_destroy_bucket: true #prod should set to false
+bastion_instance_size: t3.small
 nodes:
   master-generic:
     master: true
