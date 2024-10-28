@@ -134,7 +134,6 @@ module "eks" {
 
 # CI user eks
 resource "aws_iam_role" "eks_access_role" {
-  depends_on = [module.post_config]
   name = "${local.eks_name}-eks-access-role"
 
   assume_role_policy = jsonencode({
@@ -154,10 +153,15 @@ resource "aws_iam_role" "eks_access_role" {
 
 locals {
   eks_name                = substr(replace(local.base_domain, ".", "-"), 0, 16)
-  eks_user_arns = distinct([
+  eks_user_arns = distinct(compact([
     module.post_config.ci_user_arn,
     data.aws_caller_identity.current_user.arn
-  ])
+    ]))
+
+  # eks_user_arns = distinct([
+  #   module.post_config.ci_user_arn,
+  #   data.aws_caller_identity.current_user.arn
+  # ])
   aws_auth_configmap_yaml = templatefile("${path.module}/templates/aws_auth_cm.tpl",
     {
       node_iam_role_arns = distinct(
