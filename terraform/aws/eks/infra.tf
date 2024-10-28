@@ -133,21 +133,42 @@ module "eks" {
 }
 
 # CI user eks
-resource "aws_iam_role" "eks_access_role" {
-  name = "${local.eks_name}-eks-access-role"
+# resource "aws_iam_role" "eks_access_role" {
+#   name = "${local.eks_name}-eks-access-role"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Principal = {
-          AWS = local.eks_user_arns
-        },
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
+#   assume_role_policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Effect = "Allow",
+#         Principal = {
+#           AWS = local.eks_user_arns
+#         },
+#         Action = "sts:AssumeRole"
+#       }
+#     ]
+#   })
+# }
+
+resource "aws_iam_role" "eks_access_role" {
+  name  = "${local.eks_name}-eks-access-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "${local.eks_user_arns}"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+  tags               = merge({ Name = "${local.eks_name}-eks-access-role" }, var.tags)
 }
 
 locals {
