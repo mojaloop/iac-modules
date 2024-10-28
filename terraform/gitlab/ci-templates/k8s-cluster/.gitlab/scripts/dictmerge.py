@@ -87,8 +87,7 @@ if os.path.isfile(default_config_file):
        print("File type not supported")
        exit(1)
 else:
-    print("Default config file "+default_config_file+" file does not exist")
-    exit(1)
+    data1 = {}
 
 def load_custom_config(custom_config_file):
     customExt = os.path.splitext(custom_config_file)[1]
