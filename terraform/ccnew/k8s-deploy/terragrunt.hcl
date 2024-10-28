@@ -23,7 +23,6 @@ inputs = {
   create_ext_dns_user                  = false
   create_ci_iam_user                   = true
   create_ext_dns_role                  = true
-  create_haproxy_dns_record            = false
   iac_group_name                       = local.env_vars.iac_group_name
   backup_enabled                       = local.env_vars.enable_object_storage_backend
   backup_bucket_name                   = local.env_vars.object_storage_base_bucket_name

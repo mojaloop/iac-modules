@@ -3,6 +3,11 @@ module "ubuntu_focal_ami" {
   release = "20.04"
 }
 
+module "ubuntu_jammy_ami" {
+  source  = "../ami-ubuntu"
+  release = "22.04"
+}
+
 module "base_infra" {
   source                     = "../base-infra"
   cluster_name               = var.cluster_name
@@ -14,10 +19,17 @@ module "base_infra" {
   manage_parent_domain       = var.manage_parent_domain
   manage_parent_domain_ns    = var.manage_parent_domain_ns
   az_count                   = var.az_count
-  block_size                 = var.block_size
   route53_zone_force_destroy = var.dns_zone_force_destroy
-  bastion_ami                = module.ubuntu_focal_ami.id
-  create_haproxy_dns_record  = true
+  bastion_ami                = module.ubuntu_jammy_ami.id
+  create_haproxy_dns_record  = var.create_haproxy_dns_record
+  block_size                 = var.block_size
+  bastion_asg_config = {
+    name             = "bastion"
+    desired_capacity = var.bastion_instance_number
+    max_size         = var.bastion_instance_number
+    min_size         = var.bastion_instance_number
+    instance_type    = var.bastion_instance_size
+  }
 }
 
 module "post_config" {
@@ -61,10 +73,10 @@ module "eks" {
   cluster_version                 = var.kubernetes_version
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = false
-  
+
   # Enable the default key policy (no need for kms_key_administrators or kms_key_owners)
-  kms_key_enable_default_policy   = true
-  
+  kms_key_enable_default_policy = true
+
   vpc_id     = module.base_infra.vpc_id
   subnet_ids = module.base_infra.private_subnets
   cluster_addons = {

@@ -3,6 +3,11 @@ module "ubuntu_focal_ami" {
   release = "20.04"
 }
 
+module "ubuntu_jammy_ami" {
+  source  = "../ami-ubuntu"
+  release = "22.04"
+}
+
 module "base_infra" {
   source                     = "../base-infra"
   cluster_name               = var.cluster_name
@@ -15,9 +20,16 @@ module "base_infra" {
   manage_parent_domain_ns    = var.manage_parent_domain_ns
   az_count                   = var.az_count
   route53_zone_force_destroy = var.dns_zone_force_destroy
-  bastion_ami                = module.ubuntu_focal_ami.id
+  bastion_ami                = module.ubuntu_jammy_ami.id
   create_haproxy_dns_record  = var.create_haproxy_dns_record
   block_size                 = var.block_size
+  bastion_asg_config = {
+    name             = "bastion"
+    desired_capacity = var.bastion_instance_number
+    max_size         = var.bastion_instance_number
+    min_size         = var.bastion_instance_number
+    instance_type    = var.bastion_instance_size
+  }
 }
 
 module "post_config" {
