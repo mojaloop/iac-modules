@@ -77,7 +77,7 @@ Addons are configured using several files:
       clientID: test
   ```
 
-- `custom-config/app-yamls.yaml`: onvironment overrides for ArgoCD app settings
+- `custom-config/app-yamls.yaml`: environment overrides for ArgoCD app settings
 
   Example:
 

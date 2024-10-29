@@ -70,7 +70,7 @@ module "generate_pm4ml_files" {
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
     opentelemetry_enabled                           = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable        = var.opentelemetry_namespace_filtering_enable
-    ttk_testcases_tag                               = each.value.ttk_testcases_tag
+    ttk_testcases_tag                               = try(each.value.ttk_testcases_tag, "")
     supported_currencies                            = try(each.value.supported_currencies, each.value.currency)
     fxp_id                                          = each.value.fxp_id
     core_connector_selected                         = each.value.core_connector_selected
