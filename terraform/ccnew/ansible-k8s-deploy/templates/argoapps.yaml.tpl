@@ -32,6 +32,10 @@ argocd_override:
           internal_ingress_health_port: "'${internal_ingress_health_port}'"
         cert_manager:
           helm_version: "${cert_manager_helm_version}"
+        base_monitoring:
+          grafana_crd_version_tag: "${grafana_crd_version_tag}"
+          prometheus_crd_version: "${prometheus_crd_version}"
+          grafana_operator_version: "${grafana_operator_version}"
         consul:
           helm_version: "${consul_helm_version}"
           replicas: "'${consul_replica_count}'"
@@ -201,10 +205,6 @@ argocd_override:
     monitoring:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
-        pre:
-          grafana_crd_version_tag: "${grafana_crd_version_tag}"
-          prometheus_crd_version: "${prometheus_crd_version}"
-          grafana_operator_version: "${grafana_operator_version}"
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
