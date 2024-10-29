@@ -3,6 +3,8 @@ kind: ObjectBucketClaim
 metadata:
   name: ${ARGOCD_ENV_mimir_bucket_name}
   namespace: ${ARGOCD_ENV_monitoring_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_monitoring_pre_object_storage_sync_wave}
 spec:
   bucketName: ${ARGOCD_ENV_mimir_bucket_name}
   storageClassName: ceph-bucket
@@ -15,6 +17,8 @@ kind: ObjectBucketClaim
 metadata:
   name: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   namespace: ${ARGOCD_ENV_monitoring_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_monitoring_pre_object_storage_sync_wave}
 spec:
   bucketName: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   storageClassName: ceph-bucket

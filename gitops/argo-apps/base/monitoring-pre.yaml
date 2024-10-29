@@ -31,8 +31,8 @@ spec:
 
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
-    # targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag} 
-    targetRevision: development-cto2.3
+    targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag}
+
     path: gitops/applications/base/monitoring-pre
     plugin:
       name: envsubst
@@ -48,18 +48,18 @@ spec:
 
         - name: "grafana_crd_version_tag"
           value: "${ARGOCD_ENV_monitoring_pre_grafana_crd_version_tag}"
-
+        - name: "monitoring_pre_object_storage_sync_wave"
+          value: "${ARGOCD_ENV_monitoring_pre_object_storage_sync_wave}"
         - name: "mimir_bucket_max_objects"
           value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_max_objects}"
         - name: "mimir_bucket_storage_size"
-          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_storage_size}"          
+          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_storage_size}"
         - name: "mimir_bucket_name"
-          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_name}"          
+          value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_name}"
 
         - name: "ctrl_cntr_loki_bucket_max_objects"
           value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_max_objects}"
         - name: "ctrl_cntr_loki_bucket_storage_size"
-          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_storage_size}"          
+          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_storage_size}"
         - name: "ctrl_cntr_loki_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
-          
