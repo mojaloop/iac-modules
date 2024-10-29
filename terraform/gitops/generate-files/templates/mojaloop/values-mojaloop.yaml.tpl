@@ -112,40 +112,40 @@ CONFIG:
 
   ## TESTS
 
-# %{ if ttk_testcases_tag != null }
-  TEST_CASES_CUSTOM_TAG_SETUP: &TEST_CASES_CUSTOM_TAG_SETUP: 
+# %{ if ttk_testcases_tag != "" }
+  TEST_CASES_CUSTOM_TAG_SETUP: &TEST_CASES_CUSTOM_TAG_SETUP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
     testCasesPathInZip: testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_golden_path
 
-  TEST_CASES_CUSTOM_TAG_GP: &TEST_CASES_CUSTOM_TAG_GP: 
+  TEST_CASES_CUSTOM_TAG_GP: &TEST_CASES_CUSTOM_TAG_GP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
     testCasesPathInZip: testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/golden_path
 
-  TEST_CASES_CUSTOM_TAG_BULK: &TEST_CASES_CUSTOM_TAG_BULK: 
+  TEST_CASES_CUSTOM_TAG_BULK: &TEST_CASES_CUSTOM_TAG_BULK
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
     testCasesPathInZip: testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/other_tests/bulk_transfers
 
-  TEST_CASES_CUSTOM_TAG_TP_SETUP: &TEST_CASES_CUSTOM_TAG_TP_SETUP: 
+  TEST_CASES_CUSTOM_TAG_TP_SETUP: &TEST_CASES_CUSTOM_TAG_TP_SETUP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
     testCasesPathInZip: testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_thirdparty
 
-  TEST_CASES_CUSTOM_TAG_TP_VAL: &TEST_CASES_CUSTOM_TAG_TP_VAL: 
+  TEST_CASES_CUSTOM_TAG_TP_VAL: &TEST_CASES_CUSTOM_TAG_TP_VAL
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
     testCasesPathInZip: testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/thirdparty
 
-  TEST_CASES_CUSTOM_TAG_SDK_BULK_SETUP: &TEST_CASES_CUSTOM_TAG_SDK_BULK_SETUP: 
+  TEST_CASES_CUSTOM_TAG_SDK_BULK_SETUP: &TEST_CASES_CUSTOM_TAG_SDK_BULK_SETUP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
     testCasesPathInZip: testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_sdk_bulk
 
-  TEST_CASES_CUSTOM_TAG_SDK_BULK_VAL: &TEST_CASES_CUSTOM_TAG_SDK_BULK_VAL: 
+  TEST_CASES_CUSTOM_TAG_SDK_BULK_VAL: &TEST_CASES_CUSTOM_TAG_SDK_BULK_VAL
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
     testCasesPathInZip: testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/bulk/basic
 
-  TEST_CASES_CUSTOM_TAG_SDK_R2P_VAL: &TEST_CASES_CUSTOM_TAG_SDK_R2P_VAL: 
+  TEST_CASES_CUSTOM_TAG_SDK_R2P_VAL: &TEST_CASES_CUSTOM_TAG_SDK_R2P_VAL
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
     testCasesPathInZip: testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/request-to-pay/basic
 
-  TEST_CASES_CUSTOM_TAG_CLEANUP: &TEST_CASES_CUSTOM_TAG_CLEANUP: 
+  TEST_CASES_CUSTOM_TAG_CLEANUP: &TEST_CASES_CUSTOM_TAG_CLEANUP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
     testCasesPathInZip: testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/cleanup
 # %{ else }

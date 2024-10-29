@@ -11,7 +11,7 @@ module "generate_mojaloop_files" {
     mojaloop_sync_wave                                                = var.mojaloop_sync_wave
     mojaloop_test_sync_wave                                           = var.mojaloop_test_sync_wave
     internal_ttk_enabled                                              = var.internal_ttk_enabled
-    ttk_testcases_tag                                                 = try(var.app_var_map.ttk_testcases_tag, var.mojaloop_chart_version)
+    ttk_testcases_tag                                                 = try(var.app_var_map.ttk_testcases_tag, "")
     ttk_test_currency1                                                = var.app_var_map.ttk_test_currency1
     ttk_test_currency2                                                = var.app_var_map.ttk_test_currency2
     ttk_test_currency3                                                = var.app_var_map.ttk_test_currency3
