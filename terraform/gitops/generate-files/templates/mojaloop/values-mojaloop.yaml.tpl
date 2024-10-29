@@ -1058,40 +1058,6 @@ ml-testing-toolkit:
           host: ${ttk_backend_fqdn}
         adminApi:
           host: ${ttk_backend_fqdn}
-    config_files:
-      user_config.json:
-        LABELS: [
-          {
-            "name": "p2p",
-            "description": "tests related to p2p transfer",
-            "color": "red"
-          },
-          {
-            "name": "settlements",
-            "description": "tests related to settlements",
-            "color": "green"
-          },
-          {
-            "name": "quotes",
-            "description": "tests related to quoting service",
-            "color": "blue"
-          },
-          {
-            "name": "basic-func-tests",
-            "description": "for testing basic functionality",
-            "color": "orange"
-          },
-          {
-            "name": "prod-tests",
-            "description": "tests related to production environment",
-            "color": "black"
-          },
-          {
-            "name": "min-func-tests",
-            "description": "minimal functional tests",
-            "color": "yellow"
-          }
-        ]
     parameters: &simNames
       simNamePayerfsp: 'payerfsp'
       simNamePayeefsp: 'payeefsp'
@@ -1135,6 +1101,8 @@ ml-testing-toolkit:
 ml-ttk-test-setup:
   tests:
     enabled: true
+  configFileDefaults:
+    labels: ${ttk_setup_testcase_labels}
   config:
     testCasesZipUrl: *TEST_CASES_ZIP_URL
     testCasesPathInZip: *TEST_CASES_PATH_SETUP
