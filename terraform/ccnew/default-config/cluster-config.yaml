@@ -12,7 +12,7 @@ dns_zone_force_destroy: true
 microk8s_dev_skip: false
 iac_group_name: iac_admin
 kubernetes_oidc_enabled: true
-enable_object_storage_backend: false
+enable_object_storage_backend: true
 object_storage_base_bucket_name: velero
 object_storage_force_destroy_bucket: true #prod should set to false
 bastion_instance_size: t3.small
