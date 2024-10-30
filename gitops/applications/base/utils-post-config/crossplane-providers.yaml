@@ -67,6 +67,12 @@ spec:
       selector: {}
       template:
         spec:
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "3"
+              - name: attempts
+                value: "5"
           volumes:
             - emptyDir: {}
               name: additional
