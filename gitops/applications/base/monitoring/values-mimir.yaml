@@ -14,6 +14,8 @@ mimir:
   overrideConfiguration:
     frontend:
       max_outstanding_per_tenant: 4096
+    compactor:
+      deletion_delay: 30m
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}
