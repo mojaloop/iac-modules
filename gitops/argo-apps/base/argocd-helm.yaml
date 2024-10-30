@@ -417,7 +417,6 @@ spec:
                     end
 
                     return health_status
-                                    
 
             rbac:
               scopes: "[${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}]"
@@ -475,7 +474,7 @@ spec:
             #     cpu: 500m
             #     memory: 1024Mi
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 namespace: argocd
@@ -658,7 +657,7 @@ spec:
                     mountPath: /helm-working-dir
 
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 namespace: argocd
@@ -677,7 +676,7 @@ spec:
             #     cpu: 400m
             #     memory: 512Mi
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 additionalLabels:
@@ -719,7 +718,7 @@ spec:
                 cpu: 120m
                 memory: 256Mi
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 additionalLabels:
