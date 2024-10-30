@@ -46,6 +46,10 @@ node-exporter:
     relabelings:
       - sourceLabels: [__meta_kubernetes_pod_node_name]
         targetLabel: nodename
+    metricRelabelings:
+      - sourceLabels: [nodename]
+        targetLabel: instance
+
   tolerations:
     - operator: "Exists"
 blackboxExporter:
