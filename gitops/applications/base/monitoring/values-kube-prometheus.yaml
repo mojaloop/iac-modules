@@ -48,6 +48,7 @@ node-exporter:
         targetLabel: nodename
       - sourceLabels: [nodename]
         targetLabel: instance
+        action: replace
 
   tolerations:
     - operator: "Exists"
