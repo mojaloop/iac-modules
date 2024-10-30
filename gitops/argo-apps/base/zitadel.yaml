@@ -54,8 +54,5 @@ spec:
           - name: "zitadel_dns_subdomain"
             value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
 
-          - name: "zitadel_replicas"
-            value: "${ARGOCD_ENV_security_zitadel_replicas}"
-
           - name: "zitadel_log_level"
             value: "${ARGOCD_ENV_security_zitadel_log_level}"
