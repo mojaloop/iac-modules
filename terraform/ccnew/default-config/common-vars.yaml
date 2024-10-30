@@ -85,6 +85,8 @@ mimir_max_global_series_per_user: "'5000000'"
 mimir_ingestion_rate: "'200000'"
 mimir_ingestion_burst_size: "'500000'"
 mimir_retention_period: "7d"
+mimir_compactor_deletion_delay: "12h"
+
 mimir_distributor_replica_count: "'2'"
 mimir_ingester_replica_count: "'4'"
 mimir_querier_replica_count: "'2'"
