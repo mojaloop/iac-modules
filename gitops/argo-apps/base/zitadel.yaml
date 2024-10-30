@@ -59,15 +59,3 @@ spec:
 
           - name: "zitadel_log_level"
             value: "${ARGOCD_ENV_security_zitadel_log_level}"
-
-          - name: "zitadel_db_name"
-            value: "${ARGOCD_ENV_security_zitadel_zitadel_db_name}"
-
-          - name: "zitadel_db_user"
-            value: "${ARGOCD_ENV_security_zitadel_zitadel_db_user}"
-
-          - name: "zitadel_pg_db_release_name"
-            value: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}"
-
-          - name: "zitadel_config_secret_name"
-            value: "${ARGOCD_ENV_security_zitadel_config_secret_name}"
