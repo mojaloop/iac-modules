@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: zitadel-vs
+  namespace: ${ARGOCD_ENV_zitadel_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_zitadel_istio_gateway_namespace}/${ARGOCD_ENV_zitadel_istio_wildcard_gateway_name}
+  hosts:
+    - "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: zitadel
+            port:
+              number: 8080

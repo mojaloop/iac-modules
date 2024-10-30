@@ -1,5 +1,5 @@
 resource "zitadel_human_user" "admin" {
-  org_id             = local.org_id
+  org_id             = var.zitadel_org_id
   user_name          = "rootauto@zitadel.${var.zitadel_fqdn}"
   first_name         = "root"
   last_name          = "admin"
@@ -18,13 +18,13 @@ resource "zitadel_instance_member" "admin" {
 }
 
 resource "zitadel_org_member" "admin" {
-  org_id  = local.org_id
+  org_id  = var.zitadel_org_id
   user_id = zitadel_human_user.admin.id
   roles   = ["ORG_OWNER"]
 }
 
 resource "zitadel_action" "flat_roles" {
-  org_id          = local.org_id
+  org_id          = var.zitadel_org_id
   name            = "flatRoles"
   allowed_to_fail = true
   timeout         = "10s"
@@ -47,14 +47,14 @@ resource "zitadel_action" "flat_roles" {
 }
 
 resource "zitadel_trigger_actions" "flat_roles_preuserinfo_creation" {
-  org_id       = local.org_id
+  org_id       = var.zitadel_org_id
   flow_type    = "FLOW_TYPE_CUSTOMISE_TOKEN"
   trigger_type = "TRIGGER_TYPE_PRE_USERINFO_CREATION"
   action_ids   = [zitadel_action.flat_roles.id]
 }
 
 resource "zitadel_trigger_actions" "flat_roles_preaccesstoken_creation" {
-  org_id       = local.org_id
+  org_id       = var.zitadel_org_id
   flow_type    = "FLOW_TYPE_CUSTOMISE_TOKEN"
   trigger_type = "TRIGGER_TYPE_PRE_ACCESS_TOKEN_CREATION"
   action_ids   = [zitadel_action.flat_roles.id]
