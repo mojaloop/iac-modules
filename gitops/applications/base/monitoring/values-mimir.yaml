@@ -15,7 +15,7 @@ mimir:
     frontend:
       max_outstanding_per_tenant: 4096
     compactor:
-      deletion_delay: 30m
+      deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}

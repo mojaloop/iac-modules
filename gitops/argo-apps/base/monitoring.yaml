@@ -100,6 +100,9 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_retention_period}"
         - name: "mimir_max_label_names_per_series"
           value: "${ARGOCD_ENV_monitoring_mimir_max_label_names_per_series}"
+        - name: "mimir_compactor_deletion_delay"
+          value: "${ARGOCD_ENV_monitoring_mimir_compactor_deletion_delay}"
+
 
         - name: "ctrl_cntr_loki_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
