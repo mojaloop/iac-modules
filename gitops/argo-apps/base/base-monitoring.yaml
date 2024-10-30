@@ -41,10 +41,10 @@ spec:
           value: "${ARGOCD_ENV_monitoring_pre_namespace}"
 
         - name: "grafana_operator_version"
-          value: "${ARGOCD_ENV_monitoring_pre_grafana_operator_version}"
+          value: "${ARGOCD_ENV_utils_base_monitoring_grafana_operator_version}"
 
         - name: "prometheus_crd_version"
-          value: "${ARGOCD_ENV_monitoring_pre_prometheus_crd_version}"
+          value: "${ARGOCD_ENV_utils_base_monitoring_prometheus_crd_version}"
 
         - name: "grafana_crd_version_tag"
-          value: "${ARGOCD_ENV_monitoring_pre_grafana_crd_version_tag}"
+          value: "${ARGOCD_ENV_utils_base_monitoring_grafana_crd_version_tag}"
