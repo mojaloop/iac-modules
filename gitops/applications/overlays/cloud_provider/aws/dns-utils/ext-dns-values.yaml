@@ -10,7 +10,7 @@ txtPrefix: extdns
 sources:
   - service
   - ingress
-  - istio-virtualservice
+  - istio-gateway
 logLevel: debug
 provider: aws
 aws:
