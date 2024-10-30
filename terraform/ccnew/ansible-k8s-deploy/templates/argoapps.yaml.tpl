@@ -205,6 +205,9 @@ argocd_override:
           grafana_crd_version_tag: "${grafana_crd_version_tag}"
           prometheus_crd_version: "${prometheus_crd_version}"
           grafana_operator_version: "${grafana_operator_version}"
+          mimir_bucket_name: "${mimir_bucket_name}"
+          mimir_bucket_max_objects: "${mimir_bucket_max_objects}"
+          mimir_bucket_storage_size: "${mimir_bucket_storage_size}"
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
