@@ -32,6 +32,10 @@ argocd_override:
           internal_ingress_health_port: "'${internal_ingress_health_port}'"
         cert_manager:
           helm_version: "${cert_manager_helm_version}"
+        base_monitoring:
+          grafana_crd_version_tag: "${grafana_crd_version_tag}"
+          prometheus_crd_version: "${prometheus_crd_version}"
+          grafana_operator_version: "${grafana_operator_version}"
         consul:
           helm_version: "${consul_helm_version}"
           replicas: "'${consul_replica_count}'"
@@ -111,6 +115,7 @@ argocd_override:
           public_ingress_access_domain: "${netbird_public_access}"
           helm_version: "${netbird_helm_version}"
           image_version: "${netbird_image_version}"
+          client_version: "${netbird_client_version}"
           dashboard_image_version: "${netbird_dashboard_image_version}"
           stunner_gateway_operator_helm_version: "${stunner_gateway_operator_helm_version}"
           log_level: "${netbird_log_level}"
@@ -202,9 +207,6 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         pre:
-          grafana_crd_version_tag: "${grafana_crd_version_tag}"
-          prometheus_crd_version: "${prometheus_crd_version}"
-          grafana_operator_version: "${grafana_operator_version}"
           mimir_bucket_name: "${mimir_bucket_name}"
           mimir_bucket_max_objects: "${mimir_bucket_max_objects}"
           mimir_bucket_storage_size: "${mimir_bucket_storage_size}"

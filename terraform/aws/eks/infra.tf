@@ -241,7 +241,7 @@ locals {
           xvdb = {
             device_name = "/dev/xvdb"
             ebs = {
-              volume_size           = node_pool.storage_gbs
+              volume_size           = node_pool.extra_vol_gbs
               volume_type           = "gp3"
               iops                  = 3000
               throughput            = 150

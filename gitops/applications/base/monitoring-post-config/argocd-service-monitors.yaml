@@ -1,0 +1,58 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: argocd-metrics
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-metrics
+  endpoints:
+    - port: http-metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: argocd-server-metrics
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-server-metrics
+  endpoints:
+    - port: http-metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: argocd-repo-server-metrics
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-repo-server-metrics
+  endpoints:
+    - port: http-metrics
+---
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   name: argocd-metrics-2
+# spec:
+#   namespaceSelector:
+#     any: true
+#   selector:
+#     matchExpressions:
+#     - key: app.kubernetes.io/name
+#       operator: In
+#       values: 
+#       - argocd-metrics
+#       - argocd-server-metrics
+#       - argocd-repo-server-metrics
+#   endpoints:
+#     - port: http-metrics
+
+# https://github.com/adinhodovic/argo-cd-mixin/tree/main/dashboards_out
