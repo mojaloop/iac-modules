@@ -3,6 +3,8 @@ kind: ServiceMonitor
 metadata:
   name: argocd-metrics
 spec:
+  namespaceSelector:
+    any: true
   selector:
     matchLabels:
       app.kubernetes.io/name: argocd-metrics
@@ -14,6 +16,8 @@ kind: ServiceMonitor
 metadata:
   name: argocd-server-metrics
 spec:
+  namespaceSelector:
+    any: true
   selector:
     matchLabels:
       app.kubernetes.io/name: argocd-server-metrics
@@ -25,6 +29,8 @@ kind: ServiceMonitor
 metadata:
   name: argocd-repo-server-metrics
 spec:
+  namespaceSelector:
+    any: true
   selector:
     matchLabels:
       app.kubernetes.io/name: argocd-repo-server
@@ -36,6 +42,8 @@ kind: ServiceMonitor
 metadata:
   name: argocd-applicationset-controller-metrics
 spec:
+  namespaceSelector:
+    any: true
   selector:
     matchLabels:
       app.kubernetes.io/name: argocd-applicationset-controller
