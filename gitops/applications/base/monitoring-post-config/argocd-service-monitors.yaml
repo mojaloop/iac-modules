@@ -54,4 +54,3 @@ spec:
       - argocd-repo-server-metrics
   endpoints:
     - port: http-metrics
----
