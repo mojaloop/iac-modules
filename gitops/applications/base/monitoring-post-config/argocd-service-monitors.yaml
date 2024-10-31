@@ -1,16 +1,16 @@
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: argocd-metrics
-spec:
-  namespaceSelector:
-    any: true
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: argocd-metrics
-  endpoints:
-    - port: metrics
----
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   name: argocd-metrics
+# spec:
+#   namespaceSelector:
+#     any: true
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: argocd-metrics
+#   endpoints:
+#     - port: metrics
+# ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -22,7 +22,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: argocd-server-metrics
   endpoints:
-    - port: metrics
+    - port: http-metrics
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -35,7 +35,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: argocd-repo-server
   endpoints:
-    - port: metrics
+    - port: http-metrics
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -48,6 +48,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: argocd-applicationset-controller
   endpoints:
-    - port: metrics
+    - port: http-metrics
 ---
 
