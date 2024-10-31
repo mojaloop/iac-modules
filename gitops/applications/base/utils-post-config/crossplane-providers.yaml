@@ -16,7 +16,6 @@ spec:
   args:
     - -d
     - --poll=5m
-    - --max-reconcile-rate=2
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
