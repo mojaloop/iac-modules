@@ -6,6 +6,18 @@ spec:
   args:
     - --debug
 ---
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: terraform-debug
+  labels:
+    app: crossplane-provider-terraform
+spec:
+  args:
+    - -d
+    - --poll=5m
+    - --max-reconcile-rate=2
+---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
@@ -13,7 +25,7 @@ metadata:
 spec:
   package: xpkg.upbound.io/upbound/provider-terraform:v${ARGOCD_ENV_terraform_crossplane_modules_version}
   controllerConfigRef:
-    name: debug-config
+    name: terraform-debug
   runtimeConfigRef:
     name: provider-terraform-config
 ---
