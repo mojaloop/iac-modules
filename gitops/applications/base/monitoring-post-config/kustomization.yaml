@@ -8,6 +8,7 @@ resources:
   - grafana-oidc-xplane-terraform.yaml
   # - dashboards-aws-managed-svs.yaml
   - dashboards-default.yaml
+  - dashboards-infra.yaml
   - dashboards-k8s.yaml
   - dashboards-kafka.yaml
   - dashboards-loki.yaml
