@@ -84,6 +84,9 @@ spec:
         - name: "netbird_version"
           value: "${ARGOCD_ENV_security_netbird_image_version}"
 
+        - name: "netbird_client_version"
+          value: "${ARGOCD_ENV_security_netbird_client_version}"          
+
         - name: "netbird_dns_subdomain"
           value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
 

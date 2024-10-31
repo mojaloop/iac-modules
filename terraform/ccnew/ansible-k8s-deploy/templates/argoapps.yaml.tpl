@@ -115,6 +115,7 @@ argocd_override:
           public_ingress_access_domain: "${netbird_public_access}"
           helm_version: "${netbird_helm_version}"
           image_version: "${netbird_image_version}"
+          client_version: "${netbird_client_version}"
           dashboard_image_version: "${netbird_dashboard_image_version}"
           stunner_gateway_operator_helm_version: "${stunner_gateway_operator_helm_version}"
           log_level: "${netbird_log_level}"

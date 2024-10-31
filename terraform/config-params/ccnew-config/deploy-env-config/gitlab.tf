@@ -155,7 +155,7 @@ resource "gitlab_group_variable" "netbird_api_host" {
 resource "gitlab_group_variable" "netbird_version" {
   group             = data.gitlab_group.iac.id
   key               = "NETBIRD_VERSION"
-  value             = var.netbird_version
+  value             = var.netbird_client_version
   protected         = true
   masked            = false
   environment_scope = "*"
