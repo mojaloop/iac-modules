@@ -54,3 +54,5 @@ spec:
 #       - argocd-repo-server-metrics
 #   endpoints:
 #     - port: http-metrics
+
+# https://github.com/adinhodovic/argo-cd-mixin/tree/main/dashboards_out
