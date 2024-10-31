@@ -206,6 +206,10 @@ argocd_override:
     monitoring:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
+        pre:
+          mimir_bucket_name: "${mimir_bucket_name}"
+          mimir_bucket_max_objects: "${mimir_bucket_max_objects}"
+          mimir_bucket_storage_size: "${mimir_bucket_storage_size}"
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
@@ -222,6 +226,7 @@ argocd_override:
           ingestion_rate: "${mimir_ingestion_rate}"
           ingestion_burst_size: "${mimir_ingestion_burst_size}"
           retention_period: "${mimir_retention_period}"
+          compactor_deletion_delay: "${mimir_compactor_deletion_delay}"
           distributor_replica_count: "${mimir_distributor_replica_count}"
           ingester_replica_count: "${mimir_ingester_replica_count}"
           querier_replica_count: "${mimir_querier_replica_count}"

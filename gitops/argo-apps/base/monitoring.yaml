@@ -58,6 +58,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag}
+
     path: gitops/applications/base/monitoring
     plugin:
       name: envsubst
@@ -99,6 +100,9 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_retention_period}"
         - name: "mimir_max_label_names_per_series"
           value: "${ARGOCD_ENV_monitoring_mimir_max_label_names_per_series}"
+        - name: "mimir_compactor_deletion_delay"
+          value: "${ARGOCD_ENV_monitoring_mimir_compactor_deletion_delay}"
+
 
         - name: "ctrl_cntr_loki_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
