@@ -32,7 +32,7 @@ resource "kubernetes_secret_v1" "setup_keys" {
     name      = "${each.value}-repo-secret"
     namespace = var.argocd_namespace
     labels = {
-      "argocd.argoproj.io/secret-type" = "repository"
+      "argocd.argoproj.io/secret-type" = "repo-creds"
     }
   }
   data = {
