@@ -7,7 +7,6 @@ resources:
   - netbird-xplane-terraform.yaml
   - stunner-crs.yaml
   - ext-secret-pre.yaml
-  - netbird-random-secrets.yaml
 
 helmCharts:
   - name: stunner-gateway-operator
