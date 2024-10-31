@@ -40,7 +40,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: argocd-metrics
+  name: argocd-metrics-2
 spec:
   namespaceSelector:
     any: true
