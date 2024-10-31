@@ -54,7 +54,8 @@ spec:
               format: json
 
           applicationSet:
-            enabled: false
+            metrics:
+              enabled: true
           notifications:
             enabled: false
           configs:
