@@ -148,15 +148,15 @@ resource "aws_iam_role" "eks_access_role" {
       }
     ]
   })
-  tags               = merge({ Name = "${local.eks_name}-eks-access-role" }, var.tags)
+  tags = merge({ Name = "${local.eks_name}-eks-access-role" }, var.tags)
 }
 
 locals {
-  eks_name                = substr(replace(local.base_domain, ".", "-"), 0, 16)
+  eks_name = substr(replace(local.base_domain, ".", "-"), 0, 16)
   eks_user_arns = distinct(compact([
     module.post_config.ci_user_arn,
     data.aws_caller_identity.current_user.arn
-    ]))
+  ]))
 
   # eks_user_arns = distinct([
   #   module.post_config.ci_user_arn,
@@ -278,6 +278,7 @@ data "template_file" "post_bootstrap_user_data" {
     netbird_version   = var.netbird_version
     netbird_api_host  = var.netbird_api_host
     netbird_setup_key = var.netbird_setup_key
+    pod_network_cidr  = var.vpc_cidr
   }
 }
 
