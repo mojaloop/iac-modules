@@ -1157,6 +1157,7 @@ ml-ttk-test-setup:
     # ttlSecondsAfterFinished: 50
     generateNameEnabled: false
     annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
       argocd.argoproj.io/hook: PostSync
 
 ml-ttk-test-val-gp:
@@ -1181,6 +1182,7 @@ ml-ttk-test-val-gp:
     # ttlSecondsAfterFinished: 50
     generateNameEnabled: false
     annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
       argocd.argoproj.io/hook: PostSync
       argocd.argoproj.io/sync-wave: "${mojaloop_test_sync_wave}"
 
