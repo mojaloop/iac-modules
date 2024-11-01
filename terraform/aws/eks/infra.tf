@@ -278,6 +278,7 @@ data "template_file" "post_bootstrap_user_data" {
     netbird_version   = var.netbird_version
     netbird_api_host  = var.netbird_api_host
     netbird_setup_key = var.netbird_setup_key
+    pod_network_cidr  = var.vpc_cidr
   }
 }
 
