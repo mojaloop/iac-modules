@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 resource "vault_aws_secret_backend" "aws_object_storage" {
   count                     = local.enable_object_storage_backend ? 1 : 0
   path                      = var.object_storage_backend_path
@@ -19,6 +20,10 @@ resource "vault_aws_secret_backend_role" "object_storage" {
 resource "vault_aws_secret_backend" "aws_dns" {
   count                     = local.enable_dns_backend ? 1 : 0
   path                      = var.dns_backend_path
+=======
+resource "vault_aws_secret_backend" "aws" {
+  path                      = var.backend_path
+>>>>>>> main
   access_key                = data.vault_generic_secret.credentials.data[var.access_key_name]
   secret_key                = data.vault_generic_secret.credentials.data[var.secret_key_name]
   region                    = var.region
@@ -26,8 +31,12 @@ resource "vault_aws_secret_backend" "aws_dns" {
 }
 
 resource "vault_aws_secret_backend_role" "dns_access" {
+<<<<<<< HEAD
   count           = local.enable_dns_backend ? 1 : 0
   backend         = vault_aws_secret_backend.aws_dns[0].path
+=======
+  backend         = vault_aws_secret_backend.aws.path
+>>>>>>> main
   name            = var.dns_access_role
   credential_type = "assumed_role"
   role_arns       = [var.external_dns_cloud_role]
@@ -40,6 +49,7 @@ resource "vault_aws_secret_backend_role" "cert_manager_access" {
   credential_type = "iam_user"
   policy_arns     = [var.cert_manager_cloud_policy]
 }
+
 
 data "vault_generic_secret" "credentials" {
   path = "${var.kv_path}/${var.credential_path}"

@@ -155,5 +155,5 @@ variable "pm4ml_external_switch_b_client_secret" {
 }
 
 locals {
-  nat_cidr_list = join(", ", [for ip in var.nat_public_ips : format("%s/32", ip)])
+  nat_cidr_list = join(",", [for ip in var.nat_public_ips : format("%s/32", ip)])
 }

@@ -124,6 +124,7 @@ spec:
   serviceAccountTemplate:
     metadata:
       name: crossplane-terraform-sa
+<<<<<<< HEAD
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -149,3 +150,5 @@ spec:
     apiVersion: pkg.crossplane.io/v1beta1
     kind: DeploymentRuntimeConfig
     name: provider-kubernetes
+=======
+>>>>>>> main

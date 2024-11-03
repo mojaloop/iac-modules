@@ -17,5 +17,9 @@ resources:
   - dashboards-mojaloop.yaml
   - dashboards-prometheus.yaml
   - dashboards-rook-ceph.yaml
+<<<<<<< HEAD
   - istio-crs.yaml
   - rook-ceph-objectstore-exporter.yaml
+=======
+  - istio-crs.yaml
+>>>>>>> main

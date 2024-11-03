@@ -31,8 +31,12 @@ spec:
 
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
+<<<<<<< HEAD
     targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag}
 
+=======
+    targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag} 
+>>>>>>> main
     path: gitops/applications/base/monitoring-pre
     plugin:
       name: envsubst
