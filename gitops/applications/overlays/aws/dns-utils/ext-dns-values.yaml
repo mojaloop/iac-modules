@@ -10,10 +10,15 @@ txtPrefix: extdns
 sources:
   - service
   - ingress
-  - istio-gateway
+  - istio-virtualservice
 logLevel: debug
 provider: aws
 aws:
   credentials:
-    secretName: ${ARGOCD_ENV_external_dns_credentials_secret}
+    accessKeyIDSecretRef:
+      name: ${ARGOCD_ENV_external_dns_credentials_secret}
+      key: "access_key"
+    secretAccessKeySecretRef:
+      name: ${ARGOCD_ENV_external_dns_credentials_secret}
+      key: "secret_key"
   region: ${ARGOCD_ENV_dns_cloud_api_region}

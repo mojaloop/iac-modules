@@ -32,7 +32,7 @@ resource "kubernetes_secret_v1" "setup_keys" {
     name      = "${each.value}-repo-secret"
     namespace = var.argocd_namespace
     labels = {
-      "argocd.argoproj.io/secret-type" = "repo-creds"
+      "argocd.argoproj.io/secret-type" = "repository"
     }
   }
   data = {
@@ -155,7 +155,7 @@ resource "gitlab_group_variable" "netbird_api_host" {
 resource "gitlab_group_variable" "netbird_version" {
   group             = data.gitlab_group.iac.id
   key               = "NETBIRD_VERSION"
-  value             = var.netbird_client_version
+  value             = var.netbird_version
   protected         = true
   masked            = false
   environment_scope = "*"

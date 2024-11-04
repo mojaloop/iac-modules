@@ -3,11 +3,6 @@ module "ubuntu_focal_ami" {
   release = "20.04"
 }
 
-module "ubuntu_jammy_ami" {
-  source  = "../ami-ubuntu"
-  release = "22.04"
-}
-
 module "base_infra" {
   source                     = "../base-infra"
   cluster_name               = var.cluster_name
@@ -20,32 +15,21 @@ module "base_infra" {
   manage_parent_domain_ns    = var.manage_parent_domain_ns
   az_count                   = var.az_count
   route53_zone_force_destroy = var.dns_zone_force_destroy
-  bastion_ami                = module.ubuntu_jammy_ami.id
+  bastion_ami                = module.ubuntu_focal_ami.id
   create_haproxy_dns_record  = var.create_haproxy_dns_record
   block_size                 = var.block_size
-  bastion_asg_config = {
-    name             = "bastion"
-    desired_capacity = var.bastion_instance_number
-    max_size         = var.bastion_instance_number
-    min_size         = var.bastion_instance_number
-    instance_type    = var.bastion_instance_size
-  }
 }
 
 module "post_config" {
-  source                      = "../post-config-k8s"
-  name                        = var.cluster_name
-  domain                      = var.domain
-  tags                        = var.tags
-  private_zone_id             = module.base_infra.public_int_zone.id
-  public_zone_id              = module.base_infra.public_zone.id
-  create_ext_dns_user         = var.create_ext_dns_user
-  create_ext_dns_role         = var.create_ext_dns_role
-  create_iam_user             = var.create_ci_iam_user
-  iac_group_name              = var.iac_group_name
-  backup_bucket_name          = "${var.domain}-${var.backup_bucket_name}"
-  backup_enabled              = var.backup_enabled
-  backup_bucket_force_destroy = var.backup_bucket_force_destroy
+  source              = "../post-config-k8s"
+  name                = var.cluster_name
+  domain              = var.domain
+  tags                = var.tags
+  private_zone_id     = module.base_infra.public_int_zone.id
+  public_zone_id      = module.base_infra.public_zone.id
+  create_ext_dns_user = var.create_ext_dns_user
+  create_iam_user     = var.create_ci_iam_user
+  iac_group_name      = var.iac_group_name
 }
 
 module "k6s_test_harness" {

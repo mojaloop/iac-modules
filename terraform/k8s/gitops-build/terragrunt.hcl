@@ -143,8 +143,8 @@ locals {
   GITLAB_CURRENT_GROUP_NAME     = get_env("GITLAB_CURRENT_GROUP_NAME")
   GITLAB_API_URL                = get_env("GITLAB_API_URL")
   CLOUD_REGION                  = get_env("cloud_region")
-  ENABLE_VAULT_OIDC             = get_env("enable_vault_oidc")
-  ENABLE_GRAFANA_OIDC           = get_env("enable_grafana_oidc")
+  ENABLE_VAULT_OIDC             = try(get_env("vault_oidc_domain"),"") == "" ? false : true
+  ENABLE_GRAFANA_OIDC           = try(get_env("grafana_oidc_domain"),"") == "" ? false : true
   LETSENCRYPT_EMAIL             = get_env("letsencrypt_email")
   GITLAB_TOKEN                  = get_env("GITLAB_CI_PAT")
   ENV_VAULT_TOKEN               = get_env("ENV_VAULT_TOKEN")
@@ -155,9 +155,9 @@ locals {
   VAULT_ADDR                    = get_env("VAULT_ADDR")
   ceph_fqdn                     = get_env("CEPH_OBJECTSTORE_FQDN")
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
-  argocd_ingress_internal_lb    = true
-  grafana_ingress_internal_lb   = true
-  vault_ingress_internal_lb     = true
+  argocd_ingress_internal_lb    = strcontains(try(get_env("argocd_oidc_domain"),"int."),"int.")? true : false
+  grafana_ingress_internal_lb   = strcontains(try(get_env("grafana_oidc_domain"),"int."),"int.")? true : false
+  vault_ingress_internal_lb     = strcontains(try(get_env("vault_oidc_domain"),"int."),"int.")? true : false
 }
 
 generate "required_providers_override" {

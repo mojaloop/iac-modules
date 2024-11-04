@@ -16,7 +16,7 @@ resource "netbird_setup_key" "build_server_setup_key" {
   name        = "build host setup key"
   type        = "one-off"
   auto_groups = [local.user_group_id]
-  ephemeral   = false
+  ephemeral   = true
   usage_limit = 1
   expires_in  = 7776000
   rotation_id = time_rotating.setup_key_rotation.id

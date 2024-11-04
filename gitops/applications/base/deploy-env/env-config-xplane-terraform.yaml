@@ -30,8 +30,6 @@ spec:
         value: ${ARGOCD_ENV_ceph_max_size}
       - key: netbird_version
         value: "${ARGOCD_ENV_netbird_version}"
-      - key: netbird_client_version
-        value: "${ARGOCD_ENV_netbird_client_version}"
       - key: netbird_api_host
         value: "netbird.${ARGOCD_ENV_netbird_dns_subdomain}"
       - key: argocd_namespace

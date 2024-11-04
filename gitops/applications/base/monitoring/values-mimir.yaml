@@ -14,14 +14,11 @@ mimir:
   overrideConfiguration:
     frontend:
       max_outstanding_per_tenant: 4096
-    compactor:
-      deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}
       ingestion_burst_size: ${ARGOCD_ENV_mimir_ingestion_burst_size}
       compactor_blocks_retention_period: ${ARGOCD_ENV_mimir_retention_period}
-      max_label_names_per_series: ${ARGOCD_ENV_mimir_max_label_names_per_series}
 
 metrics:
   enabled: true
@@ -41,56 +38,32 @@ metrics:
 # resource preset guide: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
 distributor:
   replicaCount: ${ARGOCD_ENV_mimir_distributor_replica_count}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_mimir_distributor_limits_cpu}
-      memory: ${ARGOCD_ENV_mimir_distributor_limits_memory}
+  resourcesPreset: medium
 
 ingester:
   replicaCount: ${ARGOCD_ENV_mimir_ingester_replica_count}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_mimir_ingester_limits_cpu}
-      memory: ${ARGOCD_ENV_mimir_ingester_limits_memory}
+  resourcesPreset: xlarge
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
-  persistence:
-    size: ${ARGOCD_ENV_mimir_ingester_storage_size}
 
 querier:
   replicaCount: ${ARGOCD_ENV_mimir_querier_replica_count}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
-      memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
+  resourcesPreset: large
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
 queryFrontend: 
   replicaCount: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_mimir_query_frontend_limits_cpu}
-      memory: ${ARGOCD_ENV_mimir_query_frontend_limits_memory}
+  resourcesPreset: large
 
 compactor: 
   replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
-      memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
-  persistence:
-    size: ${ARGOCD_ENV_mimir_compactor_storage_size}
+  resourcesPreset: large
 
 storeGateway: 
   replicaCount: ${ARGOCD_ENV_mimir_store_gateway_replica_count}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
-      memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
+  resourcesPreset: large
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
-  persistence:
-    size: ${ARGOCD_ENV_mimir_store_gateway_storage_size}

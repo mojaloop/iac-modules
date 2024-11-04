@@ -138,13 +138,13 @@ global:
     tcpUserTimeout:
     password:
       useSecret: true
-      secret: "${ARGOCD_ENV_gitlab_db_secret}"
+      secret: "gitlab-postgresql-credentials"
       key: password
       # file:
-    host: ${ARGOCD_ENV_gitlab_externalservice_name}.${ARGOCD_ENV_gitlab_namespace}.svc
+    host: gitlab-pg-db-pgbouncer.gitlab.svc
     port: 5432
-    username: ${ARGOCD_ENV_gitlab_db_username}
-    database: ${ARGOCD_ENV_gitlab_db_name}
+    username: gitlab
+    database: gitlab
     applicationName: gitlab
     # preparedStatements: false
     # databaseTasks: true
@@ -216,17 +216,17 @@ global:
     authToken: {}
     autoMigrate: true
     dbSecret:
-      secret: ${ARGOCD_ENV_praefect_db_secret}
+      secret: praefect-postgresql-credentials
       key: password
     virtualStorages:
       - name: default
         gitalyReplicas: 3
         maxUnavailable: 1
     psql:
-      host: ${ARGOCD_ENV_praefect_externalservice_name}.${ARGOCD_ENV_gitlab_namespace}.svc
+      host: praefect-pg-db-pgbouncer.gitlab.svc
       port: 5432
-      user: ${ARGOCD_ENV_praefect_db_username}
-      dbName: ${ARGOCD_ENV_praefect_db_name}
+      user: praefect
+      dbName: praefect
       sslMode: require
     # serviceName:
     service:

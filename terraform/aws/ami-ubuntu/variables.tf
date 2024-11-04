@@ -8,7 +8,6 @@ variable "name_map" {
   description = "map of release numbers to names, including trusty, xenial, zesty, and artful"
   type        = map(string)
   default = {
-    "22.04" = "jammy"
     "20.04" = "focal"
     "19.10" = "eoan"
     "19.04" = "disco"
