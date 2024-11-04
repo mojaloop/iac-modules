@@ -39,6 +39,9 @@ cp -r $TMP_TEMPLATE_DIR/${ENV_NAME}/. .
 if  [ !  -d custom-config ]; then
    mkdir -p custom-config
    echo "env: ${env_name}
+argocd_oidc_domain: \"int.${env_name//-/}\"
+grafana_oidc_domain: \"int.${env_name//-/}\"
+vault_oidc_domain: \"int.${env_name//-/}\"
 vpc_cidr: changeme_cidr
 managed_vpc_cidr: changeme_cidr
 domain: changeme_domain

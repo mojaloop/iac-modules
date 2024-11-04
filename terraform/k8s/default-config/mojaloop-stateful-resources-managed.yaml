@@ -2,18 +2,16 @@ account-lookup-db:
   external_resource_config:
     password_key_name: account_lookup_password
     instance_address_key_name: account_lookup_instance_address
-    allocated_storage: 100
-    storage_type: io1
-    storage_iops: 5000
+    allocated_storage: 5
     backup_window: 01:00-04:00
     db_name: account_lookup
     deletion_protection: false
     engine: mysql
-    engine_version: "8.0"
-    family: mysql8.0
-    instance_class: db.m5d.large
+    engine_version: "5.7"
+    family: mysql5.7
+    instance_class: db.m5.large
     maintenance_window: Sun:04:00-Sun:06:00
-    major_engine_version: "8.0"
+    major_engine_version: "5.7"
     monitoring_interval: "30"
     options:
       - option_name: MARIADB_AUDIT_PLUGIN
@@ -41,18 +39,16 @@ central-ledger-db:
   external_resource_config:
     password_key_name: central_ledger_password
     instance_address_key_name: central_ledger_instance_address
-    allocated_storage: 100
-    storage_type: io1
-    storage_iops: 5000    
+    allocated_storage: 5
     backup_window: 01:00-04:00
     db_name: central_ledger
     deletion_protection: false
     engine: mysql
-    engine_version: "8.0"
-    family: mysql8.0
-    instance_class: db.m5d.large
+    engine_version: "5.7"
+    family: mysql5.7
+    instance_class: db.m5.large
     maintenance_window: Sun:04:00-Sun:06:00
-    major_engine_version: "8.0"
+    major_engine_version: "5.7"
     monitoring_interval: "30"
     options:
       - option_name: MARIADB_AUDIT_PLUGIN

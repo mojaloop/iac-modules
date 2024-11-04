@@ -183,20 +183,3 @@ spec:
       }
 
       provider "time" {}
----
-apiVersion: apiextensions.crossplane.io/v1alpha1
-kind: Usage
-metadata:
-  name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
-  namespace: ${ARGOCD_ENV_deploy_env_onboard_app_namespace}
-spec:
-  of:
-    apiVersion: tf.upbound.io/v1beta1
-    kind: ProviderConfig
-    resourceRef:
-      name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
-  by:
-    apiVersion: tf.upbound.io/v1beta1
-    kind: Workspace
-    resourceRef:
-      name: ${ARGOCD_ENV_deploy_env_onboard_app_name}

@@ -42,31 +42,7 @@ variable "create_iam_user" {
 variable "create_ext_dns_user" {
   type        = bool
   description = "create iam user for ext dns"
-  default     = false
-}
-
-variable "create_ext_dns_role" {
-  type        = bool
-  description = "create role for assumedrole for ext dns"
-  default     = false
-}
-
-variable "backup_bucket_name" {
-  type        = string
-  description = "bucket name for backups"
-  default     = "velero"
-}
-
-variable "backup_enabled" {
-  type        = bool
-  description = "create backup policies and bucket in s3"
-  default     = false
-}
-
-variable "backup_bucket_force_destroy" {
-  type        = bool
-  description = "auto delete s3 bucket content"
-  default     = false
+  default     = true
 }
 
 ###

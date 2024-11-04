@@ -199,127 +199,53 @@ variable "node_pools" {
 }
 
 variable "netbird_version" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "netbird_api_host" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "netbird_setup_key" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "identity_provider_config_name" {
-  type    = string
-  default = ""
-}
-
-variable "eks_oidc_enabled" {
-  description = "Enable or disable OIDC configuration for the cluster."
-  type        = bool
-  default     = true
+  type = string
 }
 
 variable "kubernetes_oidc_issuer" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "kubernetes_oidc_client_id" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "kubernetes_oidc_groups_claim" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "kubernetes_oidc_groups_prefix" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "kubernetes_oidc_username_claim" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "kubernetes_oidc_username_prefix" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "cc_cidr_block" {
-  type    = string
-  default = ""
+  type = string
 }
 
 variable "netbird_ip_range" {
   type    = string
   default = "100.64.0.0/10"
 }
-
-variable "create_ci_iam_user" {
-  type        = bool
-  description = "create iam user for ci"
-  default     = false
-}
-variable "create_ext_dns_user" {
-  type        = bool
-  description = "create iam user for dns"
-  default     = true
-}
-variable "create_ext_dns_role" {
-  type        = bool
-  description = "create iam role for ext dns"
-  default     = false
-}
-variable "iac_group_name" {
-  type        = string
-  description = "iac group name"
-  default     = "admin"
-}
-
-variable "create_haproxy_dns_record" {
-  type        = bool
-  description = "whether to create public dns record for private ip of bastion for haproxy"
-  default     = true
-}
-
-variable "backup_bucket_name" {
-  type        = string
-  description = "backup"
-  default     = "velero"
-}
-
-variable "backup_enabled" {
-  type        = bool
-  default     = false
-  description = "enable backup bucket and policies"
-}
-variable "backup_bucket_force_destroy" {
-  type        = bool
-  description = "auto delete s3 bucket content"
-  default     = false
-}
-
-variable "bastion_instance_number" {
-  type        = number
-  description = "number of bastions to configure in asg"
-  default     = 2
-}
-
-variable "bastion_instance_size" {
-  type        = string
-  description = "instance size of bastions to configure in asg"
-  default     = "t3.small"
-}
-
 ###
 # Local copies of variables to allow for parsing
 ###

@@ -214,7 +214,6 @@ destroy:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
-    - if [ -d "$ANSIBLE_BASE_OUTPUT_DIR" ]; then echo "Inventory artifact exists"; else echo "Inventory artifact does not exist; Please rerun deploy-infra before destroy"; exit 1; fi
     - terragrunt run-all destroy --terragrunt-non-interactive -input=false
     - .gitlab/scripts/cleanapps.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   when: manual

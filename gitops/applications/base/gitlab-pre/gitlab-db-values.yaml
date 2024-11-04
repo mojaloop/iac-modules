@@ -2,8 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-fullnameOverride: ${ARGOCD_ENV_gitlab_dbdeploy_name_prefix}
-
 finalizers:
 # Set this if you want that operator deletes the PVCs on cluster deletion
 #  - percona.com/delete-pvc
@@ -32,13 +30,13 @@ customReplicationTLSSecret:
 # openshift: true
 
 users:
-  - name: ${ARGOCD_ENV_gitlab_db_username}
+  - name: gitlab
     databases:
-      - ${ARGOCD_ENV_gitlab_db_name}
+      - gitlab
     options: "SUPERUSER"
     password:
       type: ASCII
-    secretName: "${ARGOCD_ENV_gitlab_db_secret}"
+    secretName: "gitlab-postgresql-credentials"
 
 # databaseInitSQL:
 #   key: init.sql

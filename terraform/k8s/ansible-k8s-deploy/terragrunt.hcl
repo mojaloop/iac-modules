@@ -81,8 +81,6 @@ locals {
   GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
   vault_fqdn                       = get_env("VAULT_FQDN")
 
-  private_subdomain                = "int.${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}"
-  argocd_oidc_domain               = local.private_subdomain
 
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
@@ -121,7 +119,7 @@ locals {
     cluster_name                 = get_env("cluster_name")
     netmaker_env_network_name    = get_env("cluster_name")
     cluster_domain               = "${get_env("cluster_name")}.${get_env("domain")}"
-    argocd_domain                = local.argocd_oidc_domain
+    argocd_domain                = "${get_env("argocd_oidc_domain")}.${get_env("domain")}"
     oidc_admin_group             = get_env("gitlab_admin_rbac_group")
     argocd_admin_rbac_group      = get_env("argocd_admin_rbac_group")
     argocd_readonly_rbac_group   = get_env("argocd_user_rbac_group")

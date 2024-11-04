@@ -46,32 +46,10 @@ output "target_group_internal_health_port" {
 output "target_group_external_health_port" {
   value = var.target_group_external_health_port
 }
-output "target_group_vpn_port" {
-  value = var.wireguard_port
-}
+
 output "private_network_cidr" {
   value = var.vpc_cidr
 }
-
-output "internal_k8s_network_cidr" {
-  value = module.base_infra.private_subnets_cidr_blocks
-}
-
-output "ext_dns_cloud_policy" {
-  value = module.post_config.ext_dns_cloud_policy
-}
-
-output "external_dns_cloud_role" {
-  value = module.post_config.external_dns_cloud_role
-}
-
-output "object_storage_cloud_role" {
-  value = module.post_config.object_storage_cloud_role
-}
-output "object_storage_bucket_name" {
-  value = module.post_config.backup_bucket_name
-}
-
 
 ###new items
 
@@ -80,21 +58,10 @@ output "bastion_ssh_key" {
   value     = module.base_infra.ssh_private_key
 }
 
-output "bastion_private_ip" {
-  value = module.base_infra.bastion_private_ip
-}
-output "bastion_private_ips" {
-  value = module.base_infra.bastion_private_ips
-}
 output "bastion_public_ip" {
   value = module.base_infra.bastion_public_ip
 }
-output "bastion_public_ips" {
-  value = module.base_infra.bastion_public_ips
-}
-output "bastion_hosts" {
-  value = zipmap([for i in range(length(module.base_infra.bastion_public_ips)) : "bastion${i + 1}"], module.base_infra.bastion_public_ips)
-}
+
 output "bastion_os_username" {
   value = var.os_user_name
 }
@@ -138,8 +105,6 @@ output "all_hosts_var_maps" {
     external_interop_switch_fqdn = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
     kubeapi_loadbalancer_fqdn    = module.eks.cluster_endpoint
     eks_cluster_name             = module.eks.cluster_name
-    eks_access_role_arn          = aws_iam_role.eks_access_role.arn
-    root_account_id              = data.aws_caller_identity.current_user.account_id
   }
 }
 
@@ -163,12 +128,12 @@ output "bastion_hosts_var_maps" {
 output "bastion_hosts_yaml_maps" {
   sensitive = false
   value = {
-    eks_post_install_config_map = replace(local.aws_auth_configmap_yaml, "{{", "{{ '{{' }}")
+    eks_post_install_config_map = replace(module.eks.aws_auth_configmap_yaml, "{{", "{{ '{{' }}")
   }
 }
 
-output "ci_user_arn" {
-  value = module.post_config.ci_user_arn
+output "bastion_hosts" {
+  value = zipmap([for i in range(length(module.base_infra.bastion_public_ips)) : "bastion${i + 1}"], module.base_infra.bastion_public_ips)
 }
 
 output "agent_hosts" {
@@ -185,13 +150,4 @@ output "test_harness_hosts" {
 
 output "test_harness_hosts_var_maps" {
   value = var.enable_k6s_test_harness ? module.k6s_test_harness[0].var_map : {}
-}
-
-output "private_subnets" {
-  # value = "[${join(",", [for s in module.base_infra.private_subnets : format("'%s'", s)])}]"
-  value = module.base_infra.private_subnets
-}
-
-output "vpc_id" {
-  value = module.base_infra.vpc_id
 }

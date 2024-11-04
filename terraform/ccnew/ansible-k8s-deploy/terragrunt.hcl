@@ -22,12 +22,7 @@ dependency "k8s_deploy" {
     bastion_public_ip           = "null"
     private_subdomain           = "null"
     public_subdomain            = "null"
-    external_dns_cloud_role     = "null"
     ext_dns_cloud_policy        = "null"
-    object_storage_cloud_role   = "null"
-    object_storage_bucket_name  = "null"
-    private_subnets             = "null"
-    vpc_id                      = "null"  
     target_group_internal_https_port = 0
     target_group_internal_http_port = 0
     target_group_internal_health_port = 0
@@ -72,7 +67,6 @@ inputs = {
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
   all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps,
-  {netbird_version = local.common_vars.netbird_image_version},
   (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.env_vars.microk8s_version, "1.30/stable")
@@ -94,18 +88,11 @@ inputs = {
     internal_load_balancer_dns        = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns        = dependency.k8s_deploy.outputs.external_load_balancer_dns
     wireguard_ingress_port            = dependency.k8s_deploy.outputs.target_group_vpn_port
-    external_dns_cloud_role           = dependency.k8s_deploy.outputs.external_dns_cloud_role
-    cert_manager_cloud_policy         = dependency.k8s_deploy.outputs.ext_dns_cloud_policy
+    ext_dns_cloud_policy              = dependency.k8s_deploy.outputs.ext_dns_cloud_policy
+    internal_k8s_cidr                 = dependency.k8s_deploy.outputs.internal_k8s_network_cidr[0]
     cloud_platform_api_client_id      = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_id_key]
     cloud_platform_api_client_secret  = dependency.k8s_deploy.outputs.secrets_var_map[dependency.k8s_deploy.outputs.secrets_key_map.iac_user_cred_secret_key]
     environment_list                  = local.environment_list.environments
-    rdbms_subnet_list                 = dependency.k8s_deploy.outputs.private_subnets
-    rdbms_vpc_id                      = dependency.k8s_deploy.outputs.vpc_id
-    vpc_cidr                          = get_env("vpc_cidr")
-    object_storage_cloud_role         = dependency.k8s_deploy.outputs.object_storage_cloud_role
-    object_storage_bucket_name        = dependency.k8s_deploy.outputs.object_storage_bucket_name
-    rook_csi_kubelet_dir_path         = local.K8S_CLUSTER_TYPE == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
-    eks_name                          = local.eks_name
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
@@ -116,7 +103,7 @@ inputs = {
   ansible_base_output_dir       = local.ANSIBLE_BASE_OUTPUT_DIR
   ansible_playbook_name         = "cc${local.K8S_CLUSTER_TYPE}_cluster_deploy"
   ansible_destroy_playbook_name = "cc${local.K8S_CLUSTER_TYPE}_cluster_destroy"
-  master_node_supports_traffic  = (local.total_agent_count == 0) ? true : false
+  master_node_supports_traffic = (local.total_agent_count == 0) ? true : false
 }
 
 locals {
@@ -127,9 +114,8 @@ locals {
   ANSIBLE_BASE_OUTPUT_DIR          = get_env("ANSIBLE_BASE_OUTPUT_DIR")
   K8S_CLUSTER_TYPE                 = get_env("k8s_cluster_type")
   CLUSTER_NAME                     = get_env("cluster_name")
-  total_agent_count                = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
-  total_master_count               = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
-  eks_name                         = substr("${replace(get_env("cluster_name"), "-", "")}-${replace(get_env("domain"), ".", "-")}", 0, 16)
+  total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
+  total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
 
   bastion_hosts_var_maps = {
     cluster_name                  = get_env("cluster_name")
