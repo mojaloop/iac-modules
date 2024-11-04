@@ -15,6 +15,10 @@ dns_zone_force_destroy: true
 longhorn_backup_object_store_destroy: true
 managed_svc_enabled: false
 addons_module_enabled: false
+enable_vault_oidc: true
+enable_grafana_oidc: true
+object_storage_force_destroy_bucket: true #prod should set to false
+bastion_instance_size: t3.micro
 nodes:
   master-generic:
     master: true

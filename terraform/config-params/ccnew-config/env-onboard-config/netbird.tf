@@ -37,18 +37,6 @@ resource "netbird_group" "env_users" {
   }
 }
 
-resource "netbird_group" "env_backtunnel" {
-  count = var.k8s_cluster_type == "eks" ? 1 : 0
-  name  = "${var.env_name}-backtunnel"
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "netbird_group" "env_backtunnel" {
-  count = var.k8s_cluster_type == "eks" ? 1 : 0
-  name  = "${var.env_name}-backtunnel"
-}
 #route to allow private traffic into en k8s network from cc user group and the env_users group, env gw is the gateway peer
 resource "netbird_route" "env_k8s" {
   description = "${var.env_name}-k8s"
@@ -93,18 +81,4 @@ resource "vault_kv_secret_v2" "env_netbird_k8s_setup_key" {
 
     }
   )
-}
-
-# netbird route for allowing access to managed vpc cidr ( subnets of rds, msk and others )
-resource "netbird_route" "env_backtunnel_gw" {
-  count       = var.k8s_cluster_type == "eks" ? 1 : 0
-  description = "${var.env_name}-backtunnel"
-  enabled     = true
-  groups      = [local.cc_gw_group_id]
-  keep_route  = true
-  masquerade  = true
-  metric      = 9999
-  peer_groups = [netbird_group.env_backtunnel[0].id]
-  network     = var.env_cidr
-  network_id  = "${var.env_name}-backtunnel"
 }

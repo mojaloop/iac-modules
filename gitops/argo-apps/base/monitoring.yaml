@@ -58,6 +58,10 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag}
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
     path: gitops/applications/base/monitoring
     plugin:
       name: envsubst
@@ -66,7 +70,7 @@ spec:
           value: "${ARGOCD_ENV_monitoring_pre_namespace}"
 
         - name: "grafana_mimir_helm_version"
-          value: "${ARGOCD_ENV_monitoring_monitoring_grafana_mimir_helm_version}"
+          value: "${ARGOCD_ENV_monitoring_mimir_helm_version}"
 
         - name: "kube_prometheus_helm_version"
           value: "${ARGOCD_ENV_monitoring_monitoring_kube_prometheus_helm_version}"
@@ -86,17 +90,22 @@ spec:
           value: "${ARGOCD_ENV_monitoring_prometheus_remote_write_tenant_id}"
         - name: "cluster_label_value"
           value: "${ARGOCD_ENV_monitoring_prometheus_cluster_label_value}"
-          
+
         - name: "mimir_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_name}"
         - name: "mimir_max_global_series_per_user"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_max_global_series_per_user}"
+          value: "${ARGOCD_ENV_monitoring_mimir_max_global_series_per_user}"
         - name: "mimir_ingestion_rate"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_ingestion_rate}"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingestion_rate}"
         - name: "mimir_ingestion_burst_size"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_ingestion_burst_size}"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingestion_burst_size}"
         - name: "mimir_retention_period"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_retention_period}"
+          value: "${ARGOCD_ENV_monitoring_mimir_retention_period}"
+        - name: "mimir_max_label_names_per_series"
+          value: "${ARGOCD_ENV_monitoring_mimir_max_label_names_per_series}"
+        - name: "mimir_compactor_deletion_delay"
+          value: "${ARGOCD_ENV_monitoring_mimir_compactor_deletion_delay}"
+
 
         - name: "ctrl_cntr_loki_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
@@ -108,18 +117,49 @@ spec:
           value: "${ARGOCD_ENV_monitoring_monitoring_ctrl_cntr_loki_ingester_max_chunk_age}"
 
         - name: "mimir_distributor_replica_count"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_distributor_replica_count}"
+          value: "${ARGOCD_ENV_monitoring_mimir_distributor_replica_count}"
         - name: "mimir_ingester_replica_count"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_ingester_replica_count}"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingester_replica_count}"
         - name: "mimir_querier_replica_count"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_querier_replica_count}"
+          value: "${ARGOCD_ENV_monitoring_mimir_querier_replica_count}"
         - name: "mimir_query_frontend_replica_count"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_query_frontend_replica_count}"
+          value: "${ARGOCD_ENV_monitoring_mimir_query_frontend_replica_count}"
         - name: "mimir_compactor_replica_count"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_compactor_replica_count}"
+          value: "${ARGOCD_ENV_monitoring_mimir_compactor_replica_count}"
         - name: "mimir_store_gateway_replica_count"
-          value: "${ARGOCD_ENV_monitoring_monitoring_mimir_store_gateway_replica_count}"
+          value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_replica_count}"
+
+        - name: "mimir_ingester_storage_size"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingester_storage_size}"
+        - name: "mimir_compactor_storage_size"
+          value: "${ARGOCD_ENV_monitoring_mimir_compactor_storage_size}"
+        - name: "mimir_store_gateway_storage_size"
+          value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_storage_size}"
+
+        - name: "mimir_distributor_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_distributor_limits_cpu}"
+        - name: "mimir_distributor_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_distributor_limits_memory}"
+        - name: "mimir_ingester_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingester_limits_cpu}"
+        - name: "mimir_ingester_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingester_limits_memory}"
+        - name: "mimir_querier_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_querier_limits_cpu}"
+        - name: "mimir_querier_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_querier_limits_memory}"
+        - name: "mimir_query_frontend_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_query_frontend_limits_cpu}"
+        - name: "mimir_query_frontend_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_query_frontend_limits_memory}"
+        - name: "mimir_compactor_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_compactor_limits_cpu}"
+        - name: "mimir_compactor_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_compactor_limits_memory}"
+        - name: "mimir_store_gateway_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_limits_cpu}"
+        - name: "mimir_store_gateway_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_limits_memory}"
 
         - name: "cloudwatch_exporter_role_arn"
           value: "${ARGOCD_ENV_monitoring_monitoring_cloudwatch_exporter_role_arn}"
-          

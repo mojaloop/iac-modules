@@ -21,7 +21,7 @@ variable "managed_stateful_resources_config_file" {
 
 variable "az_count" {
   type        = number
-  default     = 2
+  default     = 3 # rds mutizone clsuter
   description = "Number of azs"
 }
 
