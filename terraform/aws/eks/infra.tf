@@ -158,10 +158,6 @@ locals {
     data.aws_caller_identity.current_user.arn
   ]))
 
-  # eks_user_arns = distinct([
-  #   module.post_config.ci_user_arn,
-  #   data.aws_caller_identity.current_user.arn
-  # ])
   aws_auth_configmap_yaml = templatefile("${path.module}/templates/aws_auth_cm.tpl",
     {
       node_iam_role_arns = distinct(
