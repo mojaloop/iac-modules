@@ -9,6 +9,7 @@ argocd_override:
           helm_version: "${argocd_helm_version}"
         rook_ceph:
           helm_version: "${rook_ceph_helm_version}"
+          rook_csi_kubelet_dir_path: "${rook_csi_kubelet_dir_path}"
         reflector:
           helm_version: "${reflector_helm_version}"
         reloader:
@@ -31,6 +32,10 @@ argocd_override:
           internal_ingress_health_port: "'${internal_ingress_health_port}'"
         cert_manager:
           helm_version: "${cert_manager_helm_version}"
+        base_monitoring:
+          grafana_crd_version_tag: "${grafana_crd_version_tag}"
+          prometheus_crd_version: "${prometheus_crd_version}"
+          grafana_operator_version: "${grafana_operator_version}"
         consul:
           helm_version: "${consul_helm_version}"
           replicas: "'${consul_replica_count}'"
@@ -39,6 +44,20 @@ argocd_override:
           vault_crossplane_modules_version: "${vault_crossplane_modules_version}"
           terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
           ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
+          aws_crossplane_module_version:  "${aws_crossplane_module_version}"          
+          crossplane_func_pat_version: "${crossplane_func_pat_version}"
+          k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
+    maintenance:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      sub_apps:
+        velero:
+          app_name: "velero"
+          helm_version: "${velero_helm_version}"
+          object_storage_cloud_role: "${object_storage_cloud_role}"
+          enable_object_storage_backend: "'${enable_object_storage_backend}'"
+          object_storage_region: "${cloud_region}"
+          object_storage_bucket: "${object_storage_bucket_name}"
+          plugin_version: "${velero_plugin_version}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -49,9 +68,19 @@ argocd_override:
           external_load_balancer_dns: "${external_load_balancer_dns}"
           dns_public_subdomain: "${dns_public_subdomain}"
           dns_private_subdomain: "${dns_private_subdomain}"
-          ext_dns_cloud_policy: "${ext_dns_cloud_policy}"
+          external_dns_cloud_role: "${external_dns_cloud_role}"
+          cert_manager_cloud_policy: "${cert_manager_cloud_policy}"
           letsencrypt_email: "${letsencrypt_email}"
           dns_cloud_api_region: "${cloud_region}"
+    xplane_provider_config:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
+
+    k8s_config:
+      k8s_cloud_region: "${cloud_region}"
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      terraform_modules_tag: "${iac_terraform_modules_tag}"
+      k8s_cluster_type: "${k8s_cluster_type}"
+      eks_name: "${eks_name}"
     vault:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -85,11 +114,12 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           public_ingress_access_domain: "${netbird_public_access}"
           helm_version: "${netbird_helm_version}"
-          dashboard_chart_version: "${netbird_dashboard_helm_version}"
           image_version: "${netbird_image_version}"
+          client_version: "${netbird_client_version}"
+          dashboard_image_version: "${netbird_dashboard_image_version}"
           stunner_gateway_operator_helm_version: "${stunner_gateway_operator_helm_version}"
           log_level: "${netbird_log_level}"
-          internal_k8s_cidr: "${internal_k8s_cidr}"
+          cc_vpc_cidr: "${vpc_cidr}"
           ansible_collection_tag: ${netbird_ansible_collection_tag}
           netbird_tf_provider_version: "${netbird_tf_provider_version}"
     nexus:
@@ -116,11 +146,49 @@ argocd_override:
           postgres_replicas: "${gitlab_postgres_replicas}"
           postgres_proxy_replicas: "${gitlab_postgres_proxy_replicas}"
           postgres_storage_size: "${gitlab_postgres_storage_size}"
+          postgres_instance_size: "${gitlab_postgres_instance_size}"
+          percona_postgres_storage_size: "${format("%sGi",trim(gitlab_postgres_storage_size,"'"))}"
           pgdb_helm_version: "${gitlab_pgdb_helm_version}"
           praefect_postgres_replicas: "${gitlab_praefect_postgres_replicas}"
           praefect_postgres_proxy_replicas: "${gitlab_praefect_postgres_proxy_replicas}"
           praefect_postgres_storage_size: "${gitlab_praefect_postgres_storage_size}"
+          praefect_postgres_instance_size: "${gitlab_praefect_postgres_instance_size}"
+          percona_praefect_postgres_storage_size: "${format("%sGi",trim(gitlab_praefect_postgres_storage_size,"'"))}"
           praefect_pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
+          gitlab_artifacts_max_objects: "${gitlab_artifacts_max_objects}"
+          gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
+          git_lfs_max_objects: "${git_lfs_max_objects}"
+          git_lfs_storage_size: "${git_lfs_storage_size}"
+          gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
+          gitlab_uploads_max_objects: "${gitlab_uploads_max_objects}"
+          gitlab_uploads_storage_size: "${gitlab_uploads_storage_size}"
+          gitlab_packages_max_objects: "${gitlab_packages_max_objects}"
+          gitlab_packages_storage_size: "${gitlab_packages_storage_size}"
+          gitlab_mrdiffs_max_objects: "${gitlab_mrdiffs_max_objects}"
+          gitlab_mrdiffs_storage_size: "${gitlab_mrdiffs_storage_size}"
+          gitlab_tfstate_max_objects: "${gitlab_tfstate_max_objects}"
+          gitlab_tfstate_storage_size: "${gitlab_tfstate_storage_size}"
+          gitlab_cisecurefiles_max_objects: "${gitlab_cisecurefiles_max_objects}"
+          gitlab_cisecurefiles_storage_size: "${gitlab_cisecurefiles_storage_size}"
+          gitlab_dep_proxy_max_objects: "${gitlab_dep_proxy_max_objects}"
+          gitlab_dep_proxy_storage_size: "${gitlab_dep_proxy_storage_size}"
+          gitlab_registry_max_objects: "${gitlab_registry_max_objects}"
+          gitlab_registry_storage_size: "${gitlab_registry_storage_size}"
+          gitlab_runner_cache_max_objects: "${gitlab_runner_cache_max_objects}"
+          gitlab_runner_cache_storage_size: "${gitlab_runner_cache_storage_size}"
+          rdbms_provider: "${gitlab_postgres_rdbms_provider}"
+          rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
+          db_provider_cloud_region: "${cloud_region}"
+          rdbms_vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
+          gitlab_db_backup_retention_period: "${gitlab_db_backup_retention_period}"
+          gitlab_db_preferred_backup_window: "${gitlab_db_preferred_backup_window}"
+          praefect_db_backup_retention_period: "${praefect_db_backup_retention_period}"
+          praefect_db_preferred_backup_window: "${praefect_db_preferred_backup_window}"
+          gitlab_db_storage_type: "${gitlab_db_storage_type}"
+          gitlab_db_storage_iops: "${gitlab_db_storage_iops}"
+          praefect_db_storage_type: "${praefect_db_storage_type}"
+          praefect_db_storage_iops: "${praefect_db_storage_iops}"
 
           
     deploy_env:
@@ -139,9 +207,9 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         pre:
-          grafana_crd_version_tag: "${grafana_crd_version_tag}"
-          prometheus_crd_version: "${prometheus_crd_version}"
-          grafana_operator_version: "${grafana_operator_version}"
+          mimir_bucket_name: "${mimir_bucket_name}"
+          mimir_bucket_max_objects: "${mimir_bucket_max_objects}"
+          mimir_bucket_storage_size: "${mimir_bucket_storage_size}"
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
@@ -152,5 +220,33 @@ argocd_override:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"
           image_version: "${grafana_image_version}"
+        mimir:
+          max_label_names_per_series: "${mimir_max_label_names_per_series}"
+          max_global_series_per_user: "${mimir_max_global_series_per_user}"
+          ingestion_rate: "${mimir_ingestion_rate}"
+          ingestion_burst_size: "${mimir_ingestion_burst_size}"
+          retention_period: "${mimir_retention_period}"
+          compactor_deletion_delay: "${mimir_compactor_deletion_delay}"
+          distributor_replica_count: "${mimir_distributor_replica_count}"
+          ingester_replica_count: "${mimir_ingester_replica_count}"
+          querier_replica_count: "${mimir_querier_replica_count}"
+          query_frontend_replica_count: "${mimir_query_frontend_replica_count}"
+          compactor_replica_count: "${mimir_compactor_replica_count}"
+          store_gateway_replica_count: "${mimir_store_gateway_replica_count}"
+          ingester_storage_size: "${mimir_ingester_storage_size}"
+          compactor_storage_size: "${mimir_compactor_storage_size}"
+          store_gateway_storage_size: "${mimir_store_gateway_storage_size}"
+          distributor_limits_cpu: "${mimir_distributor_limits_cpu}"
+          distributor_limits_memory: "${mimir_distributor_limits_memory}"
+          ingester_limits_cpu: "${mimir_ingester_limits_cpu}"
+          ingester_limits_memory: "${mimir_ingester_limits_memory}"
+          querier_limits_cpu: "${mimir_querier_limits_cpu}"
+          querier_limits_memory: "${mimir_querier_limits_memory}"
+          query_frontend_limits_cpu: "${mimir_query_frontend_limits_cpu}"
+          query_frontend_limits_memory: "${mimir_query_frontend_limits_memory}"
+          compactor_limits_cpu: "${mimir_compactor_limits_cpu}"
+          compactor_limits_memory: "${mimir_compactor_limits_memory}"
+          store_gateway_limits_cpu: "${mimir_store_gateway_limits_cpu}"
+          store_gateway_limits_memory: "${mimir_store_gateway_limits_memory}"
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"

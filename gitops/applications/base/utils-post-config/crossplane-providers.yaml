@@ -6,6 +6,17 @@ spec:
   args:
     - --debug
 ---
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: terraform-debug
+  labels:
+    app: crossplane-provider-terraform
+spec:
+  args:
+    - -d
+    - --poll=5m
+---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
@@ -13,7 +24,7 @@ metadata:
 spec:
   package: xpkg.upbound.io/upbound/provider-terraform:v${ARGOCD_ENV_terraform_crossplane_modules_version}
   controllerConfigRef:
-    name: debug-config
+    name: terraform-debug
   runtimeConfigRef:
     name: provider-terraform-config
 ---
@@ -67,6 +78,12 @@ spec:
       selector: {}
       template:
         spec:
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "3"
+              - name: attempts
+                value: "5"
           volumes:
             - emptyDir: {}
               name: additional
@@ -107,3 +124,28 @@ spec:
   serviceAccountTemplate:
     metadata:
       name: crossplane-terraform-sa
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_aws_crossplane_module_version}
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: Function
+metadata:
+  name: function-patch-and-transform
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/function-patch-and-transform:v${ARGOCD_ENV_crossplane_func_pat_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-kubernetes
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v${ARGOCD_ENV_k8s_crossplane_module_version}
+  runtimeConfigRef:
+    apiVersion: pkg.crossplane.io/v1beta1
+    kind: DeploymentRuntimeConfig
+    name: provider-kubernetes

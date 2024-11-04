@@ -46,3 +46,19 @@ output "post_config_properties_key_map" {
 output "ext_dns_cloud_policy" {
   value = aws_iam_policy.route53_external_dns.arn
 }
+
+output "object_storage_cloud_role" {
+  value = var.backup_enabled ? aws_iam_role.object_storage[0].arn : ""
+}
+
+output "backup_bucket_name" {
+  value = var.backup_bucket_name
+}
+
+output "external_dns_cloud_role" {
+  value = var.create_ext_dns_role ? aws_iam_role.external_dns_cicd[0].arn : ""
+}
+
+output "ci_user_arn" {
+  value = var.create_iam_user ? aws_iam_user.ci_iam_user[0].arn : ""
+}
