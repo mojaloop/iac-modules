@@ -322,7 +322,7 @@ spec:
   rules:
   - from:
       - source:
-          notRemoteIpBlocks: [ {{ with secret "${dfsp_external_whitelist_secret}" }}{{ range $k, $v := .Data }}"{{ $v }}",{{ end }}{{ end }}{{ with secret "${dfsp_internal_whitelist_secret}" }}{{ range $k, $v := .Data }}"{{ $v }}",{{ end }}{{ end }}"${private_network_cidr}" ]
+          notRemoteIpBlocks: {{ with secret "${dfsp_external_whitelist_secret}" }}{{ range $k, $v := .Data }}{{ $v }},{{ end }}{{ end }}{{ with secret "${dfsp_internal_whitelist_secret}" }}{{ range $k, $v := .Data }}{{ $v }},{{ end }}{{ end }}${private_network_cidr}
     to:
       - operation:
           hosts: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
