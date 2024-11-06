@@ -81,7 +81,7 @@ locals {
   GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
   vault_fqdn                       = get_env("VAULT_FQDN")
 
-  private_subdomain                = "int.${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}"
+  private_subdomain                = "int.${get_env("cluster_name")}.${get_env("domain")}"
   argocd_oidc_domain               = local.private_subdomain
 
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
