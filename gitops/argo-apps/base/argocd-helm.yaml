@@ -427,7 +427,7 @@ spec:
               # Mandatory for extensions to work
               server.enable.proxy.extension: "true"
               reposerver.enable.git.submodule: "false"
-
+              applicationsetcontroller.enable.git.submodule: "false"
             cmp:
               create: true
               plugins:
