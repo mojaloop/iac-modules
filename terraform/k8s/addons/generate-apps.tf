@@ -1,3 +1,14 @@
+module "addon" {
+  for_each = distinct([for _, v in fileset(path.module, "*/*/*.tf") : dirname(v)])
+  source   = each.value
+  name     = basename(each.value)
+  cluster  = var.clusterConfig
+  app = merge(
+    local.default[basename(dirname(each.value))][basename(each.value)],
+    local.override[each.value]
+  )
+}
+
 resource "local_file" "config-file" {
   for_each = fileset(path.module, "*/*/*") # this represents addon-name/app-name/filename
   content = templatefile(
@@ -8,6 +19,7 @@ resource "local_file" "config-file" {
         local.default[basename(dirname(dirname(each.value)))][basename(dirname(each.value))],
         local.override[dirname(each.value)]
       )
+      addon : module.addon[basename(dirname(each.value))]
     }
   )
   filename = "${var.outputDir}/${basename(dirname(each.value))}/${basename(each.value)}"
