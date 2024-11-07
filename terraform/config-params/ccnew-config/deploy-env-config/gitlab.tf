@@ -230,3 +230,13 @@ resource "gitlab_group_variable" "cc_cidr_block" {
   masked            = false
   environment_scope = "*"
 }
+
+resource "gitlab_repository_file" "vault_token_update" {
+  for_each       = local.environment_list
+  project        = gitlab_project.envs[each.key].id
+  file_path      = ".vault_token_trigger"
+  branch         = "main"
+  content        = base64encode("vault-token-${sha256(vault_token.env_token[each.value].client_token)}")
+  author_name    = "Terraform"
+  commit_message = "tf_trigger: vault_token_update"
+}

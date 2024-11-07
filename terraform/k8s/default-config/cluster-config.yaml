@@ -53,3 +53,4 @@ tags:
   }
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
+tr_trigger_enabled: false
