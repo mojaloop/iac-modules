@@ -236,10 +236,10 @@ locals {
         },
         # Check if extra_vols is defined and has volumes, then map each volume.
         try(length(node_pool.extra_vols) > 0, false) ? {
-          for vol in node_pool.extra_vols : vol.extra_vol_name => {
-            device_name = vol.extra_vol_name
+          for vol in node_pool.extra_vols : vol.name => {
+            device_name = vol.name
             ebs = {
-              volume_size           = vol.extra_vol_gbs
+              volume_size           = vol.size
               volume_type           = "gp3"
               iops                  = 3000
               throughput            = 150
@@ -249,7 +249,7 @@ locals {
           }
         } : {}
       )
-      
+
       network_interfaces = [
         {
           delete_on_termination = true

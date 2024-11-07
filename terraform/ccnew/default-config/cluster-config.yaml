@@ -24,9 +24,10 @@ nodes:
     storage_gbs: 100
     node_taints: []
     node_labels: []
-    extra_vol_gbs: 100
     extra_vol: true
-    extra_vol_name: "/dev/sdh"
+    extra_vols:
+      - name: "/dev/sdh"
+        size: 100
 vpc_cidr: "10.106.0.0/23"
 master_node_supports_traffic: true
 tags:

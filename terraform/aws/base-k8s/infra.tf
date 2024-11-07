@@ -90,12 +90,12 @@ resource "aws_launch_template" "node" {
     for_each = try(each.value.extra_vols, [])
 
     content {
-      device_name = block_device_mappings.value.extra_vol_name
+      device_name = block_device_mappings.value.name
 
       ebs {
         delete_on_termination = try(block_device_mappings.value.extra_vol_delete_on_term, true)
         encrypted             = true
-        volume_size           = block_device_mappings.value.extra_vol_gbs
+        volume_size           = block_device_mappings.value.size
         volume_type           = "gp2"
       }
     }
@@ -105,7 +105,7 @@ resource "aws_launch_template" "node" {
     delete_on_termination = true
     security_groups       = each.value.master ? local.master_security_groups : local.agent_security_groups
   }
-  
+
   tags = merge(
     { Name = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}" },
     local.common_tags
