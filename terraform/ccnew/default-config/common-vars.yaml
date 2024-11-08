@@ -161,6 +161,7 @@ praefect_db_storage_iops: "'5000'" # rds specific
 
 ceph_bucket_max_objects: "'1000000'"
 ceph_bucket_max_size: "10Gi"
+env_token_ttl: "365d"
 
 # Zitadel
 zitadel_postgres_rdbms_provider: "percona"

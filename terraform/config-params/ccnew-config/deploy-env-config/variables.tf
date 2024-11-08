@@ -96,3 +96,8 @@ variable "mimir_gw_fqdn" {
 variable "cc_cidr_block" {
   description = "cidr block that cc is running in"
 }
+
+variable "env_token_ttl" {
+  type        = string
+  description = "time to live for the env token"  
+}

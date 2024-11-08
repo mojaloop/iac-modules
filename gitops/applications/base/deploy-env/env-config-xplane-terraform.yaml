@@ -40,6 +40,8 @@ spec:
         value: ${ARGOCD_ENV_kubernetes_oidc_groups_claim}
       - key: cc_cidr_block
         value: ${ARGOCD_ENV_cc_cidr_block}
+      - key: env_token_ttl
+        value: ${ARGOCD_ENV_env_token_ttl}
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: env-config
