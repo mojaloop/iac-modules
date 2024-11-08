@@ -32,7 +32,7 @@ resource "kubernetes_secret_v1" "setup_keys" {
     name      = "${each.value}-repo-secret"
     namespace = var.argocd_namespace
     labels = {
-      "argocd.argoproj.io/secret-type" = "repository"
+      "argocd.argoproj.io/secret-type" = "repo-creds"
     }
   }
   data = {
@@ -155,7 +155,7 @@ resource "gitlab_group_variable" "netbird_api_host" {
 resource "gitlab_group_variable" "netbird_version" {
   group             = data.gitlab_group.iac.id
   key               = "NETBIRD_VERSION"
-  value             = var.netbird_version
+  value             = var.netbird_client_version
   protected         = true
   masked            = false
   environment_scope = "*"
@@ -229,4 +229,14 @@ resource "gitlab_group_variable" "cc_cidr_block" {
   protected         = true
   masked            = false
   environment_scope = "*"
+}
+
+resource "gitlab_repository_file" "vault_token_update" {
+  for_each       = local.environment_list
+  project        = gitlab_project.envs[each.key].id
+  file_path      = ".vault_token_trigger"
+  branch         = "main"
+  content        = base64encode("vault-token-${sha256(vault_token.env_token[each.value].client_token)}")
+  author_name    = "Terraform"
+  commit_message = "tf_trigger: vault_token_update"
 }

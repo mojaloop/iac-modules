@@ -54,7 +54,8 @@ spec:
               format: json
 
           applicationSet:
-            enabled: false
+            metrics:
+              enabled: true
           notifications:
             enabled: false
           configs:
@@ -417,6 +418,7 @@ spec:
                     end
 
                     return health_status
+
             rbac:
               scopes: "[${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}]"
               policy.default: ""
@@ -424,7 +426,8 @@ spec:
               server.insecure: true
               # Mandatory for extensions to work
               server.enable.proxy.extension: "true"
-
+              reposerver.enable.git.submodule: "false"
+              applicationsetcontroller.enable.git.submodule: "false"
             cmp:
               create: true
               plugins:
@@ -473,7 +476,7 @@ spec:
             #     cpu: 500m
             #     memory: 1024Mi
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 namespace: argocd
@@ -656,7 +659,7 @@ spec:
                     mountPath: /helm-working-dir
 
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 namespace: argocd
@@ -675,7 +678,7 @@ spec:
             #     cpu: 400m
             #     memory: 512Mi
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 additionalLabels:
@@ -717,7 +720,7 @@ spec:
                 cpu: 120m
                 memory: 256Mi
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 additionalLabels:

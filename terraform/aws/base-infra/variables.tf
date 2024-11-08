@@ -125,7 +125,7 @@ variable "private_subdomain_string" {
 ###
 locals {
   name                          = var.cluster_name
-  cluster_domain                = "${replace(var.cluster_name, "-", "")}.${var.domain}"
+  cluster_domain                = "${var.cluster_name}.${var.domain}"
   cluster_parent_domain         = join(".", [for idx, part in split(".", local.cluster_domain) : part if idx > 0])
   cluster_parent_parent_domain  = join(".", [for idx, part in split(".", local.cluster_parent_domain) : part if idx > 0])
   identifying_tags              = { Cluster = var.cluster_name, Domain = local.cluster_domain }

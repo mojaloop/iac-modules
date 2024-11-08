@@ -98,3 +98,9 @@ spec:
 
         - name: "argocd_namespace"
           value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+
+        - name: "netbird_datastore_encryption_key_secret"
+          value: "${ARGOCD_ENV_security_netbird_datastore_encryption_key_secret}"
+
+        - name: "netbird_datastore_encryption_key_secret_key"
+          value: "${ARGOCD_ENV_security_netbird_datastore_encryption_key_secret_key}"

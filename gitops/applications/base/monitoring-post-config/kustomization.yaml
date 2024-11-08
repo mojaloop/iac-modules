@@ -1,12 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - argocd-service-monitors.yaml
   - grafana-crs.yaml
   - virtual-service.yaml
   - vault-secrets.yaml
   - grafana-oidc-xplane-terraform.yaml
   # - dashboards-aws-managed-svs.yaml
   - dashboards-default.yaml
+  - dashboards-infra.yaml
   - dashboards-k8s.yaml
   - dashboards-kafka.yaml
   - dashboards-loki.yaml
@@ -16,3 +18,4 @@ resources:
   - dashboards-prometheus.yaml
   - dashboards-rook-ceph.yaml
   - istio-crs.yaml
+  - rook-ceph-objectstore-exporter.yaml

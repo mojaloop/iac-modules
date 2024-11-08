@@ -52,6 +52,7 @@ resource "vault_token" "env_token" {
   for_each  = local.environment_list
   policies  = [vault_policy.env_transit[each.value].name]
   no_parent = true
+  ttl       = var.env_token_ttl
 }
 
 resource "vault_kv_secret_v2" "env_token" {

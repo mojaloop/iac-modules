@@ -214,6 +214,7 @@ destroy:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
+    - if [ -d "$ANSIBLE_BASE_OUTPUT_DIR" ]; then echo "Inventory artifact exists"; else echo "Inventory artifact does not exist; Please rerun deploy-infra before destroy"; exit 1; fi
     - terragrunt run-all destroy --terragrunt-non-interactive -input=false
     - .gitlab/scripts/cleanapps.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   when: manual
@@ -229,7 +230,6 @@ apps:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
-
 
 refresh-deploy-infra:
   extends: .terraform:deploy
@@ -248,11 +248,32 @@ refresh-deploy-infra:
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   artifacts:
     paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy.*/
     - if: $CI_PIPELINE_TRIGGERED
+    - when: manual
+
+tf-refresh-deploy-infra:
+  extends: .terraform:deploy
+  stage: auto-run
+  variables:
+    GIT_DEPTH: 0
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: https://$VAULT_FQDN
+  script:
+    - !reference [.source, script]
+    - terragrunt run-all apply --terragrunt-non-interactive -input=false
+  artifacts:
+    paths:
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
+    when: always
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^tf_trigger.*/
     - when: manual

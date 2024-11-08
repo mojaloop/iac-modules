@@ -110,4 +110,3 @@ spec:
   endpoints:
   - interval: 1m
     port: http
-

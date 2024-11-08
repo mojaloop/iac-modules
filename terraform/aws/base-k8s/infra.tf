@@ -3,6 +3,11 @@ module "ubuntu_focal_ami" {
   release = "20.04"
 }
 
+module "ubuntu_jammy_ami" {
+  source  = "../ami-ubuntu"
+  release = "22.04"
+}
+
 module "base_infra" {
   source                     = "../base-infra"
   cluster_name               = var.cluster_name
@@ -15,21 +20,32 @@ module "base_infra" {
   manage_parent_domain_ns    = var.manage_parent_domain_ns
   az_count                   = var.az_count
   route53_zone_force_destroy = var.dns_zone_force_destroy
-  bastion_ami                = module.ubuntu_focal_ami.id
+  bastion_ami                = module.ubuntu_jammy_ami.id
   create_haproxy_dns_record  = var.create_haproxy_dns_record
   block_size                 = var.block_size
+  bastion_asg_config = {
+    name             = "bastion"
+    desired_capacity = var.bastion_instance_number
+    max_size         = var.bastion_instance_number
+    min_size         = var.bastion_instance_number
+    instance_type    = var.bastion_instance_size
+  }
 }
 
 module "post_config" {
-  source              = "../post-config-k8s"
-  name                = var.cluster_name
-  domain              = var.domain
-  tags                = var.tags
-  private_zone_id     = module.base_infra.public_int_zone.id
-  public_zone_id      = module.base_infra.public_zone.id
-  create_ext_dns_user = var.create_ext_dns_user
-  create_iam_user     = var.create_ci_iam_user
-  iac_group_name      = var.iac_group_name
+  source                      = "../post-config-k8s"
+  name                        = var.cluster_name
+  domain                      = var.domain
+  tags                        = var.tags
+  private_zone_id             = module.base_infra.public_int_zone.id
+  public_zone_id              = module.base_infra.public_zone.id
+  create_ext_dns_user         = var.create_ext_dns_user
+  create_ext_dns_role         = var.create_ext_dns_role
+  create_iam_user             = var.create_ci_iam_user
+  iac_group_name              = var.iac_group_name
+  backup_bucket_name          = "${var.domain}-${var.backup_bucket_name}"
+  backup_enabled              = var.backup_enabled
+  backup_bucket_force_destroy = var.backup_bucket_force_destroy
 }
 
 module "k6s_test_harness" {
@@ -69,25 +85,26 @@ resource "aws_launch_template" "node" {
       delete_on_termination = try(each.value.storage_delete_on_term, true)
     }
   }
+
   dynamic "block_device_mappings" {
-    for_each = try(each.value.extra_vol, false) ? [each.value.extra_vol_name] : []
+    for_each = try(each.value.extra_vols, [])
 
     content {
-      device_name = each.value.extra_vol_name
+      device_name = block_device_mappings.value.name
 
       ebs {
-        delete_on_termination = try(each.value.extra_vol_delete_on_term, true)
+        delete_on_termination = try(block_device_mappings.value.extra_vol_delete_on_term, true)
         encrypted             = true
-        volume_size           = each.value.extra_vol_gbs
+        volume_size           = block_device_mappings.value.size
         volume_type           = "gp2"
       }
     }
   }
+
   network_interfaces {
     delete_on_termination = true
     security_groups       = each.value.master ? local.master_security_groups : local.agent_security_groups
   }
-
 
   tags = merge(
     { Name = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}" },
