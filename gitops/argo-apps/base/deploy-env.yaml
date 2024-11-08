@@ -101,3 +101,7 @@ spec:
 
         - name: "cc_cidr_block"
           value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
+        
+        - name: "env_token_ttl"
+          value: "${ARGOCD_ENV_deploy_env_config_env_token_ttl}"
+

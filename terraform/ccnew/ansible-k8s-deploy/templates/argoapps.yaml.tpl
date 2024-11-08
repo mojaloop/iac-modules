@@ -199,6 +199,7 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           ceph_bucket_max_objects: "${ceph_bucket_max_objects}"
           ceph_bucket_max_size:  "${ceph_bucket_max_size}"
+          env_token_ttl: "${env_token_ttl}"
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"          
 
