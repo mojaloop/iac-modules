@@ -219,30 +219,32 @@ locals {
       bootstrap_extra_args     = "--use-max-pods false --kubelet-extra-args '--max-pods=110 --node-labels=${join(",", local.node_labels[node_pool_key].extra_args)} --register-with-taints=${join(",", local.node_taints[node_pool_key].extra_args)}'"
       post_bootstrap_user_data = "${data.template_file.post_bootstrap_user_data.rendered}"
       ebs_optimized            = true
+
       block_device_mappings = merge(
         {
           xvda = {
             device_name = "/dev/xvda"
             ebs = {
-              volume_size           = node_pool.storage_gbs
-              volume_type           = "gp3"
-              iops                  = 3000
-              throughput            = 150
-              encrypted             = true
-              delete_on_termination = true
+            volume_size           = node_pool.storage_gbs
+            volume_type           = "gp3"
+            iops                  = 3000
+            throughput            = 150
+            encrypted             = true
+            delete_on_termination = true
             }
           }
         },
-        try(node_pool.extra_vol, false) ? {
-          xvdb = {
-            device_name = "/dev/xvdb"
+        # Check if extra_vols is defined and has volumes, then map each volume.
+        try(length(node_pool.extra_vols) > 0, false) ? {
+          for vol in node_pool.extra_vols : vol.name => {
+            device_name = vol.name
             ebs = {
-              volume_size           = node_pool.extra_vol_gbs
+              volume_size           = vol.size
               volume_type           = "gp3"
               iops                  = 3000
               throughput            = 150
               encrypted             = true
-              delete_on_termination = true
+              delete_on_termination = try(vol.extra_vol_delete_on_term, true)
             }
           }
         } : {}
