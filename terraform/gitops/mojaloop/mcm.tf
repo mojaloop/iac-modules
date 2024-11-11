@@ -81,6 +81,8 @@ module "generate_mcm_files" {
     mojaloop_namespace                   = var.mojaloop_namespace
     mojaloop_release_name                = var.mojaloop_release_name
     onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag
+    onboarding_net_debit_cap             = var.app_var_map.onboarding_net_debit_cap
+    onboarding_funds_in                  = var.app_var_map.onboarding_funds_in
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
     auth_fqdn                            = var.auth_fqdn
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
