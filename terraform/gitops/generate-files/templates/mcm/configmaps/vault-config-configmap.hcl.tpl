@@ -192,9 +192,10 @@ data:
         "DFSP_NAME": "{{ .Data.host }}",
         "HUB_NAME": "${hub_name}",
         "currency": "{{ .Data.currency_code }}",
+        "fundsIn": "${onboarding_funds_in}",
         "isProxy": "{{ .Data.isProxy }}",
         "hub_operator": "NOT_APPLICABLE",
-        "NET_DEBIT_CAP": "50000"
+        "NET_DEBIT_CAP": "${onboarding_net_debit_cap}"
       }
     }
 ---
