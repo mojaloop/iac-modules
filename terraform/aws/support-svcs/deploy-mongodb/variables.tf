@@ -25,3 +25,7 @@ variable "kms_key_id" {
 variable "mongodb_services" {
   description = "mongodb services to create"
 }
+
+variable "private_subnets" {
+    
+}
