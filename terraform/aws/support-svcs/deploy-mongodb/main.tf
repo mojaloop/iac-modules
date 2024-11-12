@@ -7,7 +7,8 @@ resource "random_password" "mongodb_passwords" {
 module "mongodb" {
   for_each = var.mongodb_services
   
-  source                          = "../../"
+  source                          = "cloudposse/documentdb-cluster/aws"
+  version                         = "v0.26.2"
   cluster_size                    = each.value.external_resource_config.cluster_size
   master_username                 = each.value.external_resource_config.master_username
   master_password                 = random_password.mongodb_passwords[each.key].result
