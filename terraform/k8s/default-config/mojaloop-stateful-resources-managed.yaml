@@ -76,11 +76,11 @@ central-ledger-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: central_ledger
-cep-mongodb:
+reporting-events-mongodb:
   external_resource_config:
     cluster_size: 3
     master_username: admin
-    password_key_name: cep_mongodb_password
+    password_key_name: reporting_events_mongodb_password
     instance_class: db.t3.medium
     db_port: 27017
     apply_immediately: false
