@@ -21,3 +21,7 @@ variable "kms_key_id" {
   description = "The ARN for the KMS encryption key. When specifying `kms_key_id`, `storage_encrypted` needs to be set to `true`"
   default     = ""
 }
+
+variable "mongodb_services" {
+  description = "mongodb services to create"
+}

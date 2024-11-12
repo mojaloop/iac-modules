@@ -28,7 +28,6 @@ module "deploy_mongodb" {
   count             = length(local.mongodb_services) > 0 ? 1 : 0
   source            = "../deploy-mongodb"
   deployment_name   = var.deployment_name
-  tags              = var.tags
   mongodb_services  = local.mongodb_services
   security_group_id = aws_security_group.managed_svcs.*.id
   private_subnets   = module.base_infra[0].private_subnets
