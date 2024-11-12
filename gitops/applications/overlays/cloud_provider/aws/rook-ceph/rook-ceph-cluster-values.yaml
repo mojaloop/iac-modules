@@ -43,7 +43,7 @@ cephClusterSpec:
     storageClassDeviceSets:
     - name: set1
       # The number of OSDs to create from this device set
-      count: "${ARGOCD_ENV_ceph_osd_number}"
+      count: "${ARGOCD_ENV_ceph_osd_count}"
       # IMPORTANT: If volumes specified by the storageClassName are not portable across nodes
       # this needs to be set to false. For example, if using the local storage provisioner
       # this should be false.

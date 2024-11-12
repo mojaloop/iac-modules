@@ -14,7 +14,7 @@ argocd_override:
           mon_volumes_storage_class: "${rook_ceph_mon_volumes_storage_class}"
           mon_volume_size: "${rook_ceph_mon_volumes_size}"
           osd_volumes_storage_class: "${rook_ceph_osd_volumes_storage_class}"
-          rook_ceph_osd_number: "${rook_ceph_osd_number}"
+          osd_count: "${rook_ceph_osd_count}"
           volume_size_per_osd: "${rook_ceph_volume_size_per_osd}"
           object_store_region: "${rook_ceph_object_store_region}"
         reflector:

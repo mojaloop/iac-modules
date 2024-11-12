@@ -62,8 +62,8 @@ spec:
           - name: "rook_ceph_helm_version"
             value: "${ARGOCD_ENV_utils_rook_ceph_helm_version}"
 
-          - name: "ceph_osd_number"
-            value: "${ARGOCD_ENV_utils_rook_ceph_osd_number}"
+          - name: "ceph_osd_count"
+            value: "${ARGOCD_ENV_utils_rook_ceph_osd_count}"
 
           - name: "ceph_mon_volumes_storage_class"
             value: "${ARGOCD_ENV_utils_rook_ceph_mon_volumes_storage_class}"
