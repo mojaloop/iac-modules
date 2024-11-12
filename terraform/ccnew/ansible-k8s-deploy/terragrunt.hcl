@@ -106,6 +106,7 @@ inputs = {
     object_storage_bucket_name        = dependency.k8s_deploy.outputs.object_storage_bucket_name
     rook_csi_kubelet_dir_path         = local.K8S_CLUSTER_TYPE == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
     eks_name                          = local.eks_name
+    cloud_platform                    = local.env_vars.cloud_platform
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
