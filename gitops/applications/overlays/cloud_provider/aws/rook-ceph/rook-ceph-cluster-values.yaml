@@ -49,7 +49,7 @@ cephClusterSpec:
       # this should be false.
       portable: true
       # whether to encrypt the deviceSet or not
-      encrypted: false
+      encrypted: true
       # Certain storage class in the Cloud are slow
       # Rook can configure the OSD running on PVC to accommodate that by tuning some of the Ceph internal
       # Currently, "gp2-csi" has been identified as such
