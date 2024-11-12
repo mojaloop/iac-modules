@@ -25,7 +25,7 @@ source scripts/setlocalvars.sh
 
 git pull
 
-tagcheck=$(git tag -l | grep $iac_terraform_modules_tag)
+tagcheck=$(git tag -l | grep -E "(^|\\s)${iac_terraform_modules_tag}($|\\s)")
 
 if [[ "$tagcheck" == "$iac_terraform_modules_tag" ]]; then
 echo "tag exist"
