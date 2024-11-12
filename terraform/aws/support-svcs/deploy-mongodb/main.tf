@@ -5,6 +5,8 @@ resource "random_password" "mongodb_passwords" {
 }
 
 resource "aws_kms_key" "managed_db_key" {
+  for_each                = var.mongodb_services
+  count                   = each.value.external_resource_config.storage_encrypted ? 1 : 0
   description             = "KMS Key used to manage passwords for managed dbs"
   deletion_window_in_days = 10
 }
@@ -35,11 +37,11 @@ module "mongodb" {
   engine                          = each.value.external_resource_config.engine
   engine_version                  = each.value.external_resource_config.engine_version
   storage_encrypted               = each.value.external_resource_config.storage_encrypted
-  kms_key_id                      = aws_kms_key.managed_db_key.arn
+  kms_key_id                      = each.value.external_resource_config.storage_encrypted ? aws_kms_key.managed_db_key[each.key].arn : ""
   skip_final_snapshot             = each.value.external_resource_config.skip_final_snapshot
   enabled_cloudwatch_logs_exports = each.value.external_resource_config.enabled_cloudwatch_logs_exports
 
-  namespace               = "mongodb"
+  namespace               = "docdb"
   stage                   = var.deployment_name
   name                    = each.key
 }
