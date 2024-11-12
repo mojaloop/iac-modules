@@ -51,6 +51,7 @@ spec:
               memory: 64Mi
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
       path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_rook_ceph_cloud_platform}/rook-ceph
       plugin:
         name: envsubst
