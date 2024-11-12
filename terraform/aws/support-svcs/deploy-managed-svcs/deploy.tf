@@ -29,9 +29,10 @@ module "deploy_mongodb" {
   source            = "../deploy-mongodb"
   deployment_name   = var.deployment_name
   mongodb_services  = local.mongodb_services
-  private_subnets   = module.base_infra[0].private_subnets
-  allowed_cidr_blocks = ["0.0.0.0/0"]
-  kms_key_id        = aws_kms_key.managed_db_key.key_id
+  
+  private_subnets      = module.base_infra[0].private_subnets
+  allowed_cidr_blocks  = ["0.0.0.0/0"]
+  vpc_id               = module.base_infra[0].vpc_id
 }
 
 module "ubuntu_focal_ami" {
