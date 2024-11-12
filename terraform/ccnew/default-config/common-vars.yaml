@@ -169,3 +169,10 @@ zitadel_postgres_instance_size: "small"
 zitadel_postgres_storage_size: "'20'"
 zitadel_db_storage_type: "io1" # rds specific
 zitadel_db_storage_iops: "'5000'" # rds specific
+
+# rook ceph
+rook_ceph_mon_volumes_storage_class: "gp3-csi"
+rook_ceph_mon_volumes_size: "10Gi"
+rook_ceph_osd_volumes_storage_class: "gp3" #io1
+rook_ceph_volume_size_per_osd: "500Gi"
+rook_ceph_object_store_region: "us-east-1"

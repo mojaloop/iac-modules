@@ -18,10 +18,10 @@ cephClusterSpec:
     allowMultiplePerNode: false
     volumeClaimTemplate:
       spec:
-        storageClassName: gp2-csi
+        storageClassName: "${ARGOCD_ENV_ceph_mon_volumes_storage_class}"
         resources:
           requests:
-            storage: 10Gi
+            storage: "${ARGOCD_ENV_ceph_mon_volume_size}"
 
   mgr:
     count: 2
@@ -44,9 +44,8 @@ cephClusterSpec:
         spec:
           resources:
             requests:
-              storage: 200Gi
-          storageClassName: gp2
-          #storageClassName: io1
+              storage: "${ARGOCD_ENV_ceph_volume_size_per_osd}"
+          storageClassName: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}"
           volumeMode: Block
           accessModes:
             - ReadWriteOnce
@@ -139,7 +138,7 @@ cephObjectStores:
       # see https://github.com/rook/rook/blob/master/Documentation/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim.md#storageclass for available configuration
       parameters:
         # note: objectStoreNamespace and objectStoreName are configured by the chart
-        region: us-east-1
+        region: "${ARGOCD_ENV_rook_ceph_object_store_region}"
     ingress:
       # Enable an ingress for the ceph-objectstore
       enabled: false

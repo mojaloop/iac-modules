@@ -10,6 +10,12 @@ argocd_override:
         rook_ceph:
           helm_version: "${rook_ceph_helm_version}"
           rook_csi_kubelet_dir_path: "${rook_csi_kubelet_dir_path}"
+          cloud_platform: "${cloud_platform}"
+          mon_volumes_storage_class: "${rook_ceph_mon_volumes_storage_class}"
+          mon_volume_size: "${rook_ceph_mon_volumes_size}"
+          osd_volumes_storage_class: "${rook_ceph_osd_volumes_storage_class}"
+          volume_size_per_osd: "${rook_ceph_volume_size_per_osd}"
+          object_store_region: "${rook_ceph_object_store_region}"
         reflector:
           helm_version: "${reflector_helm_version}"
         reloader:

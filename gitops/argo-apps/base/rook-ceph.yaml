@@ -50,20 +50,28 @@ spec:
               cpu: 50m
               memory: 64Mi
 
-    - chart: rook-ceph-cluster
-      repoURL: https://charts.rook.io/release
-      targetRevision: ${ARGOCD_ENV_utils_rook_ceph_helm_version}
+    - repoURL: https://charts.rook.io/release
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_rook_ceph_cloud_platform}/rook-ceph
+      plugin:
+        name: envsubst
+        env:
+          - name: rook_ceph_namespace
+            value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
 
-      helm:
-        releaseName: rook-ceph-cluster
-        valuesObject:
-          toolbox:
-            enabled: true
-          monitoring:
-            enabled: true
-            interval: 60s
-          cephClusterSpec:
-            dashboard:
-              # prometheusEndpoint: http://central-monitoring-grafana-mimir-gateway.monitoring.svc.cluster.local/prometheus
-              prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
+          - name: "rook_ceph_helm_version"
+            value: "${ARGOCD_ENV_utils_rook_ceph_helm_version}"
 
+          - name: "ceph_mon_volumes_storage_class"
+            value: "${ARGOCD_ENV_utils_rook_ceph_mon_volumes_storage_class}"
+          
+          - name: "ceph_mon_volume_size"
+            value: "${ARGOCD_ENV_utils_rook_ceph_mon_volume_size}"
+
+          - name: "ceph_osd_volumes_storage_class"
+            value: "${ARGOCD_ENV_utils_rook_ceph_osd_volumes_storage_class}"
+          
+          - name: ceph_volume_size_per_osd
+            value: "${ARGOCD_ENV_utils_rook_ceph_volume_size_per_osd}"
+
+          - name: rook_ceph_object_store_region
+            value: "${ARGOCD_ENV_utils_rook_ceph_object_store_region}"
