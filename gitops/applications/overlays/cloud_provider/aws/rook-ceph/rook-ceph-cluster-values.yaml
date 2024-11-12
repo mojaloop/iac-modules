@@ -32,9 +32,7 @@ cephClusterSpec:
     enabled: true
     prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
 
-  storage: # cluster level storage configuration and selection
-    #useAllNodes: true
-    #useAllDevices: true
+  storage:
     storageClassDeviceSets:
     - name: set1
       count: 3
