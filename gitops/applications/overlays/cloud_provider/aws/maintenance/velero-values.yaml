@@ -29,18 +29,31 @@ configuration:
   # See https://velero.io/docs/v1.6/api-types/volumesnapshotlocation/
   volumeSnapshotLocation:
     # name is the name of the volume snapshot location where snapshots are being taken. Required.
-    - name: cloudprovider-objectstorage
-      # provider is the name for the volume snapshot provider.
-      provider: aws
-      credential:
-        key: ${ARGOCD_ENV_object_storage_secret_key}
-        name: ${ARGOCD_ENV_object_storage_secret_name}
+    - name: rook-ceph
+      # provider is the name for the volume snapshot provider. If omitted
+      # `configuration.provider` will be used instead.
+      provider: csi
       # Additional provider-specific configuration. See link above
       # for details of required/optional fields for your provider.
-      config:
-        profile: default
-        region: ${ARGOCD_ENV_object_storage_region}
+      config: {}
+      defaultVolumeSnapshotLocations: csi:rook-ceph
+      features: EnableCSI
+  schedules:
+    daily-backup:
+      disabled: false
+      schedule: "0 0 * * *" # once a day, at midnight
+      useOwnerReferencesInBackup: false
+      template:
+        ttl: "240h"
+        storageLocation: default # use the same name you defined above in backupStorageLocation
+
 initContainers:
+  - name: velero-plugin-for-csi
+    image: velero/velero-plugin-for-csi:v0.7.1
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+      - mountPath: /target
+        name: plugins
   - name: velero-plugin-for-aws
     image: velero/velero-plugin-for-aws:${ARGOCD_ENV_velero_plugin_version}
     imagePullPolicy: IfNotPresent
