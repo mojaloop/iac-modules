@@ -35,7 +35,7 @@ module "mongodb" {
   engine                          = each.value.external_resource_config.engine
   engine_version                  = each.value.external_resource_config.engine_version
   storage_encrypted               = each.value.external_resource_config.storage_encrypted
-  kms_key_id                      = aws_kms_key.managed_db_key.key_id
+  kms_key_id                      = aws_kms_key.managed_db_key.arn
   skip_final_snapshot             = each.value.external_resource_config.skip_final_snapshot
   enabled_cloudwatch_logs_exports = each.value.external_resource_config.enabled_cloudwatch_logs_exports
 
