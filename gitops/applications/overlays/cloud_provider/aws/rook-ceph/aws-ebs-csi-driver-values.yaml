@@ -1,0 +1,14 @@
+# Custom values for aws-ebs-csi-driver.
+controller:
+  # The default filesystem type of the volume to provision when fstype is unspecified in the StorageClass.
+  # If the default is not set and fstype is unset in the StorageClass, then no fstype will be set
+  defaultFsType: ext4
+storageClasses:
+- name: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}"
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+  volumeBindingMode: WaitForFirstConsumer
+  reclaimPolicy: Delete
+  parameters:
+    encrypted: "false"
+    type: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}"
