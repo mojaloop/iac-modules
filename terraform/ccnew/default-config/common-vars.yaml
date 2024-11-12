@@ -7,7 +7,6 @@ zitadel_tf_provider_version: "99.99.99"
 netbird_tf_provider_version: "99.99.99"
 grafana_tf_provider_version: 3.6.0
 argocd_helm_version: "7.6.12"
-rook_ceph_helm_version: "1.14.5"
 reflector_helm_version: "7.1.262"
 reloader_helm_version: "1.0.67"
 crossplane_helm_version: "1.16.0"
@@ -171,6 +170,7 @@ zitadel_db_storage_type: "io1" # rds specific
 zitadel_db_storage_iops: "'5000'" # rds specific
 
 # rook ceph
+rook_ceph_helm_version: "1.14.5"
 rook_ceph_mon_volumes_storage_class: "gp3-csi"
 rook_ceph_mon_volumes_size: "10Gi"
 rook_ceph_osd_volumes_storage_class: "gp3" #io1
