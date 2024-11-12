@@ -16,7 +16,7 @@ module "mongodb" {
   version                         = "v0.26.2"
   cluster_size                    = each.value.external_resource_config.cluster_size
   master_username                 = each.value.external_resource_config.master_username
-  master_password                 = random_password.mongodb_passwords[each.key].result
+  #master_password                 = random_password.mongodb_passwords[each.key].result
   instance_class                  = each.value.external_resource_config.instance_class
   db_port                         = each.value.external_resource_config.db_port
   vpc_id                          = var.vpc_id
