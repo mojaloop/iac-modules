@@ -1,9 +1,3 @@
-resource "random_password" "mongodb_passwords" {
-  for_each = var.mongodb_services
-  length   = 20
-  special  = false
-}
-
 resource "aws_kms_key" "managed_db_key" {
   for_each                = var.mongodb_services
   count                   = each.value.external_resource_config.storage_encrypted ? 1 : 0
@@ -18,7 +12,6 @@ module "mongodb" {
   version                         = "v0.26.2"
   cluster_size                    = each.value.external_resource_config.cluster_size
   master_username                 = each.value.external_resource_config.master_username
-  #master_password                 = random_password.mongodb_passwords[each.key].result
   instance_class                  = each.value.external_resource_config.instance_class
   db_port                         = each.value.external_resource_config.db_port
   vpc_id                          = var.vpc_id
