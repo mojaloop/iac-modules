@@ -86,6 +86,9 @@ cephFileSystems:
             size: 3
           # Optional and highly recommended, 'data0' by default, see https://github.com/rook/rook/blob/master/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#pools
           name: data0
+      metadataServer:
+        activeCount: 1
+        activeStandby: true      
     storageClass:
       enabled: true
       isDefault: false
