@@ -24,6 +24,18 @@ module "deploy_msk" {
   private_subnets = module.base_infra[0].private_subnets
 }
 
+module "deploy_mongodb" {
+  count             = length(local.mongodb_services) > 0 ? 1 : 0
+  source            = "../deploy-mongodb"
+  deployment_name   = var.deployment_name
+  tags              = var.tags
+  mongodb_services  = local.mongodb_services
+  security_group_id = aws_security_group.managed_svcs.*.id
+  private_subnets   = module.base_infra[0].private_subnets
+  allowed_cidr_blocks = ["0.0.0.0/0"]
+  kms_key_id        = aws_kms_key.managed_db_key.key_id
+}
+
 module "ubuntu_focal_ami" {
   count = length(local.external_services) > 0 ? 1 : 0
   source  = "../../ami-ubuntu"
