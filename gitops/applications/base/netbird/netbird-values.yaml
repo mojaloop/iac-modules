@@ -175,12 +175,9 @@ relay:
     NB_EXPOSED_ADDRESS: "rels://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443"
     NB_LOG_LEVEL: info
     NB_LISTEN_ADDRESS: ":33080"
-  envRaw:
-    - name: RELAY_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: ${ARGOCD_ENV_netbird_relay_secret}
-          key: ${ARGOCD_ENV_netbird_relay_secret_key}
+  envFromSecret:
+    NB_AUTH_SECRET: ${ARGOCD_ENV_netbird_relay_secret}/${ARGOCD_ENV_netbird_relay_secret_key}
+
 dashboard:
   enabled: true
   ingress:
