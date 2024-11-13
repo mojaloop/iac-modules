@@ -84,7 +84,7 @@ bulk-mongodb:
     instance_address_key_name: bulk_mongodb_address
     instance_class: db.t3.medium
     db_port: 27017
-    apply_immediately: false
+    apply_immediately: true
     auto_minor_version_upgrade: false
     snapshot_identifier: ""
     retention_period: 1
@@ -108,7 +108,7 @@ reporting-events-mongodb:
     instance_address_key_name: reporting_events_mongodb_address
     instance_class: db.t3.medium
     db_port: 27017
-    apply_immediately: false
+    apply_immediately: true
     auto_minor_version_upgrade: false
     snapshot_identifier: ""
     retention_period: 1
@@ -132,7 +132,7 @@ ttk-mongodb:
     instance_address_key_name: ttk_mongodb_address
     instance_class: db.t3.medium
     db_port: 27017
-    apply_immediately: false
+    apply_immediately: true
     auto_minor_version_upgrade: false
     snapshot_identifier: ""
     retention_period: 1
