@@ -91,7 +91,7 @@ bulk-mongodb:
     preferred_backup_window: 01:00-04:00
     preferred_maintenance_window: Sun:04:00-Sun:06:00
     cluster_parameters:
-      - apply_method: immediate 
+      - apply_method: pending-reboot 
         name: tls
         value: disabled         
     cluster_family: docdb5.0
@@ -115,7 +115,7 @@ reporting-events-mongodb:
     preferred_backup_window: 01:00-04:00
     preferred_maintenance_window: Sun:04:00-Sun:06:00
     cluster_parameters:
-      - apply_method: immediate 
+      - apply_method: pending-reboot 
         name: tls
         value: disabled      
     cluster_family: docdb5.0
@@ -139,7 +139,7 @@ ttk-mongodb:
     preferred_backup_window: 01:00-04:00
     preferred_maintenance_window: Sun:04:00-Sun:06:00
     cluster_parameters:
-      - apply_method: immediate 
+      - apply_method: pending-reboot 
         name: tls
         value: disabled         
     cluster_family: docdb5.0
