@@ -78,8 +78,8 @@ central-ledger-db:
     username: central_ledger
 bulk-mongodb:
   external_resource_config:
-    cluster_size: 3
-    master_username: app_owner
+    cluster_size: 1
+    username: mojaloop
     password_key_name: bulk_mongodb_password
     instance_address_key_name: bulk_mongodb_address
     instance_class: db.t3.medium
@@ -90,7 +90,9 @@ bulk-mongodb:
     retention_period: 1
     preferred_backup_window: 01:00-04:00
     preferred_maintenance_window: Sun:04:00-Sun:06:00
-    cluster_parameters: []
+    cluster_parameters:
+      - name: tls
+        value: disabled    
     cluster_family: docdb5.0
     engine: docdb
     engine_version: 5.0.0 
@@ -99,8 +101,8 @@ bulk-mongodb:
     enabled_cloudwatch_logs_exports: []
 reporting-events-mongodb:
   external_resource_config:
-    cluster_size: 3
-    master_username: app_owner
+    cluster_size: 1
+    username: mojaloop
     password_key_name: reporting_events_mongodb_password
     instance_address_key_name: reporting_events_mongodb_address
     instance_class: db.t3.medium
@@ -111,13 +113,38 @@ reporting-events-mongodb:
     retention_period: 1
     preferred_backup_window: 01:00-04:00
     preferred_maintenance_window: Sun:04:00-Sun:06:00
-    cluster_parameters: []
+    cluster_parameters:
+      - name: tls
+        value: disabled       
     cluster_family: docdb5.0
     engine: docdb
     engine_version: 5.0.0 
     storage_encrypted: true
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
+ttk-mongodb:
+  external_resource_config:
+    cluster_size: 1
+    username: mojaloop
+    password_key_name: ttk_mongodb_password
+    instance_address_key_name: ttk_mongodb_address
+    instance_class: db.t3.medium
+    db_port: 27017
+    apply_immediately: false
+    auto_minor_version_upgrade: false
+    snapshot_identifier: ""
+    retention_period: 1
+    preferred_backup_window: 01:00-04:00
+    preferred_maintenance_window: Sun:04:00-Sun:06:00
+    cluster_parameters:
+      - name: tls
+        value: disabled       
+    cluster_family: docdb5.0
+    engine: docdb
+    engine_version: 5.0.0 
+    storage_encrypted: true
+    skip_final_snapshot: true
+    enabled_cloudwatch_logs_exports: []      
 mojaloop-kafka:
   external_resource_config:
     name: msk
