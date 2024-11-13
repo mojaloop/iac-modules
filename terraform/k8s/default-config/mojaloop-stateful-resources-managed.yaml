@@ -1,3 +1,42 @@
+mcm-db:
+  external_resource_config:
+    password_key_name: mcm_password
+    instance_address_key_name: mcm_instance_address
+    allocated_storage: 100
+    storage_type: io1
+    storage_iops: 5000
+    backup_window: 01:00-04:00
+    db_name: mcm
+    deletion_protection: false
+    engine: mysql
+    engine_version: "8.0"
+    family: mysql8.0
+    instance_class: db.m5d.large
+    maintenance_window: Sun:04:00-Sun:06:00
+    major_engine_version: "8.0"
+    monitoring_interval: "30"
+    options:
+      - option_name: MARIADB_AUDIT_PLUGIN
+        option_settings:
+          - name: SERVER_AUDIT_EVENTS
+            value: CONNECT
+          - name: SERVER_AUDIT_FILE_ROTATIONS
+            value: "37"
+    parameters:
+      - name: character_set_client
+        value: utf8mb4
+      - name: character_set_server
+        value: utf8mb4
+    port: "3306"
+    skip_final_snapshot: true
+    multi_az: false
+    storage_encrypted: false
+    tags:
+      Origin: Terraform
+      mojaloop/cost_center: mlf-iac-sandbox
+      mojaloop/env: ft-sbox-rw
+      mojaloop/owner: Samuel-Kummary
+    username: devdat1asql1
 account-lookup-db:
   external_resource_config:
     password_key_name: account_lookup_password
