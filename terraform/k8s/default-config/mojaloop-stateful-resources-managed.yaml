@@ -91,9 +91,9 @@ bulk-mongodb:
     preferred_backup_window: 01:00-04:00
     preferred_maintenance_window: Sun:04:00-Sun:06:00
     cluster_parameters:
-      - name: tls
-        value: disabled
-        apply_method: immediate    
+      - apply_method: immediate 
+        name: tls
+        value: disabled         
     cluster_family: docdb5.0
     engine: docdb
     engine_version: 5.0.0 
@@ -115,9 +115,9 @@ reporting-events-mongodb:
     preferred_backup_window: 01:00-04:00
     preferred_maintenance_window: Sun:04:00-Sun:06:00
     cluster_parameters:
-      - name: tls
-        value: disabled
-        apply_method: immediate       
+      - apply_method: immediate 
+        name: tls
+        value: disabled      
     cluster_family: docdb5.0
     engine: docdb
     engine_version: 5.0.0 
@@ -139,9 +139,9 @@ ttk-mongodb:
     preferred_backup_window: 01:00-04:00
     preferred_maintenance_window: Sun:04:00-Sun:06:00
     cluster_parameters:
-      - name: tls
-        value: disabled
-        apply_method: immediate       
+      - apply_method: immediate 
+        name: tls
+        value: disabled         
     cluster_family: docdb5.0
     engine: docdb
     engine_version: 5.0.0 
