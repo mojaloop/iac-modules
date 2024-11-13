@@ -26,7 +26,7 @@ management:
         ]
       },
       "Relay": {
-        "Addresses": ["rel://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443/relay"],
+        "Addresses": ["rels://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443/relay"],
         "CredentialsTTL": "24h",
         "Secret": "{{ .RELAY_PASSWORD }}"
       },
@@ -171,6 +171,8 @@ relay:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
     enabled: false
+  env:
+    NB_EXPOSED_ADDRESS: rels://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443
 dashboard:
   enabled: true
   ingress:
