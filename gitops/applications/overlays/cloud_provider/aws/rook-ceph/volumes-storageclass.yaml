@@ -5,7 +5,9 @@ metadata:
 provisioner: ebs.csi.aws.com
 parameters:
   type: ${ARGOCD_ENV_ceph_osd_volumes_storage_class}
+  encrypted: "true"
   #iops: "3000"
   #throughput: "125"
+  #csi.storage.k8s.io/fstype: xfs
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
