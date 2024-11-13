@@ -171,12 +171,16 @@ relay:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
     enabled: false
-  service:
-    port: 80
   env:
     NB_EXPOSED_ADDRESS: "rels://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443"
-    NB_AUTH_SECRET: RELAY_PASSWORD
-    NB_LISTEN_ADDRESS: ":80"
+    NB_LOG_LEVEL: info
+    NB_LISTEN_ADDRESS: ":33080"
+  envRaw:
+    - name: RELAY_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_relay_secret}
+          key: ${ARGOCD_ENV_netbird_relay_secret_key}
 dashboard:
   enabled: true
   ingress:
