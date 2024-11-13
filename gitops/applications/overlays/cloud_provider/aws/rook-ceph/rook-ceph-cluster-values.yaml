@@ -89,18 +89,18 @@ cephClusterSpec:
                       values:
                         - rook-ceph-osd-prepare
                 topologyKey: kubernetes.io/hostname
-              topologySpreadConstraints:
-                - maxSkew: 1
-                  # IMPORTANT: If you don't have zone labels, change this to another key such as kubernetes.io/hostname
-                  #topologyKey: topology.kubernetes.io/zone
-                  topologyKey: kubernetes.io/hostname
-                  whenUnsatisfiable: DoNotSchedule
-                  labelSelector:
-                    matchExpressions:
-                      - key: app
-                        operator: In
-                        values:
-                          - rook-ceph-osd-prepare
+        topologySpreadConstraints:
+            - maxSkew: 1
+              # IMPORTANT: If you don't have zone labels, change this to another key such as kubernetes.io/hostname
+              #topologyKey: topology.kubernetes.io/zone
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - rook-ceph-osd-prepare
       volumeClaimTemplates:
       - metadata:
           name: data
