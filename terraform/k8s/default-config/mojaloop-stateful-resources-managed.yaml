@@ -125,7 +125,7 @@ reporting-events-mongodb:
 ttk-mongodb:
   external_resource_config:
     cluster_size: 1
-    username: mojaloop
+    username: ttk
     password_key_name: ttk_mongodb_password
     instance_address_key_name: ttk_mongodb_address
     instance_class: db.t3.medium
