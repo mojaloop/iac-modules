@@ -26,7 +26,7 @@ management:
         ]
       },
       "Relay": {
-        "Addresses": ["rels://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443/relay"],
+        "Addresses": ["rel://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443/relay"],
         "CredentialsTTL": "24h",
         "Secret": "{{ .RELAY_PASSWORD }}"
       },
