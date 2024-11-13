@@ -20,7 +20,7 @@ cephClusterSpec:
     allowMultiplePerNode: false
     volumeClaimTemplate:
       spec:
-        storageClassName: "${ARGOCD_ENV_ceph_mon_volumes_storage_class}"
+        storageClassName: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}-csi"
         resources:
           requests:
             storage: "${ARGOCD_ENV_ceph_mon_volume_size}"
@@ -92,7 +92,8 @@ cephClusterSpec:
               topologySpreadConstraints:
                 - maxSkew: 1
                   # IMPORTANT: If you don't have zone labels, change this to another key such as kubernetes.io/hostname
-                  topologyKey: topology.kubernetes.io/zone
+                  #topologyKey: topology.kubernetes.io/zone
+                  topologyKey: kubernetes.io/hostname
                   whenUnsatisfiable: DoNotSchedule
                   labelSelector:
                     matchExpressions:
@@ -111,7 +112,7 @@ cephClusterSpec:
             requests:
               storage: "${ARGOCD_ENV_ceph_volume_size_per_osd}"
           # IMPORTANT: Change the storage class depending on your environment
-          storageClassName: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}"
+          storageClassName: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}-csi"
           volumeMode: Block
           accessModes:
             - ReadWriteOnce
