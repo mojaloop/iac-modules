@@ -1,6 +1,8 @@
 resource "aws_kms_key" "managed_db_key" {
-  for_each                = var.mongodb_services
-  count                   = each.value.external_resource_config.storage_encrypted ? 1 : 0
+  for_each = {
+    for key, value in var.mongodb_services : key => value
+    if value.external_resource_config.storage_encrypted
+  }
   description             = "KMS Key used to manage passwords for managed dbs"
   deletion_window_in_days = 10
 }
