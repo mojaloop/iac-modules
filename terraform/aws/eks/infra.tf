@@ -110,6 +110,9 @@ module "eks" {
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
     update_launch_template_default_version = true
+    iam_role_additional_policies = {
+      AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+    }
     autoscaling_group_tags = {
       "k8s.io/cluster-autoscaler/enabled" : true,
       "k8s.io/cluster-autoscaler/${local.eks_name}" : "owned",
