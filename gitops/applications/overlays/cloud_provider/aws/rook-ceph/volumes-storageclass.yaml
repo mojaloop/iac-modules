@@ -5,7 +5,6 @@ metadata:
 provisioner: ebs.csi.aws.com
 parameters:
   type: ${ARGOCD_ENV_ceph_osd_volumes_storage_class}
-  fsType: ext4
   #iops: "3000"
   #throughput: "125"
 reclaimPolicy: Delete
