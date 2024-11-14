@@ -109,3 +109,12 @@
   - jwt
   - cookie_session
   authorizer_permission: transferApi
+
+- name: settlementModel-view
+  match_path: /api/central-admin/settlementModels<.*>
+  match_methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: settlementView
