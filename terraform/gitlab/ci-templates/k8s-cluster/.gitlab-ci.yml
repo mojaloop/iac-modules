@@ -25,6 +25,7 @@ stages:
   - refresh-templates
   - cleanup
   - auto-run
+  - auto-run-tf
 
 variables:
   IMAGE_TAG: latest
@@ -259,7 +260,7 @@ refresh-deploy-infra:
 
 tf-refresh-deploy-infra:
   extends: .terraform:deploy
-  stage: auto-run
+  stage: auto-run-tf
   variables:
     GIT_DEPTH: 0
   id_tokens:
