@@ -267,6 +267,16 @@ account-lookup-service:
       config:
         prefix: *ALS_MONITORING_PREFIX
 
+als-msisdn-oracle:
+  enabled: true
+  config:
+    db_password: *ALS_DB_PASSWORD
+    db_secret: *ALS_DB_SECRET
+    db_host: *ALS_DB_HOST
+    db_user: *ALS_DB_USER
+    db_port: *ALS_DB_PORT
+    db_database: *ALS_DB_DATABASE
+
 quoting-service:
   quoting-service:
     commonAnnotations:

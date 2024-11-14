@@ -80,3 +80,9 @@ spec:
 
         - name: "netbird_datastore_encryption_key_secret_key"
           value: "${ARGOCD_ENV_security_netbird_datastore_encryption_key_secret_key}"
+
+        - name: "netbird_relay_secret"
+          value: "${ARGOCD_ENV_security_netbird_relay_secret}"
+
+        - name: "netbird_relay_secret_key"
+          value: "${ARGOCD_ENV_security_netbird_relay_secret_key}"
