@@ -20,6 +20,8 @@ class CustomDumper(yaml.Dumper):
     def represent_data(self, data):
         if isinstance(data, str) and data.isdigit():
             return self.represent_scalar('tag:yaml.org,2002:str', data, style="'")
+        if isinstance(data, str) and "\n" in data:
+            return self.represent_scalar('tag:yaml.org,2002:str', data, style="|")
 
         return super(CustomDumper, self).represent_data(data)
 
