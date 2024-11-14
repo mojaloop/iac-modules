@@ -259,7 +259,7 @@ refresh-deploy-infra:
 
 tf-refresh-deploy-infra:
   extends: .terraform:deploy
-  stage: auto-run
+  stage: auto-run-tf
   variables:
     GIT_DEPTH: 0
   id_tokens:
