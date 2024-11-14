@@ -132,8 +132,8 @@ spec:
           - name: "db_username"
             value: "zitadel"
 
-          - name: "db_deploy_name_prefix"
-            value: "${ARGOCD_ENV_security_zitadel_db_deploy_name_prefix}"
+          - name: "dbdeploy_name_prefix"
+            value: "${ARGOCD_ENV_security_zitadel_dbdeploy_name_prefix}"
 
           - name: "db_backup_retention_period"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_backup_retention_period}"

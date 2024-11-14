@@ -214,58 +214,58 @@ spec:
             value: "${ARGOCD_ENV_vault_vault_namespace}"
 
           - name: "postgres_replicas"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
+            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_postgres_replicas}"
 
           - name: "postgres_proxy_replicas"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}"
+            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_postgres_proxy_replicas}"
 
           - name: "postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_pre_percona_postgres_storage_size}"
-
-          - name: "rds_postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"
-
-          - name: "rds_postgres_instance_size"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_instance_size}"
+            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_percona_postgres_storage_size}"
 
           - name: "pgdb_helm_version"
-            value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
+            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_pgdb_helm_version}"            
+
+          - name: "rds_postgres_storage_size"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_postgres_storage_size}"
+
+          - name: "rds_postgres_instance_size"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_postgres_instance_size}"
 
           - name: "rds_vpc_id"
-            value: "${ARGOCD_ENV_gitlab_pre_rdbms_vpc_id}"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_rdbms_vpc_id}"
 
           - name: "vpc_cidr"
-            value: "${ARGOCD_ENV_gitlab_pre_vpc_cidr}"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_vpc_cidr}"
 
           - name: "rds_subnet_list"
-            value: "${ARGOCD_ENV_gitlab_pre_rdbms_subnet_list}"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_rdbms_subnet_list}"
 
           - name: "cloud_region"
-            value: "${ARGOCD_ENV_gitlab_pre_db_provider_cloud_region}"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_db_provider_cloud_region}"
 
           - name: "db_secret"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_secret}"
+            value: "gitlab-db-secret"
 
           - name: "db_name"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_name}"
+            value: "gitlab"
 
           - name: "db_username"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_username}"
+            value: "gitlab"
 
           - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"
 
           - name: "db_backup_retention_period"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_backup_retention_period}"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_retention_period}"
 
           - name: "db_preferred_backup_window"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_preferred_backup_window}"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_preferred_backup_window}"
 
           - name: "db_storage_type"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_storage_type}"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_type}"
 
           - name: "db_storage_iops"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_storage_iops}"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_iops}"
 
     #praefect db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
@@ -293,55 +293,55 @@ spec:
             value: "${ARGOCD_ENV_vault_vault_namespace}"
 
           - name: "postgres_replicas"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_replicas}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_postgres_replicas}"
 
           - name: "postgres_proxy_replicas"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_proxy_replicas}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_postgres_proxy_replicas}"
 
           - name: "postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_pre_percona_praefect_postgres_storage_size}"
-
-          - name: "rds_postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_storage_size}"
-
-          - name: "rds_postgres_instance_size"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_instance_size}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_percona_postgres_storage_size}"
 
           - name: "pgdb_helm_version"
-            value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_pgdb_helm_version}"            
+
+          - name: "rds_postgres_storage_size"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_postgres_storage_size}"
+
+          - name: "rds_postgres_instance_size"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_postgres_instance_size}"
 
           - name: "rds_vpc_id"
-            value: "${ARGOCD_ENV_gitlab_pre_rdbms_vpc_id}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_rdbms_vpc_id}"
 
           - name: "vpc_cidr"
-            value: "${ARGOCD_ENV_gitlab_pre_vpc_cidr}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_vpc_cidr}"
 
           - name: "rds_subnet_list"
-            value: "${ARGOCD_ENV_gitlab_pre_rdbms_subnet_list}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_rdbms_subnet_list}"
 
           - name: "cloud_region"
-            value: "${ARGOCD_ENV_gitlab_pre_db_provider_cloud_region}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_db_provider_cloud_region}"
 
           - name: "db_secret"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_secret}"
+            value: "gitlab-db-secret"
 
           - name: "db_name"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_name}"
+            value: "gitlab"
 
           - name: "db_username"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_username}"
+            value: "gitlab"
 
           - name: "dbdeploy_name_prefix"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_dbdeploy_name_prefix}"
+            value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"
 
           - name: "db_backup_retention_period"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_backup_retention_period}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_retention_period}"
 
           - name: "db_preferred_backup_window"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_preferred_backup_window}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_preferred_backup_window}"
 
           - name: "db_storage_type"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_storage_type}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_storage_type}"
 
           - name: "db_storage_iops"
-            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_storage_iops}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_storage_iops}"
