@@ -25,6 +25,11 @@ management:
           }
         ]
       },
+      "Relay": {
+        "Addresses": ["rels://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443/relay"],
+        "CredentialsTTL": "24h",
+        "Secret": "{{ .RELAY_PASSWORD }}"
+      },
       "Signal": {
         "Proto": "https",
         "URI": "netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443",
@@ -141,6 +146,11 @@ management:
         secretKeyRef:
           name: ${ARGOCD_ENV_netbird_datastore_encryption_key_secret}
           key: ${ARGOCD_ENV_netbird_datastore_encryption_key_secret_key}
+    - name: RELAY_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_relay_secret}
+          key: ${ARGOCD_ENV_netbird_relay_secret_key}
 
   podCommand:
     args:
@@ -156,11 +166,18 @@ signal:
   ingress:
     enabled: false
 relay:
-  enabled: false
+  enabled: true
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
     enabled: false
+  env:
+    NB_EXPOSED_ADDRESS: "rels://netbird.${ARGOCD_ENV_netbird_dns_subdomain}:443"
+    NB_LOG_LEVEL: info
+    NB_LISTEN_ADDRESS: ":33080"
+  envFromSecret:
+    NB_AUTH_SECRET: ${ARGOCD_ENV_netbird_relay_secret}/${ARGOCD_ENV_netbird_relay_secret_key}
+
 dashboard:
   enabled: true
   ingress:

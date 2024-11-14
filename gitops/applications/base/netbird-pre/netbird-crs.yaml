@@ -33,6 +33,14 @@ spec:
             host: netbird-signal
             port:
               number: 80
+    - match:
+        - uri:
+            prefix: /relay
+      route:
+        - destination:
+            host: netbird-relay
+            port:
+              number: 33080
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
