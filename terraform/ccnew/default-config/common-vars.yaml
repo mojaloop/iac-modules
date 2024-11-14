@@ -50,12 +50,6 @@ nexus_storage_size: 30Gi
 zitadel_public_access: true
 consul_storage_size: "3Gi"
 consul_replica_count: 1
-zitadel_db_storage_size: "5Gi"
-zitadel_rds_storage_size: "100"
-zitadel_db_backup_retention_period: "'1'"
-zitadel_db_preferred_backup_window: "07:00-09:00"
-zitadel_db_storage_iops: "'5000'"
-zitadel_db_storage_type: "io1"
 argocd_admin_rbac_group: "argocd_administrators"
 argocd_user_rbac_group: "argocd_users"
 vault_rbac_admin_group: "techops-admin"
@@ -172,5 +166,10 @@ env_token_ttl: "14d"
 zitadel_postgres_rdbms_provider: "percona"
 zitadel_postgres_instance_size: "small"
 zitadel_postgres_storage_size: "'20'"
-zitadel_db_storage_type: "io1" # rds specific
-zitadel_db_storage_iops: "'5000'" # rds specific
+zitadel_db_storage_size: "5Gi"
+#Zitadel RDS specific
+zitadel_db_backup_retention_period: "'1'"
+zitadel_db_preferred_backup_window: "07:00-09:00"
+zitadel_rds_storage_size: "100"
+zitadel_db_storage_iops: "'5000'"
+zitadel_db_storage_type: "io1"

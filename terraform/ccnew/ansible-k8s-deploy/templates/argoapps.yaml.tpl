@@ -106,6 +106,7 @@ argocd_override:
           argocd_user_rbac_group: "${argocd_user_rbac_group}"
           argocd_admin_rbac_group: "${argocd_admin_rbac_group}"
           log_level: "${zitadel_log_level}"
+          rdbms_provider: "${zitadel_postgres_rdbms_provider}"
         zitadel_percona_provider:
           postgres_storage_size: "${zitadel_db_storage_size}"
         zitadel_rds_provider:
