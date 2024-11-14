@@ -30,6 +30,7 @@ resources:
   # maintenance (velero,etc)
   - ../../../base/maintenance.yaml
   - ../../../base/maintenance-pre.yaml
+  - ../../../base/maintenance-post-config.yaml
   # security
   - ../../../base/zitadel-pre.yaml
   - ../../../base/zitadel-helm.yaml

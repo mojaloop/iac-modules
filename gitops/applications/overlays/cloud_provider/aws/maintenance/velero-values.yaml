@@ -5,7 +5,7 @@ configuration:
   backupStorageLocation:
     # name is the name of the backup storage location where backups should be stored. If a name is not provided,
     # a backup storage location will be created with the name "default". Optional.
-    - name: cloudprovider-objectstorage
+    - name: ${ARGOCD_ENV_storage_location}
       # provider is the name for the backup storage location provider.
       provider: aws
       # bucket is the name of the bucket to store backups in. Required.
