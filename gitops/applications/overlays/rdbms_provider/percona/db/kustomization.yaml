@@ -10,4 +10,4 @@ helmCharts:
     version: ${ARGOCD_ENV_pgdb_helm_version}
     repo: https://percona.github.io/percona-helm-charts/
     valuesFile: db-values.yaml
-    namespace: ${ARGOCD_ENV_db_namespace}
+    namespace: ${ARGOCD_ENV_namespace}

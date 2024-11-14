@@ -201,7 +201,7 @@ spec:
           - name: "app_name"
             value: "${ARGOCD_ENV_gitlab_gitlab_app_name}"
 
-          - name: "db_namespace"
+          - name: "namespace"
             value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
 
           - name: "vault_k8s_admin_auth_path"
@@ -280,7 +280,7 @@ spec:
           - name: "app_name"
             value: "${ARGOCD_ENV_gitlab_gitlab_app_name}"
 
-          - name: "db_namespace"
+          - name: "namespace"
             value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
 
           - name: "vault_k8s_admin_auth_path"
@@ -291,24 +291,6 @@ spec:
 
           - name: "vault_namespace"
             value: "${ARGOCD_ENV_vault_vault_namespace}"
-
-          - name: "postgres_replicas"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
-
-          - name: "postgres_proxy_replicas"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}"
-
-          - name: "postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_pre_percona_postgres_storage_size}"
-
-          - name: "rds_postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"
-
-          - name: "rds_postgres_instance_size"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_instance_size}"
-
-          - name: "pgdb_helm_version"
-            value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
 
           - name: "postgres_replicas"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_replicas}"
@@ -325,6 +307,9 @@ spec:
           - name: "rds_postgres_instance_size"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_postgres_instance_size}"
 
+          - name: "pgdb_helm_version"
+            value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
+
           - name: "rds_vpc_id"
             value: "${ARGOCD_ENV_gitlab_pre_rdbms_vpc_id}"
 
@@ -337,50 +322,26 @@ spec:
           - name: "cloud_region"
             value: "${ARGOCD_ENV_gitlab_pre_db_provider_cloud_region}"
 
-          - name: "praefect_db_secret"
+          - name: "db_secret"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_db_secret}"
 
-          - name: "gitlab_db_secret"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_secret}"
-
-          - name: "gitlab_db_name"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_name}"
-
-          - name: "praefect_db_name"
+          - name: "db_name"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_db_name}"
 
-          - name: "gitlab_db_username"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_username}"
-
-          - name: "praefect_db_username"
+          - name: "db_username"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_db_username}"
 
-          - name: "gitlab_dbdeploy_name_prefix"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"
-
-          - name: "praefect_dbdeploy_name_prefix"
+          - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_dbdeploy_name_prefix}"
 
-          - name: "gitlab_db_backup_retention_period"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_backup_retention_period}"
-
-          - name: "gitlab_db_preferred_backup_window"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_preferred_backup_window}"
-
-          - name: "praefect_db_backup_retention_period"
+          - name: "db_backup_retention_period"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_db_backup_retention_period}"
 
-          - name: "praefect_db_preferred_backup_window"
+          - name: "db_preferred_backup_window"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_db_preferred_backup_window}"
 
-          - name: "gitlab_db_storage_type"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_storage_type}"
-
-          - name: "gitlab_db_storage_iops"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_storage_iops}"
-
-          - name: "praefect_db_storage_type"
+          - name: "db_storage_type"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_db_storage_type}"
 
-          - name: "praefect_db_storage_iops"
+          - name: "db_storage_iops"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_db_storage_iops}"

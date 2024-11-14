@@ -86,15 +86,18 @@ spec:
 
           - name: "cockroachdb_release_name"
             value: "${ARGOCD_ENV_security_zitadel_cockroachdb_provider_app_name}"
+          
+          - name: "zitadel_namespace"
+            value: "${ARGOCD_ENV_security_zitadel_namespace}"
 
           - name: "postgres_replicas"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_replicas}"
+            value: "${ARGOCD_ENVsecurity_zitadel_percona_provider_postgres_replicas}"
 
           - name: "postgres_proxy_replicas"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_proxy_replicas}"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_proxy_replicas}"
 
           - name: "postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_pre_percona_postgres_storage_size}"
+            value: "${ARGOCD_ENV_security_zitadel_percona_postgres_storage_size}"
 
           - name: "rds_postgres_storage_size"
             value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"
