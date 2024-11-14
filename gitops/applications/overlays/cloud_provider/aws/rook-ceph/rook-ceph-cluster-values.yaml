@@ -47,7 +47,7 @@ cephClusterSpec:
       # IMPORTANT: If volumes specified by the storageClassName are not portable across nodes
       # this needs to be set to false. For example, if using the local storage provisioner
       # this should be false.
-      portable: true
+      portable: false # Set to false for node-specific storage like EBS
       # whether to encrypt the deviceSet or not
       encrypted: false
       # Certain storage class in the Cloud are slow
@@ -92,8 +92,8 @@ cephClusterSpec:
         topologySpreadConstraints:
             - maxSkew: 1
               # IMPORTANT: If you don't have zone labels, change this to another key such as kubernetes.io/hostname
-              #topologyKey: topology.kubernetes.io/zone
-              topologyKey: kubernetes.io/hostname
+              topologyKey: topology.kubernetes.io/zone
+              #topologyKey: kubernetes.io/hostname
               whenUnsatisfiable: DoNotSchedule
               labelSelector:
                 matchExpressions:
@@ -136,7 +136,6 @@ cephObjectStores:
     # see https://github.com/rook/rook/blob/master/Documentation/CRDs/Object-Storage/ceph-object-store-crd.md#object-store-settings for available configuration
     spec:
       metadataPool:
-        failureDomain: host
         replicated:
           size: 3
     storageClass:
