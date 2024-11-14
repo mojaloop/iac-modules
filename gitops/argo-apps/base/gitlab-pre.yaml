@@ -244,13 +244,13 @@ spec:
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_db_provider_cloud_region}"
 
           - name: "db_secret"
-            value: "gitlab-db-secret"
+            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_secret}"
 
           - name: "db_name"
-            value: "gitlab"
+            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_name}"
 
           - name: "db_username"
-            value: "gitlab"
+            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_username}"
 
           - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"
@@ -323,13 +323,13 @@ spec:
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_db_provider_cloud_region}"
 
           - name: "db_secret"
-            value: "gitlab-db-secret"
+            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_secret}"
 
           - name: "db_name"
-            value: "gitlab"
+            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_name}"
 
           - name: "db_username"
-            value: "gitlab"
+            value: "${ARGOCD_ENV_gitlab_pre_praefect_db_username}"
 
           - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"

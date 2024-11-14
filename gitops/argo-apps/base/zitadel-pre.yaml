@@ -124,13 +124,13 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_db_provider_cloud_region}"
 
           - name: "db_secret"
-            value: "zitadel-db-secret"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_db_secret}"
 
           - name: "db_name"
-            value: "zitadel"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_db_name}"
 
           - name: "db_username"
-            value: "zitadel"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_db_username}"
 
           - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_security_zitadel_dbdeploy_name_prefix}"
