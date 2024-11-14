@@ -1,0 +1,73 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_security_zitadel_app_name}
+  namespace: ${ARGOCD_ENV_security_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_zitadel_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_security_zitadel_namespace}
+
+  sources:
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
+      path: gitops/applications/base/zitadel
+      plugin:
+        name: envsubst
+        env:
+          - name: "zitadel_release_name"
+            value: "${ARGOCD_ENV_security_zitadel_app_name}"
+
+          - name: "zitadel_namespace"
+            value: "${ARGOCD_ENV_security_zitadel_namespace}"
+
+          - name: "zitadel_helm_version"
+            value: "${ARGOCD_ENV_security_zitadel_helm_version}"
+
+          - name: "zitadel_istio_gateway_namespace"
+            value: "${ARGOCD_ENV_security_zitadel_istio_gateway_namespace}"
+
+          - name: "zitadel_istio_wildcard_gateway_name"
+            value: "${ARGOCD_ENV_security_zitadel_istio_wildcard_gateway_name}"
+
+          - name: "zitadel_dns_subdomain"
+            value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
+
+          - name: "zitadel_replicas"
+            value: "${ARGOCD_ENV_security_zitadel_replicas}"
+
+          - name: "zitadel_log_level"
+            value: "${ARGOCD_ENV_security_zitadel_log_level}"
+
+          - name: "zitadel_db_name"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_db_name}"
+
+          - name: "zitadel_db_user"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_db_user}"
+
+          - name: "zitadel_pg_db_release_name"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_pg_db_release_name}"
+
+          - name: "zitadel_config_secret_name"
+            value: "${ARGOCD_ENV_security_zitadel_config_secret_name}"

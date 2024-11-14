@@ -1,7 +1,7 @@
 apiVersion: kubernetes.crossplane.io/v1alpha2
 kind: Object
 metadata:
-  name: ${ARGOCD_ENV_praefect_externalservice_name}
+  name: ${ARGOCD_ENV_externalservice_name}
 spec:
   forProvider:
     manifest:
@@ -11,7 +11,7 @@ spec:
         externalName: sample
       kind: Service
       metadata:
-        namespace:  "${ARGOCD_ENV_gitlab_namespace}"
+        namespace: "${ARGOCD_ENV_externalservice_namespace}"
   providerConfigRef:
     name: kubernetes-provider
   references:
@@ -19,5 +19,5 @@ spec:
         apiVersion: rds.aws.crossplane.io/v1alpha1
         fieldPath: status.atProvider.endpoint
         kind: DBCluster
-        name: ${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_praefect_dbdeploy_name_prefix}
+        name: ${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}
       toFieldPath: spec.externalName
