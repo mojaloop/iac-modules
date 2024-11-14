@@ -50,7 +50,12 @@ nexus_storage_size: 30Gi
 zitadel_public_access: true
 consul_storage_size: "3Gi"
 consul_replica_count: 1
-cockroachdb_storage_size: "5Gi"
+zitadel_db_storage_size: "5Gi"
+zitadel_rds_storage_size: "100"
+zitadel_db_backup_retention_period: "'1'"
+zitadel_db_preferred_backup_window: "07:00-09:00"
+zitadel_db_storage_iops: "'5000'"
+zitadel_db_storage_type: "io1"
 argocd_admin_rbac_group: "argocd_administrators"
 argocd_user_rbac_group: "argocd_users"
 vault_rbac_admin_group: "techops-admin"

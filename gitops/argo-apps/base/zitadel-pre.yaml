@@ -90,6 +90,12 @@ spec:
           - name: "zitadel_namespace"
             value: "${ARGOCD_ENV_security_zitadel_namespace}"
 
+          - name: "namespace"
+            value: "${ARGOCD_ENV_security_zitadel_namespace}"
+
+          - name: "pgdb_helm_version"
+            value: "${ARGOCD_ENV_zitadel_percona_provider_pgdb_helm_version}"                        
+
           - name: "postgres_replicas"
             value: "${ARGOCD_ENVsecurity_zitadel_percona_provider_postgres_replicas}"
 
@@ -97,49 +103,46 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_percona_provider_proxy_replicas}"
 
           - name: "postgres_storage_size"
-            value: "${ARGOCD_ENV_security_zitadel_percona_postgres_storage_size}"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_storage_size}"
 
           - name: "rds_postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_storage_size}"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_postgres_storage_size}"
 
           - name: "rds_postgres_instance_size"
-            value: "${ARGOCD_ENV_gitlab_pre_postgres_instance_size}"
-
-          - name: "pgdb_helm_version"
-            value: "${ARGOCD_ENV_gitlab_pre_pgdb_helm_version}"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_postgres_instance_size}"
 
           - name: "rds_vpc_id"
-            value: "${ARGOCD_ENV_gitlab_pre_rdbms_vpc_id}"
+            value: "${ARGOCD_ENV_zitadel_rds_provider_rdbms_vpc_id}"
 
           - name: "vpc_cidr"
-            value: "${ARGOCD_ENV_gitlab_pre_vpc_cidr}"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_vpc_cidr}"
 
           - name: "rds_subnet_list"
-            value: "${ARGOCD_ENV_gitlab_pre_rdbms_subnet_list}"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_rdbms_subnet_list}"
 
           - name: "rds_cloud_region"
-            value: "${ARGOCD_ENV_gitlab_pre_db_provider_cloud_region}"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_db_provider_cloud_region}"
 
           - name: "db_secret"
-            value: "${ARGOCD_ENV_gitlab_pre_zitadel_db_secret}"
+            value: "zitadel-db-secret"
 
           - name: "db_name"
-            value: "${ARGOCD_ENV_gitlab_pre_zitadel_db_name}"
+            value: "zitadel"
 
           - name: "db_username"
-            value: "${ARGOCD_ENV_gitlab_pre_zitadel_db_username}"
+            value: "zitadel"
 
-          - name: "dbdeploy_name_prefix"
-            value: "${ARGOCD_ENV_gitlab_pre_zitadel_dbdeploy_name_prefix}"
+          - name: "db_deploy_name_prefix"
+            value: "${ARGOCD_ENV_security_zitadel_db_deploy_name_prefix}"
 
           - name: "db_backup_retention_period"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_backup_retention_period}"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_backup_retention_period}"
 
           - name: "db_preferred_backup_window"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_preferred_backup_window}"
+            value: "${ARGOCD_ENV__security_zitadel_rds_provider_preferred_backup_window}"
 
           - name: "db_storage_type"
-            value: "${ARGOCD_ENV_gitlab_pre_zitadel_db_storage_type}"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_db_storage_type}"
 
           - name: "db_storage_iops"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_storage_iops}"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_db_storage_iops}"

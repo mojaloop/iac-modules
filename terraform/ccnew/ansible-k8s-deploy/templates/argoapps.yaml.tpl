@@ -106,9 +106,21 @@ argocd_override:
           argocd_user_rbac_group: "${argocd_user_rbac_group}"
           argocd_admin_rbac_group: "${argocd_admin_rbac_group}"
           log_level: "${zitadel_log_level}"
-        cockroachdb:
+        zitadel_percona_provider:
+          postgres_storage_size: "${zitadel_db_storage_size}"
+        zitadel_rds_provider:
+          postgres_storage_size: "${zitadel_rds_storage_size}"
+          rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
+          db_provider_cloud_region: "${cloud_region}"
+          rdbms_vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
+          backup_retention_period: "${zitadel_db_backup_retention_period}"
+          preferred_backup_window: "${zitadel_db_preferred_backup_window}"
+          db_storage_type: "${zitadel_db_storage_type}"
+          db_storage_iops: "${zitadel_db_storage_iops}"          
+        zitadel_cockroachdb_provider:                    
           helm_version: "${cockroachdb_helm_version}"
-          pvc_size: "${cockroachdb_storage_size}"
+          pvc_size: "${zitadel_db_storage_size}"
         netbird:
           stunner_nodeport_port: "'${wireguard_ingress_port}'"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
