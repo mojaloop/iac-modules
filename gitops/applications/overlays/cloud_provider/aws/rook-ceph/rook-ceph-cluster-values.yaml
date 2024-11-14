@@ -47,7 +47,8 @@ cephClusterSpec:
       # IMPORTANT: If volumes specified by the storageClassName are not portable across nodes
       # this needs to be set to false. For example, if using the local storage provisioner
       # this should be false.
-      portable: false # Set to false for node-specific storage like EBS
+      portable: true
+      #failureDomain: zone #new
       # whether to encrypt the deviceSet or not
       encrypted: false
       # Certain storage class in the Cloud are slow
@@ -66,6 +67,7 @@ cephClusterSpec:
         topologySpreadConstraints:
           - maxSkew: 1
             topologyKey: kubernetes.io/hostname
+            #topologyKey: topology.kubernetes.io/zone
             whenUnsatisfiable: ScheduleAnyway
             labelSelector:
               matchExpressions:
