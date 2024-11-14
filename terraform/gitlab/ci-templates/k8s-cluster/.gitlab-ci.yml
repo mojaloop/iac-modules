@@ -25,6 +25,7 @@ stages:
   - refresh-templates
   - cleanup
   - auto-run
+  - auto-run-tf
 
 variables:
   IMAGE_TAG: latest
