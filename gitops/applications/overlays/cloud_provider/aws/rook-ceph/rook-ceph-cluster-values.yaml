@@ -8,49 +8,6 @@ monitoring:
   createPrometheusRules: false
   interval: 60s
 
-cephBlockPools:
-  - name: ceph-blockpool
-    spec:
-      failureDomain: zone #host, osd
-      replicated:
-        size: 3
-    storageClass:
-      isDefault: true
-      reclaimPolicy: Delete
-      allowVolumeExpansion: true
-      volumeBindingMode: "Immediate"
-      parameters:
-        csi.storage.k8s.io/fstype: ext4
-cephObjectStores:
-  - name: ceph-objectstore
-    spec:
-      metadataPool:
-        failureDomain: zone
-        replicated:
-          size: 3
-      dataPool:
-        failureDomain: zone
-cephFileSystems:
-  - name: ceph-filesystem
-    spec:
-      metadataPool:
-        replicated:
-          size: 3
-      dataPools:
-        - failureDomain: zone
-          replicated:
-            size: 3
-          name: data0
-      storageClass:
-        enabled: true
-        isDefault: false
-        name: ceph-filesystem
-        pool: data0
-        reclaimPolicy: Delete
-        allowVolumeExpansion: true
-        volumeBindingMode: "Immediate"
-        parameters:
-          csi.storage.k8s.io/fstype: ext4
 cephClusterSpec:
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
@@ -156,8 +113,11 @@ cephObjectStores:
   - name: ceph-objectstore
     spec:
       metadataPool:
+        failureDomain: zone
         replicated:
           size: 3
+      dataPool:
+        failureDomain: zone
     storageClass:
       enabled: true
       name: ceph-bucket
@@ -167,3 +127,41 @@ cephObjectStores:
         region: "${ARGOCD_ENV_rook_ceph_object_store_region}"
     ingress:
       enabled: false
+
+# Ceph Block Pools configurations
+cephBlockPools:
+  - name: ceph-blockpool
+    spec:
+      failureDomain: zone #host, osd
+      replicated:
+        size: 3
+    storageClass:
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      volumeBindingMode: "Immediate"
+      parameters:
+        csi.storage.k8s.io/fstype: ext4
+
+# Ceph Filesystem configurations
+cephFileSystems:
+  - name: ceph-filesystem
+    spec:
+      metadataPool:
+        replicated:
+          size: 3
+      dataPools:
+        - failureDomain: zone
+          replicated:
+            size: 3
+          name: data0
+      storageClass:
+        enabled: true
+        isDefault: false
+        name: ceph-filesystem
+        pool: data0
+        reclaimPolicy: Delete
+        allowVolumeExpansion: true
+        volumeBindingMode: "Immediate"
+        parameters:
+          csi.storage.k8s.io/fstype: ext4
