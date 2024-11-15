@@ -113,11 +113,11 @@ cephObjectStores:
   - name: ceph-objectstore
     spec:
       metadataPool:
-        failureDomain: zone
+        failureDomain: host
         replicated:
           size: 3
       dataPool:
-        failureDomain: zone
+        failureDomain: host
     storageClass:
       enabled: true
       name: ceph-bucket
@@ -132,7 +132,7 @@ cephObjectStores:
 cephBlockPools:
   - name: ceph-blockpool
     spec:
-      failureDomain: zone #host, osd
+      failureDomain: host #host, osd
       replicated:
         size: 3
     storageClass:
