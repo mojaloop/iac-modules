@@ -43,7 +43,7 @@ cephClusterSpec:
     - name: set1
       # The number of OSDs to create from this device set
       count: ${ARGOCD_ENV_ceph_osd_count}
-      portable: false
+      portable: true
       encrypted: false
       tuneDeviceClass: true
       tuneFastDeviceClass: false
@@ -78,8 +78,8 @@ cephClusterSpec:
                 topologyKey: kubernetes.io/hostname
         topologySpreadConstraints:
             - maxSkew: 1
-              #topologyKey: topology.kubernetes.io/zone
-              topologyKey: kubernetes.io/hostname
+              topologyKey: topology.kubernetes.io/zone
+              #topologyKey: kubernetes.io/hostname
               whenUnsatisfiable: DoNotSchedule
               labelSelector:
                 matchExpressions:
