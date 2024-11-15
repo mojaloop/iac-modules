@@ -142,26 +142,3 @@ cephBlockPools:
       volumeBindingMode: "Immediate"
       parameters:
         csi.storage.k8s.io/fstype: ext4
-
-# Ceph Filesystem configurations
-cephFileSystems:
-  - name: ceph-filesystem
-    spec:
-      metadataPool:
-        replicated:
-          size: 3
-      dataPools:
-        - failureDomain: zone
-          replicated:
-            size: 3
-          name: data0
-      storageClass:
-        enabled: true
-        isDefault: false
-        name: ceph-filesystem
-        pool: data0
-        reclaimPolicy: Delete
-        allowVolumeExpansion: true
-        volumeBindingMode: "Immediate"
-        parameters:
-          csi.storage.k8s.io/fstype: ext4
