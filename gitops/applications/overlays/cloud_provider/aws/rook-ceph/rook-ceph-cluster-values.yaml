@@ -8,6 +8,38 @@ monitoring:
   createPrometheusRules: false
   interval: 60s
 
+cephBlockPools:
+  - name: ceph-blockpool
+    spec:
+      failureDomain: zone #host, osd
+      replicated:
+        size: 3
+    storageClass:
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      volumeBindingMode: "Immediate"
+      parameters:
+        csi.storage.k8s.io/fstype: ext4
+cephObjectStores:
+  - name: ceph-objectstore
+    spec:
+      metadataPool:
+        failureDomain: zone
+        replicated:
+          size: 3
+      dataPool:
+        failureDomain: zone
+cephFileSystems:
+  - name: ceph-filesystem
+    spec:
+      metadataPool:
+        replicated:
+          size: 3
+      dataPools:
+        - failureDomain: zone
+          replicated:
+            size: 3
 cephClusterSpec:
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
