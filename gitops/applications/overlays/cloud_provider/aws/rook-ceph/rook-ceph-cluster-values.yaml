@@ -1,5 +1,3 @@
-# Values for a single rook-ceph cluster
-
 # Installs a debugging toolbox deployment
 toolbox:
   enabled: true
@@ -24,7 +22,6 @@ cephClusterSpec:
         resources:
           requests:
             storage: "${ARGOCD_ENV_ceph_mon_volume_size}"
-
   mgr:
     count: 2
     allowMultiplePerNode: false
@@ -32,7 +29,7 @@ cephClusterSpec:
       - name: rook
         enabled: true
 
-  # enable the ceph dashboard for viewing cluster status
+  # enable the ceph dashboard
   dashboard:
     enabled: true
     prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
@@ -44,24 +41,11 @@ cephClusterSpec:
     - name: set1
       # The number of OSDs to create from this device set
       count: ${ARGOCD_ENV_ceph_osd_count}
-      # IMPORTANT: If volumes specified by the storageClassName are not portable across nodes
-      # this needs to be set to false. For example, if using the local storage provisioner
-      # this should be false.
       portable: true
-      # whether to encrypt the deviceSet or not
       encrypted: false
-      # Certain storage class in the Cloud are slow
-      # Rook can configure the OSD running on PVC to accommodate that by tuning some of the Ceph internal
-      # Currently, "gp2-csi" has been identified as such
       tuneDeviceClass: true
-      # Certain storage class in the Cloud are fast
-      # Rook can configure the OSD running on PVC to accommodate that by tuning some of the Ceph internal
-      # Currently, "managed-premium" has been identified as such
       tuneFastDeviceClass: false
-      # Since the OSDs could end up on any node, an effort needs to be made to spread the OSDs
-      # across nodes as much as possible. Unfortunately the pod anti-affinity breaks down
-      # as soon as you have more than one OSD per node. The topology spread constraints will
-      # give us an even spread on K8s 1.18 or newer.
+      # Topology spread constraints
       placement:
         topologySpreadConstraints:
           - maxSkew: 1
@@ -92,7 +76,6 @@ cephClusterSpec:
                 topologyKey: kubernetes.io/hostname
         topologySpreadConstraints:
             - maxSkew: 1
-              # IMPORTANT: If you don't have zone labels, change this to another key such as kubernetes.io/hostname
               topologyKey: topology.kubernetes.io/zone
               #topologyKey: kubernetes.io/hostname
               whenUnsatisfiable: DoNotSchedule
@@ -105,19 +88,14 @@ cephClusterSpec:
       volumeClaimTemplates:
       - metadata:
           name: data
-          # set a different CRUSH device class on the OSD than the one detected by Ceph
-          # annotations:
-          #   crushDeviceClass: hybrid
         spec:
           resources:
             requests:
               storage: "${ARGOCD_ENV_ceph_volume_size_per_osd}"
-          # IMPORTANT: Change the storage class depending on your environment
           storageClassName: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}-csi"
           volumeMode: Block
           accessModes:
             - ReadWriteOnce
-    # when onlyApplyOSDPlacement is false, will merge both placement.All() and storageClassDeviceSets.Placement.
     onlyApplyOSDPlacement: false
   priorityClassNames:
     # If there are multiple nodes available in a failure domain (e.g. zones), the
@@ -130,11 +108,9 @@ cephClusterSpec:
     osdMaintenanceTimeout: 30
     pgHealthCheckTimeout: 0
 
-# -- A list of CephObjectStore configurations to deploy
-# @default -- See [below](#ceph-object-stores)
+# CephObjectStore configurations
 cephObjectStores:
   - name: ceph-objectstore
-    # see https://github.com/rook/rook/blob/master/Documentation/CRDs/Object-Storage/ceph-object-store-crd.md#object-store-settings for available configuration
     spec:
       metadataPool:
         replicated:
@@ -144,10 +120,7 @@ cephObjectStores:
       name: ceph-bucket
       reclaimPolicy: Delete
       volumeBindingMode: "Immediate"
-      # see https://github.com/rook/rook/blob/master/Documentation/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim.md#storageclass for available configuration
       parameters:
-        # note: objectStoreNamespace and objectStoreName are configured by the chart
         region: "${ARGOCD_ENV_rook_ceph_object_store_region}"
     ingress:
-      # Enable an ingress for the ceph-objectstore
       enabled: false
