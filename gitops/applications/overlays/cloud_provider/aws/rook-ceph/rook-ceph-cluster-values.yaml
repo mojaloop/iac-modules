@@ -12,6 +12,8 @@ cephClusterSpec:
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
+  # The option to automatically remove OSDs that are out and are safe to destroy.
+  removeOSDsIfOutAndSafeToRemove: true
 
   mon:
     count: 3
@@ -41,7 +43,7 @@ cephClusterSpec:
     - name: set1
       # The number of OSDs to create from this device set
       count: ${ARGOCD_ENV_ceph_osd_count}
-      portable: true
+      portable: false
       encrypted: false
       tuneDeviceClass: true
       tuneFastDeviceClass: false
