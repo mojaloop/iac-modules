@@ -119,7 +119,7 @@ spec:
 apiVersion: velero.io/v1
 kind: VolumeSnapshotLocation
 metadata:
-  name: cloudprovider-objectstorage
+  name: rookceph-objectstorage
   namespace: velero
 spec:
   # Name of the volume snapshotter plugin to use to connect to this location.
