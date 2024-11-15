@@ -60,33 +60,33 @@ cephClusterSpec:
                   operator: In
                   values:
                     - rook-ceph-osd
-      preparePlacement:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - rook-ceph-osd
-                    - key: app
-                      operator: In
-                      values:
-                        - rook-ceph-osd-prepare
-                topologyKey: kubernetes.io/hostname
-        topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: topology.kubernetes.io/zone
-              #topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - rook-ceph-osd-prepare
+      # preparePlacement:
+      #   podAntiAffinity:
+      #     preferredDuringSchedulingIgnoredDuringExecution:
+      #       - weight: 100
+      #         podAffinityTerm:
+      #           labelSelector:
+      #             matchExpressions:
+      #               - key: app
+      #                 operator: In
+      #                 values:
+      #                   - rook-ceph-osd
+      #               - key: app
+      #                 operator: In
+      #                 values:
+      #                   - rook-ceph-osd-prepare
+      #           topologyKey: kubernetes.io/hostname
+      #   topologySpreadConstraints:
+      #       - maxSkew: 1
+      #         topologyKey: topology.kubernetes.io/zone
+      #         #topologyKey: kubernetes.io/hostname
+      #         whenUnsatisfiable: DoNotSchedule
+      #         labelSelector:
+      #           matchExpressions:
+      #             - key: app
+      #               operator: In
+      #               values:
+      #                 - rook-ceph-osd-prepare
       volumeClaimTemplates:
       - metadata:
           name: data
