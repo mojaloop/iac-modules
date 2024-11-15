@@ -5,13 +5,13 @@ metadata:
   annotations:
     app.kubernetes.io/description: "Enables monitoring of mojaloop applications (running without istio)"
 spec:
-  namespaceSelector: 
+  namespaceSelector:
     matchNames: [${mojaloop_namespace}]
   selector:
     matchExpressions:
     - key: app.kubernetes.io/name
       operator: In
-      values: 
+      values:
       - ml-api-adapter-service
       - ml-api-adapter-handler-notification
       - centralledger-service
@@ -23,5 +23,6 @@ spec:
       - centralledger-handler-admin-transfer
       - handler-pos-batch
       - quoting-service # NOTE: runs with istio but its metrics are not being exposed merged with istio proxy metrics
+      - ml-testing-toolkit-backend
   endpoints:
   - port: http
