@@ -48,7 +48,6 @@ cephClusterSpec:
       # this needs to be set to false. For example, if using the local storage provisioner
       # this should be false.
       portable: true
-      failureDomain: zone
       # whether to encrypt the deviceSet or not
       encrypted: false
       # Certain storage class in the Cloud are slow
