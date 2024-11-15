@@ -32,12 +32,12 @@ zitadel:
         User:
           Username: ${ARGOCD_ENV_zitadel_db_user}
           SSL:
-            Mode: verify-full
+            Mode: require
         Admin:
           Username: ${ARGOCD_ENV_zitadel_db_user}
           ExistingDatabase: ${ARGOCD_ENV_zitadel_db_name}
           SSL:
-            Mode: verify-full
+            Mode: require
   dbSslCaCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
   dbSslAdminCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
   dbSslUserCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"

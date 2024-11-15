@@ -33,6 +33,8 @@ else
 exit -1
 fi
 
-terragrunt run-all apply --terragrunt-non-interactive
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+
+terragrunt run-all apply --terragrunt-non-interactive | tee /tmp/terragrunt-$(TIMESTAMP).log
 
 # no need to call cleanup manually. We are using trap function
