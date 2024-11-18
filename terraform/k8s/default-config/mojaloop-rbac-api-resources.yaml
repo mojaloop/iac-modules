@@ -17,7 +17,7 @@
   - cookie_session
   authorizer_permission: positionFundsInOut
 
-- name: net-debit-cap-adjust
+- name: position-ndc-edit
   match_path: /api/central-admin/participants/<.*>/limits
   match_methods:
     - PUT
