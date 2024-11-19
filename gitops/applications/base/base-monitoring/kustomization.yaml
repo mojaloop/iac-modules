@@ -16,5 +16,6 @@ helmCharts:
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: metrics-server
     releaseName: metrics-server
+    repo: https://kubernetes-sigs.github.io/metrics-server
     valuesFile: values-metrics-server.yaml
     version: 3.12.2
