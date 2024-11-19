@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mimir-rules-alerts-sync-job
+spec:
+  schedule: "*/1 * * * *"  # Runs every minute 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: my-cronjob-container
+              image: grafana/mimirtool:2.14.1 
+              command: 
+                - "sh"
+                - "-c"
+                - |
+                  echo 'Running job';
+                  cat /etc/mimir-ruler/alerts-*.yaml;
+                  echo $${SLACK_API_URL};
+                  mimirtool rules sync /etc/mimir-ruler/alerts-*.yaml --address  http://central-monitoring-grafana-mimir-ruler:8080 --id infitx;
+                  # mimirtool rules print --address  http://central-monitoring-grafana-mimir-ruler:8080 --id infitx;
+                  # export SLACK_API_URL=http://p.q.r.com;
+                  # echo SLACK_API_URL=$${SLACK_API_URL};
+                  # mimirtool alertmanager verify /etc/mimir-alertmanager/config.yaml;
+                  # mimirtool alertmanager load /etc/mimir-alertmanager/config.yaml --address  http://central-monitoring-grafana-mimir-alertmanager:8080 --id infitx;
+                  # mimirtool alertmanager get --address  http://central-monitoring-grafana-mimir-alertmanager:8080 --id infitx;
+                  echo 'job ended';
+              volumeMounts:
+                - name: mimir-ruler-volume
+                  mountPath: /etc/mimir-ruler
+                  readOnly: true
+                - name: mimir-alertmanager-volume
+                  mountPath: /etc/mimir-alertmanager
+                  readOnly: true
+              env:
+                - name: SLACK_API_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: alertmanager-slack-alert-notifications
+                      key: webhook
+          restartPolicy: OnFailure
+          volumes:
+            - name: mimir-ruler-volume
+              configMap:
+                name: mimir-ruler-data
+            - name: mimir-alertmanager-volume
+              configMap:
+                name: mimir-alertmanager-data
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: alertmanager-slack-alert-notifications
+  namespace: monitoring
+type: Opaque
+stringData:
+  webhook: "https://hooks.slack.com/services/this/is/not/a/secret"

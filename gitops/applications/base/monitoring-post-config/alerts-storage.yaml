@@ -1,0 +1,12 @@
+namespace: infra
+groups:
+  - name: storage
+    interval: 30s # TODO: update this after development
+    rules:
+      - alert: test3
+        expr: label_replace(vector(1), "cluster", "dev", "", "") > 1
+        for: 0m
+        annotations:
+          summary: |
+            "This is test alert with \n labels: {{ $labels }} \n external labels: {{ $externalLabels }} \n value: {{ $value }}"
+            

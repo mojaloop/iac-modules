@@ -18,4 +18,13 @@ resources:
   - dashboards-prometheus.yaml
   - dashboards-rook-ceph.yaml
   - istio-crs.yaml
+  - mimirtool-cronjob.yaml
   - rook-ceph-objectstore-exporter.yaml
+
+configMapGenerator:
+  - name: mimir-ruler-data
+    files:
+      - alerts-storage.yaml 
+  - name: mimir-alertmanager-data
+    files:
+      - config.yaml=mimir-alermanager-config.yaml 

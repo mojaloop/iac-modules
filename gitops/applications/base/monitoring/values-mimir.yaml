@@ -22,6 +22,22 @@ mimir:
       ingestion_burst_size: ${ARGOCD_ENV_mimir_ingestion_burst_size}
       compactor_blocks_retention_period: ${ARGOCD_ENV_mimir_retention_period}
       max_label_names_per_series: ${ARGOCD_ENV_mimir_max_label_names_per_series}
+    common:
+      storage: 
+        backend: s3
+        s3:
+          access_key_id: $${AWS_ACCESS_KEY_ID}
+          secret_access_key: $${AWS_SECRET_ACCESS_KEY}
+          bucket_name: $${BUCKET_NAME}
+          endpoint: $${BUCKET_HOST}
+          insecure: true
+          bucket_lookup_type: path
+    alertmanager_storage:
+      storage_prefix: alertmanager
+    ruler_storage:
+      storage_prefix: ruler
+
+
 
 metrics:
   enabled: true
@@ -94,3 +110,32 @@ storeGateway:
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
   persistence:
     size: ${ARGOCD_ENV_mimir_store_gateway_storage_size}
+
+ruler:
+  enabled: true	
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}  
+  # extraEnvVarsSecret: central-monitoring-minio
+  # extraEnvVars:
+  #   - name: MIMIR_MINIO_ACCESS_KEY_ID
+  #     valueFrom:
+  #       secretKeyRef:
+  #         name: central-monitoring-minio
+  #         key: root-user
+  #   - name: MIMIR_MINIO_SECRET_ACCESS_KEY
+  #     valueFrom:
+  #       secretKeyRef:
+  #         name: central-monitoring-minio
+  #         key: root-password
+
+
+alertmanager:
+  enabled: true
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVars:
+    - name: SLACK_API_URL
+      valueFrom:
+        secretKeyRef:
+          name: alertmanager-slack-alert-notifications
+          key: webhook  
