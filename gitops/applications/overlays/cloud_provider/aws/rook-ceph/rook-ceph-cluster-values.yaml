@@ -57,9 +57,9 @@ cephClusterSpec:
           topologySpreadConstraints:
             - maxSkew: 1
               #topologyKey: kubernetes.io/hostname
-              #whenUnsatisfiable: ScheduleAnyway
+              #whenUnsatisfiable: DoNotSchedule
               topologyKey: topology.kubernetes.io/zone
-              whenUnsatisfiable: DoNotSchedule
+              whenUnsatisfiable: ScheduleAnyway
               labelSelector:
                 matchExpressions:
                   - key: app
@@ -90,7 +90,7 @@ cephClusterSpec:
                   topologyKey: kubernetes.io/hostname
           topologySpreadConstraints:
             - maxSkew: 1
-              #topologyKey: ubernetes.io/hostname
+              #topologyKey: kubernetes.io/hostname
               topologyKey: topology.kubernetes.io/zone
               whenUnsatisfiable: DoNotSchedule
               labelSelector:
