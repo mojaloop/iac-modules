@@ -172,7 +172,7 @@ zitadel_db_storage_iops: "'5000'" # rds specific
 # rook ceph
 rook_ceph_helm_version: "1.15.5"
 rook_ceph_osd_count: "'3'"
-rook_ceph_volume_size_per_osd: "100Gi"
+rook_ceph_volume_size_per_osd: "500Gi"
 rook_ceph_mon_volumes_size: "10Gi"
 rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
