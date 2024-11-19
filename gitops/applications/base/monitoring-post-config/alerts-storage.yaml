@@ -3,10 +3,19 @@ groups:
   - name: storage
     interval: 30s # TODO: update this after development
     rules:
-      - alert: test3
-        expr: label_replace(vector(1), "cluster", "dev", "", "") > 1
+      # - alert: test7
+      #   expr: label_replace(vector(1), "instance", "10.128.0.152:15014", "", "") > 0
+      #   for: 0m
+      #   labels:
+      #     severity: warning
+      #   annotations:
+      #     summary: |
+      #       "This is test alert with \n labels: {{ $labels }} \n external labels: {{ $externalLabels }} \n value: {{ $value }}"
+      - alert: PrometheusTargetMissing3
+        expr: up{job="monitoring/alertmanager"}==1
         for: 0m
+        labels:
+          severity: critical
         annotations:
-          summary: |
-            "This is test alert with \n labels: {{ $labels }} \n external labels: {{ $externalLabels }} \n value: {{ $value }}"
-            
+          summary: Prometheus target missing (instance {{ $labels.instance }})
+          description: "A Prometheus target has disappeared. An exporter might be crashed.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"            

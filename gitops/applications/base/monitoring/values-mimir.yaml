@@ -16,6 +16,8 @@ mimir:
       max_outstanding_per_tenant: 4096
     compactor:
       deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
+    ruler:
+      alertmanager_url: http://central-monitoring-grafana-mimir-gateway/alertmanager
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}
@@ -53,8 +55,6 @@ metrics:
       action: replace
 
 
-# TODO: expose the resource config as configurable params
-# resource preset guide: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
 distributor:
   replicaCount: ${ARGOCD_ENV_mimir_distributor_replica_count}
   resources:
@@ -115,27 +115,8 @@ ruler:
   enabled: true	
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}  
-  # extraEnvVarsSecret: central-monitoring-minio
-  # extraEnvVars:
-  #   - name: MIMIR_MINIO_ACCESS_KEY_ID
-  #     valueFrom:
-  #       secretKeyRef:
-  #         name: central-monitoring-minio
-  #         key: root-user
-  #   - name: MIMIR_MINIO_SECRET_ACCESS_KEY
-  #     valueFrom:
-  #       secretKeyRef:
-  #         name: central-monitoring-minio
-  #         key: root-password
-
 
 alertmanager:
   enabled: true
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
-  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
-  extraEnvVars:
-    - name: SLACK_API_URL
-      valueFrom:
-        secretKeyRef:
-          name: alertmanager-slack-alert-notifications
-          key: webhook  
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name} 
