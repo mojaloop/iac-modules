@@ -11,7 +11,7 @@ spec:
         externalName: sample
       kind: Service
       metadata:
-        namespace: "${ARGOCD_ENV_externalservice_namespace}"
+        namespace: "${ARGOCD_ENV_namespace}"
   providerConfigRef:
     name: kubernetes-provider
   references:
