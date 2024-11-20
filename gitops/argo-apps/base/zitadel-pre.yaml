@@ -93,37 +93,7 @@ spec:
           - name: "namespace"
             value: "${ARGOCD_ENV_security_zitadel_namespace}"
 
-          - name: "pgdb_helm_version"
-            value: "${ARGOCD_ENV_zitadel_percona_provider_pgdb_helm_version}"                        
-
-          - name: "postgres_replicas"
-            value: "${ARGOCD_ENVsecurity_zitadel_percona_provider_postgres_replicas}"
-
-          - name: "postgres_proxy_replicas"
-            value: "${ARGOCD_ENV_security_zitadel_percona_provider_proxy_replicas}"
-
-          - name: "postgres_storage_size"
-            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_storage_size}"
-
-          - name: "rds_postgres_storage_size"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_postgres_storage_size}"
-
-          - name: "rds_postgres_instance_size"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_postgres_instance_size}"
-
-          - name: "rds_vpc_id"
-            value: "${ARGOCD_ENV_zitadel_rds_provider_rdbms_vpc_id}"
-
-          - name: "vpc_cidr"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_vpc_cidr}"
-
-          - name: "rds_subnet_list"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_rdbms_subnet_list}"
-
-          - name: "rds_cloud_region"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_db_provider_cloud_region}"
-
-          - name: "db_secret"
+          - name: "db_secret_name"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_db_secret}"
 
           - name: "db_name"
@@ -135,20 +105,11 @@ spec:
           - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_security_zitadel_dbdeploy_name_prefix}"
 
-          - name: "db_backup_retention_period"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_backup_retention_period}"
-
-          - name: "db_preferred_backup_window"
-            value: "${ARGOCD_ENV__security_zitadel_rds_provider_preferred_backup_window}"
-
-          - name: "db_storage_type"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_db_storage_type}"
-
-          - name: "db_storage_iops"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_db_storage_iops}"
-
           - name: "externalservice_name"
-            value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"               
+            value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"
+
+          - name: "zitadel_config_secret_name"
+            value: "${ARGOCD_ENV_security_zitadel_config_secret_name}"                           
 
     #zitadel db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
