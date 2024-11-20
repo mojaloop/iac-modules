@@ -25,7 +25,7 @@ spec:
                 - name: mimir-ruler-volume
                   mountPath: /etc/mimir-ruler
                   readOnly: true
-                - name: mimir-alertmanager-volume
+                - name: mimir-alertmanager-config-volume
                   mountPath: /etc/mimir-alertmanager
                   readOnly: true
           restartPolicy: OnFailure
@@ -33,6 +33,6 @@ spec:
             - name: mimir-ruler-volume
               configMap:
                 name: mimir-ruler-data
-            - name: mimir-alertmanager-volume
+            - name: mimir-alertmanager-config-volume
               secret:
-                secretName: alertmanager-slack-alert-notifications
+                secretName: mimir-alertmanager-config 

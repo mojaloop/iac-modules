@@ -280,6 +280,7 @@ argocd_override:
           ingester_storage_size: "${mimir_ingester_storage_size}"
           compactor_storage_size: "${mimir_compactor_storage_size}"
           store_gateway_storage_size: "${mimir_store_gateway_storage_size}"
+          alertmanager_storage_size: "${mimir_alertmanager_storage_size}"
           distributor_limits_cpu: "${mimir_distributor_limits_cpu}"
           distributor_limits_memory: "${mimir_distributor_limits_memory}"
           ingester_limits_cpu: "${mimir_ingester_limits_cpu}"
@@ -292,5 +293,9 @@ argocd_override:
           compactor_limits_memory: "${mimir_compactor_limits_memory}"
           store_gateway_limits_cpu: "${mimir_store_gateway_limits_cpu}"
           store_gateway_limits_memory: "${mimir_store_gateway_limits_memory}"
+          ruler_limits_cpu: "${mimir_ruler_limits_cpu}"
+          ruler_limits_memory: "${mimir_ruler_limits_memory}"
+          alertmanager_limits_cpu: "${mimir_alertmanager_limits_cpu}"
+          alertmanager_limits_memory: "${mimir_alertmanager_limits_memory}"
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
