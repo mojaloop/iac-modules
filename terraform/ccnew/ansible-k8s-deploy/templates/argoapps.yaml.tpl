@@ -108,12 +108,12 @@ argocd_override:
           argocd_admin_rbac_group: "${argocd_admin_rbac_group}"
           log_level: "${zitadel_log_level}"
           rdbms_provider: "${zitadel_postgres_rdbms_provider}"
-        percona_provider:
+        zitadel_percona_provider:
           postgres_replicas: "${zitadel_postgres_replicas}"
           postgres_proxy_replicas: "${zitadel_postgres_proxy_replicas}"
           postgres_storage_size: "${zitadel_postgres_storage_size}"
           pgdb_helm_version: "${zitadel_pgdb_helm_version}"          
-        rds_provider:
+        zitadel_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
@@ -124,7 +124,7 @@ argocd_override:
           preferred_backup_window: "${zitadel_db_preferred_backup_window}"
           storage_type: "${zitadel_db_storage_type}"
           storage_iops: "${zitadel_db_storage_iops}"       
-        cockroachdb_provider:                    
+        zitadel_cockroachdb_provider:                    
           helm_version: "${cockroachdb_helm_version}"
           pvc_size: "${zitadel_db_storage_size}"
         netbird:
