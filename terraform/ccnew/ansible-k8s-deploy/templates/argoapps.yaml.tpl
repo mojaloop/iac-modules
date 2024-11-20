@@ -98,6 +98,7 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         zitadel:
+          replicas: "${zitadel_replicas}"
           public_ingress_access_domain: "${zitadel_public_access}"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           helm_version: "${zitadel_helm_version}"
