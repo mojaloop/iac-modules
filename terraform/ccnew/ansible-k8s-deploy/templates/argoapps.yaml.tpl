@@ -275,6 +275,8 @@ argocd_override:
           query_frontend_replica_count: "${mimir_query_frontend_replica_count}"
           compactor_replica_count: "${mimir_compactor_replica_count}"
           store_gateway_replica_count: "${mimir_store_gateway_replica_count}"
+          ruler_replica_count: "${mimir_ruler_replica_count}"
+          alertmanager_replica_count: "${mimir_alertmanager_replica_count}"
           ingester_storage_size: "${mimir_ingester_storage_size}"
           compactor_storage_size: "${mimir_compactor_storage_size}"
           store_gateway_storage_size: "${mimir_store_gateway_storage_size}"

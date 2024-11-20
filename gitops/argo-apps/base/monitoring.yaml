@@ -125,6 +125,10 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_compactor_replica_count}"
         - name: "mimir_store_gateway_replica_count"
           value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_replica_count}"
+        - name: "mimir_ruler_replica_count"
+          value: "${ARGOCD_ENV_monitoring_mimir_ruler_replica_count}"
+        - name: "mimir_alertmanager_replica_count"
+          value: "${ARGOCD_ENV_monitoring_mimir_alertmanager_replica_count}"
 
         - name: "mimir_ingester_storage_size"
           value: "${ARGOCD_ENV_monitoring_mimir_ingester_storage_size}"
