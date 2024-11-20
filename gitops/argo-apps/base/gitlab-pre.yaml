@@ -253,7 +253,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_username}"
 
           - name: "dbdeploy_name_prefix"
-            value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"
+            value: "${ARGOCD_ENV_gitlab_pre_praefect_dbdeploy_name_prefix}"
 
           - name: "db_backup_retention_period"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_retention_period}"
