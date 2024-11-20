@@ -74,16 +74,7 @@ resource "aws_launch_template" "node" {
   instance_type = each.value.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
   key_name      = module.base_infra.key_pair_name
-  iam_instance_profile {
-    name = module.post_config.ebs_csi_instance_profile
-  }
-  # metadata_options {
-  #   http_endpoint               = "enabled"
-  #   http_tokens                 = "required"
-  #   http_put_response_hop_limit = 1
-  #   instance_metadata_tags      = "enabled"
-  # }
-
+  
   block_device_mappings {
     device_name = "/dev/sda1"
 
