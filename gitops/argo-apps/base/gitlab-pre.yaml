@@ -220,7 +220,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_postgres_proxy_replicas}"
 
           - name: "postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_percona_postgres_storage_size}"
+            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_postgres_storage_size}"
 
           - name: "pgdb_helm_version"
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_pgdb_helm_version}"            
@@ -305,7 +305,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_postgres_proxy_replicas}"
 
           - name: "postgres_storage_size"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_percona_postgres_storage_size}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_postgres_storage_size}"
 
           - name: "pgdb_helm_version"
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_pgdb_helm_version}"            
