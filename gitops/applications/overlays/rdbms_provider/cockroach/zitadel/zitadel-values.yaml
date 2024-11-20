@@ -39,8 +39,8 @@ zitadel:
         Admin:
           Password: abc            
             
-  dbSslCaCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
-  dbSslAdminCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
-  dbSslUserCrtSecret: "${ARGOCD_ENV_zitadel_pg_db_release_name}-pg-db-cluster-cert"
+  dbSslCaCrtSecret: zitadel-db-cockroachdb-ca-secret
+  dbSslAdminCrtSecret: zitadel-db-cockroachdb-client-secret
+  dbSslUserCrtSecret: zitadel-db-cockroachdb-zitadel-secret
   configSecretName: "${ARGOCD_ENV_zitadel_config_secret_name}"
   configSecretKey: config.yaml

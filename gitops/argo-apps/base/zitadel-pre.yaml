@@ -147,6 +147,9 @@ spec:
           - name: "db_storage_iops"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_db_storage_iops}"
 
+          - name: "externalservice_name"
+            value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"               
+
     #zitadel db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
@@ -224,4 +227,7 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_type}"
 
           - name: "db_storage_iops"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_iops}"     
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_iops}" 
+
+          - name: "externalservice_name"
+            value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"    
