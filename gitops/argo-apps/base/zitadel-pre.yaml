@@ -103,7 +103,7 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_zitadel_db_username}"
 
           - name: "dbdeploy_name_prefix"
-            value: "${ARGOCD_ENV_security_zitadel_dbdeploy_name_prefix}"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_dbdeploy_name_prefix}"
 
           - name: "externalservice_name"
             value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"
