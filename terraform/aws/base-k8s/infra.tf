@@ -77,6 +77,12 @@ resource "aws_launch_template" "node" {
   iam_instance_profile {
     name = module.post_config.ebs_csi_instance_profile
   }
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+    instance_metadata_tags      = "enabled"
+  }
 
   block_device_mappings {
     device_name = "/dev/sda1"
