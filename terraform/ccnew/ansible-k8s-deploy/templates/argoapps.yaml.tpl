@@ -17,6 +17,7 @@ argocd_override:
           osd_count: "${rook_ceph_osd_count}"
           volume_size_per_osd: "${rook_ceph_volume_size_per_osd}"
           object_store_region: "${rook_ceph_object_store_region}"
+          volumes_provider: "${rook_ceph_volumes_provider}"
         reflector:
           helm_version: "${reflector_helm_version}"
         reloader:
