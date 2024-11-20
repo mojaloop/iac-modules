@@ -10,7 +10,7 @@ module "generate_monitoring_files" {
     prometheus_operator_release_name       = local.prometheus_operator_release_name
     prometheus_process_exporter_version    = try(var.common_var_map.prometheus_process_exporter_version, local.prometheus_process_exporter_version)
     loki_release_name                      = local.loki_release_name
-    grafana_chart_repo                     = try(var.common_var_map.grafana_chart_repo, local.bitnami_repo)
+    grafana_operator_repo                  = try(var.common_var_map.grafana_operator_repo, local.bitnami_repo)
     grafana_operator_version               = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                        = try(var.common_var_map.grafana_version, local.grafana_version)
     grafana_dashboard_tag                  = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
