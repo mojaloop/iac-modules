@@ -62,7 +62,3 @@ output "external_dns_cloud_role" {
 output "ci_user_arn" {
   value = var.create_iam_user ? aws_iam_user.ci_iam_user[0].arn : ""
 }
-
-output "ebs_csi_instance_profile" {
-  value = aws_iam_instance_profile.ebs_csi_instance_profile.name
-}
