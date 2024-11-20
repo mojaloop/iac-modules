@@ -110,7 +110,7 @@ argocd_override:
         zitadel_percona_provider:
           postgres_replicas: "${zitadel_postgres_replicas}"
           postgres_proxy_replicas: "${zitadel_postgres_proxy_replicas}"
-          postgres_storage_size: "${format("%sGi",trim(zitadel_postgres_storage_size,"'"))}"
+          postgres_storage_size: "${zitadel_postgres_storage_size}"
           pgdb_helm_version: "${zitadel_pgdb_helm_version}"          
         zitadel_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
@@ -187,12 +187,12 @@ argocd_override:
         webdb_percona_provider:            
           postgres_replicas: "${gitlab_postgres_replicas}"
           postgres_proxy_replicas: "${gitlab_postgres_proxy_replicas}"
-          postgres_storage_size: "${format("%sGi",trim(gitlab_postgres_storage_size,"'"))}"
+          postgres_storage_size: "${gitlab_postgres_storage_size}"
           pgdb_helm_version: "${gitlab_pgdb_helm_version}"
         praefectdb_percona_provider:
           postgres_replicas: "${gitlab_praefect_postgres_replicas}"
           postgres_proxy_replicas: "${gitlab_praefect_postgres_proxy_replicas}"          
-          postgres_storage_size: "${format("%sGi",trim(gitlab_praefect_postgres_storage_size,"'"))}"
+          postgres_storage_size: "${gitlab_praefect_postgres_storage_size}"
           pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
         webdb_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
