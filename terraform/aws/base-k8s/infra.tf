@@ -74,6 +74,9 @@ resource "aws_launch_template" "node" {
   instance_type = each.value.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
   key_name      = module.base_infra.key_pair_name
+  iam_instance_profile {
+    name = module.post_config.ebs_csi_instance_profile
+  }
 
   block_device_mappings {
     device_name = "/dev/sda1"
