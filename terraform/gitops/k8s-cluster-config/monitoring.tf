@@ -3,14 +3,18 @@ module "generate_monitoring_files" {
   var_map = {
     grafana_crd_version_tag                = try(var.common_var_map.grafana_crd_version_tag, local.grafana_crd_version_tag)
     prometheus_crd_version                 = try(var.common_var_map.prometheus_crd_version, local.prometheus_crd_version)
+    loki_repo                              = try(var.common_var_map.loki_repo, local.bitnami_repo)
     loki_chart_version                     = try(var.common_var_map.loki_chart_version, local.loki_chart_version)
+    prometheus_operator_repo               = try(var.common_var_map.prometheus_operator_repo, local.bitnami_repo)
     prometheus_operator_version            = try(var.common_var_map.prometheus_operator_version, local.prometheus_operator_version)
     prometheus_operator_release_name       = local.prometheus_operator_release_name
     prometheus_process_exporter_version    = try(var.common_var_map.prometheus_process_exporter_version, local.prometheus_process_exporter_version)
     loki_release_name                      = local.loki_release_name
+    grafana_chart_repo                     = try(var.common_var_map.grafana_chart_repo, local.bitnami_repo)
     grafana_operator_version               = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                        = try(var.common_var_map.grafana_version, local.grafana_version)
     grafana_dashboard_tag                  = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
+    tempo_repo                             = try(var.common_var_map.tempo_repo, local.bitnami_repo)
     tempo_chart_version                    = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
     opentelemetry_chart_version         = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     monitoring_namespace                   = var.monitoring_namespace
@@ -125,6 +129,7 @@ variable "monitoring_namespace" {
 }
 
 locals {
+  bitnami_repo                        = "oci://registry-1.docker.io/bitnamicharts"
   grafana_crd_version_tag             = "v5.6.0"
   prometheus_crd_version              = "8.0.1"
   opentelemetry_chart_version         = "0.56.0"
