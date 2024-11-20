@@ -268,7 +268,10 @@ spec:
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_iops}"  
 
           - name: "externalservice_name"
-            value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_externalservice_name}"             
+            value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_externalservice_name}"
+
+          - name: max_prepared_statements
+            value: "0"                       
 
     #praefect db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
@@ -350,4 +353,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_storage_iops}"
 
           - name: "externalservice_name"
-            value: "${ARGOCD_ENV_gitlab_gitlab_praefect_externalservice_name}"                  
+            value: "${ARGOCD_ENV_gitlab_gitlab_praefect_externalservice_name}"
+
+          - name: max_prepared_statements
+            value: "0"                    

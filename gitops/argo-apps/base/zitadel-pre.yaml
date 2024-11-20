@@ -191,4 +191,7 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_iops}" 
 
           - name: "externalservice_name"
-            value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"    
+            value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"
+
+          - name: max_prepared_statements
+            value: "1"    

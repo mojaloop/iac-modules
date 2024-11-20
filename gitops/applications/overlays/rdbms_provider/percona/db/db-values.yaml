@@ -303,6 +303,7 @@ proxy:
       global:
         pool_mode: transaction
         query_wait_timeout: "600"
+        max_prepared_statements: ${ARGOCD_ENV_max_prepared_statements}
 
 backups:
   pgbackrest:
