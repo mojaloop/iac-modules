@@ -117,49 +117,51 @@ cephClusterSpec:
           volumeMode: Block
           accessModes:
             - ReadWriteOnce
+    # when onlyApplyOSDPlacement is false, will merge both placement.All() and storageClassDeviceSets.Placement.
     onlyApplyOSDPlacement: false
+  resources:
+  #  prepareosd:
+  #    requests:
+  #      cpu: "200m"
+  #      memory: "200Mi"
   priorityClassNames:
     # If there are multiple nodes available in a failure domain (e.g. zones), the
     # mons and osds can be portable and set the system-cluster-critical priority class.
     mon: system-node-critical
     osd: system-node-critical
     mgr: system-cluster-critical
-#  disruptionManagement:
-#    managePodBudgets: true
-#    osdMaintenanceTimeout: 30
-#    pgHealthCheckTimeout: 0
+  disruptionManagement:
+    managePodBudgets: true
+    osdMaintenanceTimeout: 30
+    pgHealthCheckTimeout: 0
 
 # CephObjectStore configurations
-#cephObjectStores:
-#  - name: ceph-objectstore
-#    spec:
-#      metadataPool:
-#        failureDomain: host
-#        replicated:
-#          size: 3
-#      dataPool:
-#        failureDomain: host
-#    storageClass:
-#      enabled: true
-#      name: ceph-bucket
-#      reclaimPolicy: Delete
-#      volumeBindingMode: "Immediate"
-#      parameters:
-#        region: "${ARGOCD_ENV_rook_ceph_object_store_region}"
-#    ingress:
-#      enabled: false
-#
-# Ceph Block Pools configurations
-#cephBlockPools:
-#  - name: ceph-blockpool
-#    spec:
-#      failureDomain: host #host, osd
-#      replicated:
-#        size: 3
-#    storageClass:
-#      isDefault: true
-#      reclaimPolicy: Delete
-#      allowVolumeExpansion: true
-#      volumeBindingMode: "Immediate"
-#      parameters:
-#        csi.storage.k8s.io/fstype: ext4
+cephObjectStores:
+ - name: ceph-objectstore
+   spec:
+     metadataPool:
+       replicated:
+         size: 3
+   storageClass:
+     enabled: true
+     name: ceph-bucket
+     reclaimPolicy: Delete
+     volumeBindingMode: "Immediate"
+     parameters:
+       region: "${ARGOCD_ENV_rook_ceph_object_store_region}"
+   ingress:
+     enabled: false
+
+#Ceph Block Pools configurations
+cephBlockPools:
+ - name: ceph-blockpool
+   spec:
+     replicated:
+       size: 3
+   storageClass:
+     isDefault: true
+     reclaimPolicy: Delete
+     allowVolumeExpansion: true
+     volumeBindingMode: "Immediate"
+     parameters:
+       csi.storage.k8s.io/fstype: ext4
