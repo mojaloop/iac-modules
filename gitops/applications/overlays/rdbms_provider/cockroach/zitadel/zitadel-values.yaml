@@ -42,5 +42,3 @@ zitadel:
   dbSslCaCrtSecret: zitadel-db-cockroachdb-ca-secret
   dbSslAdminCrtSecret: zitadel-db-cockroachdb-client-secret
   dbSslUserCrtSecret: zitadel-db-cockroachdb-zitadel-secret
-  configSecretName: "${ARGOCD_ENV_zitadel_config_secret_name}"
-  configSecretKey: config.yaml
