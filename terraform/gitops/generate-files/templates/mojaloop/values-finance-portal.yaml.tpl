@@ -71,15 +71,16 @@ role-assignment-service:
       }
 
 reporting-hub-bop-api-svc:
+  image:
+    registry: docker.io
+    repository: mojaloop/reporting-hub-bop-api-svc
+    tag: v2.1.1-snapshot.2
+
   containerSecurityContext:
     enabled: false
   enabled: true
   ingress:
     enabled: false
-  image:
-    registry: docker.io
-    repository: mojaloop/reporting-hub-bop-api-svc
-    tag: v2.1.1-snapshot.2
 
 
 reporting-legacy-api:
@@ -120,26 +121,21 @@ reporting-hub-bop-experience-api-svc:
 
 ## Front-end UI services
 reporting-hub-bop-shell:
+  image:
+    registry: docker.io
+    repository: mojaloop/reporting-hub-bop-shell
+    tag: v2.3.1
   enabled: true
   ingress:
     enabled: false
 
   config:
     env:
-      AUTH_MOCK_API: false
-      REMOTE_API_BASE_URL: ''
-      REMOTE_MOCK_API: false
-      LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
-      ## client_id and post_logout_redirect_uri can be passed in return_url to redirect the user back to portal after logout
-      ## Example: return_url=http%3A%2F%2F$${keycloak_fqdn}%2Frealms%2F$${keycloak_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout%3Fclient_id%3D$${hubop_oidc_client_id}%26post_logout_redirect_uri%3Dhttps%3A%2F%2F$${portal_fqdn}
-      LOGOUT_URL: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
-      LOGIN_PROVIDER: keycloak
-      AUTH_TOKEN_URL: /kratos/sessions/whoami
-      AUTH_ENABLED: true
-      REMOTE_1_URL: https://${portal_fqdn}/uis/iam
-      REMOTE_2_URL: https://${portal_fqdn}/uis/transfers
-      REMOTE_3_URL: https://${portal_fqdn}/uis/settlements
-      REMOTE_4_URL: https://${portal_fqdn}/uis/positions
+      - REACT_APP_TITLE=Mojaloop Finance Portal
+      - REACT_APP_SUBTITLE=Accelarating regional trade through supporting cross boarder, instant lowcost, payments and transfers.
+      - REACT_APP_TITLE_IMAGE=<Image URL for title logo. For example CBC logo for regional switch>
+      - REACT_APP_TITLE_BAR_COLOR=#911414
+      - REACT_APP_DFSP_IMG=<Image URL for country flag>
 
 ### Micro-frontends
 reporting-hub-bop-role-ui:
