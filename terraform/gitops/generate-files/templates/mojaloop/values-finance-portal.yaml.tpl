@@ -76,6 +76,10 @@ reporting-hub-bop-api-svc:
   enabled: true
   ingress:
     enabled: false
+  image:
+    registry: docker.io
+    repository: mojaloop/reporting-hub-bop-api-svc
+    tag: v2.1.1-snapshot.2
 
 
 reporting-legacy-api:
