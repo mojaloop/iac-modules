@@ -161,13 +161,14 @@ reporting-hub-bop-settlements-ui:
   image:
     registry: docker.io
     repository: mojaloop/reporting-hub-bop-settlements-ui
-    tag: v0.0.17
+    tag: v0.0.19-snapshot.2
   enabled: true
   config:
     env:
       CENTRAL_LEDGER_ENDPOINT: https://${portal_fqdn}/api/central-admin
       CENTRAL_SETTLEMENTS_ENDPOINT: https://${portal_fqdn}/api/central-settlements
       REPORTING_API_ENDPOINT: https://${portal_fqdn}/api/transfers
+      REPORTING_TEMPLATE_API_ENDPOINT: https://${portal_fqdn}/api/reports/report-bilateral-settlement
   ingress:
     enabled: false
 
