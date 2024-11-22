@@ -164,7 +164,7 @@ env_token_ttl: "14d"
 
 # Zitadel
 zitadel_replicas: "'2'"
-zitadel_postgres_rdbms_provider: "percona"
+zitadel_rdbms_provider: "percona"
 zitadel_postgres_instance_size: "small"
 zitadel_postgres_storage_size: "20Gi"
 zitadel_db_storage_size: "5Gi"
