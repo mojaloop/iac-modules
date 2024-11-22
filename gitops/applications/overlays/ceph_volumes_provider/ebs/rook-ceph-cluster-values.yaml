@@ -100,12 +100,12 @@ cephClusterSpec:
                   values:
                     - rook-ceph-osd-prepare
       # OSD daemon limits
-      resources:
-        limits:
-          memory: "4Gi"
-        requests:
-          cpu: "500m"
-          memory: "4Gi"
+      # resources:
+      #   limits:
+      #     memory: "4Gi"
+      #   requests:
+      #     cpu: "500m"
+      #     memory: "4Gi"
       volumeClaimTemplates:
       - metadata:
           name: data
