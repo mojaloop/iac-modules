@@ -23,7 +23,7 @@ zitadel:
             Type: 1
     Database:
       Cockroach:
-        Database: zitadel-db-cockroachdb-public
+        Host: zitadel-db-cockroachdb-public
         User:
           SSL:
             Mode: verify-full
