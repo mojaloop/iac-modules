@@ -23,7 +23,7 @@ zitadel:
             Type: 1
     Database:
       Cockroach:
-        Database: ${ARGOCD_ENV_zitadel_db_name}
+        Database: zitadel-db-cockroachdb-public
         User:
           SSL:
             Mode: verify-full
