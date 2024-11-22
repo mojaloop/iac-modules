@@ -1,0 +1,26 @@
+replicaCount: ${ARGOCD_ENV_zitadel_replicas}
+zitadel:
+  masterkeySecretName: masterkey
+  debug:
+    enabled: false
+  configmapConfig:
+    Log:
+      Level: ${ARGOCD_ENV_zitadel_log_level}
+    ExternalPort: 443
+    ExternalSecure: true
+    ExternalDomain: zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
+    TLS:
+      Enabled: false
+    FirstInstance:
+      Org:
+        Machine:
+          Machine:
+            Username: zitadel-admin-sa
+            Name: Admin
+          MachineKey:
+            ExpirationDate: "2028-01-01T00:00:00Z"
+            # Type: 1 means JSON. This is currently the only supported machine key type.
+            Type: 1
+
+  configSecretName: "${ARGOCD_ENV_zitadel_config_secret_name}"
+  configSecretKey: config.yaml
