@@ -17,6 +17,15 @@
   - cookie_session
   authorizer_permission: positionFundsInOut
 
+- name: position-ndc-edit
+  match_path: /api/central-admin/participants/<.*>/limits
+  match_methods:
+    - PUT
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: positionNDCEdit
+
 - name: participant-disable-enable
   match_path: /api/central-admin/participants/<.*>/accounts<.*>
   match_methods:
@@ -109,3 +118,13 @@
   - jwt
   - cookie_session
   authorizer_permission: transferApi
+
+- name: settlementModel-view
+  match_path: /api/central-admin/settlementModels<.*>
+  match_methods:
+    - GET
+  authenticator_handlers:
+  - jwt
+  - cookie_session
+  authorizer_permission: settlementView
+

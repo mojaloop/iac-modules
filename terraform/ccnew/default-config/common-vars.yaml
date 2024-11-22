@@ -49,7 +49,6 @@ nexus_storage_size: 30Gi
 zitadel_public_access: true
 consul_storage_size: "3Gi"
 consul_replica_count: 3
-cockroachdb_storage_size: "5Gi"
 argocd_admin_rbac_group: "argocd_administrators"
 argocd_user_rbac_group: "argocd_users"
 vault_rbac_admin_group: "techops-admin"
@@ -116,14 +115,14 @@ gitlab_redis_cluster_size: "'3'"
 gitlab_redis_storage_size: "'5Gi'"
 gitlab_postgres_replicas: "'1'"
 gitlab_postgres_proxy_replicas: "'1'"
-gitlab_postgres_storage_size: "'10'"
-#gitlab_postgres_storage_size: "'100'" # for rds
+gitlab_postgres_storage_size: "10Gi"
+gitlab_rds_postgres_storage_size: "'100'"
 gitlab_postgres_instance_size: "small"
 gitlab_pgdb_helm_version: "2.4.0"
 gitlab_praefect_postgres_replicas: "'1'"
 gitlab_praefect_postgres_proxy_replicas: "'1'"
-gitlab_praefect_postgres_storage_size: "'10'"
-#gitlab_praefect_postgres_storage_size: "'100'" # for rds add this line in custom-config/common-vars.yaml
+gitlab_praefect_postgres_storage_size: "10Gi"
+gitlab_praefect_rds_postgres_storage_size: "'100'"
 gitlab_praefect_postgres_instance_size: "small"
 gitlab_praefect_pgdb_helm_version: "2.4.0"
 git_lfs_max_objects: "'1000000'"
@@ -164,11 +163,20 @@ ceph_bucket_max_size: "10Gi"
 env_token_ttl: "14d"
 
 # Zitadel
-zitadel_postgres_rdbms_provider: "percona"
+zitadel_replicas: "'2'"
+zitadel_rdbms_provider: "percona"
 zitadel_postgres_instance_size: "small"
-zitadel_postgres_storage_size: "'20'"
-zitadel_db_storage_type: "io1" # rds specific
-zitadel_db_storage_iops: "'5000'" # rds specific
+zitadel_postgres_storage_size: "20Gi"
+zitadel_db_storage_size: "5Gi"
+#Zitadel RDS specific
+zitadel_db_backup_retention_period: "'1'"
+zitadel_db_preferred_backup_window: "07:00-09:00"
+zitadel_rds_postgres_storage_size: "'100'"
+zitadel_db_storage_iops: "'5000'"
+zitadel_db_storage_type: "io1"
+zitadel_postgres_replicas: "'1'"
+zitadel_postgres_proxy_replicas: "'1'"
+zitadel_pgdb_helm_version: "2.4.0"
 
 # rook ceph
 rook_ceph_helm_version: "1.15.5"
