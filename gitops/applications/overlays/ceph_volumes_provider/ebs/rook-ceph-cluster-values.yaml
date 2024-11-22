@@ -159,7 +159,9 @@ cephBlockPools:
      replicated:
        size: 3
    storageClass:
+     enabled: true
      isDefault: true
+     name: ceph-block
      reclaimPolicy: Delete
      allowVolumeExpansion: true
      volumeBindingMode: "Immediate"
