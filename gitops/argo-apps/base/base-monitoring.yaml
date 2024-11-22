@@ -48,3 +48,6 @@ spec:
 
         - name: "grafana_crd_version_tag"
           value: "${ARGOCD_ENV_utils_base_monitoring_grafana_crd_version_tag}"
+
+        - name: "metrics_server_helm_version"
+          value: "${ARGOCD_ENV_utils_base_monitoring_metrics_server_helm_version}"
