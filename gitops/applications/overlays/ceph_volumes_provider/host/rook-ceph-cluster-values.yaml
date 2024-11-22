@@ -63,6 +63,9 @@ cephFileSystems:
             size: 3
           # Optional and highly recommended, 'data0' by default, see https://github.com/rook/rook/blob/master/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#pools
           name: data0
+      metadataServer:
+        activeCount: 1
+        activeStandby: true
     storageClass:
       enabled: true
       isDefault: false
@@ -115,7 +118,7 @@ cephObjectStores:
       # see https://github.com/rook/rook/blob/master/Documentation/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim.md#storageclass for available configuration
       parameters:
         # note: objectStoreNamespace and objectStoreName are configured by the chart
-        region: us-east-1
+        region: "${ARGOCD_ENV_rook_ceph_object_store_region}"
     ingress:
       # Enable an ingress for the ceph-objectstore
       enabled: false
