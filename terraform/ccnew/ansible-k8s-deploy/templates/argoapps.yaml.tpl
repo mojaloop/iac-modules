@@ -44,6 +44,7 @@ argocd_override:
           grafana_crd_version_tag: "${grafana_crd_version_tag}"
           prometheus_crd_version: "${prometheus_crd_version}"
           grafana_operator_version: "${grafana_operator_version}"
+          metrics_server_helm_version: "${metrics_server_helm_version}"
         consul:
           helm_version: "${consul_helm_version}"
           replicas: "'${consul_replica_count}'"
