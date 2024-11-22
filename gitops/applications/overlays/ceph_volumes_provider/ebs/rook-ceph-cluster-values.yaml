@@ -147,7 +147,14 @@ cephObjectStores:
           size: 3
       dataPool:
         failureDomain: host
+        erasureCoded:
+          dataChunks: 2
+          codingChunks: 1
       preservePoolsOnDelete: true
+      gateway:
+        port: 80
+        securePort: 443
+        instances: 1
     storageClass:
       enabled: true
       name: ceph-bucket
