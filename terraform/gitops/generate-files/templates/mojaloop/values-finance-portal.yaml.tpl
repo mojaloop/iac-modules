@@ -17,11 +17,11 @@ global:
       name: ${reporting_db_secret_name}
       key: ${reporting_db_secret_key}
   reportingEventsDB:
-    host: ${reporting_events_mongodb_host}
-    port: ${reporting_events_mongodb_port}
-    user: ${reporting_events_mongodb_user}
-    database: ${reporting_events_mongodb_database}
-    secret:
+    host: &RE_DB_HOST ${reporting_events_mongodb_host}
+    port: &RE_DB_PORT ${reporting_events_mongodb_port}
+    user: &RE_DB_USER ${reporting_events_mongodb_user}
+    database: &RB_DB_NAME ${reporting_events_mongodb_database}
+    secret: &RE_DB_SECRET
       name: ${reporting_events_mongodb_existing_secret}
       key: mongodb-passwords
   kafka:
@@ -115,11 +115,11 @@ reporting-events-processor-svc:
   configFiles:
     default.json: {
         "EVENT_STORE_DB": {
-          "HOST": '${reporting_events_mongodb_host}',
-          "PORT": '${reporting_events_mongodb_port}',
-          "USER": '${reporting_events_mongodb_user}',
-          "PASSWORD": '${reporting_events_mongodb_password}',
-          "DATABASE": '${reporting_events_mongodb_database}',
+          "HOST": *RE_DB_HOST,
+          "PORT": *RE_DB_PORT,
+          "USER": *RE_DB_USER,
+          "PASSWORD": *RE_DB_SECRET,
+          "DATABASE": *RB_DB_NAME,
           "EVENTS_COLLECTION": "reporting"
         },
         "KAFKA": {
