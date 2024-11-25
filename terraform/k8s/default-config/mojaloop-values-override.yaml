@@ -59,20 +59,7 @@ centralsettlement:
     replicaCount: 0
     config: *BASE_CONFIG
   centralsettlement-handler-rules: *CONFIG
-transaction-requests-service:
-  replicaCount: 1
-  readinessProbe:
-    initialDelaySeconds: 5
-    timeoutSeconds: 2
-  livenessProbe:
-    initialDelaySeconds: 5
-    timeoutSeconds: 1
-    periodSeconds: 1
-  sidecar:
-    readinessProbe:
-      initialDelaySeconds: 5
-    livenessProbe:
-      initialDelaySeconds: 5
+transaction-requests-service: *SERVICE
 thirdparty:
   auth-svc:
     replicaCount: 1
