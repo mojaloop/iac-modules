@@ -17,11 +17,11 @@ global:
       name: ${reporting_db_secret_name}
       key: ${reporting_db_secret_key}
   reportingEventsDB:
-    host: &RE_DB_HOST ${reporting_events_mongodb_host}
-    port: &RE_DB_PORT ${reporting_events_mongodb_port}
-    user: &RE_DB_USER ${reporting_events_mongodb_user}
-    database: &RE_DB_NAME ${reporting_events_mongodb_database}
-    secret: &RE_DB_SECRET
+    host: ${reporting_events_mongodb_host}
+    port: ${reporting_events_mongodb_port}
+    user: ${reporting_events_mongodb_user}
+    database: ${reporting_events_mongodb_database}
+    secret:
       name: ${reporting_events_mongodb_existing_secret}
       key: mongodb-passwords
   kafka:
