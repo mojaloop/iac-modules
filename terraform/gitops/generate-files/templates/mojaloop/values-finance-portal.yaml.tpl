@@ -114,15 +114,6 @@ reporting-events-processor-svc:
     clientId: reporting_events_processor_consumer
   configFiles:
     default.json: {
-        "EVENT_STORE_DB": {
-          "HOST": *RE_DB_HOST,
-          "PORT": *RE_DB_PORT,
-          "USER": *RE_DB_USER,
-          "PASSWORD": *RE_DB_SECRET,
-          "DATABASE": *RE_DB_NAME,
-          "APPLY_SCHEMA": true,
-          "EVENTS_COLLECTION": "reporting"
-        },
         "KAFKA": {
           "TOPIC_EVENT": 'topic-event-audit',
           "CONSUMER": {
