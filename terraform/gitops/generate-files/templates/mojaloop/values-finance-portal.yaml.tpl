@@ -20,7 +20,7 @@ global:
     host: &RE_DB_HOST ${reporting_events_mongodb_host}
     port: &RE_DB_PORT ${reporting_events_mongodb_port}
     user: &RE_DB_USER ${reporting_events_mongodb_user}
-    database: &RB_DB_NAME ${reporting_events_mongodb_database}
+    database: &RE_DB_NAME ${reporting_events_mongodb_database}
     secret: &RE_DB_SECRET
       name: ${reporting_events_mongodb_existing_secret}
       key: mongodb-passwords
@@ -119,7 +119,8 @@ reporting-events-processor-svc:
           "PORT": *RE_DB_PORT,
           "USER": *RE_DB_USER,
           "PASSWORD": *RE_DB_SECRET,
-          "DATABASE": *RB_DB_NAME,
+          "DATABASE": *RE_DB_NAME,
+          "APPLY_SCHEMA": true,
           "EVENTS_COLLECTION": "reporting"
         },
         "KAFKA": {
