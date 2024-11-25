@@ -4,6 +4,8 @@ _DEFINE:
     livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
+      httpGet:
+        path: /live
     readinessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 1
@@ -14,6 +16,7 @@ _DEFINE:
       livenessProbe:
         initialDelaySeconds: 5
   CONFIG: &CONFIG
+    replicaCount: 1
     config: &BASE_CONFIG
       event_log_filter: ""
       log_level: warn
@@ -50,22 +53,12 @@ centralledger:
   centralledger-handler-timeout: *SERVICE
   centralledger-handler-admin-transfer: *SERVICE
 centralsettlement:
-  centralsettlement-service:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
-  centralsettlement-handler-deferredsettlement:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
+  centralsettlement-service: *CONFIG
+  centralsettlement-handler-deferredsettlement: *CONFIG
   centralsettlement-handler-grosssettlement:
     replicaCount: 0
-    config:
-      event_log_filter: ""
-  centralsettlement-handler-rules:
-    replicaCount: 1
-    config:
-      event_log_filter: ""
+    config: *BASE_CONFIG
+  centralsettlement-handler-rules: *CONFIG
 transaction-requests-service:
   replicaCount: 1
   readinessProbe:
@@ -89,28 +82,10 @@ thirdparty:
     replicaCount: 1
 mojaloop-bulk:
   bulk-api-adapter:
-    bulk-api-adapter-service:
-      replicaCount: 1
-      config:
-        event_log_filter: ""
-    bulk-api-adapter-handler-notification:
-      replicaCount: 1
-      config:
-        event_log_filter: ""
+    bulk-api-adapter-service: *CONFIG
+    bulk-api-adapter-handler-notification: *CONFIG
   bulk-centralledger:
-    cl-handler-bulk-transfer-prepare:
-      replicaCount: 1
-      config:
-        event_log_filter: ""
-    cl-handler-bulk-transfer-fulfil:
-      replicaCount: 1
-      config:
-        event_log_filter: ""
-    cl-handler-bulk-transfer-processing:
-      replicaCount: 1
-      config:
-        event_log_filter: ""
-    cl-handler-bulk-transfer-get:
-      replicaCount: 1
-      config:
-        event_log_filter: ""
+    cl-handler-bulk-transfer-prepare: *CONFIG
+    cl-handler-bulk-transfer-fulfil: *CONFIG
+    cl-handler-bulk-transfer-processing: *CONFIG
+    cl-handler-bulk-transfer-get: *CONFIG
