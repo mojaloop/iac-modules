@@ -186,4 +186,3 @@ rook_ceph_mon_volumes_size: "10Gi"
 rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
 rook_ceph_object_store_region: "us-east-1"
-rook_ceph_volumes_provider: "host" #host, ebs
