@@ -6,9 +6,29 @@ useOldCSIDriver: false
 # Deploy EBS CSI Driver without controller and associated resources
 nodeComponentOnly: false
 
+sidecars:
+  attacher:
+    securityContext:
+      allowPrivilegeEscalation: true
+  snapshotter:
+    forceEnable: false
+    securityContext:
+      allowPrivilegeEscalation: false
+  resizer:
+    securityContext:
+      allowPrivilegeEscalation: false
+  volumemodifier:
+    securityContext:
+      allowPrivilegeEscalation: false
+
+node:
+  kubeletPath: ${kubelet_dir_path}
+  securityContext:
+    runAsNonRoot: false
 controller:
   # The default filesystem type of the volume to provision when fstype is unspecified in the StorageClass.
   # If the default is not set and fstype is unset in the StorageClass, then no fstype will be set
+  replicaCount: 2
   defaultFsType: ext4
   batching: true
   volumeModificationFeature:

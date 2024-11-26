@@ -79,3 +79,6 @@ spec:
 
           - name: rook_ceph_object_store_region
             value: "${ARGOCD_ENV_utils_rook_ceph_object_store_region}"
+
+          - name: kubelet_dir_path
+            value: "${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}"
