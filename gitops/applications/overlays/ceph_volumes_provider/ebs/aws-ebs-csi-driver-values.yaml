@@ -22,7 +22,7 @@ sidecars:
       allowPrivilegeEscalation: false
 
 node:
-  kubeletPath: ${kubelet_dir_path}
+  kubeletPath: "${ARGOCD_ENV_kubelet_dir_path}"
   securityContext:
     runAsNonRoot: false
 controller:
