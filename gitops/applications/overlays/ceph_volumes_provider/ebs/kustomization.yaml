@@ -8,6 +8,7 @@ helmCharts:
     releaseName: aws-ebs-csi-driver
     repo: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
     namespace: kube-system
+    valuesFile: aws-ebs-csi-driver-values.yaml
 
   - name: rook-ceph-cluster
     releaseName: rook-ceph-cluster
