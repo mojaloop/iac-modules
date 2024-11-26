@@ -37,12 +37,3 @@ controller:
   extraVolumeTags:
     Name: Rook-EBS-Volumes
   enableMetrics: false
-storageClasses:
-  - name: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}"
-    annotations:
-      storageclass.kubernetes.io/is-default-class: "false"
-    volumeBindingMode: WaitForFirstConsumer
-    reclaimPolicy: Delete
-    parameters:
-      encrypted: "false"
-      type: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}"
