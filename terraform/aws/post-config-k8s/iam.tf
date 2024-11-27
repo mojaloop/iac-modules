@@ -189,7 +189,7 @@ resource "aws_s3_bucket" "backup_bucket" {
 
 # EBS CSI driver
 resource "aws_iam_role" "ebs_csi_role" {
-  name = "ebs-csi-instance-role"
+  name  = "${local.base_domain}-ebs-csi"
 
   assume_role_policy = <<EOF
 {
@@ -216,6 +216,6 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_policy" {
 
 # Create an instance profile for the IAM Role
 resource "aws_iam_instance_profile" "ebs_csi_instance_profile" {
-  name = "ebs-csi-instance-profile"
+  name  = "${local.base_domain}-ebs-csi-instance-profile"
   role = aws_iam_role.ebs_csi_role.name
 }
