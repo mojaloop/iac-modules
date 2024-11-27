@@ -46,59 +46,59 @@ cephClusterSpec:
       encrypted: false
       tuneDeviceClass: true
       tuneFastDeviceClass: false
-      # Topology spread constraints
-      placement:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: topology.kubernetes.io/zone
-                    operator: Exists
-        topologySpreadConstraints:
-          - maxSkew: 1
-            #topologyKey: kubernetes.io/hostname
-            #whenUnsatisfiable:  ScheduleAnyway
-            topologyKey: topology.kubernetes.io/zone
-            whenUnsatisfiable: DoNotSchedule
-            labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - rook-ceph-osd
-      preparePlacement:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: topology.kubernetes.io/zone
-                    operator: Exists
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - rook-ceph-osd
-                    - key: app
-                      operator: In
-                      values:
-                        - rook-ceph-osd-prepare
-                topologyKey: kubernetes.io/hostname
-        topologySpreadConstraints:
-          - maxSkew: 1
-            #topologyKey: kubernetes.io/hostname
-            topologyKey: topology.kubernetes.io/zone
-            whenUnsatisfiable: DoNotSchedule
-            labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - rook-ceph-osd-prepare
+      # # Topology spread constraints
+      # placement:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: topology.kubernetes.io/zone
+      #               operator: Exists
+      #   topologySpreadConstraints:
+      #     - maxSkew: 1
+      #       #topologyKey: kubernetes.io/hostname
+      #       #whenUnsatisfiable:  ScheduleAnyway
+      #       topologyKey: topology.kubernetes.io/zone
+      #       whenUnsatisfiable: DoNotSchedule
+      #       labelSelector:
+      #         matchExpressions:
+      #           - key: app
+      #             operator: In
+      #             values:
+      #               - rook-ceph-osd
+      # preparePlacement:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: topology.kubernetes.io/zone
+      #               operator: Exists
+      #   podAntiAffinity:
+      #     preferredDuringSchedulingIgnoredDuringExecution:
+      #       - weight: 100
+      #         podAffinityTerm:
+      #           labelSelector:
+      #             matchExpressions:
+      #               - key: app
+      #                 operator: In
+      #                 values:
+      #                   - rook-ceph-osd
+      #               - key: app
+      #                 operator: In
+      #                 values:
+      #                   - rook-ceph-osd-prepare
+      #           topologyKey: kubernetes.io/hostname
+      #   topologySpreadConstraints:
+      #     - maxSkew: 1
+      #       #topologyKey: kubernetes.io/hostname
+      #       topologyKey: topology.kubernetes.io/zone
+      #       whenUnsatisfiable: DoNotSchedule
+      #       labelSelector:
+      #         matchExpressions:
+      #           - key: app
+      #             operator: In
+      #             values:
+      #               - rook-ceph-osd-prepare
       # OSD daemon limits
       # resources:
       #   limits:
@@ -118,7 +118,7 @@ cephClusterSpec:
           accessModes:
             - ReadWriteOnce
     # when onlyApplyOSDPlacement is false, will merge both placement.All() and storageClassDeviceSets.Placement.
-    onlyApplyOSDPlacement: false
+    #onlyApplyOSDPlacement: false
   resources:
   #  prepareosd:
   #    requests:
