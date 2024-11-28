@@ -269,6 +269,7 @@ argocd_override:
           ingestion_burst_size: "${mimir_ingestion_burst_size}"
           retention_period: "${mimir_retention_period}"
           compactor_deletion_delay: "${mimir_compactor_deletion_delay}"
+          alerts_notification_receiver: "${mimir_alerts_notification_receiver}"
           distributor_replica_count: "${mimir_distributor_replica_count}"
           ingester_replica_count: "${mimir_ingester_replica_count}"
           querier_replica_count: "${mimir_querier_replica_count}"

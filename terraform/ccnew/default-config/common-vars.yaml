@@ -86,6 +86,7 @@ mimir_ingestion_rate: "'200000'"
 mimir_ingestion_burst_size: "'500000'"
 mimir_retention_period: "7d"
 mimir_compactor_deletion_delay: "12h"
+mimir_alerts_notification_receiver: "slack" # options: slack, jira, blackhole. blackhole disables 
 
 mimir_distributor_replica_count: "'2'"
 mimir_ingester_replica_count: "'4'"
