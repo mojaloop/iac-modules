@@ -9,5 +9,5 @@ parameters:
   #iops: "3000"
   #throughput: "125"
   #csi.storage.k8s.io/fstype: xfs
-reclaimPolicy: Delete
+reclaimPolicy: ${ARGOCD_ENV_cloud_pv_reclaim_policy}
 volumeBindingMode: WaitForFirstConsumer
