@@ -320,7 +320,7 @@ variable "bastion_instance_size" {
   default     = "t3.small"
 }
 
-variable "dns_bind_address" {
+variable "coredns_bind_address" {
   type        = string
   description = "link-local address (part of the 169.254.0.0/16 range) and is reserved for communication within the node itself or between nodes in the local network"
   default     = "169.254.20.10"

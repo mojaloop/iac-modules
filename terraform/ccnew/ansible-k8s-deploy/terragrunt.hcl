@@ -78,6 +78,7 @@ inputs = {
     microk8s_version       = try(local.env_vars.microk8s_version, "1.30/stable")
     microk8s_dev_skip      = try(local.env_vars.microk8s_dev_skip, false)
     kubernetes_oidc_enabled = try(local.env_vars.kubernetes_oidc_enabled, false)
+    coredns_localcache_version = local.common_vars.coredns_localcache_version
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps) 
   bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml.tpl", merge({
