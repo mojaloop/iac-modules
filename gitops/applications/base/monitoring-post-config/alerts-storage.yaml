@@ -19,3 +19,11 @@ groups:
         annotations:
           summary: Low PVC space left (<20%).  persistentvolumeclaim={{ $labels.persistentvolumeclaim }}
           description: "Volume is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      - alert: ObjectStoreQuotaLimit
+        expr: radosgw_usage_user_total_bytes / radosgw_usage_user_quota_size_bytes > 0.8
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Object store (s3 bucket) quota is used by more than 80% for user={{ $labels.user }}"
+          description: "VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

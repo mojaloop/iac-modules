@@ -120,3 +120,4 @@ spec:
 
         - name: "mimir_dns_subdomain"
           value: "${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
+
