@@ -14,9 +14,3 @@ helmCharts:
     repo: https://charts.bitnami.com/bitnami
     valuesFile: values-grafana-operator.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-  - name: metrics-server
-    releaseName: metrics-server
-    repo: https://kubernetes-sigs.github.io/metrics-server
-    valuesFile: values-metrics-server.yaml
-    namespace: ${ARGOCD_ENV_monitoring_namespace}
-    version: ${ARGOCD_ENV_metrics_server_helm_version}
