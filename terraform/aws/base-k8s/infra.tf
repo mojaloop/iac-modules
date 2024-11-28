@@ -77,7 +77,7 @@ resource "aws_launch_template" "node" {
   key_name      = module.base_infra.key_pair_name
   
   dynamic "iam_instance_profile" {
-    for_each = create_csi_role ? [1] : []
+    for_each = var.create_csi_role ? [1] : []
     content {
       name = module.post_config.csi_instance_profile
     }
