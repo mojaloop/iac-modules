@@ -82,3 +82,9 @@ spec:
 
           - name: kubelet_dir_path
             value: "${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}"
+
+          - name: cloud_region
+            value: "${ARGOCD_ENV_utils_rook_ceph_volumes_storage_region}"
+
+          - name: cluster_domain
+            value: "${ARGOCD_ENV_utils_rook_ceph_cloud_region}"

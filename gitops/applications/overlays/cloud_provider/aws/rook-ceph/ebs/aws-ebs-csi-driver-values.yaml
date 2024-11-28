@@ -35,5 +35,5 @@ controller:
     enabled: false
   env: []
   extraVolumeTags:
-    Name: Rook-EBS-Volumes
+    Name: "rook-volume-${ARGOCD_ENV_cluster_domain}"
   enableMetrics: false
