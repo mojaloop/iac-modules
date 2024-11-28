@@ -122,18 +122,14 @@ spec:
           patchSetName: metadata
         - fromFieldPath: "spec.parameters.region"
           toFieldPath: "spec.forProvider.region"
-        - fromFieldPath: spec.parameters.size
+        - fromFieldPath: spec.parameters.dbClusterInstanceClass
           toFieldPath: spec.forProvider.dbClusterInstanceClass
-          transforms:
-          - type: map
-            map:
-              small: db.m5d.large
-              medium: db.m5d.2xlarge
-              large: db.m5d.8xlarge
         - fromFieldPath: spec.parameters.username
           toFieldPath: spec.forProvider.masterUsername
         - fromFieldPath: spec.parameters.dbName
           toFieldPath: spec.forProvider.databaseName
+        - fromFieldPath: spec.parameters.engine
+          toFieldPath: spec.forProvider.engine          
         - fromFieldPath: spec.parameters.engineVersion
           toFieldPath: spec.forProvider.engineVersion
         - fromFieldPath: spec.parameters.storageGB
@@ -151,7 +147,9 @@ spec:
         - fromFieldPath: spec.parameters.autoMinorVersionUpgrade
           toFieldPath: spec.forProvider.autoMinorVersionUpgrade
         - fromFieldPath: spec.parameters.applyImmediately
-          toFieldPath: spec.forProvider.applyImmediately      
+          toFieldPath: spec.forProvider.applyImmediately
+        - fromFieldPath: spec.parameters.skipFinalSnapshot
+          toFieldPath: spec.forProvider.skipFinalSnapshot                   
         - fromFieldPath: spec.parameters.passwordSecret.name
           toFieldPath: spec.forProvider.masterUserPasswordSecretRef.name
         - fromFieldPath: spec.parameters.passwordSecret.key

@@ -2,8 +2,9 @@ name: ${ARGOCD_ENV_dbdeploy_name_prefix}
 namePrefix: ${ARGOCD_ENV_cluster_name}
 namespace: "${ARGOCD_ENV_namespace}"
 region: ${ARGOCD_ENV_cloud_region}
+engine: ${ARGOCD_ENV_rds_engine}
 engineVersion: "16"
-size: ${ARGOCD_ENV_rds_postgres_instance_size}
+dbClusterInstanceClass: ${ARGOCD_ENV_rds_instance_class}
 storageGB: ${ARGOCD_ENV_rds_postgres_storage_size}
 vpcId: ${ARGOCD_ENV_rds_vpc_id}
 vpcCidr: ${ARGOCD_ENV_vpc_cidr}
@@ -18,5 +19,7 @@ preferredBackupWindow: ${ARGOCD_ENV_db_preferred_backup_window}
 passwordSecret:
   key: password
   name: ${ARGOCD_ENV_db_secret}
+storageEncrypted: ${ARGOCD_ENV_rds_storage_encrypted}
 storageType: ${ARGOCD_ENV_db_storage_type}
 storageIops: ${ARGOCD_ENV_db_storage_iops}
+skipFinalSnapshot: ${ARGOCD_ENV_rds_skip_final_snapshot}

@@ -16,7 +16,8 @@ spec:
   parameters:
     region: {{ .Values.region }}
     engineVersion: "16"
-    size: {{ .Values.size }}
+    engine: {{ .Values.engine }}
+    dbClusterInstanceClass: {{ .Values.dbClusterInstanceClass }}
     storageGB: {{ .Values.storageGB }}
     vpcId: {{ .Values.vpcId }}
     vpcCidr:  {{ .Values.vpcCidr }}
@@ -34,5 +35,7 @@ spec:
     applyImmediately: {{ .Values.applyImmediately }}
     backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
     preferredBackupWindow: {{ .Values.preferredBackupWindow }}
+    storageEncrypted: {{ .Values.storageEncrypted }}
     storageType: {{ .Values.storageType }}
     storageIops: {{ .Values.storageIops }}
+    skipFinalSnapshot: {{ .Values.skipFinalSnapshot }}

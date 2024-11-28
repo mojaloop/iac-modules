@@ -228,8 +228,17 @@ spec:
           - name: "rds_postgres_storage_size"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_postgres_storage_size}"
 
-          - name: "rds_postgres_instance_size"
-            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_postgres_instance_size}"
+          - name: "rds_engine"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_engine}"             
+
+          - name: "rds_instance_class"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_postgres_instance_class}"
+
+          - name: "rds_storage_encrypted"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_encrypted}"
+
+          - name: "rds_skip_final_snapshot"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_skip_final_snapshot}" 
 
           - name: "rds_vpc_id"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_rdbms_vpc_id}"
@@ -313,8 +322,17 @@ spec:
           - name: "rds_postgres_storage_size"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_postgres_storage_size}"
 
-          - name: "rds_postgres_instance_size"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_postgres_instance_size}"
+          - name: "rds_engine"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_engine}"             
+
+          - name: "rds_instance_class"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_postgres_instance_class}"
+
+          - name: "rds_storage_encrypted"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_storage_encrypted}"
+
+          - name: "rds_skip_final_snapshot"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_skip_final_snapshot}"             
 
           - name: "rds_vpc_id"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_rdbms_vpc_id}"

@@ -36,10 +36,10 @@ spec:
                   engineVersion:
                     description: The DB version depends on the DB type and versions available in the selected provider.
                     type: string
-                  size:
-                    description: "Supported sizes: small, medium, large"
+                  dbClusterInstanceClass:
+                    description: "Db instance class"
                     type: string
-                    default: small
+                    default: db.t3.medium
                   storageGB:
                     description: "Storage size"
                     type: integer
@@ -64,6 +64,10 @@ spec:
                   dbName:
                     description: The name of database
                     type: string
+                  storageEncrypted:
+                    description: The type of storage
+                    type: boolean
+                    default: true                    
                   storageType:
                     description: The type of storage
                     type: string
@@ -84,7 +88,11 @@ spec:
                     type: boolean
                   applyImmediately: 
                     description: Indicates that changes should be applied immediately
-                    type: boolean                            
+                    type: boolean
+                  skipFinalSnapshot: 
+                    description: Indicates that final snapshot should be skipped before destroy
+                    type: boolean
+                    default: false                                                  
                   passwordSecret:
                     description: The secret reference to the password of the master user.
                     type: object
@@ -109,7 +117,9 @@ spec:
                           type: string
                 required:
                 - region
+                - engine
                 - engineVersion
+                - dbClusterInstanceClass
                 - storageGB
                 - subnets
                 - username
@@ -124,6 +134,8 @@ spec:
                 - allowMajorVersionUpgrade
                 - autoMinorVersionUpgrade
                 - applyImmediately
+                - skipFinalSnapshot
+                - storageEncrypted
 
 
             required:
