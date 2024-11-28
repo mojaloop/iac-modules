@@ -14,42 +14,42 @@ resources:
   - ../../../base/istio.yaml
   - ../../../base/istio-gw.yaml
   - ../../../base/cert-manager.yaml
-  - ../../../base/consul.yaml
+  # - ../../../base/consul.yaml
   - ../../../base/percona-operator.yaml
   - ../../../base/redis-operator.yaml
   - ../../../base/base-monitoring.yaml
   # xplane database config
-  - ../../../base/xplane-provider-config.yaml
-  # vault
-  - ../../../base/vault.yaml
-  - ../../../base/vault-post-config.yaml
-  # dns-utils
-  - ../../../base/dns-utils.yaml
-  - ../../../base/dns-utils-post-config.yaml
-  - ../../../base/dns-utils-pre.yaml
-  # maintenance (velero,etc)
-  - ../../../base/maintenance.yaml
-  - ../../../base/maintenance-pre.yaml
-  # security
-  - ../../../base/zitadel-pre.yaml
-  - ../../../base/zitadel.yaml
-  - ../../../base/zitadel-post-config.yaml
-  - ../../../base/netbird-pre.yaml
-  - ../../../base/netbird.yaml
-  - ../../../base/netbird-post-config.yaml
-  # nexus
-  - ../../../base/nexus.yaml
-  - ../../../base/nexus-pre.yaml
-  - ../../../base/nexus-post-config.yaml
-  # gitlab
-  - ../../../base/gitlab-pre.yaml
-  - ../../../base/gitlab.yaml
-  - ../../../base/gitlab-post-config.yaml
-  # deploy-env
-  - ../../../base/deploy-env.yaml
-  # monitoring
-  - ../../../base/monitoring-pre.yaml
-  - ../../../base/monitoring.yaml
-  - ../../../base/monitoring-post-config.yaml
-  # k8s
-  - ../../../base/k8s-post-config.yaml
+  # - ../../../base/xplane-provider-config.yaml
+  # # vault
+  # - ../../../base/vault.yaml
+  # - ../../../base/vault-post-config.yaml
+  # # dns-utils
+  # - ../../../base/dns-utils.yaml
+  # - ../../../base/dns-utils-post-config.yaml
+  # - ../../../base/dns-utils-pre.yaml
+  # # maintenance (velero,etc)
+  # - ../../../base/maintenance.yaml
+  # - ../../../base/maintenance-pre.yaml
+  # # security
+  # - ../../../base/zitadel-pre.yaml
+  # - ../../../base/zitadel.yaml
+  # - ../../../base/zitadel-post-config.yaml
+  # - ../../../base/netbird-pre.yaml
+  # - ../../../base/netbird.yaml
+  # - ../../../base/netbird-post-config.yaml
+  # # nexus
+  # - ../../../base/nexus.yaml
+  # - ../../../base/nexus-pre.yaml
+  # - ../../../base/nexus-post-config.yaml
+  # # gitlab
+  # - ../../../base/gitlab-pre.yaml
+  # - ../../../base/gitlab.yaml
+  # - ../../../base/gitlab-post-config.yaml
+  # # deploy-env
+  # - ../../../base/deploy-env.yaml
+  # # monitoring
+  # - ../../../base/monitoring-pre.yaml
+  # - ../../../base/monitoring.yaml
+  # - ../../../base/monitoring-post-config.yaml
+  # # k8s
+  # - ../../../base/k8s-post-config.yaml
