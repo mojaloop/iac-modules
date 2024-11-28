@@ -48,7 +48,7 @@ nexus_public_access: false
 nexus_storage_size: 30Gi
 zitadel_public_access: true
 consul_storage_size: "3Gi"
-consul_replica_count: 3
+consul_replica_count: 1
 argocd_admin_rbac_group: "argocd_administrators"
 argocd_user_rbac_group: "argocd_users"
 vault_rbac_admin_group: "techops-admin"
