@@ -41,6 +41,7 @@ module "post_config" {
   public_zone_id              = module.base_infra.public_zone.id
   create_ext_dns_user         = var.create_ext_dns_user
   create_ext_dns_role         = var.create_ext_dns_role
+  create_csi_role             = var.create_csi_role
   create_iam_user             = var.create_ci_iam_user
   iac_group_name              = var.iac_group_name
   backup_bucket_name          = "${var.domain}-${var.backup_bucket_name}"
@@ -74,9 +75,16 @@ resource "aws_launch_template" "node" {
   instance_type = each.value.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
   key_name      = module.base_infra.key_pair_name
-  iam_instance_profile {
-    name = module.post_config.ebs_csi_instance_profile
+  
+  dynamic "iam_instance_profile" {
+    for_each = create_csi_role ? [1] : []
+    content {
+      name = module.post_config.csi_instance_profile
+    }
   }
+  # iam_instance_profile {
+  #   name = module.post_config.csi_instance_profile
+  # }
   
   block_device_mappings {
     device_name = "/dev/sda1"

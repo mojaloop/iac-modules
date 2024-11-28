@@ -302,6 +302,13 @@ variable "backup_enabled" {
   default     = false
   description = "enable backup bucket and policies"
 }
+
+variable "create_csi_role" {
+  type        = bool
+  description = "create ebs role and policies for EBS CSI"
+  default     = false
+}
+
 variable "backup_bucket_force_destroy" {
   type        = bool
   description = "auto delete s3 bucket content"
