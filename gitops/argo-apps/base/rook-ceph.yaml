@@ -88,3 +88,9 @@ spec:
 
           - name: cluster_domain
             value: "${ARGOCD_ENV_utils_rook_ceph_cluster_domain}"
+
+          - name: enable_cephfs_vol_snap_class
+            value: "${ARGOCD_ENV_utils_rook_ceph_enable_cephfs_vol_snap_class}"
+
+          - name: enable_block_vol_snap_class
+            value: "${ARGOCD_ENV_utils_rook_ceph_enable_block_vol_snap_class}"

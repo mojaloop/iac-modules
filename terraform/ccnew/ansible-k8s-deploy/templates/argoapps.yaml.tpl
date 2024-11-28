@@ -21,6 +21,8 @@ argocd_override:
           volumes_provider: "${rook_ceph_volumes_provider}"
           volumes_storage_region: "${cloud_region}"
           cluster_domain: "${cluster_domain}"
+          enable_block_vol_snap_class: "${rook_ceph_enable_block_vol_snap_class}"
+          enable_cephfs_vol_snap_class: "${rook_ceph_enable_cephfs_vol_snap_class}"
         reflector:
           helm_version: "${reflector_helm_version}"
         reloader:

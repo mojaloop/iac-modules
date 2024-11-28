@@ -179,11 +179,13 @@ zitadel_pgdb_helm_version: "2.4.0"
 
 # rook ceph
 rook_ceph_helm_version: "1.15.5"
-rook_ceph_osd_count: "'3'"
-rook_ceph_volume_size_per_osd: "500Gi"
 rook_ceph_mon_volumes_size: "10Gi"
 rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
 rook_ceph_cloud_pv_reclaim_policy: "Delete" # Retain, Delete
 rook_ceph_object_store_region: "us-east-1"
+rook_ceph_enable_block_vol_snap_class: "true"
+rook_ceph_enable_cephfs_vol_snap_class: "false"
+rook_ceph_osd_count: "'3'"
+rook_ceph_volume_size_per_osd: "500Gi"
 rook_ceph_volumes_provider: "host" # host, pvc

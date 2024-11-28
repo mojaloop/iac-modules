@@ -185,14 +185,14 @@ cephBlockPools:
 
 # -- Settings for the filesystem snapshot class
 cephFileSystemVolumeSnapshotClass:
-  enabled: false
+  enabled: "${ARGOCD_ENV_enable_cephfs_vol_snap_class}"
   name: ceph-filesystem
   isDefault: true
   deletionPolicy: Delete
 
 # -- Settings for the block pool snapshot class
 cephBlockPoolsVolumeSnapshotClass:
-  enabled: false
+  enabled: "${ARGOCD_ENV_enable_block_pools_vol_snap_class}"
   name: ceph-block
   isDefault: false
   deletionPolicy: Delete
