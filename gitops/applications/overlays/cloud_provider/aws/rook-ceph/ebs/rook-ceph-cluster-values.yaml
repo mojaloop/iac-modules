@@ -54,9 +54,9 @@ cephClusterSpec:
               - matchExpressions:
                   - key: topology.kubernetes.io/zone
                     operator: In
-                      - "${ARGOCD_ENV_ceph_osd_count}a"
-                      - "${ARGOCD_ENV_ceph_osd_count}b"
-                      - "${ARGOCD_ENV_ceph_osd_count}c"
+                      - "${ARGOCD_ENV_cloud_region}a"
+                      - "${ARGOCD_ENV_cloud_region}b"
+                      - "${ARGOCD_ENV_cloud_region}c"
         topologySpreadConstraints:
           - maxSkew: 1
             #topologyKey: kubernetes.io/hostname
