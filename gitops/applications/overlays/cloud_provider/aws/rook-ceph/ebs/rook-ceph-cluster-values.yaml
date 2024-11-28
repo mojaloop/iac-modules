@@ -53,10 +53,7 @@ cephClusterSpec:
             nodeSelectorTerms:
               - matchExpressions:
                   - key: topology.kubernetes.io/zone
-                    operator: In
-                      - "${ARGOCD_ENV_cloud_region}a"
-                      - "${ARGOCD_ENV_cloud_region}b"
-                      - "${ARGOCD_ENV_cloud_region}c"
+                    operator: Exists
         topologySpreadConstraints:
           - maxSkew: 1
             #topologyKey: kubernetes.io/hostname
@@ -75,10 +72,7 @@ cephClusterSpec:
             nodeSelectorTerms:
               - matchExpressions:
                   - key: topology.kubernetes.io/zone
-                    operator: In
-                      - "${ARGOCD_ENV_cloud_region}a"
-                      - "${ARGOCD_ENV_cloud_region}b"
-                      - "${ARGOCD_ENV_cloud_region}c"
+                    operator: Exists
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100
