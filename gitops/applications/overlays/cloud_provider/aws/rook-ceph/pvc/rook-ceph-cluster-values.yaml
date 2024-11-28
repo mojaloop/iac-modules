@@ -48,18 +48,10 @@ cephClusterSpec:
       tuneFastDeviceClass: false
       # Topology spread constraints
       placement:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: topology.kubernetes.io/zone
-                    operator: Exists
         topologySpreadConstraints:
           - maxSkew: 1
-            #topologyKey: kubernetes.io/hostname
-            #whenUnsatisfiable:  ScheduleAnyway
-            topologyKey: topology.kubernetes.io/zone
-            whenUnsatisfiable: DoNotSchedule
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable:  ScheduleAnyway
             labelSelector:
               matchExpressions:
                 - key: app
@@ -67,12 +59,6 @@ cephClusterSpec:
                   values:
                     - rook-ceph-osd
       preparePlacement:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: topology.kubernetes.io/zone
-                    operator: Exists
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100
