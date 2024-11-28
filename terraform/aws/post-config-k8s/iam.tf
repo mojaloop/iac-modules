@@ -211,7 +211,7 @@ EOF
 # Attach the managed policy for EBS CSI Driver
 resource "aws_iam_role_policy_attachment" "csi_policy" {
   count = var.create_csi_role ? 1 : 0
-  role       = aws_iam_role.csi_role.name
+  role       = aws_iam_role.csi_role[0].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
 
@@ -219,5 +219,5 @@ resource "aws_iam_role_policy_attachment" "csi_policy" {
 resource "aws_iam_instance_profile" "csi_instance_profile" {
   count = var.create_csi_role ? 1 : 0
   name  = "${local.base_domain}-csi-instance-profile"
-  role = aws_iam_role.csi_role.name
+  role = aws_iam_role.csi_role[0].name
 }
