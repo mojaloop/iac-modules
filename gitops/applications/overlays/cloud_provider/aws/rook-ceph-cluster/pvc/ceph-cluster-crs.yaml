@@ -11,6 +11,9 @@ spec:
   dashboard:
     enabled: true
     prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
+  mgr:
+    count: 2
+    allowMultiplePerNode: false
   mon:
     count: 3
     allowMultiplePerNode: false
