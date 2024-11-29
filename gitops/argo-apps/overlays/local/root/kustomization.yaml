@@ -14,7 +14,7 @@ resources:
   - ../../../base/istio.yaml
   - ../../../base/istio-gw.yaml
   - ../../../base/cert-manager.yaml
-  # - ../../../base/consul.yaml
+  - ../../../base/consul.yaml
   - ../../../base/percona-operator.yaml
   - ../../../base/redis-operator.yaml
   - ../../../base/base-monitoring.yaml
