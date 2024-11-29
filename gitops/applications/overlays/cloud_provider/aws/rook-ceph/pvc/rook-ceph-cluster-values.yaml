@@ -192,7 +192,7 @@ cephFileSystemVolumeSnapshotClass:
 
 # -- Settings for the block pool snapshot class
 cephBlockPoolsVolumeSnapshotClass:
-  enabled: true
+  enabled: false
   name: ceph-block
   isDefault: true
   deletionPolicy: Delete
