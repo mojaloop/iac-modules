@@ -28,6 +28,7 @@ inputs = {
   netbird_api_host                     = local.netbird_api_host
   netbird_setup_key                    = local.netbird_setup_key
   cc_cidr_block                        = local.cc_cidr_block
+  coredns_bind_address                 = local.coredns_bind_address
   
   identity_provider_config_name    = "Zitadel"
   kubernetes_oidc_enabled          = get_env("KUBERNETES_OIDC_ENABLED")
@@ -65,6 +66,7 @@ locals {
   netbird_api_host          = get_env("NETBIRD_API_HOST")
   netbird_setup_key         = get_env("NETBIRD_K8S_SETUP_KEY")
   cc_cidr_block             = get_env("CC_CIDR_BLOCK")
+  coredns_bind_address      = get_env("coredns_bind_address")
 }
 
 generate "required_providers_override" {

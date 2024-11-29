@@ -48,3 +48,4 @@ istio_proxy_log_level: warn
 longhorn_backup_job_enabled: false
 enable_central_observability_write: false
 enable_central_observability_read: false
+coredns_localcache_version: "1.11.3"

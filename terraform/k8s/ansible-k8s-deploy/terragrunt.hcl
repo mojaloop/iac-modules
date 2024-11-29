@@ -93,12 +93,14 @@ locals {
   agent_hosts_var_maps  = {
     netbird_version              = get_env("NETBIRD_VERSION")
     netbird_api_host             = get_env("NETBIRD_API_HOST")
-    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY")   
+    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY") 
+    coredns_localcache_version   = local.common_vars.coredns_localcache_version      
   }
   master_hosts_var_maps  = {
     netbird_version              = get_env("NETBIRD_VERSION")
     netbird_api_host             = get_env("NETBIRD_API_HOST")
-    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY")   
+    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY") 
+    coredns_localcache_version   = local.common_vars.coredns_localcache_version  
   }
   bastion_hosts_var_maps = {
     netbird_version              = get_env("NETBIRD_VERSION")
