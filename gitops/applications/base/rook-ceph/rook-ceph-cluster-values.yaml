@@ -12,17 +12,10 @@ cephClusterSpec:
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
-  removeOSDsIfOutAndSafeToRemove: true
-
+  removeOSDsIfOutAndSafeToRemove: false
   mon:
     count: 3
     allowMultiplePerNode: false
-    volumeClaimTemplate:
-      spec:
-        storageClassName: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}-csi"
-        resources:
-          requests:
-            storage: "${ARGOCD_ENV_ceph_mon_volume_size}"
   mgr:
     count: 2
     allowMultiplePerNode: false
@@ -34,93 +27,15 @@ cephClusterSpec:
   dashboard:
     enabled: true
     prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
-
+  crashCollector:
+    disable: false
+  logCollector:
+    enabled: true
+    periodicity: daily # one of: hourly, daily, weekly, monthly
+    maxLogSize: 500M # SUFFIX may be 'M' or 'G'. Must be at least 1M.
   storage:
-    allowDeviceClassUpdate: false # whether to allow changing the device class of an OSD after it is created
-    allowOsdCrushWeightUpdate: true # whether to allow resizing the OSD crush weight after osd pvc is increased
-    storageClassDeviceSets:
-    - name: ebs-set1
-      # The number of OSDs to create from this device set
-      count: ${ARGOCD_ENV_ceph_osd_count}
-      portable: true
-      encrypted: false
-      tuneDeviceClass: true
-      tuneFastDeviceClass: false
-      # Topology spread constraints
-      placement:
-        topologySpreadConstraints:
-          - maxSkew: 1
-            topologyKey: kubernetes.io/hostname
-            whenUnsatisfiable:  ScheduleAnyway
-            labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - rook-ceph-osd
-      preparePlacement:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - rook-ceph-osd
-                    - key: app
-                      operator: In
-                      values:
-                        - rook-ceph-osd-prepare
-                topologyKey: kubernetes.io/hostname
-        topologySpreadConstraints:
-          - maxSkew: 1
-            #topologyKey: kubernetes.io/hostname
-            topologyKey: topology.kubernetes.io/zone
-            whenUnsatisfiable: DoNotSchedule
-            labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - rook-ceph-osd-prepare
-      # OSD daemon limits
-      # resources:
-      #   limits:
-      #     memory: "4Gi"
-      #   requests:
-      #     cpu: "500m"
-      #     memory: "4Gi"
-      volumeClaimTemplates:
-      - metadata:
-          name: data
-        spec:
-          resources:
-            requests:
-              storage: "${ARGOCD_ENV_ceph_volume_size_per_osd}"
-          storageClassName: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}-csi"
-          volumeMode: Block
-          accessModes:
-            - ReadWriteOnce
-    # when onlyApplyOSDPlacement is false, will merge both placement.All() and storageClassDeviceSets.Placement.
-    onlyApplyOSDPlacement: false
-  resources:
-  #  prepareosd:
-  #    requests:
-  #      cpu: "200m"
-  #      memory: "200Mi"
-  # priority classes to apply to ceph resource
-  priorityClassNames:
-    # If there are multiple nodes available in a failure domain (e.g. zones), the
-    # mons and osds can be portable and set the system-cluster-critical priority class.
-    mon: system-node-critical
-    osd: system-node-critical
-    mgr: system-cluster-critical
-  disruptionManagement:
-    managePodBudgets: true
-    osdMaintenanceTimeout: 30
-    pgHealthCheckTimeout: 0
+    useAllNodes: true
+    useAllDevices: true
 
 # CephObjectStore configurations
 cephObjectStores:
