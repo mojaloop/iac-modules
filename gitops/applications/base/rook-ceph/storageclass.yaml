@@ -7,6 +7,8 @@ provisioner: rook-ceph.ceph.rook.io/bucket
 reclaimPolicy: Delete
 volumeBindingMode: "Immediate"
 parameters:
+  objectStoreName: ceph-objectstore
+  objectStoreNamespace: "${ARGOCD_ENV_rook_ceph_namespace}"
   region: "${ARGOCD_ENV_rook_ceph_object_store_region}"
 
 ---
@@ -23,6 +25,7 @@ allowVolumeExpansion: true
 volumeBindingMode: "Immediate"
 parameters:
   clusterID: "${ARGOCD_ENV_rook_ceph_namespace}"
+  fsName: ceph-filesystem
   csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
   csi.storage.k8s.io/provisioner-secret-namespace: "${ARGOCD_ENV_rook_ceph_namespace}"
   csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
@@ -39,12 +42,13 @@ metadata:
   name: ceph-block
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
-provisioner: rook-ceph.cephfs.csi.ceph.com  
+provisioner: rook-ceph.rbd.csi.ceph.com
 reclaimPolicy: Delete
 allowVolumeExpansion: true
 volumeBindingMode: "Immediate"
 parameters:
   clusterID: "${ARGOCD_ENV_rook_ceph_namespace}"
+  pool: ceph-blockpool
   imageFormat: "2"
   imageFeatures: layering
   csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
