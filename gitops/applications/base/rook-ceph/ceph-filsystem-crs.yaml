@@ -1,3 +1,15 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystemSubVolumeGroup
+metadata:
+  name: ceph-filesystem-csi
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+spec:
+  name: csi
+  filesystemName: ceph-filesystem
+  pinning:
+    distributed: 1
+---
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:

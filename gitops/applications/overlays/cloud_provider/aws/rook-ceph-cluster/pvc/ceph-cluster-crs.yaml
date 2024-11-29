@@ -4,6 +4,10 @@ metadata:
   name: rook-ceph
   namespace: ${ARGOCD_ENV_rook_ceph_namespace}
 spec:
+  cephVersion:
+    image: quay.io/ceph/ceph:v18.2.4
+    allowUnsupported: false
+    dataDirHostPath: /var/lib/rook
   dashboard:
     enabled: true
     prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
