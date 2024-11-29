@@ -9,6 +9,7 @@ argocd_override:
           helm_version: "${argocd_helm_version}"
         rook_ceph:
           helm_version: "${rook_ceph_helm_version}"
+          image_version: "${rook_ceph_image_version}"
           rook_csi_kubelet_dir_path: "${rook_csi_kubelet_dir_path}"
           cloud_platform: "${cloud_platform}"
           mon_volumes_storage_class: "${rook_ceph_mon_volumes_storage_class}"

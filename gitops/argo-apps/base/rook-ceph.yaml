@@ -70,8 +70,8 @@ spec:
           - name: rook_ceph_namespace
             value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
 
-          - name: "rook_ceph_helm_version"
-            value: "${ARGOCD_ENV_utils_rook_ceph_helm_version}"
+          - name: ceph_image_version
+            value: "${ARGOCD_ENV_utils_rook_ceph_image_version}"
 
           - name: "ceph_osd_count"
             value: "${ARGOCD_ENV_utils_rook_ceph_osd_count}"
