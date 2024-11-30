@@ -10,6 +10,8 @@ nameOverride: ""
 fullnameOverride: "kratos"
 
 deployment:
+  annotations:
+    secret.reloader.stakater.com/reload: kratos-oidc-providers
   extraEnv:
     - name: SELFSERVICE_METHODS_OIDC_CONFIG_PROVIDERS
       valueFrom:

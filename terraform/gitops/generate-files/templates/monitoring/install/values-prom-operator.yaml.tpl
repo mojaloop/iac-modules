@@ -18,6 +18,7 @@ prometheus:
     storageClass: ${storage_class_name}
     size: ${prometheus_pvc_size}
   retention: ${prometheus_retention_period}
+  enableRemoteWriteReceiver: true
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING

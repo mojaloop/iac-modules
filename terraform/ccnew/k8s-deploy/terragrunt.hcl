@@ -30,6 +30,7 @@ inputs = {
   eks_oidc_enabled                     = false
   backup_bucket_force_destroy          = local.env_vars.object_storage_force_destroy_bucket
   bastion_instance_size                = local.env_vars.bastion_instance_size
+  coredns_bind_address                 = local.coredns_bind_address
 }
 
 locals {
@@ -48,6 +49,7 @@ locals {
   K8S_CLUSTER_TYPE          = get_env("k8s_cluster_type")
   CLOUD_REGION              = get_env("cloud_region")
   CLOUD_PLATFORM            = get_env("cloud_platform")
+  coredns_bind_address      = get_env("coredns_bind_address")  
 }
 
 generate "required_providers_override" {

@@ -37,3 +37,4 @@ tags:
   mojaloop/cost_center: mlf-iac-sandbox
   mojaloop/env: ft-sbox-rw
   mojaloop/owner: James-Bush
+coredns_bind_address: "169.254.20.10"
