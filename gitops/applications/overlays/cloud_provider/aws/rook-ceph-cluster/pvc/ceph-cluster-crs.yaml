@@ -8,9 +8,10 @@ spec:
     image: quay.io/ceph/ceph:${ARGOCD_ENV_ceph_image_version}
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
+  monitoring:
+    enabled: true
   dashboard:
     enabled: true
-    prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
   mgr:
     count: 2
     allowMultiplePerNode: false

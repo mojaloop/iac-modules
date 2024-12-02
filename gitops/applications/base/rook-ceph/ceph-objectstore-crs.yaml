@@ -7,7 +7,7 @@ spec:
   metadataPool:
     failureDomain: host
     replicated:
-      size: 3
+      size: ${ARGOCD_ENV_objects_replica_count}
   dataPool:
     failureDomain: host
     erasureCoded:

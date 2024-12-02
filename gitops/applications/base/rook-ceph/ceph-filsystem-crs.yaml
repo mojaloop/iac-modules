@@ -24,7 +24,7 @@ spec:
     - name: replicated
       failureDomain: host
       replicated:
-        size: 3
+        size: ${ARGOCD_ENV_objects_replica_count}
         requireSafeReplicaSize: true
   preserveFilesystemOnDelete: true
   metadataServer:
