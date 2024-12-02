@@ -19,25 +19,25 @@ helmCharts:
 - name: kube-prometheus
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
-  repo: oci://registry-1.docker.io/bitnamicharts
+  repo: ${prometheus_operator_repo}
   valuesFile: values-prom-operator.yaml
   namespace: ${monitoring_namespace}
 - name: grafana-operator
   releaseName: grafana
   version: ${grafana_operator_version}
-  repo: oci://registry-1.docker.io/bitnamicharts
+  repo: ${grafana_operator_repo}
   valuesFile: values-grafana-operator.yaml
   namespace: ${monitoring_namespace}
 - name: grafana-loki
   releaseName: ${loki_release_name}
   version: ${loki_chart_version}
-  repo: oci://registry-1.docker.io/bitnamicharts
+  repo: ${loki_repo}
   valuesFile: values-loki.yaml
   namespace: ${monitoring_namespace}
 - name: grafana-tempo
   releaseName: tempo
   version: ${tempo_chart_version}
-  repo: oci://registry-1.docker.io/bitnamicharts
+  repo: ${tempo_repo}
   valuesFile: values-tempo.yaml
   namespace: ${monitoring_namespace}
 - name: opentelemetry-operator
@@ -51,4 +51,4 @@ helmCharts:
   version: ${prometheus_process_exporter_version}
   repo: https://raw.githubusercontent.com/mumoshu/prometheus-process-exporter/master/docs
   valuesFile: values-process-exporter.yaml
-  namespace: ${monitoring_namespace}    
+  namespace: ${monitoring_namespace}
