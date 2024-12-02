@@ -257,7 +257,7 @@ argocd_override:
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
           prometheus_retention_period: "${prometheus_retention_period}"
-          alertmanager_enabled: "${alertmanager_enabled}"
+          # alertmanager_enabled: "${alertmanager_enabled}" # TODO: remove this line
         grafana:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"
