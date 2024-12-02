@@ -41,6 +41,7 @@ module "post_config" {
   public_zone_id              = module.base_infra.public_zone.id
   create_ext_dns_user         = var.create_ext_dns_user
   create_ext_dns_role         = var.create_ext_dns_role
+  create_csi_role             = var.create_csi_role
   create_iam_user             = var.create_ci_iam_user
   iac_group_name              = var.iac_group_name
   backup_bucket_name          = "${var.domain}-${var.backup_bucket_name}"
@@ -110,6 +111,9 @@ module "eks" {
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
     update_launch_template_default_version = true
+    iam_role_additional_policies = {
+      AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+    }
     autoscaling_group_tags = {
       "k8s.io/cluster-autoscaler/enabled" : true,
       "k8s.io/cluster-autoscaler/${local.eks_name}" : "owned",

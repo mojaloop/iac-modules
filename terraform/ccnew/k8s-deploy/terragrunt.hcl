@@ -23,6 +23,7 @@ inputs = {
   create_ext_dns_user                  = false
   create_ci_iam_user                   = true
   create_ext_dns_role                  = true
+  create_csi_role                      = (local.K8S_CLUSTER_TYPE == "microk8s" && local.env_vars.enable_cloud_csi_provisioner) ? true : false
   iac_group_name                       = local.env_vars.iac_group_name
   backup_enabled                       = local.env_vars.enable_object_storage_backend
   backup_bucket_name                   = local.env_vars.object_storage_base_bucket_name

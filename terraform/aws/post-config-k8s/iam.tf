@@ -186,3 +186,39 @@ resource "aws_s3_bucket" "backup_bucket" {
   force_destroy = var.backup_bucket_force_destroy
   tags          = merge({ Name = var.backup_bucket_name }, var.tags)
 }
+
+# EBS CSI driver
+resource "aws_iam_role" "csi_role" {
+  name  = "${local.base_domain}-csi"
+  count = var.create_csi_role ? 1 : 0
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+tags = merge({ Name = "${local.base_domain}-csi-role" }, var.tags)
+}
+
+# Attach the managed policy for EBS CSI Driver
+resource "aws_iam_role_policy_attachment" "csi_policy" {
+  count = var.create_csi_role ? 1 : 0
+  role       = aws_iam_role.csi_role[0].name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+}
+
+# Create an instance profile for the IAM Role
+resource "aws_iam_instance_profile" "csi_instance_profile" {
+  count = var.create_csi_role ? 1 : 0
+  name  = "${local.base_domain}-csi-instance-profile"
+  role = aws_iam_role.csi_role[0].name
+}
