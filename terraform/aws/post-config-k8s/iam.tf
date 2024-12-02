@@ -206,6 +206,7 @@ resource "aws_iam_role" "csi_role" {
   ]
 }
 EOF
+tags = merge({ Name = "${local.base_domain}-csi-role" }, var.tags)
 }
 
 # Attach the managed policy for EBS CSI Driver
