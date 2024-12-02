@@ -61,6 +61,9 @@ spec:
           - name: rook_ceph_object_store_region
             value: "${ARGOCD_ENV_utils_rook_ceph_object_store_region}"
 
+          - name: objects_replica_count
+            value: "${ARGOCD_ENV_utils_rook_ceph_objects_replica_count}"
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
       path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_cloud_provider}/rook-ceph-cluster/${ARGOCD_ENV_utils_rook_ceph_volumes_provider}
@@ -93,9 +96,6 @@ spec:
 
           - name: csi_driver_replicas
             value: "${ARGOCD_ENV_utils_rook_ceph_csi_driver_replicas}"
-
-          - name: objects_replica_count
-            value: "${ARGOCD_ENV_utils_rook_ceph_objects_replica_count}"
 
           - name: kubelet_dir_path
             value: "${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}"
