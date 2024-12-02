@@ -27,6 +27,7 @@ nodes:
     node_labels: []
     extra_vol: true
     extra_vols: []
+    # To review default storage configurations for on-prem microk8s using locally attached disks
     # extra_vols:
     #   - name: "/dev/sdh"
     #     size: 100

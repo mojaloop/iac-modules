@@ -18,7 +18,6 @@ argocd_override:
           cloud_pv_reclaim_policy: "${rook_ceph_cloud_pv_reclaim_policy}"
           osd_count: "${rook_ceph_osd_count}"
           volume_size_per_osd: "${rook_ceph_volume_size_per_osd}"
-          object_store_region: "${rook_ceph_object_store_region}"
           csi_driver_replicas: "${rook_ceph_csi_driver_replicas}"
           objects_replica_count: "${rook_ceph_objects_replica_count}"
           volumes_provider: "${rook_ceph_volumes_provider}"

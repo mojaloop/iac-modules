@@ -9,7 +9,7 @@ volumeBindingMode: "Immediate"
 parameters:
   objectStoreName: ceph-objectstore
   objectStoreNamespace: "${ARGOCD_ENV_rook_ceph_namespace}"
-  region: "${ARGOCD_ENV_rook_ceph_object_store_region}"
+  region: "us-east-1"
 
 ---
 # Ceph Filesystem
