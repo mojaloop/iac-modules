@@ -58,9 +58,6 @@ spec:
           - name: rook_ceph_namespace
             value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
 
-          - name: rook_ceph_object_store_region
-            value: "${ARGOCD_ENV_utils_rook_ceph_object_store_region}"
-
           - name: objects_replica_count
             value: "${ARGOCD_ENV_utils_rook_ceph_objects_replica_count}"
 
