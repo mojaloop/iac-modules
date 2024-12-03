@@ -149,14 +149,24 @@ gitlab_gitlab_admin_rbac_group: "gitlab_administrators"
 gitlab_gitlab_user_rbac_group: "gitlab_users"
 gitaly_storage_size: "10Gi"
 gitlab_postgres_rdbms_provider: "percona"
+#gitlab rds
+gitlab_rds_engine: "aurora-postgresql"
+gitlab_rds_instance_class: "db.t3.medium"
+gitlab_rds_storage_encrypted: true
+gitlab_rds_skip_final_snapshot: true
 gitlab_db_backup_retention_period: "'1'"
 gitlab_db_preferred_backup_window: "07:00-09:00"
+gitlab_db_storage_type: "io1" 
+gitlab_db_storage_iops: "'5000'" 
+#praefect rds
+praefect_rds_engine: "aurora-postgresql"
+praefect_rds_instance_class: "db.t3.medium"
+praefect_rds_storage_encrypted: true
+praefect_rds_skip_final_snapshot: true
 praefect_db_backup_retention_period: "'1'"
 praefect_db_preferred_backup_window: "07:00-09:00"
-gitlab_db_storage_type: "io1" # rds specific
-gitlab_db_storage_iops: "'5000'" # rds specific
-praefect_db_storage_type: "io1" # rds specific
-praefect_db_storage_iops: "'5000'" # rds specific
+praefect_db_storage_type: "io1" 
+praefect_db_storage_iops: "'5000'"
 
 ceph_bucket_max_objects: "'1000000'"
 ceph_bucket_max_size: "10Gi"
@@ -169,6 +179,10 @@ zitadel_postgres_instance_size: "small"
 zitadel_postgres_storage_size: "20Gi"
 zitadel_db_storage_size: "5Gi"
 #Zitadel RDS specific
+zitadel_rds_engine: "aurora-postgresql"
+zitadel_rds_instance_class: "db.t3.medium"
+zitadel_rds_storage_encrypted: true
+zitadel_rds_skip_final_snapshot: true
 zitadel_db_backup_retention_period: "'1'"
 zitadel_db_preferred_backup_window: "07:00-09:00"
 zitadel_rds_postgres_storage_size: "'100'"
