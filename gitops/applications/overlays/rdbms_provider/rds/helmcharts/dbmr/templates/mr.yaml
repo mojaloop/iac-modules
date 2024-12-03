@@ -1,5 +1,5 @@
 apiVersion: infitx.org/v1alpha1
-kind: DBInstanceClaim
+kind: RDSAuroraDBInstanceClaim
 metadata:
   name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   namespace: {{ .Values.namespace }}
@@ -11,12 +11,13 @@ spec:
   compositionSelector:
     matchLabels:
       provider: aws
-      db: postgresql
+      db: rds-aurora
       cluster: {{ .Values.namePrefix }}
   parameters:
     region: {{ .Values.region }}
-    engineVersion: "16"
-    size: {{ .Values.size }}
+    engine: {{ .Values.engine }}
+    engineVersion: {{ .Values.engineVersion }}
+    dbClusterInstanceClass: {{ .Values.dbClusterInstanceClass }}
     storageGB: {{ .Values.storageGB }}
     vpcId: {{ .Values.vpcId }}
     vpcCidr:  {{ .Values.vpcCidr }}
@@ -36,3 +37,4 @@ spec:
     preferredBackupWindow: {{ .Values.preferredBackupWindow }}
     storageType: {{ .Values.storageType }}
     storageIops: {{ .Values.storageIops }}
+    storageEncrypted: {{ .Values.storageEncrypted }}
