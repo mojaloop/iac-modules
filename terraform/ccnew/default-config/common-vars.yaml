@@ -64,7 +64,6 @@ grafana_operator_version: "4.4.12"
 grafana_image_version: 11.1.1
 prometheus_pvc_size: 50Gi
 prometheus_retention_period: 10d
-alertmanager_enabled: false # TODO: remove this line
 
 tempo_chart_version: 3.1.0
 loki_chart_version: 2.13.0

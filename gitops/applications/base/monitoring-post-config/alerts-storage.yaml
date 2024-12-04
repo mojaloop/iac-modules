@@ -3,24 +3,21 @@ groups:
   - name: storage
     interval: 30s # TODO: update this after development
     rules:
-      - alert: LowDiskSpace 
-      # TODO: update after development
-        # expr: ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 20 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
-        expr: ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 90 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
-        # for: 2m
-        for: 0m
-        labels:
-          severity: warning
-        annotations:
-          summary: "LowDiskSpace (<20%). instance={{ $labels.nodename }}, mountpoint={{ $labels.mountpoint }}"
-          description: "Disk is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-      - alert: KubernetesVolumeOutOfDiskSpace
-        expr: kubelet_volume_stats_available_bytes / kubelet_volume_stats_capacity_bytes * 100 < 20
+      - alert: Node-LowDiskSpace 
+        expr: ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 20 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
         for: 2m
         labels:
           severity: warning
         annotations:
-          summary: Low PVC space left (<20%).  persistentvolumeclaim={{ $labels.persistentvolumeclaim }}
+          summary: "{{ printf \"%.2f\" $value }}% disk space left. instance={{ $labels.nodename }}, mountpoint={{ $labels.mountpoint }}"
+          description: "Disk is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      - alert: Kubernetes - Low PVC Space Left
+        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 15
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ printf \"%.2f\" $value }}% PVC space full.  persistentvolumeclaim={{ $labels.persistentvolumeclaim }}"
           description: "Volume is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
       - alert: ObjectStoreQuotaLimit
         expr: radosgw_usage_user_total_bytes / radosgw_usage_user_quota_size_bytes > 0.8
