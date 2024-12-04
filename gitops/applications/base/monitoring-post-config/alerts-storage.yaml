@@ -19,7 +19,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{{ $value }}% PVC space full.  persistentvolumeclaim={{ $labels.persistentvolumeclaim }}"
+          summary: "{{ printf \"%.2f\" $value }}% PVC space full.  persistentvolumeclaim={{ $labels.persistentvolumeclaim }}"
           description: "Volume is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
       - alert: ObjectStoreQuotaLimit
         expr: radosgw_usage_user_total_bytes / radosgw_usage_user_quota_size_bytes > 0.8
