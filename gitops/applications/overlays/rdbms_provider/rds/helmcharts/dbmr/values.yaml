@@ -2,6 +2,7 @@ namePrefix: awesomecc
 name: gitlabdb
 namespace: "gitlab"
 region: eu-west-1
+engine: "postgres"
 engineVersion: "16"
 dbClusterInstanceClass: "db.t3.medium"
 storageGB: 10
