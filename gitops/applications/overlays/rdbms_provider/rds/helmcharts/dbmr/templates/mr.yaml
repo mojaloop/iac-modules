@@ -1,5 +1,9 @@
 apiVersion: infitx.org/v1alpha1
+{{- if contains .Values.engine "aurora" }}
 kind: RDSAuroraDBInstanceClaim
+{{- else }}
+kind: RDSDBInstanceClaim
+{{- end }}
 metadata:
   name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   namespace: {{ .Values.namespace }}
@@ -11,7 +15,11 @@ spec:
   compositionSelector:
     matchLabels:
       provider: aws
+  {{- if contains .Values.engine "aurora" }}
       db: rds-aurora
+  {{- else }}
+      db: rds
+  {{- end }}
       cluster: {{ .Values.namePrefix }}
   parameters:
     region: {{ .Values.region }}
@@ -34,7 +42,9 @@ spec:
     applyImmediately: {{ .Values.applyImmediately }}
     backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
     preferredBackupWindow: {{ .Values.preferredBackupWindow }}
-    #storageGB: {{ .Values.storageGB }}
-    #storageType: {{ .Values.storageType }}
-    #storageIops: {{ .Values.storageIops }}
+{{- if not contains .Values.engine "aurora"  }}    
+    storageGB: {{ .Values.storageGB }}
+    storageType: {{ .Values.storageType }}
+    storageIops: {{ .Values.storageIops }}
+{{- end }}    
     storageEncrypted: {{ .Values.storageEncrypted }}
