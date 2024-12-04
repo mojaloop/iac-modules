@@ -71,13 +71,22 @@ groups:
           summary: "Container={{ $labels.container }} in pod={{ $labels.pod }} is experiencing {{ printf \"%.2f\" $value }} seconds CPU throttling."
           description: "LABELS = {{ $labels }}" 
       - alert: K8s - High pod memory usage -
-        expr: sum(container_memory_working_set_bytes{image!=""}) by (cluster,pod,container) / sum(kube_pod_container_resource_limits{resource="memory"}) by (cluster,pod,container) * 100 > 40 
+        expr: sum(container_memory_working_set_bytes{image!=""}) by (cluster,namespace,pod,container) / sum(kube_pod_container_resource_limits{resource="memory"}) by (cluster,namespace,pod,container) * 100 > 40 
         for: 2m
         labels:
           severity: warning
         annotations:
-          summary: "Container={{ $labels.container }} in pod={{ $labels.pod }} is using {{ printf \"%.2f\" $value }}% of memory limit."
+          summary: "Container={{ $labels.container }} in pod={{ $labels.namespace }}/{{ $labels.pod }} is using {{ printf \"%.2f\" $value }}% of memory limit."
           description: "LABELS = {{ $labels }}" 
+      - alert: K8s - Container OOM restarts - 
+        expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes."
+          description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
 
 
 
