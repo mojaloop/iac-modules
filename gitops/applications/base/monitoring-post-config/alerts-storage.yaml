@@ -9,13 +9,11 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "LowDiskSpace (<20%). instance={{ $labels.nodename }}, mountpoint={{ $labels.mountpoint }}"
+          summary: "{{ printf \"%.2f\" $value }}% disk space left. instance={{ $labels.nodename }}, mountpoint={{ $labels.mountpoint }}"
           description: "Disk is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
       - alert: KubernetesVolumeOutOfDiskSpace
-        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 15
-        # expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 80
-        for: 0m
-        # for: 2m
+        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 80
+        for: 2m
         labels:
           severity: warning
         annotations:
