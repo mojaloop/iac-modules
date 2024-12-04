@@ -18,7 +18,6 @@ spec:
     engine: {{ .Values.engine }}
     engineVersion: "{{ .Values.engineVersion }}"
     dbClusterInstanceClass: {{ .Values.dbClusterInstanceClass }}
-    storageGB: {{ .Values.storageGB }}
     vpcId: {{ .Values.vpcId }}
     vpcCidr:  {{ .Values.vpcCidr }}
     {{- with ( splitList "," .Values.subnets) }}
@@ -35,6 +34,7 @@ spec:
     applyImmediately: {{ .Values.applyImmediately }}
     backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
     preferredBackupWindow: {{ .Values.preferredBackupWindow }}
-    storageType: {{ .Values.storageType }}
-    storageIops: {{ .Values.storageIops }}
+    #storageGB: {{ .Values.storageGB }}
+    #storageType: {{ .Values.storageType }}
+    #storageIops: {{ .Values.storageIops }}
     storageEncrypted: {{ .Values.storageEncrypted }}
