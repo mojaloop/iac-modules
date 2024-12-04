@@ -3,7 +3,7 @@ groups:
   - name: storage
     interval: 30s # TODO: update this after development
     rules:
-      - alert: LowDiskSpace 
+      - alert: Node-LowDiskSpace 
         expr: ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 20 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
         for: 2m
         labels:
@@ -11,8 +11,8 @@ groups:
         annotations:
           summary: "{{ printf \"%.2f\" $value }}% disk space left. instance={{ $labels.nodename }}, mountpoint={{ $labels.mountpoint }}"
           description: "Disk is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-      - alert: KubernetesVolumeOutOfDiskSpace
-        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 80
+      - alert: Kubernetes - Low PVC Space Left
+        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 15
         for: 2m
         labels:
           severity: warning
