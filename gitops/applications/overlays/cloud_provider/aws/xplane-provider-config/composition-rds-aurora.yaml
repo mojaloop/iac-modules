@@ -124,8 +124,6 @@ spec:
           patchSetName: metadata
         - fromFieldPath: spec.parameters.region
           toFieldPath: spec.forProvider.region
-        - fromFieldPath: spec.parameters.dbClusterInstanceClass
-          toFieldPath: spec.forProvider.dbClusterInstanceClass
         - fromFieldPath: spec.parameters.username
           toFieldPath: spec.forProvider.masterUsername
         - fromFieldPath: spec.parameters.dbName
