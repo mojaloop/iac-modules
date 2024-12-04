@@ -4,7 +4,8 @@ groups:
     interval: 30s # TODO: update this after development
     rules:
       - alert: LowDiskSpace 
-        expr: ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 20 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
+      # TODO: update after development
+        expr: ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 90 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
         for: 2m
         labels:
           severity: warning
