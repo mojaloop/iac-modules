@@ -90,10 +90,6 @@ spec:
           kind: DBCluster
           spec:
             forProvider:
-              availabilityZones:
-                       - eu-west-2a
-                       - eu-west-2b
-                       - eu-west-2c
               allowMajorVersionUpgrade: false
               applyImmediately: false
               autoMinorVersionUpgrade: false

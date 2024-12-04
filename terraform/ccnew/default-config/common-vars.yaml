@@ -153,8 +153,8 @@ gitlab_postgres_rdbms_provider: "percona"
 gitlab_rds_engine: "aurora-postgresql"
 gitlab_rds_engine_version: "'16'"
 gitlab_rds_instance_class: "db.t3.medium"
-gitlab_rds_storage_encrypted: true
-gitlab_rds_skip_final_snapshot: true
+gitlab_rds_storage_encrypted: "'true'"
+gitlab_rds_skip_final_snapshot: "'true'"
 gitlab_db_backup_retention_period: "'1'"
 gitlab_db_preferred_backup_window: "07:00-09:00"
 gitlab_db_storage_type: "io1" 
@@ -163,8 +163,8 @@ gitlab_db_storage_iops: "'5000'"
 praefect_rds_engine: "aurora-postgresql"
 praefect_rds_engine_version: "'16'"
 praefect_rds_instance_class: "db.t3.medium"
-praefect_rds_storage_encrypted: true
-praefect_rds_skip_final_snapshot: true
+praefect_rds_storage_encrypted: "'true'"
+praefect_rds_skip_final_snapshot: "'true'"
 praefect_db_backup_retention_period: "'1'"
 praefect_db_preferred_backup_window: "07:00-09:00"
 praefect_db_storage_type: "io1" 
