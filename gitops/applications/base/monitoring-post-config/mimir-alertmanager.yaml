@@ -84,7 +84,7 @@ spec:
         config.yaml: |
           route:
             # Main alert routing configuration
-            receiver: ${ARGOCD_ENV_argocd_namespace}
+            receiver: ${ARGOCD_ENV_mimir_alerts_notification_receiver}
             group_by: ['cluster', 'job', 'alertname']
             group_wait: 30s
             group_interval: 5m
