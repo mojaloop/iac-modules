@@ -3,7 +3,7 @@ groups:
   - name: storage
     interval: 30s # TODO: update this after development
     rules:
-      - alert: Node - Low Disk Space 
+      - alert: Node - Low Disk Space - 
         expr: ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 20 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
         for: 2m
         labels:
@@ -11,15 +11,15 @@ groups:
         annotations:
           summary: "{{ printf \"%.2f\" $value }}% disk space left. instance={{ $labels.nodename }}, mountpoint={{ $labels.mountpoint }}"
           description: "Disk is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-      - alert: Kubernetes - Low PVC Space
-        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 80
+      - alert: Kubernetes - Low PVC Space - 
+        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes > 0.8
         for: 2m
         labels:
           severity: warning
         annotations:
           summary: "{{ printf \"%.2f\" $value }}% PVC space full.  persistentvolumeclaim={{ $labels.persistentvolumeclaim }}"
           description: "Volume is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-      - alert: ObjectStore - Bucket quota limit approaching
+      - alert: ObjectStore - Bucket quota limit approaching - 
         expr: radosgw_usage_user_total_bytes / radosgw_usage_user_quota_size_bytes > 0.8
         for: 2m
         labels:
@@ -27,13 +27,19 @@ groups:
         annotations:
           summary: "Object store (s3 bucket) quota is {{ printf \"%.2f\" $value }}% used up for user={{ $labels.user }}"
           description: "LABELS = {{ $labels }}"
-      - alert: RookCeph - OSD storage limit approaching
-        # expr: ceph_osd_stat_bytes_used/ceph_osd_stat_bytes > 0.8
-        expr: ceph_osd_stat_bytes_used/ceph_osd_stat_bytes > 0.01
-        # for: 2m
+      - alert: RookCeph - OSD storage limit approaching - 
+        expr: ceph_osd_stat_bytes_used/ceph_osd_stat_bytes > 0.8
         for: 2m
         labels:
           severity: warning
         annotations:
           summary: "Ceph OSD={{ $labels.ceph_daemon }} is {{ printf \"%.2f\" $value }}% full. OSD={{ $labels.ceph_daemon }}"
           description: "LABELS = {{ $labels }}"
+      - alert: RookCeph - Cluster storage limit approaching - 
+        expr: ceph_cluster_total_used_bytes/ceph_cluster_total_bytes > 0.8
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Ceph cluster={{ $labels.cluster }} is {{ printf \"%.2f\" $value }}% full. "
+          description: "LABELS = {{ $labels }}"          
