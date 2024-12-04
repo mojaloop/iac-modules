@@ -43,3 +43,20 @@ groups:
         annotations:
           summary: "Ceph cluster={{ $labels.cluster }} is {{ printf \"%.2f\" $value }}% full. "
           description: "LABELS = {{ $labels }}"          
+  - name: resources
+    interval: 30s # TODO: update this after development
+    rules:
+      - alert: Node - High CPU usage - 
+        expr: (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) without (cpu)) * 100 > 20
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Node {{ $labels.nodename }} is using {{ printf \"%.2f\" $value }}% CPU.  "
+          description: "LABELS = {{ $labels }}"
+      # - alert: Node - High RAM usage -
+      # - alert: K8s - High pod CPU usage - 
+      # - alert: K8s - High pod memory usage - 
+
+
+
