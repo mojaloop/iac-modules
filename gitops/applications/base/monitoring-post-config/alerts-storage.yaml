@@ -12,7 +12,7 @@ groups:
           summary: "{{ printf \"%.2f\" $value }}% disk space left. instance={{ $labels.nodename }}, mountpoint={{ $labels.mountpoint }}"
           description: "Disk is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
       - alert: Kubernetes - Low PVC Space
-        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 80
+        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes > 0.8
         for: 2m
         labels:
           severity: warning
@@ -31,9 +31,19 @@ groups:
         # expr: ceph_osd_stat_bytes_used/ceph_osd_stat_bytes > 0.8
         expr: ceph_osd_stat_bytes_used/ceph_osd_stat_bytes > 0.01
         # for: 2m
-        for: 2m
+        for: 0m
         labels:
           severity: warning
         annotations:
           summary: "Ceph OSD={{ $labels.ceph_daemon }} is {{ printf \"%.2f\" $value }}% full. OSD={{ $labels.ceph_daemon }}"
           description: "LABELS = {{ $labels }}"
+      - alert: RookCeph - Cluster storage limit approaching
+        # expr: ceph_cluster_total_used_bytes/ceph_cluster_total_bytes > 0.8
+        expr: ceph_cluster_total_used_bytes/ceph_cluster_total_bytes > 0.01
+        # for: 2m
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Ceph cluster={{ $labels.cluster }} is {{ printf \"%.2f\" $value }}% full. "
+          description: "LABELS = {{ $labels }}"          
