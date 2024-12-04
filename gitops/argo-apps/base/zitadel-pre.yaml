@@ -160,6 +160,9 @@ spec:
           - name: "rds_storage_encrypted"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_encrypted}"
 
+          - name: "rds_engine_version"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_engine_version}"
+
           - name: "rds_skip_final_snapshot"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_skip_final_snapshot}"   
 
