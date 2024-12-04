@@ -12,7 +12,7 @@ groups:
           summary: "LowDiskSpace (<20%). instance={{ $labels.nodename }}, mountpoint={{ $labels.mountpoint }}"
           description: "Disk is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
       - alert: KubernetesVolumeOutOfDiskSpace
-        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 20
+        expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 15
         # expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 80
         for: 0m
         # for: 2m
