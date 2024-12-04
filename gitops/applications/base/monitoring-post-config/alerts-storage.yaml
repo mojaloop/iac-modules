@@ -1,7 +1,7 @@
 namespace: infra
 groups:
   - name: storage
-    interval: 30s # TODO: update this after development
+    interval: 1m
     rules:
       - alert: Node - Low Disk Space - 
         expr: ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 20 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}
@@ -31,7 +31,7 @@ groups:
         expr: ceph_osd_stat_bytes_used/ceph_osd_stat_bytes > 0.8
         for: 2m
         labels:
-          severity: warning
+          severity: critical
         annotations:
           summary: "Ceph OSD={{ $labels.ceph_daemon }} is {{ printf \"%.2f\" $value }}% full. OSD={{ $labels.ceph_daemon }}"
           description: "LABELS = {{ $labels }}"
@@ -39,7 +39,7 @@ groups:
         expr: ceph_cluster_total_used_bytes/ceph_cluster_total_bytes > 0.8
         for: 2m
         labels:
-          severity: warning
+          severity: critical
         annotations:
           summary: "Ceph cluster={{ $labels.cluster }} is {{ printf \"%.2f\" $value }}% full. "
           description: "LABELS = {{ $labels }}"          

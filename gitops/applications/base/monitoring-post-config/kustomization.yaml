@@ -25,4 +25,5 @@ resources:
 configMapGenerator:
   - name: mimir-ruler-data
     files:
-      - alerts-storage.yaml 
+      - alerts-storage.yaml
+      - alerts-resources.yaml
