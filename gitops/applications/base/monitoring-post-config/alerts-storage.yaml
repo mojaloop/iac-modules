@@ -62,7 +62,14 @@ groups:
         annotations:
           summary: "Node={{ $labels.nodename }} is using {{ printf \"%.2f\" $value }}% RAM."
           description: "LABELS = {{ $labels }}"      
-      # - alert: K8s - High pod CPU usage - 
+      - alert: K8s - Container CPU throttling - 
+        expr: rate(container_cpu_cfs_throttled_seconds_total{image!="", container!=""}[5m]) > 0.2
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container={{ $labels.container }} in pod={{ $labels.pod }} is experiencing {{ printf \"%.2f\" $value }} seconds CPU throttling."
+          description: "LABELS = {{ $labels }}" 
       # - alert: K8s - High pod memory usage - 
 
 
