@@ -128,6 +128,7 @@ argocd_override:
           pgdb_helm_version: "${zitadel_pgdb_helm_version}"          
         zitadel_rds_provider:
           engine: "${zitadel_rds_engine}"
+          engine_version: "${zitadel_rds_engine_version}"
           postgres_instance_class: "${zitadel_rds_instance_class}"
           storage_encrypted: "${zitadel_rds_storage_encrypted}"
           skip_final_snapshot: "${zitadel_rds_skip_final_snapshot}"
@@ -214,6 +215,7 @@ argocd_override:
           pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
         webdb_rds_provider:
           engine: "${gitlab_rds_engine}"
+          engine_version: "${gitlab_rds_engine_version}"          
           postgres_instance_class: "${gitlab_rds_instance_class}"
           storage_encrypted: "${gitlab_rds_storage_encrypted}"
           skip_final_snapshot: "${gitlab_rds_skip_final_snapshot}"        
@@ -229,6 +231,7 @@ argocd_override:
           storage_iops: "${gitlab_db_storage_iops}"
         praefectdb_rds_provider:
           engine: "${praefect_rds_engine}"
+          engine_version: "${praefect_rds_engine_version}"          
           postgres_instance_class: "${praefect_rds_instance_class}"
           storage_encrypted: "${praefect_rds_storage_encrypted}"
           skip_final_snapshot: "${praefect_rds_skip_final_snapshot}"        
