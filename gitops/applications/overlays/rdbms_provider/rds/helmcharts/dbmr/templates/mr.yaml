@@ -16,7 +16,7 @@ spec:
   parameters:
     region: {{ .Values.region }}
     engine: {{ .Values.engine }}
-    engineVersion: {{ .Values.engineVersion }}
+    engineVersion: "{{ .Values.engineVersion }}"
     dbClusterInstanceClass: {{ .Values.dbClusterInstanceClass }}
     storageGB: {{ .Values.storageGB }}
     vpcId: {{ .Values.vpcId }}
