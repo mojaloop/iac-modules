@@ -42,7 +42,7 @@ spec:
     applyImmediately: {{ .Values.applyImmediately }}
     backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
     preferredBackupWindow: {{ .Values.preferredBackupWindow }}
-{{- if not contains .Values.engine "aurora"  }}    
+{{- if not ( contains .Values.engine "aurora" )  }}    
     storageGB: {{ .Values.storageGB }}
     storageType: {{ .Values.storageType }}
     storageIops: {{ .Values.storageIops }}
