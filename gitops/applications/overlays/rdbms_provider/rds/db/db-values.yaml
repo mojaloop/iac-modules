@@ -3,7 +3,7 @@ namePrefix: ${ARGOCD_ENV_cluster_name}
 namespace: "${ARGOCD_ENV_namespace}"
 region: ${ARGOCD_ENV_cloud_region}
 engine: ${ARGOCD_ENV_rds_engine}
-engineVersion: ${ARGOCD_ENV_rds_engine_version}
+engineVersion: "${ARGOCD_ENV_rds_engine_version}"
 dbClusterInstanceClass: ${ARGOCD_ENV_rds_instance_class}
 storageGB: ${ARGOCD_ENV_rds_postgres_storage_size}
 vpcId: ${ARGOCD_ENV_rds_vpc_id}
