@@ -1,6 +1,6 @@
-namespace: infra
+namespace: grafana-mimir
 groups:
-  - name: mimir
+  - name: recording-rules
     interval: 1m
     rules:
       - record: namespace:pod_cpu_usage:rate
