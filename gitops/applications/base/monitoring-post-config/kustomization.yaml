@@ -26,3 +26,4 @@ configMapGenerator:
   - name: mimir-ruler-data
     files:
       - alerts-infra.yaml
+      - recording-rules-mimir.yaml
