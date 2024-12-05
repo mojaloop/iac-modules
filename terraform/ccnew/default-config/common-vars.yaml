@@ -77,7 +77,7 @@ tempo_retention_period: 72h
 # monitoring/mimir
 mimir_bucket_name: "mimir-bucket"
 mimir_bucket_max_objects: "'1000000'"
-mimir_bucket_storage_size: "60Gi"
+mimir_bucket_storage_size: "100Gi"
 
 mimir_max_label_names_per_series: "'35'"
 mimir_max_global_series_per_user: "'5000000'"
