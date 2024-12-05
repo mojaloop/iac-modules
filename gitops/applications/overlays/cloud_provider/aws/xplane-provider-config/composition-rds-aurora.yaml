@@ -9,7 +9,7 @@ metadata:
 spec:
   compositeTypeRef:
     apiVersion: infitx.org/v1alpha1
-    kind: RDSAuroraDBInstance
+    kind: RDSAuroraDBCluster
   mode: Pipeline
   pipeline:
   - functionRef:
