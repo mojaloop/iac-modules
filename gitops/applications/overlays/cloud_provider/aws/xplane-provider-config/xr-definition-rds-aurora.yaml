@@ -1,15 +1,15 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: rdsauroradbinstances.infitx.org
+  name: rdsauroradbclusters.infitx.org
 spec:
   group: infitx.org
   names:
-    kind: RDSAuroraDBInstance
-    plural: rdsauroradbinstances
+    kind: RDSAuroraDBCluster
+    plural: rdsauroradbclusters
   claimNames:
-    kind: RDSAuroraDBInstanceClaim
-    plural: rdsauroradbinstanceclaims
+    kind: RDSAuroraDBClusterClaim
+    plural: rdsauroradbclusterclaims
   versions:
   - name: v1alpha1
     served: true

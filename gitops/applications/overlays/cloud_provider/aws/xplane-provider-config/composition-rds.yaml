@@ -9,7 +9,7 @@ metadata:
 spec:
   compositeTypeRef:
     apiVersion: infitx.org/v1alpha1
-    kind: RDSDBInstance
+    kind: RDSDBCluster
   mode: Pipeline
   pipeline:
   - functionRef:
