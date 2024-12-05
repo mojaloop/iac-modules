@@ -1,8 +1,8 @@
 apiVersion: infitx.org/v1alpha1
-{{- if contains .Values.engine "aurora" }}
-kind: RDSAuroraDBInstanceClaim
+{{- if contains "aurora" .Values.engine }}
+kind: RDSAuroraDBClusterClaim
 {{- else }}
-kind: RDSDBInstanceClaim
+kind: RDSDBClusterClaim
 {{- end }}
 metadata:
   name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
@@ -15,7 +15,7 @@ spec:
   compositionSelector:
     matchLabels:
       provider: aws
-  {{- if contains .Values.engine "aurora" }}
+  {{- if contains "aurora" .Values.engine  }}
       db: rds-aurora
   {{- else }}
       db: rds
@@ -42,9 +42,27 @@ spec:
     applyImmediately: {{ .Values.applyImmediately }}
     backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
     preferredBackupWindow: {{ .Values.preferredBackupWindow }}
-{{- if not ( contains .Values.engine "aurora" )  }}    
+{{- if not ( contains "aurora" .Values.engine  )  }}    
     storageGB: {{ .Values.storageGB }}
     storageType: {{ .Values.storageType }}
     storageIops: {{ .Values.storageIops }}
 {{- end }}    
     storageEncrypted: {{ .Values.storageEncrypted }}
+{{- if contains "aurora" .Values.engine  }}
+---
+apiVersion: infitx.org/v1alpha1
+kind: RDSAuroraReplicaClaim
+metadata:
+  name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
+spec:
+  compositionSelector:
+    matchLabels:
+      provider: aws
+      db: rds-aurora
+      cluster: {{ .Values.namePrefix }}
+  count: {{ .Values.replicaCount }}
+  dbInstanceClass: {{ .Values.dbClusterInstanceClass }}
+  engine: {{ .Values.engine }}
+  region: {{ .Values.region }}
+  dbClusterName: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
+{{- end }}
