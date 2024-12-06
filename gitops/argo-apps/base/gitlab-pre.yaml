@@ -238,7 +238,10 @@ spec:
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_encrypted}"
 
           - name: "rds_engine_version"
-            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_engine_version}"               
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_engine_version}" 
+
+          - name: "rds_replica_count"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_replica_count}"                              
 
           - name: "rds_skip_final_snapshot"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_skip_final_snapshot}" 
@@ -335,7 +338,10 @@ spec:
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_storage_encrypted}"
 
           - name: "rds_engine_version"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_engine_version}"            
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_engine_version}" 
+
+          - name: "rds_replica_count"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_replica_count}"                           
 
           - name: "rds_skip_final_snapshot"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_skip_final_snapshot}"    

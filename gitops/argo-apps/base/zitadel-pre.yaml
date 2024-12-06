@@ -163,6 +163,9 @@ spec:
           - name: "rds_engine_version"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_engine_version}"
 
+          - name: "rds_replica_count"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_replica_count}"                
+
           - name: "rds_skip_final_snapshot"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_skip_final_snapshot}"   
 
