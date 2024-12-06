@@ -1,0 +1,28 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: ceph-filesystem
+  labels:
+    velero.io/csi-volumesnapshot-class: "true"
+    snapshot.storage.kubernetes.io/is-default-class: "false"
+driver: rook-ceph.cephfs.csi.ceph.com
+parameters:
+  clusterID: "${ARGOCD_ENV_rook_ceph_namespace}"
+  csi.storage.k8s.io/snapshotter-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/snapshotter-secret-namespace: "${ARGOCD_ENV_rook_ceph_namespace}"
+deletionPolicy: Delete
+
+---
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: ceph-block
+  labels:
+    velero.io/csi-volumesnapshot-class: "true"
+    snapshot.storage.kubernetes.io/is-default-class: "true"
+driver: rook-ceph.rbd.csi.ceph.com
+parameters:
+  clusterID: "${ARGOCD_ENV_rook_ceph_namespace}"
+  csi.storage.k8s.io/snapshotter-secret-name: rook-csi-rbd-provisioner
+  csi.storage.k8s.io/snapshotter-secret-namespace: "${ARGOCD_ENV_rook_ceph_namespace}"
+deletionPolicy: Delete

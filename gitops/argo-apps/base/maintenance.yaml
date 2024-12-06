@@ -55,3 +55,6 @@ spec:
 
           - name: "object_storage_bucket"
             value: "${ARGOCD_ENV_maintenance_velero_object_storage_bucket}"
+          
+          - name: rook_ceph_namespace
+            value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
