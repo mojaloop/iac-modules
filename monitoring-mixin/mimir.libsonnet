@@ -57,6 +57,7 @@ local config =  mimir._config + {
 local mimir_with_updated_config = mimir + {"_config": config};
 
 local all_dashboards = mimir_with_updated_config.grafanaDashboards;
+local recording_rules = mimir_with_updated_config.prometheusRules;
 
 
 local exported_resources = {
@@ -80,6 +81,8 @@ local exported_resources = {
     "mimir-scaling.json": all_dashboards["mimir-scaling.json"],
     "mimir-slow-queries.json": all_dashboards["mimir-slow-queries.json"],
     "mimir-tenants.json": all_dashboards["mimir-tenants.json"],
+
+    "recording-rules.json": recording_rules,
 
     };
 
