@@ -58,6 +58,9 @@ metrics:
 distributor:
   replicaCount: ${ARGOCD_ENV_mimir_distributor_replica_count}
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_mimir_distributor_requests_cpu}
+      memory: ${ARGOCD_ENV_mimir_distributor_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_mimir_distributor_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_distributor_limits_memory}
@@ -65,6 +68,9 @@ distributor:
 ingester:
   replicaCount: ${ARGOCD_ENV_mimir_ingester_replica_count}
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_mimir_ingester_requests_cpu}
+      memory: ${ARGOCD_ENV_mimir_ingester_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_mimir_ingester_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ingester_limits_memory}
