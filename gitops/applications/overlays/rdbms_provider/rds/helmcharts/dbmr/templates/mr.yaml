@@ -50,6 +50,7 @@ spec:
     storageIops: {{ .Values.storageIops }}
 {{- end }}    
     storageEncrypted: {{ .Values.storageEncrypted }}
+    skipFinalSnapshot: {{ .Values.skipFinalSnapshot }}
 {{- if contains "aurora" .Values.engine  }}
 ---
 apiVersion: infitx.org/v1alpha1
