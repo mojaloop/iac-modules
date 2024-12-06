@@ -129,7 +129,7 @@ argocd_override:
         zitadel_rds_provider:
           engine: "${zitadel_rds_engine}"
           engine_version: "${zitadel_rds_engine_version}"
-          rds_replica_count: "${zitadel_rds_replica_count}"
+          replica_count: "${zitadel_rds_replica_count}"
           postgres_instance_class: "${zitadel_rds_instance_class}"
           storage_encrypted: "${zitadel_rds_storage_encrypted}"
           skip_final_snapshot: "${zitadel_rds_skip_final_snapshot}"
