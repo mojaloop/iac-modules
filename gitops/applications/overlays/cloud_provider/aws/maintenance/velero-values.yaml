@@ -29,17 +29,23 @@ configuration:
   # See https://velero.io/docs/v1.6/api-types/volumesnapshotlocation/
   volumeSnapshotLocation:
     # name is the name of the volume snapshot location where snapshots are being taken. Required.
-    - name: cloudprovider-objectstorage
+    # - name: cloudprovider-objectstorage
+    #   # provider is the name for the volume snapshot provider.
+    #   provider: aws
+    #   credential:
+    #     key: ${ARGOCD_ENV_object_storage_secret_key}
+    #     name: ${ARGOCD_ENV_object_storage_secret_name}
+    #   # Additional provider-specific configuration. See link above
+    #   # for details of required/optional fields for your provider.
+    #   config:
+    #     profile: default
+    #     region: ${ARGOCD_ENV_object_storage_region}
+    - name: rook-ceph
       # provider is the name for the volume snapshot provider.
-      provider: aws
-      credential:
-        key: ${ARGOCD_ENV_object_storage_secret_key}
-        name: ${ARGOCD_ENV_object_storage_secret_name}
-      # Additional provider-specific configuration. See link above
-      # for details of required/optional fields for your provider.
-      config:
-        profile: default
-        region: ${ARGOCD_ENV_object_storage_region}
+      provider: csi
+      config: {}
+  features: EnableCSI
+  defaultSnapshotMoveData: true
 initContainers:
   - name: velero-plugin-for-aws
     image: velero/velero-plugin-for-aws:${ARGOCD_ENV_velero_plugin_version}
@@ -57,3 +63,5 @@ credentials:
 
 annotations:
   secret.reloader.stakater.com/reload: ${ARGOCD_ENV_object_storage_secret_name}
+
+deployNodeAgent: true
