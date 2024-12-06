@@ -10,6 +10,8 @@ metadata:
   annotations:
     organization: Infitx
     author: devops
+  labels:
+    name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
 spec:
   id: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   compositionSelector:
