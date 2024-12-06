@@ -23,6 +23,8 @@ spec:
         patches:
         - fromFieldPath: metadata.annotations
           toFieldPath: metadata.annotations
+        - fromFieldPath: metadata.labels
+          toFieldPath: metadata.labels          
         - fromFieldPath: spec.id
           toFieldPath: metadata.name
       resources:

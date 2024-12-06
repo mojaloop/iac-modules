@@ -33,7 +33,6 @@ spec:
               forProvider:
                 dbClusterIdentifierSelector:
                   matchLabels:
-                    crossplane.io/composite: "{{ $.observed.composite.resource.spec.dbClusterName }}"
                     name: "{{ $.observed.composite.resource.spec.dbClusterName }}"
                 dbInstanceClass: "{{ $.observed.composite.resource.spec.dbInstanceClass }}"
                 engine: "{{ $.observed.composite.resource.spec.engine }}"
