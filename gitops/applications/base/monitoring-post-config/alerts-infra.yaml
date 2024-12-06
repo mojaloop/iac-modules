@@ -71,7 +71,7 @@ groups:
           summary: "Container={{ $labels.container }} in pod={{ $labels.pod }} is experiencing {{ printf \"%.2f\" $value }} seconds CPU throttling."
           description: "LABELS = {{ $labels }}" 
       - alert: K8s - High pod memory usage -
-        expr: sum(container_memory_working_set_bytes{image!=""}) by (cluster,namespace,pod,container) / sum(kube_pod_container_resource_limits{resource="memory"}) by (cluster,namespace,pod,container) * 100 > 80
+        expr: sum(container_memory_working_set_bytes{image!=""}) by (cluster, job, namespace,pod,container) / sum(kube_pod_container_resource_limits{resource="memory"}) by (cluster, job, namespace,pod,container) * 100 > 80
         for: 2m
         labels:
           severity: warning
