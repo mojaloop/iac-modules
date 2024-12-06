@@ -57,6 +57,10 @@ apiVersion: infitx.org/v1alpha1
 kind: RDSAuroraReplicaClaim
 metadata:
   name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
+  namespace: {{ .Values.namespace }} 
+  annotations:
+    organization: Infitx
+    author: devops   
 spec:
   compositionSelector:
     matchLabels:
