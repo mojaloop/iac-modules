@@ -7,3 +7,5 @@ resources:
   - composition-rds.yaml
   - xr-definition-rds-aurora.yaml
   - composition-rds-aurora.yaml  
+  - composition-rds-aurora-replica.yaml
+  - xr-definition-rds-aurora-replica.yaml
