@@ -3,5 +3,9 @@ kind: Kustomization
 
 resources:
   - provider-config.yaml
-  - xr-definition.yaml
-  - composition.yaml
+  - xr-definition-rds.yaml
+  - composition-rds.yaml
+  - xr-definition-rds-aurora.yaml
+  - composition-rds-aurora.yaml  
+  - composition-rds-aurora-replica.yaml
+  - xr-definition-rds-aurora-replica.yaml

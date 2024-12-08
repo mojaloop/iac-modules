@@ -1,0 +1,42 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: rds-aurora-replica-composition
+  labels:
+    provider: aws
+    db: rds-aurora
+    cluster: ${ARGOCD_ENV_cluster_name}  
+spec:
+  compositeTypeRef:
+    apiVersion: infitx.org/v1alpha1
+    kind: RDSAuroraReplica
+  mode: Pipeline
+  pipeline:
+    - step: render-templates
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- range $i := until ( .observed.composite.resource.spec.count | int ) }}
+            ---
+            apiVersion: rds.aws.crossplane.io/v1alpha1
+            kind: DBInstance
+            metadata:
+              name: "{{ $.observed.composite.resource.spec.dbClusterName }}-replica-{{ $i }}"
+              annotations:
+                {{ setResourceNameAnnotation (print "test-" $i) }}
+            spec:
+              forProvider:
+                dbClusterIdentifierSelector:
+                  matchLabels:
+                    name: "{{ $.observed.composite.resource.spec.dbClusterName }}"
+                dbInstanceClass: "{{ $.observed.composite.resource.spec.dbInstanceClass }}"
+                engine: "{{ $.observed.composite.resource.spec.engine }}"
+                region: "{{ $.observed.composite.resource.spec.region }}"
+              providerConfigRef:
+                name: crossplane-provider-config
+            {{ end }}
