@@ -3,6 +3,7 @@ kind: CompositeResourceDefinition
 metadata:
   name: rdsaurorareplica.infitx.org
 spec:
+  defaultCompositeDeletePolicy: Foreground
   group: infitx.org
   names:
     kind: RDSAuroraReplica
