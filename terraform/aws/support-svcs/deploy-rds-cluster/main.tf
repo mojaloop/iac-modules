@@ -1,3 +1,7 @@
+locals {
+  is_aurora = try(regex("aurora", var.engine),"") == "aurora" ? true : false
+}
+
 module "db_subnet_group" {
   source = "terraform-aws-modules/rds/aws//modules/db_subnet_group"
 
@@ -47,10 +51,10 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   engine                    = var.engine
   engine_version            = var.engine_version
-  db_cluster_instance_class = regex("aurora", var.engine) ?  null : var.instance_class
-  allocated_storage         = regex("aurora", var.engine) ?  null : var.allocated_storage
-  storage_type              = regex("aurora", var.engine) ?  null : var.storage_type
-  iops                      = regex("aurora", var.engine) ?  null : var.iops
+  db_cluster_instance_class = local.is_aurora ?  null : var.instance_class
+  allocated_storage         = local.is_aurora ?  null : var.allocated_storage
+  storage_type              = local.is_aurora ?  null : var.storage_type
+  iops                      = local.is_aurora ?  null : var.iops
   storage_encrypted         = var.storage_encrypted
   kms_key_id                = var.kms_key_id
 
@@ -92,7 +96,7 @@ resource "aws_rds_cluster" "rds_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
-  count              = regex("aurora", var.engine)? var.replicas : 0
+  count              = local.is_aurora ? var.replicas : 0
   identifier         = "${var.identifier}-${count.index}"
   cluster_identifier = aws_rds_cluster.rds_cluster[0].id
   instance_class     = var.instance_class
