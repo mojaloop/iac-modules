@@ -47,10 +47,10 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   engine                    = var.engine
   engine_version            = var.engine_version
-  db_cluster_instance_class = strcontains(var.engine, "aurora") ?  null : var.instance_class
-  allocated_storage         = strcontains(var.engine, "aurora") ?  null : var.allocated_storage
-  storage_type              = strcontains(var.engine, "aurora") ?  null : var.storage_type
-  iops                      = strcontains(var.engine, "aurora") ?  null : var.iops
+  db_cluster_instance_class = regex("aurora", var.engine) ?  null : var.instance_class
+  allocated_storage         = regex("aurora", var.engine) ?  null : var.allocated_storage
+  storage_type              = regex("aurora", var.engine) ?  null : var.storage_type
+  iops                      = regex("aurora", var.engine) ?  null : var.iops
   storage_encrypted         = var.storage_encrypted
   kms_key_id                = var.kms_key_id
 
