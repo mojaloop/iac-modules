@@ -8,9 +8,9 @@ mcm-db:
     backup_window: 01:00-04:00
     db_name: mcm
     deletion_protection: false
-    engine: 8.0.mysql_aurora.3.04.0
-    engine_version: "8.0"
-    family: mysql8.0
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
     instance_class: db.t3.medium
     replicas: 2
     maintenance_window: Sun:04:00-Sun:06:00
@@ -50,9 +50,9 @@ account-lookup-db:
     backup_window: 01:00-04:00
     db_name: account_lookup
     deletion_protection: false
-    engine: 8.0.mysql_aurora.3.04.0
-    engine_version: "8.0"
-    family: mysql8.0
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
     instance_class: db.t3.medium
     replicas: 2
     maintenance_window: Sun:04:00-Sun:06:00
@@ -90,9 +90,9 @@ central-ledger-db:
     backup_window: 01:00-04:00
     db_name: central_ledger
     deletion_protection: false
-    engine: 8.0.mysql_aurora.3.04.0
-    engine_version: "8.0"
-    family: mysql8.0
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
     instance_class: db.t3.medium
     replicas: 2
     maintenance_window: Sun:04:00-Sun:06:00
@@ -239,9 +239,9 @@ keycloak-db:
     backup_window: 01:00-04:00
     db_name: keycloak
     deletion_protection: false
-    engine: 8.0.mysql_aurora.3.04.0
-    engine_version: "8.0"
-    family: mysql8.0
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
     instance_class: db.t3.medium
     replicas: 2
     maintenance_window: Sun:04:00-Sun:06:00
@@ -279,9 +279,9 @@ keto-db:
     backup_window: 01:00-04:00
     db_name: keto
     deletion_protection: false
-    engine: 8.0.mysql_aurora.3.04.0
-    engine_version: "8.0"
-    family: mysql8.0
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
     instance_class: db.t3.medium
     replicas: 2
     maintenance_window: Sun:04:00-Sun:06:00
@@ -319,9 +319,9 @@ kratos-db:
     backup_window: 01:00-04:00
     db_name: kratos
     deletion_protection: false
-    engine: 8.0.mysql_aurora.3.04.0
-    engine_version: "8.0"
-    family: mysql8.0
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
     instance_class: db.t3.medium
     replicas: 2
     maintenance_window: Sun:04:00-Sun:06:00
