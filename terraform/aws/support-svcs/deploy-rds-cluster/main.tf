@@ -92,7 +92,7 @@ resource "aws_rds_cluster" "rds_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
-  count              = strcontains(var.engine, "aurora") ? var.replicas : 0
+  count              = regex("aurora", var.engine)? var.replicas : 0
   identifier         = "${var.identifier}-${count.index}"
   cluster_identifier = aws_rds_cluster.rds_cluster[0].id
   instance_class     = var.instance_class
