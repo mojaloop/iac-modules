@@ -105,5 +105,10 @@ spec:
                   # message field contains title
                   message: {{ `"[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"` }}
                   # description field contains the body
-                  description: {{ `"{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"` }}
+                  description: {{ `
+                    {{ range .Alerts }}
+                    {{ .Annotations.summary }}
+                    {{ .Annotations.description }}
+                    {{ end }}
+                    ` }}
 ---
