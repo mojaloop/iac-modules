@@ -12,7 +12,7 @@ mcm-db:
     engine_version: 8.0.mysql_aurora.3.04.0
     family: aurora-mysql8.0
     instance_class: db.t3.medium
-    replicas: 2
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -52,7 +52,7 @@ account-lookup-db:
     engine_version: 8.0.mysql_aurora.3.04.0
     family: aurora-mysql8.0
     instance_class: db.t3.medium
-    replicas: 2
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -92,7 +92,7 @@ central-ledger-db:
     engine_version: 8.0.mysql_aurora.3.04.0
     family: aurora-mysql8.0
     instance_class: db.t3.medium
-    replicas: 2
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -241,7 +241,7 @@ keycloak-db:
     engine_version: 8.0.mysql_aurora.3.04.0
     family: aurora-mysql8.0
     instance_class: db.t3.medium
-    replicas: 2
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -281,7 +281,7 @@ keto-db:
     engine_version: 8.0.mysql_aurora.3.04.0
     family: aurora-mysql8.0
     instance_class: db.t3.medium
-    replicas: 2
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -321,7 +321,7 @@ kratos-db:
     engine_version: 8.0.mysql_aurora.3.04.0
     family: aurora-mysql8.0
     instance_class: db.t3.medium
-    replicas: 2
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
