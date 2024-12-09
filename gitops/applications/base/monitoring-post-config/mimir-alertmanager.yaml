@@ -107,8 +107,8 @@ spec:
                   # description field contains the body
                   description: {{ `|
                     {{ range .Alerts }}
-                    {{ .Annotations.summary }}
-                    {{ .Annotations.description }}
+                    summary: {{ .Annotations.summary }}
+                    description: {{ .Annotations.description }}
                     {{ end }}
                     ` }}
 ---
