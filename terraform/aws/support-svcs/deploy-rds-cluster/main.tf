@@ -47,9 +47,10 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   engine                    = var.engine
   engine_version            = var.engine_version
-  db_cluster_instance_class = var.instance_class
-  allocated_storage         = var.allocated_storage
+  db_cluster_instance_class = strcontains(var.engine, "aurora") ?  : ""
+  allocated_storage         = strcontains(var.engine, "aurora") ? var.allocated_storage
   storage_type              = var.storage_type
+  iops                      = var.iops  
   storage_encrypted         = var.storage_encrypted
   kms_key_id                = var.kms_key_id
 
@@ -66,7 +67,7 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   network_type = var.network_type
 
-  iops = var.iops
+
 
   allow_major_version_upgrade  = var.allow_major_version_upgrade
   apply_immediately            = var.apply_immediately
@@ -88,4 +89,13 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   tags = var.tags
 
+}
+
+resource "aws_rds_cluster_instance" "cluster_instances" {
+  count              = strcontains(var.engine, "aurora") ? var.replicas : 0
+  identifier         = "${var.identifier}-${count.index}"
+  cluster_identifier = aws_rds_cluster.rds_cluster[0].id
+  instance_class     = var.instance_class
+  engine             = aws_rds_cluster.rds_cluster[0].engine
+  engine_version     = aws_rds_cluster.rds_cluster[0].engine_version
 }
