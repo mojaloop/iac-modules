@@ -131,7 +131,7 @@ bulk-mongodb:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mongodb
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: bulk-mongodb-svc
@@ -153,7 +153,7 @@ cep-mongodb:
   enabled: false
   app_owner: "mojaloop"
   resource_type: mongodb
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-cep-mongodb
@@ -175,7 +175,7 @@ reporting-events-mongodb:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mongodb
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-reporting-events-mongodb
@@ -257,7 +257,7 @@ ttk-mongodb:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mongodb
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: ttk-mongodb-svc
