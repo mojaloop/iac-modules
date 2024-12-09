@@ -35,7 +35,7 @@ spec:
           spec:
             forProvider:
               description: Subnet group for DB instance
-              region: eu-west-2
+              region: temp-placeholder
               subnetIds: []
             providerConfigRef:
               name: crossplane-provider-config
@@ -61,7 +61,7 @@ spec:
                     - cidrIp: "10.106.0.0/23"
               description: Security group for the db instance
               groupName: db-security-group
-              region: eu-west-2
+              region: temp-placeholder
               vpcId: testid
               tags:
               - key: Name
@@ -97,7 +97,7 @@ spec:
               autoMinorVersionUpgrade: false
               backupRetentionPeriod: 1
               preferredBackupWindow: 07:00-09:00
-              region: eu-west-2
+              region: temp-placeholder
               dbSubnetGroupNameSelector:
                 matchControllerRef: true
               vpcSecurityGroupIDSelector:
