@@ -102,4 +102,8 @@ spec:
               opsgenie_configs:
                 - api_key: {{.api_key}}
                   send_resolved: true
+                  # message field contains title
+                  message: {{ `"[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"` }}
+                  # description field contains the body
+                  description: {{ `"{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"` }}
 ---
