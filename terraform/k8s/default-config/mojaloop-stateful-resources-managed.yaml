@@ -28,8 +28,6 @@ mcm-db:
         value: utf8mb4
       - name: character_set_server
         value: utf8mb4
-      - name: sql_require_primary_key
-        value: OFF
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
