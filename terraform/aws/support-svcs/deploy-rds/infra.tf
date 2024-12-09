@@ -21,6 +21,7 @@ module "rds" {
   iops                 = each.value.external_resource_config.storage_iops
   multi_az            = each.value.external_resource_config.multi_az
   skip_final_snapshot = each.value.external_resource_config.skip_final_snapshot
+  replicas            = each.value.external_resource_config.replicas
 
   db_name  = each.value.external_resource_config.db_name
   username = each.value.external_resource_config.username
