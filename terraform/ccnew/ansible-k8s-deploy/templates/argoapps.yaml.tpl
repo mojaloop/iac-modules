@@ -60,6 +60,7 @@ argocd_override:
           aws_crossplane_module_version:  "${aws_crossplane_module_version}"          
           crossplane_func_pat_version: "${crossplane_func_pat_version}"
           k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
+          crossplane_func_go_templating_version: "${crossplane_func_go_templating_version}"
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -127,6 +128,12 @@ argocd_override:
           postgres_storage_size: "${zitadel_postgres_storage_size}"
           pgdb_helm_version: "${zitadel_pgdb_helm_version}"          
         zitadel_rds_provider:
+          engine: "${zitadel_rds_engine}"
+          engine_version: "${zitadel_rds_engine_version}"
+          replica_count: "${zitadel_rds_replica_count}"
+          postgres_instance_class: "${zitadel_rds_instance_class}"
+          storage_encrypted: "${zitadel_rds_storage_encrypted}"
+          skip_final_snapshot: "${zitadel_rds_skip_final_snapshot}"
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
@@ -209,6 +216,12 @@ argocd_override:
           postgres_storage_size: "${gitlab_praefect_postgres_storage_size}"
           pgdb_helm_version: "${gitlab_praefect_pgdb_helm_version}"
         webdb_rds_provider:
+          engine: "${gitlab_rds_engine}"
+          engine_version: "${gitlab_rds_engine_version}"
+          replica_count: "${gitlab_rds_replica_count}"          
+          postgres_instance_class: "${gitlab_rds_instance_class}"
+          storage_encrypted: "${gitlab_rds_storage_encrypted}"
+          skip_final_snapshot: "${gitlab_rds_skip_final_snapshot}"        
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
@@ -220,6 +233,12 @@ argocd_override:
           storage_type: "${gitlab_db_storage_type}"
           storage_iops: "${gitlab_db_storage_iops}"
         praefectdb_rds_provider:
+          engine: "${praefect_rds_engine}"
+          engine_version: "${praefect_rds_engine_version}"
+          replica_count: "${praefect_rds_replica_count}"                     
+          postgres_instance_class: "${praefect_rds_instance_class}"
+          storage_encrypted: "${praefect_rds_storage_encrypted}"
+          skip_final_snapshot: "${praefect_rds_skip_final_snapshot}"        
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"

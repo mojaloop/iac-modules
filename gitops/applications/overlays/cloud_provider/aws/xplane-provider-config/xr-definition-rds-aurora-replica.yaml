@@ -1,0 +1,56 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: rdsaurorareplica.infitx.org
+spec:
+  defaultCompositeDeletePolicy: Foreground
+  group: infitx.org
+  names:
+    kind: RDSAuroraReplica
+    plural: rdsaurorareplica
+  claimNames:
+    kind: RDSAuroraReplicaClaim
+    plural: rdsaurorareplicaclaims    
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                count:
+                  type: integer
+                  description: "The number of Aurora replicas to create."
+                  minimum: 1 # Ensures at least one replica is specified.
+                region:
+                  type: string
+                  description: "The AWS region where the Aurora replicas will be created."
+                dbInstanceClass:
+                  type: string
+                  description: "The instance class for the Aurora replicas."
+                engine:
+                  type: string
+                  description: "The database engine to use (e.g., aurora-postgresql, aurora-mysql)."
+                dbClusterName:
+                  type: string
+                  description: "The name of the Aurora cluster to which the replicas belong."
+                tags:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      value:
+                        type: string
+
+          required:
+            - count
+            - region
+            - dbInstanceClass
+            - engine
+            - dbClusterName

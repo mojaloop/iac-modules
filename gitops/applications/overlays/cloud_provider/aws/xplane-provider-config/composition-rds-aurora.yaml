@@ -1,0 +1,167 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: rds-aurora-composition
+  labels:
+    provider: aws
+    db: rds-aurora
+    cluster: ${ARGOCD_ENV_cluster_name}
+spec:
+  compositeTypeRef:
+    apiVersion: infitx.org/v1alpha1
+    kind: RDSAuroraDBCluster
+  mode: Pipeline
+  pipeline:
+  - functionRef:
+      name: function-patch-and-transform
+    step: patch-and-transform
+    input:
+      apiVersion: pt.fn.crossplane.io/v1beta1
+      kind: Resources
+      patchSets:
+      - name: metadata
+        patches:
+        - fromFieldPath: metadata.annotations
+          toFieldPath: metadata.annotations
+        - fromFieldPath: metadata.labels
+          toFieldPath: metadata.labels          
+        - fromFieldPath: spec.id
+          toFieldPath: metadata.name
+      resources:
+      - name: dbsubnetgroup
+        base:
+          apiVersion: database.aws.crossplane.io/v1beta1
+          kind: DBSubnetGroup
+          spec:
+            forProvider:
+              description: Subnet group for DB instance
+              region: temp-placeholder
+              subnetIds: []
+            providerConfigRef:
+              name: crossplane-provider-config
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.subnets"
+          toFieldPath: "spec.forProvider.subnetIds"
+
+      - name: securityGroup
+        base:
+          apiVersion: ec2.aws.crossplane.io/v1beta1
+          kind: SecurityGroup
+          spec:
+            forProvider:
+              ingress:
+              - fromPort: 5432
+                toPort: 5432
+                ipProtocol: tcp
+                ipRanges:
+                    - cidrIp: "10.106.0.0/23"
+              description: Security group for the db instance
+              groupName: db-security-group
+              region: temp-placeholder
+              vpcId: testid
+              tags:
+              - key: Name
+                value: db-security-group
+            providerConfigRef:
+              name: crossplane-provider-config
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - fromFieldPath: "spec.parameters.region"
+          toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.vpcId"
+          toFieldPath: "spec.forProvider.vpcId"
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.forProvider.groupName"
+          transforms:
+          - type: string
+            string:
+              type: Format
+              fmt: '%s-security-group'
+        - fromFieldPath: "spec.parameters.vpcCidr"
+          toFieldPath: "spec.forProvider.ingress[0].ipRanges[0].cidrIp"
+        - fromFieldPath: "metadata.name"
+          toFieldPath: "spec.forProvider.tags[0].value"
+      - name: dbCluster
+        base:
+          apiVersion: rds.aws.crossplane.io/v1alpha1
+          kind: DBCluster
+          spec:
+            forProvider:
+              allowMajorVersionUpgrade: false
+              applyImmediately: false
+              autoMinorVersionUpgrade: false
+              backupRetentionPeriod: 1
+              preferredBackupWindow: 07:00-09:00
+              region: temp-placeholder
+              dbSubnetGroupNameSelector:
+                matchControllerRef: true
+              vpcSecurityGroupIDSelector:
+                matchControllerRef: true
+              masterUsername: masteruser
+              databaseName: testdb
+              engine: aurora-postgresql
+              skipFinalSnapshot: true
+                #publiclyAccessible: false
+              masterUserPasswordSecretRef:
+                key: password
+                name: secretName
+            providerConfigRef:
+              name: crossplane-provider-config
+            writeConnectionSecretToRef:
+              namespace: dbnamespace
+              name: dbsecret
+
+
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - fromFieldPath: spec.parameters.region
+          toFieldPath: spec.forProvider.region
+        - fromFieldPath: spec.parameters.username
+          toFieldPath: spec.forProvider.masterUsername
+        - fromFieldPath: spec.parameters.dbName
+          toFieldPath: spec.forProvider.databaseName
+        - fromFieldPath: spec.parameters.engine
+          toFieldPath: spec.forProvider.engine
+        - fromFieldPath: spec.parameters.engineVersion
+          toFieldPath: spec.forProvider.engineVersion
+        - fromFieldPath: spec.parameters.storageGB
+          toFieldPath: spec.forProvider.allocatedStorage
+        - fromFieldPath: spec.parameters.storageType
+          toFieldPath: spec.forProvider.storageType
+        - fromFieldPath: spec.parameters.storageIops          
+          toFieldPath: spec.forProvider.iops
+        - fromFieldPath: spec.parameters.backupRetentionPeriod
+          toFieldPath: spec.forProvider.backupRetentionPeriod
+        - fromFieldPath: spec.parameters.preferredBackupWindow
+          toFieldPath: spec.forProvider.preferredBackupWindow
+        - fromFieldPath: spec.parameters.allowMajorVersionUpgrade
+          toFieldPath: spec.forProvider.allowMajorVersionUpgrade
+        - fromFieldPath: spec.parameters.autoMinorVersionUpgrade
+          toFieldPath: spec.forProvider.autoMinorVersionUpgrade
+        - fromFieldPath: spec.parameters.applyImmediately
+          toFieldPath: spec.forProvider.applyImmediately
+        - fromFieldPath: spec.parameters.skipFinalSnapshot
+          toFieldPath: spec.forProvider.skipFinalSnapshot
+        - fromFieldPath: spec.parameters.passwordSecret.name
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.name
+        - fromFieldPath: spec.parameters.passwordSecret.key
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.key
+        - fromFieldPath: spec.claimRef.namespace
+          toFieldPath: spec.forProvider.masterUserPasswordSecretRef.namespace
+        - fromFieldPath: spec.claimRef.namespace
+          toFieldPath: spec.writeConnectionSecretToRef.namespace
+        - fromFieldPath: spec.parameters.storageEncrypted
+          toFieldPath: spec.forProvider.storageEncrypted
+        - fromFieldPath: spec.parameters.dbName
+          toFieldPath: spec.writeConnectionSecretToRef.name
+          transforms:
+          - type: string
+            string:
+              type: Format
+              fmt: '%s-connection-secret'
