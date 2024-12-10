@@ -193,6 +193,7 @@ module "generate_mojaloop_files" {
     mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
     mojaloop_override_values_file_exists                              = local.mojaloop_override_values_file_exists
+    reporting_k8s_override_values_file_exists                         = local.reporting_k8s_override_values_file_exists
     finance_portal_override_values_file_exists                        = local.finance_portal_override_values_file_exists
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
     updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}=${key}:${value}"])
@@ -217,6 +218,13 @@ resource "local_file" "finance_portal_values_override" {
   count      = local.finance_portal_override_values_file_exists ? 1 : 0
   content    = file(var.finance_portal_values_override_file)
   filename   = "${local.output_path}/values-finance-portal-override.yaml"
+  depends_on = [module.generate_mojaloop_files]
+}
+
+resource "local_file" "reporting_k8s_values_override" {
+  count      = local.reporting_k8s_override_values_file_exists ? 1 : 0
+  content    = file(var.reporting_k8s_values_override_file)
+  filename   = "${local.output_path}/values-reporting-k8s-override.yaml"
   depends_on = [module.generate_mojaloop_files]
 }
 
@@ -254,6 +262,7 @@ locals {
   jws_key_secret                               = "switch-jws"
   mojaloop_override_values_file_exists         = fileexists(var.mojaloop_values_override_file)
   finance_portal_override_values_file_exists   = fileexists(var.finance_portal_values_override_file)
+  reporting_k8s_override_values_file_exists    = fileexists(var.reporting_k8s_values_override_file)
 }
 
 variable "app_var_map" {
@@ -397,6 +406,10 @@ variable "mojaloop_values_override_file" {
 }
 
 variable "finance_portal_values_override_file" {
+  type = string
+}
+
+variable "reporting_k8s_values_override_file" {
   type = string
 }
 

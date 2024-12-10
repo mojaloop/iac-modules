@@ -67,6 +67,7 @@ inputs = {
   stateful_resources_operators_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/stateful-resources-operators.yaml")
   mojaloop_values_override_file            = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-values-override.yaml", "mojaloop-values-override.yaml")
   finance_portal_values_override_file      = find_in_parent_folders("${get_env("CONFIG_PATH")}/finance-portal-values-override.yaml", "finance-portal-values-override.yaml")
+  reporting_k8s_values_override_file       = find_in_parent_folders("${get_env("CONFIG_PATH")}/reporting-k8s-values-override.yaml", "reporting-k8s-values-override.yaml")
   mojaloop_stateful_res_helm_config_file   = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-local-helm.yaml")
   mojaloop_stateful_res_op_config_file     = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-local-operator.yaml")
   mojaloop_stateful_res_mangd_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
