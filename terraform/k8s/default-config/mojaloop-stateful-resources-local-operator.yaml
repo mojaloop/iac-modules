@@ -515,6 +515,7 @@ ttk-mongodb:
       storage_class_name: longhorn
       service_port: 27017
       affinity_definition: {}
+    additional_privileges: []      
 
 keycloak-db:
   local_operator_config:
