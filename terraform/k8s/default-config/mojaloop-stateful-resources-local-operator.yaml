@@ -434,7 +434,7 @@ reporting-events-mongodb:
       affinity_definition: {}
     additional_privileges:
       - collection: reporting
-        actions: ["collMod"]
+        action: "collMod"
 mojaloop-kafka:
   local_operator_config:
     resource_namespace: mojaloop
