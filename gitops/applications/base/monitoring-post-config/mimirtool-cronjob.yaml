@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mimir-rules-alerts-sync-job
+spec:
+  schedule: "*/1 * * * *"  # Runs every minute 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: my-cronjob-container
+              image: grafana/mimirtool:2.14.1 
+              command: 
+                - "sh"
+                - "-c"
+                - |
+                  echo 'Running job';
+                  mimirtool rules sync /etc/mimir-ruler/alerts-*.yaml /etc/mimir-ruler/recording-rules-*.yaml --address  http://central-monitoring-grafana-mimir-ruler:8080 --id infitx;
+                  # mimirtool rules print --address  http://central-monitoring-grafana-mimir-ruler:8080 --id infitx;
+                  mimirtool alertmanager load /etc/mimir-alertmanager/config.yaml --address  http://central-monitoring-grafana-mimir-alertmanager:8080 --id infitx;
+                  # mimirtool alertmanager get --address  http://central-monitoring-grafana-mimir-alertmanager:8080 --id infitx;
+                  echo 'job ended';
+              volumeMounts:
+                - name: mimir-ruler-volume
+                  mountPath: /etc/mimir-ruler
+                  readOnly: true
+                - name: mimir-alertmanager-config-volume
+                  mountPath: /etc/mimir-alertmanager
+                  readOnly: true
+          restartPolicy: OnFailure
+          volumes:
+            - name: mimir-ruler-volume
+              configMap:
+                name: mimir-ruler-data
+            - name: mimir-alertmanager-config-volume
+              secret:
+                secretName: mimir-alertmanager-config 
