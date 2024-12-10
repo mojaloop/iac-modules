@@ -2,15 +2,6 @@ minio:
   enabled: false
 
 mimir:
-  # blockStorage:
-  #   backend: s3
-  #   config:
-  #     access_key_id: $${AWS_ACCESS_KEY_ID}
-  #     secret_access_key: $${AWS_SECRET_ACCESS_KEY}
-  #     bucket_name: $${BUCKET_NAME}
-  #     endpoint: $${BUCKET_HOST}
-  #     insecure: true
-  #     bucket_lookup_type: path
   overrideConfiguration:
     frontend:
       max_outstanding_per_tenant: 4096
