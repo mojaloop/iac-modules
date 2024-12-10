@@ -78,7 +78,7 @@ tempo_retention_period: 72h
 
 # Metrics server
 metrics_server_helm_version: 3.12.2
-metrics_server_replicas: "'2'"
+metrics_server_replicas: "'1'"
 
 # monitoring/mimir
 mimir_bucket_name: "mimir-bucket"
