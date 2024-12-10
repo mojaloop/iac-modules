@@ -47,6 +47,12 @@ spec:
       jsonPointers:
         - /spec/volumeClaimTemplates/0/kind
         - /spec/volumeClaimTemplates/0/apiVersion
+    - group: apps
+      kind: StatefulSet
+      name: "central-monitoring-grafana-mimir-alertmanager"
+      jsonPointers:
+        - /spec/volumeClaimTemplates/0/kind
+        - /spec/volumeClaimTemplates/0/apiVersion
     - group: monitoring.coreos.com
       kind: ServiceMonitor
       jsonPointers:
@@ -129,6 +135,10 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_compactor_replica_count}"
         - name: "mimir_store_gateway_replica_count"
           value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_replica_count}"
+        - name: "mimir_ruler_replica_count"
+          value: "${ARGOCD_ENV_monitoring_mimir_ruler_replica_count}"
+        - name: "mimir_alertmanager_replica_count"
+          value: "${ARGOCD_ENV_monitoring_mimir_alertmanager_replica_count}"
 
         - name: "mimir_ingester_storage_size"
           value: "${ARGOCD_ENV_monitoring_mimir_ingester_storage_size}"
@@ -136,11 +146,22 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_compactor_storage_size}"
         - name: "mimir_store_gateway_storage_size"
           value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_storage_size}"
+        - name: "mimir_alertmanager_storage_size"
+          value: "${ARGOCD_ENV_monitoring_mimir_alertmanager_storage_size}"
 
+
+        - name: "mimir_distributor_requests_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_distributor_requests_cpu}"
+        - name: "mimir_distributor_requests_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_distributor_requests_memory}"
         - name: "mimir_distributor_limits_cpu"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_limits_cpu}"
         - name: "mimir_distributor_limits_memory"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_limits_memory}"
+        - name: "mimir_ingester_requests_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingester_requests_cpu}"
+        - name: "mimir_ingester_requests_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingester_requests_memory}"
         - name: "mimir_ingester_limits_cpu"
           value: "${ARGOCD_ENV_monitoring_mimir_ingester_limits_cpu}"
         - name: "mimir_ingester_limits_memory"
@@ -161,6 +182,14 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_limits_cpu}"
         - name: "mimir_store_gateway_limits_memory"
           value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_limits_memory}"
+        - name: "mimir_ruler_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_ruler_limits_cpu}"
+        - name: "mimir_ruler_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_ruler_limits_memory}"
+        - name: "mimir_alertmanager_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_mimir_alertmanager_limits_cpu}"
+        - name: "mimir_alertmanager_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_mimir_alertmanager_limits_memory}"
 
         - name: "cloudwatch_exporter_role_arn"
           value: "${ARGOCD_ENV_monitoring_monitoring_cloudwatch_exporter_role_arn}"

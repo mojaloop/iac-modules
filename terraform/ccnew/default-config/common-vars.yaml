@@ -65,7 +65,6 @@ grafana_operator_version: "4.4.12"
 grafana_image_version: 11.1.1
 prometheus_pvc_size: 50Gi
 prometheus_retention_period: 10d
-alertmanager_enabled: false
 
 tempo_chart_version: 3.1.0
 loki_chart_version: 2.13.0
@@ -83,7 +82,7 @@ metrics_server_replicas: "'1'"
 # monitoring/mimir
 mimir_bucket_name: "mimir-bucket"
 mimir_bucket_max_objects: "'1000000'"
-mimir_bucket_storage_size: "60Gi"
+mimir_bucket_storage_size: "100Gi"
 
 mimir_max_label_names_per_series: "'35'"
 mimir_max_global_series_per_user: "'5000000'"
@@ -91,28 +90,41 @@ mimir_ingestion_rate: "'200000'"
 mimir_ingestion_burst_size: "'500000'"
 mimir_retention_period: "7d"
 mimir_compactor_deletion_delay: "12h"
+mimir_alerts_notification_receiver: "slack" # options: slack, jira, blackhole. blackhole disables 
 
-mimir_distributor_replica_count: "'2'"
+mimir_distributor_replica_count: "'4'"
 mimir_ingester_replica_count: "'4'"
 mimir_querier_replica_count: "'2'"
 mimir_query_frontend_replica_count: "'1'"
 mimir_compactor_replica_count: "'1'"
 mimir_store_gateway_replica_count: "'3'"
+mimir_ruler_replica_count: "'1'"
+mimir_alertmanager_replica_count: "'1'"
 mimir_ingester_storage_size: "30Gi"
 mimir_compactor_storage_size: "30Gi"
 mimir_store_gateway_storage_size: "30Gi"
-mimir_distributor_limits_cpu: "1000m"
-mimir_distributor_limits_memory: "3Gi"
-mimir_ingester_limits_cpu: "1500m"
-mimir_ingester_limits_memory: "6Gi"
+mimir_alertmanager_storage_size: "10Gi"
+
+mimir_distributor_requests_cpu: "500m"
+mimir_distributor_requests_memory: "256Mi"
+mimir_distributor_limits_cpu: "750m"
+mimir_distributor_limits_memory: "1Gi"
+mimir_ingester_requests_cpu: "1000m"
+mimir_ingester_requests_memory: "6Gi"
+mimir_ingester_limits_cpu: "4000m"
+mimir_ingester_limits_memory: "12Gi"
 mimir_querier_limits_cpu: "1000m"
-mimir_querier_limits_memory: "3Gi"
-mimir_query_frontend_limits_cpu: "1000m"
-mimir_query_frontend_limits_memory: "3Gi"
+mimir_querier_limits_memory: "4Gi"
+mimir_query_frontend_limits_cpu: "200m"
+mimir_query_frontend_limits_memory: "512Mi"
 mimir_compactor_limits_cpu: "1500m"
 mimir_compactor_limits_memory: "3Gi"
-mimir_store_gateway_limits_cpu: "1000m"
-mimir_store_gateway_limits_memory: "3Gi"
+mimir_store_gateway_limits_cpu: "200m"
+mimir_store_gateway_limits_memory: "1Gi"
+mimir_ruler_limits_cpu: "1000m"
+mimir_ruler_limits_memory: "2Gi"
+mimir_alertmanager_limits_cpu: "100m"
+mimir_alertmanager_limits_memory: "512Mi"
 
 gitlab_helm_version: "8.1.2"
 gitlab_public_access: true
