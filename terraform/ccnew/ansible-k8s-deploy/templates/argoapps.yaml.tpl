@@ -281,6 +281,9 @@ argocd_override:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"
           image_version: "${grafana_image_version}"
+        metrics_server:
+          helm_version: "${metrics_server_helm_version}"
+          replicas: "${metrics_server_replicas}"
         mimir:
           max_label_names_per_series: "${mimir_max_label_names_per_series}"
           max_global_series_per_user: "${mimir_max_global_series_per_user}"
