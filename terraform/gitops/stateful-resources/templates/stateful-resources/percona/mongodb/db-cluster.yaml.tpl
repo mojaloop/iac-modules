@@ -667,10 +667,10 @@ spec:
                echo "use ${database_name}" >> ~/init.js;       
                echo "db.createUser({user: \"${database_user}\",pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
 %{ for privilege in additional_privileges ~}
-               echo "db.runCommand({ createRole: \"additionalRole\", privileges: [{ resource: { db: \"${database_name}\", collection: \"${privilege.collection}\" }, actions: [\"${privilege.action}\"] }], roles: [] })" >> ~/init.js;
+               echo "db.createRole({ createRole: \"additionalRole\", privileges: [{ resource: { db: \"${database_name}\", collection: \"${privilege.collection}\" }, actions: [\"${privilege.action}\"] }], roles: [] })" >> ~/init.js;
 %{ endfor ~}
 %{ if additional_privileges != [] ~}
-               echo "db.updateUser(\"${database_user}\", { roles: [ { role: \"additionalRole\", db: \"${database_user}\" }]})" >> ~/init.js;
+               echo "db.updateUser(\"${database_user}\", { roles: [ { db: \"${database_name}\", role: \"readWrite\" },{ role: \"additionalRole\", db: \"${database_user}\" }]})" >> ~/init.js;
 %{ endif ~}                 
                chmod +x ~/init.js;
                echo "running init.js";
