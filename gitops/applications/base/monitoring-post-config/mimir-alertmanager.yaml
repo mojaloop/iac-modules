@@ -102,6 +102,8 @@ spec:
               opsgenie_configs:
                 - api_key: {{.api_key}}
                   send_resolved: true
+                  # link to mimir alertmanager page in grafana
+                  source: http://${ARGOCD_ENV_grafana_web_name}.${ARGOCD_ENV_grafana_dns_subdomain}/alerting/groups
                   # message field contains title
                   message: {{ `"[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"` }}
                   # description field contains the body
