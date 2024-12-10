@@ -348,6 +348,7 @@ bulk-mongodb:
       storage_class_name: longhorn
       service_port: 27017
       affinity_definition: {}
+    additional_privileges: []
 cep-mongodb:
   local_operator_config:
     cr_version: 1.16.2
@@ -389,6 +390,7 @@ cep-mongodb:
       storage_class_name: longhorn
       service_port: 27017
       affinity_definition: {}
+    additional_privileges: []      
 reporting-events-mongodb:
   local_operator_config:
     cr_version: 1.16.2
@@ -430,6 +432,9 @@ reporting-events-mongodb:
       storage_class_name: longhorn
       service_port: 27017
       affinity_definition: {}
+    additional_privileges:
+      - collection: reporting
+        actions: ["collMod"]
 mojaloop-kafka:
   local_operator_config:
     resource_namespace: mojaloop

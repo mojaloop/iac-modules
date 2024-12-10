@@ -665,7 +665,14 @@ spec:
           args:
             - >
                echo "use ${database_name}" >> ~/init.js;       
-               echo "db.createUser({user: \"${database_user}\",pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db: \"${database_name}\", role: \"readWrite\" },{ db: \"${database_name}\", role: \"collMod\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
+               echo "db.createUser({user: \"${database_user}\",pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
+%{ for privilege in additional_privileges ~}
+               echo "db.runCommand({ createRole: \"additionalRole\", privileges: [{ resource: { db: \"${database_name}\", collection: \"${privilege.collection}\" }, actions: \"${privilege.actions}\" }], roles: [] })" >> ~/init.js;
+%{ endfor ~}
+%{ if additional_privileges != null ~}
+               echo "db.updateUser(\"${database_user}\", { roles: [ { role: "additionalRole", db: \"${database_user}\" }]})" >> ~/init.js;
+%{ endif ~}                 
+               echo " >> ~/init.js;
                chmod +x ~/init.js;
                echo "running init.js";
                mongosh "mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}-mongos" < ~/init.js
