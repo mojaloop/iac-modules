@@ -670,7 +670,7 @@ spec:
                echo "db.runCommand({ createRole: \"additionalRole\", privileges: [{ resource: { db: \"${database_name}\", collection: \"${privilege.collection}\" }, actions: [\"${privilege.action}\"] }], roles: [] })" >> ~/init.js;
 %{ endfor ~}
 %{ if additional_privileges != [] ~}
-               echo "db.updateUser(\"${database_user}\", { roles: [ { role: "additionalRole", db: \"${database_user}\" }]})" >> ~/init.js;
+               echo "db.updateUser(\"${database_user}\", { roles: [ { role: \"additionalRole\", db: \"${database_user}\" }]})" >> ~/init.js;
 %{ endif ~}                 
                echo " >> ~/init.js;
                chmod +x ~/init.js;
