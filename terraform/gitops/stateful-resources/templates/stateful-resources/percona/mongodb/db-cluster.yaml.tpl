@@ -672,7 +672,6 @@ spec:
 %{ if additional_privileges != [] ~}
                echo "db.updateUser(\"${database_user}\", { roles: [ { role: \"additionalRole\", db: \"${database_user}\" }]})" >> ~/init.js;
 %{ endif ~}                 
-               echo " >> ~/init.js;
                chmod +x ~/init.js;
                echo "running init.js";
                mongosh "mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}-mongos" < ~/init.js
