@@ -297,7 +297,7 @@ spec:
       targetLabel: node_ip
       replacement: $1
       action: replace
-    - source_labels: []
+    - sourceLabels: []
       targetLabel: 'strimzi_io_cluster'
       replacement: ${kafka_cluster_metrics_label}
       action: replace
