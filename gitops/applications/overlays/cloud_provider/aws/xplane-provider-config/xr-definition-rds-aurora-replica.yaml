@@ -22,6 +22,9 @@ spec:
             spec:
               type: object
               properties:
+                id:
+                  type: string
+                  description: Database ID              
                 count:
                   type: integer
                   description: "The number of Aurora replicas to create."
