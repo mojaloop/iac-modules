@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/${get_env("CONTROL_CENTER_CLOUD_PROVIDER")}/control-center-infra?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
+  source = "git::https://github.com/thitsax/mojaloop-iac-modules.git//terraform/${get_env("CONTROL_CENTER_CLOUD_PROVIDER")}/control-center-infra?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
 }
 
 

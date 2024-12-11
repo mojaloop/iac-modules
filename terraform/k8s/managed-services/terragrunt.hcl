@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/${get_env("managed_svc_cloud_platform")}/support-svcs/deploy-managed-svcs?ref=${get_env("iac_terraform_modules_tag")}"
+  source = "git::https://github.com/thitsax/mojaloop-iac-modules.git//terraform/${get_env("managed_svc_cloud_platform")}/support-svcs/deploy-managed-svcs?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
 

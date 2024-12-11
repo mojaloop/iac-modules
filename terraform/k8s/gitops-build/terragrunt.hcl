@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/thitsax/mojaloop-iac-modules.git//terraform/gitops/k8s-cluster-config?ref=5.3.8"
+  source = "git::https://github.com/thitsax/mojaloop-iac-modules.git//terraform/gitops/k8s-cluster-config?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
 include "root" {

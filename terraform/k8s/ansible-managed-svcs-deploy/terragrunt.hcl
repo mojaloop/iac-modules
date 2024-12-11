@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/ansible/managed-services-deploy?ref=${get_env("iac_terraform_modules_tag")}"
+  source = "git::https://github.com/thitsax/mojaloop-iac-modules.git//terraform/ansible/managed-services-deploy?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
 dependency "managed_services" {
