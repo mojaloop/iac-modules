@@ -62,6 +62,7 @@ metadata:
     organization: Infitx
     author: devops   
 spec:
+  id: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   compositionSelector:
     matchLabels:
       provider: aws
