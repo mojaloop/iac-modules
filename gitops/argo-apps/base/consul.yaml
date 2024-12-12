@@ -49,7 +49,6 @@ spec:
                   - labelSelector:
                       matchLabels:
                         app: consul
-                        release: consul
                         component: server
                     topologyKey: kubernetes.io/hostname
           connectInject:
