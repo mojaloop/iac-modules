@@ -43,5 +43,14 @@ spec:
             enabled: true
             storage: ${ARGOCD_ENV_utils_consul_storage_size}
             replicas: ${ARGOCD_ENV_utils_consul_replicas}
+            affinity: |
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchLabels:
+                        app: consul
+                        release: consul
+                        component: server
+                    topologyKey: kubernetes.io/hostname
           connectInject:
             enabled: false
