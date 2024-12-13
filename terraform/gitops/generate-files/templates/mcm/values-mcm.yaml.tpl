@@ -53,7 +53,7 @@ api:
     pkiClientRole: ${pki_client_role}
     signExpiryHours: 43800
   serviceAccount:
-    externallyManaged: false
+    externallyManaged: true
     serviceAccountNameOverride: ${mcm_service_account_name}
   rbac:
     enabled: false
