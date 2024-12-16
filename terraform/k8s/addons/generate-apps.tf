@@ -8,6 +8,7 @@ resource "local_file" "config-file" {
         local.default[basename(dirname(dirname(each.value)))][basename(dirname(each.value))],
         local.override[dirname(each.value)]
       )
+      filename: each.value
     }
   )
   filename = "${var.outputDir}/${basename(dirname(each.value))}/${basename(each.value)}"
