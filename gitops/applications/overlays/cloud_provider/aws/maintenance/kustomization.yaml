@@ -8,8 +8,6 @@ resources:
   - https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/refs/tags/${ARGOCD_ENV_ext_snap_ver}/client/config/crd/snapshot.storage.k8s.io_volumesnapshotcontents.yaml
   - https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/refs/tags/${ARGOCD_ENV_ext_snap_ver}/client/config/crd/snapshot.storage.k8s.io_volumesnapshots.yaml
   - volumesnapshotclass.yaml
-  - backup-storage-location.yaml
-  - volume-snapshot-location.yaml
 helmCharts:
   - name: velero
     releaseName: velero
