@@ -187,10 +187,76 @@ resource "aws_s3_bucket" "backup_bucket" {
   tags          = merge({ Name = var.backup_bucket_name }, var.tags)
 }
 
+# cloudwatch reader IAM
+# TODO: make only when cloudrun integration is enabled
+resource "aws_iam_policy" "cloudwatch_readonly" {
+  count       = 1 # TODO: enable it with a flag
+  name        = "${local.base_domain}-cloudwatch-readonly"
+  description = "Allows readonly access to cloudwatch metrics"
+
+  # Policy sources
+  # https://grafana.com/docs/grafana/latest/datasources/aws-cloudwatch/
+  # https://github.com/prometheus-community/yet-another-cloudwatch-exporter?tab=readme-ov-file#authentication
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "AllowReadingMetricsFromCloudWatch",
+        "Effect" : "Allow",
+        "Action" : [
+          "cloudwatch:ListMetrics",
+          "cloudwatch:GetMetricData",
+          "cloudwatch:GetMetricStatistics",
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Sid" : "AllowReadingTagsInstancesRegionsFromEC2",
+        "Effect" : "Allow",
+        "Action" : ["ec2:DescribeTags", "ec2:DescribeInstances", "ec2:DescribeRegions"],
+        "Resource" : "*"
+      },
+      {
+        "Sid" : "AllowReadingResourcesForTags",
+        "Effect" : "Allow",
+        "Action" : "tag:GetResources",
+        "Resource" : "*"
+      },
+      {
+        "Sid" : "AllowReadingResourceMetricsFromPerformanceInsights",
+        "Effect" : "Allow",
+        "Action" : "pi:GetResourceMetrics", # needed for RDS and documentdb metrics 
+        "Resource" : "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role" "cloudwatch_readonly" {
+  count = 1 # TODO: enable it with a flag
+
+  name = "${local.base_domain}-cloudwatch-readonly"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "AllowAssumingRoleToCIUser",
+        "Effect" : "Allow",
+        "Principal" : {
+          "AWS" : "${aws_iam_user.ci_iam_user[0].arn}"
+        },
+        "Action" : "sts:AssumeRole"
+      }
+    ]
+    }
+  )
+  tags = var.tags
+}
+
 # EBS CSI driver
 resource "aws_iam_role" "csi_role" {
-  name  = "${local.base_domain}-csi"
-  count = var.create_csi_role ? 1 : 0
+  name               = "${local.base_domain}-csi"
+  count              = var.create_csi_role ? 1 : 0
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -206,12 +272,12 @@ resource "aws_iam_role" "csi_role" {
   ]
 }
 EOF
-tags = merge({ Name = "${local.base_domain}-csi-role" }, var.tags)
+  tags               = merge({ Name = "${local.base_domain}-csi-role" }, var.tags)
 }
 
 # Attach the managed policy for EBS CSI Driver
 resource "aws_iam_role_policy_attachment" "csi_policy" {
-  count = var.create_csi_role ? 1 : 0
+  count      = var.create_csi_role ? 1 : 0
   role       = aws_iam_role.csi_role[0].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
@@ -220,5 +286,5 @@ resource "aws_iam_role_policy_attachment" "csi_policy" {
 resource "aws_iam_instance_profile" "csi_instance_profile" {
   count = var.create_csi_role ? 1 : 0
   name  = "${local.base_domain}-csi-instance-profile"
-  role = aws_iam_role.csi_role[0].name
+  role  = aws_iam_role.csi_role[0].name
 }
