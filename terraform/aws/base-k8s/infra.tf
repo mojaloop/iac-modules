@@ -48,6 +48,13 @@ module "post_config" {
   backup_enabled              = var.backup_enabled
   backup_bucket_force_destroy = var.backup_bucket_force_destroy
   backup_bucket_import_enabled = var.backup_bucket_import_enabled
+
+  import {
+    id  = "${var.domain}-${var.backup_bucket_name}"
+    to  = module.post_config.backup_bucket
+    for_each = var.backup_bucket_import_enabled ? [1] : []
+  }
+
 }
 
 module "k6s_test_harness" {
@@ -234,4 +241,10 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
+}
+
+import {
+  for_each = var.backup_enabled && var.backup_bucket_import_enabled ? [1] : []
+  id       = var.backup_bucket_name
+  to       = aws_s3_bucket.backup_bucket[0]
 }

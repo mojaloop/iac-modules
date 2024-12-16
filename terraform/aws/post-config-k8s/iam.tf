@@ -187,13 +187,6 @@ resource "aws_s3_bucket" "backup_bucket" {
   tags          = merge({ Name = var.backup_bucket_name }, var.tags)
 }
 
-# Import block to handle existing bucket
-import {
-  for_each = var.backup_enabled && var.backup_bucket_import_enabled ? [1] : []
-  id       = var.backup_bucket_name
-  to       = aws_s3_bucket.backup_bucket[0]
-}
-
 # EBS CSI driver
 resource "aws_iam_role" "csi_role" {
   name  = "${local.base_domain}-csi"
