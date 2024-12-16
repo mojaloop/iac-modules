@@ -2,26 +2,35 @@ minio:
   enabled: false
 
 mimir:
-  blockStorage:
-    backend: s3
-    config:
-      access_key_id: $${AWS_ACCESS_KEY_ID}
-      secret_access_key: $${AWS_SECRET_ACCESS_KEY}
-      bucket_name: $${BUCKET_NAME}
-      endpoint: $${BUCKET_HOST}
-      insecure: true
-      bucket_lookup_type: path
   overrideConfiguration:
     frontend:
       max_outstanding_per_tenant: 4096
     compactor:
       deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
+    ruler:
+      alertmanager_url: http://central-monitoring-grafana-mimir-gateway/alertmanager
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}
       ingestion_burst_size: ${ARGOCD_ENV_mimir_ingestion_burst_size}
       compactor_blocks_retention_period: ${ARGOCD_ENV_mimir_retention_period}
       max_label_names_per_series: ${ARGOCD_ENV_mimir_max_label_names_per_series}
+    common:
+      storage:
+        backend: s3
+        s3:
+          access_key_id: $${AWS_ACCESS_KEY_ID}
+          secret_access_key: $${AWS_SECRET_ACCESS_KEY}
+          bucket_name: $${BUCKET_NAME}
+          endpoint: $${BUCKET_HOST}
+          insecure: true
+          bucket_lookup_type: path
+    alertmanager_storage:
+      storage_prefix: alertmanager
+    ruler_storage:
+      storage_prefix: ruler
+
+
 
 metrics:
   enabled: true
@@ -37,11 +46,12 @@ metrics:
       action: replace
 
 
-# TODO: expose the resource config as configurable params
-# resource preset guide: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl
 distributor:
   replicaCount: ${ARGOCD_ENV_mimir_distributor_replica_count}
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_mimir_distributor_requests_cpu}
+      memory: ${ARGOCD_ENV_mimir_distributor_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_mimir_distributor_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_distributor_limits_memory}
@@ -49,6 +59,9 @@ distributor:
 ingester:
   replicaCount: ${ARGOCD_ENV_mimir_ingester_replica_count}
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_mimir_ingester_requests_cpu}
+      memory: ${ARGOCD_ENV_mimir_ingester_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_mimir_ingester_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ingester_limits_memory}
@@ -66,14 +79,14 @@ querier:
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
 
-queryFrontend: 
+queryFrontend:
   replicaCount: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_query_frontend_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_query_frontend_limits_memory}
 
-compactor: 
+compactor:
   replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
@@ -84,13 +97,35 @@ compactor:
   persistence:
     size: ${ARGOCD_ENV_mimir_compactor_storage_size}
 
-storeGateway: 
+storeGateway:
   replicaCount: ${ARGOCD_ENV_mimir_store_gateway_replica_count}
   resources:
     limits:
-      cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
-      memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
+      cpu: ${ARGOCD_ENV_mimir_store_gateway_limits_cpu}
+      memory: ${ARGOCD_ENV_mimir_store_gateway_limits_memory}
   extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
   persistence:
     size: ${ARGOCD_ENV_mimir_store_gateway_storage_size}
+
+ruler:
+  enabled: true
+  replicaCount: ${ARGOCD_ENV_mimir_ruler_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_mimir_ruler_limits_cpu}
+      memory: ${ARGOCD_ENV_mimir_ruler_limits_memory}
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+
+alertmanager:
+  enabled: true
+  replicaCount: ${ARGOCD_ENV_mimir_alertmanager_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_mimir_alertmanager_limits_cpu}
+      memory: ${ARGOCD_ENV_mimir_alertmanager_limits_memory}
+  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  persistence:
+    size: ${ARGOCD_ENV_mimir_alertmanager_storage_size}

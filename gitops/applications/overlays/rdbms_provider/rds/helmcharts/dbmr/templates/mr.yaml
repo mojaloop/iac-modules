@@ -1,23 +1,33 @@
 apiVersion: infitx.org/v1alpha1
-kind: DBInstanceClaim
+{{- if contains "aurora" .Values.engine }}
+kind: RDSAuroraDBClusterClaim
+{{- else }}
+kind: RDSDBClusterClaim
+{{- end }}
 metadata:
   name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   namespace: {{ .Values.namespace }}
   annotations:
     organization: Infitx
     author: devops
+  labels:
+    name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
 spec:
   id: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   compositionSelector:
     matchLabels:
       provider: aws
-      db: postgresql
+  {{- if contains "aurora" .Values.engine  }}
+      db: rds-aurora
+  {{- else }}
+      db: rds
+  {{- end }}
       cluster: {{ .Values.namePrefix }}
   parameters:
     region: {{ .Values.region }}
-    engineVersion: "16"
-    size: {{ .Values.size }}
-    storageGB: {{ .Values.storageGB }}
+    engine: {{ .Values.engine }}
+    engineVersion: "{{ .Values.engineVersion }}"
+    dbClusterInstanceClass: {{ .Values.dbClusterInstanceClass }}
     vpcId: {{ .Values.vpcId }}
     vpcCidr:  {{ .Values.vpcCidr }}
     {{- with ( splitList "," .Values.subnets) }}
@@ -34,5 +44,32 @@ spec:
     applyImmediately: {{ .Values.applyImmediately }}
     backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
     preferredBackupWindow: {{ .Values.preferredBackupWindow }}
+{{- if not ( contains "aurora" .Values.engine  )  }}    
+    storageGB: {{ .Values.storageGB }}
     storageType: {{ .Values.storageType }}
     storageIops: {{ .Values.storageIops }}
+{{- end }}    
+    storageEncrypted: {{ .Values.storageEncrypted }}
+    skipFinalSnapshot: {{ .Values.skipFinalSnapshot }}
+{{- if contains "aurora" .Values.engine  }}
+---
+apiVersion: infitx.org/v1alpha1
+kind: RDSAuroraReplicaClaim
+metadata:
+  name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
+  namespace: {{ .Values.namespace }} 
+  annotations:
+    organization: Infitx
+    author: devops   
+spec:
+  compositionSelector:
+    matchLabels:
+      provider: aws
+      db: rds-aurora
+      cluster: {{ .Values.namePrefix }}
+  count: {{ .Values.replicaCount }}
+  dbInstanceClass: {{ .Values.dbClusterInstanceClass }}
+  engine: {{ .Values.engine }}
+  region: {{ .Values.region }}
+  dbClusterName: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
+{{- end }}

@@ -52,3 +52,9 @@ helmCharts:
   repo: https://raw.githubusercontent.com/mumoshu/prometheus-process-exporter/master/docs
   valuesFile: values-process-exporter.yaml
   namespace: ${monitoring_namespace}
+- name: metrics-server
+  releaseName: metrics-server
+  repo: https://kubernetes-sigs.github.io/metrics-server
+  valuesFile: values-metrics-server.yaml
+  namespace: ${monitoring_namespace}
+  version: ${metrics_server_chart_version}

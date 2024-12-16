@@ -83,21 +83,21 @@ spec:
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
   url: "https://raw.githubusercontent.com/mojaloop/helm/${ARGOCD_ENV_mojaloop_dashboards_tag}/monitoring/dashboards/mojaloop/dashboard-ml-adapter.json"
 ---
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: dashboard-simulators
-spec:
-  allowCrossNamespaceImport: true
-  folder: mojaloop
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
-  url: "https://raw.githubusercontent.com/mojaloop/helm/${ARGOCD_ENV_mojaloop_dashboards_tag}/monitoring/dashboards/mojaloop/dashboard-simulators.json"
----
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaDashboard
+# metadata:
+#   name: dashboard-simulators
+# spec:
+#   allowCrossNamespaceImport: true
+#   folder: mojaloop
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+#   datasources:
+#     - inputName: "DS_PROMETHEUS"
+#       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
+#   url: "https://raw.githubusercontent.com/mojaloop/helm/${ARGOCD_ENV_mojaloop_dashboards_tag}/monitoring/dashboards/mojaloop/dashboard-simulators.json"
+# ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:

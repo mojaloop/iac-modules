@@ -94,6 +94,9 @@ spec:
         - name: "user_rbac_group"
           value: "${ARGOCD_ENV_monitoring_grafana_user_rbac_group}"
 
+        - name: "grafana_web_name"
+          value: "grafana"
+
         - name: "grafana_dns_subdomain"
           value: "${ARGOCD_ENV_monitoring_grafana_dns_subdomain}"
 
@@ -120,3 +123,6 @@ spec:
 
         - name: "mimir_dns_subdomain"
           value: "${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
+
+        - name: "mimir_alerts_notification_receiver"
+          value: "${ARGOCD_ENV_monitoring_mimir_alerts_notification_receiver}"

@@ -16,7 +16,9 @@ module "generate_monitoring_files" {
     grafana_dashboard_tag                  = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
     tempo_repo                             = try(var.common_var_map.tempo_repo, local.bitnami_repo)
     tempo_chart_version                    = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
-    opentelemetry_chart_version         = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
+    metrics_server_chart_version           = try(var.common_var_map.metrics_server_chart_version, local.metrics_server_chart_version)
+    metrics_server_replicas                = var.metrics_server_replicas
+    opentelemetry_chart_version            = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     monitoring_namespace                   = var.monitoring_namespace
     gitlab_server_url                      = var.gitlab_server_url
     zitadel_server_url                     = var.zitadel_server_url
@@ -128,6 +130,12 @@ variable "monitoring_namespace" {
   default     = "monitoring"
 }
 
+variable "metrics_server_replicas" {
+  type        = string
+  description = "metrics_server_replicas"
+  default     = "1"
+}
+
 locals {
   bitnami_repo                        = "oci://registry-1.docker.io/bitnamicharts"
   grafana_crd_version_tag             = "v5.6.0"
@@ -140,6 +148,7 @@ locals {
   prometheus_operator_version         = "8.22.8"
   prometheus_process_exporter_version = "0.4.2"
   tempo_chart_version                 = "3.1.0"
+  metrics_server_chart_version        = "3.12.2"
   grafana_version                     = "10.2.3"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17" # TODO: update once v16.1.x is published
   grafana_operator_version            = "3.5.11"
