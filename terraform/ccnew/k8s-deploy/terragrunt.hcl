@@ -29,6 +29,7 @@ inputs = {
   backup_bucket_name                   = local.env_vars.object_storage_base_bucket_name
   eks_oidc_enabled                     = false
   backup_bucket_force_destroy          = local.env_vars.object_storage_force_destroy_bucket
+  backup_bucket_prevent_destroy        = local.env_vars.object_storage_prevent_bucket_destroy
   bastion_instance_size                = local.env_vars.bastion_instance_size
   coredns_bind_address                 = local.coredns_bind_address
 }

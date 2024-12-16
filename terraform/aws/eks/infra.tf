@@ -47,6 +47,7 @@ module "post_config" {
   backup_bucket_name          = "${var.domain}-${var.backup_bucket_name}"
   backup_enabled              = var.backup_enabled
   backup_bucket_force_destroy = var.backup_bucket_force_destroy
+  backup_bucket_prevent_destroy = var.backup_bucket_prevent_destroy
 }
 
 module "k6s_test_harness" {

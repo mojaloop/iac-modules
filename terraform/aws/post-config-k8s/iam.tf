@@ -185,6 +185,10 @@ resource "aws_s3_bucket" "backup_bucket" {
   bucket        = var.backup_bucket_name
   force_destroy = var.backup_bucket_force_destroy
   tags          = merge({ Name = var.backup_bucket_name }, var.tags)
+
+  lifecycle {
+    prevent_destroy = var.backup_bucket_prevent_destroy
+  }
 }
 
 # EBS CSI driver

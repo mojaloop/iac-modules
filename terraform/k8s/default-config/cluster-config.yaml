@@ -18,6 +18,7 @@ addons_module_enabled: false
 enable_vault_oidc: true
 enable_grafana_oidc: true
 object_storage_force_destroy_bucket: true #prod should set to false
+object_storage_prevent_bucket_destroy: false # prod should set to true
 bastion_instance_size: t3.micro
 nodes:
   master-generic:
