@@ -68,6 +68,7 @@ resource "local_file" "namespace" {
   content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
     {
       all_ns = distinct(concat(var.create_stateful_resources_ns ? [var.stateful_resources_namespace] : [], local.all_logical_extra_namespaces, local.all_local_helm_namespaces, local.all_local_op_namespaces))
+      mTLS_enabled_namespaces = var.mTLS_enabled_namespaces
   })
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
@@ -283,4 +284,10 @@ variable "ceph_api_url" {
 variable "ceph_percona_backup_bucket" {
   type        = string
   description = "ceph_percona_backup_bucket"
+}
+
+variable "mTLS_enabled_namespaces" {
+  type    = list(string)
+  default = ["mojaloop", "mcm"]
+  description = "namespaces where Istio mTLS is enabled."
 }
