@@ -303,12 +303,6 @@ variable "backup_enabled" {
   description = "enable backup bucket and policies"
 }
 
-variable "backup_bucket_prevent_destroy" {
-  description = "Prevent the backup bucket from being destroyed."
-  type        = bool
-  default     = false
-}
-
 variable "create_csi_role" {
   type        = bool
   description = "create ebs role and policies for EBS CSI"
