@@ -132,6 +132,7 @@ resource "local_file" "percona-crs" {
       mongod_replica_count              = each.value.logical_service_config.replica_count
       percona_server_mongodb_version    = each.value.resource_type == "mongodb" ? each.value.local_operator_config.percona_server_mongodb_version : ""
       percona_backup_mongodb_version    = each.value.resource_type == "mongodb" ? each.value.local_operator_config.percona_backup_mongodb_version : ""
+      additional_privileges             = each.value.resource_type == "mongodb" ? each.value.local_operator_config.additional_privileges : []
 
 
       ceph_percona_backup_bucket = var.ceph_percona_backup_bucket
