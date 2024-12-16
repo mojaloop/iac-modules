@@ -1,0 +1,13 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "${ARGOCD_ENV_ceph_osd_volumes_storage_class}-csi"
+provisioner: ebs.csi.aws.com
+parameters:
+  type: ${ARGOCD_ENV_ceph_osd_volumes_storage_class}
+  encrypted: "true"
+  #iops: "3000"
+  #throughput: "125"
+  #csi.storage.k8s.io/fstype: xfs
+reclaimPolicy: ${ARGOCD_ENV_cloud_pv_reclaim_policy}
+volumeBindingMode: WaitForFirstConsumer

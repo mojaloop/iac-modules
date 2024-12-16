@@ -1,0 +1,105 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: "${ARGOCD_ENV_vault_namespace}"
+  name: vault-secret-all
+rules:
+  - apiGroups: [""] # "" indicates the core API group
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: vault-secret-binding
+  namespace: "${ARGOCD_ENV_vault_namespace}"
+subjects:
+  - kind: ServiceAccount
+    name: vault
+    namespace: "${ARGOCD_ENV_vault_namespace}"
+roleRef:
+  kind: Role
+  name: vault-secret-all
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: post-config
+  namespace: "${ARGOCD_ENV_vault_namespace}"
+data:
+  bootstrap.sh: |
+    #!/bin/bash
+    export VAULT_ADDR=http://127.0.0.1:8200
+    export VAULT_SKIP_VERIFY=true
+    while true;do
+      curl --connect-timeout 15 -s $VAULT_ADDR/v1/sys/health?sealedcode\=204&uninitcode=\204 > /dev/null && break
+    done
+    if [ $(vault status -format=json | jq .initialized) == "false" ]
+    then
+      vault operator init -key-shares=1 -key-threshold=1 -format=json > /tmp/output.json
+      export VAULT_ROOT_TOKEN=$(cat /tmp/output.json | jq .root_token | tr -d '"')
+      export UNSEAL_KEY=$(cat /tmp/output.json | jq .unseal_keys_b64[0] | tr -d '"')
+      vault operator unseal $UNSEAL_KEY
+      cat <<EOF > /tmp/creds.json
+    {
+      "token_name": "vault-provider-token",
+      "token": "$VAULT_ROOT_TOKEN"
+    }
+    EOF
+      if [ $VAULT_ROOT_TOKEN != "" ]
+      then
+        kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} --from-literal=unseal_key=$UNSEAL_KEY --from-literal=root_token=$VAULT_ROOT_TOKEN --from-file=creds=/tmp/creds.json --from-file=vault-keys.json=/tmp/output.json --save-config --dry-run=client -o yaml | kubectl apply -f -
+      else
+        echo "VAULT_ROOT_TOKEN not parsed correctly, exiting"
+        exit 1
+      fi
+    else
+      echo "vault already initialized"
+      if [ $(vault status -format=json | jq .sealed) == "true" ]
+      then
+        echo "unsealing vault"
+        vault operator unseal $(kubectl get secret -n ${ARGOCD_ENV_vault_namespace} ${ARGOCD_ENV_vault_keys_secret} -o jsonpath="{.data.unseal_key}" | base64 -d)
+      else
+        echo "vault already unsealed"
+      fi
+    fi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: insert-cloud-secrets
+  namespace: "${ARGOCD_ENV_vault_namespace}"
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: vault-client
+          image: hashicorp/vault
+          command:
+            - /bin/sh
+            - "-c"
+          args:
+            - >
+              export VAULT_ADDR="http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200";
+              export VAULT_SKIP_VERIFY=true;
+              vault login -no-print $VAULT_ROOT_TOKEN;
+              vault kv put -mount=$VAULT_KV_SECRET_PATH cloud-api-access cloud_platform_api_client_id=${ARGOCD_ENV_cloud_platform_api_client_id} cloud_platform_api_client_secret=${ARGOCD_ENV_cloud_platform_api_client_secret};
+          env:
+            - name: VAULT_ROOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: ${ARGOCD_ENV_vault_keys_secret}
+                  key: root_token
+            - name: VAULT_KV_SECRET_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: ${ARGOCD_ENV_tf_post_config_output_secret}
+                  key: kv_path
+---
+

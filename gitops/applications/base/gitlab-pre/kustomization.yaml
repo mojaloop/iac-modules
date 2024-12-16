@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - vault-secrets.yaml
+  - objectstorage.yaml
+  - gitlab-oidc-xplane-terraform.yaml
+
+helmCharts:
+- name: redis
+  releaseName: redis
+  version: ${ARGOCD_ENV_redis_helm_version}
+  repo: oci://registry-1.docker.io/bitnamicharts/
+  valuesFile: redis-values.yaml
+  namespace: ${ARGOCD_ENV_gitlab_namespace}

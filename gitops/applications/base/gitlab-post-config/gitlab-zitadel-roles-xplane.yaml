@@ -1,0 +1,106 @@
+---
+apiVersion: tf.upbound.io/v1beta1
+kind: Workspace
+metadata:
+  name: gitlab-zitadel-roles-sync
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  forProvider:
+    # Use any module source supported by terraform init -from-module.
+    source: Remote
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/gitlab-zitadel-roles-sync?ref=${ARGOCD_ENV_terraform_modules_tag}
+    vars:
+      - key: gitlab_zitadel_project_name
+        value: ${ARGOCD_ENV_gitlab_zitadel_project_name}
+      - key: admin_rbac_group
+        value: ${ARGOCD_ENV_gitlab_admin_rbac_group}
+      - key: maintainer_rbac_group
+        value: ${ARGOCD_ENV_gitlab_maintainer_rbac_group}
+      - key: user_rbac_group
+        value: ${ARGOCD_ENV_gitlab_user_rbac_group}
+    env:
+      - name: TF_CLI_CONFIG_FILE
+        value: ./.terraformrc
+  # All Terraform outputs are written to the connection secret.
+  providerConfigRef:
+    name: gitlab-zitadel-roles-sync
+  writeConnectionSecretToRef:
+    namespace: ${ARGOCD_ENV_gitlab_namespace}
+    name: gitlab-zitadel-roles-sync-output
+---
+apiVersion: tf.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: gitlab-zitadel-roles-sync
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  # Note that unlike most provider configs this one supports an array of
+  # credentials. This is because each Terraform workspace uses a single
+  # Crossplane provider config, but could use multiple Terraform providers each
+  # with their own credentials.
+  credentials:
+    - filename: .terraformrc
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_argocd_namespace}
+        name: terraformrc
+        key: .terraformrc
+
+    - filename: terraform.tfvars.json
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_gitlab_namespace}
+        name: root-token-secret
+        key: token.json
+
+    - filename: zitadel-admin-sa.json
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_zitadel_namespace}
+        name: zitadel-admin-sa
+        key: zitadel-admin-sa.json
+
+  # This optional configuration block can be used to inject HCL into any
+  # workspace that uses this provider config, for example to setup Terraform
+  # providers.
+  configuration: |
+    terraform { 
+        backend "kubernetes" {
+          secret_suffix     = "gitlab-zitadel-roles-sync"
+          namespace         = "${ARGOCD_ENV_gitlab_namespace}"
+          in_cluster_config = true
+        }
+        required_providers {
+          gitlab = {
+            source = "gitlabhq/gitlab"
+            version = "~> 16.0"
+          }
+
+          zitadel = {
+            source = "zitadel/zitadel"
+            version = "${ARGOCD_ENV_zitadel_tf_provider_version}"
+          }
+
+          random = {
+            source = "hashicorp/random"
+            version = "3.6.2"
+          }
+
+          
+        }
+     }
+      variable "token" {
+        type = string
+      }    
+      
+      provider "zitadel" {
+          domain = "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+          jwt_profile_file = "$${path.module}/zitadel-admin-sa.json"
+      }
+
+      provider "gitlab" {
+        token = var.token
+        base_url = "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
+      }
+
+      provider "random" {}

@@ -1,0 +1,41 @@
+cluster_name: cc21
+domain: ccnew.mojaloop.live
+cloud_platform: aws
+dns_provider: aws
+k8s_cluster_module: base-k8s
+cloud_region: eu-west-1
+k8s_cluster_type: microk8s
+ansible_collection_tag: v5.3.9
+iac_terraform_modules_tag: v5.3.9
+letsencrypt_email: test@mojalabs.io
+dns_zone_force_destroy: true
+microk8s_dev_skip: false
+iac_group_name: iac_admin
+kubernetes_oidc_enabled: true
+enable_object_storage_backend: true
+object_storage_base_bucket_name: velero
+object_storage_force_destroy_bucket: true #prod should set to false
+bastion_instance_size: t3.small
+enable_cloud_csi_provisioner: true
+nodes:
+  master-generic:
+    master: true
+    instance_type: "m5.4xlarge"
+    node_count: 3
+    storage_gbs: 100
+    node_taints: []
+    node_labels: []
+    extra_vol: true
+    extra_vols: []
+    # To review default storage configurations for on-prem microk8s using locally attached disks
+    # extra_vols:
+    #   - name: "/dev/sdh"
+    #     size: 100
+vpc_cidr: "10.106.0.0/23"
+master_node_supports_traffic: true
+tags:
+  Origin: Terraform
+  mojaloop/cost_center: mlf-iac-sandbox
+  mojaloop/env: ft-sbox-rw
+  mojaloop/owner: James-Bush
+coredns_bind_address: "169.254.20.10"

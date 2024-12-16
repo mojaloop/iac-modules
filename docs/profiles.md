@@ -148,3 +148,23 @@ that are potentially useful are:
    ```bash
     git config -f .gitmodules --unset submodule.xxx.branch
     ```
+
+## Private repository profiles
+
+To use private repositories as submodules, the pipeline must have access to
+the repository. This can be achieved by configuring the git credentials in the
+vault path `/secret/git` under a key named `credentials`. These credentials are
+usually in the form of a personal access token (PAT), which is put in the URL,
+which points to the base host of the repository, as in this example:
+`https://user:pat@github.com`. The URL is set as the value for the
+`credentials` key:
+
+![vault git credentials](vault-git-credentials.png)
+
+If private repositories across multiple GIT servers are used, the credentials
+URL for each one must be listed in the value, separated by space.
+
+The recommended settings for the PAT are:
+
+- For `GitHub`: use fine-grained token, providing access only to the profile
+repositories with read permissions for: `Contents`, `Commit statuses`, and `Metadata`.

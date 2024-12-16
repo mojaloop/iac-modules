@@ -1,0 +1,51 @@
+---
+apiVersion: tf.upbound.io/v1beta1
+kind: Workspace
+metadata:
+  name: vault-aws-post-config
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  forProvider:
+    # Use any module source supported by terraform init -from-module.
+    source: Remote
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/aws/config-params/ccnew-config/vault-post-config?ref=${ARGOCD_ENV_vault_terraform_modules_tag}
+    # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
+    vars:
+      - key: "access_key_name"
+        value: "cloud_platform_api_client_id"
+      - key: "secret_key_name"
+        value: "cloud_platform_api_client_secret"
+      - key: "credential_path"
+        value: "cloud-api-access"
+      - key: "region"
+        value: "${ARGOCD_ENV_dns_cloud_api_region}"
+      - key: "kv_path"
+        value: "${ARGOCD_ENV_vault_kv_secret}"
+      - key: "external_dns_cloud_role"
+        value: "${ARGOCD_ENV_external_dns_cloud_role}"
+      - key: "dns_backend_path"
+        value: "${ARGOCD_ENV_dns_backend_path}"
+      - key: "enable_dns_backend"
+        value: "${ARGOCD_ENV_enable_dns_backend}"
+      - key: "dns_access_role"
+        value: "${ARGOCD_ENV_dns_access_role}"
+      - key: "cert_manager_cloud_policy"
+        value: "${ARGOCD_ENV_cert_manager_cloud_policy}"
+      - key: "cert_manager_access_role"
+        value: "${ARGOCD_ENV_cert_manager_access_role}"
+      - key: "object_storage_cloud_role"
+        value: "${ARGOCD_ENV_object_storage_cloud_role}"
+      - key: "object_storage_backend_path"
+        value: "${ARGOCD_ENV_object_storage_backend_path}"
+      - key: "enable_object_storage_backend"
+        value: "${ARGOCD_ENV_enable_object_storage_backend}"
+      - key: "object_storage_access_role"
+        value: "${ARGOCD_ENV_object_storage_access_role}"
+      - key: "default_lease_ttl_seconds"
+        value: "3600"
+  # All Terraform outputs are written to the connection secret.
+  providerConfigRef:
+    name: vault-post-config
+  writeConnectionSecretToRef:
+    namespace: ${ARGOCD_ENV_vault_namespace}
+    name: vault-aws-post-config

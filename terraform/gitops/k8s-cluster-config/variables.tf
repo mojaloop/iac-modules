@@ -14,6 +14,11 @@ variable "gitlab_server_url" {
   description = "gitlab_server_url"
 }
 
+variable "zitadel_server_url" {
+  type        = string
+  description = "zitadel_server_url"
+}
+
 variable "gitlab_project_url" {
   type        = string
   description = "gitlab_project_url"
@@ -71,6 +76,30 @@ variable "gitlab_admin_group_name" {
   description = "gitlab_admin_group_name"
 }
 
+variable "vault_admin_rbac_group" {
+  type        = string
+  description = "vault_admin_rbac_group"
+}
+
+variable "vault_readonly_rbac_group" {
+  type        = string
+  description = "vault_readonly_rbac_group"
+}
+
+variable "zitadel_project_id" {
+  type        = string
+  description = "zitadel_project_id"
+}
+
+variable "grafana_admin_rbac_group" {
+  type        = string
+  description = "grafana_admin_rbac_group"
+}
+
+variable "grafana_user_rbac_group" {
+  type        = string
+  description = "grafana_admin_rbac_group"
+}
 
 variable "external_secret_sync_wave" {
   type        = string
@@ -97,9 +126,9 @@ variable "dns_provider" {
   description = "provider for ext dns"
 }
 
-variable "minio_api_url" {
+variable "ceph_api_url" {
   type        = string
-  description = "minio_api_url"
+  description = "ceph_api_url"
 }
 
 variable "central_observability_endpoint" {
@@ -128,7 +157,7 @@ locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
   cloud_platform                                   = data.gitlab_project_variable.cloud_platform.value
-  longhorn_backups_bucket_name                     = data.gitlab_project_variable.minio_longhorn_bucket.value
+  longhorn_backups_bucket_name                     = data.gitlab_project_variable.ceph_longhorn_bucket.value
   cert_manager_credentials_client_id_name          = data.gitlab_project_variable.cert_manager_credentials_client_id_name.value
   cert_manager_credentials_client_secret_name      = data.gitlab_project_variable.cert_manager_credentials_client_secret_name.value
   external_dns_credentials_client_secret_name      = data.gitlab_project_variable.external_dns_credentials_client_secret_name.value
@@ -137,8 +166,8 @@ locals {
   cert_manager_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
   external_dns_credentials_secret_provider_key     = var.secrets_key_map["external_dns_cred_secret_key"]
   external_dns_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
-  longhorn_backups_credentials_secret_provider_key = "minio_longhorn_password"
-  longhorn_backups_credentials_id_provider_key     = "minio_longhorn_username"
-  minio_loki_bucket                                = data.gitlab_project_variable.minio_loki_bucket.value
-  minio_tempo_bucket                               = data.gitlab_project_variable.minio_tempo_bucket.value
+  longhorn_backups_credentials_secret_provider_key = "longhorn_backup_bucket_secret_key_id"
+  longhorn_backups_credentials_id_provider_key     = "longhorn_backup_bucket_access_key_id"
+  ceph_loki_bucket                                = data.gitlab_project_variable.ceph_loki_bucket.value
+  ceph_tempo_bucket                               = data.gitlab_project_variable.ceph_tempo_bucket.value
 }

@@ -102,46 +102,46 @@ tempo:
           path: {{ .Values.tempo.dataDir }}/wal
         s3:
           forcepathstyle: true
-          endpoint: ${minio_api_url}
-          insecure: true
-          bucket: ${minio_tempo_bucket}   
+          endpoint: ${ceph_api_url}
+          insecure: false
+          bucket: ${ceph_tempo_bucket}     
 
 
 compactor:
   resourcesPreset: large
-  extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]  
 distributor:
-  extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]   
 ingester:
   resourcesPreset: large
-  extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]   
 metricsGenerator:
-  extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]   
 querier:
   resourcesPreset: small
-  extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]   
 queryFrontend:
-  extraEnvVarsSecret: ${minio_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING

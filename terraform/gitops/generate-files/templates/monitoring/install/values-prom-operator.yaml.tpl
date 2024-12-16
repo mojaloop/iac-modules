@@ -11,13 +11,14 @@ alertmanager:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]       
+    values: ["enabled"]
 prometheus:
   persistence:
     enabled: true
     storageClass: ${storage_class_name}
     size: ${prometheus_pvc_size}
   retention: ${prometheus_retention_period}
+  enableRemoteWriteReceiver: true
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -37,23 +38,27 @@ prometheus:
   - name: central-monitoring
     url: ${central_observability_endpoint}/api/v1/push
     headers:
-      X-Scope-OrgID: ${central_observability_tenant_id} 
-%{endif ~} 
+      X-Scope-OrgID: ${central_observability_tenant_id}
+%{endif ~}
 
 %{if enable_central_observability_read ~}
   remoteRead:
   - name: central-monitoring
-    url: ${central_observability_endpoint}/api/v1/read
+    url: ${central_observability_endpoint}/prometheus/api/v1/read
     headers:
-      X-Scope-OrgID: ${central_observability_tenant_id}    
-%{endif ~} 
+      X-Scope-OrgID: ${central_observability_tenant_id}
+%{endif ~}
 
 
 operator:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]       
+    values: ["enabled"]
+  resources:
+    requests:
+      cpu: 20m
+      memory: 100Mi
 kubelet:
   serviceMonitor:
     relabelings:
@@ -64,19 +69,19 @@ kubelet:
       targetLabel: kubernetes_io_hostname
       replacement: $${1}
       action: replace
-    metricRelabelings:      
+    metricRelabelings:
     - sourceLabels: ['__name__']
       regex: 'apiserver_request_duration_seconds_bucket|apiserver_request_sli_duration_seconds_bucket'
       action: drop
     - sourceLabels: ['__name__']
       regex: 'apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket'
-      action: drop      
+      action: drop
     - sourceLabels: ['__name__']
       regex: 'etcd_request_duration_seconds_bucket'
       action: drop
 
 kubeApiServer:
-  enabled: false	
+  enabled: false
 
 commonLabels:
   build: argocd
@@ -85,14 +90,14 @@ commonAnnotations:
 
 node-exporter:
   serviceMonitor:
-    relabelings: 
+    relabelings:
     - sourceLabels: [__meta_kubernetes_pod_node_name]
       targetLabel: nodename
   tolerations:
     - operator: "Exists"
 blackboxExporter:
-  enabled: false    
+  enabled: false
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]     
+    values: ["enabled"]

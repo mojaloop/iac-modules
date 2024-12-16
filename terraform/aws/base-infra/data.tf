@@ -26,3 +26,22 @@ data "aws_route53_zone" "cluster_parent_parent" {
 data "aws_availability_zones" "available" {
   state = "available"
 }
+# bastion
+data "template_cloudinit_config" "generic" {
+  gzip          = true
+  base64_encode = true
+
+  # Main cloud-config configuration file.
+  part {
+    filename     = "init.cfg"
+    content_type = "text/cloud-config"
+    content      = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
+  }
+}
+
+data "aws_instances" "bastion_instances" {
+  instance_tags = {
+    Name = "${local.cluster_domain}-bastion"
+  }
+  depends_on    = [aws_autoscaling_group.bastion_asg]
+}

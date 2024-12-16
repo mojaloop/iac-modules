@@ -1,0 +1,19 @@
+domainFilters:
+  - ${ARGOCD_ENV_dns_public_subdomain}
+  - ${ARGOCD_ENV_dns_private_subdomain}
+txtOwnerId: ${ARGOCD_ENV_cluster_name}
+policy: sync
+dryRun: false
+interval: 1m
+triggerLoopOnEvent: true
+txtPrefix: extdns
+sources:
+  - service
+  - ingress
+  - istio-gateway
+logLevel: debug
+provider: aws
+aws:
+  credentials:
+    secretName: ${ARGOCD_ENV_external_dns_credentials_secret}
+  region: ${ARGOCD_ENV_dns_cloud_api_region}

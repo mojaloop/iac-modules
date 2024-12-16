@@ -1,0 +1,661 @@
+{
+   "description": "Visualize Amazon EBS metrics",
+   "editable": true,
+   "graphTooltip": 1,
+   "panels": [
+      {
+         "content": "Showing metrics only for AWS resources that have tags assigned to them. For more information, see [Amazon CloudWatch Metrics for Amazon EBS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using_cloudwatch_ebs.html).\n",
+         "datasource": "default",
+         "gridPos": {
+            "h": 3,
+            "w": 24
+         },
+         "id": 2,
+         "mode": "markdown",
+         "title": "Info",
+         "transparent": false,
+         "type": "text"
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12
+         },
+         "hiddenSeries": false,
+         "id": 3,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_read_bytes_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume read bandwidth (bytes)",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "bps",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12
+         },
+         "hiddenSeries": false,
+         "id": 4,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_write_bytes_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume write bandwidth (bytes)",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "bps",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 8
+         },
+         "hiddenSeries": false,
+         "id": 5,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_read_ops_average{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume read throughput (operations)",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "ops",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 8
+         },
+         "hiddenSeries": false,
+         "id": 6,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_write_ops_average{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume write throughput (operations)",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "ops",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 0,
+            "y": 16
+         },
+         "hiddenSeries": false,
+         "id": 7,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_idle_time_average{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume idle time",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "percent",
+               "logBase": 1,
+               "max": 100,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 8,
+            "y": 16
+         },
+         "hiddenSeries": false,
+         "id": 8,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_total_read_time_average{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume total read time",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "percent",
+               "logBase": 1,
+               "max": 100,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 16
+         },
+         "hiddenSeries": false,
+         "id": 9,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_total_write_time_average{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume total write time",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "percent",
+               "logBase": 1,
+               "max": 100,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 24
+         },
+         "hiddenSeries": false,
+         "id": 10,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_queue_length_average{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume queue length (bytes)",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "short",
+               "logBase": 1,
+               "max": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 24
+         },
+         "hiddenSeries": false,
+         "id": 11,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_throughput_percentage_average{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume throughput percentage",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "percent",
+               "logBase": 1,
+               "max": 100,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 32
+         },
+         "hiddenSeries": false,
+         "id": 12,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_burst_balance_average{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Burst balance",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "percent",
+               "logBase": 1,
+               "max": 100,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 32
+         },
+         "hiddenSeries": false,
+         "id": 13,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ebs_volume_consumed_read_write_ops_average{scrape_job=~\"$job\", region=~\"$region\", dimension_VolumeId=~\"$volume\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_VolumeId}}"
+            }
+         ],
+         "title": "Volume consumed r/w operations",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      }
+   ],
+   "schemaVersion": 25,
+   "style": "dark",
+   "tags": [
+      "Amazon",
+      "AWS",
+      "CloudWatch",
+      "EBS"
+   ],
+   "templating": {
+      "list": [
+         {
+            "hide": 0,
+            "includeAll": false,
+            "label": "Data Source",
+            "multi": false,
+            "name": "datasource",
+            "query": "prometheus",
+            "refresh": 1,
+            "skipUrlSync": false,
+            "type": "datasource"
+         },
+         {
+            "allValue": ".+",
+            "datasource": "$datasource",
+            "hide": 0,
+            "includeAll": true,
+            "label": "job",
+            "multi": true,
+            "name": "job",
+            "query": "label_values(aws_ebs_info, scrape_job)",
+            "refresh": 1,
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "datasource": "$datasource",
+            "hide": 0,
+            "includeAll": true,
+            "label": "Region",
+            "multi": true,
+            "name": "region",
+            "query": "label_values(aws_ebs_volume_idle_time_average, region)",
+            "refresh": 2,
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "datasource": "$datasource",
+            "hide": 0,
+            "includeAll": true,
+            "label": "Volume",
+            "multi": true,
+            "name": "volume",
+            "query": "label_values(aws_ebs_volume_idle_time_average{scrape_job=~\"$job\", region=~\"$region\"}, dimension_VolumeId)",
+            "refresh": 2,
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query",
+            "useTags": false
+         }
+      ]
+   },
+   "title": "AWS EBS"
+}

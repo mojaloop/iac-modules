@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${ARGOCD_ENV_vault_namespace}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${ARGOCD_ENV_vault_config_operator_namespace}

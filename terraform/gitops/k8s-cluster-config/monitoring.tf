@@ -3,25 +3,34 @@ module "generate_monitoring_files" {
   var_map = {
     grafana_crd_version_tag                = try(var.common_var_map.grafana_crd_version_tag, local.grafana_crd_version_tag)
     prometheus_crd_version                 = try(var.common_var_map.prometheus_crd_version, local.prometheus_crd_version)
+    loki_repo                              = try(var.common_var_map.loki_repo, local.bitnami_repo)
     loki_chart_version                     = try(var.common_var_map.loki_chart_version, local.loki_chart_version)
+    prometheus_operator_repo               = try(var.common_var_map.prometheus_operator_repo, local.bitnami_repo)
     prometheus_operator_version            = try(var.common_var_map.prometheus_operator_version, local.prometheus_operator_version)
     prometheus_operator_release_name       = local.prometheus_operator_release_name
     prometheus_process_exporter_version    = try(var.common_var_map.prometheus_process_exporter_version, local.prometheus_process_exporter_version)
     loki_release_name                      = local.loki_release_name
+    grafana_operator_repo                  = try(var.common_var_map.grafana_operator_repo, local.bitnami_repo)
     grafana_operator_version               = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                        = try(var.common_var_map.grafana_version, local.grafana_version)
     grafana_dashboard_tag                  = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
+    tempo_repo                             = try(var.common_var_map.tempo_repo, local.bitnami_repo)
     tempo_chart_version                    = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
-    opentelemetry_chart_version         = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
+    metrics_server_chart_version           = try(var.common_var_map.metrics_server_chart_version, local.metrics_server_chart_version)
+    metrics_server_replicas                = var.metrics_server_replicas
+    opentelemetry_chart_version            = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
     monitoring_namespace                   = var.monitoring_namespace
     gitlab_server_url                      = var.gitlab_server_url
+    zitadel_server_url                     = var.zitadel_server_url
     gitlab_project_url                     = var.gitlab_project_url
     public_subdomain                       = var.public_subdomain
-    client_id                              = try(data.vault_generic_secret.grafana_oauth_client_id[0].data.value, "")
-    client_secret                          = try(data.vault_generic_secret.grafana_oauth_client_secret[0].data.value, "")
+    client_id                              = try(data.vault_kv_secret_v2.grafana_oauth_client_id[0].data.value, "")
+    client_secret                          = try(data.vault_kv_secret_v2.grafana_oauth_client_secret[0].data.value, "")
     enable_oidc                            = var.enable_grafana_oidc
     storage_class_name                     = var.storage_class_name
-    groups                                 = var.gitlab_admin_group_name
+    zitadel_project_id                     = var.zitadel_project_id
+    grafana_admin_rbac_group               = var.grafana_admin_rbac_group
+    grafana_user_rbac_group                = var.grafana_user_rbac_group
     prom-mojaloop-url                      = "http://prometheus-operated:9090"
     admin_secret_pw_key                    = "admin-pw"
     admin_secret_user_key                  = "admin-user"
@@ -42,15 +51,15 @@ module "generate_monitoring_files" {
     alertmanager_enabled                   = try(var.common_var_map.alertmanager_enabled, false)
     alertmanager_slack_integration_enabled = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
     alertmanager_jira_integration_enabled  = try(var.common_var_map.alertmanager_jira_integration_enabled, false)
-    minio_loki_credentials_secret_name     = "minio-loki-credentials-secret"
-    minio_api_url                          = var.minio_api_url
-    minio_loki_bucket                      = local.minio_loki_bucket
-    minio_loki_user_key                    = "${var.cluster_name}/minio_loki_username"
-    minio_loki_password_key                = "${var.cluster_name}/minio_loki_password"
-    minio_tempo_credentials_secret_name    = "minio-tempo-credentials-secret"
-    minio_tempo_user_key                   = "${var.cluster_name}/minio_tempo_username"
-    minio_tempo_password_key               = "${var.cluster_name}/minio_tempo_password"
-    minio_tempo_bucket                     = local.minio_tempo_bucket
+    ceph_loki_credentials_secret_name     = "ceph-loki-credentials-secret"
+    ceph_api_url                          = var.ceph_api_url
+    ceph_loki_bucket                      = local.ceph_loki_bucket
+    ceph_loki_user_key                    = "${var.cluster_name}/loki_bucket_access_key_id"
+    ceph_loki_password_key                = "${var.cluster_name}/loki_bucket_secret_key_id"
+    ceph_tempo_credentials_secret_name    = "ceph-tempo-credentials-secret"
+    ceph_tempo_user_key                   = "${var.cluster_name}/tempo_bucket_access_key_id"
+    ceph_tempo_password_key               = "${var.cluster_name}/tempo_bucket_secret_key_id"
+    ceph_tempo_bucket                     = local.ceph_tempo_bucket
     tempo_retention_period                 = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
     external_secret_sync_wave              = var.external_secret_sync_wave
     prom_tsdb_max_block_duration           = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)
@@ -89,13 +98,13 @@ variable "enable_grafana_oidc" {
 variable "grafana_oidc_client_secret_secret_key" {
   type        = string
   description = "grafana_oidc_client_secret_secret_key"
-  default     = "grafana_oauth_client_secret"
+  default     = "grafana_oidc_client_secret"
 }
 
 variable "grafana_oidc_client_id_secret_key" {
   type        = string
   description = "grafana_oidc_client_id_secret_key"
-  default     = "grafana_oauth_client_id"
+  default     = "grafana_oidc_client_id"
 }
 
 variable "grafana_chart_repo" {
@@ -121,7 +130,14 @@ variable "monitoring_namespace" {
   default     = "monitoring"
 }
 
+variable "metrics_server_replicas" {
+  type        = string
+  description = "metrics_server_replicas"
+  default     = "1"
+}
+
 locals {
+  bitnami_repo                        = "oci://registry-1.docker.io/bitnamicharts"
   grafana_crd_version_tag             = "v5.6.0"
   prometheus_crd_version              = "8.0.1"
   opentelemetry_chart_version         = "0.56.0"
@@ -132,6 +148,7 @@ locals {
   prometheus_operator_version         = "8.22.8"
   prometheus_process_exporter_version = "0.4.2"
   tempo_chart_version                 = "3.1.0"
+  metrics_server_chart_version        = "3.12.2"
   grafana_version                     = "10.2.3"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17" # TODO: update once v16.1.x is published
   grafana_operator_version            = "3.5.11"

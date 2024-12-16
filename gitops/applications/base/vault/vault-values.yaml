@@ -1,0 +1,67 @@
+server:
+  enabled: true
+  dev:
+    enabled: false
+  extraVolumes:
+    - type: configMap
+      name: post-config
+  readinessProbe:
+    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+
+  ha:
+    enabled: true
+    config: |
+      ui = true
+      listener "tcp" {
+        tls_disable = 1
+        address = "[::]:8200"
+        cluster_address = "[::]:8201"
+      }
+      storage "consul" {
+        path = "vault"
+        address = "consul-server.${ARGOCD_ENV_consul_namespace}.svc.cluster.local:8500"
+      }
+      service_registration "kubernetes" {}
+
+  extraContainers:
+    # - name: statsd-exporter
+    #   image: prom/statsd-exporter:latest
+    - name: init-sidecar
+      image: ghcr.io/mojaloop/vault-utils:0.0.6
+      command:
+        [
+          "sh",
+          "-c",
+          "cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do /tmp/bootstrap.sh; sleep 300; done",
+        ]
+      volumeMounts:
+        - name: userconfig-post-config
+          mountPath: /etc/vault/
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: class
+                operator: NotIn
+                values:
+                  - vault
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchLabels:
+                app: vault
+  ingress:
+    enabled: false
+  logLevel: ${ARGOCD_ENV_vault_log_level}
+
+ui:
+  enabled: true
+injector:
+  enabled: false
+csi:
+  enabled: false

@@ -20,6 +20,8 @@ class CustomDumper(yaml.Dumper):
     def represent_data(self, data):
         if isinstance(data, str) and data.isdigit():
             return self.represent_scalar('tag:yaml.org,2002:str', data, style="'")
+        if isinstance(data, str) and "\n" in data:
+            return self.represent_scalar('tag:yaml.org,2002:str', data, style="|")
 
         return super(CustomDumper, self).represent_data(data)
 
@@ -87,8 +89,7 @@ if os.path.isfile(default_config_file):
        print("File type not supported")
        exit(1)
 else:
-    print("Default config file "+default_config_file+" file does not exist")
-    exit(1)
+    data1 = {}
 
 def load_custom_config(custom_config_file):
     customExt = os.path.splitext(custom_config_file)[1]

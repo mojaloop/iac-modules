@@ -1,0 +1,58 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespaces.yaml
+  - vault-init-crs.yaml
+  - vault-crossplane.yaml
+
+helmCharts:
+  - name: vault
+    releaseName: ${ARGOCD_ENV_vault_app_name}
+    version: ${ARGOCD_ENV_vault_helm_version}
+    repo: https://helm.releases.hashicorp.com
+    valuesFile: vault-values.yaml
+    namespace: ${ARGOCD_ENV_vault_namespace}
+
+  - name: vault-config-operator
+    releaseName: ${ARGOCD_ENV_vault_config_operator_app_name}
+    version: ${ARGOCD_ENV_vault_config_operator_helm_version}
+    repo: https://redhat-cop.github.io/vault-config-operator
+    valuesFile: vault-config-operator-values.yaml
+    namespace: ${ARGOCD_ENV_vault_config_operator_namespace}
+    includeCRDs: true
+
+patches:
+  - target:
+      kind: Deployment
+      name: vault-config-operator
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: ${ARGOCD_ENV_vault_config_operator_namespace}
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Issuer
+      name: selfsigned-issuer
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: ${ARGOCD_ENV_vault_config_operator_namespace}
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Certificate
+      name: vault-config-operator-webhook-service-cert
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: ${ARGOCD_ENV_vault_config_operator_namespace}
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Certificate
+      name: vault-config-operator-metrics-service-cert
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: ${ARGOCD_ENV_vault_config_operator_namespace}

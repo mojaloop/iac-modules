@@ -29,6 +29,20 @@ resource "local_file" "managed_crs" {
   filename = "${local.stateful_resources_output_path}/managed-crs-${each.key}.yaml"
 }
 
+resource "local_file" "mysql_managed_stateful_resources" {
+  for_each = local.mysql_managed_stateful_resources
+
+  content = templatefile("${local.stateful_resources_template_path}/managed-mysql.yaml.tpl", {
+    resource_name                = each.key
+    stateful_resources_namespace = var.stateful_resources_namespace
+    managed_stateful_resource    = local.mysql_managed_stateful_resources[each.key]
+    resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
+  })
+  filename = "${local.stateful_resources_output_path}/managed-mysql-${each.key}.yaml"
+}
+
+
+
 resource "local_file" "external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
     { config                       = local.external_name_map
@@ -42,6 +56,7 @@ resource "local_file" "kustomization" {
     { all_local_stateful_resources        = local.internal_stateful_resources
       helm_stateful_resources             = local.helm_stateful_resources
       managed_stateful_resources          = local.managed_stateful_resources
+      mysql_managed_stateful_resources    = local.mysql_managed_stateful_resources
       strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
       redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
@@ -107,16 +122,21 @@ resource "local_file" "percona-crs" {
       existing_secret     = each.value.local_operator_config.secret_config.generate_secret_name
       affinity_definition = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.affinity_definition : each.value.local_operator_config.mongodb_data.affinity_definition
 
+      percona_xtradb_mysql_version   = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_mysql_version : ""
+      percona_xtradb_haproxy_version = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_haproxy_version : ""
+      percona_xtradb_logcoll_version = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_logcoll_version : ""
+      percona_xtradb_backup_version  = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_backup_version : ""
 
       mongo_config_server_replica_count = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_config_server_replica_count : ""
       mongo_proxy_replica_count         = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_proxy_replica_count : ""
       mongod_replica_count              = each.value.logical_service_config.replica_count
       percona_server_mongodb_version    = each.value.resource_type == "mongodb" ? each.value.local_operator_config.percona_server_mongodb_version : ""
+      percona_backup_mongodb_version    = each.value.resource_type == "mongodb" ? each.value.local_operator_config.percona_backup_mongodb_version : ""
 
 
-      minio_percona_backup_bucket = var.minio_percona_backup_bucket
-      minio_percona_secret        = "percona-backups-secret"
-      minio_api_url               = "http://${var.minio_api_url}"
+      ceph_percona_backup_bucket = var.ceph_percona_backup_bucket
+      ceph_percona_secret        = "percona-backups-secret"
+      ceph_api_url               = "https://${var.ceph_api_url}"
       backupSchedule              = each.value.backup_schedule
       backupStorageName           = "${each.key}-backup-storage"
 
@@ -151,9 +171,11 @@ locals {
   redis_operator_stateful_resources   = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "redis" }
   percona_stateful_resources          = { for key, resource in local.operator_stateful_resources : key => resource if(resource.resource_type == "mysql" || resource.resource_type == "mongodb") }
   managed_stateful_resources          = { for key, managed_resource in local.stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
+  mysql_managed_stateful_resources    = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if managed_resource.resource_type == "mysql" }
+  mongodb_managed_stateful_resources  = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if managed_resource.resource_type == "mongodb" }
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }
-  managed_external_name_map           = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.managed_db_host }
+  managed_external_name_map           = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
   external_name_map                   = merge(local.local_operator_external_name_map, merge(local.local_external_name_map, local.managed_external_name_map)) # mutually exclusive maps
   managed_resource_password_map = { for key, stateful_resource in local.managed_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
@@ -175,8 +197,8 @@ locals {
   all_local_helm_namespaces = distinct([for stateful_resource in local.helm_stateful_resources : try(stateful_resource.local_helm_config.resource_namespace, "")])
   all_local_op_namespaces   = distinct([for stateful_resource in local.operator_stateful_resources : try(stateful_resource.local_operator_config.resource_namespace, "")])
 
-  percona_credentials_secret_provider_key = "minio_percona_password"
-  percona_credentials_id_provider_key     = "minio_percona_username"
+  percona_credentials_secret_provider_key = "percona_bucket_secret_key_id"
+  percona_credentials_id_provider_key     = "percona_bucket_access_key_id"
 
   strimzi_kafka_grafana_dashboards_version = "0.41.0"
 }
@@ -253,12 +275,12 @@ variable "stateful_resources" {
   type = any
 }
 
-variable "minio_api_url" {
+variable "ceph_api_url" {
   type        = string
-  description = "minio_api_url"
+  description = "ceph_api_url"
 }
 
-variable "minio_percona_backup_bucket" {
+variable "ceph_percona_backup_bucket" {
   type        = string
-  description = "minio_percona_backup_bucket"
+  description = "ceph_percona_backup_bucket"
 }

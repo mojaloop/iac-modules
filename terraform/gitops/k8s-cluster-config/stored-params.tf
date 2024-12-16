@@ -36,37 +36,39 @@ data "gitlab_project_variable" "external_dns_credentials_client_id_name" {
 
 # need to get these by hand because loki doesnt support k8s secret env vars.
 
-data "vault_generic_secret" "grafana_oauth_client_id" {
+data "vault_kv_secret_v2" "grafana_oauth_client_id" {
   count = var.enable_grafana_oidc ? 1 : 0  
-  path = "${var.kv_path}/${var.cluster_name}/${var.grafana_oidc_client_id_secret_key}"
-}
+  mount = var.kv_path
+  name  = "${var.cluster_name}/${var.grafana_oidc_client_id_secret_key}"
+}  
 
-data "vault_generic_secret" "grafana_oauth_client_secret" {
-  count = var.enable_grafana_oidc ? 1 : 0    
-  path = "${var.kv_path}/${var.cluster_name}/${var.grafana_oidc_client_secret_secret_key}"
-}
+data "vault_kv_secret_v2" "grafana_oauth_client_secret" {
+  count = var.enable_grafana_oidc ? 1 : 0  
+  mount = var.kv_path
+  name  = "${var.cluster_name}/${var.grafana_oidc_client_secret_secret_key}"
+}  
 
-data "gitlab_project_variable" "minio_loki_bucket" {
+data "gitlab_project_variable" "ceph_loki_bucket" {
   project = var.current_gitlab_project_id
-  key     = "minio_loki_bucket"
+  key     = "ceph_loki_bucket"
 }
 
-data "gitlab_project_variable" "minio_tempo_bucket" {
+data "gitlab_project_variable" "ceph_tempo_bucket" {
   project = var.current_gitlab_project_id
-  key     = "minio_tempo_bucket"
+  key     = "ceph_tempo_bucket"
 }
 
-data "gitlab_project_variable" "minio_longhorn_bucket" {
+data "gitlab_project_variable" "ceph_longhorn_bucket" {
   project = var.current_gitlab_project_id
-  key     = "minio_longhorn_bucket"
+  key     = "ceph_longhorn_backup_bucket"
 }
 
-data "gitlab_project_variable" "minio_velero_bucket" {
+data "gitlab_project_variable" "ceph_velero_bucket" {
   project = var.current_gitlab_project_id
-  key     = "minio_velero_bucket"
+  key     = "ceph_velero_bucket"
 }
 
-data "gitlab_project_variable" "minio_percona_backup_bucket" {
+data "gitlab_project_variable" "ceph_percona_backup_bucket" {
   project = var.current_gitlab_project_id
-  key     = "minio_percona_bucket"
+  key     = "ceph_percona_bucket"
 }

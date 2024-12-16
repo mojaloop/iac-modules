@@ -21,7 +21,7 @@ variable "managed_stateful_resources_config_file" {
 
 variable "az_count" {
   type        = number
-  default     = 2
+  default     = 3 # rds mutizone clsuter
   description = "Number of azs"
 }
 
@@ -55,5 +55,6 @@ locals {
   external_services = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   rds_services      = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
   msk_services      = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
+  mongodb_services  = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mongodb" }  
 
 }

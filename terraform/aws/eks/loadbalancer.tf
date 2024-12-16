@@ -177,7 +177,7 @@ resource "aws_lb_target_group" "wireguard" {
   # check tcp port 80 (ingress) for now, but probably need to add a http sidecar or something to act as a health check for wireguard
   health_check {
     protocol = "TCP"
-    port     = var.target_group_external_http_port
+    port     = var.target_group_external_https_port
   }
 
   tags = merge({ Name = "${local.base_domain}-wireguard" }, local.common_tags)

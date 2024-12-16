@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources: 
+- virtualservice.yaml
+
+helmCharts:
+- name: nexus3
+  releaseName: ${ARGOCD_ENV_nexus_app_name}
+  version: ${ARGOCD_ENV_nexus_helm_version}
+  repo: https://stevehipwell.github.io/helm-charts/
+  valuesFile: nexus-values.yaml
+  namespace: ${ARGOCD_ENV_nexus_namespace}
+
+patches:
+  - target:
+      kind: PersistentVolumeClaim
+      name: nexus-data
+    patch: |
+      - op: remove
+        path: /spec/storageClassName

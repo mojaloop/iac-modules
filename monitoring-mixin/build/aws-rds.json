@@ -1,0 +1,592 @@
+{
+   "description": "Visualize Amazon RDS metrics",
+   "editable": true,
+   "graphTooltip": 1,
+   "panels": [
+      {
+         "content": "Showing metrics only for AWS resources that have tags assigned to them. For more information, see [Amazon CloudWatch Metrics for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/monitoring-cloudwatch.html).\n",
+         "datasource": "default",
+         "gridPos": {
+            "h": 3,
+            "w": 24
+         },
+         "id": 2,
+         "mode": "markdown",
+         "title": "Info",
+         "transparent": false,
+         "type": "text"
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 24
+         },
+         "hiddenSeries": false,
+         "id": 3,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_cpuutilization_maximum{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "CPU utilization",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "percent",
+               "logBase": 1,
+               "max": 100,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 24
+         },
+         "hiddenSeries": false,
+         "id": 4,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_database_connections_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "Database connections count",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "short",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 24
+         },
+         "hiddenSeries": false,
+         "id": 5,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_free_storage_space_average{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "Free storage space",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "bytes",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 24
+         },
+         "hiddenSeries": false,
+         "id": 6,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_freeable_memory_average{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "Freeable memory",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "bytes",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12
+         },
+         "hiddenSeries": false,
+         "id": 7,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_read_throughput_average{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "Disk read throughput (bytes)",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "bps",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12
+         },
+         "hiddenSeries": false,
+         "id": 8,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_write_throughput_average{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "Disk write throughput (bytes)",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "bps",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12
+         },
+         "hiddenSeries": false,
+         "id": 9,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_read_iops_average{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "Disk read IOPS",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "ops",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12
+         },
+         "hiddenSeries": false,
+         "id": 10,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_write_iops_average{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "Disk write IOPS",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "ops",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12
+         },
+         "hiddenSeries": false,
+         "id": 11,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_read_latency_maximum{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "Disk read latency",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "ms",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12
+         },
+         "hiddenSeries": false,
+         "id": 12,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_rds_write_latency_maximum{scrape_job=~\"$job\", region=~\"$region\", dimension_DBInstanceIdentifier=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_DBInstanceIdentifier}}"
+            }
+         ],
+         "title": "Disk write latency",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "ms",
+               "logBase": 1,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      }
+   ],
+   "schemaVersion": 25,
+   "style": "dark",
+   "tags": [
+      "Amazon",
+      "AWS",
+      "CloudWatch",
+      "RDS"
+   ],
+   "templating": {
+      "list": [
+         {
+            "hide": 0,
+            "includeAll": false,
+            "label": "Data Source",
+            "multi": false,
+            "name": "datasource",
+            "query": "prometheus",
+            "refresh": 1,
+            "skipUrlSync": false,
+            "type": "datasource"
+         },
+         {
+            "allValue": ".+",
+            "datasource": "$datasource",
+            "hide": 0,
+            "includeAll": true,
+            "label": "job",
+            "multi": true,
+            "name": "job",
+            "query": "label_values(aws_rds_info, scrape_job)",
+            "refresh": 1,
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "datasource": "$datasource",
+            "hide": 0,
+            "includeAll": true,
+            "label": "Region",
+            "multi": true,
+            "name": "region",
+            "query": "label_values(aws_rds_database_connections_sum, region)",
+            "refresh": 2,
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "allValue": ".+",
+            "datasource": "$datasource",
+            "hide": 0,
+            "includeAll": true,
+            "label": "instance",
+            "multi": true,
+            "name": "instance",
+            "query": "label_values(aws_rds_database_connections_sum{scrape_job=~\"$job\", region=~\"$region\"}, dimension_DBInstanceIdentifier)",
+            "refresh": 2,
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query",
+            "useTags": false
+         }
+      ]
+   },
+   "title": "AWS RDS"
+}

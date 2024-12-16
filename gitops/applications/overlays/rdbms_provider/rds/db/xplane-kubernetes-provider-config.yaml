@@ -1,0 +1,7 @@
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: ${ARGOCD_ENV_dbdeploy_name_prefix}-kubernetes-provider
+spec:
+  credentials:
+    source: InjectedIdentity

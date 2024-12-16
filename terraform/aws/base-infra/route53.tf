@@ -56,12 +56,3 @@ resource "aws_route53_record" "cluster_ns" {
   ttl     = "30"
   records = aws_route53_zone.cluster_parent[0].name_servers
 }
-
-resource "aws_route53_record" "haproxy_server_private" {
-  count   = (var.configure_route_53 && var.create_haproxy_dns_record) ? 1 : 0
-  zone_id = local.public_zone.id
-  name    = "haproxy"
-  type    = "A"
-  ttl     = "300"
-  records = [aws_instance.bastion.private_ip]
-}

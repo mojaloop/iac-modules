@@ -104,12 +104,48 @@ reporting-legacy-api:
 
 reporting-events-processor-svc:
   enabled: true
+  image:
+    tag: v3.0.0
   kafka:
     host: ${kafka_host}
     port: ${kafka_port}
     topicEvent: topic-event-audit
     consumerGroup: reporting_events_processor_consumer_group
     clientId: reporting_events_processor_consumer
+  configFiles:
+    default.json: {
+        "KAFKA": {
+          "TOPIC_EVENT": 'topic-event-audit',
+          "CONSUMER": {
+            "EVENT": {
+              "config": {
+                "options": {
+                  "mode": 2,
+                  "batchSize": 50,
+                  "pollFrequency": 10,
+                  "recursiveTimeout": 100,
+                  "messageCharset": "utf8",
+                  "messageAsJSON": true,
+                  "sync": true,
+                  "consumeTimeout": 10
+                },
+                "rdkafkaConf": {
+                  "clientId": 'reporting_events_processor_consumer',
+                  "groupId": 'reporting_events_processor_consumer_group',
+                  "metadataBrokerList": '${kafka_host}:${kafka_port}',
+                  "socketKeepaliveEnable": true,
+                  "allowAutoCreateTopics": true,
+                  "partitionAssignmentStrategy": "",
+                  "enableAutoCommit": false
+                },
+                "topicConf": {
+                  "autoOffsetReset": "earliest"
+                }
+              }
+            }
+          }
+        }
+      }
 
 reporting-hub-bop-experience-api-svc:
   enabled: true
@@ -161,13 +197,14 @@ reporting-hub-bop-settlements-ui:
   image:
     registry: docker.io
     repository: mojaloop/reporting-hub-bop-settlements-ui
-    tag: v0.0.17
+    tag: v0.0.19-snapshot.2
   enabled: true
   config:
     env:
       CENTRAL_LEDGER_ENDPOINT: https://${portal_fqdn}/api/central-admin
       CENTRAL_SETTLEMENTS_ENDPOINT: https://${portal_fqdn}/api/central-settlements
       REPORTING_API_ENDPOINT: https://${portal_fqdn}/api/transfers
+      REPORTING_TEMPLATE_API_ENDPOINT: https://${portal_fqdn}/api/reports/report-bilateral-settlement
   ingress:
     enabled: false
 

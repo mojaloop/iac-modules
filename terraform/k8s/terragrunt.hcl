@@ -1,37 +1,15 @@
 skip = true
-
 generate "backend" {
   path      = "backend.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
 terraform {
-  backend "http" {
-    address        = "${get_env("TF_STATE_BASE_ADDRESS")}/${path_relative_to_include()}"
-    lock_address   = "${get_env("TF_STATE_BASE_ADDRESS")}/${path_relative_to_include()}/lock"
-    unlock_address = "${get_env("TF_STATE_BASE_ADDRESS")}/${path_relative_to_include()}/lock"
+  backend "kubernetes" {
+    secret_suffix    = "${replace(path_relative_to_include(), "/", "-")}-${get_env("cluster_name")}-state"
+    config_path      = "${get_env("KUBECONFIG_LOCATION")}"
+    namespace        = "${get_env("K8S_STATE_NAMESPACE")}"
   }
 }
-EOF
-}
-generate "data_control" {
-  path = "data_control.tf"
-
-  if_exists = "overwrite_terragrunt"
-
-  contents = <<EOF
-data "terraform_remote_state" "control" {
-  backend = "http"
-  config = {
-    password    = "${local.TF_CONTROL_STATE_TOKEN}"
-    username    = "${local.TF_CONTROL_STATE_USER}"
-    address     = "${local.TF_CONTROL_STATE_ADDRESS}"
-  }
-}
-locals {
-  nexus_fqdn = data.terraform_remote_state.control.outputs.nexus_fqdn
-  nexus_docker_repo_listening_port = data.terraform_remote_state.control.outputs.nexus_docker_repo_listening_port
-}
-
 EOF
 }
 
@@ -75,10 +53,6 @@ EOF
 
 locals {
   common_vars               = yamldecode(file("${get_env("CONFIG_PATH")}/common-vars.yaml"))
-  TF_STATE_BASE_ADDRESS     = get_env("TF_STATE_BASE_ADDRESS")
   GITLAB_PROVIDER_TOKEN     = get_env("GITLAB_PROVIDER_TOKEN")
   GITLAB_PROVIDER_URL       = get_env("GITLAB_PROVIDER_URL")
-  TF_CONTROL_STATE_TOKEN    = get_env("TF_CONTROL_STATE_TOKEN")
-  TF_CONTROL_STATE_USER     = get_env("TF_CONTROL_STATE_USER")
-  TF_CONTROL_STATE_ADDRESS  = get_env("TF_CONTROL_STATE_ADDRESS")
 }

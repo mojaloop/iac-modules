@@ -1,0 +1,65 @@
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaFolder
+# metadata:
+#   name: aws-managed-services
+# spec:
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+# ---
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaDashboard
+# metadata:
+#   name: aws-ec2
+# spec:
+#   folder: aws-managed-services
+#   datasources:
+#     - inputName: "DS_PROMETHEUS"
+#       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+#   url: https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/monitoring-mixin/build/aws-ec2.json
+# ---
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaDashboard
+# metadata:
+#   name: aws-rds
+# spec:
+#   folder: aws-managed-services
+#   datasources:
+#     - inputName: "DS_PROMETHEUS"
+#       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+#   url: https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/monitoring-mixin/build/aws-rds.json
+# ---
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaDashboard
+# metadata:
+#   name: aws-ebs
+# spec:
+#   folder: aws-managed-services
+#   datasources:
+#     - inputName: "DS_PROMETHEUS"
+#       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+#   url: https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/monitoring-mixin/build/aws-ebs.json
+# ---
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaDashboard
+# metadata:
+#   name: aws-cloudwatch-billing
+# spec:
+#   folder: aws-managed-services
+#   datasources:
+#     - inputName: "DS_PROMETHEUS"
+#       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}" 
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+#   url: https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/assets/grafana-dashboards/aws-cloudwatch/cloudwatch-billing.json
+# ---

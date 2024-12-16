@@ -24,6 +24,17 @@ module "deploy_msk" {
   private_subnets = module.base_infra[0].private_subnets
 }
 
+module "deploy_mongodb" {
+  count             = length(local.mongodb_services) > 0 ? 1 : 0
+  source            = "../deploy-mongodb"
+  deployment_name   = var.deployment_name
+  mongodb_services  = local.mongodb_services
+  
+  private_subnets      = module.base_infra[0].private_subnets
+  allowed_cidr_blocks  = ["0.0.0.0/0"]
+  vpc_id               = module.base_infra[0].vpc_id
+}
+
 module "ubuntu_focal_ami" {
   count = length(local.external_services) > 0 ? 1 : 0
   source  = "../../ami-ubuntu"

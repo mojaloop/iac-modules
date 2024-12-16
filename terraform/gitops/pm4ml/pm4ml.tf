@@ -63,13 +63,14 @@ module "generate_pm4ml_files" {
     pm4ml_external_switch_client_secret_vault_value = "value"
     istio_external_gateway_name                     = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
+    auto_accept_party                               = each.value.auto_accept_party
     enable_sdk_bulk_transaction_support             = each.value.enable_sdk_bulk_transaction_support
     kafka_host                                      = "kafka"
     kafka_port                                      = "9092"
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
     opentelemetry_enabled                           = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable        = var.opentelemetry_namespace_filtering_enable
-    ttk_testcases_tag                               = each.value.ttk_testcases_tag
+    ttk_testcases_tag                               = try(each.value.ttk_testcases_tag, "")
     supported_currencies                            = try(each.value.supported_currencies, each.value.currency)
     fxp_id                                          = each.value.fxp_id
     core_connector_selected                         = each.value.core_connector_selected
@@ -233,6 +234,11 @@ variable "pm4ml_external_switch_client_secret" {
   default     = "pm4ml-external-switch-client-secret"
 }
 
+variable "auto_accept_party" {
+  type        = bool
+  description = "auto_accept_party"
+  default     = false
+}
 variable "enable_sdk_bulk_transaction_support" {
   type        = bool
   description = "enable_sdk_bulk_transaction_support"
@@ -257,7 +263,7 @@ variable "opentelemetry_enabled" {
   type        = bool
   description = "bool that enables opentelemetry in cluster"
   default     = false
-} 
+}
 
 variable "opentelemetry_namespace_filtering_enable" {
   type        = bool
@@ -282,5 +288,5 @@ variable "mcm_admin_secret_prefix" {
 }
 
 locals {
-  nat_cidr_list = join(", ", [for ip in var.nat_public_ips : format("%s/32", ip)])
+  nat_cidr_list = join(",", [for ip in var.nat_public_ips : format("%s/32", ip)])
 }

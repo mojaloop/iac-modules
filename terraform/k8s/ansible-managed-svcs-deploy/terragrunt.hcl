@@ -38,11 +38,12 @@ locals {
   K8S_CLUSTER_TYPE        = get_env("k8s_cluster_type")
   CLUSTER_NAME            = get_env("cluster_name")
   bastion_hosts_yaml_maps = {
-    netmaker_join_tokens = yamlencode([get_env("NETMAKER_ENV_TOKEN")])
+    # netmaker_join_tokens = yamlencode([get_env("NETMAKER_ENV_TOKEN")])
   }
   bastion_hosts_var_maps = {
-    netmaker_master_key = get_env("METMAKER_MASTER_KEY")
-    netmaker_api_host   = get_env("NETMAKER_HOST_NAME")
+    netbird_version              = get_env("NETBIRD_VERSION")
+    netbird_api_host             = get_env("NETBIRD_API_HOST")
+    netbird_setup_key            = get_env("NETBIRD_MS_GW_SETUP_KEY")  
   }
 }
 

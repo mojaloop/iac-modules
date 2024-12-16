@@ -68,7 +68,7 @@ variable "node_pools" {
 
 variable "az_count" {
   type        = number
-  default     = 1
+  default     = 3 #debug
   description = "Number of azs"
 }
 
@@ -164,6 +164,75 @@ variable "dns_provider" {
 variable "dns_resolver_ip" {
   default     = "1.1.1.1"
   description = "which dns host to use"
+}
+
+variable "create_ci_iam_user" {
+  type        = bool
+  description = "create iam user for ci"
+  default     = false
+}
+variable "create_ext_dns_user" {
+  type        = bool
+  description = "create iam user for dns"
+  default     = true
+}
+variable "create_ext_dns_role" {
+  type        = bool
+  description = "create iam role for ext dns"
+  default     = false
+}
+variable "iac_group_name" {
+  type        = string
+  description = "iac group name"
+  default     = "admin"
+}
+
+variable "create_haproxy_dns_record" {
+  type        = bool
+  description = "whether to create public dns record for private ip of bastion for haproxy"
+  default     = false
+}
+
+variable "backup_bucket_name" {
+  type        = string
+  description = "backup"
+  default     = "velero"
+}
+
+variable "backup_enabled" {
+  type        = bool
+  default     = false
+  description = "enable backup bucket and policies"
+}
+
+variable "create_csi_role" {
+  type        = bool
+  description = "create ebs role and policies for EBS CSI"
+  default     = false
+}
+
+variable "backup_bucket_force_destroy" {
+  type        = bool
+  description = "auto delete s3 bucket content"
+  default     = false
+}
+
+variable "bastion_instance_number" {
+  type        = number
+  description = "number of bastions to configure in asg"
+  default     = 2
+}
+
+variable "bastion_instance_size" {
+  type        = string
+  description = "instance size of bastions to configure in asg"
+  default     = "t3.small"
+}
+
+variable "coredns_bind_address" {
+  type        = string
+  description = "link-local address (part of the 169.254.0.0/16 range) and is reserved for communication within the node itself or between nodes in the local network"
+  default     = "169.254.20.10"
 }
 
 ###

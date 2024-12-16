@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/mimir.git",
+          "subdir": "operations/mimir-mixin"
+        }
+      },
+      "version": "main"
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/nerdswords/yet-another-cloudwatch-exporter.git",
+          "subdir": "mixin"
+        }
+      },
+      "version": "v0.61.2",
+      "legacyImports": true,
+      "jsonnetpkgHome": "yace"
+    }
+  ],
+  "legacyImports": true
+}

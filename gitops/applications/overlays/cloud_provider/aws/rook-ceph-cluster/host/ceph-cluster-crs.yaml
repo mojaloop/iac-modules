@@ -1,0 +1,23 @@
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+spec:
+  cephVersion:
+    image: quay.io/ceph/ceph:${ARGOCD_ENV_ceph_image_version}
+    allowUnsupported: false
+  dataDirHostPath: /var/lib/rook
+  mgr:
+    count: 2
+    allowMultiplePerNode: false
+  mon:
+    count: 3
+    allowMultiplePerNode: false
+  monitoring:
+    enabled: true
+  dashboard:
+    enabled: true
+  storage:
+    useAllNodes: true
+    useAllDevices: true

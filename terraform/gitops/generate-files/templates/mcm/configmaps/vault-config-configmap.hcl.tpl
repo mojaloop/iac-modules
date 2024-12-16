@@ -192,9 +192,10 @@ data:
         "DFSP_NAME": "{{ .Data.host }}",
         "HUB_NAME": "${hub_name}",
         "currency": "{{ .Data.currency_code }}",
+        "fundsIn": "${onboarding_funds_in}",
         "isProxy": "{{ .Data.isProxy }}",
         "hub_operator": "NOT_APPLICABLE",
-        "NET_DEBIT_CAP": "50000"
+        "NET_DEBIT_CAP": "${onboarding_net_debit_cap}"
       }
     }
 ---
@@ -225,6 +226,7 @@ spec:
             - '-c'
           args:
             - >
+              until nslookup github.com; do sleep 5;done;
               echo "Downloading the test collection...";
 
               wget
@@ -242,7 +244,7 @@ spec:
                 npm run cli -- \
                   -c cli-add-dfsp-config.json \
                   -e cli-add-dfsp-environment.json \
-                  -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning_dfsp \
+                  -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_dfsp.json \
                   -u http://moja-ml-testing-toolkit-backend:5050 \
                   --report-format html \
                   --report-auto-filename-enable true \
@@ -260,7 +262,7 @@ spec:
                   npm run cli -- \
                     -c cli-add-dfsp-config.json \
                     -e fxp.json \
-                    -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning_fxp \
+                    -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_fxp.json \
                     -u http://moja-ml-testing-toolkit-backend:5050 \
                     --report-format html \
                     --report-auto-filename-enable true \
@@ -321,7 +323,7 @@ spec:
   rules:
   - from:
       - source:
-          notRemoteIpBlocks: [ {{ with secret "${dfsp_external_whitelist_secret}" }}{{ range $k, $v := .Data }}"{{ $v }}",{{ end }}{{ end }}{{ with secret "${dfsp_internal_whitelist_secret}" }}{{ range $k, $v := .Data }}"{{ $v }}",{{ end }}{{ end }}"${private_network_cidr}" ]
+          notRemoteIpBlocks: [ {{ with secret "${dfsp_external_whitelist_secret}" }}{{ range $k, $v := .Data }}{{ $v }},{{ end }}{{ end }}{{ with secret "${dfsp_internal_whitelist_secret}" }}{{ range $k, $v := .Data }}{{ $v }},{{ end }}{{ end }}${private_network_cidr} ]
     to:
       - operation:
           hosts: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]

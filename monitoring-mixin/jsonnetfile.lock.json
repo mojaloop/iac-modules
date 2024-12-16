@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/grafonnet-lib.git",
+          "subdir": "grafonnet-7.0"
+        }
+      },
+      "version": "a1d61cce1da59c71409b99b5c7568511fec661ea",
+      "sum": "gCtR9s/4D5fxU9aKXg0Bru+/njZhA0YjLjPiASc61FM="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/jsonnet-libs.git",
+          "subdir": "grafana-builder"
+        }
+      },
+      "version": "740488f55893af86c89fe2d3baf81dcbdc801642",
+      "sum": "yxqWcq/N3E/a/XreeU6EuE6X7kYPnG0AspAQFKOjASo="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/jsonnet-libs.git",
+          "subdir": "mixin-utils"
+        }
+      },
+      "version": "740488f55893af86c89fe2d3baf81dcbdc801642",
+      "sum": "LoYq5QxJmUXEtqkEG8CFUBLBhhzDDaNANHc7Gz36ZdM="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/mimir.git",
+          "subdir": "operations/mimir-mixin"
+        }
+      },
+      "version": "01ab865e18e5b0dce9c156bdcaa128cf9b8db079",
+      "sum": "en5dwfa7Hh4t7pWAoMc1uDXHGStqxqL1Vj+E/5NGwRQ="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/nerdswords/yet-another-cloudwatch-exporter.git",
+          "subdir": "mixin"
+        }
+      },
+      "version": "43c09fe4ed3e93449121765462433ed924d679a2",
+      "sum": "gXeEN7vTiD6aOmO+02K6OYk+edJrZTkwXFajBgRlhw0="
+    }
+  ],
+  "legacyImports": false
+}

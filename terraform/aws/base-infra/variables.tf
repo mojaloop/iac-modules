@@ -68,6 +68,26 @@ variable "route53_zone_force_destroy" {
 variable "bastion_ami" {
   description = "ami for bastion"
 }
+
+variable "bastion_asg_config" {
+  description = "Configuration settings for the Auto Scaling Group"
+  type = object({
+    name             = string
+    desired_capacity = number
+    max_size         = number
+    min_size         = number
+    instance_type    = string
+  })
+
+  default = {
+    name             = "bastion"
+    desired_capacity = 2
+    max_size         = 2
+    min_size         = 2
+    instance_type    = "t2.micro"
+  }
+}
+
 variable "netmaker_ami" {
   description = "ami for netmaker"
   default     = "none for enable_netmaker false"
@@ -105,7 +125,7 @@ variable "private_subdomain_string" {
 ###
 locals {
   name                          = var.cluster_name
-  cluster_domain                = "${replace(var.cluster_name, "-", "")}.${var.domain}"
+  cluster_domain                = "${var.cluster_name}.${var.domain}"
   cluster_parent_domain         = join(".", [for idx, part in split(".", local.cluster_domain) : part if idx > 0])
   cluster_parent_parent_domain  = join(".", [for idx, part in split(".", local.cluster_parent_domain) : part if idx > 0])
   identifying_tags              = { Cluster = var.cluster_name, Domain = local.cluster_domain }

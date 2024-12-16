@@ -1,0 +1,60 @@
+# Object storage
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ceph-bucket
+provisioner: rook-ceph.ceph.rook.io/bucket
+reclaimPolicy: Delete
+volumeBindingMode: "Immediate"
+parameters:
+  objectStoreName: ceph-objectstore
+  objectStoreNamespace: "${ARGOCD_ENV_rook_ceph_namespace}"
+  region: "us-east-1"
+
+---
+# Ceph Filesystem
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ceph-filesystem
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+provisioner: rook-ceph.cephfs.csi.ceph.com
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: "Immediate"
+parameters:
+  clusterID: "${ARGOCD_ENV_rook_ceph_namespace}"
+  fsName: ceph-filesystem
+  csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/provisioner-secret-namespace: "${ARGOCD_ENV_rook_ceph_namespace}"
+  csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/controller-expand-secret-namespace: "${ARGOCD_ENV_rook_ceph_namespace}"
+  csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+  csi.storage.k8s.io/node-stage-secret-namespace: "${ARGOCD_ENV_rook_ceph_namespace}"
+  csi.storage.k8s.io/fstype: ext4
+
+---
+# Ceph Block
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ceph-block
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: rook-ceph.rbd.csi.ceph.com
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: "Immediate"
+parameters:
+  clusterID: "${ARGOCD_ENV_rook_ceph_namespace}"
+  pool: ceph-blockpool
+  imageFormat: "2"
+  imageFeatures: layering
+  csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+  csi.storage.k8s.io/provisioner-secret-namespace: "${ARGOCD_ENV_rook_ceph_namespace}"
+  csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+  csi.storage.k8s.io/controller-expand-secret-namespace: "${ARGOCD_ENV_rook_ceph_namespace}"
+  csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+  csi.storage.k8s.io/node-stage-secret-namespace: "${ARGOCD_ENV_rook_ceph_namespace}"
+  csi.storage.k8s.io/fstype: ext4

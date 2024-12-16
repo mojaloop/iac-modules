@@ -17,7 +17,7 @@ resource "local_sensitive_file" "ansible_inventory" {
       all_hosts_var_maps          = merge(var.all_hosts_var_maps, local.ssh_private_key_file_map, local.all_hosts_var_maps),
       agent_hosts_yaml_maps       = var.agent_hosts_yaml_maps,
       master_hosts_yaml_maps      = var.master_hosts_yaml_maps,
-      bastion_hosts_yaml_maps     = merge(var.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
+      bastion_hosts_yaml_maps     = merge(var.bastion_hosts_yaml_maps)
       test_harness_hosts          = var.test_harness_hosts,
       test_harness_hosts_var_maps = merge(var.test_harness_hosts_var_maps, local.jumphostmap)
     }
@@ -115,29 +115,4 @@ locals {
   
   managed_kafka_brokers_list  = { for key, service in local.managed_kafka_stateful_resources : key => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }
 
-
-  managed_rds_svc_port_maps = [for key, service in local.managed_rds_stateful_resources :
-    {
-      "local_listening_port" = service.logical_service_config.logical_service_port
-      "mode"                 = service.communication_mode
-      "name"                 = key
-      "dest_fqdn"            = local.external_rds_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]
-      "dest_port"            = service.external_resource_config.port
-    }
-  ]
-
-  managed_kafka_svc_maps = [for key, service in local.managed_kafka_stateful_resources :
-    {
-      "local_listening_port"       = service.logical_service_config.logical_service_port
-      "managed_kafka_brokers_list" = local.managed_kafka_brokers_list[key]
-      "mode"                       = service.communication_mode
-      "name"                       = key
-      "dest_port"                  = service.external_resource_config.port
-    }
-
-  ]
-  bastion_hosts_yaml_maps = {
-    managed_rds_svc   = yamlencode(local.managed_rds_svc_port_maps)
-    managed_kafka_svc = yamlencode(local.managed_kafka_svc_maps)
-  }
 }

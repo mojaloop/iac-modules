@@ -1,0 +1,88 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_vault_argocd_app_name}
+  namespace: ${ARGOCD_ENV_vault_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_vault_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_vault_app_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_vault_application_gitrepo_tag}
+    path: gitops/applications/base/vault
+    plugin:
+      name: envsubst
+      env:
+        - name: "vault_keys_secret"
+          value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+        - name: "consul_namespace"
+          value: "${ARGOCD_ENV_utils_consul_namespace}"
+
+        - name: "vault_app_name"
+          value: "${ARGOCD_ENV_vault_vault_app_name}"
+
+        - name: "vault_helm_version"
+          value: "${ARGOCD_ENV_vault_vault_helm_version}"
+
+        - name: "vault_k8s_admin_auth_path"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
+
+        - name: "vault_k8s_admin_role_name"
+          value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_role_name}"
+
+        - name: "vault_read_all_kv_secrets_policy_name"
+          value: "${ARGOCD_ENV_vault_post_config_vault_read_all_kv_secrets_policy_name}"
+
+        - name: "vault_kv_secret"
+          value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
+
+        - name: "tf_post_config_output_secret"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_post_config_output_secret}"
+
+        - name: "vault_tf_provider_version"
+          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
+
+        - name: "vault_terraform_modules_tag"
+          value: "${ARGOCD_ENV_vault_vault_vault_terraform_modules_tag}"
+
+        - name: "vault_config_operator_app_name"
+          value: "${ARGOCD_ENV_vault_vault_config_operator_app_name}"
+
+        - name: "vault_config_operator_namespace"
+          value: "${ARGOCD_ENV_vault_vault_config_operator_namespace}"
+
+        - name: "cloud_platform_api_client_secret"
+          value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_secret}"
+
+        - name: "cloud_platform_api_client_id"
+          value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_id}"
+
+        - name: "vault_log_level"
+          value: "${ARGOCD_ENV_vault_vault_vault_log_level}"

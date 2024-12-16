@@ -5,7 +5,7 @@ YAML_ENV_CONFIG=${configFile/%.yaml/.$ENV_TYPE.yaml}
 JSON_ENV_CONFIG=${configFile/%.json/.$ENV_TYPE.json}
 
 mkdir -p $CONFIG_PATH
-for configFile in $(ls default-config/)
+for configFile in $({ ls default-config/; ls custom-config/; } | sort -u)
 do
     echo $configFile
     python3 .gitlab/scripts/dictmerge.py \

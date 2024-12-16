@@ -23,6 +23,22 @@ inputs = {
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_vars.dns_provider
   app_var_map                          = (local.CLOUD_PLATFORM == "bare-metal") ? local.cloud_platform_vars : null
+  # for eks managed service
+  netbird_version                      = local.netbird_version
+  netbird_api_host                     = local.netbird_api_host
+  netbird_setup_key                    = local.netbird_setup_key
+  cc_cidr_block                        = local.cc_cidr_block
+  coredns_bind_address                 = local.coredns_bind_address
+  
+  identity_provider_config_name    = "Zitadel"
+  kubernetes_oidc_enabled          = get_env("KUBERNETES_OIDC_ENABLED")
+  kubernetes_oidc_issuer           = get_env("KUBERNETES_OIDC_ISSUER")
+  kubernetes_oidc_client_id        = get_env("KUBERNETES_OIDC_CLIENT_ID")
+  kubernetes_oidc_groups_claim     = get_env("KUBERNETES_OIDC_GROUPS_CLAIM")
+  kubernetes_oidc_groups_prefix    = get_env("KUBERNETES_OIDC_GROUPS_PREFIX")
+  kubernetes_oidc_username_prefix  = get_env("KUBERNETES_OIDC_USERNAME_PREFIX")
+  kubernetes_oidc_username_claim   = get_env("KUBERNETES_OIDC_USERNAME_CLAIM")    
+  bastion_instance_size            = local.env_vars.bastion_instance_size
 }
 
 locals {
@@ -33,9 +49,8 @@ locals {
     file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}")
   )
   enabled_node_pools = {for node_key, node in local.env_vars.nodes : node_key => node  if node != null}
-  total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
+  total_agent_count = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
-  
   tags                      = local.env_vars.tags
   CLUSTER_NAME              = get_env("cluster_name")
   CLUSTER_DOMAIN            = get_env("domain")
@@ -47,6 +62,11 @@ locals {
   K8S_CLUSTER_TYPE          = get_env("k8s_cluster_type")
   CLOUD_REGION              = get_env("cloud_region")
   CLOUD_PLATFORM            = get_env("cloud_platform")
+  netbird_version           = get_env("NETBIRD_VERSION")
+  netbird_api_host          = get_env("NETBIRD_API_HOST")
+  netbird_setup_key         = get_env("NETBIRD_K8S_SETUP_KEY")
+  cc_cidr_block             = get_env("CC_CIDR_BLOCK")
+  coredns_bind_address      = get_env("coredns_bind_address")
 }
 
 generate "required_providers_override" {

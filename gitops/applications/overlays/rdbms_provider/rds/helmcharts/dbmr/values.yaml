@@ -1,0 +1,24 @@
+namePrefix: awesomecc
+name: gitlabdb
+namespace: "gitlab"
+region: eu-west-1
+engine: "posgresql"
+engineVersion: "16"
+dbClusterInstanceClass: "db.t3.medium"
+storageGB: 10
+vpcId: rds_vpc_id
+vpcCidr: "0.0.0.0/0" 
+subnets: "s1,s2" 
+dbName: gitlab
+userName: gitlab
+passwordSecret:
+   key: password
+   name: gitlab-postgresql-credentials
+allowMajorVersionUpgrade: false
+autoMinorVersionUpgrade: false
+applyImmediately: false
+backupRetentionPeriod: 1
+preferredBackupWindow: 07:00-09:00
+storageEncrypted: true
+skipFinalSnapshot: false
+replicaCount: 1

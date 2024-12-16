@@ -32,7 +32,7 @@ locals {
   GITLAB_USERNAME           = get_env("GITLAB_USERNAME")
   K8S_CLUSTER_TYPE          = get_env("k8s_cluster_type")
   CLOUD_REGION              = get_env("cloud_region")
-  aws_provider_version      = ">= 5.0.0"
+  aws_provider_version      = ">= 5.0.0"  
 }
 
 generate "required_providers_override" {

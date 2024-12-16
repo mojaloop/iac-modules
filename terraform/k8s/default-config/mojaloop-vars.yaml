@@ -1,8 +1,7 @@
 bulk_enabled: false
 third_party_enabled: false
-mcm_chart_version: 1.1.0
+mcm_chart_version: 1.2.4
 mojaloop_chart_version: 16.0.0
-ttk_testcases_tag: 16.1.0
 currency: ${currency}
 ttk_test_currency1: ${currency}
 ttk_test_currency2: USD
@@ -11,6 +10,8 @@ mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 finance_portal_ingress_internal_lb: true
 onboarding_collection_tag: 16.1.0
+onboarding_net_debit_cap: 0
+onboarding_funds_in: 0
 grafana_dashboard_tag: v16.3.0-snapshot.24 # TODO: update once v16.1.x is published
 enable_istio_injection: true
 opentelemetry_enabled: false
@@ -25,6 +26,7 @@ quoting_service_monitoring_prefix: "moja_qs_"
 ml_api_adapter_monitoring_prefix: "moja_ml_"
 account_lookup_service_monitoring_prefix: "moja_als_"
 ttk_gp_testcase_labels: "p2p"
+ttk_setup_testcase_labels: ""
 jws_rotation_period_hours: 672
 jws_rotation_renew_before_hours: 1
 fspiop_use_ory_for_auth: true

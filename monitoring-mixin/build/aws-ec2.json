@@ -1,0 +1,842 @@
+{
+   "description": "Visualize Amazon EC2 metrics",
+   "editable": true,
+   "graphTooltip": 1,
+   "panels": [
+      {
+         "content": "Showing metrics only for AWS resources that have tags assigned to them. For more information, see [Amazon CloudWatch Metrics for Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/viewing_metrics_with_cloudwatch.html).\n",
+         "datasource": "default",
+         "gridPos": {
+            "h": 3,
+            "w": 24
+         },
+         "id": 2,
+         "mode": "markdown",
+         "title": "Info",
+         "transparent": false,
+         "type": "text"
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 3
+         },
+         "hiddenSeries": false,
+         "id": 3,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ec2_cpuutilization_maximum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_InstanceId}}"
+            }
+         ],
+         "title": "CPU utilization",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "percent",
+               "logBase": 1,
+               "max": 100,
+               "min": 0,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "bars": false,
+         "dashLength": 10,
+         "dashes": false,
+         "datasource": "$datasource",
+         "fill": 1,
+         "fillGradient": 0,
+         "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 11
+         },
+         "hiddenSeries": false,
+         "id": 4,
+         "lines": true,
+         "linewidth": 1,
+         "nullPointMode": "null",
+         "percentage": false,
+         "points": false,
+         "renderer": "flot",
+         "seriesOverrides": [
+            {
+               "alias": "/.*outbound/",
+               "transform": "negative-Y"
+            }
+         ],
+         "spaceLength": 10,
+         "stack": false,
+         "steppedLine": false,
+         "targets": [
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ec2_network_in_average{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_InstanceId}} inbound"
+            },
+            {
+               "datasource": "$datasource",
+               "expr": "aws_ec2_network_out_average{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+               "format": "time_series",
+               "legendFormat": "{{dimension_InstanceId}} outbound"
+            }
+         ],
+         "title": "Average network traffic",
+         "tooltip": {
+            "value_type": "individual"
+         },
+         "transparent": false,
+         "type": "graph",
+         "yaxes": [
+            {
+               "format": "bps",
+               "label": "bytes in (+) / out (-)",
+               "logBase": 1,
+               "show": true
+            },
+            {
+               "format": "short",
+               "logBase": 1,
+               "show": true
+            }
+         ]
+      },
+      {
+         "collapse": true,
+         "collapsed": true,
+         "gridPos": {
+            "h": 16,
+            "w": 12,
+            "x": 0,
+            "y": 19
+         },
+         "id": 5,
+         "panels": [
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 0,
+                  "y": 19
+               },
+               "hiddenSeries": false,
+               "id": 6,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_network_in_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Inbound network traffic",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "bps",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            },
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 12,
+                  "y": 19
+               },
+               "hiddenSeries": false,
+               "id": 7,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_network_out_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Outbound network traffic",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "bps",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            },
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 0,
+                  "y": 27
+               },
+               "hiddenSeries": false,
+               "id": 8,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_network_packets_in_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Inbound network packets",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "pps",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            },
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 12,
+                  "y": 27
+               },
+               "hiddenSeries": false,
+               "id": 9,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_network_packets_out_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Outbound network packets",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "pps",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            }
+         ],
+         "showTitle": true,
+         "title": "Network details",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": true,
+         "collapsed": true,
+         "gridPos": {
+            "h": 18,
+            "w": 24,
+            "x": 0,
+            "y": 35
+         },
+         "id": 10,
+         "panels": [
+            {
+               "content": "The following metrics are reported for EC2 Instance Store Volumes. For Amazon EBS volumes, see the EBS dashboard.",
+               "datasource": "default",
+               "gridPos": {
+                  "h": 2,
+                  "w": 24,
+                  "x": 0,
+                  "y": 35
+               },
+               "id": 11,
+               "mode": "markdown",
+               "transparent": false,
+               "type": "text"
+            },
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 0,
+                  "y": 37
+               },
+               "hiddenSeries": false,
+               "id": 12,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_disk_read_bytes_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Disk reads (bytes)",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "bps",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            },
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 12,
+                  "y": 37
+               },
+               "hiddenSeries": false,
+               "id": 13,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_disk_write_bytes_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Disk writes (bytes)",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "bps",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            },
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 0,
+                  "y": 45
+               },
+               "hiddenSeries": false,
+               "id": 14,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_disk_read_ops_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Disk read (operations)",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "pps",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            },
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 12,
+                  "y": 45
+               },
+               "hiddenSeries": false,
+               "id": 15,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_disk_write_ops_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Disk write (operations)",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "pps",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            }
+         ],
+         "showTitle": true,
+         "title": "Disk details",
+         "titleSize": "h6",
+         "type": "row"
+      },
+      {
+         "collapse": true,
+         "collapsed": true,
+         "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 53
+         },
+         "id": 16,
+         "panels": [
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 8,
+                  "x": 0,
+                  "y": 53
+               },
+               "hiddenSeries": false,
+               "id": 17,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_status_check_failed_system_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Status check failed (system)",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            },
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 8,
+                  "x": 8,
+                  "y": 53
+               },
+               "hiddenSeries": false,
+               "id": 18,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_status_check_failed_instance_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Status check failed (instance)",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            },
+            {
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 1,
+               "fillGradient": 0,
+               "gridPos": {
+                  "h": 8,
+                  "w": 8,
+                  "x": 16,
+                  "y": 53
+               },
+               "hiddenSeries": false,
+               "id": 19,
+               "lines": true,
+               "linewidth": 1,
+               "nullPointMode": "null",
+               "percentage": false,
+               "points": false,
+               "renderer": "flot",
+               "spaceLength": 10,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "datasource": "$datasource",
+                     "expr": "aws_ec2_status_check_failed_sum{scrape_job=~\"$job\", region=~\"$region\", dimension_InstanceId=~\"$instance\"}",
+                     "format": "time_series",
+                     "legendFormat": "{{dimension_InstanceId}}"
+                  }
+               ],
+               "title": "Status check failed (all)",
+               "tooltip": {
+                  "value_type": "individual"
+               },
+               "transparent": false,
+               "type": "graph",
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "logBase": 1,
+                     "show": true
+                  }
+               ]
+            }
+         ],
+         "showTitle": true,
+         "title": "Status checks",
+         "titleSize": "h6",
+         "type": "row"
+      }
+   ],
+   "schemaVersion": 25,
+   "style": "dark",
+   "tags": [
+      "Amazon",
+      "AWS",
+      "CloudWatch",
+      "EC2"
+   ],
+   "templating": {
+      "list": [
+         {
+            "hide": 0,
+            "includeAll": false,
+            "label": "Data Source",
+            "multi": false,
+            "name": "datasource",
+            "query": "prometheus",
+            "refresh": 1,
+            "skipUrlSync": false,
+            "type": "datasource"
+         },
+         {
+            "allValue": ".+",
+            "datasource": "$datasource",
+            "hide": 0,
+            "includeAll": true,
+            "label": "job",
+            "multi": true,
+            "name": "job",
+            "query": "label_values(aws_ec2_info, scrape_job)",
+            "refresh": 1,
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "datasource": "$datasource",
+            "hide": 0,
+            "includeAll": true,
+            "label": "Region",
+            "multi": true,
+            "name": "region",
+            "query": "label_values(aws_ec2_cpuutilization_maximum, region)",
+            "refresh": 2,
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query",
+            "useTags": false
+         },
+         {
+            "allValue": ".+",
+            "datasource": "$datasource",
+            "hide": 0,
+            "includeAll": true,
+            "label": "instance",
+            "multi": true,
+            "name": "instance",
+            "query": "label_values(aws_ec2_cpuutilization_maximum{scrape_job=~\"$job\", region=~\"$region\"}, dimension_InstanceId)",
+            "refresh": 2,
+            "skipUrlSync": false,
+            "sort": 1,
+            "type": "query",
+            "useTags": false
+         }
+      ]
+   },
+   "title": "AWS EC2"
+}

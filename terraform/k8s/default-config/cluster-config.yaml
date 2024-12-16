@@ -8,13 +8,17 @@ cloud_platform_client_secret_name: AWS_SECRET_ACCESS_KEY
 k8s_cluster_module: base-k8s
 cloud_region: eu-west-1
 k8s_cluster_type: microk8s
-ansible_collection_tag: v5.2.6
-iac_terraform_modules_tag: v5.3.4
+ansible_collection_tag: v5.4.0-rc2
+iac_terraform_modules_tag: v5.4.0-rc3
 letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 longhorn_backup_object_store_destroy: true
 managed_svc_enabled: false
 addons_module_enabled: false
+enable_vault_oidc: true
+enable_grafana_oidc: true
+object_storage_force_destroy_bucket: true #prod should set to false
+bastion_instance_size: t3.micro
 nodes:
   master-generic:
     master: true
@@ -49,3 +53,4 @@ tags:
   }
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
+coredns_bind_address: "169.254.20.10"

@@ -28,8 +28,12 @@ module "generate_vault_files" {
     istio_create_ingress_gateways            = var.istio_create_ingress_gateways
     consul_namespace                         = var.consul_namespace
     gitlab_server_url                        = var.gitlab_server_url
+    zitadel_server_url                       = var.zitadel_server_url
     gitlab_admin_group_name                  = var.gitlab_admin_group_name
     gitlab_readonly_group_name               = var.gitlab_readonly_group_name
+    vault_admin_rbac_group                   = var.vault_admin_rbac_group
+    vault_readonly_rbac_group                = var.vault_readonly_rbac_group
+    zitadel_project_id                       = var.zitadel_project_id
     enable_vault_oidc                        = var.enable_vault_oidc
     cluster_name                             = var.cluster_name
     transit_vault_url                        = var.transit_vault_url
@@ -103,7 +107,7 @@ variable "vault_config_operator_helm_chart_repo" {
 variable "vault_gitlab_credentials_secret_key" {
   type        = string
   description = "vault_gitlab_credentials_secret_key"
-  default     = "tenancy/gitlab_ci_pat"
+  default     = "gitlab/gitlab_ci_pat"
 }
 
 variable "vault_seal_token_secret_key" {
@@ -125,13 +129,13 @@ variable "transit_vault_key_name" {
 variable "vault_oidc_client_secret_secret_key" {
   type        = string
   description = "vault_oidc_client_secret_secret_key"
-  default     = "vault_oauth_client_secret"
+  default     = "vault_oidc_client_secret"
 }
 
 variable "vault_oidc_client_id_secret_key" {
   type        = string
   description = "vault_oidc_client_id_secret_key"
-  default     = "vault_oauth_client_id"
+  default     = "vault_oidc_client_id"
 }
 
 variable "vault_ingress_internal_lb" {
