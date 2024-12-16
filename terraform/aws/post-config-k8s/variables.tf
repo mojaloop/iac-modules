@@ -75,6 +75,12 @@ variable "backup_bucket_force_destroy" {
   default     = false
 }
 
+variable "backup_bucket_import_enabled" {
+  description = "Set to true if importing an existing S3 bucket"
+  type        = bool
+  default     = false
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

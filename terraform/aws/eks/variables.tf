@@ -303,6 +303,12 @@ variable "backup_enabled" {
   description = "enable backup bucket and policies"
 }
 
+variable "backup_bucket_import_enabled" {
+  description = "Set to true if importing an existing S3 bucket"
+  type        = bool
+  default     = false
+}
+
 variable "create_csi_role" {
   type        = bool
   description = "create ebs role and policies for EBS CSI"

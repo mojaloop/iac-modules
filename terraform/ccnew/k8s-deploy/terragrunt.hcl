@@ -27,6 +27,7 @@ inputs = {
   iac_group_name                       = local.env_vars.iac_group_name
   backup_enabled                       = local.env_vars.enable_object_storage_backend
   backup_bucket_name                   = local.env_vars.object_storage_base_bucket_name
+  backup_bucket_import_enabled         = local.env_vars.enable_object_storage_bucket_import
   eks_oidc_enabled                     = false
   backup_bucket_force_destroy          = local.env_vars.object_storage_force_destroy_bucket
   bastion_instance_size                = local.env_vars.bastion_instance_size

@@ -181,10 +181,17 @@ resource "aws_iam_role_policy_attachment" "object_storage_assume_role" {
 }
 
 resource "aws_s3_bucket" "backup_bucket" {
-  count         = var.backup_enabled ? 1 : 0
+  count         = var.backup_enabled && !var.backup_bucket_import_enabled ? 1 : 0
   bucket        = var.backup_bucket_name
   force_destroy = var.backup_bucket_force_destroy
   tags          = merge({ Name = var.backup_bucket_name }, var.tags)
+}
+
+# Import block to handle existing bucket
+import {
+  for_each = var.backup_enabled && var.backup_bucket_import_enabled ? [1] : []
+  id       = var.backup_bucket_name
+  to       = aws_s3_bucket.backup_bucket[0]
 }
 
 # EBS CSI driver
