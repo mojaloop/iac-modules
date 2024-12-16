@@ -1,0 +1,8 @@
+apiVersion: velero.io/v1
+kind: VolumeSnapshotLocation
+metadata:
+  name: rook-ceph
+  namespace: ${ARGOCD_ENV_velero_namespace}
+spec:
+  provider: csi
+  config: {}
