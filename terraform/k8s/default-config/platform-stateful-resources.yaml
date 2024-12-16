@@ -299,7 +299,7 @@ keycloak-db:
     logical_service_name: keycloak-db
     db_username: keycloak
     user_password_secret: keycloak-db-secret
-    user_password_secret_key: password
+    user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - keycloak
     database_name: keycloak
@@ -317,7 +317,7 @@ keto-db:
     logical_service_name: keto-db
     db_username: keto
     user_password_secret: keto-db-secret
-    user_password_secret_key: password
+    user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - ory
     database_name: keto
@@ -335,7 +335,7 @@ kratos-db:
     logical_service_name: kratos-db
     db_username: kratos
     user_password_secret: kratos-db-secret
-    user_password_secret_key: password
+    user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - ory
     database_name: kratos
