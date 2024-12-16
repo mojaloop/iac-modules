@@ -14,7 +14,7 @@ iac_group_name: iac_admin
 kubernetes_oidc_enabled: true
 enable_object_storage_backend: true
 object_storage_base_bucket_name: velero
-object_storage_force_destroy_bucket: true #prod should set to false
+object_storage_force_destroy_bucket: false #prod should set to false
 bastion_instance_size: t3.small
 enable_cloud_csi_provisioner: true
 nodes:
