@@ -5,3 +5,4 @@ resources:
   - ceph-objectstore-crs.yaml
   - ceph-filsystem-crs.yaml
   - storageclass.yaml
+  - volumesnapshotclass.yaml
