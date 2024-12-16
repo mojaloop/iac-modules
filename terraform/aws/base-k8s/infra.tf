@@ -235,9 +235,3 @@ locals {
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
 }
-
-import {
-  for_each = var.backup_bucket_import_enabled ? [1] : []
-  id  = "${var.domain}-${var.backup_bucket_name}"
-  to  = module.post_config.aws_s3_bucket.backup_bucket
-}
