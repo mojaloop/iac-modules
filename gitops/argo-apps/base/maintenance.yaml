@@ -44,6 +44,9 @@ spec:
           - name: "velero_plugin_version"
             value: "${ARGOCD_ENV_maintenance_velero_plugin_version}"
 
+          - name: "ext_snap_ver"
+            value: "${ARGOCD_ENV_maintenance_external_snapshotter_version}"
+
           - name: "object_storage_region"
             value: "${ARGOCD_ENV_maintenance_velero_object_storage_region}"
 
