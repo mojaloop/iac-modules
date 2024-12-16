@@ -242,9 +242,3 @@ locals {
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
 }
-
-import {
-  for_each = var.backup_enabled && var.backup_bucket_import_enabled ? [1] : []
-  id       = var.backup_bucket_name
-  to       = aws_s3_bucket.backup_bucket[0]
-}
