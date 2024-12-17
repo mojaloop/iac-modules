@@ -34,7 +34,7 @@ resource "null_resource" "run_ansible" {
 }
 
 resource "local_sensitive_file" "ec2_ssh_key" {
-  content         = file(local.ansible_output_dir)
+  content         = var.ansible_bastion_key
   filename        = "${local.ansible_output_dir}/sshkey"
   file_permission = "0600"
 }
