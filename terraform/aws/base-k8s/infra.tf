@@ -217,6 +217,12 @@ data "template_cloudinit_config" "generic" {
   }
 }
 
+import {
+  for_each = var.backup_bucket_import_enabled ? [1] : []
+  id  = "${var.domain}-${var.backup_bucket_name}"
+  to  = module.post_config.aws_s3_bucket.backup_bucket[0]
+}
+
 locals {
   base_security_groups    = [aws_security_group.self.id, module.base_infra.default_security_group_id]
   traffic_security_groups = [aws_security_group.ingress.id]
@@ -234,10 +240,4 @@ locals {
   agent_target_groups    = local.traffic_target_groups
   master_security_groups = var.master_node_supports_traffic ? concat(local.base_security_groups, local.traffic_security_groups) : local.base_security_groups
   agent_security_groups  = concat(local.base_security_groups, local.traffic_security_groups)
-}
-
-import {
-  for_each = var.backup_bucket_import_enabled ? [1] : []
-  id  = "${var.domain}-${var.backup_bucket_name}"
-  to  = module.post_config.aws_s3_bucket.backup_bucket
 }
