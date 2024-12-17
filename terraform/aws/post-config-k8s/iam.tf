@@ -181,8 +181,8 @@ resource "aws_iam_role_policy_attachment" "object_storage_assume_role" {
 }
 
 resource "aws_s3_bucket" "backup_bucket" {
-  count         = var.backup_enabled && !var.backup_bucket_import_enabled ? 1 : 0
-  bucket        = var.backup_bucket_name
+  count         = var.backup_enabled ? 1 : 0
+  bucket        = var.backup_bucket_import_enabled ? null : var.backup_bucket_name
   force_destroy = var.backup_bucket_force_destroy
   tags          = merge({ Name = var.backup_bucket_name }, var.tags)
 }
