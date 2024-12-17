@@ -15,27 +15,27 @@ dependency "ansible_cc_post_deploy" {
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "deep_map_only"
 }
-dependency "control_center_deploy" {
-  config_path = "../control-center-deploy"
-  mock_outputs = {
-    vault_fqdn             = "temporary-dummy-id"
-    gitlab_root_token      = "temporary-dummy-id"
-    gitlab_server_hostname = "temporary-dummy-id"
-    public_zone_name       = "temporary-dummy-id"
-    netmaker_hosts_var_maps = {
-      netmaker_master_key = "test"
-    }
-    bastion_hosts_var_maps = {
-      netmaker_host_name = "test"
-      netmaker_api_host  = "test"
-    }
-    minio_server_url      = "temporary-dummy-id"
-    minio_root_user       = "temporary-dummy-id"
-    minio_root_password   = "temporary-dummy-id"
-  }
-  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
-  mock_outputs_merge_strategy_with_state  = "deep_map_only"
-}
+# dependency "control_center_deploy" {
+#   config_path = "../control-center-deploy"
+#   mock_outputs = {
+#     vault_fqdn             = "temporary-dummy-id"
+#     gitlab_root_token      = "temporary-dummy-id"
+#     gitlab_server_hostname = "temporary-dummy-id"
+#     public_zone_name       = "temporary-dummy-id"
+#     netmaker_hosts_var_maps = {
+#       netmaker_master_key = "test"
+#     }
+#     bastion_hosts_var_maps = {
+#       netmaker_host_name = "test"
+#       netmaker_api_host  = "test"
+#     }
+#     minio_server_url      = "temporary-dummy-id"
+#     minio_root_user       = "temporary-dummy-id"
+#     minio_root_password   = "temporary-dummy-id"
+#   }
+#   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
+#   mock_outputs_merge_strategy_with_state  = "deep_map_only"
+# }
 
 dependency "control_center_pre_config" {
   config_path = "../control-center-pre-config"
