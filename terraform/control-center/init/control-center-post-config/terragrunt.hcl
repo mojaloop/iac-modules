@@ -53,10 +53,10 @@ dependency "control_center_pre_config" {
 
 inputs = {
   gitlab_admin_rbac_group       = local.env_vars.gitlab_admin_rbac_group
-  gitlab_hostname               = local.env_vars.gitlab_server_hostname
+  gitlab_hostname               = local.docker_env_map["gitlab_server_hostname"]
   vault_oauth_app_client_id     = dependency.control_center_pre_config.outputs.docker_hosts_var_maps["vault_oidc_client_id"]
   vault_oauth_app_client_secret = dependency.control_center_pre_config.outputs.docker_hosts_var_maps["vault_oidc_client_secret"]
-  vault_fqdn                    = local.env_vars.vault_fqdn
+  vault_fqdn                    = local.docker_env_map["vault_fqdn"]
   env_map = merge(local.env_map,
     { for key in keys(local.env_map) : key => merge(local.env_map[key], {
       netmaker_ops_token        = try(dependency.ansible_cc_post_deploy.outputs.netmaker_token_map["${dependency.ansible_cc_post_deploy.outputs.netmaker_control_network_name}-ops"].netmaker_token, "")
@@ -65,7 +65,7 @@ inputs = {
       })
   })
   iac_group_id        = dependency.control_center_pre_config.outputs.iac_group_id
-  gitlab_root_token   = local.env_vars.gitlab_root_token
+  gitlab_root_token   = local.docker_env_map["vault_gitlab_token"]
   vault_root_token    = dependency.ansible_cc_post_deploy.outputs.vault_root_token
   netmaker_master_key = local.env_vars.netmaker_hosts_var_maps["netmaker_master_key"]
   netmaker_host_name  = local.env_vars.bastion_hosts_var_maps["netmaker_api_host"]
@@ -84,6 +84,10 @@ locals {
   env_vars = yamldecode(
     file("${find_in_parent_folders("environment.yaml")}")
   )
+  docker_hosts_var_maps = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  docker_env_map = {
+    for key, value in local.docker_hosts_var_maps.docker_hosts_var_maps : key => value
+  }
   common_vars = yamldecode(
     file("${find_in_parent_folders("common-vars.yaml")}")
   )
@@ -123,17 +127,17 @@ terraform {
   }
 }
 provider "vault" {
-  address = "https://${local.env_vars.vault_fqdn}"
+  address = "https://${local.docker_env_map["vault_fqdn"]}"
   token   = "${dependency.ansible_cc_post_deploy.outputs.vault_root_token}"
 }
 provider "gitlab" {
-  token = "${local.env_vars.gitlab_root_token}"
-  base_url = "https://${local.env_vars.gitlab_server_hostname}"
+  token = "${local.docker_env_map["vault_gitlab_token"]}"
+  base_url = "https://${local.docker_env_map["gitlab_server_hostname"]}"
 }
 provider minio {
-  minio_server   = "${local.env_vars.minio_server_url}"
-  minio_user     = "${local.env_vars.minio_root_user}"
-  minio_password = "${local.env_vars.minio_root_password}"
+  minio_server   = "${local.docker_env_map["minio_server_host"]}"
+  minio_user     = "${local.docker_env_map["minio_root_user"]}"
+  minio_password = "${local.docker_env_map["minio_root_password"]}"
 }
 EOF
 }

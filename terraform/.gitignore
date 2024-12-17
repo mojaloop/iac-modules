@@ -1,0 +1,40 @@
+# Local .terraform directories
+.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude all .tfvars files, which may contain sensitive data
+*.tfvars
+*.tfvars.json
+
+# Ignore override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Include specific override files if needed (negated pattern)
+# !example_override.tf
+
+# Ignore plan output files from terraform plan command
+*.tfplan
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Ignore lock file for Terraform providers
+.terraform.lock.hcl
+
+# Ignore macOS specific files (optional)
+.DS_Store
+
+# Ignore other potential sensitive or unnecessary files
+*.auto.tfvars
+*sshkey

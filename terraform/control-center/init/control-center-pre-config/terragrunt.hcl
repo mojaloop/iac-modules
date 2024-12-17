@@ -33,16 +33,16 @@ inputs = {
   iac_user_key_id                  = local.env_vars.iac_user_key_id
   gitlab_admin_rbac_group          = local.env_vars.gitlab_admin_rbac_group
   gitlab_readonly_rbac_group       = local.env_vars.gitlab_readonly_rbac_group
-  enable_netmaker_oidc             = local.env_vars.enable_netmaker_oidc
-  netmaker_oidc_redirect_url       = local.env_vars.netmaker_oidc_callback_url
-  minio_listening_port             = local.env_vars.minio_listening_port
-  nexus_docker_repo_listening_port = local.env_vars.nexus_docker_repo_listening_port
-  minio_fqdn                       = local.env_vars.minio_fqdn
-  mimir_fqdn                       = local.env_vars.mimir_fqdn
-  mimir_listening_port             = local.env_vars.mimir_listening_port
-  nexus_fqdn                       = local.env_vars.nexus_fqdn
-  tenant_vault_listening_port      = local.env_vars.tenant_vault_listening_port
-  vault_fqdn                       = local.env_vars.vault_fqdn
+  enable_netmaker_oidc             = local.netmaker_env_map["enable_oauth"]
+  netmaker_oidc_redirect_url       = local.netmaker_env_map["netmaker_oidc_redirect_url"]
+  minio_listening_port             = local.docker_env_map["minio_listening_port"]
+  nexus_docker_repo_listening_port = local.docker_env_map["nexus_docker_repo_listening_port"]
+  minio_fqdn                       = local.docker_env_map["minio_server_host"]
+  mimir_fqdn                       = local.docker_env_map["mimir_fqdn"]
+  mimir_listening_port             = local.docker_env_map["mimir_listening_port"]
+  nexus_fqdn                       = local.docker_env_map["nexus_fqdn"]
+  tenant_vault_listening_port      = local.docker_env_map["vault_listening_port"]
+  vault_fqdn                       = local.docker_env_map["vault_fqdn"]
   private_repo_user                = get_env("PRIVATE_REPO_USER")
   private_repo_token               = get_env("PRIVATE_REPO_TOKEN")
   private_repo                     = get_env("PRIVATE_REPO")
@@ -51,13 +51,21 @@ inputs = {
   control_center_cloud_provider    = get_env("CONTROL_CENTER_CLOUD_PROVIDER")
 
   enable_central_observability_grafana_oidc       = local.env_vars.enable_central_observability_grafana_oidc
-  central_observability_grafana_oidc_redirect_url = "${local.env_vars.central_observability_grafana_server_url}/login/gitlab"
+  central_observability_grafana_oidc_redirect_url = "https://${local.docker_env_map["central_observability_grafana_fqdn"]}/login/gitlab"
 }
 
 locals {
   env_vars = yamldecode(
     file("${find_in_parent_folders("environment.yaml")}")
   )
+  docker_hosts_var_maps = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  docker_env_map = {
+    for key, value in local.docker_hosts_var_maps.docker_hosts_var_maps : key => value
+  }
+  netmaker_hosts_var_maps = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  netmaker_env_map = {
+    for key, value in local.netmaker_hosts_var_maps.netmaker_hosts_var_maps : key => value
+  }
   common_vars = yamldecode(
     file("${find_in_parent_folders("common-vars.yaml")}")
   )
@@ -84,8 +92,8 @@ terraform {
   }
 }
 provider "gitlab" {
-  token = "${local.env_vars.gitlab_root_token}"
-  base_url = "https://${local.env_vars.gitlab_server_hostname}"
+  token = "${local.docker_env_map["vault_gitlab_token"]}"
+  base_url = "https://${local.docker_env_map["gitlab_server_hostname"]}"
 }
 EOF
 }

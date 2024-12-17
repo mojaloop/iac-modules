@@ -58,6 +58,10 @@ locals {
   env_vars = yamldecode(
     file("${find_in_parent_folders("environment.yaml")}")
   )
+  docker_hosts_var_maps = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  docker_env_map = {
+    for key, value in local.docker_hosts_var_maps.docker_hosts_var_maps : key => value
+  }
   common_vars = yamldecode(
     file("${find_in_parent_folders("common-vars.yaml")}")
   )
@@ -84,8 +88,8 @@ terraform {
   }
 }
 provider "gitlab" {
-  token = "${local.env_vars.gitlab_root_token}"
-  base_url = "https://${local.env_vars.gitlab_server_hostname}"
+  token = "${local.docker_env_map["vault_gitlab_token"]}"
+  base_url = "https://${local.docker_env_map["gitlab_server_hostname"]}"
 }
 EOF
 }
