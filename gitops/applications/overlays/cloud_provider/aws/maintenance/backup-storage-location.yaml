@@ -2,7 +2,7 @@ apiVersion: velero.io/v1
 kind: BackupStorageLocation
 metadata:
   name: cloudprovider-objectstorage
-  namespace: ${ARGOCD_ENV_object_storage_bucket}
+  namespace: ${ARGOCD_ENV_velero_namespace}
 spec:
   backupSyncPeriod: 2m0s
   accessMode: ReadWrite #ReadWrite, ReadOnly

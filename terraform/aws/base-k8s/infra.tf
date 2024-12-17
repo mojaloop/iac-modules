@@ -217,12 +217,6 @@ data "template_cloudinit_config" "generic" {
   }
 }
 
-import {
-  for_each = var.backup_bucket_import_enabled ? [1] : []
-  id  = "${var.domain}-${var.backup_bucket_name}"
-  to  = module.post_config.aws_s3_bucket.backup_bucket[0]
-}
-
 locals {
   base_security_groups    = [aws_security_group.self.id, module.base_infra.default_security_group_id]
   traffic_security_groups = [aws_security_group.ingress.id]
