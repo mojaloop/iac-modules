@@ -21,6 +21,7 @@ resources:
   - mimir-alertmanager.yaml
   - mimirtool-cronjob.yaml
   - rook-ceph-objectstore-exporter.yaml
+  - cloudwatch-integration.yaml # TODO: move this file to overlays instead of keeping it here
 
 configMapGenerator:
   - name: mimir-ruler-data
