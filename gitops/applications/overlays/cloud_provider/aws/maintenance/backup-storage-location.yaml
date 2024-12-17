@@ -15,4 +15,3 @@ spec:
   config:
     region: ${ARGOCD_ENV_object_storage_region}
     profile: "default"
-  annotations: {}
