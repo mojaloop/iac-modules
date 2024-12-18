@@ -128,7 +128,7 @@ output "secrets_key_map" {
 }
 
 output "all_hosts_var_maps" {
-  sensitive = false
+  sensitive = true
   value = {
     ansible_ssh_user             = var.os_user_name
     ansible_ssh_retries          = "10"
