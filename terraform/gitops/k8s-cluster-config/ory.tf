@@ -11,18 +11,22 @@ module "generate_ory_files" {
     auth_fqdn                            = local.auth_fqdn
     public_subdomain                     = var.public_subdomain
     private_subdomain                    = var.private_subdomain
+    keto_mysql_deploy_type            = try(module.common_stateful_resources.stateful_resources[local.keto_mysql_resource_index].deployment_type,"")
     keto_mysql_database               = try(module.common_stateful_resources.stateful_resources[local.keto_mysql_resource_index].logical_service_config.database_name,"")
     keto_mysql_user                   = try(module.common_stateful_resources.stateful_resources[local.keto_mysql_resource_index].logical_service_config.db_username,"")
     keto_mysql_host                   = "${try(module.common_stateful_resources.stateful_resources[local.keto_mysql_resource_index].logical_service_config.logical_service_name,"")}.${var.stateful_resources_namespace}.svc.cluster.local"
     keto_mysql_password_secret        = try(module.common_stateful_resources.stateful_resources[local.keto_mysql_resource_index].logical_service_config.user_password_secret,"")
+    keto_mysql_password_secret_act    = try(module.common_stateful_resources.stateful_resources[local.keto_mysql_resource_index].logical_service_config.user_password_secret_key,"")
     keto_mysql_port                   = try(module.common_stateful_resources.stateful_resources[local.keto_mysql_resource_index].logical_service_config.logical_service_port,"")
     keto_mysql_secret_path            = "${try(module.common_stateful_resources.stateful_resources[local.keto_mysql_resource_index].local_helm_config.secret_config.generate_secret_vault_base_path,"")}/${local.keto_mysql_resource_index}/${try(module.common_stateful_resources.stateful_resources[local.keto_mysql_resource_index].local_helm_config.secret_config.generate_secret_name,"")}-mysql-password"
-    keto_mysql_password_secret_key    = "password"
+    keto_mysql_password_secret_key    = "password" # to be corrected
+    kratos_mysql_deploy_type            = try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].deployment_type,"")
     kratos_mysql_database             = try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].logical_service_config.database_name,"")
     kratos_mysql_user                 = try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].logical_service_config.db_username,"")
     kratos_mysql_host                 = "${try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].logical_service_config.logical_service_name,"")}.${var.stateful_resources_namespace}.svc.cluster.local"
     kratos_mysql_password_secret      = try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].logical_service_config.user_password_secret,"")
     kratos_mysql_port                 = try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].logical_service_config.logical_service_port,"")
+    kratos_mysql_password_secret_act    = try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].logical_service_config.user_password_secret_key,"")
     kratos_mysql_secret_path          = "${try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].local_helm_config.secret_config.generate_secret_vault_base_path,"")}/${local.kratos_mysql_resource_index}/${try(module.common_stateful_resources.stateful_resources[local.kratos_mysql_resource_index].local_helm_config.secret_config.generate_secret_name,"")}-mysql-password"
     kratos_mysql_password_secret_key  = "password"
     hubop_oidc_client_secret_secret_name = join("$", ["", "{${replace(var.hubop_oidc_client_secret_secret, "-", "_")}}"])
@@ -123,6 +127,12 @@ locals {
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
 
+  managed_resource_password_map = { for key, stateful_resource in local.common_stateful_resources : key => {
+    vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
+    namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
+    secret_name = stateful_resource.logical_service_config.user_password_secret
+    secret_key  = stateful_resource.logical_service_config.user_password_secret_key
+    }
   oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
     realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
