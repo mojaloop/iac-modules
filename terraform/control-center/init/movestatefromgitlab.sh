@@ -14,11 +14,11 @@
 # export PRIVATE_REPO_USER=nullvalue
 # export PRIVATE_REPO=example.com
 # export AWS_PROFILE=oss
-cd /iac-run-dir
-source setenv
-cd -
-source setlocalenv.sh
-source /tmp/archivedhttpstate.sh
+# cd /iac-run-dir
+# source setenv
+# cd -
+# source setlocalenv.sh
+# source /tmp/archivedhttpstate.sh
 terragrunt run-all init -upgrade
 
 cat <<'EOT' >terragrunt.hcl
