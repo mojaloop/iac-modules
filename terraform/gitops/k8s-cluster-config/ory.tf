@@ -126,13 +126,6 @@ locals {
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
-
-  managed_resource_password_map = { for key, stateful_resource in local.common_stateful_resources : key => {
-    vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
-    namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
-    secret_name = stateful_resource.logical_service_config.user_password_secret
-    secret_key  = stateful_resource.logical_service_config.user_password_secret_key
-    }
   oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
     realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
