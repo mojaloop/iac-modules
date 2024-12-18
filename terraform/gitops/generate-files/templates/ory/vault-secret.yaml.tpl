@@ -3,7 +3,7 @@ kind: PasswordPolicy
 metadata:
   name: "kratos-secret-policy"
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   # Add fields here
   authentication:
@@ -27,7 +27,7 @@ kind: RandomSecret
 metadata:
   name: kratos-cookie
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   authentication:
     path: kubernetes
@@ -45,7 +45,7 @@ kind: RandomSecret
 metadata:
   name: kratos-cipher
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   authentication:
     path: kubernetes
@@ -63,7 +63,7 @@ kind: RandomSecret
 metadata:
   name: kratos-default
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   authentication:
     path: kubernetes
@@ -82,7 +82,7 @@ kind: VaultSecret
 metadata:
   name: kratos-secret
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
@@ -131,17 +131,10 @@ kind: VaultSecret
 metadata:
   name: kratos-secret
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication:
-        path: kubernetes
-        role: policy-admin
-        serviceAccount:
-            name: default
-      name: kratospaswordsecret
-      path: ${kratos_mysql_secret_path}
     - authentication:
         path: kubernetes
         role: policy-admin
@@ -186,7 +179,7 @@ spec:
     kind: SecretStore
     name: ory-k8s-secret-store
   data:
-    - secretKey: kratos-db-managed-key
+    - secretKey: kratosDBManagedPasswordKey
       remoteRef:
         key: ${kratos_mysql_password_secret}
         property: ${kratos_mysql_password_secret_act}
@@ -216,12 +209,12 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        dsn: 'mysql://${kratos_mysql_user}:{{ .kratos-db-managed-key }}@tcp(${kratos_mysql_host}:${kratos_mysql_port})/${kratos_mysql_database}?max_conns=20&max_idle_conns=4'
-        smtpConnectionURI: {{ .smtpConnectionURI }}
-        secretsDefault: {{ .secretsDefault }}
-        secretsCookie: {{ .secretsCookie }}
-        secretsCipher: {{ .secretsCipher }}
-        secretsCSRFCookie: {{ .secretsCSRFCookie }}
+        dsn: 'mysql://${kratos_mysql_user}:{{ .kratosDBManagedPasswordKey }}@tcp(${kratos_mysql_host}:${kratos_mysql_port})/${kratos_mysql_database}?max_conns=20&max_idle_conns=4&sql_mode=TRADITIONAL'
+        smtpConnectionURI: "{{ .smtpConnectionURI }}"
+        secretsDefault: "{{ .secretsDefault }}"
+        secretsCookie: "{{ .secretsCookie }}"
+        secretsCipher: "{{ .secretsCipher }}"
+        secretsCSRFCookie: "{{ .secretsCSRFCookie }}"
 %{ endif }
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
@@ -283,12 +276,16 @@ kind: ServiceAccount
 metadata:
   name: ory-secret-creator
   namespace: ${ory_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"    
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   namespace: ${ory_namespace}
   name: ory-secret-role
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"    
 rules:
   - apiGroups: [""]
     resources:
@@ -309,6 +306,8 @@ kind: RoleBinding
 metadata:
   name: ory-secret-creator
   namespace: ${ory_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"    
 subjects:
   - kind: ServiceAccount
     name: ory-secret-creator
@@ -322,6 +321,8 @@ kind: SecretStore
 metadata:
   name: ory-k8s-secret-store
   namespace: ${ory_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"    
 spec:
   provider:
     kubernetes:
@@ -342,7 +343,7 @@ kind: VaultSecret
 metadata:
   name: keto-secret
   annotations:
-    argocd.argoproj.io/sync-wave: "-3"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
@@ -373,7 +374,7 @@ spec:
     kind: SecretStore
     name: ory-k8s-secret-store
   data:
-    - secretKey: keto-db-managed-key
+    - secretKey: ketoDBManagedPasswordKey
       remoteRef:
         key: ${keto_mysql_password_secret}
         property: ${keto_mysql_password_secret_act}
@@ -383,6 +384,6 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        dsn: 'mysql://${keto_mysql_user}:{{ .keto-db-managed-key }}@tcp(${keto_mysql_host}:${keto_mysql_port})/${keto_mysql_database}?max_conns=20&max_idle_conns=4' 
+        dsn: 'mysql://${keto_mysql_user}:{{ .ketoDBManagedPasswordKey }}@tcp(${keto_mysql_host}:${keto_mysql_port})/${keto_mysql_database}?max_conns=20&max_idle_conns=4' 
 
 %{ endif }
