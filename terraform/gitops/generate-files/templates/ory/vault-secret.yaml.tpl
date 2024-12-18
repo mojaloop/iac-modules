@@ -169,7 +169,7 @@ spec:
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: ${kratos_mysql_password_secret}
+  name: ${kratos_mysql_password_secret}-final
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -364,7 +364,7 @@ spec:
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: ${keto_mysql_password_secret}
+  name: ${keto_mysql_password_secret}-final
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
