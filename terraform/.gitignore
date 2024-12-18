@@ -39,3 +39,4 @@ terraform.rc
 *.auto.tfvars
 *sshkey
 *inventory
+*.terragrunt-cache
