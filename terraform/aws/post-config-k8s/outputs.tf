@@ -9,6 +9,14 @@ output "secrets_var_map" {
   } : {})
 }
 
+output "iac_user_key_id" {
+  value = aws_iam_access_key.ci_iam_user_key[0].id
+}
+
+output "iac_user_key_secret" {
+  value =  aws_iam_access_key.ci_iam_user_key[0].secret
+}
+
 output "properties_var_map" {
   value = merge(var.create_iam_user ? {
     ci_user_client_id_name     = "AWS_ACCESS_KEY_ID"

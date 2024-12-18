@@ -137,6 +137,8 @@ output "all_hosts_var_maps" {
     external_interop_switch_fqdn = "${var.ext_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
     kubeapi_loadbalancer_fqdn    = aws_lb.internal.dns_name
     dns_resolver_ip              = var.dns_resolver_ip
+    iac_user_key_id              = module.post_config.iac_user_key_id
+    iac_user_key_secret          = module.post_config.iac_user_key_secret
   }
 }
 

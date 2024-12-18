@@ -51,10 +51,10 @@ spec:
             value: "${ARGOCD_ENV_maintenance_velero_object_storage_region}"
 
           - name: "object_storage_secret_name"
-            value: "${ARGOCD_ENV_maintenance_velero_object_storage_secret_name}"
+            value: "velero-credentials"
 
           - name: "object_storage_secret_key"
-            value: "${ARGOCD_ENV_maintenance_velero_object_storage_secret_key}"
+            value: "aws"
 
           - name: "object_storage_bucket"
             value: "${ARGOCD_ENV_maintenance_velero_object_storage_bucket}"
