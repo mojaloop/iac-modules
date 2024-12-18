@@ -135,7 +135,7 @@ provider "gitlab" {
   base_url = "https://${local.docker_env_map["gitlab_server_hostname"]}"
 }
 provider "minio" {
-  minio_server   = "${local.docker_env_map["minio_server_host"]}:9000"
+  minio_server   = "${local.docker_env_map["minio_server_host"]}:${local.docker_env_map["minio_listening_port"]}"
   minio_user     = "${local.docker_env_map["minio_root_user"]}"
   minio_password = "${local.docker_env_map["minio_root_password"]}"
 }
