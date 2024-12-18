@@ -110,3 +110,6 @@ spec:
 
         - name: "gitlab_db_secret"
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_secret}"
+
+        - name: "gitlab_token_ttl"
+          value: "${ARGOCD_ENV_gitlab_gitlab_token_ttl}"
