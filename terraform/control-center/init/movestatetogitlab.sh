@@ -2,13 +2,13 @@ export BASE_DIR=$PWD
 export TMP_GITLAB_DIR=/tmp/bootstrap
 export TMP_TEMPLATE_DIR=/tmp/citemplates
 rm -rf $TMP_GITLAB_DIR $TMP_TEMPLATE_DIR
-cd control-center-deploy
-cp terraform.tfstate /tmp/backup-deploy.tfstate
-export GITLAB_URL=$(terragrunt output gitlab_server_hostname | tr -d '"')
-export DOMAIN=$(terragrunt output public_zone_name | tr -d '"')
-export TF_HTTP_PASSWORD=$(terragrunt output gitlab_root_token | tr -d '"')
-cd ../control-center-pre-config
-export PROJECT_ID=$(terragrunt output bootstrap_project_id | tr -d '"')
+#cd control-center-deploy
+#cp terraform.tfstate /tmp/backup-deploy.tfstate
+export GITLAB_URL=$GITLAB_URL
+export DOMAIN=$DOMAIN
+export TF_HTTP_PASSWORD=$GITLAB_SERVER_TOKEN
+cd control-center-pre-config
+export PROJECT_ID=$PROJECT_ID
 cd ..
 export TF_HTTP_USERNAME="root"
 export TF_STATE_BASE_ADDRESS="https://${GITLAB_URL}/api/v4/projects/${PROJECT_ID}/terraform/state"
@@ -51,7 +51,7 @@ git config --global user.email "root@${DOMAIN}"
 git config --global user.name "root"
 git clone https://${TF_HTTP_USERNAME}:${TF_HTTP_PASSWORD}@${GITLAB_URL}/iac/bootstrap.git $TMP_GITLAB_DIR
 cd ${BASE_DIR}
-cp -r control-center-deploy/ control-center-pre-config/ control-center-post-config/ ansible-cc-deploy/ ansible-cc-post-deploy/ environment.yaml terragrunt.hcl *-vars.yaml $TMP_GITLAB_DIR
+cp -r sshkey control-center-deploy/ control-center-pre-config/ control-center-post-config/ ansible-cc-deploy/ ansible-cc-post-deploy/ environment.yaml terragrunt.hcl *-vars.yaml $TMP_GITLAB_DIR
 git clone https://github.com/thitsax/mojaloop-iac-modules.git $TMP_TEMPLATE_DIR
 cd $TMP_TEMPLATE_DIR
 git checkout $IAC_TEMPLATES_TAG
@@ -61,4 +61,5 @@ rm -rf control-center-deploy/.te* control-center-pre-config/.te* control-center-
 rm -rf control-center-deploy/terraform.tfstate* control-center-pre-config/terraform.tfstate* control-center-post-config/terraform.tfstate* ansible-cc-deploy/terraform.tfstate*  ansible-cc-post-deploy/terraform.tfstate*
 git add .
 git commit -m "Push existing bootstrap to GitLab"
+git status
 git push
