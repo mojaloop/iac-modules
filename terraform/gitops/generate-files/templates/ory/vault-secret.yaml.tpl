@@ -124,7 +124,7 @@ spec:
       secretsCipher: "{{ .kratosciphersecret.secret }}"
       secretsCSRFCookie: "{{ .kratoscookiesecret.secret }}"
     type: Opaque
-%{ elseif kratos_mysql_deploy_type == "external"}
+%{ else }
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
@@ -358,7 +358,7 @@ spec:
     stringData:
       dsn: 'mysql://${keto_mysql_user}:{{ .ketopasswordsecret.${keto_mysql_password_secret_key} }}@tcp(${keto_mysql_host}:${keto_mysql_port})/${keto_mysql_database}?max_conns=20&max_idle_conns=4'
     type: Opaque
-%{ elseif keto_mysql_deploy_type == "external" }
+%{ else }
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
