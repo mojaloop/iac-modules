@@ -5,7 +5,7 @@ metadata:
   namespace: ${ARGOCD_ENV_velero_namespace}
 spec:
   backupSyncPeriod: 2m0s
-  accessMode: ReadWrite #ReadWrite, ReadOnly
+  accessMode: ReadOnly #ReadWrite, ReadOnly
   provider: aws
   objectStorage:
     bucket: ${ARGOCD_ENV_object_storage_bucket}
