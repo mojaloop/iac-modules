@@ -14,19 +14,19 @@ resources:
   # - ../../../base/istio.yaml
   # - ../../../base/istio-gw.yaml
   # - ../../../base/cert-manager.yaml
-  - ../../../base/consul.yaml
+  # - ../../../base/consul.yaml
   # - ../../../base/percona-operator.yaml
   # - ../../../base/redis-operator.yaml
   - ../../../base/base-monitoring.yaml
   # # xplane database config
   # - ../../../base/xplane-provider-config.yaml
   # # vault
-  - ../../../base/vault.yaml
+  # - ../../../base/vault.yaml
   # - ../../../base/vault-post-config.yaml
   # # dns-utils
-  - ../../../base/dns-utils.yaml
-  - ../../../base/dns-utils-post-config.yaml
-  - ../../../base/dns-utils-pre.yaml
+  # - ../../../base/dns-utils.yaml
+  # - ../../../base/dns-utils-post-config.yaml
+  # - ../../../base/dns-utils-pre.yaml
   # # maintenance (velero,etc)
   - ../../../base/maintenance.yaml
   - ../../../base/maintenance-pre.yaml
