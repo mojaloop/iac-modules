@@ -178,6 +178,7 @@ argocd_override:
           public_ingress_access_domain: "${gitlab_public_access}"
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           gitaly_storage_size: "${gitaly_storage_size}"
+          gitlab_token_ttl: "${gitlab_token_ttl_days}"
         pre:
           #  object storage bucket configuration
           gitlab_artifacts_max_objects: "${gitlab_artifacts_max_objects}"
