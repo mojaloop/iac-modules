@@ -122,7 +122,7 @@ central-ledger-db:
       - mojaloop
     database_name: central_ledger
     storage_size: 10G
-    replica_count: 1
+    replica_count: 
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -319,7 +319,7 @@ keto-db:
     logical_service_name: keto-db
     db_username: keto
     user_password_secret: keto-db-secret
-    user_password_secret_key: mysql-password
+    user_password_secret_key: password
     secret_extra_namespaces:
       - ory
     database_name: keto
@@ -339,7 +339,7 @@ kratos-db:
     logical_service_name: kratos-db
     db_username: kratos
     user_password_secret: kratos-db-secret
-    user_password_secret_key: mysql-password
+    user_password_secret_key: password
     secret_extra_namespaces:
       - ory
     database_name: kratos
