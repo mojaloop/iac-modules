@@ -1,5 +1,5 @@
 variable "ansible_collection_url" {
-  default = "git+https://github.com/mojaloop/iac-ansible-collection-roles.git#/mojaloop/iac"
+  default = "git+https://github.com/thitsax/iac-ansible-collection-roles.git#/mojaloop/iac"
 }
 
 variable "ansible_collection_tag" {

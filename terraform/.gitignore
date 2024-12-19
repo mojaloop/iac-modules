@@ -40,3 +40,6 @@ terraform.rc
 *sshkey
 *inventory
 *.terragrunt-cache
+*environment.json
+*environment.yaml
+*setlocalenv.sh

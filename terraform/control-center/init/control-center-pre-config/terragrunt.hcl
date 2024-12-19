@@ -62,6 +62,10 @@ locals {
   docker_env_map = {
     for key, value in local.docker_hosts_var_maps.docker_hosts_var_maps : key => value
   }
+  gitlab_hosts_var_maps = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  gitlab_env_map = {
+    for key, value in local.gitlab_hosts_var_maps.gitlab_hosts_var_maps : key => value
+  }
   netmaker_hosts_var_maps = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
   netmaker_env_map = {
     for key, value in local.netmaker_hosts_var_maps.netmaker_hosts_var_maps : key => value
@@ -92,8 +96,8 @@ terraform {
   }
 }
 provider "gitlab" {
-  token = "${local.docker_env_map["vault_gitlab_token"]}"
-  base_url = "https://${local.docker_env_map["gitlab_server_hostname"]}"
+  token = "${local.gitlab_env_map["server_token"]}"
+  base_url = "https://${local.gitlab_env_map["server_hostname"]}"
 }
 EOF
 }
