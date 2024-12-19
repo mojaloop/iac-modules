@@ -33,7 +33,7 @@ thirdparty-auth-svc-db:
       - mojaloop
     database_name: auth-svc
     storage_size: 10G
-    replica_count: 3
+    replica_count: 1
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -53,7 +53,7 @@ mysql-consent-oracle-db:
       - mojaloop
     database_name: consent-oracle
     storage_size: 10G
-    replica_count: 3
+    replica_count: 1
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -82,7 +82,7 @@ mcm-db:
       - mcm
     database_name: mcm
     storage_size: 10G
-    replica_count: 3
+    replica_count: 1
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -102,7 +102,7 @@ account-lookup-db:
       - mojaloop
     database_name: account_lookup
     storage_size: 10G
-    replica_count: 3
+    replica_count: 1
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -122,7 +122,7 @@ central-ledger-db:
       - mojaloop
     database_name: central_ledger
     storage_size: 10G
-    replica_count: 3
+    replica_count: 1
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -304,7 +304,7 @@ keycloak-db:
       - keycloak
     database_name: keycloak
     storage_size: 10G
-    replica_count: 3
+    replica_count: 1
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -324,7 +324,7 @@ keto-db:
       - ory
     database_name: keto
     storage_size: 10G
-    replica_count: 3    
+    replica_count: 1    
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -344,7 +344,7 @@ kratos-db:
       - ory
     database_name: kratos
     storage_size: 10G
-    replica_count: 3    
+    replica_count: 1    
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
