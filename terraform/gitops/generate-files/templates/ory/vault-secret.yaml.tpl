@@ -182,7 +182,7 @@ spec:
     - secretKey: kratosDBManagedPasswordKey
       remoteRef:
         key: ${kratos_mysql_password_secret}
-        property: ${kratos_mysql_password_secret_act}
+        property: ${kratos_mysql_password_secret_key}
     - secretKey: smtpConnectionURI
       remoteRef:
         key: kratos-secret-intermediate
@@ -377,7 +377,7 @@ spec:
     - secretKey: ketoDBManagedPasswordKey
       remoteRef:
         key: ${keto_mysql_password_secret}
-        property: ${keto_mysql_password_secret_act}
+        property: ${keto_mysql_password_secret_key}
 
   target:
     name: keto-secret
