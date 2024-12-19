@@ -20,7 +20,8 @@ target_group_external_https_port: 32443
 target_group_external_http_port: 32080
 target_group_internal_health_port: 31081
 target_group_external_health_port: 32081
-private_network_cidr:
+private_network_cidrs:
+  - 10.10.51.0/24
 ssh_private_key: |
   -----BEGIN RSA PRIVATE KEY-----
   -----END RSA PRIVATE KEY-----
