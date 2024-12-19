@@ -299,7 +299,7 @@ keycloak-db:
     logical_service_name: keycloak-db
     db_username: keycloak
     user_password_secret: keycloak-db-secret
-    user_password_secret_key: password
+    user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - keycloak
     database_name: keycloak
