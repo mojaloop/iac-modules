@@ -303,6 +303,8 @@ keycloak-db:
     secret_extra_namespaces:
       - keycloak
     database_name: keycloak
+    storage_size: 10G
+    replica_count: 3
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -321,6 +323,8 @@ keto-db:
     secret_extra_namespaces:
       - ory
     database_name: keto
+    storage_size: 10G
+    replica_count: 3    
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -339,6 +343,8 @@ kratos-db:
     secret_extra_namespaces:
       - ory
     database_name: kratos
+    storage_size: 10G
+    replica_count: 3    
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
