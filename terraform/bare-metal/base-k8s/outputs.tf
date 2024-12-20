@@ -80,7 +80,7 @@ output "bastion_ssh_key" {
 }
 
 output "bastion_public_ip" {
-  value = var.app_var_map.bastion_public_ip
+  value = var.app_var_map.bastion_public_ips[0]
 }
 
 output "bastion_os_username" {
