@@ -4,7 +4,7 @@ Mojaloop deployments are predominantly cloud-based due to their scalability, cos
 This document provides an overview of the Mojaloop Control Center, focusing on its deployment, particularly in on-premise environments. Understanding the deployment process is essential for organizations looking to leverage Mojaloop for enhancing financial inclusion through interoperable digital financial services.
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Key Technical Requirements](#technical-knowledge)
+2. [Key Technical Requirements](#key-technical-requirements)
 3. [Prerequisites](#prerequisites)
 4. [Directory Structure](#directory-structure)
 5. [Getting Started](#getting-started)
@@ -67,6 +67,7 @@ Before you begin, ensure you have the following installed:
 - Git for version control
 - Install jq and yq
 - [Ability to run sudo without password](https://linuxhandbook.com/sudo-without-password/)
+- Infrastructure --> Updating soon
 
 ## Directory Structure
 The directory structure of this repository is organized as follows:
