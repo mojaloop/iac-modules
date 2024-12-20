@@ -50,11 +50,11 @@ output "target_group_vpn_port" {
   value = var.app_var_map.wireguard_port
 }
 output "private_network_cidr" {
-  value = var.app_var_map.private_network_cidr
+  value = var.app_var_map.private_network_cidrs[0]
 }
 
 output "internal_k8s_network_cidr" {
-  value = var.app_var_map.private_subnets_cidr_blocks
+  value = var.app_var_map.private_network_cidrs
 }
 
 output "ext_dns_cloud_policy" {
