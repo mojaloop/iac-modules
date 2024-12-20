@@ -156,7 +156,7 @@ output "bastion_hosts_yaml_maps" {
 }
 
 output "bastion_hosts" {
-  value = zipmap([for i in range(length(app_var_map.bastion_public_ips)) : "bastion${i + 1}"], app_var_map.bastion_public_ips)
+  value = zipmap([for i in range(length(var.app_var_map.bastion_public_ips)) : "bastion${i + 1}"], var.app_var_map.bastion_public_ips)
 }
 
 output "agent_hosts" {
