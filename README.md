@@ -1,18 +1,63 @@
 # EXPERIMENTAL: Mojaloop Control Center On-Premise Deployment Guidelines
 Mojaloop deployments are predominantly cloud-based due to their scalability, cost-effectiveness, and inherent security. However, there are instances where organizations opt for a self-hosted on-premise solution due to budget constraints or the readiness of alternative solutions. On-premise setups offer several benefits, including enhanced transparency regarding system limitations and costs, clear ownership of issues, improved visibility into system performance, reduced latency, and the necessity for compliance with regulations that require data to be stored within the country's own data center.
 
+This document provides an overview of the Mojaloop Control Center, focusing on its deployment, particularly in on-premise environments. Understanding the deployment process is essential for organizations looking to leverage Mojaloop for enhancing financial inclusion through interoperable digital financial services.
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Prerequisites](#prerequisites)
-3. [Directory Structure](#directory-structure)
-4. [Getting Started](#getting-started)
-5. [Usage](#usage)
+2. [Key Technical Requirements](#technical-knowledge)
+3. [Prerequisites](#prerequisites)
+4. [Directory Structure](#directory-structure)
+5. [Getting Started](#getting-started)
 6. [Configuration](#configuration)
-7. [Best Practices](#best-practices)
-8. [Troubleshooting](#troubleshooting)
+7. [Deployment](#deployment)
+8. [Best Practices](#best-practices)
+9. [Troubleshooting](#troubleshooting)
 
 ## Introduction
 This repository contains Terraform configurations for provisioning and managing cloud infrastructure. The code is designed to be modular, reusable, and easy to understand, allowing teams to deploy resources efficiently.
+
+## Key Technical Requirements 
+1. Infrastructure:
+    Understanding of cloud computing principles, especially regarding scalability, cost-effectiveness, and security.
+    Familiarity with both cloud-based and on-premise deployment models, including their respective advantages and limitations.
+
+2. Terraform and Terragrunt:
+    Proficiency in using Terraform for provisioning and managing infrastructure.
+    Knowledge of writing modular and reusable Terraform configurations to facilitate efficient resource deployment.   
+    Understanding what Terragrunt is: a thin wrapper for Terraform that provides extra tools for keeping your configurations DRY (Don't Repeat Yourself).
+    Familiarity with how Terragrunt helps manage Terraform configurations across multiple environments and modules.
+
+4. Ansible:
+    Experience with Ansible for configuration management and automation of deployment tasks.
+    Ability to create playbooks and manage inventory files for orchestrating software installations and updates.
+
+5. Containerization and Orchestration:
+    Understanding of Docker for containerization and Kubernetes (K8s) for orchestration.
+    Familiarity with deploying applications in a microservices architecture using K8s.
+
+6. Version Control Systems:
+    Proficient use of Git for version control, including branching, merging, and managing repositories.
+
+7. Scripting Languages:
+    Basic knowledge of shell scripting (e.g., Bash) to automate tasks within the deployment process.
+
+8. Installation and Configuration:
+    Ability to install necessary tools such as Terraform, Ansible, Git, jq, and yq.
+    Experience in configuring environments through YAML files and other configuration management tools.
+
+9. Troubleshooting:
+    Skills in diagnosing issues during deployment processes and applying best practices for troubleshooting common problems.
+
+10. Networking:
+    Understanding of networking concepts relevant to deployments, including security groups or firewalls, load balancers, nat gateways and domain management.
+
+11. Compliance and Security:
+    Awareness of regulatory requirements regarding data storage and processing within specific jurisdictions.
+    Knowledge of security best practices for managing sensitive data.
+
+12. Monitoring and Observability:
+    Familiarity with tools for monitoring application performance (e.g., Grafana) and logging (e.g., Loki).
+    Ability to implement observability solutions that provide insights into system performance.
 
 ## Prerequisites
 Before you begin, ensure you have the following installed:
@@ -27,11 +72,483 @@ Before you begin, ensure you have the following installed:
 The directory structure of this repository is organized as follows:
 
 ```
-/terraform
-│
-├── /modules                # Reusable Terraform modules
-│   ├── /module1            # Module 1
-│   └── /module2            # Module 2
+terraform
+    ├── ansible
+    │   ├── control-center-deploy
+    │   │   ├── ansible.tf
+    │   │   ├── templates
+    │   │   │   └── inventory.yaml.tmpl
+    │   │   └── variables.tf
+    │   ├── control-center-post-deploy
+    │   │   ├── ansible.tf
+    │   │   ├── templates
+    │   │   │   └── inventory.yaml.tmpl
+    │   │   └── variables.tf
+    │   ├── k8s-deploy
+    │   │   ├── ansible.tf
+    │   │   ├── templates
+    │   │   │   └── inventory.yaml.tmpl
+    │   │   └── variables.tf
+    │   └── managed-services-deploy
+    │       ├── ansible.tf
+    │       ├── templates
+    │       │   └── inventory.yaml.tmpl
+    │       └── variables.tf
+    ├── aws
+    │   ├── ami-ubuntu
+    │   │   ├── main.tf
+    │   │   ├── outputs.tf
+    │   │   ├── README.md
+    │   │   ├── variables.tf
+    │   │   └── versions.tf
+    │   ├── base-infra
+    │   │   ├── data.tf
+    │   │   ├── infra.tf
+    │   │   ├── module_providers.tf
+    │   │   ├── netmaker.tf
+    │   │   ├── outputs.tf
+    │   │   ├── route53.tf
+    │   │   ├── templates
+    │   │   │   └── bastion.user_data.tmpl
+    │   │   └── variables.tf
+    │   ├── base-k8s
+    │   │   ├── infra.tf
+    │   │   ├── loadbalancer.tf
+    │   │   ├── outputs.tf
+    │   │   ├── security-groups.tf
+    │   │   ├── templates
+    │   │   │   └── cloud-config-base.yaml
+    │   │   └── variables.tf
+    │   ├── control-center-infra
+    │   │   ├── iam.tf
+    │   │   ├── infra.tf
+    │   │   ├── loadbalancer.tf
+    │   │   ├── outputs.tf
+    │   │   ├── random-pws.tf
+    │   │   ├── route53.tf
+    │   │   ├── security-groups.tf
+    │   │   └── variables.tf
+    │   ├── eks
+    │   │   ├── infra.tf
+    │   │   ├── loadbalancer.tf
+    │   │   ├── outputs.tf
+    │   │   ├── security-groups.tf
+    │   │   ├── templates
+    │   │   │   └── cloud-config-base.yaml
+    │   │   └── variables.tf
+    │   ├── k6s-test-harness
+    │   │   ├── outputs.tf
+    │   │   ├── test-harness.tf
+    │   │   └── variables.tf
+    │   ├── post-config-control-center
+    │   │   ├── backup.tf
+    │   │   ├── module_providers.tf
+    │   │   ├── ses.tf
+    │   │   └── variables.tf
+    │   ├── post-config-k8s
+    │   │   ├── ext-dns.tf
+    │   │   ├── module_providers.tf
+    │   │   ├── outputs.tf
+    │   │   └── variables.tf
+    │   └── support-svcs
+    │       ├── deploy-managed-svcs
+    │       │   ├── deploy.tf
+    │       │   ├── outputs.tf
+    │       │   ├── security-groups.tf
+    │       │   └── variables.tf
+    │       ├── deploy-msk
+    │       │   ├── data.tf
+    │       │   ├── infra.tf
+    │       │   ├── module_providers.tf
+    │       │   ├── outputs.tf
+    │       │   └── variables.tf
+    │       └── deploy-rds
+    │           ├── data.tf
+    │           ├── infra.tf
+    │           ├── module_providers.tf
+    │           ├── outputs.tf
+    │           └── variables.tf
+    ├── bare-metal
+    │   └── base-k8s
+    │       ├── outputs.tf
+    │       └── variables.tf
+    ├── config-params
+    │   ├── control-center-post-config
+    │   │   ├── gitlab-secrets-integration.tf
+    │   │   ├── gitlab.tf
+    │   │   ├── minio.tf
+    │   │   ├── oidc-integration.tf
+    │   │   ├── variables.tf
+    │   │   └── vault-transit.tf
+    │   ├── control-center-pre-config
+    │   │   ├── gitlab.tf
+    │   │   ├── outputs.tf
+    │   │   └── variables.tf
+    │   └── k8s-store-config
+    │       ├── gitlab.tf
+    │       ├── variables.tf
+    │       └── vault.tf
+    ├── control-center
+    │   └── init
+    │       ├── ansible-cc-deploy
+    │       │   └── terragrunt.hcl
+    │       ├── ansible-cc-post-deploy
+    │       │   └── terragrunt.hcl
+    │       ├── aws-vars.yaml
+    │       ├── common-vars.yaml
+    │       ├── control-center-deploy
+    │       │   └── terragrunt.hcl
+    │       ├── control-center-post-config
+    │       │   └── terragrunt.hcl
+    │       ├── control-center-pre-config
+    │       │   └── terragrunt.hcl
+    │       ├── environment.json
+    │       ├── environment.yaml
+    │       ├── movestatetogitlab.sh
+    │       ├── setlocalenv.sh
+    │       ├── sshkey
+    │       └── terragrunt.hcl
+    ├── gitlab
+    │   └── ci-templates
+    │       ├── bootstrap
+    │       │   ├── set-ansible-destroy-preq-vars.sh
+    │       │   └── setcivars.sh
+    │       └── k8s-cluster
+    │           ├── set-ansible-destroy-preq-vars.sh
+    │           └── setcivars.sh
+    ├── gitops
+    │   ├── generate-files
+    │   │   ├── generate-config.tf
+    │   │   └── templates
+    │   │       ├── base-utils
+    │   │       │   ├── app
+    │   │       │   │   └── base-utils-app.yaml.tpl
+    │   │       │   ├── kustomization.yaml.tpl
+    │   │       │   ├── values-reflector.yaml.tpl
+    │   │       │   ├── values-reloader.yaml.tpl
+    │   │       │   ├── values-velero.yaml.tpl
+    │   │       │   ├── velero-credfile-externalsecret.yaml.tpl
+    │   │       │   └── velero-env-externalsecret.yaml.tpl
+    │   │       ├── certmanager
+    │   │       │   ├── app
+    │   │       │   │   └── certmanager-app.yaml.tpl
+    │   │       │   ├── certmanager-clusterissuer.yaml.tpl
+    │   │       │   ├── certmanager-helm.yaml.tpl
+    │   │       │   ├── certman-extsecret.yaml.tpl
+    │   │       │   ├── charts
+    │   │       │   │   └── certmanager
+    │   │       │   │       ├── Chart.yaml.tpl
+    │   │       │   │       └── values.yaml.tpl
+    │   │       │   └── clusterissuers
+    │   │       │       └── lets-cluster-issuer.yaml.tpl
+    │   │       ├── consul
+    │   │       │   ├── app
+    │   │       │   │   └── consul-app.yaml.tpl
+    │   │       │   ├── Chart.yaml.tpl
+    │   │       │   └── values.yaml.tpl
+    │   │       ├── external-dns
+    │   │       │   ├── app
+    │   │       │   │   └── external-dns-app.yaml.tpl
+    │   │       │   ├── chart
+    │   │       │   │   ├── Chart.yaml.tpl
+    │   │       │   │   └── values.yaml.tpl
+    │   │       │   └── external-secrets
+    │   │       │       └── extdns-extsecret.yaml.tpl
+    │   │       ├── ingress
+    │   │       │   ├── app
+    │   │       │   │   └── ingress-app.yaml.tpl
+    │   │       │   ├── charts
+    │   │       │   │   ├── nginx-external
+    │   │       │   │   │   ├── Chart.yaml.tpl
+    │   │       │   │   │   └── values.yaml.tpl
+    │   │       │   │   └── nginx-internal
+    │   │       │   │       ├── Chart.yaml.tpl
+    │   │       │   │       └── values.yaml.tpl
+    │   │       │   ├── ingress-external.yaml.tpl
+    │   │       │   ├── ingress-internal.yaml.tpl
+    │   │       │   └── lets-wildcard-cert.yaml.tpl
+    │   │       ├── istio
+    │   │       │   ├── app
+    │   │       │   │   └── istio-app.yaml.tpl
+    │   │       │   ├── istio-deploy.yaml.tpl
+    │   │       │   ├── istio-gateways
+    │   │       │   │   ├── argocd-vs.yaml.tpl
+    │   │       │   │   ├── gateways.yaml.tpl
+    │   │       │   │   ├── kustomization.yaml.tpl
+    │   │       │   │   ├── lets-wildcard-cert-external.yaml.tpl
+    │   │       │   │   ├── lets-wildcard-cert-internal.yaml.tpl
+    │   │       │   │   ├── namespace.yaml.tpl
+    │   │       │   │   ├── proxy-protocol.yaml.tpl
+    │   │       │   │   ├── values-istio-egress-gateway.yaml.tpl
+    │   │       │   │   ├── values-istio-external-ingress-gateway.yaml.tpl
+    │   │       │   │   └── values-istio-internal-ingress-gateway.yaml.tpl
+    │   │       │   ├── istio-gateways.yaml.tpl
+    │   │       │   └── istio-main
+    │   │       │       ├── kustomization.yaml.tpl
+    │   │       │       ├── namespace.yaml.tpl
+    │   │       │       ├── values-istio-base.yaml.tpl
+    │   │       │       ├── values-istio-istiod.yaml.tpl
+    │   │       │       └── values-kiali.yaml.tpl
+    │   │       ├── keycloak
+    │   │       │   ├── app
+    │   │       │   │   └── keycloak-app.yaml.tpl
+    │   │       │   ├── install
+    │   │       │   │   └── kustomization.yaml.tpl
+    │   │       │   ├── keycloak-install.yaml.tpl
+    │   │       │   ├── keycloak-post-config.yaml.tpl
+    │   │       │   └── post-config
+    │   │       │       ├── keycloak-cr.yaml.tpl
+    │   │       │       ├── keycloak-ingress.yaml.tpl
+    │   │       │       ├── kustomization.yaml.tpl
+    │   │       │       └── vault-secret.yaml.tpl
+    │   │       ├── mcm
+    │   │       │   ├── app
+    │   │       │   │   └── mcm-app.yaml.tpl
+    │   │       │   ├── configmaps
+    │   │       │   │   ├── vault-config-configmap.hcl.tpl
+    │   │       │   │   └── vault-config-init-configmap.hcl.tpl
+    │   │       │   ├── istio-gateway.yaml.tpl
+    │   │       │   ├── keycloak-realm-cr.yaml.tpl
+    │   │       │   ├── kustomization.yaml.tpl
+    │   │       │   ├── rbac.yaml.tpl
+    │   │       │   ├── values-mcm.yaml.tpl
+    │   │       │   ├── vault-agent.yaml.tpl
+    │   │       │   ├── vault-certificate.yaml.tpl
+    │   │       │   ├── vault-rbac.yaml.tpl
+    │   │       │   └── vault-secret.yaml.tpl
+    │   │       ├── mojaloop
+    │   │       │   ├── app
+    │   │       │   │   └── mojaloop-app.yaml.tpl
+    │   │       │   ├── ext-ingress.yaml.tpl
+    │   │       │   ├── grafana.yaml.tpl
+    │   │       │   ├── istio-config.yaml.tpl
+    │   │       │   ├── kustomization.yaml.tpl
+    │   │       │   ├── rbac-api-resources.yaml.tpl
+    │   │       │   ├── service-monitors.yaml.tpl
+    │   │       │   ├── switch-jws-deployment.yaml.tpl
+    │   │       │   ├── values-finance-portal-override.yaml.tpl
+    │   │       │   ├── values-finance-portal.yaml.tpl
+    │   │       │   ├── values-mojaloop-addons.yaml.tpl
+    │   │       │   ├── values-mojaloop-override.yaml.tpl
+    │   │       │   ├── values-mojaloop.yaml.tpl
+    │   │       │   ├── values-reporting-k8s-override.yaml.tpl
+    │   │       │   └── vault-secret.yaml.tpl
+    │   │       ├── monitoring
+    │   │       │   ├── app
+    │   │       │   │   └── monitoring-app.yaml.tpl
+    │   │       │   ├── install
+    │   │       │   │   ├── istio-vs.yaml.tpl
+    │   │       │   │   ├── kustomization.yaml.tpl
+    │   │       │   │   ├── process-exporter-service-monitor.yaml.tpl
+    │   │       │   │   ├── values-grafana-operator.yaml.tpl
+    │   │       │   │   ├── values-loki.yaml.tpl
+    │   │       │   │   ├── values-process-exporter.yaml.tpl
+    │   │       │   │   ├── values-prom-operator.yaml.tpl
+    │   │       │   │   ├── values-tempo.yaml.tpl
+    │   │       │   │   ├── vault-minio-ext-secret.yaml.tpl
+    │   │       │   │   └── vault-secret.yaml.tpl
+    │   │       │   ├── monitoring-install.yaml.tpl
+    │   │       │   ├── monitoring-post-config.yaml.tpl
+    │   │       │   └── post-config
+    │   │       │       ├── alertmanager-config.yaml.tpl
+    │   │       │       ├── alerts
+    │   │       │       │   ├── k8s-health-alerts.yaml.tpl
+    │   │       │       │   └── node-alerts.yaml.tpl
+    │   │       │       ├── dashboards
+    │   │       │       │   ├── default.yaml.tpl
+    │   │       │       │   ├── k8s.yaml.tpl
+    │   │       │       │   ├── loki.yaml.tpl
+    │   │       │       │   └── prometheus.yaml.tpl
+    │   │       │       ├── istio-crs.yaml.tpl
+    │   │       │       ├── longhorn-crs.yaml.tpl
+    │   │       │       ├── monitoring-crs.yaml.tpl
+    │   │       │       └── service-monitors
+    │   │       │           └── loki.yaml.tpl
+    │   │       ├── nginx-jwt
+    │   │       │   ├── app
+    │   │       │   │   └── nginx-jwt-app.yaml.tpl
+    │   │       │   ├── kustomization.yaml.tpl
+    │   │       │   └── values-nginx-jwt.yaml.tpl
+    │   │       ├── ory
+    │   │       │   ├── app
+    │   │       │   │   └── ory-app.yaml.tpl
+    │   │       │   ├── blank-rule.yaml.tpl
+    │   │       │   ├── istio-config.yaml.tpl
+    │   │       │   ├── keycloak-realm-cr.yaml.tpl
+    │   │       │   ├── kustomization.yaml.tpl
+    │   │       │   ├── rbac-role-permissions.yaml.tpl
+    │   │       │   ├── values-bof.yaml.tpl
+    │   │       │   ├── values-keto.yaml.tpl
+    │   │       │   ├── values-kratos-selfservice-ui-node.yaml.tpl
+    │   │       │   ├── values-kratos.yaml.tpl
+    │   │       │   ├── values-oathkeeper.yaml.tpl
+    │   │       │   └── vault-secret.yaml.tpl
+    │   │       ├── pm4ml
+    │   │       │   ├── app
+    │   │       │   │   └── pm4ml-app.yaml.tpl
+    │   │       │   ├── istio-gateway.yaml.tpl
+    │   │       │   ├── keycloak-realm-cr.yaml.tpl
+    │   │       │   ├── kustomization.yaml.tpl
+    │   │       │   ├── rbac-api-resources.yaml.tpl
+    │   │       │   ├── values-admin-portal.yaml.tpl
+    │   │       │   ├── values-pm4ml.yaml.tpl
+    │   │       │   ├── vault-certificate.yaml.tpl
+    │   │       │   ├── vault-rbac.yaml.tpl
+    │   │       │   └── vault-secret.yaml.tpl
+    │   │       ├── stateful-resources-operators
+    │   │       │   ├── app
+    │   │       │   │   └── stateful-resources-operators-app.yaml.tpl
+    │   │       │   ├── kustomization.yaml.tpl
+    │   │       │   ├── namespace.yaml.tpl
+    │   │       │   ├── values-percona-mongodb.yaml.tpl
+    │   │       │   ├── values-percona-mysql.yaml.tpl
+    │   │       │   ├── values-percona-postgresql.yaml.tpl
+    │   │       │   ├── values-redis.yaml.tpl
+    │   │       │   └── values-strimzi.yaml.tpl
+    │   │       ├── storage
+    │   │       │   ├── app
+    │   │       │   │   └── storage-app.yaml.tpl
+    │   │       │   ├── chart
+    │   │       │   │   ├── Chart.yaml.tpl
+    │   │       │   │   └── values.yaml.tpl
+    │   │       │   ├── custom-resources
+    │   │       │   │   └── longhorn-job.yaml.tpl
+    │   │       │   └── external-secrets
+    │   │       │       └── longhorn-extsecret.yaml.tpl
+    │   │       ├── vault
+    │   │       │   ├── app
+    │   │       │   │   └── vault-app.yaml.tpl
+    │   │       │   ├── charts
+    │   │       │   │   ├── vault
+    │   │       │   │   │   ├── Chart.yaml.tpl
+    │   │       │   │   │   └── values.yaml.tpl
+    │   │       │   │   └── vault-config-operator
+    │   │       │   │       ├── Chart.yaml.tpl
+    │   │       │   │       └── values.yaml.tpl
+    │   │       │   ├── istio-vs.yaml.tpl
+    │   │       │   ├── post-config.yaml.tpl
+    │   │       │   ├── vault-config-operator.yaml.tpl
+    │   │       │   ├── vault-extsecret.yaml.tpl
+    │   │       │   └── vault-helm.yaml.tpl
+    │   │       ├── vault-pki-setup
+    │   │       │   ├── app
+    │   │       │   │   └── vault-pki-app.yaml.tpl
+    │   │       │   ├── certman-rbac.yaml.tpl
+    │   │       │   └── vault-auth-config.yaml.tpl
+    │   │       └── vnext
+    │   │           ├── app
+    │   │           │   └── vnext-app.yaml.tpl
+    │   │           ├── istio-config.yaml.tpl
+    │   │           ├── kustomization.yaml.tpl
+    │   │           ├── switch-jws-deployment.yaml.tpl
+    │   │           ├── values-ttk.yaml.tpl
+    │   │           ├── values-vnext.yaml.tpl
+    │   │           └── vault-secret.yaml.tpl
+    │   ├── k8s-cluster-config
+    │   │   ├── app-deploy.tf
+    │   │   ├── base-utils.tf
+    │   │   ├── certmanager-config.tf
+    │   │   ├── common-stateful-resources-config.tf
+    │   │   ├── consul-config.tf
+    │   │   ├── external-dns-config.tf
+    │   │   ├── ingress.tf
+    │   │   ├── istio.tf
+    │   │   ├── keycloak.tf
+    │   │   ├── monitoring.tf
+    │   │   ├── nginx-jwt.tf
+    │   │   ├── ory.tf
+    │   │   ├── outputs.tf
+    │   │   ├── stateful-resources-operators.tf
+    │   │   ├── storage-config.tf
+    │   │   ├── stored-params.tf
+    │   │   ├── variables.tf
+    │   │   └── vault.tf
+    │   ├── mojaloop
+    │   │   ├── mcm.tf
+    │   │   ├── mojaloop.tf
+    │   │   ├── outputs.tf
+    │   │   ├── providers.tf
+    │   │   ├── stateful-resources-config.tf
+    │   │   ├── variables.tf
+    │   │   └── vault-pki-setup.tf
+    │   ├── pm4ml
+    │   │   ├── pm4ml.tf
+    │   │   ├── variables.tf
+    │   │   └── vault-pki-setup.tf
+    │   ├── stateful-resources
+    │   │   ├── outputs.tf
+    │   │   ├── stateful-resources-config.tf
+    │   │   └── templates
+    │   │       └── stateful-resources
+    │   │           ├── app
+    │   │           │   └── stateful-resources-app.yaml.tpl
+    │   │           ├── external-name-services.yaml.tpl
+    │   │           ├── managed-crs.yaml.tpl
+    │   │           ├── namespace.yaml.tpl
+    │   │           ├── percona
+    │   │           │   ├── mongodb
+    │   │           │   │   └── db-cluster.yaml.tpl
+    │   │           │   └── mysql
+    │   │           │       └── db-cluster.yaml.tpl
+    │   │           ├── redis
+    │   │           │   └── redis-cluster.yaml.tpl
+    │   │           ├── stateful-resources-kustomization.yaml.tpl
+    │   │           ├── strimzi
+    │   │           │   └── kafka
+    │   │           │       └── kafka-with-dual-role-nodes.yaml.tpl
+    │   │           ├── values-kafka.yaml.tpl
+    │   │           ├── values-mongodb.yaml.tpl
+    │   │           ├── values-mysql.yaml.tpl
+    │   │           ├── values-pgsql.yaml.tpl
+    │   │           ├── values-redis.yaml.tpl
+    │   │           └── vault-crs.yaml.tpl
+    │   └── vnext
+    │       ├── mcm.tf
+    │       ├── providers.tf
+    │       ├── stateful-resources-config.tf
+    │       ├── variables.tf
+    │       ├── vault-pki-setup.tf
+    │       └── vnext.tf
+    └── k8s
+        ├── addons-gitops-build
+        │   └── terragrunt.hcl
+        ├── ansible-k8s-deploy
+        │   └── terragrunt.hcl
+        ├── ansible-managed-svcs-deploy
+        │   └── terragrunt.hcl
+        ├── default-config
+        │   ├── addons-stateful-resources.json
+        │   ├── addons-vars.yaml
+        │   ├── aws-vars.yaml
+        │   ├── bare-metal-vars.yaml
+        │   ├── cluster-config.yaml
+        │   ├── common-vars.yaml
+        │   ├── finance-portal-values-override.yaml
+        │   ├── mojaloop-rbac-api-resources.yaml
+        │   ├── mojaloop-rbac-permissions.yaml
+        │   ├── mojaloop-stateful-resources.json
+        │   ├── mojaloop-stateful-resources-local-helm.yaml
+        │   ├── mojaloop-stateful-resources-local-operator.yaml
+        │   ├── mojaloop-stateful-resources-managed.yaml
+        │   ├── mojaloop-values-override.yaml
+        │   ├── mojaloop-vars.yaml
+        │   ├── platform-stateful-resources.yaml
+        │   ├── pm4ml-rbac-permissions.yaml
+        │   ├── pm4ml-vars.yaml
+        │   ├── reporting-k8s-values-override.yaml
+        │   ├── stateful-resources-operators.yaml
+        │   ├── vnext-stateful-resources.json
+        │   └── vnext-vars.yaml
+        ├── gitops-build
+        │   └── terragrunt.hcl
+        ├── k8s-deploy
+        │   └── terragrunt.hcl
+        ├── k8s-store-config
+        │   └── terragrunt.hcl
+        ├── managed-services
+        │   └── terragrunt.hcl
+        ├── setlocalvars.sh
+        └── terragrunt.hcl
 
 ```
 
@@ -45,23 +562,6 @@ To get started with this Terraform codebase:
 2. Navigate to the control center init directory:
    ```bash
    cd mojaloop-iac-modules/terraform/control-center/init
-   ```
-
-## Usage
-To apply the configurations:
-1. Plan the deployment to see what changes will be made:
-   ```bash
-   terragrunt run-all init
-   ```
-
-2. Apply the changes to your infrastructure:
-   ```bash
-   terragrunt run-all apply --terragrunt-exclude-dir control-center-post-config --terragrunt-non-interactive 
-   ```
-
-3. To destroy the resources when they are no longer needed:
-   ```bash
-   terragrunt run-all destroy --terragrunt-non-interactive
    ```
 
 ## Configuration
@@ -225,14 +725,42 @@ To apply the configurations:
    source setlocalenv.sh
    ```   
 
-4. Add ssh private key in the control center init directory
+4. Add ssh private key in the control-center/init directory
    ```bash
    sshkey
    ``` 
 
-### Outputs
-Output values can be defined in `output` directory, which allow you to extract information about your resources after deployment.
+## Deployment
+To apply the configurations:
+1. Plan the deployment to see what changes will be made:
+   ```bash
+   terragrunt run-all init
+   ```
 
+2. Apply the changes to your infrastructure:
+   ```bash
+   terragrunt run-all apply --terragrunt-exclude-dir control-center-post-config --terragrunt-non-interactive 
+   ```
+3. Move terraform state to the gitlab
+   ```bash
+   ./movestatetogitlab.sh
+   ```
+   
+4. Login to the Gitlab with provided gitlab hostname and credentials. Then,please make sure to setup 2FA for root user
+5. Once you able to login Gitlab, you'll see repository name: bootstrap which is also know as control center repository
+6. Go to the CI/CD pipeline and run the **deploy** job. Afterward, create a CI/CD variable named **ENV_TO_UPDATE** and add your environment name
+7. Finally, run the **deploy-env-templates** job. Afterward, you will see that your environment repository has been created in GitLab.
+![image](https://github.com/user-attachments/assets/e13bfb42-4d31-4312-9b84-a7fdfb1f10f4)
+
+Plese note: unfortunately, decommission the resources job is not yet available.
+
+### Outputs
+Inventory values can be specified in the output directory, enabling you to retrieve information about your resources following deployment. Here’s just an example of how to use Terragrunt to output this information:
+```bash
+   terragrunt run-all output
+   cd ansible-cc-post-deploy
+   terragrunt run-all output vault_root_token 
+   ```
 ## Best Practices
 - Use version control for your Terraform files.
 - Write clear and concise comments in your code.
