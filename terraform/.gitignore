@@ -41,5 +41,5 @@ terraform.rc
 *inventory
 *.terragrunt-cache
 *environment.json
-*environment.yaml
 *setlocalenv.sh
+*output
