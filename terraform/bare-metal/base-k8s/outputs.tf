@@ -187,6 +187,10 @@ output "private_subnets" {
   value = var.app_var_map.private_network_cidrs
 }
 
+output "vpc_id" {
+  value = "unused"
+}
+
 locals {
 
   secrets_var_map = merge(var.app_var_map.create_iam_user ? {
