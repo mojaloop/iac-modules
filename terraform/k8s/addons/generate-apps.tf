@@ -1,17 +1,23 @@
 resource "local_file" "config-file" {
   for_each = fileset(path.module, "*/*/*") # this represents addon-name/app-name/filename
   content = templatefile(
-    "${each.value}",
+    "${each.key}",
     {
       cluster : var.clusterConfig
       app : merge(
-        local.default[basename(dirname(dirname(each.value)))][basename(dirname(each.value))],
-        local.override[dirname(each.value)]
+        local.default[basename(dirname(dirname(each.key)))][basename(dirname(each.key))],
+        local.override[dirname(each.key)]
       )
-      filename: each.value
+      filename: each.key
     }
   )
-  filename = "${var.outputDir}/${basename(dirname(each.value))}/${basename(each.value)}"
+  filename = "${var.outputDir}/${basename(dirname(each.key))}/${basename(each.key)}"
+}
+
+resource "local_file" "addon-file" {
+  for_each = toset([for _,filename in fileset(path.module, "*/*/*/**") : filename if !startswith(filename, ".") && fileexists("${path.module}/${filename}")])
+  content  = file("${path.module}/${each.key}")
+  filename = "${var.outputDir}${replace(each.key, "/^[^/]*/", "")}"
 }
 
 locals {

@@ -7,6 +7,8 @@ to the Mojaloop platform.
 
 Addons are defined as subdirectories in the `addons` directory.
 Each subdirectory includes tha apps that are part of the addon.
+Each app contains template files for creating the k8s resources and
+optional sub-folders for any files used by the templates.
 See the diagram below for the meaning of each directory and file:
 
 ```text
@@ -16,6 +18,7 @@ See the diagram below for the meaning of each directory and file:
 |   |   |   ├── app-1.yaml
 |   |   |   └── app-2.yaml
 |   |   ├──📁 app-1                  # k8s resources for app-1
+|   |   |   ├── 📁 app-1-folder      # app 1 files
 |   |   |   ├── kustomization.yaml
 |   |   |   ├── values-default.yaml  # default values for app-1
 |   |   |   ├── values-override.yaml # template for overrides
