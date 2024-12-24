@@ -188,7 +188,7 @@ output "private_subnets" {
 }
 
 output "vpc_id" {
-  value = "unused"
+  value = var.vpc_cidr
 }
 
 locals {
