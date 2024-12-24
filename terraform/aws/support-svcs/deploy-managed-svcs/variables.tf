@@ -4,6 +4,7 @@
 variable "deployment_name" {
   description = "Deployment name, lower case and without spaces. This will be used to set tags and name resources"
   type        = string
+  default     = "default"
 }
 
 variable "tags" {
@@ -41,20 +42,20 @@ variable "vpc_cidr" {
 # Local copies of variables to allow for parsing
 ###
 locals {
-  identifying_tags = { vpc = var.deployment_name}
-  common_tags = merge(local.identifying_tags, var.tags)
-  
-  st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
-  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
+  identifying_tags = { vpc = var.deployment_name }
+  common_tags      = merge(local.identifying_tags, var.tags)
+
+  st_res_managed_vars = yamldecode(file(var.managed_stateful_resources_config_file))
+  plt_st_res_config   = yamldecode(file(var.platform_stateful_resources_config_file))
 
   stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
 
-  stateful_resources               = module.config_deepmerge.merged
-  enabled_stateful_resources       = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
-  
+  stateful_resources         = module.config_deepmerge.merged
+  enabled_stateful_resources = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
+
   external_services = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   rds_services      = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
   msk_services      = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
-  mongodb_services  = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mongodb" }  
+  mongodb_services  = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mongodb" }
 
 }

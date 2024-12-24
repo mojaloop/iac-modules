@@ -1,14 +1,27 @@
 output "secrets_var_map" {
   sensitive = true
-  value     = ( length(local.rds_services) > 0 || length(local.mongodb_services) > 0 ) ? merge(try(module.deploy_rds[0].secrets_var_map,{}), try(module.deploy_mongodb[0].secrets_var_map,{})) : {}
+  value = (length(local.rds_services) > 0 || length(local.mongodb_services) > 0) ? merge(
+    try(module.deploy_rds[0].secrets_var_map, {}),
+    try(module.deploy_mongodb[0].secrets_var_map, {}),
+    try(module.monitoring[0].secrets_var_map, {})
+  ) : {}
 }
 
 output "properties_var_map" {
-  value = ( length(local.rds_services) > 0 || length(local.msk_services) > 0 || length(local.mongodb_services) > 0 ) ? merge(try(module.deploy_rds[0].properties_var_map, {}), try(module.deploy_msk[0].properties_var_map , {}), try(module.deploy_mongodb[0].properties_var_map , {})) : {}
+  value = (length(local.rds_services) > 0 || length(local.msk_services) > 0 || length(local.mongodb_services) > 0) ? merge(
+    try(module.deploy_rds[0].properties_var_map, {}),
+    try(module.deploy_msk[0].properties_var_map, {}),
+    try(module.deploy_mongodb[0].properties_var_map, {}),
+    try(module.monitoring[0].properties_var_map, {})
+  ) : {}
 }
 
 output "secrets_key_map" {
-  value = ( length(local.rds_services) > 0 || length(local.mongodb_services) > 0 ) ? merge(try(module.deploy_rds[0].secrets_key_map,{}), try(module.deploy_mongodb[0].secrets_key_map,{})) : {}
+  value = (length(local.rds_services) > 0 || length(local.mongodb_services) > 0) ? merge(
+    try(module.deploy_rds[0].secrets_key_map, {}),
+    try(module.deploy_mongodb[0].secrets_key_map, {}),
+    try(module.monitoring[0].secrets_key_map, {})
+  ) : {}
 }
 
 output "bastion_hosts_var_maps" {
@@ -31,7 +44,7 @@ output "bastion_ssh_key" {
 }
 
 output "bastion_public_ip" {
-  value = length(local.external_services) > 0 ?  module.base_infra[0].bastion_public_ip : ""
+  value = length(local.external_services) > 0 ? module.base_infra[0].bastion_public_ip : ""
 }
 
 output "bastion_os_username" {
