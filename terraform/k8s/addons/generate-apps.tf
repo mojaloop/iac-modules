@@ -14,6 +14,12 @@ resource "local_file" "config-file" {
   filename = "${var.outputDir}/${basename(dirname(each.value))}/${basename(each.value)}"
 }
 
+resource "local_file" "addon-file" {
+  for_each = toset([for _,filename in fileset(path.module, "*/*/*/**") : filename if !startswith(filename, ".")])
+  content  = file("${path.module}/${each.value}")
+  filename = "${var.outputDir}${replace(each.value, "/^[^/]*/", "")}"
+}
+
 locals {
   default = { # load defaults for each addon, keyed by addon-name
     for app in fileset(path.module, "*/default.yaml") :
