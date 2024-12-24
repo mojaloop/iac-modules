@@ -15,7 +15,7 @@ resource "local_file" "config-file" {
 }
 
 resource "local_file" "addon-file" {
-  for_each = toset([for _,filename in fileset(path.module, "*/*/*/**") : filename if !startswith(filename, ".")])
+  for_each = toset([for _,filename in fileset(path.module, "*/*/*/**") : filename if !startswith(filename, ".") && fileexists("${path.module}/${filename}")])
   content  = file("${path.module}/${each.key}")
   filename = "${var.outputDir}${replace(each.key, "/^[^/]*/", "")}"
 }
