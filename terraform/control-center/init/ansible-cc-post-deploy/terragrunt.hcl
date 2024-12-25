@@ -44,7 +44,7 @@ inputs = {
   docker_hosts_var_maps = merge(local.env_vars.docker_hosts_var_maps,
   dependency.control_center_pre_config.outputs.docker_hosts_var_maps)
   all_hosts_var_maps          = local.env_vars.all_hosts_var_maps
-  enable_netmaker_oidc        = local.env_vars.enable_netmaker_oidc
+  enable_netmaker_oidc        = local.netmaker_env_map["enable_oauth"]
   ansible_bastion_key         = file("${find_in_parent_folders("sshkey")}")
   ansible_bastion_os_username = local.env_vars.bastion_os_username
   ansible_bastion_public_ip   = local.env_vars.bastion_public_ip
@@ -65,6 +65,10 @@ locals {
   gitlab_hosts_var_maps = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
   gitlab_env_map = {
     for key, value in local.gitlab_hosts_var_maps.gitlab_hosts_var_maps : key => value
+  }
+  netmaker_hosts_var_maps = yamldecode(file("${find_in_parent_folders("environment.yaml")}"))
+  netmaker_env_map = {
+    for key, value in local.netmaker_hosts_var_maps.netmaker_hosts_var_maps : key => value
   }
   common_vars = yamldecode(
     file("${find_in_parent_folders("common-vars.yaml")}")

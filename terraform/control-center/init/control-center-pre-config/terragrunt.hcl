@@ -50,7 +50,7 @@ inputs = {
   iac_terraform_modules_tag        = get_env("IAC_TERRAFORM_MODULES_TAG")
   control_center_cloud_provider    = get_env("CONTROL_CENTER_CLOUD_PROVIDER")
 
-  enable_central_observability_grafana_oidc       = local.env_vars.enable_central_observability_grafana_oidc
+  enable_central_observability_grafana_oidc       = local.docker_env_map["enable_central_observability_grafana_oidc"]
   central_observability_grafana_oidc_redirect_url = "https://${local.docker_env_map["central_observability_grafana_fqdn"]}/login/gitlab"
 }
 
