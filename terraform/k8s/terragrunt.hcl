@@ -28,8 +28,8 @@ data "terraform_remote_state" "control" {
   }
 }
 locals {
-  nexus_fqdn = data.terraform_remote_state.control.outputs.nexus_fqdn
-  nexus_docker_repo_listening_port = data.terraform_remote_state.control.outputs.nexus_docker_repo_listening_port
+  nexus_fqdn = "${get_env("NEXUS_FQDN")}"
+  nexus_docker_repo_listening_port = "${get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")}"
 }
 
 EOF
