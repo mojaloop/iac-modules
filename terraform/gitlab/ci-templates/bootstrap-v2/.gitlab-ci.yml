@@ -74,7 +74,7 @@ prepare:image:
   needs: []
   stage: prepare
   image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   rules:
     # Tag with the commit SHA if we're in an MR

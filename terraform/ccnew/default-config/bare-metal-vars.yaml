@@ -83,3 +83,4 @@ test_harness_private_ip: none
 ci_iam_user_client_secret_name: "replace"
 ci_iam_user_client_id_name: "replace"
 dns_resolver_ip: 10.10.100.1
+rook_disk_vol: "/dev/sdb"
