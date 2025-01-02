@@ -43,7 +43,7 @@ spec:
 #      name: special-selfsigned-issuer
 #      kind: ClusterIssuer
 #      group: cert-manager.io
-  allowUnsafeConfigurations: false
+  allowUnsafeConfigurations: true
 #  unsafeFlags:
 #    tls: false
 #    pxcSize: false
@@ -220,7 +220,7 @@ spec:
 #          command: [ "/bin/true" ]
   haproxy:
     enabled: true
-    size: 2
+    size: ${haproxy_count}
     image: percona/percona-xtradb-cluster-operator:${percona_xtradb_haproxy_version}
 #    imagePullPolicy: Always
 #    schedulerName: mycustom-scheduler

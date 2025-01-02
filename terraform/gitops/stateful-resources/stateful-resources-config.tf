@@ -126,6 +126,7 @@ resource "local_file" "percona-crs" {
       percona_xtradb_haproxy_version = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_haproxy_version : ""
       percona_xtradb_logcoll_version = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_logcoll_version : ""
       percona_xtradb_backup_version  = each.value.resource_type == "mysql" ? each.value.local_operator_config.percona_xtradb_backup_version : ""
+      haproxy_count                  = each.value.resource_type == "mysql" ? each.value.local_operator_config.haproxy_count : ""
 
       mongo_config_server_replica_count = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_config_server_replica_count : ""
       mongo_proxy_replica_count         = each.value.resource_type == "mongodb" ? each.value.logical_service_config.mongo_proxy_replica_count : ""
