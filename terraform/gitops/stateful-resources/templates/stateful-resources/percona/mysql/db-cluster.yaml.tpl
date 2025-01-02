@@ -4,7 +4,7 @@ metadata:
   namespace: ${namespace}
   name: ${cluster_name}
   finalizers:
-    - delete-pxc-pods-in-order
+    - percona.com/delete-pxc-pods-in-order
 #    - delete-ssl
 #    - delete-proxysql-pvc
 #    - delete-pxc-pvc
@@ -221,7 +221,7 @@ spec:
   haproxy:
     enabled: true
     size: 2
-    image: percona/percona-xtradb-cluster-operator:${percona_xtradb_haproxy_version}
+    image: percona/haproxy:${percona_xtradb_haproxy_version}
 #    imagePullPolicy: Always
 #    schedulerName: mycustom-scheduler
 #    readinessDelaySec: 15
