@@ -250,9 +250,9 @@ spec:
               $TEST_RUNNER_EXIT_CODE";
 
               exit $TEST_RUNNER_EXIT_CODE;
-          envFrom:
-            - secretRef:
-                name: moja-ml-ttk-test-setup-aws-creds
+          # envFrom:
+          #   - secretRef:
+          #       name: moja-ml-ttk-test-setup-aws-creds
           resources: {}
           volumeMounts:
             - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
