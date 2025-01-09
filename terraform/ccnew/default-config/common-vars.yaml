@@ -126,6 +126,15 @@ mimir_ruler_limits_memory: "2Gi"
 mimir_alertmanager_limits_cpu: "100m"
 mimir_alertmanager_limits_memory: "512Mi"
 
+# monitoring/loki
+loki_distributor_replica_count: "'1'"
+loki_ingester_replica_count: "'1'"
+loki_querier_replica_count: "'1'"
+loki_query_frontend_replica_count: "'1'"
+loki_query_scheduler_replica_count: "'1'"
+loki_compactor_replica_count: "'1'"
+
+
 gitlab_helm_version: "8.1.2"
 gitlab_public_access: true
 gitlab_redis_cluster_size: "'3'"

@@ -324,5 +324,12 @@ argocd_override:
           ruler_limits_memory: "${mimir_ruler_limits_memory}"
           alertmanager_limits_cpu: "${mimir_alertmanager_limits_cpu}"
           alertmanager_limits_memory: "${mimir_alertmanager_limits_memory}"
+        loki:
+          distributor_replica_count: "${loki_distributor_replica_count}"
+          ingester_replica_count: "${loki_ingester_replica_count}"
+          querier_replica_count: "${loki_querier_replica_count}"
+          query_frontend_replica_count: "${loki_query_frontend_replica_count}"
+          query_scheduler_replica_count: "${loki_query_scheduler_replica_count}"
+          compactor_replica_count: "${loki_compactor_replica_count}"
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
