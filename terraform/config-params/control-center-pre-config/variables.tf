@@ -65,9 +65,6 @@ variable "iac_terraform_modules_tag" {
 variable "iac_templates_tag" {
   description = "tag for repo for templates"
 }
-variable "control_center_cloud_provider" {
-  description = "control_center_cloud_provider"
-}
 
 variable "minio_fqdn" {
   description = "minio_fqdn"

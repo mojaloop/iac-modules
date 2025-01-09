@@ -61,14 +61,6 @@ resource "gitlab_project_variable" "iac_terraform_modules_tag" {
   masked    = false
 }
 
-resource "gitlab_project_variable" "control_center_cloud_provider" {
-  project   = gitlab_project.bootstrap.id
-  key       = "CONTROL_CENTER_CLOUD_PROVIDER"
-  value     = var.control_center_cloud_provider
-  protected = true
-  masked    = false
-}
-
 resource "gitlab_group_variable" "private_repo_user" {
   group             = gitlab_group.iac.id
   key               = "PRIVATE_REPO_USER"
