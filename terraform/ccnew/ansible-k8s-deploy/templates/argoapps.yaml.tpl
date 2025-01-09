@@ -331,5 +331,23 @@ argocd_override:
           query_frontend_replica_count: "${loki_query_frontend_replica_count}"
           query_scheduler_replica_count: "${loki_query_scheduler_replica_count}"
           compactor_replica_count: "${loki_compactor_replica_count}"
+
+          distributor_requests_cpu: "${loki_distributor_requests_cpu}"
+          distributor_requests_memory: "${loki_distributor_requests_memory}"
+          distributor_limits_cpu: "${loki_distributor_limits_cpu}"
+          distributor_limits_memory: "${loki_distributor_limits_memory}"
+          ingester_requests_cpu: "${loki_ingester_requests_cpu}"
+          ingester_requests_memory: "${loki_ingester_requests_memory}"
+          ingester_limits_cpu: "${loki_ingester_limits_cpu}"
+          ingester_limits_memory: "${loki_ingester_limits_memory}"
+          querier_limits_cpu: "${loki_querier_limits_cpu}"
+          querier_limits_memory: "${loki_querier_limits_memory}"
+          query_frontend_limits_cpu: "${loki_query_frontend_limits_cpu}"
+          query_frontend_limits_memory: "${loki_query_frontend_limits_memory}"
+          query_scheduler_limits_cpu: "${loki_query_scheduler_limits_cpu}"
+          query_scheduler_limits_memory: "${loki_query_scheduler_limits_memory}"
+          compactor_limits_cpu: "${loki_compactor_limits_cpu}"
+          compactor_limits_memory: "${loki_compactor_limits_memory}"
+
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
