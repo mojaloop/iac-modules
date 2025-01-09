@@ -51,6 +51,14 @@ metrics:
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
 ingester:
+  replicaCount: ${ARGOCD_ENV_loki_ingester_replica_count}
+  resources:
+    requests:
+      cpu: ${ARGOCD_ENV_loki_ingester_requests_cpu}
+      memory: ${ARGOCD_ENV_loki_ingester_requests_memory}
+    limits:
+      cpu: ${ARGOCD_ENV_loki_ingester_limits_cpu}
+      memory: ${ARGOCD_ENV_loki_ingester_limits_memory}
   extraArgs: ["-config.expand-env"]
   extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
