@@ -1,13 +1,3 @@
-
-variable "iac_user_key_secret" {
-  sensitive   = true
-  description = "iam user key secret"
-}
-
-variable "iac_user_key_id" {
-  description = "iam user keyid"
-}
-
 variable "gitlab_admin_rbac_group" {
   type        = string
   description = "rbac group in gitlab for admin access via oidc"

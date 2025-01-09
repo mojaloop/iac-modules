@@ -7,8 +7,6 @@ dependency "ansible-cc-deploy" {
 }
 
 inputs = {
-  iac_user_key_secret              = local.env_vars.iac_user_key_secret
-  iac_user_key_id                  = local.env_vars.iac_user_key_id
   gitlab_admin_rbac_group          = local.env_vars.gitlab_admin_rbac_group
   gitlab_readonly_rbac_group       = local.env_vars.gitlab_readonly_rbac_group
   enable_netmaker_oidc             = local.netmaker_env_map["enable_oauth"]

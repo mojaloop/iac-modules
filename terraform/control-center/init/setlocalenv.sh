@@ -12,10 +12,9 @@ export GITLAB_URL=$(jq -r '.gitlab_hosts_var_maps.server_hostname' environment.j
 export GITLAB_SERVER_TOKEN=$(jq -r '.gitlab_hosts_var_maps.server_token' environment.json)
 export DOMAIN=$(jq -r '.all_hosts_var_maps.base_domain' environment.json)
 export PROJECT_ID=$(jq -r '.docker_hosts_var_maps.gitlab_bootstrap_project_id' environment.json)
-
 export PRIVATE_REPO_USER=$private_repo_user
 export PRIVATE_REPO_TOKEN=$private_repo_token
-export PRIVATE_REPO=$
+export PRIVATE_REPO=$private_repo
 export TF_HTTP_USERNAME="root"
 export TF_HTTP_LOCK_METHOD="POST"
 export TF_HTTP_UNLOCK_METHOD="DELETE"

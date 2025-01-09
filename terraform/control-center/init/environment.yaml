@@ -15,8 +15,6 @@ longhorn_backup_data_expiry: 1d
 velero_data_expiry: 1d
 percona_backup_data_expiry: 3d
 controlcenter_netmaker_network_cidr: "192.168.40.0/24"
-iac_user_key_secret: "xxxxxxxxxx"
-iac_user_key_id: "xxxxxxxxx"
 envs:
   - env: hub
     domain: domain.com
