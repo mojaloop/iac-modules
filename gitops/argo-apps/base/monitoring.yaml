@@ -191,5 +191,19 @@ spec:
         - name: "mimir_alertmanager_limits_memory"
           value: "${ARGOCD_ENV_monitoring_mimir_alertmanager_limits_memory}"
 
+        - name: "loki_distributor_replica_count"
+          value: "${ARGOCD_ENV_monitoring_loki_distributor_replica_count}"
+        - name: "loki_ingester_replica_count"
+          value: "${ARGOCD_ENV_monitoring_loki_ingester_replica_count}"
+        - name: "loki_querier_replica_count"
+          value: "${ARGOCD_ENV_monitoring_loki_querier_replica_count}"
+        - name: "loki_query_frontend_replica_count"
+          value: "${ARGOCD_ENV_monitoring_loki_query_frontend_replica_count}"
+        - name: "loki_query_scheduler_replica_count"
+          value: "${ARGOCD_ENV_monitoring_loki_query_scheduler_replica_count}"
+        - name: "loki_compactor_replica_count"
+          value: "${ARGOCD_ENV_monitoring_loki_compactor_replica_count}"
+
+
         - name: "cloudwatch_exporter_role_arn"
           value: "${ARGOCD_ENV_monitoring_monitoring_cloudwatch_exporter_role_arn}"
