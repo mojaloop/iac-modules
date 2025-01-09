@@ -105,6 +105,7 @@ locals {
     netbird_version              = get_env("NETBIRD_VERSION")
     netbird_api_host             = get_env("NETBIRD_API_HOST")
     netbird_setup_key            = get_env("NETBIRD_GW_SETUP_KEY")
+    migrate                      = get_env("MIGRATION")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
     ceph_fqdn                    = get_env("CEPH_OBJECTSTORE_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")
