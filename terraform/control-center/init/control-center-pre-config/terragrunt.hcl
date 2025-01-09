@@ -5,28 +5,6 @@ dependency "ansible-cc-deploy" {
   config_path  = "../ansible-cc-deploy"
   skip_outputs = true
 }
-# dependency "control_center_deploy" {
-#   config_path = "../control-center-deploy"
-#   mock_outputs = {
-#     iac_user_key_secret              = "temporary-dummy-id"
-#     iac_user_key_id                  = "temporary-dummy-id"
-#     gitlab_root_token                = "temporary-dummy-id"
-#     gitlab_server_hostname           = "temporary-dummy-id"
-#     netmaker_oidc_callback_url       = "temporary-dummy-id"
-#     minio_listening_port             = "temporary-dummy-id"
-#     nexus_docker_repo_listening_port = "temporary-dummy-id"
-#     minio_fqdn                       = "temporary-dummy-id"
-#     mimir_fqdn                       = "temporary-dummy-id"
-#     mimir_listening_port             = "temporary-dummy-id"
-#     nexus_fqdn                       = "temporary-dummy-id"
-#     tenant_vault_listening_port      = "temporary-dummy-id"
-#     vault_fqdn                       = "temporary-dummy-id"
-    
-#     central_observability_grafana_server_url = "temporary-dummy-id"
-#   }
-#   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
-#   mock_outputs_merge_strategy_with_state  = "shallow"
-# }
 
 inputs = {
   iac_user_key_secret              = local.env_vars.iac_user_key_secret

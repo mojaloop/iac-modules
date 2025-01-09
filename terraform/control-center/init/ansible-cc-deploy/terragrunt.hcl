@@ -2,25 +2,6 @@ terraform {
   source = "git::https://github.com/thitsax/mojaloop-iac-modules.git//terraform/ansible/control-center-deploy?ref=${get_env("IAC_TERRAFORM_MODULES_TAG")}"
 }
 
-# dependency "control_center_deploy" {
-#   config_path = "../control-center-deploy"
-#   mock_outputs = {
-#     gitlab_hosts           = {}
-#     docker_hosts           = {}
-#     bastion_hosts          = {}
-#     bastion_hosts_var_maps = {}
-#     docker_hosts_var_maps  = {}
-#     gitlab_hosts_var_maps  = {}
-#     all_hosts_var_maps     = {}
-#     bastion_ssh_key        = "key"
-#     bastion_os_username    = "null"
-#     bastion_public_ip      = "null"
-#   }
-#   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
-#   mock_outputs_merge_strategy_with_state  = "shallow"
-# }
-
-
 inputs = {
   gitlab_hosts                = local.env_vars.gitlab_hosts
   docker_hosts                = local.env_vars.docker_hosts
