@@ -188,3 +188,12 @@ resource "gitlab_project_variable" "ceph_percona_bucket" {
   protected = false
   masked    = false
 }
+
+#migration
+resource "gitlab_project_variable" "migrate" {
+  project   = data.gitlab_project.env.id
+  key       = "migrate"
+  value     = "false"
+  protected = false
+  masked    = false
+}
