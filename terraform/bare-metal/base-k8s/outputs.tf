@@ -46,13 +46,30 @@ output "target_group_internal_health_port" {
 output "target_group_external_health_port" {
   value = var.app_var_map.target_group_external_health_port
 }
-
+output "target_group_vpn_port" {
+  value = var.app_var_map.wireguard_port
+}
 output "private_network_cidr" {
-  value = var.app_var_map.private_network_cidr
+  value = var.app_var_map.private_network_cidrs[0]
 }
 
-output "dns_provider" {
-  value = var.dns_provider
+output "internal_k8s_network_cidr" {
+  value = var.app_var_map.private_network_cidrs
+}
+
+output "ext_dns_cloud_policy" {
+  value = var.app_var_map.ext_dns_cloud_policy
+}
+
+output "external_dns_cloud_role" {
+  value = var.app_var_map.external_dns_cloud_role
+}
+
+output "object_storage_cloud_role" {
+  value = var.app_var_map.object_storage_cloud_role
+}
+output "object_storage_bucket_name" {
+  value = var.app_var_map.backup_bucket_name
 }
 
 ###new items
@@ -63,11 +80,15 @@ output "bastion_ssh_key" {
 }
 
 output "bastion_public_ip" {
-  value = var.app_var_map.bastion_public_ip
+  value = var.app_var_map.bastion_public_ips[0]
 }
 
 output "bastion_os_username" {
   value = var.app_var_map.os_user_name
+}
+
+output "dns_provider" {
+  value = var.app_var_map.dns_provider
 }
 
 output "master_hosts_var_maps" {
@@ -135,7 +156,7 @@ output "bastion_hosts_yaml_maps" {
 }
 
 output "bastion_hosts" {
-  value = { bastion = var.app_var_map.bastion_public_ip }
+  value = zipmap([for i in range(length(var.app_var_map.bastion_public_ips)) : "bastion${i + 1}"], var.app_var_map.bastion_public_ips)
 }
 
 output "agent_hosts" {
@@ -161,32 +182,56 @@ output "test_harness_hosts_var_maps" {
   } : {}
 }
 
+
+output "private_subnets" {
+  value = var.app_var_map.private_network_cidrs
+}
+
+output "vpc_id" {
+  value = "unused"
+}
+
 locals {
 
-  secrets_var_map = {
+  secrets_var_map = merge(var.app_var_map.create_iam_user ? {
+    iac_user_key_id     = var.app_var_map.ci_iam_user_access_key
+    iac_user_key_secret = var.app_var_map.ci_iam_user_secret_key
+    } : {}, var.app_var_map.create_ext_dns_user ? {
     route53_external_dns_access_key = var.app_var_map.route53_external_dns_access_key
     route53_external_dns_secret_key = var.app_var_map.route53_external_dns_secret_key
-  }
+  } : {})
 
 
-  properties_var_map = {
+
+  properties_var_map = merge(var.app_var_map.create_iam_user ? {
+    ci_user_client_id_name     = var.app_var_map.ci_iam_user_client_id_name
+    ci_user_client_secret_name = var.app_var_map.ci_iam_user_client_secret_name
+    } : {}, var.app_var_map.create_ext_dns_user ? {
     external_dns_credentials_client_id_name     = var.app_var_map.external_dns_credentials_client_id_name
     external_dns_credentials_client_secret_name = var.app_var_map.external_dns_credentials_client_secret_name
     cert_manager_credentials_client_id_name     = var.app_var_map.cert_manager_credentials_client_id_name
     cert_manager_credentials_client_secret_name = var.app_var_map.cert_manager_credentials_client_secret_name
-  }
+  } : {})
 
-  post_config_secrets_key_map = {
-    external_dns_cred_id_key         = "route53_external_dns_access_key"
-    external_dns_cred_secret_key     = "route53_external_dns_secret_key"
-  }
 
-  post_config_properties_key_map = {
+  post_config_secrets_key_map = merge(var.app_var_map.create_iam_user ? {
+    iac_user_cred_id_key     = "iac_user_key_id"
+    iac_user_cred_secret_key = "iac_user_key_secret"
+    } : {}, var.app_var_map.create_ext_dns_user ? {
+    external_dns_cred_id_key     = "route53_external_dns_access_key"
+    external_dns_cred_secret_key = "route53_external_dns_secret_key"
+  } : {})
+
+
+  post_config_properties_key_map = merge(var.app_var_map.create_iam_user ? {
+    ci_user_client_id_name_key     = "ci_user_client_id_name"
+    ci_user_client_secret_name_key = "ci_user_client_secret_name"
+    } : {}, var.app_var_map.create_ext_dns_user ? {
     external_dns_credentials_client_id_name_key     = "external_dns_credentials_client_id_name"
     external_dns_credentials_client_secret_name_key = "external_dns_credentials_client_secret_name"
     cert_manager_credentials_client_id_name_key     = "cert_manager_credentials_client_id_name"
     cert_manager_credentials_client_secret_name_key = "cert_manager_credentials_client_secret_name"
-  }
+  } : {})
 
   node_labels = [
     for key, value in merge(var.app_var_map.master_hosts, var.app_var_map.agent_hosts) : {
