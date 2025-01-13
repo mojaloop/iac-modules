@@ -8,10 +8,11 @@ mcm-db:
     backup_window: 01:00-04:00
     db_name: mcm
     deletion_protection: false
-    engine: mysql
-    engine_version: "8.0"
-    family: mysql8.0
-    instance_class: db.m5d.large
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
+    instance_class: db.t3.medium
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -27,12 +28,10 @@ mcm-db:
         value: utf8mb4
       - name: character_set_server
         value: utf8mb4
-      - name: sql_require_primary_key
-        value: OFF
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
-    storage_encrypted: false
+    storage_encrypted: true
     tags:
       Origin: Terraform
       mojaloop/cost_center: mlf-iac-sandbox
@@ -49,10 +48,11 @@ account-lookup-db:
     backup_window: 01:00-04:00
     db_name: account_lookup
     deletion_protection: false
-    engine: mysql
-    engine_version: "8.0"
-    family: mysql8.0
-    instance_class: db.m5d.large
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
+    instance_class: db.t3.medium
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -71,7 +71,7 @@ account-lookup-db:
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
-    storage_encrypted: false
+    storage_encrypted: true
     tags:
       Origin: Terraform
       mojaloop/cost_center: mlf-iac-sandbox
@@ -88,10 +88,11 @@ central-ledger-db:
     backup_window: 01:00-04:00
     db_name: central_ledger
     deletion_protection: false
-    engine: mysql
-    engine_version: "8.0"
-    family: mysql8.0
-    instance_class: db.m5d.large
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
+    instance_class: db.t3.medium
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -110,7 +111,7 @@ central-ledger-db:
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
-    storage_encrypted: false
+    storage_encrypted: true
     tags:
       Origin: Terraform
       mojaloop/cost_center: mlf-iac-sandbox
@@ -236,10 +237,11 @@ keycloak-db:
     backup_window: 01:00-04:00
     db_name: keycloak
     deletion_protection: false
-    engine: mysql
-    engine_version: "8.0"
-    family: mysql8.0
-    instance_class: db.m5d.large
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
+    instance_class: db.t3.medium
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -258,7 +260,7 @@ keycloak-db:
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
-    storage_encrypted: false
+    storage_encrypted: true
     tags:
       Origin: Terraform
       mojaloop/cost_center: mlf-iac-sandbox
@@ -275,10 +277,11 @@ keto-db:
     backup_window: 01:00-04:00
     db_name: keto
     deletion_protection: false
-    engine: mysql
-    engine_version: "8.0"
-    family: mysql8.0
-    instance_class: db.m5d.large
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
+    instance_class: db.t3.medium
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -297,7 +300,7 @@ keto-db:
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
-    storage_encrypted: false
+    storage_encrypted: true
     tags:
       Origin: Terraform
       mojaloop/cost_center: mlf-iac-sandbox
@@ -314,10 +317,11 @@ kratos-db:
     backup_window: 01:00-04:00
     db_name: kratos
     deletion_protection: false
-    engine: mysql
-    engine_version: "8.0"
-    family: mysql8.0
-    instance_class: db.m5d.large
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
+    instance_class: db.t3.medium
+    replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
     monitoring_interval: "30"
@@ -336,7 +340,7 @@ kratos-db:
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
-    storage_encrypted: false
+    storage_encrypted: true
     tags:
       Origin: Terraform
       mojaloop/cost_center: mlf-iac-sandbox

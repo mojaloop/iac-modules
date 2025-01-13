@@ -11,7 +11,7 @@ consul:
     storageClass: ${storage_class_name}
     resources:
       limits:
-        memory: "500Mi"
+        memory: "2500Mi"
         cpu: "1000m"
   connectInject:
     enabled: false

@@ -661,3 +661,8 @@ variable "master_user_password_rotation_schedule_expression" {
   type        = string
   default     = null
 }
+
+variable "replicas"{
+  type        = number
+  default     = 2
+}
