@@ -1,5 +1,5 @@
 terraform {
-  source = "git::https://github.com/thitsax/mojaloop-iac-modules.git//terraform/config-params/k8s-store-config?ref=${get_env("iac_terraform_modules_tag")}"
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/k8s-store-config?ref=${get_env("iac_terraform_modules_tag")}"
 }
 
 dependency "k8s_deploy" {
