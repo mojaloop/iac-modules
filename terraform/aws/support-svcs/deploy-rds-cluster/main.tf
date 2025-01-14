@@ -43,6 +43,11 @@ resource "aws_rds_cluster_parameter_group" "default" {
   }
 }
 
+resource "random_password" "rds_master_password" {
+  length           = 20
+  special          = true
+  override_special = "_"
+}
 
 resource "aws_rds_cluster" "rds_cluster" {
   count = var.create ? 1 : 0
@@ -60,7 +65,7 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   database_name   = var.db_name
   master_username = var.username
-  master_password = var.password
+  master_password = random_password.rds_master_password.result
   port            = var.port
 
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
