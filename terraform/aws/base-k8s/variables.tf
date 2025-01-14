@@ -176,8 +176,3 @@ locals {
   common_tags      = merge(local.identifying_tags, var.tags)
   ssh_keys         = [] # This has been replaced with a dynamically generated key, but could be extended to allow passing additional ssh keys if needed
 }
-
-variable "suspended_processes" {
-  type    = list(string)
-  default = []
-}

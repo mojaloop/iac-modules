@@ -116,7 +116,6 @@ resource "aws_autoscaling_group" "node" {
   max_size            = each.value.node_count
   min_size            = each.value.node_count
   vpc_zone_identifier = module.base_infra.private_subnets
-  suspended_processes = var.suspended_processes
 
   # Join the master to the internal load balancer for the kube api on 6443
   target_group_arns = each.value.master ? local.master_target_groups : local.agent_target_groups
