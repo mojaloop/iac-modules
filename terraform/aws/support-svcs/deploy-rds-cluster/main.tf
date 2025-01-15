@@ -94,8 +94,6 @@ resource "aws_rds_cluster" "rds_cluster" {
 
   deletion_protection = var.deletion_protection
 
-  manage_master_user_password = var.manage_master_user_password
-
   tags = var.tags
 
 }
