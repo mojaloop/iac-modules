@@ -57,13 +57,3 @@ module "rds" {
 
   options = each.value.external_resource_config.options
 }
-
-data "aws_secretsmanager_secret" "rds_passwords" {
-  for_each = module.rds
-  arn = each.value.db_instance_master_user_secret_arn
-}
-
-data "aws_secretsmanager_secret_version" "rds_passwords" {
-  for_each = data.aws_secretsmanager_secret.rds_passwords
-  secret_id     = each.value.id
-}
