@@ -325,6 +325,8 @@ argocd_override:
           alertmanager_limits_cpu: "${mimir_alertmanager_limits_cpu}"
           alertmanager_limits_memory: "${mimir_alertmanager_limits_memory}"
         loki:
+          ingester_replication_factor: ${loki_ingester_replication_factor}
+
           distributor_replica_count: "${loki_distributor_replica_count}"
           ingester_replica_count: "${loki_ingester_replica_count}"
           querier_replica_count: "${loki_querier_replica_count}"

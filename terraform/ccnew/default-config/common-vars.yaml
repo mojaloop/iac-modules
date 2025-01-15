@@ -127,6 +127,8 @@ mimir_alertmanager_limits_cpu: "100m"
 mimir_alertmanager_limits_memory: "512Mi"
 
 # monitoring/loki
+loki_ingester_replication_factor: 1
+
 loki_distributor_replica_count: "'4'"
 loki_ingester_replica_count: "'4'"
 loki_querier_replica_count: "'1'"

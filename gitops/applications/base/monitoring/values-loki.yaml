@@ -10,7 +10,7 @@ loki:
       max_chunk_age: ${ARGOCD_ENV_ctrl_cntr_loki_ingester_max_chunk_age}
       lifecycler:
         ring: 
-          replication_factor: 3
+          replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
     schema_config:
       configs:
       - from: 2020-10-24

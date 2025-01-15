@@ -122,6 +122,10 @@ spec:
           value: "${ARGOCD_ENV_monitoring_monitoring_ctrl_cntr_loki_retention_period}"
         - name: "ctrl_cntr_loki_ingester_max_chunk_age"
           value: "${ARGOCD_ENV_monitoring_monitoring_ctrl_cntr_loki_ingester_max_chunk_age}"
+        - name: "loki_ingester_replication_factor"
+          value: "${ARGOCD_ENV_monitoring_loki_ingester_replication_factor}"
+
+
 
         - name: "mimir_distributor_replica_count"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_replica_count}"
