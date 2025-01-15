@@ -44,7 +44,7 @@ resource "aws_rds_cluster_parameter_group" "default" {
 }
 
 resource "random_password" "rds_master_password" {
-  length           = 20
+  length           = 30
   special          = true
   override_special = "_"
 }
