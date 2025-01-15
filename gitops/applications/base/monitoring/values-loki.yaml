@@ -8,6 +8,9 @@ loki:
       retention_period: ${ARGOCD_ENV_ctrl_cntr_loki_retention_period}
     ingester:
       max_chunk_age: ${ARGOCD_ENV_ctrl_cntr_loki_ingester_max_chunk_age}
+      lifecycler:
+        ring: 
+          replication_factor: 3
     schema_config:
       configs:
       - from: 2020-10-24
