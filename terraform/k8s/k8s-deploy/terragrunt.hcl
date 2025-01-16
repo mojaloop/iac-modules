@@ -30,6 +30,7 @@ inputs = {
   cc_cidr_block                        = local.cc_cidr_block
   coredns_bind_address                 = local.coredns_bind_address
   registry_mirror_fqdn                 = get_env("NEXUS_FQDN")
+  enable_registry_mirror               = true
   
   identity_provider_config_name    = "Zitadel"
   kubernetes_oidc_enabled          = get_env("KUBERNETES_OIDC_ENABLED")
