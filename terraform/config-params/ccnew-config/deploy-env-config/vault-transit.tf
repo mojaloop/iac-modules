@@ -45,6 +45,15 @@ path "${vault_mount.transit.path}/encrypt/${vault_transit_secret_backend_key.uns
 path "${vault_mount.transit.path}/decrypt/${vault_transit_secret_backend_key.unseal_key[each.value].name}" {
   capabilities = [ "update" ]
 }
+
+path "${vault_mount.transit.path}/encrypt/unseal-key-${each.value}-migrated" {
+  capabilities = [ "update" ]
+}
+
+path "${vault_mount.transit.path}/decrypt/unseal-key-${each.value}-migrated" {
+  capabilities = [ "update" ]
+}
+
 EOT
 }
 
