@@ -151,12 +151,12 @@ locals {
   KV_SECRET_PATH                = get_env("KV_SECRET_PATH")
   VAULT_GITLAB_ROOT_TOKEN       = get_env("ENV_VAULT_TOKEN")
   TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")
-  MIG_TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("MIG_TRANSIT_VAULT_UNSEAL_KEY_NAME)
+  MIG_TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("MIG_TRANSIT_VAULT_UNSEAL_KEY_NAME")
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
   VAULT_ADDR                    = get_env("VAULT_ADDR")
   ceph_fqdn                     = get_env("CEPH_OBJECTSTORE_FQDN")
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
-  migrate                       = get_env("MIGRATE)
+  migrate                       = get_env("MIGRATE")
   argocd_ingress_internal_lb    = true
   grafana_ingress_internal_lb   = true
   vault_ingress_internal_lb     = true
