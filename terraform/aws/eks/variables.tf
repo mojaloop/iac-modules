@@ -333,6 +333,16 @@ variable "coredns_bind_address" {
   default     = "169.254.20.10"
 }
 
+variable "container_registry_mirrors" {
+  type    = list(string)
+  default = ["docker.io", "ghcr.io", "quay.io", "k8s.gcr.io"]
+}
+
+variable "enable_registry_mirror" {
+  type    = bool
+  default = false
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###
