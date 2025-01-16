@@ -17,7 +17,7 @@ if [[ -n "${netbird_version}" && -n "${netbird_api_host}" && -n "${netbird_setup
     sudo iptables -t nat -I POSTROUTING -s ${pod_network_cidr} -o wt0 -j MASQUERADE
 fi
 
-# Container registry proxy configurations
+# Nexus Container registry proxy configurations
 container_registry_mirrors="{{ container_registry_mirrors }}"
 enable_registry_mirror={{ enable_registry_mirror }}
 if [[ "${enable_registry_mirror,,}" == "true" && -n "${registry_mirror_fqdn}" ]]; then
