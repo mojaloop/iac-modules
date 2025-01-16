@@ -21,12 +21,12 @@ fi
 container_registry_mirrors="{{container_registry_mirrors}}"
 if [[ "${enable_registry_mirror}" == "true" && -n "${registry_mirror_fqdn}" ]]; then
     IFS=' ' read -r -a registry_array <<< "${container_registry_mirrors}"
-    for registry in ${container_registry_mirrors}; do
+    for registry in "${registry_array[@]}"; do
         config_dir="/etc/containerd/certs.d/${registry}/"
         config_file="${config_dir}/hosts.toml"
 
         sudo mkdir -p "$config_dir"
-        sudo tee "$config_file" <<EOF
+        sudo tee "$config_file" > /dev/null <<EOF
 server = "https://${registry}"
 [host."https://${registry_mirror_fqdn}"]
 capabilities = ["pull", "resolve"]
