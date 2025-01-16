@@ -240,13 +240,3 @@ resource "gitlab_repository_file" "vault_token_update" {
   author_name    = "Terraform"
   commit_message = "tf_trigger: vault_token_update"
 }
-
-#migration
-resource "gitlab_project_variable" "migrate" {
-  for_each  = local.environment_list  
-  project   = gitlab_project.envs[each.key].id
-  key       = "MIGRATE"
-  value     = "false"
-  protected = false
-  masked    = false
-}
