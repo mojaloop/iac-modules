@@ -81,6 +81,8 @@ metrics:
   serviceMonitor:
     ## @param metrics.serviceMonitor.enabled Create ServiceMonitor Resource for scraping metrics using Prometheus Operator
     enabled: true
+  readinessProbe: ${try(jsonencode(resource.local_helm_config.metrics_readiness_probe),"{}")}
+  livenessProbe: ${try(jsonencode(resource.local_helm_config.metrics_liveness_probe),"{}")}
 
 readinessProbe: ${try(jsonencode(resource.local_helm_config.readiness_probe),"{}")}
 livenessProbe: ${try(jsonencode(resource.local_helm_config.liveness_probe),"{}")}
