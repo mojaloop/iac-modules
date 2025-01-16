@@ -18,7 +18,7 @@ if [[ -n "${netbird_version}" && -n "${netbird_api_host}" && -n "${netbird_setup
 fi
 
 # Nexus Container registry proxy configurations
-container_registry_mirrors="{{container_registry_mirrors}}"
+container_registry_mirrors="${container_registry_mirrors}"
 if [[ "${enable_registry_mirror}" == "true" && -n "${registry_mirror_fqdn}" ]]; then
     # Split the container_registry_mirrors into an array
     IFS=' ' read -r -a registry_array <<< "${container_registry_mirrors}"
