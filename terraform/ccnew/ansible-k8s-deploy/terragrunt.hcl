@@ -76,7 +76,7 @@ inputs = {
    coredns_localcache_version = local.common_vars.coredns_localcache_version},
   (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
-    microk8s_version       = try(local.env_vars.microk8s_version, "1.31/stable")
+    microk8s_version       = try(local.env_vars.microk8s_version, "1.30/stable")
     microk8s_dev_skip      = try(local.env_vars.microk8s_dev_skip, false)
     kubernetes_oidc_enabled = try(local.env_vars.kubernetes_oidc_enabled, false)
   } : {})
