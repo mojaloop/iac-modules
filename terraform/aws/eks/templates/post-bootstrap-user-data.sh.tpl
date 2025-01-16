@@ -18,8 +18,8 @@ if [[ -n "${netbird_version}" && -n "${netbird_api_host}" && -n "${netbird_setup
 fi
 
 # Nexus Container registry proxy configurations
-container_registry_mirrors="{{container_registry_mirrors}}"
-enable_registry_mirror={{enable_registry_mirror}}
+container_registry_mirrors="${container_registry_mirrors}"
+enable_registry_mirror="${enable_registry_mirror}"
 if [[ "${enable_registry_mirror,,}" == "true" && -n "${registry_mirror_fqdn}" ]]; then
     for registry in ${container_registry_mirrors}; do
         config_dir="/etc/containerd/certs.d/${registry}/"
