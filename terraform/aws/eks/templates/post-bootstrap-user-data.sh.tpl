@@ -18,8 +18,8 @@ if [[ -n "${netbird_version}" && -n "${netbird_api_host}" && -n "${netbird_setup
 fi
 
 # Nexus Container registry proxy configurations
-container_registry_mirrors="${container_registry_mirrors}"
-if [[ "$${enable_registry_mirror}" == "true" && -n "$${registry_mirror_fqdn}" ]]; then
+if [[ "${enable_registry_mirror}" == "true" && -n "${registry_mirror_fqdn}" ]]; then
+    container_registry_mirrors="${container_registry_mirrors}"
     # Split the container_registry_mirrors into an array
     IFS=' ' read -r -a registry_array <<< "$${container_registry_mirrors}"
 
@@ -34,11 +34,11 @@ if [[ "$${enable_registry_mirror}" == "true" && -n "$${registry_mirror_fqdn}" ]]
         # Write the configuration to the file
         sudo tee "$config_file" > /dev/null <<EOF
 server = "https://$${registry}"
-[host."https://$${registry_mirror_fqdn}"]
+[host."https://${registry_mirror_fqdn}"]
 capabilities = ["pull", "resolve"]
 EOF
     done
 
-    # Restart containerd to apply the changes
+    # Restart containerd
     sudo systemctl restart containerd
 fi
