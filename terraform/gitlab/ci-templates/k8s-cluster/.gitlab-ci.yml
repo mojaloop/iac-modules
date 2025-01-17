@@ -65,13 +65,13 @@ cache:
     - git config --global credential.helper 'store --file ~/.gitcredentials.store'
     - git submodule sync --recursive
     - git submodule update --init --recursive
-    - if [ $migrate == "true" ]; then .gitlab/scripts/get-artifacts.sh; fi
     - source $(which gitlab-terraform)
     - .gitlab/scripts/config-merge.sh
     - yq eval '.' $CONFIG_PATH/cluster-config.yaml -o=json > cluster-config.json
     - yq eval '.' $CONFIG_PATH/addons-vars.yaml -o=json > addons-vars.yaml
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./cluster-config.json); do export $var; done
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./addons-vars.yaml); do export $var; done
+    - if [ $migrate == "true" ]; then .gitlab/scripts/get-artifacts.sh; fi    
     - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
     - export $cloud_platform_client_secret_name="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/cloud_platform_client_secret)"
     - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
