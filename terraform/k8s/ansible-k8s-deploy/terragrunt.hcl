@@ -20,7 +20,6 @@ dependency "k8s_deploy" {
     bastion_ssh_key             = "key"
     bastion_os_username         = "null"
     bastion_public_ip           = "null"
-    haproxy_server_fqdn         = "null"
   }
   skip_outputs = local.skip_outputs
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
