@@ -3,6 +3,7 @@ wireguard_port: 31821
 dns_provider: none
 create_ext_dns_user: false
 create_iam_user: false
+external_dns_cloud_role: "arn:ext-dns-cloud-role"
 ext_dns_cloud_policy: "arn:policy"
 object_storage_cloud_role: "arn:obj-store-role"
 backup_bucket_name: storage-bucket
