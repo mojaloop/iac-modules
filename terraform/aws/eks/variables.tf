@@ -15,7 +15,7 @@ variable "domain" {
 variable "kubernetes_version" {
   description = "version of k8s"
   type        = string
-  default     = "1.31"
+  default     = "1.30"
 }
 variable "ext_interop_switch_subdomain" {
   description = "subdomain for interop ext"
@@ -331,6 +331,21 @@ variable "coredns_bind_address" {
   type        = string
   description = "link-local address (part of the 169.254.0.0/16 range) and is reserved for communication within the node itself or between nodes in the local network"
   default     = "169.254.20.10"
+}
+
+variable "registry_mirror_fqdn" {
+  type        = string
+  description = "fqdn for registry mirror"
+  default     = ""
+}
+variable "container_registry_mirrors" {
+  type    = list(string)
+  default = ["docker.io", "ghcr.io", "quay.io", "k8s.gcr.io"]
+}
+
+variable "enable_registry_mirror" {
+  type    = bool
+  default = false
 }
 
 ###

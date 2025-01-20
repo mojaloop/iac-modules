@@ -26,7 +26,7 @@ dependency "k8s_deploy" {
     ext_dns_cloud_policy        = "null"
     object_storage_cloud_role   = "null"
     object_storage_bucket_name  = "null"
-    private_subnets             = "null"
+    private_subnets             = ["null"]
     vpc_id                      = "null"  
     target_group_internal_https_port = 0
     target_group_internal_http_port = 0
@@ -76,9 +76,11 @@ inputs = {
    coredns_localcache_version = local.common_vars.coredns_localcache_version},
   (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
-    microk8s_version       = try(local.env_vars.microk8s_version, "1.31/stable")
+    microk8s_version       = try(local.env_vars.microk8s_version, "1.30/stable")
     microk8s_dev_skip      = try(local.env_vars.microk8s_dev_skip, false)
     kubernetes_oidc_enabled = try(local.env_vars.kubernetes_oidc_enabled, false)
+    enable_rook_disk_reset = true
+    rook_disk_vol = try(local.env_vars.rook_disk_vol, "none")
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps) 
   bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml.tpl", merge({

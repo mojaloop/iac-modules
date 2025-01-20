@@ -281,6 +281,9 @@ data "template_file" "post_bootstrap_user_data" {
     netbird_api_host  = var.netbird_api_host
     netbird_setup_key = var.netbird_setup_key
     pod_network_cidr  = var.vpc_cidr
+    container_registry_mirrors = join(" ", var.container_registry_mirrors)
+    enable_registry_mirror     = var.enable_registry_mirror
+    registry_mirror_fqdn       = var.registry_mirror_fqdn
   }
 }
 

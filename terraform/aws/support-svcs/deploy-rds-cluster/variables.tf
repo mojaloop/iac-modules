@@ -185,7 +185,7 @@ variable "password" {
 variable "manage_master_user_password" {
   description = "Set to true to allow RDS to manage the master user password in Secrets Manager"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "master_user_secret_kms_key_id" {
