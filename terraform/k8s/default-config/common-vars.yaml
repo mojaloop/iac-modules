@@ -36,6 +36,7 @@ prometheus_pvc_size: 50Gi
 loki_retention_enabled: true
 loki_ingester_retention_period: 72h
 loki_ingester_max_chunk_age: 2h
+loki_ingester_replication_factor: "5"
 prometheus_retention_period: 10d
 tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
