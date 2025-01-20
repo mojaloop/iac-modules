@@ -42,6 +42,7 @@ metrics:
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
 ingester:
+  replicaCount: ${loki_ingester_replica_count}
   persistence:
     size: ${loki_ingester_pvc_size}
     storageClass: ${storage_class_name}
@@ -62,6 +63,7 @@ compactor:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]  
 distributor:
+  replicaCount: ${loki_distributor_replica_count}
   extraArgs: ["-config.expand-env"]
   extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
   nodeAffinityPreset:

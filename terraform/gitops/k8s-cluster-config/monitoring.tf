@@ -48,6 +48,8 @@ module "generate_monitoring_files" {
     loki_ingester_retention_period         = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     loki_ingester_max_chunk_age            = try(var.common_var_map.loki_ingester_max_chunk_age, local.loki_ingester_max_chunk_age)
     loki_ingester_replication_factor       = try(var.common_var_map.loki_ingester_replication_factor, local.loki_ingester_replication_factor)
+    loki_distributor_replica_count         = try(var.common_var_map.loki_distributor_replica_count, local.loki_distributor_replica_count)
+    loki_ingester_replica_count            = try(var.common_var_map.loki_ingester_replica_count, local.loki_ingester_replica_count)
     prometheus_retention_period            = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                   = try(var.common_var_map.alertmanager_enabled, false)
     alertmanager_slack_integration_enabled = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
@@ -161,6 +163,8 @@ locals {
   loki_ingester_retention_period      = "72h"
   loki_ingester_max_chunk_age         = "2h"
   loki_ingester_replication_factor    = "3"
+  loki_distributor_replica_count      = "2"
+  loki_ingester_replica_count         = "3"
   prometheus_retention_period         = "10d"
   tempo_retention_period              = "72h"
   prom_tsdb_min_block_duration        = "30m"
