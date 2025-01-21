@@ -49,10 +49,10 @@ netbird_log_level: info
 
 nexus_public_access: false
 nexus_storage_size: 30Gi
-nexus_cpu_limit: "2000m"  #https://help.sonatype.com/en/sonatype-nexus-repository-system-requirements.html#UUID-fc21e0ee-c297-0311-0105-1383dfc28a38_bridgehead-idm23446974390921 increase if required
-nexus_memory_limit: "4Gi"
-nexus_cpu_request: "4000m"
-nexus_memory_request: "8Gi"
+nexus_cpu_limit: "4000m"   #https://help.sonatype.com/en/sonatype-nexus-repository-system-requirements.html#UUID-fc21e0ee-c297-0311-0105-1383dfc28a38_bridgehead-idm23446974390921 increase if required
+nexus_memory_limit: "8Gi"
+nexus_cpu_request: "2000m"
+nexus_memory_request: "4Gi"
 
 zitadel_public_access: true
 consul_storage_size: "3Gi"
