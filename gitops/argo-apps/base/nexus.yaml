@@ -70,4 +70,7 @@ spec:
           value: "${ARGOCD_ENV_nexus_nexus_cpu_request}"
 
         - name: "nexus_memory_request"
-          value: "${ARGOCD_ENV_nexus_nexus_memory_request}"       
+          value: "${ARGOCD_ENV_nexus_nexus_memory_request}" 
+
+        - name: "nexus_image_version"
+          value: "${ARGOCD_ENV_nexus_nexus_image_version}"

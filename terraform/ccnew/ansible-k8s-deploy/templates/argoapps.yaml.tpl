@@ -165,6 +165,7 @@ argocd_override:
       sub_apps:
         nexus:
           helm_version: "${nexus_helm_version}"
+          image_version: "${nexus_image_version}"
           public_ingress_access_domain: "${nexus_public_access}"
           storage_size: "${nexus_storage_size}"
           cpu_limit: "${nexus_cpu_limit}"

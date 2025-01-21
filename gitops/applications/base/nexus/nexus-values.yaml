@@ -1,7 +1,7 @@
 image:
   repository: sonatype/nexus3
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}
-  tag: "3.75.1"
+  tag: ${ARGOCD_ENV_nexus_image_version}
   pullPolicy: IfNotPresent
   pullSecrets: []
 
