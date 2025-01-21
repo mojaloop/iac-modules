@@ -58,4 +58,16 @@ spec:
           value: "${ARGOCD_ENV_nexus_nexus_dns_subdomain}"
 
         - name: "nexus_storage_size"
-          value: "${ARGOCD_ENV_nexus_nexus_storage_size}"          
+          value: "${ARGOCD_ENV_nexus_nexus_storage_size}" 
+
+        - name: "nexus_cpu_limit"
+          value: "${ARGOCD_ENV_nexus_nexus_cpu_limit}"
+
+        - name: "nexus_memory_limit"
+          value: "${ARGOCD_ENV_nexus_nexus_memory_limit}"
+
+        - name: "nexus_cpu_request"
+          value: "${ARGOCD_ENV_nexus_nexus_cpu_request}"
+
+        - name: "nexus_memory_request"
+          value: "${ARGOCD_ENV_nexus_nexus_memory_request}"       

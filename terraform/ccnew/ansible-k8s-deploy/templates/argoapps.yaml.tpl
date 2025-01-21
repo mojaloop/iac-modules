@@ -167,6 +167,10 @@ argocd_override:
           helm_version: "${nexus_helm_version}"
           public_ingress_access_domain: "${nexus_public_access}"
           storage_size: "${nexus_storage_size}"
+          nexus_cpu_limit: "${nexus_cpu_limit}"
+          nexus_memory_limit: "${nexus_memory_limit}"
+          nexus_cpu_request: "${nexus_cpu_request}"
+          nexus_memory_request: "${nexus_memory_request}"          
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
 
