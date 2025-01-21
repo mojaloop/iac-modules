@@ -10,16 +10,14 @@ server:
 
   ha:
     enabled: true
+    raft:
+      enabled: true
     config: |
       ui = true
       listener "tcp" {
         tls_disable = 1
         address = "[::]:8200"
         cluster_address = "[::]:8201"
-      }
-      storage "consul" {
-        path = "vault"
-        address = "consul-server.${ARGOCD_ENV_consul_namespace}.svc.cluster.local:8500"
       }
       service_registration "kubernetes" {}
 
