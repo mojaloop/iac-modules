@@ -54,3 +54,4 @@ tags:
 gitlab_admin_rbac_group: tenant-admins
 gitlab_readonly_rbac_group: tenant-viewers
 coredns_bind_address: "169.254.20.10"
+single_nat_gateway: true

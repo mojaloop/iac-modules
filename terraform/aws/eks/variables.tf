@@ -348,6 +348,11 @@ variable "enable_registry_mirror" {
   default = false
 }
 
+variable "single_nat_gateway" {
+  type    = bool
+  default = true
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###

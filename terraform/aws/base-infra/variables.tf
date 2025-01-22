@@ -119,6 +119,10 @@ variable "private_subdomain_string" {
   default = "int"
 }
 
+variable "single_nat_gateway" {
+  type    = bool
+  default = true
+}
 
 ###
 # Local copies of variables to allow for parsing
