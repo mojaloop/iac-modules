@@ -18,7 +18,7 @@ module "vpc" {
   enable_dns_hostnames          = true
   enable_dns_support            = true
   enable_nat_gateway            = true
-  single_nat_gateway            = true
+  single_nat_gateway            = var.single_nat_gateway
   one_nat_gateway_per_az        = false
   reuse_nat_ips                 = false
   manage_default_security_group = false
@@ -94,28 +94,28 @@ resource "aws_launch_template" "bastion" {
 
   tag_specifications {
     resource_type = "instance"
-    tags = merge({ 
-      Name = "${local.cluster_domain}-bastion" 
+    tags = merge({
+      Name = "${local.cluster_domain}-bastion"
     }, local.common_tags)
   }
 
   tag_specifications {
     resource_type = "volume"
-    tags = merge({ 
-      Name = "${local.cluster_domain}-bastion" 
+    tags = merge({
+      Name = "${local.cluster_domain}-bastion"
     }, local.common_tags)
   }
 
   tag_specifications {
     resource_type = "network-interface"
-    tags = merge({ 
-      Name = "${local.cluster_domain}-bastion" 
+    tags = merge({
+      Name = "${local.cluster_domain}-bastion"
     }, local.common_tags)
   }
 
   lifecycle {
     ignore_changes = [
-      image_id  # Equivalent to ignoring changes to 'ami' in aws_instance
+      image_id # Equivalent to ignoring changes to 'ami' in aws_instance
     ]
   }
 }
@@ -123,10 +123,10 @@ resource "aws_launch_template" "bastion" {
 
 #  Create an Auto Scaling Group (ASG)
 resource "aws_autoscaling_group" "bastion_asg" {
-  name                = "${local.cluster_domain}-bastion"
-  min_size            = var.bastion_asg_config.min_size
-  desired_capacity    = var.bastion_asg_config.desired_capacity
-  max_size            = var.bastion_asg_config.max_size
+  name             = "${local.cluster_domain}-bastion"
+  min_size         = var.bastion_asg_config.min_size
+  desired_capacity = var.bastion_asg_config.desired_capacity
+  max_size         = var.bastion_asg_config.max_size
 
   vpc_zone_identifier = module.vpc.public_subnets
 
@@ -136,7 +136,7 @@ resource "aws_autoscaling_group" "bastion_asg" {
   }
 
   health_check_type         = "EC2"
-  health_check_grace_period = 300  # Allow 5 minutes for instance to become healthy
+  health_check_grace_period = 300 # Allow 5 minutes for instance to become healthy
 
   tag {
     key                 = "Name"

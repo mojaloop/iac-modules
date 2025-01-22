@@ -31,6 +31,8 @@ inputs = {
   coredns_bind_address                 = local.coredns_bind_address
   registry_mirror_fqdn                 = get_env("NEXUS_FQDN")
   enable_registry_mirror               = true
+  single_nat_gateway                   = try(local.env_vars.single_nat_gateway, true)
+
   
   identity_provider_config_name    = "Zitadel"
   kubernetes_oidc_enabled          = get_env("KUBERNETES_OIDC_ENABLED")

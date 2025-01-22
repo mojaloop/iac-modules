@@ -23,6 +23,7 @@ module "base_infra" {
   bastion_ami                = module.ubuntu_jammy_ami.id
   create_haproxy_dns_record  = var.create_haproxy_dns_record
   block_size                 = var.block_size
+  single_nat_gateway         = var.single_nat_gateway
   bastion_asg_config = {
     name             = "bastion"
     desired_capacity = var.bastion_instance_number
@@ -229,12 +230,12 @@ locals {
           xvda = {
             device_name = "/dev/xvda"
             ebs = {
-            volume_size           = node_pool.storage_gbs
-            volume_type           = "gp3"
-            iops                  = 3000
-            throughput            = 150
-            encrypted             = true
-            delete_on_termination = true
+              volume_size           = node_pool.storage_gbs
+              volume_type           = "gp3"
+              iops                  = 3000
+              throughput            = 150
+              encrypted             = true
+              delete_on_termination = true
             }
           }
         },
@@ -277,10 +278,10 @@ data "template_file" "post_bootstrap_user_data" {
   template = file("${path.module}/templates/post-bootstrap-user-data.sh.tpl")
 
   vars = {
-    netbird_version   = var.netbird_version
-    netbird_api_host  = var.netbird_api_host
-    netbird_setup_key = var.netbird_setup_key
-    pod_network_cidr  = var.vpc_cidr
+    netbird_version            = var.netbird_version
+    netbird_api_host           = var.netbird_api_host
+    netbird_setup_key          = var.netbird_setup_key
+    pod_network_cidr           = var.vpc_cidr
     container_registry_mirrors = join(" ", var.container_registry_mirrors)
     enable_registry_mirror     = var.enable_registry_mirror
     registry_mirror_fqdn       = var.registry_mirror_fqdn
@@ -293,7 +294,7 @@ data "aws_ami" "eks_default" {
 
   filter {
     name   = "name"
-    values = ["amazon-eks-node-${var.kubernetes_version}-v20241106"]  # putting exact name for avoiding accidental ami change - until the long term fix
+    values = ["amazon-eks-node-${var.kubernetes_version}-v20241106"] # putting exact name for avoiding accidental ami change - until the long term fix
   }
 }
 

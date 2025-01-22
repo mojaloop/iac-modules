@@ -23,6 +23,7 @@ module "base_infra" {
   bastion_ami                = module.ubuntu_jammy_ami.id
   create_haproxy_dns_record  = var.create_haproxy_dns_record
   block_size                 = var.block_size
+  single_nat_gateway         = var.single_nat_gateway
   bastion_asg_config = {
     name             = "bastion"
     desired_capacity = var.bastion_instance_number
@@ -75,7 +76,7 @@ resource "aws_launch_template" "node" {
   instance_type = each.value.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
   key_name      = module.base_infra.key_pair_name
-  
+
   dynamic "iam_instance_profile" {
     for_each = var.create_csi_role ? [1] : []
     content {
@@ -85,7 +86,7 @@ resource "aws_launch_template" "node" {
   # iam_instance_profile {
   #   name = module.post_config.csi_instance_profile
   # }
-  
+
   block_device_mappings {
     device_name = "/dev/sda1"
 
