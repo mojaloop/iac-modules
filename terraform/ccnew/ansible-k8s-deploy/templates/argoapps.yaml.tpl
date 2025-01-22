@@ -165,8 +165,13 @@ argocd_override:
       sub_apps:
         nexus:
           helm_version: "${nexus_helm_version}"
+          image_version: "${nexus_image_version}"
           public_ingress_access_domain: "${nexus_public_access}"
           storage_size: "${nexus_storage_size}"
+          cpu_limit: "${nexus_cpu_limit}"
+          memory_limit: "${nexus_memory_limit}"
+          cpu_request: "${nexus_cpu_request}"
+          memory_request: "${nexus_memory_request}"          
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
 
