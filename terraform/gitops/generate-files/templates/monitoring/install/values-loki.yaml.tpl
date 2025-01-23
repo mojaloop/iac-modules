@@ -8,6 +8,9 @@ loki:
       retention_period: ${loki_ingester_retention_period}
     ingester: 
       max_chunk_age: ${loki_ingester_max_chunk_age}
+      lifecycler:
+        ring: 
+          replication_factor: ${loki_ingester_replication_factor}
     query_scheduler:
       max_outstanding_requests_per_tenant: 2048
     schema_config:
@@ -39,6 +42,7 @@ metrics:
 
 # NOTE: make sure all components which are running have node affinity enabled for monitoring nodes
 ingester:
+  replicaCount: ${loki_ingester_replica_count}
   persistence:
     size: ${loki_ingester_pvc_size}
     storageClass: ${storage_class_name}
@@ -59,6 +63,7 @@ compactor:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]  
 distributor:
+  replicaCount: ${loki_distributor_replica_count}
   extraArgs: ["-config.expand-env"]
   extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
   nodeAffinityPreset:
