@@ -2,6 +2,7 @@ global:
   namespace: "${ARGOCD_ENV_netbird_namespace}"
 
 management:
+  enabled: false
   configmap: |-
     {
       "Stuns": [
