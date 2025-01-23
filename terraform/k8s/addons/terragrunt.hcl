@@ -8,6 +8,7 @@ inputs = {
   clusterConfig            = merge(local.clusterConfig, {
     gitlabUrl              = get_env("GITLAB_PROVIDER_URL")
     gitlabProjectUrl       = get_env("GITLAB_PROJECT_URL")
+    domainSuffix           = "${replace(local.clusterConfig.env,"/^.*(-[^-]+)$|^[^-]+([^-]{3})$/","$1$2")}.${local.clusterConfig.domain}"
   })
 }
 
