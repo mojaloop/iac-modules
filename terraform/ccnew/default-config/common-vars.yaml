@@ -65,6 +65,7 @@ vault_selfsigned_ca_cert_duration: "4320h"
 vault_selfsigned_ca_cert_renewbefore: "2160h"
 vault_internal_tls_cert_duration: "2160h"
 vault_internal_tls_cert_renewbefore: "24h"
+vault_pvc_size: 15Gi
 
 kube_prometheus_helm_version: "9.5.10"
 grafana_mimir_helm_version: "1.2.10"

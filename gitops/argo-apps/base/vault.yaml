@@ -98,3 +98,6 @@ spec:
 
         - name: "vault_internal_tls_cert_renewbefore"
           value: "${ARGOCD_ENV_vault_vault_vault_internal_tls_cert_renewbefore}"
+
+        - name: "vault_pvc_size"
+          value: "${ARGOCD_ENV_vault_vault_vault_pvc_size}"

@@ -110,6 +110,7 @@ argocd_override:
           vault_selfsigned_ca_cert_renewbefore: "${vault_selfsigned_ca_cert_renewbefore}"
           vault_internal_tls_cert_duration: "${vault_internal_tls_cert_duration}"
           vault_internal_tls_cert_renewbefore: "${vault_internal_tls_cert_renewbefore}"
+          vault_pvc_size: "${vault_pvc_size}"
         vault_config_operator:
           helm_version: "${vault_config_operator_helm_version}"
     security:
