@@ -86,3 +86,15 @@ spec:
 
         - name: "vault_log_level"
           value: "${ARGOCD_ENV_vault_vault_vault_log_level}"
+
+        - name: "vault_selfsigned_ca_cert_duration"
+          value: "${ARGOCD_ENV_vault_vault_vault_selfsigned_ca_cert_duration}"
+
+        - name: "vault_selfsigned_ca_cert_renewbefore"
+          value: "${ARGOCD_ENV_vault_vault_vault_selfsigned_ca_cert_renewbefore}"
+
+        - name: "vault_internal_tls_cert_duration"
+          value: "${ARGOCD_ENV_vault_vault_vault_internal_tls_cert_duration}"
+
+        - name: "vault_internal_tls_cert_renewbefore"
+          value: "${ARGOCD_ENV_vault_vault_vault_internal_tls_cert_renewbefore}"

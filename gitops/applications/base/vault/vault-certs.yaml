@@ -54,8 +54,8 @@ spec:
   - server auth
   - client auth
   dnsNames:
-  - "*.vault-internal.${ARGOCD_ENV_vault_namespace}.svc.cluster.local"
-  - "*.vault-internal"
-  - "*.vault"
+  - "*.${ARGOCD_ENV_vault_app_name}-internal.${ARGOCD_ENV_vault_namespace}.svc.cluster.local"
+  - "*.${ARGOCD_ENV_vault_app_name}-internal"
+  - "*.${ARGOCD_ENV_vault_app_name}"
   ipAddresses:
   - 127.0.0.1
