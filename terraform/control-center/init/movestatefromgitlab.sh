@@ -1,4 +1,4 @@
-terragrunt run-all init -migrate-state
+terragrunt run-all init -upgrade
 
 cat <<'EOT' >terragrunt.hcl
 skip = true

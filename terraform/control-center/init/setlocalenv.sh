@@ -1,4 +1,4 @@
-yq '.' environment.yaml > environment.json
+yq eval '.' environment.yaml -o=json > environment.json
 for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)"' ./environment.json); do export $var; done
 export IAC_TERRAFORM_MODULES_TAG=$iac_terraform_modules_tag
 export IAC_TEMPLATES_TAG=$IAC_TERRAFORM_MODULES_TAG
