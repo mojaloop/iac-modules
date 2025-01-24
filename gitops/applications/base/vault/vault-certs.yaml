@@ -1,0 +1,61 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigned
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vault-selfsigned-ca
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  issuerRef:
+    name: selfsigned
+    kind: Issuer
+    group: cert-manager.io
+  isCA: true
+  commonName: selfsigned-ca
+  secretName: selfsigned-ca-cert
+  duration: ${ARGOCD_ENV_vault_selfsigned_ca_cert_duration}
+  renewBefore: ${ARGOCD_ENV_vault_selfsigned_ca_cert_renewbefore}
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigned-ca-issuer
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  ca:
+    secretName: selfsigned-ca-cert
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vault-internal-tls
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  issuerRef:
+    name: selfsigned-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+  secretName: vault-internal-tls
+  duration: ${ARGOCD_ENV_vault_internal_tls_cert_duration}
+  renewBefore: ${ARGOCD_ENV_vault_internal_tls_cert_renewbefore}
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages:
+  - server auth
+  - client auth
+  dnsNames:
+  - "*.vault-internal.${ARGOCD_ENV_vault_namespace}.svc.cluster.local"
+  - "*.vault-internal"
+  - "*.vault"
+  ipAddresses:
+  - 127.0.0.1
