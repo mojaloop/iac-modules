@@ -31,7 +31,7 @@ metadata:
 data:
   bootstrap.sh: |
     #!/bin/bash
-    export VAULT_ADDR=http://127.0.0.1:8200
+    export VAULT_ADDR=https://127.0.0.1:8200
     export VAULT_SKIP_VERIFY=true
     while true;do
       curl --connect-timeout 15 -s $VAULT_ADDR/v1/sys/health?sealedcode\=204&uninitcode=\204 > /dev/null && break
@@ -86,7 +86,7 @@ spec:
             - "-c"
           args:
             - >
-              export VAULT_ADDR="http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200";
+              export VAULT_ADDR="https://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200";
               export VAULT_SKIP_VERIFY=true;
               vault login -no-print $VAULT_ROOT_TOKEN;
               vault kv put -mount=$VAULT_KV_SECRET_PATH cloud-api-access cloud_platform_api_client_id=${ARGOCD_ENV_cloud_platform_api_client_id} cloud_platform_api_client_secret=${ARGOCD_ENV_cloud_platform_api_client_secret};
