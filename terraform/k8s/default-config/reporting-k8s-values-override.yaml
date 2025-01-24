@@ -1,0 +1,10 @@
+templates:
+  settlement: true
+  dfspSettlement: true
+  dfspSettlementDetail: true
+  reconciliationAmount: true
+  settlementWindow: true
+  settlementInitiation: true
+  transactionReconciliation: true
+  dfspSettlementStatement: true
+  settlementAudit: true

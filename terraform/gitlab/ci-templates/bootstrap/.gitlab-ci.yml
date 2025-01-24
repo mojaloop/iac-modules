@@ -1,5 +1,5 @@
 include:
-  - template: Terraform/Base.latest.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
+  - template: Terraform/Base.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
 workflow:
   rules:
     - if: $CI_MERGE_REQUEST_IID
@@ -38,6 +38,7 @@ variables:
   CC_TEMPLATE_PATH: terraform/control-center/init
   CC_TMP_GIT_REPO: /tmp/git-cc-iac-templates
   CC_TMP_TEMPLATES_DIR: /tmp/cc-iac-templates
+  IGNORE_TF_DEPRECATION_WARNING: true
 
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 

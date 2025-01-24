@@ -21,7 +21,7 @@ variable "ansible_bastion_os_username" {
 
 variable "ansible_base_output_dir" {
   description = "where to read/write ansible inv/etc"
-  default = "/iac-run-dir/output"
+  #default = "/iac-run-dir/output"
 }
 variable "gitlab_hosts" {
   type = map

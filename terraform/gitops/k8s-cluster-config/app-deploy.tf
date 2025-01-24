@@ -60,6 +60,7 @@ module "mojaloop" {
   rbac_api_resources_file              = var.rbac_api_resources_file
   mojaloop_values_override_file        = var.mojaloop_values_override_file
   finance_portal_values_override_file  = var.finance_portal_values_override_file
+  reporting_k8s_values_override_file   = var.reporting_k8s_values_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
   platform_stateful_res_config         = module.config_deepmerge.merged
@@ -275,6 +276,10 @@ variable "mojaloop_values_override_file" {
 }
 
 variable "finance_portal_values_override_file" {
+  type = string
+}
+
+variable "reporting_k8s_values_override_file" {
   type = string
 }
 

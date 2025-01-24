@@ -29,22 +29,6 @@ resource "gitlab_project" "bootstrap" {
   shared_runners_enabled = true
 }
 
-resource "gitlab_project_variable" "iam_user_key_id" {
-  project   = gitlab_project.bootstrap.id
-  key       = "AWS_ACCESS_KEY_ID"
-  value     = var.iac_user_key_id
-  protected = true
-  masked    = true
-}
-
-resource "gitlab_project_variable" "iam_user_key_secret" {
-  project   = gitlab_project.bootstrap.id
-  key       = "AWS_SECRET_ACCESS_KEY"
-  value     = var.iac_user_key_secret
-  protected = true
-  masked    = true
-}
-
 resource "gitlab_project_variable" "iac_templates_tag" {
   project   = gitlab_project.bootstrap.id
   key       = "IAC_TEMPLATES_TAG"
@@ -57,14 +41,6 @@ resource "gitlab_project_variable" "iac_terraform_modules_tag" {
   project   = gitlab_project.bootstrap.id
   key       = "IAC_TERRAFORM_MODULES_TAG"
   value     = var.iac_terraform_modules_tag
-  protected = true
-  masked    = false
-}
-
-resource "gitlab_project_variable" "control_center_cloud_provider" {
-  project   = gitlab_project.bootstrap.id
-  key       = "CONTROL_CENTER_CLOUD_PROVIDER"
-  value     = var.control_center_cloud_provider
   protected = true
   masked    = false
 }

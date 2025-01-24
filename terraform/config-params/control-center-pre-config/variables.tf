@@ -1,13 +1,3 @@
-
-variable "iac_user_key_secret" {
-  sensitive   = true
-  description = "iam user key secret"
-}
-
-variable "iac_user_key_id" {
-  description = "iam user keyid"
-}
-
 variable "gitlab_admin_rbac_group" {
   type        = string
   description = "rbac group in gitlab for admin access via oidc"
@@ -64,9 +54,6 @@ variable "iac_terraform_modules_tag" {
 }
 variable "iac_templates_tag" {
   description = "tag for repo for templates"
-}
-variable "control_center_cloud_provider" {
-  description = "control_center_cloud_provider"
 }
 
 variable "minio_fqdn" {

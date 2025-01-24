@@ -33,3 +33,5 @@ helmCharts:
   repo: https://mojaloop.github.io/reporting-k8s-templates
   namespace: ${mojaloop_namespace}
   includeCRDs: false
+  additionalValuesFiles:
+  - values-reporting-k8s-override.yaml

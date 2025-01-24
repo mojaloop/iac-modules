@@ -1,7 +1,7 @@
 resource "vault_jwt_auth_backend" "gitlab_secrets" {
     description         = "Gitlab JWT for external secrets"
     path                = var.gitlab_runner_jwt_path
-    jwks_url            = "https://${var.gitlab_hostname}/-/jwks"
+    jwks_url            = "https://${var.gitlab_hostname}/oauth/discovery/keys"
     bound_issuer        = "https://${var.gitlab_hostname}"
 }
 
