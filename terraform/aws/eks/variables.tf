@@ -15,8 +15,15 @@ variable "domain" {
 variable "kubernetes_version" {
   description = "version of k8s"
   type        = string
-  default     = "1.30"
+  default     = "1.31"
 }
+
+variable "eks_node_ami_version" {
+  description = "version of eks ami"
+  type        = string
+  default     = "v20241225"
+}
+
 variable "ext_interop_switch_subdomain" {
   description = "subdomain for interop ext"
   default     = "ext"

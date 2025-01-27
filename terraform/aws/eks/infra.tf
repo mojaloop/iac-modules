@@ -294,7 +294,7 @@ data "aws_ami" "eks_default" {
 
   filter {
     name   = "name"
-    values = ["amazon-eks-node-${var.kubernetes_version}-v20241106"] # putting exact name for avoiding accidental ami change - until the long term fix
+    values = ["amazon-eks-node-${var.kubernetes_version}-${var.eks_node_ami_version}"]
   }
 }
 
