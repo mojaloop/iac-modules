@@ -215,4 +215,5 @@ dashboard:
 
 metrics:
   serviceMonitor:
-    namespace: monitoring
+    annotations: 
+      prometheus.io/scrape: "true"
