@@ -215,20 +215,5 @@ dashboard:
 
 metrics:
   serviceMonitor:
-    metricRelabelings:
-      - sourceLabels: [__name__]
-        regex: "http_requests_total"
-        action: keep
-      - sourceLabels: [pod]
-        targetLabel: instance
-        action: replace
-      - sourceLabels: [namespace, pod]
-        separator: "/"
-        targetLabel: pod_namespace
-        action: replace
-    relabelings:        
-      - targetLabel: job
-        replacement: "custom-job"
-      - regex: ".*"
-        targetLabel: unnecessary_label
-        action: drop
+    selector:
+      app.kubernetes.io/name: netbird-relay
