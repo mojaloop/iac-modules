@@ -7,8 +7,8 @@ server:
   extraVolumes:
     - type: configMap
       name: post-config
-  readinessProbe:
-    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+  # readinessProbe:
+  #   path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
   extraEnvironmentVars:
     VAULT_CACERT: /vault/userconfig/vault-ha-tls/ca.crt
     VAULT_TLSCERT: /vault/userconfig/vault-ha-tls/tls.crt
@@ -22,6 +22,8 @@ server:
     - mountPath: /vault/userconfig/vault-ha-tls
       name: userconfig-vault-ha-tls
       readOnly: true
+  standalone:
+      enabled: false      
   dataStorage:
     enabled: true
     size: ${ARGOCD_ENV_vault_pvc_size}
@@ -73,7 +75,7 @@ server:
         [
           "sh",
           "-c",
-          "cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do /tmp/bootstrap.sh; sleep 300; done",
+          "order=$(echo $HOSTNAME | awk -F'-' '{print $2}'); delay=$(($order*60 +240)); echo $delay; cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep $delay; /tmp/bootstrap.sh;   done",
         ]
       volumeMounts:
         - name: userconfig-post-config
