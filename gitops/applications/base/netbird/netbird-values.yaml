@@ -215,4 +215,4 @@ dashboard:
 
 metrics:
   serviceMonitor:
-    enabled: false
+    namespace: monitoring
