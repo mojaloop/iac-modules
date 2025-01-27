@@ -216,4 +216,4 @@ dashboard:
 metrics:
   serviceMonitor:
     selector:
-      app.kubernetes.io/name: netbird-relay
+      app.kubernetes.io/name: "netbird-relay | netbird-signal"
