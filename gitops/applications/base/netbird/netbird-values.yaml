@@ -215,7 +215,4 @@ dashboard:
 
 metrics:
   serviceMonitor:
-    labels: 
-      prometheus.io/scrape: "true"
-      prometheus.io/port: "8080"
-      prometheus.io/path: "metrics"
+    jobLabel: 'yoyo'
