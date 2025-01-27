@@ -41,8 +41,9 @@ variables:
   PIPELINE_EXECUTOR: true
   IGNORE_TF_DEPRECATION_WARNING: true
   VAULT_ADDR: https://vault-active.vault.svc.cluster.local:8200
+  VAULT_SKIP_VERIFY: true
 
-image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
+image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}    
 
 cache:
   key: "${TF_ROOT}"

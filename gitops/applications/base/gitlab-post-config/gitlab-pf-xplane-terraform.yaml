@@ -74,7 +74,8 @@ spec:
       
       provider "vault" {
         address = "https://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
-        token   = jsondecode(file("$${path.module}/vault-keys.json")).root_token 
+        token   = jsondecode(file("$${path.module}/vault-keys.json")).root_token
+        ca_cert_file = "$${path.module}/vault-ca.crt"
       }
 
       provider "gitlab" {
