@@ -215,5 +215,5 @@ dashboard:
 
 metrics:
   serviceMonitor:
-    jobLabel: 'yoyo'
-    honorLabels: true
+    interval: 1m
+    scrapeTimeout: 30s
