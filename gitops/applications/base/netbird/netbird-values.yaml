@@ -216,3 +216,4 @@ dashboard:
 metrics:
   serviceMonitor:
     jobLabel: 'yoyo'
+    honorLabels: true
