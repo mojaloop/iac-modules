@@ -22,7 +22,7 @@ resources:
   - ../../../base/xplane-provider-config.yaml
   # vault
   - ../../../base/vault.yaml
-  # - ../../../base/vault-post-config.yaml
+  - ../../../base/vault-post-config.yaml
   # # dns-utils
   # - ../../../base/dns-utils.yaml
   # - ../../../base/dns-utils-post-config.yaml
