@@ -1,5 +1,5 @@
 global:
-   tlsDisable: false  
+   tlsDisable: true  
 server:
   enabled: true
   dev:
@@ -9,10 +9,6 @@ server:
       name: post-config
   # readinessProbe:
   #   path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
-  extraEnvironmentVars:
-    VAULT_CACERT: /vault/userconfig/vault-ha-tls/ca.crt
-    VAULT_TLSCERT: /vault/userconfig/vault-ha-tls/tls.crt
-    VAULT_TLSKEY: /vault/userconfig/vault-ha-tls/tls.key
   volumes:
     - name: userconfig-vault-ha-tls
       secret:
@@ -35,32 +31,20 @@ server:
       config: |
         ui = true
         listener "tcp" {
-            tls_disable = 0
+            tls_disable = 1
             address = "[::]:8200"
             cluster_address = "[::]:8201"
-            tls_cert_file = "/vault/userconfig/vault-ha-tls/tls.crt"
-            tls_key_file  = "/vault/userconfig/vault-ha-tls/tls.key"
-            tls_client_ca_file = "/vault/userconfig/vault-ha-tls/ca.crt"
         }
         storage "raft" {
             path = "/vault/data"
             retry_join {
-              leader_api_addr = "https://${ARGOCD_ENV_vault_app_name}-0.${ARGOCD_ENV_vault_app_name}-internal:8200"
-              leader_ca_cert_file = "/vault/userconfig/vault-ha-tls/ca.crt"
-              leader_client_cert_file = "/vault/userconfig/vault-ha-tls/tls.crt"
-              leader_client_key_file = "/vault/userconfig/vault-ha-tls/tls.key"
+              leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-0.${ARGOCD_ENV_vault_app_name}-internal:8200"
             }
             retry_join {
-              leader_api_addr = "https://${ARGOCD_ENV_vault_app_name}-1.${ARGOCD_ENV_vault_app_name}internal:8200"
-              leader_ca_cert_file = "/vault/userconfig/vault-ha-tls/ca.crt"
-              leader_client_cert_file = "/vault/userconfig/vault-ha-tls/tls.crt"
-              leader_client_key_file = "/vault/userconfig/vault-ha-tls/tls.key"
+              leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-1.${ARGOCD_ENV_vault_app_name}internal:8200"
             }
             retry_join {
-              leader_api_addr = "https://${ARGOCD_ENV_vault_app_name}-2.${ARGOCD_ENV_vault_app_name}-internal:8200"
-              leader_ca_cert_file = "/vault/userconfig/vault-ha-tls/ca.crt"
-              leader_client_cert_file = "/vault/userconfig/vault-ha-tls/tls.crt"
-              leader_client_key_file = "/vault/userconfig/vault-ha-tls/tls.key"
+              leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-2.${ARGOCD_ENV_vault_app_name}-internal:8200"
             }
         }
         disable_mlock = true
