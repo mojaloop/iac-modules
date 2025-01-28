@@ -59,7 +59,7 @@ server:
         [
           "sh",
           "-c",
-          "order=$(echo $HOSTNAME | awk -F'-' '{print $2}'); delay=$(($order*60 +240)); echo $delay; cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep $delay; /tmp/bootstrap.sh;   done",
+          "order=$(echo $HOSTNAME | awk -F'-' '{print $2}'); delay=$(($order*60 +60)); echo $delay; cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep $delay; /tmp/bootstrap.sh;   done",
         ]
       volumeMounts:
         - name: userconfig-post-config
