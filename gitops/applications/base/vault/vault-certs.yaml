@@ -58,5 +58,6 @@ spec:
   - "*.${ARGOCD_ENV_vault_app_name}-internal"
   - "*.${ARGOCD_ENV_vault_app_name}"
   - "*.${ARGOCD_ENV_vault_namespace}.svc.cluster.local"
+  - "*.raft02.ccv2.drpp.global" 
   ipAddresses:
   - 127.0.0.1
