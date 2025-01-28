@@ -166,7 +166,7 @@ spec:
       }      
       
       provider "vault" {
-        address = "https://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
+        address = "http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
         token   = jsondecode(file("$${path.module}/vault-keys.json")).root_token
       }
 

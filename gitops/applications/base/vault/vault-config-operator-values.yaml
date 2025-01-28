@@ -9,7 +9,7 @@ nameOverride: ""
 fullnameOverride: ""
 env:
   - name: VAULT_ADDR
-    value: https://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200
+    value: http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200
   - name: VAULT_SKIP_VERIFY
     value: "true"
 args: []
