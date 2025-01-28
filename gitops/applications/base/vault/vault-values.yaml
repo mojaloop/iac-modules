@@ -9,10 +9,6 @@ server:
       name: post-config
   # readinessProbe:
   #   path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
-  volumeMounts:
-    - mountPath: /vault/userconfig/vault-ha-tls
-      name: userconfig-vault-ha-tls
-      readOnly: true
   standalone:
       enabled: false      
   dataStorage:
