@@ -67,7 +67,6 @@ spec:
         name: ${ARGOCD_ENV_vault_keys_secret}
         key: vault-keys.json
 
-
     - filename: .terraformrc
       source: Secret
       secretRef:
