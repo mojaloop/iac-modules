@@ -67,12 +67,6 @@ spec:
         name: ${ARGOCD_ENV_vault_keys_secret}
         key: vault-keys.json
 
-    - filename: vault-ca.crt
-      source: Secret
-      secretRef:
-        namespace: ${ARGOCD_ENV_vault_namespace}
-        name: vault-internal-tls
-        key: ca.crt
 
     - filename: .terraformrc
       source: Secret
@@ -106,7 +100,6 @@ spec:
       provider "vault" {
         address = "https://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
         token   = var.root_token
-        ca_cert_file = "$${path.module}/vault-ca.crt"
       }
 
       provider "zitadel" {

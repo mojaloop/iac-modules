@@ -9,11 +9,6 @@ server:
       name: post-config
   # readinessProbe:
   #   path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
-  volumes:
-    - name: userconfig-vault-ha-tls
-      secret:
-        defaultMode: 420
-        secretName: vault-internal-tls
   volumeMounts:
     - mountPath: /vault/userconfig/vault-ha-tls
       name: userconfig-vault-ha-tls
