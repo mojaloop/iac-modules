@@ -2,6 +2,9 @@ global:
   namespace: "${ARGOCD_ENV_netbird_namespace}"
 
 management:
+  metrics:
+    enabled: true
+    port: 9091
   configmap: |-
     {
       "Stuns": [
