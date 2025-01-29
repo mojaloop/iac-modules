@@ -2,9 +2,6 @@ global:
   namespace: "${ARGOCD_ENV_netbird_namespace}"
 
 management:
-  metrics:
-    enabled: true
-    port: 9091
   configmap: |-
     {
       "Stuns": [
@@ -164,6 +161,9 @@ management:
       - --port=80
       - --dns-domain=netbird.selfhosted"
 signal:
+  metrics:
+    enabled: true
+    port: 9091
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
