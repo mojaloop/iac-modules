@@ -215,11 +215,11 @@ dashboard:
           name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
           key: netbird_client_id
 
-  # podCommand:
-  #   args:
-  #   - >
-  #     sed -i 's/listen \[\:\:\]\:80 default_server\;//g' /etc/nginx/http.d/default.conf &&
-  #     /usr/bin/supervisord -c /etc/supervisord.conf
+  podCommand:
+    args:
+    - >
+      sed -i 's/listen \[\:\:\]\:80 default_server\;//g' /etc/nginx/http.d/default.conf &&
+      /usr/bin/supervisord -c /etc/supervisord.conf
 
 
 metrics:
