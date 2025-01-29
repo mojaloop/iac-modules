@@ -93,7 +93,7 @@ management:
         }
       },
       "StoreConfig": {
-        "Engine": "sqlite"
+        "Engine": "postgres"
       },
       "ReverseProxy": {
         "TrustedHTTPProxies": null,
@@ -110,6 +110,8 @@ management:
   persistentVolume:
     enabled: true
     size: 5Gi
+  env:
+    NETBIRD_STORE_CONFIG_ENGINE: postgres
   envRaw:
     - name: NETBIRD_CLI_CLIENT_ID
       valueFrom:
@@ -151,6 +153,11 @@ management:
         secretKeyRef:
           name: ${ARGOCD_ENV_netbird_relay_secret}
           key: ${ARGOCD_ENV_netbird_relay_secret_key}
+    - name: NETBIRD_STORE_ENGINE_POSTGRES_DSN
+      valueFrom:
+        secretKeyRef:
+          name: ${ARGOCD_ENV_netbird_dsn_secret_name}
+          key: ${ARGOCD_ENV_netbird_dsn_secret_key}
 
   podCommand:
     args:
