@@ -161,6 +161,29 @@ argocd_override:
           cc_vpc_cidr: "${vpc_cidr}"
           ansible_collection_tag: ${netbird_ansible_collection_tag}
           netbird_tf_provider_version: "${netbird_tf_provider_version}"
+          rdbms_provider: "${netbird_rdbms_provider}"
+        netbird_percona_provider:
+          postgres_replicas: "${netbird_postgres_replicas}"
+          postgres_proxy_replicas: "${netbird_postgres_proxy_replicas}"          
+          postgres_storage_size: "${netbird_postgres_storage_size}"
+          pgdb_helm_version: "${netbird_pgdb_helm_version}"
+        netbird_rds_provider:
+          engine: "${netbird_rds_engine}"
+          engine_version: "${netbird_rds_engine_version}"
+          replica_count: "${netbird_rds_replica_count}"                     
+          postgres_instance_class: "${netbird_rds_instance_class}"
+          storage_encrypted: "${netbird_rds_storage_encrypted}"
+          skip_final_snapshot: "${netbird_rds_skip_final_snapshot}"        
+          rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
+          db_provider_cloud_region: "${cloud_region}"
+          rdbms_vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
+          postgres_instance_size: "${netbird_postgres_instance_size}"
+          postgres_storage_size: "${netbird_rds_postgres_storage_size}"         
+          backup_retention_period: "${netbird_db_backup_retention_period}"
+          preferred_backup_window: "${netbird_db_preferred_backup_window}"
+          storage_type: "${netbird_db_storage_type}"
+          storage_iops: "${netbird_db_storage_iops}"
     nexus:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
