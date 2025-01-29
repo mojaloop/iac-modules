@@ -185,7 +185,7 @@ relay:
     NB_AUTH_SECRET: ${ARGOCD_ENV_netbird_relay_secret}/${ARGOCD_ENV_netbird_relay_secret_key}
   metrics:
     enabled: true
-    
+
 dashboard:
   enabled: true
   ingress:
@@ -220,3 +220,8 @@ dashboard:
     - >
       sed -i 's/listen \[\:\:\]\:80 default_server\;//g' /etc/nginx/http.d/default.conf &&
       /usr/bin/supervisord -c /etc/supervisord.conf
+
+
+metrics:
+  serviceMonitor:
+    enabled: true
