@@ -214,6 +214,8 @@ dashboard:
         secretKeyRef:
           name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
           key: netbird_client_id
+  podCommand:
+    args: []
 
   # podCommand:
   #   args:
