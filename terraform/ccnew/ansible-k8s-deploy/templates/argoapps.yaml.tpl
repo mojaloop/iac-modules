@@ -19,6 +19,7 @@ argocd_override:
           osd_count: "${rook_ceph_osd_count}"
           volume_size_per_osd: "${rook_ceph_volume_size_per_osd}"
           csi_driver_replicas: "${rook_ceph_csi_driver_replicas}"
+          csi_driver_helm_version: "${rook_ceph_csi_driver_helm_version}"
           objects_replica_count: "${rook_ceph_objects_replica_count}"
           volumes_provider: "${rook_ceph_volumes_provider}"
           volumes_storage_region: "${cloud_region}"

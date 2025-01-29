@@ -91,6 +91,9 @@ spec:
           - name: csi_driver_replicas
             value: "${ARGOCD_ENV_utils_rook_ceph_csi_driver_replicas}"
 
+          - name: csi_driver_helm_version
+            value: "${ARGOCD_ENV_utils_rook_ceph_csi_driver_helm_version}"
+
           - name: kubelet_dir_path
             value: "${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}"
 
