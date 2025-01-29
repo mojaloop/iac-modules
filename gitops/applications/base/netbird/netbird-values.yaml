@@ -108,7 +108,7 @@ management:
   ingressGrpc:
     enabled: false
   persistentVolume:
-    enabled: true
+    enabled: false
     size: 5Gi
   env:
     NETBIRD_STORE_CONFIG_ENGINE: postgres
