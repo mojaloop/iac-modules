@@ -161,14 +161,14 @@ management:
       - --port=80
       - --dns-domain=netbird.selfhosted"
 signal:
-  metrics:
-    enabled: true
-    port: 9091
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
     enabled: false
 relay:
+  metrics:
+    enabled: true
+    port: 9091
   enabled: true
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
