@@ -1,0 +1,23 @@
+config:
+
+  # Enable Kyverno to touch resources in kube-system namespace
+  resourceFiltersExcludeNamespaces:
+  - kube-system
+
+  # Enable Kyverno to watch resources in kube-system namespace
+  webhooks:
+    namespaceSelector:
+      matchExpressions: {}
+
+reportsController:
+  rbac:
+    coreClusterRole:
+      extraResources:
+      - apiGroups:
+        - '*'
+        resources:
+        - '*'
+        verbs:
+        - get
+        - list
+        - watch
