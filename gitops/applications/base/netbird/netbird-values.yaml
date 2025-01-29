@@ -160,11 +160,17 @@ management:
       - --disable-anonymous-metrics=true
       - --port=80
       - --dns-domain=netbird.selfhosted"
+  metrics:
+    enabled: true
+
 signal:
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
     enabled: false
+  metrics:
+    enabled: true
+
 relay:
   enabled: true
   image:
@@ -177,7 +183,9 @@ relay:
     NB_LISTEN_ADDRESS: ":33080"
   envFromSecret:
     NB_AUTH_SECRET: ${ARGOCD_ENV_netbird_relay_secret}/${ARGOCD_ENV_netbird_relay_secret_key}
-
+  metrics:
+    enabled: true
+    
 dashboard:
   enabled: true
   ingress:
