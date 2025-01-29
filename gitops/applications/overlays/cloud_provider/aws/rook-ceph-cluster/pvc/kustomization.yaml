@@ -10,3 +10,4 @@ helmCharts:
     repo: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
     namespace: kube-system
     valuesFile: aws-ebs-csi-driver-values.yaml
+    version: ${ARGOCD_ENV_aws_ebs_csi_driver_helm_version}
