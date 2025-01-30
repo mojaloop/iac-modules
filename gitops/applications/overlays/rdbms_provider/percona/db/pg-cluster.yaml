@@ -81,7 +81,7 @@ spec:
           schedules:
             full: "0 0 * * 6"
             differential: "0 1 * * 1-6"
-            #ncremental: "0 1 * * 1-6"
+            #incremental: "0 1 * * 1-6"
       restore:
         enabled: false
         repoName: objectstore
@@ -93,7 +93,7 @@ spec:
   proxy:
     pgBouncer:
       replicas: 1
-      image: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbouncer1.23.1
+      image: percona/percona-postgresql-operator:2.4.0-ppg16.3-pgbouncer1.22.1
       port: 5432
       affinity:
         podAntiAffinity:
