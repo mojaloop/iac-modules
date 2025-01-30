@@ -78,6 +78,7 @@ spec:
             endpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
             bucket: "${ARGOCD_ENV_dbdeploy_name_prefix}-backups"
             region: us-east-1
+          storage:
             verify-ssl: n
           schedules:
             full: "0 0 * * 6"
