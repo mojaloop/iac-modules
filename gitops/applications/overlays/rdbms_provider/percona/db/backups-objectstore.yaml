@@ -98,5 +98,5 @@ spec:
       data:
         s3.conf: |
           [global]
-          objectstore-s3-key={{.AWS_ACCESS_KEY_ID}}
-          objectstore-s3-key-secret={{.AWS_SECRET_ACCESS_KEY}}
+          repo1-s3-key={{.AWS_ACCESS_KEY_ID}}
+          repo1-s3-key-secret={{.AWS_SECRET_ACCESS_KEY}}
