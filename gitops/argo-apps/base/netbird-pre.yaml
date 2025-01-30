@@ -111,7 +111,7 @@ spec:
           - name: "netbird_relay_secret_key"
             value: "${ARGOCD_ENV_security_netbird_relay_secret_key}"
 
-          - name: "db_secret_name"
+          - name: "db_secret"
             value: "${ARGOCD_ENV_security_netbird_db_secret}"
 
           - name: "netbird_dsn_secret_name"
