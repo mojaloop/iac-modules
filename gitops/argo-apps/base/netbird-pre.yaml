@@ -229,4 +229,4 @@ spec:
             value: "${ARGOCD_ENV_security_netbird_externalservice_name}"
 
           - name: max_prepared_statements
-            value: "0"
+            value: "1"
