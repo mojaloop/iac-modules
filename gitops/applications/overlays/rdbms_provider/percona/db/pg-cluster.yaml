@@ -89,7 +89,6 @@ spec:
         #  - '--set=20250129-134851F'
         #  - --type=time
         #  - --target="2025-01-30 15:12:11+03"
-    trackLatestRestorableTime: true
   proxy:
     pgBouncer:
       replicas: ${ARGOCD_ENV_postgres_proxy_replicas}
