@@ -8,7 +8,6 @@ helmCharts:
     # version: ${ARGOCD_ENV_netbird_helm_version}
     version: 1.5.6
     repo: https://totmicro.github.io/helms
-    # repo: https://muzammil360.github.io/totmicro-helms
     valuesFile: netbird-values.yaml
 
 patches:
