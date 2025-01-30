@@ -428,6 +428,11 @@ spec:
               server.enable.proxy.extension: "true"
               reposerver.enable.git.submodule: "false"
               applicationsetcontroller.enable.git.submodule: "false"
+
+              #Enable Server-Side Diff so argocd play nicely with Kyverno mutating webhooks:
+              #https://argo-cd.readthedocs.io/en/stable/user-guide/diff-strategies/#mutation-webhooks
+              controller.diff.server.side: "true"
+
             cmp:
               create: true
               plugins:
