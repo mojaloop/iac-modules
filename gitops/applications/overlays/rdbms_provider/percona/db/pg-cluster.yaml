@@ -61,7 +61,7 @@ spec:
       manual:
         options:
           - '--type=full'
-        repoName: repo1
+        repoName: repo2
       repoHost:
         affinity:
           podAntiAffinity:
@@ -83,6 +83,15 @@ spec:
             full: "0 0 * * 6"
             differential: "0 1 * * 1-6"
             #incremental: "0 1 * * 1-6"
+        - name: repo2
+          volume:
+            volumeClaimSpec:
+              accessModes:
+              - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 10Gi
+               
       restore:
         enabled: false
         repoName: repo1
