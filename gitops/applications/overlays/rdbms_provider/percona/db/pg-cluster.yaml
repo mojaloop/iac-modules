@@ -92,7 +92,7 @@ spec:
     trackLatestRestorableTime: true
   proxy:
     pgBouncer:
-      replicas: 1
+      replicas: ${ARGOCD_ENV_postgres_proxy_replicas}
       image: percona/percona-postgresql-operator:2.4.0-ppg16.3-pgbouncer1.22.1
       port: 5432
       affinity:
@@ -106,7 +106,7 @@ spec:
               weight: 1
       config:
         global:
-          max_prepared_statements: '1'
+          max_prepared_statements: "${ARGOCD_ENV_max_prepared_statements}"
           pool_mode: transaction
           query_wait_timeout: '600'
       exposeSuperusers: true
