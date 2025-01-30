@@ -75,10 +75,10 @@ spec:
       repos:
         - name: repo1
           s3:
-            endpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+            #endpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+            endpoint: "https://rook-ceph-bucket.int.cc04.cc28.mojaloop.live"
             bucket: "${ARGOCD_ENV_dbdeploy_name_prefix}-backups"
             region: us-east-1
-            verify-ssl: false
           schedules:
             full: "0 0 * * 6"
             differential: "0 1 * * 1-6"
