@@ -52,3 +52,5 @@ resources:
   - ../../../base/monitoring-post-config.yaml
   # k8s
   - ../../../base/k8s-post-config.yaml
+  # kyverno
+  - ../../../base/kyverno.yaml
