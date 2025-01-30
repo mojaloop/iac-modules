@@ -1,5 +1,8 @@
 config:
 
+  # TODO
+  # If possible we should not watch and mutate kube-system but image rewrite likely needs it
+
   # Enable Kyverno to touch resources in kube-system namespace
   resourceFiltersExcludeNamespaces:
   - kube-system
