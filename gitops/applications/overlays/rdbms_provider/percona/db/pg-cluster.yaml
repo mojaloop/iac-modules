@@ -58,25 +58,19 @@ spec:
         repo1-path: /pgbackrest/${ARGOCD_ENV_dbdeploy_name_prefix}
         repo1-retention-full: '7' # keep full backups for x days
         repo1-retention-full-type: time #This is based on the total number of days you would like to keep a backup. Option 2 is count
+        #repo1-s3-uri-style: path # host - Connect to bucket.endpoint host, path - Connect to endpoint host and prepend bucket to URIs.
+        #repo1-storage-verify-tls: 'n' # Verify TLS certificate when connecting to the storage
+        #repo2-storage-port: '80'
+
       manual:
         options:
           - '--type=full'
-        repoName: repo2
-      repoHost:
-        affinity:
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-              - podAffinityTerm:
-                  labelSelector:
-                    matchLabels:
-                      postgres-operator.crunchydata.com/data: pgbackrest
-                  topologyKey: kubernetes.io/hostname
-                weight: 1
+        repoName: repo1
       repos:
         - name: repo1
           s3:
-            #endpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
-            endpoint: "https://rook-ceph-bucket.int.cc04.cc28.mojaloop.live"
+            #endpoint: s3.amazonaws.com
+            endpoint: "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
             bucket: "${ARGOCD_ENV_dbdeploy_name_prefix}-backups"
             region: us-east-1
           schedules:
@@ -91,6 +85,16 @@ spec:
               resources:
                 requests:
                   storage: 10Gi
+      repoHost:
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - podAffinityTerm:
+                  labelSelector:
+                    matchLabels:
+                      postgres-operator.crunchydata.com/data: pgbackrest
+                  topologyKey: kubernetes.io/hostname
+                weight: 1
                
       restore:
         enabled: false
