@@ -86,3 +86,9 @@ spec:
 
         - name: "netbird_relay_secret_key"
           value: "${ARGOCD_ENV_security_netbird_relay_secret_key}"
+
+        - name: "netbird_dsn_secret_name"
+          value: "${ARGOCD_ENV_security_netbird_dsn_secret_name}"
+
+        - name: "netbird_dsn_secret_key"
+          value: "${ARGOCD_ENV_security_netbird_dsn_secret_key}"          
