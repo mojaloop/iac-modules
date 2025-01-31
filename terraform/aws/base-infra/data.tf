@@ -43,5 +43,5 @@ data "aws_instances" "bastion_instances" {
   instance_tags = {
     Name = "${local.cluster_domain}-bastion"
   }
-  depends_on    = [aws_autoscaling_group.bastion_asg]
+  depends_on = [aws_autoscaling_group.bastion_asg]
 }
