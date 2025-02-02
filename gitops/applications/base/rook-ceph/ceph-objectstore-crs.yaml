@@ -15,7 +15,7 @@ spec:
       codingChunks: 1
   gateway:
     port: 80
-    # securePort: 443
-    # sslCertificateRef:
+    securePort: 443
+    sslCertificateRef: objectstore-internal-tls
     instances: 1
     priorityClassName: system-cluster-critical
