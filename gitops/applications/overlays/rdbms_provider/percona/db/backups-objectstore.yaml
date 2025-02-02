@@ -7,7 +7,7 @@ spec:
   bucketName: "${ARGOCD_ENV_dbdeploy_name_prefix}-backups"
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000000"
+    # maxObjects: "1000000"
     maxSize: "10Gi"
 
 ---
