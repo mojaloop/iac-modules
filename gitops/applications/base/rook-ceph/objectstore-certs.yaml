@@ -1,0 +1,59 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigned-issuer
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: objectstore-selfsigned-ca
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+spec:
+  commonName: objectstore-selfsigned-ca
+  isCA: true
+  duration: 87600h
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: selfsigned-issuer
+    kind: Issuer
+    group: cert-manager.io
+  secretName: selfsigned-ca-cert
+
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigned-ca-issuer
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+spec:
+  ca:
+    secretName: selfsigned-ca-cert
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: objectstore-internal-tls
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+spec:
+  issuerRef:
+    name: selfsigned-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+  secretName: objectstore-internal-tls
+  duration: 87600h
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages:
+  - server auth
+  - client auth
+  dnsNames:
+  - "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+  - "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+  ipAddresses:
+  - 127.0.0.1
