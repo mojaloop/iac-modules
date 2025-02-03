@@ -73,7 +73,7 @@ spec:
                     operator: In
                     values:
                       - rook-ceph-osd-prepare
-        resources:
+        #resources:
         # These are the OSD daemon limits. For OSD prepare limits, see the separate section below for "prepareosd" resources
         #   limits:
         #     memory: "4Gi"
@@ -92,7 +92,7 @@ spec:
               accessModes:
                 - ReadWriteOnce
     onlyApplyOSDPlacement: false
-  resources:
+  #resources:
   #  prepareosd:
   #    requests:
   #      cpu: "200m"
