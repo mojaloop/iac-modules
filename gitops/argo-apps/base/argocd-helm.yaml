@@ -35,7 +35,7 @@ spec:
 
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_utils_argocd_namespace}
+    namespace: ${ARGOCD_ENV_utils_argocd_helm_namespace}
 
   sources:
     - chart: argo-cd
