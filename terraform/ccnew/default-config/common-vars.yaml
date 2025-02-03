@@ -12,11 +12,32 @@ reloader_helm_version: "1.0.67"
 crossplane_helm_version: "1.16.0"
 kubernetes_secret_generator_helm_version: "3.4.0"
 zitadel_helm_version: "8.5.0"
-cockroachdb_helm_version: "13.0.2"
-netbird_helm_version: "1.5.1"
-netbird_image_version: "0.31.1"
-netbird_client_version: "0.31.1"
+netbird_helm_version: "1.5.6"
+netbird_image_version: "0.36.5"
+netbird_client_version: "0.36.5"
 netbird_dashboard_image_version: "v2.7.0"
+#netbird db settings
+netbird_rdbms_provider: "percona"
+#netbird db percona specific
+netbird_perc_postgres_replicas: "'1'"
+netbird_perc_postgres_proxy_replicas: "'1'"
+netbird_perc_pgdb_helm_version: "2.4.0"
+netbird_perc_postgres_storage_size: "20Gi"
+#netbird db rds specific
+netbird_rds_engine: "aurora-postgresql"
+netbird_rds_engine_version: "'16'"
+netbird_rds_replica_count: "'1'"
+netbird_rds_instance_class: "db.t3.medium"
+netbird_rds_storage_encrypted: "'true'"
+netbird_rds_skip_final_snapshot: "'true'"
+netbird_rds_postgres_storage_size: "'100'"
+netbird_rds_storage_type: "io1"
+netbird_rds_storage_iops: "'5000'"
+#netbird db backup settings
+netbird_db_backup_retention_period: "'1'"
+netbird_db_preferred_backup_window: "07:00-09:00"
+#end db settings
+
 stunner_gateway_operator_helm_version: "0.19.0"
 nexus_helm_version: "4.44.0"
 cert_manager_helm_version: 1.15.0
@@ -50,7 +71,7 @@ netbird_log_level: info
 nexus_image_version: 3.75.1
 nexus_public_access: false
 nexus_storage_size: 30Gi
-nexus_cpu_limit: "4000m"   #https://help.sonatype.com/en/sonatype-nexus-repository-system-requirements.html#UUID-fc21e0ee-c297-0311-0105-1383dfc28a38_bridgehead-idm23446974390921 increase if required
+nexus_cpu_limit: "4000m" #https://help.sonatype.com/en/sonatype-nexus-repository-system-requirements.html#UUID-fc21e0ee-c297-0311-0105-1383dfc28a38_bridgehead-idm23446974390921 increase if required
 nexus_memory_limit: "8Gi"
 nexus_cpu_request: "2000m"
 nexus_memory_request: "4Gi"
@@ -97,7 +118,7 @@ mimir_ingestion_rate: "'200000'"
 mimir_ingestion_burst_size: "'500000'"
 mimir_retention_period: "7d"
 mimir_compactor_deletion_delay: "12h"
-mimir_alerts_notification_receiver: "slack" # options: slack, jira, blackhole. blackhole disables 
+mimir_alerts_notification_receiver: "slack" # options: slack, jira, blackhole. blackhole disables
 
 mimir_distributor_replica_count: "'4'"
 mimir_ingester_replica_count: "'4'"
@@ -160,25 +181,11 @@ loki_query_scheduler_limits_memory: "192Mi"
 loki_compactor_limits_cpu: "150m"
 loki_compactor_limits_memory: "192Mi"
 
-
-
 gitlab_helm_version: "8.1.2"
 gitlab_public_access: true
 gitlab_redis_cluster_size: "'3'"
 gitlab_redis_storage_size: "'5Gi'"
-gitlab_postgres_replicas: "'1'"
-gitlab_postgres_proxy_replicas: "'1'"
-gitlab_postgres_storage_size: "10Gi"
-gitlab_rds_postgres_storage_size: "'100'"
-gitlab_postgres_instance_size: "small"
-gitlab_pgdb_helm_version: "2.4.0"
 gitlab_token_ttl_days: "'14'"
-gitlab_praefect_postgres_replicas: "'1'"
-gitlab_praefect_postgres_proxy_replicas: "'1'"
-gitlab_praefect_postgres_storage_size: "10Gi"
-gitlab_praefect_rds_postgres_storage_size: "'100'"
-gitlab_praefect_postgres_instance_size: "small"
-gitlab_praefect_pgdb_helm_version: "2.4.0"
 git_lfs_max_objects: "'1000000'"
 git_lfs_storage_size: "10Gi"
 gitlab_artifacts_max_objects: "'1000000'"
@@ -202,29 +209,45 @@ gitlab_runner_cache_storage_size: "10Gi"
 gitlab_gitlab_admin_rbac_group: "gitlab_administrators"
 gitlab_gitlab_user_rbac_group: "gitlab_users"
 gitaly_storage_size: "10Gi"
+# gitlab db settings
 gitlab_postgres_rdbms_provider: "percona"
-#gitlab rds
+#gitlab db rds specific
 gitlab_rds_engine: "aurora-postgresql"
 gitlab_rds_engine_version: "'16'"
 gitlab_rds_replica_count: "'1'"
 gitlab_rds_instance_class: "db.t3.medium"
 gitlab_rds_storage_encrypted: "'true'"
 gitlab_rds_skip_final_snapshot: "'true'"
+gitlab_rds_postgres_storage_size: "'100'"
+gitlab_rds_storage_type: "io1"
+gitlab_rds_storage_iops: "'5000'"
+#gitlab db backup settings
 gitlab_db_backup_retention_period: "'1'"
 gitlab_db_preferred_backup_window: "07:00-09:00"
-gitlab_db_storage_type: "io1" 
-gitlab_db_storage_iops: "'5000'" 
-#praefect rds
+#gitlab db percona specific
+gitlab_perc_postgres_replicas: "'1'"
+gitlab_perc_postgres_proxy_replicas: "'1'"
+gitlab_perc_postgres_storage_size: "10Gi"
+gitlab_perc_pgdb_helm_version: "2.4.0"
+#praefect db rds specific
 praefect_rds_engine: "aurora-postgresql"
 praefect_rds_engine_version: "'16'"
 praefect_rds_replica_count: "'1'"
 praefect_rds_instance_class: "db.t3.medium"
 praefect_rds_storage_encrypted: "'true'"
 praefect_rds_skip_final_snapshot: "'true'"
+praefect_rds_postgres_storage_size: "'100'"
+praefect_rds_storage_type: "io1"
+praefect_rds_storage_iops: "'5000'"
+#praefect db backup settings
 praefect_db_backup_retention_period: "'1'"
 praefect_db_preferred_backup_window: "07:00-09:00"
-praefect_db_storage_type: "io1" 
-praefect_db_storage_iops: "'5000'"
+#praefect db percona specific
+praefect_perc_postgres_replicas: "'1'"
+praefect_perc_postgres_proxy_replicas: "'1'"
+praefect_perc_postgres_storage_size: "10Gi"
+praefect_perc_pgdb_helm_version: "2.4.0"
+# end of gitlab db settings
 
 ceph_bucket_max_objects: "'1000000'"
 ceph_bucket_max_size: "10Gi"
@@ -232,26 +255,30 @@ env_token_ttl: "14d"
 
 # Zitadel
 zitadel_replicas: "'2'"
+# Zitadel DB settings
 zitadel_rdbms_provider: "percona"
-zitadel_postgres_instance_size: "small"
-zitadel_postgres_storage_size: "20Gi"
+#Zitadel DB Cockroach
+cockroachdb_helm_version: "13.0.2"
 zitadel_db_storage_size: "5Gi"
-#Zitadel RDS specific
+#Zitadel DB RDS specific
 zitadel_rds_engine: "aurora-postgresql"
 zitadel_rds_engine_version: "'16'"
 zitadel_rds_replica_count: "'1'"
 zitadel_rds_instance_class: "db.t3.medium"
 zitadel_rds_storage_encrypted: "'true'"
 zitadel_rds_skip_final_snapshot: "'true'"
+zitadel_rds_postgres_storage_size: "'100'"
+zitadel_rds_storage_iops: "'5000'"
+zitadel_rds_storage_type: "io1"
+#Zitadel DB backup settings
 zitadel_db_backup_retention_period: "'1'"
 zitadel_db_preferred_backup_window: "07:00-09:00"
-zitadel_rds_postgres_storage_size: "'100'"
-zitadel_db_storage_iops: "'5000'"
-zitadel_db_storage_type: "io1"
-zitadel_postgres_replicas: "'1'"
-zitadel_postgres_proxy_replicas: "'1'"
-zitadel_pgdb_helm_version: "2.4.0"
-
+# Zitadel DB Percona specific
+zitadel_perc_postgres_replicas: "'1'"
+zitadel_perc_postgres_proxy_replicas: "'1'"
+zitadel_perc_pgdb_helm_version: "2.4.0"
+zitadel_perc_postgres_storage_size: "20Gi"
+# end of zitadel db settins
 # rook ceph
 rook_ceph_helm_version: "1.15.5"
 rook_ceph_image_version: "v18.2.4"
