@@ -11,5 +11,5 @@ spec:
     - baggage
   sampler:
     type: parentbased_traceidratio
-    argument: "1"
+    argument: "0.001"
 %{ endif ~}
