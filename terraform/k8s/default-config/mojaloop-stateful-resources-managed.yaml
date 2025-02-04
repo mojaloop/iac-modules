@@ -38,6 +38,7 @@ mcm-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: devdat1asql1
+    monolith_db_server: common-mojaloop-db
 account-lookup-db:
   external_resource_config:
     password_key_name: account_lookup_password
@@ -78,6 +79,7 @@ account-lookup-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: account_lookup
+    monolith_db_server: common-mojaloop-db    
 central-ledger-db:
   external_resource_config:
     password_key_name: central_ledger_password
@@ -118,6 +120,7 @@ central-ledger-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: central_ledger
+    monolith_db_server: common-mojaloop-db    
 bulk-mongodb:
   external_resource_config:
     cluster_size: 1
@@ -266,7 +269,8 @@ keycloak-db:
       mojaloop/cost_center: mlf-iac-sandbox
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
-    username: keycloak      
+    username: keycloak
+    monolith_db_server: common-mojaloop-db          
 keto-db:
   external_resource_config:
     password_key_name: keto_password
@@ -307,6 +311,7 @@ keto-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: keto
+    monolith_db_server: common-mojaloop-db    
 kratos-db:
   external_resource_config:
     password_key_name: kratos_password
@@ -346,4 +351,5 @@ kratos-db:
       mojaloop/cost_center: mlf-iac-sandbox
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
-    username: kratos       
+    username: kratos
+    monolith_db_server: common-mojaloop-db           
