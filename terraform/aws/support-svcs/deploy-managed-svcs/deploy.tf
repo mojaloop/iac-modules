@@ -18,7 +18,7 @@ module "deploy_rds" {
 
 module "deploy_rds_monolith" {
   count = length(local.monolith_rds_services) > 0  && var.managed_svc_as_monolith == true ? 1 : 0
-  source  = "../deploy-rds"
+  source  = "../deploy-rds-monolith"
   deployment_name = var.deployment_name
   tags = var.tags
   rds_services = local.monolith_rds_services
