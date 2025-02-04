@@ -5,3 +5,7 @@ output "db_instance_master_user_password" {
 output "db_instance_address" {
   value = aws_rds_cluster.rds_cluster[0].endpoint
 }
+
+output "master_username" {
+  value = aws_rds_cluster.rds_cluster[0].master_username
+}
