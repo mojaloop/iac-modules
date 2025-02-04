@@ -72,8 +72,8 @@ resource "null_resource" "init_db" {
     command = <<EOT
       mysql -h  ${module.rds[each.value.external_resource_config.monolith_db_server].db_instance_address} -u ${module.rds[each.value.external_resource_config.monolith_db_server].master_username} -p${module.rds[each.value.external_resource_config.monolith_db_server].db_instance_master_user_password} -e "
       CREATE DATABASE ${each.value.external_resource_config.db_name};
-      CREATE USER '${each.value.external_resource_config.user_name}'@'%' IDENTIFIED BY ${random_password.rds_user_password[each.key].result};
-      GRANT ALL PRIVILEGES ON ${each.value.external_resource_config.db_name}.* TO '${each.value.external_resource_config.user_name}'@'%';
+      CREATE USER '${each.value.external_resource_config.username}'@'%' IDENTIFIED BY ${random_password.rds_user_password[each.key].result};
+      GRANT ALL PRIVILEGES ON ${each.value.external_resource_config.db_name}.* TO '${each.value.external_resource_config.username}'@'%';
       FLUSH PRIVILEGES;"
     EOT
   }
