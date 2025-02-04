@@ -9,7 +9,7 @@ module "deploy_rds" {
   source  = "../deploy-rds"
   deployment_name = var.deployment_name
   tags = var.tags
-  rds_services = local.rds_services
+  rds_services = var.managed_svc_as_monolith ? local.monolith_rds_services : local.rds_services
   security_group_id = aws_security_group.managed_svcs[0].id
   private_subnets = module.base_infra[0].private_subnets
   managed_svc_as_monolith = var.managed_svc_as_monolith
