@@ -15,6 +15,10 @@ variable "rds_services" {
   description = "rds services to create"
 }
 
+variable "monolith_internal_databases" {
+  description = "rds databases to create in monolith server"
+}
+
 variable "security_group_id" {
   description = "which security group to attach rds to"
 }
@@ -26,6 +30,11 @@ variable "private_subnets" {
 variable "block_size" {
   type = number
   default = 3
+}
+
+variable "managed_svc_as_monolith"{
+  default    = false 
+  type       = bool
 }
 
 ###
