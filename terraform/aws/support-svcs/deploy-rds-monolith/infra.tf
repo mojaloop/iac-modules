@@ -78,5 +78,5 @@ resource "null_resource" "init_db" {
     EOT
   }
 
-  depends_on = [module.rds[each.value.external_resource_config.monolith_db_server]]
+  depends_on = [module.rds]
 }
