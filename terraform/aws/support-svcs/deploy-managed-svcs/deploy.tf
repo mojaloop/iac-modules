@@ -13,7 +13,7 @@ module "deploy_rds" {
   security_group_id = aws_security_group.managed_svcs[0].id
   private_subnets = module.base_infra[0].private_subnets
   managed_svc_as_monolith = var.managed_svc_as_monolith
-  monolith_internal_databases = var.monolith_internal_databases
+  monolith_internal_databases = local.monolith_internal_databases
 }
 
 module "deploy_msk" {

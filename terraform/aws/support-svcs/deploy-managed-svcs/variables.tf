@@ -46,9 +46,6 @@ variable "monolith_managed_stateful_resources_config_file" {
   type = string
 }
 
-variable "monolith_internal_databases" {
-  
-}
 
 ###
 # Local copies of variables to allow for parsing
