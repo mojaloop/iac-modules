@@ -1,0 +1,36 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: image-rewrite
+spec:
+  rules:
+    - name: redirect-ghcr
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              operations:
+                - CREATE
+                - UPDATE
+      mutate:
+        foreach:
+          - list: request.object.spec.containers[]
+            preconditions:
+              all:
+                - key: "{{ image_normalize(element.image) }}"
+                  operator: AnyIn
+                  value:
+                    - docker.io/*
+                    - xpkg.upbound.io/*
+            patchStrategicMerge:
+              metadata:
+                annotations:
+                  kyverno/redirect-containers-to-ghcr: applied
+              spec:
+                containers:
+                  - name: "{{ element.name }}"
+                    env:
+                      - name: ORIGINAL_IMAGE
+                        value: "{{ element.image }}"
+                    image: 'ghcr.io/mojaloop/infra/{{ images.containers."{{element.name}}".path}}:{{images.containers."{{element.name}}".tag}}'
