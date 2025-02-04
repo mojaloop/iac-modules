@@ -65,7 +65,7 @@ locals {
   
   external_services = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   rds_services      =  { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
-  monolith_rds_services = { for key, managed_resource in local.monolith_sts_res_vars : key => managed_resource } :
+  monolith_rds_services = { for key, managed_resource in local.monolith_sts_res_vars : key => managed_resource }
   msk_services      = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
   mongodb_services  = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mongodb" }  
   monolith_internal_databases = var.managed_svc_as_monolith ? { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" } : {}
