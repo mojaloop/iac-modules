@@ -106,25 +106,3 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
   engine             = aws_rds_cluster.rds_cluster[0].engine
   engine_version     = aws_rds_cluster.rds_cluster[0].engine_version
 }
-
-resource "random_password" "rds_user_password" {
-  for_each         = var.monolith_internal_databases
-  length           = 30
-  special          = true
-  override_special = "_"
-}
-
-resource "null_resource" "init_db" {
-  for_each  = var.monolith_internal_databases
-  provisioner "local-exec" {
-    command = <<EOT
-      mysql -h  ${aws_rds_cluster.rds_cluster[0].endpoint} -u ${var.username} -p${random_password.rds_master_password.result} -e "
-      CREATE DATABASE ${each.value.external_resource_config.db_name};
-      CREATE USER '${each.value.external_resource_config.user_name}'@'%' IDENTIFIED BY ${random_password.rds_user_password[each.key].result};
-      GRANT ALL PRIVILEGES ON ${each.value.external_resource_config.db_name}.* TO '${each.value.external_resource_config.user_name}'@'%';
-      FLUSH PRIVILEGES;"
-    EOT
-  }
-
-  depends_on = [aws_rds_cluster.rds_cluster[0]]
-}
