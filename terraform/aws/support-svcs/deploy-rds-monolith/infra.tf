@@ -70,7 +70,7 @@ resource "null_resource" "init_db" {
   for_each  = var.monolith_internal_databases
   provisioner "local-exec" {
     command = <<EOT
-      mysql -h  ${module.rds[0].db_instance_address} -u ${module.rds[0].master_username} -p${module.rds[0].db_instance_master_user_password} -e "
+      mysql -h  ${module.rds[each.value.external_resource_config.monolith_db_server].db_instance_address} -u ${module.rds[each.value.external_resource_config.monolith_db_server].master_username} -p${module.rds[each.value.external_resource_config.monolith_db_server].db_instance_master_user_password} -e "
       CREATE DATABASE ${each.value.external_resource_config.db_name};
       CREATE USER '${each.value.external_resource_config.user_name}'@'%' IDENTIFIED BY ${random_password.rds_user_password[each.key].result};
       GRANT ALL PRIVILEGES ON ${each.value.external_resource_config.db_name}.* TO '${each.value.external_resource_config.user_name}'@'%';
@@ -78,5 +78,5 @@ resource "null_resource" "init_db" {
     EOT
   }
 
-  depends_on = [module.rds[0]]
+  depends_on = [module.rds[each.value.external_resource_config.monolith_db_server]]
 }
