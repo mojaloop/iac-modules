@@ -42,6 +42,10 @@ variable "managed_svc_as_monolith"{
   type       = bool
 }
 
+variable "monolith_managed_stateful_resources_config_file" {
+  type = string
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###
@@ -51,7 +55,7 @@ locals {
   
   st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
   plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
-  monolith_sts_res_vars        =  yamldecode(fuke(var.monolith_managed_stateful_resources_config_file))
+  monolith_sts_res_vars        =  yamldecode(file(var.monolith_managed_stateful_resources_config_file))
 
   stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
 
