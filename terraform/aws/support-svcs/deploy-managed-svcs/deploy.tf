@@ -5,7 +5,7 @@ module "config_deepmerge" {
 }
 
 module "deploy_rds" {
-  count = length(local.rds_services) && var.managed_svc_as_monolith == false > 0 ? 1 : 0
+   count = length(local.rds_services) > 0 && var.managed_svc_as_monolith == false ? 1 : 0
   source  = "../deploy-rds"
   deployment_name = var.deployment_name
   tags = var.tags
@@ -17,7 +17,7 @@ module "deploy_rds" {
 }
 
 module "deploy_rds_monolith" {
-  count = length(local.monolith_rds_services) && var.managed_svc_as_monolith == true > 0 ? 1 : 0
+  count = length(local.monolith_rds_services) > 0  && var.managed_svc_as_monolith == true ? 1 : 0
   source  = "../deploy-rds"
   deployment_name = var.deployment_name
   tags = var.tags
