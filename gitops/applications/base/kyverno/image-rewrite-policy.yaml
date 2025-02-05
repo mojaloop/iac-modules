@@ -13,6 +13,11 @@ spec:
               operations:
                 - CREATE
                 - UPDATE
+      exclude:
+        any:
+        - resources:
+            namespaces:
+            - istio-ingress-ext
       mutate:
         foreach:
           - list: request.object.spec.containers[]
@@ -23,9 +28,6 @@ spec:
                   value:
                     - docker.io/*
                     - xpkg.upbound.io/*
-                - key: "{{ element.image }}"
-                  operator: NotEquals
-                  value: "auto:latest"
             patchStrategicMerge:
               metadata:
                 annotations:
