@@ -31,8 +31,6 @@ argocd_override:
         crossplane:
           helm_version: "${crossplane_helm_version}"
           debug: "${crossplane_log_level}"
-        kubernetes_secret_generator:
-          helm_version: "${kubernetes_secret_generator_helm_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
