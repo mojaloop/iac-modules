@@ -18,3 +18,4 @@ currency: ${currency}
 fxp_id: "fxp"
 core_connector_config: {}
 payment_token_adapter_config: {}
+ui_custom_config: {}
