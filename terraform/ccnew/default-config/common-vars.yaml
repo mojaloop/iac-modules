@@ -250,7 +250,7 @@ praefect_perc_pgdb_helm_version: "2.4.0"
 # end of gitlab db settings
 
 ceph_bucket_max_objects: "'1000000'"
-ceph_bucket_max_size: "10Gi"
+ceph_bucket_max_size: "30Gi"
 env_token_ttl: "14d"
 
 # Zitadel
