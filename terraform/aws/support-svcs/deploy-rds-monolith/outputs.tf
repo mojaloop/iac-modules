@@ -12,7 +12,7 @@ output "properties_var_map" {
 
 output "secrets_key_map" {
   value = {
-    or index, int_database in var.monolith_internal_databases : 
+    for index, int_database in var.monolith_internal_databases : 
       int_database.external_resource_config.password_key_name => int_database.external_resource_config.password_key_name
   }
 }
