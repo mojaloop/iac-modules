@@ -7,7 +7,7 @@ resource "aws_kms_key" "managed_db_key" {
 module "rds" {
   for_each   = var.rds_services
   #source     = "terraform-aws-modules/rds/aws"
-  source     = "../deploy-rds-cluster"
+  source     = "../deploy-rds"
   create     = true
 
   identifier = "${var.deployment_name}-${each.key}"

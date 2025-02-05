@@ -4,9 +4,9 @@ module "config_deepmerge" {
   maps    = local.stateful_resources_config_vars_list
 }
 
-module "deploy_rds" {
-   count = length(local.rds_services) > 0 && var.managed_svc_as_monolith == false ? 1 : 0
-  source  = "../deploy-rds"
+module "deploy_rds_ms" {
+  count = length(local.rds_services) > 0 && var.managed_svc_as_monolith == false ? 1 : 0
+  source  = "../deploy-rds-normal"
   deployment_name = var.deployment_name
   tags = var.tags
   rds_services = local.rds_services
