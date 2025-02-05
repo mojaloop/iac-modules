@@ -169,8 +169,8 @@ loki_distributor_limits_cpu: "150m"
 loki_distributor_limits_memory: "192Mi"
 loki_ingester_requests_cpu: "100m"
 loki_ingester_requests_memory: "256Mi"
-loki_ingester_limits_cpu: "150m"
-loki_ingester_limits_memory: "512Mi"
+loki_ingester_limits_cpu: "500m"
+loki_ingester_limits_memory: "1Gi"
 loki_querier_limits_cpu: "150m"
 loki_querier_limits_memory: "192Mi"
 loki_query_frontend_limits_cpu: "150m"
@@ -249,7 +249,7 @@ praefect_perc_pgdb_helm_version: "2.4.0"
 # end of gitlab db settings
 
 ceph_bucket_max_objects: "'1000000'"
-ceph_bucket_max_size: "10Gi"
+ceph_bucket_max_size: "30Gi"
 env_token_ttl: "14d"
 
 # Zitadel
