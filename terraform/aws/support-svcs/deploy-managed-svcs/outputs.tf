@@ -1,14 +1,14 @@
 output "secrets_var_map" {
   sensitive = true
-  value     = ( length(local.rds_services) > 0 || length(local.mongodb_services) > 0 ) ? merge(try(module.deploy_rds_ms[0].secrets_var_map,{}), try(module.deploy_mongodb[0].secrets_var_map,{})) : {}
+  value     = ( length(local.rds_services) > 0 || length(local.mongodb_services) > 0 || length(local.monolith_rds_services) > 0 ) ? merge(try(module.deploy_rds_ms[0].secrets_var_map,{}), try(module.deploy_mongodb[0].secrets_var_map,{}), try(module.deploy_rds_monolith[0].secrets_var_map,{})) : {}
 }
 
 output "properties_var_map" {
-  value = ( length(local.rds_services) > 0 || length(local.msk_services) > 0 || length(local.mongodb_services) > 0 ) ? merge(try(module.deploy_rds_ms[0].properties_var_map, {}), try(module.deploy_msk[0].properties_var_map , {}), try(module.deploy_mongodb[0].properties_var_map , {})) : {}
+  value = ( length(local.rds_services) > 0 || length(local.msk_services) > 0 || length(local.mongodb_services) > 0 || length(local.monolith_rds_services) > 0 ) ? merge(try(module.deploy_rds_ms[0].properties_var_map, {}), try(module.deploy_msk[0].properties_var_map , {}), try(module.deploy_mongodb[0].properties_var_map , {}), try(module.deploy_rds_monolith[0].properties_var_map,{})) : {}
 }
 
 output "secrets_key_map" {
-  value = ( length(local.rds_services) > 0 || length(local.mongodb_services) > 0 ) ? merge(try(module.deploy_rds_ms[0].secrets_key_map,{}), try(module.deploy_mongodb[0].secrets_key_map,{})) : {}
+  value = ( length(local.rds_services) > 0 || length(local.mongodb_services) > 0 || length(local.monolith_rds_services) > 0 ) ? merge(try(module.deploy_rds_ms[0].secrets_key_map,{}), try(module.deploy_mongodb[0].secrets_key_map,{}), try(module.deploy_rds_monolith[0].secrets_key_map,{})) : {}
 }
 
 output "bastion_hosts_var_maps" {

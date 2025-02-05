@@ -66,17 +66,17 @@ resource "random_password" "rds_user_password" {
   override_special = "_"
 }
 
-resource "null_resource" "init_db" {
-  for_each  = var.monolith_internal_databases
-  provisioner "local-exec" {
-    command = <<EOT
-      mysql -h  ${module.rds[each.value.external_resource_config.monolith_db_server].db_instance_address} -u ${module.rds[each.value.external_resource_config.monolith_db_server].master_username} -p${module.rds[each.value.external_resource_config.monolith_db_server].db_instance_master_user_password} -e "
-      CREATE DATABASE ${each.value.external_resource_config.db_name};
-      CREATE USER '${each.value.external_resource_config.username}'@'%' IDENTIFIED BY ${random_password.rds_user_password[each.key].result};
-      GRANT ALL PRIVILEGES ON ${each.value.external_resource_config.db_name}.* TO '${each.value.external_resource_config.username}'@'%';
-      FLUSH PRIVILEGES;"
-    EOT
-  }
-
-  depends_on = [module.rds]
-}
+#resource "null_resource" "init_db" {
+#  for_each  = var.monolith_internal_databases
+#  provisioner "local-exec" {
+#    command = <<EOT
+#      mysql -h  ${module.rds[each.value.external_resource_config.monolith_db_server].db_instance_address} -u ${module.rds[each.value.external_resource_config.monolith_db_server].master_username} -p${module.rds[each.value.external_resource_config.monolith_db_server].db_instance_master_user_password} -e "
+#      CREATE DATABASE ${each.value.external_resource_config.db_name};
+#      CREATE USER '${each.value.external_resource_config.username}'@'%' IDENTIFIED BY ${random_password.rds_user_password[each.key].result};
+#      GRANT ALL PRIVILEGES ON ${each.value.external_resource_config.db_name}.* TO '${each.value.external_resource_config.username}'@'%';
+#      FLUSH PRIVILEGES;"
+#    EOT
+#  }
+#
+#  depends_on = [module.rds]
+#}
