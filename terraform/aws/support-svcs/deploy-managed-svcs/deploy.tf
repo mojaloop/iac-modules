@@ -6,7 +6,7 @@ module "config_deepmerge" {
 
 module "deploy_rds_ms" {
   count = length(local.rds_services) > 0 && var.managed_svc_as_monolith == false ? 1 : 0
-  source  = "../deploy-rds-normal"
+  source  = "../deploy-rds-ms"
   deployment_name = var.deployment_name
   tags = var.tags
   rds_services = local.rds_services
