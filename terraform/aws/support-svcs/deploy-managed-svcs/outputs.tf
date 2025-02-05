@@ -13,15 +13,15 @@ output "secrets_key_map" {
 
 output "monolith_secrets_var_map" {
   sensitive = true
-  value     = ( length(local.monolith_rds_services) > 0 ) ?  try(module.deploy_rds_monolith[0].secrets_var_map,{}) : {}
+  value     = ( length(local.monolith_rds_services) > 0 ) ?  try(module.deploy_rds_monolith[0].monolith_secrets_var_map,{}) : {}
 }
 
 output "monolith_properties_var_map" {
-  value = (length(local.monolith_rds_services) > 0 ) ? try(module.deploy_rds_monolith[0].properties_var_map,{}) : {}
+  value = (length(local.monolith_rds_services) > 0 ) ? try(module.deploy_rds_monolith[0].monolith_properties_var_map,{}) : {}
 }
 
 output "monolith_secrets_key_map" {
-  value = (length(local.monolith_rds_services) > 0 ) ? try(module.deploy_rds_monolith[0].secrets_key_map,{}) : {}
+  value = (length(local.monolith_rds_services) > 0 ) ? try(module.deploy_rds_monolith[0].monolith_secrets_key_map,{}) : {}
 }
 
 output "bastion_hosts_var_maps" {
