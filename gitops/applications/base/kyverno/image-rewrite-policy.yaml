@@ -23,6 +23,9 @@ spec:
                   value:
                     - docker.io/*
                     - xpkg.upbound.io/*
+                - key: "{{ element.image }}"
+                  operator: NotEquals
+                  value: "auto:latest"
             patchStrategicMerge:
               metadata:
                 annotations:
