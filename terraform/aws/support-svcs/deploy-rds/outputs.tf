@@ -1,18 +1,11 @@
-output "secrets_var_map" {
-  sensitive = true
-  value = { for index, rds_module in module.rds :  var.rds_services[index].external_resource_config.password_key_name => rds_module.db_instance_master_user_password }
+output "db_instance_master_user_password" {
+ value = random_password.rds_master_password.result
 }
 
-output "properties_var_map" {
-  value = {
-    for index, rds_module in module.rds : 
-      var.rds_services[index].external_resource_config.instance_address_key_name => rds_module.db_instance_address
-  }
+output "db_instance_address" {
+  value = aws_rds_cluster.rds_cluster[0].endpoint
 }
 
-output "secrets_key_map" {
-  value = {
-    for index, rds_module in module.rds : 
-      var.rds_services[index].external_resource_config.password_key_name => var.rds_services[index].external_resource_config.password_key_name
-  }
+output "master_username" {
+  value = aws_rds_cluster.rds_cluster[0].master_username
 }
