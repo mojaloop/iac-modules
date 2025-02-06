@@ -221,7 +221,7 @@ locals {
   }
   monolith_managed_password_map = { for key, stateful_resource in var.monolith_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
-    namespace   = stateful_resource.logical_service_config.master_user_password_secret_namespace
+    namespace   = stateful_resource.external_resource_config.master_user_password_secret_namespace
     secret_name = stateful_resource.external_resource_config.master_user_password_secret
     secret_key  = stateful_resource.external_resource_config.master_user_password_secret_key
     }
