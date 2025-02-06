@@ -16,7 +16,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              mysql -h ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.logical_service_name} -u ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.user_name} -p$${MYSQL_MASTER_PASSWORD} -e "
+              mysql -h ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.logical_service_name} -u ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.username} -p$${MYSQL_MASTER_PASSWORD} -e "
               CREATE DATABASE ${managed_stateful_resource.logical_service_config.db_name};
               CREATE USER '${managed_stateful_resource.logical_service_config.db_username}'@'%' IDENTIFIED BY $${MYSQL_PASSWORD};
               GRANT ALL PRIVILEGES ON ${managed_stateful_resource.logical_service_config.db_name}.* TO '${managed_stateful_resource.logical_service_config.db_username}'@'%';
