@@ -74,7 +74,7 @@ resource "local_file" "monolith_external_name_services" {
 resource "local_file" "monolith-init-db" {
   for_each = local.mysql_managed_stateful_resources
 
-  content = templatefile("${local.stateful_resources_template_path}/monolith-db-init-job.yaml.yaml.tpl", {
+  content = templatefile("${local.stateful_resources_template_path}/monolith-db-init-job.yaml.tpl", {
     resource_name                = each.key
     stateful_resources_namespace = var.stateful_resources_namespace
     managed_stateful_resource    = local.mysql_managed_stateful_resources[each.key]
