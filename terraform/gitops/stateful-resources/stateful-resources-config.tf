@@ -226,7 +226,7 @@ locals {
     secret_key  = stateful_resource.external_resource_config.master_user_password_secret_key
     }
   }
-  monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_address[stateful_resource.external_resource_config.instance_address_key_name] }
+  monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
 
   stateful_resources_vars = {
     stateful_resources_namespace = var.stateful_resources_namespace
