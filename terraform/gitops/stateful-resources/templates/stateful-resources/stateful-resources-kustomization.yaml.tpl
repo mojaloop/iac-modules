@@ -3,6 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - external-name-services.yaml
+- monolith-external-name-services.yaml
 - namespace.yaml
 # %{ for key, stateful_resource in all_local_stateful_resources }
 - vault-crs-${key}.yaml
@@ -12,8 +13,16 @@ resources:
 - managed-crs-${key}.yaml
 # %{ endfor }
 
+# %{ for key,stateful_resource in monolith_stateful_resources }
+- monolith-managed-crs-${key}.yaml
+# %{ endfor }
+
 # %{ for key,stateful_resource in mysql_managed_stateful_resources }
 - managed-mysql-${key}.yaml
+# %{ endfor }
+
+# %{ for key,stateful_resource in mysql_managed_stateful_resources }
+- monolith-db-init-job-${key}.yaml
 # %{ endfor }
 
 # %{ for key,stateful_resource in strimzi_operator_stateful_resources }
