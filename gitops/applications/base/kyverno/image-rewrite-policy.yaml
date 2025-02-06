@@ -18,6 +18,7 @@ spec:
         - resources:
             namespaces:
             - istio-ingress-ext
+            - istio-ingress-int
       mutate:
         foreach:
           - list: request.object.spec.containers[]
