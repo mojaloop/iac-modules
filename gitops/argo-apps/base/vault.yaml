@@ -86,3 +86,6 @@ spec:
 
         - name: "vault_log_level"
           value: "${ARGOCD_ENV_vault_vault_vault_log_level}"
+
+        - name: "vault_pvc_size"
+          value: "${ARGOCD_ENV_vault_vault_vault_pvc_size}"

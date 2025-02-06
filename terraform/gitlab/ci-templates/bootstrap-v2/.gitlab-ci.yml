@@ -42,7 +42,7 @@ variables:
   IGNORE_TF_DEPRECATION_WARNING: true
   VAULT_ADDR: http://vault-active.vault.svc.cluster.local:8200
 
-image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
+image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}    
 
 cache:
   key: "${TF_ROOT}"
