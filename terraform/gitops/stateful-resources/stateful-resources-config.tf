@@ -249,6 +249,9 @@ locals {
 variable "external_stateful_resource_instance_addresses" {
 }
 
+variable "monolith_external_stateful_resource_instance_addresses" {
+}
+
 variable "create_stateful_resources_ns" {
   type        = bool
   description = "whether to create st res ns"
