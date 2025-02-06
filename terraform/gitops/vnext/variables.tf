@@ -173,3 +173,6 @@ variable "platform_stateful_res_config" {
   description = "merged config of platform stateful resources"
 }
  
+variable "monolith_stateful_resources" {
+  type        = any
+}

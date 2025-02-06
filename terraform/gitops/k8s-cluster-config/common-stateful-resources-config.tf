@@ -15,6 +15,7 @@ module "common_stateful_resources" {
   ceph_api_url                                  = var.ceph_api_url
   ceph_percona_backup_bucket                    = data.gitlab_project_variable.ceph_percona_backup_bucket.value
   external_secret_sync_wave                     = var.external_secret_sync_wave
+  monolith_stateful_resources                   = local.monolith_stateful_resources
 }
 
 variable "stateful_resources_namespace" {
@@ -25,6 +26,12 @@ variable "stateful_resources_namespace" {
 
 data "gitlab_project_variable" "external_stateful_resource_instance_address" {
   for_each = local.managed_stateful_resources
+  project  = var.current_gitlab_project_id
+  key      = each.value.external_resource_config.instance_address_key_name
+}
+
+data "gitlab_project_variable" "monolith_external_stateful_resource_instance_address" {
+  for_each = local.monolith_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
 }
