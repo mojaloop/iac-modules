@@ -41,7 +41,7 @@ data "gitlab_project_variable" "external_stateful_resource_instance_address" {
 }
 
 data "gitlab_project_variable" "monolith_external_stateful_resource_instance_address" {
-  for_each = local.monolith_stateful_resources
+  for_each = var.monolith_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
 }
