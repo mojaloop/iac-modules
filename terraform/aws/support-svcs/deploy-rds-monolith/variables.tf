@@ -43,4 +43,5 @@ variable "managed_svc_as_monolith"{
 locals {
   identifying_tags = { vpc = var.deployment_name}
   common_tags = merge(local.identifying_tags, var.tags)
+  mapped_internal_databases = { for key, managed_resource in var.monolith_internal_databases : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
 }
