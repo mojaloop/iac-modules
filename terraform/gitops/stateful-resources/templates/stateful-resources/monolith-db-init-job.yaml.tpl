@@ -16,7 +16,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              mysql -h ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace} -P ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.port} -u ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.username} -p$${MYSQL_MASTER_PASSWORD} -e "
+              mysql -h ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}svc.cluster.local -P ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.port} -u ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.username} -p$${MYSQL_MASTER_PASSWORD} -e "
               CREATE DATABASE ${managed_stateful_resource.logical_service_config.database_name};
               CREATE USER '${managed_stateful_resource.logical_service_config.db_username}'@'%' IDENTIFIED BY $${MYSQL_PASSWORD};
               GRANT ALL PRIVILEGES ON ${managed_stateful_resource.logical_service_config.database_name}.* TO '${managed_stateful_resource.logical_service_config.db_username}'@'%';
