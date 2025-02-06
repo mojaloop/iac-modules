@@ -15,7 +15,7 @@ module "mojaloop_stateful_resources" {
   ceph_api_url                                  = var.ceph_api_url
   ceph_percona_backup_bucket                    = var.ceph_percona_backup_bucket
   external_secret_sync_wave                     = var.external_secret_sync_wave
-
+  monolith_stateful_resources                   = var.monolith_stateful_resources
 }
 
 variable "stateful_resources_namespace" {
