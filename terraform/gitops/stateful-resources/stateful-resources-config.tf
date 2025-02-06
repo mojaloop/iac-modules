@@ -81,7 +81,7 @@ resource "local_file" "monolith-init-db" {
     resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
     monolith_stateful_resources  = var.monolith_stateful_resources
   })
-  filename = "${local.stateful_resources_output_path}/monolith-db-init-job.yaml-${each.key}.yaml"
+  filename = "${local.stateful_resources_output_path}/monolith-db-init-job-${each.key}.yaml"
 }
 
 resource "local_file" "kustomization" {
