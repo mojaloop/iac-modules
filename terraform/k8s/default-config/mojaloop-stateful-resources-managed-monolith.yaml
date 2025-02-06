@@ -38,3 +38,8 @@ common-mojaloop-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: common_mojaloop
+    master_user_password_secret_namespace: mojaloop
+    master_user_password_secret: common-mojaloop-db-secret
+    master_user_password_secret_key: password
+    logical_service_name: common-mojaloop-db
+    logical_service_port: 3306

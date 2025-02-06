@@ -70,6 +70,7 @@ module "mojaloop" {
   ceph_percona_backup_bucket           = data.gitlab_project_variable.ceph_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
   pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
+  monolith_stateful_resources          = local.monolith_stateful_resources
 }
 
 module "pm4ml" {
@@ -213,7 +214,7 @@ module "vnext" {
   ceph_api_url                         = var.ceph_api_url
   ceph_percona_backup_bucket           = data.gitlab_project_variable.ceph_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
-
+  monolith_stateful_resources          = local.monolith_stateful_resources
 }
 
 variable "app_var_map" {
@@ -239,6 +240,12 @@ variable "mojaloop_stateful_res_mangd_config_file" {
   default     = "../config/mojaloop-stateful-resources-managed.yaml"
   type        = string
   description = "where to pull stateful resources config for mojaloop"
+}
+
+variable "mojaloop_stateful_res_monolith_config_file" {
+  default     = "../config/mojaloop-stateful-resources-managed-monolith.yaml"
+  type        = string
+  description = "where to pull monolith stateful resources config for mojaloop"
 }
 
 variable "platform_stateful_resources_config_file" {
@@ -362,6 +369,7 @@ locals {
   st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
   st_res_managed_vars           = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
   plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
+  monolith_stateful_resources   = yamldecode(file(var.mojaloop_stateful_res_monolith_config_file))
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
 }
