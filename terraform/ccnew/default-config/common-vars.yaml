@@ -81,6 +81,7 @@ consul_replica_count: 1
 argocd_admin_rbac_group: "argocd_administrators"
 argocd_user_rbac_group: "argocd_users"
 vault_rbac_admin_group: "techops-admin"
+vault_pvc_size: 15Gi
 
 kube_prometheus_helm_version: "9.5.10"
 grafana_mimir_helm_version: "1.2.10"

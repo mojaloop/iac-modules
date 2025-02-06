@@ -105,6 +105,7 @@ argocd_override:
           vault_log_level: "${vault_log_level}"
           cloud_platform_api_client_id: "${cloud_platform_api_client_id}"
           cloud_platform_api_client_secret: "${cloud_platform_api_client_secret}"
+          vault_pvc_size: "${vault_pvc_size}"
         vault_config_operator:
           helm_version: "${vault_config_operator_helm_version}"
     security:

@@ -1,3 +1,5 @@
+global:
+   tlsDisable: true  
 server:
   enabled: true
   dev:
@@ -5,23 +7,39 @@ server:
   extraVolumes:
     - type: configMap
       name: post-config
-  readinessProbe:
-    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
-
+  # readinessProbe:
+  #   path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+  standalone:
+      enabled: false      
+  dataStorage:
+    enabled: true
+    size: ${ARGOCD_ENV_vault_pvc_size}
   ha:
     enabled: true
-    config: |
-      ui = true
-      listener "tcp" {
-        tls_disable = 1
-        address = "[::]:8200"
-        cluster_address = "[::]:8201"
-      }
-      storage "consul" {
-        path = "vault"
-        address = "consul-server.${ARGOCD_ENV_consul_namespace}.svc.cluster.local:8500"
-      }
-      service_registration "kubernetes" {}
+    raft:
+      enabled: true
+      setNodeId: true
+      config: |
+        ui = true
+        listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+        }
+        storage "raft" {
+            path = "/vault/data"
+            retry_join {
+              leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-0.${ARGOCD_ENV_vault_app_name}-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-1.${ARGOCD_ENV_vault_app_name}internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-2.${ARGOCD_ENV_vault_app_name}-internal:8200"
+            }
+        }
+        disable_mlock = true
+        service_registration "kubernetes" {}
 
   extraContainers:
     # - name: statsd-exporter
@@ -32,7 +50,7 @@ server:
         [
           "sh",
           "-c",
-          "cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do /tmp/bootstrap.sh; sleep 300; done",
+          "order=$(echo $HOSTNAME | awk -F'-' '{print $2}'); delay=$(($order*60 +60)); echo $delay; cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep $delay; /tmp/bootstrap.sh;   done",
         ]
       volumeMounts:
         - name: userconfig-post-config
