@@ -10,7 +10,6 @@ argocd_helm_version: "7.6.12"
 reflector_helm_version: "7.1.262"
 reloader_helm_version: "1.0.67"
 crossplane_helm_version: "1.16.0"
-kubernetes_secret_generator_helm_version: "3.4.0"
 zitadel_helm_version: "8.5.0"
 netbird_helm_version: "1.5.6"
 netbird_image_version: "0.36.5"
@@ -82,6 +81,7 @@ consul_replica_count: 1
 argocd_admin_rbac_group: "argocd_administrators"
 argocd_user_rbac_group: "argocd_users"
 vault_rbac_admin_group: "techops-admin"
+vault_pvc_size: 15Gi
 
 kube_prometheus_helm_version: "9.5.10"
 grafana_mimir_helm_version: "1.2.10"
@@ -170,8 +170,8 @@ loki_distributor_limits_cpu: "150m"
 loki_distributor_limits_memory: "192Mi"
 loki_ingester_requests_cpu: "100m"
 loki_ingester_requests_memory: "256Mi"
-loki_ingester_limits_cpu: "150m"
-loki_ingester_limits_memory: "512Mi"
+loki_ingester_limits_cpu: "500m"
+loki_ingester_limits_memory: "1Gi"
 loki_querier_limits_cpu: "150m"
 loki_querier_limits_memory: "192Mi"
 loki_query_frontend_limits_cpu: "150m"
@@ -250,7 +250,7 @@ praefect_perc_pgdb_helm_version: "2.4.0"
 # end of gitlab db settings
 
 ceph_bucket_max_objects: "'1000000'"
-ceph_bucket_max_size: "10Gi"
+ceph_bucket_max_size: "30Gi"
 env_token_ttl: "14d"
 
 # Zitadel

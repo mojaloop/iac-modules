@@ -25,6 +25,7 @@ frontend:
     LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
     LOGOUT_URL: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_pm4ml_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
     LOGIN_PROVIDER: ${keycloak_pm4ml_realm_name}
+    ${indent(4, yamlencode(ui_custom_config))}
 
 experience-api:
   ingress:
@@ -249,8 +250,8 @@ ttk:
             ],
         }
       rules_response__default.json: https://raw.githubusercontent.com/mojaloop/testing-toolkit-test-cases/v16.1.0-fx-snapshot.1/rules/pm4ml/fxp_response_rules.json
-      api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.7.0/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
-      api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.7.0/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.7.10/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.7.10/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
       api_definitions__mojaloop_connector_outbound_2.1__callback_map.json: []
     extraEnvironments:
       pm4ml-default-environment.json: {

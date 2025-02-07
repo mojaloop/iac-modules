@@ -3,10 +3,6 @@ kind: Kustomization
 resources:
     # grafana crds
   - https://raw.githubusercontent.com/grafana/grafana-operator/${grafana_crd_version_tag}/deploy/kustomize/base/crds.yaml
-    # opentelemetry crds
-  - https://raw.githubusercontent.com/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator-${opentelemetry_chart_version}/charts/opentelemetry-operator/crds/crd-opentelemetry.io_opampbridges.yaml
-  - https://raw.githubusercontent.com/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator-${opentelemetry_chart_version}/charts/opentelemetry-operator/crds/crd-opentelemetrycollector.yaml
-  - https://raw.githubusercontent.com/open-telemetry/opentelemetry-helm-charts/opentelemetry-operator-${opentelemetry_chart_version}/charts/opentelemetry-operator/crds/crd-opentelemetryinstrumentation.yaml
   - vault-secret.yaml
   - istio-vs.yaml
   - process-exporter-service-monitor.yaml
