@@ -4,12 +4,6 @@ kind: Kustomization
 resources:
   - db-external-name-service.yaml
 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  - db-external-name-service.yaml
-
 helmGlobals:
   chartHome: ./helmcharts
 
