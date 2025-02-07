@@ -49,12 +49,12 @@ spec:
       {{- if .Values.s3.enabled }}
       configuration:
         - secret:
-            name: {{ .Values.s3.credentials_secret | default (printf "%s-pgbackrest-secret" .Values.global.dbDeployPrefix) }}
+            name: {{ if .Values.s3.devMode }}{{ printf "%s-pgbackrest-secret" .Values.global.dbDeployPrefix | quote }}{{ else }}{{ .Values.s3.credentials_secret | quote }}{{ end }}
       global:
         repo1-path: {{ .Values.pgBackRest.repo_path }}
         repo1-retention-full: "{{ .Values.pgBackRest.backupsRetentionDays }}"
-        repo1-s3-uri-style: {{ if or (eq .Values.s3.provider "aws") (eq .Values.s3.provider "azure") (eq .Values.s3.provider "gcp") }}host{{ else }}path{{ end }}
-        repo1-storage-verify-tls: {{ if or (eq .Values.s3.provider "aws") (eq .Values.s3.provider "azure") (eq .Values.s3.provider "gcp") }}y{{ else }}n{{ end }}
+        repo1-s3-uri-style: {{ if .Values.s3.devMode }}"path"{{ else }}"host"{{ end }}
+        repo1-storage-verify-tls: {{ if .Values.s3.devMode }}"n"{{ else }}"y"{{ end }}
         repo1-storage-port: "{{ .Values.pgBackRest.storagePort }}"
         
       manual:
@@ -66,11 +66,9 @@ spec:
         {{- if .Values.s3.enabled }}
         - name: repo1
           s3:
-            endpoint: {{ if eq .Values.s3.provider "aws" }}"s3.amazonaws.com"
-            {{ else if eq .Values.s3.provider "ceph" }}"rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
-            {{ else }}{{ .Values.s3.endpoint | quote }}{{ end }}
-            bucket: {{ .Values.s3.bucket | default (printf "%s-backups" .Values.global.dbDeployPrefix) }}
-            region: {{ .Values.s3.region | default "us-east-1" }}
+            endpoint: {{ if .Values.s3.devMode }}"rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"{{ else }}{{ .Values.s3.endpoint | quote }}{{ end }}
+            bucket: {{ if .Values.s3.devMode }}{{ printf "%s-backups" .Values.global.dbDeployPrefix | quote }}{{ else }}{{ .Values.s3.bucket | quote }}{{ end }}
+            region: {{ if .Values.s3.devMode }}"us-east-1"{{ else }}{{ .Values.s3.region | quote }}{{ end }}
           schedules:
             full: {{ .Values.pgBackRest.fullBackupSchedule | quote }}
             differential: {{ .Values.pgBackRest.diffBackupSchedule | quote }}
