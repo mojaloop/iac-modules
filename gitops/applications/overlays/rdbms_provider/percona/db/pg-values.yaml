@@ -11,9 +11,9 @@ s3:
   enabled: true
   devMode: true
   endpoint: ""
-  # bucket: "pgbackrest-buck"
-  # region: "eu-west-1"
-  # credentials_secret: "cluster1-pgbackrest-secrets"
+  bucket: "pgbackrest-buck"
+  region: "eu-central-1"
+  credentials_secret: "cluster1-pgbackrest-secrets"
 
 pgBackRest:
   storagePort: 443
