@@ -10,13 +10,13 @@ global:
   devMode: false
 
 s3:
-  enabled: false
-  devMode: false
-  provider: "aws"  # Example: aws, gcp, azure, ceph, minio
+  enabled: true
+  devMode: true
+  provider: "ceph"  # Example: aws, gcp, azure, ceph, minio
   endpoint: ""
-  bucket: "pgbackrest-buck"
-  region: "eu-central-1"
-  credentials_secret: "cluster1-pgbackrest-secrets"
+  # bucket: "pgbackrest-buck"
+  # region: "eu-central-1"
+  # credentials_secret: "cluster1-pgbackrest-secrets"
 
 pgBackRest:
   storagePort: 443
