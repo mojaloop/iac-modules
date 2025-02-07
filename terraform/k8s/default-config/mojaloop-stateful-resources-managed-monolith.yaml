@@ -1,3 +1,48 @@
+common-platform-db:
+  external_resource_config:
+    password_key_name: common_platform_db_password
+    instance_address_key_name: common_platform_db_instance_address
+    allocated_storage: 100
+    storage_type: io1
+    storage_iops: 5000
+    backup_window: 01:00-04:00
+    db_name: common_platform_db
+    deletion_protection: false
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
+    instance_class: db.t3.medium
+    replicas: 1
+    maintenance_window: Sun:04:00-Sun:06:00
+    major_engine_version: "8.0"
+    monitoring_interval: "30"
+    options:
+      - option_name: MARIADB_AUDIT_PLUGIN
+        option_settings:
+          - name: SERVER_AUDIT_EVENTS
+            value: CONNECT
+          - name: SERVER_AUDIT_FILE_ROTATIONS
+            value: "37"
+    parameters:
+      - name: character_set_client
+        value: utf8mb4
+      - name: character_set_server
+        value: utf8mb4
+    port: "3306"
+    skip_final_snapshot: true
+    multi_az: false
+    storage_encrypted: true
+    tags:
+      Origin: Terraform
+      mojaloop/cost_center: mlf-iac-sandbox
+      mojaloop/env: ft-sbox-rw
+      mojaloop/owner: Samuel-Kummary
+    username: common_platform
+    master_user_password_secret_namespace: stateful-resources
+    master_user_password_secret: common-mojaloop-db-secret
+    master_user_password_secret_key: password
+    logical_service_name: common-mojaloop-db
+    logical_service_port: 3306
 common-mojaloop-db:
   external_resource_config:
     password_key_name: common_mojaloop_db_password
