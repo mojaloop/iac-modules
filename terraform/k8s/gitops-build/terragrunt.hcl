@@ -103,6 +103,7 @@ inputs = {
   zitadel_project_id                       = local.zitadel_project_id
   grafana_admin_rbac_group                 = local.grafana_admin_rbac_group
   grafana_user_rbac_group                  = local.grafana_user_rbac_group
+  managed_svc_as_monolith                  = local.managed_svc_as_monolith
 }
 
 locals {
@@ -164,6 +165,7 @@ locals {
   argocd_ingress_internal_lb    = true
   grafana_ingress_internal_lb   = true
   vault_ingress_internal_lb     = true
+  managed_svc_as_monolith       = get_env("managed_svc_as_monolith")
 }
 
 generate "required_providers_override" {
