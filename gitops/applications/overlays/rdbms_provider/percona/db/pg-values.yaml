@@ -1,0 +1,30 @@
+global:
+  namespace: ${ARGOCD_ENV_namespace}
+  dbDeployPrefix: ${ARGOCD_ENV_dbdeploy_name_prefix}
+  dbName: ${ARGOCD_ENV_db_name}
+  dbUsername: ${ARGOCD_ENV_db_username}
+  dbSecret: ${ARGOCD_ENV_db_secret}
+  replicas: ${ARGOCD_ENV_postgres_replicas}
+  storageSize: ${ARGOCD_ENV_postgres_storage_size}
+  enableBackups: false
+  devMode: false
+
+s3:
+  enabled: false
+  devMode: false
+  provider: "aws"  # Example: aws, gcp, azure, ceph, minio
+  endpoint: ""
+  bucket: "pgbackrest-buck"
+  region: "eu-central-1"
+  credentials_secret: "cluster1-pgbackrest-secrets"
+
+pgBackRest:
+  storagePort: 443
+  backupsRetentionDays: 3
+  fullBackupSchedule: "0 0 * * 6"
+  diffBackupSchedule: "0 1 * * 1-6"
+
+pgBouncer:
+  replicas: ${ARGOCD_ENV_postgres_proxy_replicas}
+  poolMode: transaction
+  maxPreparedStatements: "${ARGOCD_ENV_max_prepared_statements}"
