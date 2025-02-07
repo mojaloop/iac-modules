@@ -270,7 +270,7 @@ keycloak-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: keycloak
-    monolith_db_server: common-mojaloop-db          
+    monolith_db_server: common-platform-db          
 keto-db:
   external_resource_config:
     password_key_name: keto_password
@@ -311,7 +311,7 @@ keto-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: keto
-    monolith_db_server: common-mojaloop-db    
+    monolith_db_server: common-platform-db    
 kratos-db:
   external_resource_config:
     password_key_name: kratos_password
@@ -352,4 +352,4 @@ kratos-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: kratos
-    monolith_db_server: common-mojaloop-db           
+    monolith_db_server: common-platform-db           
