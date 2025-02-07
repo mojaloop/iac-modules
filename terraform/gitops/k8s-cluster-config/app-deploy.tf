@@ -369,7 +369,7 @@ locals {
   st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
   st_res_managed_vars           = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
   plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
-  monolith_stateful_resources   = yamldecode(file(var.mojaloop_stateful_res_monolith_config_file))
+  monolith_stateful_resources   = var.managed_svc_as_monolith ? yamldecode(file(var.mojaloop_stateful_res_monolith_config_file)) : {}
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
 }

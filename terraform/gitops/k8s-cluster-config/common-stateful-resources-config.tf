@@ -15,7 +15,7 @@ module "common_stateful_resources" {
   ceph_api_url                                  = var.ceph_api_url
   ceph_percona_backup_bucket                    = data.gitlab_project_variable.ceph_percona_backup_bucket.value
   external_secret_sync_wave                     = var.external_secret_sync_wave
-  monolith_stateful_resources                   = local.monolith_stateful_resources
+  monolith_stateful_resources                   = local.monolith_for_common_sts_resources
   monolith_external_stateful_resource_instance_addresses = local.monolith_external_stateful_resource_instance_addresses
 }
 
@@ -39,6 +39,7 @@ data "gitlab_project_variable" "monolith_external_stateful_resource_instance_add
 
 locals {
   common_stateful_resources  = { for key, resource in module.config_deepmerge.merged : key => resource if (resource.app_owner == "platform" && resource.enabled )}
+  monolith_for_common_sts_resources = { for key, resource in local.monolith_stateful_resources : key => resource if resource.app_owner == "platform" }
   enabled_stateful_resources = { for key, stateful_resource in module.config_deepmerge.merged  : key => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
