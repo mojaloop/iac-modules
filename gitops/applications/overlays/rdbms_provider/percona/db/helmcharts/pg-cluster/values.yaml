@@ -14,7 +14,6 @@ global:
 s3:
   enabled: false
   devMode: false
-  provider: "aws"  # Supported: aws, gcp, azure, minio, ceph
   endpoint: "s3.amazonaws.com"
   bucket: ""
   region: ""
