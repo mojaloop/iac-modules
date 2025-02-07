@@ -9,7 +9,7 @@ global:
 
 s3:
   enabled: true
-  devMode: true
+  devMode: false
   endpoint: "s3.amazonaws.com"
   bucket: "pgbackrest-buck"
   region: "eu-central-1"
