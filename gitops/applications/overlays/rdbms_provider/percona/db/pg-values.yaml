@@ -6,8 +6,6 @@ global:
   dbSecret: ${ARGOCD_ENV_db_secret}
   replicas: ${ARGOCD_ENV_postgres_replicas}
   storageSize: ${ARGOCD_ENV_postgres_storage_size}
-  enableBackups: false
-  devMode: false
 
 s3:
   enabled: true
