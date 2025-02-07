@@ -836,7 +836,7 @@
           "current": {},
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${DS_MIMIR}"
           },
           "definition": "label_values(relay_peers,cluster)",
           "hide": 0,
@@ -884,7 +884,7 @@
           "current": {},
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${DS_MIMIR}"
           },
           "definition": "label_values(relay_peers{cluster=\"$cluster\", environment=\"$environment\"},job)",
           "hide": 0,
@@ -904,25 +904,25 @@
           "type": "query"
         },
         {
-          "allValue": "streamline.+",
+          "allValue": "",
           "current": {},
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
-          "definition": "label_values(relay_peers{application=\"streamline\"},host)",
-          "hide": 2,
+          "definition": "label_values(relay_peers{cluster=\"$cluster\", environment=\"$environment\", job=\"$job\"},instance)",
+          "hide": 0,
           "includeAll": true,
           "label": "host",
-          "multi": false,
+          "multi": true,
           "name": "host",
           "options": [],
           "query": {
             "qryType": 1,
-            "query": "label_values(relay_peers{application=\"streamline\"},host)",
+            "query": "label_values(relay_peers{cluster=\"$cluster\", environment=\"$environment\", job=\"$job\"},instance)",
             "refId": "PrometheusVariableQueryEditor-VariableQuery"
           },
-          "refresh": 1,
+          "refresh": 2,
           "regex": "",
           "skipUrlSync": false,
           "sort": 1,
@@ -938,6 +938,6 @@
     "timezone": "browser",
     "title": "Netbird / Relay",
     "uid": "febyq2pgq2ubkd",
-    "version": 17,
+    "version": 5,
     "weekStart": ""
   }
