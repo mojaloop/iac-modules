@@ -11,7 +11,7 @@ common-platform-db:
     engine: aurora-mysql
     engine_version: 8.0.mysql_aurora.3.04.0
     family: aurora-mysql8.0
-    instance_class: db.t3.medium
+    instance_class: db.t4g.large
     replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
@@ -56,7 +56,7 @@ common-mojaloop-db:
     engine: aurora-mysql
     engine_version: 8.0.mysql_aurora.3.04.0
     family: aurora-mysql8.0
-    instance_class: db.t3.medium
+    instance_class: db.t4g.large
     replicas: 1
     maintenance_window: Sun:04:00-Sun:06:00
     major_engine_version: "8.0"
