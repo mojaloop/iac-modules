@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - db-external-name-service.yaml
-  - cluster1-pgbackrest-secrets.yaml
 
 helmGlobals:
   chartHome: ./helmcharts
