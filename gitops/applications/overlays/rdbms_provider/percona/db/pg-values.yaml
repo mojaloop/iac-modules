@@ -12,10 +12,9 @@ global:
 s3:
   enabled: true
   devMode: true
-  provider: "ceph"  # Example: aws, gcp, azure, ceph, minio
   endpoint: ""
   # bucket: "pgbackrest-buck"
-  # region: "eu-central-1"
+  # region: "eu-west-1"
   # credentials_secret: "cluster1-pgbackrest-secrets"
 
 pgBackRest:
