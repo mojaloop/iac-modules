@@ -30,7 +30,13 @@ common-platform-db:
       - name: character_set_server
         value: utf8mb4
       - name: innodb_lock_wait_timeout
-        value: "120"        
+        value: "120"
+      - name: connect_timeout
+        value: "600"
+      - name: wait_timeout
+        value: "600"
+      - name: interactive_timeout
+        value: "600"                
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
