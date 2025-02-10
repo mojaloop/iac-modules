@@ -71,6 +71,7 @@ module "mojaloop" {
   external_secret_sync_wave            = var.external_secret_sync_wave
   pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
   monolith_stateful_resources          = local.monolith_stateful_resources
+  managed_svc_as_monolith              = var.managed_svc_as_monolith  
 }
 
 module "pm4ml" {
@@ -215,6 +216,7 @@ module "vnext" {
   ceph_percona_backup_bucket           = data.gitlab_project_variable.ceph_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
   monolith_stateful_resources          = local.monolith_stateful_resources
+  managed_svc_as_monolith              = var.managed_svc_as_monolith  
 }
 
 variable "app_var_map" {

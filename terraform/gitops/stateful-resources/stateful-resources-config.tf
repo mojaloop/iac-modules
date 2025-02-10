@@ -72,7 +72,7 @@ resource "local_file" "monolith_external_name_services" {
 }
 
 resource "local_file" "monolith-init-db" {
-  for_each = local.mysql_managed_stateful_resources
+  for_each = local.monolith_init_mysql_managed_stateful_resources
 
   content = templatefile("${local.stateful_resources_template_path}/monolith-db-init-job.yaml.tpl", {
     resource_name                = each.key
@@ -229,6 +229,8 @@ locals {
   }
   monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
 
+  monolith_init_mysql_managed_stateful_resources = if var.managed_svc_as_monolith ? mysql_managed_stateful_resources : {}
+
   stateful_resources_vars = {
     stateful_resources_namespace = var.stateful_resources_namespace
     gitlab_project_url           = var.gitlab_project_url
@@ -334,4 +336,7 @@ variable "ceph_percona_backup_bucket" {
 
 variable "monolith_stateful_resources" {
   type = any
+}
+
+variable "managed_svc_as_monolith" {
 }
