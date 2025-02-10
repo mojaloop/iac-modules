@@ -1,10 +1,10 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: image-rewrite
+  name: redirect-dockerio-to-ecr-pullthrough
 spec:
   rules:
-    - name: redirect-ghcr
+    - name: redirect-dockerio-to-ecr-pullthrough
       match:
         any:
           - resources:
@@ -28,11 +28,55 @@ spec:
                   operator: AnyIn
                   value:
                     - docker.io/*
-                    - xpkg.upbound.io/*
             patchStrategicMerge:
               metadata:
                 annotations:
-                  kyverno/redirect-containers-to-ghcr: applied
+                  kyverno/redirect-dockerio-to-ecr-pullthrough: applied
+              spec:
+                containers:
+                  - name: "{{ element.name }}"
+                    env:
+                      - name: ORIGINAL_IMAGE
+                        value: "{{ element.image }}"
+                    image: "390402568199.dkr.ecr.eu-west-1.amazonaws.com/docker-hub/{{ image_normalize(element.image) }}"
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: redirect-xpkgupboundio-to-ghcr
+spec:
+  rules:
+    - name: redirect-xpkgupboundio-to-ghcr
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              operations:
+                - CREATE
+                - UPDATE
+      exclude:
+        any:
+        - resources:
+            namespaces:
+            - istio-ingress-ext
+            - istio-ingress-int
+      mutate:
+        foreach:
+          - list: request.object.spec.containers[]
+            preconditions:
+              all:
+                - key: "{{ image_normalize(element.image) }}"
+                  operator: AnyIn
+                  value:
+                    - xpkg.upbound.io/*
+                - key: "{{ element.image }}"
+                  operator: NotEquals
+                  value: "auto:latest"
+            patchStrategicMerge:
+              metadata:
+                annotations:
+                  kyverno/redirect-xpkgupboundio-to-ghcr: applied
               spec:
                 containers:
                   - name: "{{ element.name }}"
