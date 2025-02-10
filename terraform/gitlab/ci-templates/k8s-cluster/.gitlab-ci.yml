@@ -71,7 +71,7 @@ cache:
     - yq eval '.' $CONFIG_PATH/addons-vars.yaml -o=json > addons-vars.yaml
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./cluster-config.json); do export $var; done
     - for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' ./addons-vars.yaml); do export $var; done
-    - if [ $migrate == "true" ]; then sh .gitlab/scripts/get-artifacts.sh; fi    
+    - if [ $migrate == "true" ]; then sh .gitlab/scripts/get-artifacts.sh; fi
     - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
     - export $cloud_platform_client_secret_name="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/cloud_platform_client_secret)"
     - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
@@ -79,6 +79,8 @@ cache:
     - export NETBIRD_K8S_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_k8s_setup_key)"
     - export NETBIRD_MS_GW_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_ms_gw_setup_key)"
     - export KUBERNETES_OIDC_CLIENT_ID="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/kubernetes_oidc_client_id)"
+    - |
+      export SUBMODULE_REVISIONS="$((echo "submodules:"; git submodule -q foreach 'echo "  "`git remote get-url origin`: `git rev-parse HEAD`') | yq eval '.' -o=json -)"
     - source setcivars.sh
     - echo "https://${PRIVATE_REPO_USER}:${PRIVATE_REPO_TOKEN}@${PRIVATE_REPO}" >> ~/.gitcredentials.store
     - git config --global advice.detachedHead false
@@ -258,7 +260,7 @@ refresh-deploy-infra:
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy.*/
-    - if: $CI_PIPELINE_TRIGGERED
+    - if: $CI_PIPELINE_TRIGGERED && $CI_PIPELINE_SOURCE == "trigger" && $CD_UPDATE_PROFILE
     - when: manual
 
 tf-refresh-deploy-infra:
