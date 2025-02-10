@@ -1,12 +1,10 @@
-
 resource "kubernetes_manifest" "namespace" {
   for_each = local.environment_list
-
   manifest = {
-    apiVersion = "v1"
-    kind       = "Namespace"
-    metadata = {
-      name = each.key
+    "apiVersion" = "v1"
+    "kind"       = "Namespace"
+    "metadata" = {
+      "name"      = each.key
     }
   }
 }
