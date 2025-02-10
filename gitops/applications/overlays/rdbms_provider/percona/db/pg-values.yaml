@@ -9,8 +9,8 @@ global:
 
 backup:
   s3:
-    enabled: false
-    devMode: false
+    enabled: true
+    devMode: true
     endpoint: "s3.amazonaws.com"
     bucket: "pgbackrest-buck"
     region: "eu-west-1"
