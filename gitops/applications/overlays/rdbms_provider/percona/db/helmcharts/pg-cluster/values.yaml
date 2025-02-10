@@ -11,16 +11,17 @@ global:
   replicas: 1
   storageSize: 10Gi
 
-s3:
-  enabled: false
-  devMode: false
-  endpoint: "s3.amazonaws.com"
-  bucket: ""
-  region: ""
-  credentials_secret: ""
-  accessKey: ""
-  secretKey: ""
-  tlsVerify: n
+backup:
+  s3:
+    enabled: false
+    devMode: false
+    endpoint: "s3.amazonaws.com"
+    bucket: ""
+    region: ""
+    credentials_secret: ""
+    accessKey: ""
+    secretKey: ""
+    tlsVerify: n
 
 pgBackRest:
   backupReponame: repo1

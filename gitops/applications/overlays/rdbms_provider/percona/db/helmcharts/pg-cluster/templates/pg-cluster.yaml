@@ -46,15 +46,15 @@ spec:
   backups:
     pgbackrest:
       image: {{ .Values.pgBackRest.image }}
-      {{- if .Values.s3.enabled }}
+      {{- if .Values.backup.s3.enabled }}
       configuration:
         - secret:
-            name: {{ if .Values.s3.devMode }}{{ printf "%s-pgbackrest-secret" .Values.global.dbDeployPrefix | quote }}{{ else }}{{ .Values.s3.credentials_secret | quote }}{{ end }}
+            name: {{ if .Values.backup.s3.devMode }}{{ printf "%s-pgbackrest-secret" .Values.global.dbDeployPrefix | quote }}{{ else }}{{ .Values.backup.s3.credentials_secret | quote }}{{ end }}
       global:
         repo1-path: {{ .Values.pgBackRest.repo_path }}
         repo1-retention-full: "{{ .Values.pgBackRest.backupsRetentionDays }}"
-        repo1-s3-uri-style: {{ if .Values.s3.devMode }}"path"{{ else }}"host"{{ end }}
-        repo1-storage-verify-tls: {{ if .Values.s3.devMode }}"n"{{ else }}"y"{{ end }}
+        repo1-s3-uri-style: {{ if .Values.backup.s3.devMode }}"path"{{ else }}"host"{{ end }}
+        repo1-storage-verify-tls: {{ if .Values.backup.s3.devMode }}"n"{{ else }}"y"{{ end }}
         repo1-storage-port: "{{ .Values.pgBackRest.storagePort }}"
         
       manual:
@@ -63,17 +63,17 @@ spec:
         repoName: repo1
       {{- end }}
       repos:
-        {{- if .Values.s3.enabled }}
+        {{- if .Values.backup.s3.enabled }}
         - name: repo1
           s3:
-            endpoint: {{ if .Values.s3.devMode }}"rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"{{ else }}{{ .Values.s3.endpoint | quote }}{{ end }}
-            bucket: {{ if .Values.s3.devMode }}{{ printf "%s-backups" .Values.global.dbDeployPrefix | quote }}{{ else }}{{ .Values.s3.bucket | quote }}{{ end }}
-            region: {{ if .Values.s3.devMode }}"us-east-1"{{ else }}{{ .Values.s3.region | quote }}{{ end }}
+            endpoint: {{ if .Values.backup.s3.devMode }}"rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"{{ else }}{{ .Values.backup.s3.endpoint | quote }}{{ end }}
+            bucket: {{ if .Values.backup.s3.devMode }}{{ printf "%s-backups" .Values.global.dbDeployPrefix | quote }}{{ else }}{{ .Values.backup.s3.bucket | quote }}{{ end }}
+            region: {{ if .Values.backup.s3.devMode }}"us-east-1"{{ else }}{{ .Values.backup.s3.region | quote }}{{ end }}
           schedules:
             full: {{ .Values.pgBackRest.fullBackupSchedule | quote }}
             differential: {{ .Values.pgBackRest.diffBackupSchedule | quote }}
         {{- end }}
-        {{- if not .Values.s3.enabled }}
+        {{- if not .Values.backup.s3.enabled }}
         - name: repo2
           volume:
             volumeClaimSpec:

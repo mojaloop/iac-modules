@@ -7,13 +7,14 @@ global:
   replicas: ${ARGOCD_ENV_postgres_replicas}
   storageSize: ${ARGOCD_ENV_postgres_storage_size}
 
-s3:
-  enabled: false
-  devMode: false
-  endpoint: "s3.amazonaws.com"
-  bucket: "pgbackrest-buck"
-  region: "eu-west-1"
-  credentials_secret: "aws-creds"
+backup:
+  s3:
+    enabled: false
+    devMode: false
+    endpoint: "s3.amazonaws.com"
+    bucket: "pgbackrest-buck"
+    region: "eu-west-1"
+    credentials_secret: "aws-creds"
 
 pgBackRest:
   storagePort: 443
