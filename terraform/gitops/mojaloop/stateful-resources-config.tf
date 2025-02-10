@@ -17,6 +17,7 @@ module "mojaloop_stateful_resources" {
   external_secret_sync_wave                     = var.external_secret_sync_wave
   monolith_stateful_resources                   = local.monolith_for_mojaloop_sts_resources
   monolith_external_stateful_resource_instance_addresses = local.monolith_external_stateful_resource_instance_addresses
+  managed_svc_as_monolith                       = var.managed_svc_as_monolith  
 }
 
 variable "stateful_resources_namespace" {
