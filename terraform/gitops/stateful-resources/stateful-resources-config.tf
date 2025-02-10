@@ -229,8 +229,8 @@ locals {
   }
   monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
 
-  monolith_init_mysql_managed_stateful_resources = if var.managed_svc_as_monolith ? mysql_managed_stateful_resources : {}
-
+  monolith_init_mysql_managed_stateful_resources = if var.managed_svc_as_monolith ? local.mysql_managed_stateful_resources : {}
+  
   stateful_resources_vars = {
     stateful_resources_namespace = var.stateful_resources_namespace
     gitlab_project_url           = var.gitlab_project_url
