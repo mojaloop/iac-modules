@@ -38,7 +38,7 @@ spec:
                     env:
                       - name: ORIGINAL_IMAGE
                         value: "{{ element.image }}"
-                    image: 'mirror.gcr.io/{{ images.containers."{{element.name}}".path}}:{{images.containers."{{element.name}}".tag}}'"
+                    image: 'mirror.gcr.io/{{ images.containers."{{element.name}}".path}}:{{images.containers."{{element.name}}".tag}}'
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
