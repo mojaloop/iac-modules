@@ -1,3 +1,13 @@
+resource "kubernetes_manifest" "namespace" {
+  for_each = local.environment_list
+  manifest = {
+    "apiVersion" = "v1"
+    "kind"       = "Namespace"
+    "metadata" = {
+      "name"      = each.key
+    }
+  }
+}
 
 resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_loki" {
   for_each = local.environment_list
@@ -6,7 +16,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_loki" {
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${each.key}-loki-bucket"
-      "namespace" = var.namespace
+      "namespace" = each.key
     }
     "spec" = {
       "additionalConfig" = {
@@ -27,7 +37,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_tempo" {
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${each.key}-tempo-bucket"
-      "namespace" = var.namespace
+      "namespace" = each.key
     }
     "spec" = {
       "additionalConfig" = {
@@ -48,7 +58,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_longhorn
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${each.key}-longhorn-backup-bucket"
-      "namespace" = var.namespace
+      "namespace" = each.key
     }
     "spec" = {
       "additionalConfig" = {
@@ -68,7 +78,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_velero" 
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${each.key}-velero-bucket"
-      "namespace" = var.namespace
+      "namespace" = each.key
     }
     "spec" = {
       "additionalConfig" = {
@@ -89,7 +99,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_percona"
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${each.key}-percona-bucket"
-      "namespace" = var.namespace
+      "namespace" = each.key
     }
     "spec" = {
       "additionalConfig" = {
