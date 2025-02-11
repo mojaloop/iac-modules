@@ -88,6 +88,4 @@ spec:
           value: "${ARGOCD_ENV_vault_vault_vault_log_level}"
 
         - name: "vault_pvc_size"
-          value: 15Gi
-         # TODO Why this doesnt work??
-        #  value: "${ARGOCD_ENV_vault_vault_vault_pvc_size}"
+          value: "${ARGOCD_ENV_vault_vault_vault_pvc_size}"
