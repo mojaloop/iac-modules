@@ -64,6 +64,7 @@ resource "local_file" "external_name_services" {
 }
 
 resource "local_file" "monolith_external_name_services" {
+  count   = var.managed_svc_as_monolith ? 1 : 0
   content = templatefile("${local.stateful_resources_template_path}/monolith-external-name-services.yaml.tpl",
     { config                       = local.monolith_managed_external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
@@ -94,6 +95,7 @@ resource "local_file" "kustomization" {
       redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
       monolith_stateful_resources         = var.monolith_stateful_resources
+      managed_svc_as_monolith             = var.managed_svc_as_monolith
 
       monolith_init_mysql_managed_stateful_resources = local.monolith_init_mysql_managed_stateful_resources
   })
