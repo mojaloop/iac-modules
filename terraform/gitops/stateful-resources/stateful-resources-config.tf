@@ -94,6 +94,8 @@ resource "local_file" "kustomization" {
       redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
       monolith_stateful_resources         = var.monolith_stateful_resources
+
+      monolith_init_mysql_managed_stateful_resources = local.monolith_init_mysql_managed_stateful_resources
   })
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
 }
