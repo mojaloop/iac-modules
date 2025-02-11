@@ -3,7 +3,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - external-name-services.yaml
+# %{ if managed_svc_as_monolith }
 - monolith-external-name-services.yaml
+# %{ endif }
 - namespace.yaml
 # %{ for key, stateful_resource in all_local_stateful_resources }
 - vault-crs-${key}.yaml
