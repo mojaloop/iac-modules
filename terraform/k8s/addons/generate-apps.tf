@@ -5,8 +5,8 @@ resource "local_file" "config-file" {
     (
       split("/", filename)[1] == "app-yamls" ||
       coalesce(
-        try(local.override["${split("/", filename)[0]}/app-yamls}"]["${split("/", filename)[1]}enabled"], null),
-        try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}enabled"], false)
+        try(local.override["${split("/", filename)[0]}/app-yamls}"]["${split("/", filename)[1]}Enabled"], null),
+        try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}Enabled"], false)
       )
     )
   ]) # this represents addon-name/app-name/filename list of files filtered by enabled app-yamls
@@ -31,8 +31,8 @@ resource "local_file" "addon-file" {
     (
       split("/", filename)[1] == "app-yamls" ||
       coalesce(
-        try(local.override["${split("/", filename)[0]}/app-yamls}"]["${split("/", filename)[1]}enabled"], null),
-        try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}enabled"], false)
+        try(local.override["${split("/", filename)[0]}/app-yamls}"]["${split("/", filename)[1]}Enabled"], null),
+        try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}Enabled"], false)
       )
     )
   ]) # this represents addon-name/app-name/folder-name/filename list of files filtered by enabled app-yamls
