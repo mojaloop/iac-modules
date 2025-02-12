@@ -25,7 +25,7 @@ oathkeeper:
         enabled: true
         config:
           jwks_urls:
-            - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs  
+            - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
       cookie_session:
         enabled: true
         config:
@@ -72,7 +72,7 @@ oathkeeper:
           headers:
             X-User: '{{ print .Subject }}'
             X-Extra: '{{ print .Extra }}'
-            # X-Email: '{{ print .Extra.identity.traits.email }}'
+            X-Email: '{{ print .Extra.identity.traits.email }}'
 
 
     errors:
