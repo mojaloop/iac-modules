@@ -72,6 +72,7 @@ oathkeeper:
           headers:
             X-User: '{{ print .Subject }}'
             X-Extra: '{{ print .Extra }}'
+            # Used by reporting-hub-bop-experience-api-svc to record users for settlement audit report
             X-Email: '{{ print .Extra.identity.traits.email }}'
 
 
