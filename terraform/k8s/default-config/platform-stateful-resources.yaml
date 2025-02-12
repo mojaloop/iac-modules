@@ -22,7 +22,7 @@ thirdparty-auth-svc-db:
   enabled: false
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: thirdparty-auth-db
@@ -42,7 +42,7 @@ mysql-consent-oracle-db:
   enabled: false
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: mysql-consent-oracle
@@ -71,7 +71,7 @@ mcm-db:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: mcm-db-svc
@@ -91,7 +91,7 @@ account-lookup-db:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: account-lookup-db-svc
@@ -111,7 +111,7 @@ central-ledger-db:
   enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: central-ledger-db-svc
@@ -293,7 +293,7 @@ keycloak-db:
   enabled: true
   app_owner: "platform"
   resource_type: mysql
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: keycloak-db
@@ -313,7 +313,7 @@ keto-db:
   enabled: true
   app_owner: "platform"
   resource_type: mysql
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: keto-db
@@ -333,7 +333,7 @@ kratos-db:
   enabled: true
   app_owner: "platform"
   resource_type: mysql
-  deployment_type: helm-chart
+  deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
     logical_service_name: kratos-db
