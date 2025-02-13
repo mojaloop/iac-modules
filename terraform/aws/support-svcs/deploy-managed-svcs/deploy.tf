@@ -4,14 +4,28 @@ module "config_deepmerge" {
   maps    = local.stateful_resources_config_vars_list
 }
 
-module "deploy_rds" {
-  count = length(local.rds_services) > 0 ? 1 : 0
-  source  = "../deploy-rds"
+module "deploy_rds_ms" {
+  count = length(local.rds_services) > 0 && var.managed_svc_as_monolith == false ? 1 : 0
+  source  = "../deploy-rds-ms"
   deployment_name = var.deployment_name
   tags = var.tags
   rds_services = local.rds_services
   security_group_id = aws_security_group.managed_svcs[0].id
   private_subnets = module.base_infra[0].private_subnets
+  managed_svc_as_monolith = var.managed_svc_as_monolith
+  monolith_internal_databases = local.monolith_internal_databases
+}
+
+module "deploy_rds_monolith" {
+  count = length(local.monolith_rds_services) > 0  && var.managed_svc_as_monolith == true ? 1 : 0
+  source  = "../deploy-rds-monolith"
+  deployment_name = var.deployment_name
+  tags = var.tags
+  rds_services = local.monolith_rds_services
+  security_group_id = aws_security_group.managed_svcs[0].id
+  private_subnets = module.base_infra[0].private_subnets
+  managed_svc_as_monolith = var.managed_svc_as_monolith
+  monolith_internal_databases = local.monolith_internal_databases
 }
 
 module "deploy_msk" {

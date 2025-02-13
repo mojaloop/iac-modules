@@ -72,6 +72,7 @@ inputs = {
   mojaloop_stateful_res_op_config_file     = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-local-operator.yaml")
   mojaloop_stateful_res_mangd_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
+  mojaloop_stateful_res_monolith_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed-monolith.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -102,6 +103,7 @@ inputs = {
   zitadel_project_id                       = local.zitadel_project_id
   grafana_admin_rbac_group                 = local.grafana_admin_rbac_group
   grafana_user_rbac_group                  = local.grafana_user_rbac_group
+  managed_svc_as_monolith                  = local.managed_svc_as_monolith
 }
 
 locals {
@@ -163,6 +165,7 @@ locals {
   argocd_ingress_internal_lb    = true
   grafana_ingress_internal_lb   = true
   vault_ingress_internal_lb     = true
+  managed_svc_as_monolith       = get_env("managed_svc_as_monolith")
 }
 
 generate "required_providers_override" {

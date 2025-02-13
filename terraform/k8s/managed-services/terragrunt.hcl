@@ -12,10 +12,12 @@ inputs = {
   tags                         = local.tags
   deployment_name              = local.CLUSTER_NAME
   vpc_cidr                     = local.env_vars.managed_vpc_cidr
+  managed_svc_as_monolith      = local.managed_svc_as_monolith
 
 
   managed_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
+  monolith_managed_stateful_resources_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed-monolith.yaml")
 }
 
 locals {
@@ -32,7 +34,8 @@ locals {
   GITLAB_USERNAME           = get_env("GITLAB_USERNAME")
   K8S_CLUSTER_TYPE          = get_env("k8s_cluster_type")
   CLOUD_REGION              = get_env("cloud_region")
-  aws_provider_version      = ">= 5.0.0"  
+  aws_provider_version      = ">= 5.0.0"
+  managed_svc_as_monolith   = get_env("managed_svc_as_monolith")
 }
 
 generate "required_providers_override" {

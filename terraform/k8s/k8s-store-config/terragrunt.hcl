@@ -21,6 +21,9 @@ dependency "managed_services" {
     properties_var_map = {}
     secrets_var_map    = {}
     secrets_key_map    = {}
+    monolith_properties_var_map = {}
+    monolith_secrets_var_map    = {}
+    monolith_secrets_key_map    = {}
   }
   skip_outputs = local.skip_outputs
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
@@ -36,9 +39,9 @@ inputs = {
   cluster_name       = local.CLUSTER_NAME
   gitlab_project_id  = local.GITLAB_CURRENT_PROJECT_ID
   kv_path            = local.KV_SECRET_PATH
-  properties_var_map = merge(local.properties_var_map, dependency.k8s_deploy.outputs.properties_var_map, dependency.managed_services.outputs.properties_var_map)
-  secrets_var_map    = merge({ for key, value in dependency.k8s_deploy.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.secrets_var_map: key => replace(value, "$${", "$$${") })
-  secrets_key_map    = merge(dependency.k8s_deploy.outputs.secrets_key_map, dependency.managed_services.outputs.secrets_key_map)
+  properties_var_map = merge(local.properties_var_map, dependency.k8s_deploy.outputs.properties_var_map, dependency.managed_services.outputs.properties_var_map, dependency.managed_services.outputs.monolith_properties_var_map)
+  secrets_var_map    = merge({ for key, value in dependency.k8s_deploy.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.monolith_secrets_var_map: key => replace(value, "$${", "$$${") })
+  secrets_key_map    = merge(dependency.k8s_deploy.outputs.secrets_key_map, dependency.managed_services.outputs.secrets_key_map, dependency.managed_services.outputs.monolith_secrets_key_map)
 }
 
 locals {

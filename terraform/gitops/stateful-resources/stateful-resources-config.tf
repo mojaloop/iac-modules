@@ -29,6 +29,18 @@ resource "local_file" "managed_crs" {
   filename = "${local.stateful_resources_output_path}/managed-crs-${each.key}.yaml"
 }
 
+resource "local_file" "monolith_managed_crs" {
+  for_each = local.monolith_managed_password_map
+
+  content = templatefile("${local.stateful_resources_template_path}/monolith-managed-crs.yaml.tpl", {
+    secret_name = each.value.secret_name
+    namespace   = each.value.namespace
+    secret_key  = each.value.secret_key
+    vault_path  = each.value.vault_path
+  })
+  filename = "${local.stateful_resources_output_path}/monolith-managed-crs-${each.key}.yaml"
+}
+
 resource "local_file" "mysql_managed_stateful_resources" {
   for_each = local.mysql_managed_stateful_resources
 
@@ -51,6 +63,28 @@ resource "local_file" "external_name_services" {
   filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
 }
 
+resource "local_file" "monolith_external_name_services" {
+  count   = var.managed_svc_as_monolith ? 1 : 0
+  content = templatefile("${local.stateful_resources_template_path}/monolith-external-name-services.yaml.tpl",
+    { config                       = local.monolith_managed_external_name_map
+      stateful_resources_namespace = var.stateful_resources_namespace
+  })
+  filename = "${local.stateful_resources_output_path}/monolith-external-name-services.yaml"
+}
+
+resource "local_file" "monolith-init-db" {
+  for_each = local.monolith_init_mysql_managed_stateful_resources
+
+  content = templatefile("${local.stateful_resources_template_path}/monolith-db-init-job.yaml.tpl", {
+    resource_name                = each.key
+    stateful_resources_namespace = var.stateful_resources_namespace
+    managed_stateful_resource    = local.mysql_managed_stateful_resources[each.key]
+    resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
+    monolith_stateful_resources  = var.monolith_stateful_resources
+  })
+  filename = "${local.stateful_resources_output_path}/monolith-db-init-job-${each.key}.yaml"
+}
+
 resource "local_file" "kustomization" {
   content = templatefile("${local.stateful_resources_template_path}/stateful-resources-kustomization.yaml.tpl",
     { all_local_stateful_resources        = local.internal_stateful_resources
@@ -60,6 +94,10 @@ resource "local_file" "kustomization" {
       strimzi_operator_stateful_resources = local.strimzi_operator_stateful_resources
       redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
+      monolith_stateful_resources         = var.monolith_stateful_resources
+      managed_svc_as_monolith             = var.managed_svc_as_monolith
+
+      monolith_init_mysql_managed_stateful_resources = local.monolith_init_mysql_managed_stateful_resources
   })
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
 }
@@ -186,6 +224,16 @@ locals {
     secret_key  = stateful_resource.logical_service_config.user_password_secret_key
     }
   }
+  monolith_managed_password_map = { for key, stateful_resource in var.monolith_stateful_resources : key => {
+    vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
+    namespace   = stateful_resource.external_resource_config.master_user_password_secret_namespace
+    secret_name = stateful_resource.external_resource_config.master_user_password_secret
+    secret_key  = stateful_resource.external_resource_config.master_user_password_secret_key
+    }
+  }
+  monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
+
+  monolith_init_mysql_managed_stateful_resources = { for key, resource in local.mysql_managed_stateful_resources : key => resource if var.managed_svc_as_monolith == true }
 
   stateful_resources_vars = {
     stateful_resources_namespace = var.stateful_resources_namespace
@@ -206,6 +254,9 @@ locals {
 }
 
 variable "external_stateful_resource_instance_addresses" {
+}
+
+variable "monolith_external_stateful_resource_instance_addresses" {
 }
 
 variable "create_stateful_resources_ns" {
@@ -285,4 +336,11 @@ variable "ceph_api_url" {
 variable "ceph_percona_backup_bucket" {
   type        = string
   description = "ceph_percona_backup_bucket"
+}
+
+variable "monolith_stateful_resources" {
+  type = any
+}
+
+variable "managed_svc_as_monolith" {
 }
