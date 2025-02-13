@@ -1,6 +1,6 @@
 argocd_override:
   initial_application_gitrepo_tag: "${iac_terraform_modules_tag}"
-  apps:        
+  apps:
     utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -56,10 +56,12 @@ argocd_override:
           vault_crossplane_modules_version: "${vault_crossplane_modules_version}"
           terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
           ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
-          aws_crossplane_module_version:  "${aws_crossplane_module_version}"          
+          aws_crossplane_module_version:  "${aws_crossplane_module_version}"
           crossplane_func_pat_version: "${crossplane_func_pat_version}"
           k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
           crossplane_func_go_templating_version: "${crossplane_func_go_templating_version}"
+        kyverno:
+          helm_version: "${kyverno_helm_version}"
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -126,7 +128,7 @@ argocd_override:
           postgres_replicas: "${zitadel_perc_postgres_replicas}"
           postgres_proxy_replicas: "${zitadel_perc_postgres_proxy_replicas}"
           postgres_storage_size: "${zitadel_perc_postgres_storage_size}"
-          pgdb_helm_version: "${zitadel_perc_pgdb_helm_version}"          
+          pgdb_helm_version: "${zitadel_perc_pgdb_helm_version}"
         zitadel_rds_provider:
           engine: "${zitadel_rds_engine}"
           engine_version: "${zitadel_rds_engine_version}"
@@ -142,8 +144,8 @@ argocd_override:
           backup_retention_period: "${zitadel_db_backup_retention_period}"
           preferred_backup_window: "${zitadel_db_preferred_backup_window}"
           storage_type: "${zitadel_rds_storage_type}"
-          storage_iops: "${zitadel_rds_storage_iops}"       
-        zitadel_cockroachdb_provider:                    
+          storage_iops: "${zitadel_rds_storage_iops}"
+        zitadel_cockroachdb_provider:
           helm_version: "${cockroachdb_helm_version}"
           pvc_size: "${zitadel_db_storage_size}"
         netbird:
@@ -162,21 +164,21 @@ argocd_override:
           rdbms_provider: "${netbird_rdbms_provider}"
         netbird_percona_provider:
           postgres_replicas: "${netbird_perc_postgres_replicas}"
-          postgres_proxy_replicas: "${netbird_perc_postgres_proxy_replicas}"          
+          postgres_proxy_replicas: "${netbird_perc_postgres_proxy_replicas}"
           postgres_storage_size: "${netbird_perc_postgres_storage_size}"
           pgdb_helm_version: "${netbird_perc_pgdb_helm_version}"
         netbird_rds_provider:
           engine: "${netbird_rds_engine}"
           engine_version: "${netbird_rds_engine_version}"
-          replica_count: "${netbird_rds_replica_count}"                     
+          replica_count: "${netbird_rds_replica_count}"
           postgres_instance_class: "${netbird_rds_instance_class}"
           storage_encrypted: "${netbird_rds_storage_encrypted}"
-          skip_final_snapshot: "${netbird_rds_skip_final_snapshot}"        
+          skip_final_snapshot: "${netbird_rds_skip_final_snapshot}"
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
           vpc_cidr: "${vpc_cidr}"
-          postgres_storage_size: "${netbird_rds_postgres_storage_size}"         
+          postgres_storage_size: "${netbird_rds_postgres_storage_size}"
           backup_retention_period: "${netbird_db_backup_retention_period}"
           preferred_backup_window: "${netbird_db_preferred_backup_window}"
           storage_type: "${netbird_rds_storage_type}"
@@ -192,7 +194,7 @@ argocd_override:
           cpu_limit: "${nexus_cpu_limit}"
           memory_limit: "${nexus_memory_limit}"
           cpu_request: "${nexus_cpu_request}"
-          memory_request: "${nexus_memory_request}"          
+          memory_request: "${nexus_memory_request}"
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
 
@@ -232,23 +234,23 @@ argocd_override:
           redis_cluster_size: "${gitlab_redis_cluster_size}"
           redis_storage_size: "${gitlab_redis_storage_size}"
           rdbms_provider: "${gitlab_postgres_rdbms_provider}"
-        webdb_percona_provider:            
+        webdb_percona_provider:
           postgres_replicas: "${gitlab_perc_postgres_replicas}"
           postgres_proxy_replicas: "${gitlab_perc_postgres_proxy_replicas}"
           postgres_storage_size: "${gitlab_perc_postgres_storage_size}"
           pgdb_helm_version: "${gitlab_perc_pgdb_helm_version}"
         praefectdb_percona_provider:
           postgres_replicas: "${praefect_perc_postgres_replicas}"
-          postgres_proxy_replicas: "${praefect_perc_postgres_proxy_replicas}"          
+          postgres_proxy_replicas: "${praefect_perc_postgres_proxy_replicas}"
           postgres_storage_size: "${praefect_perc_postgres_storage_size}"
           pgdb_helm_version: "${praefect_perc_pgdb_helm_version}"
         webdb_rds_provider:
           engine: "${gitlab_rds_engine}"
           engine_version: "${gitlab_rds_engine_version}"
-          replica_count: "${gitlab_rds_replica_count}"          
+          replica_count: "${gitlab_rds_replica_count}"
           postgres_instance_class: "${gitlab_rds_instance_class}"
           storage_encrypted: "${gitlab_rds_storage_encrypted}"
-          skip_final_snapshot: "${gitlab_rds_skip_final_snapshot}"        
+          skip_final_snapshot: "${gitlab_rds_skip_final_snapshot}"
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
@@ -261,21 +263,21 @@ argocd_override:
         praefectdb_rds_provider:
           engine: "${praefect_rds_engine}"
           engine_version: "${praefect_rds_engine_version}"
-          replica_count: "${praefect_rds_replica_count}"                     
+          replica_count: "${praefect_rds_replica_count}"
           postgres_instance_class: "${praefect_rds_instance_class}"
           storage_encrypted: "${praefect_rds_storage_encrypted}"
-          skip_final_snapshot: "${praefect_rds_skip_final_snapshot}"        
+          skip_final_snapshot: "${praefect_rds_skip_final_snapshot}"
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
           vpc_cidr: "${vpc_cidr}"
-          postgres_storage_size: "${praefect_rds_postgres_storage_size}"         
+          postgres_storage_size: "${praefect_rds_postgres_storage_size}"
           backup_retention_period: "${praefect_db_backup_retention_period}"
           preferred_backup_window: "${praefect_db_preferred_backup_window}"
           storage_type: "${praefect_rds_storage_type}"
           storage_iops: "${praefect_rds_storage_iops}"
 
-          
+
     deploy_env:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -286,7 +288,7 @@ argocd_override:
           ceph_bucket_max_size:  "${ceph_bucket_max_size}"
           env_token_ttl: "${env_token_ttl}"
         onboard:
-          terraform_modules_tag: "${iac_terraform_modules_tag}"          
+          terraform_modules_tag: "${iac_terraform_modules_tag}"
 
 
     monitoring:
