@@ -476,3 +476,39 @@ spec:
             paths:
               - /api/*
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: finance-portal-db-peer-authentication
+  namespace: mcm-db
+spec:
+  mtls:
+    mode: PERMISSIVE
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: finance-portal-peer-authentication
+  namespace: mcm
+spec:
+  mtls:
+    mode: PERMISSIVE
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: mojaloop-db-peer-authentication
+  namespace: ${mojaloop_namespace}-db
+spec:
+  mtls:
+    mode: PERMISSIVE
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: mojaloop-peer-authentication
+  namespace: ${mojaloop_namespace}
+spec:
+  mtls:
+    mode: PERMISSIVE # Set to PERMISSIVE to allow kafka comms
