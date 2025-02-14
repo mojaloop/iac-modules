@@ -112,7 +112,6 @@ metadata:
 spec:
   concurrencyPolicy: Forbid
   schedule: "${ARGOCD_ENV_vault_backup_schedule}"
-  # schedule: "0 7 * * *"
   jobTemplate:
     spec:
       template:
