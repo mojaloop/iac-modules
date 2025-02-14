@@ -116,3 +116,6 @@ spec:
 
           - name: "vault_kv_secret"
             value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
+
+          - name: "vault_backup_schedule"
+            value: "${ARGOCD_ENV_vault_vault_backup_schedule}"
