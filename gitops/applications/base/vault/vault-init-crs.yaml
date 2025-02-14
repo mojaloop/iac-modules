@@ -81,7 +81,8 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: vault-client
-          image: hashicorp/vault
+          #TODO: this version tag needs another solution
+          image: hashicorp/vault:1.17.2
           command:
             - /bin/sh
             - "-c"
@@ -102,4 +103,3 @@ spec:
                   name: ${ARGOCD_ENV_tf_post_config_output_secret}
                   key: kv_path
 ---
-
