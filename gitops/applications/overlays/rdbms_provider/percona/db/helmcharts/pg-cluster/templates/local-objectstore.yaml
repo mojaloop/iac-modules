@@ -1,0 +1,104 @@
+{{- if and .Values.backup.s3.enabled .Values.backup.s3.devMode }}
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: "{{ .Values.global.dbDeployPrefix }}-backups"
+  namespace: {{ .Values.global.namespace }}
+spec:
+  bucketName: "{{ .Values.global.dbDeployPrefix }}-backups"
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "1000000"
+    maxSize: "10Gi"
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: {{ .Values.global.namespace }}
+  name: "{{ .Values.global.dbDeployPrefix }}-secret-creator"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: {{ .Values.global.namespace }}
+  name: "{{ .Values.global.dbDeployPrefix }}-secret-role"
+rules:
+  - apiGroups: [""]
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - selfsubjectrulesreviews
+    verbs:
+      - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "{{ .Values.global.dbDeployPrefix }}-secret-creator"
+  namespace: {{ .Values.global.namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: "{{ .Values.global.dbDeployPrefix }}-secret-creator"
+roleRef:
+  kind: Role
+  name: "{{ .Values.global.dbDeployPrefix }}-secret-role"
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: "{{ .Values.global.dbDeployPrefix }}-k8s-secret-store"
+  namespace: {{ .Values.global.namespace }}
+spec:
+  provider:
+    kubernetes:
+      auth:
+        serviceAccount:
+          name: "{{ .Values.global.dbDeployPrefix }}-secret-creator"
+      remoteNamespace: {{ .Values.global.namespace }}
+      server:
+        caProvider:
+          type: ConfigMap
+          name: kube-root-ca.crt
+          key: ca.crt
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: "{{ .Values.global.dbDeployPrefix }}-pgbackrest-secret"
+  namespace: {{ .Values.global.namespace }}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: "{{ .Values.global.dbDeployPrefix }}-k8s-secret-store"
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: "{{ .Values.global.dbDeployPrefix }}-backups"
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: "{{ .Values.global.dbDeployPrefix }}-backups"
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: "{{ .Values.global.dbDeployPrefix }}-pgbackrest-secret"
+    creationPolicy: Owner
+    template:
+      data:
+        s3.conf: |
+          [global]
+          repo1-s3-key={{`{{ .AWS_ACCESS_KEY_ID }}`}}
+          repo1-s3-key-secret={{`{{ .AWS_SECRET_ACCESS_KEY }}`}}
+{{- end }}

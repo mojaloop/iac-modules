@@ -1,0 +1,105 @@
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGCluster
+metadata:
+  name: {{ .Values.global.dbDeployPrefix }}
+  namespace: {{ .Values.global.namespace }}
+spec:
+  crVersion: {{ .Values.global.crVersion }}
+  image: {{ .Values.global.image }}
+  postgresVersion: {{ .Values.global.pgVersion }}
+  port: {{ default 5432 .Values.global.port }}
+  imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+  openshift: false
+  pause: false
+
+  standby:
+    enabled: false
+  unmanaged: false
+  
+  instances:
+    - name: instance1
+      replicas: {{ .Values.global.replicas }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/data: postgres
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      dataVolumeClaimSpec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.global.storageSize }}
+  users:
+    - databases:
+        - {{ .Values.global.dbName }}
+      name: {{ .Values.global.dbUsername }}
+      options: SUPERUSER
+      password:
+        type: ASCII
+      secretName: {{ .Values.global.dbSecret }}
+
+  backups:
+    pgbackrest:
+      image: {{ .Values.pgBackRest.image }}
+      {{- if .Values.backup.s3.enabled }}
+      configuration:
+        - secret:
+            name: {{ if .Values.backup.s3.devMode }}{{ printf "%s-pgbackrest-secret" .Values.global.dbDeployPrefix | quote }}{{ else }}{{ .Values.backup.s3.credentials_secret | quote }}{{ end }}
+      global:
+        repo1-path: {{ .Values.pgBackRest.repo_path }}
+        repo1-retention-full: "{{ .Values.pgBackRest.backupsRetentionDays }}"
+        repo1-s3-uri-style: {{ if .Values.backup.s3.devMode }}"path"{{ else }}"host"{{ end }}
+        repo1-storage-verify-tls: {{ if .Values.backup.s3.devMode }}"n"{{ else }}"y"{{ end }}
+        repo1-storage-port: "{{ .Values.pgBackRest.storagePort }}"
+        
+      manual:
+        options:
+          - '--type=full'
+        repoName: repo1
+      {{- end }}
+      repos:
+        {{- if .Values.backup.s3.enabled }}
+        - name: repo1
+          s3:
+            endpoint: {{ if .Values.backup.s3.devMode }}"rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"{{ else }}{{ .Values.backup.s3.endpoint | quote }}{{ end }}
+            bucket: {{ if .Values.backup.s3.devMode }}{{ printf "%s-backups" .Values.global.dbDeployPrefix | quote }}{{ else }}{{ .Values.backup.s3.bucket | quote }}{{ end }}
+            region: {{ if .Values.backup.s3.devMode }}"us-east-1"{{ else }}{{ .Values.backup.s3.region | quote }}{{ end }}
+          schedules:
+            full: {{ .Values.pgBackRest.fullBackupSchedule | quote }}
+            differential: {{ .Values.pgBackRest.diffBackupSchedule | quote }}
+        {{- end }}
+        {{- if not .Values.backup.s3.enabled }}
+        - name: repo2
+          volume:
+            volumeClaimSpec:
+              accessModes:
+              - "ReadWriteOnce"
+              resources:
+                requests:
+                  storage: 1Gi
+        {{- end }}
+  proxy:
+    pgBouncer:
+      image: {{ .Values.pgBouncer.image }}
+      replicas: {{ .Values.pgBouncer.replicas }}
+      port: {{ default 5432 .Values.pgBouncer.port }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    postgres-operator.crunchydata.com/role: pgbouncer
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      config:
+        global:
+          pool_mode: {{ .Values.pgBouncer.poolMode }}
+          query_wait_timeout: "{{ .Values.pgBouncer.queryWaitTimeout }}"
+          max_prepared_statements: "{{ .Values.pgBouncer.maxPreparedStatements }}"
+      exposeSuperusers: {{ .Values.pgBouncer.exposeSuperusers }}

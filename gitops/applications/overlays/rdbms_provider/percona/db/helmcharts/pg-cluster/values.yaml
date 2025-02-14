@@ -1,0 +1,41 @@
+global:
+  namespace: default
+  crVersion: "2.5.0"
+  pgVersion: 16
+  image: percona/percona-postgresql-operator:2.5.0-ppg16.4-postgres
+  imagePullPolicy: Always
+  dbDeployPrefix: mydb
+  dbName: mydatabase
+  dbUsername: admin
+  dbSecret: db-secret
+  replicas: 1
+  storageSize: 10Gi
+
+backup:
+  s3:
+    enabled: false
+    devMode: false
+    endpoint: "s3.amazonaws.com"
+    bucket: ""
+    region: ""
+    credentials_secret: ""
+    accessKey: ""
+    secretKey: ""
+    tlsVerify: n
+
+pgBackRest:
+  backupReponame: repo1
+  repo_path: "/pgbackrest"
+  image: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbackrest2.53-1
+  storagePort: 443
+  backupsRetentionDays: 3
+  fullBackupSchedule: "0 0 * * 6"
+  diffBackupSchedule: "0 1 * * 1-6"
+
+pgBouncer:
+  image: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbouncer1.23.1
+  replicas: 1
+  poolMode: transaction
+  queryWaitTimeout: 600
+  maxPreparedStatements: 1
+  exposeSuperusers: true

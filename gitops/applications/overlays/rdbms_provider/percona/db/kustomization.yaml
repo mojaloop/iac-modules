@@ -4,10 +4,12 @@ kind: Kustomization
 resources:
   - db-external-name-service.yaml
 
+helmGlobals:
+  chartHome: ./helmcharts
+
 helmCharts:
-  - name: pg-db
+  - name: pg-cluster
     releaseName: ${ARGOCD_ENV_app_name}
-    version: ${ARGOCD_ENV_pgdb_helm_version}
-    repo: https://percona.github.io/percona-helm-charts/
-    valuesFile: db-values.yaml
+    version: 0.1.0
+    valuesFile: pg-values.yaml
     namespace: ${ARGOCD_ENV_namespace}
