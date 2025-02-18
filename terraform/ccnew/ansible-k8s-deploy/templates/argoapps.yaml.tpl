@@ -109,6 +109,9 @@ argocd_override:
           cloud_platform_api_client_secret: "${cloud_platform_api_client_secret}"
           vault_pvc_size: "${vault_pvc_size}"
           backup_schedule: "${vault_backup_schedule}"
+          backup_bucket_maxobjects: "${vault_backup_bucket_maxobjects}"
+          backup_bucket_maxsize: "${vault_backup_bucket_maxsize}"
+          backup_utility_image_version: "${vault_backup_utility_image_version}"         
         vault_config_operator:
           helm_version: "${vault_config_operator_helm_version}"
     security:
