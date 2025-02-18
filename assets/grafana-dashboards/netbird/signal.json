@@ -421,7 +421,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "description": "No. of messages forwarded per seconds  ",
+        "description": "No. of messages forwarded per seconds. \nThis doesn't include the failed message count. They are tracked separately.",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1310,8 +1310,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -1414,8 +1413,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -1519,8 +1517,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -1656,8 +1653,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -1871,6 +1867,6 @@
     "timezone": "browser",
     "title": "Netbird / Signal",
     "uid": "cebyq0fs0m7lsc",
-    "version": 11,
+    "version": 12,
     "weekStart": ""
   }
