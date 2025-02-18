@@ -134,6 +134,10 @@ mimir_alertmanager_limits_cpu: "100m"
 mimir_alertmanager_limits_memory: "512Mi"
 
 # monitoring/loki
+loki_bucket_name: "control-center-loki-bucket"
+loki_bucket_max_objects: "'2000000'"
+loki_bucket_storage_size: "50Gi"
+
 loki_ingester_replication_factor: "'3'"
 
 loki_distributor_replica_count: "'4'"

@@ -277,6 +277,9 @@ argocd_override:
           mimir_bucket_name: "${mimir_bucket_name}"
           mimir_bucket_max_objects: "${mimir_bucket_max_objects}"
           mimir_bucket_storage_size: "${mimir_bucket_storage_size}"
+          ctrl_cntr_loki_bucket_name: "${loki_bucket_name}"
+          ctrl_cntr_loki_bucket_max_objects: "${loki_bucket_max_objects}"
+          ctrl_cntr_loki_bucket_storage_size: "${loki_bucket_storage_size}"
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
