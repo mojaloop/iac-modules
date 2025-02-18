@@ -7,8 +7,8 @@ spec:
   bucketName: vault-backups
   storageClassName: ceph-bucket
   additionalConfig:
-    maxObjects: "1000000"
-    maxSize: "10Gi"
+    maxObjects: ${ARGOCD_ENV_vault_backup_bucket_maxobjects}
+    maxSize: ${ARGOCD_ENV_vault_backup_bucket_maxsize}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -127,13 +127,12 @@ spec:
               secretName: rclone-config-template  
           containers:
           - name: vault-backup
-            image: hashicorp/vault
+            image: mojaloop/ml-iac-infra-utils:v${ARGOCD_ENV_vault_backup_utility_image_version}
             command:
               - /bin/sh
               - "-c"
             args:
               - >
-                apk add --no-cache rclone;
                 export VAULT_ADDR="http://vault-active.vault.svc.cluster.local:8200";
                 DATE=`date +%Y-%m-%d-%H-%M-%S`;
                 vault operator raft snapshot save /tmp/vaultsnapshot-$DATE.snap;
