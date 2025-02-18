@@ -116,3 +116,15 @@ spec:
 
           - name: "vault_kv_secret"
             value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
+
+          - name: "vault_backup_schedule"
+            value: "${ARGOCD_ENV_vault_vault_backup_schedule}"
+
+          - name: "vault_backup_bucket_maxobjects"
+            value: "${ARGOCD_ENV_vault_vault_backup_bucket_maxobjects}"
+
+          - name: "vault_backup_bucket_maxsize"
+            value: "${ARGOCD_ENV_vault_vault_backup_bucket_maxsize}"
+
+          - name: "vault_backup_utility_image_version"
+            value: "${ARGOCD_ENV_vault_vault_backup_utility_image_version}"
