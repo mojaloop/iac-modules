@@ -8,7 +8,7 @@ spec:
   storageClassName: ceph-bucket
   additionalConfig:
     maxObjects: "${ARGOCD_ENV_vault_backup_bucket_maxobjects}"
-    maxSize: "${ARGOCD_ENV_vault_backup_bucket_maxsize}""
+    maxSize: "${ARGOCD_ENV_vault_backup_bucket_maxsize}"
 ---
 apiVersion: v1
 kind: ServiceAccount
