@@ -127,7 +127,7 @@ spec:
               secretName: rclone-config-template  
           containers:
           - name: vault-backup
-            image: ghcr.io/mojaloop/ml-iac-infra-utils:v${ARGOCD_ENV_vault_backup_utility_image_version}
+            image: ghcr.io/mojaloop/ml-iac-infra-utils:${ARGOCD_ENV_vault_backup_utility_image_version}
             command:
               - /bin/sh
               - "-c"
