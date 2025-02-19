@@ -84,7 +84,7 @@ argocd_user_rbac_group: "argocd_users"
 vault_rbac_admin_group: "techops-admin"
 vault_pvc_size: 15Gi
 vault_backup_schedule: "0 0 * * *"
-vault_backup_bucket_maxobjects: "1000000"
+vault_backup_bucket_maxobjects: "'1000000'"
 vault_backup_bucket_maxsize: "10Gi"
 vault_backup_utility_image_version: "0.0.2"
 
