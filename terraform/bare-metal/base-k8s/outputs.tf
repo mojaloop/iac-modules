@@ -132,6 +132,8 @@ output "all_hosts_var_maps" {
     kubeapi_loadbalancer_fqdn    = var.app_var_map.kubeapi_loadbalancer_fqdn
     dns_resolver_ip              = var.app_var_map.dns_resolver_ip
     ssh_public_key               = var.app_var_map.ssh_public_key
+    bare_metal_cloud_user        = var.app_var_map.bare_metal_cloud_user
+    bare_metal_cloud_password    = var.app_var_map.bare_metal_cloud_password
   }
 }
 
