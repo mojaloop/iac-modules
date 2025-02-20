@@ -48,6 +48,7 @@ module "generate_monitoring_files" {
     loki_ingester_retention_period         = try(var.common_var_map.loki_ingester_retention_period, local.loki_ingester_retention_period)
     loki_ingester_max_chunk_age            = try(var.common_var_map.loki_ingester_max_chunk_age, local.loki_ingester_max_chunk_age)
     loki_ingester_replication_factor       = try(var.common_var_map.loki_ingester_replication_factor, local.loki_ingester_replication_factor)
+    loki_query_scheduler_enabled           = try(var.common_var_map.loki_query_scheduler_enabled, local.loki_query_scheduler_enabled)
     loki_distributor_replica_count         = try(var.common_var_map.loki_distributor_replica_count, local.loki_distributor_replica_count)
     loki_ingester_replica_count            = try(var.common_var_map.loki_ingester_replica_count, local.loki_ingester_replica_count)
     loki_querier_replica_count             = try(var.common_var_map.loki_querier_replica_count, local.loki_querier_replica_count)
@@ -164,6 +165,7 @@ locals {
   loki_ingester_retention_period      = "72h"
   loki_ingester_max_chunk_age         = "2h"
   loki_ingester_replication_factor    = "3"
+  loki_query_scheduler_enabled        = false
   loki_distributor_replica_count      = "2"
   loki_ingester_replica_count         = "3"
   loki_querier_replica_count          = "1"

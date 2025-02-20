@@ -91,7 +91,7 @@ queryFrontend:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 queryScheduler:
-  enabled: true
+  enabled: ${loki_query_scheduler_enabled}
   extraArgs: ["-config.expand-env"]
   extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
   nodeAffinityPreset:
