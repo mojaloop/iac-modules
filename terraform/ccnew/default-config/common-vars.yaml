@@ -130,7 +130,7 @@ loki_bucket_name: "control-center-loki-bucket"
 loki_bucket_max_objects: "'1000000'"
 loki_bucket_storage_size: "50Gi"
 
-loki_helm_version: "2.13.0"
+loki_helm_version: "2.13.0" # test
 loki_retention_period: "3d" # test
 loki_ingester_max_chunk_age: "2h" # test
 loki_ingester_replication_factor: "'3'" # test
