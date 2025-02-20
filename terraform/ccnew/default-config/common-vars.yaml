@@ -95,14 +95,6 @@ grafana_image_version: 11.1.1
 prometheus_pvc_size: 50Gi
 prometheus_retention_period: 10d
 
-tempo_chart_version: 3.1.0
-loki_chart_version: 2.13.0
-loki_ingester_pvc_size: 10Gi
-
-loki_retention_enabled: true
-loki_ingester_retention_period: 72h
-loki_ingester_max_chunk_age: 2h
-tempo_retention_period: 72h
 
 # Metrics server
 metrics_server_helm_version: 3.12.2
@@ -156,6 +148,13 @@ mimir_alertmanager_limits_cpu: "100m"
 mimir_alertmanager_limits_memory: "512Mi"
 
 # monitoring/loki
+loki_bucket_name: "control-center-loki-bucket"
+loki_bucket_max_objects: "'1000000'"
+loki_bucket_storage_size: "50Gi"
+
+loki_helm_version: "2.13.0"
+loki_retention_period: "3d"
+loki_ingester_max_chunk_age: "2h"
 loki_ingester_replication_factor: "'3'"
 
 loki_distributor_replica_count: "'4'"
