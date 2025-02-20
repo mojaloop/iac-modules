@@ -26,6 +26,7 @@ private_network_cidrs:
 ssh_private_key: |
   -----BEGIN RSA PRIVATE KEY-----
   -----END RSA PRIVATE KEY-----
+ssh_public_key: "ssh-rsa AAA..."
 os_user_name: ubuntu
 base_domain: "devbaremetal.infitx-labs.com"
 kubeapi_loadbalancer_fqdn: none
