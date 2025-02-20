@@ -57,3 +57,5 @@ coredns_bind_address: "169.254.20.10"
 single_nat_gateway: true
 migrate: false
 managed_svc_as_monolith: false
+block_storage_provider: ebs
+object_storage_provider: s3
