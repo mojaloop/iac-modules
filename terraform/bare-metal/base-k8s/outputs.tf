@@ -79,6 +79,11 @@ output "bastion_ssh_key" {
   value     = var.app_var_map.ssh_private_key
 }
 
+output "bastion_ssh_public_key" {
+  sensitive = true
+  value     = var.app_var_map.ssh_public_key
+}
+
 output "bastion_public_ip" {
   value = var.app_var_map.bastion_public_ips[0]
 }
@@ -126,6 +131,7 @@ output "all_hosts_var_maps" {
     external_interop_switch_fqdn = "${var.app_var_map.ext_interop_switch_subdomain}.${var.app_var_map.base_domain}"
     kubeapi_loadbalancer_fqdn    = var.app_var_map.kubeapi_loadbalancer_fqdn
     dns_resolver_ip              = var.app_var_map.dns_resolver_ip
+    ssh_public_key               = var.app_var_map.ssh_public_key
   }
 }
 
