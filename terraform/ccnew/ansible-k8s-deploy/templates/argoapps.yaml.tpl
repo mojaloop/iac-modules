@@ -298,11 +298,16 @@ argocd_override:
           mimir_bucket_name: "${mimir_bucket_name}"
           mimir_bucket_max_objects: "${mimir_bucket_max_objects}"
           mimir_bucket_storage_size: "${mimir_bucket_storage_size}"
+          ctrl_cntr_loki_bucket_name: "${loki_bucket_name}"
+          ctrl_cntr_loki_bucket_max_objects: "${loki_bucket_max_objects}"
+          ctrl_cntr_loki_bucket_storage_size: "${loki_bucket_storage_size}"
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
           prometheus_retention_period: "${prometheus_retention_period}"
+          ctrl_cntr_loki_helm_version: "${loki_helm_version}"
+          ctrl_cntr_loki_retention_period: "${loki_retention_period}" 
         grafana:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"
@@ -352,6 +357,7 @@ argocd_override:
           alertmanager_limits_memory: "${mimir_alertmanager_limits_memory}"
         loki:
           ingester_replication_factor: "${loki_ingester_replication_factor}"
+          ingester_max_chunk_age: "${loki_ingester_max_chunk_age}"
 
           distributor_replica_count: "${loki_distributor_replica_count}"
           ingester_replica_count: "${loki_ingester_replica_count}"
