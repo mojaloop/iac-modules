@@ -78,14 +78,14 @@ spec:
         - name: "capi_cluster_proxmox_host_sshkey"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_sshkey}"
 
-        # - name: "capi_cluster_proxmox_host_password"
-        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_password}"
+        - name: "capi_cluster_proxmox_host_password"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_password}"
 
         - name: "capi_cluster_proxmox_host_vlan"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_vlan}"
 
-        # - name: "capi_cluster_proxmox_host_net_interface"
-        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_net_interface}"
+        - name: "capi_cluster_proxmox_host_net_interface"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_net_interface}"
 
         - name: "capi_cluster_proxmox_control_plane_cpu"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_control_plane_cpu}"
