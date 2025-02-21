@@ -1,0 +1,7 @@
+bootstrap: kubeadmm
+controlPlane: kubeadmm
+infrastructure: proxmox
+cert-manager:
+  enabled: true
+fetchConfig:
+  url: https://raw.githubusercontent.com/k8s-proxmox/cluster-api-provider-proxmox/refs/tags/v${ARGOCD_ENV_capi_infra_provider_version}/clusterctl.yaml
