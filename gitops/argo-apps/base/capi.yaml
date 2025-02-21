@@ -63,8 +63,8 @@ spec:
         # - name: "capi_cluster_kubeapi_port"
         #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_port}"
 
-        - name: "capi_cluster_network_subnet"
-          value: "${ARGOCD_ENV_utils_capi_capi_cluster_network_subnet}"
+        # - name: "capi_cluster_network_subnet"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_network_subnet}"
 
         - name: "capi_cluster_network_gateway"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_network_gateway}"
