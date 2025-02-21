@@ -1110,7 +1110,7 @@
             "useBackend": false
           }
         ],
-        "title": "Peer registration latency latency",
+        "title": "Peer registration latency",
         "type": "timeseries"
       },
       {
@@ -1118,7 +1118,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "description": "Duration of how long it takes to load a connection from the registry",
+        "description": "Duration of how long it takes to load a connection from the registry.\n\nNOTE: It should be below 1 ms",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1268,6 +1268,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
+        "description": "Send method is used by peers intending to send a message to another peer. The send covers the RPC call of sending the message from the initiator to signal.",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1613,7 +1614,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "description": "",
+        "description": "Shows estimated time of how long a peer was connected",
         "fieldConfig": {
           "defaults": {
             "color": {
@@ -1864,13 +1865,13 @@
       ]
     },
     "time": {
-      "from": "now-6h",
+      "from": "now-24h",
       "to": "now"
     },
     "timepicker": {},
     "timezone": "browser",
     "title": "Netbird / Signal",
     "uid": "cebyq0fs0m7lsc",
-    "version": 14,
+    "version": 15,
     "weekStart": ""
   }
