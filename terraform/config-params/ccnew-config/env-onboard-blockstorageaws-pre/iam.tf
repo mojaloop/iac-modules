@@ -13,11 +13,19 @@ resource "aws_iam_access_key" "ebs_csi_access_key" {
 
 resource "vault_kv_secret_v2" "ebs_csi_credentials" {
   mount               = var.kv_path
-  name                = "${var.env_name}/loki_bucket_secret_key_id"
+  name                = "${var.env_name}/block_storage_secret_key_id"
   delete_all_versions = true
   data_json = jsonencode({
-    aws_access_key = aws_iam_access_key.ebs_csi_access_key.id
-    aws_secret_key = aws_iam_access_key.ebs_csi_access_key.secret
+    value = aws_iam_access_key.ebs_csi_access_key.id
+  })
+}
+
+resource "vault_kv_secret_v2" "ebs_csi_credentials" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/block_storage_secret_access_key"
+  delete_all_versions = true
+  data_json = jsonencode({
+    value = aws_iam_access_key.ebs_csi_access_key.secret
   })
 }
 

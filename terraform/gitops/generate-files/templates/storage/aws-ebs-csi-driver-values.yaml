@@ -37,3 +37,17 @@ controller:
   extraVolumeTags:
     Name: "rook-volume-${cluster_domain}"
   enableMetrics: false
+
+storageClasses:
+- name: ${storage_class_name}
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  volumeBindingMode: WaitForFirstConsumer
+  reclaimPolicy: Retain
+  parameters:
+    encrypted: "true"
+
+awsAccessSecret:
+  name: ${access_secret_name}
+  keyId: access_key_id
+  accessKey: secret_access_key   
