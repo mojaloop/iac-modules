@@ -1,9 +1,10 @@
 module "generate_storage_files" {
   source = "../generate-files"
   var_map = {
-      aws_ebs_csi_driver_helm_version = "2.39.0"
-      csi_driver_replicas = 2
-      kubelet_dir_path    = "/var/lib/kubelet"
+    aws_ebs_csi_driver_helm_version = "2.39.0"
+    csi_driver_replicas             = 2
+    kubelet_dir_path                = "/var/lib/kubelet"
+    storage_controlplane_namespace  = "kube-system"
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
   template_path   = local.storage_template_path
