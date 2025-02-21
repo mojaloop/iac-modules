@@ -4,6 +4,7 @@ resource "local_file" "chart_values" {
   content = templatefile("${local.stateful_resources_template_path}/${each.value.local_helm_config.resource_helm_values_ref}", {
     resource = each.value,
     key      = each.key
+    storage_class_name  = var.storage_class_name
   })
   filename = "${local.stateful_resources_output_path}/values-${each.value.local_helm_config.resource_helm_chart}-${each.key}.yaml"
 }
@@ -128,7 +129,7 @@ resource "local_file" "strimzi-crs" {
       strimzi_kafka_grafana_dashboards_version = local.strimzi_kafka_grafana_dashboards_version
       strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
         "strimzi-kafka-exporter", "strimzi-kafka-mirror-maker-2", "strimzi-kafka-oauth",
-      "strimzi-kafka", "strimzi-kraft", "strimzi-operators", "strimzi-zookeeper"]
+      "strimzi-kafka", "strimzi-kraft", "strimzi-operators", "strimzi-zookeeper"]      
   })
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
@@ -155,7 +156,7 @@ resource "local_file" "percona-crs" {
       cr_version          = each.value.local_operator_config.cr_version
       replica_count       = each.value.logical_service_config.replica_count
       namespace           = each.value.local_operator_config.resource_namespace
-      storage_class_name  = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_class_name : each.value.local_operator_config.mongodb_data.storage_class_name
+      storage_class_name  = var.storage_class_name
       storage_size        = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.storage_size : each.value.local_operator_config.mongodb_data.storage_size
       existing_secret     = each.value.local_operator_config.secret_config.generate_secret_name
       affinity_definition = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data.affinity_definition : each.value.local_operator_config.mongodb_data.affinity_definition
@@ -343,4 +344,7 @@ variable "monolith_stateful_resources" {
 }
 
 variable "managed_svc_as_monolith" {
+}
+
+variable "storage_class_name" {
 }
