@@ -143,6 +143,7 @@ resource "local_file" "redis-crs" {
       namespace              = each.value.local_operator_config.resource_namespace
       nodes                  = each.value.local_operator_config.nodes
       storage_size           = each.value.local_operator_config.redis_data.storage_size
+      storage_class_name     = var.storage_class_name
   })
   filename = "${local.stateful_resources_output_path}/redis-cluster-${each.key}.yaml"
 }
