@@ -75,8 +75,8 @@ spec:
         - name: "capi_cluster_kube_version"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_kube_version}"
 
-        # - name: "capi_cluster_proxmox_host_sshkey"
-        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_sshkey}"
+        - name: "capi_cluster_proxmox_host_sshkey"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_sshkey}"
 
         - name: "capi_cluster_proxmox_host_password"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_password}"
@@ -105,5 +105,5 @@ spec:
         - name: "capi_cluster_proxmox_user"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_user}"
 
-        - name: "capi_cluster_proxmox_password"
-          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_password}"
+        # - name: "capi_cluster_proxmox_password"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_password}"
