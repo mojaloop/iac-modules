@@ -390,7 +390,7 @@ primary:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: ${resource.local_helm_config.mysql_data.storage_class_name}
+    storageClass: ${storage_class_name}
     ## @param primary.persistence.annotations [object] MySQL primary persistent volume claim annotations
     ##
     annotations: {}
@@ -698,7 +698,7 @@ secondary:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: ${resource.local_helm_config.mysql_data.storage_class_name}
+    storageClass: ${storage_class_name}
     ## @param secondary.persistence.annotations [object] MySQL secondary persistent volume claim annotations
     ##
     annotations: {}

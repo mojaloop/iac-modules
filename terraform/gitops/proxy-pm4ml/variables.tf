@@ -58,7 +58,6 @@ variable "gitlab_api_url" {
 variable "storage_class_name" {
   type        = string
   description = "storage_class_name"
-  default     = "longhorn"
 }
 
 variable "external_secret_sync_wave" {

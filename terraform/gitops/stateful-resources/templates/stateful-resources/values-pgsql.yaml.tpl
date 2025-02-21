@@ -16,7 +16,7 @@ global:
   imagePullSecrets: []
   ## @param global.storageClass Global StorageClass for Persistent Volume(s)
   ##
-  storageClass: ${resource.local_helm_config.pgsql_data.storage_class_name}
+  storageClass: ${storage_class_name}
 
   postgresql:
     ## @param global.postgresql.auth.postgresPassword Password for the "postgres" admin user (overrides `auth.postgresPassword`)
