@@ -42,6 +42,7 @@ inputs = {
   properties_var_map = merge(local.properties_var_map, dependency.k8s_deploy.outputs.properties_var_map, dependency.managed_services.outputs.properties_var_map, dependency.managed_services.outputs.monolith_properties_var_map)
   secrets_var_map    = merge({ for key, value in dependency.k8s_deploy.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.monolith_secrets_var_map: key => replace(value, "$${", "$$${") })
   secrets_key_map    = merge(dependency.k8s_deploy.outputs.secrets_key_map, dependency.managed_services.outputs.secrets_key_map, dependency.managed_services.outputs.monolith_secrets_key_map)
+  storage_class_name = local.block_storage_provider == "aws" ? "ebs-sc" : "ceph-sc"
 }
 
 locals {
@@ -62,6 +63,7 @@ locals {
   ENV_VAULT_TOKEN           = get_env("ENV_VAULT_TOKEN")
   KV_SECRET_PATH            = get_env("KV_SECRET_PATH")
   VAULT_GITLAB_ROOT_TOKEN   = get_env("ENV_VAULT_TOKEN")
+  block_storage_provider    = get_env("block_storage_provider")
 #replacing env vars from old control center post config
   properties_var_map = {
     K8S_CLUSTER_TYPE = get_env("k8s_cluster_type")
