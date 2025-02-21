@@ -47,3 +47,63 @@ spec:
 
         - name: "capi_infra_provider_version"
           value: "${ARGOCD_ENV_utils_capi_capi_infra_provider_version}"
+
+        - name: "capi_cp_provider_name"
+          value: "${ARGOCD_ENV_utils_capi_capi_cp_provider_name}"
+
+        - name: "capi_cluster_namespace"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
+
+        - name: "capi_cluster_name"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"
+
+        - name: "capi_cluster_kubeapi_host"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_host}"
+
+        # - name: "capi_cluster_kubeapi_port"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_port}"
+
+        - name: "capi_cluster_network_subnet"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_network_subnet}"
+
+        - name: "capi_cluster_network_gateway"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_network_gateway}"
+
+        - name: "capi_cluster_proxmox_url"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_url}"
+
+        - name: "capi_cluster_kube_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_kube_version}"
+
+        # - name: "capi_cluster_proxmox_host_sshkey"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_sshkey}"
+
+        - name: "capi_cluster_proxmox_host_password"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_password}"
+
+        # - name: "capi_cluster_proxmox_host_vlan"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_vlan}"
+
+        - name: "capi_cluster_proxmox_host_net_interface"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_host_net_interface}"
+
+        # - name: "capi_cluster_proxmox_control_plane_cpu"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_control_plane_cpu}"
+
+        # - name: "capi_cluster_proxmox_control_plane_memory"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_control_plane_memory}"
+
+        # - name: "capi_cluster_proxmox_worker_cpu"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_worker_cpu}"
+
+        # - name: "capi_cluster_proxmox_worker_memory"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_worker_memory}"
+
+        # - name: "capi_cluster_proxmox_worker_replicas"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_worker_replicas}"
+
+        - name: "capi_cluster_proxmox_user"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_user}"
+
+        - name: "capi_cluster_proxmox_password"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_password}"
