@@ -16,7 +16,7 @@ global:
   ##   - myRegistryKeySecretName
   ##
   imagePullSecrets: []
-  storageClass: ${resource.local_helm_config.redis_data.storage_class_name}
+  storageClass: ${storage_class_name}
 
 ## @section Common parameters
 ##
