@@ -42,7 +42,6 @@ thirdparty-auth-svc-db:
       user_password: ""
       database_name: auth-svc
       storage_size: 8Gi
-      storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
       service_port: 3306
@@ -91,7 +90,6 @@ mysql-consent-oracle-db:
       user_password: ""
       database_name: consent-oracle
       storage_size: 8Gi
-      storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
       service_port: 3306
@@ -140,7 +138,6 @@ mcm-db:
       user_password: ""
       database_name: mcm
       storage_size: 8Gi
-      storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
       service_port: 3306
@@ -189,7 +186,6 @@ account-lookup-db:
       user_password: ""
       database_name: account_lookup
       storage_size: 8Gi
-      storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
       service_port: 3306
@@ -246,7 +242,6 @@ central-ledger-db:
       user_password: ""
       database_name: central_ledger
       storage_size: 8Gi
-      storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
       service_port: 3306
@@ -282,7 +277,6 @@ bulk-mongodb:
       user_password: ""
       database_name: mlos
       storage_size: 8Gi
-      storage_class_name: longhorn
       service_port: 27017
 cep-mongodb:
   local_helm_config:
@@ -307,7 +301,6 @@ cep-mongodb:
       user_password: ""
       database_name: mojaloop
       storage_size: 8Gi
-      storage_class_name: longhorn
       service_port: 27017
 reporting-events-mongodb:
   local_helm_config:
@@ -332,7 +325,6 @@ reporting-events-mongodb:
       user_password: ""
       database_name: mojaloop
       storage_size: 8Gi
-      storage_class_name: longhorn
       service_port: 27017
 mojaloop-kafka:
   local_helm_config:
@@ -353,7 +345,6 @@ mojaloop-kafka:
       generate_secret_extra_namespaces: []    
     kafka_data:
       storage_size: 8Gi
-      storage_class_name: longhorn
       service_port: 9092
       replica_count: 1
       dataplane_affinity_definition:
@@ -393,7 +384,6 @@ ttk-mongodb:
       user_password: ""
       database_name: ttk
       storage_size: 8Gi
-      storage_class_name: longhorn
       service_port: 27017
 ttk-redis:
   enabled: true
@@ -424,7 +414,6 @@ ttk-redis:
       user: ''
       user_password: ''
       storage_size: 8Gi
-      storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
       service_port: 6379
@@ -475,7 +464,6 @@ keycloak-db:
       user_password: ""
       database_name: keycloak
       storage_size: 8Gi
-      storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
       service_port: 3306
@@ -525,7 +513,6 @@ keto-db:
       user_password: ""
       database_name: keto
       storage_size: 8Gi
-      storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
       service_port: 3306
@@ -575,7 +562,6 @@ kratos-db:
       user_password: ""
       database_name: kratos
       storage_size: 8Gi
-      storage_class_name: longhorn
       architecture: standalone
       replica_count: 0
       service_port: 3306
