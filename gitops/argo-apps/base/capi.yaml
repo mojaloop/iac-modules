@@ -102,8 +102,8 @@ spec:
         - name: "capi_cluster_proxmox_worker_replicas"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_worker_replicas}"
 
-        - name: "capi_cluster_proxmox_user"
-          value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_user}"
+        # - name: "capi_cluster_proxmox_user"
+        #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_user}"
 
         # - name: "capi_cluster_proxmox_password"
         #   value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_password}"
