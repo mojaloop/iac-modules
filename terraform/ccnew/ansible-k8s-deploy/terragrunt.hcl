@@ -81,9 +81,6 @@ inputs = {
     kubernetes_oidc_enabled = try(local.env_vars.kubernetes_oidc_enabled, false)
     enable_rook_disk_reset = true
     rook_disk_vol = try(local.env_vars.rook_disk_vol, "none")
-    capi_cluster_proxmox_host_sshkey =try(dependency.k8s_deploy.outputs.all_hosts_var_maps.ssh_public_key, "")
-    capi_cluster_proxmox_user =try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_user, "")
-    capi_cluster_proxmox_password =try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_password, "")
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps) 
   bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml.tpl", merge({
@@ -113,6 +110,9 @@ inputs = {
     rook_csi_kubelet_dir_path         = local.K8S_CLUSTER_TYPE == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
     eks_name                          = local.eks_name
     cluster_domain                    = local.cluster_domain
+    capi_cluster_proxmox_host_sshkey  = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.ssh_public_key, "")
+    capi_cluster_proxmox_user         = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_user, "")
+    capi_cluster_proxmox_password     = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_password, "")
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps

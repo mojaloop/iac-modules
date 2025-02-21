@@ -60,6 +60,10 @@ argocd_override:
           crossplane_func_pat_version: "${crossplane_func_pat_version}"
           k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
           crossplane_func_go_templating_version: "${crossplane_func_go_templating_version}"
+        capi:
+          capi_cluster_proxmox_user: "${capi_cluster_proxmox_user}"
+          capi_cluster_proxmox_password: "${capi_cluster_proxmox_password}"
+          capi_cluster_proxmox_host_sshkey: "${capi_cluster_proxmox_host_sshkey}"
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
