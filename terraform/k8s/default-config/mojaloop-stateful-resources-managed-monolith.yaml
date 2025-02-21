@@ -36,7 +36,11 @@ common-platform-db:
       - name: wait_timeout
         value: "600"
       - name: interactive_timeout
-        value: "600"                
+        value: "600"
+      - name: max_connections
+        value: "4000"
+      - name: aurora_fwd_writer_max_connections_pct
+        value: "30"             
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
@@ -83,6 +87,10 @@ common-mojaloop-db:
         value: utf8mb4
       - name: character_set_server
         value: utf8mb4
+      - name: max_connections
+        value: "4000"
+      - name: aurora_fwd_writer_max_connections_pct
+        value: "30"
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
