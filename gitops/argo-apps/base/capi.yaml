@@ -28,6 +28,7 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_utils_capi_namespace}
+
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
