@@ -44,3 +44,6 @@ spec:
 
         - name: "capi_infra_provider_name"
           value: "${ARGOCD_ENV_utils_capi_capi_infra_provider_name}"
+
+        - name: "capi_infra_provider_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_infra_provider_version}"
