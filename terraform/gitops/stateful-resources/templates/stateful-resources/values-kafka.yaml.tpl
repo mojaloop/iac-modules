@@ -12,7 +12,7 @@
 ## @param global.storageClass Global StorageClass for Persistent Volume(s)
 ##
 global:
-  storageClass: ${var.storage}
+  storageClass: ${var.storage_class_name}
 
 ## @section Common parameters
 ##
