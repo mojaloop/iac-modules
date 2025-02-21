@@ -10,7 +10,7 @@
 ## @param global.namespaceOverride Override the namespace for resource deployed by the chart, but can itself be overridden by the local namespaceOverride
 ##
 global:
-  storageClass: ${resource.local_helm_config.mongodb_data.storage_class_name}
+  storageClass: ${storage_class_name}
 
 
 ## @section Common parameters
