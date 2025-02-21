@@ -40,7 +40,7 @@ loki_query_scheduler_enabled: false
 loki_ingester_replication_factor: "3"
 loki_distributor_replica_count: "2"
 loki_ingester_replica_count: "3" # loki_ingester_replica_count should be >= loki_ingester_replication_factor
-loki_querier_replica_count: "1"
+loki_querier_replica_count: "2"
 prometheus_retention_period: 10d
 tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
