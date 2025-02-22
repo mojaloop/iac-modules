@@ -34,7 +34,7 @@ spec:
         valuesObject:
           bootstrap: kubeadm
           controlPlane: kubeadm
-          infrastructure: proxmox
+          infrastructure: proxmox:v${ARGOCD_ENV_utils_capi_capi_infra_provider_version}
           cert-manager:
             enabled: true
           fetchConfig:
