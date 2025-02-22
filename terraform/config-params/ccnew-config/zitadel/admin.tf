@@ -1,6 +1,6 @@
 resource "zitadel_human_user" "admin" {
   org_id             = var.zitadel_org_id
-  user_name          = "rootauto@zitadel.${var.zitadel_fqdn}"
+  user_name          = "rootauto@${var.zitadel_fqdn}"
   first_name         = "root"
   last_name          = "admin"
   nick_name          = "admin"
