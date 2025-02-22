@@ -4,8 +4,8 @@ resources:
   - namespace.yaml
   - cluster-deploy.yaml
 helmCharts:
-  - name: capi-operator
-    releaseName: capi-operator
+  - name: cluster-api-operator
+    releaseName: cluster-api-operator
     version: ${ARGOCD_ENV_capi_operator_version}
     repo: https://kubernetes-sigs.github.io/cluster-api-operator
     valuesFile: capi-operator-values.yaml
