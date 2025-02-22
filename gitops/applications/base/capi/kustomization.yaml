@@ -2,11 +2,3 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - cluster-deploy.yaml
-helmCharts:
-  - name: cluster-api-operator
-    releaseName: cluster-api-operator
-    version: ${ARGOCD_ENV_capi_operator_version}
-    repo: https://kubernetes-sigs.github.io/cluster-api-operator
-    valuesFile: capi-operator-values.yaml
-    namespace: ${ARGOCD_ENV_capi_operator_namespace}
-    includeCRDs: true
