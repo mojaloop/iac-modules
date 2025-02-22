@@ -34,12 +34,9 @@ spec:
         valuesObject:
           bootstrap: kubeadm
           controlPlane: kubeadm
-          infrastructure: proxmox:v${ARGOCD_ENV_utils_capi_capi_infra_provider_version}
           cert-manager:
             enabled: true
-          fetchConfig:
-            proxmox:
-              url: https://raw.githubusercontent.com/k8s-proxmox/cluster-api-provider-proxmox/refs/tags/v${ARGOCD_ENV_utils_capi_capi_infra_provider_version}/clusterctl.yaml
+
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
