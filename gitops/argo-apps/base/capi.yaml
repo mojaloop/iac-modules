@@ -5,10 +5,50 @@ metadata:
   namespace: ${ARGOCD_ENV_argocd_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
-
   finalizers:
     - resources-finalizer.argocd.argoproj.io
-
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_capi_operator_namespace}
+  sources:
+    - chart: cluster-api-operator
+      repoURL: https://kubernetes-sigs.github.io/cluster-api-operator
+      targetRevision: ${ARGOCD_ENV_utils_capi_capi_operator_version}
+      helm:
+        valuesObject:
+          bootstrap: kubeadmm
+          controlPlane: kubeadmm
+          infrastructure: proxmox
+          cert-manager:
+            enabled: true
+          fetchConfig:
+            url: https://raw.githubusercontent.com/k8s-proxmox/cluster-api-provider-proxmox/refs/tags/v${ARGOCD_ENV_utils_capi_capi_infra_provider_version}/clusterctl.yaml
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_utils_capi_app_name}
+  namespace: ${ARGOCD_ENV_argocd_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_capi_post_sync_wave}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   syncPolicy:
@@ -28,7 +68,6 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_utils_capi_namespace}
-
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
@@ -36,12 +75,6 @@ spec:
     plugin:
       name: envsubst
       env:
-        - name: "capi_operator_version"
-          value: "${ARGOCD_ENV_utils_capi_capi_operator_version}"
-
-        - name: "capi_operator_namespace"
-          value: "${ARGOCD_ENV_utils_capi_capi_operator_namespace}"
-
         - name: "capi_infra_provider_name"
           value: "${ARGOCD_ENV_utils_capi_capi_infra_provider_name}"
 
