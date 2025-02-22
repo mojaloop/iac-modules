@@ -80,11 +80,10 @@ resource "aws_security_group_rule" "bastion_egress_all" {
 }
 
 resource "aws_launch_template" "bastion" {
-  name          = "${local.cluster_domain}-bastion"
   image_id      = var.bastion_ami
   instance_type = var.bastion_asg_config.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
-  key_name      = local.cluster_domain
+  key_name      = aws_key_pair.generated_key.key_name
 
   network_interfaces {
     delete_on_termination       = true
@@ -123,7 +122,6 @@ resource "aws_launch_template" "bastion" {
 
 #  Create an Auto Scaling Group (ASG)
 resource "aws_autoscaling_group" "bastion_asg" {
-  name             = "${local.cluster_domain}-bastion"
   min_size         = var.bastion_asg_config.min_size
   desired_capacity = var.bastion_asg_config.desired_capacity
   max_size         = var.bastion_asg_config.max_size
@@ -155,6 +153,5 @@ resource "tls_private_key" "ec2_ssh_key" {
 }
 
 resource "aws_key_pair" "generated_key" {
-  key_name   = local.cluster_domain
   public_key = tls_private_key.ec2_ssh_key.public_key_openssh
 }
