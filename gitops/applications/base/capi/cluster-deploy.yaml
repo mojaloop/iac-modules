@@ -75,7 +75,6 @@ spec:
       - "curl -L https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl"
       - "chmod +x /usr/local/bin/kubectl"
       - "reboot now"
-    preKubeadmCommands: []
   machineTemplate:
     infrastructureRef:
       apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
