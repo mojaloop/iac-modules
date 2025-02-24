@@ -116,6 +116,7 @@ spec:
           user: ubuntu
           password: ${ARGOCD_ENV_capi_cluster_proxmox_host_password}
           chpasswd: { expire: "false" }
+          manage_etc_hosts: true
           runCmd:
             - "modprobe overlay"
             - "modprobe br_netfilter"
@@ -151,6 +152,7 @@ spec:
           model: virtio
           tag: ${ARGOCD_ENV_capi_cluster_proxmox_host_vlan}
       network:
+        nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
         ipConfig:
           ip: "${ARGOCD_ENV_capi_cluster_kubeapi_host}/${ARGOCD_ENV_capi_cluster_network_subnet}"
           gateway: ${ARGOCD_ENV_capi_cluster_network_gateway}
