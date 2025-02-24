@@ -11,7 +11,7 @@ resource "aws_iam_access_key" "ebs_csi_access_key" {
   user = aws_iam_user.ebs_csi_user.name
 }
 
-resource "vault_kv_secret_v2" "ebs_csi_credentials" {
+resource "vault_kv_secret_v2" "ebs_csi_credentials_access" {
   mount               = var.kv_path
   name                = "${var.env_name}/block_storage_secret_key_id"
   delete_all_versions = true
@@ -20,7 +20,7 @@ resource "vault_kv_secret_v2" "ebs_csi_credentials" {
   })
 }
 
-resource "vault_kv_secret_v2" "ebs_csi_credentials" {
+resource "vault_kv_secret_v2" "ebs_csi_credentials_secret" {
   mount               = var.kv_path
   name                = "${var.env_name}/block_storage_secret_access_key"
   delete_all_versions = true
