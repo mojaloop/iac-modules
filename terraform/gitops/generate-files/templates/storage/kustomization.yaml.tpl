@@ -1,6 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources: []
+resources:
+%{ if block_storage_provider == "ebs" ~}
+  - aws-ebs-access-cred-secret.yaml
+%{ endif ~}
 helmCharts:
 %{ if block_storage_provider == "ebs" ~}
   - name: aws-ebs-csi-driver
