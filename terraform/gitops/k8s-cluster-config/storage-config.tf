@@ -3,7 +3,7 @@ module "generate_storage_files" {
   var_map = {
     aws_ebs_csi_driver_helm_version = "2.39.0"
     csi_driver_replicas             = 2
-    kubelet_dir_path                = "/var/lib/kubelet"
+    kubelet_dir_path                = "/var/snap/microk8s/common/var/lib/kubelet"
     storage_controlplane_namespace  = "kube-system"
     storage_class_name              = var.storage_class_name
     access_secret_name              = "aws-ebs-csi-cred"
