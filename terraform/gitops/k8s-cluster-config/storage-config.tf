@@ -11,7 +11,8 @@ module "generate_storage_files" {
     secret_access_key               = "block_storage_secret_access_key"
     block_storage_provider          = "ebs"
     storage_sync_wave               = var.storage_sync_wave
-    gitlab_project_url              = var.gitlab_project_url    
+    gitlab_project_url              = var.gitlab_project_url
+    external_secret_sync_wave       = var.external_secret_sync_wave    
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
   template_path   = local.storage_template_path
