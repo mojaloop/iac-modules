@@ -1,7 +1,7 @@
 apiVersion: tf.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
-  name: env-onboard-cloudstorage-providerconfig
+  name: env-onboard-blockstorage-providerconfig
   namespace: ${ARGOCD_ENV_env_namespace}
 spec:
   credentials:
@@ -20,7 +20,7 @@ spec:
   configuration: |
     terraform { 
         backend "kubernetes" {
-          secret_suffix     = "  name: env-onboard-cloudstorage-providerconfig"
+          secret_suffix     = "  name: env-onboard-blockstorage-providerconfig"
           namespace         = "${ARGOCD_ENV_env_namespace}"
           in_cluster_config = true
         }
@@ -49,13 +49,13 @@ spec:
 apiVersion: tf.upbound.io/v1beta1
 kind: Workspace
 metadata:
-  name: env-onboard-cloudstorage-worskspace
+  name: env-onboard-blockstorage-worskspace
   namespace: ${ARGOCD_ENV_env_namespace}
 spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
     source: Remote
-    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/env-cloudstorage-pre?ref=${ARGOCD_ENV_terraform_modules_tag}
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/env-blockstorage-pre?ref=${ARGOCD_ENV_terraform_modules_tag}
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
     env:
       - name: TF_VAR_zitadel_admin_human_user_id
@@ -82,7 +82,7 @@ spec:
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
-    name: env-onboard-cloudstorage-providerconfig
+    name: env-onboard-blockstorage-providerconfig
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_env_namespace}
-    name: env-onboard-cloudstorage-secret
+    name: env-onboard-blockstorage-secret
