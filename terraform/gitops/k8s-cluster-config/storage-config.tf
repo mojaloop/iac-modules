@@ -6,7 +6,7 @@ module "generate_storage_files" {
     kubelet_dir_path                = "/var/lib/kubelet"
     storage_controlplane_namespace  = "kube-system"
     storage_class_name              = var.storage_class_name
-    access_secret_name              = "aws_ebs_csi_cred"
+    access_secret_name              = "aws-ebs-csi-cred"
     access_key_id                   = "block_storage_secret_key_id"
     secret_access_key               = "block_storage_secret_access_key"
     block_storage_provider          = "ebs"
