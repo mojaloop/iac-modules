@@ -35,7 +35,7 @@ controller:
     enabled: false
   env: []
   extraVolumeTags:
-    Name: "rook-volume-${cluster_domain}"
+    Name: "rook-volume-${cluster_name}"
   enableMetrics: false
 
 storageClasses:
