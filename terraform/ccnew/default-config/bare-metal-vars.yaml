@@ -88,3 +88,4 @@ dns_resolver_ip: 10.10.100.1
 rook_disk_vol: "/dev/sdb"
 bare_metal_cloud_password: "test123"
 bare_metal_cloud_user: "root@pam"
+bare_metal_cloud_api_url: "10.10.127.3:8006"

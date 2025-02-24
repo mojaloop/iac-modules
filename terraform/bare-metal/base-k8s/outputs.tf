@@ -134,6 +134,7 @@ output "all_hosts_var_maps" {
     ssh_public_key               = var.app_var_map.ssh_public_key
     bare_metal_cloud_user        = var.app_var_map.bare_metal_cloud_user
     bare_metal_cloud_password    = var.app_var_map.bare_metal_cloud_password
+    bare_metal_cloud_api_url     = var.app_var_map.bare_metal_cloud_api_url
   }
 }
 
