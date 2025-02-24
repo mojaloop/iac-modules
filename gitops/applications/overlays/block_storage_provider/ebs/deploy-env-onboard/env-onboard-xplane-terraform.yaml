@@ -20,7 +20,7 @@ spec:
   configuration: |
     terraform { 
         backend "kubernetes" {
-          secret_suffix     = "  name: env-onboard-blockstorage-providerconfig"
+          secret_suffix     = "env-onboard-blockstorage-providerconfig"
           namespace         = "${ARGOCD_ENV_env_namespace}"
           in_cluster_config = true
         }
@@ -57,9 +57,6 @@ spec:
     source: Remote
     module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/env-onboard-blockstorageaws-pre?ref=${ARGOCD_ENV_terraform_modules_tag}
     # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
-    env:
-      - name: TF_CLI_CONFIG_FILE
-        value: ./.terraformrc
     vars:
       - key: env_name
         value: "${ARGOCD_ENV_env_name}"
