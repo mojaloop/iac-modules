@@ -9,6 +9,8 @@ module "generate_storage_files" {
     access_secret_name              = "aws_ebs_csi_cred"
     access_key_id                   = "block_storage_secret_key_id"
     secret_access_key               = "block_storage_secret_access_key"
+    block_storage_provider          = "ebs"
+    storage_sync_wave               = var.storage_sync_wave
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
   template_path   = local.storage_template_path
@@ -20,4 +22,10 @@ module "generate_storage_files" {
 locals {
   storage_template_path = "${path.module}/../generate-files/templates/storage"
   storage_app_file      = "storage-app.yaml"
+}
+
+variable "storage_sync_wave" {
+  type        = string
+  description = "storage_sync_wave"
+  default     = "-10"
 }
