@@ -123,6 +123,8 @@ module "pm4ml" {
   pm4ml_values_override_file               = var.pm4ml_values_override_file
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
+  storage_class_name                       = var.storage_class_name     
+
 }
 
 module "proxy_pm4ml" {
@@ -156,7 +158,7 @@ module "proxy_pm4ml" {
   proxy_values_override_file               = var.proxy_values_override_file
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
-
+  storage_class_name                       = var.storage_class_name     
 }
 
 module "vnext" {
