@@ -52,6 +52,12 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
+  ignoreDifferences:
+    - group: "infrastructure.cluster.x-k8s.io"
+      name: "{ARGOCD_ENV_utils_capi_capi_cluster_name}"
+      kind: ProxmoxCluster
+      jsonPointers:
+        - /spec/storage/path
   syncPolicy:
     automated:
       prune: true
