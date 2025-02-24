@@ -7,8 +7,8 @@ module "generate_storage_files" {
     storage_controlplane_namespace  = "kube-system"
     storage_class_name              = var.storage_class_name
     access_secret_name              = "aws-ebs-csi-cred"
-    access_key_id                   = "block_storage_secret_key_id"
-    secret_access_key               = "block_storage_secret_access_key"
+    access_key_id                   = "${var.cluster_name}/block_storage_secret_key_id"
+    secret_access_key               = "${var.cluster_name}/block_storage_secret_access_key"
     block_storage_provider          = "ebs"
     storage_sync_wave               = var.storage_sync_wave
     gitlab_project_url              = var.gitlab_project_url
