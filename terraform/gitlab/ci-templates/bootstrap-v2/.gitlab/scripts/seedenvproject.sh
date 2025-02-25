@@ -44,6 +44,7 @@ managed_vpc_cidr: changeme_cidr
 domain: changeme_domain
 managed_svc_enabled: false
 k8s_cluster_type: microk8s
+cloud_region: eu-west-1
 block_storage_provider: ebs
 object_storage_provider: s3" > custom-config/cluster-config.yaml
 fi
