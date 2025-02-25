@@ -42,12 +42,6 @@ inputs = {
   properties_var_map = merge(local.properties_var_map, dependency.k8s_deploy.outputs.properties_var_map, dependency.managed_services.outputs.properties_var_map, dependency.managed_services.outputs.monolith_properties_var_map)
   secrets_var_map    = merge({ for key, value in dependency.k8s_deploy.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.monolith_secrets_var_map: key => replace(value, "$${", "$$${") })
   secrets_key_map    = merge(dependency.k8s_deploy.outputs.secrets_key_map, dependency.managed_services.outputs.secrets_key_map, dependency.managed_services.outputs.monolith_secrets_key_map)
-  
-  block_storage_provider = local.block_storage_provider
-  kubelet_dir_path       = local.k8s_cluster_type == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
-  
-  aws_ebs_csi_driver_helm_version = local.common_vars.aws_ebs_csi_driver_helm_version
-  aws_ebs_csi_driver_replicas     = local.common_vars.aws_ebs_csi_driver_replicas
 }
 
 locals {
@@ -68,7 +62,6 @@ locals {
   ENV_VAULT_TOKEN           = get_env("ENV_VAULT_TOKEN")
   KV_SECRET_PATH            = get_env("KV_SECRET_PATH")
   VAULT_GITLAB_ROOT_TOKEN   = get_env("ENV_VAULT_TOKEN")
-  block_storage_provider    = get_env("block_storage_provider")
   k8s_cluster_type          = get_env("k8s_cluster_type")
 #replacing env vars from old control center post config
   properties_var_map = {
