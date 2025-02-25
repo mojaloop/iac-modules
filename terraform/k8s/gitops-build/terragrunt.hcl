@@ -172,6 +172,7 @@ locals {
   vault_ingress_internal_lb     = true
   managed_svc_as_monolith       = get_env("managed_svc_as_monolith")
   block_storage_provider        = get_env("block_storage_provider")
+  k8s_cluster_type              = get_env("k8s_cluster_type")
 }
 
 generate "required_providers_override" {
