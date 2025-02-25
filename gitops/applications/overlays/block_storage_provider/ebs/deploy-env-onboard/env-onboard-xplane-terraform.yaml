@@ -2,7 +2,6 @@ apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
-  namespace: ${ARGOCD_ENV_env_namespace}
 spec:
   credentials:
     - filename: aws-creds.ini
@@ -50,7 +49,6 @@ apiVersion: tf.upbound.io/v1beta1
 kind: Workspace
 metadata:
   name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
-  namespace: ${ARGOCD_ENV_env_namespace}
 spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
@@ -76,7 +74,6 @@ apiVersion: apiextensions.crossplane.io/v1alpha1
 kind: Usage
 metadata:
   name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
-  namespace: ${ARGOCD_ENV_env_namespace}
 spec:
   of:
     apiVersion: tf.upbound.io/v1beta1
