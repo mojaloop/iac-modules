@@ -1,7 +1,7 @@
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
-  name: env-onboard-blockstorage-providerconfig
+  name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
   namespace: ${ARGOCD_ENV_env_namespace}
 spec:
   credentials:
@@ -20,7 +20,7 @@ spec:
   configuration: |
     terraform { 
         backend "kubernetes" {
-          secret_suffix     = "env-onboard-blockstorage-providerconfig"
+          secret_suffix     = "${ARGOCD_ENV_env_name}"
           namespace         = "${ARGOCD_ENV_env_namespace}"
           in_cluster_config = true
         }
@@ -49,7 +49,7 @@ spec:
 apiVersion: tf.upbound.io/v1beta1
 kind: Workspace
 metadata:
-  name: env-onboard-blockstorage-worskspace
+  name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
   namespace: ${ARGOCD_ENV_env_namespace}
 spec:
   forProvider:
@@ -67,7 +67,24 @@ spec:
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
-    name: env-onboard-blockstorage-providerconfig
+    name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_env_namespace}
     name: env-onboard-blockstorage-secret
+---
+apiVersion: apiextensions.crossplane.io/v1alpha1
+kind: Usage
+metadata:
+  name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
+  namespace: ${ARGOCD_ENV_env_namespace}
+spec:
+  of:
+    apiVersion: tf.upbound.io/v1beta1
+    kind: ProviderConfig
+    resourceRef:
+      name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
+  by:
+    apiVersion: tf.upbound.io/v1beta1
+    kind: Workspace
+    resourceRef:
+      name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
