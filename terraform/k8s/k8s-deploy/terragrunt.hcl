@@ -71,7 +71,6 @@ locals {
   netbird_setup_key         = get_env("NETBIRD_K8S_SETUP_KEY")
   cc_cidr_block             = get_env("CC_CIDR_BLOCK")
   coredns_bind_address      = get_env("coredns_bind_address")
-  k8s_cluster_type          = get_env("k8s_cluster_type")
 }
 
 generate "required_providers_override" {
