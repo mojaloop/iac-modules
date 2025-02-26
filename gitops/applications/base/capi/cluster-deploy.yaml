@@ -150,6 +150,7 @@ spec:
           firewall: true
           model: virtio
           tag: ${ARGOCD_ENV_capi_cluster_proxmox_host_vlan}
+        rootDisk: "50G"
       network:
         nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
         ipConfig:
@@ -216,6 +217,7 @@ metadata:
 spec:
   template:
     spec:
+      storage: ${ARGOCD_ENV_capi_cluster_storage_name}
       hardware:
         cpu: ${ARGOCD_ENV_capi_cluster_proxmox_worker_cpu}
         memory: ${ARGOCD_ENV_capi_cluster_proxmox_worker_memory}
@@ -224,6 +226,10 @@ spec:
           firewall: true
           model: virtio
           tag: ${ARGOCD_ENV_capi_cluster_proxmox_host_vlan}
+        rootDisk: "50G"
+        extraDisks:
+          - size: "100G"
+            storage: ${ARGOCD_ENV_capi_cluster_storage_name}
       network:
         ipConfig:
           ip: dhcp

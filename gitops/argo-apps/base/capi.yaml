@@ -39,7 +39,7 @@ spec:
             enabled: true
           fetchConfig:
             proxmox:
-              url: https://github.com/k8s-proxmox/cluster-api-provider-proxmox/releases/v${ARGOCD_ENV_utils_capi_capi_infra_provider_version}/infrastructure-components.yaml
+              url: https://github.com/mojaloop/cluster-api-provider-proxmox/releases/v${ARGOCD_ENV_utils_capi_capi_infra_provider_version}/infrastructure-components.yaml
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
