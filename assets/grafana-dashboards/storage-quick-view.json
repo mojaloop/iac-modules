@@ -150,7 +150,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "kubelet_volume_stats_used_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}",
@@ -179,7 +179,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "${datasource}"
         },
         "fieldConfig": {
           "defaults": {
@@ -275,7 +275,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "sum(kubelet_volume_stats_capacity_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"})",
@@ -335,7 +335,7 @@
           "current": {},
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${datasource}"
           },
           "definition": "label_values(kube_pod_info{cluster=~\"$cluster\"},namespace)",
           "hide": 0,
@@ -382,8 +382,8 @@
     },
     "timepicker": {},
     "timezone": "browser",
-    "title": "Storage - Quick view",
-    "uid": "aee3wdgy5u-v001",
+    "title": "All storage view",
+    "uid": "aee3wdgy5-v002",
     "version": 9,
     "weekStart": ""
   }
