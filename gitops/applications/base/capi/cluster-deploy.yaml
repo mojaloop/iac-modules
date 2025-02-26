@@ -116,6 +116,7 @@ spec:
           user: ubuntu
           password: ${ARGOCD_ENV_capi_cluster_proxmox_host_password}
           chpasswd: { expire: "false" }
+          manage_etc_hosts: true
           runCmd:
             - "modprobe overlay"
             - "modprobe br_netfilter"
@@ -255,6 +256,7 @@ spec:
           user: ubuntu
           password: ${ARGOCD_ENV_capi_cluster_proxmox_host_password}
           chpasswd: { expire: "false" }
+          manage_etc_hosts: true
           runCmd:
             - "modprobe overlay"
             - "modprobe br_netfilter"
