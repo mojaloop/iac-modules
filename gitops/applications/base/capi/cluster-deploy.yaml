@@ -155,6 +155,7 @@ spec:
         ipConfig:
           ip: "${ARGOCD_ENV_capi_cluster_kubeapi_host}/${ARGOCD_ENV_capi_cluster_network_subnet}"
           gateway: ${ARGOCD_ENV_capi_cluster_network_gateway}
+      storage: ${ARGOCD_ENV_capi_cluster_storage_name}
       image:
         checksum: c5eed826009c9f671bc5f7c9d5d63861aa2afe91aeff1c0d3a4cb5b28b2e35d6
         checksumType: sha256

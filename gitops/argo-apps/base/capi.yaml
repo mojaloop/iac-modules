@@ -147,3 +147,6 @@ spec:
 
         - name: "capi_cluster_proxmox_password"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_password}"
+
+        - name: "capi_cluster_storage_name"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_storage_name}"
