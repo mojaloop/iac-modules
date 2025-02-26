@@ -685,7 +685,7 @@ replica:
   ## @param replica.podManagementPolicy podManagementPolicy to manage scaling operation of %%MAIN_CONTAINER_NAME%% pods
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-management-policies
   ##
-  podManagementPolicy: ""
+  podManagementPolicy: OrderedReady
   ## @param replica.hostAliases Redis&reg; replicas pods host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
