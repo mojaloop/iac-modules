@@ -114,7 +114,7 @@ inputs = {
     capi_cluster_proxmox_user         = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_user, "")
     capi_cluster_proxmox_password     = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_password, "")
     capi_cluster_proxmox_url          = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_api_url, "")
-    capi_infra_provider_version       = local.env_vars.capi_infra_provider_version
+    capi_infra_provider_version       = local.common_vars.capi_infra_provider_version
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
