@@ -36,21 +36,6 @@ variable "tenant_vault_listening_port" {
   default     = 443
 }
 
-variable "max_objects" {
-  description = "max number of objects in a bucket"
-  default     = 1000
-}
-
-variable "max_size" {
-  description = "max size of objects in a bucket"
-  default     = "100G"
-}
-
-
-variable "storage_class" {
-  description = "object storage class of ceph"
-  default     = "ceph-bucket"
-}
 
 variable "namespace" {
   description = "namespace to create the buckets"
