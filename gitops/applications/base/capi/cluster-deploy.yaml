@@ -71,6 +71,7 @@ spec:
       nodeRegistration:
         kubeletExtraArgs:
           cloud-provider: external
+          node-ip: REPLACE_IP
     postKubeadmCommands:
       - "curl -L https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl"
       - "chmod +x /usr/local/bin/kubectl"
