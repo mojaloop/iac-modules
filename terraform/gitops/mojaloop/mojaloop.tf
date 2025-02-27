@@ -193,6 +193,7 @@ module "generate_mojaloop_files" {
     mcm_hub_jws_endpoint                                              = "http://mcm-connection-manager-api.${var.mcm_namespace}.svc.cluster.local:3001/api/hub/jwscerts"
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
     ttk_setup_testcase_labels                                         = try(var.app_var_map.ttk_setup_testcase_labels, var.ttk_setup_testcase_labels)
+    ttk_cleanup_testcase_labels                                       = try(var.app_var_map.ttk_cleanup_testcase_labels, var.ttk_cleanup_testcase_labels)
     mojaloop_override_values_file_exists                              = local.mojaloop_override_values_file_exists
     finance_portal_override_values_file_exists                        = local.finance_portal_override_values_file_exists
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
@@ -424,6 +425,11 @@ variable "ttk_gp_testcase_labels" {
 }
 
 variable "ttk_setup_testcase_labels" {
+  type    = string
+  default = ""
+}
+
+variable "ttk_cleanup_testcase_labels" {
   type    = string
   default = ""
 }
