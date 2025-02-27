@@ -68,7 +68,7 @@ spec:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_gitlab_namespace}
-    name: env-onboard-blockstorage-secret
+    name: "env-${ARGOCD_ENV_env_name}-onboard-blockstorage-secret"
 ---
 apiVersion: apiextensions.crossplane.io/v1alpha1
 kind: Usage
