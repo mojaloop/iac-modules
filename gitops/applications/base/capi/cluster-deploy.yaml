@@ -147,6 +147,7 @@ spec:
       hardware:
         cpu: ${ARGOCD_ENV_capi_cluster_proxmox_control_plane_cpu}
         memory: ${ARGOCD_ENV_capi_cluster_proxmox_control_plane_memory}
+        cpuType: host
         networkDevice:
           bridge: ${ARGOCD_ENV_capi_cluster_proxmox_host_net_interface}
           firewall: true
@@ -223,6 +224,7 @@ spec:
       hardware:
         cpu: ${ARGOCD_ENV_capi_cluster_proxmox_worker_cpu}
         memory: ${ARGOCD_ENV_capi_cluster_proxmox_worker_memory}
+        cpuType: host
         networkDevice:
           bridge: ${ARGOCD_ENV_capi_cluster_proxmox_host_net_interface}
           firewall: true
