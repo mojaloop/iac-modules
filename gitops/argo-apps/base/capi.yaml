@@ -59,6 +59,10 @@ spec:
       kind: ProxmoxCluster
       jsonPointers:
         - /spec/storage/path
+    - group: "addons.cluster.x-k8s.io"
+      kind: HelmChartProxy
+      jsonPointers:
+        - /spec/options/timeout
 
   syncPolicy:
     automated:
