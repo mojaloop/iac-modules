@@ -205,6 +205,9 @@ spec:
           kubeletExtraArgs:
             cloud-provider: external
             node-ip: REPLACE_IP
+      preKubeadmCommands:
+        - export HOST_IP=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
+        - sed "s/REPLACE_IP/$HOST_IP/g" /var/lib/kubelet/kubeadm-flags.env -i
       postKubeadmCommands:
         - "curl -L https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl"
         - "chmod +x /usr/local/bin/kubectl"
@@ -286,8 +289,6 @@ spec:
             - mkdir -p /etc/systemd/system/kubelet.service.d
             - curl -sSL "https://raw.githubusercontent.com/kubernetes/release/v0.15.1/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf" | sed "s:/usr/bin:/usr/local/bin:g" | tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
             - "systemctl enable kubelet.service"
-            - export HOST_IP=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
-            - sed "s/REPLACE_IP/$HOST_IP/g" /var/lib/kubelet/kubeadm-flags.env -i
       image:
         checksum: c5eed826009c9f671bc5f7c9d5d63861aa2afe91aeff1c0d3a4cb5b28b2e35d6
         checksumType: sha256
