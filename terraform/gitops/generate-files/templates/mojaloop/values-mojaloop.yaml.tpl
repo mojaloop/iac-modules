@@ -1273,6 +1273,8 @@ ml-ttk-test-val-sdk-r2p:
   testCaseEnvironmentFile:  *ttksim1InputValues
 
 ml-ttk-test-cleanup:
+  configFileDefaults:
+    labels: ${ttk_cleanup_testcase_labels}
   tests:
     enabled: true
   config:
