@@ -9,7 +9,7 @@ ttk_test_currency3: CAD
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 finance_portal_ingress_internal_lb: true
-onboarding_collection_tag: 17.0.3
+onboarding_collection_tag: 17.0.4
 onboarding_net_debit_cap: 0
 onboarding_funds_in: 0
 grafana_dashboard_tag: v16.3.0-snapshot.24 # TODO: update once v16.1.x is published
