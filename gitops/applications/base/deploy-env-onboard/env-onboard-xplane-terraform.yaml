@@ -67,7 +67,7 @@ spec:
       - key: max_objects
         value: "${ARGOCD_ENV_ceph_max_objects}"
       - key: max_size
-        value: ${ARGOCD_ENV_ceph_max_size}                                
+        value: ${ARGOCD_ENV_ceph_bucket_max_size}                              
 
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
