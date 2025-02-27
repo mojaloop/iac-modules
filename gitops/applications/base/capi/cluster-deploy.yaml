@@ -9,6 +9,7 @@ kind: Cluster
 metadata:
   labels:
     cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+    argoCDChart: enabled
   name: ${ARGOCD_ENV_capi_cluster_name}
   namespace: ${ARGOCD_ENV_capi_cluster_namespace}
 spec:
@@ -417,3 +418,20 @@ kind: ConfigMap
 metadata:
   name: cloud-controller-manager
   namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+---
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
+kind: HelmChartProxy
+metadata:
+  name: argocd
+spec:
+  clusterSelector:
+    matchLabels:
+      argoCDChart: enabled
+  repoURL: https://argoproj.github.io/argo-helm
+  chartName: argo-cd
+  options:
+    waitForJobs: true
+    wait: true
+    timeout: 5m
+    install:
+      createNamespace: true
