@@ -1,10 +1,9 @@
-resource "kubernetes_manifest" "namespace" {
-  manifest = {
-    "apiVersion" = "v1"
-    "kind"       = "Namespace"
-    "metadata" = {
-      "name"      = var.env_name
+resource "kubernetes_namespace_v1" "env_namespace" {
+  metadata {
+    annotations = {
+      name = var.env_name
     }
+    name = var.env_name
   }
 }
 
@@ -14,7 +13,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_loki" {
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-loki-bucket"
-      "namespace" = var.env_name
+      "namespace" = kubernetes_namespace_v1.env_namespace.name
     }
     "spec" = {
       "additionalConfig" = {
@@ -34,7 +33,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_tempo" {
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-tempo-bucket"
-      "namespace" = var.env_name
+      "namespace" = kubernetes_namespace_v1.env_namespace.name
     }
     "spec" = {
       "additionalConfig" = {
@@ -54,7 +53,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_longhorn
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-longhorn-backup-bucket"
-      "namespace" = var.env_name
+      "namespace" = kubernetes_namespace_v1.env_namespace.name
     }
     "spec" = {
       "additionalConfig" = {
@@ -73,7 +72,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_velero" 
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-velero-bucket"
-      "namespace" = var.env_name
+      "namespace" = kubernetes_namespace_v1.env_namespace.name
     }
     "spec" = {
       "additionalConfig" = {
@@ -93,7 +92,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_percona"
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-percona-bucket"
-      "namespace" = var.env_name
+      "namespace" = kubernetes_namespace_v1.env_namespace.name
     }
     "spec" = {
       "additionalConfig" = {
