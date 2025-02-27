@@ -58,11 +58,7 @@ spec:
       kind: ProxmoxCluster
       jsonPointers:
         - /spec/storage/path
-    - group: "bootstrap.cluster.x-k8s.io"
-      name: "${ARGOCD_ENV_utils_capi_capi_cluster_name}-md-0"
-      kind: KubeadmConfigTemplate
-      jsonPointers:
-        - /spec/files/content
+
   syncPolicy:
     automated:
       prune: true

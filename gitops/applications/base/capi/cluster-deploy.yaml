@@ -200,11 +200,6 @@ metadata:
 spec:
   template:
     spec:
-      files:
-        - content: ""
-          owner: root:root
-          path: /etc/default/kubelet
-          permissions: "0640"
       joinConfiguration:
         nodeRegistration:
           kubeletExtraArgs:
