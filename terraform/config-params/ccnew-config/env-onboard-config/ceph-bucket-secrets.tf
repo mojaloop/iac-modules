@@ -3,6 +3,7 @@ data "kubernetes_secret_v1" "loki_bucket" {
       name      = "${var.env_name}-loki-bucket"
       namespace = var.env_name
   }
+ depends_on = [kubernetes_manifest.objectbucketclaim_rook_ceph_ceph_bucket_loki]
 }
 
 resource "vault_kv_secret_v2" "loki_bucket_access_key_id" {
@@ -33,6 +34,7 @@ data "kubernetes_secret_v1" "tempo_bucket" {
       name      = "${var.env_name}-tempo-bucket"
       namespace = var.env_name
   }
+ depends_on = [kubernetes_manifest.objectbucketclaim_rook_ceph_ceph_bucket_tempo]
 }
 
 resource "vault_kv_secret_v2" "tempo_bucket_access_key_id" {
@@ -62,6 +64,7 @@ data "kubernetes_secret_v1" "longhorn_backup_bucket" {
       name      = "${var.env_name}-longhorn-backup-bucket"
       namespace = var.env_name
   }
+ depends_on = [kubernetes_manifest.objectbucketclaim_rook_ceph_ceph_bucket_longhorn]
 }
 
 resource "vault_kv_secret_v2" "longhorn_backup_bucket_access_key_id" {
@@ -91,6 +94,7 @@ data "kubernetes_secret_v1" "velero_bucket" {
       name      = "${var.env_name}-velero-bucket"
       namespace = var.env_name
   }
+  depends_on = [kubernetes_manifest.objectbucketclaim_rook_ceph_ceph_bucket_velero]
 }
 
 resource "vault_kv_secret_v2" "velero_bucket_access_key_id" {
@@ -120,6 +124,7 @@ data "kubernetes_secret_v1" "percona_bucket" {
       name      = "${var.env_name}-percona-bucket"
       namespace = var.env_name
   }
+  depends_on = [kubernetes_manifest.objectbucketclaim_rook_ceph_ceph_bucket_percona]
 }
 
 resource "vault_kv_secret_v2" "percona_bucket_access_key_id" {
