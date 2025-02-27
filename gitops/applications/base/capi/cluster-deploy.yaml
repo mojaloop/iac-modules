@@ -423,6 +423,7 @@ apiVersion: addons.cluster.x-k8s.io/v1alpha1
 kind: HelmChartProxy
 metadata:
   name: argocd
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
 spec:
   clusterSelector:
     matchLabels:
