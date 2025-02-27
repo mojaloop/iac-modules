@@ -13,7 +13,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_loki" {
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-loki-bucket"
-      "namespace" = kubernetes_namespace_v1.env_namespace.name
+      "namespace" = kubernetes_namespace_v1.env_namespace.id
     }
     "spec" = {
       "additionalConfig" = {
@@ -33,7 +33,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_tempo" {
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-tempo-bucket"
-      "namespace" = kubernetes_namespace_v1.env_namespace.name
+      "namespace" = kubernetes_namespace_v1.env_namespace.id
     }
     "spec" = {
       "additionalConfig" = {
@@ -53,7 +53,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_longhorn
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-longhorn-backup-bucket"
-      "namespace" = kubernetes_namespace_v1.env_namespace.name
+      "namespace" = kubernetes_namespace_v1.env_namespace.id
     }
     "spec" = {
       "additionalConfig" = {
@@ -72,7 +72,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_velero" 
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-velero-bucket"
-      "namespace" = kubernetes_namespace_v1.env_namespace.name
+      "namespace" = kubernetes_namespace_v1.env_namespace.id
     }
     "spec" = {
       "additionalConfig" = {
@@ -92,7 +92,7 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_percona"
     "kind"       = "ObjectBucketClaim"
     "metadata" = {
       "name"      = "${var.env_name}-percona-bucket"
-      "namespace" = kubernetes_namespace_v1.env_namespace.name
+      "namespace" = kubernetes_namespace_v1.env_namespace.id
     }
     "spec" = {
       "additionalConfig" = {
