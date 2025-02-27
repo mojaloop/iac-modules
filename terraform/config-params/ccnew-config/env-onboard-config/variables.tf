@@ -102,3 +102,18 @@ variable "k8s_cluster_type" {
 variable "cc_cluster_name" {
   description = "control center cluster name"
 }
+
+variable "max_objects" {
+  description = "max number of objects in a bucket"
+  default     = 1000
+}
+
+variable "max_size" {
+  description = "max size of objects in a bucket"
+  default     = "100G"
+}
+
+variable "storage_class" {
+  description = "object storage class of ceph"
+  default     = "ceph-bucket"
+}

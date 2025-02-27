@@ -22,12 +22,6 @@ spec:
         value: "https://mimir.${ARGOCD_ENV_grafana_dns_subdomain}"
       - key: environment_list
         value: ${ARGOCD_ENV_environment_list}
-      - key: storage_class
-        value: "ceph-bucket"
-      - key: max_objects
-        value: "${ARGOCD_ENV_ceph_max_objects}"
-      - key: max_size
-        value: ${ARGOCD_ENV_ceph_max_size}
       - key: netbird_version
         value: "${ARGOCD_ENV_netbird_version}"
       - key: netbird_client_version

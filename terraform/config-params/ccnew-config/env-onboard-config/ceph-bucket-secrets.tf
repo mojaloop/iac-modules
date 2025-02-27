@@ -28,7 +28,6 @@ resource "vault_kv_secret_v2" "loki_bucket_secret_key_id" {
 }
 
 
-
 data "kubernetes_secret_v1" "tempo_bucket" {
   metadata {
       name      = "${var.env_name}-tempo-bucket"
