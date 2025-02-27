@@ -19,7 +19,7 @@ resources:
   # - ../../../base/redis-operator.yaml
   - ../../../base/base-monitoring.yaml
   # xplane database config
-  - ../../../base/xplane-provider-config.yaml
+  #- ../../../base/xplane-provider-config.yaml
   # vault
   #- ../../../base/vault.yaml
   #- ../../../base/vault-post-config.yaml
