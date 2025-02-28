@@ -96,6 +96,7 @@ spec:
     access: proxy
     url: http://control-center-loki-grafana-loki-gateway
     jsonData:
+      timeout: 60
       httpHeaderName1: 'X-Scope-OrgID'
     secureJsonData:
       httpHeaderValue1: '1'
