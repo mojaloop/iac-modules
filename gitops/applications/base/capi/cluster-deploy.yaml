@@ -538,7 +538,7 @@ spec:
           image: golang:1.22.4-alpine3.20
           command: [sh, -c]
           args:
-            - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/ && wget -qO- https://github.com/helmfile/helmfile/releases/download/v{{ helmfile_version }}/helmfile_{{ helmfile_version }}_linux_amd64.tar.gz | tar xvz helmfile && mv helmfile /custom-tools/ && wget https://gist.githubusercontent.com/enriched/11c7d81aa271b258f835620b1aca2e55/raw/2017a4202da30506b1fedc2981afed41e259fe77/in-pod-kubeconfig.sh && chmod +x in-pod-kubeconfig.sh && mv in-pod-kubeconfig.sh /custom-tools/
+            - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/ && wget https://gist.githubusercontent.com/enriched/11c7d81aa271b258f835620b1aca2e55/raw/2017a4202da30506b1fedc2981afed41e259fe77/in-pod-kubeconfig.sh && chmod +x in-pod-kubeconfig.sh && mv in-pod-kubeconfig.sh /custom-tools/
           volumeMounts:
             - mountPath: /custom-tools
               name: custom-tools
