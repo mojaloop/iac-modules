@@ -11,6 +11,11 @@ metadata:
 
 spec:
   project: default
+  ignoreDifferences:
+    - kind: CustomResourceDefinition
+      name: bgppeers.metallb.io
+      jsonPointers:
+        - /spec/conversion/webhook
   syncPolicy:
     automated:
       prune: true
