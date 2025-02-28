@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # utils
+  #- ../../../base/argocd-helm.yaml
+  - ../../../base/metallb.yaml
+  - ../../../base/storage-cluster-rook-ceph.yaml
+  # - ../../../base/cert-manager.yaml
+  # - ../../../base/crossplane.yaml
+  #  - ../../../base/percona-operator.yaml
+  - ../../../base/base-monitoring.yaml
+  # xplane database config
+  #- ../../../base/xplane-provider-config.yaml

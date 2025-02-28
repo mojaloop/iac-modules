@@ -1,0 +1,8 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: production
+  namespace: ${ARGOCD_ENV_metallb_namespace}
+spec:
+  addresses:
+    - ${ARGOCD_ENV_metallb_ip_range_begin}-${ARGOCD_ENV_metallb_ip_range_end}
