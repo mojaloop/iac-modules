@@ -294,3 +294,6 @@ rook_ceph_volumes_provider: "pvc" # host, pvc
 rook_ceph_aws_ebs_csi_driver_helm_version: "2.39.0"
 ##capi
 capi_infra_provider_version: "0.4.5"
+capi_cluster_proxmox_worker_cpu: "'8'"
+capi_cluster_proxmox_worker_memory: "'16384'"
+capi_cluster_proxmox_worker_replicas: "'3'"

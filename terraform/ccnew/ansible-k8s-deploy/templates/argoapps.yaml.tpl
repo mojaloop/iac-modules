@@ -66,6 +66,9 @@ argocd_override:
           capi_cluster_proxmox_host_sshkey: "${capi_cluster_proxmox_host_sshkey}"
           capi_cluster_proxmox_url: "${capi_cluster_proxmox_url}"
           capi_infra_provider_version: "${capi_infra_provider_version}"
+          capi_cluster_proxmox_worker_cpu: "'${capi_cluster_proxmox_worker_cpu}'"
+          capi_cluster_proxmox_worker_memory: "'${capi_cluster_proxmox_worker_memory}'"
+          capi_cluster_proxmox_worker_replicas: "'${capi_cluster_proxmox_worker_replicas}'"
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -383,3 +386,5 @@ argocd_override:
 
         post_config:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
+    sc:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
