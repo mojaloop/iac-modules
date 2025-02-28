@@ -39,11 +39,11 @@ spec:
         - name: "metallb_version"
           value: "${ARGOCD_ENV_sc_metallb_version}"
 
-        - name: "ARGOCD_ENV_metallb_ip_range_end"
+        - name: "metallb_ip_range_end"
           value: "${ARGOCD_ENV_sc_metallb_ip_range_end}"
 
-        - name: "ARGOCD_ENV_metallb_ip_range_begin"
+        - name: "metallb_ip_range_begin"
           value: "${ARGOCD_ENV_sc_metallb_ip_range_begin}"
 
-        - name: "ARGOCD_ENV_metallb_namespace"
+        - name: "metallb_namespace"
           value: "${ARGOCD_ENV_sc_metallb_namespace}"
