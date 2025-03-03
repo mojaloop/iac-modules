@@ -14,7 +14,7 @@ module "generate_monitoring_files" {
     grafana_operator_version               = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                        = try(var.common_var_map.grafana_version, local.grafana_version)
     grafana_dashboard_tag                  = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
-    grafana_dashboard_tag_iac_modules      = try(var.common_var_map.resources_iac_modules_tag, local.grafana_dashboard_tag_iac_modules)
+    grafana_dashboard_tag_iac_modules      = try(var.common_var_map.grafana_dashboard_tag_iac_modules, local.grafana_dashboard_tag_iac_modules)
     tempo_repo                             = try(var.common_var_map.tempo_repo, local.bitnami_repo)
     tempo_chart_version                    = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
     metrics_server_chart_version           = try(var.common_var_map.metrics_server_chart_version, local.metrics_server_chart_version)
