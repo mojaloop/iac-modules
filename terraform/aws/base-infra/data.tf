@@ -1,5 +1,6 @@
 data "aws_route53_zone" "public" {
-  count = (var.create_public_zone || !var.configure_route_53) ? 0 : 1
+  # count = (var.create_public_zone || !var.configure_route_53) ? 0 : 1
+  count = var.configure_route_53 ? 1 : 0
   name  = "${local.cluster_domain}."
 }
 
@@ -14,8 +15,16 @@ data "aws_route53_zone" "private" {
 }
 
 data "aws_route53_zone" "cluster_parent" {
-  count = (var.manage_parent_domain || !var.configure_route_53) ? 0 : 1
+  # count = (var.manage_parent_domain || !var.configure_route_53) ? 0 : 1
+  count = (var.configure_route_53 && !var.manage_parent_domain) ? 1 : 0
   name  = "${local.cluster_parent_domain}."
+
+  lifecycle {
+    postcondition {
+      condition     = length(self.zone_id) > 0
+      error_message = "Parent domain does not exist. Either create it manually or set manage_parent_domain = true."
+    }
+  }
 }
 
 data "aws_route53_zone" "cluster_parent_parent" {

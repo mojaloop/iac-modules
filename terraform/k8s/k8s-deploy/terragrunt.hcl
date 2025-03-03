@@ -23,7 +23,6 @@ inputs = {
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_vars.dns_provider
   app_var_map                          = (local.CLOUD_PLATFORM == "bare-metal") ? local.cloud_platform_vars : null
-  # for eks managed service
   netbird_version                      = local.netbird_version
   netbird_api_host                     = local.netbird_api_host
   netbird_setup_key                    = local.netbird_setup_key
@@ -32,6 +31,7 @@ inputs = {
   registry_mirror_fqdn                 = get_env("NEXUS_FQDN")
   enable_registry_mirror               = true
   single_nat_gateway                   = try(local.env_vars.single_nat_gateway, true)
+  manage_parent_domain                 = try(local.env_vars.manage_parent_domain, true)
 
   
   identity_provider_config_name    = "Zitadel"

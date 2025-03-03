@@ -40,3 +40,4 @@ tags:
   mojaloop/owner: James-Bush
 coredns_bind_address: "169.254.20.10"
 single_nat_gateway: true
+manage_parent_domain: true
