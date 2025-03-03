@@ -14,7 +14,6 @@ data "aws_route53_zone" "private" {
 }
 
 data "aws_route53_zone" "cluster_parent" {
-  # count = (var.manage_parent_domain || !var.configure_route_53) ? 0 : 1
   count = (var.configure_route_53 && !var.manage_parent_domain) ? 1 : 0
   name  = "${local.cluster_parent_domain}."
 
