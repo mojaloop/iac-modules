@@ -92,8 +92,8 @@ compactor:
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
   resources:
     limits:
-      cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
-      memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
+      cpu: ${ARGOCD_ENV_mimir_compactor_limits_cpu}
+      memory: ${ARGOCD_ENV_mimir_compactor_limits_memory}
   persistence:
     size: ${ARGOCD_ENV_mimir_compactor_storage_size}
 
