@@ -1,6 +1,5 @@
 data "aws_route53_zone" "public" {
-  # count = (var.create_public_zone || !var.configure_route_53) ? 0 : 1
-  count = var.configure_route_53 ? 1 : 0
+  count = (var.create_public_zone || !var.configure_route_53) ? 0 : 1
   name  = "${local.cluster_domain}."
 }
 
