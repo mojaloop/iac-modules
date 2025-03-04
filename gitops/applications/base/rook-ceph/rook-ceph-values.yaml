@@ -1,0 +1,14 @@
+csi:
+ kubeletDirPath: ${ARGOCD_ENV_rook_ceph_kubelet_dir_path}
+ serviceMonitor:
+  enabled: false
+  interval: 60s
+enableDiscoveryDaemon: false
+monitoring:
+  enabled: false
+resources:
+ limits:
+  memory: 512Mi
+ requests:
+  cpu: 50m
+  memory: 64Mi
