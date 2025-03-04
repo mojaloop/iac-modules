@@ -509,7 +509,8 @@ spec:
             #     cpu: 250m
             #     memory: 512Mi
             envFrom:
-              - configMapRef: plugin-env-vars
+              - configMapRef:
+                  name: plugin-env-vars
             env:
               - name: HELM_CACHE_HOME
                 value: /helm-working-dir
