@@ -132,8 +132,6 @@ fmt:
   when: manual
 
 init:
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   stage: init
   id_tokens:
     VAULT_ID_TOKEN:
@@ -175,14 +173,17 @@ deploy-infra:
   script:
     - !reference [.source, script]
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
-    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   artifacts:
     paths:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
+      - $GITOPS_BUILD_OUTPUT_DIR
+      - $CONFIG_PATH
     when: always
-  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-infra.*/
+    - when: manual
 
 deploy-managed-srvcs:
   extends: .terraform:deploy
@@ -203,6 +204,8 @@ deploy-managed-srvcs:
 
 refresh-templates:
   stage: refresh-templates
+  needs:
+    - init
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
@@ -213,6 +216,8 @@ refresh-templates:
 
 destroy:
   extends: .terraform:destroy
+  needs:
+    - init
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
@@ -222,18 +227,6 @@ destroy:
     - terragrunt run-all destroy --terragrunt-non-interactive -input=false
     - .gitlab/scripts/cleanapps.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   when: manual
-
-apps:
-  stage: deploy
-  rules:
-    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_COMMIT_BRANCH
-  id_tokens:
-    VAULT_ID_TOKEN:
-      aud: https://$VAULT_FQDN
-  script:
-    - !reference [.source, script]
-    - terragrunt run-all apply --terragrunt-non-interactive -input=false
-    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
 
 refresh-deploy-infra:
   extends: .terraform:deploy
@@ -247,11 +240,7 @@ refresh-deploy-infra:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
-    - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
-    - git checkout "$CI_COMMIT_REF_NAME" && git pull
-    - !reference [.source, script]
-    - terragrunt run-all apply --terragrunt-non-interactive -input=false
-    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
+    - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag "deploy-infra $iac_terraform_modules_tag $CD_MESSAGE"
   artifacts:
     paths:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
@@ -259,7 +248,7 @@ refresh-deploy-infra:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy.*/
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy .*/
     - if: $CI_PIPELINE_TRIGGERED && $CI_PIPELINE_SOURCE == "trigger" && $CD_UPDATE_PROFILE
     - when: manual
 
@@ -285,3 +274,72 @@ tf-refresh-deploy-infra:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^tf_trigger.*/
     - when: manual
+
+lint-apps:
+  stage: deploy
+  resource_group: ${TF_STATE_NAME}
+  needs:
+    - deploy-infra
+  image:
+    name: node:20.18.0
+    entrypoint: [""]
+  cache:
+    - key: "${TF_ROOT}"
+      paths:
+        - ${TF_ROOT}/**/.terraform
+        - ${TF_ROOT}/**/.terraform.lock.hcl
+        - ${TF_ROOT}/**/.terragrunt-cache
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
+    - key:
+        files:
+          - .gitlab/lint/download.sh
+      paths:
+        - .gitlab/lint/bin
+    - key:
+        files:
+          - .gitlab/lint/package-lock.json
+      paths:
+        - .gitlab/lint/node_modules
+  script:
+    - set -eo pipefail
+    - skip_lint_pattern="\[skip lint\]";if [[ "$CI_COMMIT_TITLE" =~ $skip_lint_pattern ]]; then echo "Skipping linting due to commit message"; exit 0; fi
+    - cd .gitlab/lint
+    - ./download.sh
+    - if [ "$(./bin/yq eval .cloud_platform ../../$CONFIG_PATH/cluster-config.yaml)" != "bare-metal" ]; then echo "Skipping linting when not bare metal"; exit 0; fi
+    - ./render.sh
+    - npm ci --legacy-peer-deps
+    - npm run lint
+    - cp $ANSIBLE_BASE_OUTPUT_DIR/k8s-deploy/kubeconfig .kubeconfig
+    - export MASTER_HOST="$(./bin/yq eval .master_hosts_0_private_ip ../../$CONFIG_PATH/bare-metal-vars.yaml)"
+    - export BASTION_HOST="$(./bin/yq eval .bastion_public_ips[0] ../../$CONFIG_PATH/bare-metal-vars.yaml)"
+    - ssh -fN -i $ANSIBLE_BASE_OUTPUT_DIR/k8s-deploy/sshkey -o StrictHostKeyChecking=no -o ExitOnForwardFailure=yes -o UserKnownHostsFile=/dev/null -L 8443:$MASTER_HOST:16443 ubuntu@$BASTION_HOST
+    - ci_user=$USER; su root; echo "127.0.0.1 kubernetes" >> /etc/hosts; su $ci_user
+    - export KUBECONFIG=.kubeconfig
+    - ./bin/kubectl config set clusters.microk8s-cluster.server https://kubernetes:8443
+    - ./bin/kubectl get nodes
+    - ./bin/kubectl-validate test |& tee test/lint.txt | grep -v $'OK\033\[0m$' | sed '/^$/N;/^\n$/D'
+  artifacts:
+    when: always
+    paths:
+      - .gitlab/lint/test/lint.html
+      - .gitlab/lint/test/lint.txt
+
+push-apps:
+  stage: deploy
+  resource_group: ${TF_STATE_NAME}
+  needs:
+    - lint-apps
+    - deploy-infra
+  dependencies:
+    - deploy-infra
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: https://$VAULT_FQDN
+  script:
+    - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
+    - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
+    - source setcivars.sh
+    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
