@@ -132,7 +132,7 @@ locals {
     zitadel_project_id           = get_env("zitadel_project_id")
     eks_aws_secret_access_key    = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
     eks_aws_access_key_id        = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
-    eks_aws_session_token        = local.K8S_CLUSTER_TYPE == "eks" ? try(get_env("AWS_SESSION_TOKEN"), null) : null
+    eks_aws_session_token        = local.K8S_CLUSTER_TYPE == "eks" ? try(get_env("AWS_SESSION_TOKEN"), "") : ""
     eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
   }
   all_hosts_var_maps = {
