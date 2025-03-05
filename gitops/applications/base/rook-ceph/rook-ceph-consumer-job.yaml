@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       restartPolicy: OnFailure
-      #serviceAccountName: ceph-job-sa
+      serviceAccountName: ceph-job-sa
       containers:
         - name: kubectl-consumer
           volumeMounts:

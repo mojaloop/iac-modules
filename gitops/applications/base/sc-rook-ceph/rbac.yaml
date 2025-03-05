@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ceph-job-sa
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ceph-job-role
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create", "get", "list", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ceph-job-rolebinding
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+subjects:
+  - kind: ServiceAccount
+    name: ceph-job-sa
+    namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+roleRef:
+  kind: Role
+  name: ceph-job-role
+  apiGroup: rbac.authorization.k8s.io

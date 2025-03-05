@@ -7,6 +7,7 @@ spec:
   template:
     spec:
       restartPolicy: Never
+      serviceAccountName: ceph-job-sa
       containers:
         - name: export-rgw-endpoint
           image: bitnami/kubectl:latest
