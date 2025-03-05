@@ -520,6 +520,9 @@ spec:
       #   requests:
       #     cpu: 250m
       #     memory: 512Mi
+      envFrom:
+        - configMapRef:
+            name: plugin-env-vars
       env:
         - name: HELM_CACHE_HOME
           value: /helm-working-dir
@@ -618,3 +621,53 @@ spec:
             - name: custom-tools
               subPath: envsubst
               mountPath: /usr/local/bin/envsubst
+---
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
+kind: HelmChartProxy
+metadata:
+  name: storage-cluster-root-app
+spec:
+  clusterSelector:
+    matchLabels:
+      guestbook: enabled
+  repoURL: https://argoproj.github.io/argo-helm
+  chartName: argocd-apps
+  options:
+    waitForJobs: true
+    wait: true
+    timeout: 5m
+    install:
+      createNamespace: true
+  valuesTemplate: |
+    applications:
+    - name: storage-cluster-deployer
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+      spec:
+        project: default
+        syncPolicy:
+          automated:
+            prune: true
+            selfHeal: true
+          retry:
+            limit: 60
+            backoff:
+              duration: 10s
+              maxDuration: 1m0s
+              factor: 2
+          syncOptions:
+            - CreateNamespace=true
+            - PrunePropagationPolicy=foreground
+            - PruneLast=true
+        sources:
+          - repoURL: ${ARGOCD_ENV_sc_root_argocd_repo_url}
+            targetRevision: ${ARGOCD_ENV_sc_root_application_gitrepo_tag}
+            path: gitops/argo-apps/overlays/local/storage-cluster
+            plugin:
+              name: envsubstappofapp
+              env: []
+
+        destination:
+          server: "https://kubernetes.default.svc"
+          namespace: argocd
