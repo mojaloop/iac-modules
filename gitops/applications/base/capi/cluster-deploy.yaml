@@ -629,7 +629,7 @@ metadata:
 spec:
   clusterSelector:
     matchLabels:
-      guestbook: enabled
+      argoCDChart: enabled
   repoURL: https://argoproj.github.io/argo-helm
   chartName: argocd-apps
   options:
