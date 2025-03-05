@@ -32,6 +32,7 @@ inputs = {
   registry_mirror_fqdn                 = get_env("NEXUS_FQDN")
   enable_registry_mirror               = true
   single_nat_gateway                   = try(local.env_vars.single_nat_gateway, true)
+  manage_parent_domain                 = try(local.env_vars.manage_parent_domain, true)
 
   
   identity_provider_config_name    = "Zitadel"

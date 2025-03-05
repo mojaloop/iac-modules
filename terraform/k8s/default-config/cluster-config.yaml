@@ -57,3 +57,4 @@ coredns_bind_address: "169.254.20.10"
 single_nat_gateway: true
 migrate: false
 managed_svc_as_monolith: false
+manage_parent_domain: true
