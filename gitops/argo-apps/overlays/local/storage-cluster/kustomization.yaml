@@ -5,7 +5,8 @@ resources:
   # utils
   #- ../../../base/argocd-helm.yaml
   - ../../../base/metallb.yaml
-  - ../../../base/storage-cluster-rook-ceph.yaml
+  - ../../../base/sc-rook-ceph.yaml
+  - ../../../base/sc-rook-ceph-post-config.yaml
   # - ../../../base/cert-manager.yaml
   # - ../../../base/crossplane.yaml
   #  - ../../../base/percona-operator.yaml
