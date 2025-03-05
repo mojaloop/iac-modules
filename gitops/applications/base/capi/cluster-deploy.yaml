@@ -520,9 +520,7 @@ spec:
       #   requests:
       #     cpu: 250m
       #     memory: 512Mi
-      envFrom:
-        - configMapRef:
-            name: plugin-env-vars
+
       env:
         - name: HELM_CACHE_HOME
           value: /helm-working-dir
@@ -579,6 +577,9 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 999
+          envFrom:
+            - configMapRef:
+                name: plugin-env-vars
           volumeMounts:
             - mountPath: /var/run/argocd
               name: var-files
@@ -604,6 +605,9 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 999
+          envFrom:
+            - configMapRef:
+                name: plugin-env-vars
           volumeMounts:
             - mountPath: /var/run/argocd
               name: var-files
