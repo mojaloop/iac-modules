@@ -4,6 +4,7 @@ resources:
   - rook-ceph-namespace.yaml
   - ceph-objectstore-service.yaml
   - ceph-dashboard-loadbalancer.yaml
+  - rbac.yaml
   - rgw-endpoint-job.yaml
 
 helmCharts:
