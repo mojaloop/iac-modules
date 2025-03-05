@@ -1,0 +1,18 @@
+{
+  "name": "mojaloop-helm",
+  "version": "1.0.0",
+  "description": "k8s lint",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint-output test || { echo -e \"\\e[31mLinting failed, check the report in artifacts\\e[0m\"; exit 1; }"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.20.1",
+    "eslint-detailed-reporter": "^0.9.0",
+    "eslint-output": "^4.0.2",
+    "eslint-plugin-yml": "^1.17.0"
+  }
+}
