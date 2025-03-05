@@ -40,7 +40,7 @@ spec:
             kubeletDirPath: ${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}
             serviceMonitor:
               interval: 60s
-          enableDiscoveryDaemon: true
+          enableDiscoveryDaemon: false
           monitoring:
             enabled: true
           resources:
