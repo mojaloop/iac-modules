@@ -5,6 +5,7 @@ resources:
   # utils
   - ../../../base/argocd-helm.yaml
   - ../../../base/rook-ceph.yaml
+  - ../../../base/rook-ceph-post-config.yaml
   - ../../../base/external-secrets.yaml
   - ../../../base/reflector.yaml
   - ../../../base/reloader.yaml
