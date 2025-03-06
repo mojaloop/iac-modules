@@ -21,7 +21,7 @@ spec:
             - |
               echo "Additional env vars"
               KUBECTL="kubectl"
-              NAMESPACE="rook-ceph-external"
+              NAMESPACE=$${NAMESPACE:="rook-ceph-external"}
               ROOK_EXTERNAL_CLUSTER_NAME=$NAMESPACE
               MON_SECRET_NAME=rook-ceph-mon
               MON_SECRET_FSID_KEYNAME=fsid
@@ -48,7 +48,7 @@ spec:
               CEPHFS_PROVISIONER=$CSI_DRIVER_NAME_PREFIX".cephfs.csi.ceph.com"
               OBJECT_PROVISIONER=$NAMESPACE".ceph.rook.io/bucket"
               OBJECT_STORE_NAME=external-store
-              ROOK_EXTERNAL_ADMIN_SECRET=admin-secret
+              : "$${ROOK_EXTERNAL_ADMIN_SECRET:=admin-secret}"
 
               # Ensure file is not empty before source
               if [ -s /data/ceph_env/config ]; then

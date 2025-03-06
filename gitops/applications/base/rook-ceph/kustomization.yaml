@@ -4,7 +4,6 @@ resources:
   - rook-ceph-namespace.yaml
   - rbac.yaml
   - external-secrets.yaml
-  - sync-ceph-secrets-job.yaml
 
 helmCharts:
   - name: rook-ceph
