@@ -14,6 +14,7 @@ module "generate_monitoring_files" {
     grafana_operator_version               = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                        = try(var.common_var_map.grafana_version, local.grafana_version)
     grafana_dashboard_tag                  = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
+    grafana_dashboard_tag_iac_modules      = try(var.common_var_map.grafana_dashboard_tag_iac_modules, local.grafana_dashboard_tag_iac_modules)
     tempo_repo                             = try(var.common_var_map.tempo_repo, local.bitnami_repo)
     tempo_chart_version                    = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
     metrics_server_chart_version           = try(var.common_var_map.metrics_server_chart_version, local.metrics_server_chart_version)
@@ -155,7 +156,8 @@ locals {
   tempo_chart_version                 = "3.1.0"
   metrics_server_chart_version        = "3.12.2"
   grafana_version                     = "10.2.3"
-  grafana_dashboard_tag               = "v16.3.0-snapshot.17" # TODO: update once v16.1.x is published
+  grafana_dashboard_tag               = "v16.3.0-snapshot.17" # NOTE: only for those dashboards which are in mojaloop/helm repo
+  grafana_dashboard_tag_iac_modules   = "main"                # tag for dashboards in mojaloop/iac-modules repo
   grafana_operator_version            = "3.5.11"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file                 = "monitoring-app.yaml"
