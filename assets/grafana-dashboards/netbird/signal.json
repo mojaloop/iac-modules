@@ -124,7 +124,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -225,7 +225,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -259,7 +259,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -384,7 +384,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -500,7 +500,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "rate(messages_forwarded_total{cluster=~\"$cluster\",environment=~\"$environment\",job=~\"$job\",host=~\"$host\"}[$__rate_interval])",
@@ -597,7 +597,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "sum(rate(message_forward_failures_total{cluster=~\"$cluster\",environment=~\"$environment\",job=~\"$job\",host=~\"$host\"}[$__rate_interval])) by (cluster,environment,job,type)",
@@ -695,7 +695,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -729,7 +729,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -847,7 +847,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -882,7 +882,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "${datasource}"
         },
         "description": "",
         "fieldConfig": {
@@ -963,7 +963,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "sum(rate(registration_failures_total{cluster=~\"$cluster\",environment=~\"$environment\",job=~\"$job\",host=~\"$host\"}[$__rate_interval])) by (cluster,environment,job,error)",
@@ -1061,7 +1061,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -1095,7 +1095,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -1198,7 +1198,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -1232,7 +1232,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -1354,7 +1354,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "sum(rate(rpc_server_requests_per_rpc_count{rpc_method=~\"Send\"}[$__rate_interval])) by (rpc_method,rpc_grpc_status_code)",
@@ -1458,7 +1458,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "sum(rate(rpc_server_requests_per_rpc_count{rpc_method=~\"ConnectStream\"}[$__rate_interval])) by (rpc_method,rpc_grpc_status_code)",
@@ -1557,7 +1557,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -1591,7 +1591,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -1694,7 +1694,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -1728,7 +1728,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "${datasource}"
             },
             "disableTextWrap": false,
             "editorMode": "code",
@@ -1793,7 +1793,7 @@
           "current": {},
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${datasource}"
           },
           "definition": "label_values(active_peers{cluster=\"$cluster\"},environment)",
           "description": "",
@@ -1842,7 +1842,7 @@
           "current": {},
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${datasource}"
           },
           "definition": "label_values(active_peers{cluster=\"$cluster\", environment=\"$environment\", job=\"$job\"},host)",
           "hide": 0,
