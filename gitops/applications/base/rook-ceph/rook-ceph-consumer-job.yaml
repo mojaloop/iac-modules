@@ -6,7 +6,7 @@ metadata:
 spec:
   template:
     spec:
-      restartPolicy: OnFailure
+      restartPolicy: Never
       serviceAccountName: ceph-job-sa
       containers:
         - name: kubectl-consumer
