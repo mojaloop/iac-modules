@@ -1,65 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    },
-    {
-      "name": "DS_EXPRESSION",
-      "label": "Expression",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "__expr__"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "datasource",
-      "id": "__expr__",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "barchart",
-      "name": "Bar chart",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "11.1.1"
-    },
-    {
-      "type": "panel",
-      "id": "heatmap",
-      "name": "Heatmap",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -79,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": null,
+  "id": 82,
   "links": [],
   "panels": [
     {
@@ -182,7 +121,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "${datasource}"
       },
       "description": "Number of active peer streams connected to the gRPC server over time",
       "fieldConfig": {
@@ -263,7 +202,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "management_grpc_connected_streams_ratio{cluster=~\"$cluster\",environment=~\"$environment\",job=~\"$job\",host=~\"$host\"}",
@@ -431,8 +370,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -567,8 +505,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -717,8 +654,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -867,8 +803,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -990,8 +925,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1113,8 +1047,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1250,8 +1183,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1347,8 +1279,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1444,8 +1375,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1555,8 +1485,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1652,8 +1581,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1749,8 +1677,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1872,8 +1799,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1995,8 +1921,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2097,8 +2022,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -2748,8 +2672,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -2796,6 +2719,10 @@
           "pluginVersion": "11.5.0-81732",
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
               "disableTextWrap": false,
               "editorMode": "builder",
               "expr": "delta(management_updatechannel_close_one_duration_micro_count{application=\"management\", environment=\"$environment\", host=~\"$host\"}[$interval])",
@@ -2805,11 +2732,7 @@
               "legendFormat": "CloseOne",
               "range": true,
               "refId": "A",
-              "useBackend": false,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              }
+              "useBackend": false
             },
             {
               "datasource": {
@@ -2944,8 +2867,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -2981,6 +2903,10 @@
           "pluginVersion": "11.5.0-81732",
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
               "disableTextWrap": false,
               "editorMode": "builder",
               "expr": "histogram_quantile(0.95, sum by(le) (rate(management_updatechannel_close_one_duration_micro_bucket{application=\"management\", environment=\"$environment\", host=~\"$host\"}[$interval])))",
@@ -2990,11 +2916,7 @@
               "legendFormat": "CloseOne",
               "range": true,
               "refId": "A",
-              "useBackend": false,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              }
+              "useBackend": false
             },
             {
               "datasource": {
@@ -3130,8 +3052,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -3295,6 +3216,10 @@
           "pluginVersion": "11.1.1",
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
               "disableTextWrap": false,
               "editorMode": "builder",
               "expr": "sum by(le) (increase(management_grpc_updatechannel_queue_bucket{application=\"management\", environment=\"$environment\", host=~\"$host\"}[$__rate_interval]))",
@@ -3304,11 +3229,7 @@
               "legendFormat": "__auto",
               "range": true,
               "refId": "A",
-              "useBackend": false,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              }
+              "useBackend": false
             }
           ],
           "title": "Update Channel heat map",
@@ -3396,6 +3317,10 @@
           "pluginVersion": "11.1.1",
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
               "disableTextWrap": false,
               "editorMode": "builder",
               "expr": "sum by(le) (increase(management_account_update_account_peers_duration_ms_bucket{application=\"management\", environment=\"$environment\", host=~\"$host\"}[$__rate_interval]))",
@@ -3405,11 +3330,7 @@
               "legendFormat": "__auto",
               "range": true,
               "refId": "A",
-              "useBackend": false,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              }
+              "useBackend": false
             }
           ],
           "title": "UpdateAccountPeers Latency",
@@ -3483,6 +3404,10 @@
           "pluginVersion": "11.1.1",
           "targets": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
               "disableTextWrap": false,
               "editorMode": "builder",
               "exemplar": false,
@@ -3495,11 +3420,7 @@
               "legendFormat": "__auto",
               "range": true,
               "refId": "A",
-              "useBackend": false,
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${datasource}"
-              }
+              "useBackend": false
             }
           ],
           "title": "NetworkMap Objects",
@@ -3516,7 +3437,11 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "Prometheus",
+          "value": "73c8e14b-5699-4876-b887-4299930521a5"
+        },
         "hide": 0,
         "includeAll": false,
         "multi": false,
@@ -3553,7 +3478,11 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
@@ -3576,7 +3505,11 @@
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "netbird-management",
+          "value": "netbird-management"
+        },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
@@ -3624,13 +3557,13 @@
     ]
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Netbird / Management",
-  "uid": "bebypwoziton4b-v2",
-  "version": 37,
+  "uid": "bebypwoziton4b-v3",
+  "version": 38,
   "weekStart": ""
 }
