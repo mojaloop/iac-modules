@@ -2,11 +2,12 @@
 apiVersion: addons.cluster.x-k8s.io/v1alpha1
 kind: HelmChartProxy
 metadata:
-  name: storage-cluster-root-app
+  name: ${ARGOCD_ENV_dbdeploy_name_prefix}-percona-cluster-root-app
   namespace: ${ARGOCD_ENV_capi_cluster_namespace}
 spec:
   clusterSelector:
     matchLabels:
+      cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}    
       argoCDChart: enabled
   repoURL: https://argoproj.github.io/argo-helm
   chartName: argocd-apps
@@ -19,7 +20,7 @@ spec:
       createNamespace: true
   valuesTemplate: |
     applications:
-      storage-cluster-deployer:
+      ${ARGOCD_ENV_dbdeploy_name_prefix}-percona-cluster-deployer:
         namespace: argocd
         finalizers:
           - resources-finalizer.argocd.argoproj.io
@@ -45,6 +46,59 @@ spec:
             plugin:
               name: envsubstappofapp
               env:
+                - name: "cluster_name"
+                  value: "${ARGOCD_ENV_cluster_name}"
+
+                - name: "app_name"
+                  value: "${ARGOCD_ENV_app_name}"
+
+                - name: "namespace"
+                  value: "${ARGOCD_ENV_namespace}"
+
+                - name: "vault_k8s_admin_auth_path"
+                  value: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+
+                - name: "vault_k8s_admin_role_name"
+                  value: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
+
+                - name: "vault_namespace"
+                  value: "${ARGOCD_ENV_vault_namespace}"
+
+                - name: "postgres_replicas"
+                  value: "${ARGOCD_ENV_postgres_replicas}"
+
+                - name: "postgres_proxy_replicas"
+                  value: "${ARGOCD_ENV_postgres_proxy_replicas}"
+
+                - name: "postgres_storage_size"
+                  value: "${ARGOCD_ENV_postgres_storage_size}"
+
+                - name: "pgdb_helm_version"
+                  value: "${ARGOCD_ENV_pgdb_helm_version"
+
+                - name: "db_secret"
+                  value: "${ARGOCD_ENV_db_secret}"
+
+                - name: "db_name"
+                  value: "${ARGOCD_ENV_db_name}"
+
+                - name: "db_username"
+                  value: "${ARGOCD_ENV_db_username}"
+
+                - name: "dbdeploy_name_prefix"
+                  value: "${ARGOCD_ENV_dbdeploy_name_prefix}"
+
+                - name: "db_backup_retention_period"
+                  value: "${ARGOCD_ENV_db_backup_retention_period}"
+
+                - name: "db_preferred_backup_window"
+                  value: "${ARGOCD_ENV_db_preferred_backup_window}"
+
+                - name: "externalservice_name"
+                  value: "${ARGOCD_ENV_externalservice_name}"
+
+                - name: max_prepared_statements
+                  value: "0"               
                 
 
         destination:

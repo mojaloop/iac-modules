@@ -209,4 +209,16 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"
 
           - name: max_prepared_statements
-            value: "1"    
+            value: "1"
+
+          - name: "sc_dbaas_gitrepo_tag"
+            value: "${ARGOCD_ENV_security_application_gitrepo_tag}"
+
+          - name: "sc_argocd_repo_url"
+            value: "${ARGOCD_ENV_argocd_repo_url}"
+
+          - name: "capi_cluster_name"
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"                        
+
+          - name: "capi_cluster_namespace"
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
