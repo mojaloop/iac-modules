@@ -182,7 +182,7 @@ deploy-infra:
       - $CONFIG_PATH
     when: always
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-infra.*/
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-infra:.*/
     - when: manual
 
 deploy-managed-srvcs:
@@ -240,7 +240,10 @@ refresh-deploy-infra:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
-    - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag "deploy-infra $iac_terraform_modules_tag $CD_MESSAGE"
+    - '.gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag "deploy-infra: ${CD_MESSAGE-$iac_terraform_modules_tag}"'
+    - if [ -s /tmp/changes.txt ]; then echo "Changes detected in the templates, delegating apps generation to the subsequent pipeline"; exit 0; fi
+    - terragrunt run-all apply --terragrunt-non-interactive -input=false
+    - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   artifacts:
     paths:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
@@ -248,7 +251,7 @@ refresh-deploy-infra:
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy .*/
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy:.*/
     - if: $CI_PIPELINE_TRIGGERED && $CI_PIPELINE_SOURCE == "trigger" && $CD_UPDATE_PROFILE
     - when: manual
 

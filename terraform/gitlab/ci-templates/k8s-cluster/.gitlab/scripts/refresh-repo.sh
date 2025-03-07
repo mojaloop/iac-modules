@@ -29,5 +29,7 @@ git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
 git add .
 git diff --cached --exit-code || git commit -m "$(echo $COMMIT_MESSAGE)"
+git diff --numstat origin > /tmp/changes.txt
+cat /tmp/changes.txt
 git push
 rm -rf $TMP_REPO_DIR
