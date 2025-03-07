@@ -836,7 +836,7 @@
           "current": {},
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "definition": "label_values(relay_peers,cluster)",
           "hide": 0,
@@ -884,7 +884,7 @@
           "current": {},
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "definition": "label_values(relay_peers{cluster=\"$cluster\", environment=\"$environment\"},job)",
           "hide": 0,
@@ -937,7 +937,7 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "Netbird / Relay",
-    "uid": "febyq2pgq2u-v001",
+    "uid": "febyq2pgq2u-v002",
     "version": 5,
     "weekStart": ""
   }
