@@ -10,6 +10,7 @@ module "generate_mojaloop_files" {
     storage_class_name                                                = var.storage_class_name
     mojaloop_sync_wave                                                = var.mojaloop_sync_wave
     mojaloop_test_sync_wave                                           = var.mojaloop_test_sync_wave
+    mojaloop_hub_provisioning_sync_wave                               = var.mojaloop_hub_provisioning_sync_wave
     internal_ttk_enabled                                              = var.internal_ttk_enabled
     ttk_testcases_tag                                                 = try(var.app_var_map.ttk_testcases_tag, "")
     ttk_test_currency1                                                = var.app_var_map.ttk_test_currency1
@@ -311,10 +312,16 @@ variable "mojaloop_sync_wave" {
   default     = "0"
 }
 
+variable "mojaloop_hub_provisioning_sync_wave" {
+  type        = string
+  description = "mojaloop_hub_provisioning_sync_wave"
+  default     = "1"
+}
+
 variable "mojaloop_test_sync_wave" {
   type        = string
   description = "mojaloop_sync_wave"
-  default     = "1"
+  default     = "2"
 }
 
 variable "internal_ttk_enabled" {

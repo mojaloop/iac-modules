@@ -34,3 +34,11 @@ helmCharts:
   repo: https://mojaloop.github.io/reporting-k8s-templates
   namespace: ${mojaloop_namespace}
   includeCRDs: false
+- name: ml-testing-toolkit-cli
+  releaseName: hub-provisioning
+  version: 15.6.0
+  repo: ${mojaloop_chart_repo}
+  valuesFile: values-hub-provisioning.yaml
+  namespace: ${mojaloop_namespace}
+  additionalValuesFiles:
+  - values-hub-provisioning-override.yaml
