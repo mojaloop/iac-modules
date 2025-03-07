@@ -69,4 +69,11 @@ module "base_infra" {
   bastion_ami = module.ubuntu_focal_ami[0].id
   create_haproxy_dns_record = false
   configure_route_53 = false
+  bastion_asg_config = {
+    name             = "bastion"
+    desired_capacity = var.bastion_instance_number
+    max_size         = var.bastion_instance_number
+    min_size         = var.bastion_instance_number
+    instance_type    = var.bastion_instance_size
+  }
 }
