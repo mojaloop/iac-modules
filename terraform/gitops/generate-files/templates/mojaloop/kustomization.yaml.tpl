@@ -36,7 +36,7 @@ helmCharts:
   includeCRDs: false
 - name: ml-testing-toolkit-cli
   releaseName: hub-provisioning
-  version: 15.6.0
+  version: ${ml_testing_toolkit_cli_chart_version}
   repo: ${mojaloop_chart_repo}
   valuesFile: values-hub-provisioning.yaml
   namespace: ${mojaloop_namespace}
