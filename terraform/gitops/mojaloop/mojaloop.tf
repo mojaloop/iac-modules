@@ -10,6 +10,7 @@ module "generate_mojaloop_files" {
     storage_class_name                                                = var.storage_class_name
     mojaloop_sync_wave                                                = var.mojaloop_sync_wave
     mojaloop_test_sync_wave                                           = var.mojaloop_test_sync_wave
+    mojaloop_hub_provisioning_sync_wave                               = var.mojaloop_hub_provisioning_sync_wave
     internal_ttk_enabled                                              = var.internal_ttk_enabled
     ttk_testcases_tag                                                 = try(var.app_var_map.ttk_testcases_tag, "")
     ttk_test_currency1                                                = var.app_var_map.ttk_test_currency1
@@ -194,6 +195,7 @@ module "generate_mojaloop_files" {
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
     ttk_setup_testcase_labels                                         = try(var.app_var_map.ttk_setup_testcase_labels, var.ttk_setup_testcase_labels)
     ttk_cleanup_testcase_labels                                       = try(var.app_var_map.ttk_cleanup_testcase_labels, var.ttk_cleanup_testcase_labels)
+    ttk_hub_provisioning_testcase_labels                              = try(var.app_var_map.ttk_hub_provisioning_testcase_labels, var.ttk_hub_provisioning_testcase_labels)
     mojaloop_override_values_file_exists                              = local.mojaloop_override_values_file_exists
     finance_portal_override_values_file_exists                        = local.finance_portal_override_values_file_exists
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
@@ -202,6 +204,7 @@ module "generate_mojaloop_files" {
     hub_name                                                          = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     opentelemetry_enabled                                             = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable
+    ml_testing_toolkit_cli_chart_version                              = try(var.app_var_map.ml_testing_toolkit_cli_chart_version, var.ml_testing_toolkit_cli_chart_version)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -311,10 +314,16 @@ variable "mojaloop_sync_wave" {
   default     = "0"
 }
 
+variable "mojaloop_hub_provisioning_sync_wave" {
+  type        = string
+  description = "mojaloop_hub_provisioning_sync_wave"
+  default     = "1"
+}
+
 variable "mojaloop_test_sync_wave" {
   type        = string
   description = "mojaloop_sync_wave"
-  default     = "1"
+  default     = "2"
 }
 
 variable "internal_ttk_enabled" {
@@ -432,4 +441,12 @@ variable "ttk_setup_testcase_labels" {
 variable "ttk_cleanup_testcase_labels" {
   type    = string
   default = ""
+}
+
+variable "ttk_hub_provisioning_testcase_labels" {
+  type    = string
+  default = ""
+}
+variable "ml_testing_toolkit_cli_chart_version" {
+  description = "Mojaloop ttk cli version to install via Helm"
 }
