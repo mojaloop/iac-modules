@@ -9,7 +9,8 @@ ttk_test_currency3: CAD
 mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 finance_portal_ingress_internal_lb: true
-onboarding_collection_tag: 17.0.4
+ml_testing_toolkit_cli_chart_version: 15.6.0
+onboarding_collection_tag: 17.0.6
 onboarding_net_debit_cap: 0
 onboarding_funds_in: 0
 grafana_dashboard_tag: v16.3.0-snapshot.24 # TODO: update once v16.1.x is published
@@ -28,6 +29,7 @@ account_lookup_service_monitoring_prefix: "moja_als_"
 ttk_gp_testcase_labels: "p2p"
 ttk_setup_testcase_labels: ""
 ttk_cleanup_testcase_labels: ""
+ttk_hub_provisioning_testcase_labels: ""
 jws_rotation_period_hours: 672
 jws_rotation_renew_before_hours: 1
 fspiop_use_ory_for_auth: true
