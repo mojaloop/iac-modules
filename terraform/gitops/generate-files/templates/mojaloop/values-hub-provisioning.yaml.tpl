@@ -12,6 +12,10 @@ config:
 testCaseEnvironmentFile:
   inputValues:
     HUB_NAME: ${hub_name}
+    HOST_ACCOUNT_LOOKUP_SERVICE": "http://${mojaloop_release_name}-account-lookup-service"
+    HOST_ACCOUNT_LOOKUP_ADMIN": "http://${mojaloop_release_name}-account-lookup-service-admin"
+    HOST_CENTRAL_LEDGER": "http://${mojaloop_release_name}-centralledger-service"
+    HOST_ORACLE_MSISDN": "http://${mojaloop_release_name}-als-msisdn-oracle"
     ## Currencies and other configuration will be provided by profiles / gitlab custom config
 job:
   enabled: true
