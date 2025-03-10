@@ -10,6 +10,7 @@ mcm_ingress_internal_lb: false
 mojaloop_ingress_internal_lb: true
 finance_portal_ingress_internal_lb: true
 ml_testing_toolkit_cli_chart_version: 15.6.0
+hub_provisioning_ttk_test_case_version: 17.0.6
 onboarding_collection_tag: 17.0.6
 onboarding_net_debit_cap: 0
 onboarding_funds_in: 0

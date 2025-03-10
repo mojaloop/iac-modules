@@ -205,6 +205,7 @@ module "generate_mojaloop_files" {
     opentelemetry_enabled                                             = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable
     ml_testing_toolkit_cli_chart_version                              = try(var.app_var_map.ml_testing_toolkit_cli_chart_version, var.ml_testing_toolkit_cli_chart_version)
+    hub_provisioning_ttk_test_case_version                            = try(var.app_var_map.hub_provisioning_ttk_test_case_version, var.hub_provisioning_ttk_test_case_version)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -459,6 +460,11 @@ variable "ttk_hub_provisioning_testcase_labels" {
   type    = string
   default = ""
 }
+
 variable "ml_testing_toolkit_cli_chart_version" {
   description = "Mojaloop ttk cli version to install via Helm"
+}
+
+variable "hub_provisioning_ttk_test_case_version " {
+  description = "Mojaloop ttk test case version to use hub provisioning"
 }

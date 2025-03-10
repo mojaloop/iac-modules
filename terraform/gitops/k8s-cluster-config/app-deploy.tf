@@ -74,6 +74,7 @@ module "mojaloop" {
   monolith_stateful_resources          = local.monolith_stateful_resources
   managed_svc_as_monolith              = var.managed_svc_as_monolith
   ml_testing_toolkit_cli_chart_version = var.app_var_map.ml_testing_toolkit_cli_chart_version
+  hub_provisioning_ttk_test_case_version = var.app_var_map.hub_provisioning_ttk_test_case_version
 }
 
 module "pm4ml" {
