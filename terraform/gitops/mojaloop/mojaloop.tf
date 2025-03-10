@@ -235,7 +235,7 @@ resource "local_file" "finance_portal_values_override" {
 }
 
 resource "local_file" "values_hub_provisioning_override" {
-  count      = local.finance_portal_override_values_file_exists ? 1 : 0
+  count      = local.values_hub_provisioning_override_file_exists ? 1 : 0
   content    = templatefile(var.values_hub_provisioning_override_file, var.app_var_map)
   filename   = "${local.output_path}/values-hub-provisioning-override.yaml"
   depends_on = [module.generate_mojaloop_files]
