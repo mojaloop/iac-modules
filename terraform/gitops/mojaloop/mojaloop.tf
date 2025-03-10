@@ -465,6 +465,6 @@ variable "ml_testing_toolkit_cli_chart_version" {
   description = "Mojaloop ttk cli version to install via Helm"
 }
 
-variable "hub_provisioning_ttk_test_case_version " {
+variable "hub_provisioning_ttk_test_case_version" {
   description = "Mojaloop ttk test case version to use hub provisioning"
 }
