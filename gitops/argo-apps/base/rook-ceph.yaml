@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_utils_rook_ceph_app_name}
+  name: "${ARGOCD_ENV_utils_storage_private_cloud_provider_app_name}"
   namespace: ${ARGOCD_ENV_utils_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_rook_ceph_sync_wave}
+    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_utils_storage_private_cloud_provider_sync_wave}"
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -27,64 +27,19 @@ spec:
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_utils_rook_ceph_namespace}
+    namespace: "${ARGOCD_ENV_utils_storage_private_cloud_provider_namespace}"
   sources:
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-      targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
-      path: gitops/applications/base/rook-ceph
+      targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
+      path: gitops/applications/overlays/cloud_provider/private-cloud/block_storage_provider/storage/
       plugin:
         name: envsubst
         env:
           - name: rook_ceph_namespace
-            value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
-
-          - name: objects_replica_count
-            value: "${ARGOCD_ENV_utils_rook_ceph_objects_replica_count}"
+            value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_namespace}"
 
           - name: rook_ceph_helm_version
-            value: "${ARGOCD_ENV_utils_rook_ceph_helm_version}"
+            value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_helm_version}"
 
           - name: rook_ceph_kubelet_dir_path
-            value: "${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}"
-
-    # - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-    #   targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
-    #   path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_dynamic_secret_platform}/rook-ceph-cluster/${ARGOCD_ENV_utils_rook_ceph_volumes_provider}
-    #   plugin:
-    #     name: envsubst
-    #     env:
-    #       - name: rook_ceph_namespace
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
-
-    #       - name: ceph_image_version
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_image_version}"
-
-    #       - name: "ceph_osd_count"
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_osd_count}"
-
-    #       - name: "ceph_mon_volumes_storage_class"
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_mon_volumes_storage_class}"
-
-    #       - name: "ceph_mon_volume_size"
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_mon_volume_size}"
-
-    #       - name: "ceph_osd_volumes_storage_class"
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_osd_volumes_storage_class}"
-
-    #       - name: ceph_volume_size_per_osd
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_volume_size_per_osd}"
-
-    #       - name: csi_driver_replicas
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_csi_driver_replicas}"
-
-    #       - name: kubelet_dir_path
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_rook_csi_kubelet_dir_path}"
-
-    #       - name: cloud_region
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_volumes_storage_region}"
-
-    #       - name: cluster_domain
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_cluster_domain}"
-
-    #       - name: aws_ebs_csi_driver_helm_version
-    #         value: "${ARGOCD_ENV_utils_rook_ceph_aws_ebs_csi_driver_helm_version}"            
+            value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_csi_kubelet_dir_path}"

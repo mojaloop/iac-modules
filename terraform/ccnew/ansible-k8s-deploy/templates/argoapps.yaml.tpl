@@ -69,9 +69,15 @@ argocd_override:
           capi_cluster_proxmox_worker_cpu: "${capi_cluster_proxmox_worker_cpu}"
           capi_cluster_proxmox_worker_memory: "${capi_cluster_proxmox_worker_memory}"
           capi_cluster_proxmox_worker_replicas: "${capi_cluster_proxmox_worker_replicas}"
+          capi_rook_ceph_helm_version: "${rook_ceph_helm_version}"
+          capi_rook_ceph_image_version: "${rook_ceph_image_version}"
         storage_aws_provider:
           ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
-          csi_driver_replicas: "${aws_ebs_csi_driver_replicas}"                  
+          csi_driver_replicas: "${aws_ebs_csi_driver_replicas}" 
+        storage_private_cloud_provider:
+          helm_version: "${rook_ceph_helm_version}"
+          image_version: "${rook_ceph_image_version}"
+          csi_kubelet_dir_path: "${rook_csi_kubelet_dir_path}"         
           
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
