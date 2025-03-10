@@ -1,0 +1,65 @@
+{{- if .Values.global.expose.enable }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "{{ .Values.global.dbDeployPrefix }}-sa"
+  namespace: {{ .Values.global.namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: "{{ .Values.global.dbDeployPrefix }}-role"
+  namespace: {{ .Values.global.namespace }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets", "configmaps", "namespaces"]
+    verbs: ["create", "get", "list", "update", "patch", "delete"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "{{ .Values.global.dbDeployPrefix }}-rb"
+  namespace: {{ .Values.global.namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: "{{ .Values.global.dbDeployPrefix }}-sa"
+    namespace: {{ .Values.global.namespace }}
+roleRef:
+  kind: Role
+  name: "{{ .Values.global.dbDeployPrefix }}-role"
+  apiGroup: rbac.authorization.k8s.io
+--- 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.global.dbDeployPrefix }}
+  namespace: {{ .Values.global.namespace }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade  
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: "{{ .Values.global.dbDeployPrefix }}-sa"
+      containers:
+        - name: export-perc-endpoint
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              PERC_EXTERNAL_IP=$(kubectl get svc {{ .Values.global.dbDeployPrefix }}-pgbouncer -n {{ .Values.global.namespace }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+              PERC_EXTERNAL_PORT=$(kubectl get svc {{ .Values.global.dbDeployPrefix }}-pgbouncer -n {{ .Values.global.namespace }} -o jsonpath='{.spec.ports[0].port}')
+              PERC_ENDPOINT="$PERC_EXTERNAL_IP:$PERC_EXTERNAL_PORT"
+              kubectl delete secret {{ .Values.global.dbDeployPrefix }}-endpoint -n {{ .Values.global.namespace }} --ignore-not-found
+              kubectl create secret generic {{ .Values.global.dbDeployPrefix }}-endpoint -n {{ .Values.global.namespace }} \
+                --from-literal=PERC_EXTERNAL_IP=$PERC_EXTERNAL_IP \
+                --from-literal=PERC_EXTERNAL_PORT=$PERC_EXTERNAL_PORT \
+                --from-literal=PERC_ENDPOINT=$PERC_ENDPOINT
+{{ - end }}
