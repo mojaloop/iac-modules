@@ -18,12 +18,10 @@ argocd_override:
           cloud_pv_reclaim_policy: "${rook_ceph_cloud_pv_reclaim_policy}"
           osd_count: "${rook_ceph_osd_count}"
           volume_size_per_osd: "${rook_ceph_volume_size_per_osd}"
-          csi_driver_replicas: "${rook_ceph_csi_driver_replicas}"
           objects_replica_count: "${rook_ceph_objects_replica_count}"
           volumes_provider: "${rook_ceph_volumes_provider}"
           volumes_storage_region: "${cloud_region}"
           cluster_domain: "${cluster_domain}"
-          aws_ebs_csi_driver_helm_version: "${rook_ceph_aws_ebs_csi_driver_helm_version}"
         reflector:
           helm_version: "${reflector_helm_version}"
         reloader:
@@ -71,6 +69,10 @@ argocd_override:
           capi_cluster_proxmox_worker_cpu: "${capi_cluster_proxmox_worker_cpu}"
           capi_cluster_proxmox_worker_memory: "${capi_cluster_proxmox_worker_memory}"
           capi_cluster_proxmox_worker_replicas: "${capi_cluster_proxmox_worker_replicas}"
+        storage_aws_provider:
+          ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
+          csi_driver_replicas: "${aws_ebs_csi_driver_replicas}"                  
+          
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
