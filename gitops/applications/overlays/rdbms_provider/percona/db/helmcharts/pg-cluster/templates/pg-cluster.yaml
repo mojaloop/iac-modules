@@ -103,3 +103,19 @@ spec:
           query_wait_timeout: "{{ .Values.pgBouncer.queryWaitTimeout }}"
           max_prepared_statements: "{{ .Values.pgBouncer.maxPreparedStatements }}"
       exposeSuperusers: {{ .Values.pgBouncer.exposeSuperusers }}
+{{- if .Values.global.expose.enable }}
+  expose:
+    type: {{ .Values.global.expose.type }}
+    {{- if .Values.global.expose.annotations }}
+    annotations:
+{{ .Values.global.expose.annotations | toYaml | indent 6 }}
+    {{- end }}
+    {{- if .Values.global.expose.labels }}
+    labels:
+{{ .Values.global.expose.labels | toYaml | indent 6 }}
+    {{- end }}
+    {{- if .Values.global.expose.loadBalancerSourceRanges }}
+    loadBalancerSourceRanges:
+{{ .Values.global.expose.loadBalancerSourceRanges | toYaml | indent 6 }}
+    {{- end }}
+{{- end }}      

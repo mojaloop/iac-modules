@@ -10,6 +10,10 @@ global:
   dbSecret: db-secret
   replicas: 1
   storageSize: 10Gi
+  expose:
+    enable: false
+    type: LoadBalancer
+
 
 backup:
   s3:

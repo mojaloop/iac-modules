@@ -6,6 +6,9 @@ global:
   dbSecret: ${ARGOCD_ENV_db_secret}
   replicas: ${ARGOCD_ENV_postgres_replicas}
   storageSize: ${ARGOCD_ENV_postgres_storage_size}
+  expose:
+    enable: ${ARGOCD_ENV_expose_enable}
+    type: LoadBalancer
 
 backup:
   s3:
