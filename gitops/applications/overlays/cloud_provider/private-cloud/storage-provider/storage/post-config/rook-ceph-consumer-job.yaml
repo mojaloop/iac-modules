@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: rook-ceph-external-job
-  namespace: rook-ceph-external
+  namespace: ${ARGOCD_ENV_storage_namespace}
 spec:
   template:
     spec:
@@ -21,7 +21,7 @@ spec:
             - |
               echo "Additional env vars"
               KUBECTL="kubectl"
-              NAMESPACE=$${NAMESPACE:="rook-ceph-external"}
+              NAMESPACE=${ARGOCD_ENV_storage_namespace}
               ROOK_EXTERNAL_CLUSTER_NAME=$NAMESPACE
               MON_SECRET_NAME=rook-ceph-mon
               MON_SECRET_FSID_KEYNAME=fsid

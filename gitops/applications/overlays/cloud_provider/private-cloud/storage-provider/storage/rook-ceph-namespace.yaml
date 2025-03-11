@@ -2,9 +2,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: rook-ceph
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: rook-ceph-external
+  name: ${ARGOCD_ENV_storage_namespace}

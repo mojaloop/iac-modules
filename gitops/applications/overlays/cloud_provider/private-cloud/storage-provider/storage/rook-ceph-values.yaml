@@ -1,5 +1,5 @@
 csi:
- kubeletDirPath: ${ARGOCD_ENV_rook_ceph_kubelet_dir_path}
+ kubeletDirPath: ${ARGOCD_ENV_kubelet_dir_path}
  serviceMonitor:
   enabled: false
   interval: 60s

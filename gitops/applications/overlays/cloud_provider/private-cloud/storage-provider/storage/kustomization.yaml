@@ -11,7 +11,7 @@ helmCharts:
     version: ${ARGOCD_ENV_rook_ceph_helm_version}
     repo: https://charts.rook.io/release
     valuesFile: rook-ceph-values.yaml
-    namespace: rook-ceph
+    namespace: ${ARGOCD_ENV_storage_namespace}
     includeCRDs: true
 
   - name: rook-ceph-cluster
@@ -19,5 +19,5 @@ helmCharts:
     version: ${ARGOCD_ENV_rook_ceph_helm_version}
     repo: https://charts.rook.io/release
     valuesFile: ceph-external-values.yaml
-    namespace: rook-ceph-external
+    namespace: ${ARGOCD_ENV_storage_namespace}
     includeCRDs: true

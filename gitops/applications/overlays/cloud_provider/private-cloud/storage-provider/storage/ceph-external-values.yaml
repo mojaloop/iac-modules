@@ -1,5 +1,5 @@
 ---
-operatorNamespace: rook-ceph
+operatorNamespace: ${ARGOCD_ENV_storage_namespace}
 cephClusterSpec:
   external:
     enable: true

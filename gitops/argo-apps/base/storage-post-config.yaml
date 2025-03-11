@@ -27,13 +27,13 @@ spec:
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: "${ARGOCD_ENV_utils_storage_private_cloud_provider_post_config_namespace}"
+    namespace: "${ARGOCD_ENV_utils_storage_namespace}"
   sources:
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-      targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
-      path: gitops/applications/overlays/cloud_provider/private-cloud/block_storage_provider/storage/post-config
+      targetRevision: ${ARGOCD_ENV_utils_storage_application_gitrepo_tag}
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_storage_cloud_provider}/block-storage-provider/storage/post-config
       plugin:
         name: envsubst
         env:
-          - name: rook_ceph_ext_namespace
-            value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_post_config_namespace}"
+          - name: "storage_namespace"
+            value: "${ARGOCD_ENV_utils_storage_namespace}"
