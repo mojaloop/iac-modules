@@ -71,6 +71,7 @@ argocd_override:
           capi_cluster_proxmox_worker_replicas: "${capi_cluster_proxmox_worker_replicas}"
           capi_rook_ceph_helm_version: "${rook_ceph_helm_version}"
           capi_rook_ceph_image_version: "${rook_ceph_image_version}"
+          capi_rook_ceph_rbd_pool_replication_size: "${rook_ceph_objects_replica_count}"
           cloud_provider: "${if cloud_platform == "bare-metal" "private-cloud" else cloud_platform endif ~}"            
         storage:
           cloud_provider: "${if cloud_platform == "bare-metal" "private-cloud" else cloud_platform endif ~}"   
