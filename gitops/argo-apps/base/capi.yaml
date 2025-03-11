@@ -40,7 +40,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
-    path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_capi_cloud_provider}/storage-provider/capi
+    path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_cloud_provider}/storage-provider/capi
     plugin:
       name: envsubst
       env:

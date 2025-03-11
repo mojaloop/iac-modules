@@ -31,7 +31,7 @@ spec:
   sources:
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_utils_storage_application_gitrepo_tag}
-      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_storage_cloud_provider}/block-storage-provider/storage/post-config
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_cloud_provider}/block-storage-provider/storage/post-config
       plugin:
         name: envsubst
         env:
