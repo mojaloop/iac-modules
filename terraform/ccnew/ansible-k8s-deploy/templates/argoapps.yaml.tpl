@@ -71,9 +71,9 @@ argocd_override:
           capi_cluster_proxmox_worker_replicas: "${capi_cluster_proxmox_worker_replicas}"
           capi_rook_ceph_helm_version: "${rook_ceph_helm_version}"
           capi_rook_ceph_image_version: "${rook_ceph_image_version}"
-          cloud_provider: "${cloud_platform}"            
+          cloud_provider: "${if cloud_platform == "bare-metal" "private-cloud" else cloud_platform endif ~}"            
         storage:
-          cloud_provider: "${cloud_platform}"       
+          cloud_provider: "${if cloud_platform == "bare-metal" "private-cloud" else cloud_platform endif ~}"   
         storage_aws_provider:
           ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
           csi_driver_replicas: "${aws_ebs_csi_driver_replicas}" 
