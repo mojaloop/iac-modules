@@ -205,6 +205,7 @@ module "generate_mojaloop_files" {
     opentelemetry_enabled                                             = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable
     ml_testing_toolkit_cli_chart_version                              = try(var.app_var_map.ml_testing_toolkit_cli_chart_version, var.ml_testing_toolkit_cli_chart_version)
+    hub_provisioning_ttk_test_case_version                            = try(var.app_var_map.hub_provisioning_ttk_test_case_version, var.hub_provisioning_ttk_test_case_version)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -231,6 +232,13 @@ resource "local_file" "finance_portal_values_override" {
   count      = local.finance_portal_override_values_file_exists ? 1 : 0
   content    = templatefile(var.finance_portal_values_override_file, var.app_var_map)
   filename   = "${local.output_path}/values-finance-portal-override.yaml"
+  depends_on = [module.generate_mojaloop_files]
+}
+
+resource "local_file" "values_hub_provisioning_override" {
+  count      = local.values_hub_provisioning_override_file_exists ? 1 : 0
+  content    = templatefile(var.values_hub_provisioning_override_file, var.app_var_map)
+  filename   = "${local.output_path}/values-hub-provisioning-override.yaml"
   depends_on = [module.generate_mojaloop_files]
 }
 
@@ -270,6 +278,7 @@ locals {
   mojaloop_override_values_file_exists         = fileexists(var.mojaloop_values_override_file)
   mcm_override_values_file_exists              = fileexists(var.mcm_values_override_file)
   finance_portal_override_values_file_exists   = fileexists(var.finance_portal_values_override_file)
+  values_hub_provisioning_override_file_exists = fileexists(var.values_hub_provisioning_override_file)
 }
 
 variable "app_var_map" {
@@ -408,6 +417,10 @@ variable "finance_portal_values_override_file" {
   type = string
 }
 
+variable "values_hub_provisioning_override_file" {
+  type = string
+}
+
 variable "reporting_templates_chart_version" {
   type    = string
   default = "1.1.7"
@@ -447,6 +460,11 @@ variable "ttk_hub_provisioning_testcase_labels" {
   type    = string
   default = ""
 }
+
 variable "ml_testing_toolkit_cli_chart_version" {
   description = "Mojaloop ttk cli version to install via Helm"
+}
+
+variable "hub_provisioning_ttk_test_case_version" {
+  description = "Mojaloop ttk test case version to use hub provisioning"
 }

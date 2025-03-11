@@ -63,6 +63,7 @@ module "mojaloop" {
   mojaloop_values_override_file        = var.mojaloop_values_override_file
   mcm_values_override_file             = var.mcm_values_override_file
   finance_portal_values_override_file  = var.finance_portal_values_override_file
+  values_hub_provisioning_override_file = var.values_hub_provisioning_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
   platform_stateful_res_config         = module.config_deepmerge.merged
@@ -73,6 +74,7 @@ module "mojaloop" {
   monolith_stateful_resources          = local.monolith_stateful_resources
   managed_svc_as_monolith              = var.managed_svc_as_monolith
   ml_testing_toolkit_cli_chart_version = var.app_var_map.ml_testing_toolkit_cli_chart_version
+  hub_provisioning_ttk_test_case_version = var.app_var_map.hub_provisioning_ttk_test_case_version
 }
 
 module "pm4ml" {
@@ -349,6 +351,10 @@ variable "pm4ml_values_override_file" {
 }
 
 variable "finance_portal_values_override_file" {
+  type = string
+}
+
+variable "values_hub_provisioning_override_file" {
   type = string
 }
 
