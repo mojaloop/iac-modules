@@ -28,7 +28,7 @@ cephBlockPools:
     spec:
       failureDomain: host
       replicated:
-        size: 3
+        size: ${ARGOCD_ENV_rook_ceph_rbd_pool_size}
     storageClass:
       enabled: true
       name: ceph-block

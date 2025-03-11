@@ -41,3 +41,6 @@ spec:
 
         - name: "rook_ceph_namespace"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
+
+        - name: "rook_ceph_rbd_pool_size"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rbd_pool_replication_size}"
