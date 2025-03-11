@@ -9,6 +9,7 @@ config:
   environmentName: ${ingress_subdomain}
   saveReport: true
   saveReportBaseUrl: http://${ttk_backend_fqdn}
+  ttkBackendURL: http://${mojaloop_release_name}-ml-testing-toolkit-backend:5050
 testCaseEnvironmentFile:
   inputValues:
     HUB_NAME: ${hub_name}
