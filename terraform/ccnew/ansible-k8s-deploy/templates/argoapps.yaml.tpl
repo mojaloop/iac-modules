@@ -74,7 +74,7 @@ argocd_override:
           capi_rook_ceph_rbd_pool_replication_size: "${rook_ceph_objects_replica_count}"          
           cloud_provider: "${cloud_platform}"            
         storage:
-          cloud_provider: "${cloud_platform}"   
+          cloud_provider: "${cloud_platform}"  
         storage_aws_provider:
           ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
           csi_driver_replicas: "${aws_ebs_csi_driver_replicas}" 
