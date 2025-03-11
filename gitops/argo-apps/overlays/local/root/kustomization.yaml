@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
   # utils
   - ../../../base/argocd-helm.yaml
-  #- ../../../base/rook-ceph.yaml
-  #- ../../../base/rook-ceph-post-config.yaml
+  #- ../../../base/storage.yaml
+  #- ../../../base/storage-post-config.yaml
   - ../../../base/external-secrets.yaml
   - ../../../base/reflector.yaml
   - ../../../base/reloader.yaml
@@ -16,7 +16,6 @@ resources:
   - ../../../base/cert-manager.yaml
   - ../../../base/capi.yaml
   - ../../../base/capi-post-config.yaml
-  #- ../../../base/storage.yaml
   # - ../../../base/percona-operator.yaml
   # - ../../../base/redis-operator.yaml
   # - ../../../base/base-monitoring.yaml
