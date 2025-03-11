@@ -433,6 +433,11 @@ spec:
               #https://argo-cd.readthedocs.io/en/stable/user-guide/diff-strategies/#mutation-webhooks
               controller.diff.server.side: "true"
 
+              server.log.level: info
+              reposerver.log.level: warn
+              controller.log.level: warn
+              applicationsetcontroller.log.level: info
+
             cmp:
               create: true
               plugins:
