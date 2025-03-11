@@ -1,0 +1,9 @@
+bootstrap: kubeadm
+controlPlane: kubeadm
+addon: helm
+infrastructure: proxmox:v${ARGOCD_ENV_capi_infra_provider_version}
+cert-manager:
+  enabled: true
+fetchConfig:
+  proxmox:
+    url: https://github.com/mojaloop/cluster-api-provider-proxmox/releases/v${ARGOCD_ENV_capi_infra_provider_version}/infrastructure-components.yaml
