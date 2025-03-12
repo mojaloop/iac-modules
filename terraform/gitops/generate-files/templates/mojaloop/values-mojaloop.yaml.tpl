@@ -1168,6 +1168,7 @@ ml-ttk-test-setup:
     generateNameEnabled: false
     annotations:
       argocd.argoproj.io/hook: PostSync
+      argocd.argoproj.io/sync-wave: "${mojaloop_setup_sync_wave}"
 
 ml-ttk-test-val-gp:
   configFileDefaults:
