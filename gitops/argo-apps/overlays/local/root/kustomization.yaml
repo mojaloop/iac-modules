@@ -3,8 +3,8 @@ kind: Kustomization
 
 resources:
   # utils
-  # - ../../../base/argocd-helm.yaml
-  - ../../../base/storage.yaml
+  - ../../../base/argocd-helm.yaml
+  #- ../../../base/storage.yaml
   #- ../../../base/storage-post-config.yaml
   - ../../../base/external-secrets.yaml
   - ../../../base/reflector.yaml
@@ -14,17 +14,17 @@ resources:
   - ../../../base/istio.yaml
   - ../../../base/istio-gw.yaml
   - ../../../base/cert-manager.yaml
-  - ../../../base/capi-operator.yaml
-  - ../../../base/capi.yaml
-  - ../../../base/capi-post-config.yaml
+  #- ../../../base/capi-operator.yaml
+  #- ../../../base/capi.yaml
+  #- ../../../base/capi-post-config.yaml
   # - ../../../base/percona-operator.yaml
   # - ../../../base/redis-operator.yaml
   # - ../../../base/base-monitoring.yaml
   # xplane database config
-  - ../../../base/xplane-provider-config.yaml
+  #- ../../../base/xplane-provider-config.yaml
   # vault
-  - ../../../base/vault.yaml
-  - ../../../base/vault-post-config.yaml
+  #- ../../../base/vault.yaml
+  #- ../../../base/vault-post-config.yaml
   # dns-utils
   # - ../../../base/dns-utils.yaml
   # - ../../../base/dns-utils-post-config.yaml
