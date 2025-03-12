@@ -7,6 +7,7 @@ argocd_override:
         argocd_helm:
           public_ingress_access_domain: "${argocd_public_access}"
           helm_version: "${argocd_helm_version}"
+          server_log_level: "${argocd_server_log_level}"
         rook_ceph:
           helm_version: "${rook_ceph_helm_version}"
           image_version: "${rook_ceph_image_version}"

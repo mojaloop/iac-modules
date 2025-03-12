@@ -433,7 +433,7 @@ spec:
               #https://argo-cd.readthedocs.io/en/stable/user-guide/diff-strategies/#mutation-webhooks
               controller.diff.server.side: "true"
 
-              server.log.level: info
+              server.log.level: ${ARGOCD_ENV_utils_argocd_helm_server_log_level}
               reposerver.log.level: warn
               controller.log.level: warn
               applicationsetcontroller.log.level: info
