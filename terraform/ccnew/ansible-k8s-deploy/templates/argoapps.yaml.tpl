@@ -146,7 +146,7 @@ argocd_override:
           argocd_user_rbac_group: "${argocd_user_rbac_group}"
           argocd_admin_rbac_group: "${argocd_admin_rbac_group}"
           log_level: "${zitadel_log_level}"
-          rdbms_provider: "${zitadel_rdbms_provider}"
+          rdbms_provider: "${cloud_platform == "bare-metal" ? "private-dbaas" : "rds" }"
         zitadel_percona_provider:
           postgres_replicas: "${zitadel_perc_postgres_replicas}"
           postgres_proxy_replicas: "${zitadel_perc_postgres_proxy_replicas}"
@@ -184,7 +184,7 @@ argocd_override:
           cc_vpc_cidr: "${vpc_cidr}"
           ansible_collection_tag: ${netbird_ansible_collection_tag}
           netbird_tf_provider_version: "${netbird_tf_provider_version}"
-          rdbms_provider: "${netbird_rdbms_provider}"
+          rdbms_provider: "${cloud_platform == "bare-metal" ? "private-dbaas" : "rds" }"
         netbird_percona_provider:
           postgres_replicas: "${netbird_perc_postgres_replicas}"
           postgres_proxy_replicas: "${netbird_perc_postgres_proxy_replicas}"
@@ -256,7 +256,7 @@ argocd_override:
           # redis
           redis_cluster_size: "${gitlab_redis_cluster_size}"
           redis_storage_size: "${gitlab_redis_storage_size}"
-          rdbms_provider: "${gitlab_postgres_rdbms_provider}"
+          rdbms_provider: "${cloud_platform == "bare-metal" ? "private-dbaas" : "rds" }"
         webdb_percona_provider:
           postgres_replicas: "${gitlab_perc_postgres_replicas}"
           postgres_proxy_replicas: "${gitlab_perc_postgres_proxy_replicas}"
