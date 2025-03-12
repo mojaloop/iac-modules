@@ -46,7 +46,7 @@ spec:
           value: "${ARGOCD_ENV_utils_storage_aws_provider_csi_driver_replicas}"
 
         - name: "cluster_domain"
-          value: "${ARGOCD_ENV_utils_cluster_domain}"
+          value: "${ARGOCD_ENV_cluster_domain}"
 
         - name: "storage_namespace"
           value: "${ARGOCD_ENV_utils_storage_namespace}"
