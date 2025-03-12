@@ -53,20 +53,12 @@ spec:
 
         - name: "block_storage_class_name"
           value: "${ARGOCD_ENV_utils_storage_block_storage_class_name}"
-        
+
         - name: "fs_storage_class_name"
           value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_fs_storage_class_name}"
-        
+
         - name: "object_storage_class_name"
           value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_object_storage_class_name}"
-        
+
         - name: "rook_ceph_helm_version"
           value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_helm_version}"
-        
-
-
-
-
-        
-
-
