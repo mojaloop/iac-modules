@@ -907,9 +907,6 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 999
-          envFrom:
-            - configMapRef:
-                name: plugin-env-vars
           volumeMounts:
             - mountPath: /var/run/argocd
               name: var-files
