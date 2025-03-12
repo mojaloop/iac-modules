@@ -39,7 +39,7 @@ controller:
   enableMetrics: false
 
 storageClasses:
-- name: ${ARGOCD_ENV_storage_class_name}
+- name: ${ARGOCD_ENV_block_storage_class_name}
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
   volumeBindingMode: WaitForFirstConsumer
