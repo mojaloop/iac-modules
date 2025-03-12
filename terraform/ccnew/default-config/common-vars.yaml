@@ -95,7 +95,6 @@ grafana_image_version: 11.1.1
 prometheus_pvc_size: 50Gi
 prometheus_retention_period: 10d
 
-
 # Metrics server
 metrics_server_helm_version: 3.12.2
 metrics_server_replicas: "'1'"
@@ -297,4 +296,4 @@ capi_infra_provider_version: "0.4.5"
 capi_cluster_proxmox_worker_cpu: "'8'"
 capi_cluster_proxmox_worker_memory: "'16384'"
 capi_cluster_proxmox_worker_replicas: "'3'"
-
+capi_cluster_storage_name: "pve-sdb"
