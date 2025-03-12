@@ -1,13 +1,5 @@
-# =============================================================================
-# Crossplane Composition Makefile
-# =============================================================================
-
-# Primary Variables
-# -----------------------------------------------------------------------------
 COMPOSITION_NAME ?=
 
-# Directory Structure
-# -----------------------------------------------------------------------------
 COMPOSITION_DIR := compositions
 CONFIG_DIR := configuration
 RESOURCES_DIR := $(COMPOSITION_DIR)/$(COMPOSITION_NAME)/resources
@@ -16,8 +8,6 @@ TESTSCENARIOS_DIR := $(TEST_DIR)/scenarios
 RENDERED_DIR := $(COMPOSITION_DIR)/$(COMPOSITION_NAME)/rendered
 EXTENSIONS_DIR := $(RENDERED_DIR)/extensionsDir
 
-# File Paths
-# -----------------------------------------------------------------------------
 COMPOSITION_FILE := $(RESOURCES_DIR)/composition.yaml
 DEFINITION_FILE := $(RESOURCES_DIR)/definition.yaml
 COMPOSITION_OUTPUT := $(RENDERED_DIR)/composition.yaml
@@ -27,30 +17,20 @@ OBSERVED_FILE := $(TESTSCENARIOS_DIR)/observed.yaml
 EXTRA_RESOURCES_FILE := $(TESTSCENARIOS_DIR)/extra.yaml
 LOCAL_COMPOSITIONS_FILE := $(TESTSCENARIOS_DIR)/local-compositions.yaml
 
-# Parameters
-# -----------------------------------------------------------------------------
 TESTSCENARIO ?=
 CLAIM_FILE ?=
 
-# Command Detection
-# -----------------------------------------------------------------------------
 CROSSPLANE_RENDER_CMD := $(shell if crossplane render --help > /dev/null 2>&1; then echo "crossplane render"; else echo "crossplane beta render"; fi)
 
-# Extra Arguments
-# -----------------------------------------------------------------------------
 EXTRA_RENDER_ARGS ?=
 EXTRA_VALIDATE_ARGS ?=
 
-# Handle Extra Resources
-# -----------------------------------------------------------------------------
 ifneq ("$(wildcard $(EXTRA_RESOURCES_FILE))","")
 	EXTRA_RESOURCES := --extra-resources $(EXTRA_RESOURCES_FILE)
 else
     EXTRA_RESOURCES ?=
 endif
 
-# =============================================================================
-# Main Targets
 # =============================================================================
 
 # Default target
@@ -73,11 +53,7 @@ process_all_compositions:
 		$(MAKE) package_composition COMPOSITION_NAME=$$(basename $$dir); \
 	done
 
-# =============================================================================
 # Build & Render Targets
-# =============================================================================
-
-# Generate the composition output file
 .PHONY: generate
 generate:
 	@echo "\n🔧 Constructing Crossplane configuration..."
@@ -159,10 +135,6 @@ define render_all_testscenarios
 	done
 endef
 
-# =============================================================================
-# Validation Targets
-# =============================================================================
-
 # Validation process
 .PHONY: validate
 validate: render
@@ -227,10 +199,6 @@ define validate_file
 			-e 's/Total \([0-9]*\) resources:/\x1b[1;34mTotal \1 resources:\x1b[0m/g'
 endef
 
-# =============================================================================
-# Deployment Targets
-# =============================================================================
-
 # Package the composition
 .PHONY: package_composition
 package_composition: generate
@@ -253,10 +221,6 @@ clean:
 	@echo "♻️  Purging generated artifacts..."
 	@rm -rf $(RENDERED_DIR)
 	@echo "✅ Workspace sanitized"
-
-# =============================================================================
-# Help Information
-# =============================================================================
 
 .PHONY: help
 help:
