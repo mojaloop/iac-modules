@@ -14,9 +14,9 @@ resources:
   - ../../../base/istio.yaml
   - ../../../base/istio-gw.yaml
   - ../../../base/cert-manager.yaml
-  #- ../../../base/capi-operator.yaml
-  #- ../../../base/capi.yaml
-  #- ../../../base/capi-post-config.yaml
+  - ../../../base/capi-operator.yaml
+  - ../../../base/capi.yaml
+  - ../../../base/capi-post-config.yaml
   # - ../../../base/percona-operator.yaml
   # - ../../../base/redis-operator.yaml
   # - ../../../base/base-monitoring.yaml
