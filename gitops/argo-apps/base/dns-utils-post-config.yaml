@@ -102,9 +102,6 @@ spec:
           - name: "istio_namespace"
             value: "${ARGOCD_ENV_utils_istio_namespace}"
 
-          - name: "rook_ceph_namespace"
-            value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
-
           - name: "rook_ceph_bucket_config_app_name"
             value: "${ARGOCD_ENV_utils_rook_ceph_bucket_config_app_name}"
 
