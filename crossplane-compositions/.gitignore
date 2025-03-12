@@ -1,0 +1,6 @@
+compositions/*/rendered
+configuration/*
+configuration/**/*
+!configuration/
+!configuration/crossplane.yaml
+.crossplane
