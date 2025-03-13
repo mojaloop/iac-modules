@@ -1,0 +1,85 @@
+---
+apiVersion: infitx.org/v1alpha1
+kind: SecretSyncer
+metadata:
+  name: secrettest
+  namespace: default
+spec:
+  managementPolicies:
+  - '*'
+  parameters:
+    destination:
+      name: secrettest
+      namespace: default
+    source:
+      name: secrettest
+      namespace: default
+  providerConfigsRef:
+    destinationK8sProviderName: kubernetes-provider
+    sourceK8sProviderName: kubernetes-provider
+status:
+  conditions:
+  - lastTransitionTime: "2024-01-01T00:00:00Z"
+    message: 'Unready resources: destination-secret, source-secret'
+    reason: Creating
+    status: "False"
+    type: Ready
+---
+apiVersion: kubernetes.crossplane.io/v1alpha2
+kind: Object
+metadata:
+  annotations:
+    crossplane.io/composition-resource-name: destination-secret
+  generateName: secrettest-
+  labels:
+    crossplane.io/composite: secrettest
+  name: secrettest-destination-secret
+  ownerReferences:
+  - apiVersion: infitx.org/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: SecretSyncer
+    name: secrettest
+    uid: ""
+spec:
+  forProvider:
+    manifest:
+      apiVersion: v1
+      data: null
+      kind: Secret
+      metadata:
+        name: secrettest
+        namespace: default
+      type: null
+  managementPolicies:
+  - '*'
+  providerConfigRef:
+    name: kubernetes-provider
+---
+apiVersion: kubernetes.crossplane.io/v1alpha2
+kind: Object
+metadata:
+  annotations:
+    crossplane.io/composition-resource-name: source-secret
+  generateName: secrettest-
+  labels:
+    crossplane.io/composite: secrettest
+  ownerReferences:
+  - apiVersion: infitx.org/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: SecretSyncer
+    name: secrettest
+    uid: ""
+spec:
+  forProvider:
+    manifest:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: secrettest
+        namespace: default
+  managementPolicies:
+  - Observe
+  providerConfigRef:
+    name: kubernetes-provider

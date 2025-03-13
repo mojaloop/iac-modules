@@ -1,6 +1,8 @@
 COMPOSITION_NAME ?=
+PACKAGE_NAME ?=
 
-COMPOSITION_DIR := compositions
+PACKAGE_DIR := $(PACKAGE_NAME)
+COMPOSITION_DIR := $(PACKAGE_DIR)/compositions
 CONFIG_DIR := configuration
 RESOURCES_DIR := $(COMPOSITION_DIR)/$(COMPOSITION_NAME)/resources
 TEST_DIR := $(COMPOSITION_DIR)/$(COMPOSITION_NAME)/test
@@ -42,6 +44,8 @@ all: validate_dir process_all_compositions
 .PHONY: validate_dir
 validate_dir:
 	@echo "⚙️  Verifying composition structure..."
+	@[ -n "$(PACKAGE_NAME)" ] || { echo "❗ Critical: PACKAGE_NAME is required."; exit 1; }
+	@[ -d $(PACKAGE_DIR) ] || { echo "❗ Critical: Package directory '$(PACKAGE_DIR)' not found."; exit 1; }
 	@[ -d $(COMPOSITION_DIR) ] || { echo "❗ Critical: Compositions directory '$(COMPOSITION_DIR)' not found."; exit 1; }
 
 # Process all compositions
@@ -51,7 +55,7 @@ process_all_compositions:
 	@dirs=$$(find $(COMPOSITION_DIR) -maxdepth 1 -mindepth 1 -type d); \
 	[ -n "$$dirs" ] || { echo "❗ Critical: No composition directories found in '$(COMPOSITION_DIR)'."; exit 1; }; \
 	for dir in $$dirs; do \
-		$(MAKE) package_composition COMPOSITION_NAME=$$(basename $$dir); \
+		$(MAKE) package_composition COMPOSITION_NAME=$$(basename $$dir) PACKAGE_NAME=$(PACKAGE_NAME); \
 	done
 
 # Build & Render Targets
@@ -229,10 +233,10 @@ endef
 # Package the composition
 .PHONY: package_composition
 package_composition: generate
-	@echo "📦 Building deployment package for $(COMPOSITION_NAME)..."
-	@mkdir -p $(CONFIG_DIR)/$(COMPOSITION_NAME)
-	@cp $(COMPOSITION_OUTPUT) $(CONFIG_DIR)/$(COMPOSITION_NAME)/composition.yaml
-	@cp $(DEFINITION_OUTPUT) $(CONFIG_DIR)/$(COMPOSITION_NAME)/definition.yaml
+	@echo "📦 Building deployment package for $(PACKAGE_NAME)/$(COMPOSITION_NAME)..."
+	@mkdir -p $(CONFIG_DIR)/$(PACKAGE_NAME)/$(COMPOSITION_NAME)
+	@cp $(COMPOSITION_OUTPUT) $(CONFIG_DIR)/$(PACKAGE_NAME)/$(COMPOSITION_NAME)/composition.yaml
+	@cp $(DEFINITION_OUTPUT) $(CONFIG_DIR)/$(PACKAGE_NAME)/$(COMPOSITION_NAME)/definition.yaml
 	@echo "✅ Deployment package assembled successfully"
 
 # Apply composition and definition files
@@ -246,13 +250,13 @@ apply: render
 .PHONY: clean
 clean:
 	@echo "♻️  Purging generated artifacts..."
-	@if [ -n "$(COMPOSITION_NAME)" ]; then \
-		echo "🧹 Removing rendered files for $(COMPOSITION_NAME)..."; \
+	@if [ -n "$(COMPOSITION_NAME)" ] && [ -n "$(PACKAGE_NAME)" ]; then \
+		echo "🧹 Removing rendered files for $(PACKAGE_NAME)/$(COMPOSITION_NAME)..."; \
 		rm -rf $(COMPOSITION_DIR)/$(COMPOSITION_NAME)/rendered; \
-		rm -rf $(CONFIG_DIR)/$(COMPOSITION_NAME); \
+		rm -rf $(CONFIG_DIR)/$(PACKAGE_NAME)/$(COMPOSITION_NAME); \
 	else \
 		echo "🧹 Removing all rendered files and configurations..."; \
-		find $(COMPOSITION_DIR) -type d -name "rendered" -exec rm -rf {} \; 2>/dev/null || true; \
+		find $(PACKAGE_DIR) -type d -name "rendered" -exec rm -rf {} \; 2>/dev/null || true; \
 		find $(CONFIG_DIR) -mindepth 1 -not -name "crossplane.yaml" -exec rm -rf {} \; 2>/dev/null || true; \
 	fi
 	@echo "✅ Workspace sanitized"
@@ -263,7 +267,7 @@ help:
 	@echo "===================================="
 	@echo ""
 	@echo "Usage:"
-	@echo "  make [target] [COMPOSITION_NAME=name] [TESTSCENARIO=name] [CLAIM_FILE=path]"
+	@echo "  make [target] [PACKAGE_NAME=name] [COMPOSITION_NAME=name] [TESTSCENARIO=name] [CLAIM_FILE=path]"
 	@echo ""
 	@echo "Primary Targets:"
 	@echo "  all                    Process all compositions (default)"
@@ -276,6 +280,7 @@ help:
 	@echo "  help                   Display this control panel"
 	@echo ""
 	@echo "Parameters:"
+	@echo "  PACKAGE_NAME           Package identifier (required)"
 	@echo "  COMPOSITION_NAME       Target composition identifier"
 	@echo "  TESTSCENARIO           Specific testing scenario to execute"
 	@echo "  CLAIM_FILE             Path to custom claim specification"
