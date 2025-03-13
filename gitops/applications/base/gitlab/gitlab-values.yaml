@@ -374,28 +374,28 @@ global:
     lfs:
       enabled: true
       proxy_download: true
-      bucket: git-lfs
+      bucket: "git-lfs-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-lfs
         key: connection
     artifacts:
       enabled: true
       proxy_download: true
-      bucket: gitlab-artifacts
+      bucket: "gitlab-artifacts-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-artifacts
         key: connection
     uploads:
       enabled: true
       proxy_download: true
-      bucket: gitlab-uploads
+      bucket: "gitlab-uploads-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-uploads
         key: connection
     packages:
       enabled: true
       proxy_download: true
-      bucket: gitlab-packages
+      bucket: "gitlab-packages-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-packages
         key: connection
@@ -403,32 +403,32 @@ global:
       enabled: true
       when:
       proxy_download: true
-      bucket: gitlab-mr-diffs
+      bucket: "gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-mr-diffs
         key: connection
     terraformState:
       enabled: true
-      bucket: gitlab-terraform-state
+      bucket: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-terraform-state
         key: connection
     ciSecureFiles:
       enabled: true
-      bucket: gitlab-ci-secure-files
+      bucket: "gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-ci-secure-files
         key: connection
     dependencyProxy:
       enabled: true
       proxy_download: true
-      bucket: gitlab-dependency-proxy
+      bucket: "gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-dependency-proxy
         key: connection
 
     backups:
-      bucket: gitlab-backups
+      bucket: "gitlab-backups-${ARGOCD_ENV_cluster_name}"
       tmpBucket: gitlab-backups-tmp
 
     ## https://docs.gitlab.com/charts/charts/globals#outgoing-email
@@ -671,7 +671,7 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-registry-settings
   registry:
-    bucket: registry
+    bucket: "registry-${ARGOCD_ENV_cluster_name}"
 
     certificate:
       {}

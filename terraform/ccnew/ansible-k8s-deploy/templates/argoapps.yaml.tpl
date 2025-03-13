@@ -230,8 +230,11 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           gitaly_storage_size: "${gitaly_storage_size}"
           gitlab_token_ttl: "${gitlab_token_ttl_days}"
+
         pre:
           #  object storage bucket configuration
+          object_storage_region: "${cloud_region}"
+          object_storage_provider: "${object_storage_provider}"
           gitlab_artifacts_max_objects: "${gitlab_artifacts_max_objects}"
           gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
           git_lfs_max_objects: "${git_lfs_max_objects}"
