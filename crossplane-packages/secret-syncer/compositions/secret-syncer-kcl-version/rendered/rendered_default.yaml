@@ -2,18 +2,18 @@
 apiVersion: infitx.org/v1alpha1
 kind: SecretSyncer
 metadata:
-  name: secrettest
-  namespace: default
+  name: example-secret-syncer
+  namespace: testa
 spec:
   managementPolicies:
   - '*'
   parameters:
     destination:
-      name: secrettest
-      namespace: default
+      name: example-secret
+      namespace: testb
     source:
-      name: secrettest
-      namespace: default
+      name: example-secret
+      namespace: testa
   providerConfigsRef:
     destinationK8sProviderName: kubernetes-provider
     sourceK8sProviderName: kubernetes-provider
@@ -30,27 +30,28 @@ kind: Object
 metadata:
   annotations:
     crossplane.io/composition-resource-name: destination-secret
-  generateName: secrettest-
+  generateName: example-secret-syncer-
   labels:
-    crossplane.io/composite: secrettest
-  name: secrettest-destination-secret
+    crossplane.io/composite: example-secret-syncer
+  name: example-secret-syncer-ds
   ownerReferences:
   - apiVersion: infitx.org/v1alpha1
     blockOwnerDeletion: true
     controller: true
     kind: SecretSyncer
-    name: secrettest
+    name: example-secret-syncer
     uid: ""
 spec:
   forProvider:
     manifest:
       apiVersion: v1
-      data: null
+      data:
+        foo: bar
       kind: Secret
       metadata:
-        name: secrettest
-        namespace: default
-      type: null
+        name: example-secret
+        namespace: testb
+      type: Opaque
   managementPolicies:
   - '*'
   providerConfigRef:
@@ -61,15 +62,15 @@ kind: Object
 metadata:
   annotations:
     crossplane.io/composition-resource-name: source-secret
-  generateName: secrettest-
+  generateName: example-secret-syncer-
   labels:
-    crossplane.io/composite: secrettest
+    crossplane.io/composite: example-secret-syncer
   ownerReferences:
   - apiVersion: infitx.org/v1alpha1
     blockOwnerDeletion: true
     controller: true
     kind: SecretSyncer
-    name: secrettest
+    name: example-secret-syncer
     uid: ""
 spec:
   forProvider:
@@ -77,8 +78,8 @@ spec:
       apiVersion: v1
       kind: Secret
       metadata:
-        name: secrettest
-        namespace: default
+        name: example-secret
+        namespace: testa
   managementPolicies:
   - Observe
   providerConfigRef:

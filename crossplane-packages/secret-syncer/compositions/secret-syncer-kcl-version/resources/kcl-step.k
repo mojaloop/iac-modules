@@ -1,6 +1,4 @@
-import regex
-
-# Read the XR
+# Read the XR and the OCDs
 oxr = option("params").oxr
 ocds = option("params").ocds
 
@@ -14,7 +12,7 @@ _items += [
         apiVersion = "kubernetes.crossplane.io/v1alpha2"
         kind = "Object"
         metadata = {
-            name = "{}-source-secret".format(oxr.metadata.name)
+            name = "{}-ss".format(oxr.metadata.name)
             annotations = {
                 "krm.kcl.dev/composition-resource-name": "source-secret"
             }
@@ -40,7 +38,7 @@ _items += [
         apiVersion = "kubernetes.crossplane.io/v1alpha2"
         kind = "Object"
         metadata = {
-            name = "{}-destination-secret".format(oxr.metadata.name)
+            name = "{}-ds".format(oxr.metadata.name)
             annotations = {
                 "krm.kcl.dev/composition-resource-name": "destination-secret"
             }
@@ -55,8 +53,8 @@ _items += [
                         namespace = parameters.destination.namespace
                     }
                     # Get data and type from the source secret's status
-                    data = ocds["source-secret"]?.status?.atProvider?.manifest?.data
-                    type = ocds["source-secret"]?.status?.atProvider?.manifest?.type
+                    data = ocds["source-secret"]?.Resource?.status?.atProvider?.manifest?.data
+                    type = ocds["source-secret"]?.Resource?.status?.atProvider?.manifest?.type
                 }
             }
             managementPolicies = spec.managementPolicies

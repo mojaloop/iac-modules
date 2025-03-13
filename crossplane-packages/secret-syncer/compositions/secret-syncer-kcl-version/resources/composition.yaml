@@ -10,6 +10,7 @@ spec:
     kind: XSecretSyncer
   mode: Pipeline
   pipeline:
+
     - step: kcl
       functionRef:
         name: function-kcl
@@ -19,3 +20,7 @@ spec:
         spec:
           source: |
             $KCL_FUNCTION_CODE
+
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready
