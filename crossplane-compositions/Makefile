@@ -246,7 +246,15 @@ apply: render
 .PHONY: clean
 clean:
 	@echo "♻️  Purging generated artifacts..."
-	@rm -rf $(RENDERED_DIR)
+	@if [ -n "$(COMPOSITION_NAME)" ]; then \
+		echo "🧹 Removing rendered files for $(COMPOSITION_NAME)..."; \
+		rm -rf $(COMPOSITION_DIR)/$(COMPOSITION_NAME)/rendered; \
+		rm -rf $(CONFIG_DIR)/$(COMPOSITION_NAME); \
+	else \
+		echo "🧹 Removing all rendered files and configurations..."; \
+		find $(COMPOSITION_DIR) -type d -name "rendered" -exec rm -rf {} \; 2>/dev/null || true; \
+		find $(CONFIG_DIR) -mindepth 1 -not -name "crossplane.yaml" -exec rm -rf {} \; 2>/dev/null || true; \
+	fi
 	@echo "✅ Workspace sanitized"
 
 .PHONY: help
