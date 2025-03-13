@@ -1,0 +1,18 @@
+apiVersion: infitx.org/v1alpha1
+kind: SecretSyncer
+metadata:
+  name: secrettest
+  namespace: default
+spec:
+  parameters:
+    source:
+      namespace: default
+      name: secrettest
+    destination:
+      namespace: default
+      name: secrettest
+  providerConfigsRef:
+    sourceK8sProviderName: kubernetes-provider
+    destinationK8sProviderName: kubernetes-provider
+  managementPolicies:
+    - "*"

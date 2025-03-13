@@ -10,6 +10,7 @@ EXTENSIONS_DIR := $(RENDERED_DIR)/extensionsDir
 
 COMPOSITION_FILE := $(RESOURCES_DIR)/composition.yaml
 DEFINITION_FILE := $(RESOURCES_DIR)/definition.yaml
+KCL_FILE := $(RESOURCES_DIR)/kcl-step.k
 COMPOSITION_OUTPUT := $(RENDERED_DIR)/composition.yaml
 DEFINITION_OUTPUT := $(RENDERED_DIR)/definition.yaml
 FUNCTIONS_FILE := $(TEST_DIR)/functions.yaml
@@ -60,8 +61,34 @@ generate:
 	@mkdir -p $(RENDERED_DIR)
 
 	@if [ -f $(COMPOSITION_FILE) ]; then \
-		cp $(COMPOSITION_FILE) $(COMPOSITION_OUTPUT); \
-		echo "📋 Source configuration imported to $(COMPOSITION_OUTPUT)"; \
+		if grep -q '\$$KCL_FUNCTION_CODE' $(COMPOSITION_FILE); then \
+			if [ -f $(KCL_FILE) ]; then \
+				echo "📄 Inserting KCL function code from $(KCL_FILE)..."; \
+				awk ' \
+					BEGIN { \
+						replacing=0; \
+						indent=""; \
+					} \
+					/\$$KCL_FUNCTION_CODE/ { \
+						replacing=1; \
+						indent=substr($$0, 1, match($$0, /[^ ]/) - 1); \
+						print indent "# Start of KCL function code"; \
+						while ((getline line < "$(KCL_FILE)") > 0) { \
+							print indent line; \
+						} \
+						print indent "# End of KCL function code"; \
+						next; \
+					} \
+					{ print $$0; }' $(COMPOSITION_FILE) > $(COMPOSITION_OUTPUT); \
+				echo "✨ $(COMPOSITION_OUTPUT) created with KCL code"; \
+			else \
+				echo "⚠️  Warning: KCL file '$(KCL_FILE)' not found. Skipping KCL code insertion."; \
+				cp $(COMPOSITION_FILE) $(COMPOSITION_OUTPUT); \
+			fi; \
+		else \
+			echo "📋 Source configuration imported to $(COMPOSITION_OUTPUT)"; \
+			cp $(COMPOSITION_FILE) $(COMPOSITION_OUTPUT); \
+		fi; \
 	else \
 		echo "❗ Critical: Source configuration $(COMPOSITION_FILE) not found"; \
 		exit 1; \

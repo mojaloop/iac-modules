@@ -1,0 +1,21 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: secretsyncer
+  labels:
+    crossplane.io/xrd: xsecretsyncer.infitx.org
+spec:
+  compositeTypeRef:
+    apiVersion: infitx.org/v1alpha1
+    kind: XSecretSyncer
+  mode: Pipeline
+  pipeline:
+    - step: kcl
+      functionRef:
+        name: function-kcl
+      input:
+        apiVersion: krm.kcl.dev/v1alpha1
+        kind: KCLInput
+        spec:
+          source: |
+            $KCL_FUNCTION_CODE
