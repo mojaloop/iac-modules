@@ -57,7 +57,7 @@ jobs:
           echo "Run prepare for packaging for ${{ inputs.SUBPATH }}"
           make all PACKAGE_NAME=${{ inputs.SUBPATH }}
           echo "Build package for ${{ inputs.SUBPATH }}"
-          crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
+          ./crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
 
       - name: Upload Package
         uses: actions/upload-artifact@v4
@@ -96,4 +96,4 @@ jobs:
       - name: Push Package to registry
         run: |
           echo "Push package to registry"
-          crossplane --verbose xpkg push ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg ${{ inputs.CROSSPLANE_REGISTRY_URL }}/${{ inputs.SUBPATH }}:${{ inputs.NEXT_VERSION }}
+          ./crossplane --verbose xpkg push ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg ${{ inputs.CROSSPLANE_REGISTRY_URL }}/${{ inputs.SUBPATH }}:${{ inputs.NEXT_VERSION }}
