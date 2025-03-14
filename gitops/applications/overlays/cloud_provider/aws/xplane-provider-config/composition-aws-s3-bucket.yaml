@@ -142,11 +142,67 @@ spec:
                             "Resource": ["%s",
                                          "%s/*" ]
 
-                        }
+                        },
+                        {
+                            "Sid": "AllowAbortMultipartUpload",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:AbortMultipartUpload",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        },
+                        {
+                            "Sid": "AllowListMultipartUploadParts",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:ListMultipartUploadParts",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        },
+                        {
+                            "Sid": "AllowListBucketMultipartUploads",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:ListBucketMultipartUploads",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        },
+                        {
+                            "Sid": "AllowPutObjectAcl",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:PutObjectAcl",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        },
                     ]
                 }
             variables:
             - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
             - fromFieldPath: status.bucketARN
             - fromFieldPath: status.iamUserARN
             - fromFieldPath: status.bucketARN
