@@ -39,6 +39,9 @@ spec:
         - name: "cluster_name"
           value: "${ARGOCD_ENV_cluster_name}"
 
+        - name: "cloud_region"
+          value: "${ARGOCD_ENV_gitlab_pre_object_storage_region}"
+
         - name: "gitlab_namespace"
           value: "${ARGOCD_ENV_gitlab_gitlab_namespace}"
 
@@ -77,15 +80,15 @@ spec:
 
         - name: "zitadel_dns_subdomain"
           value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
-        
+
         - name: "gitlab_gitaly_storage_size"
           value: "${ARGOCD_ENV_gitlab_gitlab_gitaly_storage_size}"
 
         - name: "praefect_externalservice_name"
-          value: "${ARGOCD_ENV_gitlab_gitlab_praefect_externalservice_name}"          
+          value: "${ARGOCD_ENV_gitlab_gitlab_praefect_externalservice_name}"
 
         - name: "gitlab_externalservice_name"
-          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_externalservice_name}" 
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_externalservice_name}"
 
         - name: "gitlab_db_name"
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_db_name}"
@@ -103,7 +106,7 @@ spec:
           value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"
 
         - name: "praefect_dbdeploy_name_prefix"
-          value: "${ARGOCD_ENV_gitlab_pre_praefect_dbdeploy_name_prefix}" 
+          value: "${ARGOCD_ENV_gitlab_pre_praefect_dbdeploy_name_prefix}"
 
         - name: "praefect_db_secret"
           value: "${ARGOCD_ENV_gitlab_pre_praefect_db_secret}"
