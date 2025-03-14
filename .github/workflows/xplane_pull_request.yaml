@@ -101,4 +101,4 @@ jobs:
       - name: Push Package to registry
         run: |
           echo "Push package to registry"
-          ./crossplane --verbose xpkg push ./artifacts/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg ${{ inputs.CROSSPLANE_REGISTRY_URL }}/${{ inputs.SUBPATH }}:${{ inputs.NEXT_VERSION }}
+          ./crossplane --verbose xpkg push -f ./artifacts/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg ${{ inputs.CROSSPLANE_REGISTRY_URL }}/${{ inputs.SUBPATH }}:${{ inputs.NEXT_VERSION }}
