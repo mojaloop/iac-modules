@@ -630,11 +630,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab-terraform-state
+        key: gitlab-terraform-state-${ARGOCD_ENV_cluster_name}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab-terraform-state
+        key: gitlab-terraform-state-${ARGOCD_ENV_cluster_name}
         property: password
 
   target:
