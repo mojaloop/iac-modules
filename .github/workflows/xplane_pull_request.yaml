@@ -1,4 +1,4 @@
-name: Pull Request
+name: Crossplane Package Pipeline 🚀
 
 on:
   workflow_call:
@@ -6,18 +6,22 @@ on:
       CROSSPLANE_PACKAGES_DIR:
         required: true
         type: string
+        description: "Directory containing Crossplane packages"
 
       CROSSPLANE_REGISTRY_URL:
         required: true
         type: string
+        description: "URL of the container registry for Crossplane packages"
 
       SUBPATH:
         required: true
         type: string
+        description: "Component/package subpath to build"
 
       NEXT_VERSION:
         required: true
         type: string
+        description: "Version tag for the package"
 
     secrets:
       REGISTRY_USERNAME:
@@ -30,43 +34,43 @@ on:
 
 jobs:
   # Build crossplane package
-  build-xpackage-xpkg:
-    name: Build Crossplane Composites
+  build-package:
+    name: 🏗️ Build Crossplane Package
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: 📥 Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: '0'
 
-      - name: Login to Container Registry
+      - name: 🔑 Login to Container Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ inputs.CROSSPLANE_REGISTRY_URL }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Setup the Crossplane CLI
+      - name: 🛠️ Setup Crossplane CLI
         run: |
           curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh
           sudo mv crossplane /usr/local/bin/
 
-      - name: Prepare for packaging
+      - name: ✅ Validate and Prepare for Packaging
         working-directory: ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
         run: |
-          echo "Preparing package for ${{ inputs.SUBPATH }}"
+          echo "🔍 Preparing package for ${{ inputs.SUBPATH }}"
           make all PACKAGE_NAME=${{ inputs.SUBPATH }}
 
-      - name: Build Package
+      - name: 📦 Build Package
         working-directory: ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
         run: |
-          echo "Building package for ${{ inputs.SUBPATH }}"
+          echo "🚀 Building package for ${{ inputs.SUBPATH }} version ${{ inputs.NEXT_VERSION }}"
           # Create package directory if it doesn't exist
           mkdir -p ${{ inputs.SUBPATH }}/package
           crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
 
-      - name: Upload Package
+      - name: 📤 Upload Package Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.SUBPATH }}-package
@@ -75,32 +79,36 @@ jobs:
           retention-days: 1
 
   # publish crossplane package
-  push-xPackage-xpkg:
-    name: Push Crossplane package
+  publish-package:
+    name: 📡 Publish Crossplane Package
     runs-on: ubuntu-latest
     needs:
-      - build-xpackage-xpkg
+      - build-package
     steps:
-      - name: Checkout
+      - name: 📥 Checkout
         uses: actions/checkout@v4
 
-      - name: Download Package
+      - name: 📥 Download Package Artifact
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.SUBPATH }}-package
           path: ./artifacts
 
-      - name: Setup the Crossplane CLI
+      - name: 🛠️ Setup Crossplane CLI
         run: "curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh"
 
-      - name: Login to Registry
+      - name: 🔑 Login to Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ inputs.CROSSPLANE_REGISTRY_URL }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Push Package to registry
+      - name: 🚀 Push Package to Registry
         run: |
-          echo "Push package to registry"
+          echo "📡 Publishing ${{ inputs.SUBPATH }} version ${{ inputs.NEXT_VERSION }} to registry"
           ./crossplane --verbose xpkg push -f ./artifacts/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg ${{ inputs.CROSSPLANE_REGISTRY_URL }}/${{ inputs.SUBPATH }}:${{ inputs.NEXT_VERSION }}
+
+      - name: ✨ Summary
+        run: |
+          echo "✅ Successfully published ${{ inputs.SUBPATH }} version ${{ inputs.NEXT_VERSION }} to ${{ inputs.CROSSPLANE_REGISTRY_URL }}"

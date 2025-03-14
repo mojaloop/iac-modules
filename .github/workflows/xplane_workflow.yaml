@@ -1,33 +1,37 @@
-name: Release Artifacts
+name: 🚀 Crossplane Release Pipeline
+
 on:
   workflow_call:
     inputs:
       component:
         required: true
         type: string
+        description: "Crossplane component to build and release"
       registry:
         required: true
         type: string
+        description: "Container registry URL"
       packages_dir:
         required: true
         type: string
+        description: "Directory containing Crossplane packages"
       release_name:
         required: false
         type: string
+        description: "Release tag/version name"
 
     secrets:
       REGISTRY_USERNAME:
         description: "Username for container registry to login"
         required: true
-
       REGISTRY_PASSWORD:
         description: "Password for container registry to login"
         required: true
 
 jobs:
-  pull-request:
+  pull-request-build:
     uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feature/xplane-secret-syncer
-    name: Pull Request
+    name: 🧪 PR Preview Build
     if: ${{ github.ref != 'refs/heads/main' }}
     secrets: inherit
     with:
@@ -36,9 +40,9 @@ jobs:
       SUBPATH: ${{ inputs.component }}
       NEXT_VERSION: ${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
 
-  release:
+  release-pipeline:
     uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feature/xplane-secret-syncer
-    name: Release
+    name: 🚀 Release
     if: ${{ github.event_name == 'release' && github.event.action == 'published' && github.ref == 'refs/heads/main' }}
     secrets: inherit
     with:
