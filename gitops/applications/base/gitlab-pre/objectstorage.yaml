@@ -728,7 +728,6 @@ spec:
           s3:
            bucket: registry
            v4auth: true
-           regionendpoint: "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
            pathstyle: true
            region: ${ARGOCD_ENV_cloud_region}
            accesskey: {{.username}}
