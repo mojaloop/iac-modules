@@ -1,4 +1,4 @@
-name: Crossplane Package Pipeline 🚀
+name: 📦 Crossplane Package Pipeline
 
 on:
   workflow_call:
@@ -16,7 +16,7 @@ on:
       SUBPATH:
         required: true
         type: string
-        description: "Component/package subpath to build"
+        description: "Composition subpath to package"
 
       NEXT_VERSION:
         required: true
@@ -33,9 +33,9 @@ on:
         required: true
 
 jobs:
-  # Build crossplane package
-  build-package:
-    name: 🏗️ Build Crossplane Package
+  # Package crossplane composition
+  package-composition:
+    name: 📦 Package Crossplane Composition
     runs-on: ubuntu-latest
 
     steps:
@@ -56,16 +56,16 @@ jobs:
           curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh
           sudo mv crossplane /usr/local/bin/
 
-      - name: ✅ Validate and Prepare for Packaging
+      - name: ✅ Validate and Prepare
         working-directory: ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
         run: |
           echo "🔍 Preparing package for ${{ inputs.SUBPATH }}"
           make all PACKAGE_NAME=${{ inputs.SUBPATH }}
 
-      - name: 📦 Build Package
+      - name: 📦 Create Package
         working-directory: ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
         run: |
-          echo "🚀 Building package for ${{ inputs.SUBPATH }} version ${{ inputs.NEXT_VERSION }}"
+          echo "📦 Packaging ${{ inputs.SUBPATH }} version ${{ inputs.NEXT_VERSION }}"
           # Create package directory if it doesn't exist
           mkdir -p ${{ inputs.SUBPATH }}/package
           crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
@@ -83,7 +83,7 @@ jobs:
     name: 📡 Publish Crossplane Package
     runs-on: ubuntu-latest
     needs:
-      - build-package
+      - package-composition
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v4

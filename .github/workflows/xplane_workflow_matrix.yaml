@@ -1,4 +1,4 @@
-name: Release
+name: 🔄 Crossplane Matrix Pipeline
 
 on:
   pull_request:
@@ -8,18 +8,19 @@ on:
     types: [published]
 
 jobs:
-  check-changes:
+  detect-changes:
+    name: 🔍 Detect Changed Packages
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       has_changes: ${{ steps.set-matrix.outputs.has_changes }}
     steps:
-    - name: Checkout repository
+    - name: 📥 Checkout Repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    - name: Determine changed directories
+    - name: 🔎 Determine Changed Packages
       id: set-matrix
       env:
         GITHUB_REF: ${{ github.ref }}
@@ -34,14 +35,14 @@ jobs:
         if [ -d "${CROSSPLANE_PACKAGES_DIR}" ]; then
           DIRECTORIES=$(find ${CROSSPLANE_PACKAGES_DIR}/* -maxdepth 0 -type d -not -name '\.*' 2>/dev/null || echo "")
         else
-          echo "crossplane-packages directory not found"
+          echo "❌ crossplane-packages directory not found"
           DIRECTORIES=""
         fi
 
         # Handle different event types
         if [[ "${{ github.event_name }}" == "release" ]]; then
-          echo "This is a release event"
-          # For releases, we'll build all packages
+          echo "🏷️ This is a release event"
+          # For releases, we'll process all packages
           CHANGED_DIRS=""
           for DIR in $DIRECTORIES; do
             PACKAGE_NAME=$(basename "$DIR")
@@ -49,14 +50,14 @@ jobs:
           done
         else
           # For PRs, we'll find changes compared to the target branch
-          echo "This is a PR event targeting branch: ${PR_BASE_REF}"
+          echo "🔄 This is a PR event targeting branch: ${PR_BASE_REF}"
 
           # For PR events, always compare against the PR base branch when available
           if [[ "${{ github.event_name }}" == "pull_request" && -n "${PR_BASE}" ]]; then
-            echo "Using PR base SHA for comparison: ${PR_BASE}"
+            echo "🔄 Using PR base SHA for comparison: ${PR_BASE}"
             BASE="${PR_BASE}"
           elif [[ "${GITHUB_REF}" == 'refs/heads/main' ]]; then
-            echo "Github ref is main (not a PR)"
+            echo "🔄 Github ref is main (not a PR)"
             if [[ -n "${BEFORE}" ]]; then
               BASE="${BEFORE}"
             else
@@ -65,7 +66,7 @@ jobs:
             fi
           else
             # Fallback to ancestor detection for other cases
-            echo "Using fallback comparison method"
+            echo "🔄 Using fallback comparison method"
             if [[ -n "${PR_BASE}" && -n "${PR_HEAD}" ]]; then
               BASE="$(git merge-base ${PR_BASE} ${PR_HEAD} 2>/dev/null || echo 'HEAD^')"
             else
@@ -74,7 +75,7 @@ jobs:
             fi
           fi
 
-          echo "SHA for base: ${BASE}, head: ${PR_HEAD}"
+          echo "🔄 SHA for base: ${BASE}, head: ${PR_HEAD}"
 
           CHANGED_DIRS=""
           for DIR in $DIRECTORIES; do
@@ -87,7 +88,7 @@ jobs:
         fi
 
         if [ -z "$CHANGED_DIRS" ]; then
-          echo "No changes detected in crossplane-packages directories"
+          echo "ℹ️ No changes detected in crossplane-packages directories"
           MATRIX="[]"
           echo "has_changes=false" >> $GITHUB_OUTPUT
         else
@@ -95,14 +96,15 @@ jobs:
           echo "has_changes=true" >> $GITHUB_OUTPUT
         fi
 
-        echo "Changed dirs matrix: $MATRIX"
+        echo "📋 Changed packages matrix: $MATRIX"
         echo "matrix={\"include\": $MATRIX}" >> $GITHUB_OUTPUT
 
-  workflow:
-    needs: check-changes
-    if: ${{ needs.check-changes.outputs.has_changes == 'true' }}
+  process-packages:
+    name: 📦 Process Packages
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.has_changes == 'true' }}
     strategy:
-      matrix: ${{fromJson(needs.check-changes.outputs.matrix)}}
+      matrix: ${{fromJson(needs.detect-changes.outputs.matrix)}}
       fail-fast: false
     uses: mojaloop/iac-modules/.github/workflows/xplane_workflow.yaml@feature/xplane-secret-syncer
     secrets:
@@ -110,6 +112,6 @@ jobs:
       REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     with:
       registry: ghcr.io/${{ github.repository }}
-      component: ${{ matrix.directory }}
+      package: ${{ matrix.directory }}
       release_name: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
       packages_dir: crossplane-packages

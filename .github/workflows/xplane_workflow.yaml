@@ -1,12 +1,12 @@
-name: 🚀 Crossplane Release Pipeline
+name: 🚀 Crossplane Package Pipeline
 
 on:
   workflow_call:
     inputs:
-      component:
+      package:
         required: true
         type: string
-        description: "Crossplane component to build and release"
+        description: "Crossplane package to package and release"
       registry:
         required: true
         type: string
@@ -29,24 +29,24 @@ on:
         required: true
 
 jobs:
-  pull-request-build:
+  pull-request-package:
     uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feature/xplane-secret-syncer
-    name: 🧪 PR Preview Build
+    name: 🧪 PR Preview Package
     if: ${{ github.ref != 'refs/heads/main' }}
     secrets: inherit
     with:
       CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
       CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}/xplane-packages
-      SUBPATH: ${{ inputs.component }}
+      SUBPATH: ${{ inputs.package }}
       NEXT_VERSION: ${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
 
-  release-pipeline:
+  release-package:
     uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feature/xplane-secret-syncer
-    name: 🚀 Release
+    name: 🚀 Release Package
     if: ${{ github.event_name == 'release' && github.event.action == 'published' && github.ref == 'refs/heads/main' }}
     secrets: inherit
     with:
       CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
       CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}/xplane-packages
-      SUBPATH: ${{ inputs.component }}
+      SUBPATH: ${{ inputs.package }}
       NEXT_VERSION: ${{ inputs.release_name }}
