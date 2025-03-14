@@ -32,7 +32,7 @@ jobs:
     secrets: inherit
     with:
       CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
-      CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}
+      CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}/xplane-packages
       SUBPATH: ${{ inputs.component }}
       NEXT_VERSION: ${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
 
@@ -43,6 +43,6 @@ jobs:
     secrets: inherit
     with:
       CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
-      CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}
+      CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}/xplane-packages
       SUBPATH: ${{ inputs.component }}
       NEXT_VERSION: ${{ inputs.release_name }}

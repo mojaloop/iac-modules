@@ -109,7 +109,7 @@ jobs:
       REGISTRY_USERNAME: ${{ github.actor }}
       REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     with:
-      registry: ghcr.io/${{ github.repository_owner }}
+      registry: ghcr.io/${{ github.repository }}
       component: ${{ matrix.directory }}
       release_name: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
       packages_dir: crossplane-packages
