@@ -65,3 +65,6 @@ spec:
 
         - name: aws_s3_crossplane_module_version
           value: "${ARGOCD_ENV_utils_post_config_aws_s3_crossplane_module_version}"
+
+        - name: "aws_iam_crossplane_module_version"
+          value: "${ARGOCD_ENV_utils_post_config_aws_iam_crossplane_module_version}"
