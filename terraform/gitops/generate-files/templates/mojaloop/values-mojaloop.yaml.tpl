@@ -1155,7 +1155,8 @@ ml-ttk-test-setup:
     testSuiteName: Provisioning
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1180,7 +1181,8 @@ ml-ttk-test-val-gp:
     testSuiteName: GP Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1203,7 +1205,8 @@ ml-ttk-test-val-bulk:
     testSuiteName: Bulk Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1216,7 +1219,8 @@ ml-ttk-test-setup-tp:
     testSuiteName: Third Party Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1229,7 +1233,8 @@ ml-ttk-test-val-tp:
     testSuiteName: Third Party Validation Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1242,7 +1247,8 @@ ml-ttk-test-setup-sdk-bulk:
     testSuiteName: SDK Bulk Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1255,7 +1261,8 @@ ml-ttk-test-val-sdk-bulk:
     testSuiteName: SDK Bulk Validation Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://ttksim1.${ingress_subdomain}
+    brief: true
+    saveReportBaseUrl: https://ttksim1.${ingress_subdomain}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttksim1InputValues
@@ -1268,7 +1275,8 @@ ml-ttk-test-val-sdk-r2p:
     testSuiteName: SDK Request To Pay Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://ttksim1.${ingress_subdomain}
+    brief: true
+    saveReportBaseUrl: https://ttksim1.${ingress_subdomain}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttksim1InputValues
@@ -1283,7 +1291,8 @@ ml-ttk-test-cleanup:
     testSuiteName: Post Cleanup
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_backend_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
