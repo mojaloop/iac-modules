@@ -10,6 +10,5 @@ helmCharts:
     valuesFile: db-values.yaml
     namespace: ${ARGOCD_ENV_namespace}
 resources:
-  - xplane-kubernetes-provider-config.yaml
   - db-external-name-service.yaml
   - db-secrets.yaml
