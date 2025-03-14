@@ -1,0 +1,48 @@
+name: Release Artifacts
+on:
+  workflow_call:
+    inputs:
+      component:
+        required: true
+        type: string
+      registry:
+        required: true
+        type: string
+      packages_dir:
+        required: true
+        type: string
+      release_name:
+        required: false
+        type: string
+
+    secrets:
+      REGISTRY_USERNAME:
+        description: "Username for container registry to login"
+        required: true
+
+      REGISTRY_PASSWORD:
+        description: "Password for container registry to login"
+        required: true
+
+jobs:
+  pull-request:
+    uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feat/xplane-secret-syncer
+    name: Pull Request
+    if: ${{ github.ref != 'refs/heads/main' }}
+    secrets: inherit
+    with:
+      CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
+      CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}
+      SUBPATH: ${{ inputs.component }}
+      NEXT_VERSION: ${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+  release:
+    uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feat/xplane-secret-syncer
+    name: Release
+    if: ${{ github.event_name == 'release' && github.event.action == 'published' && github.ref == 'refs/heads/main' }}
+    secrets: inherit
+    with:
+      CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
+      CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}
+      SUBPATH: ${{ inputs.component }}
+      NEXT_VERSION: ${{ inputs.release_name }}

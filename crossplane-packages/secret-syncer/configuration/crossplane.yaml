@@ -2,7 +2,7 @@
 apiVersion: meta.pkg.crossplane.io/v1alpha1
 kind: Configuration
 metadata:
-  name:
+  name: secret-syncer
 spec:
   dependsOn:
     - provider: xpkg.upbound.io/crossplane-contrib/provider-kubernetes

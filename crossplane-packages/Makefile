@@ -263,7 +263,7 @@ clean:
 
 .PHONY: help
 help:
-	@echo "Crossplane Composition Control Panel"
+	@echo "Crossplane Composition Development Tooling"
 	@echo "===================================="
 	@echo ""
 	@echo "Usage:"

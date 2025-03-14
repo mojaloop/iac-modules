@@ -10,6 +10,7 @@ spec:
     kind: XSecretSyncer
   mode: Pipeline
   pipeline:
+
     - step: kcl
       functionRef:
         name: function-kcl
@@ -19,9 +20,7 @@ spec:
         spec:
           source: |
             # Start of KCL function code
-            import regex
-            
-            # Read the XR
+            # Read the XR and the OCDs
             oxr = option("params").oxr
             ocds = option("params").ocds
             
@@ -35,7 +34,7 @@ spec:
                     apiVersion = "kubernetes.crossplane.io/v1alpha2"
                     kind = "Object"
                     metadata = {
-                        name = "{}-source-secret".format(oxr.metadata.name)
+                        name = "{}-ss".format(oxr.metadata.name)
                         annotations = {
                             "krm.kcl.dev/composition-resource-name": "source-secret"
                         }
@@ -61,7 +60,7 @@ spec:
                     apiVersion = "kubernetes.crossplane.io/v1alpha2"
                     kind = "Object"
                     metadata = {
-                        name = "{}-destination-secret".format(oxr.metadata.name)
+                        name = "{}-ds".format(oxr.metadata.name)
                         annotations = {
                             "krm.kcl.dev/composition-resource-name": "destination-secret"
                         }
@@ -94,3 +93,7 @@ spec:
             
             items = _items + [dxr]
             # End of KCL function code
+
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready
