@@ -3,7 +3,7 @@ PACKAGE_NAME ?=
 
 PACKAGE_DIR := $(PACKAGE_NAME)
 COMPOSITION_DIR := $(PACKAGE_DIR)/compositions
-CONFIG_DIR := configuration
+CONFIG_DIR := $(PACKAGE_DIR)/configuration
 RESOURCES_DIR := $(COMPOSITION_DIR)/$(COMPOSITION_NAME)/resources
 TEST_DIR := $(COMPOSITION_DIR)/$(COMPOSITION_NAME)/test
 TESTSCENARIOS_DIR := $(TEST_DIR)/scenarios
@@ -234,9 +234,9 @@ endef
 .PHONY: package_composition
 package_composition: generate
 	@echo "📦 Building deployment package for $(PACKAGE_NAME)/$(COMPOSITION_NAME)..."
-	@mkdir -p $(CONFIG_DIR)/$(PACKAGE_NAME)/$(COMPOSITION_NAME)
-	@cp $(COMPOSITION_OUTPUT) $(CONFIG_DIR)/$(PACKAGE_NAME)/$(COMPOSITION_NAME)/composition.yaml
-	@cp $(DEFINITION_OUTPUT) $(CONFIG_DIR)/$(PACKAGE_NAME)/$(COMPOSITION_NAME)/definition.yaml
+	@mkdir -p $(CONFIG_DIR)/$(COMPOSITION_NAME)
+	@cp $(COMPOSITION_OUTPUT) $(CONFIG_DIR)/$(COMPOSITION_NAME)/composition.yaml
+	@cp $(DEFINITION_OUTPUT) $(CONFIG_DIR)/$(COMPOSITION_NAME)/definition.yaml
 	@echo "✅ Deployment package assembled successfully"
 
 # Apply composition and definition files
@@ -250,10 +250,14 @@ apply: render
 .PHONY: clean
 clean:
 	@echo "♻️  Purging generated artifacts..."
-	@if [ -n "$(COMPOSITION_NAME)" ] && [ -n "$(PACKAGE_NAME)" ]; then \
+	@if [ -z "$(PACKAGE_NAME)" ]; then \
+		echo "❗ Critical: PACKAGE_NAME is required."; \
+		exit 1; \
+	fi; \
+	if [ -n "$(COMPOSITION_NAME)" ]; then \
 		echo "🧹 Removing rendered files for $(PACKAGE_NAME)/$(COMPOSITION_NAME)..."; \
 		rm -rf $(COMPOSITION_DIR)/$(COMPOSITION_NAME)/rendered; \
-		rm -rf $(CONFIG_DIR)/$(PACKAGE_NAME)/$(COMPOSITION_NAME); \
+		rm -rf $(CONFIG_DIR)/$(COMPOSITION_NAME); \
 	else \
 		echo "🧹 Removing all rendered files and configurations..."; \
 		find $(PACKAGE_DIR) -type d -name "rendered" -exec rm -rf {} \; 2>/dev/null || true; \
