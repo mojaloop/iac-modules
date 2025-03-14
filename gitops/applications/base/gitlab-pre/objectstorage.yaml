@@ -241,20 +241,20 @@ spec:
     deletionPolicy: "Delete"
     providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
-# ---
-# apiVersion: infitx.org/v1alpha1
-# kind: S3BucketClaim
-# metadata:
-#   name: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   parameters:
-#     bucketName: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
-#     bucketRegion: ${ARGOCD_ENV_cloud_region}
-#     forceDestroy: true
-#     deletionPolicy: "Delete"
-#     providerConfigName: "aws-cp-upbound-provider-config"
-#     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+---
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
+metadata:
+  name: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  parameters:
+    bucketName: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
 kind: S3BucketClaim
@@ -406,8 +406,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -447,8 +447,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -488,8 +488,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -529,8 +529,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -570,8 +570,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -611,50 +611,50 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
           path_style: true
-# ---
-# apiVersion: external-secrets.io/v1beta1
-# kind: ExternalSecret
-# metadata:
-#   name: gitlab-rails-secret-terraform-state
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   refreshInterval: 1m
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: gitlab-rails-secret-terraform-state
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  refreshInterval: 1m
 
-#   secretStoreRef:
-#     kind: SecretStore
-#     name: gitlab-k8s-secret-store
+  secretStoreRef:
+    kind: SecretStore
+    name: gitlab-k8s-secret-store
 
-#   data:
-#     - secretKey: username
-#       remoteRef:
-#         key: gitlab-terraform-state
-#         property: username
-#     - secretKey: password
-#       remoteRef:
-#         key: gitlab-terraform-state
-#         property: password
+  data:
+    - secretKey: username
+      remoteRef:
+        key: gitlab-terraform-state
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: gitlab-terraform-state
+        property: password
 
-#   target:
-#     name: gitlab-rails-secret-terraform-state
-#     creationPolicy: Owner
-#     template:
-#       data:
-#         connection: |
-#           provider: AWS
-#           # Specify the region
-#           region: ${ARGOCD_ENV_cloud_region}
-#           # Specify access/secret keys
-#           aws_access_key_id: {{.username}}
-#           aws_secret_access_key: {{.password}}
-#           # The below settings are for S3 compatible endpoints
-#           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
-#           aws_signature_version: 4
-#           host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-#           endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
-#           path_style: true
+  target:
+    name: gitlab-rails-secret-terraform-state
+    creationPolicy: Owner
+    template:
+      data:
+        connection: |
+          provider: AWS
+          # Specify the region
+          region: ${ARGOCD_ENV_cloud_region}
+          # Specify access/secret keys
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
+          # The below settings are for S3 compatible endpoints
+          #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
+          aws_signature_version: 4
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
+          path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -693,8 +693,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -771,8 +771,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -812,8 +812,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: s3.amazonaws.com
+          endpoint:  "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
