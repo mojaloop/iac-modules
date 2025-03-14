@@ -1331,9 +1331,9 @@ gitlab-runner:
           Path = "gitlab-runner"
           Shared = true
           [runners.cache.s3]
-            ServerAddress = "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
-            BucketName = "gitlab-runner-cache"
-            BucketLocation = "us-east-1"
+            ServerAddress = "s3.amazonaws.com"
+            BucketName = "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
+            BucketLocation = "${ARGOCD_ENV_cloud_region}"
             Insecure = true
     cache:
       secretName: "gitlab-runner-cache-secret"
