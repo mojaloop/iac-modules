@@ -47,15 +47,21 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Setup the Crossplane CLI
-        run: "curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh"
-
-      - name: Build Package
+      - name: Move to Crossplane Packages Directory
         run: |
           echo "Change directory to ${{ inputs.CROSSPLANE_PACKAGES_DIR }}"
           cd ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
+
+      - name: Setup the Crossplane CLI
+        run: "curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh"
+
+      - name: Prepare for packaging
+        run: |
           echo "Run prepare for packaging for ${{ inputs.SUBPATH }}"
           make all PACKAGE_NAME=${{ inputs.SUBPATH }}
+
+      - name: Build Package
+        run: |
           echo "Build package for ${{ inputs.SUBPATH }}"
           ./crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
 
