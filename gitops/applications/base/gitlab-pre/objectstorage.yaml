@@ -730,6 +730,7 @@ spec:
            v4auth: true
            pathstyle: true
            region: ${ARGOCD_ENV_cloud_region}
+           regionendpoint: "https://s3.${ARGOCD_ENV_cloud_region}.amazonaws.com"
            accesskey: {{.username}}
            secretkey: {{.password}}
 ---
