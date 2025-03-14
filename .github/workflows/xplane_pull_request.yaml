@@ -47,29 +47,26 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Move to Crossplane Packages Directory
-        run: |
-          echo "Change directory to ${{ inputs.CROSSPLANE_PACKAGES_DIR }}"
-          cd ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
-
       - name: Setup the Crossplane CLI
         run: "curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh"
 
       - name: Prepare for packaging
+        working-directory: ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
         run: |
-          echo "Run prepare for packaging for ${{ inputs.SUBPATH }}"
+          echo "Preparing package for ${{ inputs.SUBPATH }}"
           make all PACKAGE_NAME=${{ inputs.SUBPATH }}
 
       - name: Build Package
+        working-directory: ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
         run: |
-          echo "Build package for ${{ inputs.SUBPATH }}"
-          ./crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
+          echo "Building package for ${{ inputs.SUBPATH }}"
+          ../crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
 
       - name: Upload Package
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.SUBPATH }}-package
-          path: ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
+          path: ${{ inputs.CROSSPLANE_PACKAGES_DIR }}/${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
           if-no-files-found: error
           retention-days: 1
 
@@ -102,4 +99,4 @@ jobs:
       - name: Push Package to registry
         run: |
           echo "Push package to registry"
-          ./crossplane --verbose xpkg push ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg ${{ inputs.CROSSPLANE_REGISTRY_URL }}/${{ inputs.SUBPATH }}:${{ inputs.NEXT_VERSION }}
+          ./crossplane --verbose xpkg push ./artifacts/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg ${{ inputs.CROSSPLANE_REGISTRY_URL }}/${{ inputs.SUBPATH }}:${{ inputs.NEXT_VERSION }}
