@@ -57,6 +57,7 @@ argocd_override:
           aws_crossplane_module_version:  "${aws_crossplane_module_version}"
           crossplane_func_pat_version: "${crossplane_func_pat_version}"
           k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
+          aws_s3_crossplane_module_version: "${aws_s3_crossplane_module_version}"
           crossplane_func_go_templating_version: "${crossplane_func_go_templating_version}"
         kyverno:
           helm_version: "${kyverno_helm_version}"
