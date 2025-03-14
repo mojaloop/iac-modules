@@ -232,7 +232,7 @@ endef
 
 # Package the composition
 .PHONY: package_composition
-package_composition: generate
+package_composition: validate
 	@echo "📦 Building deployment package for $(PACKAGE_NAME)/$(COMPOSITION_NAME)..."
 	@mkdir -p $(CONFIG_DIR)/$(COMPOSITION_NAME)
 	@cp $(COMPOSITION_OUTPUT) $(CONFIG_DIR)/$(COMPOSITION_NAME)/composition.yaml
