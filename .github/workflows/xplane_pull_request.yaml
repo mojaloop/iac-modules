@@ -50,25 +50,20 @@ jobs:
       - name: Setup the Crossplane CLI
         run: "curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh"
 
-      - name: Prepare for package build
-        run: |
-          echo "PLACEHOLDER: Preparing for package build"
-          echo "Working with package in ${{ inputs.CROSSPLANE_PACKAGES_DIR }}/${{ inputs.SUBPATH }}"
-          # TODO: Add your preparation commands here
-
       - name: Build Package
         run: |
-          echo "PLACEHOLDER: Building Crossplane package"
-          # TODO: Add your package build commands here
-          # Create a placeholder file for artifact for testing
-          mkdir -p artifacts
-          echo "Placeholder package content" > artifacts/crossplane-package.xpkg
+          echo "Change directory to ${{ inputs.CROSSPLANE_PACKAGES_DIR }}"
+          cd ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
+          echo "Run prepare for packaging for ${{ inputs.SUBPATH }}"
+          make package_composition PACKAGE_NAME=${{ inputs.SUBPATH }}
+          echo "Build package for ${{ inputs.SUBPATH }}"
+          crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
 
       - name: Upload Package
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.SUBPATH }}-package
-          path: artifacts/crossplane-package.xpkg
+          path: ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
           if-no-files-found: error
           retention-days: 1
 
@@ -100,6 +95,5 @@ jobs:
 
       - name: Push Package to registry
         run: |
-          echo "PLACEHOLDER: Pushing package to registry"
-          echo "Would push artifact to ${{ inputs.CROSSPLANE_REGISTRY_URL }}/${{ inputs.SUBPATH }}:${{ inputs.NEXT_VERSION }}"
-          # TODO: Add your push commands here
+          echo "Push package to registry"
+          crossplane --verbose xpkg push ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg ${{ inputs.CROSSPLANE_REGISTRY_URL }}/${{ inputs.SUBPATH }}:${{ inputs.NEXT_VERSION }}
