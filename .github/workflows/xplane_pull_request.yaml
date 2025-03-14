@@ -60,6 +60,8 @@ jobs:
         working-directory: ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
         run: |
           echo "Building package for ${{ inputs.SUBPATH }}"
+          # Create package directory if it doesn't exist
+          mkdir -p ${{ inputs.SUBPATH }}/package
           ../crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
 
       - name: Upload Package
