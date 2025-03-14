@@ -19,4 +19,3 @@ Please refer to the documentation here: [Profiles Documentation](./docs/profiles
 Tracing is utilized for capturing and recording information about the execution of a given process.
 
 Please refer to the documentation here: [Tracing Documentation](./docs/tracing.md)
-
