@@ -55,7 +55,7 @@ jobs:
           echo "Change directory to ${{ inputs.CROSSPLANE_PACKAGES_DIR }}"
           cd ${{ inputs.CROSSPLANE_PACKAGES_DIR }}
           echo "Run prepare for packaging for ${{ inputs.SUBPATH }}"
-          make package_composition PACKAGE_NAME=${{ inputs.SUBPATH }}
+          make all PACKAGE_NAME=${{ inputs.SUBPATH }}
           echo "Build package for ${{ inputs.SUBPATH }}"
           crossplane xpkg build --package-root=${{ inputs.SUBPATH }}/configuration -o ${{ inputs.SUBPATH }}/package/${{ inputs.SUBPATH }}-${{ inputs.NEXT_VERSION }}.xpkg
 
