@@ -726,7 +726,7 @@ spec:
       data:
         connection: |
           s3:
-           bucket: registry
+           bucket: registry-${ARGOCD_ENV_cluster_name}
            v4auth: true
            pathstyle: true
            region: ${ARGOCD_ENV_cloud_region}
