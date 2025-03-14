@@ -1,0 +1,18 @@
+apiVersion: infitx.org/v1alpha1
+kind: SecretSyncer
+metadata:
+  name: example-secret-syncer
+  namespace: testa
+spec:
+  parameters:
+    source:
+      namespace: testa
+      name: example-secret
+    destination:
+      namespace: testb
+      name: example-secret
+  providerConfigsRef:
+    sourceK8sProviderName: kubernetes-provider
+    destinationK8sProviderName: kubernetes-provider
+  managementPolicies:
+    - "*"
