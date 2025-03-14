@@ -106,7 +106,7 @@ jobs:
       REGISTRY_USERNAME: ${{ github.actor }}
       REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     with:
-      registry: ${{ env.REGISTRY }}
+      registry: ghcr.io/mojaloop/iac-modules
       component: ${{ matrix.directory }}
       release_name: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
       packages_dir: crossplane-packages
