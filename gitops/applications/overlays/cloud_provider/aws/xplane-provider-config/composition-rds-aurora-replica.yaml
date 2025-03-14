@@ -5,7 +5,7 @@ metadata:
   labels:
     provider: aws
     db: rds-aurora
-    cluster: ${ARGOCD_ENV_cluster_name}  
+    cluster: ${ARGOCD_ENV_cluster_name}
 spec:
   compositeTypeRef:
     apiVersion: infitx.org/v1alpha1
@@ -38,5 +38,5 @@ spec:
                 engine: "{{ $.observed.composite.resource.spec.engine }}"
                 region: "{{ $.observed.composite.resource.spec.region }}"
               providerConfigRef:
-                name: crossplane-provider-config
+                name: aws-crossplane-provider-config
             {{ end }}

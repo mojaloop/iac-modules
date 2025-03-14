@@ -36,7 +36,7 @@ spec:
               region: eu-west-2
               subnetIds: []
             providerConfigRef:
-              name: crossplane-provider-config              
+              name: aws-crossplane-provider-config
         patches:
         - type: PatchSet
           patchSetName: metadata
@@ -44,7 +44,7 @@ spec:
           toFieldPath: "spec.forProvider.region"
         - fromFieldPath: "spec.parameters.subnets"
           toFieldPath: "spec.forProvider.subnetIds"
-          
+
       - name: securityGroup
         base:
           apiVersion: ec2.aws.crossplane.io/v1beta1
@@ -55,7 +55,7 @@ spec:
               - fromPort: 5432
                 toPort: 5432
                 ipProtocol: tcp
-                ipRanges: 
+                ipRanges:
                     - cidrIp: "10.106.0.0/23"
               description: Security group for the db instance
               groupName: db-security-group
@@ -65,7 +65,7 @@ spec:
               - key: Name
                 value: db-security-group
             providerConfigRef:
-              name: crossplane-provider-config              
+              name: aws-crossplane-provider-config
         patches:
         - type: PatchSet
           patchSetName: metadata
@@ -107,12 +107,12 @@ spec:
               publiclyAccessible: false
               allocatedStorage: 200
               storageType: io1
-              iops: 4000              
+              iops: 4000
               masterUserPasswordSecretRef:
                 key: password
                 name: secretName
             providerConfigRef:
-              name: crossplane-provider-config
+              name: aws-crossplane-provider-config
             writeConnectionSecretToRef:
               namespace: dbnamespace
               name: dbsecret
@@ -137,7 +137,7 @@ spec:
         - fromFieldPath: spec.parameters.storageIops
           toFieldPath: spec.forProvider.iops
         - fromFieldPath: spec.parameters.backupRetentionPeriod
-          toFieldPath: spec.forProvider.backupRetentionPeriod                               
+          toFieldPath: spec.forProvider.backupRetentionPeriod
         - fromFieldPath: spec.parameters.preferredBackupWindow
           toFieldPath: spec.forProvider.preferredBackupWindow
         - fromFieldPath: spec.parameters.allowMajorVersionUpgrade
@@ -145,7 +145,7 @@ spec:
         - fromFieldPath: spec.parameters.autoMinorVersionUpgrade
           toFieldPath: spec.forProvider.autoMinorVersionUpgrade
         - fromFieldPath: spec.parameters.applyImmediately
-          toFieldPath: spec.forProvider.applyImmediately      
+          toFieldPath: spec.forProvider.applyImmediately
         - fromFieldPath: spec.parameters.passwordSecret.name
           toFieldPath: spec.forProvider.masterUserPasswordSecretRef.name
         - fromFieldPath: spec.parameters.passwordSecret.key
@@ -154,11 +154,11 @@ spec:
           toFieldPath: spec.forProvider.masterUserPasswordSecretRef.namespace
         - fromFieldPath: spec.claimRef.namespace
           toFieldPath: spec.writeConnectionSecretToRef.namespace
-          
+
         - fromFieldPath: spec.parameters.dbName
           toFieldPath: spec.writeConnectionSecretToRef.name
           transforms:
           - type: string
             string:
               type: Format
-              fmt: '%s-connection-secret'              
+              fmt: '%s-connection-secret'

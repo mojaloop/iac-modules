@@ -31,7 +31,7 @@ spec:
                     default: "eu-west-1"
                   providerConfigName:
                     type: string
-                    default: "crossplane-provider-config"
+                    default: "aws-cp-upbound-provider-config"
                   destinationNamespace:
                     type: string
                     default: crossplane-system

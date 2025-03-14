@@ -155,7 +155,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -169,7 +169,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -183,7 +183,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -197,7 +197,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -211,7 +211,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -225,7 +225,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -239,7 +239,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 # ---
 # apiVersion: infitx.org/v1alpha1
@@ -253,7 +253,7 @@ spec:
 #     bucketRegion: ${ARGOCD_ENV_cloud_region}
 #     forceDestroy: true
 #     deletionPolicy: "Delete"
-#     providerConfigName: "crossplane-provider-config"
+#     providerConfigName: "aws-cp-upbound-provider-config"
 #     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -267,7 +267,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -281,7 +281,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -295,7 +295,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: infitx.org/v1alpha1
@@ -309,7 +309,7 @@ spec:
     bucketRegion: ${ARGOCD_ENV_cloud_region}
     forceDestroy: true
     deletionPolicy: "Delete"
-    providerConfigName: "crossplane-provider-config"
+    providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: v1
