@@ -7,9 +7,6 @@ on:
   release:
     types: [published]
 
-env:
-  REGISTRY: ghcr.io/${{ github.repository_owner }}
-
 jobs:
   check-changes:
     runs-on: ubuntu-latest
@@ -28,6 +25,7 @@ jobs:
         GITHUB_REF: ${{ github.ref }}
         PR_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         PR_BASE: ${{ github.event.pull_request.base.sha || '' }}
+        PR_BASE_REF: ${{ github.event.pull_request.base.ref || 'main' }}
         BEFORE: ${{ github.event.before || '' }}
       run: |
         CROSSPLANE_PACKAGES_DIR="crossplane-packages"
@@ -50,11 +48,15 @@ jobs:
             CHANGED_DIRS="$PACKAGE_NAME;$CHANGED_DIRS"
           done
         else
-          # For PRs, we'll find changes
-          echo "This is a PR event"
-          # To compare which files are changed, we need a git ref base
-          if [[ "${GITHUB_REF}" == 'refs/heads/main' ]]; then
-            echo "Github ref is main"
+          # For PRs, we'll find changes compared to the target branch
+          echo "This is a PR event targeting branch: ${PR_BASE_REF}"
+
+          # For PR events, always compare against the PR base branch when available
+          if [[ "${{ github.event_name }}" == "pull_request" && -n "${PR_BASE}" ]]; then
+            echo "Using PR base SHA for comparison: ${PR_BASE}"
+            BASE="${PR_BASE}"
+          elif [[ "${GITHUB_REF}" == 'refs/heads/main' ]]; then
+            echo "Github ref is main (not a PR)"
             if [[ -n "${BEFORE}" ]]; then
               BASE="${BEFORE}"
             else
@@ -62,8 +64,8 @@ jobs:
               BASE="HEAD^"
             fi
           else
-            # Find good common ancestor. This makes diff show only changes on current branch and not upstream changes
-            echo "Github ref is not main. Finding ancestor for base(${PR_BASE}) and head(${PR_HEAD})"
+            # Fallback to ancestor detection for other cases
+            echo "Using fallback comparison method"
             if [[ -n "${PR_BASE}" && -n "${PR_HEAD}" ]]; then
               BASE="$(git merge-base ${PR_BASE} ${PR_HEAD} 2>/dev/null || echo 'HEAD^')"
             else
@@ -71,7 +73,8 @@ jobs:
               BASE="HEAD^"
             fi
           fi
-          echo "SHA for base: ${BASE}, head ${PR_HEAD}, pr base: ${PR_BASE}"
+
+          echo "SHA for base: ${BASE}, head: ${PR_HEAD}"
 
           CHANGED_DIRS=""
           for DIR in $DIRECTORIES; do
@@ -106,7 +109,7 @@ jobs:
       REGISTRY_USERNAME: ${{ github.actor }}
       REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     with:
-      registry: ghcr.io/mojaloop/iac-modules
+      registry: ghcr.io/${{ github.repository_owner }}
       component: ${{ matrix.directory }}
       release_name: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
       packages_dir: crossplane-packages
