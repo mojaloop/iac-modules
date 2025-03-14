@@ -399,7 +399,7 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
           aws_access_key_id: {{.username}}
           aws_secret_access_key: {{.password}}
@@ -440,7 +440,7 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
           aws_access_key_id: {{.username}}
           aws_secret_access_key: {{.password}}
@@ -481,7 +481,7 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
           aws_access_key_id: {{.username}}
           aws_secret_access_key: {{.password}}
@@ -522,7 +522,7 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
           aws_access_key_id: {{.username}}
           aws_secret_access_key: {{.password}}
@@ -563,7 +563,7 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
           aws_access_key_id: {{.username}}
           aws_secret_access_key: {{.password}}
@@ -604,7 +604,7 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
           aws_access_key_id: {{.username}}
           aws_secret_access_key: {{.password}}
@@ -645,7 +645,7 @@ spec:
 #         connection: |
 #           provider: AWS
 #           # Specify the region
-#           region: us-east-1
+#           region: ${ARGOCD_ENV_cloud_region}
 #           # Specify access/secret keys
 #           aws_access_key_id: {{.username}}
 #           aws_secret_access_key: {{.password}}
@@ -686,7 +686,7 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
           aws_access_key_id: {{.username}}
           aws_secret_access_key: {{.password}}
@@ -730,7 +730,7 @@ spec:
            v4auth: true
            regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
            pathstyle: true
-           region: us-east-1
+           region: ${ARGOCD_ENV_cloud_region}
            accesskey: {{.username}}
            secretkey: {{.password}}
 ---
@@ -764,7 +764,7 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
           aws_access_key_id: {{.username}}
           aws_secret_access_key: {{.password}}
@@ -805,7 +805,7 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
           aws_access_key_id: {{.username}}
           aws_secret_access_key: {{.password}}
