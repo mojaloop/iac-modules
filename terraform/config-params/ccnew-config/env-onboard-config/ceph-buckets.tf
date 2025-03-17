@@ -1,4 +1,4 @@
-resource "kubernetes_namespace_v1" "env_namespace" {
+/*resource "kubernetes_namespace_v1" "env_namespace" {
   metadata {
     annotations = {
       name = var.env_name
@@ -103,4 +103,4 @@ resource "kubernetes_manifest" "objectbucketclaim_rook_ceph_ceph_bucket_percona"
       "storageClassName" = var.storage_class
     }
   }
-}
+}*/
