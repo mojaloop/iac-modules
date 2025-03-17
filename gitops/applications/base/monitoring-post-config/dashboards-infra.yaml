@@ -35,3 +35,36 @@ spec:
       dashboards: "grafana"
   url: "https://raw.githubusercontent.com/adinhodovic/argo-cd-mixin/refs/heads/main/dashboards_out/argo-cd-operational-overview.json"
 ---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: "netbird-management"
+spec:
+  folder: infra
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/assets/grafana-dashboards/netbird/management.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: "netbird-relay"
+spec:
+  folder: infra
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/assets/grafana-dashboards/netbird/relay.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: "netbird-signal"
+spec:
+  folder: infra
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/assets/grafana-dashboards/netbird/signal.json"
+---
