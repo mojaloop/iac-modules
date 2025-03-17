@@ -186,7 +186,7 @@ spec:
                             "Resource": ["%s",
                                          "%s/*" ]
 
-                        },
+                        }
                     ]
                 }
             variables:
