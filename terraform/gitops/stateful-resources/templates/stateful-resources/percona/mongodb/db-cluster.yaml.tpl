@@ -16,6 +16,7 @@ spec:
 #  unmanaged: false
   crVersion: ${cr_version}
   image: percona/percona-server-mongodb:${percona_server_mongodb_version}
+  allowUnsafeConfigurations: true
 #  tls:
 #    mode: preferTLS
 #    # 90 days in hours
