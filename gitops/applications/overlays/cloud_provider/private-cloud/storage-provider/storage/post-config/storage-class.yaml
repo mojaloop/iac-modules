@@ -26,7 +26,7 @@ allowVolumeExpansion: true
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: ${ARGOCD_ENV_block_storage_class_name}
+  name: ${ARGOCD_ENV_fs_storage_class_name}
 parameters:
   clusterID: rook-ceph
   csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
