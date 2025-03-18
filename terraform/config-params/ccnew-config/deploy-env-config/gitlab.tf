@@ -79,20 +79,20 @@ resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
 }
 
 # to be changed
-resource "gitlab_group_variable" "ceph_obj_store_gw_fqdn" {
+resource "gitlab_group_variable" "obj_store_gw_fqdn" {
   group             = data.gitlab_group.iac.id
-  key               = "CEPH_OBJECTSTORE_FQDN"
-  value             = var.ceph_obj_store_gw_fqdn
+  key               = "OBJECTSTORE_FQDN"
+  value             = var.obj_store_gw_fqdn
   protected         = true
   masked            = false
   environment_scope = "*"
 }
 
 # to be changed
-resource "gitlab_group_variable" "ceph_obj_store_gw_port" {
+resource "gitlab_group_variable" "obj_store_gw_port" {
   group             = data.gitlab_group.iac.id
-  key               = "CEPH_OBJECTSTORE_PORT"
-  value             = var.ceph_obj_store_gw_port
+  key               = "OBJECTSTORE_PORT"
+  value             = var.obj_store_gw_port
   protected         = true
   masked            = false
   environment_scope = "*"
