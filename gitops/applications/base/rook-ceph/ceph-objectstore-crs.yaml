@@ -21,3 +21,6 @@ spec:
     sslCertificateRef: objectstore-internal-tls
     instances: 1
     priorityClassName: system-cluster-critical
+    rgwCommandFlags:
+      debug_ms: "5"
+      debug_rgw: "5"
