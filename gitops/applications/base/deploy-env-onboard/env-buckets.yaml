@@ -12,12 +12,13 @@ metadata:
   name: "${ARGOCD_ENV_env_name}-loki-bucket"
   namespace: "${ARGOCD_ENV_env_name}"
 spec:
-  bucketName: "${ARGOCD_ENV_env_name}-loki"
-  bucketRegion: ${ARGOCD_ENV_cloud_region}
-  forceDestroy: true
-  deletionPolicy: "Delete"
-  providerConfigName: "aws-cp-upbound-provider-config"
-  destinationNamespace:  ${ARGOCD_ENV_env_name}
+  parameters:
+    bucketName: "${ARGOCD_ENV_env_name}-loki"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_env_name}
 ---
 apiVersion: infitx.org/v1alpha1
 kind: S3BucketClaim
@@ -25,12 +26,13 @@ metadata:
   name: "${ARGOCD_ENV_env_name}-tempo-bucket"
   namespace: "${ARGOCD_ENV_env_name}"
 spec:
-  bucketName: "${ARGOCD_ENV_env_name}-tempo"
-  bucketRegion: ${ARGOCD_ENV_cloud_region}
-  forceDestroy: true
-  deletionPolicy: "Delete"
-  providerConfigName: "aws-cp-upbound-provider-config"
-  destinationNamespace:  ${ARGOCD_ENV_env_name}
+  parameters:
+    bucketName: "${ARGOCD_ENV_env_name}-tempo"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_env_name}
 ---
 apiVersion: infitx.org/v1alpha1
 kind: S3BucketClaim
@@ -38,12 +40,13 @@ metadata:
   name: "${ARGOCD_ENV_env_name}-velero-bucket"
   namespace: "${ARGOCD_ENV_env_name}"
 spec:
-  bucketName: "${ARGOCD_ENV_env_name}-velero"
-  bucketRegion: ${ARGOCD_ENV_cloud_region}
-  forceDestroy: true
-  deletionPolicy: "Delete"
-  providerConfigName: "aws-cp-upbound-provider-config"
-  destinationNamespace:  ${ARGOCD_ENV_env_name}
+  parameters:
+    bucketName: "${ARGOCD_ENV_env_name}-velero"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_env_name}
 ---
 apiVersion: infitx.org/v1alpha1
 kind: S3BucketClaim
@@ -51,9 +54,10 @@ metadata:
   name: "${ARGOCD_ENV_env_name}-percona-bucket"
   namespace: "${ARGOCD_ENV_env_name}"
 spec:
-  bucketName: "${ARGOCD_ENV_env_name}-percona"
-  bucketRegion: ${ARGOCD_ENV_cloud_region}
-  forceDestroy: true
-  deletionPolicy: "Delete"
-  providerConfigName: "aws-cp-upbound-provider-config"
-  destinationNamespace:  ${ARGOCD_ENV_env_name}
+  parameters:
+    bucketName: "${ARGOCD_ENV_env_name}-percona"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_env_name}
