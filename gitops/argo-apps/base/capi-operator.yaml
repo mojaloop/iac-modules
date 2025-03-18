@@ -40,4 +40,4 @@ spec:
           value: "${ARGOCD_ENV_utils_capi_capi_operator_version}"
 
         - name: "capi_cluster_namespace"
-          value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"    
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"

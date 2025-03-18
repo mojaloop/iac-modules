@@ -6,4 +6,4 @@ helmCharts:
     namespace: ${ARGOCD_ENV_capi_cluster_namespace}
     version:  ${ARGOCD_ENV_capi_operator_version}
     repo: https://kubernetes-sigs.github.io/cluster-api-operator
-    valuesFile: cluster-operator-values.yaml
+    valuesFile: cluster-api-operator-values.yaml
