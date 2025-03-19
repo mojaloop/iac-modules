@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: rook-ceph-external-config
-  namespace: rook-ceph
+  namespace: ${ARGOCD_ENV_storage_namespace}
 spec:
   template:
     spec:
@@ -29,7 +29,7 @@ spec:
             - -c
             - |
               # Additional env vars
-              NAMESPACE="rook-ceph"
+              NAMESPACE="${ARGOCD_ENV_storage_namespace}"
               KUBECTL="kubectl"
               RGW_EXTERNAL_IP=$(cat /tmp/rgw-secret/RGW_EXTERNAL_IP)
               RGW_EXTERNAL_PORT=$(cat /tmp/rgw-secret/RGW_EXTERNAL_PORT)
@@ -135,7 +135,7 @@ spec:
                 --rgw-endpoint $RGW_ENDPOINT \
                 --cephfs-data-pool-name ceph-filesystem-data0 \
                 --skip-monitoring-endpoint \
-                --namespace rook-ceph --format bash > /data/ceph_env
+                --namespace ${ARGOCD_ENV_storage_namespace} --format bash > /data/ceph_env
           imagePullPolicy: IfNotPresent
           tty: true
           securityContext:
@@ -148,7 +148,7 @@ spec:
             - name: ROOK_CEPH_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: rook-ceph-mon
+                  name: "${ARGOCD_ENV_storage_namespace}-mon"
                   key: ceph-username
           volumeMounts:
             - mountPath: /etc/ceph
@@ -166,14 +166,14 @@ spec:
       volumes:
         - name: ceph-admin-secret
           secret:
-            secretName: rook-ceph-mon
+            secretName: "${ARGOCD_ENV_storage_namespace}-mon"
             optional: false
             items:
               - key: ceph-secret
                 path: secret.keyring
         - name: mon-endpoint-volume
           configMap:
-            name: rook-ceph-mon-endpoints
+            name: "${ARGOCD_ENV_storage_namespace}-mon-endpoints"
             items:
               - key: data
                 path: mon-endpoints

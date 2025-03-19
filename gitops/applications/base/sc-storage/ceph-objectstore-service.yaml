@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: rook-rgw-external
-  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+  name: storage-rgw-external
+  namespace: ${ARGOCD_ENV_storage_namespace}
   annotations:
     metallb.universe.tf/address-pool: production
   labels:
-    app: rook-ceph-rgw
-    rook_cluster: rook-ceph
+    app: "${ARGOCD_ENV_storage_namespace}-rgw"
+    rook_cluster: ${ARGOCD_ENV_storage_namespace}
     rook_object_store: ceph-objectstore
 spec:
   ports:
@@ -16,9 +16,8 @@ spec:
       protocol: TCP
       targetPort: 8080
   selector:
-    app: rook-ceph-rgw
-    rook_cluster: rook-ceph
+    app: "${ARGOCD_ENV_storage_namespace}-rgw"
+    rook_cluster: ${ARGOCD_ENV_storage_namespace}
     rook_object_store: ceph-objectstore
   sessionAffinity: None
   type: LoadBalancer
-  #type: NodePort
