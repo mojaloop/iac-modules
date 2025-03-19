@@ -1,5 +1,5 @@
 apiVersion: infitx.org/v1alpha1
-kind: SecretSyncer
+kind: SecretSyncerGoTmpl
 metadata:
   name: secrettest
   namespace: default

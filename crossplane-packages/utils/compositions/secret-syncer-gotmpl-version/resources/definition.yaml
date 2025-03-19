@@ -1,16 +1,16 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: xsecretsyncer.infitx.org
+  name: xsecretsyncergotmpl.infitx.org
 spec:
   defaultCompositeDeletePolicy: Foreground
   group: infitx.org
   names:
-    kind: XSecretSyncer
-    plural: xsecretsyncer
+    kind: XSecretSyncerGoTmpl
+    plural: xsecretsyncergotmpl
   claimNames:
-    kind: SecretSyncer
-    plural: secretsyncer
+    kind: SecretSyncerGoTmpl
+    plural: secretsyncergotmpl
   versions:
   - name: v1alpha1
     served: true
