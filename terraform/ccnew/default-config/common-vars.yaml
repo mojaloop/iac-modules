@@ -304,8 +304,8 @@ capi_cluster_storage_name: "pve-sdb"
 # env_common_platform db settings
 env_common_platform_postgres_rdbms_provider: "private-dbaas"
 #env_common_platform db rds specific
-env_common_platform_rds_engine: "aurora-postgresql"
-env_common_platform_rds_engine_version: "'16'"
+env_common_platform_rds_engine: "aurora-mysql"
+env_common_platform_rds_engine_version: "8.0.mysql_aurora.3.04.0"
 env_common_platform_rds_replica_count: "'1'"
 env_common_platform_rds_instance_class: "db.t3.medium"
 env_common_platform_rds_storage_encrypted: "'true'"
@@ -326,8 +326,8 @@ env_common_platform_perc_pgdb_helm_version: "2.4.0"
 # env_common_mojaloop db settings
 env_common_mojaloop_postgres_rdbms_provider: "private-dbaas"
 #env_common_mojaloop db rds specific
-env_common_mojaloop_rds_engine: "aurora-postgresql"
-env_common_mojaloop_rds_engine_version: "'16'"
+env_common_mojaloop_rds_engine: "aurora-mysql"
+env_common_mojaloop_rds_engine_version: "8.0.mysql_aurora.3.04.0"
 env_common_mojaloop_rds_replica_count: "'1'"
 env_common_mojaloop_rds_instance_class: "db.t3.medium"
 env_common_mojaloop_rds_storage_encrypted: "'true'"
