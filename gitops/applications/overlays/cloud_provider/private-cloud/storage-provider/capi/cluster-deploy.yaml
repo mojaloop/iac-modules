@@ -609,7 +609,7 @@ spec:
               hs.status = "Progressing"
               hs.message = "Waiting for CephObjectStore"
               return hs
-              
+
           external-secrets.io/ExternalSecret:
             health.lua: |
               local hs = {}
@@ -808,7 +808,7 @@ spec:
               end
 
               return health_status
-          
+
 
       params:
         server.insecure: true
@@ -907,9 +907,6 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 999
-          envFrom:
-            - configMapRef:
-                name: plugin-env-vars
           volumeMounts:
             - mountPath: /var/run/argocd
               name: var-files
@@ -935,9 +932,6 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 999
-          envFrom:
-            - configMapRef:
-                name: plugin-env-vars
           volumeMounts:
             - mountPath: /var/run/argocd
               name: var-files
