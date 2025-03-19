@@ -11,7 +11,7 @@ resource "vault_kv_secret_v2" "loki_bucket_access_key_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = data.kubernetes_secret_v1.loki_bucket.data.username
+      value = try(data.kubernetes_secret_v1.loki_bucket.data.username, "")
     }
   )
 }
@@ -22,7 +22,7 @@ resource "vault_kv_secret_v2" "loki_bucket_secret_key_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = data.kubernetes_secret_v1.loki_bucket.data.password
+      value = try(data.kubernetes_secret_v1.loki_bucket.data.password, "")
     }
   )
 }
@@ -41,7 +41,7 @@ resource "vault_kv_secret_v2" "tempo_bucket_access_key_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = data.kubernetes_secret_v1.tempo_bucket.data.username
+      value = try(data.kubernetes_secret_v1.tempo_bucket.data.username, "")
     }
   )
 }
@@ -52,7 +52,7 @@ resource "vault_kv_secret_v2" "tempo_bucket_secret_key_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = data.kubernetes_secret_v1.tempo_bucket.data.password
+      value = try(data.kubernetes_secret_v1.tempo_bucket.data.password, "")
     }
   )
 }
@@ -71,7 +71,7 @@ resource "vault_kv_secret_v2" "velero_bucket_access_key_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = data.kubernetes_secret_v1.velero_bucket.data.username
+      value = try(data.kubernetes_secret_v1.velero_bucket.data.username, "")
     }
   )
 }
@@ -82,7 +82,7 @@ resource "vault_kv_secret_v2" "velero_bucket_secret_key_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = data.kubernetes_secret_v1.velero_bucket.data.password
+      value = try(data.kubernetes_secret_v1.velero_bucket.data.password, "")
     }
   )
 }
@@ -100,7 +100,7 @@ resource "vault_kv_secret_v2" "percona_bucket_access_key_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = data.kubernetes_secret_v1.percona_bucket.data.username
+      value = try(data.kubernetes_secret_v1.percona_bucket.data.username, "")
     }
   )
 }
@@ -111,7 +111,7 @@ resource "vault_kv_secret_v2" "percona_bucket_secret_key_id" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = data.kubernetes_secret_v1.percona_bucket.data.password
+      value = try(data.kubernetes_secret_v1.percona_bucket.data.password, "")
     }
   )
 }
