@@ -39,5 +39,8 @@ spec:
         - name: "storage_namespace"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
 
+        - name: "ext_storage_namespace"
+          value: "${ARGOCD_ENV_utils_storage_namespace}"
+
         - name: "rook_ceph_image_version"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_image_version}"
