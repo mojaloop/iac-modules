@@ -40,7 +40,7 @@ spec:
           value: "${ARGOCD_ENV_utils_storage_aws_provider_ebs_csi_driver_helm_version}"
 
         - name: "kubelet_dir_path"
-          value: "${ARGOCD_ENV_utils_storage_aws_provider_csi_kubelet_dir_path}"
+          value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_csi_kubelet_dir_path}"
 
         - name: "csi_driver_replicas"
           value: "${ARGOCD_ENV_utils_storage_aws_provider_csi_driver_replicas}"
