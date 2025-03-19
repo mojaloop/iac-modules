@@ -20,7 +20,7 @@ spec:
         maxDuration: 3m0s
         factor: 2
     syncOptions:
-      - CreateNamespace=false
+      - CreateNamespace=true
       - PrunePropagationPolicy=foreground
       - PruneLast=true
   destination:
