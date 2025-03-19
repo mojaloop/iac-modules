@@ -5,7 +5,7 @@ resources:
   # utils
   - ../../../base/argocd-helm.yaml
   - ../../../base/storage.yaml
-  #- ../../../base/storage-post-config.yaml
+  - ../../../base/storage-post-config.yaml
   - ../../../base/external-secrets.yaml
   - ../../../base/reflector.yaml
   - ../../../base/reloader.yaml
