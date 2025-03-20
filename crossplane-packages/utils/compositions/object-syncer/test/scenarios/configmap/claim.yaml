@@ -1,16 +1,17 @@
 apiVersion: infitx.org/v1alpha1
-kind: SecretSyncer
+kind: ObjectSyncer
 metadata:
-  name: example-secret-syncer-claim
+  name: example-configmap-syncer-claim
   namespace: testa
 spec:
   parameters:
+    objectType: ConfigMap
     source:
       namespace: testa
-      name: example-secret
+      name: example-configmap
     destination:
       namespace: testb
-      name: example-secret
+      name: example-configmap
   providerConfigsRef:
     sourceK8sProviderName: kubernetes-provider
     destinationK8sProviderName: kubernetes-provider

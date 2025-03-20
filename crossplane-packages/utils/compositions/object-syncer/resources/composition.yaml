@@ -1,13 +1,13 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: secretsyncer
+  name: objectsyncer
   labels:
-    crossplane.io/xrd: xsecretsyncer.infitx.org
+    crossplane.io/xrd: xobjectsyncer.infitx.org
 spec:
   compositeTypeRef:
     apiVersion: infitx.org/v1alpha1
-    kind: SecretSyncer
+    kind: ObjectSyncer
   mode: Pipeline
   pipeline:
 
