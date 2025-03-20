@@ -115,39 +115,3 @@ resource "vault_kv_secret_v2" "percona_bucket_secret_key_id" {
     }
   )
 }
-
-data "gitlab_project" "env" {
-  path_with_namespace = "iac/${var.env_name}"
-}
-
-resource "gitlab_project_variable" "ceph_loki_bucket" {
-  project   = data.gitlab_project.env.id
-  key       = "ceph_loki_bucket"
-  value     = "${var.env_name}-loki"
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "ceph_tempo_bucket" {
-  project   = data.gitlab_project.env.id
-  key       = "ceph_tempo_bucket"
-  value     = "${var.env_name}-tempo"
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "ceph_velero_bucket" {
-  project   = data.gitlab_project.env.id
-  key       = "ceph_velero_bucket"
-  value     = "${var.env_name}-velero"
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "ceph_percona_bucket" {
-  project   = data.gitlab_project.env.id
-  key       = "ceph_percona_bucket"
-  value     = "${var.env_name}-percona"
-  protected = false
-  masked    = false
-}
