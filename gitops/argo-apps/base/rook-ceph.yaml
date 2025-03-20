@@ -50,7 +50,7 @@ spec:
               cpu: 50m
               memory: 64Mi
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-      targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+      targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
       path: gitops/applications/base/rook-ceph
       plugin:
         name: envsubst
@@ -65,7 +65,7 @@ spec:
             value: "${ARGOCD_ENV_utils_rook_ceph_rgw_log_level}"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-      targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+      targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
       path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_dynamic_secret_platform}/rook-ceph-cluster/${ARGOCD_ENV_utils_rook_ceph_volumes_provider}
       plugin:
         name: envsubst
