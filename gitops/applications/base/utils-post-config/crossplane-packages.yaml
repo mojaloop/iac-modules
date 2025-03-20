@@ -3,4 +3,4 @@ kind: Configuration
 metadata:
   name: utils
 spec:
-  package: ghcr.io/mojaloop/iac-modules/xplane-packages/utils:${ARGOCD_ENV_crossplane_packages_utils_version}
+  package: ghcr.io/mojaloop/iac-modules/xplane-packages/utils:v${ARGOCD_ENV_crossplane_packages_utils_version}
