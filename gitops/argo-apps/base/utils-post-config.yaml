@@ -52,7 +52,7 @@ spec:
           value: "${ARGOCD_ENV_utils_rook_ceph_namespace}"
 
         - name: "aws_crossplane_module_version"
-          value: "${ARGOCD_ENV_utils_post_config_aws_crossplane_module_version}"          
+          value: "${ARGOCD_ENV_utils_post_config_aws_crossplane_module_version}"
 
         - name: "crossplane_func_pat_version"
           value: "${ARGOCD_ENV_utils_post_config_crossplane_func_pat_version}"
@@ -62,3 +62,9 @@ spec:
 
         - name: "crossplane_func_go_templating_version"
           value: "${ARGOCD_ENV_utils_post_config_crossplane_func_go_templating_version}"
+
+        - name: "crossplane_func_kcl_version"
+          value: "${ARGOCD_ENV_utils_post_config_crossplane_func_kcl_version}"
+
+        - name: "crossplane_packages_utils_version"
+          value: "${ARGOCD_ENV_crossplane_packages_utils_version}"
