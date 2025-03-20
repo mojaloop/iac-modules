@@ -41,3 +41,15 @@ provisioner: "${ARGOCD_ENV_storage_namespace}.cephfs.csi.ceph.com"
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: bucket
+parameters:
+  objectStoreName: external-store
+  objectStoreNamespace: ${ARGOCD_ENV_storage_namespace}
+  region: us-east-1
+provisioner: "${ARGOCD_ENV_storage_namespace}.ceph.rook.io/bucket"
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
