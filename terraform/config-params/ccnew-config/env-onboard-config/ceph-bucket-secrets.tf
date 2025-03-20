@@ -115,3 +115,7 @@ resource "vault_kv_secret_v2" "percona_bucket_secret_key_id" {
     }
   )
 }
+
+data "gitlab_project" "env" {
+  path_with_namespace = "iac/${var.env_name}"
+}
