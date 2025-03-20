@@ -1,0 +1,81 @@
+toolbox:
+  enabled: true
+monitoring:
+  enabled: false
+  interval: 60s
+
+cephClusterSpec:
+  dataDirHostPath: /var/lib/rook
+  dashboard:
+    enabled: true
+    # prometheusEndpoint: http://central-monitoring-grafana-mimir-gateway.monitoring.svc.cluster.local/prometheus
+    # prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
+  network:
+    provider: host
+    connections:
+      encryption:
+        enabled: false
+      compression:
+        enabled: false
+
+resources:
+  storage:
+    useAllNodes: true
+    useAllDevices: true
+
+cephBlockPools:
+  - name: ceph-blockpool
+    spec:
+      failureDomain: host
+      replicated:
+        size: ${ARGOCD_ENV_rook_ceph_rbd_pool_size}
+    storageClass:
+      enabled: true
+      name: ceph-block
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      volumeBindingMode: "Immediate"
+      imageFormat: "2"
+
+cephObjectStores:
+  - name: ceph-objectstore
+    spec:
+      metadataPool:
+        failureDomain: host
+        replicated:
+          size: 3
+      dataPool:
+        failureDomain: host
+        erasureCoded:
+          dataChunks: 2
+          codingChunks: 1
+        parameters:
+          bulk: "true"
+      preservePoolsOnDelete: true
+      gateway:
+        hostNetwork: false
+        port: 80
+        resources:
+          limits:
+            memory: "2Gi"
+        #          requests:
+        #            cpu: "1000m"
+        #            memory: "1Gi"
+        #securePort: 443
+        #sslCertificateRef: objectstore-internal-tls
+        instances: 1
+        priorityClassName: system-cluster-critical
+    storageClass:
+      enabled: true
+      name: ceph-bucket
+      reclaimPolicy: Delete
+      volumeBindingMode: "Immediate"
+      annotations: {}
+      labels: {}
+      # see https://github.com/rook/rook/blob/master/Documentation/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim.md#storageclass for available configuration
+      parameters:
+        # note: objectStoreNamespace and objectStoreName are configured by the chart
+        region: us-east-1
+    ingress:
+      enabled: false

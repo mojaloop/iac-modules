@@ -1,148 +1,316 @@
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
-metadata:
-  name: git-lfs
-  namespace: ${ARGOCD_ENV_gitlab_namespace}
-spec:
-  bucketName: git-lfs
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_git_lfs_max_objects}"
-    maxSize: "${ARGOCD_ENV_git_lfs_storage_size}"
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: git-lfs
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: git-lfs
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_git_lfs_max_objects}"
+#     maxSize: "${ARGOCD_ENV_git_lfs_storage_size}"
+# ---
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: gitlab-artifacts
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: gitlab-artifacts
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_artifacts_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_artifacts_storage_size}"
+# ---
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: gitlab-uploads
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: gitlab-uploads
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_uploads_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_uploads_storage_size}"
+# ---
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: gitlab-packages
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: gitlab-packages
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_packages_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_packages_storage_size}"
+# ---
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: registry
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: registry
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_registry_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_registry_storage_size}"
+# ---
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: gitlab-mr-diffs
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: gitlab-mr-diffs
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_mrdiffs_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_mrdiffs_storage_size}"
+# ---
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: gitlab-terraform-state
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: gitlab-terraform-state
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_tfstate_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_tfstate_storage_size}"
+# ---
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: gitlab-ci-secure-files
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: gitlab-ci-secure-files
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_cisecurefiles_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_cisecurefiles_storage_size}"
+#---
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: gitlab-dependency-proxy
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: gitlab-dependency-proxy
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_dep_proxy_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_dep_proxy_storage_size}"
+# ---
+#   apiVersion: objectbucket.io/v1alpha1
+#   kind: ObjectBucketClaim
+#   metadata:
+#     name: gitlab-runner-cache
+#     namespace: ${ARGOCD_ENV_gitlab_namespace}
+#   spec:
+#     bucketName: gitlab-runner-cache
+#     storageClassName: ceph-bucket
+#     additionalConfig:
+#       maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
+#       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
-metadata:
-  name: gitlab-artifacts
-  namespace: ${ARGOCD_ENV_gitlab_namespace}
-spec:
-  bucketName: gitlab-artifacts
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_artifacts_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_artifacts_storage_size}"
+# # change the env vars
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: gitlab-backups
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: gitlab-backups
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+# ---
+# # change the env vars
+# apiVersion: objectbucket.io/v1alpha1
+# kind: ObjectBucketClaim
+# metadata:
+#   name: gitlab-backups-tmp
+#   namespace: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   bucketName: gitlab-backups-tmp
+#   storageClassName: ceph-bucket
+#   additionalConfig:
+#     maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
+#     maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: gitlab-uploads
+  name: "git-lfs-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: gitlab-uploads
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_uploads_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_uploads_storage_size}"
+  parameters:
+    bucketName: "git-lfs-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: gitlab-packages
+  name: "gitlab-artifacts-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: gitlab-packages
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_packages_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_packages_storage_size}"
+  parameters:
+    bucketName: "gitlab-artifacts-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: registry
+  name: "gitlab-uploads-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: registry
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_registry_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_registry_storage_size}"
+  parameters:
+    bucketName: "gitlab-uploads-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: gitlab-mr-diffs
+  name: "gitlab-packages-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: gitlab-mr-diffs
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_mrdiffs_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_mrdiffs_storage_size}"
+  parameters:
+    bucketName: "gitlab-packages-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: gitlab-terraform-state
+  name: "registry-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: gitlab-terraform-state
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_tfstate_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_tfstate_storage_size}"
+  parameters:
+    bucketName: "registry-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: gitlab-ci-secure-files
+  name: "gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: gitlab-ci-secure-files
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_cisecurefiles_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_cisecurefiles_storage_size}"
+  parameters:
+    bucketName: "gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: gitlab-dependency-proxy
+  name: "gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: gitlab-dependency-proxy
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_dep_proxy_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_dep_proxy_storage_size}"
+  parameters:
+    bucketName: "gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: gitlab-runner-cache
+  name: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: gitlab-runner-cache
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+  parameters:
+    bucketName: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
-# change the env vars
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: gitlab-backups
+  name: "gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: gitlab-backups
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+  parameters:
+    bucketName: "gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
-# change the env vars
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
 metadata:
-  name: gitlab-backups-tmp
+  name: "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  bucketName: gitlab-backups-tmp
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
-    maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+  parameters:
+    bucketName: "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+---
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
+metadata:
+  name: "gitlab-backups-${ARGOCD_ENV_cluster_name}"
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  parameters:
+    bucketName: "gitlab-backups-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+---
+apiVersion: infitx.org/v1alpha1
+kind: S3BucketClaim
+metadata:
+  name: "gitlab-backups-tmp-${ARGOCD_ENV_cluster_name}"
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  parameters:
+    bucketName: "gitlab-backups-tmp-${ARGOCD_ENV_cluster_name}"
+    bucketRegion: ${ARGOCD_ENV_cloud_region}
+    forceDestroy: true
+    deletionPolicy: "Delete"
+    providerConfigName: "aws-cp-upbound-provider-config"
+    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -214,14 +382,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: git-lfs
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: "git-lfs-${ARGOCD_ENV_cluster_name}"
+        property: username
+    - secretKey: password
       remoteRef:
-        key: git-lfs
-        property: AWS_SECRET_ACCESS_KEY
+        key: "git-lfs-${ARGOCD_ENV_cluster_name}"
+        property: password
 
   target:
     name: gitlab-rails-secret-lfs
@@ -231,15 +399,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -255,14 +423,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-artifacts
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-artifacts-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-artifacts
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-artifacts-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-rails-secret-artifacts
@@ -272,15 +440,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -296,14 +464,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-uploads
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-uploads-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-uploads
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-uploads-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-rails-secret-uploads
@@ -313,15 +481,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -337,14 +505,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-packages
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-packages-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-packages
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-packages-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-rails-secret-packages
@@ -354,15 +522,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -378,14 +546,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-mr-diffs
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-mr-diffs
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-rails-secret-mr-diffs
@@ -395,15 +563,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -419,14 +587,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-ci-secure-files
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-ci-secure-files
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-rails-secret-ci-secure-files
@@ -436,15 +604,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -460,14 +628,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-terraform-state
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-terraform-state-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-terraform-state
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-terraform-state-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-rails-secret-terraform-state
@@ -477,15 +645,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -501,14 +669,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-dependency-proxy
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-dependency-proxy
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-rails-secret-dependency-proxy
@@ -518,15 +686,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -542,14 +710,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: registry
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: registry-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: registry
-        property: AWS_SECRET_ACCESS_KEY
+        key: registry-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-secret-registry
@@ -558,13 +726,13 @@ spec:
       data:
         connection: |
           s3:
-           bucket: registry
+           bucket: registry-${ARGOCD_ENV_cluster_name}
            v4auth: true
-           regionendpoint: "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
-           pathstyle: true
-           region: us-east-1
-           accesskey: {{.AWS_ACCESS_KEY_ID}}
-           secretkey: {{.AWS_SECRET_ACCESS_KEY}}
+           pathstyle: false
+           region: ${ARGOCD_ENV_cloud_region}
+           regionendpoint: "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+           accesskey: {{.username}}
+           secretkey: {{.password}}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -579,14 +747,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-backups
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-backups-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-backups
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-backups-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-rails-secret-backups
@@ -596,15 +764,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -620,14 +788,14 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-backups-tmp
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-backups-tmp-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-backups-tmp
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-backups-tmp-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-rails-secret-backups-tmp
@@ -637,15 +805,15 @@ spec:
         connection: |
           provider: AWS
           # Specify the region
-          region: us-east-1
+          region: ${ARGOCD_ENV_cloud_region}
           # Specify access/secret keys
-          aws_access_key_id: {{.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: {{.AWS_SECRET_ACCESS_KEY}}
+          aws_access_key_id: {{.username}}
+          aws_secret_access_key: {{.password}}
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
-          endpoint:  "http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
+          host: ${ARGOCD_ENV_object_storage_endpoint}
+          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -661,19 +829,19 @@ spec:
     name: gitlab-k8s-secret-store
 
   data:
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: username
       remoteRef:
-        key: gitlab-runner-cache
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
+        key: gitlab-runner-cache-${ARGOCD_ENV_cluster_name}
+        property: username
+    - secretKey: password
       remoteRef:
-        key: gitlab-runner-cache
-        property: AWS_SECRET_ACCESS_KEY
+        key: gitlab-runner-cache-${ARGOCD_ENV_cluster_name}
+        property: password
 
   target:
     name: gitlab-runner-cache-secret
     creationPolicy: Owner
     template:
       data:
-        accesskey: "{{.AWS_ACCESS_KEY_ID}}"
-        secretkey: "{{.AWS_SECRET_ACCESS_KEY}}"
+        accesskey: "{{.username}}"
+        secretkey: "{{.password}}"

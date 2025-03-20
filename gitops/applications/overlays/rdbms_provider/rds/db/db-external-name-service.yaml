@@ -13,7 +13,7 @@ spec:
       metadata:
         namespace: "${ARGOCD_ENV_namespace}"
   providerConfigRef:
-    name: ${ARGOCD_ENV_dbdeploy_name_prefix}-kubernetes-provider
+    name: kubernetes-provider
   references:
     - patchesFrom:
         apiVersion: rds.aws.crossplane.io/v1alpha1

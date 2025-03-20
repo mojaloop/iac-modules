@@ -1,0 +1,309 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "30"
+  labels:
+    crossplane.io/xrd: awss3bucket.infitx.org
+  name: awss3bucket-composition
+spec:
+  compositeTypeRef:
+    apiVersion: infitx.org/v1alpha1
+    kind: S3Bucket
+  mode: Pipeline
+  pipeline:
+  - functionRef:
+      name: function-patch-and-transform
+    input:
+      apiVersion: pt.fn.crossplane.io/v1beta1
+      kind: Resources
+      patchSets:
+      - name: common
+        patches:
+        - fromFieldPath: spec.parameters.bucketName
+          toFieldPath: metadata.name
+          type: FromCompositeFieldPath
+        - fromFieldPath: spec.parameters.providerConfigName
+          toFieldPath: spec.providerConfigRef.name
+          type: FromCompositeFieldPath
+      resources:
+      - base:
+          apiVersion: s3.aws.upbound.io/v1beta1
+          kind: Bucket
+          spec:
+            deletionPolicy: Orphan
+        name: bucket
+        patches:
+        - patchSetName: common
+          type: PatchSet
+        - fromFieldPath: spec.parameters.bucketRegion
+          toFieldPath: spec.forProvider.region
+          type: FromCompositeFieldPath
+        - fromFieldPath: status.atProvider.arn
+          toFieldPath: status.bucketARN
+          type: ToCompositeFieldPath
+        - fromFieldPath: spec.parameters.forceDestroy
+          toFieldPath: spec.forProvider.forceDestroy
+          type: FromCompositeFieldPath
+        - fromFieldPath: spec.parameters.deletionPolicy
+          toFieldPath: spec.deletionPolicy
+          type: FromCompositeFieldPath
+      - base:
+          apiVersion: s3.aws.upbound.io/v1beta1
+          kind: BucketACL
+          spec:
+            forProvider:
+              acl: private
+        name: bucketAcl
+        patches:
+        - patchSetName: common
+          type: PatchSet
+        - fromFieldPath: spec.parameters.bucketRegion
+          toFieldPath: spec.forProvider.region
+          type: FromCompositeFieldPath
+        - fromFieldPath: spec.parameters.bucketName
+          toFieldPath: spec.forProvider.bucket
+          type: FromCompositeFieldPath
+      - base:
+          apiVersion: s3.aws.upbound.io/v1beta1
+          kind: BucketOwnershipControls
+          spec:
+            forProvider:
+              rule:
+              - objectOwnership: BucketOwnerPreferred
+        name: bucketOwnershipControls
+        patches:
+        - patchSetName: common
+          type: PatchSet
+        - fromFieldPath: spec.parameters.bucketRegion
+          toFieldPath: spec.forProvider.region
+          type: FromCompositeFieldPath
+        - fromFieldPath: spec.parameters.bucketName
+          toFieldPath: spec.forProvider.bucket
+          type: FromCompositeFieldPath
+      - base:
+          apiVersion: s3.aws.upbound.io/v1beta1
+          kind: BucketPolicy
+        name: bucket-policy
+        patches:
+        - patchSetName: common
+          type: PatchSet
+        - fromFieldPath: spec.parameters.bucketName
+          toFieldPath: spec.forProvider.bucket
+          type: FromCompositeFieldPath
+        - fromFieldPath: spec.parameters.bucketRegion
+          toFieldPath: spec.forProvider.region
+          type: FromCompositeFieldPath
+        - combine:
+            strategy: string
+            string:
+              fmt: |
+                {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "ListObjectsInBucket",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": ["s3:ListBucket"],
+                            "Resource": ["%s"]
+                        },
+                        {
+                            "Sid": "AllowGetObject",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:GetObject",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        },
+                        {
+                            "Sid": "AllowDeleteObject",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:DeleteObject",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+                        },
+                        {
+                            "Sid": "AllowPutObject",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:PutObject",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        },
+                        {
+                            "Sid": "AllowAbortMultipartUpload",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:AbortMultipartUpload",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        },
+                        {
+                            "Sid": "AllowListMultipartUploadParts",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:ListMultipartUploadParts",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        },
+                        {
+                            "Sid": "AllowListBucketMultipartUploads",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:ListBucketMultipartUploads",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        },
+                        {
+                            "Sid": "AllowPutObjectAcl",
+                            "Principal":{
+                                "AWS":"%s"
+                            },
+                            "Effect": "Allow",
+                            "Action": "s3:PutObjectAcl",
+                            "Resource": ["%s",
+                                         "%s/*" ]
+
+                        }
+                    ]
+                }
+            variables:
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.iamUserARN
+            - fromFieldPath: status.bucketARN
+            - fromFieldPath: status.bucketARN
+          toFieldPath: spec.forProvider.policy
+          type: CombineFromComposite
+      - base:
+          apiVersion: iam.aws.upbound.io/v1beta1
+          kind: User
+          spec:
+            forProvider:
+              forceDestroy: true
+        name: iam-user
+        patches:
+        - patchSetName: common
+          type: PatchSet
+        - fromFieldPath: status.atProvider.arn
+          toFieldPath: status.iamUserARN
+          type: ToCompositeFieldPath
+        - fromFieldPath: status.atProvider.id
+          toFieldPath: status.iamUserId
+          type: ToCompositeFieldPath
+      - base:
+          apiVersion: iam.aws.upbound.io/v1beta1
+          kind: AccessKey
+        name: iam-user-access-key
+        patches:
+        - patchSetName: common
+          type: PatchSet
+        - fromFieldPath: spec.parameters.bucketName
+          toFieldPath: spec.forProvider.user
+          type: FromCompositeFieldPath
+        - combine:
+            strategy: string
+            string:
+              fmt: '%s'
+            variables:
+            - fromFieldPath: spec.parameters.bucketName
+          toFieldPath: spec.writeConnectionSecretToRef.name
+          type: CombineFromComposite
+        - fromFieldPath: spec.parameters.destinationNamespace
+          toFieldPath: spec.writeConnectionSecretToRef.namespace
+          type: FromCompositeFieldPath
+      - base:
+          apiVersion: kubernetes.crossplane.io/v1alpha1
+          kind: Object
+          spec:
+            forProvider:
+              manifest:
+                apiVersion: v1
+                kind: Secret
+            managementPolicy: Observe
+            providerConfigRef:
+              name: kubernetes-provider
+        name: s3-written-config-observe
+        patches:
+        - combine:
+            strategy: string
+            string:
+              fmt: '%s'
+            variables:
+            - fromFieldPath: spec.parameters.bucketName
+          toFieldPath: metadata.name
+          type: CombineFromComposite
+        - combine:
+            strategy: string
+            string:
+              fmt: '%s'
+            variables:
+            - fromFieldPath: spec.parameters.bucketName
+          toFieldPath: spec.forProvider.manifest.metadata.name
+          type: CombineFromComposite
+        - fromFieldPath: spec.parameters.destinationNamespace
+          toFieldPath: spec.forProvider.manifest.metadata.namespace
+          type: FromCompositeFieldPath
+        - fromFieldPath: status.atProvider.manifest.data.username
+          toFieldPath: status.accessKeyIDEncoded
+          type: ToCompositeFieldPath
+        - fromFieldPath: status.atProvider.manifest.data.password
+          toFieldPath: status.secretAccessKeyEncoded
+          type: ToCompositeFieldPath
+        - fromFieldPath: status.atProvider.manifest.data.username
+          toFieldPath: status.accessKeyID
+          transforms:
+          - string:
+              convert: FromBase64
+              type: Convert
+            type: string
+          type: ToCompositeFieldPath
+        - fromFieldPath: status.atProvider.manifest.data.password
+          toFieldPath: status.secretAccessKey
+          transforms:
+          - string:
+              convert: FromBase64
+              type: Convert
+            type: string
+          type: ToCompositeFieldPath
+    step: patch-and-transform

@@ -18,12 +18,10 @@ argocd_override:
           cloud_pv_reclaim_policy: "${rook_ceph_cloud_pv_reclaim_policy}"
           osd_count: "${rook_ceph_osd_count}"
           volume_size_per_osd: "${rook_ceph_volume_size_per_osd}"
-          csi_driver_replicas: "${rook_ceph_csi_driver_replicas}"
           objects_replica_count: "${rook_ceph_objects_replica_count}"
           volumes_provider: "${rook_ceph_volumes_provider}"
           volumes_storage_region: "${cloud_region}"
           cluster_domain: "${cluster_domain}"
-          aws_ebs_csi_driver_helm_version: "${rook_ceph_aws_ebs_csi_driver_helm_version}"
         reflector:
           helm_version: "${reflector_helm_version}"
         reloader:
@@ -59,6 +57,8 @@ argocd_override:
           aws_crossplane_module_version:  "${aws_crossplane_module_version}"
           crossplane_func_pat_version: "${crossplane_func_pat_version}"
           k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
+          aws_s3_crossplane_module_version: "${aws_s3_crossplane_module_version}"
+          aws_iam_crossplane_module_version: "${aws_iam_crossplane_module_version}"
           crossplane_func_go_templating_version: "${crossplane_func_go_templating_version}"
           crossplane_func_kcl_version: "${crossplane_func_kcl_version}"
           crossplane_packages_utils_version: "${crossplane_packages_utils_version}"
@@ -73,6 +73,24 @@ argocd_override:
           capi_cluster_proxmox_worker_cpu: "${capi_cluster_proxmox_worker_cpu}"
           capi_cluster_proxmox_worker_memory: "${capi_cluster_proxmox_worker_memory}"
           capi_cluster_proxmox_worker_replicas: "${capi_cluster_proxmox_worker_replicas}"
+          capi_cluster_storage_name: "${capi_cluster_storage_name}"
+          capi_rook_ceph_helm_version: "${rook_ceph_helm_version}"
+          capi_rook_ceph_image_version: "${rook_ceph_image_version}"
+          capi_rook_ceph_rbd_pool_replication_size: "${rook_ceph_objects_replica_count}"
+          cloud_provider: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
+        storage:
+          cloud_provider: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
+          cluster_domain: "${cluster_domain}"
+          object_storage_endpoint: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "" }"
+          object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "" }"
+        storage_aws_provider:
+          ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
+          csi_driver_replicas: "${aws_ebs_csi_driver_replicas}"
+        storage_private_cloud_provider:
+          helm_version: "${rook_ceph_helm_version}"
+          image_version: "${rook_ceph_image_version}"
+          csi_kubelet_dir_path: "${rook_csi_kubelet_dir_path}"
+
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -218,8 +236,11 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           gitaly_storage_size: "${gitaly_storage_size}"
           gitlab_token_ttl: "${gitlab_token_ttl_days}"
+
         pre:
           #  object storage bucket configuration
+          object_storage_region: "${cloud_region}"
+          object_storage_provider: "${object_storage_provider}"
           gitlab_artifacts_max_objects: "${gitlab_artifacts_max_objects}"
           gitlab_artifacts_storage_size: "${gitlab_artifacts_storage_size}"
           git_lfs_max_objects: "${git_lfs_max_objects}"
@@ -300,6 +321,48 @@ argocd_override:
           env_token_ttl: "${env_token_ttl}"
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
+        onboard_common_platform_db_percona_provider:
+          postgres_replicas: "${env_common_platform_perc_postgres_replicas}"
+          postgres_proxy_replicas: "${env_common_platform_perc_postgres_proxy_replicas}"
+          postgres_storage_size: "${env_common_platform_perc_postgres_storage_size}"
+          pgdb_helm_version: "${env_common_platform_perc_pgdb_helm_version}"
+        onboard_common_platform_db_rds_provider:
+          engine: "${env_common_platform_rds_engine}"
+          engine_version: "${env_common_platform_rds_engine_version}"
+          replica_count: "${env_common_platform_rds_replica_count}"
+          postgres_instance_class: "${env_common_platform_rds_instance_class}"
+          storage_encrypted: "${env_common_platform_rds_storage_encrypted}"
+          skip_final_snapshot: "${env_common_platform_rds_skip_final_snapshot}"
+          rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
+          db_provider_cloud_region: "${cloud_region}"
+          rdbms_vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
+          postgres_storage_size: "${env_common_platform_rds_postgres_storage_size}"
+          backup_retention_period: "${env_common_platform_db_backup_retention_period}"
+          preferred_backup_window: "${env_common_platform_db_preferred_backup_window}"
+          storage_type: "${env_common_platform_rds_storage_type}"
+          storage_iops: "${env_common_platform_rds_storage_iops}"
+        onboard_common_mojaloop_db_percona_provider:
+          postgres_replicas: "${env_common_platform_perc_postgres_replicas}"
+          postgres_proxy_replicas: "${env_common_platform_perc_postgres_proxy_replicas}"
+          postgres_storage_size: "${env_common_platform_perc_postgres_storage_size}"
+          pgdb_helm_version: "${env_common_platform_perc_pgdb_helm_version}"
+        onboard_common_mojaloop_db_rds_provider:
+          engine: "${env_common_platform_rds_engine}"
+          engine_version: "${env_common_platform_rds_engine_version}"
+          replica_count: "${env_common_platform_rds_replica_count}"
+          postgres_instance_class: "${env_common_platform_rds_instance_class}"
+          storage_encrypted: "${env_common_platform_rds_storage_encrypted}"
+          skip_final_snapshot: "${env_common_platform_rds_skip_final_snapshot}"
+          rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
+          db_provider_cloud_region: "${cloud_region}"
+          rdbms_vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
+          postgres_storage_size: "${env_common_platform_rds_postgres_storage_size}"
+          backup_retention_period: "${env_common_platform_db_backup_retention_period}"
+          preferred_backup_window: "${env_common_platform_db_preferred_backup_window}"
+          storage_type: "${env_common_platform_rds_storage_type}"
+          storage_iops: "${env_common_platform_rds_storage_iops}"
 
 
     monitoring:

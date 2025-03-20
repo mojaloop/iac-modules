@@ -61,3 +61,4 @@ managed_svc_as_monolith: false
 manage_parent_domain: true
 block_storage_provider: ebs
 object_storage_provider: s3
+mediated_by_control_center: true

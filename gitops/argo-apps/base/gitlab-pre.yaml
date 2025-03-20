@@ -188,6 +188,22 @@ spec:
 
           - name: "praefect_dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_dbdeploy_name_prefix}"
+
+          - name: "cloud_region"
+            value: "${ARGOCD_ENV_gitlab_pre_object_storage_region}"
+
+          - name: "object_storage_provider"
+            value: "${ARGOCD_ENV_gitlab_pre_object_storage_provider}"
+
+          - name: "storage_namespace"
+            value: "${ARGOCD_ENV_utils_storage_namespace}"
+
+          - name: "object_storage_endpoint"
+            value: "${ARGOCD_ENV_utils_storage_object_storage_endpoint}"
+
+          - name: "object_storage_regional_endpoint"
+            value: "${ARGOCD_ENV_utils_storage_object_storage_regional_endpoint}"
+
     #main gitlab db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
@@ -223,13 +239,13 @@ spec:
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_postgres_storage_size}"
 
           - name: "pgdb_helm_version"
-            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_pgdb_helm_version}"            
+            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_pgdb_helm_version}"
 
           - name: "rds_postgres_storage_size"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_postgres_storage_size}"
 
           - name: "rds_engine"
-            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_engine}"             
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_engine}"
 
           - name: "rds_instance_class"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_postgres_instance_class}"
@@ -238,13 +254,13 @@ spec:
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_encrypted}"
 
           - name: "rds_engine_version"
-            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_engine_version}" 
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_engine_version}"
 
           - name: "rds_replica_count"
-            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_replica_count}"                              
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_replica_count}"
 
           - name: "rds_skip_final_snapshot"
-            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_skip_final_snapshot}" 
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_skip_final_snapshot}"
 
           - name: "rds_vpc_id"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_rdbms_vpc_id}"
@@ -280,7 +296,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_type}"
 
           - name: "db_storage_iops"
-            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_iops}"  
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_iops}"
 
           - name: "externalservice_name"
             value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_externalservice_name}"
@@ -295,10 +311,10 @@ spec:
             value: "${ARGOCD_ENV_argocd_repo_url}"
 
           - name: "capi_cluster_name"
-            value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"                        
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"
 
           - name: "capi_cluster_namespace"
-            value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"                                   
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
 
     #praefect db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
@@ -335,13 +351,13 @@ spec:
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_postgres_storage_size}"
 
           - name: "pgdb_helm_version"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_pgdb_helm_version}"            
+            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_pgdb_helm_version}"
 
           - name: "rds_postgres_storage_size"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_postgres_storage_size}"
 
           - name: "rds_engine"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_engine}"             
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_engine}"
 
           - name: "rds_instance_class"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_postgres_instance_class}"
@@ -350,13 +366,13 @@ spec:
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_storage_encrypted}"
 
           - name: "rds_engine_version"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_engine_version}" 
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_engine_version}"
 
           - name: "rds_replica_count"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_replica_count}"                           
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_replica_count}"
 
           - name: "rds_skip_final_snapshot"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_skip_final_snapshot}"    
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_skip_final_snapshot}"
 
           - name: "rds_vpc_id"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_rdbms_vpc_id}"
@@ -407,7 +423,18 @@ spec:
             value: "${ARGOCD_ENV_argocd_repo_url}"
 
           - name: "capi_cluster_name"
-            value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"                        
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"
 
           - name: "capi_cluster_namespace"
-            value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"                                
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+      path: gitops/applications/overlays/object_storage_provider/${ARGOCD_ENV_gitlab_pre_object_storage_provider}/gitlab-pre
+      plugin:
+        name: envsubst
+        env:
+          - name: "storage_namespace"
+            value: "${ARGOCD_ENV_utils_storage_namespace}"
+
+          - name: "cloud_region"
+            value: "${ARGOCD_ENV_gitlab_pre_object_storage_region}"

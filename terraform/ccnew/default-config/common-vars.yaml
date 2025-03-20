@@ -52,6 +52,8 @@ ansible_crossplane_modules_version: "0.6.0"
 aws_crossplane_module_version: "0.49.2"
 crossplane_func_pat_version: "0.2.1"
 k8s_crossplane_module_version: "0.11.4"
+aws_s3_crossplane_module_version: "1.21.0"
+aws_iam_crossplane_module_version: "1.21.0"
 crossplane_func_go_templating_version: "0.8.0"
 crossplane_func_kcl_version: "0.11.2"
 crossplane_packages_utils_version: "498-13954340193-1"
@@ -96,7 +98,6 @@ grafana_operator_version: "4.4.12"
 grafana_image_version: 11.1.1
 prometheus_pvc_size: 50Gi
 prometheus_retention_period: 10d
-
 
 # Metrics server
 metrics_server_helm_version: 3.12.2
@@ -282,20 +283,66 @@ zitadel_perc_pgdb_helm_version: "2.4.0"
 zitadel_perc_postgres_storage_size: "20Gi"
 # end of zitadel db settins
 # rook ceph
-rook_ceph_helm_version: "1.15.5"
-rook_ceph_image_version: "v18.2.4"
+rook_ceph_helm_version: "1.16.3"
+rook_ceph_image_version: "v19.2.1"
 rook_ceph_mon_volumes_size: "10Gi"
 rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
 rook_ceph_cloud_pv_reclaim_policy: "Delete" # Retain, Delete
-rook_ceph_csi_driver_replicas: "'2'"
+aws_ebs_csi_driver_replicas: "'2'"
 rook_ceph_objects_replica_count: "'3'"
 rook_ceph_osd_count: "'3'"
 rook_ceph_volume_size_per_osd: "500Gi"
 rook_ceph_volumes_provider: "pvc" # host, pvc
-rook_ceph_aws_ebs_csi_driver_helm_version: "2.39.0"
+aws_ebs_csi_driver_helm_version: "2.39.0"
 ##capi
 capi_infra_provider_version: "0.4.5"
 capi_cluster_proxmox_worker_cpu: "'8'"
 capi_cluster_proxmox_worker_memory: "'16384'"
 capi_cluster_proxmox_worker_replicas: "'3'"
+capi_cluster_storage_name: "pve-sdb"
+##end capi
+
+# env_common_platform db settings
+env_common_platform_postgres_rdbms_provider: "private-dbaas"
+#env_common_platform db rds specific
+env_common_platform_rds_engine: "aurora-mysql"
+env_common_platform_rds_engine_version: "8.0.mysql_aurora.3.04.0"
+env_common_platform_rds_replica_count: "'1'"
+env_common_platform_rds_instance_class: "db.t3.medium"
+env_common_platform_rds_storage_encrypted: "'true'"
+env_common_platform_rds_skip_final_snapshot: "'true'"
+env_common_platform_rds_postgres_storage_size: "'100'"
+env_common_platform_rds_storage_type: "io1"
+env_common_platform_rds_storage_iops: "'5000'"
+#env_common_platform db backup settings
+env_common_platform_db_backup_retention_period: "'1'"
+env_common_platform_db_preferred_backup_window: "07:00-09:00"
+#env_common_platform db percona specific
+env_common_platform_perc_postgres_replicas: "'1'"
+env_common_platform_perc_postgres_proxy_replicas: "'1'"
+env_common_platform_perc_postgres_storage_size: "10Gi"
+env_common_platform_perc_pgdb_helm_version: "2.4.0"
+## end of env_common_platform db settings
+
+# env_common_mojaloop db settings
+env_common_mojaloop_postgres_rdbms_provider: "private-dbaas"
+#env_common_mojaloop db rds specific
+env_common_mojaloop_rds_engine: "aurora-mysql"
+env_common_mojaloop_rds_engine_version: "8.0.mysql_aurora.3.04.0"
+env_common_mojaloop_rds_replica_count: "'1'"
+env_common_mojaloop_rds_instance_class: "db.t3.medium"
+env_common_mojaloop_rds_storage_encrypted: "'true'"
+env_common_mojaloop_rds_skip_final_snapshot: "'true'"
+env_common_mojaloop_rds_postgres_storage_size: "'100'"
+env_common_mojaloop_rds_storage_type: "io1"
+env_common_mojaloop_rds_storage_iops: "'5000'"
+#env_common_mojaloop db backup settings
+env_common_mojaloop_db_backup_retention_period: "'1'"
+env_common_mojaloop_db_preferred_backup_window: "07:00-09:00"
+#env_common_mojaloop db percona specific
+env_common_mojaloop_perc_postgres_replicas: "'1'"
+env_common_mojaloop_perc_postgres_proxy_replicas: "'1'"
+env_common_mojaloop_perc_postgres_storage_size: "10Gi"
+env_common_mojaloop_perc_pgdb_helm_version: "2.4.0"
+## end of env_common_platform db settings

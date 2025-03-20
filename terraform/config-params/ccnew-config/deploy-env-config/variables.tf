@@ -22,11 +22,11 @@ variable "nexus_docker_repo_listening_port" {
   default     = 443
 }
 
-variable "ceph_obj_store_gw_fqdn" {
+variable "obj_store_gw_fqdn" {
   description = "fqdn for ceph object storage gw"
 }
 
-variable "ceph_obj_store_gw_port" {
+variable "obj_store_gw_port" {
   description = "port for ceph object storage gw"
   default     = 443
 }
@@ -84,5 +84,5 @@ variable "cc_cidr_block" {
 
 variable "env_token_ttl" {
   type        = string
-  description = "time to live for the env token"  
+  description = "time to live for the env token"
 }

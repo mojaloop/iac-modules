@@ -24,7 +24,7 @@ spec:
         - fromFieldPath: metadata.annotations
           toFieldPath: metadata.annotations
         - fromFieldPath: metadata.labels
-          toFieldPath: metadata.labels          
+          toFieldPath: metadata.labels
         - fromFieldPath: spec.id
           toFieldPath: metadata.name
       resources:
@@ -38,7 +38,7 @@ spec:
               region: temp-placeholder
               subnetIds: []
             providerConfigRef:
-              name: crossplane-provider-config
+              name: aws-crossplane-provider-config
         patches:
         - type: PatchSet
           patchSetName: metadata
@@ -67,7 +67,7 @@ spec:
               - key: Name
                 value: db-security-group
             providerConfigRef:
-              name: crossplane-provider-config
+              name: aws-crossplane-provider-config
         patches:
         - type: PatchSet
           patchSetName: metadata
@@ -111,7 +111,7 @@ spec:
                 key: password
                 name: secretName
             providerConfigRef:
-              name: crossplane-provider-config
+              name: aws-crossplane-provider-config
             writeConnectionSecretToRef:
               namespace: dbnamespace
               name: dbsecret
@@ -134,7 +134,7 @@ spec:
           toFieldPath: spec.forProvider.allocatedStorage
         - fromFieldPath: spec.parameters.storageType
           toFieldPath: spec.forProvider.storageType
-        - fromFieldPath: spec.parameters.storageIops          
+        - fromFieldPath: spec.parameters.storageIops
           toFieldPath: spec.forProvider.iops
         - fromFieldPath: spec.parameters.backupRetentionPeriod
           toFieldPath: spec.forProvider.backupRetentionPeriod

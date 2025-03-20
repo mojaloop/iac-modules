@@ -27,7 +27,7 @@ dependency "k8s_deploy" {
     object_storage_cloud_role   = "null"
     object_storage_bucket_name  = "null"
     private_subnets             = ["null"]
-    vpc_id                      = "null"  
+    vpc_id                      = "null"
     target_group_internal_https_port = 0
     target_group_internal_http_port = 0
     target_group_internal_health_port = 0
@@ -82,7 +82,7 @@ inputs = {
     enable_rook_disk_reset = true
     rook_disk_vol = try(local.env_vars.rook_disk_vol, "none")
   } : {})
-  bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps) 
+  bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps)
   bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml.tpl", merge({
     nexus_ansible_collection_tag      =  local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     netbird_ansible_collection_tag    = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
@@ -114,6 +114,8 @@ inputs = {
     capi_cluster_proxmox_user         = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_user, "")
     capi_cluster_proxmox_password     = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_password, "")
     capi_cluster_proxmox_url          = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_api_url, "")
+    cloud_platform                    = get_env("cloud_platform")
+    object_storage_provider           = get_env("object_storage_provider")
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps

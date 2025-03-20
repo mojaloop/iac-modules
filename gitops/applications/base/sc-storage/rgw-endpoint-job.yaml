@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: export-rgw-endpoint
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: ceph-job-sa
+      containers:
+        - name: export-rgw-endpoint
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              RGW_EXTERNAL_IP=$(kubectl get svc rook-rgw-external -n ${ARGOCD_ENV_rook_ceph_namespace} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+              RGW_EXTERNAL_PORT=$(kubectl get svc rook-rgw-external -n ${ARGOCD_ENV_rook_ceph_namespace} -o jsonpath='{.spec.ports[0].port}')
+              RGW_ENDPOINT="$RGW_EXTERNAL_IP:$RGW_EXTERNAL_PORT"
+              kubectl delete secret rgw-endpoint -n ${ARGOCD_ENV_rook_ceph_namespace} --ignore-not-found
+              kubectl create secret generic rgw-endpoint -n ${ARGOCD_ENV_rook_ceph_namespace} \
+                --from-literal=RGW_EXTERNAL_IP=$RGW_EXTERNAL_IP \
+                --from-literal=RGW_EXTERNAL_PORT=$RGW_EXTERNAL_PORT \
+                --from-literal=RGW_ENDPOINT=$RGW_ENDPOINT

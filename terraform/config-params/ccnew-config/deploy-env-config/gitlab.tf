@@ -12,6 +12,42 @@ resource "gitlab_project" "envs" {
   shared_runners_enabled = true
 }
 
+resource "gitlab_project_variable" "ceph_loki_bucket" {
+  for_each  = local.environment_list
+  project   = gitlab_project.envs[each.key].id
+  key       = "ceph_loki_bucket"
+  value     = "${each.value}-loki"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "ceph_tempo_bucket" {
+  for_each  = local.environment_list
+  project   = gitlab_project.envs[each.key].id
+  key       = "ceph_tempo_bucket"
+  value     = "${each.value}-tempo"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "ceph_velero_bucket" {
+  for_each  = local.environment_list
+  project   = gitlab_project.envs[each.key].id
+  key       = "ceph_velero_bucket"
+  value     = "${each.value}-velero"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "ceph_percona_bucket" {
+  for_each  = local.environment_list
+  project   = gitlab_project.envs[each.key].id
+  key       = "ceph_percona_bucket"
+  value     = "${each.value}-percona"
+  protected = false
+  masked    = false
+}
+
 resource "gitlab_project_access_token" "envs" {
   for_each     = local.environment_list
   project      = gitlab_project.envs[each.key].id
@@ -79,20 +115,20 @@ resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
 }
 
 # to be changed
-resource "gitlab_group_variable" "ceph_obj_store_gw_fqdn" {
+resource "gitlab_group_variable" "obj_store_gw_fqdn" {
   group             = data.gitlab_group.iac.id
-  key               = "CEPH_OBJECTSTORE_FQDN"
-  value             = var.ceph_obj_store_gw_fqdn
+  key               = "OBJECTSTORE_FQDN"
+  value             = var.obj_store_gw_fqdn
   protected         = true
   masked            = false
   environment_scope = "*"
 }
 
 # to be changed
-resource "gitlab_group_variable" "ceph_obj_store_gw_port" {
+resource "gitlab_group_variable" "obj_store_gw_port" {
   group             = data.gitlab_group.iac.id
-  key               = "CEPH_OBJECTSTORE_PORT"
-  value             = var.ceph_obj_store_gw_port
+  key               = "OBJECTSTORE_PORT"
+  value             = var.obj_store_gw_port
   protected         = true
   masked            = false
   environment_scope = "*"
