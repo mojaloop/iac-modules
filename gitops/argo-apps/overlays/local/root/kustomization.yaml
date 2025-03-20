@@ -26,19 +26,19 @@ resources:
   - ../../../base/vault.yaml
   - ../../../base/vault-post-config.yaml
   # dns-utils
-  # - ../../../base/dns-utils.yaml
-  # - ../../../base/dns-utils-post-config.yaml
-  # - ../../../base/dns-utils-pre.yaml
+  - ../../../base/dns-utils.yaml
+  - ../../../base/dns-utils-post-config.yaml
+  - ../../../base/dns-utils-pre.yaml
   # maintenance (velero,etc)
   # - ../../../base/maintenance.yaml
   # - ../../../base/maintenance-pre.yaml
   # security
-  # - ../../../base/zitadel-pre.yaml
-  # - ../../../base/zitadel.yaml
-  # - ../../../base/zitadel-post-config.yaml
-  # - ../../../base/netbird-pre.yaml
-  # - ../../../base/netbird.yaml
-  # - ../../../base/netbird-post-config.yaml
+  - ../../../base/zitadel-pre.yaml
+  - ../../../base/zitadel.yaml
+  - ../../../base/zitadel-post-config.yaml
+  - ../../../base/netbird-pre.yaml
+  - ../../../base/netbird.yaml
+  - ../../../base/netbird-post-config.yaml
   # nexus
   # - ../../../base/nexus.yaml
   # - ../../../base/nexus-pre.yaml
