@@ -28,6 +28,7 @@ argocd_override:
           volumes_storage_region: "${cloud_region}"
           cluster_domain: "${cluster_domain}"
           aws_ebs_csi_driver_helm_version: "${rook_ceph_aws_ebs_csi_driver_helm_version}"
+          rgw_log_level: "${rook_ceph_rgw_log_level}"
         reflector:
           helm_version: "${reflector_helm_version}"
         reloader:
