@@ -80,6 +80,21 @@ spec:
                 --from-literal=args="$ARGS"
                 #--from-file=ARGS=/tmp/ceph-args.conf
 
+              # Create external objectstore
+              # cat <<eof | kubectl create -f -
+              # apiVersion: ceph.rook.io/v1
+              # kind: CephObjectStore
+              # metadata:
+              #   name: external-store
+              #   namespace: ${ARGOCD_ENV_ext_storage_namespace}
+              # spec:
+              #   gateway:
+              #     port: $RGW_EXTERNAL_PORT
+              #     instances: 1
+              #     externalRgwEndpoints:
+              #       - ip: $RGW_EXTERNAL_IP
+              # eof
+
               else
                 echo "Error: /data/ceph_env is empty!"
                 exit 1
