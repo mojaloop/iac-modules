@@ -69,7 +69,7 @@ resource "vault_kv_secret_v2" "common_platform_db_endpoint" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = try(data.kubernetes_service_v1.common_platform_db_service.spec.externalName, "")
+      value = try(data.kubernetes_service_v1.common_platform_db_service.spec.external_name, "")
     }
   )
 }
@@ -81,7 +81,7 @@ resource "vault_kv_secret_v2" "common_mojaloop_db_endpoint" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = try(data.kubernetes_service_v1.common_mojaloop_db_service.spec.externalName, "")
+      value = try(data.kubernetes_service_v1.common_mojaloop_db_service.spec.external_name, "")
     }
   )
 }
