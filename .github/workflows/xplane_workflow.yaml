@@ -38,7 +38,7 @@ jobs:
       CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
       CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}/xplane-packages
       SUBPATH: ${{ inputs.package }}
-      NEXT_VERSION: ${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
+      NEXT_VERSION: v${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
 
   release-package:
     uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feature/xplane-secret-syncer
