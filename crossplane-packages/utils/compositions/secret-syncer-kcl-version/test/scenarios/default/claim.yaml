@@ -1,7 +1,7 @@
 apiVersion: infitx.org/v1alpha1
 kind: SecretSyncer
 metadata:
-  name: example-secret-syncer
+  name: example-secret-syncer-claim
   namespace: testa
 spec:
   parameters:
