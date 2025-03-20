@@ -77,7 +77,7 @@ resource "vault_kv_secret_v2" "common_platform_db_endpoint" {
 
 resource "vault_kv_secret_v2" "common_mojaloop_db_endpoint" {
   mount               = var.kv_path
-  name                = "${var.env_name}/common_platform_db_endpoint"
+  name                = "${var.env_name}/common_mojaloop_db_endpoint"
   delete_all_versions = true
   data_json = jsonencode(
     {
