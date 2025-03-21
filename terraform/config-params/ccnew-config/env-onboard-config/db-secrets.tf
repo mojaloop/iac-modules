@@ -26,7 +26,7 @@ data "kubernetes_secret_v1" "common_mojaloop_db_secret" {
 
 resource "vault_kv_secret_v2" "common_platform_db_secret" {
   mount               = var.kv_path
-  name                = "${var.env_name}/common_platform_db_secret"
+  name                = "${var.env_name}/common_platform_db_password"
   delete_all_versions = true
   data_json = jsonencode(
     {
@@ -38,7 +38,7 @@ resource "vault_kv_secret_v2" "common_platform_db_secret" {
 
 resource "vault_kv_secret_v2" "common_mojaloop_db_secret" {
   mount               = var.kv_path
-  name                = "${var.env_name}/common_mojaloop_db_secret"
+  name                = "${var.env_name}/common_mojaloop_db_password"
   delete_all_versions = true
   data_json = jsonencode(
     {
@@ -65,7 +65,7 @@ data "kubernetes_service_v1" "common_mojaloop_db_service" {
 
 resource "vault_kv_secret_v2" "common_platform_db_endpoint" {
   mount               = var.kv_path
-  name                = "${var.env_name}/common_platform_db_endpoint"
+  name                = "${var.env_name}/common_platform_db_instance_address"
   delete_all_versions = true
   data_json = jsonencode(
     {
@@ -77,7 +77,7 @@ resource "vault_kv_secret_v2" "common_platform_db_endpoint" {
 
 resource "vault_kv_secret_v2" "common_mojaloop_db_endpoint" {
   mount               = var.kv_path
-  name                = "${var.env_name}/common_mojaloop_db_endpoint"
+  name                = "${var.env_name}/common_mojaloop_db_instance_address"
   delete_all_versions = true
   data_json = jsonencode(
     {
