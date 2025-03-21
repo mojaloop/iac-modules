@@ -72,7 +72,7 @@ module "mojaloop" {
   pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
   monolith_stateful_resources          = local.monolith_stateful_resources
   managed_svc_as_monolith              = var.managed_svc_as_monolith
-  storage_class_name                   = var.storage_class_name     
+  storage_class_name                   = var.storage_class_name
 }
 
 module "pm4ml" {
@@ -123,7 +123,7 @@ module "pm4ml" {
   pm4ml_values_override_file               = var.pm4ml_values_override_file
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
-  storage_class_name                       = var.storage_class_name     
+  storage_class_name                       = var.storage_class_name
 
 }
 
@@ -158,7 +158,7 @@ module "proxy_pm4ml" {
   proxy_values_override_file               = var.proxy_values_override_file
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
-  storage_class_name                       = var.storage_class_name     
+  storage_class_name                       = var.storage_class_name
 }
 
 module "vnext" {
@@ -219,8 +219,8 @@ module "vnext" {
   ceph_percona_backup_bucket           = data.gitlab_project_variable.ceph_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
   monolith_stateful_resources          = local.monolith_stateful_resources
-  managed_svc_as_monolith              = var.managed_svc_as_monolith
-  storage_class_name                   = var.storage_class_name     
+  managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
+  storage_class_name                   = var.storage_class_name
 }
 
 variable "app_var_map" {
@@ -375,7 +375,7 @@ locals {
   st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
   st_res_managed_vars           = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
   plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
-  monolith_stateful_resources   = var.managed_svc_as_monolith ? yamldecode(file(var.mojaloop_stateful_res_monolith_config_file)) : {}
+  monolith_stateful_resources   = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center ) ? yamldecode(file(var.mojaloop_stateful_res_monolith_config_file)) : {}
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
 }

@@ -158,6 +158,11 @@ variable "managed_svc_as_monolith" {
   default     = false
 }
 
+variable "db_mediated_by_control_center" {
+  type        = bool
+  default     = false
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
