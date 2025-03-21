@@ -48,8 +48,8 @@ locals {
   internal_databases = var.db_mediated_by_control_center ? { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" } : {}
 
   internal_db_secret_var_map = { for index, int_database in local.internal_databases : int_database.external_resource_config.password_key_name => random_password.db_user_password[index].result}
-  internal_db_properties_var_map = { for index, int_database in local.internal_databases : ( int_database.external_resource_config.instance_address_key_name =>
-        int_database.external_resource_config.monolith_db_server == "common-platform-db" ? data.vault_kv_secret_v2.common_platform_db_instance_address[0].data.value : data.vault_kv_secret_v2.common_mojaloop_db_instance_address[0].data.value )
+  internal_db_properties_var_map = { for index, int_database in local.internal_databases :  int_database.external_resource_config.instance_address_key_name =>
+        int_database.external_resource_config.monolith_db_server == "common-platform-db" ? data.vault_kv_secret_v2.common_platform_db_instance_address[0].data.value : data.vault_kv_secret_v2.common_mojaloop_db_instance_address[0].data.value
   }
 
   internal_db_secrets_key_map = { for index, int_database in var.internal_databases : int_database.external_resource_config.password_key_name => int_database.external_resource_config.password_key_name }
