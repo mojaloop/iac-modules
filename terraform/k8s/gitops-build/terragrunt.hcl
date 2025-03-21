@@ -58,7 +58,7 @@ inputs = {
   external_ingress_https_port              = dependency.k8s_deploy.outputs.target_group_external_https_port
   external_ingress_http_port               = dependency.k8s_deploy.outputs.target_group_external_http_port
   common_var_map                           = local.common_vars
-  app_var_map                              = merge(local.pm4ml_vars, local.proxy_pm4ml_vars, local.mojaloop_vars, local.vnext_vars)
+  app_var_map                              = merge(local.pm4ml_vars, local.proxy_pm4ml_vars, local.mojaloop_vars, local.vnext_vars, local.cluster_vars)
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
@@ -126,6 +126,7 @@ locals {
   proxy_pm4ml_vars              = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}", local.env_vars))
   mojaloop_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}", local.env_vars))
   vnext_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}", local.env_vars))
+  cluster_vars                  = {cluster = local.env_vars}
 
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
