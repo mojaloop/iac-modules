@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
   - rbac.yaml
   - crossplane-providers.yaml
+  - crossplane-packages.yaml
+  - crossplane-functions.yaml
 #  - rook-ceph-objectstore-exporter.yaml
 
 secretGenerator:
