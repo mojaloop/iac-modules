@@ -37,3 +37,8 @@ variable "platform_stateful_resources_config_file" {
 variable "managed_stateful_resources_config_file" {
   type = string
 }
+
+variable "db_mediated_by_control_center" {
+  type        = bool
+  default     = false
+}

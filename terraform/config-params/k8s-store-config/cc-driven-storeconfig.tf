@@ -1,5 +1,5 @@
 resource "random_password" "db_user_password" {
-  for_each         = var.internal_databases
+  for_each         = local.internal_databases
   length           = 30
   special          = true
   override_special = "_"
