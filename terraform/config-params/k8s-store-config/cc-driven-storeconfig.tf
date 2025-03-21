@@ -52,7 +52,7 @@ locals {
         int_database.external_resource_config.monolith_db_server == "common-platform-db" ? data.vault_kv_secret_v2.common_platform_db_instance_address[0].data.value : data.vault_kv_secret_v2.common_mojaloop_db_instance_address[0].data.value
   }
 
-  internal_db_secrets_key_map = { for index, int_database in var.internal_databases : int_database.external_resource_config.password_key_name => int_database.external_resource_config.password_key_name }
+  internal_db_secret_key_map = { for index, int_database in local.internal_databases : int_database.external_resource_config.password_key_name => int_database.external_resource_config.password_key_name }
 
   merged_secrets_key_map = merge(var.secrets_key_map, local.internal_db_secret_key_map)
   merged_secrets_var_map = merge(var.secrets_var_map, local.internal_db_secret_var_map)
