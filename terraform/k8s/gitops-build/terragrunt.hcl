@@ -108,7 +108,7 @@ inputs = {
   kubelet_dir_path                         = local.k8s_cluster_type == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
   aws_ebs_csi_driver_helm_version          = local.common_vars.aws_ebs_csi_driver_helm_version
   aws_ebs_csi_driver_replicas              = local.common_vars.aws_ebs_csi_driver_replicas
-  
+
 }
 
 locals {
@@ -164,7 +164,7 @@ locals {
   mig_transit_vault_unseal_key_name = "${get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")}-migrated"
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
   VAULT_ADDR                    = get_env("VAULT_ADDR")
-  ceph_fqdn                     = get_env("CEPH_OBJECTSTORE_FQDN")
+  ceph_fqdn                     = get_env("OBJECTSTORE_FQDN")
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
   migrate                       = get_env("migrate")
   argocd_ingress_internal_lb    = true
