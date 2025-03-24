@@ -30,8 +30,8 @@ resources:
   - ../../../base/dns-utils-post-config.yaml
   - ../../../base/dns-utils-pre.yaml
   # maintenance (velero,etc)
-  # - ../../../base/maintenance.yaml
-  # - ../../../base/maintenance-pre.yaml
+  - ../../../base/maintenance.yaml
+  - ../../../base/maintenance-pre.yaml
   # security
   - ../../../base/zitadel-pre.yaml
   - ../../../base/zitadel.yaml
@@ -48,7 +48,7 @@ resources:
   - ../../../base/gitlab.yaml
   - ../../../base/gitlab-post-config.yaml
   # deploy-env
-  # - ../../../base/deploy-env.yaml
+  - ../../../base/deploy-env.yaml
   # monitoring
   # - ../../../base/monitoring-pre.yaml
   # - ../../../base/monitoring.yaml
