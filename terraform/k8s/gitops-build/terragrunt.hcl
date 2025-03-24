@@ -108,6 +108,7 @@ inputs = {
   kubelet_dir_path                         = local.k8s_cluster_type == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
   aws_ebs_csi_driver_helm_version          = local.common_vars.aws_ebs_csi_driver_helm_version
   aws_ebs_csi_driver_replicas              = local.common_vars.aws_ebs_csi_driver_replicas
+  db_mediated_by_control_center            = local.db_mediated_by_control_center
 
 }
 
@@ -173,6 +174,7 @@ locals {
   managed_svc_as_monolith       = get_env("managed_svc_as_monolith")
   block_storage_provider        = get_env("block_storage_provider")
   k8s_cluster_type              = get_env("k8s_cluster_type")
+  db_mediated_by_control_center = get_env("db_mediated_by_control_center")
 }
 
 generate "required_providers_override" {
