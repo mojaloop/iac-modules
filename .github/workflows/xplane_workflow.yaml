@@ -43,7 +43,7 @@ jobs:
   release-package:
     uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feature/xplane-secret-syncer
     name: 🚀 Release Package
-    if: ${{ github.event_name == 'release' && github.event.action == 'published' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref_type == 'tag' }}
     secrets: inherit
     with:
       CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
