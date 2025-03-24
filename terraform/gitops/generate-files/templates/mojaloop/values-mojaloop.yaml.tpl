@@ -1093,6 +1093,12 @@ ml-testing-toolkit:
         password: *TTK_MONGO_PASSWORD
         secret: *TTK_MONGO_SECRET
         database: *TTK_MONGO_DATABASE
+# %{ if ttk_testcases_tag != "" }
+    config_files:
+      rules_callback__default.json: "https://github.com/mojaloop/testing-toolkit-test-cases/raw/v${ttk_testcases_tag}/rules/hub/rules_callback/default.json"
+      rules_response__default.json: "https://github.com/mojaloop/testing-toolkit-test-cases/raw/v${ttk_testcases_tag}/rules/hub/rules_response/default.json"
+      rules_validation__default.json: "https://github.com/mojaloop/testing-toolkit-test-cases/raw/v${ttk_testcases_tag}/rules/hub/rules_validation/default.json"
+# %{ endif }
     ingress:
 # %{ if istio_create_ingress_gateways }
       enabled: false
