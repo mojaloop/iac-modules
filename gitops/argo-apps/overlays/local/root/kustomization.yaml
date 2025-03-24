@@ -40,13 +40,13 @@ resources:
   - ../../../base/netbird.yaml
   - ../../../base/netbird-post-config.yaml
   # nexus
-  # - ../../../base/nexus.yaml
-  # - ../../../base/nexus-pre.yaml
-  # - ../../../base/nexus-post-config.yaml
+  - ../../../base/nexus.yaml
+  - ../../../base/nexus-pre.yaml
+  - ../../../base/nexus-post-config.yaml
   # gitlab
-  # - ../../../base/gitlab-pre.yaml
-  # - ../../../base/gitlab.yaml
-  # - ../../../base/gitlab-post-config.yaml
+  - ../../../base/gitlab-pre.yaml
+  - ../../../base/gitlab.yaml
+  - ../../../base/gitlab-post-config.yaml
   # deploy-env
   # - ../../../base/deploy-env.yaml
   # monitoring
@@ -54,4 +54,4 @@ resources:
   # - ../../../base/monitoring.yaml
   # - ../../../base/monitoring-post-config.yaml
   # k8s
-  # - ../../../base/k8s-post-config.yaml
+  - ../../../base/k8s-post-config.yaml

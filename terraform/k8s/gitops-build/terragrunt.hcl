@@ -108,8 +108,8 @@ inputs = {
   kubelet_dir_path                         = local.k8s_cluster_type == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
   aws_ebs_csi_driver_helm_version          = local.common_vars.aws_ebs_csi_driver_helm_version
   aws_ebs_csi_driver_replicas              = local.common_vars.aws_ebs_csi_driver_replicas
+  rook_ceph_helm_version                   = local.common_vars.rook_ceph_helm_version
   db_mediated_by_control_center            = local.db_mediated_by_control_center
-
 }
 
 locals {
