@@ -1,0 +1,52 @@
+name: 🚀 Crossplane Package Pipeline
+
+on:
+  workflow_call:
+    inputs:
+      package:
+        required: true
+        type: string
+        description: "Crossplane package to package and release"
+      registry:
+        required: true
+        type: string
+        description: "Container registry URL"
+      packages_dir:
+        required: true
+        type: string
+        description: "Directory containing Crossplane packages"
+      release_name:
+        required: false
+        type: string
+        description: "Release tag/version name"
+
+    secrets:
+      REGISTRY_USERNAME:
+        description: "Username for container registry to login"
+        required: true
+      REGISTRY_PASSWORD:
+        description: "Password for container registry to login"
+        required: true
+
+jobs:
+  pull-request-package:
+    uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@main
+    name: 🧪 PR Preview Package
+    if: ${{ github.ref_type != 'tag' && github.ref != 'refs/heads/main' }}
+    secrets: inherit
+    with:
+      CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
+      CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}/xplane-packages
+      SUBPATH: ${{ inputs.package }}
+      NEXT_VERSION: v${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+  release-package:
+    uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@main
+    name: 🚀 Release Package
+    if: ${{ github.ref_type == 'tag' }}
+    secrets: inherit
+    with:
+      CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
+      CROSSPLANE_REGISTRY_URL: ${{ inputs.registry }}/xplane-packages
+      SUBPATH: ${{ inputs.package }}
+      NEXT_VERSION: ${{ inputs.release_name }}
