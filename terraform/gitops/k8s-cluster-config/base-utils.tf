@@ -7,7 +7,7 @@ module "generate_reflector_files" {
     base_utils_namespace                   = var.base_utils_namespace
     base_utils_sync_wave                   = var.base_utils_sync_wave
     velero_chart_version                   = var.velero_chart_version
-    ceph_api_url                          = var.ceph_api_url
+    ceph_api_url                        = var.ceph_api_url
     velero_bucket_name                     = local.ceph_velero_bucket
     velero_credentials_id_provider_key     = "${var.cluster_name}/${local.velero_credentials_id_provider_key}"
     velero_credentials_secret_provider_key = "${var.cluster_name}/${local.velero_credentials_secret_provider_key}"

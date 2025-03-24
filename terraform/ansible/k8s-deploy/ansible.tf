@@ -1,8 +1,8 @@
-module "config_deepmerge" {
+/*module "config_deepmerge" {
   source  = "cloudposse/config/yaml//modules/deepmerge"
   version = "0.2.0"
   maps    = local.stateful_resources_config_vars_list
-}
+}*/
 
 resource "local_sensitive_file" "ansible_inventory" {
   content = templatefile(
@@ -73,7 +73,7 @@ resource "local_sensitive_file" "ec2_ssh_key" {
   file_permission = "0600"
 }
 
-data "gitlab_project_variable" "external_rds_stateful_resource_instance_address" {
+/*data "gitlab_project_variable" "external_rds_stateful_resource_instance_address" {
   for_each = local.managed_rds_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
@@ -83,7 +83,7 @@ data "gitlab_project_variable" "external_kafka_stateful_resource_instance_addres
   for_each = local.managed_kafka_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
-}
+}*/
 
 
 locals {
@@ -98,7 +98,7 @@ locals {
     kubeconfig_local_location = local.ansible_output_dir
   }
 
-  st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
+  /*st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
   plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
 
   stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
@@ -112,7 +112,7 @@ locals {
   external_rds_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_rds_stateful_resource_instance_address : address.key => address.value }
   external_kafka_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_kafka_stateful_resource_instance_address : address.key => address.value }
 
-  
-  managed_kafka_brokers_list  = { for key, service in local.managed_kafka_stateful_resources : key => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }
+
+  managed_kafka_brokers_list  = { for key, service in local.managed_kafka_stateful_resources : key => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }*/
 
 }
