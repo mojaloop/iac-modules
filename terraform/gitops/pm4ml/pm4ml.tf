@@ -113,7 +113,7 @@ module "generate_pm4ml_files" {
 
 resource "local_file" "proxy_values_override" {
   for_each   = [var.app_var_map, {}][local.pm4ml_override_values_file_exists ? 0 : 1]
-  content    = templatefile(var.pm4ml_values_override_file, each.value)
+  content    = templatefile(var.pm4ml_values_override_file, merge(each.value, { cluster = var.cluster}))
   filename   = "${var.output_dir}/${each.key}/values-pm4ml-override.yaml"
   depends_on = [module.generate_pm4ml_files]
 }
@@ -286,6 +286,10 @@ variable "portal_admin_secret_prefix" {
 
 variable "mcm_admin_secret_prefix" {
   type = string
+}
+
+variable "cluster" {
+  type = any
 }
 
 locals {

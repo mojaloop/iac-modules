@@ -115,6 +115,7 @@ module "pm4ml" {
   oathkeeper_auth_provider_name            = local.oathkeeper_auth_provider_name
   vault_root_ca_name                       = "pki-${var.cluster_name}"
   app_var_map                              = local.pm4ml_var_map
+  cluster                                  = local.cluster
   bof_release_name                         = local.bof_release_name
   role_assign_svc_user                     = var.role_assign_svc_user
   role_assign_svc_secret_prefix            = "role-assign-svc-secret-"
@@ -373,6 +374,7 @@ locals {
 
   pm4ml_var_map = try(var.app_var_map.pm4mls, {})
   proxy_pm4ml_var_map = try(var.app_var_map.proxy_pm4mls, {})
+  cluster = var.app_var_map.cluster
 
   st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
   st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
