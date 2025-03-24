@@ -110,6 +110,7 @@ inputs = {
   aws_ebs_csi_driver_replicas              = local.common_vars.aws_ebs_csi_driver_replicas
   rook_ceph_helm_version                   = local.common_vars.rook_ceph_helm_version
   db_mediated_by_control_center            = local.db_mediated_by_control_center
+  cloud_platform                           = get_env("cloud_platform")
 }
 
 locals {

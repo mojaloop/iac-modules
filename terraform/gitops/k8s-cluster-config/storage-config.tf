@@ -21,6 +21,7 @@ module "generate_storage_files" {
     rook_csi_cephfs_provisioner     = "${var.cluster_name}/rook_csi_cephfs_provisioner"
     rook_csi_rbd_node               = "${var.cluster_name}/rook_csi_rbd_node"
     rook_csi_rbd_provisioner        = "${var.cluster_name}/rook_csi_rbd_provisioner"
+    cloud_provider                  = var.cloud_platform
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
   template_path   = local.storage_template_path
@@ -70,4 +71,9 @@ variable "aws_ebs_csi_driver_replicas" {
 
 variable "rook_ceph_helm_version" {
   type        = string
+}
+
+variable "cloud_platform" {
+  type        = string
+  description = "cloud platform"
 }

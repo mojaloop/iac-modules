@@ -4,10 +4,6 @@ resources:
 %{ if cloud_provider == "aws" ~}
   - aws-ebs-access-cred-secret.yaml
 %{ endif ~}
-%{ if cloud_provider == "private-cloud" ~}
-  - rook-ceph-external-secrets.yaml
-  - rook-ceph-storage-class.yaml
-%{ endif ~}
 helmCharts:
 %{ if cloud_provider == "aws" ~}
   - name: aws-ebs-csi-driver
