@@ -6,10 +6,10 @@ loki:
       shared_store: s3
     limits_config:
       retention_period: ${loki_ingester_retention_period}
-    ingester: 
+    ingester:
       max_chunk_age: ${loki_ingester_max_chunk_age}
       lifecycler:
-        ring: 
+        ring:
           replication_factor: ${loki_ingester_replication_factor}
     query_scheduler:
       max_outstanding_requests_per_tenant: 2048
@@ -21,18 +21,18 @@ loki:
         schema: v11
         index:
           prefix: index_
-          period: 24h            
+          period: 24h
     storage_config:
       boltdb_shipper:
         shared_store: s3
       aws:
-        # s3 is alias for aws 
+        # s3 is alias for aws
         s3forcepathstyle: true
         endpoint: ${ceph_api_url}
         insecure: false
         access_key_id: $${CEPH_LOKI_USERNAME}
         secret_access_key: $${CEPH_LOKI_PASSWORD}
-        bucketnames: ${ceph_loki_bucket}      
+        bucketnames: ${loki_bucket}
 
 metrics:
   enabled: true
@@ -51,7 +51,7 @@ ingester:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"] 
+    values: ["enabled"]
 compactor:
   # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
   extraArgs: ["-config.expand-env"]
@@ -61,7 +61,7 @@ compactor:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]  
+    values: ["enabled"]
 distributor:
   replicaCount: ${loki_distributor_replica_count}
   extraArgs: ["-config.expand-env"]
@@ -70,7 +70,7 @@ distributor:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
-gateway:      
+gateway:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -129,12 +129,12 @@ memcachedindexqueries:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]    
+    values: ["enabled"]
 memcachedindexwrites:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]    
+    values: ["enabled"]
 
 
 
@@ -227,5 +227,5 @@ promtail:
             - __meta_kubernetes_pod_annotation_kubernetes_io_config_hash
             - __meta_kubernetes_pod_container_name
             target_label: __path__
-  tolerations:  
+  tolerations:
     - operator: "Exists"

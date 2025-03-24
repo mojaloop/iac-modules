@@ -104,7 +104,7 @@ tempo:
           forcepathstyle: true
           endpoint: ${ceph_api_url}
           insecure: false
-          bucket: ${ceph_tempo_bucket}     
+          bucket: ${tempo_bucket}
 
 
 compactor:
@@ -113,46 +113,46 @@ compactor:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]  
+    values: ["enabled"]
 distributor:
   extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]   
+    values: ["enabled"]
 ingester:
   resourcesPreset: large
   extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]   
+    values: ["enabled"]
 metricsGenerator:
   extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]   
+    values: ["enabled"]
 querier:
   resourcesPreset: small
   extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]   
+    values: ["enabled"]
 queryFrontend:
   extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]   
+    values: ["enabled"]
 vulture:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]   
+    values: ["enabled"]
 memcached:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]   
+    values: ["enabled"]

@@ -8,7 +8,7 @@ module "generate_reflector_files" {
     base_utils_sync_wave                   = var.base_utils_sync_wave
     velero_chart_version                   = var.velero_chart_version
     ceph_api_url                        = var.ceph_api_url
-    velero_bucket_name                     = local.ceph_velero_bucket
+    velero_bucket_name                     = local.velero_bucket
     velero_credentials_id_provider_key     = "${var.cluster_name}/${local.velero_credentials_id_provider_key}"
     velero_credentials_secret_provider_key = "${var.cluster_name}/${local.velero_credentials_secret_provider_key}"
     velero_credentials_secret              = "velero-s3-credentials"
@@ -26,7 +26,7 @@ module "generate_reflector_files" {
 locals {
   base_utils_template_path               = "${path.module}/../generate-files/templates/base-utils"
   base_utils_app_file                    = "base-utils-app.yaml"
-  ceph_velero_bucket                    = data.gitlab_project_variable.ceph_velero_bucket.value
+  velero_bucket                    = data.gitlab_project_variable.velero_bucket.value
   velero_credentials_secret_provider_key = "velero_bucket_access_key_id"
   velero_credentials_id_provider_key     = "velero_bucket_secret_key_id"
 }

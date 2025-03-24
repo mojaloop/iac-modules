@@ -12,37 +12,37 @@ resource "gitlab_project" "envs" {
   shared_runners_enabled = true
 }
 
-resource "gitlab_project_variable" "ceph_loki_bucket" {
+resource "gitlab_project_variable" "loki_bucket" {
   for_each  = local.environment_list
   project   = gitlab_project.envs[each.key].id
-  key       = "ceph_loki_bucket"
+  key       = "loki_bucket"
   value     = "${each.value}-loki"
   protected = false
   masked    = false
 }
 
-resource "gitlab_project_variable" "ceph_tempo_bucket" {
+resource "gitlab_project_variable" "tempo_bucket" {
   for_each  = local.environment_list
   project   = gitlab_project.envs[each.key].id
-  key       = "ceph_tempo_bucket"
+  key       = "tempo_bucket"
   value     = "${each.value}-tempo"
   protected = false
   masked    = false
 }
 
-resource "gitlab_project_variable" "ceph_velero_bucket" {
+resource "gitlab_project_variable" "velero_bucket" {
   for_each  = local.environment_list
   project   = gitlab_project.envs[each.key].id
-  key       = "ceph_velero_bucket"
+  key       = "velero_bucket"
   value     = "${each.value}-velero"
   protected = false
   masked    = false
 }
 
-resource "gitlab_project_variable" "ceph_percona_bucket" {
+resource "gitlab_project_variable" "percona_bucket" {
   for_each  = local.environment_list
   project   = gitlab_project.envs[each.key].id
-  key       = "ceph_percona_bucket"
+  key       = "percona_bucket"
   value     = "${each.value}-percona"
   protected = false
   masked    = false
