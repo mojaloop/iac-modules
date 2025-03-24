@@ -66,3 +66,118 @@ spec:
                     enum:
                       - postgres
                       - mysql
+                  postgres:
+                    type: object
+                    properties:
+                      crVersion:
+                        type: string
+                        description: Type of object to be synced
+                        default: "2.5.0"
+
+                      pgVersion:
+                        type: number
+                        description: Type of object to be synced
+                        default: 16
+                      image:
+                        type: string
+                        description: Type of object to be synced
+                        default: percona/percona-postgresql-operator:2.5.0-ppg16.4-postgres
+                      imagePullPolicy:
+                        type: string
+                        description: Type of object to be synced
+                        default: Always
+                      dbDeployPrefix:
+                        type: string
+                        description: Type of object to be synced
+                        default: mydb
+                      dbName:
+                        type: string
+                        description: Type of object to be synced
+                        default: mydatabase
+                      dbUsername:
+                        type: string
+                        description: Type of object to be synced
+                        default: admin
+                      dbSecret:
+                        type: string
+                        description: Type of object to be synced
+                        default: db-secret
+                      replicas:
+                        type: number
+                        description: Type of object to be synced
+                        default: 1
+                      storageSize:
+                        type: string
+                        description: Type of object to be synced
+                        default: 10Gi
+                      expose:
+                        type: object
+                        properties:
+                          enable:
+                            type: boolean
+                            description: Type of object to be synced
+                            default: False
+                          type:
+                            type: string
+                            description: Type of object to be synced
+                            default: LoadBalancer
+
+                  pgBackRest:
+                    type: object
+                    properties:
+                      backupReponame:
+                        type: string
+                        description: Type of object to be synced
+                        default: repo1
+                      repo_path:
+                        type: string
+                        description: Type of object to be synced
+                        default: "/pgbackrest"
+                      image:
+                        type: string
+                        description: Type of object to be synced
+                        default: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbackrest2.53-1
+                      storagePort:
+                        type: number
+                        description: Type of object to be synced
+                        default: 443
+                      backupsRetentionDays:
+                        type: number
+                        description: Type of object to be synced
+                        default: 3
+                      fullBackupSchedule:
+                        type: string
+                        description: Type of object to be synced
+                        default: "0 0 * * 6"
+                      diffBackupSchedule:
+                        type: string
+                        description: Type of object to be synced
+                        default: "0 1 * * 1-6"
+
+                  pgBouncer:
+                    type: object
+                    properties:
+                      image:
+                        type: string
+                        description: Type of object to be synced
+                        default: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbouncer1.23.1
+                      replicas:
+                        type: number
+                        description: Type of object to be synced
+                        default: 1
+                      poolMode:
+                        type: string
+                        description: Type of object to be synced
+                        default: transaction
+                      queryWaitTimeout:
+                        type: number
+                        description: Type of object to be synced
+                        default: 600
+                      maxPreparedStatements:
+                        type: number
+                        description: Type of object to be synced
+                        default: 1
+                      exposeSuperusers:
+                        type: boolean
+                        description: Type of object to be synced
+                        default: True
