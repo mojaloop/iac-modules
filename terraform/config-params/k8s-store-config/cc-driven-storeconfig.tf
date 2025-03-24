@@ -23,19 +23,6 @@ data "vault_kv_secret_v2" "common_mojaloop_db_instance_address" {
   name  = "${var.cluster_name}/common_mojaloop_db_instance_address"
 }
 
-data "vault_kv_secret_v2" "common_platform_db_instance_password" {
-  count = var.db_mediated_by_control_center ? 1 : 0
-  mount = var.kv_path
-  name  = "${var.cluster_name}/common_mojaloop_db_instance_password"
-}
-
-data "vault_kv_secret_v2" "common_mojaloop_db_instance_password" {
-  count = var.db_mediated_by_control_center ? 1 : 0
-  mount = var.kv_path
-  name  = "${var.cluster_name}/common_mojaloop_db_instance_password"
-}
-
-
 locals {
   st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
   plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
