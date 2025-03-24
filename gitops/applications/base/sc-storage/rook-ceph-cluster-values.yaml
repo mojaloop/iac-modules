@@ -28,7 +28,7 @@ cephBlockPools:
     spec:
       failureDomain: host
       replicated:
-        size: ${ARGOCD_ENV_rook_ceph_rbd_pool_size}
+        size: ${ARGOCD_ENV_rook_ceph_pool_replication_size}
     storageClass:
       enabled: true
       name: ceph-block
@@ -37,6 +37,27 @@ cephBlockPools:
       allowVolumeExpansion: true
       volumeBindingMode: "Immediate"
       imageFormat: "2"
+
+cephFileSystems:
+  - name: ceph-filesystem
+    spec:
+      metadataPool:
+        replicated:
+          size: 3
+      dataPools:
+        - failureDomain: host
+          replicated:
+            size: ${ARGOCD_ENV_rook_ceph_pool_replication_size}
+          name: data0
+    storageClass:
+      enabled: true
+      isDefault: false
+      name: ceph-filesystem
+      # (Optional) specify a data pool to use, must be the name of one of the data pools above, 'data0' by default
+      pool: data0
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      volumeBindingMode: "Immediate"
 
 cephObjectStores:
   - name: ceph-objectstore
@@ -47,9 +68,11 @@ cephObjectStores:
           size: 3
       dataPool:
         failureDomain: host
-        erasureCoded:
-          dataChunks: 2
-          codingChunks: 1
+        replicated:
+          size: ${ARGOCD_ENV_rook_ceph_pool_replication_size}
+        # erasureCoded:
+        #   dataChunks: 2
+        #   codingChunks: 1
         parameters:
           bulk: "true"
       preservePoolsOnDelete: true
