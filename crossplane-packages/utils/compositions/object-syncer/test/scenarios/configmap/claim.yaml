@@ -1,16 +1,17 @@
 apiVersion: infitx.org/v1alpha1
-kind: SecretSyncerGoTmpl
+kind: ObjectSyncer
 metadata:
-  name: secrettest
-  namespace: default
+  name: example-configmap-syncer-claim
+  namespace: testa
 spec:
   parameters:
+    objectType: ConfigMap
     source:
-      namespace: default
-      name: secrettest
+      namespace: testa
+      name: example-configmap
     destination:
-      namespace: default
-      name: secrettest
+      namespace: testb
+      name: example-configmap
   providerConfigsRef:
     sourceK8sProviderName: kubernetes-provider
     destinationK8sProviderName: kubernetes-provider
