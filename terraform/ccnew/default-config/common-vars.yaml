@@ -287,7 +287,7 @@ rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
 rook_ceph_cloud_pv_reclaim_policy: "Delete" # Retain, Delete
 rook_ceph_csi_driver_replicas: "'2'"
-rook_ceph_objects_replica_count: "'3'"
+rook_ceph_objects_replica_count: "'1'"
 rook_ceph_osd_count: "'3'"
 rook_ceph_volume_size_per_osd: "500Gi"
 rook_ceph_volumes_provider: "pvc" # host, pvc

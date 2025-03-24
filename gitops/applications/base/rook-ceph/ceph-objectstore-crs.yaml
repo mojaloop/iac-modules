@@ -7,12 +7,14 @@ spec:
   metadataPool:
     failureDomain: host
     replicated:
-      size: ${ARGOCD_ENV_objects_replica_count}
+      size: 3
   dataPool:
     failureDomain: host
-    erasureCoded:
-      dataChunks: 2
-      codingChunks: 1
+    replicated:
+      size: ${ARGOCD_ENV_objects_replica_count}
+#    erasureCoded:
+#      dataChunks: 2
+#      codingChunks: 1
   gateway:
     port: 80
     securePort: 443
