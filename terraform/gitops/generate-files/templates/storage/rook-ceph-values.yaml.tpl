@@ -1,3 +1,4 @@
+%{ if cloud_provider == "private-cloud" ~}
 csi:
  kubeletDirPath: "${kubelet_dir_path}"
  serviceMonitor:
@@ -15,3 +16,4 @@ resources:
  requests:
   cpu: 50m
   memory: 64Mi
+%{ endif ~}

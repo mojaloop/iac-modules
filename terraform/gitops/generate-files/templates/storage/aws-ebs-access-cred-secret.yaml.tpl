@@ -1,3 +1,4 @@
+%{ if cloud_provider == "aws" ~}
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
@@ -21,10 +22,11 @@ spec:
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
-      remoteRef: 
+      remoteRef:
         key: ${access_key_id}
         property: value
     - secretKey: AWS_ACCESS_KEY_ID # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${secret_access_key}
         property: value
+%{ endif ~}

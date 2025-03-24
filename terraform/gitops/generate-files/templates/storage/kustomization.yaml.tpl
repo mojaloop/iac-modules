@@ -1,3 +1,4 @@
+
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -12,4 +13,18 @@ helmCharts:
     namespace: ${storage_namespace}
     valuesFile: aws-ebs-csi-driver-values.yaml
     version: ${aws_ebs_csi_driver_helm_version}
+%{ endif ~}
+%{ if cloud_provider == "private-cloud" ~}
+  - name: rook-ceph
+    releaseName: rook-ceph
+    repo: https://charts.rook.io/release
+    namespace: ${storage_namespace}
+    valuesFile: rook-ceph-values.yaml
+    version: ${rook_ceph_helm_version}
+  - name: rook-ceph-cluster
+    releaseName: rook-ceph-cluster
+    repo: https://charts.rook.io/release
+    namespace: ${storage_namespace}
+    valuesFile: rook-ceph-cluster-values.yaml
+    version: ${rook_ceph_helm_version}
 %{ endif ~}

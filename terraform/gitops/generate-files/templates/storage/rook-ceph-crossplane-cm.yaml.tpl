@@ -1,3 +1,4 @@
+%{ if cloud_provider == "private-cloud" ~}
 apiVersion: kubernetes.crossplane.io/v1alpha2
 kind: Object
 metadata:
@@ -37,7 +38,7 @@ spec:
     - patchesFrom:
         apiVersion: v1
         kind: Secret
-        name: ceph-rgw-secret  # Secret containing the RGW endpoint
+        name: rook-ceph-rgw-endpoint  # Secret containing the RGW endpoint
         namespace: ${storage_namespace}
         fieldPath: data.rgw-endpoint
       toFieldPath: data.args
@@ -62,3 +63,4 @@ spec:
           skip-monitoring-endpoint = True
   providerConfigRef:
     name: kubernetes-provider
+%{ endif ~}

@@ -22,6 +22,7 @@ module "generate_storage_files" {
     rook_csi_cephfs_provisioner     = "${var.cluster_name}/rook_csi_cephfs_provisioner"
     rook_csi_rbd_node               = "${var.cluster_name}/rook_csi_rbd_node"
     rook_csi_rbd_provisioner        = "${var.cluster_name}/rook_csi_rbd_provisioner"
+    rook_ceph_rgw_endpoint          = "${var.cluster_name}/rook_ceph_rgw_endpoint"
     cloud_provider                  = var.cloud_platform
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]

@@ -1,3 +1,4 @@
+%{ if cloud_provider == "private-cloud" ~}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -250,3 +251,31 @@ spec:
         storeRef:
           name: tenant-vault-secret-store
           kind: ClusterSecretStore
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
+  name: rook-ceph-rgw-endpoint
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+  target:
+    name:  rook-ceph-rgw-endpoint
+    template:
+      type: kubernetes.io/rook
+      data:
+        rgw_endpoint: "{{ .rgw_endpoint }}"
+  data:
+    - secretKey: rgw_endpoint
+      remoteRef:
+        key: ${rook_ceph_rgw_endpoint}
+        property: rgw_endpoint
+      sourceRef:
+        storeRef:
+          name: tenant-vault-secret-store
+          kind: ClusterSecretStore
+%{ endif ~}

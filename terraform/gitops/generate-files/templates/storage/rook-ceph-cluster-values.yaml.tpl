@@ -1,3 +1,4 @@
+%{ if cloud_provider == "private-cloud" ~}
 ---
 operatorNamespace: ${storage_namespace}
 cephClusterSpec:
@@ -16,3 +17,4 @@ cephBlockPools: {}
 cephFileSystems: {}
 
 cephObjectStores: {}
+%{ endif ~}

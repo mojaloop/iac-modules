@@ -1,4 +1,5 @@
 
+%{ if cloud_provider == "private-cloud" ~}
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -41,3 +42,4 @@ provisioner: "${storage_namespace}.cephfs.csi.ceph.com"
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
+%{ endif ~}

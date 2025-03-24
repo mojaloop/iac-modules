@@ -1,3 +1,4 @@
+%{ if cloud_provider == "aws" ~}
 # Custom values for aws-ebs-csi-driver.
 # Use old CSIDriver without an fsGroupPolicy set
 # Intended for use with older clusters that cannot easily replace the CSIDriver object
@@ -51,3 +52,4 @@ awsAccessSecret:
   name: ${access_secret_name}
   keyId: access_key_id
   accessKey: secret_access_key
+%{ endif ~}
