@@ -6,6 +6,7 @@ resources:
 %{ endif ~}
 %{ if cloud_provider == "private-cloud" ~}
   - rook-ceph-external-secrets.yaml
+  - rook-ceph-storage-class.yaml
 %{ endif ~}
 helmCharts:
 %{ if cloud_provider == "aws" ~}
