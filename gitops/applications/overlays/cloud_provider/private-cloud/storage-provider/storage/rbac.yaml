@@ -17,6 +17,9 @@ rules:
   - apiGroups: ["storage.k8s.io"]
     resources: ["storageclasses"]
     verbs: ["create", "get", "list", "update", "patch", "delete"]
+  - apiGroups: ["ceph.rook.io"]
+    resources: ["cephobjectstores"]
+    verbs: ["get", "list", "create", "update", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: rook-ceph-mgr-dashboard-external
-  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+  name: storage-ceph-mgr-dashboard-external
+  namespace: ${ARGOCD_ENV_storage_namespace}
   annotations:
     metallb.universe.tf/address-pool: production
   labels:
-    app: rook-ceph-mgr
-    rook_cluster: rook-ceph
+    app: "${ARGOCD_ENV_storage_namespace}-mgr"
+    rook_cluster: ${ARGOCD_ENV_storage_namespace}
 spec:
   ports:
     - name: dashboard
@@ -15,7 +15,7 @@ spec:
       protocol: TCP
       targetPort: 8443
   selector:
-    app: rook-ceph-mgr
-    rook_cluster: rook-ceph
+    app: "${ARGOCD_ENV_storage_namespace}-mgr"
+    rook_cluster: ${ARGOCD_ENV_storage_namespace}
   sessionAffinity: None
   type: LoadBalancer

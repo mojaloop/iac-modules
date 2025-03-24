@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: rook-ceph-external-config
-  namespace: rook-ceph
+  namespace: ${ARGOCD_ENV_storage_namespace}
 spec:
   template:
     spec:
@@ -29,7 +29,7 @@ spec:
             - -c
             - |
               # Additional env vars
-              NAMESPACE="rook-ceph"
+              NAMESPACE="${ARGOCD_ENV_storage_namespace}"
               KUBECTL="kubectl"
               RGW_EXTERNAL_IP=$(cat /tmp/rgw-secret/RGW_EXTERNAL_IP)
               RGW_EXTERNAL_PORT=$(cat /tmp/rgw-secret/RGW_EXTERNAL_PORT)
@@ -80,6 +80,21 @@ spec:
                 --from-literal=args="$ARGS"
                 #--from-file=ARGS=/tmp/ceph-args.conf
 
+              # Create external objectstore
+              cat <<eof | kubectl create -f -
+              apiVersion: ceph.rook.io/v1
+              kind: CephObjectStore
+              metadata:
+                name: external-store
+                namespace: ${ARGOCD_ENV_storage_namespace}
+              spec:
+                gateway:
+                  port: $RGW_EXTERNAL_PORT
+                  instances: 1
+                  externalRgwEndpoints:
+                    - ip: $RGW_EXTERNAL_IP
+              eof
+
               else
                 echo "Error: /data/ceph_env is empty!"
                 exit 1
@@ -98,27 +113,27 @@ spec:
               KEYRING_FILE="/etc/ceph/keyring"
 
               write_endpoints() {
-                endpoints=$(cat ${MON_CONFIG})
-                mon_endpoints=$(echo "${endpoints}" | sed 's/[a-z0-9_-]\+=//g')
+                endpoints=$(cat $${MON_CONFIG})
+                mon_endpoints=$(echo "$${endpoints}" | sed 's/[a-z0-9_-]\+=//g')
                 DATE=$(date)
-                echo "$DATE writing mon endpoints to ${CEPH_CONFIG}: ${endpoints}"
-                cat <<EOF > ${CEPH_CONFIG}
+                echo "$DATE writing mon endpoints to $${CEPH_CONFIG}: $${endpoints}"
+                cat <<EOF > $${CEPH_CONFIG}
               [global]
-              mon_host = ${mon_endpoints}
+              mon_host = $${mon_endpoints}
 
               [client.admin]
-              keyring = ${KEYRING_FILE}
+              keyring = $${KEYRING_FILE}
               EOF
               }
 
-              ceph_secret=${ROOK_CEPH_SECRET}
+              ceph_secret=$${ROOK_CEPH_SECRET}
               if [[ "$ceph_secret" == "" ]]; then
                 ceph_secret=$(cat /var/lib/rook-ceph-mon/secret.keyring)
               fi
 
-              cat <<EOF > ${KEYRING_FILE}
-              [${ROOK_CEPH_USERNAME}]
-              key = ${ceph_secret}
+              cat <<EOF > $${KEYRING_FILE}
+              [$${ROOK_CEPH_USERNAME}]
+              key = $${ceph_secret}
               EOF
 
               write_endpoints
@@ -135,7 +150,7 @@ spec:
                 --rgw-endpoint $RGW_ENDPOINT \
                 --cephfs-data-pool-name ceph-filesystem-data0 \
                 --skip-monitoring-endpoint \
-                --namespace rook-ceph --format bash > /data/ceph_env
+                --namespace ${ARGOCD_ENV_ext_storage_namespace} --format bash > /data/ceph_env
           imagePullPolicy: IfNotPresent
           tty: true
           securityContext:
@@ -148,7 +163,7 @@ spec:
             - name: ROOK_CEPH_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: rook-ceph-mon
+                  name: "${ARGOCD_ENV_storage_namespace}-mon"
                   key: ceph-username
           volumeMounts:
             - mountPath: /etc/ceph
@@ -166,14 +181,14 @@ spec:
       volumes:
         - name: ceph-admin-secret
           secret:
-            secretName: rook-ceph-mon
+            secretName: "${ARGOCD_ENV_storage_namespace}-mon"
             optional: false
             items:
               - key: ceph-secret
                 path: secret.keyring
         - name: mon-endpoint-volume
           configMap:
-            name: rook-ceph-mon-endpoints
+            name: "${ARGOCD_ENV_storage_namespace}-mon-endpoints"
             items:
               - key: data
                 path: mon-endpoints

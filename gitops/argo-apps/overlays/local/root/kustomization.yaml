@@ -5,7 +5,7 @@ resources:
   # utils
   - ../../../base/argocd-helm.yaml
   - ../../../base/storage.yaml
-  #- ../../../base/storage-post-config.yaml
+  - ../../../base/storage-post-config.yaml
   - ../../../base/external-secrets.yaml
   - ../../../base/reflector.yaml
   - ../../../base/reloader.yaml
@@ -17,9 +17,9 @@ resources:
   - ../../../base/capi-operator.yaml
   - ../../../base/capi.yaml
   - ../../../base/capi-post-config.yaml
-  # - ../../../base/percona-operator.yaml
-  # - ../../../base/redis-operator.yaml
-  # - ../../../base/base-monitoring.yaml
+  - ../../../base/percona-operator.yaml
+  - ../../../base/redis-operator.yaml
+  - ../../../base/base-monitoring.yaml
   # xplane database config
   - ../../../base/xplane-provider-config.yaml
   # vault

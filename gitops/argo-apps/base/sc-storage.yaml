@@ -32,14 +32,14 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
-    path: gitops/applications/base/sc-rook-ceph
+    path: gitops/applications/base/sc-storage
     plugin:
       name: envsubst
       env:
         - name: "rook_ceph_version"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_helm_version}"
 
-        - name: "rook_ceph_namespace"
+        - name: "storage_namespace"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
 
         - name: "rook_ceph_rbd_pool_size"
