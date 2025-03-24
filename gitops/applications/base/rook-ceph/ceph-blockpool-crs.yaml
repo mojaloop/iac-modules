@@ -7,5 +7,5 @@ spec:
   failureDomain: host
   replicated:
     size: ${ARGOCD_ENV_objects_replica_count}
-    requireSafeReplicaSize: true
+    requireSafeReplicaSize: false
     #targetSizeRatio: .5
