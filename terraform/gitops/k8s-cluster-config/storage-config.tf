@@ -6,6 +6,7 @@ module "generate_storage_files" {
     kubelet_dir_path                = var.kubelet_dir_path
     storage_namespace               = var.storage_namespace
     block_storage_class_name        = var.storage_class_name
+    fs_storage_class_name           = "changeit"
     access_secret_name              = var.storage_access_secret_name
     access_key_id                   = "${var.cluster_name}/block_storage_secret_key_id"
     secret_access_key               = "${var.cluster_name}/block_storage_secret_access_key"
