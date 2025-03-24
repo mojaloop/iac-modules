@@ -177,6 +177,6 @@ locals {
   external_dns_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
   longhorn_backups_credentials_secret_provider_key = "longhorn_backup_bucket_secret_key_id"
   longhorn_backups_credentials_id_provider_key     = "longhorn_backup_bucket_access_key_id"
-  loki_bucket                                = data.gitlab_project_variable.loki_bucket.value
-  tempo_bucket                               = data.gitlab_project_variable.tempo_bucket.value
+  loki_bucket                                      = data.gitlab_project_variable.loki_bucket.value
+  tempo_bucket                                     = data.gitlab_project_variable.tempo_bucket.value
 }
