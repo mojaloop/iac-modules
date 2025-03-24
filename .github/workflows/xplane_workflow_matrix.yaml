@@ -1,0 +1,118 @@
+name: 🔄 Crossplane Matrix Pipeline
+
+on:
+  pull_request:
+    branches:
+    - '**'
+  push:
+    tags:
+      - '**' # Push events to every tag including hierarchical tags like v1.0/beta
+
+jobs:
+  detect-changes:
+    name: 🔍 Detect Changed Packages
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      has_changes: ${{ steps.set-matrix.outputs.has_changes }}
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔎 Determine Changed Packages
+      id: set-matrix
+      env:
+        GITHUB_REF: ${{ github.ref }}
+        PR_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        PR_BASE: ${{ github.event.pull_request.base.sha || '' }}
+        PR_BASE_REF: ${{ github.event.pull_request.base.ref || 'main' }}
+        BEFORE: ${{ github.event.before || '' }}
+      run: |
+        CROSSPLANE_PACKAGES_DIR="crossplane-packages"
+
+        # Only check directories within crossplane-packages
+        if [ -d "${CROSSPLANE_PACKAGES_DIR}" ]; then
+          DIRECTORIES=$(find ${CROSSPLANE_PACKAGES_DIR}/* -maxdepth 0 -type d -not -name '\.*' 2>/dev/null || echo "")
+        else
+          echo "❌ crossplane-packages directory not found"
+          DIRECTORIES=""
+        fi
+
+        # Handle different event types
+        if [[ "${{ github.ref_type }}" == "tag" ]]; then
+          echo "🏷️ This is a tag event"
+          # For tags, we'll process all packages
+          CHANGED_DIRS=""
+          for DIR in $DIRECTORIES; do
+            PACKAGE_NAME=$(basename "$DIR")
+            CHANGED_DIRS="$PACKAGE_NAME;$CHANGED_DIRS"
+          done
+        else
+          # For PRs, we'll find changes compared to the target branch
+          echo "🔄 This is a PR event targeting branch: ${PR_BASE_REF}"
+
+          # For PR events, always compare against the PR base branch when available
+          if [[ "${{ github.event_name }}" == "pull_request" && -n "${PR_BASE}" ]]; then
+            echo "🔄 Using PR base SHA for comparison: ${PR_BASE}"
+            BASE="${PR_BASE}"
+          elif [[ "${GITHUB_REF}" == 'refs/heads/main' ]]; then
+            echo "🔄 Github ref is main (not a PR)"
+            if [[ -n "${BEFORE}" ]]; then
+              BASE="${BEFORE}"
+            else
+              # Fallback to last commit if BEFORE is empty
+              BASE="HEAD^"
+            fi
+          else
+            # Fallback to ancestor detection for other cases
+            echo "🔄 Using fallback comparison method"
+            if [[ -n "${PR_BASE}" && -n "${PR_HEAD}" ]]; then
+              BASE="$(git merge-base ${PR_BASE} ${PR_HEAD} 2>/dev/null || echo 'HEAD^')"
+            else
+              # Fallback to comparing with last commit
+              BASE="HEAD^"
+            fi
+          fi
+
+          echo "🔄 SHA for base: ${BASE}, head: ${PR_HEAD}"
+
+          CHANGED_DIRS=""
+          for DIR in $DIRECTORIES; do
+            if git diff --name-only $BASE HEAD | grep -q "^$DIR/"; then
+              # Extract just the package name without the crossplane-packages/ prefix
+              PACKAGE_NAME=$(basename "$DIR")
+              CHANGED_DIRS="$PACKAGE_NAME;$CHANGED_DIRS"
+            fi
+          done
+        fi
+
+        if [ -z "$CHANGED_DIRS" ]; then
+          echo "ℹ️ No changes detected in crossplane-packages directories"
+          MATRIX="[]"
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+          MATRIX="[$(echo $CHANGED_DIRS | sed -r 's/([^;.]*);/{\"directory\": \"\1\"},/g' | sed 's/,$//g' )]"
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        fi
+
+        echo "📋 Changed packages matrix: $MATRIX"
+        echo "matrix={\"include\": $MATRIX}" >> $GITHUB_OUTPUT
+
+  process-packages:
+    name: 📦 Process Packages
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.has_changes == 'true' }}
+    strategy:
+      matrix: ${{fromJson(needs.detect-changes.outputs.matrix)}}
+      fail-fast: false
+    uses: mojaloop/iac-modules/.github/workflows/xplane_workflow.yaml@main
+    secrets:
+      REGISTRY_USERNAME: ${{ github.actor }}
+      REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      registry: ghcr.io/${{ github.repository }}
+      package: ${{ matrix.directory }}
+      release_name: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+      packages_dir: crossplane-packages
