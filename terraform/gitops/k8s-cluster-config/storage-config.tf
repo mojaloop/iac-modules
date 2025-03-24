@@ -67,7 +67,3 @@ variable "aws_ebs_csi_driver_helm_version" {
 variable "aws_ebs_csi_driver_replicas" {
   type        = number
 }
-
-variable "rook_ceph_helm_version" {
-  type        = string
-}
