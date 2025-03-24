@@ -107,7 +107,7 @@ jobs:
     strategy:
       matrix: ${{fromJson(needs.detect-changes.outputs.matrix)}}
       fail-fast: false
-    uses: mojaloop/iac-modules/.github/workflows/xplane_workflow.yaml@feature/xplane-secret-syncer
+    uses: mojaloop/iac-modules/.github/workflows/xplane_workflow.yaml@main
     secrets:
       REGISTRY_USERNAME: ${{ github.actor }}
       REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}

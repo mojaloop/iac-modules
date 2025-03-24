@@ -30,7 +30,7 @@ on:
 
 jobs:
   pull-request-package:
-    uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feature/xplane-secret-syncer
+    uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@main
     name: 🧪 PR Preview Package
     if: ${{ github.ref_type != 'tag' && github.ref != 'refs/heads/main' }}
     secrets: inherit
@@ -41,7 +41,7 @@ jobs:
       NEXT_VERSION: v${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
 
   release-package:
-    uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feature/xplane-secret-syncer
+    uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@main
     name: 🚀 Release Package
     if: ${{ github.ref_type == 'tag' }}
     secrets: inherit
