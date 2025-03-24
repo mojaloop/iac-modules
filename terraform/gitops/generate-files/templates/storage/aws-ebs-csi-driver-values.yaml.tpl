@@ -39,7 +39,7 @@ controller:
   enableMetrics: false
 
 storageClasses:
-- name: ${storage_class_name}
+- name: ${block_storage_class_name}
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
   volumeBindingMode: WaitForFirstConsumer
@@ -50,4 +50,4 @@ storageClasses:
 awsAccessSecret:
   name: ${access_secret_name}
   keyId: access_key_id
-  accessKey: secret_access_key   
+  accessKey: secret_access_key

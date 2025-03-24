@@ -5,7 +5,7 @@ module "generate_storage_files" {
     csi_driver_replicas             = var.aws_ebs_csi_driver_replicas
     kubelet_dir_path                = var.kubelet_dir_path
     storage_namespace               = var.storage_namespace
-    storage_class_name              = var.storage_class_name
+    block_storage_class_name        = var.storage_class_name
     access_secret_name              = var.storage_access_secret_name
     access_key_id                   = "${var.cluster_name}/block_storage_secret_key_id"
     secret_access_key               = "${var.cluster_name}/block_storage_secret_access_key"
