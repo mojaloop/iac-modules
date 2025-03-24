@@ -1,0 +1,13 @@
+apiVersion: database.infitx.org/v1alpha1
+kind: SqlPercona
+metadata:
+  name: example-sql
+  namespace: testa
+spec:
+  parameters:
+    dbType: postgres
+  providerConfigsRef:
+    scK8sProviderName: remote-provider
+    ccK8sProviderName: local-provider
+  managementPolicies:
+    - "*"
