@@ -32,7 +32,7 @@ jobs:
   pull-request-package:
     uses: mojaloop/iac-modules/.github/workflows/xplane_pull_request.yaml@feature/xplane-secret-syncer
     name: 🧪 PR Preview Package
-    if: ${{ github.ref != 'refs/heads/main' }}
+    if: ${{ github.ref_type != 'tag' && github.ref != 'refs/heads/main' }}
     secrets: inherit
     with:
       CROSSPLANE_PACKAGES_DIR: ${{ inputs.packages_dir }}
