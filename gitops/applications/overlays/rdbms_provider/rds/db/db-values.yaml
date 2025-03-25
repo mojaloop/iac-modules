@@ -24,3 +24,4 @@ storageIops: ${ARGOCD_ENV_db_storage_iops}
 storageEncrypted: ${ARGOCD_ENV_rds_storage_encrypted}
 skipFinalSnapshot: ${ARGOCD_ENV_rds_skip_final_snapshot}
 replicaCount: ${ARGOCD_ENV_rds_replica_count}
+port: ${ARGOCD_ENV_db_port}

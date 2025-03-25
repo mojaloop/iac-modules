@@ -31,7 +31,7 @@ spec:
     vpcId: {{ .Values.vpcId }}
     vpcCidr:  {{ .Values.vpcCidr }}
     {{- with ( splitList "," .Values.subnets) }}
-    subnets:  
+    subnets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
     dbName: {{ .Values.dbName }}
@@ -44,23 +44,24 @@ spec:
     applyImmediately: {{ .Values.applyImmediately }}
     backupRetentionPeriod: {{ .Values.backupRetentionPeriod }}
     preferredBackupWindow: {{ .Values.preferredBackupWindow }}
-{{- if not ( contains "aurora" .Values.engine  )  }}    
+{{- if not ( contains "aurora" .Values.engine  )  }}
     storageGB: {{ .Values.storageGB }}
     storageType: {{ .Values.storageType }}
     storageIops: {{ .Values.storageIops }}
-{{- end }}    
+{{- end }}
     storageEncrypted: {{ .Values.storageEncrypted }}
     skipFinalSnapshot: {{ .Values.skipFinalSnapshot }}
+    port: {{ .Values.port }}
 {{- if contains "aurora" .Values.engine  }}
 ---
 apiVersion: infitx.org/v1alpha1
 kind: RDSAuroraReplicaClaim
 metadata:
   name: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
-  namespace: {{ .Values.namespace }} 
+  namespace: {{ .Values.namespace }}
   annotations:
     organization: Infitx
-    author: devops   
+    author: devops
 spec:
   id: {{ printf "%s-%s" .Values.namePrefix  .Values.name }}
   compositionSelector:

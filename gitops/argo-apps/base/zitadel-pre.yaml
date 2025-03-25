@@ -86,7 +86,7 @@ spec:
 
           - name: "cockroachdb_release_name"
             value: "${ARGOCD_ENV_security_zitadel_cockroachdb_provider_app_name}"
-          
+
           - name: "zitadel_namespace"
             value: "${ARGOCD_ENV_security_zitadel_namespace}"
 
@@ -109,7 +109,7 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"
 
           - name: "zitadel_config_secret_name"
-            value: "${ARGOCD_ENV_security_zitadel_config_secret_name}"                           
+            value: "${ARGOCD_ENV_security_zitadel_config_secret_name}"
 
     #zitadel db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
@@ -146,13 +146,13 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_storage_size}"
 
           - name: "pgdb_helm_version"
-            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgdb_helm_version}"            
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgdb_helm_version}"
 
           - name: "rds_postgres_storage_size"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_postgres_storage_size}"
 
           - name: "rds_engine"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_engine}"             
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_engine}"
 
           - name: "rds_instance_class"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_postgres_instance_class}"
@@ -164,10 +164,10 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_engine_version}"
 
           - name: "rds_replica_count"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_replica_count}"                
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_replica_count}"
 
           - name: "rds_skip_final_snapshot"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_skip_final_snapshot}"   
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_skip_final_snapshot}"
 
           - name: "rds_vpc_id"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_rdbms_vpc_id}"
@@ -203,7 +203,7 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_type}"
 
           - name: "db_storage_iops"
-            value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_iops}" 
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_iops}"
 
           - name: "externalservice_name"
             value: "${ARGOCD_ENV_security_zitadel_externalservice_name}"
@@ -218,7 +218,10 @@ spec:
             value: "${ARGOCD_ENV_argocd_repo_url}"
 
           - name: "capi_cluster_name"
-            value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"                        
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"
 
           - name: "capi_cluster_namespace"
             value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
+
+          - name: "db_port"
+            value: "5432"

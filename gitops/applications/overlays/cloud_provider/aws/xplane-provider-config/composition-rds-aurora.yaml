@@ -73,6 +73,10 @@ spec:
           patchSetName: metadata
         - fromFieldPath: "spec.parameters.region"
           toFieldPath: "spec.forProvider.region"
+        - fromFieldPath: "spec.parameters.port"
+          toFieldPath: "spec.forProvider.ingress[0].fromPort"
+        - fromFieldPath: "spec.parameters.port"
+          toFieldPath: "spec.forProvider.ingress[0].toPort"
         - fromFieldPath: "spec.parameters.vpcId"
           toFieldPath: "spec.forProvider.vpcId"
         - fromFieldPath: "metadata.name"

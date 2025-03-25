@@ -238,7 +238,10 @@ spec:
             value: "${ARGOCD_ENV_argocd_repo_url}"
 
           - name: "capi_cluster_name"
-            value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"                        
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"
 
           - name: "capi_cluster_namespace"
             value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
+
+          - name: "db_port"
+            value: "5432"
