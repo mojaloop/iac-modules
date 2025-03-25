@@ -102,7 +102,7 @@ tempo:
           path: {{ .Values.tempo.dataDir }}/wal
         s3:
           forcepathstyle: true
-          endpoint: ${object_store_api_url}
+          endpoint: ${object_store_regional_endpoint}
           insecure: false
           bucket: ${tempo_bucket}
           region: ${object_store_region}

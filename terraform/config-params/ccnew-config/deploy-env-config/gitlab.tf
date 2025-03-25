@@ -124,6 +124,15 @@ resource "gitlab_group_variable" "obj_store_gw_fqdn" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "obj_store_regional_endpoint" {
+  group             = data.gitlab_group.iac.id
+  key               = "OBJECTSTORE_REGIONAL_ENDPOINT"
+  value             = var.obj_store_regional_endpoint
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_group_variable" "obj_store_region" {
   group             = data.gitlab_group.iac.id
   key               = "OBJECTSTORE_REGION"

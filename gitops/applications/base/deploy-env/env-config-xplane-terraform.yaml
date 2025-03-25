@@ -18,6 +18,8 @@ spec:
         value: nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}
       - key: obj_store_gw_fqdn
         value: ${ARGOCD_ENV_object_storage_endpoint}
+      - key: "obj_store_regional_endpoint"
+        value: ${ARGOCD_ENV_object_storage_regional_endpoint}
       - key: obj_store_region
         value: ${ARGOCD_ENV_object_storage_region}
       - key: mimir_gw_fqdn

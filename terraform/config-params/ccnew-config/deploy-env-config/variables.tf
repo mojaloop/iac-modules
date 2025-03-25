@@ -23,11 +23,15 @@ variable "nexus_docker_repo_listening_port" {
 }
 
 variable "obj_store_gw_fqdn" {
-  description = "fqdn for ceph object storage gw"
+  description = "fqdn for object storage gw"
+}
+
+variable "obj_store_regional_endpoint" {
+  description = "regional endpoint for object storage gw"
 }
 
 variable "obj_store_gw_port" {
-  description = "port for ceph object storage gw"
+  description = "port for object storage gw"
   default     = 443
 }
 

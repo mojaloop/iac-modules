@@ -60,6 +60,7 @@ module "generate_monitoring_files" {
     object_store_loki_credentials_secret_name      = "ceph-loki-credentials-secret"
     object_store_api_url                           = var.object_store_api_url
     object_store_region                            = var.object_store_region
+    object_store_regional_endpoint                 = var.object_store_regional_endpoint
     loki_bucket                                    = local.loki_bucket
     object_store_loki_user_key                     = "${var.cluster_name}/loki_bucket_access_key_id"
     object_store_loki_password_key                 = "${var.cluster_name}/loki_bucket_secret_key_id"

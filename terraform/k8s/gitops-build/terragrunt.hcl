@@ -88,6 +88,7 @@ inputs = {
   transit_vault_key_name                   = local.migrate ? local.mig_transit_vault_unseal_key_name : local.TRANSIT_VAULT_UNSEAL_KEY_NAME
   transit_vault_url                        = local.VAULT_SERVER_URL
   object_store_api_url                     = local.object_store_fqdn
+  object_store_regional_endpoint           = local.object_store_regional_endpoint
   object_store_region                      = local.object_store_region
   central_observability_endpoint           = local.central_observability_endpoint
   managed_db_host                          = ""      # to correct later
@@ -168,7 +169,8 @@ locals {
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
   VAULT_ADDR                    = get_env("VAULT_ADDR")
   object_store_fqdn             = get_env("OBJECTSTORE_FQDN")
-  object_store_region           = get_env("OBJECTSTORE_REGION")
+  object_store_regional_endpoint = get_env("OBJECTSTORE_REGIONAL_ENDPOINT")
+  object_store_region            = get_env("OBJECTSTORE_REGION")
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
   migrate                       = get_env("migrate")
   argocd_ingress_internal_lb    = true

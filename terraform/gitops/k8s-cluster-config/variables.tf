@@ -131,6 +131,11 @@ variable "object_store_api_url" {
   description = "object_store_api_url"
 }
 
+variable "object_store_regional_endpoint"{
+  type        = string
+  description = "object_store_regional_endpoint"
+}
+
 variable "central_observability_endpoint" {
   type        = string
   description = "central observability endpoint (mimir api)"

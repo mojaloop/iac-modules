@@ -28,7 +28,7 @@ loki:
       aws:
         # s3 is alias for aws
         s3forcepathstyle: true
-        endpoint: ${object_store_api_url}
+        endpoint: ${object_store_regional_endpoint}
         region: ${object_store_region}
         insecure: false
         access_key_id: $${CEPH_LOKI_USERNAME}

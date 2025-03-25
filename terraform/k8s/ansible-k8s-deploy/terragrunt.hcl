@@ -110,6 +110,7 @@ locals {
     migrate                      = get_env("migrate")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
     object_store_fqdn            = get_env("OBJECTSTORE_FQDN")
+    object_store_regional_fqdn   = get_env("OBJECTSTORE_REGIONAL_ENDPOINT")
     vault_fqdn                   = get_env("VAULT_FQDN")
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
     external_secrets_version     = local.common_vars.external_secrets_version
