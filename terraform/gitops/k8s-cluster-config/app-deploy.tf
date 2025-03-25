@@ -71,7 +71,7 @@ module "mojaloop" {
   external_secret_sync_wave            = var.external_secret_sync_wave
   pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
   monolith_stateful_resources          = local.monolith_stateful_resources
-  managed_svc_as_monolith              = var.managed_svc_as_monolith
+  managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
   storage_class_name                   = var.storage_class_name
 }
 
