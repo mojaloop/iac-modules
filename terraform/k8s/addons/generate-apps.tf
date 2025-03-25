@@ -11,14 +11,11 @@ resource "local_file" "config-file" {
     )
   ]) # this represents addon-name/app-name/filename list of files filtered by enabled app-yamls
   content = templatefile(
-    "${each.key}",
+    each.key,
     {
-      cluster : var.clusterConfig
-      app : merge(
-        local.default[basename(dirname(dirname(each.key)))][basename(dirname(each.key))],
-        local.override[dirname(each.key)]
-      )
-      filename: each.key
+      cluster  = var.clusterConfig
+      app      = local.deep_merge[each.key]
+      filename = each.key
     }
   )
   filename = "${var.outputDir}/${basename(dirname(each.key))}/${basename(each.key)}"
@@ -48,6 +45,20 @@ locals {
   override = { # load overrides for each addon, keyed by addon-name/folder-name
     for app in distinct([for _, v in fileset(path.module, "*/*/*") : dirname(v)]) :
     app => try(yamldecode(templatefile("${var.configPath}/${basename(app)}.yaml", var.clusterConfig)), {})
+  }
+  deep_merge = {
+    for key in keys(local.default) :
+    key => merge(
+      local.default[key],
+      try(local.override[key], {}),
+      { 
+        for subkey in keys(try(local.default[key].nested, {})) :
+        subkey => merge(
+          try(local.default[key].nested[subkey], {}),
+          try(local.override[key].nested[subkey], {})
+        )
+      }
+    )
   }
 }
 
