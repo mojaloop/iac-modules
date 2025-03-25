@@ -88,6 +88,7 @@ inputs = {
   transit_vault_key_name                   = local.migrate ? local.mig_transit_vault_unseal_key_name : local.TRANSIT_VAULT_UNSEAL_KEY_NAME
   transit_vault_url                        = local.VAULT_SERVER_URL
   object_store_api_url                     = local.object_store_fqdn
+  object_store_region                      = local.object_store_region
   central_observability_endpoint           = local.central_observability_endpoint
   managed_db_host                          = ""      # to correct later
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
