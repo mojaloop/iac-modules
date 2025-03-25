@@ -40,7 +40,7 @@ common-platform-db:
       - name: max_connections
         value: "4000"
       - name: aurora_fwd_writer_max_connections_pct
-        value: "30"             
+        value: "30"
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
@@ -50,7 +50,7 @@ common-platform-db:
       mojaloop/cost_center: mlf-iac-sandbox
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
-    username: common_platform
+    username: platform
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-platform-db-secret
     master_user_password_secret_key: password
@@ -100,7 +100,7 @@ common-mojaloop-db:
       mojaloop/cost_center: mlf-iac-sandbox
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
-    username: common_mojaloop
+    username: mojaloop
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-mojaloop-db-secret
     master_user_password_secret_key: password
