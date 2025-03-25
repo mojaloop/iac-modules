@@ -81,6 +81,7 @@ argocd_override:
           cluster_domain: "${cluster_domain}"
           object_storage_endpoint: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "" }"
           object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "" }"
+          object_storage_region: "${object_storage_provider == "s3" ? cloud_region : "" }"
         storage_aws_provider:
           ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
           csi_driver_replicas: "${aws_ebs_csi_driver_replicas}"

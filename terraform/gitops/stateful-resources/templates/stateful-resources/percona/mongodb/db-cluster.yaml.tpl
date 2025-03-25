@@ -19,7 +19,7 @@ spec:
 #  tls:
 #    mode: preferTLS
 #    # 90 days in hours
-#    certValidityDuration: 2160h    
+#    certValidityDuration: 2160h
 #    allowInvalidCertificates: true
 #    issuerConf:
 #      name: special-selfsigned-issuer
@@ -97,7 +97,7 @@ spec:
 #            prefixCompression: true
     affinity:
       antiAffinityTopologyKey: "kubernetes.io/hostname"
-%{ if affinity_definition != null ~}      
+%{ if affinity_definition != null ~}
       advanced:
         ${indent(8, yamlencode(affinity_definition))}
 %{ endif ~}
@@ -553,10 +553,10 @@ spec:
       ${backupStorageName}:
         type: s3
         s3:
-          bucket: ${ceph_percona_backup_bucket}
-          region: us-east-1
+          bucket: ${object_store_percona_backup_bucket}
+          region: ${object_store_region}
           credentialsSecret: ${percona_credentials_secret}
-          endpointUrl: ${ceph_api_url}
+          endpointUrl: ${object_store_api_url}
           insecureSkipTLSVerify: false
           prefix: ${cluster_name}
 #      azure-blob:
@@ -607,10 +607,10 @@ metadata:
   name: ${cluster_name}-backup
   namespace: ${namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"    
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   clusterName: ${cluster_name}
-  storageName: ${backupStorageName}  
+  storageName: ${backupStorageName}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -631,17 +631,18 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        AWS_ENDPOINTS: ${ceph_api_url}
+        AWS_ENDPOINTS: ${object_store_api_url}
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
+        AWS_REGION: ${object_store_region}
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
-      remoteRef: 
+      remoteRef:
         key: ${percona_credentials_secret_provider_key}
         property: value
     - secretKey: AWS_ACCESS_KEY_ID # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${percona_credentials_id_provider_key}
         property: value
 ---
@@ -651,7 +652,7 @@ metadata:
   name: init-${cluster_name}
   namespace: ${namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"     
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   template:
     spec:
@@ -664,14 +665,14 @@ spec:
             - "-c"
           args:
             - >
-               echo "use ${database_name}" >> ~/init.js;       
+               echo "use ${database_name}" >> ~/init.js;
                echo "db.createUser({user: \"${database_user}\",pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
 %{ for privilege in additional_privileges ~}
                echo "db.createRole({ role: \"additionalRole\", privileges: [{ resource: { db: \"${database_name}\", collection: \"${privilege.collection}\" }, actions: [\"${privilege.action}\"] }], roles: [] })" >> ~/init.js;
 %{ endfor ~}
 %{ if additional_privileges != [] ~}
                echo "db.updateUser(\"${database_user}\", { roles: [ { db: \"${database_name}\", role: \"readWrite\" },{ role: \"additionalRole\", db: \"${database_user}\" }]})" >> ~/init.js;
-%{ endif ~}                 
+%{ endif ~}
                chmod +x ~/init.js;
                echo "running init.js";
                mongosh "mongodb://$${MONGODB_USER_ADMIN_USER}:$${MONGODB_USER_ADMIN_PASSWORD}@${cluster_name}-mongos" < ~/init.js
@@ -680,17 +681,17 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name:  ${existing_secret}
-                  key: MONGODB_USER_ADMIN_USER                  
+                  key: MONGODB_USER_ADMIN_USER
             - name: MONGODB_USER_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name:  ${existing_secret}
-                  key: MONGODB_USER_ADMIN_PASSWORD                
+                  key: MONGODB_USER_ADMIN_PASSWORD
             - name: MONGODB_USER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name:  ${existing_secret}
-                  key: mongodb-passwords         
+                  key: mongodb-passwords
           resources: {}
           imagePullPolicy: IfNotPresent
       initContainers:

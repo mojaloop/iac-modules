@@ -109,7 +109,7 @@ locals {
     netbird_setup_key            = get_env("NETBIRD_GW_SETUP_KEY")
     migrate                      = get_env("migrate")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
-    ceph_fqdn                    = get_env("OBJECTSTORE_FQDN")
+    object_store_fqdn            = get_env("OBJECTSTORE_FQDN")
     vault_fqdn                   = get_env("VAULT_FQDN")
     root_app_path                = "${local.ARGO_CD_ROOT_APP_PATH}/app-yamls"
     external_secrets_version     = local.common_vars.external_secrets_version
@@ -136,7 +136,7 @@ locals {
     eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
   }
   all_hosts_var_maps = {
-    ceph_listening_port              = get_env("OBJECTSTORE_PORT")
+    object_store_listening_port              = get_env("OBJECTSTORE_PORT")
     nexus_docker_repo_listening_port = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     nexus_fqdn                       = get_env("NEXUS_FQDN")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")

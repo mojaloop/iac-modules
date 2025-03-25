@@ -87,7 +87,7 @@ inputs = {
   kv_path                                  = local.KV_SECRET_PATH
   transit_vault_key_name                   = local.migrate ? local.mig_transit_vault_unseal_key_name : local.TRANSIT_VAULT_UNSEAL_KEY_NAME
   transit_vault_url                        = local.VAULT_SERVER_URL
-  ceph_api_url                             = local.ceph_fqdn
+  object_store_api_url                     = local.object_store_fqdn
   central_observability_endpoint           = local.central_observability_endpoint
   managed_db_host                          = ""      # to correct later
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
@@ -166,7 +166,7 @@ locals {
   mig_transit_vault_unseal_key_name = "${get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")}-migrated"
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
   VAULT_ADDR                    = get_env("VAULT_ADDR")
-  ceph_fqdn                     = get_env("OBJECTSTORE_FQDN")
+  object_store_fqdn                     = get_env("OBJECTSTORE_FQDN")
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
   migrate                       = get_env("migrate")
   argocd_ingress_internal_lb    = true

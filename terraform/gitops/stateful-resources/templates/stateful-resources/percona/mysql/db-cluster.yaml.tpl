@@ -102,8 +102,8 @@ spec:
         long_query_time=${database_config.long_query_time}
         innodb_use_native_aio=${database_config.innodb_use_native_aio}
         max_connections=${database_config.max_connections}
-        innodb_buffer_pool_size=${database_config.innodb_buffer_pool_size} 
-        wsrep_auto_increment_control=OFF      
+        innodb_buffer_pool_size=${database_config.innodb_buffer_pool_size}
+        wsrep_auto_increment_control=OFF
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
 #      [sst]
@@ -174,10 +174,10 @@ spec:
 #      whenUnsatisfiable: DoNotSchedule
     affinity:
       antiAffinityTopologyKey: "kubernetes.io/hostname"
-%{ if affinity_definition != null ~}      
+%{ if affinity_definition != null ~}
       advanced:
         ${indent(8, yamlencode(affinity_definition))}
-%{ endif ~}  
+%{ endif ~}
 #        nodeAffinity:
 #          requiredDuringSchedulingIgnoredDuringExecution:
 #            nodeSelectorTerms:
@@ -658,9 +658,10 @@ spec:
 #            xbstream:
 #            - "--someflag=abc"
         s3:
-          bucket: ${ceph_percona_backup_bucket}
+          bucket: ${object_store_percona_backup_bucket}
+          region: ${object_store_region}
           credentialsSecret: ${percona_credentials_secret}
-          endpointUrl: ${ceph_api_url}
+          endpointUrl: ${object_store_api_url}
       azure-blob:
         type: azure
         azure:
@@ -730,7 +731,7 @@ metadata:
   name: ${cluster_name}-backup
   namespace: ${namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"    
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   pxcCluster: ${cluster_name}
   storageName: ${backupStorageName}
@@ -754,17 +755,18 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        AWS_ENDPOINTS: ${ceph_api_url}
+        AWS_ENDPOINTS: ${object_store_api_url}
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
+        AWS_REGION: ${object_storage_region}
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
-      remoteRef: 
+      remoteRef:
         key: ${percona_credentials_secret_provider_key}
         property: value
     - secretKey: AWS_ACCESS_KEY_ID # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${percona_credentials_id_provider_key}
         property: value
 ---
@@ -774,7 +776,7 @@ metadata:
   name: init-${cluster_name}
   namespace: ${namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"     
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   template:
     spec:
@@ -802,7 +804,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name:  ${existing_secret}
-                  key: mysql-password          
+                  key: mysql-password
           resources: {}
           imagePullPolicy: IfNotPresent
       initContainers:

@@ -129,7 +129,7 @@ resource "local_file" "strimzi-crs" {
       strimzi_kafka_grafana_dashboards_version = local.strimzi_kafka_grafana_dashboards_version
       strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
         "strimzi-kafka-exporter", "strimzi-kafka-mirror-maker-2", "strimzi-kafka-oauth",
-      "strimzi-kafka", "strimzi-kraft", "strimzi-operators", "strimzi-zookeeper"]      
+      "strimzi-kafka", "strimzi-kraft", "strimzi-operators", "strimzi-zookeeper"]
   })
   filename = "${local.stateful_resources_output_path}/kafka-with-dual-role-nodes-${each.key}.yaml"
 }
@@ -176,9 +176,9 @@ resource "local_file" "percona-crs" {
       additional_privileges             = each.value.resource_type == "mongodb" ? each.value.local_operator_config.additional_privileges : []
 
 
-      ceph_percona_backup_bucket = var.ceph_percona_backup_bucket
-      ceph_percona_secret        = "percona-backups-secret"
-      ceph_api_url               = "https://${var.ceph_api_url}"
+      object_store_percona_backup_bucket = var.object_store_percona_backup_bucket
+      object_store_percona_secret        = "percona-backups-secret"
+      object_store_api_url               = "https://${var.object_store_api_url}"
       backupSchedule              = each.value.backup_schedule
       backupStorageName           = "${each.key}-backup-storage"
 
@@ -330,14 +330,14 @@ variable "stateful_resources" {
   type = any
 }
 
-variable "ceph_api_url" {
+variable "object_store_api_url" {
   type        = string
-  description = "ceph_api_url"
+  description = "object_store_api_url"
 }
 
-variable "ceph_percona_backup_bucket" {
+variable "object_store_percona_backup_bucket" {
   type        = string
-  description = "ceph_percona_backup_bucket"
+  description = "object_store_percona_backup_bucket"
 }
 
 variable "monolith_stateful_resources" {

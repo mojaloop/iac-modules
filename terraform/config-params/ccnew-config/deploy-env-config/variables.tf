@@ -86,3 +86,7 @@ variable "env_token_ttl" {
   type        = string
   description = "time to live for the env token"
 }
+
+variable "obj_store_region" {
+  description = "cloud region"
+}

@@ -126,9 +126,9 @@ variable "dns_provider" {
   description = "provider for ext dns"
 }
 
-variable "ceph_api_url" {
+variable "object_store_api_url" {
   type        = string
-  description = "ceph_api_url"
+  description = "object_store_api_url"
 }
 
 variable "central_observability_endpoint" {

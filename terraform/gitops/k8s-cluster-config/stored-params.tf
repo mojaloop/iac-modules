@@ -64,7 +64,7 @@ data "gitlab_project_variable" "velero_bucket" {
   key     = "velero_bucket"
 }
 
-data "gitlab_project_variable" "ceph_percona_backup_bucket" {
+data "gitlab_project_variable" "object_store_percona_backup_bucket" {
   project = var.current_gitlab_project_id
   key     = "percona_bucket"
 }
