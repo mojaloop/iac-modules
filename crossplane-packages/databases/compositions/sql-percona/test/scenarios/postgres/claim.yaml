@@ -2,7 +2,7 @@ apiVersion: database.infitx.org/v1alpha1
 kind: SqlPercona
 metadata:
   name: example-sql
-  namespace: testa
+  namespace: postgres-operator
 spec:
   parameters:
     dbType: postgres
@@ -41,7 +41,7 @@ spec:
 
 
   providerConfigsRef:
-    scK8sProviderName: remote-provider
-    ccK8sProviderName: local-provider
+    scK8sProviderName: kubernetes-provider
+    ccK8sProviderName: kubernetes-provider
   managementPolicies:
     - "*"
