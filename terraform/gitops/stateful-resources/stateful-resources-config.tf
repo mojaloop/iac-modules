@@ -179,6 +179,7 @@ resource "local_file" "percona-crs" {
       object_store_percona_backup_bucket = var.object_store_percona_backup_bucket
       object_store_percona_secret        = "percona-backups-secret"
       object_store_api_url               = "https://${var.object_store_api_url}"
+      object_store_region                = var.object_store_region
       backupSchedule              = each.value.backup_schedule
       backupStorageName           = "${each.key}-backup-storage"
 
@@ -333,6 +334,11 @@ variable "stateful_resources" {
 variable "object_store_api_url" {
   type        = string
   description = "object_store_api_url"
+}
+
+variable "object_store_region" {
+  type        = string
+  description = "object_store_region"
 }
 
 variable "object_store_percona_backup_bucket" {

@@ -166,7 +166,8 @@ locals {
   mig_transit_vault_unseal_key_name = "${get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")}-migrated"
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
   VAULT_ADDR                    = get_env("VAULT_ADDR")
-  object_store_fqdn                     = get_env("OBJECTSTORE_FQDN")
+  object_store_fqdn             = get_env("OBJECTSTORE_FQDN")
+  object_store_region           = get_env("OBJECTSTORE_REGION")
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
   migrate                       = get_env("migrate")
   argocd_ingress_internal_lb    = true

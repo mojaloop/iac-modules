@@ -13,6 +13,7 @@ module "mojaloop_stateful_resources" {
   external_stateful_resource_instance_addresses = local.external_stateful_resource_instance_addresses
   managed_db_host                               = var.managed_db_host
   object_store_api_url                          = var.object_store_api_url
+  object_store_region                           = var.object_store_region
   object_store_percona_backup_bucket            = var.object_store_percona_backup_bucket
   external_secret_sync_wave                     = var.external_secret_sync_wave
   monolith_stateful_resources                   = local.monolith_for_mojaloop_sts_resources
@@ -29,6 +30,11 @@ variable "stateful_resources_namespace" {
 variable "object_store_api_url" {
   type        = string
   description = "object_store_api_url"
+}
+
+variable "object_store_region" {
+  type        = string
+  description = "object_store_region"
 }
 
 variable "object_store_percona_backup_bucket" {

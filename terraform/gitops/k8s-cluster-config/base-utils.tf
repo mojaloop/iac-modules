@@ -8,6 +8,7 @@ module "generate_reflector_files" {
     base_utils_sync_wave                   = var.base_utils_sync_wave
     velero_chart_version                   = var.velero_chart_version
     object_store_api_url                   = var.object_store_api_url
+    object_store_region                    = var.object_store_region
     velero_bucket_name                     = local.velero_bucket
     velero_credentials_id_provider_key     = "${var.cluster_name}/${local.velero_credentials_id_provider_key}"
     velero_credentials_secret_provider_key = "${var.cluster_name}/${local.velero_credentials_secret_provider_key}"

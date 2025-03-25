@@ -67,6 +67,7 @@ module "mojaloop" {
   managed_db_host                      = var.managed_db_host
   platform_stateful_res_config         = module.config_deepmerge.merged
   object_store_api_url                 = var.object_store_api_url
+  object_store_region                  = var.object_store_region
   object_store_percona_backup_bucket   = data.gitlab_project_variable.object_store_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
   pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
@@ -215,8 +216,9 @@ module "vnext" {
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
   platform_stateful_res_config         = module.config_deepmerge.merged
-  object_store_api_url                         = var.object_store_api_url
-  object_store_percona_backup_bucket           = data.gitlab_project_variable.object_store_percona_backup_bucket.value
+  object_store_api_url                 = var.object_store_api_url
+  object_store_region                  = var.object_store_region
+  object_store_percona_backup_bucket   = data.gitlab_project_variable.object_store_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
   monolith_stateful_resources          = local.monolith_stateful_resources
   managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
@@ -365,6 +367,10 @@ variable "argocd_namespace" {
   description = "namespace argocd is deployed to"
 }
 
+variable "object_store_region"{
+  type        = string
+  description = "object_store_region"
+}
 locals {
   auth_fqdn = "auth.${var.public_subdomain}"
 
