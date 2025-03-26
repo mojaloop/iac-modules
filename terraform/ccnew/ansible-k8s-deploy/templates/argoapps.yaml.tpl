@@ -320,6 +320,7 @@ argocd_override:
           env_token_ttl: "${env_token_ttl}"
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
+          rdbms_provider: "${env_rdbms_provider}"
         onboard_common_platform_db_percona_provider:
           postgres_replicas: "${env_common_platform_perc_postgres_replicas}"
           postgres_proxy_replicas: "${env_common_platform_perc_postgres_proxy_replicas}"
