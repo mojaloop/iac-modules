@@ -1,0 +1,158 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: vault-backups
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  bucketName: vault-backups
+  storageClassName: ceph-bucket
+  additionalConfig:
+    maxObjects: "${ARGOCD_ENV_vault_backup_bucket_maxobjects}"
+    maxSize: "${ARGOCD_ENV_vault_backup_bucket_maxsize}"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-secret-creator
+  namespace: ${ARGOCD_ENV_vault_namespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: ${ARGOCD_ENV_vault_namespace}
+  name: vault-secret-role
+rules:
+  - apiGroups: [""]
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - selfsubjectrulesreviews
+    verbs:
+      - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: vault-secret-creator
+  namespace: ${ARGOCD_ENV_vault_namespace}
+subjects:
+  - kind: ServiceAccount
+    name: vault-secret-creator
+roleRef:
+  kind: Role
+  name: vault-secret-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: vault-k8s-secret-store
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  provider:
+    kubernetes:
+      auth:
+        serviceAccount:
+          name: "vault-secret-creator"
+      remoteNamespace: ${ARGOCD_ENV_vault_namespace}
+      server:
+        caProvider:
+          type: ConfigMap
+          name: kube-root-ca.crt
+          key: ca.crt
+---          
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: rclone-config-template
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: vault-k8s-secret-store
+
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: vault-backups
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: vault-backups
+        property: AWS_SECRET_ACCESS_KEY
+
+  target:
+    name: rclone-config-template
+    creationPolicy: Owner
+    template:
+      data:
+        rclone.conf: |
+          [ceph]
+          type = s3
+          provider = Ceph
+          access_key_id = {{.AWS_ACCESS_KEY_ID}}
+          secret_access_key = {{.AWS_SECRET_ACCESS_KEY}}
+          endpoint = http://rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local
+          region = us-east-1
+          no_check_bucket = true
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: vault-backup
+  namespace: ${ARGOCD_ENV_vault_namespace}
+spec:
+  concurrencyPolicy: Forbid
+  schedule: "${ARGOCD_ENV_vault_backup_schedule}"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: vault-backup
+        spec:
+          serviceAccountName: vault
+          restartPolicy: Never
+          volumes:
+          - name: rclone-config
+            secret:
+              secretName: rclone-config-template  
+          containers:
+          - name: vault-backup
+            image: ghcr.io/mojaloop/ml-iac-infra-utils:${ARGOCD_ENV_vault_backup_utility_image_version}
+            command:
+              - /bin/sh
+              - "-c"
+            args:
+              - >
+                export VAULT_ADDR="http://vault-active.vault.svc.cluster.local:8200";
+                DATE=`date +%Y-%m-%d-%H-%M-%S`;
+                vault operator raft snapshot save /tmp/vaultsnapshot-$DATE.snap;
+                rclone copy /tmp/vaultsnapshot-$DATE.snap ceph:vault-backups --progress --config /config/rclone.conf --verbose=2;
+            env:
+              - name: VAULT_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: vault-keys
+                    key: root_token
+              - name: AWS_ACCESS_KEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: vault-backups
+                    key: AWS_ACCESS_KEY_ID
+              - name: AWS_SECRET_ACCESS_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: vault-backups
+                    key: AWS_SECRET_ACCESS_KEY
+            volumeMounts:
+              - name: rclone-config
+                mountPath: /config  
