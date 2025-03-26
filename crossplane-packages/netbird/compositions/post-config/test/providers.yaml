@@ -8,8 +8,9 @@ spec:
 
 ---
 apiVersion: pkg.crossplane.io/v1
-kind: Configuration
+kind: Provider
 metadata:
-  name: netbird-crossplane-provider
+  name: provider-netbird
 spec:
-  package: ghcr.io/infitx-org/netbird-crossplane-provider:v0.0.3
+  package: ghcr.io/infitx-org/netbird-crossplane-provider:v0.0.4
+---
