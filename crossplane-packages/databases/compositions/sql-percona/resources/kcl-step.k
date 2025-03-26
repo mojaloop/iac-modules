@@ -81,7 +81,8 @@ if parameters?.dbType == "postgres":
                                 password = {
                                     type = "ASCII"
                                 }
-                                secretName = "{}-secret".format(oxr.metadata.name)
+                                #TODO: secretName = "{}-secret".format(oxr.metadata.name)
+                                secretName = "db-secret"
                             }
                         ]
                         backups = {
@@ -158,7 +159,8 @@ _Secret = {
     parameters = {
       objectType = "Secret"
       source = {
-        name = "{}-secret".format(oxr.metadata.name)
+        #TODO: name = "{}-secret".format(oxr.metadata.name)
+        name = "db-secret"
         namespace = parameters?.dbNamespace
       }
       destination = {
