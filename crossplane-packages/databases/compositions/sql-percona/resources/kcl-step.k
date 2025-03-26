@@ -23,8 +23,8 @@ if parameters?.dbType == "postgres":
                     apiVersion = "pgv2.percona.com/v2"
                     kind = "PerconaPGCluster"
                     metadata = {
-                        name = spec?.claimRef?.name
-                        namespace = spec?.claimRef?.namespace
+                        name = "{}-db".format(oxr.metadata.name)
+                        namespace = parameters?.dbNamespace
                     }
                     spec = {
                         crVersion = parameters?.postgres?.crVersion
@@ -40,7 +40,7 @@ if parameters?.dbType == "postgres":
                         unmanaged = False
                         instances = [
                             {
-                                name = "instance1"
+                                name = "{}-db".format(oxr.metadata.name)
                                 replicas = parameters?.postgres?.replicas
                                 affinity = {
                                     podAntiAffinity = {
@@ -74,14 +74,14 @@ if parameters?.dbType == "postgres":
                         users = [
                             {
                                 databases = [
-                                    "mydatabase"
+                                    "{}-db".format(oxr.metadata.name)
                                 ]
                                 name = "admin"
                                 options = "SUPERUSER"
                                 password = {
                                     type = "ASCII"
                                 }
-                                secretName = "db-secret"
+                                secretName = "{}-secret".format(oxr.metadata.name)
                             }
                         ]
                         backups = {
@@ -148,8 +148,35 @@ if parameters?.dbType == "postgres":
         }
     }
 
-    _items += [_Object]
-    dxr = {
-        **oxr
+_Secret = {
+  apiVersion = "infitx.org/v1alpha1"
+  kind = "XObjectSyncer"
+  metadata = {
+    name = "{}-secret".format(oxr.metadata.name)
+  }
+  spec = {
+    parameters = {
+      objectType = "Secret"
+      source = {
+        name = "{}-secret".format(oxr.metadata.name)
+        namespace = parameters?.dbNamespace
+      }
+      destination = {
+        namespace = oxr.metadata.namespace
+        name = "{}-secret".format(oxr.metadata.name)
+      }
     }
-    items = _items + [dxr]
+    providerConfigsRef = {
+      sourceK8sProviderName = spec.providerConfigsRef.ccK8sProviderName
+      destinationK8sProviderName = spec.providerConfigsRef.scK8sProviderName
+    }
+    managementPolicies = spec.managementPolicies
+  }
+
+}
+
+_items += [_Object, _Secret]
+dxr = {
+    **oxr
+}
+items = _items + [dxr]

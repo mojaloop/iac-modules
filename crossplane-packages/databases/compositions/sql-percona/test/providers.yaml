@@ -5,3 +5,10 @@ metadata:
   name: provider-kubernetes
 spec:
   package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.15.0
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: utils
+spec:
+  package: ghcr.io/mojaloop/iac-modules/xplane-packages/utils:feat-cc-eks-env-obj-63

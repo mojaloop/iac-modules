@@ -66,6 +66,12 @@ spec:
                     enum:
                       - postgres
                       - mysql
+                  dbName:
+                    type: string
+                    description: Name for the created DB
+                  dbNamespace:
+                    type: string
+                    description: Target namespace to deploy the DB in
                   postgres:
                     type: object
                     properties:
