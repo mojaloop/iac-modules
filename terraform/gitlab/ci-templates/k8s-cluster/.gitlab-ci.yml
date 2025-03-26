@@ -17,6 +17,7 @@ workflow:
 stages:
   - prepare
   - lint
+  - merge-config
   - init
   - validate
   - build
@@ -130,6 +131,20 @@ fmt:
     - terragrunt hclfmt -check -diff
     - terragrunt run-all fmt -check -diff -recursive || true
   when: manual
+
+merge-config:
+  stage: merge-config
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: https://$VAULT_FQDN
+  script:
+    - !reference [.source, script]
+    - .gitlab/scripts/push-merged-config.sh
+  artifacts:
+    paths:
+      - $CONFIG_PATH/*.yaml
+      - $CONFIG_PATH/*.yml
+      - $CONFIG_PATH/*.json
 
 init:
   stage: init
