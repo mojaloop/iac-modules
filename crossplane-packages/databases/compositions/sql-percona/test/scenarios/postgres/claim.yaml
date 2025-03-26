@@ -1,5 +1,5 @@
 apiVersion: database.infitx.org/v1alpha1
-kind: SqlPercona
+kind: XSqlPercona
 metadata:
   name: example-sql
   namespace: gitlab
