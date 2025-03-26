@@ -3,14 +3,13 @@ kind: CompositeResourceDefinition
 metadata:
   name: rdsaurorareplica.infitx.org
 spec:
-  defaultCompositeDeletePolicy: Foreground
   group: infitx.org
   names:
     kind: RDSAuroraReplica
     plural: rdsaurorareplica
   claimNames:
     kind: RDSAuroraReplicaClaim
-    plural: rdsaurorareplicaclaims    
+    plural: rdsaurorareplicaclaims
   versions:
     - name: v1alpha1
       served: true
@@ -24,7 +23,7 @@ spec:
               properties:
                 id:
                   type: string
-                  description: Database ID              
+                  description: Database ID
                 count:
                   type: integer
                   description: "The number of Aurora replicas to create."

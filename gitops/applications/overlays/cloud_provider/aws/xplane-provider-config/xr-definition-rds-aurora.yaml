@@ -3,7 +3,6 @@ kind: CompositeResourceDefinition
 metadata:
   name: rdsauroradbclusters.infitx.org
 spec:
-  defaultCompositeDeletePolicy: Foreground
   group: infitx.org
   names:
     kind: RDSAuroraDBCluster
@@ -119,7 +118,7 @@ spec:
                 - region
                 - engine
                 - engineVersion
-                - dbClusterInstanceClass                
+                - dbClusterInstanceClass
                 - subnets
                 - username
                 - dbName

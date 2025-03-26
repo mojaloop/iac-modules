@@ -3,7 +3,6 @@ kind: CompositeResourceDefinition
 metadata:
   name: rdsdbclusters.infitx.org
 spec:
-  defaultCompositeDeletePolicy: Foreground
   group: infitx.org
   names:
     kind: RDSDBCluster
@@ -53,7 +52,7 @@ spec:
                     type: string
                   vpcCidr:
                     description: Vpc CIDR
-                    type: string                 
+                    type: string
                   subnets:
                     description: The list of subnet-ids to create the subnetgroup
                     type: array
@@ -74,7 +73,7 @@ spec:
                   storageEncrypted:
                     description: The type of storage
                     type: boolean
-                    default: true                     
+                    default: true
                   backupRetentionPeriod:
                     description: The number of days to retain backups for
                     type: integer
@@ -87,13 +86,13 @@ spec:
                   autoMinorVersionUpgrade:
                     description: Indicates that minor version upgrades are applied automatically
                     type: boolean
-                  applyImmediately: 
+                  applyImmediately:
                     description: Indicates that changes should be applied immediately
-                    type: boolean 
-                  skipFinalSnapshot: 
+                    type: boolean
+                  skipFinalSnapshot:
                     description: Indicates that final snapshot should be skipped before destroy
                     type: boolean
-                    default: false                                                    
+                    default: false
                   passwordSecret:
                     description: The secret reference to the password of the master user.
                     type: object
