@@ -1,7 +1,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: objectsyncer
+  name: xobjectsyncer
   labels:
     crossplane.io/xrd: xobjectsyncer.infitx.org
 spec:
