@@ -164,8 +164,8 @@ _Secret = {
         namespace = parameters?.dbNamespace
       }
       destination = {
-        namespace = oxr.metadata.namespace
-        name = parameters?.secretNamespace
+        namespace = parameters?.secretNamespace
+        name = "{}-secret".format(oxr.metadata.name)
       }
     }
     providerConfigsRef = {
