@@ -112,6 +112,9 @@ if parameters?.dbType == "postgres":
                                 image = "percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbouncer1.23.1"
                                 replicas = 1
                                 port = 5432
+                                expose = {
+                                    type = "LoadBalancer"
+                                }
                                 affinity = {
                                     podAntiAffinity = {
                                         preferredDuringSchedulingIgnoredDuringExecution = [
@@ -150,33 +153,31 @@ if parameters?.dbType == "postgres":
     }
 
 _Secret = {
-  apiVersion = "infitx.org/v1alpha1"
-  kind = "XObjectSyncer"
-  metadata = {
-    name = "{}-secret".format(oxr.metadata.name)
-  }
-  spec = {
-    parameters = {
-      objectType = "Secret"
-      source = {
-        #TODO: name = "{}-secret".format(oxr.metadata.name)
-        name = "db-secret"
-        namespace = parameters?.dbNamespace
-      }
-      destination = {
-        namespace = parameters?.secretNamespace
+    apiVersion = "infitx.org/v1alpha1"
+    kind = "XObjectSyncer"
+    metadata = {
         name = "{}-secret".format(oxr.metadata.name)
-      }
     }
-    providerConfigsRef = {
-      sourceK8sProviderName = spec?.providerConfigsRef?.scK8sProviderName
-      destinationK8sProviderName = spec?.providerConfigsRef?.ccK8sProviderName
+    spec = {
+        parameters = {
+            objectType = "Secret"
+            source = {
+                #TODO: name = "{}-secret".format(oxr.metadata.name)
+                name = "db-secret"
+                namespace = parameters?.dbNamespace
+            }
+            destination = {
+                namespace = parameters?.secretNamespace
+                name = "{}-secret".format(oxr.metadata.name)
+            }
+        }
+        providerConfigsRef = {
+            sourceK8sProviderName = spec?.providerConfigsRef?.scK8sProviderName
+            destinationK8sProviderName = spec?.providerConfigsRef?.ccK8sProviderName
+        }
+        managementPolicies = spec?.managementPolicies
     }
-    managementPolicies = spec?.managementPolicies
-  }
-
 }
-
 
 _items += [_Object, _Secret]
 dxr = {
