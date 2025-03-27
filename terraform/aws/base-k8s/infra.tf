@@ -71,7 +71,7 @@ module "k6s_test_harness" {
 #############################
 resource "aws_launch_template" "node" {
   for_each      = var.node_pools
-  name_prefix   = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}"
+  name_prefix   = "${each.value.master ? "master" : "agent"}-${each.key}"
   image_id      = module.ubuntu_focal_ami.id
   instance_type = each.value.instance_type
   user_data     = data.template_cloudinit_config.generic.rendered
@@ -157,7 +157,7 @@ resource "aws_launch_template" "node" {
 
 resource "aws_autoscaling_group" "node" {
   for_each            = var.node_pools
-  name_prefix         = "${local.name}-${each.key}-${each.value.master ? "master" : "agent"}"
+  name_prefix         = "${each.value.master ? "master" : "agent"}-${each.key}"
   desired_capacity    = each.value.node_count
   max_size            = each.value.node_count
   min_size            = each.value.node_count
