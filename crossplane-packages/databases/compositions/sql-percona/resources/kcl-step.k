@@ -169,8 +169,8 @@ _Secret = {
       }
     }
     providerConfigsRef = {
-      sourceK8sProviderName = spec?.providerConfigsRef?.ccK8sProviderName
-      destinationK8sProviderName = spec?.providerConfigsRef?.scK8sProviderName
+      sourceK8sProviderName = spec?.providerConfigsRef?.scK8sProviderName
+      destinationK8sProviderName = spec?.providerConfigsRef?.ccK8sProviderName
     }
     managementPolicies = spec?.managementPolicies
   }
