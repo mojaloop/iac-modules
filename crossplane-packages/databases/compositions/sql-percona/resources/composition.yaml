@@ -1,13 +1,13 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: xobjectsyncer
+  name: sqlpercona
   labels:
-    crossplane.io/xrd: xobjectsyncer.infitx.org
+    crossplane.io/xrd: xsqlpercona.database.infitx.org
 spec:
   compositeTypeRef:
-    apiVersion: infitx.org/v1alpha1
-    kind: XObjectSyncer
+    apiVersion: database.infitx.org/v1alpha1
+    kind: XSqlPercona
   mode: Pipeline
   pipeline:
 

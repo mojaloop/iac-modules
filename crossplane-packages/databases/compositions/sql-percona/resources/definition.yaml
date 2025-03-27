@@ -1,0 +1,192 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xsqlpercona.database.infitx.org
+spec:
+  defaultCompositeDeletePolicy: Foreground
+  group: database.infitx.org
+  names:
+    kind: XSqlPercona
+    plural: xsqlpercona
+  claimNames:
+    kind: SqlPercona
+    plural: sqlpercona
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              managementPolicies:
+                default:
+                  - "*"
+                description: |-
+                  A ManagementAction represents an action that the Crossplane controllers
+                  can take on an external resource.
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                    - Observe
+                    - Create
+                    - Update
+                    - Delete
+                    - LateInitialize
+                    - "*"
+                  type: string
+                type: array
+              providerConfigsRef:
+                type: object
+                description: |-
+                  The name of the provider config to use for the remote and local k8s providers.
+                required:
+                  - scK8sProviderName
+                  - ccK8sProviderName
+                properties:
+                  ccK8sProviderName:
+                    type: string
+                    description: |-
+                      The name of the provider config to use for the local k8s provider.
+                  scK8sProviderName:
+                    type: string
+                    description: |-
+                      The name of the provider config to use for the remote k8s provider.
+              parameters:
+                type: object
+                properties:
+                  dbType:
+                    type: string
+                    description: Type of object to be synced
+                    enum:
+                      - postgres
+                      - mysql
+                  dbName:
+                    type: string
+                    description: Name for the created DB
+                  dbNamespace:
+                    type: string
+                    description: Target namespace to deploy the DB in
+                  secretNamespace:
+                    type: string
+                    description: Target namespace to Sync the DB in
+                  postgres:
+                    type: object
+                    properties:
+                      crVersion:
+                        type: string
+                        description: Type of object to be synced
+                        default: "2.5.0"
+
+                      pgVersion:
+                        type: number
+                        description: Type of object to be synced
+                        default: 16
+                      image:
+                        type: string
+                        description: Type of object to be synced
+                        default: percona/percona-postgresql-operator:2.5.0-ppg16.4-postgres
+                      imagePullPolicy:
+                        type: string
+                        description: Type of object to be synced
+                        default: Always
+                      dbDeployPrefix:
+                        type: string
+                        description: Type of object to be synced
+                        default: mydb
+                      dbName:
+                        type: string
+                        description: Type of object to be synced
+                        default: mydatabase
+                      dbUsername:
+                        type: string
+                        description: Type of object to be synced
+                        default: admin
+                      dbSecret:
+                        type: string
+                        description: Type of object to be synced
+                        default: db-secret
+                      replicas:
+                        type: number
+                        description: Type of object to be synced
+                        default: 1
+                      storageSize:
+                        type: string
+                        description: Type of object to be synced
+                        default: 10Gi
+                      expose:
+                        type: object
+                        properties:
+                          enable:
+                            type: boolean
+                            description: Type of object to be synced
+                            default: False
+                          type:
+                            type: string
+                            description: Type of object to be synced
+                            default: LoadBalancer
+
+                  pgBackRest:
+                    type: object
+                    properties:
+                      backupReponame:
+                        type: string
+                        description: Type of object to be synced
+                        default: repo1
+                      repo_path:
+                        type: string
+                        description: Type of object to be synced
+                        default: "/pgbackrest"
+                      image:
+                        type: string
+                        description: Type of object to be synced
+                        default: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbackrest2.53-1
+                      storagePort:
+                        type: number
+                        description: Type of object to be synced
+                        default: 443
+                      backupsRetentionDays:
+                        type: number
+                        description: Type of object to be synced
+                        default: 3
+                      fullBackupSchedule:
+                        type: string
+                        description: Type of object to be synced
+                        default: "0 0 * * 6"
+                      diffBackupSchedule:
+                        type: string
+                        description: Type of object to be synced
+                        default: "0 1 * * 1-6"
+
+                  pgBouncer:
+                    type: object
+                    properties:
+                      image:
+                        type: string
+                        description: Type of object to be synced
+                        default: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbouncer1.23.1
+                      replicas:
+                        type: number
+                        description: Type of object to be synced
+                        default: 1
+                      poolMode:
+                        type: string
+                        description: Type of object to be synced
+                        default: transaction
+                      queryWaitTimeout:
+                        type: number
+                        description: Type of object to be synced
+                        default: 600
+                      maxPreparedStatements:
+                        type: number
+                        description: Type of object to be synced
+                        default: 1
+                      exposeSuperusers:
+                        type: boolean
+                        description: Type of object to be synced
+                        default: True
