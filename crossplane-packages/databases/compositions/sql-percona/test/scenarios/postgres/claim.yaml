@@ -7,7 +7,7 @@ spec:
   parameters:
     dbType: postgres
     dbNamespace: testdb
-
+    secretNamespace: gitlab
     postgres:
       crVersion: "2.5.0"
       pgVersion: 16

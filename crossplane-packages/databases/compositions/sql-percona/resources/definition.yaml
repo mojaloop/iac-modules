@@ -72,6 +72,9 @@ spec:
                   dbNamespace:
                     type: string
                     description: Target namespace to deploy the DB in
+                  secretNamespace:
+                    type: string
+                    description: Target namespace to Sync the DB in
                   postgres:
                     type: object
                     properties:

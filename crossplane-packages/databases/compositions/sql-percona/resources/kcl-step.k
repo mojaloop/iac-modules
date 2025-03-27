@@ -165,7 +165,7 @@ _Secret = {
       }
       destination = {
         namespace = oxr.metadata.namespace
-        name = "{}-secret".format(oxr.metadata.name)
+        name = parameters?.secretNamespace
       }
     }
     providerConfigsRef = {
