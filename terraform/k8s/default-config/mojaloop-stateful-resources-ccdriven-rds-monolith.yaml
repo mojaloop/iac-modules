@@ -6,6 +6,7 @@ common_platform_db:
     allocated_storage: 100
     storage_type: io1
     storage_iops: 5000
+    backup_retention_period: 1
     backup_window: 01:00-04:00
     db_name: common_platform_db
     deletion_protection: false
@@ -64,6 +65,7 @@ common_mojaloop_db:
     allocated_storage: 100
     storage_type: io1
     storage_iops: 5000
+    backup_retention_period: 1
     backup_window: 01:00-04:00
     db_name: common_mojaloop_db
     deletion_protection: false
