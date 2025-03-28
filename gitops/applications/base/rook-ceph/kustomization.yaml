@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - objectstore-certs.yaml
   - ceph-blockpool-crs.yaml
-  #- ceph-objectstore-crs.yaml
-  - ceph-filsystem-crs.yaml
+  - ceph-objectstore-crs.yaml
+  #- ceph-filsystem-crs.yaml
   - storageclass.yaml
