@@ -292,7 +292,7 @@ rook_ceph_osd_count: "'3'"
 rook_ceph_volume_size_per_osd: "500Gi"
 rook_ceph_volumes_provider: "pvc" # host, pvc
 rook_ceph_aws_ebs_csi_driver_helm_version: "2.39.0"
-rook_ceph_rgw_log_level: 0
+rook_ceph_rgw_log_level: "'0'"
 
 # argocd 
 argocd_server_log_level: "info"
