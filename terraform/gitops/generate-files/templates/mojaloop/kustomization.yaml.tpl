@@ -9,6 +9,7 @@ resources:
   - switch-jws-deployment.yaml
   - opentelemetry-instrumentation.yaml
   - rbac-api-resources.yaml
+  - simulator-issuer.yaml
 helmCharts:
 - name: mojaloop
   releaseName: ${mojaloop_release_name}
