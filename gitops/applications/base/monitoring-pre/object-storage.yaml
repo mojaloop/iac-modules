@@ -19,7 +19,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_mimir_bucket_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -41,4 +40,3 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_ctrl_cntr_loki_bucket_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"

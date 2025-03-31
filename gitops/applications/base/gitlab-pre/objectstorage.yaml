@@ -19,7 +19,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_git_lfs_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -41,7 +40,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_artifacts_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -63,7 +61,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_uploads_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -85,7 +82,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_packages_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -107,7 +103,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_registry_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -129,7 +124,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_mrdiffs_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -151,7 +145,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_cisecurefiles_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -173,7 +166,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_tfstate_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -195,7 +187,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_dep_proxy_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -217,7 +208,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -239,7 +229,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
@@ -261,7 +250,6 @@ spec:
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
-      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: v1
 kind: ServiceAccount
