@@ -132,13 +132,7 @@ metadata:
 spec:
   package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_aws_crossplane_module_version}
 ---
-apiVersion: pkg.crossplane.io/v1beta1
-kind: Function
-metadata:
-  name: function-patch-and-transform
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/function-patch-and-transform:v${ARGOCD_ENV_crossplane_func_pat_version}
----
+
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
@@ -149,13 +143,6 @@ spec:
     apiVersion: pkg.crossplane.io/v1beta1
     kind: DeploymentRuntimeConfig
     name: provider-kubernetes
----
-apiVersion: pkg.crossplane.io/v1beta1
-kind: Function
-metadata:
-  name: function-go-templating
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/function-go-templating:v${ARGOCD_ENV_crossplane_func_go_templating_version}
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider

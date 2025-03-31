@@ -55,11 +55,16 @@ argocd_override:
           terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
           ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
           aws_crossplane_module_version:  "${aws_crossplane_module_version}"
-          crossplane_func_pat_version: "${crossplane_func_pat_version}"
           k8s_crossplane_module_version: "${k8s_crossplane_module_version}"
           aws_s3_crossplane_module_version: "${aws_s3_crossplane_module_version}"
           aws_iam_crossplane_module_version: "${aws_iam_crossplane_module_version}"
+          crossplane_func_patch_and_transform_version: "${crossplane_func_patch_and_transform_version}"
           crossplane_func_go_templating_version: "${crossplane_func_go_templating_version}"
+          crossplane_func_kcl_version: "${crossplane_func_kcl_version}"
+          crossplane_func_auto_ready_version: "${crossplane_func_auto_ready_version}"
+          crossplane_package_buckets_version: "${crossplane_package_buckets_version}"
+          crossplane_package_utils_version: "${crossplane_package_utils_version}"
+          crossplane_package_databases_version: "${crossplane_package_databases_version}"
         kyverno:
           helm_version: "${kyverno_helm_version}"
         capi:
