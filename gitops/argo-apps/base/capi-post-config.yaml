@@ -37,4 +37,7 @@ spec:
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
 
         - name: "capi_cluster_name"
-          value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"      
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"
+
+        - name: "sc_kubernetes_provider_name"
+          value: "${ARGOCD_ENV_utils_capi_capi_crossplane_providerconfig_name}"

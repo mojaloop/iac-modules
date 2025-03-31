@@ -1,316 +1,267 @@
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: git-lfs
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: git-lfs
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_git_lfs_max_objects}"
-#     maxSize: "${ARGOCD_ENV_git_lfs_storage_size}"
-# ---
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: gitlab-artifacts
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: gitlab-artifacts
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_artifacts_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_artifacts_storage_size}"
-# ---
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: gitlab-uploads
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: gitlab-uploads
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_uploads_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_uploads_storage_size}"
-# ---
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: gitlab-packages
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: gitlab-packages
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_packages_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_packages_storage_size}"
-# ---
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: registry
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: registry
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_registry_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_registry_storage_size}"
-# ---
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: gitlab-mr-diffs
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: gitlab-mr-diffs
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_mrdiffs_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_mrdiffs_storage_size}"
-# ---
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: gitlab-terraform-state
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: gitlab-terraform-state
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_tfstate_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_tfstate_storage_size}"
-# ---
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: gitlab-ci-secure-files
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: gitlab-ci-secure-files
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_cisecurefiles_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_cisecurefiles_storage_size}"
-#---
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: gitlab-dependency-proxy
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: gitlab-dependency-proxy
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_dep_proxy_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_dep_proxy_storage_size}"
-# ---
-#   apiVersion: objectbucket.io/v1alpha1
-#   kind: ObjectBucketClaim
-#   metadata:
-#     name: gitlab-runner-cache
-#     namespace: ${ARGOCD_ENV_gitlab_namespace}
-#   spec:
-#     bucketName: gitlab-runner-cache
-#     storageClassName: ceph-bucket
-#     additionalConfig:
-#       maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
-#       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
 ---
-# # change the env vars
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: gitlab-backups
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: gitlab-backups
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
-# ---
-# # change the env vars
-# apiVersion: objectbucket.io/v1alpha1
-# kind: ObjectBucketClaim
-# metadata:
-#   name: gitlab-backups-tmp
-#   namespace: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   bucketName: gitlab-backups-tmp
-#   storageClassName: ceph-bucket
-#   additionalConfig:
-#     maxObjects: "${ARGOCD_ENV_gitlab_runner_cache_max_objects}"
-#     maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
----
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "git-lfs-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "git-lfs-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_git_lfs_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-artifacts-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-artifacts-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_artifacts_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-uploads-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-uploads-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_uploads_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-packages-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-packages-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_packages_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "registry-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "registry-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_registry_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_mrdiffs_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_cisecurefiles_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_tfstate_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_dep_proxy_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-backups-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-backups-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
-apiVersion: infitx.org/v1alpha1
-kind: S3BucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
   name: "gitlab-backups-tmp-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-backups-tmp-${ARGOCD_ENV_cluster_name}"
-    bucketRegion: ${ARGOCD_ENV_cloud_region}
-    forceDestroy: true
-    deletionPolicy: "Delete"
-    providerConfigName: "aws-cp-upbound-provider-config"
-    destinationNamespace:  ${ARGOCD_ENV_gitlab_namespace}
+    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
+      eso_pushsecret: "${ARGOCD_ENV_eso_vault_pushsecret}"
 ---
 apiVersion: v1
 kind: ServiceAccount
