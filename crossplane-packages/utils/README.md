@@ -1,2 +1,0 @@
-# SecretSyncer package
-
