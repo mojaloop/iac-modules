@@ -130,7 +130,7 @@ kind: Provider
 metadata:
   name: provider-aws
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_aws_crossplane_module_version}
+  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_aws_crossplane_provider_version}
 ---
 
 apiVersion: pkg.crossplane.io/v1
@@ -138,7 +138,7 @@ kind: Provider
 metadata:
   name: provider-kubernetes
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v${ARGOCD_ENV_k8s_crossplane_module_version}
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v${ARGOCD_ENV_k8s_crossplane_provider_version}
   runtimeConfigRef:
     apiVersion: pkg.crossplane.io/v1beta1
     kind: DeploymentRuntimeConfig
@@ -149,11 +149,11 @@ kind: Provider
 metadata:
   name: provider-aws-s3
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-s3:v${ARGOCD_ENV_aws_s3_crossplane_module_version}
+  package: xpkg.upbound.io/upbound/provider-aws-s3:v${ARGOCD_ENV_aws_s3_crossplane_provider_version}
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: provider-aws-iam
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_aws_iam_crossplane_module_version}
+  package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_aws_iam_crossplane_provider_version}
