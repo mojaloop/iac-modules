@@ -4,18 +4,18 @@ kind: Configuration
 metadata:
   name: utils
 spec:
-  package: ghcr.io/mojaloop/iac-modules/xplane-packages/utils:v${ARGOCD_ENV_crossplane_package_utils_version}
+  package: ghcr.io/mojaloop/iac-modules/xplane-packages/utils:${ARGOCD_ENV_crossplane_package_utils_version}
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Configuration
 metadata:
   name: databases
 spec:
-  package: ghcr.io/mojaloop/iac-modules/xplane-packages/databases:v${ARGOCD_ENV_crossplane_package_databases_version}
+  package: ghcr.io/mojaloop/iac-modules/xplane-packages/databases:${ARGOCD_ENV_crossplane_package_databases_version}
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Configuration
 metadata:
   name: buckets
 spec:
-  package: ghcr.io/mojaloop/iac-modules/xplane-packages/buckets:v${ARGOCD_ENV_crossplane_package_buckets_version}
+  package: ghcr.io/mojaloop/iac-modules/xplane-packages/buckets:${ARGOCD_ENV_crossplane_package_buckets_version}
