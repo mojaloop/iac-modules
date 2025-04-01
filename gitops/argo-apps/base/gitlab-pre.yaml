@@ -204,6 +204,8 @@ spec:
           - name: "object_storage_regional_endpoint"
             value: "${ARGOCD_ENV_utils_storage_object_storage_regional_endpoint}"
 
+          - name: "sc_provider_config_name"
+            value: "${ARGOCD_ENV_utils_capi_capi_crossplane_providerconfig_name}"
     #main gitlab db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}

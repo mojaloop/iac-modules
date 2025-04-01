@@ -1,23 +1,42 @@
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
-metadata:
-  name: ${ARGOCD_ENV_mimir_bucket_name}
-  namespace: ${ARGOCD_ENV_monitoring_namespace}
-spec:
-  bucketName: ${ARGOCD_ENV_mimir_bucket_name}
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_mimir_bucket_max_objects}"
-    maxSize: "${ARGOCD_ENV_mimir_bucket_storage_size}"
 ---
-apiVersion: objectbucket.io/v1alpha1
-kind: ObjectBucketClaim
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
 metadata:
-  name: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
+  name: "mimir-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_monitoring_namespace}
 spec:
-  bucketName: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
-  storageClassName: ceph-bucket
-  additionalConfig:
-    maxObjects: "${ARGOCD_ENV_ctrl_cntr_loki_bucket_max_objects}"
-    maxSize: "${ARGOCD_ENV_ctrl_cntr_loki_bucket_storage_size}"
+  parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
+    bucketName: "mimir-${ARGOCD_ENV_cluster_name}"
+    destinationNamespace: ${ARGOCD_ENV_monitoring_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_mimir_bucket_storage_size}"
+---
+apiVersion: mojaloop.io/v1alpha1
+kind: XObjectStore
+metadata:
+  name: "loki-${ARGOCD_ENV_cluster_name}"
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  parameters:
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
+    bucketName: "loki-${ARGOCD_ENV_cluster_name}"
+    destinationNamespace: ${ARGOCD_ENV_monitoring_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      ccK8sProviderName: "kubernetes-provider"
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_ctrl_cntr_loki_bucket_storage_size}"
