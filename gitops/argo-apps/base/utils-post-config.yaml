@@ -36,14 +36,14 @@ spec:
     plugin:
       name: envsubst
       env:
-        - name: "terraform_crossplane_modules_version"
-          value: "${ARGOCD_ENV_utils_post_config_terraform_crossplane_modules_version}"
+        - name: "terraform_crossplane_provider_version"
+          value: "${ARGOCD_ENV_utils_post_config_terraform_crossplane_provider_version}"
 
-        - name: "vault_crossplane_modules_version"
-          value: "${ARGOCD_ENV_utils_post_config_vault_crossplane_modules_version}"
+        - name: "vault_crossplane_provider_version"
+          value: "${ARGOCD_ENV_utils_post_config_vault_crossplane_provider_version}"
 
-        - name: "ansible_crossplane_modules_version"
-          value: "${ARGOCD_ENV_utils_post_config_ansible_crossplane_modules_version}"
+        - name: "ansible_crossplane_provider_version"
+          value: "${ARGOCD_ENV_utils_post_config_ansible_crossplane_provider_version}"
 
         - name: "crossplane_namespace"
           value: "${ARGOCD_ENV_utils_crossplane_namespace}"

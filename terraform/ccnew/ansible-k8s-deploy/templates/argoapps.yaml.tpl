@@ -51,9 +51,9 @@ argocd_override:
           replicas: "'${consul_replica_count}'"
           storage_size: "${consul_storage_size}"
         post_config:
-          vault_crossplane_modules_version: "${vault_crossplane_modules_version}"
-          terraform_crossplane_modules_version: "${terraform_crossplane_modules_version}"
-          ansible_crossplane_modules_version: "${ansible_crossplane_modules_version}"
+          vault_crossplane_provider_version: "${vault_crossplane_provider_version}"
+          terraform_crossplane_provider_version: "${terraform_crossplane_provider_version}"
+          ansible_crossplane_provider_version: "${ansible_crossplane_provider_version}"
           aws_crossplane_provider_version:  "${aws_crossplane_provider_version}"
           k8s_crossplane_provider_version: "${k8s_crossplane_provider_version}"
           aws_s3_crossplane_provider_version: "${aws_s3_crossplane_provider_version}"

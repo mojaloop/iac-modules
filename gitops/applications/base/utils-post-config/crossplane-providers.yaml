@@ -22,7 +22,7 @@ kind: Provider
 metadata:
   name: provider-terraform
 spec:
-  package: xpkg.upbound.io/upbound/provider-terraform:v${ARGOCD_ENV_terraform_crossplane_modules_version}
+  package: xpkg.upbound.io/upbound/provider-terraform:v${ARGOCD_ENV_terraform_crossplane_provider_version}
   controllerConfigRef:
     name: terraform-debug
   runtimeConfigRef:
@@ -33,7 +33,7 @@ kind: Provider
 metadata:
   name: provider-vault
 spec:
-  package: xpkg.upbound.io/upbound/provider-vault:v${ARGOCD_ENV_vault_crossplane_modules_version}
+  package: xpkg.upbound.io/upbound/provider-vault:v${ARGOCD_ENV_vault_crossplane_provider_version}
   controllerConfigRef:
     name: debug-config
 ---
@@ -42,7 +42,7 @@ kind: Provider
 metadata:
   name: provider-ansible
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-ansible:v${ARGOCD_ENV_ansible_crossplane_modules_version}
+  package: xpkg.upbound.io/crossplane-contrib/provider-ansible:v${ARGOCD_ENV_ansible_crossplane_provider_version}
   controllerConfigRef:
     name: debug-config
   runtimeConfigRef:
