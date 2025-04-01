@@ -158,7 +158,7 @@ spec:
           tag: ${ARGOCD_ENV_capi_cluster_proxmox_host_vlan}
         rootDisk: "50G"
       network:
-        nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
+        # nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
         ipConfig:
           ip: "${ARGOCD_ENV_capi_cluster_kubeapi_host}/${ARGOCD_ENV_capi_cluster_network_subnet}"
           gateway: ${ARGOCD_ENV_capi_cluster_network_gateway}
