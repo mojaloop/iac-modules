@@ -108,3 +108,40 @@ common_mojaloop_db:
     master_user_password_secret_key: password
     logical_service_name: common-mojaloop-db
     logical_service_port: 3306
+common_document_db:
+  app_owner: "mojaloop"
+  external_resource_config:
+    allocated_storage: 100
+    allow_major_version_upgrade: false
+    apply_immediately: false
+    backup_retention_period: 1
+    backup_window: 01:00-04:00
+    db_name: common_document_db
+    engine: docdb
+    engine_version: 5.0
+    family: docdb5.0
+    instance_address_key_name: common_document_db_instance_address
+    instance_class: db.t3.medium
+    maintenance_window: Sun:04:00-Sun:06:00
+    multi_az: false
+    parameters:
+      - apply_method: pending-reboot
+        name: tls
+        value: disabled
+    password_key_name: common_document_db_password
+    port: "27017"
+    replicas: 1
+    skip_final_snapshot: true
+    storage_encrypted: true
+    storage_type: standard
+    tags:
+      Origin: Terraform
+      mojaloop/cost_center: mlf-iac-sandbox
+      mojaloop/env: ft-sbox-rw
+      mojaloop/owner: Samuel-Kummary
+    username: mojaloop
+    master_user_password_secret_namespace: stateful-resources
+    master_user_password_secret: common-mojaloop-db-secret
+    master_user_password_secret_key: password
+    logical_service_name: common-mojaloop-db
+    logical_service_port: 27017
