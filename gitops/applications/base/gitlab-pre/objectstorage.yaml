@@ -1,13 +1,13 @@
----
-apiVersion: utils.mojaloop.io/v1alpha1
-kind: XNamespace
-metadata:
-  name: ${ARGOCD_ENV_gitlab_namespace}
-spec:
-  parameters:
-    name: ${ARGOCD_ENV_gitlab_namespace}
-  providerConfigsRef:
-    destinationK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+# ---
+# apiVersion: utils.mojaloop.io/v1alpha1
+# kind: XNamespace
+# metadata:
+#   name: ${ARGOCD_ENV_gitlab_namespace}
+# spec:
+#   parameters:
+#     name: ${ARGOCD_ENV_gitlab_namespace}
+#   providerConfigsRef:
+#     destinationK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
 ---
 apiVersion: mojaloop.io/v1alpha1
 kind: XObjectStore
