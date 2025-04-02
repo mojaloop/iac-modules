@@ -201,6 +201,9 @@ spec:
           - name: "object_storage_endpoint"
             value: "${ARGOCD_ENV_utils_storage_object_storage_endpoint}"
 
+          - name: "object_storage_host"
+            value: "${ARGOCD_ENV_utils_storage_object_storage_host}"
+
           - name: "object_storage_regional_endpoint"
             value: "${ARGOCD_ENV_utils_storage_object_storage_regional_endpoint}"
 
