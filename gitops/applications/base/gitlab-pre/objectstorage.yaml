@@ -1,6 +1,6 @@
 # ---
 # apiVersion: utils.mojaloop.io/v1alpha1
-# kind: XNamespace
+# kind: Namespace
 # metadata:
 #   name: ${ARGOCD_ENV_gitlab_namespace}
 # spec:
