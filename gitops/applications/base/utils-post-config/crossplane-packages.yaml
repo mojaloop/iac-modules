@@ -5,7 +5,7 @@ metadata:
   name: utils
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/utils:${ARGOCD_ENV_crossplane_package_utils_version}
-  skipDependencyResolution: false
+  skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Configuration
@@ -13,7 +13,7 @@ metadata:
   name: databases
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/databases:${ARGOCD_ENV_crossplane_package_databases_version}
-  skipDependencyResolution: false
+  skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Configuration
@@ -21,4 +21,4 @@ metadata:
   name: buckets
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/buckets:${ARGOCD_ENV_crossplane_package_buckets_version}
-  skipDependencyResolution: false
+  skipDependencyResolution: true
