@@ -5,9 +5,10 @@ metadata:
   namespace: ${ARGOCD_ENV_namespace}
 spec:
   parameters:
-    consumeClusterType: ${ARGOCD_ENV_cluster_type} #TODO
-    clusterName: ${ARGOCD_ENV_cluster_name} #TODO
+    consumerClusterType: controlcenter #${ARGOCD_ENV_cluster_type} #TODO
+    clusterName: sconprem-01 #${ARGOCD_ENV_cluster_name} #TODO
     externalServiceName: ${ARGOCD_ENV_externalservice_name}
+    appNamesppace: ${ARGOCD_ENV_namespace}
     postgres:
       crVersion: "2.5.0"
       pgVersion: 16

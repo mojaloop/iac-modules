@@ -209,7 +209,7 @@ spec:
     #main gitlab db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
-      path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_gitlab_pre_rdbms_provider}/db
+      path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_gitlab_pre_rdbms_provider}/db_v2
       plugin:
         name: envsubst
         env:
