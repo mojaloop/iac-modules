@@ -12,7 +12,7 @@ kind: Configuration
 metadata:
   name: databases
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/databases:v14-14221517975-1
+  package: ghcr.io/mojaloop/iac-crossplane-packages/databases:${ARGOCD_ENV_crossplane_package_databases_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
