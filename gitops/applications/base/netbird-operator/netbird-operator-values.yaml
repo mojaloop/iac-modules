@@ -1,0 +1,7 @@
+ingress:
+  enabled: true
+  router:
+    enabled: true
+netbirdAPI:
+  keyFromSecret: ${ARGOCD_ENV_netbird_operator_api_key_secret}
+managementURL: ${ARGOCD_ENV_netbird_operator_management_url}
