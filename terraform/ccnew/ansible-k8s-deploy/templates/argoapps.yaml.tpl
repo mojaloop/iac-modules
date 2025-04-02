@@ -80,12 +80,14 @@ argocd_override:
           capi_rook_ceph_helm_version: "${rook_ceph_helm_version}"
           capi_rook_ceph_image_version: "${rook_ceph_image_version}"
           capi_rook_ceph_rbd_pool_replication_size: "${rook_ceph_objects_replica_count}"
+          capi_rook_ceph_rgw_external_ip: "${capi_rook_ceph_rgw_external_ip}"
           cloud_provider: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
         storage:
           cloud_provider: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
           cluster_domain: "${cluster_domain}"
-          object_storage_endpoint: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "" }"
-          object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "" }"
+          object_storage_host: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "${capi_rook_ceph_rgw_external_ip}" }"
+          object_storage_endpoint: "${object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
+          object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "https://s3.${cloud_region}.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_region: "${object_storage_provider == "s3" ? cloud_region : "" }"
         storage_aws_provider:
           ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
