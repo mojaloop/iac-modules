@@ -1,0 +1,22 @@
+apiVersion: database.mojaloop.io/v1alpha1
+kind: SqlPercona
+metadata:
+  name: ${ARGOCD_ENV_db_name}
+  namespace: ${ARGOCD_ENV_namespace}
+spec:
+  parameters:
+    consumeClusterType: ${ARGOCD_ENV_cluster_type} #TODO
+    clusterName: ${ARGOCD_ENV_cluster_name} #TODO
+    externalServiceName: ${ARGOCD_ENV_externalservice_name}
+    postgres:
+      crVersion: "2.5.0"
+      pgVersion: 16
+      dbSecret: ${ARGOCD_ENV_db_secret}
+      replicas: ${ARGOCD_ENV_postgres_replicas}
+      storageSize: ${ARGOCD_ENV_postgres_storage_size}
+
+  providerConfigsRef:
+    scK8sProviderName: sc-kubernetes-provider
+    ccK8sProviderName: kubernetes-provider
+  managementPolicies:
+    - "*"
