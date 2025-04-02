@@ -44,3 +44,6 @@ spec:
 
         - name: "rook_ceph_pool_replication_size"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rbd_pool_replication_size}"
+
+        - name: "storage_rgw_external_ip"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"

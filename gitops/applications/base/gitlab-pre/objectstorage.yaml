@@ -355,8 +355,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -396,8 +396,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -437,8 +437,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -478,8 +478,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -519,8 +519,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -560,8 +560,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -601,8 +601,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -642,8 +642,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -679,7 +679,7 @@ spec:
            v4auth: true
            pathstyle: false
            region: ${ARGOCD_ENV_cloud_region}
-           regionendpoint: "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+           regionendpoint: "${ARGOCD_ENV_object_storage_regional_endpoint}"
            accesskey: {{.username}}
            secretkey: {{.password}}
 ---
@@ -720,8 +720,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
@@ -761,8 +761,8 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
-          endpoint:  "https://${ARGOCD_ENV_object_storage_regional_endpoint}"
+          host: ${ARGOCD_ENV_object_storage_host}
+          endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
 apiVersion: external-secrets.io/v1beta1
