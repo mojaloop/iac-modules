@@ -253,6 +253,8 @@ account-lookup-service:
       ${indent(8, account_lookup_admin_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: 1 # timeout handler is designed to run as a single instance
     config: *ALS_CONFIG
     ingress:
