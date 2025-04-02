@@ -18,7 +18,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "git-lfs-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -39,7 +39,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-artifacts-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -60,7 +60,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-uploads-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -81,7 +81,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-packages-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -102,7 +102,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "registry-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -123,7 +123,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -144,7 +144,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -165,7 +165,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -186,7 +186,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -207,7 +207,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -228,7 +228,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-backups-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -249,7 +249,7 @@ spec:
   parameters:
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-backups-tmp-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    Namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
