@@ -1,6 +1,6 @@
 ---
 apiVersion: mojaloop.io/v1alpha1
-kind: XObjectStore
+kind: ObjectStore
 metadata:
   name: "mimir-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_monitoring_namespace}
@@ -21,7 +21,7 @@ spec:
       maxSize: "${ARGOCD_ENV_mimir_bucket_storage_size}"
 ---
 apiVersion: mojaloop.io/v1alpha1
-kind: XObjectStore
+kind: ObjectStore
 metadata:
   name: "loki-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
