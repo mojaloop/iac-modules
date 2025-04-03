@@ -36,6 +36,7 @@ spec:
       plugin:
         name: envsubst
         env:
+
         - name: "aws_ebs_csi_driver_helm_version"
           value: "${ARGOCD_ENV_utils_storage_aws_provider_ebs_csi_driver_helm_version}"
 

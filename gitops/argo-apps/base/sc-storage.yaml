@@ -36,6 +36,9 @@ spec:
     plugin:
       name: envsubst
       env:
+        - name: "control_center_cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+
         - name: "rook_ceph_version"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_helm_version}"
 
