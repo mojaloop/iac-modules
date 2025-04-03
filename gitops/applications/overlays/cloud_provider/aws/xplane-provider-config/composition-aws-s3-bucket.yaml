@@ -5,11 +5,11 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     argocd.argoproj.io/sync-wave: "30"
   labels:
-    crossplane.io/xrd: awss3bucket.infitx.org
+    crossplane.io/xrd: awss3bucket.mojaloop.io
   name: awss3bucket-composition
 spec:
   compositeTypeRef:
-    apiVersion: infitx.org/v1alpha1
+    apiVersion: mojaloop.io/v1alpha1
     kind: S3Bucket
   mode: Pipeline
   pipeline:
