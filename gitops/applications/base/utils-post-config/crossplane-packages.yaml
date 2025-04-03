@@ -26,7 +26,7 @@ spec:
 apiVersion: pkg.crossplane.io/v1
 kind: Configuration
 metadata:
-  name: buckets
+  name: docdb
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/documentdb:${ARGOCD_ENV_crossplane_package_docdb_version}
   skipDependencyResolution: true
