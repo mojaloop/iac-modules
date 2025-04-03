@@ -6,7 +6,7 @@ metadata:
 spec:
   parameters:
     consumerClusterType: controlcenter #${ARGOCD_ENV_cluster_type} #TODO
-    clusterName: sconprem-01 #${ARGOCD_ENV_cluster_name} #TODO
+    clusterName: ${ARGOCD_ENV_cluster_name}
     externalServiceName: ${ARGOCD_ENV_externalservice_name}
     appNamespace: ${ARGOCD_ENV_namespace}
     postgres:
