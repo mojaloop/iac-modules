@@ -22,3 +22,11 @@ metadata:
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/buckets:${ARGOCD_ENV_crossplane_package_buckets_version}
   skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: buckets
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/documentdb:${ARGOCD_ENV_crossplane_package_docdb_version}
+  skipDependencyResolution: true
