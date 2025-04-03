@@ -12,6 +12,7 @@ spec:
     postgres:
       crVersion: "2.5.0"
       pgVersion: 16
+      dbUsername: ${ARGOCD_ENV_db_username}
       dbSecret: ${ARGOCD_ENV_db_secret}
       replicas: ${ARGOCD_ENV_postgres_replicas}
       storageSize: ${ARGOCD_ENV_postgres_storage_size}
