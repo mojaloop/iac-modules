@@ -1331,7 +1331,7 @@ gitlab-runner:
           Path = "gitlab-runner"
           Shared = true
           [runners.cache.s3]
-            ServerAddress = "${ARGOCD_ENV_object_storage_endpoint}"
+            ServerAddress = "${ARGOCD_ENV_object_storage_host}"
             BucketName = "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
             BucketLocation = "${ARGOCD_ENV_cloud_region}"
             Insecure = true

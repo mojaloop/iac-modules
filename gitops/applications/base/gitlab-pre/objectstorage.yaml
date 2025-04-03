@@ -355,7 +355,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
@@ -396,7 +396,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
@@ -437,7 +437,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
@@ -478,7 +478,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
@@ -519,7 +519,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
@@ -560,7 +560,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
@@ -601,7 +601,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
@@ -642,7 +642,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
@@ -720,7 +720,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
@@ -761,7 +761,7 @@ spec:
           # The below settings are for S3 compatible endpoints
           #   See https://docs.gitlab.com/ee/administration/job_artifacts.html#s3-compatible-connection-settings
           aws_signature_version: 4
-          host: ${ARGOCD_ENV_object_storage_endpoint}
+          host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
           path_style: true
 ---
