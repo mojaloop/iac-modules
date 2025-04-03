@@ -1,0 +1,15 @@
+apiVersion: netbird.infitx.org/v1alpha1
+kind: PostConfig
+metadata:
+  name: example-post-config
+  namespace: testa
+spec:
+  parameters:
+    zitadelProjectId: 123455
+    groupNames:
+      admin: techops-admin
+      externalAccess: techops-users
+  providerConfigRef:
+    name: provider-config-aws
+  managementPolicies:
+    - "*"

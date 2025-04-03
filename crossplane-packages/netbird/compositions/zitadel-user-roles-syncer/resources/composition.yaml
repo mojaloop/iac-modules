@@ -1,0 +1,26 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: zitadeluserrolesyncer
+  labels:
+    crossplane.io/xrd: xzitadeluserrolesyncer.netbird.infitx.org
+spec:
+  compositeTypeRef:
+    apiVersion: netbird.infitx.org/v1alpha1
+    kind: ZitadelUserRoleSyncer
+  mode: Pipeline
+  pipeline:
+
+    - step: kcl
+      functionRef:
+        name: function-kcl
+      input:
+        apiVersion: krm.kcl.dev/v1alpha1
+        kind: KCLInput
+        spec:
+          source: |
+            $KCL_FUNCTION_CODE
+
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready
