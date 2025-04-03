@@ -134,7 +134,7 @@ spec:
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
-      path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_security_netbird_rdbms_provider}/db_v2
+      path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_security_netbird_rdbms_provider}/db
       plugin:
         name: envsubst
         env:
