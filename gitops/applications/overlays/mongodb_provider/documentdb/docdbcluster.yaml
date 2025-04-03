@@ -1,0 +1,43 @@
+apiVersion: database.mojaloop.io/v1alpha1
+kind: XDocDbCluster
+metadata:
+  name: "${ARGOCD_ENV_dbdeploy_name_prefix}-${ARGOCD_ENV_cluster_name}"
+  namespace: "${ARGOCD_ENV_namespace}"
+spec:
+  managementPolicies:
+    - "*"
+  providerConfigsRef:
+      awsProviderConfigName: "aws-provider"
+  parameters:
+    dbType: "documentdb"
+    dbName: "exampledb"
+    dbNamespace: "default"
+    documentdb:
+      allowMajorVersionUpgrade: false
+      applyImmediately: false
+      backupRetentionPeriod: 7
+      dbClusterInstanceClass: "db.t3.medium"
+      deletionProtection: false
+      engine: "docdb"
+      engineVersion: "5.0"
+      family: "docdb5.0"
+      instanceCount: 1
+      parameter:
+      - name: "audit_logs"
+        value: "disabled"
+      passwordSecret:
+        key: "password"
+        name: "example-db-secret"
+        namespace: "default"
+      port: 27017
+      preferredBackupWindow: "02:00-04:00"
+      preferredMaintenanceWindow: "Tue:23:45-Wed:00:15"
+      region: "eu-west-1"
+      skipFinalSnapshot: true
+      finalSnapshotIdentifier: "example-documentdb-cluster"
+      storageEncrypted: true
+      storageType: "standard"
+      subnets: "subnet-069e236a1ed7dc46e,subnet-0ea1f4922f23fd864,subnet-0ec26f852579a3c5c"
+      username: "mojaloop"
+      vpcCidr: "10.0.0.0/16"
+      vpcId: "vpc-0271a5e44676a5443"
