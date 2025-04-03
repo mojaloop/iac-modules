@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 85,
+  "id": 28,
   "links": [],
   "panels": [
     {
@@ -138,7 +138,7 @@
             "uid": "${DS_LOKI}"
           },
           "editorMode": "code",
-          "expr": "sum(bytes_rate({app=~\"${app}\"}[1m])) by (app,container) * 3600*24",
+          "expr": "sum(bytes_rate({app=~\"${app}\"}[10s])) by (app,container) * 3600*24",
           "legendFormat": "",
           "queryType": "range",
           "refId": "A"
@@ -204,8 +204,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -248,7 +247,7 @@
                 "uid": "${DS_LOKI}"
               },
               "editorMode": "code",
-              "expr": "sum(bytes_rate({app=~\"${app}\"}[1m])) by (app,container)",
+              "expr": "sum(bytes_rate({app=~\"${app}\"}[10s])) by (app,container)",
               "hide": false,
               "legendFormat": "",
               "queryType": "range",
@@ -273,9 +272,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "Loki",
-          "value": "53db9978-9c6c-4c8e-bf71-6082f63756e6"
+          "value": "40106cf7-f4a4-4dee-8c80-906ddea18ee0"
         },
         "hide": 0,
         "includeAll": false,
@@ -290,6 +289,7 @@
         "type": "datasource"
       },
       {
+        "allValue": ".+",
         "current": {
           "selected": false,
           "text": "All",
@@ -320,13 +320,13 @@
     ]
   },
   "time": {
-    "from": "now-30s",
+    "from": "now-15s",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Loki storage",
-  "uid": "bee85ru33l-v002",
-  "version": 4,
+  "uid": "bee85ru33l-v003",
+  "version": 1,
   "weekStart": ""
 }
