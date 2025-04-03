@@ -37,7 +37,7 @@ resource "zitadel_action" "flat_roles" {
       let grants = [];
       ctx.v1.user.grants.grants.forEach(claim => {
         claim.roles.forEach(role => {
-            grants.push(claim.projectId+':'+role)  
+            grants.push(claim.projectId+':'+role)
         })
       })
 

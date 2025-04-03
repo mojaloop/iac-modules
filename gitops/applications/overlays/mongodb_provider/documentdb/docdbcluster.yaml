@@ -7,37 +7,37 @@ spec:
   managementPolicies:
     - "*"
   providerConfigsRef:
-      awsProviderConfigName: "aws-provider"
+      awsProviderConfigName: "aws-cp-upbound-provider-config"
   parameters:
     dbType: "documentdb"
-    dbName: "exampledb"
-    dbNamespace: "default"
+    dbName: "${ARGOCD_ENV_db_name}"
+    dbNamespace: "${ARGOCD_ENV_namespace}"
     documentdb:
-      allowMajorVersionUpgrade: false
-      applyImmediately: false
-      backupRetentionPeriod: 7
-      dbClusterInstanceClass: "db.t3.medium"
-      deletionProtection: false
-      engine: "docdb"
-      engineVersion: "5.0"
-      family: "docdb5.0"
-      instanceCount: 1
+      allowMajorVersionUpgrade: ${ARGOCD_ENV_allow_major_version_upgrade}
+      applyImmediately: ${ARGOCD_ENV_apply_immediately}
+      backupRetentionPeriod: ${ARGOCD_ENV_backup_retention_period}
+      dbClusterInstanceClass: "${ARGOCD_ENV_instance_class}"
+      deletionProtection: ${ARGOCD_ENV_deletion_protection}
+      engine: ${ARGOCD_ENV_engine}
+      engineVersion: "${ARGOCD_ENV_engine_version}"
+      family: ${ARGOCD_ENV_family}
+      instanceCount: ${ARGOCD_ENV_instance_count}
       parameter:
       - name: "audit_logs"
         value: "disabled"
       passwordSecret:
         key: "password"
-        name: "example-db-secret"
-        namespace: "default"
-      port: 27017
-      preferredBackupWindow: "02:00-04:00"
-      preferredMaintenanceWindow: "Tue:23:45-Wed:00:15"
-      region: "eu-west-1"
-      skipFinalSnapshot: true
-      finalSnapshotIdentifier: "example-documentdb-cluster"
-      storageEncrypted: true
-      storageType: "standard"
-      subnets: "subnet-069e236a1ed7dc46e,subnet-0ea1f4922f23fd864,subnet-0ec26f852579a3c5c"
-      username: "mojaloop"
-      vpcCidr: "10.0.0.0/16"
-      vpcId: "vpc-0271a5e44676a5443"
+        name: ${ARGOCD_ENV_db_secret}
+        namespace: "${ARGOCD_ENV_namespace}"
+      port: ${ARGOCD_ENV_port}
+      preferredBackupWindow: "${ARGOCD_ENV_preferred_backup_window}"
+      preferredMaintenanceWindow: ${ARGOCD_ENV_preferred_maintenance_window}
+      region: "${ARGOCD_ENV_cloud_region}"
+      skipFinalSnapshot: ${ARGOCD_ENV_skip_final_snapshot}
+      finalSnapshotIdentifier: "${ARGOCD_ENV_final_snapshot_identifier}"
+      storageEncrypted: ${ARGOCD_ENV_storage_encrypted}
+      storageType: "${ARGOCD_ENV_storage_type}"
+      subnets: ${ARGOCD_ENV_subnet_list}
+      username: ${ARGOCD_ENV_db_username}
+      vpcCidr: ${ARGOCD_ENV_vpc_cidr}
+      vpcId: ${ARGOCD_ENV_vpc_id}
