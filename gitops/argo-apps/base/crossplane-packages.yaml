@@ -49,3 +49,6 @@ spec:
 
         - name: "crossplane_packages_sc_nboperatorinstall_version"
           value: "${ARGOCD_ENV_utils_crossplane_packages_sc_nboperatorinstall_version}"
+
+        - name: "crossplane_packages_docdb_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_docdb_version}"

@@ -49,6 +49,7 @@ argocd_override:
           sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
           sc_nboperatorinstall_version: "${crossplane_packages_sc_nboperatorinstall_version}"
           nb_config_version: "${crossplane_packages_nb_config_version}"
+          docdb_version: "${crossplane_packages_docdb_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
