@@ -1,7 +1,7 @@
 apiVersion: database.mojaloop.io/v1alpha1
 kind: XDocDbCluster
 metadata:
-  name: "${ARGOCD_ENV_dbdeploy_name_prefix}-${ARGOCD_ENV_cluster_name}"
+  name: "${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}"
   namespace: "${ARGOCD_ENV_namespace}"
 spec:
   managementPolicies:
