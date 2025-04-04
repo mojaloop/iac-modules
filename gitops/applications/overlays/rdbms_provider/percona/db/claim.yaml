@@ -1,5 +1,5 @@
-apiVersion: database.mojaloop.io/v1alpha1
-kind: SqlPercona
+apiVersion: sc.mojaloop.io/v1alpha1
+kind: PGCluster
 metadata:
   name: ${ARGOCD_ENV_db_name}
   namespace: ${ARGOCD_ENV_namespace}
