@@ -1,21 +1,12 @@
-# ---
-# apiVersion: utils.mojaloop.io/v1alpha1
-# kind: Namespace
-# metadata:
-#   name: ${ARGOCD_ENV_gitlab_namespace}
-# spec:
-#   parameters:
-#     name: ${ARGOCD_ENV_gitlab_namespace}
-#   providerConfigsRef:
-#     destinationK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "git-lfs-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "git-lfs-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -30,13 +21,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_git_lfs_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-artifacts-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-artifacts-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -51,13 +43,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_artifacts_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-uploads-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-uploads-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -72,13 +65,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_uploads_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-packages-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-packages-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -93,13 +87,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_packages_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "registry-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "registry-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -114,13 +109,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_registry_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -135,13 +131,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_mrdiffs_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -156,13 +153,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_cisecurefiles_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -177,13 +175,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_tfstate_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -198,13 +197,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_dep_proxy_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -219,13 +219,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-backups-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-backups-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
@@ -240,13 +241,14 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_gitlab_runner_cache_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "gitlab-backups-tmp-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "gitlab-backups-tmp-${ARGOCD_ENV_cluster_name}"
     Namespace: ${ARGOCD_ENV_gitlab_namespace}
