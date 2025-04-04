@@ -64,7 +64,7 @@ argocd_override:
           crossplane_func_auto_ready_version: "${crossplane_func_auto_ready_version}"
           crossplane_package_buckets_version: "${crossplane_package_buckets_version}"
           crossplane_package_utils_version: "${crossplane_package_utils_version}"
-          crossplane_package_databases_version: "${crossplane_package_databases_version}"
+          crossplane_package_sc_postgres_version: "${crossplane_package_sc_postgres_version}"
         kyverno:
           helm_version: "${kyverno_helm_version}"
         capi:
