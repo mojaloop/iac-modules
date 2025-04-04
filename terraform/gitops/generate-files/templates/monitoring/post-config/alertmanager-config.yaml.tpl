@@ -38,7 +38,7 @@ spec:
       description: "
         {{ range .Alerts }}
         SUMMARY: {{ .Annotations.summary }} \n
-        DESCRIPTION: {{ .Annotations.description }}
+        DESCRIPTION: {{ .Annotations.description }} \n
 
         {{ end }}
         "
