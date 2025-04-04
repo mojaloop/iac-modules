@@ -7,7 +7,7 @@ metadata:
     alertmanagerConfig: primary
 spec:
   route:
-    groupBy: ['job']
+    groupBy: ['cluster', 'job', 'alertname']
     groupWait: 30s
     groupInterval: 5m
     repeatInterval: 24h
@@ -21,6 +21,7 @@ spec:
         name: alertmanager-slack-alert-notifications
         key: webhook
       sendResolved: true
+      title: "[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"
 %{ endif ~}
 %{ if alertmanager_jira_integration_enabled ~}
   - name: jira
