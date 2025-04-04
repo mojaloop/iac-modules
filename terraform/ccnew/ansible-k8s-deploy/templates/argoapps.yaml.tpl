@@ -58,6 +58,8 @@ argocd_override:
           k8s_crossplane_provider_version: "${k8s_crossplane_provider_version}"
           aws_s3_crossplane_provider_version: "${aws_s3_crossplane_provider_version}"
           aws_iam_crossplane_provider_version: "${aws_iam_crossplane_provider_version}"
+          aws_ec2_crossplane_provider_version: "${aws_ec2_crossplane_provider_version}"
+          aws_docdb_crossplane_provider_version: "${aws_docdb_crossplane_provider_version}"
           crossplane_func_patch_and_transform_version: "${crossplane_func_patch_and_transform_version}"
           crossplane_func_go_templating_version: "${crossplane_func_go_templating_version}"
           crossplane_func_kcl_version: "${crossplane_func_kcl_version}"
