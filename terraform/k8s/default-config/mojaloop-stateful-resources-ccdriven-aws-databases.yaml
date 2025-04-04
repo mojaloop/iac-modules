@@ -121,6 +121,7 @@ common_document_db:
     engine: docdb
     engine_version: 5.0
     family: docdb5.0
+    final_snapshot_identifier: common_document_db_final_snapshot
     instance_address_key_name: common_document_db_instance_address
     instance_class: db.t3.medium
     maintenance_window: Sun:04:00-Sun:06:00
