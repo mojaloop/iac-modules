@@ -69,8 +69,8 @@ spec:
         - name: "crossplane_func_auto_ready_version"
           value: "${ARGOCD_ENV_utils_post_config_crossplane_func_auto_ready_version}"
 
-        - name: "crossplane_package_buckets_version"
-          value: "${ARGOCD_ENV_utils_post_config_crossplane_package_buckets_version}"
+        - name: "crossplane_package_objectstores_version"
+          value: "${ARGOCD_ENV_utils_post_config_crossplane_package_objectstores_version}"
 
         - name: "crossplane_package_utils_version"
           value: "${ARGOCD_ENV_utils_post_config_crossplane_package_utils_version}"

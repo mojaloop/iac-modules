@@ -1,14 +1,15 @@
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "mimir-${ARGOCD_ENV_cluster_name}"
   namespace: ${ARGOCD_ENV_monitoring_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "mimir-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_monitoring_namespace}
+    Namespace: ${ARGOCD_ENV_monitoring_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -20,16 +21,17 @@ spec:
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_mimir_bucket_storage_size}"
 ---
-apiVersion: mojaloop.io/v1alpha1
+apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "loki-${ARGOCD_ENV_cluster_name}"
-  namespace: ${ARGOCD_ENV_gitlab_namespace}
+  namespace: ${ARGOCD_ENV_monitoring_namespace}
 spec:
   parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "loki-${ARGOCD_ENV_cluster_name}"
-    destinationNamespace: ${ARGOCD_ENV_monitoring_namespace}
+    Namespace: ${ARGOCD_ENV_monitoring_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
