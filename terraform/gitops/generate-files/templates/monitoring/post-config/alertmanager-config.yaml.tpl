@@ -11,7 +11,7 @@ spec:
     groupWait: 30s
     groupInterval: 5m
     repeatInterval: 24h
-    receiver: 'slack'
+    receiver: 'jira'
 
   receivers:
 %{ if alertmanager_slack_integration_enabled  ~}
@@ -34,7 +34,14 @@ spec:
       sendResolved: true
       # message field contains title
       message: "[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"
+      # description field contains the body
+      description: "
+        {{ range .Alerts }}
+        SUMMARY: {{ .Annotations.summary }} \n
+        DESCRIPTION: {{ .Annotations.description }}
 
+        {{ end }}
+        "
 %{ endif ~}
 
 %{ if alertmanager_jira_integration_enabled ~}
