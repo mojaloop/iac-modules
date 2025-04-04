@@ -251,7 +251,7 @@ variable "mojaloop_stateful_res_mangd_config_file" {
 }
 
 variable "mojaloop_stateful_res_monolith_config_file" {
-  default     = "../config/mojaloop-stateful-resources-ccdriven-rds-monolith.yaml"
+  default     = "../config/mojaloop-stateful-resources-ccdriven-aws-databases.yaml"
   type        = string
   description = "where to pull monolith stateful resources config for mojaloop"
 }
