@@ -30,7 +30,11 @@ spec:
     - apiKey: 
         name: alertmanager-jira-secret
         key: data
-      tags: ${grafana_subdomain}     
+      tags: ${grafana_subdomain}
+      sendResolved: true
+      # message field contains title
+      message: "[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"
+
 %{ endif ~}
 
 %{ if alertmanager_jira_integration_enabled ~}
