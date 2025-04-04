@@ -60,5 +60,11 @@ spec:
         - name: "crossplane_providers_netbird_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_netbird_version}"
 
+        - name: "crossplane_providers_aws_docdb_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_docdb_version}"
+
+        - name: "crossplane_providers_aws_ec2_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_ec2_version}"
+
         - name: "argocd_namespace"
           value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"

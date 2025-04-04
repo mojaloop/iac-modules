@@ -155,14 +155,31 @@ kind: Provider
 metadata:
   name: provider-aws-iam
 spec:
+<<<<<<< HEAD:gitops/applications/base/crossplane-providers/crossplane-providers.yaml
   package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_crossplane_providers_aws_iam_version}
 
+=======
+  package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_aws_iam_crossplane_provider_version}
+>>>>>>> a50bf4c8 (doc db providers):gitops/applications/base/utils-post-config/crossplane-providers.yaml
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
+<<<<<<< HEAD:gitops/applications/base/crossplane-providers/crossplane-providers.yaml
   name: netbird-crossplane-provider
 spec:
   package: ghcr.io/infitx-org/netbird-crossplane-provider:v${ARGOCD_ENV_crossplane_providers_netbird_version}
   controllerConfigRef:
     name: debug-config
+=======
+  name: provider-aws-docdb
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-docdb:v${ARGOCD_ENV_aws_docdb_crossplane_provider_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-ec2
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-ec2:v${ARGOCD_ENV_aws_ec2_crossplane_provider_version}
+>>>>>>> a50bf4c8 (doc db providers):gitops/applications/base/utils-post-config/crossplane-providers.yaml
