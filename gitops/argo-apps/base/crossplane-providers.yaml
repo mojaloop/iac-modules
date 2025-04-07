@@ -57,3 +57,6 @@ spec:
 
         - name: "crossplane_providers_aws_iam_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_aws_iam_version}"
+
+        - name: "crossplane_providers_netbird_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_netbird_version}"

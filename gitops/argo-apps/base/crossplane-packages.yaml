@@ -35,17 +35,11 @@ spec:
     plugin:
       name: envsubst
       env:
-        - name: "crossplane_package_objectstores_version"
-          value: "${ARGOCD_ENV_utils_crossplane_packages_crossplane_package_objectstores_version}"
+        - name: "crossplane_packages_objectstores_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_objectstores_version}"
 
-        - name: "crossplane_package_utils_version"
-          value: "${ARGOCD_ENV_utils_crossplane_packages_crossplane_package_utils_version}"
+        - name: "crossplane_packages_utils_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_utils_version}"
 
-        - name: "crossplane_package_sc_postgres_version"
-          value: "${ARGOCD_ENV_utils_crossplane_packages_crossplane_package_sc_postgres_version}"
-
-        - name: aws_s3_crossplane_provider_version
-          value: "${ARGOCD_ENV_utils_crossplane_packages_aws_s3_crossplane_provider_version}"
-
-        - name: "aws_iam_crossplane_provider_version"
-          value: "${ARGOCD_ENV_utils_crossplane_packages_aws_iam_crossplane_provider_version}"
+        - name: "crossplane_packages_sc_postgres_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_sc_postgres_version}"
