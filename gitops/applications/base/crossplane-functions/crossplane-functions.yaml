@@ -4,7 +4,7 @@ kind: Function
 metadata:
   name: function-patch-and-transform
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/function-patch-and-transform:v${ARGOCD_ENV_crossplane_function_patch_and_transform_version}
+  package: xpkg.upbound.io/crossplane-contrib/function-patch-and-transform:v${ARGOCD_ENV_crossplane_functions_patch_and_transform_version}
 ---
 apiVersion: pkg.crossplane.io/v1beta1
 kind: Function
