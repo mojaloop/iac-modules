@@ -22,7 +22,7 @@ kind: Provider
 metadata:
   name: provider-terraform
 spec:
-  package: xpkg.upbound.io/upbound/provider-terraform:v${ARGOCD_ENV_terraform_crossplane_provider_version}
+  package: xpkg.upbound.io/upbound/provider-terraform:v${ARGOCD_ENV_crossplane_providers_terraform_version}
   controllerConfigRef:
     name: terraform-debug
   runtimeConfigRef:
@@ -33,7 +33,7 @@ kind: Provider
 metadata:
   name: provider-vault
 spec:
-  package: xpkg.upbound.io/upbound/provider-vault:v${ARGOCD_ENV_vault_crossplane_provider_version}
+  package: xpkg.upbound.io/upbound/provider-vault:v${ARGOCD_ENV_crossplane_providers_vault_version}
   controllerConfigRef:
     name: debug-config
 ---
@@ -42,7 +42,7 @@ kind: Provider
 metadata:
   name: provider-ansible
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-ansible:v${ARGOCD_ENV_ansible_crossplane_provider_version}
+  package: xpkg.upbound.io/crossplane-contrib/provider-ansible:v${ARGOCD_ENV_crossplane_providers_ansible_version}
   controllerConfigRef:
     name: debug-config
   runtimeConfigRef:
@@ -130,7 +130,7 @@ kind: Provider
 metadata:
   name: provider-aws
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_aws_crossplane_provider_version}
+  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_crossplane_providers_aws_version}
 ---
 
 apiVersion: pkg.crossplane.io/v1
@@ -138,7 +138,7 @@ kind: Provider
 metadata:
   name: provider-kubernetes
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v${ARGOCD_ENV_k8s_crossplane_provider_version}
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v${ARGOCD_ENV_crossplane_providers_k8s_version}
   runtimeConfigRef:
     apiVersion: pkg.crossplane.io/v1beta1
     kind: DeploymentRuntimeConfig
@@ -149,11 +149,19 @@ kind: Provider
 metadata:
   name: provider-aws-s3
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-s3:v${ARGOCD_ENV_aws_s3_crossplane_provider_version}
+  package: xpkg.upbound.io/upbound/provider-aws-s3:v${ARGOCD_ENV_crossplane_providers_aws_s3_version}
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: provider-aws-iam
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_aws_iam_crossplane_provider_version}
+  package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_crossplane_providers_aws_iam_version}
+
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: netbird-crossplane-provider
+spec:
+  package: ghcr.io/infitx-org/netbird-crossplane-provider:v${ARGOCD_ENV_crossplane_providers_netbird_version}

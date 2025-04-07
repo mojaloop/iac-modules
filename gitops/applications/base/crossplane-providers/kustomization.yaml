@@ -3,9 +3,6 @@ kind: Kustomization
 resources:
   - rbac.yaml
   - crossplane-providers.yaml
-  - crossplane-functions.yaml
-  - crossplane-packages.yaml
-#  - rook-ceph-objectstore-exporter.yaml
 
 secretGenerator:
   - name: terraformrc
