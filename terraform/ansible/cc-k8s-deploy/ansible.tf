@@ -70,7 +70,7 @@ resource "local_sensitive_file" "ec2_ssh_key" {
 
 locals {
   jumphostmap = {
-    ansible_ssh_common_args = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -i ${local_sensitive_file.ec2_ssh_key.filename} -o StrictHostKeyChecking=no -q ${var.ansible_bastion_os_username}@${var.ansible_bastion_public_ip}\""
+    ansible_ssh_common_args = "-o UserKnownHostsFile=/dev/null -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -i ${local_sensitive_file.ec2_ssh_key.filename} -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -q ${var.ansible_bastion_os_username}@${var.ansible_bastion_public_ip}\""
   }
   ansible_output_dir = "${var.ansible_base_output_dir}/k8s-deploy"
   ssh_private_key_file_map = {
