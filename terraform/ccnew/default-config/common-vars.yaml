@@ -16,7 +16,7 @@ netbird_image_version: "0.31.1"
 netbird_client_version: "0.31.1"
 netbird_dashboard_image_version: "v2.7.0"
 #netbird db settings
-netbird_rdbms_provider: "percona"
+netbird_rdbms_provider: "dbaas"
 #netbird db percona specific
 netbird_perc_postgres_replicas: "'1'"
 netbird_perc_postgres_proxy_replicas: "'1'"
@@ -217,7 +217,7 @@ gitlab_gitlab_admin_rbac_group: "gitlab_administrators"
 gitlab_gitlab_user_rbac_group: "gitlab_users"
 gitaly_storage_size: "10Gi"
 # gitlab db settings
-gitlab_postgres_rdbms_provider: "percona"
+gitlab_postgres_rdbms_provider: "dbaas"
 #gitlab db rds specific
 gitlab_rds_engine: "aurora-postgresql"
 gitlab_rds_engine_version: "'16'"
@@ -263,7 +263,7 @@ env_token_ttl: "14d"
 # Zitadel
 zitadel_replicas: "'2'"
 # Zitadel DB settings
-zitadel_rdbms_provider: "percona"
+zitadel_rdbms_provider: "dbaas"
 #Zitadel DB Cockroach
 cockroachdb_helm_version: "13.0.2"
 zitadel_db_storage_size: "5Gi"
