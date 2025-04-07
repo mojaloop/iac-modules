@@ -11,9 +11,21 @@ spec:
     groupWait: 30s
     groupInterval: 5m
     repeatInterval: 24h
-    receiver: 'jira'
+    receiver: 'blackhole'
+    routes:
+    - receiver: 'blackhole'
+      continue: true
+%{ if alertmanager_slack_integration_enabled  ~}
+    - receiver: 'slack'
+      continue: true
+%{ endif ~}
+%{ if alertmanager_jira_integration_enabled ~}
+    - receiver: 'jira'
+      continue: true
+%{ endif ~}
 
   receivers:
+  - name: 'blackhole'
 %{ if alertmanager_slack_integration_enabled  ~}
   - name: slack
     slackConfigs:
