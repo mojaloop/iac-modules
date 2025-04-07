@@ -58,3 +58,6 @@ single_nat_gateway: true
 migrate: false
 managed_svc_as_monolith: false
 manage_parent_domain: true
+
+keycloak_ingress_internal_lb: true
+keycloak_admin_ingress_internal_lb: true
