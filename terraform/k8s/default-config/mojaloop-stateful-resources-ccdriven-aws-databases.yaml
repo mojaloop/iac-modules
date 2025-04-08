@@ -55,7 +55,7 @@ common_platform_db:
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-platform-db-secret
     master_user_password_secret_key: password
-    logical_service_name: common_platform_db
+    logical_service_name: common-platform-db
     logical_service_port: 3306
     vault_master_user_password_secret_key: common_platform_db_password
     vault_instance_address_key: common_platform_db_instance_address
