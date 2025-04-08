@@ -1,4 +1,4 @@
-apiVersion: database.mojaloop.io/v1alpha1
+apiVersion: aws.mojaloop.io/v1alpha1
 kind: XDocDbCluster
 metadata:
   name: "${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}"
