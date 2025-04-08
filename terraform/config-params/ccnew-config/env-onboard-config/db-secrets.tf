@@ -13,7 +13,7 @@ variable "common_mojaloop_db_external_name"{
 variable "common_mongodb_external_name"{
 }
 
-variable "common_dodcument_db_secret_name" {
+variable "common_mongodb_secret_name" {
 }
 
 data "kubernetes_secret_v1" "common_platform_db_secret" {
@@ -32,7 +32,7 @@ data "kubernetes_secret_v1" "common_mojaloop_db_secret" {
 
 data "kubernetes_secret_v1" "common_mongodb_secret" {
   metadata {
-      name      = var.common_dodcument_db_secret_name
+      name      = var.common_mongodb_secret_name
       namespace = var.env_name
   }
 }
