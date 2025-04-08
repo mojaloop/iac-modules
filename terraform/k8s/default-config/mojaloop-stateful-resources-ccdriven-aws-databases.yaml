@@ -143,7 +143,7 @@ common_document_db:
       - apply_method: pending-reboot
         name: tls
         value: disabled
-    password_key_name: common_document_db_password
+    password_key_name: common_mongodb_password
     port: "27017"
     replicas: 1
     skip_final_snapshot: true
@@ -157,7 +157,7 @@ common_document_db:
       mojaloop/owner: Samuel-Kummary
     username: mojaloop
     master_user_password_secret_namespace: stateful-resources
-    master_user_password_secret: common-mojaloop-db-secret
+    master_user_password_secret: common-mongodb-secret
     master_user_password_secret_key: password
     logical_service_name: common-mongodb
     logical_service_port: 27017
