@@ -146,6 +146,7 @@ bulk-mongodb:
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
     monolith_db_server: common_document_db
+    additional_privileges: []
 reporting-events-mongodb:
   external_resource_config:
     cluster_size: 1
@@ -171,6 +172,9 @@ reporting-events-mongodb:
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
     monolith_db_server: common_document_db
+    additional_privileges:
+      - collection: reporting
+        action: "collMod"
 ttk-mongodb:
   external_resource_config:
     cluster_size: 1
@@ -196,6 +200,9 @@ ttk-mongodb:
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
     monolith_db_server: common_document_db
+    additional_privileges:
+      - collection: reporting
+        action: "collMod"
 mojaloop-kafka:
   external_resource_config:
     name: msk
