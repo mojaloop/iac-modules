@@ -4,7 +4,7 @@ kind: Configuration
 metadata:
   name: utils
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/utils:${ARGOCD_ENV_crossplane_package_utils_version}
+  package: ghcr.io/mojaloop/iac-crossplane-packages/utils:${ARGOCD_ENV_crossplane_packages_utils_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -12,7 +12,7 @@ kind: Configuration
 metadata:
   name: databases
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-pgcluster:${ARGOCD_ENV_crossplane_package_sc_postgres_version}
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-pgcluster:${ARGOCD_ENV_crossplane_packages_sc_postgres_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -20,5 +20,5 @@ kind: Configuration
 metadata:
   name: objectstores
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/objectstores:${ARGOCD_ENV_crossplane_package_objectstores_version}
+  package: ghcr.io/mojaloop/iac-crossplane-packages/objectstores:${ARGOCD_ENV_crossplane_packages_objectstores_version}
   skipDependencyResolution: true

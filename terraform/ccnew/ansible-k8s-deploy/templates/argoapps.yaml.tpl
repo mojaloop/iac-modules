@@ -29,6 +29,23 @@ argocd_override:
         crossplane:
           helm_version: "${crossplane_helm_version}"
           debug: "${crossplane_log_level}"
+        crossplane_providers:
+          vault_version: "${crossplane_providers_vault_version}"
+          terraform_version: "${crossplane_providers_terraform_version}"
+          ansible_version: "${crossplane_providers_ansible_version}"
+          k8s_version: "${crossplane_providers_k8s_version}"
+          aws_version: "${crossplane_providers_aws_version}"
+          aws_s3_version: "${crossplane_providers_aws_s3_version}"
+          aws_iam_version: "${crossplane_providers_aws_iam_version}"
+        crossplane_functions:
+          patch_and_transform_version: "${crossplane_functions_patch_and_transform_version}"
+          go_templating_version: "${crossplane_functions_go_templating_version}"
+          kcl_version: "${crossplane_functions_kcl_version}"
+          auto_ready_version: "${crossplane_functions_auto_ready_version}"
+        crossplane_packages:
+          objectstores_version: "${crossplane_packages_objectstores_version}"
+          utils_version: "${crossplane_packages_utils_version}"
+          sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
@@ -46,25 +63,6 @@ argocd_override:
           grafana_crd_version_tag: "${grafana_crd_version_tag}"
           prometheus_crd_version: "${prometheus_crd_version}"
           grafana_operator_version: "${grafana_operator_version}"
-        consul:
-          helm_version: "${consul_helm_version}"
-          replicas: "'${consul_replica_count}'"
-          storage_size: "${consul_storage_size}"
-        post_config:
-          vault_crossplane_provider_version: "${vault_crossplane_provider_version}"
-          terraform_crossplane_provider_version: "${terraform_crossplane_provider_version}"
-          ansible_crossplane_provider_version: "${ansible_crossplane_provider_version}"
-          aws_crossplane_provider_version:  "${aws_crossplane_provider_version}"
-          k8s_crossplane_provider_version: "${k8s_crossplane_provider_version}"
-          aws_s3_crossplane_provider_version: "${aws_s3_crossplane_provider_version}"
-          aws_iam_crossplane_provider_version: "${aws_iam_crossplane_provider_version}"
-          crossplane_func_patch_and_transform_version: "${crossplane_func_patch_and_transform_version}"
-          crossplane_func_go_templating_version: "${crossplane_func_go_templating_version}"
-          crossplane_func_kcl_version: "${crossplane_func_kcl_version}"
-          crossplane_func_auto_ready_version: "${crossplane_func_auto_ready_version}"
-          crossplane_package_objectstores_version: "${crossplane_package_objectstores_version}"
-          crossplane_package_utils_version: "${crossplane_package_utils_version}"
-          crossplane_package_sc_postgres_version: "${crossplane_package_sc_postgres_version}"
         kyverno:
           helm_version: "${kyverno_helm_version}"
         capi:

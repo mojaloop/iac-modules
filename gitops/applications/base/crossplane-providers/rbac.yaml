@@ -23,17 +23,11 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: crossplane-terraform-sa
-    namespace: ${ARGOCD_ENV_crossplane_namespace}
+    namespace: crossplane-system
 roleRef:
   name: crossplane-clusterrole-clusterrole
   kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
-# ---
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: crossplane-terraform-sa
-#   namespace: ${ARGOCD_ENV_crossplane_namespace}
 ---
 apiVersion: pkg.crossplane.io/v1beta1
 kind: DeploymentRuntimeConfig
