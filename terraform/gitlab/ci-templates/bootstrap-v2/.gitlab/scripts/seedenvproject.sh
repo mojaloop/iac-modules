@@ -47,8 +47,7 @@ k8s_cluster_type: microk8s
 cloud_region: eu-west-1
 block_storage_provider: ebs
 object_storage_provider: s3
-cloud_platform: none
-rdbms_provider: none" > custom-config/cluster-config.yaml
+cloud_platform: none" > custom-config/cluster-config.yaml
 fi
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
