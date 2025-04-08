@@ -89,6 +89,7 @@ argocd_override:
           cloud_provider: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
           cluster_domain: "${cluster_domain}"
           object_storage_host: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "${capi_rook_ceph_rgw_external_ip}" }"
+          object_storage_regional_host: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_endpoint: "${object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "https://s3.${cloud_region}.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_region: "${object_storage_provider == "s3" ? cloud_region : "" }"
