@@ -17,7 +17,7 @@ spec:
             - "-c"
           args:
             - >
-               wget https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem -O /tmp/docdb-combined-ca-bundle.pem;
+               wget https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
                echo "use ${managed_stateful_resource.logical_service_config.database_name};" >> ~/init.js;
                echo "db.createUser({user: \"${managed_stateful_resource.logical_service_config.db_username}\",pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
 %{ for privilege in additional_privileges ~}
