@@ -57,7 +57,7 @@ resource "local_file" "mysql_managed_stateful_resources" {
 resource "local_file" "mongodb_managed_stateful_resources" {
   for_each = local.mongodb_managed_stateful_resources
 
-  content = templatefile("${local.stateful_resources_template_path}/managed-mysql.yaml.tpl", {
+  content = templatefile("${local.stateful_resources_template_path}/managed-mongodb.yaml.tpl", {
     resource_name                = each.key
     stateful_resources_namespace = var.stateful_resources_namespace
     managed_stateful_resource    = local.mongodb_managed_stateful_resources[each.key]
