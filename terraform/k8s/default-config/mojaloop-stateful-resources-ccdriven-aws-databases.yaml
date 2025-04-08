@@ -134,6 +134,7 @@ common_document_db:
       - apply_method: pending-reboot
         name: tls
         value: disabled
+
     password_key_name: common_document_db_password
     port: "27017"
     replicas: 1
@@ -149,7 +150,7 @@ common_document_db:
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-mojaloop-db-secret
     master_user_password_secret_key: password
-    logical_service_name: common-mojaloop-db
+    logical_service_name: common-mongodb
     logical_service_port: 27017
     vault_master_user_password_secret_key: common_mongodb_password
     vault_instance_address_key: common_mongodb_instance_address
