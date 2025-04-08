@@ -758,7 +758,7 @@ spec:
         AWS_ENDPOINTS: ${object_store_api_url}
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
-        AWS_REGION: ${object_storage_region}
+        AWS_REGION: ${object_store_region}
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
