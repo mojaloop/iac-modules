@@ -23,6 +23,10 @@ resources:
 - managed-mysql-${key}.yaml
 # %{ endfor }
 
+# %{ for key,stateful_resource in mongodb_managed_stateful_resources }
+- managed-mongodb-${key}.yaml
+# %{ endfor }
+
 # %{ for key,stateful_resource in monolith_init_mysql_managed_stateful_resources }
 - monolith-db-init-job-${key}.yaml
 # %{ endfor }
