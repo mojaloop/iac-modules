@@ -99,7 +99,7 @@ resource "local_file" "monolith-init-mongodb" {
     database_name                = each.value.logical_service_config.database_name
     database_user                = each.value.logical_service_config.db_username
   })
-  filename = "${local.stateful_resources_output_path}/monolith-db-init-job-${each.key}.yaml"
+  filename = "${local.stateful_resources_output_path}/monolith-mongodb-init-job-${each.key}.yaml"
 }
 
 resource "local_file" "kustomization" {
@@ -114,7 +114,8 @@ resource "local_file" "kustomization" {
       monolith_stateful_resources         = var.monolith_stateful_resources
       managed_svc_as_monolith             = var.managed_svc_as_monolith
 
-      monolith_init_mysql_managed_stateful_resources = local.monolith_init_mysql_managed_stateful_resources
+      monolith_init_mysql_managed_stateful_resources   = local.monolith_init_mysql_managed_stateful_resources
+      monolith_init_mongodb_managed_stateful_resources = local.monolith_init_mongodb_managed_stateful_resources
   })
   filename = "${local.stateful_resources_output_path}/kustomization.yaml"
 }
