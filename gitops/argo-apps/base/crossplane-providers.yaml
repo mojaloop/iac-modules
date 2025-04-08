@@ -36,7 +36,6 @@ spec:
     plugin:
       name: envsubst
       env:
-
         - name: "crossplane_providers_terraform_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_terraform_version}"
 
@@ -60,3 +59,6 @@ spec:
 
         - name: "crossplane_providers_netbird_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_netbird_version}"
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
