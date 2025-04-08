@@ -19,5 +19,5 @@ spec:
         apiVersion: docdb.aws.upbound.io/v1beta1
         fieldPath: status.atProvider.endpoint
         kind: Cluster
-        name: ${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}
+        name: ${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}-cluster
       toFieldPath: spec.externalName
