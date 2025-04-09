@@ -59,24 +59,6 @@ spec:
         summary: Kubernetes container oom killer ({{ $labels.namespace }}/{{ $labels.pod }}:{{ $labels.container }})
         description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-    - alert: KubernetesJobFailed
-      expr: 'kube_job_status_failed > 0'
-      for: 0m
-      labels:
-        severity: warning
-      annotations:
-        summary: Kubernetes Job failed ({{ $labels.namespace }}/{{ $labels.job_name }})
-        description: "Job {{ $labels.namespace }}/{{ $labels.job_name }} failed to complete\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
-    - alert: KubernetesCronjobSuspended
-      expr: 'kube_cronjob_spec_suspend != 0'
-      for: 0m
-      labels:
-        severity: warning
-      annotations:
-        summary: Kubernetes CronJob suspended ({{ $labels.namespace }}/{{ $labels.cronjob }})
-        description: "CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} is suspended\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
     - alert: KubernetesPersistentvolumeclaimPending
       expr: 'kube_persistentvolumeclaim_status_phase{phase="Pending"} == 1'
       for: 2m
@@ -160,7 +142,9 @@ spec:
         description: "HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler }} is constantly at minimum replicas for 50% of the time. Potential cost saving here.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPodNotHealthy
-      expr: 'sum by (namespace, pod) (kube_pod_status_phase{phase=~"Pending|Unknown|Failed"}) > 0'
+      # expr: 'sum by (namespace, pod) (kube_pod_status_phase{phase=~"Pending|Unknown|Failed"}) > 0'
+      # filter out 'cron' and 'test' pods
+      expr: 'sum by (namespace, pod) (kube_pod_status_phase{phase=~"Pending|Unknown|Failed", pod!~"(.+cron.+)|(.+test.+)"}) > 0'
       for: 15m
       labels:
         severity: critical
