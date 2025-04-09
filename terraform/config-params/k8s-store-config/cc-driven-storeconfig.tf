@@ -65,17 +65,12 @@ locals {
 
   internal_db_secret_var_map = { for index, int_database in local.internal_databases : int_database.external_resource_config.password_key_name => random_password.db_user_password[index].result}
 
-  //internal_db_properties_var_map = { for index, int_database in local.internal_databases :  int_database.external_resource_config.instance_address_key_name =>
-  //      int_database.external_resource_config.monolith_db_server == "common_platform_db" ? data.vault_kv_secret_v2.common_platform_db_instance_address[0].data.value : data.vault_kv_secret_v2.common_mojaloop_db_instance_address[0].data.value
-  // }
-
   internal_db_properties_var_map = { for index, int_database in local.internal_databases :  int_database.external_resource_config.instance_address_key_name => data.vault_kv_secret_v2.instance_addresses[int_database.external_resource_config.monolith_db_server].data.value }
 
   internal_db_secret_key_map = { for index, int_database in local.internal_databases : int_database.external_resource_config.password_key_name => int_database.external_resource_config.password_key_name }
 
-  //monolith_db_secret_var_map = { for index, monolith_database in local.monolith_databases :  monolith_database.external_resource_config.password_key_name =>  index == "common_platform_db" ? data.vault_kv_secret_v2.common_platform_db_password[0].data.value : data.vault_kv_secret_v2.common_mojaloop_db_password[0].data.value}
   monolith_db_secret_var_map = { for index, monolith_database in local.monolith_databases :  monolith_database.external_resource_config.password_key_name =>  data.vault_kv_secret_v2.db_passwords[index].data.value }
-  //monolith_db_properties_var_map = { for index, monolith_database in local.monolith_databases :  monolith_database.external_resource_config.instance_address_key_name =>  index == "common_platform_db" ? data.vault_kv_secret_v2.common_platform_db_instance_address[0].data.value : data.vault_kv_secret_v2.common_mojaloop_db_instance_address[0].data.value}
+
   monolith_db_properties_var_map = { for index, monolith_database in local.monolith_databases :  monolith_database.external_resource_config.instance_address_key_name =>  data.vault_kv_secret_v2.instance_addresses[index].data.value }
 
   monolith_db_secret_key_map = { for index, monolith_database in local.monolith_databases :  monolith_database.external_resource_config.password_key_name => monolith_database.external_resource_config.password_key_name }
