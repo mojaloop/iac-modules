@@ -38,7 +38,7 @@ mcm-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: devdat1asql1
-    monolith_db_server: common_mojaloop_db
+    monolith_db_server: common-mojaloop-db
 account-lookup-db:
   external_resource_config:
     password_key_name: account_lookup_password
@@ -79,7 +79,7 @@ account-lookup-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: account_lookup
-    monolith_db_server: common_mojaloop_db
+    monolith_db_server: common-mojaloop-db
 central-ledger-db:
   external_resource_config:
     password_key_name: central_ledger_password
@@ -120,7 +120,7 @@ central-ledger-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: central_ledger
-    monolith_db_server: common_mojaloop_db
+    monolith_db_server: common-mojaloop-db
 bulk-mongodb:
   external_resource_config:
     cluster_size: 1
@@ -145,7 +145,7 @@ bulk-mongodb:
     storage_encrypted: true
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
-    monolith_db_server: common_document_db
+    monolith_db_server: common-mongodb
     additional_privileges: []
 reporting-events-mongodb:
   external_resource_config:
@@ -171,7 +171,7 @@ reporting-events-mongodb:
     storage_encrypted: true
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
-    monolith_db_server: common_document_db
+    monolith_db_server: common-mongodb
     additional_privileges:
       - collection: reporting
         action: "collMod"
@@ -199,7 +199,7 @@ ttk-mongodb:
     storage_encrypted: true
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
-    monolith_db_server: common_document_db
+    monolith_db_server: common-mongodb
     additional_privileges:
       - collection: reporting
         action: "collMod"
@@ -280,7 +280,7 @@ keycloak-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: keycloak
-    monolith_db_server: common_platform_db
+    monolith_db_server: common-platform-db
 keto-db:
   external_resource_config:
     password_key_name: keto_password
@@ -321,7 +321,7 @@ keto-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: keto
-    monolith_db_server: common_platform_db
+    monolith_db_server: common-platform-db
 kratos-db:
   external_resource_config:
     password_key_name: kratos_password
@@ -362,4 +362,4 @@ kratos-db:
       mojaloop/env: ft-sbox-rw
       mojaloop/owner: Samuel-Kummary
     username: kratos
-    monolith_db_server: common_platform_db
+    monolith_db_server: common-platform-db
