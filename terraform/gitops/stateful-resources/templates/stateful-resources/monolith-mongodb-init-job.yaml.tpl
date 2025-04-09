@@ -19,6 +19,7 @@ spec:
             - >
                echo "use ${managed_stateful_resource.logical_service_config.database_name};" >> ~/init.js;
                echo "db.createUser({user: \"${managed_stateful_resource.logical_service_config.db_username}\",pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
+               echo "use admin" >> ~/init.js;
 %{ for privilege in additional_privileges ~}
                echo "db.createRole({ role: \"additionalRole\", privileges: [{ resource: { db: \"${managed_stateful_resource.logical_service_config.database_name}\", collection: \"${privilege.collection}\" }, actions: [\"${privilege.action}\"] }], roles: [] })" >> ~/init.js;
 %{ endfor ~}
