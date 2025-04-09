@@ -22,7 +22,7 @@ spec:
       engineVersion: "${ARGOCD_ENV_engine_version}"
       family: ${ARGOCD_ENV_family}
       instanceCount: ${ARGOCD_ENV_instance_count}
-      parameters:
+      parameter:
         - applyMethod: pending-reboot
           name: tls
           value: disabled
