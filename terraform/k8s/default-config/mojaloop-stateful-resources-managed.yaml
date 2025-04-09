@@ -145,7 +145,7 @@ bulk-mongodb:
     storage_encrypted: true
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
-    monolith_db_server: common-mongodb
+    monolith_db_server: common_mongodb
     additional_privileges: []
 reporting-events-mongodb:
   external_resource_config:
@@ -171,7 +171,7 @@ reporting-events-mongodb:
     storage_encrypted: true
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
-    monolith_db_server: common-mongodb
+    monolith_db_server: common_mongodb
     additional_privileges:
       - collection: reporting
         action: "collMod"
@@ -199,7 +199,7 @@ ttk-mongodb:
     storage_encrypted: true
     skip_final_snapshot: true
     enabled_cloudwatch_logs_exports: []
-    monolith_db_server: common-mongodb
+    monolith_db_server: common_mongodb
     additional_privileges:
       - collection: reporting
         action: "collMod"
