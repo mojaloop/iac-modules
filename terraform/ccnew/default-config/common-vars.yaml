@@ -50,7 +50,7 @@ crossplane_providers_vault_version: "1.0.0"
 crossplane_providers_terraform_version: "0.16.0"
 crossplane_providers_ansible_version: "0.6.0"
 crossplane_providers_k8s_version: "0.11.4"
-crossplane_providers_netbird_version: "0.0.6"
+crossplane_providers_netbird_version: "0.0.7"
 crossplane_providers_aws_version: "0.49.2"
 crossplane_providers_aws_s3_version: "1.21.0"
 crossplane_providers_aws_iam_version: "1.21.0"
@@ -307,7 +307,6 @@ capi_cluster_proxmox_worker_replicas: "'3'"
 capi_cluster_storage_name: "pve-sdb"
 capi_rook_ceph_rgw_external_ip: "10.10.127.10"
 ##end capi
-
 
 # env_common_platform db settings
 env_rdbms_provider: "rds"
