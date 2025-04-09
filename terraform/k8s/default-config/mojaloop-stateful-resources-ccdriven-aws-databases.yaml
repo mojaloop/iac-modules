@@ -1,4 +1,4 @@
-common-platform-db:
+common_platform_db:
   app_owner: "platform"
   external_resource_config:
     allow_major_version_upgrade: false
@@ -62,7 +62,7 @@ common-platform-db:
     logical_service_port: 3306
     vault_master_user_password_secret_key: common_platform_db_password
     vault_instance_address_key: common_platform_db_instance_address
-common-mojaloop-db:
+common_mojaloop_db:
   app_owner: "mojaloop"
   external_resource_config:
     allow_major_version_upgrade: false
