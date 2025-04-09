@@ -87,7 +87,7 @@ argocd_override:
           object_storage_endpoint: "${object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "https://s3.${cloud_region}.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_region: "${object_storage_provider == "s3" ? cloud_region : "us-east-1" }"
-          object_storage_path_style: "${object_storage_provider == "ceph" ? "true" : "false" }"
+          object_storage_path_style: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
         storage_aws_provider:
           ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
           csi_driver_replicas: "${aws_ebs_csi_driver_replicas}"
