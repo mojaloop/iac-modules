@@ -59,24 +59,6 @@ spec:
         summary: Kubernetes container oom killer ({{ $labels.namespace }}/{{ $labels.pod }}:{{ $labels.container }})
         description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-    # - alert: KubernetesJobFailed
-    #   expr: 'kube_job_status_failed > 0'
-    #   for: 0m
-    #   labels:
-    #     severity: warning
-    #   annotations:
-    #     summary: Kubernetes Job failed ({{ $labels.namespace }}/{{ $labels.job_name }})
-    #     description: "Job {{ $labels.namespace }}/{{ $labels.job_name }} failed to complete\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
-    # - alert: KubernetesCronjobSuspended
-    #   expr: 'kube_cronjob_spec_suspend != 0'
-    #   for: 0m
-    #   labels:
-    #     severity: warning
-    #   annotations:
-    #     summary: Kubernetes CronJob suspended ({{ $labels.namespace }}/{{ $labels.cronjob }})
-    #     description: "CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} is suspended\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
     - alert: KubernetesPersistentvolumeclaimPending
       expr: 'kube_persistentvolumeclaim_status_phase{phase="Pending"} == 1'
       for: 2m
