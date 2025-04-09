@@ -118,7 +118,7 @@ common_mojaloop_db:
     logical_service_port: 3306
     vault_master_user_password_secret_key: common_mojaloop_db_password
     vault_instance_address_key: common_mojaloop_db_instance_address
-common-mongodb:
+common_mongodb:
   app_owner: "mojaloop"
   external_resource_config:
     allocated_storage: 100
