@@ -23,7 +23,7 @@ spec:
       family: ${ARGOCD_ENV_family}
       instanceCount: ${ARGOCD_ENV_instance_count}
       parameters:
-        - apply_method: pending-reboot
+        - applyMethod: pending-reboot
           name: tls
           value: disabled
       passwordSecret:
