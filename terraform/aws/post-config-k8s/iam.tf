@@ -19,7 +19,7 @@ resource "aws_iam_user_group_membership" "iac_group" {
 # IAM user with permissions to be able to update route53 records, for use with external-dns
 resource "aws_iam_user" "route53_external_dns" {
   count = var.create_ext_dns_user ? 1 : 0
-  name  = "${local.base_domain}-external-dns"
+  name  = "${local.base_domain}-ext-dns"
   tags  = merge({ Name = "${local.base_domain}-route53-external-dns" }, var.tags)
 }
 resource "aws_iam_access_key" "route53_external_dns" {
@@ -52,11 +52,11 @@ resource "aws_iam_policy" "route53_external_dns" {
     },
     {
       "Effect": "Allow",
-      "Action": [ 
+      "Action": [
         "route53:GetChange"
       ],
-      "Resource": [ 
-        "arn:aws:route53:::change/*" 
+      "Resource": [
+        "arn:aws:route53:::change/*"
       ]
     },
     {
