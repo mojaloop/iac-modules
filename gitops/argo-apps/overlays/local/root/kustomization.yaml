@@ -19,7 +19,6 @@ resources:
   - ../../../base/capi-operator.yaml
   - ../../../base/capi.yaml
   - ../../../base/capi-post-config.yaml
-  - ../../../base/redis-operator.yaml
   - ../../../base/base-monitoring.yaml
   - ../../../base/kyverno.yaml
   # xplane database config

@@ -1,17 +1,3 @@
-config:
-
-  # TODO
-  # If possible we should not watch and mutate kube-system but image rewrite likely needs it
-
-  # Enable Kyverno to touch resources in kube-system namespace
-  resourceFiltersExcludeNamespaces:
-  - kube-system
-
-  # Enable Kyverno to watch resources in kube-system namespace
-  webhooks:
-    namespaceSelector:
-      matchExpressions: {}
-
 reportsController:
   rbac:
     coreClusterRole:
@@ -24,3 +10,13 @@ reportsController:
         - get
         - list
         - watch
+
+cleanupController:
+  resources:
+    # -- Pod resource limits
+    limits:
+      memory: 256Mi
+    # -- Pod resource requests
+    requests:
+      cpu: 100m
+      memory: 128Mi
