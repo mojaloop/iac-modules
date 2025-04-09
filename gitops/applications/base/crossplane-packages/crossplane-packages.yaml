@@ -29,6 +29,7 @@ metadata:
   name: netbird-operator-install
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/sc-nboperatorinstall:${ARGOCD_ENV_crossplane_packages_sc_nboperatorinstall_version}
+  skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Configuration
@@ -36,3 +37,4 @@ metadata:
   name: nb-config
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/nb-config:${ARGOCD_ENV_crossplane_packages_nb_config_version}
+  skipDependencyResolution: true
