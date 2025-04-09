@@ -359,7 +359,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -400,7 +400,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -441,7 +441,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -482,7 +482,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -523,7 +523,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -564,7 +564,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -605,7 +605,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -646,7 +646,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -679,7 +679,7 @@ spec:
           s3:
            bucket: registry-${ARGOCD_ENV_cluster_name}
            v4auth: true
-           pathstyle: false
+           pathstyle: ${ARGOCD_ENV_object_storage_path_style}
            region: ${ARGOCD_ENV_cloud_region}
            regionendpoint: "${ARGOCD_ENV_object_storage_regional_endpoint}"
            accesskey: {{.username}}
@@ -724,7 +724,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -765,7 +765,7 @@ spec:
           aws_signature_version: 4
           host: ${ARGOCD_ENV_object_storage_host}
           endpoint:  "${ARGOCD_ENV_object_storage_regional_endpoint}"
-          path_style: true
+          path_style: ${ARGOCD_ENV_object_storage_path_style}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
