@@ -164,10 +164,6 @@ spec:
             value: 10.10.127.3:8006
           - name: utils_capi_capi_cluster_kube_version
             value: 1.31.0
-          - name: utils_capi_capi_cluster_proxmox_host_sshkey
-            value: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC5/jpxhR3VxG6MRsp8/T6aNkQ3mQf2zUjz7P+0Vaf2frcGZNbM2susvGJj6qFafEn1VXKqZCenb9xOAOJP4hbWygTsd9VnE2BMJO6rSZ7nTTfkAGP2e9tSvYdbLDexS/EJOnUSda6zrp5rPmlVg0NjbMPtgf35GybRfyvBZHdlY/gI10aW3q8xZ3sROAf26V7tRrNhfNsh6pqvgahiRIIl0mnkvo6gq/gzyhw2Ak8Y6ygKBGkoiF6gLaA87qMd48FFABXP9eLpIqhM7gJErRJh3oSHHODiA9wwTmSpTh2/qnWScZ6yDLYU49Gw/ym7LxLVommIUmgAd4ndmow3THRSEsvZaoV4RAE7hUH+cpSwynPWvIQ+JcY8Enb63KFujEX+dqWOrE+tyT4VB9Hyb9g522nK8gFd0rBobwF/dZuukc/nEDb10SQwDh7fCqiF6k8krEAbGLIwIw1OYEpvgZdwULc1zWznS5Pp0ReaXXHkyxiziaqLp+o+2c1A5R5XPRmYxMbQEQixkuVbdL0tTcnG3Rzav1A/otv671aYGlfulDiCU3yR5biAs126bnfw7gUJgv6BZkzzPvYZ2Mx0uVdZdyHwkRVxZWRH5yGDxjRka/JtQK+SjmzzyDxpcho07/l56GIt9ccGUyDREtgBGGOUygMLBFIJ13TxxhSJNKGYNxw==
-          - name: utils_capi_capi_cluster_proxmox_host_password
-            value: Pass1234
           - name: utils_capi_capi_cluster_proxmox_host_vlan
             value: '''127'''
           - name: utils_capi_capi_cluster_proxmox_host_net_interface
@@ -184,8 +180,6 @@ spec:
             value: '''3'''
           - name: utils_capi_capi_cluster_proxmox_user
             value: root@pam
-          - name: utils_capi_capi_cluster_proxmox_password
-            value: ILove!nfitx
           - name: utils_capi_capi_cluster_storage_name
             value: pve-nvme0n1
           - name: utils_capi_capi_rook_ceph_sync_wave
