@@ -59,8 +59,7 @@ module "generate_pm4ml_files" {
     istio_external_gateway_name                     = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
-    ttk_backend_fqdn                                = local.pm4ml_ttk_backend_fqdns[each.key]
-    ttk_frontend_fqdn                               = local.pm4ml_ttk_frontend_fqdns[each.key]
+    ttk_fqdn                                        = local.pm4ml_ttk_fqdns[each.key]
     istio_create_ingress_gateways                   = var.istio_create_ingress_gateways
     pm4ml_istio_gateway_namespace                   = local.pm4ml_istio_gateway_namespaces[each.key]
     pm4ml_istio_wildcard_gateway_name               = local.pm4ml_istio_wildcard_gateway_names[each.key]
@@ -94,9 +93,7 @@ locals {
 
   inter_scheme_proxy_adapter_a_fqdns = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "conn-a-${pm4ml_name}.${var.public_subdomain}" : "conn-a-${pm4ml_name}.${var.private_subdomain}" }
   inter_scheme_proxy_adapter_b_fqdns = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "conn-b-${pm4ml_name}.${var.public_subdomain}" : "conn-b-${pm4ml_name}.${var.private_subdomain}" }
-  pm4ml_ttk_frontend_fqdns  = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "ttkfront-${pm4ml_name}.${var.public_subdomain}" : "ttkfront-${pm4ml_name}.${var.private_subdomain}" }
-  pm4ml_ttk_backend_fqdns   = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "ttkback-${pm4ml_name}.${var.public_subdomain}" : "ttkback-${pm4ml_name}.${var.private_subdomain}"}
-
+  pm4ml_ttk_fqdns                    = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "ttk-${pm4ml_name}.${var.public_subdomain}" : "ttk-${pm4ml_name}.${var.private_subdomain}" }
   pm4ml_istio_gateway_namespaces     = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace }
   pm4ml_istio_wildcard_gateway_names = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name }
   pm4ml_istio_gateway_names          = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? var.istio_external_gateway_name : var.istio_internal_gateway_name }
