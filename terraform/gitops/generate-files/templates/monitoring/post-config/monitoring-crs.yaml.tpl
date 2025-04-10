@@ -70,9 +70,6 @@ spec:
     url: ${prom-mojaloop-url}
     isDefault: true
     editable: true
-  #plugins:
-  #  - name: https://storage.googleapis.com/integration-artifacts/grafana-metricsdrilldown-app/grafana-metricsdrilldown-app-latest.zip;grafana-metricsdrilldown-app
-  #    version: 1.0.0-6
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -99,9 +96,6 @@ spec:
       httpHeaderValue1: '1'
     isDefault: false
     editable: true
-  #plugins:
-  #  - name: https://storage.googleapis.com/integration-artifacts/grafana-lokiexplore-app/grafana-lokiexplore-app-latest.zip;grafana-lokiexplore-app
-  #    version: 1.0.10
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -145,9 +139,6 @@ spec:
       httpHeaderValue1: 'single-tenant'
     isDefault: false
     editable: true
-  plugins:
-    - name: https://storage.googleapis.com/integration-artifacts/grafana-exploretraces-app/grafana-exploretraces-app-latest.zip;grafana-exploretraces-app
-      version: 0.2.8
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
