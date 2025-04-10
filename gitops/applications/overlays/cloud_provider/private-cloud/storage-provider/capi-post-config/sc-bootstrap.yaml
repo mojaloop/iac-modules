@@ -8,7 +8,7 @@ spec:
     argocd:
       application:
         source:
-          targetRevision: main
+          targetRevision: feat/sc-bootstrap
           envVars:
           - name: argocd_repo_url
             value: https://github.com//mojaloop/iac-modules.git
@@ -21,7 +21,7 @@ spec:
           - name: utils_app_namespace
             value: argocd
           - name: utils_application_gitrepo_tag
-            value: feature/storage-cluster
+            value: feat/sc-bootstrap
           - name: utils_sync_wave
             value: '''-13'''
           - name: utils_app_enabled
