@@ -155,7 +155,7 @@ locals {
   prometheus_process_exporter_version = "0.4.2"
   tempo_chart_version                 = "3.1.0"
   metrics_server_chart_version        = "3.12.2"
-  grafana_version                     = "11.3.0"
+  grafana_version                     = "11.6.0"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17" # NOTE: only for those dashboards which are in mojaloop/helm repo
   grafana_dashboard_tag_iac_modules   = "main"                # tag for dashboards in mojaloop/iac-modules repo
   grafana_operator_version            = "3.5.11"
