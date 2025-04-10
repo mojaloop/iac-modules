@@ -33,8 +33,6 @@ spec:
                     values: ['enabled']
   config:
     unified_alerting:
-      enabled: "false"
-    alerting:
       enabled: "true"
     server:
       domain: "${grafana_subdomain}"
