@@ -1110,9 +1110,9 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         specApi:
-          host: ${ttk_backend_fqdn}
+          host: ${ttk_fqdn}
         adminApi:
-          host: ${ttk_backend_fqdn}
+          host: ${ttk_fqdn}
     parameters: &simNames
       simNamePayerfsp: 'payerfsp'
       simNamePayeefsp: 'payeefsp'
@@ -1147,11 +1147,11 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         ui:
-          host: ${ttk_frontend_fqdn}
+          host: ${ttk_fqdn}
           port: 6060
           paths: ['/']
     config:
-      API_BASE_URL: https://${ttk_backend_fqdn}
+      API_BASE_URL: https://${ttk_fqdn}
 
 ml-ttk-test-setup:
   tests:
@@ -1164,7 +1164,7 @@ ml-ttk-test-setup:
     environmentName: ${ingress_subdomain}
     saveReport: true
     brief: true
-    saveReportBaseUrl: https://${ttk_backend_fqdn}
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1190,7 +1190,7 @@ ml-ttk-test-val-gp:
     environmentName: ${ingress_subdomain}
     saveReport: true
     brief: true
-    saveReportBaseUrl: https://${ttk_backend_fqdn}
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1214,7 +1214,7 @@ ml-ttk-test-val-bulk:
     environmentName: ${ingress_subdomain}
     saveReport: true
     brief: true
-    saveReportBaseUrl: https://${ttk_backend_fqdn}
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1228,7 +1228,7 @@ ml-ttk-test-setup-tp:
     environmentName: ${ingress_subdomain}
     saveReport: true
     brief: true
-    saveReportBaseUrl: https://${ttk_backend_fqdn}
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1242,7 +1242,7 @@ ml-ttk-test-val-tp:
     environmentName: ${ingress_subdomain}
     saveReport: true
     brief: true
-    saveReportBaseUrl: https://${ttk_backend_fqdn}
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1256,7 +1256,7 @@ ml-ttk-test-setup-sdk-bulk:
     environmentName: ${ingress_subdomain}
     saveReport: true
     brief: true
-    saveReportBaseUrl: https://${ttk_backend_fqdn}
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1300,7 +1300,7 @@ ml-ttk-test-cleanup:
     environmentName: ${ingress_subdomain}
     saveReport: true
     brief: true
-    saveReportBaseUrl: https://${ttk_backend_fqdn}
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues

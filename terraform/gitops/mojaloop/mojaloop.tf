@@ -44,8 +44,7 @@ module "generate_mojaloop_files" {
     mojaloop_wildcard_gateway                                         = local.mojaloop_wildcard_gateway
     keycloak_fqdn                                                     = var.keycloak_fqdn
     keycloak_realm_name                                               = var.keycloak_hubop_realm_name
-    ttk_frontend_fqdn                                                 = local.ttk_frontend_fqdn
-    ttk_backend_fqdn                                                  = local.ttk_backend_fqdn
+    ttk_fqdn                                                          = local.ttk_fqdn
     ttk_istio_gateway_namespace                                       = local.ttk_istio_gateway_namespace
     ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name
     kafka_host                                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -245,8 +244,7 @@ resource "local_file" "values_hub_provisioning_override" {
 
 locals {
   mojaloop_wildcard_gateway       = try(var.app_var_map.mojaloop_ingress_internal_lb, true) ? "internal" : "external"
-  ttk_frontend_fqdn               = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
-  ttk_backend_fqdn                = local.mojaloop_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" : "ttkbackend.${var.private_subdomain}"
+  ttk_fqdn                        = local.mojaloop_wildcard_gateway == "external" ? "ttk.${var.public_subdomain}" : "ttk.${var.private_subdomain}"
   ttk_istio_wildcard_gateway_name = local.mojaloop_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
   ttk_istio_gateway_namespace     = local.mojaloop_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
 
