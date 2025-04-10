@@ -1,0 +1,268 @@
+apiVersion: sc.mojaloop.io/v1alpha1
+kind: SCBootstrap
+metadata:
+  name: sa-bootstrap
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+spec:
+  parameters:
+    argocd:
+      application:
+        source:
+          targetRevision: main
+          envVars:
+          - name: argocd_repo_url
+            value: https://github.com//mojaloop/iac-modules.git
+          - name: ansible_gitrepo_url
+            value: https://github.com//mojaloop/iac-ansible-collection-roles.git#mojaloop/iac
+          - name: helm_version
+            value: 3.14.0
+          - name: utils_argocd_app_name
+            value: utils
+          - name: utils_app_namespace
+            value: argocd
+          - name: utils_application_gitrepo_tag
+            value: feature/storage-cluster
+          - name: utils_sync_wave
+            value: '''-13'''
+          - name: utils_app_enabled
+            value: "true"
+          - name: utils_argocd_helm_app_name
+            value: argocd
+          - name: utils_argocd_helm_namespace
+            value: argocd
+          - name: utils_argocd_helm_helm_version
+            value: 7.6.12
+          - name: utils_argocd_helm_public_ingress_access_domain
+            value: "false"
+          - name: utils_argocd_helm_dns_subdomain
+            value: int.ccinfra.drpp-onprem.global
+          - name: utils_argocd_helm_istio_gateway_namespace
+            value: istio-ingress-int
+          - name: utils_argocd_helm_istio_wildcard_gateway_name
+            value: internal-wildcard-gateway
+          - name: utils_argocd_helm_sub_app_enabled
+            value: "true"
+          - name: utils_rook_ceph_app_name
+            value: rook-ceph
+          - name: utils_rook_ceph_namespace
+            value: rook-ceph
+          - name: utils_rook_ceph_helm_version
+            value: 1.16.5
+          - name: utils_rook_ceph_image_version
+            value: v19.2.1
+          - name: utils_rook_ceph_rook_csi_kubelet_dir_path
+            value: /var/snap/microk8s/common/var/lib/kubelet
+          - name: utils_rook_ceph_mon_volumes_storage_class
+            value: gp3
+          - name: utils_rook_ceph_mon_volumes_size
+            value: 10Gi
+          - name: utils_rook_ceph_osd_volumes_storage_class
+            value: gp3
+          - name: utils_rook_ceph_osd_count
+            value: '''3'''
+          - name: utils_rook_ceph_volume_size_per_osd
+            value: 500Gi
+          - name: utils_rook_ceph_volumes_provider
+            value: pvc
+          - name: utils_rook_ceph_sync_wave
+            value: '''-10'''
+          - name: utils_rook_ceph_sub_app_enabled
+            value: "true"
+          - name: utils_rook_ceph_cloud_platform
+            value: bare-metal
+          - name: utils_rook_ceph_mon_volume_size
+            value: 10Gi
+          - name: utils_rook_ceph_cloud_pv_reclaim_policy
+            value: Delete
+          - name: utils_rook_ceph_objects_replica_count
+            value: '''2'''
+          - name: utils_rook_ceph_volumes_storage_region
+            value: eu-west-1
+          - name: utils_rook_ceph_cluster_domain
+            value: ccinfra.drpp-onprem.global
+          - name: utils_percona_app_name
+            value: percona-postgresql-operator
+          - name: utils_percona_namespace
+            value: percona
+          - name: utils_percona_debug
+            value: debug
+          - name: utils_percona_helm_version
+            value: 2.6.0
+          - name: utils_cert_manager_app_name
+            value: cert-manager
+          - name: utils_cert_manager_helm_version
+            value: 1.17.1
+          - name: utils_cert_manager_namespace
+            value: cert-manager
+          - name: utils_cert_manager_sub_app_enabled
+            value: "true"
+          - name: utils_cert_manager_credentials_secret
+            value: cert-manager-dns
+          - name: utils_base_monitoring_app_name
+            value: base-monitoring
+          - name: utils_base_monitoring_grafana_crd_version_tag
+            value: 5.10.0
+          - name: utils_base_monitoring_prometheus_crd_version
+            value: 13.0.2
+          - name: utils_base_monitoring_grafana_operator_version
+            value: 4.4.12
+          - name: utils_base_monitoring_namespace
+            value: monitoring
+          - name: utils_rook_ceph_bucket_config_public_ingress_access_domain
+            value: "false"
+          - name: utils_rook_ceph_bucket_config_dns_subdomain
+            value: int.ccinfra.drpp-onprem.global
+          - name: utils_rook_ceph_bucket_config_istio_gateway_namespace
+            value: istio-ingress-int
+          - name: utils_rook_ceph_bucket_config_istio_wildcard_gateway_name
+            value: internal-wildcard-gateway
+          - name: utils_rook_ceph_bucket_config_app_name
+            value: rook-ceph-bucket
+          - name: utils_kyverno_app_name
+            value: kyverno
+          - name: utils_kyverno_namespace
+            value: kyverno
+          - name: utils_kyverno_helm_version
+            value: 3.3.7
+          - name: utils_capi_app_name
+            value: capi
+          - name: utils_capi_namespace
+            value: capi
+          - name: utils_capi_app_namespace
+            value: argocd
+          - name: utils_capi_capi_operator_namespace
+            value: proxmox-infrastructure-system
+          - name: utils_capi_capi_operator_version
+            value: 0.16.0
+          - name: utils_capi_sync_wave
+            value: '''-10'''
+          - name: utils_capi_post_sync_wave
+            value: '''-9'''
+          - name: utils_capi_operator_sync_wave
+            value: '''-11'''
+          - name: utils_capi_capi_infra_provider_name
+            value: proxmox
+          - name: utils_capi_cloud_provider
+            value: private-cloud
+          - name: utils_capi_capi_infra_provider_version
+            value: 0.4.5
+          - name: utils_capi_capi_cp_provider_name
+            value: kubeadm
+          - name: utils_capi_capi_cluster_namespace
+            value: sc-cluster
+          - name: utils_capi_capi_cluster_name
+            value: sc
+          - name: utils_capi_capi_cluster_kubeapi_host
+            value: 10.10.127.2
+          - name: utils_capi_capi_cluster_kubeapi_port
+            value: '''6443'''
+          - name: utils_capi_capi_cluster_network_subnet
+            value: '''24'''
+          - name: utils_capi_capi_cluster_network_gateway
+            value: 10.10.127.1
+          - name: utils_capi_capi_cluster_proxmox_url
+            value: 10.10.127.3:8006
+          - name: utils_capi_capi_cluster_kube_version
+            value: 1.31.0
+          - name: utils_capi_capi_cluster_proxmox_host_sshkey
+            value: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC5/jpxhR3VxG6MRsp8/T6aNkQ3mQf2zUjz7P+0Vaf2frcGZNbM2susvGJj6qFafEn1VXKqZCenb9xOAOJP4hbWygTsd9VnE2BMJO6rSZ7nTTfkAGP2e9tSvYdbLDexS/EJOnUSda6zrp5rPmlVg0NjbMPtgf35GybRfyvBZHdlY/gI10aW3q8xZ3sROAf26V7tRrNhfNsh6pqvgahiRIIl0mnkvo6gq/gzyhw2Ak8Y6ygKBGkoiF6gLaA87qMd48FFABXP9eLpIqhM7gJErRJh3oSHHODiA9wwTmSpTh2/qnWScZ6yDLYU49Gw/ym7LxLVommIUmgAd4ndmow3THRSEsvZaoV4RAE7hUH+cpSwynPWvIQ+JcY8Enb63KFujEX+dqWOrE+tyT4VB9Hyb9g522nK8gFd0rBobwF/dZuukc/nEDb10SQwDh7fCqiF6k8krEAbGLIwIw1OYEpvgZdwULc1zWznS5Pp0ReaXXHkyxiziaqLp+o+2c1A5R5XPRmYxMbQEQixkuVbdL0tTcnG3Rzav1A/otv671aYGlfulDiCU3yR5biAs126bnfw7gUJgv6BZkzzPvYZ2Mx0uVdZdyHwkRVxZWRH5yGDxjRka/JtQK+SjmzzyDxpcho07/l56GIt9ccGUyDREtgBGGOUygMLBFIJ13TxxhSJNKGYNxw==
+          - name: utils_capi_capi_cluster_proxmox_host_password
+            value: Pass1234
+          - name: utils_capi_capi_cluster_proxmox_host_vlan
+            value: '''127'''
+          - name: utils_capi_capi_cluster_proxmox_host_net_interface
+            value: vmbr1
+          - name: utils_capi_capi_cluster_proxmox_control_plane_cpu
+            value: '''2'''
+          - name: utils_capi_capi_cluster_proxmox_control_plane_memory
+            value: '''8192'''
+          - name: utils_capi_capi_cluster_proxmox_worker_cpu
+            value: '''8'''
+          - name: utils_capi_capi_cluster_proxmox_worker_memory
+            value: '''16384'''
+          - name: utils_capi_capi_cluster_proxmox_worker_replicas
+            value: '''3'''
+          - name: utils_capi_capi_cluster_proxmox_user
+            value: root@pam
+          - name: utils_capi_capi_cluster_proxmox_password
+            value: ILove!nfitx
+          - name: utils_capi_capi_cluster_storage_name
+            value: pve-nvme0n1
+          - name: utils_capi_capi_rook_ceph_sync_wave
+            value: '''-10'''
+          - name: utils_capi_capi_rook_ceph_app_name
+            value: rook-ceph
+          - name: utils_capi_capi_rook_ceph_namespace
+            value: rook-ceph
+          - name: utils_capi_capi_rook_ceph_helm_version
+            value: 1.16.5
+          - name: utils_capi_capi_rook_ceph_image_version
+            value: v19.2.1
+          - name: utils_capi_capi_rook_ceph_rook_csi_kubelet_dir_path
+            value: /var/lib/kubelet
+          - name: utils_capi_capi_rook_ceph_post_config_app_name
+            value: rook-ceph-post-config
+          - name: utils_capi_capi_rook_ceph_post_config_sync_wave
+            value: '''-9'''
+          - name: utils_capi_capi_rook_ceph_rbd_pool_replication_size
+            value: '''2'''
+          - name: utils_capi_capi_rook_ceph_rgw_external_ip
+            value: 10.10.127.10
+          - name: utils_capi_capi_crossplane_providerconfig_name
+            value: sc-kubernetes-provider
+          - name: utils_storage_sync_wave
+            value: '''-8'''
+          - name: utils_storage_app_name
+            value: storage
+          - name: utils_storage_namespace
+            value: storage
+          - name: utils_storage_block_storage_class_name
+            value: block
+          - name: utils_storage_cloud_provider
+            value: private-cloud
+          - name: utils_storage_cluster_domain
+            value: ccinfra.drpp-onprem.global
+          - name: utils_storage_object_storage_host
+            value: 10.10.127.10
+          - name: utils_storage_object_storage_endpoint
+            value: http://10.10.127.10
+          - name: utils_storage_object_storage_regional_endpoint
+            value: http://10.10.127.10
+          - name: utils_storage_object_storage_region
+            value: us-east-1
+          - name: utils_storage_object_storage_path_style
+            value: '''true'''
+          - name: sc_argocd_app_name
+            value: storage-cluster
+          - name: sc_app_namespace
+            value: argocd
+          - name: sc_app_enabled
+            value: "true"
+          - name: sc_application_gitrepo_tag
+            value: feature/storage-cluster
+          - name: sc_sync_wave
+            value: '''-8'''
+          - name: sc_metallb_sync_wave
+            value: '''-11'''
+          - name: sc_metallb_app_name
+            value: metallb
+          - name: sc_metallb_namespace
+            value: metallb-system
+          - name: sc_metallb_ip_range_begin
+            value: 10.10.127.10
+          - name: sc_metallb_ip_range_end
+            value: 10.10.127.20
+          - name: sc_metallb_version
+            value: 0.14.9
+          - name: sc_rook_ceph_app_name
+            value: rook-ceph
+          - name: sc_rook_ceph_namespace
+            value: rook-ceph
+          - name: sc_rook_ceph_version
+            value: 1.16.3
+
+  providerConfigsRef:
+    scK8sProviderName: sc-kubernetes-provider
+    scHelmProviderName: sc-helm-provider
+  managementPolicies:
+    - "*"

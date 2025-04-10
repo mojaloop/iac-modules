@@ -10,9 +10,17 @@ spec:
 apiVersion: pkg.crossplane.io/v1
 kind: Configuration
 metadata:
-  name: databases
+  name: sc-postgres
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/sc-pgcluster:${ARGOCD_ENV_crossplane_packages_sc_postgres_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: sc-bootstrap
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-bootstrap:${ARGOCD_ENV_crossplane_packages_sc_postgres_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
