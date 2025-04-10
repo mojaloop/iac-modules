@@ -128,7 +128,7 @@ locals {
   portal_fqdns              = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "portal-${pm4ml_name}.${var.public_subdomain}" : "portal-${pm4ml_name}.${var.private_subdomain}" }
   admin_portal_fqdns        = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "admin-portal-${pm4ml_name}.${var.public_subdomain}" : "admin-portal-${pm4ml_name}.${var.private_subdomain}"}
   experience_api_fqdns      = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "exp-${pm4ml_name}.${var.public_subdomain}"  : "exp-${pm4ml_name}.${var.private_subdomain}"}
-  mojaloop_connnector_fqdns = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "conn-${pm4ml_name}.${var.public_subdomain}" : "conn-${pm4ml_name}.${var.private_subdomain}" }
+  mojaloop_connnector_fqdns = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => "conn-${pm4ml_name}.${var.public_subdomain}" }
   pm4ml_ttk_fqdns           = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "ttk-${pm4ml_name}.${var.public_subdomain}" : "ttk-${pm4ml_name}.${var.private_subdomain}" }
   pm4ml_pta_portal_fqdns    = { for pm4ml_name, pm4ml in local.pm4ml_var_map : pm4ml_name => local.pm4ml_wildcard_gateways[pm4ml_name] == "external" ? "pta-portal-${pm4ml_name}.${var.public_subdomain}" : "pta-portal-${pm4ml_name}.${var.private_subdomain}"}
 
