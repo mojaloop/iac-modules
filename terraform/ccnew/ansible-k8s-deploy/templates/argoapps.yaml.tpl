@@ -37,6 +37,7 @@ argocd_override:
           aws_version: "${crossplane_providers_aws_version}"
           aws_s3_version: "${crossplane_providers_aws_s3_version}"
           aws_iam_version: "${crossplane_providers_aws_iam_version}"
+          netbird_version: "${crossplane_providers_netbird_version}"
         crossplane_functions:
           patch_and_transform_version: "${crossplane_functions_patch_and_transform_version}"
           go_templating_version: "${crossplane_functions_go_templating_version}"
@@ -46,6 +47,8 @@ argocd_override:
           objectstores_version: "${crossplane_packages_objectstores_version}"
           utils_version: "${crossplane_packages_utils_version}"
           sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
+          sc_nboperatorinstall_version: "${crossplane_packages_sc_nboperatorinstall_version}"
+          nb_config_version: "${crossplane_packages_nb_config_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
