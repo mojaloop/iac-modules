@@ -10,6 +10,10 @@ spec:
         source:
           targetRevision: feat/sc-bootstrap
           envVars:
+          - name: monitoring_namespace
+            value: base-monitoring
+          - name: control_center_cluster_name
+            value: ccinfra
           - name: argocd_repo_url
             value: https://github.com//mojaloop/iac-modules.git
           - name: ansible_gitrepo_url
