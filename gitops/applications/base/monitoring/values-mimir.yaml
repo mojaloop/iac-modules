@@ -65,7 +65,6 @@ ingester:
     limits:
       cpu: ${ARGOCD_ENV_mimir_ingester_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ingester_limits_memory}
-  # extraEnvVarsCM: "mimir-${ARGOCD_ENV_cluster_name}"
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
   persistence:
     size: ${ARGOCD_ENV_mimir_ingester_storage_size}
@@ -76,7 +75,6 @@ querier:
     limits:
       cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
-  # extraEnvVarsCM: "mimir-${ARGOCD_ENV_cluster_name}"
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
 
 queryFrontend:
@@ -88,7 +86,6 @@ queryFrontend:
 
 compactor:
   replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
-  # extraEnvVarsCM: "mimir-${ARGOCD_ENV_cluster_name}"
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
   resources:
     limits:
@@ -103,7 +100,6 @@ storeGateway:
     limits:
       cpu: ${ARGOCD_ENV_mimir_store_gateway_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_store_gateway_limits_memory}
-  # extraEnvVarsCM: "mimir-${ARGOCD_ENV_cluster_name}"
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
   persistence:
     size: ${ARGOCD_ENV_mimir_store_gateway_storage_size}
@@ -115,7 +111,6 @@ ruler:
     limits:
       cpu: ${ARGOCD_ENV_mimir_ruler_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ruler_limits_memory}
-  # extraEnvVarsCM: "mimir-${ARGOCD_ENV_cluster_name}"
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
 
 alertmanager:
@@ -125,7 +120,6 @@ alertmanager:
     limits:
       cpu: ${ARGOCD_ENV_mimir_alertmanager_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_alertmanager_limits_memory}
-  # extraEnvVarsCM: "mimir-${ARGOCD_ENV_cluster_name}"
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
   persistence:
     size: ${ARGOCD_ENV_mimir_alertmanager_storage_size}
