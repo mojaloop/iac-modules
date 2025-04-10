@@ -9,7 +9,7 @@ loki:
     ingester:
       max_chunk_age: ${ARGOCD_ENV_loki_ingester_max_chunk_age}
       lifecycler:
-        ring: 
+        ring:
           replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
     schema_config:
       configs:
@@ -25,12 +25,12 @@ loki:
         shared_store: s3
       aws:
         # s3 is alias for aws
-        s3forcepathstyle: true
-        endpoint: $${BUCKET_HOST}
-        insecure: true
-        access_key_id: $${AWS_ACCESS_KEY_ID}
-        secret_access_key: $${AWS_SECRET_ACCESS_KEY}
-        bucketnames: $${BUCKET_NAME}
+        s3forcepathstyle: ${ARGOCD_ENV_object_storage_path_style}
+        endpoint: ${ARGOCD_ENV_object_storage_host}
+        insecure: ${ARGOCD_ENV_object_store_insecure_connection}
+        access_key_id: $${username}
+        secret_access_key: $${password}
+        bucketnames: "loki-${ARGOCD_ENV_cluster_name}"
 
 metrics:
   enabled: true
@@ -75,7 +75,7 @@ compactor:
   extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   updateStrategy:
-    type: Recreate  
+    type: Recreate
 distributor:
   replicaCount: ${ARGOCD_ENV_loki_distributor_replica_count}
   resources:
@@ -114,8 +114,8 @@ queryScheduler:
       memory: ${ARGOCD_ENV_loki_query_scheduler_limits_memory}
   enabled: true
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
-  extraEnvVarsSecret: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
+  # extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
+  extraEnvVarsSecret: "loki-${ARGOCD_ENV_cluster_name}"
 
 
 memcachedchunks:

@@ -69,6 +69,9 @@ spec:
     plugin:
       name: envsubst
       env:
+        - name: "cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+
         - name: "monitoring_namespace"
           value: "${ARGOCD_ENV_monitoring_pre_namespace}"
 
@@ -125,8 +128,6 @@ spec:
         - name: "loki_ingester_replication_factor"
           value: "${ARGOCD_ENV_monitoring_loki_ingester_replication_factor}"
 
-
-
         - name: "mimir_distributor_replica_count"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_replica_count}"
         - name: "mimir_ingester_replica_count"
@@ -152,7 +153,6 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_storage_size}"
         - name: "mimir_alertmanager_storage_size"
           value: "${ARGOCD_ENV_monitoring_mimir_alertmanager_storage_size}"
-
 
         - name: "mimir_distributor_requests_cpu"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_requests_cpu}"
@@ -241,7 +241,23 @@ spec:
         - name: "loki_compactor_limits_memory"
           value: "${ARGOCD_ENV_monitoring_loki_compactor_limits_memory}"
 
-
-
         - name: "cloudwatch_exporter_role_arn"
           value: "${ARGOCD_ENV_monitoring_monitoring_cloudwatch_exporter_role_arn}"
+
+        - name: "object_storage_endpoint"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_endpoint}"
+
+        - name: "object_storage_host"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_host}"
+
+        - name: "object_storage_regional_endpoint"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_regional_endpoint}"
+
+        - name: "object_storage_path_style"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_path_style}"
+
+        - name: "object_store_insecure_connection"
+          value: "${ARGOCD_ENV_utils_storage_object_store_insecure_connection}"
+
+        - name: "bucket_lookup_type"
+          value: "${ARGOCD_ENV_monitoring_mimir_bucket_lookup_type}"
