@@ -39,7 +39,8 @@ spec:
       env:
         - name: "cluster_name"
           value: "${ARGOCD_ENV_cluster_name}"
-
+        - name: "monitoring_namespace"
+          value: "${ARGOCD_ENV_monitoring_pre_namespace}"
         - name: "mimir_bucket_max_objects"
           value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_max_objects}"
         - name: "mimir_bucket_storage_size"
