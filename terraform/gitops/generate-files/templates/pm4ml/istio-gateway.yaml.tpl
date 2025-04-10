@@ -271,7 +271,7 @@ spec:
               number: 6060
 ---
 # %{ endif }
-# %{ if can(payment_token_adapter_config.enabled) && payment_token_adapter_config.enabled }
+# %{ if payment_token_adapter_config.enabled}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
