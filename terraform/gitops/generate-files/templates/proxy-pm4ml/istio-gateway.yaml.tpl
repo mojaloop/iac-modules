@@ -82,6 +82,7 @@ spec:
               number: 4000
 
 ---
+# %{ if ttk_enabled }
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -140,3 +141,4 @@ spec:
               number: 4040
 
 ---
+# %{ endif }
