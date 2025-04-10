@@ -139,6 +139,9 @@ spec:
       httpHeaderValue1: 'single-tenant'
     isDefault: false
     editable: true
+  plugins:
+    - name: grafana-traces-app
+      version: 0.2.8
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
@@ -156,5 +159,5 @@ metadata:
 spec:
   instanceSelector:
     matchLabels:
-      dashboards: "grafana"      
+      dashboards: "grafana"
 ---
