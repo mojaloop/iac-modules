@@ -20,7 +20,7 @@ kind: Configuration
 metadata:
   name: sc-bootstrap
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-bootstrap:${ARGOCD_ENV_crossplane_packages_sc_postgres_version}
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-bootstrap:${ARGOCD_ENV_crossplane_packages_sc_bootstrap_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
