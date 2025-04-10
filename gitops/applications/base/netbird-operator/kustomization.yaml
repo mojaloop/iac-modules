@@ -8,3 +8,4 @@ helmCharts:
     repo: https://netbirdio.github.io/kubernetes-operator
     valuesFile: netbird-operator-values.yaml
     namespace: ${ARGOCD_ENV_netbird_operator_namespace}
+    includeCRDs: true
