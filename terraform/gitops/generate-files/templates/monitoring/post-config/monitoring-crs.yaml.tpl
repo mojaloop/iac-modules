@@ -70,6 +70,9 @@ spec:
     url: ${prom-mojaloop-url}
     isDefault: true
     editable: true
+  plugins:
+    - name: grafana-metricsdrilldown-app
+      version: 1.0.0-6
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -96,6 +99,9 @@ spec:
       httpHeaderValue1: '1'
     isDefault: false
     editable: true
+  plugins:
+    - name: grafana-lokiexplore-app
+      version: 1.0.10
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
