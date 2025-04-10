@@ -136,6 +136,9 @@ spec:
       httpHeaderValue1: 'single-tenant'
     isDefault: false
     editable: true
+  plugins:
+    - name: https://storage.googleapis.com/integration-artifacts/grafana-exploretraces-app/grafana-exploretraces-app-latest.zip;grafana-exploretraces-app
+      version: 0.2.8
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
