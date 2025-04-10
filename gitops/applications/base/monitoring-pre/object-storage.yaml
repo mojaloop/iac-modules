@@ -41,4 +41,4 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
-      maxSize: "${ARGOCD_ENV_ctrl_cntr_loki_bucket_storage_size}"
+      maxSize: "${ARGOCD_ENV_loki_bucket_storage_size}"
