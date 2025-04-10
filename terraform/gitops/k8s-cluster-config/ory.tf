@@ -37,6 +37,7 @@ module "generate_ory_files" {
     keycloak_name                        = var.keycloak_name
     keycloak_fqdn                        = local.keycloak_fqdn
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
+    istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
     keycloak_namespace                   = var.keycloak_namespace
     istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
     istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name

@@ -4,7 +4,7 @@ metadata:
   name: kratos-vs
 spec:
   gateways:
-  - ${istio_external_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
   hosts:
     - '${auth_fqdn}'
   http:
@@ -25,7 +25,7 @@ metadata:
   name: kratos-selfservice-ui-node-vs
 spec:
   gateways:
-  - ${istio_external_gateway_namespace}/${istio_internal_wildcard_gateway_name}
+  - ${istio_internal_gateway_namespace}/${istio_internal_wildcard_gateway_name}
   hosts:
     - '${auth_fqdn}'
   http:
