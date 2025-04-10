@@ -2,6 +2,9 @@ ingress:
   enabled: true
   router:
     enabled: true
+  kubernetesAPI:
+    enabled: true
+    groups: ["${ARGOCD_ENV_netbird_operator_kubeapi_group}"]
 netbirdAPI:
   keyFromSecret: ${ARGOCD_ENV_netbird_operator_api_key_secret}
 managementURL: ${ARGOCD_ENV_netbird_operator_management_url}

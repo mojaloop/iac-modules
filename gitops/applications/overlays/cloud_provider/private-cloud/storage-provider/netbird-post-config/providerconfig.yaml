@@ -1,0 +1,14 @@
+apiVersion: netbird.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: netbird-crossplane-provider-config
+spec:
+  management-uri: https://netbird.${ARGOCD_ENV_zitadel_dns_subdomain}:443
+  credentials-type: oauth
+  oauth-issuer-url: https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/oauth/v2/token
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: ${ARGOCD_ENV_netbird_namespace}
+      name: netbird-ansible-secret-vars
+      key: netbird-oauth.json
