@@ -370,7 +370,7 @@ variable "argocd_namespace" {
 }
 
 locals {
-  auth_fqdn = "auth.${var.public_subdomain}"
+  auth_fqdn = "auth.${var.private_subdomain}"
 
   pm4ml_var_map = try(var.app_var_map.pm4mls, {})
   proxy_pm4ml_var_map = try(var.app_var_map.proxy_pm4mls, {})
