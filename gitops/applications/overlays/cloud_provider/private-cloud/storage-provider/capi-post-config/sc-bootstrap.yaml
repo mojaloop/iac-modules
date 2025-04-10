@@ -1,7 +1,7 @@
 apiVersion: sc.mojaloop.io/v1alpha1
 kind: SCBootstrap
 metadata:
-  name: sa-bootstrap
+  name: sc-bootstrap
   namespace: ${ARGOCD_ENV_capi_cluster_namespace}
 spec:
   parameters:
