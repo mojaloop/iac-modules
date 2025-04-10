@@ -51,9 +51,6 @@ spec:
       use_pkce: "true"
       use_refresh_token: "true"
       role_attribute_path: "contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_admin_rbac_group}') && 'Admin' || contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_user_rbac_group}') && 'Viewer'"
-    plugins:
-      plugin_admin_enabled: "true"
-      plugin_admin_external_manage_enabled: "true"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
