@@ -89,7 +89,9 @@ tempo:
       join_members:
         - {{ include "grafana-tempo.gossip-ring.fullname" . }}
     overrides:
-      metrics_generator_processors: ['local-blocks']
+      defaults:
+        metrics_generator:
+          processors: ['local-blocks']
       per_tenant_override_config: /bitnami/grafana-tempo/conf/overrides.yaml
     server:
       http_listen_port: {{ .Values.tempo.containerPorts.web }}
