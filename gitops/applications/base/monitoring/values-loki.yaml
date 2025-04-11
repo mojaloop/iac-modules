@@ -5,11 +5,12 @@ loki:
       retention_enabled: true # enable deletion using compactor
       shared_store: s3
     limits_config:
+      volume_enabled: true
       retention_period: ${ARGOCD_ENV_ctrl_cntr_loki_retention_period}
     ingester:
       max_chunk_age: ${ARGOCD_ENV_loki_ingester_max_chunk_age}
       lifecycler:
-        ring: 
+        ring:
           replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
     schema_config:
       configs:
@@ -75,7 +76,7 @@ compactor:
   extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   updateStrategy:
-    type: Recreate  
+    type: Recreate
 distributor:
   replicaCount: ${ARGOCD_ENV_loki_distributor_replica_count}
   resources:
