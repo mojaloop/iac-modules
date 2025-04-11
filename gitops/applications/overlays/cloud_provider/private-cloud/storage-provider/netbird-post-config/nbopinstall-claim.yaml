@@ -15,10 +15,7 @@ spec:
     operatorArgoAppSourceRevision: "feature/storage-cluster"
     localAccessTokenSecretName: nb-op-access-token
     localAccessTokenSecretNamespace: ${ARGOCD_ENV_netbird_namespace}
-    operatorKubeapiGroup: ${ARGOCD_ENV_security_netbird_rbac_admin_group}
-    netbirdProjectIdSecretName: netbird-management
-    netbirdProjectIdSecretNamespace: ${ARGOCD_ENV_netbird_namespace}
-    netbirdProjectIdSecretKey: netbird_project_id
+    operatorClusterName: storage-cluster
   providerConfigsRef:
     netbirdProviderConfigName: "netbird-crossplane-provider-config"
     ccK8sProviderName: "kubernetes-provider"
