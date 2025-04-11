@@ -48,6 +48,9 @@ spec:
         - name: "crossplane_providers_k8s_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_k8s_version}"
 
+        - name: "crossplane_providers_helm_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_helm_version}"
+
         - name: "crossplane_providers_aws_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_aws_version}"
 
