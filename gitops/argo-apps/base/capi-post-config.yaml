@@ -44,3 +44,50 @@ spec:
 
         - name: "sc_helm_provider_name"
           value: "${ARGOCD_ENV_utils_capi_capi_crossplane_helm_providerconfig_name}"
+
+        - name: "utils_capi_capi_rook_ceph_namespace"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
+
+        - name: "utils_storage_namespace"
+          value: "${ARGOCD_ENV_utils_storage_namespace}"
+
+        - name: "utils_capi_capi_rook_ceph_image_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_image_version}"
+
+        - name: "cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+
+        - name: "utils_capi_capi_rook_ceph_helm_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_helm_version}"
+
+        - name: "utils_capi_capi_rook_ceph_rbd_pool_replication_size"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rbd_pool_replication_size}"
+
+        - name: "utils_capi_capi_rook_ceph_rgw_external_ip"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"
+
+        # metallb
+        - name: "sc_metallb_version"
+          value: "${ARGOCD_ENV_sc_metallb_version}"
+
+        - name: "sc_metallb_ip_range_end"
+          value: "${ARGOCD_ENV_sc_metallb_ip_range_end}"
+
+        - name: "sc_metallb_ip_range_begin"
+          value: "${ARGOCD_ENV_sc_metallb_ip_range_begin}"
+
+        - name: "sc_metallb_namespace"
+          value: "${ARGOCD_ENV_sc_metallb_namespace}"
+
+        # monitoring
+        - name: "monitoring_pre_namespace"
+          value: "${ARGOCD_ENV_monitoring_pre_namespace}"
+
+        - name: "utils_base_monitoring_grafana_operator_version"
+          value: "${ARGOCD_ENV_utils_base_monitoring_grafana_operator_version}"
+
+        - name: "utils_base_monitoring_prometheus_crd_version"
+          value: "${ARGOCD_ENV_utils_base_monitoring_prometheus_crd_version}"
+
+        - name: "utils_base_monitoring_grafana_crd_version_tag"
+          value: "${ARGOCD_ENV_utils_base_monitoring_grafana_crd_version_tag}"
