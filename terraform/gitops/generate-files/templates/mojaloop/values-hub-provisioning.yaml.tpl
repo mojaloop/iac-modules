@@ -10,7 +10,7 @@ config:
   saveReport: true
   brief: true
   reportName: hub_provisioning
-  saveReportBaseUrl: https://${ttk_backend_fqdn}
+  saveReportBaseUrl: https://${ttk_fqdn}
   ttkBackendURL: http://${mojaloop_release_name}-ml-testing-toolkit-backend:5050
 testCaseEnvironmentFile:
   inputValues:

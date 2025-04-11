@@ -287,7 +287,7 @@ ttk:
     nameOverride: ttk-frontend
     fullnameOverride: ttk-frontend
     config:
-      API_BASE_URL: https://${ttk_backend_fqdn}
+      API_BASE_URL: https://${ttk_fqdn}
 
 #%{ else}
   enabled: false
