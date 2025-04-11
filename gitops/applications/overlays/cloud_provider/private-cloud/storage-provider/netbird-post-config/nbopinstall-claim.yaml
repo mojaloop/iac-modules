@@ -14,7 +14,7 @@ spec:
     operatorArgoAppSourceURL: https://github.com//mojaloop/iac-modules.git
     operatorArgoAppSourceRevision: "feature/storage-cluster"
     localAccessTokenSecretName: nb-op-access-token
-    localAccessTokenSecretNamespace: default
+    localAccessTokenSecretNamespace: ${ARGOCD_ENV_netbird_namespace}
     operatorKubeapiGroup: ${ARGOCD_ENV_security_netbird_rbac_admin_group}
     netbirdProjectIdSecretName: netbird-management
     netbirdProjectIdSecretNamespace: ${ARGOCD_ENV_netbird_namespace}
