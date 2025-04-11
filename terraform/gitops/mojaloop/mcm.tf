@@ -12,6 +12,10 @@ module "generate_mcm_files" {
     mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
     mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
     mcm_istio_gateway_name               = local.mcm_istio_gateway_name
+    mcm_external_fqdn                             = "mcm.${var.public_subdomain}"
+    mcm_istio_external_gateway_namespace          = var.istio_external_gateway_namespace
+    mcm_istio_external_wildcard_gateway_name      = var.istio_external_wildcard_gateway_name
+    mcm_istio_external_gateway_name               = var.istio_external_gateway_name
     fspiop_use_ory_for_auth              = var.fspiop_use_ory_for_auth
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain

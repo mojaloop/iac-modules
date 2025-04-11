@@ -6,7 +6,7 @@ currency: ${currency}
 ttk_test_currency1: ${currency}
 ttk_test_currency2: USD
 ttk_test_currency3: CAD
-mcm_ingress_internal_lb: false
+mcm_ingress_internal_lb: true
 mojaloop_ingress_internal_lb: true
 finance_portal_ingress_internal_lb: true
 ml_testing_toolkit_cli_chart_version: 15.6.0-20869-5510a51
