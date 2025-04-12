@@ -37,7 +37,7 @@ spec:
           value: "${ARGOCD_ENV_argocd_repo_url}"
 
         - name: "utils_app_namespace"
-          value: "${ARGOCD_ENV_argocd_app_namespace}"
+          value: "${ARGOCD_ENV_utils_app_namespace}"
 
         - name: "capi_cluster_namespace"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
