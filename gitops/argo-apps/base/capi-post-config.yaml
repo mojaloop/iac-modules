@@ -96,10 +96,10 @@ spec:
           value: "${ARGOCD_ENV_sc_metallb_app_name}"
 
         - name: "sc_metallb_namespace"
-          value: "${ARGOCD_ENV_metallb_namespace}"
+          value: "${ARGOCD_ENV_sc_metallb_namespace}"
 
         - name: "sc_metallb_sync_wave"
-          value: "${ARGOCD_ENV_metallb_sync_wave}"
+          value: "${ARGOCD_ENV_sc_metallb_sync_wave}"
 
         - name: "sc_metallb_version"
           value: "${ARGOCD_ENV_sc_metallb_version}"
