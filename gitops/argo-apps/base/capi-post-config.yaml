@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: ${ARGOCD_ENV_utils_capi_app_name}-post-config
-  namespace: ${ARGOCD_ENV_utils_capi_app_namespace}
+  namespace: ${ARGOCD_ENV_argocd_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_capi_post_sync_wave}
   finalizers:
@@ -36,7 +36,7 @@ spec:
         - name: "argocd_repo_url"
           value: "${ARGOCD_ENV_argocd_repo_url}"
 
-        - name: "argocd_app_namespace"
+        - name: "utils_app_namespace"
           value: "${ARGOCD_ENV_argocd_app_namespace}"
 
         - name: "capi_cluster_namespace"
@@ -45,14 +45,11 @@ spec:
         - name: "capi_cluster_name"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"
 
-        - name: "sc_app_namespace"
-          value: "{ARGOCD_ENV_sc_app_namespace}"
-
         - name: "sc_application_gitrepo_tag"
-          value: "{ARGOCD_ENV_sc_application_gitrepo_tag}"
+          value: "${ARGOCD_ENV_sc_application_gitrepo_tag}"
 
         - name: "utils_application_gitrepo_tag"
-          value: "{ARGOCD_ENV_utils_application_gitrepo_tag}"
+          value: "${ARGOCD_ENV_utils_application_gitrepo_tag}"
 
         - name: "sc_kubernetes_provider_name"
           value: "${ARGOCD_ENV_utils_capi_capi_crossplane_k8s_providerconfig_name}"
@@ -71,7 +68,7 @@ spec:
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_sync_wave}"
 
         - name: "utils_capi_capi_rook_ceph_post_config_sync_wave"
-          value: "{ARGOCD_ENV_utils_capi_capi_rook_ceph_post_config_sync_wave}"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_post_config_sync_wave}"
 
         - name: "utils_capi_capi_rook_ceph_app_name"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_app_name}"
@@ -96,13 +93,13 @@ spec:
 
         # metallb
         - name: "sc_metallb_app_name"
-          value: "{ARGOCD_ENV_sc_metallb_app_name}"
+          value: "${ARGOCD_ENV_sc_metallb_app_name}"
 
         - name: "sc_metallb_namespace"
-          value: "${ARGOCD_ENV_monitoring_pre_namespace}"
+          value: "${ARGOCD_ENV_metallb_namespace}"
 
         - name: "sc_metallb_sync_wave"
-          value: "{ARGOCD_ENV_monitoring_pre_sync_wave}"
+          value: "${ARGOCD_ENV_metallb_sync_wave}"
 
         - name: "sc_metallb_version"
           value: "${ARGOCD_ENV_sc_metallb_version}"
@@ -118,19 +115,19 @@ spec:
 
         # monitoring
         - name: "monitoring_pre_app_name"
-          value: "{ARGOCD_ENV_monitoring_pre_app_name}"
+          value: "${ARGOCD_ENV_monitoring_pre_app_name}"
 
         - name: "monitoring_app_namespace"
-          value: "{ARGOCD_ENV_monitoring_app_namespace}"
+          value: "${ARGOCD_ENV_monitoring_app_namespace}"
 
         - name: "monitoring_pre_namespace"
           value: "${ARGOCD_ENV_monitoring_pre_namespace}"
 
         - name: "monitoring_pre_sync_wave"
-          value: "{ARGOCD_ENV_monitoring_pre_sync_wave}"
+          value: "${ARGOCD_ENV_monitoring_pre_sync_wave}"
 
         - name: "monitoring_application_gitrepo_tag"
-          value: "{ARGOCD_ENV_monitoring_application_gitrepo_tag}"
+          value: "${ARGOCD_ENV_monitoring_application_gitrepo_tag}"
 
         - name: "utils_base_monitoring_grafana_operator_version"
           value: "${ARGOCD_ENV_utils_base_monitoring_grafana_operator_version}"
