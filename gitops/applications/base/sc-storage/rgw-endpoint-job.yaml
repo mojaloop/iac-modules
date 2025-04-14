@@ -15,11 +15,19 @@ spec:
             - /bin/sh
             - -c
             - |
+              set -e
               RGW_EXTERNAL_IP=$(kubectl get svc storage-rgw-external -n ${ARGOCD_ENV_storage_namespace} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
               RGW_EXTERNAL_PORT=$(kubectl get svc storage-rgw-external -n ${ARGOCD_ENV_storage_namespace} -o jsonpath='{.spec.ports[0].port}')
+
+              if [ -z "$RGW_EXTERNAL_IP" ] || [ -z "$RGW_EXTERNAL_PORT" ]; then
+                echo "Error: RGW IP or Port is empty. Exiting without creating secret."
+                exit 1
+              fi
               RGW_ENDPOINT="$RGW_EXTERNAL_IP:$RGW_EXTERNAL_PORT"
               kubectl delete secret rgw-endpoint -n ${ARGOCD_ENV_storage_namespace} --ignore-not-found
+
               kubectl create secret generic rgw-endpoint -n ${ARGOCD_ENV_storage_namespace} \
                 --from-literal=RGW_EXTERNAL_IP=$RGW_EXTERNAL_IP \
                 --from-literal=RGW_EXTERNAL_PORT=$RGW_EXTERNAL_PORT \
                 --from-literal=RGW_ENDPOINT=$RGW_ENDPOINT
+              echo "Secret 'rgw-endpoint' created successfully."
