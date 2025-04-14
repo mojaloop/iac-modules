@@ -157,13 +157,13 @@ spec:
 
         # cert-manager
 
-        - name: cert_manager_credentials_secret
+        - name: utils_cert_manager_credentials_secret
           value: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
 
         - name: utils_cert_manager_helm_version
           value: "${ARGOCD_ENV_utils_cert_manager_helm_version}"
 
-        - name: cert_manager_namespace
+        - name: utils_cert_manager_namespace
           value: "${ARGOCD_ENV_utils_cert_manager_namespace}"
 
         - name: utils_cert_manager_app_name
