@@ -85,6 +85,9 @@ spec:
             value: "${ARGOCD_ENV_sc_metallb_namespace}"
 
           # monitoring
+          - name: utils_sync_wave
+            value: "${ARGOCD_ENV_utils_sync_wave}"
+
           - name: "monitoring_pre_app_name"
             value: "${ARGOCD_ENV_monitoring_pre_app_name}"
 
