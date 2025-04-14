@@ -115,7 +115,16 @@ spec:
           - name: "utils_base_monitoring_grafana_crd_version_tag"
             value: "${ARGOCD_ENV_utils_base_monitoring_grafana_crd_version_tag}"
 
+          # percona operator
 
+          - name: utils_percona_helm_version
+            value: "${ARGOCD_ENV_utils_percona_helm_version}"
+
+          - name: utils_percona_namespace
+            value: "${ARGOCD_ENV_utils_percona_namespace}"
+
+          - name: utils_percona_app_name
+            value: "${ARGOCD_ENV_utils_percona_app_name}"
 
 
 
