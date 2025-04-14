@@ -88,6 +88,9 @@ spec:
           - name: utils_sync_wave
             value: "${ARGOCD_ENV_utils_sync_wave}"
 
+          - name: utils_base_monitoring_app_name
+            value: "${ARGOCD_ENV_utils_base_monitoring_app_name}"
+
           - name: "monitoring_pre_app_name"
             value: "${ARGOCD_ENV_monitoring_pre_app_name}"
 

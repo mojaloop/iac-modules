@@ -120,6 +120,9 @@ spec:
         - name: "monitoring_pre_app_name"
           value: "${ARGOCD_ENV_monitoring_pre_app_name}"
 
+        - name: utils_base_monitoring_app_name
+          value: "${ARGOCD_ENV_utils_base_monitoring_app_name}"
+
         - name: "monitoring_app_namespace"
           value: "${ARGOCD_ENV_monitoring_app_namespace}"
 
