@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - aws-provider-config.yaml
-  - kubernetes-provider-config.yaml
   - xr-definition-rds.yaml
   - composition-rds.yaml
   - xr-definition-rds-aurora.yaml

@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - rbac.yaml
   - crossplane-providers.yaml
+  - crossplane-kubernetes-provider-config.yaml
 
 secretGenerator:
   - name: terraformrc
