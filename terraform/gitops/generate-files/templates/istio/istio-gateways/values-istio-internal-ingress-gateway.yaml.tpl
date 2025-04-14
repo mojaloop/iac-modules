@@ -96,7 +96,7 @@ networkGateway: ""
 
 # Specify image pull policy if default behavior isn't desired.
 # Default behavior: latest images will be Always else IfNotPresent
-imagePullPolicy: ""
+imagePullPolicy: "IfNotPresent"
 
 imagePullSecrets: []
 

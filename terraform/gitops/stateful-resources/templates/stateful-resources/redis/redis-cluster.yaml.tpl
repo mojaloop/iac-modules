@@ -60,7 +60,7 @@ spec:
   redisExporter:
     enabled: false
     image: quay.io/opstree/redis-exporter:v1.45.0
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     resources:
       requests:
         cpu: 100m
