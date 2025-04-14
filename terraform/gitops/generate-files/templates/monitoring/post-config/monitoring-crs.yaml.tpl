@@ -33,8 +33,6 @@ spec:
                     values: ['enabled']
   config:
     unified_alerting:
-      enabled: "false"
-    alerting:
       enabled: "true"
     server:
       domain: "${grafana_subdomain}"
@@ -53,7 +51,6 @@ spec:
       use_pkce: "true"
       use_refresh_token: "true"
       role_attribute_path: "contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_admin_rbac_group}') && 'Admin' || contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_user_rbac_group}') && 'Viewer'"
-
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -70,6 +67,9 @@ spec:
     url: ${prom-mojaloop-url}
     isDefault: true
     editable: true
+  plugins:
+    - name: https://storage.googleapis.com/integration-artifacts/grafana-metricsdrilldown-app/grafana-metricsdrilldown-app-latest.zip;grafana-metricsdrilldown-app
+      version: 1.0.0-6
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -96,6 +96,9 @@ spec:
       httpHeaderValue1: '1'
     isDefault: false
     editable: true
+  plugins:
+    - name: https://storage.googleapis.com/integration-artifacts/grafana-lokiexplore-app/grafana-lokiexplore-app-latest.zip;grafana-lokiexplore-app
+      version: 1.0.10
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -139,6 +142,9 @@ spec:
       httpHeaderValue1: 'single-tenant'
     isDefault: false
     editable: true
+  plugins:
+    - name: https://storage.googleapis.com/integration-artifacts/grafana-exploretraces-app/grafana-exploretraces-app-latest.zip;grafana-exploretraces-app
+      version: 0.2.8
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
@@ -156,5 +162,5 @@ metadata:
 spec:
   instanceSelector:
     matchLabels:
-      dashboards: "grafana"      
+      dashboards: "grafana"
 ---
