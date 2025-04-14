@@ -150,7 +150,7 @@ spec:
                 --rgw-endpoint $RGW_ENDPOINT \
                 --cephfs-data-pool-name ceph-filesystem-data0 \
                 --skip-monitoring-endpoint \
-                --namespace ${ARGOCD_ENV_ext_storage_namespace} --format bash > /data/ceph_env
+                --namespace ${ARGOCD_ENV_storage_namespace} --format bash > /data/ceph_env
           imagePullPolicy: IfNotPresent
           tty: true
           securityContext:

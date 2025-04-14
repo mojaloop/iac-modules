@@ -211,7 +211,7 @@ spec:
             value: "${ARGOCD_ENV_utils_storage_object_storage_path_style}"
 
           - name: "sc_provider_config_name"
-            value: "${ARGOCD_ENV_utils_capi_capi_crossplane_providerconfig_name}"
+            value: "${ARGOCD_ENV_utils_capi_capi_crossplane_k8s_providerconfig_name}"
     #main gitlab db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
