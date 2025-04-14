@@ -23,8 +23,16 @@ resources:
 - managed-mysql-${key}.yaml
 # %{ endfor }
 
+# %{ for key,stateful_resource in mongodb_managed_stateful_resources }
+- managed-mongodb-${key}.yaml
+# %{ endfor }
+
 # %{ for key,stateful_resource in monolith_init_mysql_managed_stateful_resources }
 - monolith-db-init-job-${key}.yaml
+# %{ endfor }
+
+# %{ for key,stateful_resource in monolith_init_mongodb_managed_stateful_resources }
+- monolith-mongodb-init-job-${key}.yaml
 # %{ endfor }
 
 # %{ for key,stateful_resource in strimzi_operator_stateful_resources }
@@ -47,4 +55,3 @@ helmCharts:
   repo: ${stateful_resource.local_helm_config.resource_helm_repo}
   valuesFile: values-${stateful_resource.local_helm_config.resource_helm_chart}-${key}.yaml
 # %{ endfor }
-

@@ -71,10 +71,14 @@ spec:
         value: ${ARGOCD_ENV_common_platform_db_secret_name}
       - key: common_mojaloop_db_secret_name
         value: ${ARGOCD_ENV_common_mojaloop_db_secret_name}
+      - key: common_mongodb_secret_name
+        value: ${ARGOCD_ENV_common_mongodb_secret_name}
       - key: common_platform_db_external_name
         value: ${ARGOCD_ENV_common_platform_db_external_name_service}
       - key: common_mojaloop_db_external_name
         value: ${ARGOCD_ENV_common_mojaloop_db_external_name_service}
+      - key: common_mongodb_external_name
+        value: ${ARGOCD_ENV_common_mongodb_external_name_service}
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}

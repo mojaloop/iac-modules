@@ -166,3 +166,17 @@ spec:
   package: ghcr.io/infitx-org/netbird-crossplane-provider:v${ARGOCD_ENV_crossplane_providers_netbird_version}
   controllerConfigRef:
     name: debug-config
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-docdb
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-docdb:v${ARGOCD_ENV_crossplane_providers_aws_docdb_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-ec2
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-ec2:v${ARGOCD_ENV_crossplane_providers_aws_ec2_version}

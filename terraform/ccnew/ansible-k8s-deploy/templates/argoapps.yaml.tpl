@@ -49,6 +49,7 @@ argocd_override:
           sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
           sc_nboperatorinstall_version: "${crossplane_packages_sc_nboperatorinstall_version}"
           nb_config_version: "${crossplane_packages_nb_config_version}"
+          docdb_version: "${crossplane_packages_docdb_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
@@ -87,6 +88,7 @@ argocd_override:
           cloud_provider: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
           cluster_domain: "${cluster_domain}"
           object_storage_host: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "${capi_rook_ceph_rgw_external_ip}" }"
+          object_storage_regional_host: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_endpoint: "${object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "https://s3.${cloud_region}.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_region: "${object_storage_provider == "s3" ? cloud_region : "us-east-1" }"
@@ -337,42 +339,27 @@ argocd_override:
           postgres_storage_size: "${env_common_platform_perc_postgres_storage_size}"
           pgdb_helm_version: "${env_common_platform_perc_pgdb_helm_version}"
         onboard_common_platform_db_rds_provider:
-          engine: "${env_common_platform_rds_engine}"
-          engine_version: "${env_common_platform_rds_engine_version}"
-          replica_count: "${env_common_platform_rds_replica_count}"
-          postgres_instance_class: "${env_common_platform_rds_instance_class}"
-          storage_encrypted: "${env_common_platform_rds_storage_encrypted}"
-          skip_final_snapshot: "${env_common_platform_rds_skip_final_snapshot}"
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
           vpc_cidr: "${vpc_cidr}"
-          postgres_storage_size: "${env_common_platform_rds_postgres_storage_size}"
-          backup_retention_period: "${env_common_platform_db_backup_retention_period}"
-          preferred_backup_window: "${env_common_platform_db_preferred_backup_window}"
-          storage_type: "${env_common_platform_rds_storage_type}"
-          storage_iops: "${env_common_platform_rds_storage_iops}"
         onboard_common_mojaloop_db_percona_provider:
           postgres_replicas: "${env_common_platform_perc_postgres_replicas}"
           postgres_proxy_replicas: "${env_common_platform_perc_postgres_proxy_replicas}"
           postgres_storage_size: "${env_common_platform_perc_postgres_storage_size}"
           pgdb_helm_version: "${env_common_platform_perc_pgdb_helm_version}"
         onboard_common_mojaloop_db_rds_provider:
-          engine: "${env_common_platform_rds_engine}"
-          engine_version: "${env_common_platform_rds_engine_version}"
-          replica_count: "${env_common_platform_rds_replica_count}"
-          postgres_instance_class: "${env_common_platform_rds_instance_class}"
-          storage_encrypted: "${env_common_platform_rds_storage_encrypted}"
-          skip_final_snapshot: "${env_common_platform_rds_skip_final_snapshot}"
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
           vpc_cidr: "${vpc_cidr}"
-          postgres_storage_size: "${env_common_platform_rds_postgres_storage_size}"
-          backup_retention_period: "${env_common_platform_db_backup_retention_period}"
-          preferred_backup_window: "${env_common_platform_db_preferred_backup_window}"
-          storage_type: "${env_common_platform_rds_storage_type}"
-          storage_iops: "${env_common_platform_rds_storage_iops}"
+        onboard_common_mongodb_documentdb_provider:
+          subnet_list: "${join(",", rdbms_subnet_list)}"
+          cloud_region: "${cloud_region}"
+          vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
+        onboard_common_mongodb_percona_provider:
+          helm_version: "${env_common_platform_perc_pgdb_helm_version}"
 
 
     monitoring:

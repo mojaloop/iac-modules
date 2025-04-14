@@ -6,7 +6,7 @@ metadata:
   annotations:
     name: "${ARGOCD_ENV_env_name}"
 ---
-apiVersion: infitx.org/v1alpha1
+apiVersion: mojaloop.io/v1alpha1
 kind: S3BucketClaim
 metadata:
   name: "${ARGOCD_ENV_env_name}-loki-bucket"
@@ -20,7 +20,7 @@ spec:
     providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_env_name}
 ---
-apiVersion: infitx.org/v1alpha1
+apiVersion: mojaloop.io/v1alpha1
 kind: S3BucketClaim
 metadata:
   name: "${ARGOCD_ENV_env_name}-tempo-bucket"
@@ -34,7 +34,7 @@ spec:
     providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_env_name}
 ---
-apiVersion: infitx.org/v1alpha1
+apiVersion: mojaloop.io/v1alpha1
 kind: S3BucketClaim
 metadata:
   name: "${ARGOCD_ENV_env_name}-velero-bucket"
@@ -48,7 +48,7 @@ spec:
     providerConfigName: "aws-cp-upbound-provider-config"
     destinationNamespace:  ${ARGOCD_ENV_env_name}
 ---
-apiVersion: infitx.org/v1alpha1
+apiVersion: mojaloop.io/v1alpha1
 kind: S3BucketClaim
 metadata:
   name: "${ARGOCD_ENV_env_name}-percona-bucket"

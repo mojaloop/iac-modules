@@ -7,5 +7,5 @@ git config --global user.name "root"
 git remote set-url origin https://root:${ROOT_TOKEN}@${GIT_HOST}/$CURRENT_PROJECT_FULL_PATH
 git checkout $BRANCH
 git add $CONFIG_PATH
-git diff --cached --exit-code || git commit -m "update merged configs"
+git diff --cached --exit-code || git commit -m "[skip ci] update merged configs"
 git push
