@@ -51,10 +51,10 @@ spec:
         - name: "utils_application_gitrepo_tag"
           value: "${ARGOCD_ENV_utils_application_gitrepo_tag}"
 
-        - name: "sc_kubernetes_provider_name"
+        - name: "utils_capi_capi_crossplane_k8s_providerconfig_name"
           value: "${ARGOCD_ENV_utils_capi_capi_crossplane_k8s_providerconfig_name}"
 
-        - name: "sc_helm_provider_name"
+        - name: "utils_capi_capi_crossplane_helm_providerconfig_name"
           value: "${ARGOCD_ENV_utils_capi_capi_crossplane_helm_providerconfig_name}"
 
         - name: "utils_capi_capi_rook_ceph_namespace"
