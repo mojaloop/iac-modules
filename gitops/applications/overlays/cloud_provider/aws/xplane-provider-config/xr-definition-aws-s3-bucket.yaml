@@ -1,9 +1,9 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: s3buckets.infitx.org
+  name: s3buckets.mojaloop.io
 spec:
-  group: infitx.org
+  group: mojaloop.io
   names:
     kind: S3Bucket
     plural: s3buckets

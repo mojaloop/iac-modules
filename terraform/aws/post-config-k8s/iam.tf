@@ -52,11 +52,11 @@ resource "aws_iam_policy" "route53_external_dns" {
     },
     {
       "Effect": "Allow",
-      "Action": [ 
+      "Action": [
         "route53:GetChange"
       ],
-      "Resource": [ 
-        "arn:aws:route53:::change/*" 
+      "Resource": [
+        "arn:aws:route53:::change/*"
       ]
     },
     {

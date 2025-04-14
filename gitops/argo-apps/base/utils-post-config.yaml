@@ -81,5 +81,14 @@ spec:
         - name: aws_s3_crossplane_provider_version
           value: "${ARGOCD_ENV_utils_post_config_aws_s3_crossplane_provider_version}"
 
+        - name: "crossplane_package_docdb_version"
+          value: "${ARGOCD_ENV_utils_post_config_crossplane_package_docdb_version}"
+
         - name: "aws_iam_crossplane_provider_version"
           value: "${ARGOCD_ENV_utils_post_config_aws_iam_crossplane_provider_version}"
+
+        - name: "aws_ec2_crossplane_provider_version"
+          value: "${ARGOCD_ENV_utils_post_config_aws_ec2_crossplane_provider_version}"
+
+        - name: "aws_docdb_crossplane_provider_version"
+          value: "${ARGOCD_ENV_utils_post_config_aws_docdb_crossplane_provider_version}"

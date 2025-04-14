@@ -220,8 +220,7 @@ deploy-managed-srvcs:
 
 refresh-templates:
   stage: refresh-templates
-  needs:
-    - init
+  needs: []
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
