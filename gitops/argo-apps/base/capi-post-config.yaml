@@ -57,10 +57,10 @@ spec:
         - name: "utils_capi_capi_crossplane_helm_providerconfig_name"
           value: "${ARGOCD_ENV_utils_capi_capi_crossplane_helm_providerconfig_name}"
 
+        # rook
         - name: "utils_capi_capi_rook_ceph_namespace"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
 
-        # rook
         - name: "utils_capi_capi_rook_ceph_namespace"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
 
