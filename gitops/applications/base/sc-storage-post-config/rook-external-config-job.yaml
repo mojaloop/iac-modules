@@ -33,6 +33,7 @@ spec:
               KUBECTL="kubectl"
               RGW_EXTERNAL_IP=$(cat /tmp/rgw-secret/RGW_EXTERNAL_IP)
               RGW_EXTERNAL_PORT=$(cat /tmp/rgw-secret/RGW_EXTERNAL_PORT)
+              RGW_ENDPOINT=$(cat /tmp/rgw-secret/RGW_ENDPOINT)
 
               # Append other variables to /data/ceph_env and create secret
               if [ -s /data/ceph_env ]; then
