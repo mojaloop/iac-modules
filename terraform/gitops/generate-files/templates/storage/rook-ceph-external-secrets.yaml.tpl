@@ -268,12 +268,39 @@ spec:
     template:
       type: kubernetes.io/rook
       data:
-        rgw_endpoint: "{{ .rgw_endpoint }}"
+        rgw-endpoint: "{{ .rgw_endpoint }}"
   data:
     - secretKey: rgw_endpoint
       remoteRef:
         key: ${rook_ceph_rgw_endpoint}
         property: rgw_endpoint
+      sourceRef:
+        storeRef:
+          name: tenant-vault-secret-store
+          kind: ClusterSecretStore
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
+  name: rook-ceph-mon-data
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+  target:
+    name:  rook-ceph-mon-data
+    template:
+      type: kubernetes.io/rook
+      data:
+        rook-ceph-mon-data: "{{ .rook_ceph_mon_data }}"
+  data:
+    - secretKey: rook_ceph_mon_data
+      remoteRef:
+        key: ${rook_ceph_mon_data}
+        property: rook_ceph_mon_data
       sourceRef:
         storeRef:
           name: tenant-vault-secret-store
