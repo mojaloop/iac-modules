@@ -10,7 +10,7 @@ apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "${ARGOCD_ENV_env_name}-loki-bucket"
-  namespace:  ${ARGOCD_ENV_env_name}
+  namespace: ${ARGOCD_ENV_env_name}
 spec:
   parameters:
     clusterName: ${ARGOCD_ENV_env_name}
@@ -35,7 +35,7 @@ apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "${ARGOCD_ENV_env_name}-tempo-bucket"
-  namespace:  ${ARGOCD_ENV_env_name}
+  namespace: ${ARGOCD_ENV_env_name}
 spec:
   parameters:
     clusterName: ${ARGOCD_ENV_env_name}
@@ -61,7 +61,7 @@ apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "${ARGOCD_ENV_env_name}-velero-bucket"
-  namespace:  ${ARGOCD_ENV_env_name}
+  namespace: ${ARGOCD_ENV_env_name}
 spec:
   parameters:
     clusterName: ${ARGOCD_ENV_env_name}
@@ -86,7 +86,7 @@ apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
   name: "${ARGOCD_ENV_env_name}-percona-bucket"
-  namespace:  ${ARGOCD_ENV_env_name}
+  namespace: ${ARGOCD_ENV_env_name}
 spec:
   parameters:
     clusterName: ${ARGOCD_ENV_env_name}
