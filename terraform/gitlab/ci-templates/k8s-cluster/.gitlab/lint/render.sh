@@ -31,3 +31,12 @@ do
         ./bin/kubectl kustomize --enable-helm --helm-command ./bin/helm "$GITOPS_BUILD_OUTPUT_DIR"/"$app" | ./bin/yq -s '"test/'"${app/\\/-}"'/" + .metadata.namespace + "-" + .kind + "-" + .metadata.name'
     fi
 done
+
+# remove files in the test directory which match patterns in .lintignore
+if [ -f ../../.lintignore ]; then
+    echo "Removing files"
+    while IFS= read -r pattern; do
+        echo "Removing files matching pattern: $pattern"
+        find test -type f -name "$pattern" -delete
+    done < ../../.lintignore
+fi
