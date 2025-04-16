@@ -57,7 +57,7 @@ module "generate_monitoring_files" {
     alertmanager_enabled                   = try(var.common_var_map.alertmanager_enabled, false)
     alertmanager_slack_integration_enabled = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
     alertmanager_jira_integration_enabled  = try(var.common_var_map.alertmanager_jira_integration_enabled, false)
-    promtail_kubernetes_sd_configs         = try(var.common_var_map.promtail_kubernetes_sd_configs, [{role = "node"}])
+    promtail_kubernetes_sd_configs         = try(var.common_var_map.promtail_kubernetes_sd_configs, [{role = "pod"}])
     ceph_loki_credentials_secret_name      = "ceph-loki-credentials-secret"
     ceph_api_url                           = var.ceph_api_url
     ceph_loki_bucket                       = local.ceph_loki_bucket
