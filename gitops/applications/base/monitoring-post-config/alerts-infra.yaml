@@ -44,7 +44,7 @@ groups:
           summary: "Ceph cluster={{ $labels.cluster }} is {{ printf \"%.2f\" $value }}% full. "
           description: "LABELS = {{ $labels }}"          
   - name: resources
-    interval: 30s # TODO: update this after development
+    interval: 2m 
     rules:
       - alert: Node - High CPU usage
         expr: (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) without (cpu)) * 100 > 80
