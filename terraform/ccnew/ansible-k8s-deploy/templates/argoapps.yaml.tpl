@@ -333,6 +333,9 @@ argocd_override:
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           rdbms_provider: "${env_rdbms_provider}"
+          object_storage_region: "${cloud_region}"
+          object_storage_provider: "${object_storage_provider}"
+          ceph_bucket_max_size:  "${ceph_bucket_max_size}"
         onboard_common_platform_db_percona_provider:
           postgres_replicas: "${env_common_platform_perc_postgres_replicas}"
           postgres_proxy_replicas: "${env_common_platform_perc_postgres_proxy_replicas}"
