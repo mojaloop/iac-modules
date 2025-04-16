@@ -2,6 +2,8 @@ rdbms_provider: in-cluster  # possbile values are rds, dbaas and incluster
 mongodb_provider: in-cluster  # possbile values are docdb, dbaas and incluster
 common_platform_db:
   app_owner: "platform"
+  dbaas_resource_config:
+    pgdb_helm_version: "0.1.0"
   external_resource_config:
     allow_major_version_upgrade: false
     apply_immediately: false
@@ -66,6 +68,8 @@ common_platform_db:
     vault_instance_address_key: common_platform_db_instance_address
 common_mojaloop_db:
   app_owner: "mojaloop"
+  dbaas_resource_config:
+    pgdb_helm_version: "0.1.0"
   external_resource_config:
     allow_major_version_upgrade: false
     apply_immediately: false
@@ -122,6 +126,8 @@ common_mojaloop_db:
     vault_instance_address_key: common_mojaloop_db_instance_address
 common_mongodb:
   app_owner: "mojaloop"
+  dbaas_resource_config:
+    pgdb_helm_version: "0.1.0"
   external_resource_config:
     allocated_storage: 100
     allow_major_version_upgrade: false
