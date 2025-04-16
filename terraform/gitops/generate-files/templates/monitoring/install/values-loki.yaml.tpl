@@ -166,8 +166,7 @@ promtail:
               firstline: '^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}\.\d{3}|^{'
               max_wait_time: 3s
               max_lines: 128
-        kubernetes_sd_configs:
-          - role: pod
+        kubernetes_sd_configs: ${jsonencode(promtail_kubernetes_sd_configs)}
         relabel_configs:
           - source_labels:
               - __meta_kubernetes_pod_controller_name
