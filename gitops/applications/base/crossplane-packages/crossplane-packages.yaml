@@ -52,5 +52,12 @@ kind: Configuration
 metadata:
   name: aws-docdb
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/documentdb:${ARGOCD_ENV_crossplane_packages_docdb_version}
+  package: ghcr.io/mojaloop/iac-crossplane-packages/documentdb:${ARGOCD_ENV_crossplane_packages_aws_documentdb_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: Configuration
+metadata:
+  name: aws-rdscluster
+  package: ghcr.io/mojaloop/iac-crossplane-packages/aws-rdscluster:${ARGOCD_ENV_crossplane_packages_aws_rds_version}
   skipDependencyResolution: true
