@@ -1,0 +1,9 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-netbird
+spec:
+  package: ghcr.io/infitx-org/netbird-crossplane-provider:v${ARGOCD_ENV_crossplane_providers_netbird_version}
+  controllerConfigRef:
+    name: debug-config
