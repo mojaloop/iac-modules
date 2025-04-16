@@ -6,10 +6,11 @@ loki:
       shared_store: s3
     limits_config:
       retention_period: ${loki_ingester_retention_period}
-    ingester: 
+      allow_structured_metadata: true
+    ingester:
       max_chunk_age: ${loki_ingester_max_chunk_age}
       lifecycler:
-        ring: 
+        ring:
           replication_factor: ${loki_ingester_replication_factor}
     query_scheduler:
       max_outstanding_requests_per_tenant: 2048
@@ -21,18 +22,18 @@ loki:
         schema: v11
         index:
           prefix: index_
-          period: 24h            
+          period: 24h
     storage_config:
       boltdb_shipper:
         shared_store: s3
       aws:
-        # s3 is alias for aws 
+        # s3 is alias for aws
         s3forcepathstyle: true
         endpoint: ${ceph_api_url}
         insecure: false
         access_key_id: $${CEPH_LOKI_USERNAME}
         secret_access_key: $${CEPH_LOKI_PASSWORD}
-        bucketnames: ${ceph_loki_bucket}      
+        bucketnames: ${ceph_loki_bucket}
 
 metrics:
   enabled: true
@@ -51,7 +52,7 @@ ingester:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"] 
+    values: ["enabled"]
 compactor:
   # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
   extraArgs: ["-config.expand-env"]
@@ -61,7 +62,7 @@ compactor:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]  
+    values: ["enabled"]
 distributor:
   replicaCount: ${loki_distributor_replica_count}
   extraArgs: ["-config.expand-env"]
@@ -70,7 +71,7 @@ distributor:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
-gateway:      
+gateway:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -129,12 +130,12 @@ memcachedindexqueries:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]    
+    values: ["enabled"]
 memcachedindexwrites:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]    
+    values: ["enabled"]
 
 
 
@@ -166,6 +167,48 @@ promtail:
               firstline: '^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}\.\d{3}|^{'
               max_wait_time: 3s
               max_lines: 128
+          - match:
+              selector: '{instance="moja"}'
+              stages:
+                - decolorize:
+                - regex:
+                    expression: '^(?P<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z) - (?P<level>[^:]+): (?P<msg>.*) -\t(?P<json>.*)$'
+                - template:
+                    source: output
+                    template: '{{ "{{ .msg }} : {{ .json }}" }}'
+                - json:
+                    source: json
+                    expressions:
+                      context: context
+                      trace_id: trace_id
+                      span_id: span_id
+                      method: method
+                      type: type
+                      system: system
+                      actor: actor
+                      code: code
+                - output:
+                    source: output
+                - timestamp:
+                    source: time
+                    format: RFC3339
+                - labeldrop:
+                    - filename
+                    - job
+                    - stream
+                    - pod
+                    - node_name
+                - structured_metadata:
+                    pod:
+                    node_name:
+                    trace_id:
+                    span_id:
+                    method:
+                    type:
+                    system:
+                - labels:
+                    level:
+                    context:
         kubernetes_sd_configs: ${jsonencode(promtail_kubernetes_sd_configs)}
         relabel_configs:
           - source_labels:
