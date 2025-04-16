@@ -148,6 +148,21 @@ spec:
           - name: "pgdb_helm_version"
             value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgdb_helm_version}"
 
+          - name: "allow_major_version_upgrade"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_allow_major_version_upgrade}"
+
+          - name: "apply_immediately"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_apply_immediately}"
+
+          - name: "deletion_protection"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_deletion_protection}"
+
+          - name: "final_snapshot_identifier"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_final_snapshot_identifier}"
+
+          - name: "family"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_family}"
+
           - name: "rds_postgres_storage_size"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_postgres_storage_size}"
 

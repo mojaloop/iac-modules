@@ -185,6 +185,11 @@ argocd_override:
           preferred_backup_window: "${zitadel_db_preferred_backup_window}"
           storage_type: "${zitadel_rds_storage_type}"
           storage_iops: "${zitadel_rds_storage_iops}"
+          allow_major_version_upgrade: "${zitadel_rds_allow_major_version_upgrade}"
+          apply_immediately: "${zitadel_rds_apply_immediately}"
+          deletion_protection: "${zitadel_rds_deletion_protection}"
+          final_snapshot_identifier: "${zitadel_rds_final_snapshot_identifier}"
+          family: "${zitadel_rds_family}"
         zitadel_cockroachdb_provider:
           helm_version: "${cockroachdb_helm_version}"
           pvc_size: "${zitadel_db_storage_size}"
@@ -223,6 +228,13 @@ argocd_override:
           preferred_backup_window: "${netbird_db_preferred_backup_window}"
           storage_type: "${netbird_rds_storage_type}"
           storage_iops: "${netbird_rds_storage_iops}"
+          allow_major_version_upgrade: "${netbird_rds_allow_major_version_upgrade}"
+          apply_immediately: "${netbird_rds_apply_immediately}"
+          deletion_protection: "${netbird_rds_deletion_protection}"
+          final_snapshot_identifier: "${netbird_rds_final_snapshot_identifier}"
+          family: "${netbird_rds_family}"
+
+
     nexus:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -303,6 +315,11 @@ argocd_override:
           preferred_backup_window: "${gitlab_db_preferred_backup_window}"
           storage_type: "${gitlab_rds_storage_type}"
           storage_iops: "${gitlab_rds_storage_iops}"
+          allow_major_version_upgrade: "${gitlab_rds_allow_major_version_upgrade}"
+          apply_immediately: "${gitlab_rds_apply_immediately}"
+          deletion_protection: "${gitlab_rds_deletion_protection}"
+          final_snapshot_identifier: "${gitlab_rds_final_snapshot_identifier}"
+          family: "${gitlab_rds_family}"
         praefectdb_rds_provider:
           engine: "${praefect_rds_engine}"
           engine_version: "${praefect_rds_engine_version}"
@@ -319,6 +336,11 @@ argocd_override:
           preferred_backup_window: "${praefect_db_preferred_backup_window}"
           storage_type: "${praefect_rds_storage_type}"
           storage_iops: "${praefect_rds_storage_iops}"
+          allow_major_version_upgrade: "${praefect_rds_allow_major_version_upgrade}"
+          apply_immediately: "${praefect_rds_apply_immediately}"
+          deletion_protection: "${praefect_rds_deletion_protection}"
+          final_snapshot_identifier: "${praefect_rds_final_snapshot_identifier}"
+          family: "${praefect_rds_family}"
 
 
     deploy_env:

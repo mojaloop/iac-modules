@@ -1,0 +1,55 @@
+apiVersion: aws.mojaloop.io/v1alpha1
+kind: XRDSCluster
+metadata:
+  name: "${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}"
+  namespace: "${ARGOCD_ENV_namespace}"
+spec:
+  managementPolicies:
+    - "*"
+  providerConfigsRef:
+      awsProviderConfigName: "aws-cp-upbound-provider-config"
+  parameters:
+    allowMajorVersionUpgrade: ${ARGOCD_ENV_allow_major_version_upgrade}
+    applyImmediately: ${ARGOCD_ENV_apply_immediately}
+    backupRetentionPeriod: ${ARGOCD_ENV_backup_retention_period}
+    databaseName: "${ARGOCD_ENV_db_name}"
+    dbClusterInstanceClass: "${ARGOCD_ENV_instance_class}"
+    deletionProtection: ${ARGOCD_ENV_deletion_protection}
+    engine: ${ARGOCD_ENV_engine}
+    engineVersion: "${ARGOCD_ENV_engine_version}"
+    family: ${ARGOCD_ENV_family}
+    instanceCount: ${ARGOCD_ENV_instance_count}
+    parameter:
+      - name: character_set_client
+        value: utf8mb4
+      - name: character_set_server
+        value: utf8mb4
+      - name: innodb_lock_wait_timeout
+        value: "120"
+      - name: connect_timeout
+        value: "600"
+      - name: wait_timeout
+        value: "600"
+      - name: interactive_timeout
+        value: "600"
+      - name: max_connections
+        value: "4000"
+      - name: aurora_fwd_writer_max_connections_pct
+        value: "30"
+    passwordSecret:
+      key: "password"
+      name: ${ARGOCD_ENV_db_secret}
+      namespace: "${ARGOCD_ENV_namespace}"
+    port: ${ARGOCD_ENV_port}
+    preferredBackupWindow: "${ARGOCD_ENV_preferred_backup_window}"
+    preferredMaintenanceWindow: ${ARGOCD_ENV_preferred_maintenance_window}
+    region: "${ARGOCD_ENV_cloud_region}"
+    skipFinalSnapshot: ${ARGOCD_ENV_skip_final_snapshot}
+    finalSnapshotIdentifier: "${ARGOCD_ENV_final_snapshot_identifier}"
+    storageEncrypted: ${ARGOCD_ENV_storage_encrypted}
+    storageType: "${ARGOCD_ENV_storage_type}"
+    allocatedStorage: ${ARGOCD_ENV_allocated_storage}
+    subnets: ${ARGOCD_ENV_subnet_list}
+    username: ${ARGOCD_ENV_db_username}
+    vpcCidr: ${ARGOCD_ENV_vpc_cidr}
+    vpcId: ${ARGOCD_ENV_vpc_id}
