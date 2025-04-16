@@ -56,31 +56,31 @@ spec:
       vaultSecretStore: "vault-secret-store"
       vaultSecretPath: "${ARGOCD_ENV_env_name}/tempo_bucket_access_key_id"
 
----
-apiVersion: objectstore.mojaloop.io/v1alpha1
-kind: ObjectStore
-metadata:
-  name: "${ARGOCD_ENV_env_name}-velero-bucket"
-  namespace: ${ARGOCD_ENV_env_name}
-spec:
-  parameters:
-    clusterName: ${ARGOCD_ENV_env_name}
-    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "${ARGOCD_ENV_env_name}-velero"
-    Namespace: ${ARGOCD_ENV_env_name}
-    s3:
-      awsProviderName: "aws-cp-upbound-provider-config"
-      bucketRegion: ${ARGOCD_ENV_cloud_region}
-      forceDestroy: true
-      deletionPolicy: "Delete"
-    ceph:
-      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
-      ccK8sProviderName: "kubernetes-provider"
-      storageClassName: "ceph-bucket"
-      maxSize: "${ARGOCD_ENV_velero_bucket_storage_size}"
-      esoPushSecret: true
-      vaultSecretStore: "vault-secret-store"
-      vaultSecretPath: "${ARGOCD_ENV_env_name}/velero_bucket_access_key_id"
+# ---
+# apiVersion: objectstore.mojaloop.io/v1alpha1
+# kind: ObjectStore
+# metadata:
+#   name: "${ARGOCD_ENV_env_name}-velero-bucket"
+#   namespace: ${ARGOCD_ENV_env_name}
+# spec:
+#   parameters:
+#     clusterName: ${ARGOCD_ENV_env_name}
+#     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
+#     bucketName: "${ARGOCD_ENV_env_name}-velero"
+#     Namespace: ${ARGOCD_ENV_env_name}
+#     s3:
+#       awsProviderName: "aws-cp-upbound-provider-config"
+#       bucketRegion: ${ARGOCD_ENV_cloud_region}
+#       forceDestroy: true
+#       deletionPolicy: "Delete"
+#     ceph:
+#       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+#       ccK8sProviderName: "kubernetes-provider"
+#       storageClassName: "ceph-bucket"
+#       maxSize: "${ARGOCD_ENV_velero_bucket_storage_size}"
+#       esoPushSecret: true
+#       vaultSecretStore: "vault-secret-store"
+#       vaultSecretPath: "${ARGOCD_ENV_env_name}/velero_bucket_access_key_id"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
