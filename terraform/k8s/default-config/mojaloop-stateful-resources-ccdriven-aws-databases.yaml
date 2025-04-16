@@ -1,3 +1,5 @@
+rdbms_provider: in-cluster  # possbile values are rds, dbaas and incluster
+mongodb_provider: in-cluster  # possbile values are docdb, dbaas and incluster
 common_platform_db:
   app_owner: "platform"
   external_resource_config:
