@@ -12,14 +12,14 @@ spec:
     runAsUser: 1000
     fsGroup: 1000
   kubernetesConfig:
-    image: quay.io/opstree/redis:v7.2.3
+    image: quay.io/opstree/redis:v7.2.7
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: 101m
+        cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 101m
+        cpu: 2000m
         memory: 128Mi
         # redisSecret:
         #   name: redis-secret
@@ -59,14 +59,14 @@ spec:
 # %{ endif }
   redisExporter:
     enabled: false
-    image: quay.io/opstree/redis-exporter:v1.45.0
+    image: quay.io/opstree/redis-exporter:v1.48.0
     imagePullPolicy: IfNotPresent
     resources:
       requests:
         cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 100m
+        cpu: 2000m
         memory: 128Mi
         # Environment Variables for Redis Exporter
         # env:
