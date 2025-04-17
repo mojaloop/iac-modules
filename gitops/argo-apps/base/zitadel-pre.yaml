@@ -184,7 +184,7 @@ spec:
           - name: "rds_skip_final_snapshot"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_skip_final_snapshot}"
 
-          - name: "rds_vpc_id"
+          - name: "vpc_id"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_rdbms_vpc_id}"
 
           - name: "vpc_cidr"
@@ -208,16 +208,19 @@ spec:
           - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_dbdeploy_name_prefix}"
 
-          - name: "db_backup_retention_period"
+          - name: "backup_retention_period"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_backup_retention_period}"
 
-          - name: "db_preferred_backup_window"
+          - name: "preferred_backup_window"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_preferred_backup_window}"
 
-          - name: "db_storage_type"
+          - name: "preferred_maintenance_window"
+            value: "${ARGOCD_ENV_security_zitadel_rds_provider_preferred_maintenance_window}"
+
+          - name: "storage_type"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_type}"
 
-          - name: "db_storage_iops"
+          - name: "storage_iops"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_storage_iops}"
 
           - name: "externalservice_name"
@@ -238,5 +241,5 @@ spec:
           - name: "capi_cluster_namespace"
             value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
 
-          - name: "db_port"
+          - name: "port"
             value: "5432"
