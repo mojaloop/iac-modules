@@ -364,25 +364,11 @@ argocd_override:
           env_token_ttl: "${env_token_ttl}"
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
-          rdbms_provider: "${env_rdbms_provider}"
-          object_storage_region: "${cloud_region}"
-          object_storage_provider: "${object_storage_provider}"
-          ceph_bucket_max_size:  "${ceph_bucket_max_size}"
-        onboard_common_platform_db_percona_provider:
-          postgres_replicas: "${env_common_platform_perc_postgres_replicas}"
-          postgres_proxy_replicas: "${env_common_platform_perc_postgres_proxy_replicas}"
-          postgres_storage_size: "${env_common_platform_perc_postgres_storage_size}"
-          pgdb_helm_version: "${env_common_platform_perc_pgdb_helm_version}"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
           vpc_cidr: "${vpc_cidr}"
-        onboard_common_mojaloop_db_percona_provider:
-          postgres_replicas: "${env_common_platform_perc_postgres_replicas}"
-          postgres_proxy_replicas: "${env_common_platform_perc_postgres_proxy_replicas}"
-          postgres_storage_size: "${env_common_platform_perc_postgres_storage_size}"
-          pgdb_helm_version: "${env_common_platform_perc_pgdb_helm_version}"
         onboard_common_mojaloop_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
@@ -393,8 +379,6 @@ argocd_override:
           cloud_region: "${cloud_region}"
           vpc_id: "${rdbms_vpc_id}"
           vpc_cidr: "${vpc_cidr}"
-        onboard_common_mongodb_percona_provider:
-          helm_version: "${env_common_platform_perc_pgdb_helm_version}"
 
 
     monitoring:
