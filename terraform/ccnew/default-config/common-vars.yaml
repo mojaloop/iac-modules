@@ -29,9 +29,9 @@ netbird_rds_replica_count: "'1'"
 netbird_rds_instance_class: "db.t3.medium"
 netbird_rds_storage_encrypted: "'true'"
 netbird_rds_skip_final_snapshot: "'true'"
-netbird_rds_postgres_storage_size: "''"
-netbird_rds_storage_type: "io1"
-netbird_rds_storage_iops: "'5000'"
+netbird_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+netbird_rds_storage_type: "''" # io1 for conventional rds
+netbird_rds_storage_iops: "''"  #"'5000'" for conventional rds
 netbird_rds_allow_major_version_upgrade: "'false'"
 netbird_rds_apply_immediately: "'false'"
 netbird_rds_deletion_protection: "'false'"
@@ -240,9 +240,9 @@ gitlab_rds_replica_count: "'1'"
 gitlab_rds_instance_class: "db.t3.medium"
 gitlab_rds_storage_encrypted: "'true'"
 gitlab_rds_skip_final_snapshot: "'true'"
-gitlab_rds_postgres_storage_size: "''"
-gitlab_rds_storage_type: "io1"
-gitlab_rds_storage_iops: "'5000'"
+gitlab_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+gitlab_rds_storage_type: "''" # io1 for conventional rds
+gitlab_rds_storage_iops: "''"  #"'5000'" for conventional rds
 gitlab_rds_allow_major_version_upgrade: "'false'"
 gitlab_rds_apply_immediately: "'false'"
 gitlab_rds_deletion_protection: "'false'"
@@ -264,9 +264,9 @@ praefect_rds_replica_count: "'1'"
 praefect_rds_instance_class: "db.t3.medium"
 praefect_rds_storage_encrypted: "'true'"
 praefect_rds_skip_final_snapshot: "'true'"
-praefect_rds_postgres_storage_size: "''"
-praefect_rds_storage_type: "io1"
-praefect_rds_storage_iops: "'5000'"
+praefect_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+praefect_rds_storage_type: "''" # io1 for conventional rds
+praefect_rds_storage_iops: "''"  #"'5000'" for conventional rds
 praefect_rds_allow_major_version_upgrade: "'false'"
 praefect_rds_apply_immediately: "'false'"
 praefect_rds_deletion_protection: "'false'"
@@ -301,9 +301,9 @@ zitadel_rds_replica_count: "'1'"
 zitadel_rds_instance_class: "db.t3.medium"
 zitadel_rds_storage_encrypted: "'true'"
 zitadel_rds_skip_final_snapshot: "'true'"
-zitadel_rds_postgres_storage_size: "''"
-zitadel_rds_storage_iops: "'5000'"
-zitadel_rds_storage_type: "io1"
+zitadel_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+zitadel_rds_storage_type: "''" # io1 for conventional rds
+zitadel_rds_storage_iops: "''"  #"'5000'" for conventional rds
 zitadel_rds_allow_major_version_upgrade: "'false'"
 zitadel_rds_apply_immediately: "'false'"
 zitadel_rds_deletion_protection: "'false'"
