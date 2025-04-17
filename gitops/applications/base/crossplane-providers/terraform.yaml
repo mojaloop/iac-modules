@@ -108,3 +108,73 @@ spec:
   serviceAccountTemplate:
     metadata:
       name: crossplane-terraform-sa
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_crossplane_providers_aws_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-kubernetes
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v${ARGOCD_ENV_crossplane_providers_k8s_version}
+  runtimeConfigRef:
+    apiVersion: pkg.crossplane.io/v1beta1
+    kind: DeploymentRuntimeConfig
+    name: provider-kubernetes
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-helm
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-helm:v${ARGOCD_ENV_crossplane_providers_helm_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-s3
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-s3:v${ARGOCD_ENV_crossplane_providers_aws_s3_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-iam
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_crossplane_providers_aws_iam_version}
+
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: netbird-crossplane-provider
+spec:
+  package: ghcr.io/infitx-org/netbird-crossplane-provider:v${ARGOCD_ENV_crossplane_providers_netbird_version}
+  controllerConfigRef:
+    name: debug-config
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-docdb
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-docdb:v${ARGOCD_ENV_crossplane_providers_aws_docdb_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-ec2
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-ec2:v${ARGOCD_ENV_crossplane_providers_aws_ec2_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-aws
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-rds:v${ARGOCD_ENV_crossplane_providers_aws_rds_version}
