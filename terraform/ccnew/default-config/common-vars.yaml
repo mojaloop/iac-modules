@@ -40,6 +40,7 @@ netbird_rds_family: "aurora-postgresql16"
 #netbird db backup settings
 netbird_db_backup_retention_period: "'1'"
 netbird_db_preferred_backup_window: "07:00-09:00"
+netbird_db_preferred_maintenance_window: "Mon:00:00-Mon:01:00"
 #end db settings
 
 stunner_gateway_operator_helm_version: "0.19.0"
@@ -250,6 +251,7 @@ gitlab_rds_family: "aurora-postgresql16"
 #gitlab db backup settings
 gitlab_db_backup_retention_period: "'1'"
 gitlab_db_preferred_backup_window: "07:00-09:00"
+gitlab_db_preferred_maintenance_window: "Mon:00:00-Mon:01:00"
 #gitlab db percona specific
 gitlab_perc_postgres_replicas: "'1'"
 gitlab_perc_postgres_proxy_replicas: "'1'"
@@ -273,6 +275,7 @@ praefect_rds_family: "aurora-postgresql16"
 #praefect db backup settings
 praefect_db_backup_retention_period: "'1'"
 praefect_db_preferred_backup_window: "07:00-09:00"
+praefect_db_preferred_maintenance_window: "Mon:00:00-Mon:01:00"
 #praefect db percona specific
 praefect_perc_postgres_replicas: "'1'"
 praefect_perc_postgres_proxy_replicas: "'1'"
@@ -309,6 +312,7 @@ zitadel_rds_family: "aurora-postgresql16"
 #Zitadel DB backup settings
 zitadel_db_backup_retention_period: "'1'"
 zitadel_db_preferred_backup_window: "07:00-09:00"
+zitadel_db_preferred_maintenance_window: "Mon:00:00-Mon:01:00"
 # Zitadel DB Percona specific
 zitadel_perc_postgres_replicas: "'1'"
 zitadel_perc_postgres_proxy_replicas: "'1'"
