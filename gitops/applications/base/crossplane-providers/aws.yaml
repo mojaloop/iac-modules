@@ -1,4 +1,5 @@
 ---
+# community provider
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
@@ -6,23 +7,53 @@ metadata:
 spec:
   package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_crossplane_providers_aws_version}
 ---
+# official providers
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-family-aws
+  annotations:
+    argocd.argoproj.io/sync-wave: 5
+spec:
+  package: xpkg.upbound.io/upbound/provider-family-aws:v1
+  skipDependencyResolution: true
+---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: provider-aws-s3
+  annotations:
+    argocd.argoproj.io/sync-wave: 10
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-s3:v${ARGOCD_ENV_crossplane_providers_aws_s3_version}
+  skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: provider-aws-iam
+  annotations:
+    argocd.argoproj.io/sync-wave: 10
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_crossplane_providers_aws_iam_version}
+  skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: provider-aws-docdb
+  annotations:
+    argocd.argoproj.io/sync-wave: 10
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-docdb:v${ARGOCD_ENV_crossplane_providers_aws_docdb_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-ec2
+  annotations:
+    argocd.argoproj.io/sync-wave: 10
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-ec2:v${ARGOCD_ENV_crossplane_providers_aws_ec2_version}
+  skipDependencyResolution: true
