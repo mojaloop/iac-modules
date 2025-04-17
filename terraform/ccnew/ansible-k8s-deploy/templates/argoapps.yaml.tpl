@@ -190,7 +190,7 @@ argocd_override:
           storage_type: "${zitadel_rds_storage_type}"
           storage_iops: "${zitadel_rds_storage_iops}"
           allow_major_version_upgrade: "${zitadel_rds_allow_major_version_upgrade}"
-          apply_immediately: "${zitadel_rds_apply_immediately}"
+          apply_immediately: "${zitadel_rds_apply_immediately}"
           deletion_protection: "${zitadel_rds_deletion_protection}"
           final_snapshot_identifier: "${zitadel_rds_final_snapshot_identifier}"
           family: "${zitadel_rds_family}"
