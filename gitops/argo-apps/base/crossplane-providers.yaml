@@ -36,6 +36,10 @@ spec:
     plugin:
       name: envsubst
       env:
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+
         - name: "crossplane_providers_terraform_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_terraform_version}"
 
@@ -69,5 +73,8 @@ spec:
         - name: "crossplane_providers_aws_ec2_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_aws_ec2_version}"
 
-        - name: "argocd_namespace"
-          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+        - name: "crossplane_providers_gitlab_version"
+          value: "${ARGOCD_ENV_crossplane_providers_gitlab_version}"
+
+        - name: "gitlab_fqdn"
+          value: "${ARGOCD_ENV_gitlab_fqdn}"
