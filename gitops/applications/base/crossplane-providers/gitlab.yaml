@@ -1,0 +1,39 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-gitlab
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-gitlab:v${ARGOCD_ENV_crossplane_providers_gitlab_version}
+  runtimeConfigRef:
+    name: crossplane-gitlab-controller
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: crossplane-gitlab-controller
+spec:
+  deploymentTemplate:
+    spec:
+      selector: {}
+      template:
+        spec:
+          containers:
+            - name: package-runtime
+              args:
+                - --enable-management-policies
+---
+apiVersion: gitlab.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: gitlab-provider
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: gitlab
+      name: gitlab-gitlab-initial-root-password
+      key: password
+  baseURL: "${ARGOCD_ENV_gitlab_fqdn}"

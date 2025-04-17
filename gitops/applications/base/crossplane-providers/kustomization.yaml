@@ -1,9 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - rbac.yaml
-  - crossplane-providers.yaml
-  - crossplane-kubernetes-provider-config.yaml
+  - debug-config.yaml
+  - ansible.yaml
+  - aws.yaml
+  - gitlab.yaml
+  - helm.yaml
+  - kubernetes.yaml
+  - netbird.yaml
+  - terraform.yaml
+  - vault.yaml
 
 secretGenerator:
   - name: terraformrc

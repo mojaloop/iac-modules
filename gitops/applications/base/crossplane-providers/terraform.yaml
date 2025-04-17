@@ -1,10 +1,3 @@
-apiVersion: pkg.crossplane.io/v1alpha1
-kind: ControllerConfig
-metadata:
-  name: debug-config
-spec:
-  args:
-    - --debug
 ---
 apiVersion: pkg.crossplane.io/v1alpha1
 kind: ControllerConfig
@@ -28,45 +21,36 @@ spec:
   runtimeConfigRef:
     name: provider-terraform-config
 ---
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
-  name: provider-vault
-spec:
-  package: xpkg.upbound.io/upbound/provider-vault:v${ARGOCD_ENV_crossplane_providers_vault_version}
-  controllerConfigRef:
-    name: debug-config
+  name: crossplane-terraform-sa
+subjects:
+  - kind: ServiceAccount
+    name: crossplane-terraform-sa
+    namespace: crossplane-system
+roleRef:
+  name: crossplane-terraform-sa
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
 ---
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
 metadata:
-  name: provider-ansible
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-ansible:v${ARGOCD_ENV_crossplane_providers_ansible_version}
-  controllerConfigRef:
-    name: debug-config
-  runtimeConfigRef:
-    name: provider-ansible-config
----
-apiVersion: pkg.crossplane.io/v1beta1
-kind: DeploymentRuntimeConfig
-metadata:
-  name: provider-ansible-config
-spec:
-  deploymentTemplate:
-    spec:
-      selector: {}
-      template:
-        spec:
-          containers:
-            - name: package-runtime
-              command:
-                - /usr/bin/dumb-init
-                - sh
-                - -c
-                - /usr/local/bin/pip install kubernetes && exec "$@"
-                - --
-                - crossplane-ansible-provider
+  name: crossplane-terraform-sa
+rules:
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["clusterroles", "clusterrolebindings"]
+    verbs: ["*"]
+  - apiGroups: ["objectbucket.io"]
+    resources: ["objectbucketclaims"]
+    verbs: ["*"]
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["*"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list"]
 ---
 apiVersion: pkg.crossplane.io/v1beta1
 kind: DeploymentRuntimeConfig
@@ -124,66 +108,3 @@ spec:
   serviceAccountTemplate:
     metadata:
       name: crossplane-terraform-sa
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_crossplane_providers_aws_version}
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-kubernetes
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v${ARGOCD_ENV_crossplane_providers_k8s_version}
-  runtimeConfigRef:
-    apiVersion: pkg.crossplane.io/v1beta1
-    kind: DeploymentRuntimeConfig
-    name: provider-kubernetes
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-helm
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-helm:v${ARGOCD_ENV_crossplane_providers_helm_version}
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-s3
-spec:
-  package: xpkg.upbound.io/upbound/provider-aws-s3:v${ARGOCD_ENV_crossplane_providers_aws_s3_version}
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-iam
-spec:
-  package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_crossplane_providers_aws_iam_version}
-
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: netbird-crossplane-provider
-spec:
-  package: ghcr.io/infitx-org/netbird-crossplane-provider:v${ARGOCD_ENV_crossplane_providers_netbird_version}
-  controllerConfigRef:
-    name: debug-config
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-docdb
-spec:
-  package: xpkg.upbound.io/upbound/provider-aws-docdb:v${ARGOCD_ENV_crossplane_providers_aws_docdb_version}
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-ec2
-spec:
-  package: xpkg.upbound.io/upbound/provider-aws-ec2:v${ARGOCD_ENV_crossplane_providers_aws_ec2_version}
