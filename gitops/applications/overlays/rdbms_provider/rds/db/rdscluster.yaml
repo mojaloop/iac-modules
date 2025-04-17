@@ -1,5 +1,5 @@
 apiVersion: aws.mojaloop.io/v1alpha1
-kind: XRDSCluster
+kind: RDSCluster
 metadata:
   name: "${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}"
   namespace: "${ARGOCD_ENV_namespace}"
