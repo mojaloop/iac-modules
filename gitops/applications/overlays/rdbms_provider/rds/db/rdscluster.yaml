@@ -32,7 +32,7 @@ spec:
     finalSnapshotIdentifier: "${ARGOCD_ENV_final_snapshot_identifier}"
     storageEncrypted: ${ARGOCD_ENV_storage_encrypted}
     storageType: "${ARGOCD_ENV_storage_type}"
-    allocatedStorage: ${ARGOCD_ENV_postgres_storage_size}
+    allocatedStorage: ${ARGOCD_ENV_rds_postgres_storage_size}
     subnets: ${ARGOCD_ENV_subnet_list}
     username: ${ARGOCD_ENV_db_username}
     vpcCidr: ${ARGOCD_ENV_vpc_cidr}
