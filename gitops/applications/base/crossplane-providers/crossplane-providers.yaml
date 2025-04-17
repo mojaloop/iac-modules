@@ -187,3 +187,10 @@ metadata:
   name: provider-aws-ec2
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-ec2:v${ARGOCD_ENV_crossplane_providers_aws_ec2_version}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-aws
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-rds:v${ARGOCD_ENV_crossplane_providers_aws_rds_version}

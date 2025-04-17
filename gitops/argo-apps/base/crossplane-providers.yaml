@@ -66,6 +66,9 @@ spec:
         - name: "crossplane_providers_aws_docdb_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_aws_docdb_version}"
 
+        - name: "crossplane_providers_aws_rds_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_rds_version}"
+
         - name: "crossplane_providers_aws_ec2_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_aws_ec2_version}"
 
