@@ -59,5 +59,6 @@ apiVersion: pkg.crossplane.io/v1alpha1
 kind: Configuration
 metadata:
   name: aws-rdscluster
+spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/aws-rdscluster:${ARGOCD_ENV_crossplane_packages_aws_rds_version}
   skipDependencyResolution: true
