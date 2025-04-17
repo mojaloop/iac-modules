@@ -16,7 +16,6 @@ spec:
     clusterName: ${ARGOCD_ENV_env_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "${ARGOCD_ENV_env_name}-loki"
-    Namespace: ${ARGOCD_ENV_env_name}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -25,6 +24,7 @@ spec:
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       ccK8sProviderName: "kubernetes-provider"
+      namespace: ${ARGOCD_ENV_env_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_loki_bucket_storage_size}"
       esoPushSecret: true
@@ -41,7 +41,6 @@ spec:
     clusterName: ${ARGOCD_ENV_env_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "${ARGOCD_ENV_env_name}-tempo"
-    Namespace: ${ARGOCD_ENV_env_name}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -50,6 +49,7 @@ spec:
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       ccK8sProviderName: "kubernetes-provider"
+      namespace: ${ARGOCD_ENV_env_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_tempo_bucket_storage_size}"
       esoPushSecret: true
@@ -67,7 +67,6 @@ spec:
 #     clusterName: ${ARGOCD_ENV_env_name}
 #     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
 #     bucketName: "${ARGOCD_ENV_env_name}-velero"
-#     Namespace: ${ARGOCD_ENV_env_name}
 #     s3:
 #       awsProviderName: "aws-cp-upbound-provider-config"
 #       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -76,6 +75,7 @@ spec:
 #     ceph:
 #       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
 #       ccK8sProviderName: "kubernetes-provider"
+#       namespace: ${ARGOCD_ENV_env_name}
 #       storageClassName: "ceph-bucket"
 #       maxSize: "${ARGOCD_ENV_velero_bucket_storage_size}"
 #       esoPushSecret: true
@@ -92,7 +92,6 @@ spec:
     clusterName: ${ARGOCD_ENV_env_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "${ARGOCD_ENV_env_name}-percona"
-    Namespace: ${ARGOCD_ENV_env_name}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -101,6 +100,7 @@ spec:
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       ccK8sProviderName: "kubernetes-provider"
+      namespace: ${ARGOCD_ENV_env_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_percona_bucket_storage_size}"
       esoPushSecret: true
