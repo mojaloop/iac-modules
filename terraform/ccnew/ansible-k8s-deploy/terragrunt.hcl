@@ -111,9 +111,6 @@ inputs = {
     eks_name                          = local.eks_name
     cluster_domain                    = local.cluster_domain
     capi_cluster_proxmox_host_sshkey  = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.ssh_public_key, "")
-    capi_cluster_proxmox_user         = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_user, "")
-    capi_cluster_proxmox_password     = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_password, "")
-    capi_cluster_proxmox_url          = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.bare_metal_cloud_api_url, "")
     cloud_platform                    = get_env("cloud_platform")
     object_storage_provider           = get_env("object_storage_provider")
     } , local.common_vars, local.env_vars)))
