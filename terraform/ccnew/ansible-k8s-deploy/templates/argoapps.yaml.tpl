@@ -465,3 +465,7 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
     sc:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      sub_apps:
+      metallb:
+        ip_range_begin: "${sc_metallb_ip_range_begin}"
+        ip_range_end: "${sc_metallb_ip_range_end}"
