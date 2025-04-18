@@ -9,7 +9,8 @@ spec:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "mimir-${ARGOCD_ENV_cluster_name}"
-    Namespace: ${ARGOCD_ENV_monitoring_namespace}
+    ccK8sProviderName: "kubernetes-provider"
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -17,7 +18,6 @@ spec:
       deletionPolicy: "Delete"
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
-      ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_mimir_bucket_storage_size}"
 ---
@@ -31,7 +31,8 @@ spec:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "loki-${ARGOCD_ENV_cluster_name}"
-    Namespace: ${ARGOCD_ENV_monitoring_namespace}
+    ccK8sProviderName: "kubernetes-provider"
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -39,6 +40,5 @@ spec:
       deletionPolicy: "Delete"
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
-      ccK8sProviderName: "kubernetes-provider"
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_loki_bucket_storage_size}"
