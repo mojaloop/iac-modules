@@ -1,0 +1,17 @@
+apiVersion: nb.infitx.org/v1alpha1
+kind: NBOperatorBootstrap
+metadata:
+  name: cc-nboperatorbootstrap
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+spec:
+  parameters:
+    serviceUserName: cc-service-user
+    accessTokenExpiresInDays: 5
+    operatorKubeapiGroup: cc-k8s
+    accessToken:
+      destinationType: cc
+  providerConfigsRef:
+    netbirdProviderConfigName: "netbird-crossplane-provider-config"
+    ccK8sProviderName: "cc-kubernetes-provider"
+  managementPolicies:
+    - "*"
