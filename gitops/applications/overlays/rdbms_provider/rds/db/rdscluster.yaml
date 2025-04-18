@@ -10,7 +10,7 @@ spec:
     awsProviderConfigName: "aws-cp-upbound-provider-config"
     ccK8sProviderName: "kubernetes-provider"
   parameters:
-    externalServiceName: "${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}"
+    externalServiceName: "${ARGOCD_ENV_externalservice_name}"
     appNamespace: "${ARGOCD_ENV_namespace}"
     allowMajorVersionUpgrade: ${ARGOCD_ENV_allow_major_version_upgrade}
     applyImmediately: ${ARGOCD_ENV_apply_immediately}
