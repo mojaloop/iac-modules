@@ -364,6 +364,7 @@ argocd_override:
           env_token_ttl: "${env_token_ttl}"
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
+          cloud_platform: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
