@@ -37,6 +37,8 @@ argocd_override:
           aws_version: "${crossplane_providers_aws_version}"
           aws_s3_version: "${crossplane_providers_aws_s3_version}"
           aws_iam_version: "${crossplane_providers_aws_iam_version}"
+          aws_docdb_version: "${crossplane_providers_aws_docdb_version}"
+          aws_rds_version: "${crossplane_providers_aws_rds_version}"
           netbird_version: "${crossplane_providers_netbird_version}"
         crossplane_functions:
           patch_and_transform_version: "${crossplane_functions_patch_and_transform_version}"
@@ -49,7 +51,8 @@ argocd_override:
           sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
           sc_nboperatorinstall_version: "${crossplane_packages_sc_nboperatorinstall_version}"
           nb_config_version: "${crossplane_packages_nb_config_version}"
-          docdb_version: "${crossplane_packages_docdb_version}"
+          aws_documentdb_version: "${crossplane_packages_aws_documentdb_version}"
+          aws_rds_version: "${crossplane_packages_aws_rds_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
@@ -76,7 +79,7 @@ argocd_override:
           capi_cluster_proxmox_url: "${capi_cluster_proxmox_url}"
           capi_cluster_network_gateway: "${capi_cluster_network_gateway}"
           capi_cluster_kubeapi_host: "${capi_cluster_kubeapi_host}"
-          capi_cluster_proxmox_host_vlan: "'${capi_cluster_proxmox_host_vlan}'"
+          capi_cluster_proxmox_host_vlan: "${capi_cluster_proxmox_host_vlan}"
           capi_infra_provider_version: "${capi_infra_provider_version}"
           capi_cluster_proxmox_worker_cpu: "${capi_cluster_proxmox_worker_cpu}"
           capi_cluster_proxmox_worker_memory: "${capi_cluster_proxmox_worker_memory}"
@@ -186,8 +189,14 @@ argocd_override:
           postgres_storage_size: "${zitadel_rds_postgres_storage_size}"
           backup_retention_period: "${zitadel_db_backup_retention_period}"
           preferred_backup_window: "${zitadel_db_preferred_backup_window}"
+          preferred_maintenance_window: "${zitadel_db_preferred_maintenance_window}"
           storage_type: "${zitadel_rds_storage_type}"
           storage_iops: "${zitadel_rds_storage_iops}"
+          allow_major_version_upgrade: "${zitadel_rds_allow_major_version_upgrade}"
+          apply_immediately: "${zitadel_rds_apply_immediately}"
+          deletion_protection: "${zitadel_rds_deletion_protection}"
+          final_snapshot_identifier: "${zitadel_rds_final_snapshot_identifier}"
+          family: "${zitadel_rds_family}"
         zitadel_cockroachdb_provider:
           helm_version: "${cockroachdb_helm_version}"
           pvc_size: "${zitadel_db_storage_size}"
@@ -224,8 +233,16 @@ argocd_override:
           postgres_storage_size: "${netbird_rds_postgres_storage_size}"
           backup_retention_period: "${netbird_db_backup_retention_period}"
           preferred_backup_window: "${netbird_db_preferred_backup_window}"
+          preferred_maintenance_window: "${netbird_db_preferred_maintenance_window}"
           storage_type: "${netbird_rds_storage_type}"
           storage_iops: "${netbird_rds_storage_iops}"
+          allow_major_version_upgrade: "${netbird_rds_allow_major_version_upgrade}"
+          apply_immediately: "${netbird_rds_apply_immediately}"
+          deletion_protection: "${netbird_rds_deletion_protection}"
+          final_snapshot_identifier: "${netbird_rds_final_snapshot_identifier}"
+          family: "${netbird_rds_family}"
+
+
     nexus:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -304,8 +321,14 @@ argocd_override:
           postgres_storage_size: "${gitlab_rds_postgres_storage_size}"
           backup_retention_period: "${gitlab_db_backup_retention_period}"
           preferred_backup_window: "${gitlab_db_preferred_backup_window}"
+          preferred_maintenance_window: "${gitlab_db_preferred_maintenance_window}"
           storage_type: "${gitlab_rds_storage_type}"
           storage_iops: "${gitlab_rds_storage_iops}"
+          allow_major_version_upgrade: "${gitlab_rds_allow_major_version_upgrade}"
+          apply_immediately: "${gitlab_rds_apply_immediately}"
+          deletion_protection: "${gitlab_rds_deletion_protection}"
+          final_snapshot_identifier: "${gitlab_rds_final_snapshot_identifier}"
+          family: "${gitlab_rds_family}"
         praefectdb_rds_provider:
           engine: "${praefect_rds_engine}"
           engine_version: "${praefect_rds_engine_version}"
@@ -320,8 +343,14 @@ argocd_override:
           postgres_storage_size: "${praefect_rds_postgres_storage_size}"
           backup_retention_period: "${praefect_db_backup_retention_period}"
           preferred_backup_window: "${praefect_db_preferred_backup_window}"
+          preferred_maintenance_window: "${praefect_db_preferred_maintenance_window}"
           storage_type: "${praefect_rds_storage_type}"
           storage_iops: "${praefect_rds_storage_iops}"
+          allow_major_version_upgrade: "${praefect_rds_allow_major_version_upgrade}"
+          apply_immediately: "${praefect_rds_apply_immediately}"
+          deletion_protection: "${praefect_rds_deletion_protection}"
+          final_snapshot_identifier: "${praefect_rds_final_snapshot_identifier}"
+          family: "${praefect_rds_family}"
 
 
     deploy_env:
@@ -335,25 +364,11 @@ argocd_override:
           env_token_ttl: "${env_token_ttl}"
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
-          rdbms_provider: "${env_rdbms_provider}"
-          object_storage_region: "${cloud_region}"
-          object_storage_provider: "${object_storage_provider}"
-          ceph_bucket_max_size:  "${ceph_bucket_max_size}"
-        onboard_common_platform_db_percona_provider:
-          postgres_replicas: "${env_common_platform_perc_postgres_replicas}"
-          postgres_proxy_replicas: "${env_common_platform_perc_postgres_proxy_replicas}"
-          postgres_storage_size: "${env_common_platform_perc_postgres_storage_size}"
-          pgdb_helm_version: "${env_common_platform_perc_pgdb_helm_version}"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
           rdbms_vpc_id: "${rdbms_vpc_id}"
           vpc_cidr: "${vpc_cidr}"
-        onboard_common_mojaloop_db_percona_provider:
-          postgres_replicas: "${env_common_platform_perc_postgres_replicas}"
-          postgres_proxy_replicas: "${env_common_platform_perc_postgres_proxy_replicas}"
-          postgres_storage_size: "${env_common_platform_perc_postgres_storage_size}"
-          pgdb_helm_version: "${env_common_platform_perc_pgdb_helm_version}"
         onboard_common_mojaloop_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
@@ -364,8 +379,6 @@ argocd_override:
           cloud_region: "${cloud_region}"
           vpc_id: "${rdbms_vpc_id}"
           vpc_cidr: "${vpc_cidr}"
-        onboard_common_mongodb_percona_provider:
-          helm_version: "${env_common_platform_perc_pgdb_helm_version}"
 
 
     monitoring:
@@ -465,3 +478,7 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
     sc:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      sub_apps:
+        metallb:
+          ip_range_begin: "${sc_metallb_ip_range_begin}"
+          ip_range_end: "${sc_metallb_ip_range_end}"

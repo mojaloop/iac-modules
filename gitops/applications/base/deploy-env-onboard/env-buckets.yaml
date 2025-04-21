@@ -16,6 +16,11 @@ spec:
     clusterName: ${ARGOCD_ENV_env_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "${ARGOCD_ENV_env_name}-loki"
+    namespace: ${ARGOCD_ENV_env_name}
+    ccK8sProviderName: "kubernetes-provider"
+    esoPushSecret: true
+    vaultSecretStore: "vault-secret-store"
+    vaultSecretPath: "${ARGOCD_ENV_env_name}/loki_bucket_access_key_id"
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -23,13 +28,8 @@ spec:
       deletionPolicy: "Delete"
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
-      ccK8sProviderName: "kubernetes-provider"
-      namespace: ${ARGOCD_ENV_env_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_loki_bucket_storage_size}"
-      esoPushSecret: true
-      vaultSecretStore: "vault-secret-store"
-      vaultSecretPath: "${ARGOCD_ENV_env_name}/loki_bucket_access_key_id"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
@@ -41,6 +41,11 @@ spec:
     clusterName: ${ARGOCD_ENV_env_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "${ARGOCD_ENV_env_name}-tempo"
+    namespace: ${ARGOCD_ENV_env_name}
+    ccK8sProviderName: "kubernetes-provider"
+    esoPushSecret: true
+    vaultSecretStore: "vault-secret-store"
+    vaultSecretPath: "${ARGOCD_ENV_env_name}/tempo_bucket_access_key_id"
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -48,13 +53,8 @@ spec:
       deletionPolicy: "Delete"
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
-      ccK8sProviderName: "kubernetes-provider"
-      namespace: ${ARGOCD_ENV_env_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_tempo_bucket_storage_size}"
-      esoPushSecret: true
-      vaultSecretStore: "vault-secret-store"
-      vaultSecretPath: "${ARGOCD_ENV_env_name}/tempo_bucket_access_key_id"
 
 # ---
 # apiVersion: objectstore.mojaloop.io/v1alpha1
@@ -92,6 +92,11 @@ spec:
     clusterName: ${ARGOCD_ENV_env_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
     bucketName: "${ARGOCD_ENV_env_name}-percona"
+    namespace: ${ARGOCD_ENV_env_name}
+    ccK8sProviderName: "kubernetes-provider"
+    esoPushSecret: true
+    vaultSecretStore: "vault-secret-store"
+    vaultSecretPath: "${ARGOCD_ENV_env_name}/percona_bucket_access_key_id"
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
       bucketRegion: ${ARGOCD_ENV_cloud_region}
@@ -99,10 +104,5 @@ spec:
       deletionPolicy: "Delete"
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
-      ccK8sProviderName: "kubernetes-provider"
-      namespace: ${ARGOCD_ENV_env_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_percona_bucket_storage_size}"
-      esoPushSecret: true
-      vaultSecretStore: "vault-secret-store"
-      vaultSecretPath: "${ARGOCD_ENV_env_name}/percona_bucket_access_key_id"
