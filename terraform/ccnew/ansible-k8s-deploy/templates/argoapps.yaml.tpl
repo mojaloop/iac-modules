@@ -400,6 +400,7 @@ argocd_override:
           prometheus_retention_period: "${prometheus_retention_period}"
           loki_helm_version: "${loki_helm_version}"
           loki_retention_period: "${loki_retention_period}"
+          cloud_region: "${cloud_region}"
         grafana:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"

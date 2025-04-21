@@ -264,3 +264,6 @@ spec:
 
         - name: "bucket_lookup_type"
           value: "${ARGOCD_ENV_monitoring_mimir_bucket_lookup_type}"
+
+        - name: "cloud_region"
+          value: "${ARGOCD_ENV_monitoring_monitoring_cloud_region}"

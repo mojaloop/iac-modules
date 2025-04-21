@@ -31,6 +31,7 @@ loki:
         access_key_id: $${username}
         secret_access_key: $${password}
         bucketnames: "loki-${ARGOCD_ENV_cluster_name}"
+        region: ${ARGOCD_ENV_cloud_region}
 
 metrics:
   enabled: true
