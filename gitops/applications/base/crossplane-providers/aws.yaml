@@ -1,12 +1,3 @@
----
-# community provider
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_crossplane_providers_aws_version}
----
 # official providers
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
