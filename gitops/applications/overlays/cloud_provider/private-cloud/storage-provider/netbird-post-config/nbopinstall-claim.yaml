@@ -1,16 +1,17 @@
-apiVersion: sc.infitx.org/v1alpha1
+apiVersion: sc.mojaloop.io/v1alpha1
 kind: NBOperatorInstall
 metadata:
   name: sc-nboperatorinstall
   namespace: ${ARGOCD_ENV_netbird_namespace}
 spec:
   parameters:
-    nbManagmentURI: https://netbird.${ARGOCD_ENV_zitadel_dns_subdomain}:443
-    operatorHelmVersion: 0.1.7
+    nbManagmentURI: ${ARGOCD_ENV_netbird_operator_management_url}
+    operatorHelmVersion: ${ARGOCD_ENV_netbird_operator_helm_version}
     operatorNamespace: ${ARGOCD_ENV_netbird_namespace}
     operatorArgoAppName: nb-op
     operatorArgoAppSourceURL: https://github.com//mojaloop/iac-modules.git
     operatorArgoAppSourceRevision: "feature/storage-cluster"
+    operatorKubeapiGroupName: sc-k8s
   providerConfigsRef:
     scK8sProviderName: "sc-kubernetes-provider"
   managementPolicies:
