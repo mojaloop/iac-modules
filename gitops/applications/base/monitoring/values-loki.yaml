@@ -26,7 +26,7 @@ loki:
       aws:
         # s3 is alias for aws
         s3forcepathstyle: ${ARGOCD_ENV_object_storage_path_style}
-        endpoint: ${ARGOCD_ENV_object_storage_host}
+        endpoint: ${ARGOCD_ENV_object_storage_regional_host}
         insecure: ${ARGOCD_ENV_object_store_insecure_connection}
         access_key_id: $${username}
         secret_access_key: $${password}
