@@ -7,3 +7,16 @@ spec:
   package: xpkg.upbound.io/upbound/provider-vault:v${ARGOCD_ENV_crossplane_providers_vault_version}
   controllerConfigRef:
     name: debug-config
+---
+apiVersion: vault.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: vault-provider-config
+spec:
+  address: http://vault-active.vault.svc.cluster.local:8200
+  credentials:
+    source: Secret
+    secretRef:
+      name: vault-keys
+      namespace: vault
+      key: creds
