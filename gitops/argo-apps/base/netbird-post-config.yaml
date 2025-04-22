@@ -60,12 +60,6 @@ spec:
           - name: "setup_key_secret_name"
             value: "${ARGOCD_ENV_security_netbird_setup_key_secret_name}"
 
-          - name: "gw_setup_key_secret_key"
-            value: "${ARGOCD_ENV_security_netbird_gw_setup_key_secret_key}"
-
-          - name: "build_setup_key_secret_key"
-            value: "${ARGOCD_ENV_security_netbird_build_setup_key_secret_key}"
-
           - name: "netbird_ansible_collection_tag"
             value: ${ARGOCD_ENV_security_netbird_ansible_collection_tag}
 
@@ -123,7 +117,7 @@ spec:
           - name: "netbird_operator_namespace"
             value: "${ARGOCD_ENV_security_netbird_operator_namespace}"
 
-          - name: "netbird_operator_release_name"
+          - name: "netbird_operator_app_name"
             value: "${ARGOCD_ENV_security_netbird_operator_release_name}"
 
           - name: "netbird_operator_management_url"
