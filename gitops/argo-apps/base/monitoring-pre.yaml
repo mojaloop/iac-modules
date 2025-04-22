@@ -54,3 +54,5 @@ spec:
           value: "${ARGOCD_ENV_monitoring_pre_loki_bucket_storage_size}"
         - name: "loki_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_loki_bucket_name}"
+        - name: "object_storage_provider"
+          value: "${ARGOCD_ENV_monitoring_pre_object_storage_provider}"

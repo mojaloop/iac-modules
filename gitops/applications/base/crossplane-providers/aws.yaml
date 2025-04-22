@@ -1,12 +1,3 @@
----
-# community provider
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v${ARGOCD_ENV_crossplane_providers_aws_version}
----
 # official providers
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -57,3 +48,12 @@ metadata:
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-ec2:v${ARGOCD_ENV_crossplane_providers_aws_ec2_version}
   skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-rds
+  annotations:
+    argocd.argoproj.io/sync-wave: 10
+spec:
+  package: xpkg.upbound.io/upbound/provider-aws-rds:v${ARGOCD_ENV_crossplane_providers_aws_rds_version}

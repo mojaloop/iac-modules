@@ -249,34 +249,49 @@ spec:
           - name: "pgdb_helm_version"
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_pgdb_helm_version}"
 
+          - name: "allow_major_version_upgrade"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_allow_major_version_upgrade}"
+
+          - name: "apply_immediately"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_apply_immediately}"
+
+          - name: "deletion_protection"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_deletion_protection}"
+
+          - name: "final_snapshot_identifier"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_final_snapshot_identifier}"
+
+          - name: "family"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_family}"
+
           - name: "rds_postgres_storage_size"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_postgres_storage_size}"
 
-          - name: "rds_engine"
+          - name: "engine"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_engine}"
 
-          - name: "rds_instance_class"
+          - name: "instance_class"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_postgres_instance_class}"
 
-          - name: "rds_storage_encrypted"
+          - name: "storage_encrypted"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_encrypted}"
 
-          - name: "rds_engine_version"
+          - name: "engine_version"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_engine_version}"
 
-          - name: "rds_replica_count"
+          - name: "replica_count"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_replica_count}"
 
-          - name: "rds_skip_final_snapshot"
+          - name: "skip_final_snapshot"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_skip_final_snapshot}"
 
-          - name: "rds_vpc_id"
+          - name: "vpc_id"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_rdbms_vpc_id}"
 
           - name: "vpc_cidr"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_vpc_cidr}"
 
-          - name: "rds_subnet_list"
+          - name: "subnet_list"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_rdbms_subnet_list}"
 
           - name: "cloud_region"
@@ -294,16 +309,19 @@ spec:
           - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_gitlab_pre_gitlab_dbdeploy_name_prefix}"
 
-          - name: "db_backup_retention_period"
+          - name: "backup_retention_period"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_retention_period}"
 
-          - name: "db_preferred_backup_window"
+          - name: "preferred_backup_window"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_preferred_backup_window}"
 
-          - name: "db_storage_type"
+          - name: "preferred_maintenance_window"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_preferred_maintenance_window}"
+
+          - name: "storage_type"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_type}"
 
-          - name: "db_storage_iops"
+          - name: "storage_iops"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_storage_iops}"
 
           - name: "externalservice_name"
@@ -324,7 +342,7 @@ spec:
           - name: "capi_cluster_namespace"
             value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
 
-          - name: "db_port"
+          - name: "port"
             value: "5432"
 
     #praefect db
@@ -364,34 +382,49 @@ spec:
           - name: "pgdb_helm_version"
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_pgdb_helm_version}"
 
+          - name: "allow_major_version_upgrade"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_allow_major_version_upgrade}"
+
+          - name: "apply_immediately"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_apply_immediately}"
+
+          - name: "deletion_protection"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_deletion_protection}"
+
+          - name: "final_snapshot_identifier"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_final_snapshot_identifier}"
+
+          - name: "family"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_family}"
+
           - name: "rds_postgres_storage_size"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_postgres_storage_size}"
 
-          - name: "rds_engine"
+          - name: "engine"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_engine}"
 
-          - name: "rds_instance_class"
+          - name: "instance_class"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_postgres_instance_class}"
 
-          - name: "rds_storage_encrypted"
+          - name: "storage_encrypted"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_storage_encrypted}"
 
-          - name: "rds_engine_version"
+          - name: "engine_version"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_engine_version}"
 
-          - name: "rds_replica_count"
+          - name: "replica_count"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_replica_count}"
 
-          - name: "rds_skip_final_snapshot"
+          - name: "skip_final_snapshot"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_skip_final_snapshot}"
 
-          - name: "rds_vpc_id"
+          - name: "vpc_id"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_rdbms_vpc_id}"
 
           - name: "vpc_cidr"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_vpc_cidr}"
 
-          - name: "rds_subnet_list"
+          - name: "subnet_list"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_rdbms_subnet_list}"
 
           - name: "cloud_region"
@@ -409,16 +442,19 @@ spec:
           - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_gitlab_pre_praefect_dbdeploy_name_prefix}"
 
-          - name: "db_backup_retention_period"
+          - name: "backup_retention_period"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_retention_period}"
 
-          - name: "db_preferred_backup_window"
+          - name: "preferred_backup_window"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_preferred_backup_window}"
 
-          - name: "db_storage_type"
+          - name: "preferred_maintenance_window"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_preferred_maintenance_window}"
+
+          - name: "storage_type"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_storage_type}"
 
-          - name: "db_storage_iops"
+          - name: "storage_iops"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_storage_iops}"
 
           - name: "externalservice_name"
@@ -439,5 +475,5 @@ spec:
           - name: "capi_cluster_namespace"
             value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
 
-          - name: "db_port"
+          - name: "port"
             value: "5432"
