@@ -115,6 +115,7 @@ inputs = {
   crossplane_providers_k8s_version         = local.common_vars.crossplane_providers_k8s_version
   crossplane_providers_vault_version       = local.common_vars.crossplane_providers_vault_version
   crossplane_packages_utils_version        = local.common_vars.crossplane_packages_utils_version
+  crossplane_helm_version                  = local.common_vars.crossplane_helm_version
   cloud_platform                           = get_env("cloud_platform")
 }
 

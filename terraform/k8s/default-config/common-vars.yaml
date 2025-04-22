@@ -57,6 +57,7 @@ coredns_localcache_version: "1.11.3"
 aws_ebs_csi_driver_helm_version: "2.39.0"
 aws_ebs_csi_driver_replicas: 2
 rook_ceph_helm_version: "1.16.5"
+crossplane_helm_version: "1.19.0"
 crossplane_providers_k8s_version: "0.11.4"
 crossplane_providers_vault_version: "2.1.1"
 crossplane_packages_utils_version: "v0.3.0-pr48-14533733180"
