@@ -20,7 +20,7 @@ resources:
   - istio-crs.yaml
   - mimir-alertmanager.yaml
   - mimirtool-cronjob.yaml
-  - rook-ceph-objectstore-exporter.yaml
+  #- rook-ceph-objectstore-exporter.yaml
 
 configMapGenerator:
   - name: mimir-ruler-data
