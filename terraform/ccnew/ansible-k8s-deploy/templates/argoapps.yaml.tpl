@@ -365,6 +365,8 @@ argocd_override:
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           object_storage_provider: "${object_storage_provider}"
+          cloud_platform: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
+          cloud_region: "${cloud_platform == "bare-metal" ? "us-east-1" : cloud_region }"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
