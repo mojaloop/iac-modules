@@ -33,7 +33,7 @@ spec:
   credentials:
     source: Secret
     secretRef:
-      namespace: gitlab
+      namespace: crossplane-system
       name: gitlab-gitlab-initial-root-password
       key: password
   baseURL: "https://${ARGOCD_ENV_gitlab_fqdn}"
