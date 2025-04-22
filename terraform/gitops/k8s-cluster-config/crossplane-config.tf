@@ -12,7 +12,7 @@ module "generate_crossplane_files" {
     crossplane_packages_utils_version  = var.crossplane_packages_utils_version
     crossplane_helm_version            = var.crossplane_helm_version
   }
-  file_list       = [for f in fileset(local.crossplane_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
+  file_list       = [for f in fileset(local.crossplane_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.crossplane_app_file, f))]
   template_path   = local.crossplane_template_path
   output_path     = "${var.output_dir}/crossplane"
   app_file        = local.crossplane_app_file
@@ -39,11 +39,6 @@ variable "crossplane_helm_version" {
   type        = string
 }
 
-# variable "cloud_platform" {
-#   type        = string
-#   description = "cloud platform"
-# }
-
 variable "crossplane_providers_vault_version" {
   type        = string
   description = "crossplane vault provider version"
@@ -58,8 +53,3 @@ variable "crossplane_packages_utils_version" {
   type        = string
   description = "crossplane packages utils version"
 }
-
-# variable "gitlab_project_url" {
-#   type        = string
-#   description = "gitlab_project_url"
-# }
