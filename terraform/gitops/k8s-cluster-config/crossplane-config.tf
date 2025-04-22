@@ -34,10 +34,10 @@ variable "crossplane_helm_version" {
   type        = string
 }
 
-variable "cloud_platform" {
-  type        = string
-  description = "cloud platform"
-}
+# variable "cloud_platform" {
+#   type        = string
+#   description = "cloud platform"
+# }
 
 variable "crossplane_providers_vault_version" {
   type        = string
@@ -56,7 +56,7 @@ variable "crossplane_packages_utils_version" {
   description = "crossplane packages utils version"
 }
 
-variable "gitlab_project_url" {
-  type        = string
-  description = "gitlab_project_url"
-}
+# variable "gitlab_project_url" {
+#   type        = string
+#   description = "gitlab_project_url"
+# }
