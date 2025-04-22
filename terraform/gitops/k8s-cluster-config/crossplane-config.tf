@@ -42,13 +42,11 @@ variable "crossplane_helm_version" {
 variable "crossplane_providers_vault_version" {
   type        = string
   description = "crossplane vault provider version"
-  default     = "2.1.1"
 }
 
 variable "crossplane_providers_k8s_version" {
   type        = string
   description = "crossplane k8s provider version"
-  default     = "0.11.4"
 }
 
 variable "crossplane_packages_utils_version" {
