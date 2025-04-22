@@ -100,21 +100,21 @@ EOT
     kubeconfig_local_location = local.ansible_output_dir
   }
 
-  st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
-  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
+  # st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
+  # plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
 
-  stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
+  # stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
 
-  stateful_resources               = module.config_deepmerge.merged
-  enabled_stateful_resources       = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
-  managed_rds_stateful_resources   = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
-  managed_kafka_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
-
-
-  external_rds_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_rds_stateful_resource_instance_address : address.key => address.value }
-  external_kafka_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_kafka_stateful_resource_instance_address : address.key => address.value }
+  # stateful_resources               = module.config_deepmerge.merged
+  # enabled_stateful_resources       = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
+  # managed_rds_stateful_resources   = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
+  # managed_kafka_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
 
 
-  managed_kafka_brokers_list  = { for key, service in local.managed_kafka_stateful_resources : key => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }*/
+  # external_rds_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_rds_stateful_resource_instance_address : address.key => address.value }
+  # external_kafka_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_kafka_stateful_resource_instance_address : address.key => address.value }
+
+
+  # managed_kafka_brokers_list  = { for key, service in local.managed_kafka_stateful_resources : key => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }
 
 }
