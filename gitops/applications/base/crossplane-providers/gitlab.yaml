@@ -36,4 +36,4 @@ spec:
       namespace: gitlab
       name: gitlab-gitlab-initial-root-password
       key: password
-  baseURL: "${ARGOCD_ENV_gitlab_fqdn}"
+  baseURL: "https://${ARGOCD_ENV_gitlab_fqdn}"
