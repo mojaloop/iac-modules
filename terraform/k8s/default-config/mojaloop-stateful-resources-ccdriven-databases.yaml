@@ -9,9 +9,9 @@ common_platform_db:
     apply_immediately: false
     password_key_name: common_platform_db_password
     instance_address_key_name: common_platform_db_instance_address
-    allocated_storage: 100
-    storage_type: io1
-    storage_iops: 5000
+    allocated_storage: ''
+    storage_type: ''
+    storage_iops: ''
     backup_retention_period: 1
     backup_window: 01:00-04:00
     db_name: common_platform_db
@@ -75,9 +75,9 @@ common_mojaloop_db:
     apply_immediately: false
     password_key_name: common_mojaloop_db_password
     instance_address_key_name: common_mojaloop_db_instance_address
-    allocated_storage: 100
-    storage_type: io1
-    storage_iops: 5000
+    allocated_storage: ''
+    storage_type: ''
+    storage_iops: ''
     backup_retention_period: 1
     backup_window: 01:00-04:00
     db_name: common_mojaloop_db
