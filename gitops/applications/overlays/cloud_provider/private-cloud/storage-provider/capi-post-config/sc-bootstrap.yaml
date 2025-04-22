@@ -152,7 +152,7 @@ spec:
               value: "${ARGOCD_ENV_utils_kyverno_app_name}"
 
             - name: argocd_app_namespace
-              value: "${ARGOCD_ENV_argocd_app_namespace}"
+              value: "${ARGOCD_ENV_utils_app_namespace}"
 
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
