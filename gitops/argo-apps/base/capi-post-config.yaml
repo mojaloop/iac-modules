@@ -168,3 +168,17 @@ spec:
 
         - name: utils_cert_manager_app_name
           value: "${ARGOCD_ENV_utils_cert_manager_app_name}"
+
+        # kyverno
+
+        - name: utils_kyverno_namespace
+          value: "${ARGOCD_ENV_utils_kyverno_namespace}"
+
+        - name: utils_kyverno_helm_version
+          value: "${ARGOCD_ENV_utils_kyverno_helm_version}"
+
+        - name: utils_kyverno_app_name
+          value: "${ARGOCD_ENV_utils_kyverno_app_name}"
+
+        - name: argocd_app_namespace
+          value: "${ARGOCD_ENV_argocd_app_namespace}"
