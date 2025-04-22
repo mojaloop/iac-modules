@@ -180,5 +180,5 @@ spec:
         - name: utils_kyverno_app_name
           value: "${ARGOCD_ENV_utils_kyverno_app_name}"
 
-        - name: argocd_app_namespace
-          value: "${ARGOCD_ENV_argocd_app_namespace}"
+        - name: utils_app_namespace
+          value: "${ARGOCD_ENV_utils_app_namespace}"
