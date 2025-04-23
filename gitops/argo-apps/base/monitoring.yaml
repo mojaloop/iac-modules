@@ -114,7 +114,7 @@ spec:
         - name: "mimir_compactor_deletion_delay"
           value: "${ARGOCD_ENV_monitoring_mimir_compactor_deletion_delay}"
         - name: "mimir_gossip_ring_port"
-          value: "7949"
+          value: "7948"
 
 
         - name: "ctrl_cntr_loki_bucket_name"
