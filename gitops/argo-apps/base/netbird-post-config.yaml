@@ -106,7 +106,7 @@ spec:
             value: "nb-operator-api-key"
 
           - name: "netbird_operator_sync_wave"
-            value: "${ARGOCD_ENV_netbird_operator_sync_wave}"
+            value: "${ARGOCD_ENV_security_netbird_operator_sync_wave}"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
@@ -133,7 +133,7 @@ spec:
             value: "nb-operator-api-key"
 
           - name: "netbird_operator_sync_wave"
-            value: "${ARGOCD_ENV_netbird_operator_sync_wave}"
+            value: "${ARGOCD_ENV_security_netbird_operator_sync_wave}"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
@@ -217,4 +217,4 @@ spec:
             value: "https://netbird.${ARGOCD_ENV_security_netbird_dns_subdomain}:443"
 
           - name: "netbird_operator_sync_wave"
-            value: "${ARGOCD_ENV_netbird_operator_sync_wave}"
+            value: "${ARGOCD_ENV_security_netbird_operator_sync_wave}"
