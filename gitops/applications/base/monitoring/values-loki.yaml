@@ -36,7 +36,7 @@ loki:
       bind_port: 7947 # use different memberlist.bind-port to avoid loki and mimir joining same ring
       join_members:
       # - control-center-loki-grafana-loki-gossip-ring:7947
-      - {{ include "grafana-loki.gossip-ring.fullname" . }}
+      - '{{ include "grafana-loki.gossip-ring.fullname" . }}:7947'
   gossipRing:
     service:
       ports:
