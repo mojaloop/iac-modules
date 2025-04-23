@@ -1,18 +1,3 @@
----
-apiVersion: pkg.crossplane.io/v1beta1
-kind: Function
-metadata:
-  name: function-patch-and-transform
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/function-patch-and-transform:v${crossplane_functions_patch_and_transform_version}
----
-apiVersion: pkg.crossplane.io/v1beta1
-kind: Function
-metadata:
-  name: function-go-templating
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/function-go-templating:v${crossplane_functions_go_templating_version}
----
 apiVersion: pkg.crossplane.io/v1beta1
 kind: Function
 metadata:
