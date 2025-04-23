@@ -21,7 +21,7 @@ spec:
   data:
     - secretKey: accessKey
       remoteRef:
-        key: ${rgw_admin_ops_user_key}
+        key: ${rgw_admin_ops_user}
         property: accessKey
       sourceRef:
         storeRef:
@@ -29,7 +29,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: secretKey
       remoteRef:
-        key: ${rgw_admin_ops_user_key}
+        key: ${rgw_admin_ops_user}
         property: secretKey
       sourceRef:
         storeRef:
@@ -61,7 +61,7 @@ spec:
   data:
     - secretKey: admin_secret
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: admin_secret
       sourceRef:
         storeRef:
@@ -69,7 +69,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: ceph_secret
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: ceph_secret
       sourceRef:
         storeRef:
@@ -77,7 +77,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: ceph_username
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: ceph_username
       sourceRef:
         storeRef:
@@ -85,7 +85,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: cluster_name
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: cluster_name
       sourceRef:
         storeRef:
@@ -93,7 +93,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: fsid
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: fsid
       sourceRef:
         storeRef:
@@ -101,7 +101,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: mon_secret
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: mon_secret
       sourceRef:
         storeRef:
@@ -273,7 +273,7 @@ spec:
     - secretKey: rgw_endpoint
       remoteRef:
         key: ${rook_ceph_rgw_endpoint}
-        property: rgw_endpoint
+        property: rgw-endpoint
       sourceRef:
         storeRef:
           name: tenant-vault-secret-store
@@ -300,7 +300,7 @@ spec:
     - secretKey: rook_ceph_mon_data
       remoteRef:
         key: ${rook_ceph_mon_data}
-        property: rook_ceph_mon_data
+        property: mon-data
       sourceRef:
         storeRef:
           name: tenant-vault-secret-store

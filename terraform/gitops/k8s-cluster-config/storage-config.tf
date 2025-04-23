@@ -16,8 +16,8 @@ module "generate_storage_files" {
     external_secret_sync_wave       = var.external_secret_sync_wave
     cluster_name                    = var.cluster_name
     rook_ceph_helm_version          = var.rook_ceph_helm_version
-    rgw_admin_ops_user_key          = "${var.cluster_name}/rgw_admin_ops_user_key"
-    rook_ceph_mon_key               = "${var.cluster_name}/rook_ceph_mon_key"
+    rgw_admin_ops_user              = "${var.cluster_name}/rgw_admin_ops_user"
+    rook_ceph_mon                   = "${var.cluster_name}/rook_ceph_mon"
     rook_csi_cephfs_node            = "${var.cluster_name}/rook_csi_cephfs_node"
     rook_csi_cephfs_provisioner     = "${var.cluster_name}/rook_csi_cephfs_provisioner"
     rook_csi_rbd_node               = "${var.cluster_name}/rook_csi_rbd_node"
