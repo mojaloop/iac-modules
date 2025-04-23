@@ -8,11 +8,11 @@ metadata:
 spec:
   parameters:
     keyMappings:
-      - sourceKey: ARGS
+      - sourceKey: args
         destinationKey: args
     sourceSecret:
       namespace: ${storage_namespace}
-      name: rook-external-config
+      name: rook-ceph-cluster-user-command
     destinationConfigMap:
       namespace: ${storage_namespace}
       name: external-cluster-user-command
