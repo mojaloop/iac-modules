@@ -52,7 +52,7 @@ vault:
         image: prom/statsd-exporter:latest
       - name: init-sidecar
         image: ghcr.io/mojaloop/vault-utils:0.0.4
-        command: ["sh","-c","cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do /tmp/bootstrap.sh; sleep 300; done"]
+        command: ["sh","-c","order=$(echo $HOSTNAME | awk -F'-' '{print $2}'); delay=$(($order*60 +60)); echo $delay; cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep $delay; /tmp/bootstrap.sh; done"]
         volumeMounts:
           - name: userconfig-post-config
             mountPath: /etc/vault/
