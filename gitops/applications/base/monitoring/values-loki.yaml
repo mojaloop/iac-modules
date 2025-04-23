@@ -122,7 +122,7 @@ queryScheduler:
     limits:
       cpu: ${ARGOCD_ENV_loki_query_scheduler_limits_cpu}
       memory: ${ARGOCD_ENV_loki_query_scheduler_limits_memory}
-  enabled: true
+  enabled: false
   extraArgs: ["-config.expand-env"]
   extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
