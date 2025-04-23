@@ -124,6 +124,8 @@ spec:
           value: "${ARGOCD_ENV_monitoring_loki_ingester_max_chunk_age}"
         - name: "loki_ingester_replication_factor"
           value: "${ARGOCD_ENV_monitoring_loki_ingester_replication_factor}"
+        - name: "loki_gossip_ring_port"
+          value: "7947"
 
 
 

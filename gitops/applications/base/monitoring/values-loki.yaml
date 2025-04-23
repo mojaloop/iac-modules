@@ -32,17 +32,16 @@ loki:
         secret_access_key: $${AWS_SECRET_ACCESS_KEY}
         bucketnames: $${BUCKET_NAME}
     memberlist:
-      advertise_port: 7947
-      bind_port: 7947 # use different memberlist.bind-port to avoid loki and mimir joining same ring
+      advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
+      bind_port: ${ARGOCD_ENV_loki_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate
       join_members:
-      # - control-center-loki-grafana-loki-gossip-ring:7947
-      - '{{ include "grafana-loki.gossip-ring.fullname" . }}:7947'
+      - control-center-loki-grafana-loki-gossip-ring:${ARGOCD_ENV_loki_gossip_ring_port}
   gossipRing:
     service:
       ports:
-        http: 7947 # same as memberlist.bind-port
+        http: ${ARGOCD_ENV_loki_gossip_ring_port}
   containerPorts:
-    gossipRing: 7947 # same as memberlist.bind-port
+    gossipRing: ${ARGOCD_ENV_loki_gossip_ring_port}
 metrics:
   enabled: true
   serviceMonitor:
