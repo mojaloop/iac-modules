@@ -113,7 +113,7 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_max_label_names_per_series}"
         - name: "mimir_compactor_deletion_delay"
           value: "${ARGOCD_ENV_monitoring_mimir_compactor_deletion_delay}"
-        - name: "loki_gossip_ring_port"
+        - name: "mimir_gossip_ring_port"
           value: "7949"
 
 
