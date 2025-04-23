@@ -49,5 +49,5 @@ variable "dns_cloud_region" {
 variable "external_dns_sync_wave" {
   type        = string
   description = "external_dns_sync_wave"
-  default     = "-7"
+  default     = "-8"
 }
