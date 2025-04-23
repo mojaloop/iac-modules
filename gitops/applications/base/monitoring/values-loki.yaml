@@ -31,7 +31,17 @@ loki:
         access_key_id: $${AWS_ACCESS_KEY_ID}
         secret_access_key: $${AWS_SECRET_ACCESS_KEY}
         bucketnames: $${BUCKET_NAME}
-
+    memberlist:
+      advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
+      bind_port: ${ARGOCD_ENV_loki_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate
+      join_members:
+      - "${ARGOCD_ENV_loki_release_name}-grafana-loki-gossip-ring:${ARGOCD_ENV_loki_gossip_ring_port}"
+  gossipRing:
+    service:
+      ports:
+        http: ${ARGOCD_ENV_loki_gossip_ring_port}
+  containerPorts:
+    gossipRing: ${ARGOCD_ENV_loki_gossip_ring_port}
 metrics:
   enabled: true
   serviceMonitor:
@@ -112,7 +122,7 @@ queryScheduler:
     limits:
       cpu: ${ARGOCD_ENV_loki_query_scheduler_limits_cpu}
       memory: ${ARGOCD_ENV_loki_query_scheduler_limits_memory}
-  enabled: true
+  enabled: false
   extraArgs: ["-config.expand-env"]
   extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}

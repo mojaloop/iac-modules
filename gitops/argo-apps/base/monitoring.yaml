@@ -113,6 +113,9 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_max_label_names_per_series}"
         - name: "mimir_compactor_deletion_delay"
           value: "${ARGOCD_ENV_monitoring_mimir_compactor_deletion_delay}"
+        - name: "mimir_gossip_ring_port"
+          value: "7948"
+
 
         - name: "ctrl_cntr_loki_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
@@ -124,8 +127,10 @@ spec:
           value: "${ARGOCD_ENV_monitoring_loki_ingester_max_chunk_age}"
         - name: "loki_ingester_replication_factor"
           value: "${ARGOCD_ENV_monitoring_loki_ingester_replication_factor}"
-
-
+        - name: "loki_gossip_ring_port"
+          value: "7947"
+        - name: "loki_release_name"
+          value: "control-center-loki"
 
         - name: "mimir_distributor_replica_count"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_replica_count}"
