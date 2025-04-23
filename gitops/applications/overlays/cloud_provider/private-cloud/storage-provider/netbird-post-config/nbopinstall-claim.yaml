@@ -14,6 +14,7 @@ spec:
     operatorArgoAppSourceURL: https://github.com//mojaloop/iac-modules.git
     operatorArgoAppSourceRevision: "feature/storage-cluster"
     operatorKubeapiGroupName: sc-k8s
+    operatorClusterName: storage-cluster
   providerConfigsRef:
     scK8sProviderName: "sc-kubernetes-provider"
   managementPolicies:
