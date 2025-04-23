@@ -1,4 +1,4 @@
-module "generate_crossplane_provider_files" {
+module "generate_crossplane_providers_files" {
   source = "../generate-files"
   var_map = {
     crossplane_providers_sync_wave     = var.crossplane_providers_sync_wave
