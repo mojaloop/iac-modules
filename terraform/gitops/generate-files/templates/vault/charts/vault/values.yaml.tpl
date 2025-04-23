@@ -21,10 +21,19 @@ vault:
           address = "[::]:8200"
           cluster_address = "[::]:8201"
         }
-        storage "consul" {
-          path = "vault"
-          address = "consul-server.${consul_namespace}.svc.cluster.local:8500"
+        storage "raft" {
+            path = "/vault/data"
+            retry_join {
+              leader_api_addr = "http://vault-0.vault-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://vault-1.vault-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://vault-2.vault-internal:8200"
+            }
         }
+        disable_mlock = true
         service_registration "kubernetes" {}
 
         seal "transit" {
