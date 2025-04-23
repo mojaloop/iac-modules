@@ -3,6 +3,8 @@ kind: NBOperatorBootstrap
 metadata:
   name: cc-nboperatorbootstrap
   namespace: ${ARGOCD_ENV_netbird_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_netbird_operator_sync_wave}"
 spec:
   parameters:
     zitadelProjectIdSecret:

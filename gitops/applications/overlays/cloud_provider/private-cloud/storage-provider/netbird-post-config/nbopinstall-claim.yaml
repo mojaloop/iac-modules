@@ -3,6 +3,8 @@ kind: NBOperatorInstall
 metadata:
   name: sc-nboperatorinstall
   namespace: ${ARGOCD_ENV_netbird_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_netbird_operator_sync_wave}"
 spec:
   parameters:
     nbManagmentURI: ${ARGOCD_ENV_netbird_operator_management_url}
