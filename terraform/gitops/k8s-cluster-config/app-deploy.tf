@@ -383,7 +383,7 @@ locals {
   plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
   monolith_stateful_resources_int = yamldecode(file(var.mojaloop_stateful_res_monolith_config_file))
 
-  monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )}
+  monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if ( var.managed_svc_as_monolith || var.db_mediated_by_control_center ) && ( key != "rdbms_provider" || key != "mongodb_provider" )}
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
 }
