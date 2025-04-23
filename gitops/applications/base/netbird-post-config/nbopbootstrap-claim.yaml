@@ -22,6 +22,6 @@ spec:
       localSecretName: ${ARGOCD_ENV_netbird_operator_api_key_secret}
   providerConfigsRef:
     netbirdProviderConfigName: "netbird-crossplane-provider-config"
-    ccK8sProviderName: "cc-kubernetes-provider"
+    ccK8sProviderName: "kubernetes-provider"
   managementPolicies:
     - "*"
