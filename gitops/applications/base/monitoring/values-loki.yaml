@@ -37,6 +37,8 @@ loki:
     service:
       ports:
         http: 7947 # same as memberlist.bind-port
+  containerPorts:
+    gossipRing: 7947 # same as memberlist.bind-port
 metrics:
   enabled: true
   serviceMonitor:

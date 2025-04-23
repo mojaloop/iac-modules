@@ -35,7 +35,8 @@ mimir:
     service:
       ports:
         http: 7948 # same as memberlist.bind-port
-
+  containerPorts:
+    gossipRing: 7948 # same as memberlist.bind-port
 metrics:
   enabled: true
   serviceMonitor:
