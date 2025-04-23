@@ -25,6 +25,7 @@ mimir:
           endpoint: ${ARGOCD_ENV_object_storage_host}
           insecure: ${ARGOCD_ENV_object_store_insecure_connection}
           bucket_lookup_type: ${ARGOCD_ENV_bucket_lookup_type}
+          region: ${ARGOCD_ENV_cloud_region}
     alertmanager_storage:
       storage_prefix: alertmanager
     ruler_storage:
