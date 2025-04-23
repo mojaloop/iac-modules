@@ -29,7 +29,8 @@ mimir:
       storage_prefix: alertmanager
     ruler_storage:
       storage_prefix: ruler
-
+    memberlist:
+      bind_port: 7948 # use different memberlist.bind-port to avoid loki and mimir joining same ring
 
 
 metrics:
