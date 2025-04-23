@@ -31,7 +31,10 @@ mimir:
       storage_prefix: ruler
     memberlist:
       bind_port: 7948 # use different memberlist.bind-port to avoid loki and mimir joining same ring
-
+  gossipRing:
+    service:
+      ports:
+        http: 7948 # same as memberlist.bind-port
 
 metrics:
   enabled: true

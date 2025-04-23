@@ -33,6 +33,10 @@ loki:
         bucketnames: $${BUCKET_NAME}
     memberlist:
       bind_port: 7947 # use different memberlist.bind-port to avoid loki and mimir joining same ring
+  gossipRing:
+    service:
+      ports:
+        http: 7947 # same as memberlist.bind-port
 metrics:
   enabled: true
   serviceMonitor:
