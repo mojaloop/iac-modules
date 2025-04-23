@@ -84,5 +84,5 @@ variable "cloud_platform" {
 
 variable "fs_storage_class_name" {
   type        = string
-  description = "filesystem"
+  default    = "filesystem"
 }
