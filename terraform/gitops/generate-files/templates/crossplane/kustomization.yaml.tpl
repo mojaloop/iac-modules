@@ -1,10 +1,7 @@
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
-  - kubernetes-provider.yaml
-  - vault-provider.yaml
-  - crossplane-packages.yaml
+resources: []
 helmCharts:
   - name: crossplane
     releaseName: crossplane
