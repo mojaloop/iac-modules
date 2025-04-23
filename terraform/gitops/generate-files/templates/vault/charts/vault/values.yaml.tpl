@@ -6,8 +6,6 @@ vault:
     extraVolumes:
       - type: configMap
         name: post-config
-    readinessProbe:
-      path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
     extraSecretEnvironmentVars:
       - envName: VAULT_TOKEN
         secretName: ${vault_seal_token_secret}
