@@ -30,14 +30,14 @@ mimir:
     ruler_storage:
       storage_prefix: ruler
     memberlist:
-      advertise_port: 7948
-      bind_port: 7948 # use different memberlist.bind-port to avoid loki and mimir joining same ring
+      advertise_port: ${ARGOCD_ENV_mimir_gossip_ring_port}
+      bind_port: ${ARGOCD_ENV_mimir_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate
   gossipRing:
     service:
       ports:
-        http: 7948 # same as memberlist.bind-port
+        http: ${ARGOCD_ENV_mimir_gossip_ring_port} 
   containerPorts:
-    gossipRing: 7948 # same as memberlist.bind-port
+    gossipRing: ${ARGOCD_ENV_mimir_gossip_ring_port}
 metrics:
   enabled: true
   serviceMonitor:
