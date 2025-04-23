@@ -132,8 +132,6 @@ spec:
         - name: "loki_release_name"
           value: "control-center-loki"
 
-
-
         - name: "mimir_distributor_replica_count"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_replica_count}"
         - name: "mimir_ingester_replica_count"
