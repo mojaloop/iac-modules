@@ -31,7 +31,7 @@ locals {
 
   stateful_resources               = module.config_deepmerge.merged
   enabled_stateful_resources       = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
-  monolith_databases               = { for key, managed_resource in local.monolith_sts_res_vars : key => managed_resource if var.db_mediated_by_control_center && ( key != "rdbms_provider" || key != "mongodb_provider" )}
+  monolith_databases               = { for key, managed_resource in local.monolith_sts_res_vars : key => managed_resource if var.db_mediated_by_control_center }
 
   internal_databases = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if var.db_mediated_by_control_center && managed_resource.deployment_type == "external" && ( managed_resource.resource_type == "mysql" || managed_resource.resource_type == "mongodb" ) }
 
