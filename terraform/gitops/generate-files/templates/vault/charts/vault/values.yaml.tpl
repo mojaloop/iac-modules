@@ -14,35 +14,38 @@ vault:
         secretKey: TOKEN
     ha:
       enabled: true
-      config: |
-        ui = true
-        listener "tcp" {
-          tls_disable = 1
-          address = "[::]:8200"
-          cluster_address = "[::]:8201"
-        }
-        storage "raft" {
-            path = "/vault/data"
-            retry_join {
-              leader_api_addr = "http://vault-0.vault-internal:8200"
-            }
-            retry_join {
-              leader_api_addr = "http://vault-1.vault-internal:8200"
-            }
-            retry_join {
-              leader_api_addr = "http://vault-2.vault-internal:8200"
-            }
-        }
-        disable_mlock = true
-        service_registration "kubernetes" {}
+      raft:
+        enabled: true
+        setNodeId: true
+        config: |
+          ui = true
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+          }
+          storage "raft" {
+              path = "/vault/data"
+              retry_join {
+                leader_api_addr = "http://vault-0.vault-internal:8200"
+              }
+              retry_join {
+                leader_api_addr = "http://vault-1.vault-internal:8200"
+              }
+              retry_join {
+                leader_api_addr = "http://vault-2.vault-internal:8200"
+              }
+          }
+          disable_mlock = true
+          service_registration "kubernetes" {}
 
-        seal "transit" {
-          address = "${transit_vault_url}"
-          disable_renewal = "false"
-          key_name = "${transit_vault_key_name}"
-          mount_path = "transit/"
-          tls_skip_verify = "true"
-        }
+          seal "transit" {
+            address = "${transit_vault_url}"
+            disable_renewal = "false"
+            key_name = "${transit_vault_key_name}"
+            mount_path = "transit/"
+            tls_skip_verify = "true"
+          }
 
     extraContainers:
       - name: statsd-exporter
