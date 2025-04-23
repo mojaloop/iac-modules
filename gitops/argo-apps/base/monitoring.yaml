@@ -126,6 +126,8 @@ spec:
           value: "${ARGOCD_ENV_monitoring_loki_ingester_replication_factor}"
         - name: "loki_gossip_ring_port"
           value: "7947"
+        - name: "loki_release_name"
+          value: "control-center-loki"
 
 
 

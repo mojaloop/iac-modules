@@ -35,7 +35,7 @@ loki:
       advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
       bind_port: ${ARGOCD_ENV_loki_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate
       join_members:
-      - "control-center-loki-grafana-loki-gossip-ring:${ARGOCD_ENV_loki_gossip_ring_port}"
+      - "${ARGOCD_ENV_loki_release_name}-grafana-loki-gossip-ring:${ARGOCD_ENV_loki_gossip_ring_port}"
   gossipRing:
     service:
       ports:
