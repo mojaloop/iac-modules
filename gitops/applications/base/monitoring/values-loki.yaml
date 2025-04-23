@@ -32,6 +32,7 @@ loki:
         secret_access_key: $${AWS_SECRET_ACCESS_KEY}
         bucketnames: $${BUCKET_NAME}
     memberlist:
+      advertise_port: 7947
       bind_port: 7947 # use different memberlist.bind-port to avoid loki and mimir joining same ring
       join_members:
       - {{ include "grafana-loki.gossip-ring.fullname" . }}:{{ .Values.loki.gossipRing.service.ports.http }}
