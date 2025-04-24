@@ -22,18 +22,3 @@ spec:
             - name: package-runtime
               args:
                 - --enable-management-policies
----
-apiVersion: gitlab.crossplane.io/v1beta1
-kind: ProviderConfig
-metadata:
-  name: gitlab-provider
-  annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-spec:
-  credentials:
-    source: Secret
-    secretRef:
-      namespace: gitlab
-      name: gitlab-gitlab-initial-root-password
-      key: password
-  baseURL: "https://${ARGOCD_ENV_gitlab_fqdn}"

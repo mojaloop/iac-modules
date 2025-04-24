@@ -53,31 +53,31 @@ spec:
   # workspace that uses this provider config, for example to setup Terraform
   # providers.
   configuration: |
-    terraform { 
+    terraform {
         backend "kubernetes" {
           secret_suffix     = "providerconfig-gitlab-post-config"
           namespace         = "${ARGOCD_ENV_gitlab_namespace}"
           in_cluster_config = true
         }
         required_providers {
-          gitlab = {
-            source = "gitlabhq/gitlab"
-            version = "~> 16.0"
-          }
+          # gitlab = {
+          #   source = "gitlabhq/gitlab"
+          #   version = "~> 16.0"
+          # }
           vault = "${ARGOCD_ENV_vault_tf_provider_version}"
         }
      }
 
       variable "token" {
         type = string
-      }    
-      
-      provider "vault" {
-        address = "http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
-        token   = jsondecode(file("$${path.module}/vault-keys.json")).root_token 
       }
 
-      provider "gitlab" {
-        token = var.token
-        base_url = "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
+      provider "vault" {
+        address = "http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
+        token   = jsondecode(file("$${path.module}/vault-keys.json")).root_token
       }
+
+      # provider "gitlab" {
+      #   token = var.token
+      #   base_url = "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
+      # }

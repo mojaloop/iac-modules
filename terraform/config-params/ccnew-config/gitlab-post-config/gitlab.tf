@@ -1,4 +1,4 @@
-resource "gitlab_group" "iac" {
+/* resource "gitlab_group" "iac" {
   name                              = "iac"
   path                              = "iac"
   description                       = "iac group"
@@ -83,11 +83,11 @@ resource "gitlab_group_variable" "private_repo_token_vault_path" {
   protected         = true
   masked            = false
   environment_scope = "*"
-}
+} */
 
 resource "vault_kv_secret_v2" "private_repo_token" {
   mount               = var.kv_path
-  name                = "${gitlab_project.bootstrap.name}/private-repo-token"
+  name                = "iac/bootstrap/private-repo-token"
   delete_all_versions = true
   data_json = jsonencode(
     {
@@ -96,27 +96,28 @@ resource "vault_kv_secret_v2" "private_repo_token" {
   )
 }
 
-# ci token 
+# ci token
 resource "vault_kv_secret_v2" "gitlab_ci_pat" {
   mount               = var.kv_path
   name                = "gitlab/gitlab_ci_pat"
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = gitlab_group_access_token.gitlab_ci_pat.token
+      #value = gitlab_group_access_token.gitlab_ci_pat.token
+      value = "foo"
     }
   )
 }
 
-resource "gitlab_group_access_token" "gitlab_ci_pat" {
-  group        = gitlab_group.iac.id
-  name         = "gitlab ci pat"
-  access_level = "owner"
-  scopes       = ["api"]
-  expires_at   = formatdate("YYYY-MM-DD", timeadd(timestamp(), "8736h"))
-  lifecycle {
-    ignore_changes = [
-      expires_at,
-    ]
-  }
-}
+# resource "gitlab_group_access_token" "gitlab_ci_pat" {
+#   group        = gitlab_group.iac.id
+#   name         = "gitlab ci pat"
+#   access_level = "owner"
+#   scopes       = ["api"]
+#   expires_at   = formatdate("YYYY-MM-DD", timeadd(timestamp(), "8736h"))
+#   lifecycle {
+#     ignore_changes = [
+#       expires_at,
+#     ]
+#   }
+# }
