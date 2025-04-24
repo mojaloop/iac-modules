@@ -10,6 +10,11 @@ resource "vault_kv_secret_v2" "mcm_client_a" {
   mount        = var.kv_path
   name         = "${var.cluster_name}/${each.key}/mcm_client_secret_a"
   data_json    = jsonencode({ value = "dummy" })
+  custom_metadata {
+    data = {
+      managed-by = "external-secrets"
+    }
+  }
   disable_read = true
   lifecycle {
     ignore_changes  = [data_json]
@@ -22,6 +27,11 @@ resource "vault_kv_secret_v2" "mcm_client_b" {
   name         = "${var.cluster_name}/${each.key}/mcm_client_secret_b"
   disable_read = true
   data_json    = jsonencode({ value = "dummy" })
+  custom_metadata {
+    data = {
+      managed-by = "external-secrets"
+    }
+  }
   lifecycle {
     ignore_changes  = [data_json]
   }
