@@ -36,6 +36,9 @@ spec:
       plugin:
         name: envsubst
         env:
+          - name: "netbird_namespace"
+            value: "${ARGOCD_ENV_security_netbird_namespace}"
+
           - name: "netbird_operator_helm_version"
             value: "${ARGOCD_ENV_security_netbird_operator_helm_version}"
 
