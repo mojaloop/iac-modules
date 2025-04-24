@@ -57,6 +57,15 @@ spec:
           - name: "netbird_operator_sync_wave"
             value: "${ARGOCD_ENV_security_netbird_operator_sync_wave}"
 
+          - name: "netbird_rbac_user_group"
+            value: "${ARGOCD_ENV_security_netbird_rbac_user_group}"
+
+          - name: "netbird_rbac_admin_group"
+            value: "${ARGOCD_ENV_security_netbird_rbac_admin_group}"
+
+          - name: "netbird_preconfig_output_secret"
+            value: "${ARGOCD_ENV_security_netbird_preconfig_output_secret}"
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
       path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_capi_cloud_provider}/storage-provider/netbird-operator

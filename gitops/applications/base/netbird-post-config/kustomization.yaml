@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - external-secret.yaml
   - nbconfig-claim.yaml
-  - nbopbootstrap-claim.yaml
   - nbproviderconfig.yaml
