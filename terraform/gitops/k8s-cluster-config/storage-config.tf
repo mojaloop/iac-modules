@@ -10,7 +10,6 @@ module "generate_storage_files" {
     access_secret_name              = var.storage_access_secret_name
     access_key_id                   = "${var.cluster_name}/block_storage_secret_key_id"
     secret_access_key               = "${var.cluster_name}/block_storage_secret_access_key"
-    block_storage_provider          = var.block_storage_provider
     storage_sync_wave               = var.storage_sync_wave
     gitlab_project_url              = var.gitlab_project_url
     external_secret_sync_wave       = var.external_secret_sync_wave
@@ -58,11 +57,6 @@ variable "storage_namespace" {
 
 variable "kubelet_dir_path" {
   type        = string
-}
-
-variable "block_storage_provider" {
-  type        = string
-  description = "block storage provider"
 }
 
 variable "aws_ebs_csi_driver_helm_version" {

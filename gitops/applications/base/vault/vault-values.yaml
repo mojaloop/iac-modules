@@ -1,5 +1,5 @@
 global:
-   tlsDisable: true  
+   tlsDisable: true
 server:
   enabled: true
   dev:
@@ -10,7 +10,7 @@ server:
   # readinessProbe:
   #   path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
   standalone:
-      enabled: false      
+      enabled: false
   dataStorage:
     enabled: true
     size: ${ARGOCD_ENV_vault_pvc_size}
@@ -32,7 +32,7 @@ server:
               leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-0.${ARGOCD_ENV_vault_app_name}-internal:8200"
             }
             retry_join {
-              leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-1.${ARGOCD_ENV_vault_app_name}internal:8200"
+              leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-1.${ARGOCD_ENV_vault_app_name}-internal:8200"
             }
             retry_join {
               leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-2.${ARGOCD_ENV_vault_app_name}-internal:8200"

@@ -6,8 +6,8 @@ cert_manager_chart_version: 1.12.2
 consul_chart_version: 1.4.0
 longhorn_chart_version: 1.6.1
 external_dns_chart_version: 6.24.1
-vault_chart_version: 0.24.1
-vault_config_operator_helm_chart_version: 0.8.16
+vault_chart_version: 0.28.1
+vault_config_operator_helm_chart_version: 0.8.28
 nginx_helm_chart_version: 4.6.1
 keycloak_operator_version: 22.0.2
 istio_chart_version: 1.18.2
