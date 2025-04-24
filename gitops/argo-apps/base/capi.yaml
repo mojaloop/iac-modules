@@ -118,3 +118,6 @@ spec:
 
         - name: "sc_root_argocd_repo_url"
           value: "${ARGOCD_ENV_argocd_repo_url}"
+
+        - name: "capi_cluster_proxmox_ceph_volume"
+          value: "${ARGOCD_ENV_utils_capi_cluster_proxmox_ceph_volume}"
