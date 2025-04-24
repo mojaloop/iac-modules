@@ -63,11 +63,10 @@ spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/aws-rdscluster:${ARGOCD_ENV_crossplane_packages_aws_rds_version}
   skipDependencyResolution: true
 ---
----
 apiVersion: pkg.crossplane.io/v1
 kind: Configuration
 metadata:
   name: gitlab
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:v0.1.0-pr49-14625377162
+  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:v0.1.0-pr49-14650389758
   skipDependencyResolution: true
