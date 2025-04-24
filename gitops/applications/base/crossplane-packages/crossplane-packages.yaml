@@ -68,5 +68,5 @@ kind: Configuration
 metadata:
   name: gitlab
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:v0.1.0-pr49-14650853050
+  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:v0.1.0-pr49-14651290406
   skipDependencyResolution: true
