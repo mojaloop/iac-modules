@@ -55,7 +55,7 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
-  name: grafanadatasource-mojaloop
+  name: prometheus
 spec:
   instanceSelector:
     matchLabels:

@@ -57,7 +57,7 @@ module "generate_monitoring_files" {
     alertmanager_enabled                   = try(var.common_var_map.alertmanager_enabled, false)
     alertmanager_slack_integration_enabled = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
     alertmanager_jira_integration_enabled  = try(var.common_var_map.alertmanager_jira_integration_enabled, false)
-    promtail_kubernetes_sd_configs         = try(var.common_var_map.promtail_kubernetes_sd_configs, [{role = "pod"}])
+    promtail_kubernetes_sd_configs         = try(var.common_var_map.promtail_kubernetes_sd_configs, [{ role = "pod" }])
     ceph_loki_credentials_secret_name      = "ceph-loki-credentials-secret"
     ceph_api_url                           = var.ceph_api_url
     ceph_loki_bucket                       = local.ceph_loki_bucket
@@ -156,7 +156,7 @@ locals {
   prometheus_process_exporter_version = "0.4.2"
   tempo_chart_version                 = "3.1.0"
   metrics_server_chart_version        = "3.12.2"
-  grafana_version                     = "11.6.0"
+  grafana_version                     = "11.6.1"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17" # NOTE: only for those dashboards which are in mojaloop/helm repo
   grafana_dashboard_tag_iac_modules   = "main"                # tag for dashboards in mojaloop/iac-modules repo
   grafana_operator_version            = "3.5.11"

@@ -27,7 +27,7 @@ prometheus_crd_version: 8.0.1
 prometheus_operator_version: 8.22.8
 prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: 3.5.11
-grafana_version: 11.6.0
+grafana_version: 11.6.1
 grafana_dashboard_tag: v16.3.0-snapshot.24 # TODO: update once v16.1.x is published
 tempo_chart_version: 3.8.4
 loki_chart_version: 2.13.0
