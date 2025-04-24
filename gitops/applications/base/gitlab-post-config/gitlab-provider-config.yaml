@@ -11,4 +11,4 @@ spec:
       namespace: gitlab
       name: root-token-secret
       key: password
-  baseURL: "https://${ARGOCD_ENV_gitlab_fqdn}"
+  baseURL: "https://giitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
