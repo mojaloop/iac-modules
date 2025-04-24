@@ -19,6 +19,7 @@ spec:
     accessTokenExpiresInDays: 5
     accessToken:
       destinationType: sc
+    operatorNamespace: ${ARGOCD_ENV_netbird_namespace}
   providerConfigsRef:
     netbirdProviderConfigName: "netbird-crossplane-provider-config"
     ccK8sProviderName: "kubernetes-provider"
