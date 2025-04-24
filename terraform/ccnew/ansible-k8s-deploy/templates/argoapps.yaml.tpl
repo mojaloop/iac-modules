@@ -89,9 +89,9 @@ argocd_override:
           capi_rook_ceph_image_version: "${rook_ceph_image_version}"
           capi_rook_ceph_rbd_pool_replication_size: "${rook_ceph_objects_replica_count}"
           capi_rook_ceph_rgw_external_ip: "${capi_rook_ceph_rgw_external_ip}"
-          cloud_provider: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
+          cloud_provider: "${cloud_platform }"
         storage:
-          cloud_provider: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
+          cloud_provider: "${cloud_platform}"
           cluster_domain: "${cluster_domain}"
           object_storage_host: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "${capi_rook_ceph_rgw_external_ip}" }"
           object_storage_regional_host: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "${capi_rook_ceph_rgw_external_ip}" }"
@@ -365,7 +365,7 @@ argocd_override:
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           object_storage_provider: "${object_storage_provider}"
-          cloud_platform: "${cloud_platform == "bare-metal" ? "private-cloud" : cloud_platform }"
+          cloud_platform: "${cloud_platform}"
           cloud_region: "${cloud_region}"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"

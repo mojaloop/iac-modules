@@ -1,4 +1,4 @@
-%{ if cloud_provider == "bare-metal" ~}
+%{ if cloud_provider == "private-cloud" ~}
 csi:
  kubeletDirPath: "${kubelet_dir_path}"
  serviceMonitor:

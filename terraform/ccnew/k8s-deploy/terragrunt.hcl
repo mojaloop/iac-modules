@@ -19,7 +19,7 @@ inputs = {
   kubeapi_port                         = (local.K8S_CLUSTER_TYPE == "microk8s") ? 16443 : 6443
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_vars.dns_provider
-  app_var_map                          = (local.CLOUD_PLATFORM == "bare-metal") ? local.cloud_platform_vars : null
+  app_var_map                          = (local.CLOUD_PLATFORM == "private-cloud") ? local.cloud_platform_vars : null
   create_ext_dns_user                  = false
   create_ci_iam_user                   = true
   create_ext_dns_role                  = true
@@ -51,7 +51,7 @@ locals {
   K8S_CLUSTER_TYPE          = get_env("k8s_cluster_type")
   CLOUD_REGION              = get_env("cloud_region")
   CLOUD_PLATFORM            = get_env("cloud_platform")
-  coredns_bind_address      = get_env("coredns_bind_address")  
+  coredns_bind_address      = get_env("coredns_bind_address")
 }
 
 generate "required_providers_override" {

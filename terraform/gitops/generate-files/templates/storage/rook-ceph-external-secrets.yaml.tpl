@@ -1,4 +1,4 @@
-%{ if cloud_provider == "bare-metal" ~}
+%{ if cloud_provider == "private-cloud" ~}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
