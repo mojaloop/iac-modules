@@ -10,5 +10,5 @@ spec:
     secretRef:
       namespace: gitlab
       name: root-token-secret
-      key: password
+      key: token
   baseURL: "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"
