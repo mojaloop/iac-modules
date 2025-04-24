@@ -323,13 +323,13 @@ lint-apps:
     - skip_lint_pattern="\[skip lint\]";if [[ "$CI_COMMIT_TITLE" =~ $skip_lint_pattern ]]; then echo "Skipping linting due to commit message"; exit 0; fi
     - cd .gitlab/lint
     - ./download.sh
-    - if [ "$(./bin/yq eval .cloud_platform ../../$CONFIG_PATH/cluster-config.yaml)" != "bare-metal" ]; then echo "Skipping linting when not bare metal"; exit 0; fi
+    - if [ "$(./bin/yq eval .cloud_platform ../../$CONFIG_PATH/cluster-config.yaml)" != "private-cloud" ]; then echo "Skipping linting when not bare metal"; exit 0; fi
     - ./render.sh
     - npm ci --legacy-peer-deps
     - npm run lint
     - cp $ANSIBLE_BASE_OUTPUT_DIR/k8s-deploy/kubeconfig .kubeconfig
-    - export MASTER_HOST="$(./bin/yq eval .master_hosts_0_private_ip ../../$CONFIG_PATH/bare-metal-vars.yaml)"
-    - export BASTION_HOST="$(./bin/yq eval .bastion_public_ips[0] ../../$CONFIG_PATH/bare-metal-vars.yaml)"
+    - export MASTER_HOST="$(./bin/yq eval .master_hosts_0_private_ip ../../$CONFIG_PATH/private-cloud-vars.yaml)"
+    - export BASTION_HOST="$(./bin/yq eval .bastion_public_ips[0] ../../$CONFIG_PATH/private-cloud-vars.yaml)"
     - ssh -fN -i $ANSIBLE_BASE_OUTPUT_DIR/k8s-deploy/sshkey -o StrictHostKeyChecking=no -o ExitOnForwardFailure=yes -o UserKnownHostsFile=/dev/null -L 8443:$MASTER_HOST:16443 ubuntu@$BASTION_HOST
     - ci_user=$USER; su root; echo "127.0.0.1 kubernetes" >> /etc/hosts; su $ci_user
     - export KUBECONFIG=.kubeconfig
