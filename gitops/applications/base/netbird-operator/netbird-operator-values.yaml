@@ -1,5 +1,6 @@
 cluster:
   name: ${ARGOCD_ENV_netbird_operator_cluster_name}
+  dns:
 ingress:
   enabled: true
   router:
@@ -7,6 +8,7 @@ ingress:
   kubernetesAPI:
     enabled: true
     groups: ["${ARGOCD_ENV_netbird_operator_kubeapi_group}"]
+    resourceName: "${ARGOCD_ENV_netbird_operator_cluster_name}-kube-api"
 netbirdAPI:
   keyFromSecret: ${ARGOCD_ENV_netbird_operator_api_key_secret}
 managementURL: ${ARGOCD_ENV_netbird_operator_management_url}
