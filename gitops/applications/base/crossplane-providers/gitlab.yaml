@@ -34,6 +34,6 @@ spec:
     source: Secret
     secretRef:
       namespace: gitlab
-      name: gitlab-gitlab-initial-root-password
-      key: password
+      name: root-token-secret
+      key: token
   baseURL: "https://${ARGOCD_ENV_gitlab_fqdn}"
