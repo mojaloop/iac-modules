@@ -27,7 +27,7 @@ spec:
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_security_app_namespace}
+    namespace: ${ARGOCD_ENV_security_netbird_operator_namespace}
 
   sources:
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
