@@ -18,6 +18,7 @@ spec:
     accessToken:
       destinationType: local
       localSecretName: ${ARGOCD_ENV_netbird_operator_api_key_secret}
+      localSecretNamespace: ${ARGOCD_ENV_netbird_operator_namespace}
   providerConfigsRef:
     netbirdProviderConfigName: "netbird-crossplane-provider-config"
     ccK8sProviderName: "kubernetes-provider"
