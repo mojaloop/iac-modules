@@ -10,11 +10,3 @@ helmCharts:
     valuesFile: netbird-operator-values.yaml
     namespace: ${ARGOCD_ENV_netbird_operator_namespace}
     includeCRDs: true
-
-patches:
-  - target:
-      kind: Deployment
-    patch: |
-      - op: add
-        path: "/metadata/annotations/argocd.argoproj.io~1sync-wave"
-        value: ${ARGOCD_ENV_netbird_operator_sync_wave}

@@ -10,6 +10,3 @@ ingress:
 netbirdAPI:
   keyFromSecret: ${ARGOCD_ENV_netbird_operator_api_key_secret}
 managementURL: ${ARGOCD_ENV_netbird_operator_management_url}
-operator:
-  podAnnotations:
-    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_netbird_operator_sync_wave}"

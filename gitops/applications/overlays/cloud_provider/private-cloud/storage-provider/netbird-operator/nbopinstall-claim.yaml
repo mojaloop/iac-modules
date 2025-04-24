@@ -12,7 +12,7 @@ spec:
     operatorNamespace: ${ARGOCD_ENV_netbird_namespace}
     operatorArgoAppName: nb-op
     operatorArgoAppSourceURL: https://github.com//mojaloop/iac-modules.git
-    operatorArgoAppSourceRevision: "feature/storage-cluster"
+    operatorArgoAppSourceRevision: ${ARGOCD_ENV_netbird_operator_argoapp_revision}
     operatorKubeapiGroupName: sc-k8s
     operatorClusterName: storage-cluster
   providerConfigsRef:
