@@ -1,4 +1,4 @@
-%{ if cloud_provider == "bare-metal" ~}
+%{ if cloud_provider == "private-cloud" ~}
 ---
 operatorNamespace: ${storage_namespace}
 cephClusterSpec:

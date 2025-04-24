@@ -1,5 +1,5 @@
 
-%{ if cloud_provider == "bare-metal" ~}
+%{ if cloud_provider == "private-cloud" ~}
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:

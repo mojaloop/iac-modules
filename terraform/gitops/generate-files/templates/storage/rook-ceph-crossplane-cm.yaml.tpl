@@ -1,4 +1,4 @@
-%{ if cloud_provider == "bare-metal" ~}
+%{ if cloud_provider == "private-cloud" ~}
 ---
 apiVersion: utils.mojaloop.io/v1alpha1
 kind: ConfigMapfromSecret

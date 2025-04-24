@@ -5,7 +5,7 @@ resources:
 %{ if cloud_provider == "aws" ~}
   - aws-ebs-access-cred-secret.yaml
 %{ endif ~}
-%{ if cloud_provider == "bare-metal" ~}
+%{ if cloud_provider == "private-cloud" ~}
   - rook-ceph-external-secrets.yaml
   - rook-ceph-storage-class.yaml
   - rook-ceph-crossplane-cm.yaml
@@ -19,7 +19,7 @@ helmCharts:
     valuesFile: aws-ebs-csi-driver-values.yaml
     version: ${aws_ebs_csi_driver_helm_version}
 %{ endif ~}
-%{ if cloud_provider == "bare-metal" ~}
+%{ if cloud_provider == "private-cloud" ~}
   - name: rook-ceph
     releaseName: rook-ceph
     repo: https://charts.rook.io/release
