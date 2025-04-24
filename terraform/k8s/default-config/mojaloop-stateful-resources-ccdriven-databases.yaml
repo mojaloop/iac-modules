@@ -1,6 +1,5 @@
-rdbms_provider: in-cluster  # possbile values are rds, dbaas and in-cluster
-mongodb_provider: in-cluster  # possbile values are documentdb, dbaas and in-cluster
 common_platform_db:
+  provider: in-cluster  # possbile values are rds, dbaas and in-cluster
   app_owner: "platform"
   dbaas_resource_config:
     pgdb_helm_version: "0.1.0"
@@ -9,9 +8,9 @@ common_platform_db:
     apply_immediately: false
     password_key_name: common_platform_db_password
     instance_address_key_name: common_platform_db_instance_address
-    allocated_storage: 100
-    storage_type: io1
-    storage_iops: 5000
+    allocated_storage: ''
+    storage_type: ''
+    storage_iops: ''
     backup_retention_period: 1
     backup_window: 01:00-04:00
     db_name: common_platform_db
@@ -67,6 +66,7 @@ common_platform_db:
     vault_master_user_password_secret_key: common_platform_db_password
     vault_instance_address_key: common_platform_db_instance_address
 common_mojaloop_db:
+  provider: in-cluster  # possbile values are rds, dbaas and in-cluster
   app_owner: "mojaloop"
   dbaas_resource_config:
     pgdb_helm_version: "0.1.0"
@@ -75,9 +75,9 @@ common_mojaloop_db:
     apply_immediately: false
     password_key_name: common_mojaloop_db_password
     instance_address_key_name: common_mojaloop_db_instance_address
-    allocated_storage: 100
-    storage_type: io1
-    storage_iops: 5000
+    allocated_storage: ''
+    storage_type: ''
+    storage_iops: ''
     backup_retention_period: 1
     backup_window: 01:00-04:00
     db_name: common_mojaloop_db
@@ -125,6 +125,7 @@ common_mojaloop_db:
     vault_master_user_password_secret_key: common_mojaloop_db_password
     vault_instance_address_key: common_mojaloop_db_instance_address
 common_mongodb:
+  provider: in-cluster  # possbile values are documentdb, dbaas and in-cluster
   app_owner: "mojaloop"
   dbaas_resource_config:
     pgdb_helm_version: "0.1.0"
@@ -135,7 +136,7 @@ common_mongodb:
     backup_retention_period: 1
     backup_window: 01:00-04:00
     db_name: common_database
-    delete_protection: false
+    deletion_protection: false
     engine: docdb
     engine_version: "5.0"
     family: docdb5.0

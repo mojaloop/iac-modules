@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - docdbcluster.yaml
   - docdb-secrets.yaml
-  - docdb-external-name-service.yaml
