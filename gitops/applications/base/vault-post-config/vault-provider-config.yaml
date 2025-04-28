@@ -6,7 +6,7 @@ spec:
   address: "http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
   credentials:
     secretRef:
-      key: root_token
+      key: creds
       name: vault-keys
       namespace: ${ARGOCD_ENV_vault_namespace}
     source: Secret
