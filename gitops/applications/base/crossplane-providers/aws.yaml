@@ -6,7 +6,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: 5
 spec:
-  package: xpkg.upbound.io/upbound/provider-family-aws:v1.21.1
+  package: ghcr.io/mojaloop/infra/upbound/provider-family-aws:v1.21.1
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -16,7 +16,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: 10
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-s3:v${ARGOCD_ENV_crossplane_providers_aws_s3_version}
+  package: ghcr.io/mojaloop/infra/upbound/provider-aws-s3:v${ARGOCD_ENV_crossplane_providers_aws_s3_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -26,7 +26,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: 10
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-iam:v${ARGOCD_ENV_crossplane_providers_aws_iam_version}
+  package: ghcr.io/mojaloop/infra/upbound/provider-aws-iam:v${ARGOCD_ENV_crossplane_providers_aws_iam_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -36,7 +36,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: 10
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-docdb:v${ARGOCD_ENV_crossplane_providers_aws_docdb_version}
+  package: ghcr.io/mojaloop/infra/upbound/provider-aws-docdb:v${ARGOCD_ENV_crossplane_providers_aws_docdb_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -46,7 +46,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: 10
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-ec2:v${ARGOCD_ENV_crossplane_providers_aws_ec2_version}
+  package: ghcr.io/mojaloop/infra/upbound/provider-aws-ec2:v${ARGOCD_ENV_crossplane_providers_aws_ec2_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -56,4 +56,4 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: 10
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-rds:v${ARGOCD_ENV_crossplane_providers_aws_rds_version}
+  package: ghcr.io/mojaloop/infra/upbound/provider-aws-rds:v${ARGOCD_ENV_crossplane_providers_aws_rds_version}

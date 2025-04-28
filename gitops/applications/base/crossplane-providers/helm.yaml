@@ -4,4 +4,4 @@ kind: Provider
 metadata:
   name: provider-helm
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-helm:v${ARGOCD_ENV_crossplane_providers_helm_version}
+  package: ghcr.io/mojaloop/infra/crossplane-contrib/provider-helm:v${ARGOCD_ENV_crossplane_providers_helm_version}
