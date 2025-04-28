@@ -9,6 +9,7 @@ resources:
   - kubernetes.yaml
   - netbird.yaml
   - terraform.yaml
+  - vault.yaml
 
 secretGenerator:
   - name: terraformrc
