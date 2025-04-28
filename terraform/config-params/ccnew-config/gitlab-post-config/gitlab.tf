@@ -85,7 +85,7 @@ resource "gitlab_group_variable" "private_repo_token_vault_path" {
   environment_scope = "*"
 } */
 
-resource "vault_kv_secret_v2" "private_repo_token" {
+/* resource "vault_kv_secret_v2" "private_repo_token" {
   mount               = var.kv_path
   name                = "iac/bootstrap/private-repo-token"
   delete_all_versions = true
@@ -107,7 +107,7 @@ resource "vault_kv_secret_v2" "gitlab_ci_pat" {
       value = "foo"
     }
   )
-}
+} */
 
 # resource "gitlab_group_access_token" "gitlab_ci_pat" {
 #   group        = gitlab_group.iac.id
