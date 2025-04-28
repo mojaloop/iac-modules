@@ -58,3 +58,6 @@ spec:
 
         - name: "crossplane_packages_aws_rds_version"
           value: "${ARGOCD_ENV_utils_crossplane_packages_aws_rds_version}"
+
+        - name: "crossplane_packages_gitlab_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_gitlab_version}"

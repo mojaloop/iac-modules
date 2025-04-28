@@ -78,6 +78,3 @@ spec:
 
         - name: "crossplane_providers_gitlab_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_gitlab_version}"
-
-        - name: "gitlab_fqdn"
-          value: "gitlab.${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
