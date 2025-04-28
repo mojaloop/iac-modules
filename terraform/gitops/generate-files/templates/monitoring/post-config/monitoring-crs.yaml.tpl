@@ -33,8 +33,6 @@ spec:
                     values: ['enabled']
   config:
     unified_alerting:
-      enabled: "false"
-    alerting:
       enabled: "true"
     server:
       domain: "${grafana_subdomain}"
@@ -53,12 +51,11 @@ spec:
       use_pkce: "true"
       use_refresh_token: "true"
       role_attribute_path: "contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_admin_rbac_group}') && 'Admin' || contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_user_rbac_group}') && 'Viewer'"
-
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
-  name: grafanadatasource-mojaloop
+  name: prometheus
 spec:
   instanceSelector:
     matchLabels:
@@ -139,6 +136,9 @@ spec:
       httpHeaderValue1: 'single-tenant'
     isDefault: false
     editable: true
+  plugins:
+    - name: https://grafana.com/api/plugins/grafana-exploretraces-app/versions/0.2.9/download;grafana-traces-app
+      version: 0.2.9
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
@@ -156,5 +156,5 @@ metadata:
 spec:
   instanceSelector:
     matchLabels:
-      dashboards: "grafana"      
+      dashboards: "grafana"
 ---

@@ -5,6 +5,7 @@ loki:
       retention_enabled: true # enable deletion using compactor
       shared_store: s3
     limits_config:
+      volume_enabled: true
       retention_period: ${loki_ingester_retention_period}
       allow_structured_metadata: true
     ingester:
