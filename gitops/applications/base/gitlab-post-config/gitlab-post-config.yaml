@@ -6,3 +6,7 @@ metadata:
 spec:
   parameters:
     vaultFqdn: vault.${ARGOCD_ENV_vault_dns_subdomain}
+  providerConfigsRef:
+    gitlabProvider: gitlab-provider
+    kubernetesProvider: kubernetes-provider
+    vaultProvider: vault-provider
