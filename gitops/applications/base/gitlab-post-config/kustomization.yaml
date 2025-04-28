@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - gitlab-post-config.yaml
   - gitlab-provider-config.yaml
-  # - gitlab-pf-xplane-terraform.yaml
   - gitlab-zitadel-roles-xplane.yaml
