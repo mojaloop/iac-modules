@@ -68,5 +68,5 @@ kind: Configuration
 metadata:
   name: gitlab
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:v0.1.0-pr49-14714394364
+  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:${ARGOCD_ENV_crossplane_packages_gitlab_version}
   skipDependencyResolution: true
