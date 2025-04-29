@@ -322,8 +322,8 @@ zitadel_perc_pgdb_helm_version: "2.4.0"
 zitadel_perc_postgres_storage_size: "20Gi"
 # end of zitadel db settins
 # rook ceph
-rook_ceph_helm_version: "1.16.5"
-rook_ceph_image_version: "v19.2.1"
+rook_ceph_helm_version: "1.17.1"
+rook_ceph_image_version: "v19.2.2"
 rook_ceph_mon_volumes_size: "10Gi"
 rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
