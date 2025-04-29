@@ -8,7 +8,7 @@ spec:
     argocd:
       application:
         source:
-          targetRevision: feat/sc-bootstrap
+          targetRevision: feat/gitlab-post-config-rework
           envVars:
           - name: "argocd_repo_url"
             value: "${ARGOCD_ENV_argocd_repo_url}"
