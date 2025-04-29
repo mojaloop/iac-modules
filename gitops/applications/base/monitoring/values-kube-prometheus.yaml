@@ -41,9 +41,9 @@ kubelet:
         replacement: "${1}"
         action: replace
 
-# kubeApiServer:
-#   serviceMonitor:
-#     interval: 5m
+kubeApiServer:
+  serviceMonitor:
+    interval: 5m
 
 # kube-state-metrics:
 #   serviceMonitor:
