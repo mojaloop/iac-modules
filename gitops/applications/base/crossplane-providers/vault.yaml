@@ -4,4 +4,5 @@ kind: Provider
 metadata:
   name: provider-vault
 spec:
-  package: ghcr.io/mojaloop/infra/upbound/provider-vault:v${ARGOCD_ENV_crossplane_providers_vault_version}
+  package: xpkg.upbound.io/upbound/provider-vault:v2
+  #package: ghcr.io/mojaloop/infra/upbound/provider-vault:v${ARGOCD_ENV_crossplane_providers_vault_version}
