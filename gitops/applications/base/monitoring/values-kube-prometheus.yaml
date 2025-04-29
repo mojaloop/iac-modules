@@ -45,9 +45,9 @@ kubeApiServer:
   serviceMonitor:
     interval: 5m
 
-# kube-state-metrics:
-#   serviceMonitor:
-#     interval: 5m
+kube-state-metrics:
+  serviceMonitor:
+    interval: 5m
 
 node-exporter:
   serviceMonitor:
