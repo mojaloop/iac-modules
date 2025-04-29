@@ -220,6 +220,26 @@ spec:
                     hs.status = "Progressing"
                     hs.message = "Waiting for CephBlockPool"
                     return hs
+                ceph.rook.io/CephCluster:
+                  health.lua: |
+                    hs = {}
+                    if obj.status ~= nil and obj.status.ceph ~= nil and obj.status.ceph.health ~= nil then
+                      local health = obj.status.ceph.health
+                      if health == "HEALTH_OK" then
+                        hs.status = "Healthy"
+                        hs.message = "Ceph cluster is healthy (HEALTH_OK)"
+                      elseif health == "HEALTH_WARN" then
+                        hs.status = "Degraded"
+                        hs.message = "Ceph cluster warning: " .. health
+                      else
+                        hs.status = "Degraded"
+                        hs.message = "Ceph cluster not healthy: " .. health
+                      end
+                    else
+                      hs.status = "Progressing"
+                      hs.message = "Waiting for Ceph cluster status..."
+                    end
+                    return hs
 
                 ceph.rook.io/CephObjectStore:
                   health.lua: |
