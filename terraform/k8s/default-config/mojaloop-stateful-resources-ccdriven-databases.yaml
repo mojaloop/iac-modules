@@ -2,7 +2,41 @@ common_platform_db:
   provider: in-cluster  # possbile values are rds, dbaas and in-cluster
   app_owner: "platform"
   dbaas_resource_config:
-    pgdb_helm_version: "0.1.0"
+    # Percona XtraDB Cluster (PXC) specific configurations
+    cr_version: ""                # Specify the Custom Resource version for the operator
+    pxc_image: ""                 # Docker image for the PXC nodes
+    mysql_storage_size: ""        # Storage size for MySQL data (e.g., "10Gi")
+    mysql_replicas: ""            # Number of MySQL replicas in the cluster
+    mysql_requests_memory: ""     # Memory request for MySQL pods (e.g., "1Gi")
+    mysql_requests_cpu: ""        # CPU request for MySQL pods (e.g., "500m")
+    mysql_limits_memory: ""       # Memory limit for MySQL pods (e.g., "2Gi")
+    mysql_limits_cpu: ""          # CPU limit for MySQL pods (e.g., "1")
+
+    # HAProxy specific configurations (for load balancing)
+    haproxy_image: ""             # Docker image for the HAProxy instances
+    haproxy_expose: ""            # How HAProxy is exposed (e.g., LoadBalancer, ClusterIP)
+    haproxy_replicas: ""          # Number of HAProxy replicas
+    haproxy_requests_memory: ""   # Memory request for HAProxy pods
+    haproxy_requests_cpu: ""      # CPU request for HAProxy pods
+    haproxy_limits_memory: ""     # Memory limit for HAProxy pods
+    haproxy_limits_cpu: ""        # CPU limit for HAProxy pods
+
+    # Log Collector specific configurations
+    logcollector_image: ""        # Docker image for the log collector sidecar/daemonset
+    logcollector_requests_memory: "" # Memory request for log collector pods/containers
+    logcollector_requests_cpu: "" # CPU request for log collector pods/containers
+    logcollector_limits_memory: "" # Memory limit for log collector pods/containers
+    logcollector_limits_cpu: ""   # CPU limit for log collector pods/containers
+
+    # Backup specific configurations
+    backup_image: ""              # Docker image for the backup tool/agent
+    backup_verify_tls: ""         # Whether to verify TLS for the object storage endpoint (e.g., "true", "false")
+    backup_bucket: ""             # Name of the S3 bucket for backups
+    backup_credentials_secret: "" # Name of the Kubernetes secret holding S3 credentials
+    backup_bucket_region: ""      # AWS region of the S3 bucket
+    backup_schedule_name: ""      # Name for the backup schedule resource
+    backup_cron_schedule: ""      # Cron expression for the backup schedule (e.g., "0 0 * * *")
+    backup_retention: ""          # Backup retention period
   external_resource_config:
     allow_major_version_upgrade: false
     apply_immediately: false
@@ -69,7 +103,41 @@ common_mojaloop_db:
   provider: in-cluster  # possbile values are rds, dbaas and in-cluster
   app_owner: "mojaloop"
   dbaas_resource_config:
-    pgdb_helm_version: "0.1.0"
+    # Percona XtraDB Cluster (PXC) specific configurations
+    cr_version: ""                # Specify the Custom Resource version for the operator
+    pxc_image: ""                 # Docker image for the PXC nodes
+    mysql_storage_size: ""        # Storage size for MySQL data (e.g., "10Gi")
+    mysql_replicas: ""            # Number of MySQL replicas in the cluster
+    mysql_requests_memory: ""     # Memory request for MySQL pods (e.g., "1Gi")
+    mysql_requests_cpu: ""        # CPU request for MySQL pods (e.g., "500m")
+    mysql_limits_memory: ""       # Memory limit for MySQL pods (e.g., "2Gi")
+    mysql_limits_cpu: ""          # CPU limit for MySQL pods (e.g., "1")
+
+    # HAProxy specific configurations (for load balancing)
+    haproxy_image: ""             # Docker image for the HAProxy instances
+    haproxy_expose: ""            # How HAProxy is exposed (e.g., LoadBalancer, ClusterIP)
+    haproxy_replicas: ""          # Number of HAProxy replicas
+    haproxy_requests_memory: ""   # Memory request for HAProxy pods
+    haproxy_requests_cpu: ""      # CPU request for HAProxy pods
+    haproxy_limits_memory: ""     # Memory limit for HAProxy pods
+    haproxy_limits_cpu: ""        # CPU limit for HAProxy pods
+
+    # Log Collector specific configurations
+    logcollector_image: ""        # Docker image for the log collector sidecar/daemonset
+    logcollector_requests_memory: "" # Memory request for log collector pods/containers
+    logcollector_requests_cpu: "" # CPU request for log collector pods/containers
+    logcollector_limits_memory: "" # Memory limit for log collector pods/containers
+    logcollector_limits_cpu: ""   # CPU limit for log collector pods/containers
+
+    # Backup specific configurations
+    backup_image: ""              # Docker image for the backup tool/agent
+    backup_verify_tls: ""         # Whether to verify TLS for the object storage endpoint (e.g., "true", "false")
+    backup_bucket: ""             # Name of the S3 bucket for backups
+    backup_credentials_secret: "" # Name of the Kubernetes secret holding S3 credentials
+    backup_bucket_region: ""      # AWS region of the S3 bucket
+    backup_schedule_name: ""      # Name for the backup schedule resource
+    backup_cron_schedule: ""      # Cron expression for the backup schedule (e.g., "0 0 * * *")
+    backup_retention: ""          # Backup retention period
   external_resource_config:
     allow_major_version_upgrade: false
     apply_immediately: false
