@@ -31,7 +31,7 @@ prometheus:
 
 kubelet:
   serviceMonitor:
-    # interval: 60s
+    interval: 5m
     relabelings:
       # adds kubernetes_io_hostname label being used by k8s monitoring dashboard
       - sourceLabels: [node]
@@ -41,10 +41,17 @@ kubelet:
         replacement: "${1}"
         action: replace
 
+# kubeApiServer:
+#   serviceMonitor:
+#     interval: 5m
+
+# kube-state-metrics:
+#   serviceMonitor:
+#     interval: 5m
 
 node-exporter:
   serviceMonitor:
-    # interval: 60s
+    interval: 5m
     relabelings:
       - sourceLabels: [__meta_kubernetes_pod_node_name]
         targetLabel: nodename
