@@ -110,8 +110,8 @@ spec:
     jsonData:
       tracesToLogsV2:
         datasourceUid: 'Loki'
-        spanStartTimeShift: '1h'
-        spanEndTimeShift: '-1h'
+        spanStartTimeShift: '-1h'
+        spanEndTimeShift: '1h'
         tags: ['job', 'instance', 'pod', 'namespace']
         filterByTraceID: false
         filterBySpanID: false
@@ -126,8 +126,8 @@ spec:
         datasourceUid: 'Loki'
       traceQuery:
         timeShiftEnabled: true
-        spanStartTimeShift: '1h'
-        spanEndTimeShift: '-1h'
+        spanStartTimeShift: '-1h'
+        spanEndTimeShift: '1h'
       spanBar:
         type: 'Tag'
         tag: 'http.path'
