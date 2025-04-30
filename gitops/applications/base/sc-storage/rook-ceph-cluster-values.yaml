@@ -17,6 +17,10 @@ cephClusterSpec:
         enabled: false
       compression:
         enabled: false
+  mgr:
+    modules:
+      - name: pg_autoscaler
+        enabled: true
 
 resources:
   storage:
