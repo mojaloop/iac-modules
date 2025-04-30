@@ -65,8 +65,8 @@ spec:
     backup:
       image: ${ARGOCD_ENV_backup_image}
       verifyTLS: ${ARGOCD_ENV_backup_verify_tls}
-      bucket: ${ARGOCD_ENV_backup_bucket}
-      credentialsSecret: ${ARGOCD_ENV_backup_credentials_secret}
+      bucket: ${ARGOCD_ENV_env_name}-percona
+      credentialsSecret: ${ARGOCD_ENV_env_name}-percona
       bucketRegion: ${ARGOCD_ENV_backup_bucket_region}
       scheduleName: ${ARGOCD_ENV_backup_schedule_name}
       cronScheduleExpression: ${ARGOCD_ENV_backup_cron_schedule}
