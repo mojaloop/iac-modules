@@ -31,6 +31,11 @@ spec:
           - name: "utils_capi_capi_rook_ceph_namespace"
             value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
 
+          # ArgoCD
+          - name: "utils_argocd_helm_app_name"
+            value: ${ARGOCD_ENV_utils_argocd_helm_app_name}
+          - name: "utils_argocd_helm_namespace"
+            value: ${ARGOCD_ENV_utils_argocd_helm_namespace}
           # rook
           - name: "utils_capi_capi_rook_ceph_namespace"
             value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
