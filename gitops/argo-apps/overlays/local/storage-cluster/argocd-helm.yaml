@@ -518,9 +518,9 @@ spec:
                     return health_status
 
 
-            # rbac:
-            #   scopes: "[${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}]"
-            #   policy.default: ""
+            rbac:
+              scopes: "[${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}]"
+              policy.default: ""
             params:
               server.insecure: true
               # Mandatory for extensions to work
@@ -771,9 +771,9 @@ spec:
                   prometheus.io/scrap-with: kube-prometheus-stack
 
           ## Server ##
-          # server:
-          #   podAnnotations:
-          #     secret.reloader.stakater.com/reload: ${ARGOCD_ENV_security_zitadel_argocd_oidc_secret}
+          server:
+            # podAnnotations:
+              # secret.reloader.stakater.com/reload: ${ARGOCD_ENV_security_zitadel_argocd_oidc_secret}
             # resources:
             #   limits:
             #     cpu: 400m
