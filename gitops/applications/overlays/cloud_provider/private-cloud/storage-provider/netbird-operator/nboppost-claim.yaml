@@ -7,7 +7,7 @@ spec:
   parameters:
     networkResource:
       name: ${ARGOCD_ENV_netbird_operator_cluster_name}-internal
-      CIDR: ${ARGOCD_ENV_cluster_cidr}
+      CIDR: ${ARGOCD_ENV_netbird_operator_sc_cluster_cidr}
       networkName: ${ARGOCD_ENV_netbird_operator_cluster_name}
     groupNames:
       networkResourceGroup: ${ARGOCD_ENV_netbird_operator_network_resource_group}

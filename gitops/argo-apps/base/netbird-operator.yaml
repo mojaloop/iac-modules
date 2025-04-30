@@ -72,7 +72,7 @@ spec:
           - name: "netbird_operator_cluster_name"
             value: ${ARGOCD_ENV_cluster_name}
 
-          - name: "cluster_cidr"
+          - name: "netbird_operator_cc_cluster_cidr"
             value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
@@ -108,7 +108,7 @@ spec:
           - name: "cluster_name"
             value: "${ARGOCD_ENV_cluster_name}-storage-cluster"
 
-          - name: "cluster_cidr"
+          - name: "netbird_operator_sc_cluster_cidr"
             value: "${ARGOCD_ENV_utils_capi_capi_cluster_cidr}"
 
           - name: "netbird_rbac_user_group"
