@@ -36,3 +36,9 @@ spec:
       helm:
         valuesObject:
           watchAllNamespaces: true
+    - chart: pxc-operator
+      repoURL: https://percona.github.io/percona-helm-charts/
+      targetRevision: "1.17.0"
+      helm:
+        valuesObject:
+          watchAllNamespaces: true
