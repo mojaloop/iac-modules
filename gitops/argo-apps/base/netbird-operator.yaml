@@ -105,7 +105,7 @@ spec:
           - name: "netbird_ansible_repo_url"
             value: ${ARGOCD_ENV_ansible_gitrepo_url}
 
-          - name: "cluster_name"
+          - name: "netbird_operator_cluster_name"
             value: "${ARGOCD_ENV_cluster_name}-storage-cluster"
 
           - name: "netbird_operator_sc_cluster_cidr"
