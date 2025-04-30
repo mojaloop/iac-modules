@@ -111,6 +111,10 @@ argocd_override:
           helm_version: "${rook_ceph_helm_version}"
           image_version: "${rook_ceph_image_version}"
           csi_kubelet_dir_path: "${rook_csi_kubelet_dir_path}"
+        percona:
+          pg_operator_helm_version: "${pg_operator_helm_version}"
+          pxc_operator_helm_version: "${pxc_operator_helm_version}"
+          psmdb_operator_helm_version: "${psmdb_operator_helm_version}"
 
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
