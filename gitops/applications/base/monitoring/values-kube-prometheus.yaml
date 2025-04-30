@@ -4,6 +4,7 @@ operator:
 alertmanager:
   enabled: false
 prometheus:
+  scrapeInterval: 5m
   persistence:
     enabled: true
     size: ${ARGOCD_ENV_prometheus_pvc_size}
