@@ -21,7 +21,8 @@ prometheus:
   resourcesPreset: ${ARGOCD_ENV_resources_preset_bitnami}
   remoteWrite:
     - name: central-monitoring
-      url: http://central-monitoring-grafana-mimir-gateway/api/v1/push
+      # url: http://central-monitoring-grafana-mimir-gateway/api/v1/push
+      url: ""
       headers:
         X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
   remoteRead:
