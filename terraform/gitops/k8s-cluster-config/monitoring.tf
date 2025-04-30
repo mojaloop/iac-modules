@@ -172,6 +172,7 @@ locals {
   loki_distributor_replica_count      = "2"
   loki_ingester_replica_count         = "3"
   loki_querier_replica_count          = "1"
+  prometheus_scrape_interval          = "5m"
   prometheus_retention_period         = "10d"
   tempo_retention_period              = "72h"
   prom_tsdb_min_block_duration        = "30m"
