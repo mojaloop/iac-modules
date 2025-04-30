@@ -51,8 +51,8 @@ spec:
           - name: "netbird_operator_management_url"
             value: "https://netbird.${ARGOCD_ENV_security_netbird_dns_subdomain}:443"
 
-          - name: "netbird_operator_kubeapi_group"
-            value: "${ARGOCD_ENV_security_netbird_operator_kubeapi_group}"
+          - name: "netbird_operator_network_resource_group"
+            value: "${ARGOCD_ENV_security_netbird_operator_network_resource_group}"
 
           - name: "netbird_operator_api_key_secret"
             value: "nb-operator-api-key"
@@ -72,18 +72,15 @@ spec:
           - name: "netbird_operator_cluster_name"
             value: ${ARGOCD_ENV_cluster_name}
 
+          - name: "cluster_cidr"
+            value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
       path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_capi_cloud_provider}/storage-provider/netbird-operator
       plugin:
         name: envsubst
         env:
-          - name: "netbird_istio_gateway_namespace"
-            value: "${ARGOCD_ENV_security_netbird_istio_gateway_namespace}"
-
-          - name: "netbird_istio_wildcard_gateway_name"
-            value: "${ARGOCD_ENV_security_netbird_istio_wildcard_gateway_name}"
-
           - name: "netbird_dns_subdomain"
             value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
 
@@ -102,12 +99,6 @@ spec:
           - name: "setup_key_secret_name"
             value: "${ARGOCD_ENV_security_netbird_setup_key_secret_name}"
 
-          - name: "gw_setup_key_secret_key"
-            value: "${ARGOCD_ENV_security_netbird_gw_setup_key_secret_key}"
-
-          - name: "build_setup_key_secret_key"
-            value: "${ARGOCD_ENV_security_netbird_build_setup_key_secret_key}"
-
           - name: "netbird_ansible_collection_tag"
             value: ${ARGOCD_ENV_security_netbird_ansible_collection_tag}
 
@@ -115,10 +106,10 @@ spec:
             value: ${ARGOCD_ENV_ansible_gitrepo_url}
 
           - name: "cluster_name"
-            value: "${ARGOCD_ENV_cluster_name}"
+            value: "${ARGOCD_ENV_cluster_name}-storage-cluster"
 
           - name: "cluster_cidr"
-            value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_cidr}"
 
           - name: "netbird_rbac_user_group"
             value: "${ARGOCD_ENV_security_netbird_rbac_user_group}"
@@ -128,21 +119,6 @@ spec:
 
           - name: "zitadel_grant_prefix"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
-
-          - name: "environment_list"
-            value: "${ARGOCD_ENV_deploy_env_config_environment_list}"
-
-          - name: "zitadel_tf_provider_version"
-            value: "${ARGOCD_ENV_security_zitadel_zitadel_tf_provider_version}"
-
-          - name: "netbird_tf_provider_version"
-            value: "${ARGOCD_ENV_security_netbird_netbird_tf_provider_version}"
-
-          - name: "netbird_terraform_modules_tag"
-            value: "${ARGOCD_ENV_security_netbird_terraform_modules_tag}"
-
-          - name: "zitadel_dns_subdomain"
-            value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
 
           - name: "argocd_namespace"
             value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
@@ -155,3 +131,6 @@ spec:
 
           - name: "netbird_operator_argoapp_revision"
             value: ${ARGOCD_ENV_security_application_gitrepo_tag}
+
+          - name: "netbird_operator_network_resource_group"
+            value: "sc-internal"

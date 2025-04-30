@@ -12,7 +12,7 @@ spec:
     groupNames:
       admin: ${ARGOCD_ENV_netbird_rbac_admin_group}
       externalAccess: ${ARGOCD_ENV_netbird_rbac_user_group}
-      kubeapiResourceGroup: ${ARGOCD_ENV_netbird_operator_kubeapi_group}
+      networkResourceGroup: ${ARGOCD_ENV_netbird_operator_network_resource_group}
     serviceUserName: cc-service-user
     accessTokenExpiresInDays: 5
     accessToken:

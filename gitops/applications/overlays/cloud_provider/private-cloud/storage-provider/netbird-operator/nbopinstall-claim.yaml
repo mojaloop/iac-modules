@@ -3,8 +3,6 @@ kind: NBOperatorInstall
 metadata:
   name: sc-nboperatorinstall
   namespace: ${ARGOCD_ENV_netbird_namespace}
-  annotations:
-    argocd.argoproj.io/sync-wave: "${ARGOCD_ENV_netbird_operator_sync_wave}"
 spec:
   parameters:
     nbManagmentURI: ${ARGOCD_ENV_netbird_operator_management_url}
@@ -13,8 +11,7 @@ spec:
     operatorArgoAppName: nb-op
     operatorArgoAppSourceURL: https://github.com//mojaloop/iac-modules.git
     operatorArgoAppSourceRevision: ${ARGOCD_ENV_netbird_operator_argoapp_revision}
-    operatorKubeapiGroupName: sc-k8s
-    operatorClusterName: storage-cluster
+    operatorClusterName: ${ARGOCD_ENV_netbird_operator_cluster_name}
   providerConfigsRef:
     scK8sProviderName: "sc-kubernetes-provider"
   managementPolicies:

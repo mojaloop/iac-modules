@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - nbopinstall-claim.yaml
   - nbopbootstrap-claim.yaml
+  - nboppost-claim.yaml

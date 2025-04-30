@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - nbopbootstrap-claim.yaml
+  - nboppost-claim.yaml
 helmCharts:
   - name: kubernetes-operator
     releaseName: ${ARGOCD_ENV_netbird_operator_app_name}
