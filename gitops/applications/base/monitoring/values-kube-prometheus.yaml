@@ -4,7 +4,7 @@ operator:
 alertmanager:
   enabled: false
 prometheus:
-  scrapeInterval: 5m
+  scrapeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
   persistence:
     enabled: true
     size: ${ARGOCD_ENV_prometheus_pvc_size}
