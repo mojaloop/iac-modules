@@ -61,7 +61,7 @@ spec:
           value: "argocd"
 
         - name: "utils_argocd_helm_namespace"
-          value: ${ARGOCD_ENV_utils_argocd_helm_namespace}
+          value: "argocd"
 
         - name: "utils_argocd_helm_helm_version"
           value: ${ARGOCD_ENV_utils_argocd_helm_helm_version}
