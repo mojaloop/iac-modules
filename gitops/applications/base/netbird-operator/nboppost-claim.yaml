@@ -1,5 +1,5 @@
 apiVersion: nb.mojaloop.io/v1alpha1
-kind: XOperatorPostConfig
+kind: OperatorPostConfig
 metadata:
   name: cc-nboperatorpostconfig
   namespace: ${ARGOCD_ENV_netbird_namespace}
