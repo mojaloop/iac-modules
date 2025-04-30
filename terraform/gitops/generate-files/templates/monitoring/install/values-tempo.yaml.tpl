@@ -81,6 +81,8 @@ tempo:
       ring:
         kvstore:
           store: memberlist
+      traces_storage:
+        path: {{ .Values.tempo.dataDir }}/traces
       storage:
         path: {{ .Values.tempo.dataDir }}/wal
         remote_write: {{ include "common.tplvalues.render" (dict "value" .Values.metricsGenerator.remoteWrite "context" $) | nindent 6 }}
@@ -131,6 +133,7 @@ ingester:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 metricsGenerator:
+  resourcesPreset: small
   extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
