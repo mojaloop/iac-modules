@@ -26,7 +26,7 @@ kind: Provider
 metadata:
   name: provider-kubernetes
 spec:
-  package: ghcr.io/mojaloop/infra/crossplane-contrib/provider-kubernetes:v${ARGOCD_ENV_crossplane_providers_k8s_version}
+  package: ghcr.io/mojaloop/infra/crossplane-contrib/provider-kubernetes:v0.18.0 #v${ARGOCD_ENV_crossplane_providers_k8s_version}
   runtimeConfigRef:
     apiVersion: pkg.crossplane.io/v1beta1
     kind: DeploymentRuntimeConfig
