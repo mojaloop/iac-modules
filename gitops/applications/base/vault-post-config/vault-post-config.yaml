@@ -1,5 +1,5 @@
-apiVersion: vaultconfig.mojaloop.io/v1alpha1
-kind: PostConfig
+apiVersion: vault.mojaloop.io/v1alpha1
+kind: VaultPostConfig
 metadata:
   name: vault-post-config
   namespace: ${ARGOCD_ENV_vault_namespace}
