@@ -86,7 +86,7 @@ spec:
       datasourceName: "Prometheus"       
   grafanaCom:
     id: 7639
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -102,7 +102,7 @@ spec:
       datasourceName: "Prometheus"       
   grafanaCom:
     id: 11829
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -118,7 +118,7 @@ spec:
       datasourceName: "Prometheus"       
   grafanaCom:
     id: 7636
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -134,7 +134,7 @@ spec:
       datasourceName: "Prometheus"       
   grafanaCom:
     id: 7630
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -150,5 +150,5 @@ spec:
       datasourceName: "Prometheus"       
   grafanaCom:
     id: 7645
-    revision: 194
+    revision: 255
 ---
