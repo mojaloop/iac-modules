@@ -3,7 +3,7 @@ kind: ProviderConfig
 metadata:
   name: vault-provider
   annotations:
-    argocd.argoproj.io/sync-wave: 5
+    argocd.argoproj.io/sync-wave: -10
 spec:
   address: "http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
   credentials:

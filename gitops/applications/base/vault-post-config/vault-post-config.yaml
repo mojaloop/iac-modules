@@ -4,7 +4,7 @@ metadata:
   name: vault-post-config
   namespace: ${ARGOCD_ENV_vault_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: 10
+    argocd.argoproj.io/sync-wave: -5
 spec:
   parameters:
     kvPath: "${ARGOCD_ENV_vault_kv_secret}"
