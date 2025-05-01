@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - external-secretstore.yaml
   - vault-provider-config.yaml
+  - vault-post-config.yaml

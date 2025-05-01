@@ -1,0 +1,18 @@
+apiVersion: vaultconfig.mojaloop.io/v1alpha1
+kind: PostConfig
+metadata:
+  name: vault-post-config
+  namespace: ${ARGOCD_ENV_vault_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 10
+spec:
+  parameters:
+    kvPath: "${ARGOCD_ENV_vault_kv_secret}"
+    k8sAdminAuthPath: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+    k8sAdminRoleName: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
+    adminPolicyName: "vault-admin"
+    readKvSecretsPolicyName: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
+  providerConfigsRef:
+    vaultProviderName: vault-provider
+  managementPolicies:
+    - "*"

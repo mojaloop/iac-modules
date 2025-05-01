@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - namespaces.yaml
   - vault-init-crs.yaml
-  - vault-crossplane.yaml
+#  - vault-crossplane.yaml
 
 helmCharts:
   - name: vault

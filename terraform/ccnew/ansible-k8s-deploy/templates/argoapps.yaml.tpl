@@ -50,6 +50,8 @@ argocd_override:
         crossplane_packages:
           objectstores_version: "${crossplane_packages_objectstores_version}"
           utils_version: "${crossplane_packages_utils_version}"
+          gitlab_version: "${crossplane_packages_gitlab_version}"
+          vault_config_version: "${crossplane_packages_vault_config_version}"
           sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
           sc_nboperatorinstall_version: "${crossplane_packages_sc_nboperatorinstall_version}"
           nb_config_version: "${crossplane_packages_nb_config_version}"
