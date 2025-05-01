@@ -58,6 +58,9 @@ spec:
         - name: "crossplane_providers_aws_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_aws_version}"
 
+        - name: "crossplane_providers_aws_family_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_family_version}"
+
         - name: "crossplane_providers_aws_s3_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_aws_s3_version}"
 

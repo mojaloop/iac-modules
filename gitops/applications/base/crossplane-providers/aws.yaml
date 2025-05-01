@@ -6,7 +6,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: 5
 spec:
-  package: ghcr.io/mojaloop/infra/upbound/provider-family-aws:v1.21.1
+  package: ghcr.io/mojaloop/infra/upbound/provider-family-aws:v${ARGOCD_ENV_crossplane_providers_aws_family_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
