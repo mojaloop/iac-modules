@@ -1,0 +1,11 @@
+apiVersion: utils.mojaloop.io/v1alpha1
+kind: RemoteNamespace
+metadata:
+  name: "${ARGOCD_ENV_env_name}"
+spec:
+  parameters:
+    name: "${ARGOCD_ENV_env_name}"
+  providerConfigsRef:
+    destinationK8sProviderName: sc-kubernetes-provider
+  managementPolicies:
+    - "*"

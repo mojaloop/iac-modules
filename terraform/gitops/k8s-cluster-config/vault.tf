@@ -26,7 +26,6 @@ module "generate_vault_files" {
     public_subdomain                         = var.public_subdomain
     ingress_class                            = var.vault_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
     istio_create_ingress_gateways            = var.istio_create_ingress_gateways
-    consul_namespace                         = var.consul_namespace
     gitlab_server_url                        = var.gitlab_server_url
     zitadel_server_url                       = var.zitadel_server_url
     gitlab_admin_group_name                  = var.gitlab_admin_group_name

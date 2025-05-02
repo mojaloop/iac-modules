@@ -121,3 +121,9 @@ spec:
 
         - name: "capi_cluster_proxmox_ceph_volume"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_ceph_volume}"
+          
+        - name: "capi_os_disk_size"
+          value: "${ARGOCD_ENV_utils_capi_capi_os_disk_size}"
+
+        - name: "capi_rook_ceph_disk_size"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_disk_size}"

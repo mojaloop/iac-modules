@@ -53,5 +53,14 @@ spec:
         - name: "crossplane_packages_sc_nboperatorinstall_version"
           value: "${ARGOCD_ENV_utils_crossplane_packages_sc_nboperatorinstall_version}"
 
-        - name: "crossplane_packages_docdb_version"
-          value: "${ARGOCD_ENV_utils_crossplane_packages_docdb_version}"
+        - name: "crossplane_packages_aws_documentdb_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_aws_documentdb_version}"
+
+        - name: "crossplane_packages_aws_rds_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_aws_rds_version}"
+
+        - name: "crossplane_packages_gitlab_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_gitlab_version}"
+
+        - name: "crossplane_packages_vault_config_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_vault_config_version}"

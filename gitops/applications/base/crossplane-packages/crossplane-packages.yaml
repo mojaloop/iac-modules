@@ -52,5 +52,29 @@ kind: Configuration
 metadata:
   name: aws-docdb
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/documentdb:${ARGOCD_ENV_crossplane_packages_docdb_version}
+  package: ghcr.io/mojaloop/iac-crossplane-packages/aws-docdbcluster:${ARGOCD_ENV_crossplane_packages_aws_documentdb_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: aws-rdscluster
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/aws-rdscluster:${ARGOCD_ENV_crossplane_packages_aws_rds_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: gitlab
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:${ARGOCD_ENV_crossplane_packages_gitlab_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: vault-config
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:v0.1.0-pr56-14780365601 #${ARGOCD_ENV_crossplane_packages_vault_config_version}
   skipDependencyResolution: true

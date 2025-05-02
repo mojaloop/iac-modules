@@ -12,7 +12,7 @@ spec:
     kind: ClusterSecretStore
     name: tenant-vault-secret-store
   target:
-    name:  rgw-admin-ops-user
+    name: rgw-admin-ops-user
     template:
       type: kubernetes.io/rook
       data:
@@ -21,7 +21,7 @@ spec:
   data:
     - secretKey: accessKey
       remoteRef:
-        key: ${rgw_admin_ops_user_key}
+        key: ${rgw_admin_ops_user}
         property: accessKey
       sourceRef:
         storeRef:
@@ -29,7 +29,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: secretKey
       remoteRef:
-        key: ${rgw_admin_ops_user_key}
+        key: ${rgw_admin_ops_user}
         property: secretKey
       sourceRef:
         storeRef:
@@ -48,7 +48,7 @@ spec:
     kind: ClusterSecretStore
     name: tenant-vault-secret-store
   target:
-    name:  rook-ceph-mon
+    name: rook-ceph-mon
     template:
       type: kubernetes.io/rook
       data:
@@ -61,7 +61,7 @@ spec:
   data:
     - secretKey: admin_secret
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: admin_secret
       sourceRef:
         storeRef:
@@ -69,7 +69,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: ceph_secret
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: ceph_secret
       sourceRef:
         storeRef:
@@ -77,7 +77,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: ceph_username
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: ceph_username
       sourceRef:
         storeRef:
@@ -85,7 +85,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: cluster_name
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: cluster_name
       sourceRef:
         storeRef:
@@ -93,7 +93,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: fsid
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: fsid
       sourceRef:
         storeRef:
@@ -101,7 +101,7 @@ spec:
           kind: ClusterSecretStore
     - secretKey: mon_secret
       remoteRef:
-        key: ${rook_ceph_mon_key}
+        key: ${rook_ceph_mon}
         property: mon_secret
       sourceRef:
         storeRef:
@@ -120,7 +120,7 @@ spec:
     kind: ClusterSecretStore
     name: tenant-vault-secret-store
   target:
-    name:  rook-csi-cephfs-node
+    name: rook-csi-cephfs-node
     template:
       type: kubernetes.io/rook
       data:
@@ -156,7 +156,7 @@ spec:
     kind: ClusterSecretStore
     name: tenant-vault-secret-store
   target:
-    name:  rook-csi-cephfs-provisioner
+    name: rook-csi-cephfs-provisioner
     template:
       type: kubernetes.io/rook
       data:
@@ -192,7 +192,7 @@ spec:
     kind: ClusterSecretStore
     name: tenant-vault-secret-store
   target:
-    name:  rook-csi-rbd-node
+    name: rook-csi-rbd-node
     template:
       type: kubernetes.io/rook
       data:
@@ -228,7 +228,7 @@ spec:
     kind: ClusterSecretStore
     name: tenant-vault-secret-store
   target:
-    name:  rook-csi-rbd-provisioner
+    name: rook-csi-rbd-provisioner
     template:
       type: kubernetes.io/rook
       data:
@@ -264,7 +264,7 @@ spec:
     kind: ClusterSecretStore
     name: tenant-vault-secret-store
   target:
-    name:  rook-ceph-rgw-endpoint
+    name: rook-ceph-rgw-endpoint
     template:
       type: kubernetes.io/rook
       data:
@@ -273,7 +273,7 @@ spec:
     - secretKey: rgw_endpoint
       remoteRef:
         key: ${rook_ceph_rgw_endpoint}
-        property: rgw_endpoint
+        property: rgw-endpoint
       sourceRef:
         storeRef:
           name: tenant-vault-secret-store
@@ -291,16 +291,43 @@ spec:
     kind: ClusterSecretStore
     name: tenant-vault-secret-store
   target:
-    name:  rook-ceph-mon-data
+    name: rook-ceph-mon-data
     template:
       type: kubernetes.io/rook
       data:
-        rook-ceph-mon-data: "{{ .rook_ceph_mon_data }}"
+        mon-data: "{{ .rook_ceph_mon_data }}"
   data:
     - secretKey: rook_ceph_mon_data
       remoteRef:
         key: ${rook_ceph_mon_data}
-        property: rook_ceph_mon_data
+        property: mon-data
+      sourceRef:
+        storeRef:
+          name: tenant-vault-secret-store
+          kind: ClusterSecretStore
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
+  name: rook-ceph-cluster-user-command
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+  target:
+    name: rook-ceph-cluster-user-command
+    template:
+      type: kubernetes.io/rook
+      data:
+        args: "{{ .args }}"
+  data:
+    - secretKey: args
+      remoteRef:
+        key: ${rook_ceph_cluster_user_command}
+        property: args
       sourceRef:
         storeRef:
           name: tenant-vault-secret-store

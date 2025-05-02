@@ -17,6 +17,10 @@ cephClusterSpec:
         enabled: false
       compression:
         enabled: false
+  mgr:
+    modules:
+      - name: pg_autoscaler
+        enabled: true
 
 resources:
   storage:
@@ -89,11 +93,11 @@ cephObjectStores:
           size: 3
       dataPool:
         failureDomain: host
-        replicated:
-          size: ${ARGOCD_ENV_rook_ceph_pool_replication_size}
-        # erasureCoded:
-        #   dataChunks: 2
-        #   codingChunks: 1
+        # replicated:
+        #   size: ${ARGOCD_ENV_rook_ceph_pool_replication_size}
+        erasureCoded:
+          dataChunks: 2
+          codingChunks: 1
         parameters:
           bulk: "true"
       preservePoolsOnDelete: true

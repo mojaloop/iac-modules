@@ -72,7 +72,7 @@ inputs = {
   mojaloop_stateful_res_op_config_file     = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-local-operator.yaml")
   mojaloop_stateful_res_mangd_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
-  mojaloop_stateful_res_monolith_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-ccdriven-aws-databases.yaml")
+  mojaloop_stateful_res_monolith_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-ccdriven-databases.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -106,12 +106,18 @@ inputs = {
   grafana_admin_rbac_group                 = local.grafana_admin_rbac_group
   grafana_user_rbac_group                  = local.grafana_user_rbac_group
   managed_svc_as_monolith                  = local.managed_svc_as_monolith
-  block_storage_provider                   = local.block_storage_provider
   kubelet_dir_path                         = local.k8s_cluster_type == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
   aws_ebs_csi_driver_helm_version          = local.common_vars.aws_ebs_csi_driver_helm_version
   aws_ebs_csi_driver_replicas              = local.common_vars.aws_ebs_csi_driver_replicas
   rook_ceph_helm_version                   = local.common_vars.rook_ceph_helm_version
   db_mediated_by_control_center            = local.db_mediated_by_control_center
+  crossplane_providers_k8s_version         = local.common_vars.crossplane_providers_k8s_version
+  crossplane_providers_vault_version       = local.common_vars.crossplane_providers_vault_version
+  crossplane_packages_utils_version        = local.common_vars.crossplane_packages_utils_version
+  crossplane_helm_version                  = local.common_vars.crossplane_helm_version
+  crossplane_functions_kcl_version         = local.common_vars.crossplane_functions_kcl_version
+  crossplane_functions_auto_ready_version  = local.common_vars.crossplane_functions_auto_ready_version
+  crossplane_functions_extra_resources_version = local.common_vars.crossplane_functions_extra_resources_version
   cloud_platform                           = get_env("cloud_platform")
 }
 
@@ -177,7 +183,6 @@ locals {
   grafana_ingress_internal_lb   = true
   vault_ingress_internal_lb     = true
   managed_svc_as_monolith       = get_env("managed_svc_as_monolith")
-  block_storage_provider        = get_env("block_storage_provider")
   k8s_cluster_type              = get_env("k8s_cluster_type")
   db_mediated_by_control_center = get_env("db_mediated_by_control_center")
 }

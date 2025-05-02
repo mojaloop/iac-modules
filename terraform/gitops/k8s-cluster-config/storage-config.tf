@@ -6,24 +6,24 @@ module "generate_storage_files" {
     kubelet_dir_path                = var.kubelet_dir_path
     storage_namespace               = var.storage_namespace
     block_storage_class_name        = var.storage_class_name
-    fs_storage_class_name           = "changeit"
+    fs_storage_class_name           = var.fs_storage_class_name
     access_secret_name              = var.storage_access_secret_name
     access_key_id                   = "${var.cluster_name}/block_storage_secret_key_id"
     secret_access_key               = "${var.cluster_name}/block_storage_secret_access_key"
-    block_storage_provider          = var.block_storage_provider
     storage_sync_wave               = var.storage_sync_wave
     gitlab_project_url              = var.gitlab_project_url
     external_secret_sync_wave       = var.external_secret_sync_wave
     cluster_name                    = var.cluster_name
     rook_ceph_helm_version          = var.rook_ceph_helm_version
-    rgw_admin_ops_user_key          = "${var.cluster_name}/rgw_admin_ops_user_key"
-    rook_ceph_mon_key               = "${var.cluster_name}/rook_ceph_mon_key"
+    rgw_admin_ops_user              = "${var.cluster_name}/rgw_admin_ops_user"
+    rook_ceph_mon                   = "${var.cluster_name}/rook_ceph_mon"
     rook_csi_cephfs_node            = "${var.cluster_name}/rook_csi_cephfs_node"
     rook_csi_cephfs_provisioner     = "${var.cluster_name}/rook_csi_cephfs_provisioner"
     rook_csi_rbd_node               = "${var.cluster_name}/rook_csi_rbd_node"
     rook_csi_rbd_provisioner        = "${var.cluster_name}/rook_csi_rbd_provisioner"
     rook_ceph_rgw_endpoint          = "${var.cluster_name}/rook_ceph_rgw_endpoint"
     rook_ceph_mon_data              = "${var.cluster_name}/rook_ceph_mon_data"
+    rook_ceph_cluster_user_command  = "${var.cluster_name}/rook_ceph_cluster_user_command"
     cloud_provider                  = var.cloud_platform
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
@@ -59,11 +59,6 @@ variable "kubelet_dir_path" {
   type        = string
 }
 
-variable "block_storage_provider" {
-  type        = string
-  description = "block storage provider"
-}
-
 variable "aws_ebs_csi_driver_helm_version" {
   type        = string
 }
@@ -79,4 +74,9 @@ variable "rook_ceph_helm_version" {
 variable "cloud_platform" {
   type        = string
   description = "cloud platform"
+}
+
+variable "fs_storage_class_name" {
+  type        = string
+  default    = "filesystem"
 }

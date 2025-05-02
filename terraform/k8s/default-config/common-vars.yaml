@@ -6,8 +6,8 @@ cert_manager_chart_version: 1.12.2
 consul_chart_version: 1.4.0
 longhorn_chart_version: 1.6.1
 external_dns_chart_version: 6.24.1
-vault_chart_version: 0.24.1
-vault_config_operator_helm_chart_version: 0.8.16
+vault_chart_version: 0.28.1
+vault_config_operator_helm_chart_version: 0.8.28
 nginx_helm_chart_version: 4.6.1
 keycloak_operator_version: 22.0.2
 istio_chart_version: 1.18.2
@@ -57,3 +57,12 @@ coredns_localcache_version: "1.11.3"
 aws_ebs_csi_driver_helm_version: "2.39.0"
 aws_ebs_csi_driver_replicas: 2
 rook_ceph_helm_version: "1.16.5"
+crossplane_helm_version: "1.19.0"
+crossplane_providers_k8s_version: "0.11.4"
+crossplane_providers_vault_version: "2.1.1"
+crossplane_functions_patch_and_transform_version: "0.8.2"
+crossplane_functions_go_templating_version: "0.8.0"
+crossplane_functions_kcl_version: "0.11.3"
+crossplane_functions_auto_ready_version: "0.4.2"
+crossplane_functions_extra_resources_version: "0.0.3"
+crossplane_packages_utils_version: "v0.3.0-pr48-14533733180"

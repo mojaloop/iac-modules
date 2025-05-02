@@ -29,12 +29,18 @@ netbird_rds_replica_count: "'1'"
 netbird_rds_instance_class: "db.t3.medium"
 netbird_rds_storage_encrypted: "'true'"
 netbird_rds_skip_final_snapshot: "'true'"
-netbird_rds_postgres_storage_size: "'100'"
-netbird_rds_storage_type: "io1"
-netbird_rds_storage_iops: "'5000'"
+netbird_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+netbird_rds_storage_type: "''" # io1 for conventional rds
+netbird_rds_storage_iops: "''"  #"'5000'" for conventional rds
+netbird_rds_allow_major_version_upgrade: "'false'"
+netbird_rds_apply_immediately: "'false'"
+netbird_rds_deletion_protection: "'false'"
+netbird_rds_final_snapshot_identifier: "netbird-rds-final-snapshot"
+netbird_rds_family: "aurora-postgresql16"
 #netbird db backup settings
 netbird_db_backup_retention_period: "'1'"
 netbird_db_preferred_backup_window: "07:00-09:00"
+netbird_db_preferred_maintenance_window: "Mon:00:00-Mon:01:00"
 #end db settings
 
 stunner_gateway_operator_helm_version: "0.19.0"
@@ -50,25 +56,31 @@ crossplane_providers_vault_version: "2.1.1"
 crossplane_providers_gitlab_version: "0.10.3"
 crossplane_providers_terraform_version: "0.16.0"
 crossplane_providers_ansible_version: "0.6.0"
-crossplane_providers_k8s_version: "0.11.4"
+crossplane_providers_k8s_version: "0.18.0"
 crossplane_providers_helm_version: "0.20.4"
 crossplane_providers_netbird_version: "0.0.17"
 crossplane_providers_aws_version: "0.49.2"
+crossplane_providers_aws_family_version: "1.21.1"
 crossplane_providers_aws_s3_version: "1.21.0"
 crossplane_providers_aws_iam_version: "1.21.0"
 crossplane_providers_aws_docdb_version: "1.21.0"
+crossplane_providers_aws_rds_version: "1.21.0"
 crossplane_providers_aws_aws_ec2_version: "1.21.0"
 crossplane_functions_patch_and_transform_version: "0.8.2"
 crossplane_functions_go_templating_version: "0.8.0"
 crossplane_functions_kcl_version: "0.11.3"
 crossplane_functions_auto_ready_version: "0.4.2"
-crossplane_packages_objectstores_version: "v0.1.0-pr17-14513539141"
+crossplane_functions_extra_resources_version: "0.0.3"
+crossplane_packages_objectstores_version: "v0.1.0"
 crossplane_packages_utils_version: "v0.3.0"
+crossplane_packages_gitlab_version: "v0.1.0"
+crossplane_packages_vault_config_version: "v0.1.0-pr56-14778621124"
 crossplane_packages_sc_postgres_version: "v0.1.0-pr16-14261304175"
 crossplane_packages_sc_bootstrap_version: "v0.1.0"
 crossplane_packages_sc_nboperatorinstall_version: "v0.1.0-pr37-14792095870"
 crossplane_packages_nb_config_version: "v0.1.0-pr37-14796363854"
-crossplane_packages_docdb_version: "v12-14219020439-1"
+crossplane_packages_aws_documentdb_version: "v0.3.0-pr50-14597997746"
+crossplane_packages_aws_rds_version: "v0.1.0-pr47-14531737956"
 velero_helm_version: "8.3.0"
 velero_plugin_version: "v1.11.1"
 coredns_localcache_version: "1.11.3"
@@ -233,12 +245,18 @@ gitlab_rds_replica_count: "'1'"
 gitlab_rds_instance_class: "db.t3.medium"
 gitlab_rds_storage_encrypted: "'true'"
 gitlab_rds_skip_final_snapshot: "'true'"
-gitlab_rds_postgres_storage_size: "'100'"
-gitlab_rds_storage_type: "io1"
-gitlab_rds_storage_iops: "'5000'"
+gitlab_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+gitlab_rds_storage_type: "''" # io1 for conventional rds
+gitlab_rds_storage_iops: "''"  #"'5000'" for conventional rds
+gitlab_rds_allow_major_version_upgrade: "'false'"
+gitlab_rds_apply_immediately: "'false'"
+gitlab_rds_deletion_protection: "'false'"
+gitlab_rds_final_snapshot_identifier: "gitlab-rds-final-snapshot"
+gitlab_rds_family: "aurora-postgresql16"
 #gitlab db backup settings
 gitlab_db_backup_retention_period: "'1'"
 gitlab_db_preferred_backup_window: "07:00-09:00"
+gitlab_db_preferred_maintenance_window: "Mon:00:00-Mon:01:00"
 #gitlab db percona specific
 gitlab_perc_postgres_replicas: "'1'"
 gitlab_perc_postgres_proxy_replicas: "'1'"
@@ -251,12 +269,18 @@ praefect_rds_replica_count: "'1'"
 praefect_rds_instance_class: "db.t3.medium"
 praefect_rds_storage_encrypted: "'true'"
 praefect_rds_skip_final_snapshot: "'true'"
-praefect_rds_postgres_storage_size: "'100'"
-praefect_rds_storage_type: "io1"
-praefect_rds_storage_iops: "'5000'"
+praefect_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+praefect_rds_storage_type: "''" # io1 for conventional rds
+praefect_rds_storage_iops: "''"  #"'5000'" for conventional rds
+praefect_rds_allow_major_version_upgrade: "'false'"
+praefect_rds_apply_immediately: "'false'"
+praefect_rds_deletion_protection: "'false'"
+praefect_rds_final_snapshot_identifier: "praefect-rds-final-snapshot"
+praefect_rds_family: "aurora-postgresql16"
 #praefect db backup settings
 praefect_db_backup_retention_period: "'1'"
 praefect_db_preferred_backup_window: "07:00-09:00"
+praefect_db_preferred_maintenance_window: "Mon:00:00-Mon:01:00"
 #praefect db percona specific
 praefect_perc_postgres_replicas: "'1'"
 praefect_perc_postgres_proxy_replicas: "'1'"
@@ -282,12 +306,18 @@ zitadel_rds_replica_count: "'1'"
 zitadel_rds_instance_class: "db.t3.medium"
 zitadel_rds_storage_encrypted: "'true'"
 zitadel_rds_skip_final_snapshot: "'true'"
-zitadel_rds_postgres_storage_size: "'100'"
-zitadel_rds_storage_iops: "'5000'"
-zitadel_rds_storage_type: "io1"
+zitadel_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+zitadel_rds_storage_type: "''" # io1 for conventional rds
+zitadel_rds_storage_iops: "''"  #"'5000'" for conventional rds
+zitadel_rds_allow_major_version_upgrade: "'false'"
+zitadel_rds_apply_immediately: "'false'"
+zitadel_rds_deletion_protection: "'false'"
+zitadel_rds_final_snapshot_identifier: "zitadel-rds-final-snapshot"
+zitadel_rds_family: "aurora-postgresql16"
 #Zitadel DB backup settings
 zitadel_db_backup_retention_period: "'1'"
 zitadel_db_preferred_backup_window: "07:00-09:00"
+zitadel_db_preferred_maintenance_window: "Mon:00:00-Mon:01:00"
 # Zitadel DB Percona specific
 zitadel_perc_postgres_replicas: "'1'"
 zitadel_perc_postgres_proxy_replicas: "'1'"
@@ -295,14 +325,14 @@ zitadel_perc_pgdb_helm_version: "2.4.0"
 zitadel_perc_postgres_storage_size: "20Gi"
 # end of zitadel db settins
 # rook ceph
-rook_ceph_helm_version: "1.16.5"
-rook_ceph_image_version: "v19.2.1"
+rook_ceph_helm_version: "1.17.1"
+rook_ceph_image_version: "v19.2.2"
 rook_ceph_mon_volumes_size: "10Gi"
 rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
 rook_ceph_cloud_pv_reclaim_policy: "Delete" # Retain, Delete
 aws_ebs_csi_driver_replicas: "'2'"
-rook_ceph_objects_replica_count: "'2'"
+rook_ceph_objects_replica_count: "'3'"
 rook_ceph_osd_count: "'3'"
 rook_ceph_volume_size_per_osd: "500Gi"
 rook_ceph_volumes_provider: "pvc" # host, pvc
@@ -323,47 +353,6 @@ capi_cluster_proxmox_host_vlan: "'127'"
 sc_metallb_ip_range_begin: "10.10.127.10"
 sc_metallb_ip_range_end: "10.10.127.20"
 capi_cluster_cidr: "10.10.127/24"
+capi_os_disk_size: "100G"
+capi_rook_ceph_disk_size: "300G"
 ##end capi
-
-# env_common_platform db settings
-env_rdbms_provider: "rds"
-#env_common_platform db rds specific
-env_common_platform_rds_engine: "aurora-mysql"
-env_common_platform_rds_engine_version: "8.0.mysql_aurora.3.04.0"
-env_common_platform_rds_replica_count: "'1'"
-env_common_platform_rds_instance_class: "db.t3.medium"
-env_common_platform_rds_storage_encrypted: "'true'"
-env_common_platform_rds_skip_final_snapshot: "'true'"
-env_common_platform_rds_postgres_storage_size: "'100'"
-env_common_platform_rds_storage_type: "io1"
-env_common_platform_rds_storage_iops: "'5000'"
-#env_common_platform db backup settings
-env_common_platform_db_backup_retention_period: "'1'"
-env_common_platform_db_preferred_backup_window: "07:00-09:00"
-#env_common_platform db percona specific
-env_common_platform_perc_postgres_replicas: "'1'"
-env_common_platform_perc_postgres_proxy_replicas: "'1'"
-env_common_platform_perc_postgres_storage_size: "10Gi"
-env_common_platform_perc_pgdb_helm_version: "2.4.0"
-## end of env_common_platform db settings
-
-# env_common_mojaloop db settings
-#env_common_mojaloop db rds specific
-env_common_mojaloop_rds_engine: "aurora-mysql"
-env_common_mojaloop_rds_engine_version: "8.0.mysql_aurora.3.04.0"
-env_common_mojaloop_rds_replica_count: "'1'"
-env_common_mojaloop_rds_instance_class: "db.t3.medium"
-env_common_mojaloop_rds_storage_encrypted: "'true'"
-env_common_mojaloop_rds_skip_final_snapshot: "'true'"
-env_common_mojaloop_rds_postgres_storage_size: "'100'"
-env_common_mojaloop_rds_storage_type: "io1"
-env_common_mojaloop_rds_storage_iops: "'5000'"
-#env_common_mojaloop db backup settings
-env_common_mojaloop_db_backup_retention_period: "'1'"
-env_common_mojaloop_db_preferred_backup_window: "07:00-09:00"
-#env_common_mojaloop db percona specific
-env_common_mojaloop_perc_postgres_replicas: "'1'"
-env_common_mojaloop_perc_postgres_proxy_replicas: "'1'"
-env_common_mojaloop_perc_postgres_storage_size: "10Gi"
-env_common_mojaloop_perc_pgdb_helm_version: "2.4.0"
-## end of env_common_platform db settings

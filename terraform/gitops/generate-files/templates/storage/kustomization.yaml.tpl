@@ -8,6 +8,7 @@ resources:
 %{ if cloud_provider == "private-cloud" ~}
   - rook-ceph-external-secrets.yaml
   - rook-ceph-storage-class.yaml
+  - rook-ceph-crossplane-cm.yaml
 %{ endif ~}
 helmCharts:
 %{ if cloud_provider == "aws" ~}

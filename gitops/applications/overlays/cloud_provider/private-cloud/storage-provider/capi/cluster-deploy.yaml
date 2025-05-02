@@ -233,9 +233,9 @@ spec:
           firewall: true
           model: virtio
           tag: ${ARGOCD_ENV_capi_cluster_proxmox_host_vlan}
-        rootDisk: "50G"
+        rootDisk: ${ARGOCD_ENV_capi_os_disk_size}
         extraDisks:
-          - size: "100G"
+          - size: ${ARGOCD_ENV_capi_rook_ceph_disk_size}
             storage: ${ARGOCD_ENV_capi_cluster_storage_name}
       network:
         ipConfig:

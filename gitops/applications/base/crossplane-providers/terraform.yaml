@@ -15,7 +15,7 @@ kind: Provider
 metadata:
   name: provider-terraform
 spec:
-  package: xpkg.upbound.io/upbound/provider-terraform:v${ARGOCD_ENV_crossplane_providers_terraform_version}
+  package: ghcr.io/mojaloop/infra/upbound/provider-terraform:v${ARGOCD_ENV_crossplane_providers_terraform_version}
   controllerConfigRef:
     name: terraform-debug
   runtimeConfigRef:
