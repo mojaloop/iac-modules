@@ -44,6 +44,9 @@ spec:
         - name: "crossplane_packages_sc_postgres_version"
           value: "${ARGOCD_ENV_utils_crossplane_packages_sc_postgres_version}"
 
+        - name: "crossplane_packages_sc_mysql_version"
+          value: "${ARGOCD_ENV_utils_crossplane_packages_sc_mysql_version}"
+
         - name: "crossplane_packages_sc_bootstrap_version"
           value: "${ARGOCD_ENV_utils_crossplane_packages_sc_bootstrap_version}"
 
