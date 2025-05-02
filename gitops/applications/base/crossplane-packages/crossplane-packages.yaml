@@ -84,5 +84,5 @@ kind: Configuration
 metadata:
   name: sc-mysqlcluster
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-mysqlcluster:v0.1.0-pr43-14663050115
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-mysqlcluster:v0.1.0-pr43-14794044845
   skipDependencyResolution: true
