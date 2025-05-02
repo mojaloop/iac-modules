@@ -40,6 +40,7 @@ resources:
   - ../../../base/netbird-pre.yaml
   - ../../../base/netbird.yaml
   - ../../../base/netbird-post-config.yaml
+  - ../../../base/netbird-operator.yaml
   # nexus
   - ../../../base/nexus.yaml
   - ../../../base/nexus-pre.yaml

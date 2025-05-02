@@ -12,8 +12,8 @@ reloader_helm_version: "2.0.0"
 crossplane_helm_version: "1.19.0"
 zitadel_helm_version: "8.5.0"
 netbird_helm_version: "1.5.6"
-netbird_image_version: "0.39.2"
-netbird_client_version: "0.39.2"
+netbird_image_version: "0.41.3"
+netbird_client_version: "0.41.3"
 netbird_dashboard_image_version: "v2.10.0"
 #netbird db settings
 netbird_rdbms_provider: "dbaas"
@@ -29,9 +29,9 @@ netbird_rds_replica_count: "'1'"
 netbird_rds_instance_class: "db.t3.medium"
 netbird_rds_storage_encrypted: "'true'"
 netbird_rds_skip_final_snapshot: "'true'"
-netbird_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+netbird_rds_postgres_storage_size: "''" #"'100'"" for conventional rds
 netbird_rds_storage_type: "''" # io1 for conventional rds
-netbird_rds_storage_iops: "''"  #"'5000'" for conventional rds
+netbird_rds_storage_iops: "''" #"'5000'" for conventional rds
 netbird_rds_allow_major_version_upgrade: "'false'"
 netbird_rds_apply_immediately: "'false'"
 netbird_rds_deletion_protection: "'false'"
@@ -58,7 +58,7 @@ crossplane_providers_terraform_version: "0.16.0"
 crossplane_providers_ansible_version: "0.6.0"
 crossplane_providers_k8s_version: "0.18.0"
 crossplane_providers_helm_version: "0.20.4"
-crossplane_providers_netbird_version: "0.0.12"
+crossplane_providers_netbird_version: "0.0.17"
 crossplane_providers_aws_version: "0.49.2"
 crossplane_providers_aws_family_version: "1.21.1"
 crossplane_providers_aws_s3_version: "1.21.0"
@@ -77,8 +77,8 @@ crossplane_packages_gitlab_version: "v0.1.0"
 crossplane_packages_vault_config_version: "v0.1.0-pr56-14778621124"
 crossplane_packages_sc_postgres_version: "v0.1.0-pr16-14261304175"
 crossplane_packages_sc_bootstrap_version: "v0.1.0"
-crossplane_packages_sc_nboperatorinstall_version: "v0.1.0-pr37-14402159611"
-crossplane_packages_nb_config_version: "v0.1.0-pr38-14361249221"
+crossplane_packages_sc_nboperatorinstall_version: "v0.1.0"
+crossplane_packages_nb_config_version: "v0.1.0"
 crossplane_packages_aws_documentdb_version: "v0.3.0-pr50-14597997746"
 crossplane_packages_aws_rds_version: "v0.1.0-pr47-14531737956"
 velero_helm_version: "8.3.0"
@@ -245,9 +245,9 @@ gitlab_rds_replica_count: "'1'"
 gitlab_rds_instance_class: "db.t3.medium"
 gitlab_rds_storage_encrypted: "'true'"
 gitlab_rds_skip_final_snapshot: "'true'"
-gitlab_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+gitlab_rds_postgres_storage_size: "''" #"'100'"" for conventional rds
 gitlab_rds_storage_type: "''" # io1 for conventional rds
-gitlab_rds_storage_iops: "''"  #"'5000'" for conventional rds
+gitlab_rds_storage_iops: "''" #"'5000'" for conventional rds
 gitlab_rds_allow_major_version_upgrade: "'false'"
 gitlab_rds_apply_immediately: "'false'"
 gitlab_rds_deletion_protection: "'false'"
@@ -269,9 +269,9 @@ praefect_rds_replica_count: "'1'"
 praefect_rds_instance_class: "db.t3.medium"
 praefect_rds_storage_encrypted: "'true'"
 praefect_rds_skip_final_snapshot: "'true'"
-praefect_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+praefect_rds_postgres_storage_size: "''" #"'100'"" for conventional rds
 praefect_rds_storage_type: "''" # io1 for conventional rds
-praefect_rds_storage_iops: "''"  #"'5000'" for conventional rds
+praefect_rds_storage_iops: "''" #"'5000'" for conventional rds
 praefect_rds_allow_major_version_upgrade: "'false'"
 praefect_rds_apply_immediately: "'false'"
 praefect_rds_deletion_protection: "'false'"
@@ -306,9 +306,9 @@ zitadel_rds_replica_count: "'1'"
 zitadel_rds_instance_class: "db.t3.medium"
 zitadel_rds_storage_encrypted: "'true'"
 zitadel_rds_skip_final_snapshot: "'true'"
-zitadel_rds_postgres_storage_size: "''"  #"'100'"" for conventional rds
+zitadel_rds_postgres_storage_size: "''" #"'100'"" for conventional rds
 zitadel_rds_storage_type: "''" # io1 for conventional rds
-zitadel_rds_storage_iops: "''"  #"'5000'" for conventional rds
+zitadel_rds_storage_iops: "''" #"'5000'" for conventional rds
 zitadel_rds_allow_major_version_upgrade: "'false'"
 zitadel_rds_apply_immediately: "'false'"
 zitadel_rds_deletion_protection: "'false'"
@@ -352,6 +352,7 @@ capi_cluster_network_gateway: "10.10.127.1"
 capi_cluster_proxmox_host_vlan: "'127'"
 sc_metallb_ip_range_begin: "10.10.127.10"
 sc_metallb_ip_range_end: "10.10.127.20"
+capi_cluster_cidr: "10.10.127/24"
 capi_os_disk_size: "100G"
 capi_rook_ceph_disk_size: "300G"
 ##end capi

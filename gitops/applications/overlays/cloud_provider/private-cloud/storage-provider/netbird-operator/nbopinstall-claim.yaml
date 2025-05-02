@@ -1,0 +1,18 @@
+apiVersion: sc.mojaloop.io/v1alpha1
+kind: NBOperatorInstall
+metadata:
+  name: sc-nboperatorinstall
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+spec:
+  parameters:
+    nbManagmentURI: ${ARGOCD_ENV_netbird_operator_management_url}
+    operatorHelmVersion: ${ARGOCD_ENV_netbird_operator_helm_version}
+    operatorNamespace: ${ARGOCD_ENV_netbird_namespace}
+    operatorArgoAppName: nb-op
+    operatorArgoAppSourceURL: https://github.com//mojaloop/iac-modules.git
+    operatorArgoAppSourceRevision: ${ARGOCD_ENV_netbird_operator_argoapp_revision}
+    operatorClusterName: ${ARGOCD_ENV_netbird_operator_cluster_name}
+  providerConfigsRef:
+    scK8sProviderName: "sc-kubernetes-provider"
+  managementPolicies:
+    - "*"

@@ -94,6 +94,7 @@ argocd_override:
           capi_rook_ceph_rbd_pool_replication_size: "${rook_ceph_objects_replica_count}"
           capi_rook_ceph_rgw_external_ip: "${capi_rook_ceph_rgw_external_ip}"
           cloud_provider: "${cloud_platform }"
+          capi_cluster_cidr: "${capi_cluster_cidr}"
         storage:
           cloud_provider: "${cloud_platform}"
           cluster_domain: "${cluster_domain}"
