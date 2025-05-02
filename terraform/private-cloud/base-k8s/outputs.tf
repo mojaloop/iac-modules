@@ -19,8 +19,8 @@ output "public_subdomain" {
   value = var.app_var_map.public_subdomain
 }
 
-output "private_zone_id" {
-  value = var.app_var_map.private_zone_id
+output "private_dns_zone_id" {
+  value = var.app_var_map.private_dns_zone_id
 }
 
 output "internal_interop_switch_fqdn" {
