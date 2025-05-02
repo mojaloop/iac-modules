@@ -117,14 +117,13 @@ spec:
 
             # percona operator
 
-
-            - name: utils_pg_operator_helm_version
+            - name: utils_percona_pg_operator_helm_version
               value: "${ARGOCD_ENV_utils_percona_pg_operator_helm_version}"
 
-            - name: utils_pxc_operator_helm_version
+            - name: utils_percona_pxc_operator_helm_version
               value: "${ARGOCD_ENV_utils_percona_pxc_operator_helm_version}"
 
-            - name: utils_psmdb_operator_helm_version
+            - name: utils_percona_psmdb_operator_helm_version
               value: "${ARGOCD_ENV_utils_percona_psmdb_operator_helm_version}"
 
             - name: utils_percona_namespace
