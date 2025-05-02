@@ -246,6 +246,8 @@ argocd_override:
           deletion_protection: "${netbird_rds_deletion_protection}"
           final_snapshot_identifier: "${netbird_rds_final_snapshot_identifier}"
           family: "${netbird_rds_family}"
+        netbird_operator:
+          helm_version: "${netbird_operator_helm_version}"
 
 
     nexus:
