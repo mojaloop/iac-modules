@@ -263,9 +263,6 @@ spec:
           password: ${ARGOCD_ENV_capi_cluster_proxmox_host_password}
           manage_etc_hosts: true
           runCmd:
-            - wipefs -a ${ARGOCD_ENV_capi_cluster_proxmox_ceph_volume}
-            - dd if=/dev/zero of="${ARGOCD_ENV_capi_cluster_proxmox_ceph_volume}" bs=1M count=100 oflag=direct,dsync
-            - partprobe ${ARGOCD_ENV_capi_cluster_proxmox_ceph_volume}
             - "modprobe overlay"
             - "modprobe br_netfilter"
             - "sysctl --system"
