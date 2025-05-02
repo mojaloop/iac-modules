@@ -139,7 +139,7 @@ merge-config:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
-    - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
+    - export GITLAB_CI_PAT="$(vault kv get -field=token ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
     - .gitlab/scripts/push-merged-config.sh $CI_COMMIT_REF_NAME $GITLAB_CI_PAT $CI_SERVER_HOST $CI_PROJECT_PATH
   artifacts:
     paths:
