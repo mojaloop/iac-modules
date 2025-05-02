@@ -40,6 +40,7 @@ argocd_override:
           aws_iam_version: "${crossplane_providers_aws_iam_version}"
           aws_docdb_version: "${crossplane_providers_aws_docdb_version}"
           aws_rds_version: "${crossplane_providers_aws_rds_version}"
+          aws_route53_version: "${crossplane_providers_aws_route53_version}"
           netbird_version: "${crossplane_providers_netbird_version}"
         crossplane_functions:
           patch_and_transform_version: "${crossplane_functions_patch_and_transform_version}"
