@@ -1,0 +1,14 @@
+apiVersion: gitlab.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: gitlab-provider
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: gitlab
+      name: root-token-secret
+      key: token
+  baseURL: "https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}"

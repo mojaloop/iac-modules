@@ -8,7 +8,7 @@ spec:
     argocd:
       application:
         source:
-          targetRevision: feat/sc-bootstrap
+          targetRevision: "${ARGOCD_ENV_sc_application_gitrepo_tag}"
           envVars:
           - name: "argocd_repo_url"
             value: "${ARGOCD_ENV_argocd_repo_url}"

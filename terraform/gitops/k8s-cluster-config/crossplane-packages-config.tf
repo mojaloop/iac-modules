@@ -7,6 +7,7 @@ module "generate_crossplane_packages_files" {
     crossplane_packages_utils_version       = var.crossplane_packages_utils_version
     crossplane_functions_kcl_version        = var.crossplane_functions_kcl_version
     crossplane_functions_auto_ready_version = var.crossplane_functions_auto_ready_version
+    crossplane_functions_extra_resources_version = var.crossplane_functions_extra_resources_version
   }
   file_list       = [for f in fileset(local.crossplane_packages_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.crossplane_packages_app_file, f))]
   template_path   = local.crossplane_packages_template_path
@@ -34,5 +35,9 @@ variable "crossplane_functions_kcl_version" {
 }
 
 variable "crossplane_functions_auto_ready_version" {
+  type        = string
+}
+
+variable "crossplane_functions_extra_resources_version" {
   type        = string
 }

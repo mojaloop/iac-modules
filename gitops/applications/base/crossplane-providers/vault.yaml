@@ -1,0 +1,7 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-vault
+spec:
+  package: ghcr.io/mojaloop/infra/upbound/provider-vault:v${ARGOCD_ENV_crossplane_providers_vault_version}

@@ -1,0 +1,14 @@
+apiVersion: vault.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: vault-provider
+  annotations:
+    argocd.argoproj.io/sync-wave: -10
+spec:
+  address: "http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
+  credentials:
+    secretRef:
+      key: creds
+      name: vault-keys
+      namespace: ${ARGOCD_ENV_vault_namespace}
+    source: Secret

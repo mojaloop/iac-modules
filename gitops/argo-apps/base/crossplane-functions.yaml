@@ -47,3 +47,6 @@ spec:
 
         - name: "crossplane_functions_auto_ready_version"
           value: "${ARGOCD_ENV_utils_crossplane_functions_auto_ready_version}"
+
+        - name: "crossplane_functions_extra_resources_version"
+          value: "${ARGOCD_ENV_utils_crossplane_functions_extra_resources_version}"
