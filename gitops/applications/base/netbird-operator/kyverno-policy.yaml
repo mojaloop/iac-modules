@@ -1,0 +1,40 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: nbrouter-add-security-context
+  annotations:
+    policies.kyverno.io/title: Add security context to nbrouter deployment
+    policies.kyverno.io/category: Default Policies
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/subject: "*platform.com"
+    policies.kyverno.io/description: >-
+      This policy updates pod security context of nbrouter deployment
+    argocd.argoproj.io/sync-wave: "0"
+
+spec:
+  rules:
+    - name: nbrouter-add-security-context
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - ${ARGOCD_ENV_netbird_operator_namespace}
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: netbird-router
+      mutate:
+        patchStrategicMerge:
+          spec:
+            securityContext:
+              sysctls:
+                - name: net.ipv4.ip_forward
+                  value: "1"
+      preconditions:
+        any:
+          - key: "{{request.operation}}"
+            operator: In
+            value: ["CREATE", "UPDATE"]
+      skipBackgroundRequests: true
+  validationFailureAction: Audit
