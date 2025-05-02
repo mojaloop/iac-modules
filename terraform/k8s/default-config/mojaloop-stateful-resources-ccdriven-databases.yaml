@@ -8,18 +8,18 @@ common_platform_db:
     mysql_storage_size: "100Gi"                                  # Storage size for MySQL data
     mysql_replicas: 3                                            # Number of MySQL replicas in the cluster
     mysql_requests_memory: "2Gi"                                 # Memory request for MySQL pods
-    mysql_requests_cpu: "1"                                      # CPU request for MySQL pods
+    mysql_requests_cpu: "1000m"                                      # CPU request for MySQL pods
     mysql_limits_memory: "4Gi"                                   # Memory limit for MySQL pods
-    mysql_limits_cpu: "2"                                        # CPU limit for MySQL pods
+    mysql_limits_cpu: "2000m"                                        # CPU limit for MySQL pods
 
     # HAProxy specific configurations (for load balancing)
     haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
     haproxy_expose: "true"                                       # Whether HAProxy should be exposed
     haproxy_replicas: 3                                          # Number of HAProxy replicas
     haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
-    haproxy_requests_cpu: "0.5"                                  # CPU request for HAProxy pods
+    haproxy_requests_cpu: "500m"                                  # CPU request for HAProxy pods
     haproxy_limits_memory: "1Gi"                                 # Memory limit for HAProxy pods
-    haproxy_limits_cpu: "1"                                      # CPU limit for HAProxy pods
+    haproxy_limits_cpu: "1000m"                                      # CPU limit for HAProxy pods
 
     # Log Collector specific configurations
     logcollector_image: "percona/percona-xtradb-cluster-operator:1.16.1-logcollector-fluentbit3.2.2"  # Image for log collector
@@ -106,18 +106,18 @@ common_mojaloop_db:
     mysql_storage_size: "100Gi"                                  # Storage size for MySQL data
     mysql_replicas: 3                                            # Number of MySQL replicas in the cluster
     mysql_requests_memory: "2Gi"                                 # Memory request for MySQL pods
-    mysql_requests_cpu: "1"                                      # CPU request for MySQL pods
+    mysql_requests_cpu: "1000m"                                      # CPU request for MySQL pods
     mysql_limits_memory: "4Gi"                                   # Memory limit for MySQL pods
-    mysql_limits_cpu: "2"                                        # CPU limit for MySQL pods
+    mysql_limits_cpu: "2000m"                                        # CPU limit for MySQL pods
 
     # HAProxy specific configurations (for load balancing)
     haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
     haproxy_expose: "true"                                       # Whether HAProxy should be exposed
     haproxy_replicas: 3                                          # Number of HAProxy replicas
     haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
-    haproxy_requests_cpu: "0.5"                                  # CPU request for HAProxy pods
+    haproxy_requests_cpu: "500m"                                  # CPU request for HAProxy pods
     haproxy_limits_memory: "1Gi"                                 # Memory limit for HAProxy pods
-    haproxy_limits_cpu: "1"                                      # CPU limit for HAProxy pods
+    haproxy_limits_cpu: "1000m"                                      # CPU limit for HAProxy pods
 
     # Log Collector specific configurations
     logcollector_image: "percona/percona-xtradb-cluster-operator:1.16.1-logcollector-fluentbit3.2.2"  # Image for log collector
