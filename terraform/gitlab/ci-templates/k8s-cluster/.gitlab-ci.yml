@@ -75,7 +75,7 @@ cache:
     - if [ $migrate == "true" ]; then sh .gitlab/scripts/get-artifacts.sh; fi
     - export ENV_VAULT_TOKEN="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/env_token)"
     - export $cloud_platform_client_secret_name="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/cloud_platform_client_secret)"
-    - export GITLAB_CI_PAT="$(vault kv get -field=value ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
+    - export GITLAB_CI_PAT="$(vault kv get -field=token ${KV_SECRET_PATH}/gitlab/gitlab_ci_pat)"
     - export NETBIRD_GW_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_gw_setup_key)"
     - export NETBIRD_K8S_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_k8s_setup_key)"
     - export NETBIRD_MS_GW_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_ms_gw_setup_key)"
