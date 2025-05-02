@@ -378,6 +378,7 @@ argocd_override:
           object_storage_provider: "${object_storage_provider}"
           cloud_platform: "${cloud_platform}"
           cloud_region: "${cloud_region}"
+          dns_zone_id: "${private_dns_zone_id}"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
