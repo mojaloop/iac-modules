@@ -61,10 +61,10 @@ spec:
             value: "${ARGOCD_ENV_security_netbird_setup_key_secret_name}"
 
           - name: "netbird_ansible_collection_tag"
-            value: ${ARGOCD_ENV_security_netbird_ansible_collection_tag}
+            value: "${ARGOCD_ENV_security_netbird_ansible_collection_tag}"
 
           - name: "netbird_ansible_repo_url"
-            value: ${ARGOCD_ENV_ansible_gitrepo_url}
+            value: "${ARGOCD_ENV_ansible_gitrepo_url}"
 
           - name: "cluster_name"
             value: "${ARGOCD_ENV_cluster_name}"

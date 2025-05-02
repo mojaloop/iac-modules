@@ -70,7 +70,7 @@ spec:
             value: "${ARGOCD_ENV_security_netbird_preconfig_output_secret}"
 
           - name: "netbird_operator_cluster_name"
-            value: ${ARGOCD_ENV_cluster_name}
+            value: "${ARGOCD_ENV_cluster_name}"
 
           - name: "netbird_operator_cc_cluster_cidr"
             value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
@@ -103,7 +103,7 @@ spec:
             value: ${ARGOCD_ENV_security_netbird_ansible_collection_tag}
 
           - name: "netbird_ansible_repo_url"
-            value: ${ARGOCD_ENV_ansible_gitrepo_url}
+            value: "${ARGOCD_ENV_ansible_gitrepo_url}"
 
           - name: "netbird_operator_cluster_name"
             value: "${ARGOCD_ENV_cluster_name}-storage-cluster"
