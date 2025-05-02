@@ -14,7 +14,6 @@ spec:
   jobLabel: envoy-stats
   podMetricsEndpoints:
   - path: /stats/prometheus
-    interval: 15s
     relabelings:
     - action: keep
       sourceLabels: [__meta_kubernetes_pod_container_name]
@@ -61,7 +60,6 @@ spec:
     any: true
   endpoints:
   - port: http-monitoring
-    interval: 15s
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder

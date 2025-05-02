@@ -63,6 +63,7 @@ spec:
     editable: true
     jsonData:
       httpHeaderName1: "X-Scope-OrgID"
+      timeInterval: 5m
     secureJsonData:
       httpHeaderValue1: "infitx" # TODO: possibly expose it as configurable env var
 ---
