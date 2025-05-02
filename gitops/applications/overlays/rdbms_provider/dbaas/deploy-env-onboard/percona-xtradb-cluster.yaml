@@ -2,7 +2,7 @@ apiVersion: sc.mojaloop.io/v1alpha1
 kind: XMysqlCluster
 metadata:
   name: "${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}"
-  namespace: env
+  namespace: ${ARGOCD_ENV_namespace}
 spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}
@@ -15,6 +15,7 @@ spec:
 
     pxc:
       image: ${ARGOCD_ENV_pxc_image}
+      imagePullPolicy: IfNotPresent
       storageSize: ${ARGOCD_ENV_mysql_storage_size}
       replicas: ${ARGOCD_ENV_mysql_replicas}
       resources:
@@ -39,10 +40,16 @@ spec:
         max_connections=2000
         innodb_buffer_pool_size=2147483648
         wsrep_auto_increment_control=OFF
+      tolerations: []
+      priorityClassName: ""
 
     haproxy:
       image: ${ARGOCD_ENV_haproxy_image}
-      expose: ${ARGOCD_ENV_haproxy_expose}
+      imagePullPolicy: IfNotPresent
+      expose:
+        type: LoadBalancer
+        annotations: {}
+        labels: {}
       replicas: ${ARGOCD_ENV_haproxy_replicas}
       resources:
         requests:
@@ -51,9 +58,12 @@ spec:
         limit:
           memory: ${ARGOCD_ENV_haproxy_limits_memory}
           cpu: ${ARGOCD_ENV_haproxy_limits_cpu}
+      tolerations: []
+      priorityClassName: ""
 
     logcollector:
       image: ${ARGOCD_ENV_logcollector_image}
+      imagePullPolicy: IfNotPresent
       resources:
         requests:
           memory: ${ARGOCD_ENV_logcollector_requests_memory}
@@ -64,6 +74,7 @@ spec:
 
     backup:
       image: ${ARGOCD_ENV_backup_image}
+      imagePullPolicy: IfNotPresent
       verifyTLS: ${ARGOCD_ENV_backup_verify_tls}
       bucket: ${ARGOCD_ENV_env_name}-percona
       credentialsSecret: ${ARGOCD_ENV_env_name}-percona
@@ -72,8 +83,16 @@ spec:
       cronScheduleExpression: ${ARGOCD_ENV_backup_cron_schedule}
       backupRetention: ${ARGOCD_ENV_backup_retention}
 
+    dns:
+      name: ${ARGOCD_ENV_externalservice_name}
+      region: ${ARGOCD_ENV_region}
+      ttl: 300
+      type: A
+      zoneId: ${ARGOCD_ENV_zone_id}
+
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
     ccK8sProviderName: kubernetes-provider
+    awsProviderName: aws-cp-upbound-provider-config
   managementPolicies:
     - "*"
