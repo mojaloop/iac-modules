@@ -104,6 +104,8 @@ spec:
         max_connections=${database_config.max_connections}
         innodb_buffer_pool_size=${database_config.innodb_buffer_pool_size}
         wsrep_auto_increment_control=OFF
+        coredumper=/tmp/mysql-core-dump
+        innodb_buffer_pool_in_core_file=OFF
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
 #      [sst]
