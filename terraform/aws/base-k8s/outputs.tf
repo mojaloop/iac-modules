@@ -19,7 +19,7 @@ output "public_subdomain" {
   value = module.base_infra.public_zone.name
 }
 
-output "private_zone_id" {
+output "private_dns_zone_id" {
   value = ""
 }
 
