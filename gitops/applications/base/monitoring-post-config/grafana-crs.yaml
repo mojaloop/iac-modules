@@ -63,7 +63,7 @@ spec:
     editable: true
     jsonData:
       httpHeaderName1: "X-Scope-OrgID"
-      timeInterval: 5m
+      timeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
     secureJsonData:
       httpHeaderValue1: "infitx" # TODO: possibly expose it as configurable env var
 ---
@@ -82,6 +82,8 @@ spec:
     url: http://prometheus-operated:9090
     isDefault: false
     editable: true
+    jsonData:
+      timeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
