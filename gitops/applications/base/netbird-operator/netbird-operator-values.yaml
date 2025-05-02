@@ -7,7 +7,10 @@ ingress:
   kubernetesAPI:
     enabled: false
 netbirdAPI:
-  keyFromSecret: ${ARGOCD_ENV_netbird_operator_api_key_secret}
+  keyFromSecret: true
+  keyFromSecretName: ${ARGOCD_ENV_netbird_operator_api_key_secret}
+  keyFromSecretKey: NB_API_KEY
+
 managementURL: ${ARGOCD_ENV_netbird_operator_management_url}
 operator:
   podSecurityContext:
