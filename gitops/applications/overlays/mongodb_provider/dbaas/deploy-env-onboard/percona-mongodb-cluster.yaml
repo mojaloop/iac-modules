@@ -27,8 +27,8 @@ spec:
     name: ${ARGOCD_ENV_replset_name}
     size: ${ARGOCD_ENV_replset_size}
     expose:
-      enabled: ${ARGOCD_ENV_replset_expose_enabled}
-      type: ${ARGOCD_ENV_replset_expose_type}
+      enabled: false
+      type: ClusterIP
     resources:
       limits:
         cpu: ${ARGOCD_ENV_replset_limits_cpu}
@@ -49,8 +49,8 @@ spec:
     configsvrReplSet:
       size: ${ARGOCD_ENV_configsvr_size}
       expose:
-        enabled: ${ARGOCD_ENV_configsvr_expose_enabled}
-        type: ${ARGOCD_ENV_configsvr_expose_type}
+        enabled: false
+        type: ClusterIP
       resources:
         limits:
           cpu: ${ARGOCD_ENV_configsvr_limits_cpu}
@@ -69,8 +69,8 @@ spec:
     mongos:
       size: ${ARGOCD_ENV_mongos_size}
       expose:
-        enabled: ${ARGOCD_ENV_mongos_expose_enabled}
-        type: ${ARGOCD_ENV_mongos_expose_type}
+        enabled: true
+        type: LoadBalancer
       resources:
         limits:
           cpu: ${ARGOCD_ENV_mongos_limits_cpu}
