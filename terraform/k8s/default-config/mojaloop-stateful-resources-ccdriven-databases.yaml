@@ -204,28 +204,28 @@ common_mongodb:
 
     # Replset inputs
     replset_name: "rs0"
-    replset_size: 3
+    replset_size: 1
     replset_limits_cpu: "300m"
     replset_limits_memory: "0.5G"
-    replset_requests_cpu: "300m"
+    replset_requests_cpu: "50m"
     replset_requests_memory: "0.5G"
     replset_storage: 3Gi
 
     # Sharding inputs
     sharding_enabled: true
-    configsvr_size: 3
+    configsvr_size: 1
     configsvr_expose_enabled: false
     configsvr_expose_type: "clusterIP"
     configsvr_limits_cpu: "300m"
     configsvr_limits_memory: "0.5G"
-    configsvr_requests_cpu: "300m"
+    configsvr_requests_cpu: "50m"
     configsvr_requests_memory: "0.5G"
     configsvr_storage: 3Gi
 
-    mongos_size: 3
+    mongos_size: 1
     mongos_limits_cpu: "300m"
     mongos_limits_memory: "0.5G"
-    mongos_requests_cpu: "300m"
+    mongos_requests_cpu: "50m"
     mongos_requests_memory: "0.5G"
   external_resource_config:
     allocated_storage: 100
