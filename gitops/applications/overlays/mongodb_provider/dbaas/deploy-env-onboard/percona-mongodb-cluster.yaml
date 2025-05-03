@@ -15,6 +15,7 @@ spec:
     backup:
       enabled: ${ARGOCD_ENV_backup_enabled}
       verifyTLS: ${ARGOCD_ENV_backup_verify_tls}
+      image: ${ARGOCD_ENV_backup_image}
       bucket: ${ARGOCD_ENV_env_name}-percona
       credentialsSecret: ${ARGOCD_ENV_env_name}-percona
       bucketRegion: ${ARGOCD_ENV_backup_bucket_region}
