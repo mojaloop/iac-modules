@@ -55,6 +55,7 @@ argocd_override:
           vault_config_version: "${crossplane_packages_vault_config_version}"
           sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
           sc_mysql_version: "${crossplane_packages_sc_mysql_version}"
+          sc_mongodb_version: "${crossplane_packages_sc_mongodb_version}"
           sc_nboperatorinstall_version: "${crossplane_packages_sc_nboperatorinstall_version}"
           nb_config_version: "${crossplane_packages_nb_config_version}"
           aws_documentdb_version: "${crossplane_packages_aws_documentdb_version}"
