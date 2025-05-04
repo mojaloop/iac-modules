@@ -204,7 +204,7 @@ common_mongodb:
 
     # Replset inputs
     replset_name: "rs0"
-    replset_size: 1
+    replset_size: 3
     replset_limits_cpu: "300m"
     replset_limits_memory: "0.5G"
     replset_requests_cpu: "50m"
