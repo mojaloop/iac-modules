@@ -129,3 +129,6 @@ spec:
 
         - name: "prometheus_scrape_interval"
           value: "${ARGOCD_ENV_monitoring_monitoring_prometheus_scrape_interval}"
+
+        - name: "prometheus_rate_interval"
+          value: "${ARGOCD_ENV_monitoring_prometheus_rate_interval}"

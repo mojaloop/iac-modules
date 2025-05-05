@@ -47,7 +47,7 @@ groups:
     interval: 2m 
     rules:
       - alert: Node - High CPU usage
-        expr: (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) without (cpu)) * 100 > 80
+        expr: (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[${ARGOCD_ENV_prometheus_rate_interval}])) without (cpu)) * 100 > 80
         for: 2m
         labels:
           severity: warning
