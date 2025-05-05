@@ -5,7 +5,7 @@ metadata:
   namespace: ${ARGOCD_ENV_storage_namespace}
 spec:
   cephVersion:
-    image: quay.io/ceph/ceph:v19.2.2
+    image: quay.io/ceph/ceph:${ARGOCD_ENV_rook_ceph_image_version}
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
   network:

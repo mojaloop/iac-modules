@@ -42,6 +42,9 @@ spec:
         - name: "rook_ceph_version"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_helm_version}"
 
+        - name: "rook_ceph_image_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_image_version}"
+
         - name: "storage_namespace"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
 

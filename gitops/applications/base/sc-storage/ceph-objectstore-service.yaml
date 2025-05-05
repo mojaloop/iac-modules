@@ -9,7 +9,7 @@ metadata:
   labels:
     app: "${ARGOCD_ENV_storage_namespace}-rgw"
     rook_cluster: ${ARGOCD_ENV_storage_namespace}
-    rook_object_store: ceph-objectstore
+    rook_object_store: default
 spec:
   ports:
     - name: rgw
@@ -19,6 +19,6 @@ spec:
   selector:
     app: "${ARGOCD_ENV_storage_namespace}-rgw"
     rook_cluster: ${ARGOCD_ENV_storage_namespace}
-    rook_object_store: ceph-objectstore
+    rook_object_store: default
   sessionAffinity: None
   type: LoadBalancer

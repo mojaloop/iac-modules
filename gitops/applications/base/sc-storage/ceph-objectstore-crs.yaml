@@ -17,6 +17,9 @@ spec:
       codingChunks: 1
   gateway:
     hostNetwork: false
+    resources:
+      limits:
+        memory: 2Gi
     port: 80
     # securePort: 443
     # sslCertificateRef: objectstore-internal-tls
