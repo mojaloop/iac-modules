@@ -112,11 +112,23 @@ spec:
         - name: "sc_metallb_version"
           value: "${ARGOCD_ENV_sc_metallb_version}"
 
-        - name: "sc_metallb_ip_range_end"
-          value: "${ARGOCD_ENV_sc_metallb_ip_range_end}"
+        - name: "sc_metallb_sc_ip_range_end"
+          value: "${ARGOCD_ENV_sc_metallb_sc_ip_range_end}"
 
-        - name: "sc_metallb_ip_range_begin"
-          value: "${ARGOCD_ENV_sc_metallb_ip_range_begin}"
+        - name: "sc_metallb_sc_ip_range_begin"
+          value: "${ARGOCD_ENV_sc_metallb_sc_ip_range_begin}"
+
+        - name: "sc_metallb_sc_ip_range_end"
+          value: "${ARGOCD_ENV_sc_metallb_sc_ip_range_end}"
+
+        - name: "sc_metallb_sc_ip_range_begin"
+          value: "${ARGOCD_ENV_sc_metallb_sc_ip_range_begin}"
+
+        - name: "sc_metallb_cc_envs_ip_range_begin"
+          value: "${ARGOCD_ENV_sc_metallb_cc_envs_ip_range_begin}"
+
+        - name: "sc_metallb_cc_envs_ip_range_end"
+          value: "${ARGOCD_ENV_sc_metallb_cc_envs_ip_range_end}"
 
         - name: "sc_metallb_namespace"
           value: "${ARGOCD_ENV_sc_metallb_namespace}"

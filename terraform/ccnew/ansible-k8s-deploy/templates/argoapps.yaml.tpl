@@ -98,6 +98,8 @@ argocd_override:
           capi_rook_ceph_rgw_external_ip: "${capi_rook_ceph_rgw_external_ip}"
           cloud_provider: "${cloud_platform }"
           capi_cluster_cidr: "${capi_cluster_cidr}"
+          capi_cluster_name: "sc-${cluster_name}"
+
         storage:
           cloud_provider: "${cloud_platform}"
           cluster_domain: "${cluster_domain}"
@@ -500,5 +502,7 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         metallb:
-          ip_range_begin: "${sc_metallb_ip_range_begin}"
-          ip_range_end: "${sc_metallb_ip_range_end}"
+          sc_ip_range_begin: "${sc_metallb_sc_ip_range_begin}"
+          sc_ip_range_end: "${sc_metallb_sc_ip_range_end}"
+          cc_envs_ip_range_begin: "${sc_metallb_cc_envs_ip_range_begin}"
+          cc_envs_ip_range_end: "${sc_metallb_cc_envs_ip_range_end}"
