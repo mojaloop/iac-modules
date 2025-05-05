@@ -28,3 +28,5 @@ helmCharts:
   #   valuesFile: rook-ceph-cluster-values.yaml
   #   namespace: ${ARGOCD_ENV_storage_namespace}
   #   includeCRDs: true
+patchesStrategicMerge:
+  - patch-rook-ceph-clusterrole.yaml
