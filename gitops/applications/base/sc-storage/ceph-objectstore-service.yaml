@@ -4,7 +4,7 @@ metadata:
   name: storage-rgw-external
   namespace: ${ARGOCD_ENV_storage_namespace}
   annotations:
-    metallb.universe.tf/address-pool: production
+    metallb.universe.tf/address-pool: sc
     metallb.universe.tf/loadBalancerIPs: ${ARGOCD_ENV_storage_rgw_external_ip}
   labels:
     app: "${ARGOCD_ENV_storage_namespace}-rgw"
