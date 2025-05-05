@@ -78,3 +78,19 @@ metadata:
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:v0.1.0-pr56-14780365601 #${ARGOCD_ENV_crossplane_packages_vault_config_version}
   skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: sc-mysqlcluster
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-mysqlcluster:${ARGOCD_ENV_crossplane_packages_sc_mysql_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: sc-mongodbcluster
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-mongodbcluster:${ARGOCD_ENV_crossplane_packages_sc_mongodb_version}
+  skipDependencyResolution: true
