@@ -5,7 +5,7 @@ metadata:
   namespace: ${ARGOCD_ENV_namespace}
 spec:
   parameters:
-    clusterName: ${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}
+    clusterName: ${ARGOCD_ENV_percona_cluster_name}
     externalServiceName: ${ARGOCD_ENV_externalservice_name}
     appNamespace: ${ARGOCD_ENV_namespace}
     crVersion: ${ARGOCD_ENV_cr_version}
