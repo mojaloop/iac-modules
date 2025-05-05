@@ -156,7 +156,7 @@ spec:
           tag: ${ARGOCD_ENV_capi_cluster_proxmox_host_vlan}
         rootDisk: "50G"
       options:
-        OnBoot: true
+        OnBoot: "yes"
       network:
         # nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
         ipConfig:
@@ -240,7 +240,7 @@ spec:
           - size: ${ARGOCD_ENV_capi_rook_ceph_disk_size}
             storage: ${ARGOCD_ENV_capi_cluster_storage_name}
       options:
-        OnBoot: true
+        OnBoot: "yes"
       network:
         ipConfig:
           ip: dhcp
