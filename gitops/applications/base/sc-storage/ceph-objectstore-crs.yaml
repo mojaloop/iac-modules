@@ -18,7 +18,7 @@ spec:
   gateway:
     hostNetwork: false
     port: 80
-    securePort: 443
-    sslCertificateRef: objectstore-internal-tls
+    # securePort: 443
+    # sslCertificateRef: objectstore-internal-tls
     instances: 1
     priorityClassName: system-cluster-critical
