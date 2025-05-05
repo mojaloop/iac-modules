@@ -80,6 +80,8 @@ spec:
 
         - name: "prometheus_pvc_size"
           value: "${ARGOCD_ENV_monitoring_prometheus_pvc_size}"
+        - name: "prometheus_scrape_interval"
+          value: "${ARGOCD_ENV_monitoring_monitoring_prometheus_scrape_interval}"
         - name: "prometheus_retention_period"
           value: "${ARGOCD_ENV_monitoring_prometheus_retention_period}"
         # TODO: add prometheus before the config name

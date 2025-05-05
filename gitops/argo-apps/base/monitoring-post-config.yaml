@@ -126,3 +126,6 @@ spec:
 
         - name: "mimir_alerts_notification_receiver"
           value: "${ARGOCD_ENV_monitoring_mimir_alerts_notification_receiver}"
+
+        - name: "prometheus_scrape_interval"
+          value: "${ARGOCD_ENV_monitoring_monitoring_prometheus_scrape_interval}"

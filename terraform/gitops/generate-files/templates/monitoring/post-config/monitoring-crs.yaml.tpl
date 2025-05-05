@@ -67,6 +67,9 @@ spec:
     url: ${prom-mojaloop-url}
     isDefault: true
     editable: true
+    jsonData:
+      timeInterval: ${prometheus_scrape_interval}
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
