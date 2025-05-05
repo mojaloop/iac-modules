@@ -11,6 +11,7 @@ resources:
   - ceph-objectstore-service.yaml
   - rbac.yaml
   - rgw-endpoint-job.yaml
+  - https://raw.githubusercontent.com/rook/rook/refs/heads/master/deploy/examples/toolbox.yaml
 
 helmCharts:
   - name: rook-ceph
@@ -20,11 +21,3 @@ helmCharts:
     valuesFile: rook-ceph-values.yaml
     namespace: ${ARGOCD_ENV_storage_namespace}
     includeCRDs: true
-
-  # - name: rook-ceph-cluster
-  #   releaseName: rook-ceph-cluster
-  #   version: ${ARGOCD_ENV_rook_ceph_version}
-  #   repo: https://charts.rook.io/release
-  #   valuesFile: rook-ceph-cluster-values.yaml
-  #   namespace: ${ARGOCD_ENV_storage_namespace}
-  #   includeCRDs: true
