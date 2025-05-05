@@ -8,4 +8,4 @@ spec:
   failureDomain: host
   replicated:
     size: ${ARGOCD_ENV_rook_ceph_pool_replication_size}
-    requireSafeReplicaSize: false
+    requireSafeReplicaSize: true
