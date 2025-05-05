@@ -11,6 +11,21 @@ reportsController:
         - list
         - watch
 
+backgroundController:
+  rbac:
+    coreClusterRole:
+      extraResources:
+        - apiGroups:
+            - "apps"
+          resources:
+            - "deployments"
+          verbs:
+            - get
+            - list
+            - watch
+            - update
+            - patch
+
 cleanupController:
   resources:
     # -- Pod resource limits

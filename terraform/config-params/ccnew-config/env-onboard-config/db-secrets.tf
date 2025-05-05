@@ -43,7 +43,7 @@ resource "vault_kv_secret_v2" "common_platform_db_secret" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = try(data.kubernetes_secret_v1.common_platform_db_secret.data.password, "")
+      value = try(data.kubernetes_secret_v1.common_platform_db_secret.data.root, "")
     }
   )
 }
@@ -55,7 +55,7 @@ resource "vault_kv_secret_v2" "common_mojaloop_db_secret" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = try(data.kubernetes_secret_v1.common_mojaloop_db_secret.data.password, "")
+      value = try(data.kubernetes_secret_v1.common_mojaloop_db_secret.data.root, "")
     }
   )
 }
@@ -66,7 +66,7 @@ resource "vault_kv_secret_v2" "common_mongodb_secret" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      value = try(data.kubernetes_secret_v1.common_mongodb_secret.data.password, "")
+      value = try(data.kubernetes_secret_v1.common_mongodb_secret.data.MONGODB_USER_ADMIN_PASSWORD, "")
     }
   )
 }

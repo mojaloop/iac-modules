@@ -32,7 +32,19 @@ spec:
   sources:
     - chart: pg-operator
       repoURL: https://percona.github.io/percona-helm-charts/
-      targetRevision: ${ARGOCD_ENV_utils_percona_helm_version}
+      targetRevision: ${ARGOCD_ENV_utils_percona_pg_operator_helm_version}
+      helm:
+        valuesObject:
+          watchAllNamespaces: true
+    - chart: pxc-operator
+      repoURL: https://percona.github.io/percona-helm-charts/
+      targetRevision: ${ARGOCD_ENV_utils_percona_pxc_operator_helm_version}
+      helm:
+        valuesObject:
+          watchAllNamespaces: true
+    - chart: psmdb-operator
+      repoURL: https://percona.github.io/percona-helm-charts/
+      targetRevision: ${ARGOCD_ENV_utils_percona_psmdb_operator_helm_version}
       helm:
         valuesObject:
           watchAllNamespaces: true

@@ -40,6 +40,7 @@ argocd_override:
           aws_iam_version: "${crossplane_providers_aws_iam_version}"
           aws_docdb_version: "${crossplane_providers_aws_docdb_version}"
           aws_rds_version: "${crossplane_providers_aws_rds_version}"
+          aws_route53_version: "${crossplane_providers_aws_route53_version}"
           netbird_version: "${crossplane_providers_netbird_version}"
         crossplane_functions:
           patch_and_transform_version: "${crossplane_functions_patch_and_transform_version}"
@@ -53,6 +54,8 @@ argocd_override:
           gitlab_version: "${crossplane_packages_gitlab_version}"
           vault_config_version: "${crossplane_packages_vault_config_version}"
           sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
+          sc_mysql_version: "${crossplane_packages_sc_mysql_version}"
+          sc_mongodb_version: "${crossplane_packages_sc_mongodb_version}"
           sc_nboperatorinstall_version: "${crossplane_packages_sc_nboperatorinstall_version}"
           nb_config_version: "${crossplane_packages_nb_config_version}"
           aws_documentdb_version: "${crossplane_packages_aws_documentdb_version}"
@@ -112,6 +115,10 @@ argocd_override:
           helm_version: "${rook_ceph_helm_version}"
           image_version: "${rook_ceph_image_version}"
           csi_kubelet_dir_path: "${rook_csi_kubelet_dir_path}"
+        percona:
+          pg_operator_helm_version: "${pg_operator_helm_version}"
+          pxc_operator_helm_version: "${pxc_operator_helm_version}"
+          psmdb_operator_helm_version: "${psmdb_operator_helm_version}"
 
     maintenance:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
@@ -374,6 +381,7 @@ argocd_override:
           object_storage_provider: "${object_storage_provider}"
           cloud_platform: "${cloud_platform}"
           cloud_region: "${cloud_region}"
+          dns_zone_id: "${private_dns_zone_id}"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           db_provider_cloud_region: "${cloud_region}"
