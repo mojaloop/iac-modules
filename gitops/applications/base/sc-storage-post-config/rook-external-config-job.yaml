@@ -141,7 +141,7 @@ spec:
 
               # Download export script
               curl -fsSL -o /data/create-external-cluster-resources.py \
-                https://raw.githubusercontent.com/rook/rook/refs/heads/release-1.16/deploy/examples/create-external-cluster-resources.py
+                https://raw.githubusercontent.com/rook/rook/refs/heads/release-1.17/deploy/examples/create-external-cluster-resources.py
 
               # Prepare ceph for external use
               RGW_ENDPOINT=$(cat /tmp/rgw-secret/RGW_ENDPOINT)
@@ -149,8 +149,9 @@ spec:
               python3 /data/create-external-cluster-resources.py \
                 --rbd-data-pool-name ceph-blockpool \
                 --rgw-endpoint $RGW_ENDPOINT \
-                --cephfs-data-pool-name ceph-filesystem-data0 \
+                --cephfs-data-pool-name ceph-filesystem-replicated \
                 --skip-monitoring-endpoint \
+                --rgw-skip-tls true \
                 --namespace ${ARGOCD_ENV_storage_namespace} --format bash > /data/ceph_env
           imagePullPolicy: IfNotPresent
           tty: true

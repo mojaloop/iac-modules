@@ -2,8 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespace.yaml
+  - objectstore-certs.yaml
+  - ceph-cluster-crs.yaml
+  - ceph-blockpools-crs.yaml
+  - ceph-objectstore-crs.yaml
+  - ceph-filsystem-crs.yaml
+  - storage-classes.yaml
   - ceph-objectstore-service.yaml
-  # - ceph-dashboard-loadbalancer.yaml
   - rbac.yaml
   - rgw-endpoint-job.yaml
 
@@ -16,10 +21,10 @@ helmCharts:
     namespace: ${ARGOCD_ENV_storage_namespace}
     includeCRDs: true
 
-  - name: rook-ceph-cluster
-    releaseName: rook-ceph-cluster
-    version: ${ARGOCD_ENV_rook_ceph_version}
-    repo: https://charts.rook.io/release
-    valuesFile: rook-ceph-cluster-values.yaml
-    namespace: ${ARGOCD_ENV_storage_namespace}
-    includeCRDs: true
+  # - name: rook-ceph-cluster
+  #   releaseName: rook-ceph-cluster
+  #   version: ${ARGOCD_ENV_rook_ceph_version}
+  #   repo: https://charts.rook.io/release
+  #   valuesFile: rook-ceph-cluster-values.yaml
+  #   namespace: ${ARGOCD_ENV_storage_namespace}
+  #   includeCRDs: true
