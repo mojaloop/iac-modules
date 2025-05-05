@@ -63,7 +63,7 @@ groups:
           summary: "Node={{ $labels.nodename }} is using {{ printf \"%.2f\" $value }}% RAM."
           description: "LABELS = {{ $labels }}"      
       - alert: K8s - Container CPU throttling
-        expr: rate(container_cpu_cfs_throttled_seconds_total{image!="", container!=""}[5m]) > 0.3
+        expr: rate(container_cpu_cfs_throttled_seconds_total{image!="", container!=""}[${ARGOCD_ENV_prometheus_rate_interval}]) > 0.3
         for: 2m
         labels:
           severity: warning
@@ -79,13 +79,13 @@ groups:
           summary: "Container={{ $labels.container }} in pod={{ $labels.namespace }}/{{ $labels.pod }} is using {{ printf \"%.2f\" $value }}% of memory limit."
           description: "LABELS = {{ $labels }}" 
       - alert: K8s - Container OOM restarts
-        expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+        expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset ${ARGOCD_ENV_prometheus_rate_interval} >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[${ARGOCD_ENV_prometheus_rate_interval}]) == 1
         for: 0m
         labels:
           severity: warning
         annotations:
-          summary: "Container={{ $labels.container }} in pod={{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes."
-          description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+          summary: "Container={{ $labels.container }} in pod={{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last ${ARGOCD_ENV_prometheus_rate_interval} minutes."
+          description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last ${ARGOCD_ENV_prometheus_rate_interval} minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
 
 
