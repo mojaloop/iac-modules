@@ -98,8 +98,5 @@ spec:
                   name: ${ARGOCD_ENV_vault_keys_secret}
                   key: root_token
             - name: VAULT_KV_SECRET_PATH
-              valueFrom:
-                secretKeyRef:
-                  name: ${ARGOCD_ENV_tf_post_config_output_secret}
-                  key: kv_path
+              value: "secret"
 ---
