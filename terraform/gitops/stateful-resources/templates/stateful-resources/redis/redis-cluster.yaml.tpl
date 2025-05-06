@@ -7,6 +7,10 @@ kind: Redis
 metadata:
   name: ${name}
   namespace: ${namespace}
+# %{ if nodes >= 3 }
+annotations:
+  redisclusters.redis.redis.opstreelabs.in/role-anti-affinity: "true"
+# %{ endif }
 spec:
   podSecurityContext:
     runAsUser: 1000
@@ -111,13 +115,4 @@ spec:
         resources:
           requests:
             storage: 1Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ${name}
-  namespace: ${namespace}
-spec:
-  type: ExternalName
-  externalName: mojaloop-redis-leader.${namespace}.svc.cluster.local
 # %{ endif }
