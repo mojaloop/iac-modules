@@ -30,7 +30,7 @@ spec:
         accessRole: "${ARGOCD_ENV_object_storage_access_role}"
       dnsBackend:
         enabled: true
-        path: "${ARGOCD_ENV_object_storage_backend_path}"
+        path: "${ARGOCD_ENV_dns_backend_path}"
         accessRole: "${ARGOCD_ENV_dns_access_role}"
         externalDnsRole: "${ARGOCD_ENV_external_dns_cloud_role}"
         certManagerAccessRole: "${ARGOCD_ENV_cert_manager_access_role}"
