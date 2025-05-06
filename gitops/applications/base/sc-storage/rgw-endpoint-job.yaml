@@ -3,6 +3,8 @@ kind: Job
 metadata:
   name: export-rgw-endpoint
   namespace: ${ARGOCD_ENV_storage_namespace}
+  annotations:
+    argocd.argoproj.io/compare-options: ServerSideDiff=true,IncludeMutationWebhook=true
 spec:
   template:
     spec:
