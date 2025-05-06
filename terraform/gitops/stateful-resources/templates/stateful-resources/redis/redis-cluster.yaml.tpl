@@ -8,8 +8,9 @@ metadata:
   name: ${name}
   namespace: ${namespace}
 # %{ if nodes >= 3 }
-annotations:
-  redisclusters.redis.redis.opstreelabs.in/role-anti-affinity: "true"
+  annotations:
+    redis.opstreelabs.in/recreate-statefulset: "true"
+    redisclusters.redis.redis.opstreelabs.in/role-anti-affinity: "true"
 # %{ endif }
 spec:
   podSecurityContext:
