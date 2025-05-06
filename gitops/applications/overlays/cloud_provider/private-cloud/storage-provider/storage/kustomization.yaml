@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - rook-ceph-namespace.yaml
   - sync-secrets-cm.yaml
+  - rgw-route53-record.yaml
 
 helmCharts:
   - name: rook-ceph
