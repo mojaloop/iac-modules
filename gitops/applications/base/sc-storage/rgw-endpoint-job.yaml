@@ -6,8 +6,7 @@ metadata:
 spec:
   template:
     spec:
-      ttlSecondsAfterFinished: 30
-      backoffLimit: 6
+      # ttlSecondsAfterFinished: 30
       restartPolicy: Never
       serviceAccountName: ceph-job-sa
       containers:
@@ -33,3 +32,4 @@ spec:
                 --from-literal=RGW_EXTERNAL_PORT=$RGW_EXTERNAL_PORT \
                 --from-literal=RGW_ENDPOINT=$RGW_ENDPOINT
               echo "Secret 'rgw-endpoint' created successfully."
+              exit 0
