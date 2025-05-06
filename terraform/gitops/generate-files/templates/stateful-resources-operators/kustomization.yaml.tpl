@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1
 kind: Kustomization
 resources:
 - namespace.yaml
-%{ if contains(stateful_resources_operators, "redis") ~}
+%{ if contains(keys(stateful_resources_operators), "redis") ~}
 patches:
   - patch: |-
       apiVersion: apiextensions.k8s.io/v1
