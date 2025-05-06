@@ -6,6 +6,7 @@ metadata:
 spec:
   template:
     spec:
+      ttlSecondsAfterFinished: 30
       restartPolicy: Never
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: ceph-job-sa
