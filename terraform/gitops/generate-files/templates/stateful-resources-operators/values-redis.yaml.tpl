@@ -5,3 +5,5 @@ certmanager:
   enabled: true
 issuer:
   kind: ClusterIssuer
+service:
+  namespace: redis
