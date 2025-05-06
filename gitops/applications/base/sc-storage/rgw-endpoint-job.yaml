@@ -6,6 +6,8 @@ metadata:
 spec:
   template:
     spec:
+      ttlSecondsAfterFinished: 30
+      backoffLimit: 6
       restartPolicy: Never
       serviceAccountName: ceph-job-sa
       containers:
