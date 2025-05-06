@@ -22,6 +22,9 @@ spec:
     k8sAdminRoleName: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
     adminPolicyName: "vault-admin"
     readKvSecretsPolicyName: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
+    credentialsSecretRef:
+      name: "cloud-platform-creds"
+      namespace: ${ARGOCD_ENV_vault_namespace}
     aws:
       objectStorageBackend:
         enabled: true
@@ -36,9 +39,6 @@ spec:
         certManagerAccessRole: "${ARGOCD_ENV_cert_manager_access_role}"
         certManagerCloudPolicy: "${ARGOCD_ENV_cert_manager_cloud_policy}"
       region: "${ARGOCD_ENV_dns_cloud_api_region}"
-      credentialsSecretRef:
-        name: "cloud-platform-creds"
-        namespace: ${ARGOCD_ENV_vault_namespace}
   providerConfigsRef:
     vaultProviderName: vault-provider
   managementPolicies:
