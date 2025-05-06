@@ -153,7 +153,7 @@ spec:
         description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-running state for longer than 15 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPodCrashLooping
-      expr: 'increase(kube_pod_container_status_restarts_total[1m]) > 3'
+      expr: 'increase(kube_pod_container_status_restarts_total[${prometheus_rate_interval}]) > 3'
       for: 2m
       labels:
         severity: warning
@@ -252,7 +252,7 @@ spec:
         description: "Kubernetes Job {{ $labels.namespace }}/{{ $labels.job_name }} did not complete in time.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesApiServerErrors
-      expr: 'sum(rate(apiserver_request_total{job="apiserver",code=~"^(?:5..)$"}[1m])) / sum(rate(apiserver_request_total{job="apiserver"}[1m])) * 100 > 3'
+      expr: 'sum(rate(apiserver_request_total{job="apiserver",code=~"^(?:5..)$"}[${prometheus_rate_interval}])) / sum(rate(apiserver_request_total{job="apiserver"}[${prometheus_rate_interval}])) * 100 > 3'
       for: 2m
       labels:
         severity: critical
@@ -261,7 +261,7 @@ spec:
         description: "Kubernetes API server is experiencing high error rate\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesApiClientErrors
-      expr: '(sum(rate(rest_client_requests_total{code=~"(4|5).."}[1m])) by (instance, job) / sum(rate(rest_client_requests_total[1m])) by (instance, job)) * 100 > 1'
+      expr: '(sum(rate(rest_client_requests_total{code=~"(4|5).."}[${prometheus_rate_interval}])) by (instance, job) / sum(rate(rest_client_requests_total[${prometheus_rate_interval}])) by (instance, job)) * 100 > 1'
       for: 2m
       labels:
         severity: critical
