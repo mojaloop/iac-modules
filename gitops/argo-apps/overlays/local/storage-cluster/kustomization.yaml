@@ -10,4 +10,4 @@ resources:
   - ../../../base/cert-manager.yaml
   - ../../../base/percona-operator.yaml
   - ../../../base/base-monitoring.yaml
-  - ../../../base/kyverno.yaml
+  # - ../../../base/kyverno.yaml
