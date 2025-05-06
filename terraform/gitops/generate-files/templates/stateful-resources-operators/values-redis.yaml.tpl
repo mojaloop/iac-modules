@@ -3,3 +3,5 @@ redisOperator:
   webhook: true
 certmanager:
   enabled: true
+issuer:
+  kind: ClusterIssuer
