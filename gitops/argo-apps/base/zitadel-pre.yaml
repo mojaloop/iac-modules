@@ -72,27 +72,6 @@ spec:
           - name: "argocd_namespace"
             value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
 
-    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-      targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
-      path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_security_zitadel_rdbms_provider}/zitadel-pre
-      plugin:
-        name: envsubst
-        env:
-          - name: "cockroachdb_helm_version"
-            value: "${ARGOCD_ENV_security_zitadel_cockroachdb_provider_helm_version}"
-
-          - name: "cockroachdb_pvc_size"
-            value: "${ARGOCD_ENV_security_zitadel_cockroachdb_provider_pvc_size}"
-
-          - name: "cockroachdb_release_name"
-            value: "${ARGOCD_ENV_security_zitadel_cockroachdb_provider_app_name}"
-
-          - name: "zitadel_namespace"
-            value: "${ARGOCD_ENV_security_zitadel_namespace}"
-
-          - name: "namespace"
-            value: "${ARGOCD_ENV_security_zitadel_namespace}"
-
           - name: "db_secret_name"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_db_secret}"
 
