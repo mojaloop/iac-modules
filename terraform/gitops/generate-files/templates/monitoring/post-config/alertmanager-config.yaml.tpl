@@ -34,7 +34,7 @@ spec:
         key: webhook
       sendResolved: true
       title: "[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"
-      text: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
+      text: "{{ range .Alerts }}{{ .Annotations.summary }}\n\n{{ end }}"
 %{ endif ~}
 %{ if alertmanager_jira_integration_enabled ~}
   - name: jira
