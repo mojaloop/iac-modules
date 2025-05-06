@@ -19,7 +19,7 @@ spec:
         description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostMemoryUnderMemoryPressure
-      expr: '(rate(node_vmstat_pgmajfault[1m]) > 1000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(rate(node_vmstat_pgmajfault[${prometheus_rate_interval}]) > 1000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
