@@ -309,11 +309,11 @@ argocd_override:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
-          prometheus_scrape_interval: "${prometheus_scrape_interval}"
           prometheus_retention_period: "${prometheus_retention_period}"
           ctrl_cntr_loki_helm_version: "${loki_helm_version}"
           ctrl_cntr_loki_retention_period: "${loki_retention_period}" 
         prometheus:
+          scrape_interval: "${prometheus_scrape_interval}"
           rate_interval: "${prometheus_rate_interval}"
         grafana:
           public_ingress_access_domain: "${grafana_public_access}"
