@@ -51,7 +51,7 @@ spec:
         description: "Node {{ $labels.node }} is out of pod capacity\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesContainerOomKiller
-      expr: '(kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1'
+      expr: '(kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset ${prometheus_rate_interval} >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[${prometheus_rate_interval}]) == 1'
       for: 0m
       labels:
         severity: warning
@@ -290,7 +290,7 @@ spec:
     - alert: KubernetesApiServerLatency
       # Note: We removed the deprecated metric from query
       # this query needs fix based on https://github.com/samber/awesome-prometheus-alerts/issues/404
-      expr: 'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{subresource!="log",verb!~"^(?:CONNECT|WATCHLIST|WATCH|PROXY)$"} [10m])) WITHOUT (instance, resource)) / 1e+06 > 1'
+      expr: 'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{subresource!="log",verb!~"^(?:CONNECT|WATCHLIST|WATCH|PROXY)$"} [${prometheus_rate_interval}])) WITHOUT (instance, resource)) / 1e+06 > 1'
       for: 2m
       labels:
         severity: warning
