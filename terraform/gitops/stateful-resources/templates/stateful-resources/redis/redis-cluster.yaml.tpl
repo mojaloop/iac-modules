@@ -48,6 +48,16 @@ spec:
       periodSeconds: 15
       successThreshold: 1
       timeoutSeconds: 5
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                    - leader
+            topologyKey: kubernetes.io/hostname
   redisFollower:
     readinessProbe:
       failureThreshold: 5
@@ -61,6 +71,16 @@ spec:
       periodSeconds: 15
       successThreshold: 1
       timeoutSeconds: 5
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                    - follower
+            topologyKey: kubernetes.io/hostname
 # %{ endif }
   redisExporter:
     enabled: false
