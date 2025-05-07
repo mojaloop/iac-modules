@@ -2,16 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - namespace.yaml
-%{ if contains(keys(stateful_resources_operators), "redis") ~}
-patches:
-  - patch: |-
-      apiVersion: apiextensions.k8s.io/v1
-      kind: CustomResourceDefinition
-      metadata:
-        annotations:
-          cert-manager.io/inject-ca-from: redis/serving-cert
-        name: redisclusters.redis.redis.opstreelabs.in
-%{ endif ~}
 helmCharts:
 %{ for stateful_resources_operator in stateful_resources_operators ~}
 - name: ${stateful_resources_operator.helm_chart}
