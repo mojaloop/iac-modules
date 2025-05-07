@@ -25,7 +25,7 @@ spec:
         cpu: ${ARGOCD_ENV_postgres_cpu_request}
         memory: ${ARGOCD_ENV_postgres_memory_request}
 
-    priorityClassName: ${ARGOCD_ENV_priority_class_name}  # Optional
+    priorityClassName: ""
 
     tolerations: []
 
