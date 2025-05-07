@@ -366,9 +366,6 @@ spec:
           - name: "postgres_memory_request"
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_postgres_memory_request}"
 
-          - name: "priority_class_name"
-            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_priority_class_name}"
-
           - name: "backup_image"
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_backup_image}"
 
@@ -574,9 +571,6 @@ spec:
 
           - name: "postgres_memory_request"
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_postgres_memory_request}"
-
-          - name: "priority_class_name"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_priority_class_name}"
 
           - name: "backup_image"
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_backup_image}"

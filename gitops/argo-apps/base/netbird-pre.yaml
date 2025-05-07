@@ -285,9 +285,6 @@ spec:
           - name: "postgres_memory_request"
             value: "${ARGOCD_ENV_security_netbird_percona_provider_postgres_memory_request}"
 
-          - name: "priority_class_name"
-            value: "${ARGOCD_ENV_security_netbird_percona_provider_priority_class_name}"
-
           - name: "backup_image"
             value: "${ARGOCD_ENV_security_netbird_percona_provider_backup_image}"
 
