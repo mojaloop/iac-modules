@@ -54,6 +54,7 @@ argocd_override:
           gitlab_version: "${crossplane_packages_gitlab_version}"
           vault_config_version: "${crossplane_packages_vault_config_version}"
           sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
+          sc_bootstrap_version: "${crossplane_packages_sc_bootstrap_version}"
           sc_mysql_version: "${crossplane_packages_sc_mysql_version}"
           sc_mongodb_version: "${crossplane_packages_sc_mongodb_version}"
           sc_nboperatorinstall_version: "${crossplane_packages_sc_nboperatorinstall_version}"
