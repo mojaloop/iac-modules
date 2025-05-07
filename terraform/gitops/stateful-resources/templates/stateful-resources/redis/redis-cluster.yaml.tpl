@@ -51,13 +51,15 @@ spec:
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: role
-                  operator: In
-                  values:
-                    - leader
-            topologyKey: kubernetes.io/hostname
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - leader
+              topologyKey: kubernetes.io/hostname
+            weight: 100
   redisFollower:
     readinessProbe:
       failureThreshold: 5
@@ -74,13 +76,15 @@ spec:
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: role
-                  operator: In
-                  values:
-                    - follower
-            topologyKey: kubernetes.io/hostname
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - follower
+              topologyKey: kubernetes.io/hostname
+            weight: 100
 # %{ endif }
   redisExporter:
     enabled: false
