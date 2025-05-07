@@ -423,7 +423,7 @@ zitadel_perc_pgbouncer_replicas: 3
 zitadel_perc_pgbouncer_expose_superusers: false
 zitadel_perc_pgbouncer_pool_mode: session
 zitadel_perc_pgbouncer_query_wait_timeout: "10"
-zitadel_perc_pgbouncer_max_prepared_statements: "0"
+zitadel_perc_pgbouncer_max_prepared_statements: "1"
 zitadel_perc_pgbouncer_cpu_limit: "200m"
 zitadel_perc_pgbouncer_memory_limit: "128Mi"
 zitadel_perc_pgbouncer_cpu_request: "100m"
