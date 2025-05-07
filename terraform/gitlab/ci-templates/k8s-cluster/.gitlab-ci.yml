@@ -139,6 +139,10 @@ init:
   script:
     - !reference [.source, script]
     - terragrunt run-all init -input=false -reconfigure
+    - find custom-config -name "*.yaml" -o -name "*.yml" | while read -r file; do
+        echo "Validating $file";
+        yq eval '.' "$file" > /dev/null || (echo "Invalid YAML in $file" && exit 1);
+      done
   artifacts:
     paths:
       - $CONFIG_PATH/*.yaml
