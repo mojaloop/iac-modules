@@ -72,27 +72,6 @@ spec:
           - name: "argocd_namespace"
             value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
 
-    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-      targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
-      path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_security_zitadel_rdbms_provider}/zitadel-pre
-      plugin:
-        name: envsubst
-        env:
-          - name: "cockroachdb_helm_version"
-            value: "${ARGOCD_ENV_security_zitadel_cockroachdb_provider_helm_version}"
-
-          - name: "cockroachdb_pvc_size"
-            value: "${ARGOCD_ENV_security_zitadel_cockroachdb_provider_pvc_size}"
-
-          - name: "cockroachdb_release_name"
-            value: "${ARGOCD_ENV_security_zitadel_cockroachdb_provider_app_name}"
-
-          - name: "zitadel_namespace"
-            value: "${ARGOCD_ENV_security_zitadel_namespace}"
-
-          - name: "namespace"
-            value: "${ARGOCD_ENV_security_zitadel_namespace}"
-
           - name: "db_secret_name"
             value: "${ARGOCD_ENV_security_zitadel_zitadel_db_secret}"
 
@@ -135,18 +114,6 @@ spec:
 
           - name: "vault_namespace"
             value: "${ARGOCD_ENV_vault_vault_namespace}"
-
-          - name: "postgres_replicas"
-            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_replicas}"
-
-          - name: "postgres_proxy_replicas"
-            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_proxy_replicas}"
-
-          - name: "postgres_storage_size"
-            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_storage_size}"
-
-          - name: "pgdb_helm_version"
-            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgdb_helm_version}"
 
           - name: "allow_major_version_upgrade"
             value: "${ARGOCD_ENV_security_zitadel_rds_provider_allow_major_version_upgrade}"
@@ -243,3 +210,87 @@ spec:
 
           - name: "port"
             value: "5432"
+
+          - name: "postgres_replicas"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_replicas}"
+
+          - name: "postgres_proxy_replicas"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_proxy_replicas}"
+
+          - name: "postgres_storage_size"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_storage_size}"
+
+          - name: "pgdb_helm_version"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgdb_helm_version}"
+
+          - name: "cr_version"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_cr_version}"
+
+          - name: "pg_version"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pg_version}"
+
+          - name: "postgres_image"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_image}"
+
+          - name: "postgres_cpu_limit"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_cpu_limit}"
+
+          - name: "postgres_memory_limit"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_memory_limit}"
+
+          - name: "postgres_cpu_request"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_cpu_request}"
+
+          - name: "postgres_memory_request"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_memory_request}"
+
+          - name: "backup_image"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_image}"
+
+          - name: "backup_endpoint"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_endpoint}"
+
+          - name: "backup_bucket"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_bucket}"
+
+          - name: "backup_region"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_region}"
+
+          - name: "backup_full_schedule"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_full_schedule}"
+
+          - name: "backup_diff_schedule"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_diff_schedule}"
+
+          - name: "pgbouncer_image"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_image}"
+
+          - name: "pgbouncer_replicas"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_replicas}"
+
+          - name: "pgbouncer_expose_superusers"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_expose_superusers}"
+
+          - name: "pgbouncer_pool_mode"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_pool_mode}"
+
+          - name: "pgbouncer_query_wait_timeout"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_query_wait_timeout}"
+
+          - name: "pgbouncer_max_prepared_statements"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_max_prepared_statements}"
+
+          - name: "pgbouncer_cpu_limit"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_cpu_limit}"
+
+          - name: "pgbouncer_memory_limit"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_memory_limit}"
+
+          - name: "pgbouncer_cpu_request"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_cpu_request}"
+
+          - name: "pgbouncer_memory_request"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_memory_request}"
+
+          - name: "pgbouncer_expose_type"
+            value: "LoadBalancer"
