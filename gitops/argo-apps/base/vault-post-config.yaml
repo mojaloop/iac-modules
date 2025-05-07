@@ -112,7 +112,7 @@ spec:
             value: "${ARGOCD_ENV_maintenance_velero_object_storage_access_role}"
 
           - name: "cloud_platform_api_client_secret"
-            value: "${ARGOCD_ENV_cloud_platform_api_client_secret}"
+            value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_secret}"
 
           - name: "cloud_platform_api_client_id"
-            value: "${ARGOCD_ENV_cloud_platform_api_client_id}"
+            value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_id}"
