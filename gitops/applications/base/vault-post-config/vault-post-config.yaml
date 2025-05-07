@@ -6,6 +6,8 @@ kind: Secret
 metadata:
   name: cloud-platform-creds
   namespace: ${ARGOCD_ENV_vault_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: -5
 type: Opaque
 ---
 apiVersion: vault.mojaloop.io/v1alpha1
@@ -14,7 +16,7 @@ metadata:
   name: vault-post-config
   namespace: ${ARGOCD_ENV_vault_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: -5
+    argocd.argoproj.io/sync-wave: 1
 spec:
   parameters:
     kvPath: "${ARGOCD_ENV_vault_kv_secret}"
