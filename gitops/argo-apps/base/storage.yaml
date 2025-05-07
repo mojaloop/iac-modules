@@ -63,9 +63,3 @@ spec:
 
         - name: "rook_ceph_helm_version"
           value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_helm_version}"
-
-        - name: "rook_ceph_rgw_external_ip"
-          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"
-
-        - name: "dns_zone_id"
-          value: "${ARGOCD_ENV_utils_storage_dns_zone_id}"

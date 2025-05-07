@@ -1,12 +1,12 @@
 apiVersion: utils.aws.mojaloop.io/v1alpha1
 kind: AWSRoute53Record
 metadata:
-  name: ceph-rgw-endpoint
+  name: ceph-objectstore-rgw
   annotations:
      argocd.argoproj.io/sync-wave: '-5'
 spec:
   parameters:
-    name: s3
+    name: cephobjectstore
     region: eu-west-1
     ttl: 300
     type: A
