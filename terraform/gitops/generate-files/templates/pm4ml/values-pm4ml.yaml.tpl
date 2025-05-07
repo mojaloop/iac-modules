@@ -26,6 +26,19 @@ frontend:
     LOGOUT_URL: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_pm4ml_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
     LOGIN_PROVIDER: ${keycloak_pm4ml_realm_name}
     ${indent(4, yamlencode(ui_custom_config))}
+    
+    # RED THEME
+    # PRIMARY_COLOR=#e80002
+    # SECONDARY_COLOR=#e80002
+    # ACCENT_COLOR=#9b0214
+    # TITLE='Airtel'
+    # COUNTRY_LOGO="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Flag_of_Zambia.svg/125px-Flag_of_Zambia.svg.png"
+    # LOGO="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Bharti_Airtel_Logo.svg/150px-Bharti_Airtel_Logo.svg.png"
+
+    # YELLOW THEME
+    # PRIMARY_COLOR=#f9d342
+    # SECONDARY_COLOR=#f1b92a
+    # ACCENT_COLOR=#a77e07'
 
 experience-api:
   ingress:
