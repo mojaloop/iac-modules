@@ -4,6 +4,7 @@ resources:
   - namespaces.yaml
   - zitadel-random-secrets.yaml
   - local-external-secrets-store.yaml
+  - zitadel-config-secrets.yaml
 
 
 patches:
