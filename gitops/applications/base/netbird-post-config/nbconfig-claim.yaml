@@ -1,5 +1,5 @@
 apiVersion: nb.mojaloop.io/v1alpha1
-kind: PostConfig
+kind: NetbirdPostConfig
 metadata:
   name: netbird-post-config
   namespace: ${ARGOCD_ENV_netbird_namespace}
