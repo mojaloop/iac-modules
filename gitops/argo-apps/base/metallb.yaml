@@ -33,7 +33,7 @@ spec:
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: "${ARGOCD_ENV_sc_app_namespace}"
+    namespace: "${ARGOCD_ENV_sc_metallb_namespace}"
 
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
