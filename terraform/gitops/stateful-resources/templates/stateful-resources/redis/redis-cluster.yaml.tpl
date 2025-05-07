@@ -60,6 +60,15 @@ spec:
                       - leader
               topologyKey: kubernetes.io/hostname
             weight: 100
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - follower
+              topologyKey: kubernetes.io/hostname
+            weight: 10
   redisFollower:
     readinessProbe:
       failureThreshold: 5
@@ -85,6 +94,15 @@ spec:
                       - follower
               topologyKey: kubernetes.io/hostname
             weight: 100
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - leader
+              topologyKey: kubernetes.io/hostname
+            weight: 10
 # %{ endif }
   redisExporter:
     enabled: false
