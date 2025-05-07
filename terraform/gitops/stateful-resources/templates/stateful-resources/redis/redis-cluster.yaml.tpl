@@ -10,9 +10,6 @@ metadata:
 # %{ if nodes >= 3 }
   annotations:
     redis.opstreelabs.in/recreate-statefulset: "true"
-    # %{ if !disable_ha }
-    redisclusters.redis.redis.opstreelabs.in/role-anti-affinity: "true"
-    # %{ endif }
 # %{ endif }
 spec:
   podSecurityContext:
@@ -52,6 +49,18 @@ spec:
       timeoutSeconds: 5
     affinity:
       podAntiAffinity:
+        # %{ if !disable_ha }
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: redis_setup_type
+                  operator: In
+                  values:
+                    - cluster
+            matchLabelKeys:
+              - apps.kubernetes.io/pod-index
+            topologyKey: kubernetes.io/hostname
+        # %{ endif }
         preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
               labelSelector:
@@ -86,6 +95,18 @@ spec:
       timeoutSeconds: 5
     affinity:
       podAntiAffinity:
+        # %{ if !disable_ha }
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: redis_setup_type
+                  operator: In
+                  values:
+                    - cluster
+            matchLabelKeys:
+              - apps.kubernetes.io/pod-index
+            topologyKey: kubernetes.io/hostname
+        # %{ endif }
         preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
               labelSelector:
