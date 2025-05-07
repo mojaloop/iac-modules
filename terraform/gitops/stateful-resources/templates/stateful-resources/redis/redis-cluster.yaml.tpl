@@ -7,10 +7,8 @@ kind: Redis
 metadata:
   name: ${name}
   namespace: ${namespace}
-# %{ if nodes >= 3 }
   annotations:
     redis.opstreelabs.in/recreate-statefulset: "true"
-# %{ endif }
 spec:
   podSecurityContext:
     runAsUser: 1000
