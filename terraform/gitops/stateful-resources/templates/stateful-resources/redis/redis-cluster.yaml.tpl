@@ -10,9 +10,9 @@ metadata:
 # %{ if nodes >= 3 }
   annotations:
     redis.opstreelabs.in/recreate-statefulset: "true"
-    # ${ if ! disable_ha}
+    # %{ if !disable_ha }
     redisclusters.redis.redis.opstreelabs.in/role-anti-affinity: "true"
-    # ${ endif }
+    # %{ endif }
 # %{ endif }
 spec:
   podSecurityContext:
