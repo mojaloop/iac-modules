@@ -11,7 +11,7 @@ resources:
   - ceph-objectstore-service.yaml
   - rbac.yaml
   - rgw-endpoint-job.yaml
-  - https://raw.githubusercontent.com/rook/rook/refs/heads/master/deploy/examples/toolbox.yaml
+  - https://raw.githubusercontent.com/rook/rook/refs/tags/v${ARGOCD_ENV_rook_ceph_version}/deploy/examples/toolbox.yaml
 
 helmCharts:
   - name: rook-ceph
