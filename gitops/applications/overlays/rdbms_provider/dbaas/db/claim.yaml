@@ -43,9 +43,9 @@ spec:
         replicas: ${ARGOCD_ENV_pgbouncer_replicas}
         exposeSuperusers: ${ARGOCD_ENV_pgbouncer_expose_superusers}
         globalConfig:
-          pool_mode: session
-          query_wait_timeout: "10"
-          max_prepared_statements: "0"
+          pool_mode: ${ARGOCD_ENV_pgbouncer_pool_mode}
+          query_wait_timeout: ${ARGOCD_ENV_pgbouncer_query_wait_timeout}
+          max_prepared_statements: ${ARGOCD_ENV_pgbouncer_max_prepared_statements}
         resources:
           limits:
             cpu: ${ARGOCD_ENV_pgbouncer_cpu_limit}
