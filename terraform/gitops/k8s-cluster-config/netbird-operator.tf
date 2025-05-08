@@ -6,7 +6,6 @@ module "generate_netbird_operator_files" {
     netbird_operator_api_key_vault_path = var.netbird_operator_api_key_vault_path
     netbird_operator_management_url     = var.netbird_operator_management_url
     netbird_operator_api_key_secret     = var.netbird_operator_api_key_secret
-    kyverno_chart_version               = var.kyverno_chart_version
     netbird_operator_helm_version       = var.netbird_operator_helm_version
     external_secret_sync_wave           = var.external_secret_sync_wave
     gitlab_project_url                  = var.gitlab_project_url
