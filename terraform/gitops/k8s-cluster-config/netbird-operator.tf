@@ -1,6 +1,7 @@
 module "generate_netbird_operator_files" {
   source = "../generate-files"
   var_map = {
+    netbird_operator_cluster_name       = var.cluster_name
     netbird_operator_sync_wave          = var.netbird_operator_sync_wave
     netbird_operator_namespace          = var.netbird_operator_namespace
     netbird_operator_api_key_vault_path = var.netbird_operator_api_key_vault_path
