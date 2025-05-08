@@ -19,7 +19,7 @@ spec:
     - name: rgw-ssl
       port: 443
       protocol: TCP
-      targetPort: 8443
+      targetPort: 443
   selector:
     app: "${ARGOCD_ENV_storage_namespace}-rgw"
     rook_cluster: ${ARGOCD_ENV_storage_namespace}
