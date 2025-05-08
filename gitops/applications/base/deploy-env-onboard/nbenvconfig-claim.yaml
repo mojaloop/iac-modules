@@ -21,7 +21,7 @@ spec:
       setupKey:
         name: ${ARGOCD_ENV_env_name}-ms-gw-key
         namespace: ${ARGOCD_ENV_env_name}
-        vaultSecretPath: ${var.env_name}/netbird_ms_gw_setup_key
+        vaultSecretPath: ${ARGOCD_ENV_env_name}/netbird_ms_gw_setup_key
       groupNames:
         managedSvc: ${ARGOCD_ENV_env_name}-ms-gw
   providerConfigsRef:
