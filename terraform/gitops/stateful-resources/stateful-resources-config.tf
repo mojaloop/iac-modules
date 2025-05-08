@@ -351,5 +351,5 @@ variable "managed_svc_as_monolith" {
 }
 
 variable "cluster" {
-  type = map
+  type = any
 }
