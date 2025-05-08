@@ -54,6 +54,7 @@ module "generate_monitoring_files" {
     loki_ingester_replica_count            = try(var.common_var_map.loki_ingester_replica_count, local.loki_ingester_replica_count)
     loki_querier_replica_count             = try(var.common_var_map.loki_querier_replica_count, local.loki_querier_replica_count)
     prometheus_scrape_interval             = try(var.common_var_map.prometheus_scrape_interval, local.prometheus_scrape_interval)
+    prometheus_rate_interval               = try(var.common_var_map.prometheus_rate_interval, local.prometheus_rate_interval)
     prometheus_retention_period            = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                   = try(var.common_var_map.alertmanager_enabled, false)
     alertmanager_slack_integration_enabled = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
@@ -174,6 +175,7 @@ locals {
   loki_ingester_replica_count         = "3"
   loki_querier_replica_count          = "1"
   prometheus_scrape_interval          = "5m"
+  prometheus_rate_interval            = "15m"
   prometheus_retention_period         = "10d"
   tempo_retention_period              = "72h"
   prom_tsdb_min_block_duration        = "30m"

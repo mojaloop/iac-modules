@@ -19,7 +19,7 @@ spec:
         description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostMemoryUnderMemoryPressure
-      expr: '(rate(node_vmstat_pgmajfault[1m]) > 1000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(rate(node_vmstat_pgmajfault[${prometheus_rate_interval}]) > 1000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
@@ -37,7 +37,7 @@ spec:
         description: "Node memory is < 20% for 1 week. Consider reducing memory space. (instance {{ $labels.nodename }})\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostUnusualNetworkThroughputIn
-      expr: '(sum by (instance) (rate(node_network_receive_bytes_total[2m])) / 1024 / 1024 > 100) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(sum by (instance) (rate(node_network_receive_bytes_total[${prometheus_rate_interval}])) / 1024 / 1024 > 100) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 5m
       labels:
         severity: warning
@@ -46,7 +46,7 @@ spec:
         description: "Host network interfaces are probably receiving too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostUnusualNetworkThroughputOut
-      expr: '(sum by (instance) (rate(node_network_transmit_bytes_total[2m])) / 1024 / 1024 > 100) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(sum by (instance) (rate(node_network_transmit_bytes_total[${prometheus_rate_interval}])) / 1024 / 1024 > 100) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 5m
       labels:
         severity: warning
@@ -55,7 +55,7 @@ spec:
         description: "Host network interfaces are probably sending too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostUnusualDiskReadRate
-      expr: '(sum by (instance) (rate(node_disk_read_bytes_total[2m])) / 1024 / 1024 > 50) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(sum by (instance) (rate(node_disk_read_bytes_total[${prometheus_rate_interval}])) / 1024 / 1024 > 50) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 5m
       labels:
         severity: warning
@@ -64,7 +64,7 @@ spec:
         description: "Disk is probably reading too much data (> 50 MB/s)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostUnusualDiskWriteRate
-      expr: '(sum by (instance) (rate(node_disk_written_bytes_total[2m])) / 1024 / 1024 > 50) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(sum by (instance) (rate(node_disk_written_bytes_total[${prometheus_rate_interval}])) / 1024 / 1024 > 50) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
@@ -118,7 +118,7 @@ spec:
         description: "Filesystem is predicted to run out of inodes within the next 24 hours at current write rate\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostUnusualDiskReadLatency
-      expr: '(rate(node_disk_read_time_seconds_total[1m]) / rate(node_disk_reads_completed_total[1m]) > 0.1 and rate(node_disk_reads_completed_total[1m]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(rate(node_disk_read_time_seconds_total[${prometheus_rate_interval}]) / rate(node_disk_reads_completed_total[${prometheus_rate_interval}]) > 0.1 and rate(node_disk_reads_completed_total[${prometheus_rate_interval}]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
@@ -127,7 +127,7 @@ spec:
         description: "Disk latency is growing (read operations > 100ms)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostUnusualDiskWriteLatency
-      expr: '(rate(node_disk_write_time_seconds_total[1m]) / rate(node_disk_writes_completed_total[1m]) > 0.1 and rate(node_disk_writes_completed_total[1m]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(rate(node_disk_write_time_seconds_total[${prometheus_rate_interval}]) / rate(node_disk_writes_completed_total[${prometheus_rate_interval}]) > 0.1 and rate(node_disk_writes_completed_total[${prometheus_rate_interval}]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
@@ -136,7 +136,7 @@ spec:
         description: "Disk latency is growing (write operations > 100ms)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostHighCpuLoad
-      expr: '(sum by (instance) (avg by (mode, instance) (rate(node_cpu_seconds_total{mode!="idle"}[2m]))) > 0.8) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(sum by (instance) (avg by (mode, instance) (rate(node_cpu_seconds_total{mode!="idle"}[${prometheus_rate_interval}]))) > 0.8) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 10m
       labels:
         severity: warning
@@ -154,7 +154,7 @@ spec:
         description: "CPU load is < 20% for 1 week. Consider reducing the number of CPUs.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostCpuStealNoisyNeighbor
-      expr: '(avg by(instance) (rate(node_cpu_seconds_total{mode="steal"}[5m])) * 100 > 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(avg by(instance) (rate(node_cpu_seconds_total{mode="steal"}[${prometheus_rate_interval}])) * 100 > 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
         severity: warning
@@ -163,7 +163,7 @@ spec:
         description: "CPU steal is > 10%. A noisy neighbor is killing VM performances or a spot instance may be out of credit.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostCpuHighIowait
-      expr: '(avg by (instance) (rate(node_cpu_seconds_total{mode="iowait"}[5m])) * 100 > 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(avg by (instance) (rate(node_cpu_seconds_total{mode="iowait"}[${prometheus_rate_interval}])) * 100 > 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
         severity: warning
@@ -172,7 +172,7 @@ spec:
         description: "CPU iowait > 10%. A high iowait means that you are disk or network bound.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostUnusualDiskIo
-      expr: '(rate(node_disk_io_time_seconds_total[1m]) > 0.5) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(rate(node_disk_io_time_seconds_total[${prometheus_rate_interval}]) > 0.5) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 5m
       labels:
         severity: warning
@@ -181,7 +181,7 @@ spec:
         description: "Time spent in IO is too high on {{ $labels.nodename }}. Check storage for issues.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostContextSwitching
-      expr: '((rate(node_context_switches_total[5m])) / (count without(cpu, mode) (node_cpu_seconds_total{mode="idle"})) > 10000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '((rate(node_context_switches_total[${prometheus_rate_interval}])) / (count without(cpu, mode) (node_cpu_seconds_total{mode="idle"})) > 10000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
         severity: warning
@@ -256,7 +256,7 @@ spec:
         description: "Different kernel versions are running\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostOomKillDetected
-      expr: '(increase(node_vmstat_oom_kill[1m]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(increase(node_vmstat_oom_kill[${prometheus_rate_interval}]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
         severity: warning
@@ -266,7 +266,7 @@ spec:
 
     - alert: HostEdacCorrectableErrorsDetected
       # NOTE: node_edac_correctable_errors_total metric metric not exposed by node exporter as of now
-      expr: '(increase(node_edac_correctable_errors_total[1m]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(increase(node_edac_correctable_errors_total[${prometheus_rate_interval}]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
         severity: info
@@ -285,7 +285,7 @@ spec:
         description: "Host {{ $labels.nodename }} has had {{ printf \"%.0f\" $value }} uncorrectable memory errors reported by EDAC in the last 5 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostNetworkReceiveErrors
-      expr: '(rate(node_network_receive_errs_total[2m]) / rate(node_network_receive_packets_total[2m]) > 0.01) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(rate(node_network_receive_errs_total[${prometheus_rate_interval}]) / rate(node_network_receive_packets_total[${prometheus_rate_interval}]) > 0.01) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
@@ -294,7 +294,7 @@ spec:
         description: "Host {{ $labels.nodename }} interface {{ $labels.device }} has encountered {{ printf \"%.0f\" $value }} receive errors in the last two minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostNetworkTransmitErrors
-      expr: '(rate(node_network_transmit_errs_total[2m]) / rate(node_network_transmit_packets_total[2m]) > 0.01) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(rate(node_network_transmit_errs_total[${prometheus_rate_interval}]) / rate(node_network_transmit_packets_total[${prometheus_rate_interval}]) > 0.01) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
@@ -303,7 +303,7 @@ spec:
         description: "Host {{ $labels.nodename }} interface {{ $labels.device }} has encountered {{ printf \"%.0f\" $value }} transmit errors in the last two minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostNetworkInterfaceSaturated
-      expr: '((rate(node_network_receive_bytes_total{device!~"^tap.*|^vnet.*|^veth.*|^tun.*"}[1m]) + rate(node_network_transmit_bytes_total{device!~"^tap.*|^vnet.*|^veth.*|^tun.*"}[1m])) / node_network_speed_bytes{device!~"^tap.*|^vnet.*|^veth.*|^tun.*"} > 0.8 < 10000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '((rate(node_network_receive_bytes_total{device!~"^tap.*|^vnet.*|^veth.*|^tun.*"}[${prometheus_rate_interval}]) + rate(node_network_transmit_bytes_total{device!~"^tap.*|^vnet.*|^veth.*|^tun.*"}[${prometheus_rate_interval}])) / node_network_speed_bytes{device!~"^tap.*|^vnet.*|^veth.*|^tun.*"} > 0.8 < 10000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 1m
       labels:
         severity: warning
@@ -331,7 +331,7 @@ spec:
         description: "The number of conntrack is approaching limit\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostClockSkew
-      expr: '((node_timex_offset_seconds > 0.05 and deriv(node_timex_offset_seconds[5m]) >= 0) or (node_timex_offset_seconds < -0.05 and deriv(node_timex_offset_seconds[5m]) <= 0)) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '((node_timex_offset_seconds > 0.05 and deriv(node_timex_offset_seconds[${prometheus_rate_interval}]) >= 0) or (node_timex_offset_seconds < -0.05 and deriv(node_timex_offset_seconds[${prometheus_rate_interval}]) <= 0)) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 10m
       labels:
         severity: warning
@@ -340,7 +340,7 @@ spec:
         description: "Clock skew detected. Clock is out of sync. Ensure NTP is configured correctly on this host.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: HostClockNotSynchronising
-      expr: '(min_over_time(node_timex_sync_status[1m]) == 0 and node_timex_maxerror_seconds >= 16) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(min_over_time(node_timex_sync_status[${prometheus_rate_interval}]) == 0 and node_timex_maxerror_seconds >= 16) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
@@ -376,10 +376,10 @@ spec:
         summary: Too many processes running on host (instance {{ $labels.nodename }})
         description: "Too many processes running on host \n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
     - alert: RestartingNode
-      expr: '(changes(node_boot_time_seconds[10m]) > 3) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(changes(node_boot_time_seconds[30m]) > 3) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: critical
       annotations:
         summary: Node may be in restart loop  (instance {{ $labels.nodename }})
-        description: "Node restarted {{ $value }} times during last 10 minutes. \n  LABELS = {{ $labels }}"
+        description: "Node restarted {{ $value }} times during last 30 minutes. \n  LABELS = {{ $labels }}"

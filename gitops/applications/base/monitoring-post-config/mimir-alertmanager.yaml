@@ -96,7 +96,7 @@ spec:
                 - api_url: {{.webhook}}
                   send_resolved: true
                   title: {{ `"[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"` }}
-                  text: {{ `"{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"` }}
+                  text: {{ `"{{ range .Alerts }}{{ .Annotations.summary }}\n\n{{ end }}"` }}
                   title_link: http://${ARGOCD_ENV_grafana_web_name}.${ARGOCD_ENV_grafana_dns_subdomain}/alerting/groups
             - name: 'jira'
               opsgenie_configs:
