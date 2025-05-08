@@ -119,6 +119,7 @@ inputs = {
   crossplane_functions_auto_ready_version  = local.common_vars.crossplane_functions_auto_ready_version
   crossplane_functions_extra_resources_version = local.common_vars.crossplane_functions_extra_resources_version
   cloud_platform                           = get_env("cloud_platform")
+  netbird_operator_management_url          = local.netbird_operator_management_url
 }
 
 locals {
@@ -185,6 +186,7 @@ locals {
   managed_svc_as_monolith       = get_env("managed_svc_as_monolith")
   k8s_cluster_type              = get_env("k8s_cluster_type")
   db_mediated_by_control_center = get_env("db_mediated_by_control_center")
+  netbird_operator_management_url = get_env("netbird_operator_management_url")
 }
 
 generate "required_providers_override" {
