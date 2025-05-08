@@ -9,21 +9,21 @@ spec:
       esoPushSecret: true
     envProperties:
       setupKey:
-        name: "${ARGOCD_ENV_env_name}-k8s-nodes-key"
+        name: ${ARGOCD_ENV_env_name}-k8s-nodes-key
         namespace: ${ARGOCD_ENV_env_name}
-        vaultSecretPath: "${ARGOCD_ENV_env_name}/netbird_k8s_setup_key"
+        vaultSecretPath: ${ARGOCD_ENV_env_name}/netbird_k8s_setup_key
       groupNames:
         ccNetworkResource: ${ARGOCD_ENV_cc_network_resource_group}
         scNetworkResource: ${ARGOCD_ENV_sc_network_resource_group}
-        envK8sNodes: "${ARGOCD_ENV_env_name}-k8s-nodes"
+        envK8sNodes: ${ARGOCD_ENV_env_name}-k8s-nodes
     managedService:
       enabled: ${ARGOCD_ENV_managed_svc_enabled}
       setupKey:
-        name: "${ARGOCD_ENV_env_name}-ms-gw-key"
+        name: ${ARGOCD_ENV_env_name}-ms-gw-key
         namespace: ${ARGOCD_ENV_env_name}
-        vaultSecretPath: "${var.env_name}/netbird_ms_gw_setup_key"
+        vaultSecretPath: ${var.env_name}/netbird_ms_gw_setup_key
       groupNames:
-        managedSvc: "${ARGOCD_ENV_env_name}-ms-gw"
+        managedSvc: ${ARGOCD_ENV_env_name}-ms-gw
   providerConfigsRef:
     netbirdProviderConfigName: "netbird-crossplane-provider-config"
     ccK8sProviderName: "kubernetes-provider"
