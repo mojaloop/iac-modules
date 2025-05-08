@@ -72,7 +72,7 @@ spec:
                   --from-literal=RGW_ENDPOINT="$RGW_ENDPOINT" \
                   --from-literal=RGW_EXTERNAL_IP="$RGW_EXTERNAL_IP" \
                   --from-literal=RGW_EXTERNAL_PORT="$RGW_EXTERNAL_PORT" \
-                  --from-literal=RGW_SUB_DOMAIN="${ARGOCD_ENV_storage_rgw_subdomain}"
+                  --from-literal=RGW_SUB_DOMAIN="${ARGOCD_ENV_storage_rgw_subdomain}" \
                   --from-file=ARGS=/tmp/ceph-args.conf \
                   --dry-run=client -o yaml | kubectl apply -f -
 
