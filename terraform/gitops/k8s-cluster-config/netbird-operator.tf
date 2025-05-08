@@ -6,6 +6,10 @@ module "generate_netbird_operator_files" {
     netbird_operator_api_key_vault_path = var.netbird_operator_api_key_vault_path
     netbird_operator_management_url     = var.netbird_operator_management_url
     netbird_operator_api_key_secret     = var.netbird_operator_api_key_secret
+    kyverno_chart_version               = var.kyverno_chart_version
+    netbird_operator_helm_version       = var.netbird_operator_helm_version
+    external_secret_sync_wave           = var.external_secret_sync_wave
+    gitlab_project_url                  = var.gitlab_project_url
   }
 
   file_list       = [for f in fileset(local.netbird_operator_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.netbird_operator_app_file, f))]
@@ -47,4 +51,15 @@ variable "netbird_operator_api_key_vault_path" {
 variable "netbird_operator_management_url" {
   type        = string
   description = "url to connect to management netbird instance"
+}
+
+variable "kyverno_chart_version" {
+  type        = string
+  description = "kyverno_chart_version"
+  default     = "3.3.7"
+}
+variable "netbird_operator_helm_version" {
+  type        = string
+  description = "netbird_operator_helm_version"
+  default     = "0.1.10"
 }
