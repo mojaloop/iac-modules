@@ -13,7 +13,7 @@ module "generate_netbird_operator_files" {
 
   file_list       = [for f in fileset(local.netbird_operator_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.netbird_operator_app_file, f))]
   template_path   = local.netbird_operator_template_path
-  output_path     = "${var.output_dir}/netbird_operator"
+  output_path     = "${var.output_dir}/netbird-operator"
   app_file        = local.netbird_operator_app_file
   app_output_path = "${var.output_dir}/app-yamls"
 }
