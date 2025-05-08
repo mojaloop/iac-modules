@@ -26,6 +26,6 @@ spec:
         managedSvc: ${ARGOCD_ENV_env_name}-ms-gw
   providerConfigsRef:
     netbirdProviderConfigName: "netbird-crossplane-provider-config"
-    ccK8sProviderName: "kubernetes-provider"
+    k8sProviderConfigName: "kubernetes-provider"
   managementPolicies:
     - "*"
