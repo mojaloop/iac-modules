@@ -9,6 +9,7 @@ metadata:
   namespace: ${namespace}
   annotations:
     redis.opstreelabs.in/recreate-statefulset: "true"
+# ${ jsonencode(cluster) }
 spec:
   podSecurityContext:
     runAsUser: 1000
