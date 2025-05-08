@@ -20,6 +20,8 @@ spec:
       localSecretName: "${ARGOCD_ENV_env_name}-access-token"
       localSecretNamespace: ${ARGOCD_ENV_env_name}
       vaultSecretPath: "${ARGOCD_ENV_env_name}/netbird_op_access_token"
+    pushSecret:
+      esoPushSecret: true
   providerConfigsRef:
     netbirdProviderConfigName: "netbird-crossplane-provider-config"
     ccK8sProviderName: "kubernetes-provider"
