@@ -21,7 +21,7 @@ spec:
       limits:
         memory: 2Gi
     port: 80
-    # securePort: 443
-    # sslCertificateRef: objectstore-internal-tls
-    instances: 1
+    securePort: 443
+    sslCertificateRef: objectstore-internal-tls
+    instances: ${ARGOCD_ENV_storage_rgw_instance_replicas}
     priorityClassName: system-cluster-critical

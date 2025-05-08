@@ -13,9 +13,13 @@ metadata:
 spec:
   ports:
     - name: rgw
-      port: 80 # service port mentioned in object store crd
+      port: 80
       protocol: TCP
       targetPort: 8080
+    - name: rgw-ssl
+      port: 443
+      protocol: TCP
+      targetPort: 8443
   selector:
     app: "${ARGOCD_ENV_storage_namespace}-rgw"
     rook_cluster: ${ARGOCD_ENV_storage_namespace}

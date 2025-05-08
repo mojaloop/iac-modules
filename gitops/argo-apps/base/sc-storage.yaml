@@ -53,3 +53,9 @@ spec:
 
         - name: "storage_rgw_external_ip"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"
+
+        - name: "storage_rgw_subdomain"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_subdomain}"
+
+        - name: "storage_rgw_instance_replicas"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_instance_replicas}"

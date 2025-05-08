@@ -100,6 +100,8 @@ argocd_override:
           cloud_provider: "${cloud_platform }"
           capi_cluster_cidr: "${capi_cluster_cidr}"
           capi_cluster_name: "sc-${cluster_name}"
+          capi_rook_ceph_rgw_subdomain: "cephobjectstore.${cluster_domain}"
+          capi_rook_ceph_rgw_instance_replicas: "${capi_rook_ceph_rgw_instance_replicas}"
 
         storage:
           cloud_provider: "${cloud_platform}"
