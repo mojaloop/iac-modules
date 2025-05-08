@@ -52,11 +52,6 @@ variable "netbird_operator_management_url" {
   description = "url to connect to management netbird instance"
 }
 
-variable "kyverno_chart_version" {
-  type        = string
-  description = "kyverno_chart_version"
-  default     = "3.3.7"
-}
 variable "netbird_operator_helm_version" {
   type        = string
   description = "netbird_operator_helm_version"
