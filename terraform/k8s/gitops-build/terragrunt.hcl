@@ -126,7 +126,6 @@ locals {
   proxy_pm4ml_vars              = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}", local.env_vars))
   mojaloop_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}", local.env_vars))
   vnext_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}", local.env_vars))
-  cluster_vars                  = {cluster = local.env_vars}
 
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
@@ -140,6 +139,12 @@ locals {
     target_group_external_http_port  = 32080,
     private_network_cidr             = "${get_env("vpc_cidr")}"
   }, yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}", local.env_vars)))
+  cluster_vars = {
+    cluster = merge(local.env_vars, {
+      master_node_count = get_env("cloud_platform") == "microk8s" ? try(length(keys(local.cloud_platform_vars.master_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
+      agent_node_count  = get_env("cloud_platform") == "microk8s" ? try(length(keys(local.cloud_platform_vars.agent_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
+    })
+  }
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   zitadel_server_url            = get_env("ZITADEL_FQDN")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")
