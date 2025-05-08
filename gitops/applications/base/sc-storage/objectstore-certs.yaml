@@ -55,6 +55,8 @@ spec:
   dnsNames:
   - "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
   - "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+  - "rook-ceph-rgw-default.rook-ceph.svc.cluster.local"
+  - "rook-ceph-rgw-default.rook-ceph.svc"
   - "${ARGOCD_ENV_storage_rgw_subdomain}"
   ipAddresses:
   - 127.0.0.1
