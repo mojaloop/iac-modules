@@ -6,6 +6,7 @@ metadata:
 spec:
   addresses:
     - ${ARGOCD_ENV_sc_metallb_static_ip_range_begin}-${ARGOCD_ENV_sc_metallb_static_ip_range_end}
+  autoAssign: false
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
