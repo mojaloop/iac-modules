@@ -12,6 +12,7 @@ resources:
   - rbac.yaml
   - rgw-endpoint-job.yaml
   - https://raw.githubusercontent.com/rook/rook/refs/tags/v${ARGOCD_ENV_rook_ceph_version}/deploy/examples/toolbox.yaml
+  - kyverno-policy.yaml
 
 helmCharts:
   - name: rook-ceph

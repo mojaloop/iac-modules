@@ -1,0 +1,44 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restart-ceph-rgw-server
+  annotations:
+    policies.kyverno.io/title: Restart Ceph RGW server on secret update
+    policies.kyverno.io/category: Default Policies
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/description: >-
+      This policy requires the restart of Radosgw server when the secret is updated
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  rules:
+    - name: add-annotation-on-secret-update
+      match:
+        any:
+        - resources:
+            kinds:
+              - Secret
+            names:
+              - objectstore-internal-tls
+            namespaces:
+              - ${ARGOCD_ENV_storage_namespace}
+      mutate:
+        patchStrategicMerge:
+          spec:
+            template:
+              metadata:
+                annotations:
+                  kyverno.platform.eon.com/triggerrestart: '{{`{{request.object.metadata.resourceVersion}}`}}'
+        targets:
+        - apiVersion: apps/v1
+          kind: Deployment
+          namespace: ${ARGOCD_ENV_storage_namespace}
+          selector:
+            matchLabels:
+              app: rook-ceph-rgw
+      preconditions:
+        all:
+        - key: '{{`{{request.operation}}`}}'
+          operator: Equals
+          value: UPDATE
+      skipBackgroundRequests: true
+  validationFailureAction: Audit

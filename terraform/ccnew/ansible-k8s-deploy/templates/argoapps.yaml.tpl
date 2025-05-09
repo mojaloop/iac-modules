@@ -602,7 +602,7 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         metallb:
-          sc_ip_range_begin: "${sc_metallb_sc_ip_range_begin}"
-          sc_ip_range_end: "${sc_metallb_sc_ip_range_end}"
-          cc_envs_ip_range_begin: "${sc_metallb_cc_envs_ip_range_begin}"
-          cc_envs_ip_range_end: "${sc_metallb_cc_envs_ip_range_end}"
+          static_ip_range_begin: "${sc_metallb_static_ip_range_begin}"
+          static_ip_range_end: "${sc_metallb_static_ip_range_end}"
+          dynamic_ip_range_begin: "${sc_metallb_dynamic_ip_range_begin}"
+          dynamic_ip_range_end: "${sc_metallb_dynamic_ip_range_end}"
