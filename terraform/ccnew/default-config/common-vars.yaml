@@ -445,7 +445,7 @@ aws_ebs_csi_driver_helm_version: "2.39.0"
 ##capi
 capi_infra_provider_version: "0.4.5"
 capi_cluster_proxmox_worker_cpu: "'8'"
-capi_cluster_proxmox_worker_memory: "'16384'"
+capi_cluster_proxmox_worker_memory: "'32768'"
 capi_cluster_proxmox_worker_replicas: "'3'"
 capi_cluster_storage_name: "pve-sdb"
 capi_rook_ceph_rgw_external_ip: "10.10.127.10"
