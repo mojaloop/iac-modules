@@ -415,7 +415,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_pgbouncer_memory_request}"
 
           - name: "pgbouncer_expose_type"
-            value: "LoadBalancer"
+            value: "ClusterIP"
 
 
     #praefect db
@@ -621,7 +621,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_pgbouncer_memory_request}"
 
           - name: "pgbouncer_expose_type"
-            value: "LoadBalancer"
+            value: "ClusterIP"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}

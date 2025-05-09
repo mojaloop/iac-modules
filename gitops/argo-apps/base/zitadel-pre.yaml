@@ -293,4 +293,4 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_percona_provider_pgbouncer_memory_request}"
 
           - name: "pgbouncer_expose_type"
-            value: "LoadBalancer"
+            value: "ClusterIP"
