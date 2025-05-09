@@ -18,6 +18,7 @@ module "common_stateful_resources" {
   monolith_stateful_resources                   = local.monolith_for_common_sts_resources
   monolith_external_stateful_resource_instance_addresses = local.monolith_external_stateful_resource_instance_addresses
   managed_svc_as_monolith                       = var.managed_svc_as_monolith
+  cluster                                       = var.app_var_map.cluster
 }
 
 variable "stateful_resources_namespace" {
