@@ -6,19 +6,19 @@ common_platform_db:
     cluster_name: "common-platform-db"                          # Name of the cluster
     cr_version: "1.16.1"                                         # Custom Resource version for the operator
     pxc_image: "percona/percona-xtradb-cluster:8.0.39-30.1"      # Docker image for the PXC nodes
-    mysql_storage_size: "100Gi"                                  # Storage size for MySQL data
-    mysql_replicas: 3                                            # Number of MySQL replicas in the cluster
-    mysql_requests_memory: "2Gi"                                 # Memory request for MySQL pods
-    mysql_requests_cpu: "1000m"                                      # CPU request for MySQL pods
+    mysql_storage_size: "30Gi"                                  # Storage size for MySQL data
+    mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
+    mysql_requests_memory: "512Mi"                              # Memory request for MySQL pods
+    mysql_requests_cpu: "300m"                                      # CPU request for MySQL pods
     mysql_limits_memory: "4Gi"                                   # Memory limit for MySQL pods
     mysql_limits_cpu: "2000m"                                        # CPU limit for MySQL pods
 
     # HAProxy specific configurations (for load balancing)
     haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
     haproxy_expose: "true"                                       # Whether HAProxy should be exposed
-    haproxy_replicas: 3                                          # Number of HAProxy replicas
+    haproxy_replicas: 1                                          # Number of HAProxy replicas
     haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
-    haproxy_requests_cpu: "500m"                                  # CPU request for HAProxy pods
+    haproxy_requests_cpu: "100m"                                  # CPU request for HAProxy pods
     haproxy_limits_memory: "1Gi"                                 # Memory limit for HAProxy pods
     haproxy_limits_cpu: "1000m"                                      # CPU limit for HAProxy pods
 
@@ -105,19 +105,19 @@ common_mojaloop_db:
     cluster_name: "common-mojaloop-db"                          # Name of the cluster
     cr_version: "1.16.1"                                         # Custom Resource version for the operator
     pxc_image: "percona/percona-xtradb-cluster:8.0.39-30.1"      # Docker image for the PXC nodes
-    mysql_storage_size: "100Gi"                                  # Storage size for MySQL data
-    mysql_replicas: 3                                            # Number of MySQL replicas in the cluster
-    mysql_requests_memory: "2Gi"                                 # Memory request for MySQL pods
-    mysql_requests_cpu: "1000m"                                      # CPU request for MySQL pods
+    mysql_storage_size: "30Gi"                                  # Storage size for MySQL data
+    mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
+    mysql_requests_memory: "512Mi"                              # Memory request for MySQL pods
+    mysql_requests_cpu: "300m"                                    # CPU request for MySQL pods
     mysql_limits_memory: "4Gi"                                   # Memory limit for MySQL pods
     mysql_limits_cpu: "2000m"                                        # CPU limit for MySQL pods
 
     # HAProxy specific configurations (for load balancing)
     haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
     haproxy_expose: "true"                                       # Whether HAProxy should be exposed
-    haproxy_replicas: 3                                          # Number of HAProxy replicas
+    haproxy_replicas: 1                                          # Number of HAProxy replicas
     haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
-    haproxy_requests_cpu: "500m"                                  # CPU request for HAProxy pods
+    haproxy_requests_cpu: "100m"                                  # CPU request for HAProxy pods
     haproxy_limits_memory: "1Gi"                                 # Memory limit for HAProxy pods
     haproxy_limits_cpu: "1000m"                                      # CPU limit for HAProxy pods
 
@@ -207,12 +207,12 @@ common_mongodb:
 
     # Replset inputs
     replset_name: "rs0"
-    replset_size: 3
+    replset_size: 1
     replset_limits_cpu: "300m"
     replset_limits_memory: "0.5G"
     replset_requests_cpu: "50m"
     replset_requests_memory: "0.5G"
-    replset_storage: 3Gi
+    replset_storage: 30Gi
 
     # Sharding inputs
     sharding_enabled: true
@@ -223,7 +223,7 @@ common_mongodb:
     configsvr_limits_memory: "0.5G"
     configsvr_requests_cpu: "50m"
     configsvr_requests_memory: "0.5G"
-    configsvr_storage: 3Gi
+    configsvr_storage: 30Gi
 
     mongos_size: 1
     mongos_limits_cpu: "300m"
