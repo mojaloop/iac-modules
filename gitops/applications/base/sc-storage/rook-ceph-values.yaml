@@ -5,7 +5,7 @@ csi:
     interval: 60s
 enableDiscoveryDaemon: true
 monitoring:
-  enabled: false
+  enabled: true
 resources:
   limits:
     memory: 512Mi

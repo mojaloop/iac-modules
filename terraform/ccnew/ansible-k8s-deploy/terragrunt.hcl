@@ -46,6 +46,7 @@ dependency "k8s_deploy" {
       testkey1 = "testval1"
       testkey2 = "testval1"
     }
+    private_dns_zone_id = "null"
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"

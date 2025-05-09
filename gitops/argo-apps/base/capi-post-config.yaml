@@ -99,6 +99,12 @@ spec:
         - name: "utils_capi_capi_rook_ceph_rgw_external_ip"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"
 
+        - name: "utils_capi_capi_rook_ceph_rgw_subdomain"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_subdomain}"
+
+        - name: "utils_capi_capi_rook_ceph_rgw_instance_replicas"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_instance_replicas}"
+
         # metallb
         - name: "sc_metallb_app_name"
           value: "${ARGOCD_ENV_sc_metallb_app_name}"
@@ -112,11 +118,23 @@ spec:
         - name: "sc_metallb_version"
           value: "${ARGOCD_ENV_sc_metallb_version}"
 
-        - name: "sc_metallb_ip_range_end"
-          value: "${ARGOCD_ENV_sc_metallb_ip_range_end}"
+        - name: "sc_metallb_static_ip_range_end"
+          value: "${ARGOCD_ENV_sc_metallb_static_ip_range_end}"
 
-        - name: "sc_metallb_ip_range_begin"
-          value: "${ARGOCD_ENV_sc_metallb_ip_range_begin}"
+        - name: "sc_metallb_static_ip_range_begin"
+          value: "${ARGOCD_ENV_sc_metallb_static_ip_range_begin}"
+
+        - name: "sc_metallb_static_ip_range_end"
+          value: "${ARGOCD_ENV_sc_metallb_static_ip_range_end}"
+
+        - name: "sc_metallb_static_ip_range_begin"
+          value: "${ARGOCD_ENV_sc_metallb_static_ip_range_begin}"
+
+        - name: "sc_metallb_dynamic_ip_range_begin"
+          value: "${ARGOCD_ENV_sc_metallb_dynamic_ip_range_begin}"
+
+        - name: "sc_metallb_dynamic_ip_range_end"
+          value: "${ARGOCD_ENV_sc_metallb_dynamic_ip_range_end}"
 
         - name: "sc_metallb_namespace"
           value: "${ARGOCD_ENV_sc_metallb_namespace}"

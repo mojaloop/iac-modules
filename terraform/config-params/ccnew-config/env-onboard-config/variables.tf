@@ -92,12 +92,12 @@ variable "managed_services_env_cidr" {
 variable "managed_svc_enabled" {
   type        = string
   description = "if managed service enabled or not"
-} 
+}
 
 variable "k8s_cluster_type" {
   type        = string
   description = "k8s distribution if its eks/microk8s"
-} 
+}
 
 variable "cc_cluster_name" {
   description = "control center cluster name"
@@ -116,4 +116,12 @@ variable "max_size" {
 variable "storage_class" {
   description = "object storage class of ceph"
   default     = "ceph-bucket"
+}
+
+variable "netbird_operator_api_key_vault_path" {
+  description = "vault path to get operator access key"
+}
+
+variable "netbird_operator_management_url" {
+  description = "url to reach management api of netbird"
 }

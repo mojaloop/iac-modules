@@ -15,6 +15,6 @@ spec:
 apiVersion: pkg.crossplane.io/v1beta1
 kind: Function
 metadata:
-  name: function-auto-ready
+  name: function-extra-resources
 spec:
   package: xpkg.upbound.io/crossplane-contrib/function-extra-resources:v${crossplane_functions_extra_resources_version}

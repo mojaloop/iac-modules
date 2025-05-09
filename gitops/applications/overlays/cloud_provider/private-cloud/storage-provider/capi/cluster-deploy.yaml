@@ -155,6 +155,8 @@ spec:
           model: virtio
           tag: ${ARGOCD_ENV_capi_cluster_proxmox_host_vlan}
         rootDisk: "50G"
+      options:
+        onBoot: true
       network:
         # nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
         ipConfig:
@@ -237,6 +239,8 @@ spec:
         extraDisks:
           - size: ${ARGOCD_ENV_capi_rook_ceph_disk_size}
             storage: ${ARGOCD_ENV_capi_cluster_storage_name}
+      options:
+        onBoot: true
       network:
         ipConfig:
           ip: dhcp

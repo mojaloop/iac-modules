@@ -6,6 +6,7 @@ metadata:
 spec:
   template:
     spec:
+      # ttlSecondsAfterFinished: 30
       restartPolicy: Never
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: ceph-job-sa
@@ -44,6 +45,9 @@ spec:
                 #awk -v RS="ARGS=\"" -v FS="\"" 'NR==2 {print $1}' /data/ceph_env | sed 's/^[ \t\r\n]\+//;s/[ \t\r\n]\+$//' > /tmp/ceph-args.conf
                 source /data/ceph_env
                 # Create a secret
+                kubectl delete secret rook-external-config --ignore-not-found
+                kubectl delete cm rook-ceph-mon-endpoints-external --ignore-not-found
+                kubectl delete cm external-cluster-user-command --ignore-not-found
                 kubectl create secret generic rook-external-config \
                   --from-literal=ROOK_EXTERNAL_FSID="$ROOK_EXTERNAL_FSID" \
                   --from-literal=ROOK_EXTERNAL_USERNAME="$ROOK_EXTERNAL_USERNAME" \
@@ -68,6 +72,7 @@ spec:
                   --from-literal=RGW_ENDPOINT="$RGW_ENDPOINT" \
                   --from-literal=RGW_EXTERNAL_IP="$RGW_EXTERNAL_IP" \
                   --from-literal=RGW_EXTERNAL_PORT="$RGW_EXTERNAL_PORT" \
+                  --from-literal=RGW_SUB_DOMAIN="${ARGOCD_ENV_storage_rgw_subdomain}" \
                   --from-file=ARGS=/tmp/ceph-args.conf \
                   --dry-run=client -o yaml | kubectl apply -f -
 
@@ -80,21 +85,6 @@ spec:
               kubectl create configmap  "external-cluster-user-command" \
                 --from-literal=args="$ARGS"
                 #--from-file=ARGS=/tmp/ceph-args.conf
-
-              # Create external objectstore
-              # cat <<eof | kubectl create -f -
-              # apiVersion: ceph.rook.io/v1
-              # kind: CephObjectStore
-              # metadata:
-              #   name: external-store
-              #   namespace: ${ARGOCD_ENV_storage_namespace}
-              # spec:
-              #   gateway:
-              #     port: $RGW_EXTERNAL_PORT
-              #     instances: 1
-              #     externalRgwEndpoints:
-              #       - ip: $RGW_EXTERNAL_IP
-              # eof
 
               else
                 echo "Error: /data/ceph_env is empty!"
@@ -141,7 +131,7 @@ spec:
 
               # Download export script
               curl -fsSL -o /data/create-external-cluster-resources.py \
-                https://raw.githubusercontent.com/rook/rook/refs/heads/release-1.16/deploy/examples/create-external-cluster-resources.py
+                https://raw.githubusercontent.com/rook/rook/refs/heads/release-1.17/deploy/examples/create-external-cluster-resources.py
 
               # Prepare ceph for external use
               RGW_ENDPOINT=$(cat /tmp/rgw-secret/RGW_ENDPOINT)
@@ -149,8 +139,9 @@ spec:
               python3 /data/create-external-cluster-resources.py \
                 --rbd-data-pool-name ceph-blockpool \
                 --rgw-endpoint $RGW_ENDPOINT \
-                --cephfs-data-pool-name ceph-filesystem-data0 \
+                --cephfs-data-pool-name ceph-filesystem-replicated \
                 --skip-monitoring-endpoint \
+                --rgw-skip-tls true \
                 --namespace ${ARGOCD_ENV_storage_namespace} --format bash > /data/ceph_env
           imagePullPolicy: IfNotPresent
           tty: true

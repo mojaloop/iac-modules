@@ -1,0 +1,17 @@
+apiVersion: nb.mojaloop.io/v1alpha1
+kind: OperatorPostConfig
+metadata:
+  name: ${ARGOCD_ENV_env_name}-nboperatorpostconfig
+  namespace: ${ARGOCD_ENV_env_name}
+spec:
+  parameters:
+    networkResource:
+      name: ${ARGOCD_ENV_env_name}-internal
+      CIDR: ${ARGOCD_ENV_env_cidr}
+      networkName: ${ARGOCD_ENV_env_name}-cluster
+    groupNames:
+      networkResourceGroup: ${ARGOCD_ENV_env_name}-internal
+  providerConfigsRef:
+    netbirdProviderConfigName: "netbird-crossplane-provider-config"
+  managementPolicies:
+    - "*"

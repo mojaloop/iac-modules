@@ -84,7 +84,7 @@ spec:
       backupRetention: ${ARGOCD_ENV_backup_retention}
 
     dns:
-      name: ${ARGOCD_ENV_externalservice_name}
+      name: ${ARGOCD_ENV_env_name}-${ARGOCD_ENV_externalservice_name}
       region: ${ARGOCD_ENV_region}
       ttl: 300
       type: A

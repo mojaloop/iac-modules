@@ -17,7 +17,7 @@ spec:
 
   data:
     - secretKey: TOKEN # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${vault_seal_token_secret_key}
         property: value
 ---
@@ -40,7 +40,7 @@ spec:
 
   data:
     - secretKey: TOKEN # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${vault_oidc_client_id_secret_key}
         property: value
 ---
@@ -63,7 +63,7 @@ spec:
 
   data:
     - secretKey: TOKEN # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${vault_oidc_client_secret_secret_key}
         property: value
 ---
@@ -86,6 +86,6 @@ spec:
 
   data:
     - secretKey: GITLAB_TOKEN # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${vault_gitlab_credentials_secret_key}
-        property: value
+        property: token
