@@ -79,6 +79,10 @@ spec:
         value: ${ARGOCD_ENV_common_mojaloop_db_external_name_service}
       - key: common_mongodb_external_name
         value: ${ARGOCD_ENV_common_mongodb_external_name_service}
+      - key: netbird_operator_management_url
+        value: "https://${ARGOCD_ENV_netbird_fqdn}:443"
+      - key: netbird_operator_api_key_vault_path
+        value: "${ARGOCD_ENV_env_name}/netbird_op_access_token"
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}

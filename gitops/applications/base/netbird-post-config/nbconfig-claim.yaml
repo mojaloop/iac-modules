@@ -1,15 +1,11 @@
 apiVersion: nb.mojaloop.io/v1alpha1
-kind: PostConfig
+kind: NetbirdPostConfig
 metadata:
   name: netbird-post-config
   namespace: ${ARGOCD_ENV_netbird_namespace}
 spec:
   parameters:
     ccClusterName: ${ARGOCD_ENV_cluster_name}
-    environments:
-      - "dev"
-      - "qa"
-      - "prod"
     setupKey:
       name: ${ARGOCD_ENV_setup_key_secret_name}
       namespace: ${ARGOCD_ENV_netbird_namespace}

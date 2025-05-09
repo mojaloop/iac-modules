@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
   - env-onboard-xplane-terraform.yaml
   - env-buckets.yaml
+  - nbenvconfig-claim.yaml
+  - nbopbootstrap-claim.yaml
+  - nboppost-claim.yaml
