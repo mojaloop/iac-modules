@@ -40,7 +40,7 @@ netbird_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.8
 netbird_perc_pgbouncer_replicas: "'1'"
 netbird_perc_pgbouncer_expose_superusers: "'true'"
 netbird_perc_pgbouncer_pool_mode: session
-netbird_perc_pgbouncer_query_wait_timeout: "'10'"
+netbird_perc_pgbouncer_query_wait_timeout: "'30'"
 netbird_perc_pgbouncer_max_prepared_statements: "'0'"
 netbird_perc_pgbouncer_cpu_limit: "200m"
 netbird_perc_pgbouncer_memory_limit: "128Mi"
@@ -313,7 +313,7 @@ gitlab_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.8-
 gitlab_perc_pgbouncer_replicas: "'1'"
 gitlab_perc_pgbouncer_expose_superusers: "'true'"
 gitlab_perc_pgbouncer_pool_mode: session
-gitlab_perc_pgbouncer_query_wait_timeout: "'10'"
+gitlab_perc_pgbouncer_query_wait_timeout: "'30'"
 gitlab_perc_pgbouncer_max_prepared_statements: "'0'"
 gitlab_perc_pgbouncer_cpu_limit: "200m"
 gitlab_perc_pgbouncer_memory_limit: "128Mi"
@@ -361,7 +361,7 @@ praefect_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.
 praefect_perc_pgbouncer_replicas: "'1'"
 praefect_perc_pgbouncer_expose_superusers: "'true'"
 praefect_perc_pgbouncer_pool_mode: session
-praefect_perc_pgbouncer_query_wait_timeout: "'10'"
+praefect_perc_pgbouncer_query_wait_timeout: "'30'"
 praefect_perc_pgbouncer_max_prepared_statements: "'0'"
 praefect_perc_pgbouncer_cpu_limit: "200m"
 praefect_perc_pgbouncer_memory_limit: "128Mi"
@@ -422,7 +422,7 @@ zitadel_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.8
 zitadel_perc_pgbouncer_replicas: "'1'"
 zitadel_perc_pgbouncer_expose_superusers: "'true'"
 zitadel_perc_pgbouncer_pool_mode: session
-zitadel_perc_pgbouncer_query_wait_timeout: "'10'"
+zitadel_perc_pgbouncer_query_wait_timeout: "'30'"
 zitadel_perc_pgbouncer_max_prepared_statements: "'1'"
 zitadel_perc_pgbouncer_cpu_limit: "200m"
 zitadel_perc_pgbouncer_memory_limit: "128Mi"
