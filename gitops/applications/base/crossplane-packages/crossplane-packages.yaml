@@ -76,7 +76,7 @@ kind: Configuration
 metadata:
   name: vault-config
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:v0.1.0-pr56-14780365601 #${ARGOCD_ENV_crossplane_packages_vault_config_version}
+  package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:${ARGOCD_ENV_crossplane_packages_vault_config_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
