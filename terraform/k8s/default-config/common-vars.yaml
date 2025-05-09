@@ -56,7 +56,7 @@ enable_central_observability_read: false
 coredns_localcache_version: "1.11.3"
 aws_ebs_csi_driver_helm_version: "2.39.0"
 aws_ebs_csi_driver_replicas: 2
-rook_ceph_helm_version: "1.16.5"
+rook_ceph_helm_version: "1.17.1"
 crossplane_helm_version: "1.19.0"
 crossplane_providers_k8s_version: "0.11.4"
 crossplane_providers_vault_version: "2.1.1"

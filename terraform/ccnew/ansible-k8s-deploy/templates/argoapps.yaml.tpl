@@ -54,6 +54,7 @@ argocd_override:
           gitlab_version: "${crossplane_packages_gitlab_version}"
           vault_config_version: "${crossplane_packages_vault_config_version}"
           sc_postgres_version: "${crossplane_packages_sc_postgres_version}"
+          sc_bootstrap_version: "${crossplane_packages_sc_bootstrap_version}"
           sc_mysql_version: "${crossplane_packages_sc_mysql_version}"
           sc_mongodb_version: "${crossplane_packages_sc_mongodb_version}"
           sc_nboperatorinstall_version: "${crossplane_packages_sc_nboperatorinstall_version}"
@@ -98,16 +99,21 @@ argocd_override:
           capi_rook_ceph_rgw_external_ip: "${capi_rook_ceph_rgw_external_ip}"
           cloud_provider: "${cloud_platform }"
           capi_cluster_cidr: "${capi_cluster_cidr}"
+          capi_cluster_name: "sc-${cluster_name}"
+          capi_rook_ceph_rgw_subdomain: "cephobjectstore.${cluster_domain}"
+          capi_rook_ceph_rgw_instance_replicas: "${capi_rook_ceph_rgw_instance_replicas}"
+
         storage:
           cloud_provider: "${cloud_platform}"
           cluster_domain: "${cluster_domain}"
-          object_storage_host: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "${capi_rook_ceph_rgw_external_ip}" }"
-          object_storage_regional_host: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "${capi_rook_ceph_rgw_external_ip}" }"
-          object_storage_endpoint: "${object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
-          object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "https://s3.${cloud_region}.amazonaws.com" : "http://${capi_rook_ceph_rgw_external_ip}" }"
+          object_storage_host: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "cephobjectstore.${cluster_domain}" }"
+          object_storage_regional_host: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "cephobjectstore.${cluster_domain}" }"
+          object_storage_endpoint: "${object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
+          object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "https://s3.${cloud_region}.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
           object_storage_region: "${object_storage_provider == "s3" ? cloud_region : "us-east-1" }"
           object_storage_path_style: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           object_store_insecure_connection: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
+          dns_zone_id: "${private_dns_zone_id}"
         storage_aws_provider:
           ebs_csi_driver_helm_version: "${aws_ebs_csi_driver_helm_version}"
           csi_driver_replicas: "${aws_ebs_csi_driver_replicas}"
@@ -596,5 +602,7 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         metallb:
-          ip_range_begin: "${sc_metallb_ip_range_begin}"
-          ip_range_end: "${sc_metallb_ip_range_end}"
+          static_ip_range_begin: "${sc_metallb_static_ip_range_begin}"
+          static_ip_range_end: "${sc_metallb_static_ip_range_end}"
+          dynamic_ip_range_begin: "${sc_metallb_dynamic_ip_range_begin}"
+          dynamic_ip_range_end: "${sc_metallb_dynamic_ip_range_end}"

@@ -1,0 +1,27 @@
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: default
+  namespace: ${ARGOCD_ENV_storage_namespace}
+spec:
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+  dataPool:
+    failureDomain: host
+    # replicated:
+    #   size: ${ARGOCD_ENV_rook_ceph_pool_replication_size}
+    erasureCoded:
+      dataChunks: 2
+      codingChunks: 1
+  gateway:
+    hostNetwork: false
+    resources:
+      limits:
+        memory: 2Gi
+    port: 80
+    securePort: 443
+    sslCertificateRef: objectstore-internal-tls
+    instances: ${ARGOCD_ENV_storage_rgw_instance_replicas}
+    priorityClassName: system-cluster-critical

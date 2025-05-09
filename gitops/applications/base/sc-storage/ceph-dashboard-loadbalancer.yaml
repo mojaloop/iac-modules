@@ -4,7 +4,7 @@ metadata:
   name: storage-ceph-mgr-dashboard-external
   namespace: ${ARGOCD_ENV_storage_namespace}
   annotations:
-    metallb.universe.tf/address-pool: production
+    metallb.universe.tf/address-pool: static
   labels:
     app: "${ARGOCD_ENV_storage_namespace}-mgr"
     rook_cluster: ${ARGOCD_ENV_storage_namespace}
