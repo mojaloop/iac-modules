@@ -98,3 +98,6 @@ spec:
 
           - name: "dns_zone_id"
             value: "${ARGOCD_ENV_utils_storage_dns_zone_id}"
+
+          - name: "external_dns_namespace"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_namespace}"
