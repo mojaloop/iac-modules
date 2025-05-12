@@ -88,7 +88,7 @@ spec:
             value: "${ARGOCD_ENV_vault_vault_namespace}"
 
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-      targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
+      targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
       path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_storage_cloud_provider}/storage-provider/dns-records
       plugin:
         name: envsubst
