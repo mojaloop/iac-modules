@@ -24,7 +24,5 @@ spec:
       - handler-pos-batch
       - quoting-service # NOTE: runs with istio but its metrics are not being exposed merged with istio proxy metrics
       - ml-testing-toolkit-backend
-      - connection-manager-api
-      - mcm-connection-manager-api
   endpoints:
   - port: http
