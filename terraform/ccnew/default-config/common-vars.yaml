@@ -313,7 +313,7 @@ gitlab_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.8-
 gitlab_perc_pgbouncer_replicas: "'1'"
 gitlab_perc_pgbouncer_expose_superusers: "'true'"
 gitlab_perc_pgbouncer_pool_mode: session
-gitlab_perc_pgbouncer_query_wait_timeout: "'30'"
+gitlab_perc_pgbouncer_query_wait_timeout: "'600'"
 gitlab_perc_pgbouncer_max_prepared_statements: "'0'"
 gitlab_perc_pgbouncer_cpu_limit: "200m"
 gitlab_perc_pgbouncer_memory_limit: "128Mi"
