@@ -328,6 +328,7 @@ argocd_override:
           max_global_series_per_user: "${mimir_max_global_series_per_user}"
           ingestion_rate: "${mimir_ingestion_rate}"
           ingestion_burst_size: "${mimir_ingestion_burst_size}"
+          ingester_replication_factor: "${mimir_ingester_replication_factor}"
           retention_period: "${mimir_retention_period}"
           compactor_deletion_delay: "${mimir_compactor_deletion_delay}"
           alerts_notification_receiver: "${mimir_alerts_notification_receiver}"

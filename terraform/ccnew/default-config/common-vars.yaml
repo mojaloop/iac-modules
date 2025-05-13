@@ -111,6 +111,7 @@ mimir_max_label_names_per_series: "'35'"
 mimir_max_global_series_per_user: "'5000000'"
 mimir_ingestion_rate: "'200000'"
 mimir_ingestion_burst_size: "'500000'"
+mimir_ingester_replication_factor: "'1'"
 mimir_retention_period: "7d"
 mimir_compactor_deletion_delay: "12h"
 mimir_alerts_notification_receiver: "slack" # options: slack, jira, blackhole. blackhole disables
