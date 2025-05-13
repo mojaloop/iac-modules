@@ -11,7 +11,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   rules:
-    - name: add-annotation-on-secret-update
+    - name: add-annotation-on-rgw-secret-update
       match:
         any:
         - resources:
@@ -34,11 +34,11 @@ spec:
           namespace: ${ARGOCD_ENV_storage_namespace}
           selector:
             matchLabels:
-              app: rook-ceph-rgw
+              app.kubernetes.io/name: ceph-rgw
       preconditions:
-        all:
+        any:
         - key: '{{`{{request.operation}}`}}'
-          operator: Equals
+          operator: In
           value: UPDATE
       skipBackgroundRequests: true
   validationFailureAction: Audit
