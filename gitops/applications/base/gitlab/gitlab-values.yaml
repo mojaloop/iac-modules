@@ -1402,8 +1402,10 @@ gitlab:
   #   migrations:
   #     enabled: false
   ## https://docs.gitlab.com/charts/charts/gitlab/webservice
-  #   webservice:
-  #     enabled: false
+  webservice:
+    enabled: true
+    maxReplicas: 1
+    minReplicas: 1
   ## https://docs.gitlab.com/charts/charts/gitlab/sidekiq
   #   sidekiq:
   #     enabled: false
