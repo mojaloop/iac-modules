@@ -11,7 +11,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   rules:
-    - name: add-annotation-on-secret-update
+    - name: add-annotation-on-rgw-secret-update
       match:
         any:
         - resources:
@@ -31,12 +31,10 @@ spec:
         targets:
         - apiVersion: apps/v1
           kind: Deployment
+          name: rook-ceph-rgw-default-a
           namespace: ${ARGOCD_ENV_storage_namespace}
-          selector:
-            matchLabels:
-              app: rook-ceph-rgw
       preconditions:
-        all:
+        any:
         - key: '{{`{{request.operation}}`}}'
           operator: Equals
           value: UPDATE

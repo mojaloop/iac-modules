@@ -2,6 +2,7 @@ apiVersion: utils.aws.mojaloop.io/v1alpha1
 kind: AWSRoute53Record
 metadata:
   name: ceph-objectstore-rgw
+  namespace: ${ARGOCD_ENV_external_dns_namespace}
   annotations:
      argocd.argoproj.io/sync-wave: '-5'
 spec:

@@ -86,3 +86,18 @@ spec:
 
           - name: "vault_namespace"
             value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_dns_utils_application_gitrepo_tag}
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_storage_cloud_provider}/storage-provider/dns-records
+      plugin:
+        name: envsubst
+        env:
+          - name: "rook_ceph_rgw_external_ip"
+            value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"
+
+          - name: "dns_zone_id"
+            value: "${ARGOCD_ENV_utils_storage_dns_zone_id}"
+
+          - name: "external_dns_namespace"
+            value: "${ARGOCD_ENV_dns_utils_ext_dns_namespace}"

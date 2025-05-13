@@ -622,15 +622,3 @@ spec:
 
           - name: "pgbouncer_expose_type"
             value: "ClusterIP"
-
-    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-      targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
-      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_storage_cloud_provider}/storage-provider/gitlab-pre
-      plugin:
-        name: envsubst
-        env:
-          - name: "rook_ceph_rgw_external_ip"
-            value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"
-
-          - name: "dns_zone_id"
-            value: "${ARGOCD_ENV_utils_storage_dns_zone_id}"
