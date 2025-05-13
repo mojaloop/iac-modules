@@ -66,6 +66,7 @@ spec:
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
               timeout.reconciliation: "10s"
               application.resourceTrackingMethod: annotation
+              url: https://argocd-sc.int.ccinfra04.drpp-onprem.global
               resource.exclusions: |
                 - apiGroups:
                   - "*"
