@@ -421,7 +421,7 @@ zitadel_perc_backup_diff_schedule: "0 6 * * *"
 zitadel_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.8-pgbouncer1.24.0"
 zitadel_perc_pgbouncer_replicas: "'1'"
 zitadel_perc_pgbouncer_expose_superusers: "'true'"
-zitadel_perc_pgbouncer_pool_mode: session
+zitadel_perc_pgbouncer_pool_mode: transaction
 zitadel_perc_pgbouncer_query_wait_timeout: "'30'"
 zitadel_perc_pgbouncer_max_prepared_statements: "'1'"
 zitadel_perc_pgbouncer_cpu_limit: "200m"
