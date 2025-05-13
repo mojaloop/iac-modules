@@ -12,7 +12,6 @@ spec:
     - key: app.kubernetes.io/name
       operator: In
       values:
-      - connection-manager-api
-      - mcm-connection-manager-api
+      - connection-manager
   endpoints:
   - port: http
