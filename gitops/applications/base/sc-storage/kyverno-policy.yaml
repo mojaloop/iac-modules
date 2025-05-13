@@ -31,10 +31,8 @@ spec:
         targets:
         - apiVersion: apps/v1
           kind: Deployment
+          name: rook-ceph-rgw-default-a
           namespace: ${ARGOCD_ENV_storage_namespace}
-          selector:
-            matchLabels:
-              app.kubernetes.io/name: ceph-rgw
       preconditions:
         any:
         - key: '{{`{{request.operation}}`}}'
