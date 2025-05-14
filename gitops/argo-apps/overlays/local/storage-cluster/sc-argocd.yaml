@@ -248,7 +248,7 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build . --enable-helm --helm-kube-version 1.29-0 --load-restrictor LoadRestrictionsNone > /dev/stdout",
+                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build . --enable-helm --helm-kube-version 1.31-0 --load-restrictor LoadRestrictionsNone > /dev/stdout",
                       ]
 
                 helmfile:
@@ -328,13 +328,13 @@ spec:
                     value: /helm-working-dir
                 command: ["/bin/sh", "-c"]
                 args:
-                  - helm plugin install https://github.com/aslafy-z/helm-git --version 0.16.0 && rm -rf /helm-working-dir/plugins/https* && chmod -R 777 $HELM_DATA_HOME
+                  - helm plugin install https://github.com/aslafy-z/helm-git --version 1.3.0 && rm -rf /helm-working-dir/plugins/https* && chmod -R 777 $HELM_DATA_HOME
 
               - name: download-tools
                 image: golang:1.22.4-alpine3.20
                 command: [sh, -c]
                 args:
-                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/ && wget -qO- https://github.com/helmfile/helmfile/releases/download/v0.165.0/helmfile_0.165.0_linux_amd64.tar.gz | tar xvz helmfile && mv helmfile /custom-tools/
+                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/ && wget -qO- https://github.com/helmfile/helmfile/releases/download/v1.0.0/helmfile_1.0.0_linux_amd64.tar.gz | tar xvz helmfile && mv helmfile /custom-tools/
                 volumeMounts:
                   - mountPath: /custom-tools
                     name: custom-tools
@@ -492,7 +492,7 @@ spec:
                 - name: rollout
                   env:
                     - name: EXTENSION_URL
-                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.5/extension.tar
+                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.7/extension.tar
 
               resources:
                 {}
