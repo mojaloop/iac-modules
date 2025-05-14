@@ -6,8 +6,8 @@ metadata:
 spec:
   parameters:
     argocd:
+      chartVersion: "${ARGOCD_ENV_utils_argocd_helm_helm_version}"
       application:
-        chartVersion: "${ARGOCD_ENV_utils_argocd_helm_helm_version}"
         source:
           targetRevision: "${ARGOCD_ENV_sc_application_gitrepo_tag}"
           envVars:
