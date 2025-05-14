@@ -8,6 +8,10 @@ mimir:
     ingester:
       ring:
         replication_factor: ${ARGOCD_ENV_mimir_ingester_replication_factor}
+    blocks_storage:
+      tsdb:
+        block_ranges_period:
+        - 1h
     compactor:
       deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
     ruler:
