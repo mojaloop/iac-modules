@@ -11,12 +11,6 @@ kind: Kustomization
 # - cloudwatch-exporter.yaml
 
 helmCharts:
-  - name: metrics-server
-    releaseName: metrics-server
-    repo: https://kubernetes-sigs.github.io/metrics-server
-    valuesFile: values-metrics-server.yaml
-    namespace: ${ARGOCD_ENV_monitoring_namespace}
-    version: ${ARGOCD_ENV_metrics_server_helm_version}
   - name: grafana-mimir
     releaseName: central-monitoring
     version: ${ARGOCD_ENV_grafana_mimir_helm_version}

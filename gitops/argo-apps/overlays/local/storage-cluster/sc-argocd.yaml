@@ -66,7 +66,7 @@ spec:
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
               timeout.reconciliation: "10s"
               application.resourceTrackingMethod: annotation
-              url: https://argocd-sc.int.ccinfra04.drpp-onprem.global
+              #url: https://argocd-sc.int.ccinfra04.drpp-onprem.global
               resource.exclusions: |
                 - apiGroups:
                   - "*"
@@ -209,8 +209,9 @@ spec:
                     hs.message = "Waiting for CephObjectStore"
                     return hs
 
-            rbac:
-              policy.default: ""
+            # rbac:
+            #   policy.default: ''
+            #   create: true
             params:
               server.insecure: true
               # Mandatory for extensions to work
