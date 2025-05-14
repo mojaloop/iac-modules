@@ -7,6 +7,11 @@ argocd_override:
         argocd_helm:
           public_ingress_access_domain: "${argocd_public_access}"
           helm_version: "${argocd_helm_version}"
+          kube_version: "${argocd_helm_kube_version}"
+          git_plugin_version: "${argocd_helm_git_plugin_version}"
+          envsubst_version: "${argocd_envsubst_version}"
+          rollout_extension_version: "${argocd_rollout_extension_version}"
+          download_tools_golang_image_version: "${argocd_download_tools_golang_image_version}"
         rook_ceph:
           helm_version: "${rook_ceph_helm_version}"
           image_version: "${rook_ceph_image_version}"
