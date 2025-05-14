@@ -27,7 +27,7 @@ locals {
 variable "netbird_operator_sync_wave" {
   type        = string
   description = "netbird_operator_sync_wave"
-  default     = "-11"
+  default     = "-9"
 }
 
 variable "netbird_operator_namespace" {
