@@ -309,7 +309,6 @@ argocd_override:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
-          prometheus_retention_period: "${prometheus_retention_period}" # Todo delete it
           ctrl_cntr_loki_helm_version: "${loki_helm_version}"
           ctrl_cntr_loki_retention_period: "${loki_retention_period}" 
         prometheus:
@@ -328,6 +327,7 @@ argocd_override:
           max_global_series_per_user: "${mimir_max_global_series_per_user}"
           ingestion_rate: "${mimir_ingestion_rate}"
           ingestion_burst_size: "${mimir_ingestion_burst_size}"
+          ingester_replication_factor: "${mimir_ingester_replication_factor}"
           retention_period: "${mimir_retention_period}"
           compactor_deletion_delay: "${mimir_compactor_deletion_delay}"
           alerts_notification_receiver: "${mimir_alerts_notification_receiver}"
