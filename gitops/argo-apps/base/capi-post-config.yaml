@@ -170,6 +170,12 @@ spec:
         - name: "utils_base_monitoring_grafana_crd_version_tag"
           value: "${ARGOCD_ENV_utils_base_monitoring_grafana_crd_version_tag}"
 
+        - name: "monitoring_metrics_server_helm_version"
+          value: "${ARGOCD_ENV_monitoring_metrics_server_helm_version}"
+
+        - name: "monitoring_metrics_server_replicas"
+          value: "${ARGOCD_ENV_monitoring_metrics_server_replicas}"
+
         # percona operator
 
         - name: utils_percona_pg_operator_helm_version
