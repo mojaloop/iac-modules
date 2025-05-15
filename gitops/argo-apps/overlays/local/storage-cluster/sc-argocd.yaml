@@ -174,7 +174,6 @@ spec:
                     hs.message = "Waiting for CephBlockPool"
                     return hs
 
-                # TODO: enable again after fixing the warning on ceph cluster object
                 ceph.rook.io/CephCluster:
                   health.lua: |
                     hs = {}

@@ -11,6 +11,9 @@ metadata:
 
 spec:
   project: default
+  dependsOn:
+    - name: rook-ceph
+      namespace: argocd
   syncPolicy:
     automated:
       prune: true
