@@ -6,7 +6,7 @@ metadata:
 spec:
   parameters:
     calico:
-      chartVersion: "3.30.0"
+      chartVersion: "v3.30.0"
     argocd:
       chartVersion: "${ARGOCD_ENV_utils_argocd_helm_helm_version}"
       application:
