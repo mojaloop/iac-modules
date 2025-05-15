@@ -27,8 +27,8 @@ rules:
     resources: ["pods/exec", "pods/attach"]
     verbs: ["create"]
   - apiGroups: ["ceph.rook.io"]
-    resources: ["cephobjectstores"]
-    verbs: ["get", "list", "create", "update", "delete"]
+    resources: ["cephobjectstores","cephclusters"]
+    verbs: ["get", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

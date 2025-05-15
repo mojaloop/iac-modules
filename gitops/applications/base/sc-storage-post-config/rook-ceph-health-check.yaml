@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: check-ceph-cluster-health
+  namespace: ${ARGOCD_ENV_storage_namespace}
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: '-11'  # Same wave as post-config
+spec:
+  template:
+    spec:
+      containers:
+      - name: check-ceph-cluster-health
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          until kubectl get cephcluster -n rook-ceph rook-ceph -o jsonpath='{.status.ceph.health}' | grep -q 'HEALTH_OK'; do
+            echo "Waiting for Ceph cluster to be healthy..."
+            sleep 30
+          done
+      restartPolicy: OnFailure
+      serviceAccountName: ceph-job-sa
+  backoffLimit: 15
+  ttlSecondsAfterFinished: 100
