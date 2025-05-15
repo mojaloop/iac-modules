@@ -6,9 +6,9 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: '-9'
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     spec:
-      # ttlSecondsAfterFinished: 30
       restartPolicy: Never
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: ceph-job-sa
