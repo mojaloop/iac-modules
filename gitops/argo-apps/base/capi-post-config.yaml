@@ -251,4 +251,4 @@ spec:
           value: "${ARGOCD_ENV_utils_argocd_helm_rollout_extension_version}"
 
         - name: utils_argocd_helm_download_tools_golang_image_version
-          value: "ARGOCD_ENV_utils_argocd_helm_download_tools_golang_image_version"
+          value: "${ARGOCD_ENV_utils_argocd_helm_download_tools_golang_image_version}"
