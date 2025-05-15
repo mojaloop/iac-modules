@@ -1,0 +1,9 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-zitadel
+spec:
+  package: ghcr.io/infitx-org/zitadel-crossplane-provider:v${ARGOCD_ENV_crossplane_providers_zitadel_version}
+  controllerConfigRef:
+    name: debug-config
