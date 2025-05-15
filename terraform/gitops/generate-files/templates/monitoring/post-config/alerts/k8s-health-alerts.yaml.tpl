@@ -15,7 +15,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes Node not ready (instance {{ $labels.instance }})
+        summary: Kubernetes Node not ready (instance {{ $labels.nodename }})
         description: "Node {{ $labels.node }} has been unready for a long time\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"      
     - alert: KubernetesNodeMemoryPressure
       expr: 'kube_node_status_condition{condition="MemoryPressure",status="true"} == 1'
@@ -39,7 +39,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes Node network unavailable (instance {{ $labels.instance }})
+        summary: Kubernetes Node network unavailable (instance {{ $labels.nodename }})
         description: "Node {{ $labels.node }} has NetworkUnavailable condition\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
     - alert: KubernetesNodeOutOfPodCapacity
       expr: 'sum by (node) ((kube_pod_status_phase{phase="Running"} == 1) + on(uid) group_left(node) (0 * kube_pod_info{pod_template_hash=""})) / sum by (node) (kube_node_status_allocatable{resource="pods"}) * 100 > 90'
@@ -47,7 +47,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes Node out of pod capacity (instance {{ $labels.instance }})
+        summary: Kubernetes Node out of pod capacity (instance {{ $labels.nodename }})
         description: "Node {{ $labels.node }} is out of pod capacity\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesContainerOomKiller
@@ -74,7 +74,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes Volume out of disk space (instance {{ $labels.instance }})
+        summary: Kubernetes Volume out of disk space (instance {{ $labels.nodename }})
         description: "Volume is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesVolumeFullInFourDays
@@ -83,7 +83,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes Volume full in four days (instance {{ $labels.instance }})
+        summary: Kubernetes Volume full in four days (instance {{ $labels.nodename }})
         description: "Volume under {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is expected to fill up within four days. Currently {{ $value | humanize }}% is available.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPersistentvolumeError
@@ -111,7 +111,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes HPA scale inability (instance {{ $labels.instance }})
+        summary: Kubernetes HPA scale inability (instance {{ $labels.nodename }})
         description: "HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler }} is unable to scale\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesHpaMetricsUnavailability
@@ -120,7 +120,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes HPA metrics unavailability (instance {{ $labels.instance }})
+        summary: Kubernetes HPA metrics unavailability (instance {{ $labels.nodename }})
         description: "HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler }} is unable to collect metrics\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesHpaScaleMaximum
@@ -129,7 +129,7 @@ spec:
       labels:
         severity: info
       annotations:
-        summary: Kubernetes HPA scale maximum (instance {{ $labels.instance }})
+        summary: Kubernetes HPA scale maximum (instance {{ $labels.nodename }})
         description: "HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler }} has hit maximum number of desired pods\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesHpaUnderutilized
@@ -138,7 +138,7 @@ spec:
       labels:
         severity: info
       annotations:
-        summary: Kubernetes HPA underutilized (instance {{ $labels.instance }})
+        summary: Kubernetes HPA underutilized (instance {{ $labels.nodename }})
         description: "HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler }} is constantly at minimum replicas for 50% of the time. Potential cost saving here.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPodNotHealthy
@@ -185,7 +185,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes StatefulSet replicas mismatch (instance {{ $labels.instance }})
+        summary: Kubernetes StatefulSet replicas mismatch (instance {{ $labels.nodename }})
         description: "StatefulSet does not match the expected number of replicas.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesDeploymentGenerationMismatch
@@ -257,7 +257,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes API server errors (instance {{ $labels.instance }})
+        summary: Kubernetes API server errors (instance {{ $labels.nodename }})
         description: "Kubernetes API server is experiencing high error rate\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesApiClientErrors
@@ -266,7 +266,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes API client errors (instance {{ $labels.instance }})
+        summary: Kubernetes API client errors (instance {{ $labels.nodename }})
         description: "Kubernetes API client is experiencing high error rate\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesClientCertificateExpiresNextWeek
@@ -275,7 +275,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes client certificate expires next week (instance {{ $labels.instance }})
+        summary: Kubernetes client certificate expires next week (instance {{ $labels.nodename }})
         description: "A client certificate used to authenticate to the apiserver is expiring next week.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesClientCertificateExpiresSoon
@@ -284,7 +284,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes client certificate expires soon (instance {{ $labels.instance }})
+        summary: Kubernetes client certificate expires soon (instance {{ $labels.nodename }})
         description: "A client certificate used to authenticate to the apiserver is expiring in less than 24.0 hours.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesApiServerLatency
@@ -295,7 +295,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes API server latency (instance {{ $labels.instance }})
+        summary: Kubernetes API server latency (instance {{ $labels.nodename }})
         description: "Kubernetes API server has a 99th percentile latency of {{ $value }} seconds for {{ $labels.verb }} {{ $labels.resource }}.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
   - name: k8s-capacity-alert-rules
