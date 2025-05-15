@@ -73,6 +73,15 @@ spec:
             host: ${mojaloop_release_name}-account-lookup-service
             port:
               number: 80
+    - name: ping
+      match:
+        - uri:
+            prefix: /ping
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-participant-connection-test-svc
+            port:
+              number: 80
     - name: quotes
       match:
         - uri:
@@ -160,6 +169,15 @@ spec:
       route:
         - destination:
             host: ${mojaloop_release_name}-account-lookup-service
+            port:
+              number: 80
+    - name: ping
+      match:
+        - uri:
+            prefix: /ping
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-participant-connection-test-svc
             port:
               number: 80
     - name: quotes
