@@ -11,9 +11,6 @@ metadata:
 
 spec:
   project: default
-  dependsOn:
-    - name: rook-ceph
-      namespace: argocd
   syncPolicy:
     automated:
       prune: true
@@ -32,10 +29,50 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}
 
+  info:
+    - name: ceph-health
+      resources:
+        - group: ceph.rook.io
+          kind: CephCluster
+          name: rook-ceph
+          namespace: rook-ceph
+          jsonPointers:
+            - /status/ceph/health
+            - /status/phase
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
     path: gitops/applications/base/sc-storage-post-config
+    resource:
+      - group: batch
+        version: v1
+        kind: Job
+        name: check-rook-ceph-health
+        namespace: rook-ceph
+        hook: PreSync
+        hookDeletePolicy: HookSucceeded
+        manifest: |
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: check-rook-ceph-health
+            namespace: rook-ceph
+          spec:
+            template:
+              spec:
+                containers:
+                - name: check-health
+                  image: rook/ceph:latest
+                  command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    until ceph status | grep -q 'HEALTH_OK'; do
+                      echo "Waiting for Ceph cluster to be healthy..."
+                      sleep 10
+                    done
+                restartPolicy: OnFailure
+            backoffLimit: 10
     plugin:
       name: envsubst
       env:
