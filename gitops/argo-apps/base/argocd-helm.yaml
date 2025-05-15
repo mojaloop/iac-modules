@@ -805,7 +805,7 @@ spec:
                 - name: rollout
                   env:
                     - name: EXTENSION_URL
-                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v ${ARGOCD_ENV_utils_argocd_helm_rollout_extension_version}/extension.tar
+                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v${ARGOCD_ENV_utils_argocd_helm_rollout_extension_version}/extension.tar
 
               resources:
                 {}

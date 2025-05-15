@@ -178,8 +178,37 @@ spec:
             - name: utils_kyverno_app_name
               value: "${ARGOCD_ENV_utils_kyverno_app_name}"
 
+            # argocd
+
             - name: argocd_app_namespace
               value: "${ARGOCD_ENV_utils_app_namespace}"
+
+            - name: utils_argocd_helm_helm_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_helm_version}"
+
+            - name: utils_argocd_helm_app_name
+              value: "${ARGOCD_ENV_utils_argocd_helm_app_name}"
+
+            - name: utils_argocd_helm_kube_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_kube_version}"
+
+            - name: helm_version
+              value: "${ARGOCD_ENV_helm_version}"
+
+            - name: utils_argocd_helm_git_plugin_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_git_plugin_version}"
+
+            - name: utils_argocd_helm_envsubst_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_envsubst_version}"
+
+            - name: helmfile_version
+              value: "${ARGOCD_ENV_helmfile_version}"
+
+            - name: utils_argocd_helm_rollout_extension_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_rollout_extension_version}"
+
+            - name: utils_argocd_helm_download_tools_golang_image_version
+              value: "ARGOCD_ENV_utils_argocd_helm_download_tools_golang_image_version"
 
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
