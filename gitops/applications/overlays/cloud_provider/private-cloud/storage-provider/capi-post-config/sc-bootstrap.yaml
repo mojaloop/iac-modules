@@ -5,6 +5,8 @@ metadata:
   namespace: ${ARGOCD_ENV_capi_cluster_namespace}
 spec:
   parameters:
+    calico:
+      chartVersion: "${ARGOCD_ENV_utils_capi_capi_calico_helm_version}"
     argocd:
       application:
         source:
