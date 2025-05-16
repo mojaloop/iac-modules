@@ -55,7 +55,7 @@ spec:
 
           applicationSet:
             metrics:
-              enabled: false
+              enabled: true
           notifications:
             enabled: false
           configs:
@@ -271,7 +271,7 @@ spec:
             #     cpu: 500m
             #     memory: 1024Mi
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 namespace: argocd
@@ -282,7 +282,7 @@ spec:
           dex:
             enabled: false
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false # enable for production
                 namespace: argocd
@@ -454,7 +454,7 @@ spec:
                     mountPath: /helm-working-dir
 
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 namespace: argocd
@@ -471,7 +471,7 @@ spec:
             #     cpu: 400m
             #     memory: 512Mi
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 additionalLabels:
@@ -513,7 +513,7 @@ spec:
                 cpu: 120m
                 memory: 256Mi
             metrics:
-              enabled: false
+              enabled: true
               serviceMonitor:
                 enabled: false
                 additionalLabels:
