@@ -30,6 +30,7 @@ spec:
 
             # Extract and decode the kubeconfig
             kubectl get secret "$SC_KUBECONFIG_SECRET_NAME" -n "$SC_KUBECONFIG_SOURCE_NS" -o jsonpath="{.data.value}" | base64 -d > "$KUBECONFIG_PATH"
+            export KUBECONFIG="$KUBECONFIG_PATH"
 
             check_external_config_secret() {
               local SECRET_NAME="rook-external-config"
