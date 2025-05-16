@@ -11,7 +11,7 @@ TMP_GITLAB_DIR=/tmp/gitlab_repo
 TMP_GITHUB_DIR=/tmp/github_repo
 
 cleanup() {
-    log "Cleaning up temporary directories..."
+    echo "Cleaning up temporary directories..."
     rm -rf "$TMP_GITLAB_DIR" "$TMP_GITHUB_DIR"
 }
 
@@ -19,8 +19,8 @@ trap cleanup EXIT
 
 ENV_NAME=$(yq eval '.env' custom-config/cluster-config.yaml)
 DOMAIN=$(yq eval '.domain' custom-config/cluster-config.yaml)
-log "ENV NAME = ${ENV_NAME}"
-log "DOMAIN   = ${DOMAIN}"
+echo "ENV NAME = ${ENV_NAME}"
+echo "DOMAIN   = ${DOMAIN}"
 
 git clone https://root:${ROOT_TOKEN}@${GIT_HOST}/$CURRENT_PROJECT_FULL_PATH $TMP_GITLAB_DIR
 cd $TMP_GITLAB_DIR
@@ -39,10 +39,10 @@ git config --global user.name "root"
 git add custom-config/.
 if ! git diff --cached --quiet; then
     git commit -m "Add custom config files"
-    log "Pushing changes..."
+    echo "Pushing changes..."
     git push
 else
-    log "No changes to commit."
+    echo "No changes to commit."
 fi
 
-log "Script completed successfully."
+echo "Script completed successfully."
