@@ -23,9 +23,9 @@ spec:
 
             INTERVAL=10
             TIMEOUT=1200
-            SC_KUBECONFIG_SOURCE_NS="sc-cluster"
+            SC_KUBECONFIG_SOURCE_NS="${ARGOCD_ENV_capi_cluster_namespace}"
             SC_KUBECONFIG_SECRET_NAME="${ARGOCD_ENV_capi_cluster_name}-kubeconfig"
-            SC_NAMESPACE="rook-ceph"
+            SC_NAMESPACE=${ARGOCD_ENV_sc_storage_namespace}
             KUBECONFIG_PATH="/tmp/kubeconfig"
 
             # Extract and decode the kubeconfig

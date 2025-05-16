@@ -46,3 +46,11 @@ spec:
 
           - name: "capi_cluster_name"
             value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"
+
+          - name: "capi_cluster_namespace"
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
+
+          - name: "sc_storage_namespace"
+            value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
+
+
