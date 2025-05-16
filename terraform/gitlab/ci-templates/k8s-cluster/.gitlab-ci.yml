@@ -20,6 +20,7 @@ stages:
   - init
   - validate
   - build
+  - push-config-files
   - deploy
   - deploy-cluster
   - refresh-templates
