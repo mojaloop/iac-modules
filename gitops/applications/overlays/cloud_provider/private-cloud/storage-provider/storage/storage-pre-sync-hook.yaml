@@ -10,90 +10,83 @@ metadata:
 spec:
   template:
     spec:
-      volumes:
-      - name: kubeconfig-vol
-        secret:
-          secretName: "${ARGOCD_ENV_capi_cluster_name}-kubeconfig"
+      serviceAccountName: storage-job-sa
+      restartPolicy: OnFailure
       containers:
       - name: check-sc-ceph-resources
         image: bitnami/kubectl:latest
-        volumeMounts:
-        - name: kubeconfig-vol
-          mountPath: /kubeconfig
-          readOnly: true
-        env:
-         - name: KUBECONFIG
-           value: /kubeconfig/value
         command:
-        - /bin/sh
-        - -c
-        - |
-          set -e
-          INTERVAL=10
-          TIMEOUT=600
-          NAMESPACE="rook-ceph"
+          - /bin/sh
+          - -c
+          - |
+            set -e
 
-          check_external_config_secret() {
-          local SECRET_NAME="rook-external-config"
+            INTERVAL=10
+            TIMEOUT=1200
+            SC_KUBECONFIG_SOURCE_NS="sc-cluster"
+            SC_KUBECONFIG_SECRET_NAME="${ARGOCD_ENV_capi_cluster_name}-kubeconfig"
+            SC_NAMESPACE="rook-ceph"
+            KUBECONFIG_PATH="/tmp/kubeconfig"
 
-          echo "🔍 Checking if secret '$SECRET_NAME' in namespace '$NAMESPACE' exists and is not empty..."
-          SECONDS=0
-          until kubectl get secret -n "$NAMESPACE" "$SECRET_NAME" -o jsonpath='{.data}' 2>/dev/null | grep -q '[^[:space:]]'; do
-            if [ $SECONDS -ge $TIMEOUT ]; then
-              echo "❌ Timeout waiting for secret '$SECRET_NAME' to exist and contain data."
-              exit 1
-            fi
-            echo "⏳ Secret '$SECRET_NAME' not ready yet..."
-            sleep $INTERVAL
-          done
-          echo "✅ Secret '$SECRET_NAME' exists and contains data."
-          }
+            # Extract and decode the kubeconfig
+            kubectl get secret "$SC_KUBECONFIG_SECRET_NAME" -n "$SC_KUBECONFIG_SOURCE_NS" -o jsonpath="{.data.value}" | base64 -d > "$KUBECONFIG_PATH"
 
-          check_cm_external_cluster_user_command() {
-            local CM_NAME="external-cluster-user-command"
-            echo "🔍 Checking if ConfigMap '$CM_NAME' in namespace '$NAMESPACE' exists and is not empty..."
-            SECONDS=0
-            until kubectl get configmap -n "$NAMESPACE" "$CM_NAME" -o jsonpath='{.data}' 2>/dev/null | grep -q '[^[:space:]]'; do
-              if [ $SECONDS -ge $TIMEOUT ]; then
-                echo "❌ Timeout waiting for ConfigMap '$CM_NAME' to exist and contain data."
-                exit 1
-              fi
-              echo "⏳ ConfigMap '$CM_NAME' not ready yet..."
-              sleep $INTERVAL
-            done
-            echo "✅ ConfigMap '$CM_NAME' exists and contains data."
-          }
+            check_external_config_secret() {
+              local SECRET_NAME="rook-external-config"
+              echo "🔍 Checking if secret '$SECRET_NAME' in namespace '$SC_NAMESPACE' exists and is not empty..."
+              SECONDS=0
+              until kubectl get secret -n "$SC_NAMESPACE" "$SECRET_NAME" -o jsonpath='{.data}' 2>/dev/null | grep -q '[^[:space:]]'; do
+                if [ $SECONDS -ge $TIMEOUT ]; then
+                  echo "❌ Timeout waiting for secret '$SECRET_NAME' to exist and contain data."
+                  exit 1
+                fi
+                echo "⏳ Secret '$SECRET_NAME' not ready yet..."
+                sleep $INTERVAL
+              done
+              echo "✅ Secret '$SECRET_NAME' exists and contains data."
+            }
 
-          check_cm_rook_ceph_mon_endpoints_external() {
-            local CM_NAME="rook-ceph-mon-endpoints-external"
-            echo "🔍 Checking if ConfigMap '$CM_NAME' in namespace '$NAMESPACE' exists and is not empty..."
-            SECONDS=0
-            until kubectl get configmap -n "$NAMESPACE" "$CM_NAME" -o jsonpath='{.data}' 2>/dev/null | grep -q '[^[:space:]]'; do
-              if [ $SECONDS -ge $TIMEOUT ]; then
-                echo "❌ Timeout waiting for ConfigMap '$CM_NAME' to exist and contain data."
-                exit 1
-              fi
-              echo "⏳ ConfigMap '$CM_NAME' not ready yet..."
-              sleep $INTERVAL
-            done
-            echo "✅ ConfigMap '$CM_NAME' exists and contains data."
-          }
+            check_cm_external_cluster_user_command() {
+              local CM_NAME="external-cluster-user-command"
+              echo "🔍 Checking if ConfigMap '$CM_NAME' in namespace '$SC_NAMESPACE' exists and is not empty..."
+              SECONDS=0
+              until kubectl get configmap -n "$SC_NAMESPACE" "$CM_NAME" -o jsonpath='{.data}' 2>/dev/null | grep -q '[^[:space:]]'; do
+                if [ $SECONDS -ge $TIMEOUT ]; then
+                  echo "❌ Timeout waiting for ConfigMap '$CM_NAME' to exist and contain data."
+                  exit 1
+                fi
+                echo "⏳ ConfigMap '$CM_NAME' not ready yet..."
+                sleep $INTERVAL
+              done
+              echo "✅ ConfigMap '$CM_NAME' exists and contains data."
+            }
 
-          # Run checks in background
-          check_external_config_secret &
-          PID1=$!
-          check_cm_external_cluster_user_command &
-          PID2=$!
-          check_cm_rook_ceph_mon_endpoints_external &
-          PID3=$!
+            check_cm_rook_ceph_mon_endpoints_external() {
+              local CM_NAME="rook-ceph-mon-endpoints-external"
+              echo "🔍 Checking if ConfigMap '$CM_NAME' in namespace '$SC_NAMESPACE' exists and is not empty..."
+              SECONDS=0
+              until kubectl get configmap -n "$SC_NAMESPACE" "$CM_NAME" -o jsonpath='{.data}' 2>/dev/null | grep -q '[^[:space:]]'; do
+                if [ $SECONDS -ge $TIMEOUT ]; then
+                  echo "❌ Timeout waiting for ConfigMap '$CM_NAME' to exist and contain data."
+                  exit 1
+                fi
+                echo "⏳ ConfigMap '$CM_NAME' not ready yet..."
+                sleep $INTERVAL
+              done
+              echo "✅ ConfigMap '$CM_NAME' exists and contains data."
+            }
 
-          # Wait for all to finish
-          wait $PID1
-          wait $PID2
-          wait $PID3
+            check_external_config_secret &
+            PID1=$!
+            check_cm_external_cluster_user_command &
+            PID2=$!
+            check_cm_rook_ceph_mon_endpoints_external &
+            PID3=$!
 
-          echo "✅ All Configmaps and secrets are ready"
-      restartPolicy: OnFailure
-      serviceAccountName: storage-job-sa
-  backoffLimit: 5
-  ttlSecondsAfterFinished: 100
+            wait $PID1
+            wait $PID2
+            wait $PID3
+
+            echo "✅ All ConfigMaps and Secrets are ready."
+      backoffLimit: 5
+      ttlSecondsAfterFinished: 100
