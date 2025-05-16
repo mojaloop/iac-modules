@@ -5,7 +5,7 @@ metadata:
   namespace: ${ARGOCD_ENV_storage_namespace}
   annotations:
     argocd.argoproj.io/hook: PreSync
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded,HookFailed
     argocd.argoproj.io/sync-wave: '-11'  # Same wave as post-config
 spec:
   template:
