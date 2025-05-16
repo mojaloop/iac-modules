@@ -20,7 +20,6 @@ spec:
             - istio-ingress-ext
             - istio-ingress-int
             - rook-ceph
-            - storage
       mutate:
         foreach:
           - list: request.object.spec.containers[]
