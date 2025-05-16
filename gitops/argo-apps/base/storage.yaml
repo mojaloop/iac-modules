@@ -63,3 +63,6 @@ spec:
 
         - name: "rook_ceph_helm_version"
           value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_helm_version}"
+
+        - name: "capi_cluster_name"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"

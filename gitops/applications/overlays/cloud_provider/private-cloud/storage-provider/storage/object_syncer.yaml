@@ -1,0 +1,24 @@
+---
+apiVersion: utils.mojaloop.io/v1alpha1
+kind: ObjectSyncer
+metadata:
+  name: sync-sc-kubeconfig
+  namespace:  ${ARGOCD_ENV_storage_namespace}
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: '-100'
+spec:
+  parameters:
+    objectType: Secret
+    source:
+      namespace: sc-cluster
+      name: "${ARGOCD_ENV_capi_cluster_name}-kubeconfig"
+    destination:
+      namespace: ${ARGOCD_ENV_storage_namespace}
+      name: "${ARGOCD_ENV_capi_cluster_name}-kubeconfig"
+  providerConfigsRef:
+    sourceK8sProviderName: kubernetes-provider
+    destinationK8sProviderName: kubernetes-provider
+  managementPolicies:
+    - "*"
