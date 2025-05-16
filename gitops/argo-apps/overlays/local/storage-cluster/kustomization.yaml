@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   # utils
-  - ./sc-argocd.yaml
+  - ../../../base/sc-argocd.yaml
   - ../../../base/metallb.yaml
   - ../../../base/sc-storage.yaml
   - ../../../base/sc-storage-post-config.yaml
