@@ -29,14 +29,13 @@ do
     if [ -d "$GITOPS_BUILD_OUTPUT_DIR"/"$app" ]; then
         echo "---=== Rendering $app ===---"
         ./bin/kubectl kustomize --enable-helm --helm-command ./bin/helm "$GITOPS_BUILD_OUTPUT_DIR"/"$app" | ./bin/yq -s '"test/'"${app/\\/-}"'/" + .metadata.namespace + "-" + .kind + "-" + .metadata.name'
+        # remove the files from the test/app directory which match the patterns in lint.ignore
+        if [ -f "$GITOPS_BUILD_OUTPUT_DIR"/"$app"/lint.ignore ]; then
+            echo "Removing ignored files from test/${app/\\/-}"
+            while IFS= read -r pattern; do
+                echo "Removing files matching pattern: $pattern"
+                find test/"${app/\\/-}" -type f -name "$pattern" -delete
+            done < "$GITOPS_BUILD_OUTPUT_DIR"/"$app"/lint.ignore
+        fi
     fi
 done
-
-# remove files in the test directory which match patterns in .lintignore
-if [ -f ../../.lintignore ]; then
-    echo "Removing files"
-    while IFS= read -r pattern; do
-        echo "Removing files matching pattern: $pattern"
-        find test -type f -name "$pattern" -delete
-    done < ../../.lintignore
-fi
