@@ -19,10 +19,11 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 1,
-    "id": 83,
+    "id": 59,
     "links": [],
     "panels": [
       {
+        "collapsed": false,
         "gridPos": {
           "h": 1,
           "w": 24,
@@ -30,6 +31,7 @@
           "y": 0
         },
         "id": 5,
+        "panels": [],
         "title": "Network",
         "type": "row"
       },
@@ -51,6 +53,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -81,8 +84,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -112,10 +114,12 @@
             "showLegend": true
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -151,6 +155,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -181,8 +186,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -212,10 +216,12 @@
             "showLegend": true
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -263,6 +269,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -293,8 +300,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -324,10 +330,12 @@
             "showLegend": true
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -335,9 +343,9 @@
               "uid": "${datasource}"
             },
             "editorMode": "code",
-            "expr": "sum(container_memory_working_set_bytes{cluster=\"$cluster\",container=\"prometheus\"}) by (container)",
+            "expr": "sum(container_memory_working_set_bytes{cluster=\"$cluster\",container=\"prometheus\"}) by (container,pod)",
             "instant": false,
-            "legendFormat": "__auto",
+            "legendFormat": "{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -362,6 +370,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -392,8 +401,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -423,10 +431,12 @@
             "showLegend": true
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -474,6 +484,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -504,8 +515,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -535,10 +545,12 @@
             "showLegend": true
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -546,9 +558,9 @@
               "uid": "${datasource}"
             },
             "editorMode": "code",
-            "expr": "sum(rate(container_cpu_usage_seconds_total{cluster=\"$cluster\",container=\"prometheus\"}[$rate_interval])) by (container)",
+            "expr": "sum(rate(container_cpu_usage_seconds_total{cluster=\"$cluster\",container=\"prometheus\"}[$rate_interval])) by (container,pod)",
             "instant": false,
-            "legendFormat": "__auto",
+            "legendFormat": "{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -573,6 +585,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -603,8 +616,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -634,10 +646,12 @@
             "showLegend": true
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -652,7 +666,7 @@
             "refId": "A"
           }
         ],
-        "title": "Prometheus CPU",
+        "title": "Mimir CPU",
         "type": "timeseries"
       },
       {
@@ -686,6 +700,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -716,8 +731,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -744,10 +758,12 @@
             "showLegend": false
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -808,6 +824,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -838,8 +855,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -866,10 +882,12 @@
             "showLegend": false
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -906,6 +924,7 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
+              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -936,8 +955,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -992,10 +1010,12 @@
             "showLegend": true
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -1014,7 +1034,9 @@
         "type": "timeseries"
       }
     ],
-    "schemaVersion": 39,
+    "preload": false,
+    "refresh": "1m",
+    "schemaVersion": 41,
     "tags": [
       "mojaloop",
       "prometheus"
@@ -1023,36 +1045,28 @@
       "list": [
         {
           "current": {
-            "selected": false,
-            "text": "Mimir",
-            "value": "63a2fb69-1835-42f9-9635-c42ddcd2ac00"
+            "text": "dev-prometheus",
+            "value": "96d4dadf-c7b1-4ba9-bac9-3f62d08f1ecc"
           },
-          "hide": 0,
           "includeAll": false,
-          "multi": false,
           "name": "datasource",
           "options": [],
           "query": "prometheus",
-          "queryValue": "",
           "refresh": 1,
           "regex": "",
-          "skipUrlSync": false,
           "type": "datasource"
         },
         {
           "current": {
-            "selected": false,
-            "text": "control-center",
-            "value": "control-center"
+            "text": "",
+            "value": ""
           },
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
           "definition": "label_values(node_uname_info,cluster)",
-          "hide": 0,
           "includeAll": false,
-          "multi": false,
           "name": "cluster",
           "options": [],
           "query": {
@@ -1062,8 +1076,6 @@
           },
           "refresh": 1,
           "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
           "type": "query"
         },
         {
@@ -1071,19 +1083,12 @@
           "auto_count": 30,
           "auto_min": "10s",
           "current": {
-            "selected": true,
-            "text": "10m",
-            "value": "10m"
+            "text": "5m",
+            "value": "5m"
           },
-          "hide": 0,
           "label": "rate interval",
           "name": "rate_interval",
           "options": [
-            {
-              "selected": false,
-              "text": "auto",
-              "value": "$__auto_interval_rate_interval"
-            },
             {
               "selected": false,
               "text": "30s",
@@ -1095,12 +1100,12 @@
               "value": "1m"
             },
             {
-              "selected": false,
+              "selected": true,
               "text": "5m",
               "value": "5m"
             },
             {
-              "selected": true,
+              "selected": false,
               "text": "10m",
               "value": "10m"
             },
@@ -1111,21 +1116,18 @@
             }
           ],
           "query": "30s,1m,5m,10m,30m",
-          "queryValue": "",
           "refresh": 2,
-          "skipUrlSync": false,
           "type": "interval"
         }
       ]
     },
     "time": {
-      "from": "now-1h",
+      "from": "now-15m",
       "to": "now"
     },
     "timepicker": {},
     "timezone": "browser",
     "title": "Mojaloop - Remote write resources overview",
-    "uid": "eekdd89x1m-v001",
-    "version": 24,
-    "weekStart": ""
-  }
+    "uid": "eekdd89x1m-v002",
+    "version": 3
+    }
