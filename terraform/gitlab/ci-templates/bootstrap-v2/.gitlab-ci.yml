@@ -1,5 +1,5 @@
 include:
-  - template: Terraform/Base.gitlab-ci.yml # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.latest.gitlab-ci.yml
+  - template: /OpenTofu/Base.latest.gitlab-ci.yml
 workflow:
   rules:
     - if: $CI_MERGE_REQUEST_IID
@@ -41,8 +41,6 @@ variables:
   PIPELINE_EXECUTOR: true
   IGNORE_TF_DEPRECATION_WARNING: true
   VAULT_ADDR: http://vault-active.vault.svc.cluster.local:8200
-
-image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
 cache:
   key: "${TF_ROOT}"
@@ -100,7 +98,9 @@ prepare:image:
       --destination "${CI_REGISTRY_IMAGE}:${DOCKER_TAG}"
 
 fmt:
-  extends: .terraform:fmt
+  extends: .opentofu:fmt
+  image:
+    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   stage: lint
   script:
     - !reference [.source, script]
@@ -110,6 +110,8 @@ fmt:
 
 init:
   stage: init
+  image:
+    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
@@ -119,7 +121,9 @@ init:
     - terragrunt run-all init -upgrade -input=false -reconfigure
 
 validate:
-  extends: .terraform:validate
+  extends: .opentofu:validate
+  image:
+    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   script:
     - !reference [.source, script]
     - terragrunt run-all validate-inputs
@@ -127,7 +131,9 @@ validate:
   when: manual
 
 build:
-  extends: .terraform:build
+  extends: .opentofu:plan
+  image:
+    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
@@ -137,7 +143,9 @@ build:
   when: manual
 
 deploy:
-  extends: .terraform:deploy
+  extends: .opentofu:apply
+  image:
+    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
@@ -153,6 +161,8 @@ deploy:
 
 deploy-env-templates:
   stage: deploy-env-templates
+  image:
+    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
@@ -163,6 +173,8 @@ deploy-env-templates:
 
 refresh-templates:
   stage: refresh-templates
+  image:
+    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
@@ -173,7 +185,9 @@ refresh-templates:
 
 #do nothing for now
 destroy:
-  extends: .terraform:destroy
+  extends: .opentofu:destroy
+  image:
+    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
   id_tokens:
     VAULT_ID_TOKEN:
       aud: https://$VAULT_FQDN
