@@ -17,7 +17,6 @@ spec:
         - /bin/sh
         - -c
         - |
-
           set -e
           INTERVAL=10
           TIMEOUT=300
@@ -78,21 +77,6 @@ spec:
           wait $PID3
 
           echo "✅ All Ceph components are ready"
-          # # Wait for the Ceph cluster to be healthy
-          # until kubectl get cephcluster -n ${ARGOCD_ENV_storage_namespace} ${ARGOCD_ENV_storage_namespace} -o jsonpath='{.status.ceph.health}' | grep -q 'HEALTH_OK'; do
-          #   echo "Waiting for Ceph cluster to be healthy..."
-          #   sleep 30
-          # done
-          # # Wait for the cephblockpoolto be healthy
-          # until kubectl get cephblockpool -n ${ARGOCD_ENV_storage_namespace} ceph-blockpool -o jsonpath='{.status.phase}' | grep -q 'Ready'; do
-          #   echo "CephBlockPool not yet ready, waiting..."
-          #   sleep 30
-          # done
-          # # Wait for the cephobjectstore be healthy
-          # until kubectl get cephobjectstore -n ${ARGOCD_ENV_storage_namespace} default -o jsonpath='{.status.phase}' | grep -q 'Ready'; do
-          #   echo "CephObjectStore not yet ready, waiting..."
-          #   sleep 30
-          # done
       restartPolicy: OnFailure
       serviceAccountName: ceph-job-sa
   backoffLimit: 5
