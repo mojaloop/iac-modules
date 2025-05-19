@@ -7,6 +7,7 @@ spec:
   parameters:
     calico:
       chartVersion: "${ARGOCD_ENV_utils_capi_capi_calico_helm_version}"
+    argocd:
       application:
         source:
           targetRevision: "${ARGOCD_ENV_sc_application_gitrepo_tag}"

@@ -248,7 +248,7 @@ loki_query_scheduler_limits_memory: "192Mi"
 loki_compactor_limits_cpu: "150m"
 loki_compactor_limits_memory: "192Mi"
 
-gitlab_helm_version: "8.1.2"
+gitlab_helm_version: "9.0.0"
 gitlab_public_access: true
 gitlab_redis_cluster_size: "'3'"
 gitlab_redis_storage_size: "'5Gi'"

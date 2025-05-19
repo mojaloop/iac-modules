@@ -1231,36 +1231,36 @@ redis:
 ## See requirements.yaml for current version
 postgresql:
   install: false
-  auth:
-    ## These need to be set, for the sake of bitnami/postgresql upgrade patterns.
-    ## They are overridden by use of `existingSecret`
-    password: bogus-satisfy-upgrade
-    postgresPassword: bogus-satisfy-upgrade
-    ##
-    usePasswordFiles: false
-    existingSecret: '{{ include "gitlab.psql.password.secret" . }}'
-    secretKeys:
-      adminPasswordKey: postgresql-postgres-password
-      userPasswordKey: '{{ include "gitlab.psql.password.key" $ }}'
-  image:
-    tag: 14.8.0
-  primary:
-    initdb:
-      scriptsConfigMap: '{{ include "gitlab.psql.initdbscripts" $}}'
-    extraVolumeMounts:
-      - name: custom-init-scripts
-        mountPath: /docker-entrypoint-preinitdb.d/init_revision.sh
-        subPath: init_revision.sh
-    podAnnotations:
-      postgresql.gitlab/init-revision: "1"
-  metrics:
-    enabled: true
-    service:
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9187"
-        gitlab.com/prometheus_scrape: "true"
-        gitlab.com/prometheus_port: "9187"
+  # auth:
+  #   ## These need to be set, for the sake of bitnami/postgresql upgrade patterns.
+  #   ## They are overridden by use of `existingSecret`
+  #   password: bogus-satisfy-upgrade
+  #   postgresPassword: bogus-satisfy-upgrade
+  #   ##
+  #   usePasswordFiles: false
+  #   existingSecret: '{{ include "gitlab.psql.password.secret" . }}'
+  #   secretKeys:
+  #     adminPasswordKey: postgresql-postgres-password
+  #     userPasswordKey: '{{ include "gitlab.psql.password.key" $ }}'
+  # # image:
+  # #   tag: 14.8.0
+  # primary:
+  #   initdb:
+  #     scriptsConfigMap: '{{ include "gitlab.psql.initdbscripts" $}}'
+  #   extraVolumeMounts:
+  #     - name: custom-init-scripts
+  #       mountPath: /docker-entrypoint-preinitdb.d/init_revision.sh
+  #       subPath: init_revision.sh
+  #   podAnnotations:
+  #     postgresql.gitlab/init-revision: "1"
+  # metrics:
+  #   enabled: true
+  #   service:
+  #     annotations:
+  #       prometheus.io/scrape: "true"
+  #       prometheus.io/port: "9187"
+  #       gitlab.com/prometheus_scrape: "true"
+  #       gitlab.com/prometheus_port: "9187"
 
     ## Optionally define additional custom metrics
     ## ref: https://github.com/wrouesnel/postgres_exporter#adding-new-metrics-via-a-config-file
@@ -1343,11 +1343,11 @@ gitlab-runner:
 
 traefik:
   install: false
-  ports:
-    gitlab-shell:
-      expose: true
-      port: 2222
-      exposedPort: 22
+  # ports:
+  #   gitlab-shell:
+  #     expose: true
+  #     port: 2222
+  #     exposedPort: 22
 
 ## Settings for individual sub-charts under GitLab
 ## Note: Many of these settings are configurable via globals
@@ -1402,10 +1402,10 @@ gitlab:
   #   migrations:
   #     enabled: false
   ## https://docs.gitlab.com/charts/charts/gitlab/webservice
-  webservice:
-    enabled: true
-    maxReplicas: 1
-    minReplicas: 1
+  #   webservice:
+  #     enabled: true
+  #     maxReplicas: 1
+  #     minReplicas: 1
   ## https://docs.gitlab.com/charts/charts/gitlab/sidekiq
   #   sidekiq:
   #     enabled: false
