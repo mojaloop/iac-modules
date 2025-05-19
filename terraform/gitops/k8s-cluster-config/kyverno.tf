@@ -1,4 +1,4 @@
-module "generate_reflector_files" {
+module "generate_kyverno_files" {
   source = "../generate-files"
   var_map = {
     gitlab_project_url    = var.gitlab_project_url
