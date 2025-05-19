@@ -2,18 +2,18 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${base_utils_sync_wave}"
-  name: base-utils
+    argocd.argoproj.io/sync-wave: "${kyverno_sync_wave}"
+  name: kyverno
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/base-utils
+    path: apps/kyverno
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:
-    namespace: ${base_utils_namespace}
+    namespace: ${kyverno_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
@@ -30,3 +30,4 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
+      - ServerSideApply=true
