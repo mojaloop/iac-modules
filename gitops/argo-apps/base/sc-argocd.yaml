@@ -1,10 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_utils_argocd_helm_app_name}
-  namespace: ${ARGOCD_ENV_utils_app_namespace}
+  name: argocd
+  namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
+    argocd.argoproj.io/sync-wave: '-100'
+    argocd.argoproj.io/compare-options: ServerSideDiff=false
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
   # finalizers:
@@ -35,7 +36,7 @@ spec:
 
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_utils_argocd_helm_namespace}
+    namespace: argocd
 
   sources:
     - chart: argo-cd
@@ -43,13 +44,12 @@ spec:
       targetRevision: ${ARGOCD_ENV_utils_argocd_helm_helm_version}
 
       helm:
-        releaseName: ${ARGOCD_ENV_utils_argocd_helm_app_name}
+        releaseName: argocd-release
         valuesObject:
           fullnameOverride: ${ARGOCD_ENV_utils_argocd_helm_app_name}
           crds:
             install: true
           global:
-            domain: argo.${ARGOCD_ENV_utils_argocd_helm_public_ingress_access_domain}
             logging:
               format: json
 
@@ -62,12 +62,12 @@ spec:
             secret:
               createSecret: false
             cm:
-              url: https://argocd.${ARGOCD_ENV_utils_argocd_helm_dns_subdomain}
               exec.enabled: "true"
               kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
               timeout.reconciliation: "10s"
               application.resourceTrackingMethod: annotation
+              #url: https://argocd-sc.int.ccinfra04.drpp-onprem.global
               resource.exclusions: |
                 - apiGroups:
                   - "*"
@@ -159,53 +159,6 @@ spec:
                     hs.status = "Progressing"
                     hs.message = "Waiting for certificate"
                     return hs
-                redhatcop.redhat.io/VaultSecret:
-                  health.lua: |
-                    hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.conditions ~= nil then
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "ReconcileSuccessful" and condition.status == "False" then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                          if condition.type == "ReconcileSuccessful" and condition.status == "True" then
-                            hs.status = "Healthy"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
-                      end
-                    end
-
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for VaultSecret"
-                    return hs
-
-                redhatcop.redhat.io/KubernetesAuthEngineRole:
-                  health.lua: |
-                    hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.conditions ~= nil then
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "ReconcileSuccessful" and condition.status == "False" then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                          if condition.type == "ReconcileSuccessful" and condition.status == "True" then
-                            hs.status = "Healthy"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
-                      end
-                    end
-
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for KubernetesAuthEngineRole"
-                    return hs
 
                 ceph.rook.io/CephBlockPool:
                   health.lua: |
@@ -221,27 +174,26 @@ spec:
                     hs.message = "Waiting for CephBlockPool"
                     return hs
 
-                # TODO: enable again after fixing the warning on ceph cluster object
-                # ceph.rook.io/CephCluster:
-                #   health.lua: |
-                #     hs = {}
-                #     if obj.status ~= nil and obj.status.ceph ~= nil and obj.status.ceph.health ~= nil then
-                #       local health = obj.status.ceph.health
-                #       if health == "HEALTH_OK" then
-                #         hs.status = "Healthy"
-                #         hs.message = "Ceph cluster is healthy (HEALTH_OK)"
-                #       elseif health == "HEALTH_WARN" then
-                #         hs.status = "Degraded"
-                #         hs.message = "Ceph cluster warning: " .. health
-                #       else
-                #         hs.status = "Degraded"
-                #         hs.message = "Ceph cluster not healthy: " .. health
-                #       end
-                #     else
-                #       hs.status = "Progressing"
-                #       hs.message = "Waiting for Ceph cluster status..."
-                #     end
-                #     return hs
+                ceph.rook.io/CephCluster:
+                  health.lua: |
+                    hs = {}
+                    if obj.status ~= nil and obj.status.ceph ~= nil and obj.status.ceph.health ~= nil then
+                      local health = obj.status.ceph.health
+                      if health == "HEALTH_OK" then
+                        hs.status = "Healthy"
+                        hs.message = "Ceph cluster is healthy (HEALTH_OK)"
+                      elseif health == "HEALTH_WARN" then
+                        hs.status = "Degraded"
+                        hs.message = "Ceph cluster warning: " .. health
+                      else
+                        hs.status = "Degraded"
+                        hs.message = "Ceph cluster not healthy: " .. health
+                      end
+                    else
+                      hs.status = "Progressing"
+                      hs.message = "Waiting for Ceph cluster status..."
+                    end
+                    return hs
 
                 ceph.rook.io/CephObjectStore:
                   health.lua: |
@@ -257,272 +209,9 @@ spec:
                     hs.message = "Waiting for CephObjectStore"
                     return hs
 
-                external-secrets.io/ExternalSecret:
-                  health.lua: |
-                    local hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.conditions ~= nil then
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "Ready" and condition.status == "False" then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                          if condition.type == "Ready" and condition.status == "True" then
-                            hs.status = "Healthy"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
-                      end
-                    end
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for ExternalSecret"
-                    return hs
-                external-secrets.io/ClusterSecretStore:
-                  health.lua: |
-                    local hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.conditions ~= nil then
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "Ready" and condition.status == "False" then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                          if condition.type == "Ready" and condition.status == "True" then
-                            hs.status = "Healthy"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
-                      end
-                    end
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for ClusterSecretStore"
-                    return hs
-
-                external-secrets.io/SecretStore:
-                  health.lua: |
-                    local hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.conditions ~= nil then
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "Ready" and condition.status == "False" then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                          if condition.type == "Ready" and condition.status == "True" then
-                            hs.status = "Healthy"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
-                      end
-                    end
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for SecretStore"
-                    return hs
-
-                "*.upbound.io/*":
-                  health.lua: |
-                    health_status = {
-                      status = "Progressing",
-                      message = "Provisioning ..."
-                    }
-
-                    local function contains (table, val)
-                      for i, v in ipairs(table) do
-                        if v == val then
-                          return true
-                        end
-                      end
-                      return false
-                    end
-
-                    local has_no_status = {
-                      "ProviderConfig",
-                      "ProviderConfigUsage"
-                    }
-
-                    if obj.status == nil or next(obj.status) == nil and contains(has_no_status, obj.kind) then
-                      health_status.status = "Healthy"
-                      health_status.message = "Resource is up-to-date."
-                      return health_status
-                    end
-
-                    if obj.status == nil or next(obj.status) == nil or obj.status.conditions == nil then
-                      if obj.kind == "ProviderConfig" and obj.status.users ~= nil then
-                        health_status.status = "Healthy"
-                        health_status.message = "Resource is in use."
-                        return health_status
-                      end
-                      return health_status
-                    end
-
-                    for i, condition in ipairs(obj.status.conditions) do
-                      if condition.type == "LastAsyncOperation" then
-                        if condition.status == "False" then
-                          health_status.status = "Degraded"
-                          health_status.message = condition.message
-                          return health_status
-                        end
-                      end
-
-                      if condition.type == "Synced" then
-                        if condition.status == "False" then
-                          health_status.status = "Degraded"
-                          health_status.message = condition.message
-                          return health_status
-                        end
-                      end
-
-                      if condition.type == "Ready" then
-                        if condition.status == "True" then
-                          health_status.status = "Healthy"
-                          health_status.message = "Resource is up-to-date."
-                          return health_status
-                        end
-                      end
-                    end
-
-                    return health_status
-
-                "*.crossplane.io/*":
-                  health.lua: |
-                    health_status = {
-                      status = "Progressing",
-                      message = "Provisioning ..."
-                    }
-
-                    local function contains (table, val)
-                      for i, v in ipairs(table) do
-                        if v == val then
-                          return true
-                        end
-                      end
-                      return false
-                    end
-
-                    local has_no_status = {
-                      "Composition",
-                      "CompositionRevision",
-                      "DeploymentRuntimeConfig",
-                      "ControllerConfig",
-                      "ProviderConfig",
-                      "ProviderConfigUsage"
-                    }
-                    if obj.status == nil or next(obj.status) == nil and contains(has_no_status, obj.kind) then
-                        health_status.status = "Healthy"
-                        health_status.message = "Resource is up-to-date."
-                      return health_status
-                    end
-
-                    if obj.status == nil or next(obj.status) == nil or obj.status.conditions == nil then
-                      if obj.kind == "ProviderConfig" and obj.status.users ~= nil then
-                        health_status.status = "Healthy"
-                        health_status.message = "Resource is in use."
-                        return health_status
-                      end
-                      return health_status
-                    end
-
-                    for i, condition in ipairs(obj.status.conditions) do
-                      if condition.type == "LastAsyncOperation" then
-                        if condition.status == "False" then
-                          health_status.status = "Degraded"
-                          health_status.message = condition.message
-                          return health_status
-                        end
-                      end
-
-                      if condition.type == "Synced" then
-                        if condition.status == "False" then
-                          health_status.status = "Degraded"
-                          health_status.message = condition.message
-                          return health_status
-                        end
-                      end
-
-                      if contains({"Ready", "Healthy", "Offered", "Established"}, condition.type) then
-                        if condition.status == "True" then
-                          health_status.status = "Healthy"
-                          health_status.message = "Resource is up-to-date."
-                          return health_status
-                        end
-                      end
-                    end
-
-                    return health_status
-
-                "*mojaloop.io/*":
-                  health.lua: |
-                    health_status = {
-                      status = "Progressing",
-                      message = "Provisioning ..."
-                    }
-
-                    local function contains (table, val)
-                      for i, v in ipairs(table) do
-                        if v == val then
-                          return true
-                        end
-                      end
-                      return false
-                    end
-
-                    local has_no_status = {}
-                    if obj.status == nil
-                      or next(obj.status) == nil
-                      and contains(has_no_status, obj.kind)
-                    then
-                        health_status.status = "Healthy"
-                        health_status.message = "Resource is up-to-date."
-                      return health_status
-                    end
-
-                    if obj.status == nil or next(obj.status) == nil or obj.status.conditions == nil then
-                      if obj.kind == "ProviderConfig" and obj.status.users ~= nil then
-                        health_status.status = "Healthy"
-                        health_status.message = "Resource is in use."
-                        return health_status
-                      end
-                      return health_status
-                    end
-
-                    for i, condition in ipairs(obj.status.conditions) do
-                      if condition.type == "LastAsyncOperation" then
-                        if condition.status == "False" then
-                          health_status.status = "Degraded"
-                          health_status.message = condition.message
-                          return health_status
-                        end
-                      end
-
-                      if condition.type == "Synced" then
-                        if condition.status == "False" then
-                          health_status.status = "Degraded"
-                          health_status.message = condition.message
-                          return health_status
-                        end
-                      end
-
-                      if contains({"Ready", "Healthy", "Offered", "Established"}, condition.type) then
-                        if condition.status == "True" then
-                          health_status.status = "Healthy"
-                          health_status.message = "Resource is up-to-date."
-                          return health_status
-                        end
-                      end
-                    end
-
-                    return health_status
-
-
-            rbac:
-              scopes: "[${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}]"
-              policy.default: ""
+            # rbac:
+            #   policy.default: ''
+            #   create: true
             params:
               server.insecure: true
               # Mandatory for extensions to work
@@ -774,8 +463,6 @@ spec:
 
           ## Server ##
           server:
-            podAnnotations:
-              secret.reloader.stakater.com/reload: ${ARGOCD_ENV_security_zitadel_argocd_oidc_secret}
             # resources:
             #   limits:
             #     cpu: 400m
