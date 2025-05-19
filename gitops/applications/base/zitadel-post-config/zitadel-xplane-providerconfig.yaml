@@ -4,6 +4,8 @@ kind: ZitadelProviderConfig
 metadata:
   name: zitadel-provider
   namespace: ${ARGOCD_ENV_zitadel_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 5
 spec:
   parameters:
     domain: "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"

@@ -4,6 +4,8 @@ kind: Workspace
 metadata:
   name: zitadel-vault-oidc-config
   namespace: ${ARGOCD_ENV_zitadel_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 5
 spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
