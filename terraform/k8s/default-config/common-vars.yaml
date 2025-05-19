@@ -46,7 +46,7 @@ tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
 microk8s_version: 1.31/stable
 alertmanager_enabled: false
-alertmanager_prod_alerts_enabled: false   # if false, alerts are sent to dev alerts slack channel
+alertmanager_prod_alerts_enabled: false # if false, alerts are sent to dev alerts slack channel
 alertmanager_slack_integration_enabled: false
 alertmanager_jira_integration_enabled: false
 istio_proxy_log_level: warn
@@ -66,3 +66,4 @@ crossplane_functions_kcl_version: "0.11.3"
 crossplane_functions_auto_ready_version: "0.4.2"
 crossplane_functions_extra_resources_version: "0.0.3"
 crossplane_packages_utils_version: "v0.5.0"
+max_pods_per_node: 110
