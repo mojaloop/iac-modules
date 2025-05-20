@@ -66,7 +66,7 @@ spec:
   # workspace that uses this provider config, for example to setup Terraform
   # providers.
   configuration: |
-    terraform { 
+    terraform {
         backend "kubernetes" {
           secret_suffix     = "providerconfig-argocd-oidc-config"
           namespace         = "${ARGOCD_ENV_zitadel_namespace}"

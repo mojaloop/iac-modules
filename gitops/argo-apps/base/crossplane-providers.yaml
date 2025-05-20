@@ -70,6 +70,9 @@ spec:
         - name: "crossplane_providers_netbird_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_netbird_version}"
 
+        - name: "crossplane_providers_zitadel_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_zitadel_version}"
+
         - name: "crossplane_providers_aws_docdb_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_aws_docdb_version}"
 
