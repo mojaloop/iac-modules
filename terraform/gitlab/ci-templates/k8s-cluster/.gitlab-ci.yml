@@ -209,25 +209,6 @@ deploy-infra:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-infra.*/
     - when: manual
 
-deploy-managed-srvcs:
-  extends: .opentofu:apply
-  image:
-    name: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
-  id_tokens:
-    VAULT_ID_TOKEN:
-      aud: https://$VAULT_FQDN
-  script:
-    - !reference [.source, script]
-    - cd managed-services
-    - terragrunt run-all apply --terragrunt-non-interactive -input=false
-  artifacts:
-    paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
-    when: always
-  when: manual
-
 refresh-templates:
   stage: refresh-templates
   needs: []
