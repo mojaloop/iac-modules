@@ -88,7 +88,12 @@ kubelet:
       action: drop
     - regex: endpoint|id
       action: labeldrop
-
+    # remove name label with hexadecimal values only
+    - sourceLabels: [name]
+      regex: '^[a-f0-9]{64}$'
+      targetLabel: name
+      replacement: ''
+      action: replace
 
 kubeApiServer:
   enabled: false
