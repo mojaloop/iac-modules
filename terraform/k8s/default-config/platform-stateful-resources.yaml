@@ -179,7 +179,7 @@ reporting-events-mongodb:
   logical_service_config:
     logical_service_port: 27017
     logical_service_name: mongodb-reporting-events-mongodb
-    db_username: mojaloop
+    db_username: reporting
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -324,7 +324,7 @@ keto-db:
       - ory
     database_name: keto
     storage_size: 10G
-    replica_count: 1    
+    replica_count: 1
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
@@ -344,7 +344,7 @@ kratos-db:
       - ory
     database_name: kratos
     storage_size: 10G
-    replica_count: 1    
+    replica_count: 1
   backup_schedule:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
