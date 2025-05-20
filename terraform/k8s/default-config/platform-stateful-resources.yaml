@@ -184,7 +184,7 @@ reporting-events-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
-    database_name: mojaloop
+    database_name: reporting
     storage_size: 10G
     replica_count: 3
     mongo_config_server_replica_count: 3
