@@ -63,6 +63,7 @@ argocd_override:
           aws_documentdb_version: "${crossplane_packages_aws_documentdb_version}"
           aws_rds_version: "${crossplane_packages_aws_rds_version}"
           argocd_config_version: "${crossplane_packages_argocd_config_version}"
+          zitadel_config_version: "${crossplane_packages_zitadel_config_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
