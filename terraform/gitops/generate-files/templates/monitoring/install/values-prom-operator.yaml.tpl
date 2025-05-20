@@ -80,13 +80,13 @@ kubelet:
     - sourceLabels: ['__name__']
       regex: 'etcd_request_duration_seconds_bucket|apiserver_watch_events_sizes_bucket'
       action: drop
-    - sourceLabels: ['__name__']
-      regex: 'container_tasks_state|container_memory_failures_total|container_blkio_device_usage_total'
-      action: drop
     - regex: endpoint
       action: labeldrop
     cAdvisorMetricRelabelings:
-    - regex: id
+    - sourceLabels: ['__name__']
+      regex: 'container_tasks_state|container_memory_failures_total|container_blkio_device_usage_total'
+      action: drop
+    - regex: endpoint|id
       action: labeldrop
 
 
