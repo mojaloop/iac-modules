@@ -98,6 +98,21 @@ kubelet:
 kubeApiServer:
   enabled: false
 
+kube-state-metrics:
+  serviceMonitor:
+    relabelings:
+    - sourceLabels: [endpoint]
+      regex: http
+      targetLabel: endpoint
+      replacement: ''
+      action: replace
+    - sourceLabels: [service]
+      regex: prom-kube-state-metrics
+      targetLabel: service
+      replacement: ''
+      action: replace
+
+
 commonLabels:
   build: argocd
 commonAnnotations:
