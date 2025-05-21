@@ -41,4 +41,3 @@ tags:
   mojaloop/owner: James-Bush
 coredns_bind_address: "169.254.20.10"
 single_nat_gateway: true
-private_dns_zone_id: "dummystring"
