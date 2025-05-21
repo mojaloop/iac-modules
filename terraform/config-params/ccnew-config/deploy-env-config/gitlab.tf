@@ -293,4 +293,5 @@ resource "gitlab_repository_file" "vault_token_update" {
   content        = base64encode("vault-token-${sha256(vault_token.env_token[each.value].client_token)}")
   author_name    = "Terraform"
   commit_message = "tf_trigger: vault_token_update"
+  encoding       = "text"
 }
