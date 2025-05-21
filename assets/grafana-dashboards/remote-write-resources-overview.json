@@ -895,7 +895,7 @@
               "uid": "${datasource}"
             },
             "editorMode": "code",
-            "expr": "sum(rate(prometheus_tsdb_compaction_chunk_size_bytes_sum{cluster=\"$cluster\",service=~\".*prometheus.*\"}[$rate_interval]) / rate(prometheus_tsdb_compaction_chunk_samples_sum{cluster=\"$cluster\",service=~\".*prometheus.*\"}[$__rate_interval]))",
+            "expr": "sum(rate(prometheus_tsdb_compaction_chunk_size_bytes_sum{cluster=\"$cluster\",service=~\".*prometheus.*\"}[$rate_interval]) / rate(prometheus_tsdb_compaction_chunk_samples_sum{cluster=\"$cluster\",service=~\".*prometheus.*\"}[$rate_interval]))",
             "hide": false,
             "instant": false,
             "legendFormat": "bytes per sample",
