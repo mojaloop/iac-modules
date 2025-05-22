@@ -23,9 +23,9 @@ spec:
       - key: obj_store_region
         value: ${ARGOCD_ENV_object_storage_region}
       - key: object_storage_path_style
-        value: ${ARGOCD_ENV_object_storage_path_style}
+        value: "${ARGOCD_ENV_object_storage_path_style}"
       - key: object_store_insecure_connection
-        value: ${ARGOCD_ENV_object_store_insecure_connection}
+        value: "${ARGOCD_ENV_object_store_insecure_connection}"
       - key: mimir_gw_fqdn
         value: "https://mimir.${ARGOCD_ENV_grafana_dns_subdomain}"
       - key: environment_list
