@@ -35,6 +35,14 @@ variable "obj_store_gw_port" {
   default     = 443
 }
 
+variable "object_storage_path_style" {
+  description = "path style for object storage"
+}
+
+variable "object_store_insecure_connection" {
+  description = "insecure connection for object storage"
+}
+
 variable "tenant_vault_listening_port" {
   description = "port for vault"
   default     = 443

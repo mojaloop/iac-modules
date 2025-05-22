@@ -142,6 +142,24 @@ resource "gitlab_group_variable" "obj_store_region" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "object_storage_path_style" {
+  group             = data.gitlab_group.iac.id
+  key               = "OBJECT_STORAGE_PATH_STYLE"
+  value             = var.object_storage_path_style
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "object_store_insecure_connection" {
+  group             = data.gitlab_group.iac.id
+  key               = "OBJECT_STORE_INSECURE_CONNECTION"
+  value             = var.object_store_insecure_connection
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 # to be changed
 resource "gitlab_group_variable" "obj_store_gw_port" {
   group             = data.gitlab_group.iac.id
