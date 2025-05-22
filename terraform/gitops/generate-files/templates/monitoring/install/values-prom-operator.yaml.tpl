@@ -111,7 +111,9 @@ kube-state-metrics:
       targetLabel: service
       replacement: ''
       action: replace
-
+    metricRelabelings:
+    - regex: container_id|uid
+      action: labeldrop
 
 commonLabels:
   build: argocd
