@@ -136,6 +136,16 @@ variable "object_store_regional_endpoint"{
   description = "object_store_regional_endpoint"
 }
 
+variable "object_store_path_style" {
+  type        = bool
+  description = "object_store_path_style"
+}
+
+variable "object_store_insecure_connection" {
+  type        = bool
+  description = "object_store_insecure_connection"
+}
+
 variable "central_observability_endpoint" {
   type        = string
   description = "central observability endpoint (mimir api)"
