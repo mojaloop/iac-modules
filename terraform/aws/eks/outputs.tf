@@ -19,6 +19,10 @@ output "public_subdomain" {
   value = module.base_infra.public_zone.name
 }
 
+output "private_dns_zone_id" {
+  value = ""
+}
+
 output "internal_interop_switch_fqdn" {
   value = "${var.int_interop_switch_subdomain}.${trimsuffix(module.base_infra.public_zone.name, ".")}"
 }
