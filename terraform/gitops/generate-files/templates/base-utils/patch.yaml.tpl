@@ -12,6 +12,7 @@ spec:
       initContainers:
         - name: init-microk8s
           image: busybox:1.28
+          imagePullPolicy: IfNotPresent
           command:
             - sh
             - -c
