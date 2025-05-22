@@ -83,7 +83,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes volume full in four days (pvc: {{ $labels.persistentvolumeclaim }})
+        summary: Kubernetes volume full in four days (pvc {{ $labels.persistentvolumeclaim }})
         description: "Volume under {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is expected to fill up within four days. Currently {{ $value | humanize }}% is available.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPersistentvolumeError
