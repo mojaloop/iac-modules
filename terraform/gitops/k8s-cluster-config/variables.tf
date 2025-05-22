@@ -136,9 +136,9 @@ variable "object_store_regional_endpoint"{
   description = "object_store_regional_endpoint"
 }
 
-variable "object_store_path_style" {
+variable "object_storage_path_style" {
   type        = bool
-  description = "object_store_path_style"
+  description = "object_storage_path_style"
 }
 
 variable "object_store_insecure_connection" {
