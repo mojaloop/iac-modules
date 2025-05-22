@@ -4,6 +4,16 @@ kind: DeploymentRuntimeConfig
 metadata:
   name: provider-kubernetes
 spec:
+  deploymentTemplate:
+    spec:
+      selector: {}
+      strategy: {}
+      template:
+        spec:
+          containers:
+            - args:
+                - --enable-watches
+              name: package-runtime
   serviceAccountTemplate:
     metadata:
       name: provider-kubernetes
