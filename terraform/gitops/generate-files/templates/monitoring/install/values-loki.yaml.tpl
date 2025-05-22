@@ -27,20 +27,10 @@ loki:
         shared_store: s3
       aws:
         # s3 is alias for aws
-        %{ if object_storage_provider == "ceph" ~}
-        s3forcepathstyle: true
-         %{ endif ~}
-         %{ if object_storage_provider == "s3" ~}
-         s3forcepathstyle: false
-         %{ endif ~}
+        s3forcepathstyle: ${object_storage_path_style}
         endpoint: ${object_store_regional_endpoint}
         region: ${object_store_region}
-        %{ if object_storage_provider == "ceph" ~}
-        insecure: true
-        %{ endif ~}
-        %{ if object_storage_provider == "s3" ~}
-        insecure: false
-        %{ endif ~}
+        insecure: ${object_store_insecure_connection}
         access_key_id: $${CEPH_LOKI_USERNAME}
         secret_access_key: $${CEPH_LOKI_PASSWORD}
         bucketnames: ${loki_bucket}

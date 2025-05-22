@@ -101,23 +101,11 @@ tempo:
         wal:
           path: {{ .Values.tempo.dataDir }}/wal
         s3:
-          %{ if object_storage_provider == "ceph" ~}
-          forcepathstyle: true
-          %{ endif ~}
-          %{ if object_storage_provider == "s3" ~}
-          forcepathstyle: false
-          %{ endif ~}
+          forcepathstyle: ${object_storage_path_style}
           endpoint: ${object_store_regional_endpoint}
-          %{ if object_storage_provider == "ceph" ~}
-          insecure: true
-          %{ endif ~}
-          %{ if object_storage_provider == "s3" ~}
-          insecure: false
-          %{ endif ~}
+          insecure: ${object_store_insecure_connection}
           bucket: ${tempo_bucket}
           region: ${object_store_region}
-
-
 compactor:
   resourcesPreset: large
   extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
