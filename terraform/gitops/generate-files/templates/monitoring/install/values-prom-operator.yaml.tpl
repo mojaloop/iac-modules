@@ -126,6 +126,8 @@ node-exporter:
     relabelings:
     - sourceLabels: [__meta_kubernetes_pod_node_name]
       targetLabel: nodename
+    - regex: endpoint|service
+      action: labeldrop
   tolerations:
     - operator: "Exists"
 blackboxExporter:
