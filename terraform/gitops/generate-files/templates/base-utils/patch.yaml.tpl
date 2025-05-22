@@ -3,10 +3,19 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: patch-microk8s
+  annotations:
+    argocd.argoproj.io/hook: PreSync
 spec:
   template:
     spec:
       restartPolicy: Never
+      initContainers:
+        - name: init-microk8s
+          image: busybox:1.28
+          command:
+            - sh
+            - -c
+            - "until nslookup docker.io ; do echo waiting for network ; sleep 2; done;"
       containers:
         - name: patch-microk8s
           image: bitnami/kubectl:${try(cluster.version,"1.31.1")}
