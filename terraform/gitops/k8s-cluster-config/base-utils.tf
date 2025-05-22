@@ -14,8 +14,8 @@ module "generate_reflector_files" {
     velero_credentials_secret              = "velero-s3-credentials"
     velero_bsl_credentials_secret          = "velerobsl-s3-credentials"
     external_secret_sync_wave              = var.external_secret_sync_wave
-    cloud_platform                        = var.cloud_platform
-    k8s_cluster_type                      = var.k8s_cluster_type
+    cloud_platform                        = local.cloud_platform
+    k8s_cluster_type                      = local.k8s_cluster_type
     cluster                               = var.app_var_map.cluster
 
   }
