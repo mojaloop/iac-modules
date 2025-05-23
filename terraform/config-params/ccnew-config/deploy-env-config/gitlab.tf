@@ -11,7 +11,7 @@ resource "gitlab_project" "envs" {
 
   initialize_with_readme     = true
   shared_runners_enabled     = true
-  container_registry_access_level = "disabled"
+  container_registry_access_level = "private"
 }
 
 resource "gitlab_project_variable" "loki_bucket" {
