@@ -41,14 +41,15 @@ spec:
       annotations:
         summary: Kubernetes Node network unavailable (instance {{ $labels.nodename }})
         description: "Node {{ $labels.node }} has NetworkUnavailable condition\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-    - alert: KubernetesNodeOutOfPodCapacity
-      expr: 'sum by (node) ((kube_pod_status_phase{phase="Running"} == 1) + on(uid) group_left(node) (0 * kube_pod_info{pod_template_hash=""})) / sum by (node) (kube_node_status_allocatable{resource="pods"}) * 100 > 90'
-      for: 2m
-      labels:
-        severity: warning
-      annotations:
-        summary: Kubernetes Node out of pod capacity (instance {{ $labels.nodename }})
-        description: "Node {{ $labels.node }} is out of pod capacity\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      # We optimized uid label, so removing this alert for now.
+#    - alert: KubernetesNodeOutOfPodCapacity
+#      expr: 'sum by (node) ((kube_pod_status_phase{phase="Running"} == 1) + on(uid) group_left(node) (0 * kube_pod_info{pod_template_hash=""})) / sum by (node) (kube_node_status_allocatable{resource="pods"}) * 100 > 90'
+#      for: 2m
+#      labels:
+#        severity: warning
+#      annotations:
+#        summary: Kubernetes Node out of pod capacity (instance {{ $labels.nodename }})
+#        description: "Node {{ $labels.node }} is out of pod capacity\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesContainerOomKiller
       expr: '(kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset ${prometheus_rate_interval} >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[${prometheus_rate_interval}]) == 1'
