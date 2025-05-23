@@ -27,10 +27,10 @@ loki:
         shared_store: s3
       aws:
         # s3 is alias for aws
-        s3forcepathstyle: true
+        s3forcepathstyle: ${object_storage_path_style}
         endpoint: ${object_store_regional_endpoint}
         region: ${object_store_region}
-        insecure: false
+        insecure: ${object_store_insecure_connection}
         access_key_id: $${CEPH_LOKI_USERNAME}
         secret_access_key: $${CEPH_LOKI_PASSWORD}
         bucketnames: ${loki_bucket}

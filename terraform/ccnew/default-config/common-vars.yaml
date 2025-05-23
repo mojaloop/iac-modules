@@ -1,7 +1,7 @@
 tf_version: ">= 1.2"
 microk8s_version: 1.31/stable
 local_tf_provider_version: "~> 2.4"
-gitlab_tf_provider_version: "~> 16.0"
+gitlab_tf_provider_version: "~> 18.0"
 vault_tf_provider_version: "~> 3.16"
 zitadel_tf_provider_version: "99.99.99"
 netbird_tf_provider_version: "99.99.99"
