@@ -183,6 +183,9 @@ deploy-infra:
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-infra:.*/
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
+      when: manual
+      allow_failure: true
     - when: manual
 
 deploy-managed-srvcs:
@@ -214,6 +217,9 @@ refresh-templates:
     - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^refresh:.*/
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
+      when: manual
+      allow_failure: true
     - when: manual
 
 destroy:
@@ -255,6 +261,9 @@ refresh-deploy-infra:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy:.*/
     - if: $CI_PIPELINE_TRIGGERED && $CI_PIPELINE_SOURCE == "trigger" && $CD_UPDATE_PROFILE
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
+      when: manual
+      allow_failure: true
     - when: manual
 
 tf-refresh-deploy-infra:
@@ -278,6 +287,9 @@ tf-refresh-deploy-infra:
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^tf_trigger.*/
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
+      when: manual
+      allow_failure: true
     - when: manual
 
 lint-apps:
