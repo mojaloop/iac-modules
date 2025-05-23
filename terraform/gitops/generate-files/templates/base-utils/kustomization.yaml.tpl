@@ -1,7 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- patch.yaml
 - velero-credfile-externalsecret.yaml
 - velero-env-externalsecret.yaml
 helmCharts:
