@@ -8,8 +8,10 @@ resource "gitlab_project" "envs" {
   for_each               = local.environment_list
   name                   = each.value
   namespace_id           = data.gitlab_group.iac.id
-  initialize_with_readme = true
-  shared_runners_enabled = true
+
+  initialize_with_readme     = true
+  shared_runners_enabled     = true
+  container_registry_access_level = "disabled"
 }
 
 resource "gitlab_project_variable" "loki_bucket" {
