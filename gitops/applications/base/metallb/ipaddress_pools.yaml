@@ -1,0 +1,24 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: static
+  namespace: ${ARGOCD_ENV_metallb_namespace}
+spec:
+  addresses:
+    - ${ARGOCD_ENV_sc_metallb_static_ip_range_begin}-${ARGOCD_ENV_sc_metallb_static_ip_range_end}
+  autoAssign: false
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: dynamic
+  namespace: ${ARGOCD_ENV_metallb_namespace}
+spec:
+  addresses:
+    - ${ARGOCD_ENV_sc_metallb_dynamic_ip_range_begin}-${ARGOCD_ENV_sc_metallb_dynamic_ip_range_end}
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-advert
+  namespace: ${ARGOCD_ENV_metallb_namespace}

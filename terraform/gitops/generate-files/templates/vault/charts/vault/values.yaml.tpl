@@ -6,34 +6,44 @@ vault:
     extraVolumes:
       - type: configMap
         name: post-config
-    readinessProbe:
-      path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
     extraSecretEnvironmentVars:
       - envName: VAULT_TOKEN
         secretName: ${vault_seal_token_secret}
         secretKey: TOKEN
     ha:
       enabled: true
-      config: |
-        ui = true
-        listener "tcp" {
-          tls_disable = 1
-          address = "[::]:8200"
-          cluster_address = "[::]:8201"
-        }
-        storage "consul" {
-          path = "vault"
-          address = "consul-server.${consul_namespace}.svc.cluster.local:8500"
-        }
-        service_registration "kubernetes" {}
+      raft:
+        enabled: true
+        setNodeId: true
+        config: |
+          ui = true
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+          }
+          storage "raft" {
+              path = "/vault/data"
+              retry_join {
+                leader_api_addr = "http://vault-0.vault-internal:8200"
+              }
+              retry_join {
+                leader_api_addr = "http://vault-1.vault-internal:8200"
+              }
+              retry_join {
+                leader_api_addr = "http://vault-2.vault-internal:8200"
+              }
+          }
+          disable_mlock = true
+          service_registration "kubernetes" {}
 
-        seal "transit" {
-          address = "${transit_vault_url}"
-          disable_renewal = "false"
-          key_name = "${transit_vault_key_name}"
-          mount_path = "transit/"
-          tls_skip_verify = "true"
-        }
+          seal "transit" {
+            address = "${transit_vault_url}"
+            disable_renewal = "false"
+            key_name = "${transit_vault_key_name}"
+            mount_path = "transit/"
+            tls_skip_verify = "true"
+          }
 
     extraContainers:
       - name: statsd-exporter
@@ -42,7 +52,7 @@ vault:
       - name: init-sidecar
         image: ghcr.io/mojaloop/vault-utils:0.0.4
         imagePullPolicy: IfNotPresent
-        command: ["sh","-c","cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do /tmp/bootstrap.sh; sleep 300; done"]
+        command: ["sh","-c","order=$(echo $HOSTNAME | awk -F'-' '{print $2}'); delay=$(($order*60 +60)); echo $delay; cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep $delay; /tmp/bootstrap.sh; done"]
         volumeMounts:
           - name: userconfig-post-config
             mountPath: /etc/vault/

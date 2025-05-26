@@ -1,0 +1,13 @@
+apiVersion: gitlab.mojaloop.io/v1alpha1
+kind: GitlabPostConfig
+metadata:
+  name: post-config
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  parameters:
+    vaultFqdn: vault.${ARGOCD_ENV_vault_dns_subdomain}
+    gitlabFqdn: gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}
+  providerConfigsRef:
+    gitlabProvider: gitlab-provider
+    kubernetesProvider: kubernetes-provider
+    vaultProvider: vault-provider

@@ -46,6 +46,17 @@ variable "monolith_managed_stateful_resources_config_file" {
   type = string
 }
 
+variable "bastion_instance_number" {
+  type        = number
+  description = "number of bastions to configure in asg"
+  default     = 2
+}
+
+variable "bastion_instance_size" {
+  type        = string
+  description = "instance size of bastions to configure in asg"
+  default     = "t3.small"
+}
 
 ###
 # Local copies of variables to allow for parsing

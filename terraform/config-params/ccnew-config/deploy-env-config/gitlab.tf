@@ -8,8 +8,46 @@ resource "gitlab_project" "envs" {
   for_each               = local.environment_list
   name                   = each.value
   namespace_id           = data.gitlab_group.iac.id
-  initialize_with_readme = true
-  shared_runners_enabled = true
+
+  initialize_with_readme     = true
+  shared_runners_enabled     = true
+  container_registry_access_level = "private"
+}
+
+resource "gitlab_project_variable" "loki_bucket" {
+  for_each  = local.environment_list
+  project   = gitlab_project.envs[each.key].id
+  key       = "loki_bucket"
+  value     = "${each.value}-loki"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "tempo_bucket" {
+  for_each  = local.environment_list
+  project   = gitlab_project.envs[each.key].id
+  key       = "tempo_bucket"
+  value     = "${each.value}-tempo"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "velero_bucket" {
+  for_each  = local.environment_list
+  project   = gitlab_project.envs[each.key].id
+  key       = "velero_bucket"
+  value     = "${each.value}-velero"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "percona_bucket" {
+  for_each  = local.environment_list
+  project   = gitlab_project.envs[each.key].id
+  key       = "percona_bucket"
+  value     = "${each.value}-percona"
+  protected = false
+  masked    = false
 }
 
 resource "gitlab_project_access_token" "envs" {
@@ -79,20 +117,38 @@ resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
 }
 
 # to be changed
-resource "gitlab_group_variable" "ceph_obj_store_gw_fqdn" {
+resource "gitlab_group_variable" "obj_store_gw_fqdn" {
   group             = data.gitlab_group.iac.id
-  key               = "CEPH_OBJECTSTORE_FQDN"
-  value             = var.ceph_obj_store_gw_fqdn
+  key               = "OBJECTSTORE_FQDN"
+  value             = var.obj_store_gw_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "obj_store_regional_endpoint" {
+  group             = data.gitlab_group.iac.id
+  key               = "OBJECTSTORE_REGIONAL_ENDPOINT"
+  value             = var.obj_store_regional_endpoint
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "obj_store_region" {
+  group             = data.gitlab_group.iac.id
+  key               = "OBJECTSTORE_REGION"
+  value             = var.obj_store_region
   protected         = true
   masked            = false
   environment_scope = "*"
 }
 
 # to be changed
-resource "gitlab_group_variable" "ceph_obj_store_gw_port" {
+resource "gitlab_group_variable" "obj_store_gw_port" {
   group             = data.gitlab_group.iac.id
-  key               = "CEPH_OBJECTSTORE_PORT"
-  value             = var.ceph_obj_store_gw_port
+  key               = "OBJECTSTORE_PORT"
+  value             = var.obj_store_gw_port
   protected         = true
   masked            = false
   environment_scope = "*"
@@ -239,4 +295,5 @@ resource "gitlab_repository_file" "vault_token_update" {
   content        = base64encode("vault-token-${sha256(vault_token.env_token[each.value].client_token)}")
   author_name    = "Terraform"
   commit_message = "tf_trigger: vault_token_update"
+  encoding       = "text"
 }

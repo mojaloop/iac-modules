@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_sc_metallb_app_name}
+  namespace: ${ARGOCD_ENV_sc_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_sc_metallb_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  ignoreDifferences:
+    - kind: CustomResourceDefinition
+      group: apiextensions.k8s.io
+      name: bgppeers.metallb.io
+      jsonPointers:
+        - /spec/conversion/webhook
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: "${ARGOCD_ENV_sc_metallb_namespace}"
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_sc_application_gitrepo_tag}
+    path: gitops/applications/base/metallb
+    plugin:
+      name: envsubst
+      env:
+        - name: "metallb_version"
+          value: "${ARGOCD_ENV_sc_metallb_version}"
+
+        - name: "sc_metallb_static_ip_range_end"
+          value: "${ARGOCD_ENV_sc_metallb_static_ip_range_end}"
+
+        - name: "sc_metallb_static_ip_range_begin"
+          value: "${ARGOCD_ENV_sc_metallb_static_ip_range_begin}"
+
+        - name: "sc_metallb_dynamic_ip_range_begin"
+          value: "${ARGOCD_ENV_sc_metallb_dynamic_ip_range_begin}"
+
+        - name: "sc_metallb_dynamic_ip_range_end"
+          value: "${ARGOCD_ENV_sc_metallb_dynamic_ip_range_end}"
+
+        - name: "metallb_namespace"
+          value: "${ARGOCD_ENV_sc_metallb_namespace}"

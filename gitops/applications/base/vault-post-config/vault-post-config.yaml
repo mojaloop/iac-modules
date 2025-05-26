@@ -1,0 +1,48 @@
+apiVersion: v1
+stringData:
+  clientId: ${ARGOCD_ENV_cloud_platform_api_client_id}
+  clientSecret: ${ARGOCD_ENV_cloud_platform_api_client_secret}
+kind: Secret
+metadata:
+  name: cloud-platform-creds
+  namespace: ${ARGOCD_ENV_vault_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: -10
+type: Opaque
+---
+apiVersion: vault.mojaloop.io/v1alpha1
+kind: VaultPostConfig
+metadata:
+  name: vault-post-config
+  namespace: ${ARGOCD_ENV_vault_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: -5
+spec:
+  parameters:
+    kvPath: "${ARGOCD_ENV_vault_kv_secret}"
+    k8sAdminAuthPath: "${ARGOCD_ENV_vault_k8s_admin_auth_path}"
+    k8sAdminRoleName: "${ARGOCD_ENV_vault_k8s_admin_role_name}"
+    adminPolicyName: "vault-admin"
+    readKvSecretsPolicyName: "${ARGOCD_ENV_vault_read_all_kv_secrets_policy_name}"
+    credentialsSecretRef:
+      name: "cloud-platform-creds"
+      namespace: ${ARGOCD_ENV_vault_namespace}
+    aws:
+      objectStorageBackend:
+        enabled: true
+        path: "${ARGOCD_ENV_object_storage_backend_path}"
+        cloudRole: "${ARGOCD_ENV_object_storage_cloud_role}"
+        accessRole: "${ARGOCD_ENV_object_storage_access_role}"
+      dnsBackend:
+        enabled: true
+        path: "${ARGOCD_ENV_dns_backend_path}"
+        accessRole: "${ARGOCD_ENV_dns_access_role}"
+        externalDnsRole: "${ARGOCD_ENV_external_dns_cloud_role}"
+        certManagerAccessRole: "${ARGOCD_ENV_cert_manager_access_role}"
+        certManagerCloudPolicy: "${ARGOCD_ENV_cert_manager_cloud_policy}"
+      region: "${ARGOCD_ENV_dns_cloud_api_region}"
+  providerConfigsRef:
+    vaultProviderName: vault-provider
+    kubernetesProviderName: kubernetes-provider
+  managementPolicies:
+    - "*"

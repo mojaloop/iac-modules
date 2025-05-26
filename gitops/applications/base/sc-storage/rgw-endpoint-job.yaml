@@ -1,0 +1,62 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: export-rgw-endpoint
+  namespace: ${ARGOCD_ENV_storage_namespace}
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: ceph-job-sa
+      containers:
+        - name: export-rgw-endpoint
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+
+              SERVICE_NAME="storage-rgw-external"
+              NAMESPACE="${ARGOCD_ENV_storage_namespace}"
+              TIMEOUT=1200
+              INTERVAL=5
+              SECONDS=0
+
+              echo "🔍 Waiting for LoadBalancer IP and port on service '$SERVICE_NAME'..."
+
+              until RGW_EXTERNAL_IP=$(kubectl get svc "$SERVICE_NAME" -n "$NAMESPACE" -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null) && \
+                    [ -n "$RGW_EXTERNAL_IP" ]; do
+                if [ $SECONDS -ge $TIMEOUT ]; then
+                  echo "❌ Timeout waiting for external IP on service '$SERVICE_NAME'."
+                  exit 1
+                fi
+                echo "⏳ Waiting for external IP..."
+                sleep $INTERVAL
+              done
+
+              until RGW_EXTERNAL_PORT=$(kubectl get svc "$SERVICE_NAME" -n "$NAMESPACE" -o jsonpath='{.spec.ports[0].port}' 2>/dev/null) && \
+                    [ -n "$RGW_EXTERNAL_PORT" ]; do
+                if [ $SECONDS -ge $TIMEOUT ]; then
+                  echo "❌ Timeout waiting for port on service '$SERVICE_NAME'."
+                  exit 1
+                fi
+                echo "⏳ Waiting for port..."
+                sleep $INTERVAL
+              done
+
+              echo "✅ Found IP: $RGW_EXTERNAL_IP"
+              echo "✅ Found Port: $RGW_EXTERNAL_PORT"
+
+              RGW_ENDPOINT="$RGW_EXTERNAL_IP:$RGW_EXTERNAL_PORT"
+
+              echo "🔁 Creating or replacing secret 'rgw-endpoint'..."
+              kubectl delete secret rgw-endpoint -n "$NAMESPACE" --ignore-not-found
+
+              kubectl create secret generic rgw-endpoint -n "$NAMESPACE" \
+                --from-literal=RGW_EXTERNAL_IP="$RGW_EXTERNAL_IP" \
+                --from-literal=RGW_EXTERNAL_PORT="$RGW_EXTERNAL_PORT" \
+                --from-literal=RGW_ENDPOINT="$RGW_ENDPOINT"
+
+              echo "✅ Secret 'rgw-endpoint' created successfully."
+  backoffLimit: 4

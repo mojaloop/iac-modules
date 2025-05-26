@@ -1,0 +1,86 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_utils_argocd_app_name}-${ARGOCD_ENV_utils_crossplane_providers_app_name}
+  namespace: ${ARGOCD_ENV_utils_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_crossplane_providers_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_utils_crossplane_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
+    path: gitops/applications/base/crossplane-providers
+    plugin:
+      name: envsubst
+      env:
+
+        - name: "argocd_namespace"
+          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+
+        - name: "crossplane_providers_terraform_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_terraform_version}"
+
+        - name: "crossplane_providers_vault_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_vault_version}"
+
+        - name: "crossplane_providers_ansible_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_ansible_version}"
+
+        - name: "crossplane_providers_k8s_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_k8s_version}"
+
+        - name: "crossplane_providers_helm_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_helm_version}"
+
+        - name: "crossplane_providers_aws_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_version}"
+
+        - name: "crossplane_providers_aws_family_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_family_version}"
+
+        - name: "crossplane_providers_aws_s3_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_s3_version}"
+
+        - name: "crossplane_providers_aws_iam_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_iam_version}"
+
+        - name: "crossplane_providers_netbird_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_netbird_version}"
+
+        - name: "crossplane_providers_aws_docdb_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_docdb_version}"
+
+        - name: "crossplane_providers_aws_rds_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_rds_version}"
+
+        - name: "crossplane_providers_aws_route53_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_route53_version}"
+
+        - name: "crossplane_providers_aws_ec2_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_aws_ec2_version}"
+
+        - name: "crossplane_providers_gitlab_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_gitlab_version}"

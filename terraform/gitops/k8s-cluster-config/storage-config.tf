@@ -1,23 +1,30 @@
 module "generate_storage_files" {
   source = "../generate-files"
   var_map = {
-    longhorn_chart_repo                              = var.longhorn_chart_repo
-    longhorn_chart_version                           = var.common_var_map.longhorn_chart_version
-    longhorn_credentials_secret                      = "longhorn-s3-credentials"
-    cloud_region                                     = local.cloud_region
-    longhorn_backups_bucket_name                     = local.longhorn_backups_bucket_name
-    k8s_cluster_type                                 = local.k8s_cluster_type
-    reclaim_policy                                   = var.longhorn_reclaim_policy
-    replica_count                                    = var.longhorn_replica_count
-    longhorn_backups_credentials_id_provider_key     = "${var.cluster_name}/${local.longhorn_backups_credentials_id_provider_key}"
-    longhorn_backups_credentials_secret_provider_key = "${var.cluster_name}/${local.longhorn_backups_credentials_secret_provider_key}"
-    ceph_api_url                                    = var.ceph_api_url
-    gitlab_project_url                               = var.gitlab_project_url
-    longhorn_namespace                               = var.longhorn_namespace
-    external_secret_sync_wave                        = var.external_secret_sync_wave
-    longhorn_job_sync_wave                           = var.longhorn_job_sync_wave
-    storage_sync_wave                                = var.storage_sync_wave
-    longhorn_backup_job_enabled                      = try(var.common_var_map.longhorn_backup_job_enabled, false)
+    aws_ebs_csi_driver_helm_version = var.aws_ebs_csi_driver_helm_version
+    csi_driver_replicas             = var.aws_ebs_csi_driver_replicas
+    kubelet_dir_path                = var.kubelet_dir_path
+    storage_namespace               = var.storage_namespace
+    block_storage_class_name        = var.storage_class_name
+    fs_storage_class_name           = var.fs_storage_class_name
+    access_secret_name              = var.storage_access_secret_name
+    access_key_id                   = "${var.cluster_name}/block_storage_secret_key_id"
+    secret_access_key               = "${var.cluster_name}/block_storage_secret_access_key"
+    storage_sync_wave               = var.storage_sync_wave
+    gitlab_project_url              = var.gitlab_project_url
+    external_secret_sync_wave       = var.external_secret_sync_wave
+    cluster_name                    = var.cluster_name
+    rook_ceph_helm_version          = var.rook_ceph_helm_version
+    rgw_admin_ops_user              = "${var.cluster_name}/rgw_admin_ops_user"
+    rook_ceph_mon                   = "${var.cluster_name}/rook_ceph_mon"
+    rook_csi_cephfs_node            = "${var.cluster_name}/rook_csi_cephfs_node"
+    rook_csi_cephfs_provisioner     = "${var.cluster_name}/rook_csi_cephfs_provisioner"
+    rook_csi_rbd_node               = "${var.cluster_name}/rook_csi_rbd_node"
+    rook_csi_rbd_provisioner        = "${var.cluster_name}/rook_csi_rbd_provisioner"
+    rook_ceph_rgw_endpoint          = "${var.cluster_name}/rook_ceph_rgw_endpoint"
+    rook_ceph_mon_data              = "${var.cluster_name}/rook_ceph_mon_data"
+    rook_ceph_cluster_user_command  = "${var.cluster_name}/rook_ceph_cluster_user_command"
+    cloud_provider                  = var.cloud_platform
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
   template_path   = local.storage_template_path
@@ -31,38 +38,45 @@ locals {
   storage_app_file      = "storage-app.yaml"
 }
 
-variable "longhorn_chart_repo" {
-  type        = string
-  description = "longhorn_chart_repo"
-  default     = "https://charts.longhorn.io"
-}
-
-variable "longhorn_reclaim_policy" {
-  type        = string
-  description = "longhorn_reclaim_policy"
-  default     = "Retain"
-}
-
-variable "longhorn_replica_count" {
-  type        = string
-  description = "longhorn_replica_count"
-  default     = "1"
-}
-
-variable "longhorn_namespace" {
-  type        = string
-  description = "longhorn_namespace"
-  default     = "longhorn-system"
-}
-
 variable "storage_sync_wave" {
   type        = string
   description = "storage_sync_wave"
   default     = "-10"
 }
 
-variable "longhorn_job_sync_wave" {
+variable "storage_access_secret_name" {
   type        = string
-  description = "longhorn_job_sync_wave"
-  default     = "-9"
+  description = "secret to be created for storing access creds for storage"
+  default     = "aws-ebs-csi-cred"
+}
+
+variable "storage_namespace" {
+  type        = string
+  default     = "storage"
+}
+
+variable "kubelet_dir_path" {
+  type        = string
+}
+
+variable "aws_ebs_csi_driver_helm_version" {
+  type        = string
+}
+
+variable "aws_ebs_csi_driver_replicas" {
+  type        = number
+}
+
+variable "rook_ceph_helm_version" {
+  type        = string
+}
+
+variable "cloud_platform" {
+  type        = string
+  description = "cloud platform"
+}
+
+variable "fs_storage_class_name" {
+  type        = string
+  default    = "filesystem"
 }

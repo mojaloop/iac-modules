@@ -1,0 +1,424 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${ARGOCD_ENV_capi_cluster_namespace}
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+    argoCDChart: enabled
+  name: ${ARGOCD_ENV_capi_cluster_name}
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+spec:
+  controlPlaneEndpoint:
+    host: ${ARGOCD_ENV_capi_cluster_kubeapi_host}
+    port: ${ARGOCD_ENV_capi_cluster_kubeapi_port}
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: KubeadmControlPlane
+    name: ${ARGOCD_ENV_capi_cluster_name}
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: ProxmoxCluster
+    name: ${ARGOCD_ENV_capi_cluster_name}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: ProxmoxCluster
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+  name: ${ARGOCD_ENV_capi_cluster_name}
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+spec:
+  controlPlaneEndpoint:
+    host: ${ARGOCD_ENV_capi_cluster_kubeapi_host}
+    port: ${ARGOCD_ENV_capi_cluster_kubeapi_port}
+  serverRef:
+    endpoint: "https://${ARGOCD_ENV_capi_cluster_proxmox_url}/api2/json"
+    secretRef:
+      name: ${ARGOCD_ENV_capi_cluster_name}
+  storage:
+    name: ${ARGOCD_ENV_capi_cluster_name}
+    path: ""
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: KubeadmControlPlane
+metadata:
+  name: ${ARGOCD_ENV_capi_cluster_name}
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+  labels:
+    cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+spec:
+  kubeadmConfigSpec:
+    clusterConfiguration:
+      apiServer:
+        extraArgs:
+          cloud-provider: external
+      controllerManager:
+        extraArgs:
+          cloud-provider: external
+      networking:
+        dnsDomain: cluster.local
+        serviceSubnet: 10.96.0.0/16
+        podSubnet: 10.244.0.0/16
+    initConfiguration:
+      nodeRegistration:
+        kubeletExtraArgs:
+          cloud-provider: external
+    joinConfiguration:
+      nodeRegistration:
+        kubeletExtraArgs:
+          cloud-provider: external
+    preKubeadmCommands:
+      - echo "KUBELET_EXTRA_ARGS=--allowed-unsafe-sysctls=net.ipv4.ip_forward --node-ip=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)" >> /etc/default/kubelet
+    postKubeadmCommands:
+      - "curl -L https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl"
+      - "chmod +x /usr/local/bin/kubectl"
+      - "reboot now"
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      kind: ProxmoxMachineTemplate
+      name: "${ARGOCD_ENV_capi_cluster_name}-controlplane"
+  #hardcoded to 1 for now
+  replicas: 1
+  version: "v${ARGOCD_ENV_capi_cluster_kube_version}"
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: ProxmoxMachineTemplate
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+  name: "${ARGOCD_ENV_capi_cluster_name}-controlplane"
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+spec:
+  template:
+    spec:
+      cloudInit:
+        user:
+          packages:
+            - socat
+            - conntrack
+          writeFiles:
+            - path: /etc/modules-load.d/k8s.conf
+              owner: root:root
+              permissions: "0640"
+              content: overlay\nbr_netfilter
+            - path: /etc/sysctl.d/k8s.conf
+              owner: root:root
+              permissions: "0640"
+              content: |
+                net.bridge.bridge-nf-call-iptables  = 1
+                net.bridge.bridge-nf-call-ip6tables = 1
+                net.ipv4.ip_forward                 = 1
+          ssh_authorized_keys:
+            - ${ARGOCD_ENV_capi_cluster_proxmox_host_sshkey}
+          user: ubuntu
+          password: ${ARGOCD_ENV_capi_cluster_proxmox_host_password}
+          manage_etc_hosts: true
+          runCmd:
+            - "modprobe overlay"
+            - "modprobe br_netfilter"
+            - "sysctl --system"
+            - "mkdir -p /usr/local/bin"
+            - curl -L "https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
+            - curl -L "https://raw.githubusercontent.com/containerd/containerd/main/containerd.service" -o /etc/systemd/system/containerd.service
+            - "mkdir -p /etc/containerd"
+            - "containerd config default > /etc/containerd/config.toml"
+            - "sed 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml -i"
+            - "systemctl daemon-reload"
+            - "systemctl enable --now containerd"
+            - "mkdir -p /usr/local/sbin"
+            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64" -o /usr/local/sbin/runc
+            - "chmod 755 /usr/local/sbin/runc"
+            - "mkdir -p /opt/cni/bin"
+            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz" | tar -C "/opt/cni/bin" -xz
+            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
+            - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubeadm -o /usr/local/bin/kubeadm
+            - chmod +x /usr/local/bin/kubeadm
+            - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubelet -o /usr/local/bin/kubelet
+            - chmod +x /usr/local/bin/kubelet
+            - curl -sSL "https://raw.githubusercontent.com/kubernetes/release/v0.15.1/cmd/kubepkg/templates/latest/deb/kubelet/lib/systemd/system/kubelet.service" | sed "s:/usr/bin:/usr/local/bin:g" | tee /etc/systemd/system/kubelet.service
+            - mkdir -p /etc/systemd/system/kubelet.service.d
+            - curl -sSL "https://raw.githubusercontent.com/kubernetes/release/v0.15.1/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf" | sed "s:/usr/bin:/usr/local/bin:g" | tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+            - "systemctl enable kubelet.service"
+      hardware:
+        cpu: ${ARGOCD_ENV_capi_cluster_proxmox_control_plane_cpu}
+        memory: ${ARGOCD_ENV_capi_cluster_proxmox_control_plane_memory}
+        cpuType: host
+        networkDevice:
+          bridge: ${ARGOCD_ENV_capi_cluster_proxmox_host_net_interface}
+          firewall: true
+          model: virtio
+          tag: ${ARGOCD_ENV_capi_cluster_proxmox_host_vlan}
+        rootDisk: "50G"
+      options:
+        onBoot: true
+      network:
+        # nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
+        ipConfig:
+          ip: "${ARGOCD_ENV_capi_cluster_kubeapi_host}/${ARGOCD_ENV_capi_cluster_network_subnet}"
+          gateway: ${ARGOCD_ENV_capi_cluster_network_gateway}
+      storage: ${ARGOCD_ENV_capi_cluster_storage_name}
+      image:
+        checksum: c5eed826009c9f671bc5f7c9d5d63861aa2afe91aeff1c0d3a4cb5b28b2e35d6
+        checksumType: sha256
+        url: https://cloud-images.ubuntu.com/releases/jammy/release-20230914/ubuntu-22.04-server-cloudimg-amd64-disk-kvm.img
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+  name: "${ARGOCD_ENV_capi_cluster_name}-md-0"
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+spec:
+  clusterName: ${ARGOCD_ENV_capi_cluster_name}
+  replicas: ${ARGOCD_ENV_capi_cluster_proxmox_worker_replicas}
+  selector:
+    matchLabels: {}
+  template:
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+          name: "${ARGOCD_ENV_capi_cluster_name}-md-0"
+      clusterName: ${ARGOCD_ENV_capi_cluster_name}
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: ProxmoxMachineTemplate
+        name: "${ARGOCD_ENV_capi_cluster_name}-md-0"
+      version: "v${ARGOCD_ENV_capi_cluster_kube_version}"
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: KubeadmConfigTemplate
+metadata:
+  name: "${ARGOCD_ENV_capi_cluster_name}-md-0"
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+  labels:
+    cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+spec:
+  template:
+    spec:
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            cloud-provider: external
+      preKubeadmCommands:
+        - echo "KUBELET_EXTRA_ARGS=--allowed-unsafe-sysctls=net.ipv4.ip_forward --node-ip=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)" >> /etc/default/kubelet
+      postKubeadmCommands:
+        - "curl -L https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl"
+        - "chmod +x /usr/local/bin/kubectl"
+        - "reboot now"
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: ProxmoxMachineTemplate
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+  name: "${ARGOCD_ENV_capi_cluster_name}-md-0"
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+spec:
+  template:
+    spec:
+      storage: ${ARGOCD_ENV_capi_cluster_storage_name}
+      hardware:
+        cpu: ${ARGOCD_ENV_capi_cluster_proxmox_worker_cpu}
+        memory: ${ARGOCD_ENV_capi_cluster_proxmox_worker_memory}
+        cpuType: host
+        networkDevice:
+          bridge: ${ARGOCD_ENV_capi_cluster_proxmox_host_net_interface}
+          firewall: true
+          model: virtio
+          tag: ${ARGOCD_ENV_capi_cluster_proxmox_host_vlan}
+        rootDisk: ${ARGOCD_ENV_capi_os_disk_size}
+        extraDisks:
+          - size: ${ARGOCD_ENV_capi_rook_ceph_disk_size}
+            storage: ${ARGOCD_ENV_capi_cluster_storage_name}
+      options:
+        onBoot: true
+      network:
+        ipConfig:
+          ip: dhcp
+      cloudInit:
+        user:
+          packages:
+            - socat
+            - conntrack
+          writeFiles:
+            - path: /etc/modules-load.d/k8s.conf
+              owner: root:root
+              permissions: "0640"
+              content: overlay\nbr_netfilter
+            - path: /etc/sysctl.d/k8s.conf
+              owner: root:root
+              permissions: "0640"
+              content: |
+                net.bridge.bridge-nf-call-iptables  = 1
+                net.bridge.bridge-nf-call-ip6tables = 1
+                net.ipv4.ip_forward                 = 1
+          ssh_authorized_keys:
+            - ${ARGOCD_ENV_capi_cluster_proxmox_host_sshkey}
+          user: ubuntu
+          password: ${ARGOCD_ENV_capi_cluster_proxmox_host_password}
+          manage_etc_hosts: true
+          runCmd:
+            - "modprobe overlay"
+            - "modprobe br_netfilter"
+            - "sysctl --system"
+            - "mkdir -p /usr/local/bin"
+            - curl -L "https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
+            - curl -L "https://raw.githubusercontent.com/containerd/containerd/main/containerd.service" -o /etc/systemd/system/containerd.service
+            - "mkdir -p /etc/containerd"
+            - "containerd config default > /etc/containerd/config.toml"
+            - "sed 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml -i"
+            - "systemctl daemon-reload"
+            - "systemctl enable --now containerd"
+            - "mkdir -p /usr/local/sbin"
+            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64" -o /usr/local/sbin/runc
+            - "chmod 755 /usr/local/sbin/runc"
+            - "mkdir -p /opt/cni/bin"
+            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz" | tar -C "/opt/cni/bin" -xz
+            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
+            - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubeadm -o /usr/local/bin/kubeadm
+            - chmod +x /usr/local/bin/kubeadm
+            - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubelet -o /usr/local/bin/kubelet
+            - chmod +x /usr/local/bin/kubelet
+            - curl -sSL "https://raw.githubusercontent.com/kubernetes/release/v0.15.1/cmd/kubepkg/templates/latest/deb/kubelet/lib/systemd/system/kubelet.service" | sed "s:/usr/bin:/usr/local/bin:g" | tee /etc/systemd/system/kubelet.service
+            - mkdir -p /etc/systemd/system/kubelet.service.d
+            - curl -sSL "https://raw.githubusercontent.com/kubernetes/release/v0.15.1/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf" | sed "s:/usr/bin:/usr/local/bin:g" | tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+            - "systemctl enable kubelet.service"
+      image:
+        checksum: c5eed826009c9f671bc5f7c9d5d63861aa2afe91aeff1c0d3a4cb5b28b2e35d6
+        checksumType: sha256
+        url: https://cloud-images.ubuntu.com/releases/jammy/release-20230914/ubuntu-22.04-server-cloudimg-amd64-disk-kvm.img
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+  name: ${ARGOCD_ENV_capi_cluster_name}
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+stringData:
+  PROXMOX_PASSWORD: ${ARGOCD_ENV_capi_cluster_proxmox_password}
+  PROXMOX_SECRET: ""
+  PROXMOX_TOKENID: ""
+  PROXMOX_USER: ${ARGOCD_ENV_capi_cluster_proxmox_user}
+type: Opaque
+---
+apiVersion: addons.cluster.x-k8s.io/v1beta1
+kind: ClusterResourceSet
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+  name: "${ARGOCD_ENV_capi_cluster_name}-crs-0"
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+spec:
+  clusterSelector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+  resources:
+    - kind: ConfigMap
+      name: cloud-controller-manager
+  strategy: Reconcile
+---
+apiVersion: v1
+data:
+  cloud-controller-manager.yaml: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: proxmox-cloud-controller-manager
+      namespace: kube-system
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: system:proxmox-cloud-controller-manager
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
+    subjects:
+    - kind: ServiceAccount
+      name: proxmox-cloud-controller-manager
+      namespace: kube-system
+    ---
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      labels:
+        k8s-app: cloud-controller-manager
+      name: cloud-controller-manager
+      namespace: kube-system
+    spec:
+      selector:
+        matchLabels:
+          k8s-app: cloud-controller-manager
+      template:
+        metadata:
+          labels:
+            k8s-app: cloud-controller-manager
+        spec:
+          serviceAccountName: proxmox-cloud-controller-manager
+          containers:
+          - name: cloud-controller-manager
+            image: ghcr.io/k8s-proxmox/cloud-provider-proxmox:latest
+            command:
+            - /usr/local/bin/cloud-controller-manager
+            - --cloud-provider=proxmox
+            - --cloud-config=/etc/proxmox/config.yaml
+            - --leader-elect=true
+            - --use-service-account-credentials
+            - --controllers=cloud-node,cloud-node-lifecycle
+            volumeMounts:
+              - name: cloud-config
+                mountPath: /etc/proxmox
+                readOnly: true
+            livenessProbe:
+              httpGet:
+                path: /healthz
+                port: 10258
+                scheme: HTTPS
+              initialDelaySeconds: 20
+              periodSeconds: 30
+              timeoutSeconds: 5
+          volumes:
+            - name: cloud-config
+              secret:
+                secretName: cloud-config
+          tolerations:
+          - key: node.cloudprovider.kubernetes.io/uninitialized
+            value: "true"
+            effect: NoSchedule
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+            effect: NoSchedule
+          - key: node-role.kubernetes.io/master
+            operator: Exists
+            effect: NoSchedule
+          nodeSelector:
+            node-role.kubernetes.io/control-plane: ""
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: cloud-config
+      namespace: kube-system
+    stringData:
+      config.yaml: |
+        proxmox:
+          url: https://${ARGOCD_ENV_capi_cluster_proxmox_url}/api2/json
+          user: ${ARGOCD_ENV_capi_cluster_proxmox_user}
+          password: ${ARGOCD_ENV_capi_cluster_proxmox_password}
+          tokenID: ""
+          secret: ""
+kind: ConfigMap
+metadata:
+  name: cloud-controller-manager
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}

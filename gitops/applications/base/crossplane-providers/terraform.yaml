@@ -1,0 +1,110 @@
+---
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: terraform-debug
+  labels:
+    app: crossplane-provider-terraform
+spec:
+  args:
+    - -d
+    - --poll=5m
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-terraform
+spec:
+  package: ghcr.io/mojaloop/infra/upbound/provider-terraform:v${ARGOCD_ENV_crossplane_providers_terraform_version}
+  controllerConfigRef:
+    name: terraform-debug
+  runtimeConfigRef:
+    name: provider-terraform-config
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: crossplane-terraform-sa
+subjects:
+  - kind: ServiceAccount
+    name: crossplane-terraform-sa
+    namespace: crossplane-system
+roleRef:
+  name: crossplane-terraform-sa
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: crossplane-terraform-sa
+rules:
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["clusterroles", "clusterrolebindings"]
+    verbs: ["*"]
+  - apiGroups: ["objectbucket.io"]
+    resources: ["objectbucketclaims"]
+    verbs: ["*"]
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["*"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list"]
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: provider-terraform-config
+spec:
+  deploymentTemplate:
+    spec:
+      selector: {}
+      template:
+        spec:
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "3"
+              - name: attempts
+                value: "5"
+          volumes:
+            - emptyDir: {}
+              name: additional
+          initContainers:
+            - name: configure-zitadel-provider
+              image: golang:1.20-alpine3.18
+              securityContext:
+                runAsUser: 0
+                privileged: true
+                runAsNonRoot: false
+              command: [sh, -c]
+              args:
+                [
+                  "apk add git && git clone https://github.com/mojaloop/terraform-provider-zitadel && cd terraform-provider-zitadel && git checkout feature/add-user-grant-datasource && go build . && mkdir -p /tmp/config/registry.terraform.io/zitadel/zitadel/99.99.99/linux_amd64 && cp terraform-provider-zitadel /tmp/config/registry.terraform.io/zitadel/zitadel/99.99.99/linux_amd64 && chmod +rwx /tmp/config/registry.terraform.io/zitadel/zitadel/99.99.99/linux_amd64/terraform-provider-zitadel",
+                ]
+              volumeMounts:
+                - mountPath: /tmp/config
+                  name: additional
+            - name: configure-netbird-provider
+              image: golang:1.20-alpine3.18
+              securityContext:
+                runAsUser: 0
+                privileged: true
+                runAsNonRoot: false
+              command: [sh, -c]
+              args:
+                [
+                  "apk add git && git clone https://github.com/mojaloop/terraform-provider-netbird && cd terraform-provider-netbird && git checkout dev && go build . && mkdir -p /tmp/config/github.com/netbirdio/netbird/99.99.99/linux_amd64 && cp terraform-provider-netbird /tmp/config/github.com/netbirdio/netbird/99.99.99/linux_amd64/  && chmod +rwx /tmp/config/github.com/netbirdio/netbird/99.99.99/linux_amd64/terraform-provider-netbird",
+                ]
+              volumeMounts:
+                - mountPath: /tmp/config
+                  name: additional
+          containers:
+            - name: package-runtime
+              volumeMounts:
+                - mountPath: /tmp/config
+                  name: additional
+  serviceAccountTemplate:
+    metadata:
+      name: crossplane-terraform-sa

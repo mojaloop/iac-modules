@@ -1,0 +1,68 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_utils_storage_app_name}
+  namespace: ${ARGOCD_ENV_argocd_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_storage_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+      - ServerSideApply=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_utils_storage_namespace}
+  source:
+      repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_storage_cloud_provider}/storage-provider/storage
+      plugin:
+        name: envsubst
+        env:
+
+        - name: "aws_ebs_csi_driver_helm_version"
+          value: "${ARGOCD_ENV_utils_storage_aws_provider_ebs_csi_driver_helm_version}"
+
+        - name: "kubelet_dir_path"
+          value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_csi_kubelet_dir_path}"
+
+        - name: "csi_driver_replicas"
+          value: "${ARGOCD_ENV_utils_storage_aws_provider_csi_driver_replicas}"
+
+        - name: "cluster_domain"
+          value: "${ARGOCD_ENV_utils_storage_cluster_domain}"
+
+        - name: "storage_namespace"
+          value: "${ARGOCD_ENV_utils_storage_namespace}"
+
+        - name: "block_storage_class_name"
+          value: "${ARGOCD_ENV_utils_storage_block_storage_class_name}"
+
+        - name: "fs_storage_class_name"
+          value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_fs_storage_class_name}"
+
+        - name: "object_storage_class_name"
+          value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_object_storage_class_name}"
+
+        - name: "rook_ceph_helm_version"
+          value: "${ARGOCD_ENV_utils_storage_private_cloud_provider_helm_version}"
+
+        - name: "capi_cluster_name"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_name}"

@@ -63,7 +63,7 @@ variable "gitlab_api_url" {
 variable "storage_class_name" {
   type        = string
   description = "storage_class_name"
-  default     = "longhorn"
+  default     = "block-storage-sc"
 }
 
 variable "gitlab_readonly_group_name" {
@@ -126,9 +126,14 @@ variable "dns_provider" {
   description = "provider for ext dns"
 }
 
-variable "ceph_api_url" {
+variable "object_store_api_url" {
   type        = string
-  description = "ceph_api_url"
+  description = "object_store_api_url"
+}
+
+variable "object_store_regional_endpoint"{
+  type        = string
+  description = "object_store_regional_endpoint"
 }
 
 variable "central_observability_endpoint" {
@@ -158,11 +163,15 @@ variable "managed_svc_as_monolith" {
   default     = false
 }
 
+variable "db_mediated_by_control_center" {
+  type        = bool
+  default     = false
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
   cloud_platform                                   = data.gitlab_project_variable.cloud_platform.value
-  longhorn_backups_bucket_name                     = data.gitlab_project_variable.ceph_longhorn_bucket.value
   cert_manager_credentials_client_id_name          = data.gitlab_project_variable.cert_manager_credentials_client_id_name.value
   cert_manager_credentials_client_secret_name      = data.gitlab_project_variable.cert_manager_credentials_client_secret_name.value
   external_dns_credentials_client_secret_name      = data.gitlab_project_variable.external_dns_credentials_client_secret_name.value
@@ -173,6 +182,6 @@ locals {
   external_dns_credentials_id_provider_key         = var.secrets_key_map["external_dns_cred_id_key"]
   longhorn_backups_credentials_secret_provider_key = "longhorn_backup_bucket_secret_key_id"
   longhorn_backups_credentials_id_provider_key     = "longhorn_backup_bucket_access_key_id"
-  ceph_loki_bucket                                = data.gitlab_project_variable.ceph_loki_bucket.value
-  ceph_tempo_bucket                               = data.gitlab_project_variable.ceph_tempo_bucket.value
+  loki_bucket                                      = data.gitlab_project_variable.loki_bucket.value
+  tempo_bucket                                     = data.gitlab_project_variable.tempo_bucket.value
 }

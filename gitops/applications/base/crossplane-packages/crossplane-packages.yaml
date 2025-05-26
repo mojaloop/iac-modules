@@ -1,0 +1,96 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: utils
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/utils:${ARGOCD_ENV_crossplane_packages_utils_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: sc-postgres
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-pgcluster:${ARGOCD_ENV_crossplane_packages_sc_postgres_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: sc-bootstrap
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-bootstrap:${ARGOCD_ENV_crossplane_packages_sc_bootstrap_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: objectstores
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/objectstores:${ARGOCD_ENV_crossplane_packages_objectstores_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: netbird-operator-install
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-nboperatorinstall:${ARGOCD_ENV_crossplane_packages_sc_nboperatorinstall_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: nb-config
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/nb-config:${ARGOCD_ENV_crossplane_packages_nb_config_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: aws-docdb
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/aws-docdbcluster:${ARGOCD_ENV_crossplane_packages_aws_documentdb_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: aws-rdscluster
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/aws-rdscluster:${ARGOCD_ENV_crossplane_packages_aws_rds_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: gitlab
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:${ARGOCD_ENV_crossplane_packages_gitlab_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: vault-config
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:${ARGOCD_ENV_crossplane_packages_vault_config_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: sc-mysqlcluster
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-mysqlcluster:${ARGOCD_ENV_crossplane_packages_sc_mysql_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: sc-mongodbcluster
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-mongodbcluster:${ARGOCD_ENV_crossplane_packages_sc_mongodb_version}
+  skipDependencyResolution: true

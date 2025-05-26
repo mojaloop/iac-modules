@@ -106,6 +106,7 @@ spec:
         wsrep_auto_increment_control=OFF
         coredumper=/tmp/mysql-core-dump
         innodb_buffer_pool_in_core_file=OFF
+
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
 #      [sst]
@@ -660,9 +661,10 @@ spec:
 #            xbstream:
 #            - "--someflag=abc"
         s3:
-          bucket: ${ceph_percona_backup_bucket}
+          bucket: ${object_store_percona_backup_bucket}
+          region: ${object_store_region}
           credentialsSecret: ${percona_credentials_secret}
-          endpointUrl: ${ceph_api_url}
+          endpointUrl: ${object_store_api_url}
       azure-blob:
         type: azure
         azure:
@@ -756,9 +758,10 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        AWS_ENDPOINTS: ${ceph_api_url}
+        AWS_ENDPOINTS: ${object_store_api_url}
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
+        AWS_REGION: ${object_store_region}
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic

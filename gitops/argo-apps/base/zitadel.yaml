@@ -49,20 +49,8 @@ spec:
           - name: "zitadel_dns_subdomain"
             value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
 
-    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
-      targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
-      path: gitops/applications/overlays/rdbms_provider/${ARGOCD_ENV_security_zitadel_rdbms_provider}/zitadel
-      plugin:
-        name: envsubst
-        env:  
           - name: "zitadel_helm_version"
             value: "${ARGOCD_ENV_security_zitadel_helm_version}"
-
-          - name: "zitadel_namespace"
-            value: "${ARGOCD_ENV_security_zitadel_namespace}"
-
-          - name: "zitadel_dns_subdomain"
-            value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
 
           - name: "zitadel_replicas"
             value: "${ARGOCD_ENV_security_zitadel_replicas}"
@@ -74,5 +62,4 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_zitadel_db_name}"
 
           - name: "zitadel_config_secret_name"
-            value: "${ARGOCD_ENV_security_zitadel_config_secret_name}"            
-
+            value: "${ARGOCD_ENV_security_zitadel_config_secret_name}"

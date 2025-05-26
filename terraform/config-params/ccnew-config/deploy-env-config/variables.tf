@@ -22,12 +22,16 @@ variable "nexus_docker_repo_listening_port" {
   default     = 443
 }
 
-variable "ceph_obj_store_gw_fqdn" {
-  description = "fqdn for ceph object storage gw"
+variable "obj_store_gw_fqdn" {
+  description = "fqdn for object storage gw"
 }
 
-variable "ceph_obj_store_gw_port" {
-  description = "port for ceph object storage gw"
+variable "obj_store_regional_endpoint" {
+  description = "regional endpoint for object storage gw"
+}
+
+variable "obj_store_gw_port" {
+  description = "port for object storage gw"
   default     = 443
 }
 
@@ -36,21 +40,6 @@ variable "tenant_vault_listening_port" {
   default     = 443
 }
 
-variable "max_objects" {
-  description = "max number of objects in a bucket"
-  default     = 1000
-}
-
-variable "max_size" {
-  description = "max size of objects in a bucket"
-  default     = "100G"
-}
-
-
-variable "storage_class" {
-  description = "object storage class of ceph"
-  default     = "ceph-bucket"
-}
 
 variable "namespace" {
   description = "namespace to create the buckets"
@@ -99,5 +88,9 @@ variable "cc_cidr_block" {
 
 variable "env_token_ttl" {
   type        = string
-  description = "time to live for the env token"  
+  description = "time to live for the env token"
+}
+
+variable "obj_store_region" {
+  description = "cloud region"
 }

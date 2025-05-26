@@ -12,7 +12,7 @@
 ## @param global.storageClass Global StorageClass for Persistent Volume(s)
 ##
 global:
-  storageClass: ${resource.local_helm_config.kafka_data.storage_class_name}
+  storageClass: ${var.storage_class_name}
 
 ## @section Common parameters
 ##
@@ -475,7 +475,7 @@ controller:
     ## If undefined (the default) or set to null, no storageClassName spec is
     ## set, choosing the default provisioner.
     ##
-    storageClass: ${resource.local_helm_config.kafka_data.storage_class_name}
+    storageClass: ${storage_class_name}
     ## @param controller.persistence.accessModes Persistent Volume Access Modes
     ##
     accessModes:

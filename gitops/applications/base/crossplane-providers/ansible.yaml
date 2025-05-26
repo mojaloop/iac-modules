@@ -1,0 +1,31 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-ansible
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-ansible:v${ARGOCD_ENV_crossplane_providers_ansible_version}
+  controllerConfigRef:
+    name: debug-config
+  runtimeConfigRef:
+    name: provider-ansible-config
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: provider-ansible-config
+spec:
+  deploymentTemplate:
+    spec:
+      selector: {}
+      template:
+        spec:
+          containers:
+            - name: package-runtime
+              command:
+                - /usr/bin/dumb-init
+                - sh
+                - -c
+                - /usr/local/bin/pip install kubernetes && exec "$@"
+                - --
+                - crossplane-ansible-provider

@@ -37,38 +37,34 @@ data "gitlab_project_variable" "external_dns_credentials_client_id_name" {
 # need to get these by hand because loki doesnt support k8s secret env vars.
 
 data "vault_kv_secret_v2" "grafana_oauth_client_id" {
-  count = var.enable_grafana_oidc ? 1 : 0  
+  count = var.enable_grafana_oidc ? 1 : 0
   mount = var.kv_path
   name  = "${var.cluster_name}/${var.grafana_oidc_client_id_secret_key}"
-}  
+}
 
 data "vault_kv_secret_v2" "grafana_oauth_client_secret" {
-  count = var.enable_grafana_oidc ? 1 : 0  
+  count = var.enable_grafana_oidc ? 1 : 0
   mount = var.kv_path
   name  = "${var.cluster_name}/${var.grafana_oidc_client_secret_secret_key}"
-}  
-
-data "gitlab_project_variable" "ceph_loki_bucket" {
-  project = var.current_gitlab_project_id
-  key     = "ceph_loki_bucket"
 }
 
-data "gitlab_project_variable" "ceph_tempo_bucket" {
+data "gitlab_project_variable" "loki_bucket" {
   project = var.current_gitlab_project_id
-  key     = "ceph_tempo_bucket"
+  key     = "loki_bucket"
 }
 
-data "gitlab_project_variable" "ceph_longhorn_bucket" {
+data "gitlab_project_variable" "tempo_bucket" {
   project = var.current_gitlab_project_id
-  key     = "ceph_longhorn_backup_bucket"
+  key     = "tempo_bucket"
 }
 
-data "gitlab_project_variable" "ceph_velero_bucket" {
+
+data "gitlab_project_variable" "velero_bucket" {
   project = var.current_gitlab_project_id
-  key     = "ceph_velero_bucket"
+  key     = "velero_bucket"
 }
 
-data "gitlab_project_variable" "ceph_percona_backup_bucket" {
+data "gitlab_project_variable" "object_store_percona_backup_bucket" {
   project = var.current_gitlab_project_id
-  key     = "ceph_percona_bucket"
+  key     = "percona_bucket"
 }

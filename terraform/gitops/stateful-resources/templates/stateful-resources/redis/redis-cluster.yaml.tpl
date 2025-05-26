@@ -159,7 +159,7 @@ spec:
   storage:
     volumeClaimTemplate:
       spec:
-        storageClassName: longhorn
+        storageClassName: ${storage_class_name}
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
@@ -174,7 +174,7 @@ spec:
     nodeConfVolume: true
     nodeConfVolumeClaimTemplate:
       spec:
-        storageClassName: longhorn
+        storageClassName: ${storage_class_name}
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:

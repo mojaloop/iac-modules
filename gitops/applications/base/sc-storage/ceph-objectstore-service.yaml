@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-rgw-external
+  namespace: ${ARGOCD_ENV_storage_namespace}
+  annotations:
+    metallb.universe.tf/address-pool: static
+    metallb.universe.tf/loadBalancerIPs: ${ARGOCD_ENV_storage_rgw_external_ip}
+  labels:
+    app: "${ARGOCD_ENV_storage_namespace}-rgw"
+    rook_cluster: ${ARGOCD_ENV_storage_namespace}
+    rook_object_store: default
+spec:
+  ports:
+    - name: rgw
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    - name: rgw-ssl
+      port: 443
+      protocol: TCP
+      targetPort: 443
+  selector:
+    app: "${ARGOCD_ENV_storage_namespace}-rgw"
+    rook_cluster: ${ARGOCD_ENV_storage_namespace}
+    rook_object_store: default
+  sessionAffinity: None
+  type: LoadBalancer

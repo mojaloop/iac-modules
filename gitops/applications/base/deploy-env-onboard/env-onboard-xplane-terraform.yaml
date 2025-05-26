@@ -3,7 +3,6 @@ apiVersion: tf.upbound.io/v1beta1
 kind: Workspace
 metadata:
   name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
-  namespace: ${ARGOCD_ENV_deploy_env_onboard_app_namespace}
 spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
@@ -61,20 +60,40 @@ spec:
       - key: "k8s_cluster_type"
         value: "${ARGOCD_ENV_k8s_cluster_type}"
       - key: cc_cluster_name
-        value: ${ARGOCD_ENV_cluster_name}                        
-
+        value: ${ARGOCD_ENV_cluster_name}
+      - key: storage_class
+        value: "ceph-bucket"
+      - key: max_objects
+        value: "${ARGOCD_ENV_ceph_max_objects}"
+      - key: max_size
+        value: ${ARGOCD_ENV_ceph_bucket_max_size}
+      - key: common_platform_db_secret_name
+        value: ${ARGOCD_ENV_common_platform_db_secret_name}
+      - key: common_mojaloop_db_secret_name
+        value: ${ARGOCD_ENV_common_mojaloop_db_secret_name}
+      - key: common_mongodb_secret_name
+        value: ${ARGOCD_ENV_common_mongodb_secret_name}
+      - key: common_platform_db_external_name
+        value: ${ARGOCD_ENV_common_platform_db_external_name_service}
+      - key: common_mojaloop_db_external_name
+        value: ${ARGOCD_ENV_common_mojaloop_db_external_name_service}
+      - key: common_mongodb_external_name
+        value: ${ARGOCD_ENV_common_mongodb_external_name_service}
+      - key: netbird_operator_management_url
+        value: "https://${ARGOCD_ENV_netbird_fqdn}:443"
+      - key: netbird_operator_api_key_vault_path
+        value: "${ARGOCD_ENV_env_name}/netbird_op_access_token"
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
   writeConnectionSecretToRef:
-    namespace: ${ARGOCD_ENV_deploy_env_onboard_app_namespace}
+    namespace: ${ARGOCD_ENV_gitlab_namespace}
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}-secret
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
-  namespace: ${ARGOCD_ENV_deploy_env_onboard_app_namespace}
 spec:
   # Note that unlike most provider configs this one supports an array of
   # credentials. This is because each Terraform workspace uses a single
@@ -120,18 +139,18 @@ spec:
   # workspace that uses this provider config, for example to setup Terraform
   # providers.
   configuration: |
-    terraform { 
+    terraform {
         backend "kubernetes" {
           secret_suffix     = "providerconfig-deploy-env-onboard"
-          namespace         = "${ARGOCD_ENV_deploy_env_onboard_app_namespace}"
+          namespace         = "${ARGOCD_ENV_gitlab_namespace}"
           in_cluster_config = true
         }
-        
+
         required_providers {
           gitlab = {
             source = "gitlabhq/gitlab"
-            version = "~> 16.0"
-          }        
+            version = "~> 18.0"
+          }
 
           zitadel = {
             source = "zitadel/zitadel"
@@ -151,22 +170,22 @@ spec:
           time = {
             source = "hashicorp/time"
             version = "0.12.1"
-          }          
+          }
         }
      }
 
       variable "token" {
         type = string
-      }    
+      }
 
       provider "zitadel" {
           domain = "${ARGOCD_ENV_zitadel_fqdn}"
           jwt_profile_file = "$${path.module}/zitadel-admin-sa.json"
-      }      
-      
+      }
+
       provider "vault" {
         address = "http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
-        token   = jsondecode(file("$${path.module}/vault-keys.json")).root_token 
+        token   = jsondecode(file("$${path.module}/vault-keys.json")).root_token
       }
 
       provider "kubernetes" {}
@@ -188,7 +207,6 @@ apiVersion: apiextensions.crossplane.io/v1alpha1
 kind: Usage
 metadata:
   name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
-  namespace: ${ARGOCD_ENV_deploy_env_onboard_app_namespace}
 spec:
   of:
     apiVersion: tf.upbound.io/v1beta1

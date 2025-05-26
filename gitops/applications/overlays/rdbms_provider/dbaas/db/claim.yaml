@@ -1,0 +1,64 @@
+apiVersion: sc.mojaloop.io/v1alpha1
+kind: PGCluster
+metadata:
+  name: ${ARGOCD_ENV_db_name}
+  namespace: ${ARGOCD_ENV_namespace}
+spec:
+  parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
+    externalServiceName: ${ARGOCD_ENV_externalservice_name}
+    appNamespace: ${ARGOCD_ENV_namespace}
+    crVersion: ${ARGOCD_ENV_cr_version}
+    pgVersion: ${ARGOCD_ENV_pg_version}
+    dbSecret: ${ARGOCD_ENV_db_secret}
+    dbUsername: ${ARGOCD_ENV_db_username}
+    dbName: ${ARGOCD_ENV_db_name}
+    replicas: ${ARGOCD_ENV_postgres_replicas}
+    storageSize: ${ARGOCD_ENV_postgres_storage_size}
+    image: ${ARGOCD_ENV_postgres_image}
+
+    resources:
+      limits:
+        cpu: ${ARGOCD_ENV_postgres_cpu_limit}
+        memory: ${ARGOCD_ENV_postgres_memory_limit}
+      requests:
+        cpu: ${ARGOCD_ENV_postgres_cpu_request}
+        memory: ${ARGOCD_ENV_postgres_memory_request}
+
+    priorityClassName: ""
+
+    tolerations: []
+
+    backup:
+      image: ${ARGOCD_ENV_backup_image}
+      objectStoreEndpoint: ${ARGOCD_ENV_backup_endpoint}
+      bucket: ${ARGOCD_ENV_backup_bucket}
+      bucketRegion: ${ARGOCD_ENV_backup_region}
+      fullBackupCronSchedule: ${ARGOCD_ENV_backup_full_schedule}
+      differentialBackupCronSchedule: ${ARGOCD_ENV_backup_diff_schedule}
+
+    proxy:
+      pgBouncer:
+        image: ${ARGOCD_ENV_pgbouncer_image}
+        replicas: ${ARGOCD_ENV_pgbouncer_replicas}
+        exposeSuperusers: ${ARGOCD_ENV_pgbouncer_expose_superusers}
+        globalConfig:
+          pool_mode: "${ARGOCD_ENV_pgbouncer_pool_mode}"
+          query_wait_timeout: "${ARGOCD_ENV_pgbouncer_query_wait_timeout}"
+          max_prepared_statements: "${ARGOCD_ENV_pgbouncer_max_prepared_statements}"
+        resources:
+          limits:
+            cpu: ${ARGOCD_ENV_pgbouncer_cpu_limit}
+            memory: ${ARGOCD_ENV_pgbouncer_memory_limit}
+          request:
+            cpu: ${ARGOCD_ENV_pgbouncer_cpu_request}
+            memory: ${ARGOCD_ENV_pgbouncer_memory_request}
+        expose:
+          type: ${ARGOCD_ENV_pgbouncer_expose_type}
+        tolerations: []
+
+  providerConfigsRef:
+    scK8sProviderName: sc-kubernetes-provider
+    ccK8sProviderName: kubernetes-provider
+  managementPolicies:
+    - "*"

@@ -1,0 +1,23 @@
+apiVersion: nb.mojaloop.io/v1alpha1
+kind: NetbirdPostConfig
+metadata:
+  name: netbird-post-config
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+spec:
+  parameters:
+    ccClusterName: ${ARGOCD_ENV_cluster_name}
+    setupKey:
+      name: ${ARGOCD_ENV_setup_key_secret_name}
+      namespace: ${ARGOCD_ENV_netbird_namespace}
+    zitadelProjectIdSecret:
+      name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+      namespace: ${ARGOCD_ENV_netbird_namespace}
+      key: "netbird_project_id"
+    groupNames:
+      admin: ${ARGOCD_ENV_netbird_rbac_admin_group}
+      externalAccess: ${ARGOCD_ENV_netbird_rbac_user_group}
+  providerConfigsRef:
+    netbirdProviderConfigName: "netbird-crossplane-provider-config"
+    k8sProviderConfigName: "kubernetes-provider"
+  managementPolicies:
+    - "*"

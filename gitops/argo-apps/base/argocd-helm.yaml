@@ -220,6 +220,43 @@ spec:
                     hs.status = "Progressing"
                     hs.message = "Waiting for CephBlockPool"
                     return hs
+
+                # TODO: enable again after fixing the warning on ceph cluster object
+                # ceph.rook.io/CephCluster:
+                #   health.lua: |
+                #     hs = {}
+                #     if obj.status ~= nil and obj.status.ceph ~= nil and obj.status.ceph.health ~= nil then
+                #       local health = obj.status.ceph.health
+                #       if health == "HEALTH_OK" then
+                #         hs.status = "Healthy"
+                #         hs.message = "Ceph cluster is healthy (HEALTH_OK)"
+                #       elseif health == "HEALTH_WARN" then
+                #         hs.status = "Degraded"
+                #         hs.message = "Ceph cluster warning: " .. health
+                #       else
+                #         hs.status = "Degraded"
+                #         hs.message = "Ceph cluster not healthy: " .. health
+                #       end
+                #     else
+                #       hs.status = "Progressing"
+                #       hs.message = "Waiting for Ceph cluster status..."
+                #     end
+                #     return hs
+
+                ceph.rook.io/CephObjectStore:
+                  health.lua: |
+                    hs = {}
+                    if obj.status ~= nil then
+                      if obj.status.phase == "Ready" then
+                        hs.status = "Healthy"
+                        hs.message = "CephObjectStore Ready"
+                        return hs
+                      end
+                    end
+                    hs.status = "Progressing"
+                    hs.message = "Waiting for CephObjectStore"
+                    return hs
+
                 external-secrets.io/ExternalSecret:
                   health.lua: |
                     local hs = {}
@@ -419,6 +456,70 @@ spec:
 
                     return health_status
 
+                "*mojaloop.io/*":
+                  health.lua: |
+                    health_status = {
+                      status = "Progressing",
+                      message = "Provisioning ..."
+                    }
+
+                    local function contains (table, val)
+                      for i, v in ipairs(table) do
+                        if v == val then
+                          return true
+                        end
+                      end
+                      return false
+                    end
+
+                    local has_no_status = {}
+                    if obj.status == nil
+                      or next(obj.status) == nil
+                      and contains(has_no_status, obj.kind)
+                    then
+                        health_status.status = "Healthy"
+                        health_status.message = "Resource is up-to-date."
+                      return health_status
+                    end
+
+                    if obj.status == nil or next(obj.status) == nil or obj.status.conditions == nil then
+                      if obj.kind == "ProviderConfig" and obj.status.users ~= nil then
+                        health_status.status = "Healthy"
+                        health_status.message = "Resource is in use."
+                        return health_status
+                      end
+                      return health_status
+                    end
+
+                    for i, condition in ipairs(obj.status.conditions) do
+                      if condition.type == "LastAsyncOperation" then
+                        if condition.status == "False" then
+                          health_status.status = "Degraded"
+                          health_status.message = condition.message
+                          return health_status
+                        end
+                      end
+
+                      if condition.type == "Synced" then
+                        if condition.status == "False" then
+                          health_status.status = "Degraded"
+                          health_status.message = condition.message
+                          return health_status
+                        end
+                      end
+
+                      if contains({"Ready", "Healthy", "Offered", "Established"}, condition.type) then
+                        if condition.status == "True" then
+                          health_status.status = "Healthy"
+                          health_status.message = "Resource is up-to-date."
+                          return health_status
+                        end
+                      end
+                    end
+
+                    return health_status
+
+
             rbac:
               scopes: "[${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}]"
               policy.default: ""
@@ -463,7 +564,7 @@ spec:
                     command: ["sh", "-c"]
                     args:
                       [
-                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build . --enable-helm --helm-kube-version 1.29-0 --load-restrictor LoadRestrictionsNone > /dev/stdout",
+                        "for f in *.yaml ; do cat $f | envsubst > $f.sub && mv $f.sub $f ; done && kustomize build . --enable-helm --helm-kube-version ${ARGOCD_ENV_utils_argocd_helm_kube_version} --load-restrictor LoadRestrictionsNone > /dev/stdout",
                       ]
 
                 helmfile:
@@ -543,13 +644,13 @@ spec:
                     value: /helm-working-dir
                 command: ["/bin/sh", "-c"]
                 args:
-                  - helm plugin install https://github.com/aslafy-z/helm-git --version 0.16.0 && rm -rf /helm-working-dir/plugins/https* && chmod -R 777 $HELM_DATA_HOME
+                  - helm plugin install https://github.com/aslafy-z/helm-git --version ${ARGOCD_ENV_utils_argocd_helm_git_plugin_version} && rm -rf /helm-working-dir/plugins/https* && chmod -R 777 $HELM_DATA_HOME
 
               - name: download-tools
-                image: golang:1.22.4-alpine3.20
+                image: golang:${ARGOCD_ENV_utils_argocd_helm_download_tools_golang_image_version}
                 command: [sh, -c]
                 args:
-                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/ && wget -qO- https://github.com/helmfile/helmfile/releases/download/v${ARGOCD_ENV_helmfile_version}/helmfile_${ARGOCD_ENV_helmfile_version}_linux_amd64.tar.gz | tar xvz helmfile && mv helmfile /custom-tools/
+                  - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v${ARGOCD_ENV_utils_argocd_helm_envsubst_version} && mv $GOPATH/bin/envsubst /custom-tools/ && wget -qO- https://github.com/helmfile/helmfile/releases/download/v${ARGOCD_ENV_helmfile_version}/helmfile_${ARGOCD_ENV_helmfile_version}_linux_amd64.tar.gz | tar xvz helmfile && mv helmfile /custom-tools/
                 volumeMounts:
                   - mountPath: /custom-tools
                     name: custom-tools
@@ -709,7 +810,7 @@ spec:
                 - name: rollout
                   env:
                     - name: EXTENSION_URL
-                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.5/extension.tar
+                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v${ARGOCD_ENV_utils_argocd_helm_rollout_extension_version}/extension.tar
 
               resources:
                 {}

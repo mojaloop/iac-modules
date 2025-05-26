@@ -1,0 +1,11 @@
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name:  ${ARGOCD_ENV_utils_capi_capi_crossplane_k8s_providerconfig_name}
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+      name: ${ARGOCD_ENV_capi_cluster_name}-kubeconfig
+      key: value

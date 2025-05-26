@@ -374,28 +374,28 @@ global:
     lfs:
       enabled: true
       proxy_download: true
-      bucket: git-lfs
+      bucket: "git-lfs-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-lfs
         key: connection
     artifacts:
       enabled: true
       proxy_download: true
-      bucket: gitlab-artifacts
+      bucket: "gitlab-artifacts-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-artifacts
         key: connection
     uploads:
       enabled: true
       proxy_download: true
-      bucket: gitlab-uploads
+      bucket: "gitlab-uploads-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-uploads
         key: connection
     packages:
       enabled: true
       proxy_download: true
-      bucket: gitlab-packages
+      bucket: "gitlab-packages-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-packages
         key: connection
@@ -403,32 +403,32 @@ global:
       enabled: true
       when:
       proxy_download: true
-      bucket: gitlab-mr-diffs
+      bucket: "gitlab-mr-diffs-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-mr-diffs
         key: connection
     terraformState:
       enabled: true
-      bucket: gitlab-terraform-state
+      bucket: "gitlab-terraform-state-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-terraform-state
         key: connection
     ciSecureFiles:
       enabled: true
-      bucket: gitlab-ci-secure-files
+      bucket: "gitlab-ci-secure-files-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-ci-secure-files
         key: connection
     dependencyProxy:
       enabled: true
       proxy_download: true
-      bucket: gitlab-dependency-proxy
+      bucket: "gitlab-dependency-proxy-${ARGOCD_ENV_cluster_name}"
       connection:
         secret: gitlab-rails-secret-dependency-proxy
         key: connection
 
     backups:
-      bucket: gitlab-backups
+      bucket: "gitlab-backups-${ARGOCD_ENV_cluster_name}"
       tmpBucket: gitlab-backups-tmp
 
     ## https://docs.gitlab.com/charts/charts/globals#outgoing-email
@@ -671,7 +671,7 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-registry-settings
   registry:
-    bucket: registry
+    bucket: "registry-${ARGOCD_ENV_cluster_name}"
 
     certificate:
       {}
@@ -1231,36 +1231,36 @@ redis:
 ## See requirements.yaml for current version
 postgresql:
   install: false
-  auth:
-    ## These need to be set, for the sake of bitnami/postgresql upgrade patterns.
-    ## They are overridden by use of `existingSecret`
-    password: bogus-satisfy-upgrade
-    postgresPassword: bogus-satisfy-upgrade
-    ##
-    usePasswordFiles: false
-    existingSecret: '{{ include "gitlab.psql.password.secret" . }}'
-    secretKeys:
-      adminPasswordKey: postgresql-postgres-password
-      userPasswordKey: '{{ include "gitlab.psql.password.key" $ }}'
-  image:
-    tag: 14.8.0
-  primary:
-    initdb:
-      scriptsConfigMap: '{{ include "gitlab.psql.initdbscripts" $}}'
-    extraVolumeMounts:
-      - name: custom-init-scripts
-        mountPath: /docker-entrypoint-preinitdb.d/init_revision.sh
-        subPath: init_revision.sh
-    podAnnotations:
-      postgresql.gitlab/init-revision: "1"
-  metrics:
-    enabled: true
-    service:
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9187"
-        gitlab.com/prometheus_scrape: "true"
-        gitlab.com/prometheus_port: "9187"
+  # auth:
+  #   ## These need to be set, for the sake of bitnami/postgresql upgrade patterns.
+  #   ## They are overridden by use of `existingSecret`
+  #   password: bogus-satisfy-upgrade
+  #   postgresPassword: bogus-satisfy-upgrade
+  #   ##
+  #   usePasswordFiles: false
+  #   existingSecret: '{{ include "gitlab.psql.password.secret" . }}'
+  #   secretKeys:
+  #     adminPasswordKey: postgresql-postgres-password
+  #     userPasswordKey: '{{ include "gitlab.psql.password.key" $ }}'
+  # # image:
+  # #   tag: 14.8.0
+  # primary:
+  #   initdb:
+  #     scriptsConfigMap: '{{ include "gitlab.psql.initdbscripts" $}}'
+  #   extraVolumeMounts:
+  #     - name: custom-init-scripts
+  #       mountPath: /docker-entrypoint-preinitdb.d/init_revision.sh
+  #       subPath: init_revision.sh
+  #   podAnnotations:
+  #     postgresql.gitlab/init-revision: "1"
+  # metrics:
+  #   enabled: true
+  #   service:
+  #     annotations:
+  #       prometheus.io/scrape: "true"
+  #       prometheus.io/port: "9187"
+  #       gitlab.com/prometheus_scrape: "true"
+  #       gitlab.com/prometheus_port: "9187"
 
     ## Optionally define additional custom metrics
     ## ref: https://github.com/wrouesnel/postgres_exporter#adding-new-metrics-via-a-config-file
@@ -1331,9 +1331,9 @@ gitlab-runner:
           Path = "gitlab-runner"
           Shared = true
           [runners.cache.s3]
-            ServerAddress = "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc.cluster.local"
-            BucketName = "gitlab-runner-cache"
-            BucketLocation = "us-east-1"
+            ServerAddress = "${ARGOCD_ENV_object_storage_host}"
+            BucketName = "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
+            BucketLocation = "${ARGOCD_ENV_cloud_region}"
             Insecure = true
     cache:
       secretName: "gitlab-runner-cache-secret"
@@ -1343,11 +1343,11 @@ gitlab-runner:
 
 traefik:
   install: false
-  ports:
-    gitlab-shell:
-      expose: true
-      port: 2222
-      exposedPort: 22
+  # ports:
+  #   gitlab-shell:
+  #     expose: true
+  #     port: 2222
+  #     exposedPort: 22
 
 ## Settings for individual sub-charts under GitLab
 ## Note: Many of these settings are configurable via globals
@@ -1403,7 +1403,9 @@ gitlab:
   #     enabled: false
   ## https://docs.gitlab.com/charts/charts/gitlab/webservice
   #   webservice:
-  #     enabled: false
+  #     enabled: true
+  #     maxReplicas: 1
+  #     minReplicas: 1
   ## https://docs.gitlab.com/charts/charts/gitlab/sidekiq
   #   sidekiq:
   #     enabled: false

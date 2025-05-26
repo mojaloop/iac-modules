@@ -1,0 +1,14 @@
+csi:
+  kubeletDirPath: /var/lib/kubelet
+  serviceMonitor:
+    enabled: false
+    interval: 60s
+enableDiscoveryDaemon: true
+monitoring:
+  enabled: true
+resources:
+  limits:
+    memory: 512Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi

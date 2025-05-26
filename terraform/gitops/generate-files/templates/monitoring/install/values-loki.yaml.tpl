@@ -30,11 +30,12 @@ loki:
       aws:
         # s3 is alias for aws
         s3forcepathstyle: true
-        endpoint: ${ceph_api_url}
+        endpoint: ${object_store_regional_endpoint}
+        region: ${object_store_region}
         insecure: false
         access_key_id: $${CEPH_LOKI_USERNAME}
         secret_access_key: $${CEPH_LOKI_PASSWORD}
-        bucketnames: ${ceph_loki_bucket}
+        bucketnames: ${loki_bucket}
 
 metrics:
   enabled: true
@@ -49,7 +50,7 @@ ingester:
     size: ${loki_ingester_pvc_size}
     storageClass: ${storage_class_name}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -57,7 +58,7 @@ ingester:
 compactor:
   # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
   updateStrategy:
     type: Recreate
   nodeAffinityPreset:
@@ -67,7 +68,7 @@ compactor:
 distributor:
   replicaCount: ${loki_distributor_replica_count}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -80,14 +81,14 @@ gateway:
 querier:
   replicaCount: ${loki_querier_replica_count}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 queryFrontend:
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -95,7 +96,7 @@ queryFrontend:
 queryScheduler:
   enabled: ${loki_query_scheduler_enabled}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: ${ceph_loki_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING

@@ -107,47 +107,49 @@ tempo:
           path: {{ .Values.tempo.dataDir }}/wal
         s3:
           forcepathstyle: true
-          endpoint: ${ceph_api_url}
+          endpoint: ${object_store_regional_endpoint}
           insecure: false
-          bucket: ${ceph_tempo_bucket}
+          bucket: ${tempo_bucket}
+          region: ${object_store_region}
+
 
 
 compactor:
   resourcesPreset: large
-  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 distributor:
-  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 ingester:
   resourcesPreset: large
-  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 metricsGenerator:
   resourcesPreset: small
-  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 querier:
   resourcesPreset: small
-  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 queryFrontend:
-  extraEnvVarsSecret: ${ceph_tempo_credentials_secret_name}
+  extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING

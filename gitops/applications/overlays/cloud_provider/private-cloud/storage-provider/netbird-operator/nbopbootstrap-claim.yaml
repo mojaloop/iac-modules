@@ -1,0 +1,26 @@
+apiVersion: nb.mojaloop.io/v1alpha1
+kind: NBOperatorBootstrap
+metadata:
+  name: sc-nboperatorbootstrap
+  namespace: ${ARGOCD_ENV_netbird_namespace}
+spec:
+  parameters:
+    zitadelProjectIdSecret:
+      name: ${ARGOCD_ENV_netbird_preconfig_output_secret}
+      namespace: ${ARGOCD_ENV_netbird_namespace}
+      key: "netbird_project_id"
+    groupNames:
+      admin: ${ARGOCD_ENV_netbird_rbac_admin_group}
+      externalAccess: ${ARGOCD_ENV_netbird_rbac_user_group}
+      networkResourceGroup: ${ARGOCD_ENV_netbird_operator_network_resource_group}
+    serviceUserName: sc-service-user
+    accessTokenExpiresInDays: 5
+    accessToken:
+      destinationType: sc
+    operatorNamespace: ${ARGOCD_ENV_netbird_namespace}
+  providerConfigsRef:
+    netbirdProviderConfigName: "netbird-crossplane-provider-config"
+    ccK8sProviderName: "kubernetes-provider"
+    scK8sProviderName: "sc-kubernetes-provider"
+  managementPolicies:
+    - "*"

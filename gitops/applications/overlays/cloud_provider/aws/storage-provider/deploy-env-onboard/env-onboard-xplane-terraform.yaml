@@ -1,0 +1,87 @@
+apiVersion: tf.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
+spec:
+  credentials:
+    - filename: aws-creds.ini
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_crossplane_namespace}
+        name: secret-aws-xplane-backend-creds
+        key: creds
+    - filename: vault-keys.json
+      source: Secret
+      secretRef:
+        namespace: ${ARGOCD_ENV_vault_namespace}
+        name: ${ARGOCD_ENV_vault_keys_secret}
+        key: vault-keys.json        
+  configuration: |
+    terraform { 
+        backend "kubernetes" {
+          secret_suffix     = "${ARGOCD_ENV_env_name}"
+          namespace         = "${ARGOCD_ENV_gitlab_namespace}"
+          in_cluster_config = true
+        }
+        required_providers {
+
+          aws = {
+            source = "hashicorp/aws"
+            version = "${ARGOCD_ENV_aws_tf_provider_version}"
+          }
+          vault = "${ARGOCD_ENV_vault_tf_provider_version}"          
+        }
+    }
+
+      provider "aws" {
+        region            = "${ARGOCD_ENV_cloud_region}"
+        shared_credentials_files = ["aws-creds.ini"]
+      }
+
+      provider "vault" {
+        address = "http://vault-active.${ARGOCD_ENV_vault_namespace}.svc.cluster.local:8200"
+        token   = jsondecode(file("$${path.module}/vault-keys.json")).root_token 
+      }
+
+
+---
+apiVersion: tf.upbound.io/v1beta1
+kind: Workspace
+metadata:
+  name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
+spec:
+  forProvider:
+    # Use any module source supported by terraform init -from-module.
+    source: Remote
+    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/env-onboard-blockstorage-aws-pre?ref=${ARGOCD_ENV_terraform_modules_tag}
+    # Variables can be specified inline as a list of key-value pairs or as an json object, or loaded from a ConfigMap or Secret.
+    vars:
+      - key: env_name
+        value: "${ARGOCD_ENV_env_name}"
+      - key: cc_cluster_name
+        value: "${ARGOCD_ENV_cluster_name}"
+      - key: kv_path
+        value: "${ARGOCD_ENV_vault_kv_secret}"
+
+  # All Terraform outputs are written to the connection secret.
+  providerConfigRef:
+    name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
+  writeConnectionSecretToRef:
+    namespace: ${ARGOCD_ENV_gitlab_namespace}
+    name: "env-${ARGOCD_ENV_env_name}-onboard-blockstorage-secret"
+---
+apiVersion: apiextensions.crossplane.io/v1alpha1
+kind: Usage
+metadata:
+  name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
+spec:
+  of:
+    apiVersion: tf.upbound.io/v1beta1
+    kind: ProviderConfig
+    resourceRef:
+      name: ${ARGOCD_ENV_deploy_env_onboard_app_name}
+  by:
+    apiVersion: tf.upbound.io/v1beta1
+    kind: Workspace
+    resourceRef:
+      name: ${ARGOCD_ENV_deploy_env_onboard_app_name}

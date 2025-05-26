@@ -60,15 +60,17 @@ module "generate_monitoring_files" {
     alertmanager_slack_integration_enabled = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
     alertmanager_jira_integration_enabled  = try(var.common_var_map.alertmanager_jira_integration_enabled, false)
     promtail_kubernetes_sd_configs         = try(var.common_var_map.promtail_kubernetes_sd_configs, [{ role = "pod" }])
-    ceph_loki_credentials_secret_name      = "ceph-loki-credentials-secret"
-    ceph_api_url                           = var.ceph_api_url
-    ceph_loki_bucket                       = local.ceph_loki_bucket
-    ceph_loki_user_key                     = "${var.cluster_name}/loki_bucket_access_key_id"
-    ceph_loki_password_key                 = "${var.cluster_name}/loki_bucket_secret_key_id"
-    ceph_tempo_credentials_secret_name     = "ceph-tempo-credentials-secret"
-    ceph_tempo_user_key                    = "${var.cluster_name}/tempo_bucket_access_key_id"
-    ceph_tempo_password_key                = "${var.cluster_name}/tempo_bucket_secret_key_id"
-    ceph_tempo_bucket                      = local.ceph_tempo_bucket
+    object_store_loki_credentials_secret_name      = "ceph-loki-credentials-secret"
+    object_store_api_url                           = var.object_store_api_url
+    object_store_region                            = var.object_store_region
+    object_store_regional_endpoint                 = var.object_store_regional_endpoint
+    loki_bucket                                    = local.loki_bucket
+    object_store_loki_user_key                     = "${var.cluster_name}/loki_bucket_access_key_id"
+    object_store_loki_password_key                 = "${var.cluster_name}/loki_bucket_secret_key_id"
+    object_store_tempo_credentials_secret_name     = "ceph-tempo-credentials-secret"
+    object_store_tempo_user_key                    = "${var.cluster_name}/tempo_bucket_access_key_id"
+    object_store_tempo_password_key                = "${var.cluster_name}/tempo_bucket_secret_key_id"
+    tempo_bucket                           = local.tempo_bucket
     tempo_retention_period                 = try(var.common_var_map.tempo_retention_period, local.tempo_retention_period)
     external_secret_sync_wave              = var.external_secret_sync_wave
     prom_tsdb_max_block_duration           = try(var.common_var_map.prom_tsdb_max_block_duration, local.prom_tsdb_max_block_duration)

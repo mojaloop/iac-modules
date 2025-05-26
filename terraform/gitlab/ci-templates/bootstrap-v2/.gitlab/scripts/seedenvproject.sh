@@ -43,7 +43,10 @@ vpc_cidr: changeme_cidr
 managed_vpc_cidr: changeme_cidr
 domain: changeme_domain
 managed_svc_enabled: false
-k8s_cluster_type: microk8s" > custom-config/cluster-config.yaml
+k8s_cluster_type: microk8s
+cloud_region: eu-west-1
+object_storage_provider: s3
+cloud_platform: none" > custom-config/cluster-config.yaml
 fi
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"

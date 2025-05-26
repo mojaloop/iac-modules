@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - storage-pre-sync-hook.yaml
+  - sync-secrets-cm.yaml
+  - storage-external-secrets.yaml
+  - storage-class.yaml

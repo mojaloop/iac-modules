@@ -37,6 +37,10 @@ spec:
     plugin:
       name: envsubst
       env:
+        - name: "cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+        - name: "monitoring_namespace"
+          value: "${ARGOCD_ENV_monitoring_pre_namespace}"
         - name: "mimir_bucket_max_objects"
           value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_max_objects}"
         - name: "mimir_bucket_storage_size"
@@ -44,9 +48,11 @@ spec:
         - name: "mimir_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_name}"
 
-        - name: "ctrl_cntr_loki_bucket_max_objects"
-          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_max_objects}"
-        - name: "ctrl_cntr_loki_bucket_storage_size"
-          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_storage_size}"
-        - name: "ctrl_cntr_loki_bucket_name"
-          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
+        - name: "loki_bucket_max_objects"
+          value: "${ARGOCD_ENV_monitoring_pre_loki_bucket_max_objects}"
+        - name: "loki_bucket_storage_size"
+          value: "${ARGOCD_ENV_monitoring_pre_loki_bucket_storage_size}"
+        - name: "loki_bucket_name"
+          value: "${ARGOCD_ENV_monitoring_pre_loki_bucket_name}"
+        - name: "object_storage_provider"
+          value: "${ARGOCD_ENV_monitoring_pre_object_storage_provider}"

@@ -19,6 +19,7 @@ enable_vault_oidc: true
 enable_grafana_oidc: true
 object_storage_force_destroy_bucket: true #prod should set to false
 bastion_instance_size: t3.micro
+managed_svc_bastion_instance_size: t3.micro
 nodes:
   master-generic:
     master: true
@@ -58,3 +59,5 @@ single_nat_gateway: true
 migrate: false
 managed_svc_as_monolith: false
 manage_parent_domain: true
+object_storage_provider: s3
+db_mediated_by_control_center: false

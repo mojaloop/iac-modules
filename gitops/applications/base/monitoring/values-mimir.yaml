@@ -22,12 +22,13 @@ mimir:
       storage:
         backend: s3
         s3:
-          access_key_id: $${AWS_ACCESS_KEY_ID}
-          secret_access_key: $${AWS_SECRET_ACCESS_KEY}
-          bucket_name: $${BUCKET_NAME}
-          endpoint: $${BUCKET_HOST}
-          insecure: true
-          bucket_lookup_type: path
+          access_key_id: $${username}
+          secret_access_key: $${password}
+          bucket_name: "mimir-${ARGOCD_ENV_cluster_name}"
+          endpoint: ${ARGOCD_ENV_object_storage_host}
+          insecure: ${ARGOCD_ENV_object_store_insecure_connection}
+          bucket_lookup_type: ${ARGOCD_ENV_bucket_lookup_type}
+          region: ${ARGOCD_ENV_cloud_region}
     alertmanager_storage:
       storage_prefix: alertmanager
     ruler_storage:
@@ -74,8 +75,7 @@ ingester:
     limits:
       cpu: ${ARGOCD_ENV_mimir_ingester_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ingester_limits_memory}
-  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
-  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
   persistence:
     size: ${ARGOCD_ENV_mimir_ingester_storage_size}
 
@@ -85,8 +85,7 @@ querier:
     limits:
       cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
-  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
-  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
 
 queryFrontend:
   replicaCount: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
@@ -97,8 +96,7 @@ queryFrontend:
 
 compactor:
   replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
-  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
-  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_compactor_limits_cpu}
@@ -112,8 +110,7 @@ storeGateway:
     limits:
       cpu: ${ARGOCD_ENV_mimir_store_gateway_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_store_gateway_limits_memory}
-  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
-  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
   persistence:
     size: ${ARGOCD_ENV_mimir_store_gateway_storage_size}
 
@@ -124,8 +121,7 @@ ruler:
     limits:
       cpu: ${ARGOCD_ENV_mimir_ruler_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ruler_limits_memory}
-  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
-  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
 
 alertmanager:
   enabled: true
@@ -134,7 +130,6 @@ alertmanager:
     limits:
       cpu: ${ARGOCD_ENV_mimir_alertmanager_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_alertmanager_limits_memory}
-  extraEnvVarsCM: ${ARGOCD_ENV_mimir_bucket_name}
-  extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
   persistence:
     size: ${ARGOCD_ENV_mimir_alertmanager_storage_size}

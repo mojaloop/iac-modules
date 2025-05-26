@@ -1,0 +1,216 @@
+apiVersion: sc.mojaloop.io/v1alpha1
+kind: SCBootstrap
+metadata:
+  name: sc-bootstrap
+  namespace: ${ARGOCD_ENV_capi_cluster_namespace}
+spec:
+  parameters:
+    calico:
+      chartVersion: "${ARGOCD_ENV_utils_capi_capi_calico_helm_version}"
+    argocd:
+      application:
+        source:
+          targetRevision: "${ARGOCD_ENV_sc_application_gitrepo_tag}"
+          envVars:
+            - name: "argocd_repo_url"
+              value: "${ARGOCD_ENV_argocd_repo_url}"
+
+            - name: "utils_app_namespace"
+              value: "${ARGOCD_ENV_utils_app_namespace}"
+
+            - name: "sc_application_gitrepo_tag"
+              value: "${ARGOCD_ENV_sc_application_gitrepo_tag}"
+
+            - name: "utils_application_gitrepo_tag"
+              value: "${ARGOCD_ENV_utils_application_gitrepo_tag}"
+
+            - name: "sc_kubernetes_provider_name"
+              value: "${ARGOCD_ENV_utils_capi_capi_crossplane_k8s_providerconfig_name}"
+
+            - name: "sc_helm_provider_name"
+              value: "${ARGOCD_ENV_utils_capi_capi_crossplane_helm_providerconfig_name}"
+
+            - name: "utils_capi_capi_rook_ceph_namespace"
+              value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
+
+            # rook
+            - name: "utils_capi_capi_rook_ceph_namespace"
+              value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
+
+            - name: "utils_capi_capi_rook_ceph_sync_wave"
+              value: '"${ARGOCD_ENV_utils_capi_capi_rook_ceph_sync_wave}"'
+
+            - name: "utils_capi_capi_rook_ceph_post_config_sync_wave"
+              value: '"${ARGOCD_ENV_utils_capi_capi_rook_ceph_post_config_sync_wave}"'
+
+            - name: "utils_capi_capi_rook_ceph_app_name"
+              value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_app_name}"
+
+            - name: "utils_capi_capi_rook_ceph_post_config_app_name"
+              value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_post_config_app_name}"
+
+            - name: "utils_capi_capi_rook_ceph_image_version"
+              value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_image_version}"
+
+            - name: "cluster_name"
+              value: "${ARGOCD_ENV_cluster_name}"
+
+            - name: "utils_capi_capi_rook_ceph_helm_version"
+              value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_helm_version}"
+
+            - name: "utils_capi_capi_rook_ceph_rbd_pool_replication_size"
+              value: '"${ARGOCD_ENV_utils_capi_capi_rook_ceph_rbd_pool_replication_size}"'
+
+            - name: "utils_capi_capi_rook_ceph_rgw_external_ip"
+              value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"
+
+            - name: "utils_capi_capi_rook_ceph_rgw_subdomain"
+              value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_subdomain}"
+
+            - name: "utils_capi_capi_rook_ceph_rgw_instance_replicas"
+              value: '"${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_instance_replicas}"'
+
+            # metallb
+            - name: "sc_metallb_app_name"
+              value: "${ARGOCD_ENV_sc_metallb_app_name}"
+
+            - name: "sc_metallb_namespace"
+              value: "${ARGOCD_ENV_sc_metallb_namespace}"
+
+            - name: "sc_metallb_sync_wave"
+              value: '"${ARGOCD_ENV_sc_metallb_sync_wave}"'
+
+            - name: "sc_metallb_version"
+              value: "${ARGOCD_ENV_sc_metallb_version}"
+
+            - name: "sc_metallb_static_ip_range_end"
+              value: "${ARGOCD_ENV_sc_metallb_static_ip_range_end}"
+
+            - name: "sc_metallb_static_ip_range_begin"
+              value: "${ARGOCD_ENV_sc_metallb_static_ip_range_begin}"
+
+            - name: "sc_metallb_dynamic_ip_range_begin"
+              value: "${ARGOCD_ENV_sc_metallb_dynamic_ip_range_begin}"
+
+            - name: "sc_metallb_dynamic_ip_range_end"
+              value: "${ARGOCD_ENV_sc_metallb_dynamic_ip_range_end}"
+
+            - name: "sc_metallb_namespace"
+              value: "${ARGOCD_ENV_sc_metallb_namespace}"
+
+            # monitoring
+            - name: utils_sync_wave
+              value: '"${ARGOCD_ENV_utils_sync_wave}"'
+
+            - name: utils_base_monitoring_app_name
+              value: "${ARGOCD_ENV_utils_base_monitoring_app_name}"
+
+            - name: "monitoring_pre_app_name"
+              value: "${ARGOCD_ENV_monitoring_pre_app_name}"
+
+            - name: "monitoring_app_namespace"
+              value: "${ARGOCD_ENV_monitoring_app_namespace}"
+
+            - name: "monitoring_pre_namespace"
+              value: "${ARGOCD_ENV_monitoring_pre_namespace}"
+
+            - name: "monitoring_pre_sync_wave"
+              value: '"${ARGOCD_ENV_monitoring_pre_sync_wave}"'
+
+            - name: "monitoring_application_gitrepo_tag"
+              value: "${ARGOCD_ENV_monitoring_application_gitrepo_tag}"
+
+            - name: "utils_base_monitoring_grafana_operator_version"
+              value: "${ARGOCD_ENV_utils_base_monitoring_grafana_operator_version}"
+
+            - name: "utils_base_monitoring_prometheus_crd_version"
+              value: "${ARGOCD_ENV_utils_base_monitoring_prometheus_crd_version}"
+
+            - name: "utils_base_monitoring_grafana_crd_version_tag"
+              value: "${ARGOCD_ENV_utils_base_monitoring_grafana_crd_version_tag}"
+
+            - name: "monitoring_metrics_server_helm_version"
+              value: "${ARGOCD_ENV_monitoring_metrics_server_helm_version}"
+
+            - name: "monitoring_metrics_server_replicas"
+              value: '"${ARGOCD_ENV_monitoring_metrics_server_replicas}"'
+
+            # percona operator
+
+            - name: utils_percona_pg_operator_helm_version
+              value: "${ARGOCD_ENV_utils_percona_pg_operator_helm_version}"
+
+            - name: utils_percona_pxc_operator_helm_version
+              value: "${ARGOCD_ENV_utils_percona_pxc_operator_helm_version}"
+
+            - name: utils_percona_psmdb_operator_helm_version
+              value: "${ARGOCD_ENV_utils_percona_psmdb_operator_helm_version}"
+
+            - name: utils_percona_namespace
+              value: "${ARGOCD_ENV_utils_percona_namespace}"
+
+            - name: utils_percona_app_name
+              value: "${ARGOCD_ENV_utils_percona_app_name}"
+
+            # cert-manager
+
+            - name: utils_cert_manager_credentials_secret
+              value: "${ARGOCD_ENV_utils_cert_manager_credentials_secret}"
+
+            - name: utils_cert_manager_helm_version
+              value: "${ARGOCD_ENV_utils_cert_manager_helm_version}"
+
+            - name: utils_cert_manager_namespace
+              value: "${ARGOCD_ENV_utils_cert_manager_namespace}"
+
+            - name: utils_cert_manager_app_name
+              value: "${ARGOCD_ENV_utils_cert_manager_app_name}"
+
+            # kyverno
+
+            - name: utils_kyverno_namespace
+              value: "${ARGOCD_ENV_utils_kyverno_namespace}"
+
+            - name: utils_kyverno_helm_version
+              value: "${ARGOCD_ENV_utils_kyverno_helm_version}"
+
+            - name: utils_kyverno_app_name
+              value: "${ARGOCD_ENV_utils_kyverno_app_name}"
+
+            # argocd
+
+            - name: argocd_app_namespace
+              value: "${ARGOCD_ENV_utils_app_namespace}"
+
+            - name: utils_argocd_helm_helm_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_helm_version}"
+
+            - name: utils_argocd_helm_app_name
+              value: "${ARGOCD_ENV_utils_argocd_helm_app_name}"
+
+            - name: utils_argocd_helm_kube_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_kube_version}"
+
+            - name: helm_version
+              value: "${ARGOCD_ENV_helm_version}"
+
+            - name: utils_argocd_helm_git_plugin_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_git_plugin_version}"
+
+            - name: utils_argocd_helm_envsubst_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_envsubst_version}"
+
+            - name: helmfile_version
+              value: "${ARGOCD_ENV_helmfile_version}"
+
+            - name: utils_argocd_helm_rollout_extension_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_rollout_extension_version}"
+
+            - name: utils_argocd_helm_download_tools_golang_image_version
+              value: "${ARGOCD_ENV_utils_argocd_helm_download_tools_golang_image_version}"
+
+  providerConfigsRef:
+    scK8sProviderName: sc-kubernetes-provider
+    scHelmProviderName: sc-helm-provider
+  managementPolicies:
+    - "*"

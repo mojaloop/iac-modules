@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # utils
+  - ../../../base/sc-argocd.yaml
+  - ../../../base/metallb.yaml
+  - ../../../base/sc-storage.yaml
+  - ../../../base/sc-storage-post-config.yaml
+  - ../../../base/cert-manager.yaml
+  - ../../../base/percona-operator.yaml
+  - ../../../base/base-monitoring.yaml
+  - ../../../base/kyverno.yaml

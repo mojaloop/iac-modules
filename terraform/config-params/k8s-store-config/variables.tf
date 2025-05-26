@@ -29,3 +29,20 @@ variable "cluster_name" {
 variable "gitlab_project_id" {
   description = "gitlab_project_id"
 }
+
+variable "platform_stateful_resources_config_file" {
+  type = string
+}
+
+variable "managed_stateful_resources_config_file" {
+  type = string
+}
+
+variable "db_mediated_by_control_center" {
+  type        = bool
+  default     = false
+}
+
+variable "monolith_managed_stateful_resources_config_file" {
+  type = string
+}

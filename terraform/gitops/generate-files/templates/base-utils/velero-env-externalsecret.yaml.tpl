@@ -16,16 +16,17 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        AWS_ENDPOINTS: https://${ceph_api_url}/
+        AWS_ENDPOINTS: https://${object_store_api_url}/
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
+        AWS_REGION: ${object_store_region}
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
-      remoteRef: 
+      remoteRef:
         key: ${velero_credentials_secret_provider_key}
         property: value
     - secretKey: AWS_ACCESS_KEY_ID # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${velero_credentials_id_provider_key}
         property: value

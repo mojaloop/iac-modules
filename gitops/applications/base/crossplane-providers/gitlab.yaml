@@ -1,0 +1,24 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-gitlab
+spec:
+  package: ghcr.io/mojaloop/infra/crossplane-contrib/provider-gitlab:v${ARGOCD_ENV_crossplane_providers_gitlab_version}
+  runtimeConfigRef:
+    name: crossplane-gitlab-controller
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: crossplane-gitlab-controller
+spec:
+  deploymentTemplate:
+    spec:
+      selector: {}
+      template:
+        spec:
+          containers:
+            - name: package-runtime
+              args:
+                - --enable-management-policies

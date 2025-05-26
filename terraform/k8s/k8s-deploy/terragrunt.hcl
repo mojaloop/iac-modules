@@ -22,7 +22,7 @@ inputs = {
   kubeapi_port                         = (local.K8S_CLUSTER_TYPE == "microk8s") ? 16443 : 6443
   block_size                           = (local.K8S_CLUSTER_TYPE == "eks") ? 3 : 4
   dns_provider                         = local.env_vars.dns_provider
-  app_var_map                          = (local.CLOUD_PLATFORM == "bare-metal") ? local.cloud_platform_vars : null
+  app_var_map                          = (local.CLOUD_PLATFORM == "private-cloud") ? local.cloud_platform_vars : null
   # for eks managed service
   netbird_version                      = local.netbird_version
   netbird_api_host                     = local.netbird_api_host
@@ -34,7 +34,7 @@ inputs = {
   single_nat_gateway                   = try(local.env_vars.single_nat_gateway, true)
   manage_parent_domain                 = try(local.env_vars.manage_parent_domain, true)
 
-  
+
   identity_provider_config_name    = "Zitadel"
   kubernetes_oidc_enabled          = get_env("KUBERNETES_OIDC_ENABLED")
   kubernetes_oidc_issuer           = get_env("KUBERNETES_OIDC_ISSUER")
@@ -42,7 +42,7 @@ inputs = {
   kubernetes_oidc_groups_claim     = get_env("KUBERNETES_OIDC_GROUPS_CLAIM")
   kubernetes_oidc_groups_prefix    = get_env("KUBERNETES_OIDC_GROUPS_PREFIX")
   kubernetes_oidc_username_prefix  = get_env("KUBERNETES_OIDC_USERNAME_PREFIX")
-  kubernetes_oidc_username_claim   = get_env("KUBERNETES_OIDC_USERNAME_CLAIM")    
+  kubernetes_oidc_username_claim   = get_env("KUBERNETES_OIDC_USERNAME_CLAIM")
   bastion_instance_size            = local.env_vars.bastion_instance_size
 }
 

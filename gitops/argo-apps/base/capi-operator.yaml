@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_utils_capi_app_name}-operator
+  namespace: ${ARGOCD_ENV_utils_capi_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_capi_operator_sync_wave}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_utils_capi_capi_operator_namespace}
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
+    path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_capi_cloud_provider}/storage-provider/capi-operator
+    plugin:
+      name: envsubst
+      env:
+        - name: "capi_infra_provider_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_infra_provider_version}"
+
+        - name: "capi_operator_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_operator_version}"
+
+        - name: "capi_cluster_namespace"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_namespace}"
+
+        - name: "capi_operator_namespace"
+          value: "${ARGOCD_ENV_utils_capi_capi_operator_namespace}"

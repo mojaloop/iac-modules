@@ -1,0 +1,97 @@
+apiVersion: sc.mojaloop.io/v1alpha1
+kind: XMongodbCluster
+metadata:
+  name: "${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}"
+  namespace: ${ARGOCD_ENV_namespace}
+spec:
+  parameters:
+    clusterName: ${ARGOCD_ENV_percona_cluster_name}
+    externalServiceName: ${ARGOCD_ENV_externalservice_name}
+    appNamespace: ${ARGOCD_ENV_namespace}
+    crVersion: ${ARGOCD_ENV_cr_version}
+    image: ${ARGOCD_ENV_image}
+    imagePullPolicy: IfNotPresent
+    dbSecret: ${ARGOCD_ENV_db_secret}
+    backup:
+      enabled: ${ARGOCD_ENV_backup_enabled}
+      verifyTLS: ${ARGOCD_ENV_backup_verify_tls}
+      image: ${ARGOCD_ENV_backup_image}
+      bucket: ${ARGOCD_ENV_env_name}-percona
+      credentialsSecret: ${ARGOCD_ENV_env_name}-percona
+      bucketRegion: ${ARGOCD_ENV_backup_bucket_region}
+      scheduleEnabled: ${ARGOCD_ENV_backup_schedule_enabled}
+      scheduleName: ${ARGOCD_ENV_backup_schedule_name}
+      cronScheduleExpression: ${ARGOCD_ENV_backup_cron_schedule}
+      backupRetention: ${ARGOCD_ENV_backup_retention}
+
+    replsets:
+      name: ${ARGOCD_ENV_replset_name}
+      size: ${ARGOCD_ENV_replset_size}
+      expose:
+        enabled: false
+        type: ClusterIP
+      resources:
+        limits:
+          cpu: ${ARGOCD_ENV_replset_limits_cpu}
+          memory: ${ARGOCD_ENV_replset_limits_memory}
+        requests:
+          cpu: ${ARGOCD_ENV_replset_requests_cpu}
+          memory: ${ARGOCD_ENV_replset_requests_memory}
+      volumeSpec:
+        persistentVolumeClaim:
+          resources:
+            requests:
+              storage: ${ARGOCD_ENV_replset_storage}
+      tolerations: []
+      priorityClassName: ""
+
+    sharding:
+      enabled: ${ARGOCD_ENV_sharding_enabled}
+      configsvrReplSet:
+        size: ${ARGOCD_ENV_configsvr_size}
+        expose:
+          enabled: false
+          type: ClusterIP
+        resources:
+          limits:
+            cpu: ${ARGOCD_ENV_configsvr_limits_cpu}
+            memory: ${ARGOCD_ENV_configsvr_limits_memory}
+          requests:
+            cpu: ${ARGOCD_ENV_configsvr_requests_cpu}
+            memory: ${ARGOCD_ENV_configsvr_requests_memory}
+        volumeSpec:
+          persistentVolumeClaim:
+            resources:
+              requests:
+                storage: ${ARGOCD_ENV_configsvr_storage}
+        tolerations: []
+        priorityClassName: ""
+
+      mongos:
+        size: ${ARGOCD_ENV_mongos_size}
+        expose:
+          enabled: true
+          type: LoadBalancer
+        resources:
+          limits:
+            cpu: ${ARGOCD_ENV_mongos_limits_cpu}
+            memory: ${ARGOCD_ENV_mongos_limits_memory}
+          requests:
+            cpu: ${ARGOCD_ENV_mongos_requests_cpu}
+            memory: ${ARGOCD_ENV_mongos_requests_memory}
+        tolerations: []
+        priorityClassName: ""
+
+    dns:
+      name: ${ARGOCD_ENV_env_name}-${ARGOCD_ENV_externalservice_name}
+      region: ${ARGOCD_ENV_region}
+      ttl: 300
+      type: A
+      zoneId: ${ARGOCD_ENV_zone_id}
+
+  providerConfigsRef:
+    scK8sProviderName: sc-kubernetes-provider
+    ccK8sProviderName: kubernetes-provider
+    awsProviderName: aws-cp-upbound-provider-config
+  managementPolicies:
+    - "*"

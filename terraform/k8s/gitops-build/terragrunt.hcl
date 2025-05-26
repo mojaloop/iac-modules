@@ -73,7 +73,7 @@ inputs = {
   mojaloop_stateful_res_mangd_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
   values_hub_provisioning_override_file    = find_in_parent_folders("${get_env("CONFIG_PATH")}/values-hub-provisioning-override.yaml", "values-hub-provisioning-override.yaml")
-  mojaloop_stateful_res_monolith_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed-monolith.yaml")
+  mojaloop_stateful_res_monolith_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-ccdriven-databases.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -88,7 +88,9 @@ inputs = {
   kv_path                                  = local.KV_SECRET_PATH
   transit_vault_key_name                   = local.migrate ? local.mig_transit_vault_unseal_key_name : local.TRANSIT_VAULT_UNSEAL_KEY_NAME
   transit_vault_url                        = local.VAULT_SERVER_URL
-  ceph_api_url                             = local.ceph_fqdn
+  object_store_api_url                     = local.object_store_fqdn
+  object_store_regional_endpoint           = local.object_store_regional_endpoint
+  object_store_region                      = local.object_store_region
   central_observability_endpoint           = local.central_observability_endpoint
   managed_db_host                          = ""      # to correct later
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
@@ -105,6 +107,21 @@ inputs = {
   grafana_admin_rbac_group                 = local.grafana_admin_rbac_group
   grafana_user_rbac_group                  = local.grafana_user_rbac_group
   managed_svc_as_monolith                  = local.managed_svc_as_monolith
+  kubelet_dir_path                         = local.k8s_cluster_type == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
+  aws_ebs_csi_driver_helm_version          = local.common_vars.aws_ebs_csi_driver_helm_version
+  aws_ebs_csi_driver_replicas              = local.common_vars.aws_ebs_csi_driver_replicas
+  rook_ceph_helm_version                   = local.common_vars.rook_ceph_helm_version
+  db_mediated_by_control_center            = local.db_mediated_by_control_center
+  crossplane_providers_k8s_version         = local.common_vars.crossplane_providers_k8s_version
+  crossplane_providers_vault_version       = local.common_vars.crossplane_providers_vault_version
+  crossplane_packages_utils_version        = local.common_vars.crossplane_packages_utils_version
+  crossplane_helm_version                  = local.common_vars.crossplane_helm_version
+  crossplane_functions_kcl_version         = local.common_vars.crossplane_functions_kcl_version
+  crossplane_functions_auto_ready_version  = local.common_vars.crossplane_functions_auto_ready_version
+  crossplane_functions_extra_resources_version = local.common_vars.crossplane_functions_extra_resources_version
+  cloud_platform                           = get_env("cloud_platform")
+  netbird_operator_management_url          = local.netbird_operator_management_url
+  netbird_operator_api_key_vault_path      = local.netbird_operator_api_key_vault_path
 }
 
 locals {
@@ -166,13 +183,19 @@ locals {
   mig_transit_vault_unseal_key_name = "${get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")}-migrated"
   VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
   VAULT_ADDR                    = get_env("VAULT_ADDR")
-  ceph_fqdn                     = get_env("CEPH_OBJECTSTORE_FQDN")
+  object_store_fqdn             = get_env("OBJECTSTORE_FQDN")
+  object_store_regional_endpoint = get_env("OBJECTSTORE_REGIONAL_ENDPOINT")
+  object_store_region            = get_env("OBJECTSTORE_REGION")
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
   migrate                       = get_env("migrate")
   argocd_ingress_internal_lb    = true
   grafana_ingress_internal_lb   = true
   vault_ingress_internal_lb     = true
   managed_svc_as_monolith       = get_env("managed_svc_as_monolith")
+  k8s_cluster_type              = get_env("k8s_cluster_type")
+  db_mediated_by_control_center = get_env("db_mediated_by_control_center")
+  netbird_operator_management_url = get_env("netbird_operator_management_url")
+  netbird_operator_api_key_vault_path = get_env("netbird_operator_api_key_vault_path")
 }
 
 generate "required_providers_override" {

@@ -85,7 +85,7 @@ spec:
           value: "${ARGOCD_ENV_security_netbird_image_version}"
 
         - name: "netbird_client_version"
-          value: "${ARGOCD_ENV_security_netbird_client_version}"          
+          value: "${ARGOCD_ENV_security_netbird_client_version}"
 
         - name: "netbird_dns_subdomain"
           value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
@@ -101,7 +101,15 @@ spec:
 
         - name: "cc_cidr_block"
           value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
-        
+
         - name: "env_token_ttl"
           value: "${ARGOCD_ENV_deploy_env_config_env_token_ttl}"
 
+        - name: "object_storage_endpoint"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_host}"
+
+        - name: "object_storage_regional_endpoint"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_regional_host}"
+
+        - name: "object_storage_region"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_region}"

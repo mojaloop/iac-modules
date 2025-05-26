@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${ARGOCD_ENV_storage_namespace}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${ARGOCD_ENV_control_center_cluster_name}

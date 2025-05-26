@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - nbopbootstrap-claim.yaml
+  - nboppost-claim.yaml
+  - kyverno-policy.yaml
+helmCharts:
+  - name: kubernetes-operator
+    releaseName: ${ARGOCD_ENV_netbird_operator_app_name}
+    version: ${ARGOCD_ENV_netbird_operator_helm_version}
+    repo: https://netbirdio.github.io/kubernetes-operator
+    valuesFile: netbird-operator-values.yaml
+    namespace: ${ARGOCD_ENV_netbird_operator_namespace}
+    includeCRDs: true

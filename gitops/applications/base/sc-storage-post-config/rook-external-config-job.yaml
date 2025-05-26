@@ -1,0 +1,199 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rook-ceph-external-config
+  namespace: ${ARGOCD_ENV_storage_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: '-9'
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      dnsPolicy: ClusterFirstWithHostNet
+      serviceAccountName: ceph-job-sa
+      containers:
+        - name: kubectl
+          volumeMounts:
+            - mountPath: /data
+              name: shared-data
+            - name: rgw-endpoint
+              mountPath: /tmp/rgw-secret
+              readOnly: true
+          image: bitnami/kubectl:latest
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 2016
+            runAsGroup: 2016
+            capabilities:
+              drop: ["ALL"]
+          command:
+            - /bin/bash
+            - -c
+            - |
+              # Additional env vars
+              NAMESPACE="${ARGOCD_ENV_storage_namespace}"
+              KUBECTL="kubectl"
+              RGW_EXTERNAL_IP=$(cat /tmp/rgw-secret/RGW_EXTERNAL_IP)
+              RGW_EXTERNAL_PORT=$(cat /tmp/rgw-secret/RGW_EXTERNAL_PORT)
+              RGW_ENDPOINT=$(cat /tmp/rgw-secret/RGW_ENDPOINT)
+
+              # Append other variables to /data/ceph_env and create secret
+              if [ -s /data/ceph_env ]; then
+                echo "export RGW_EXTERNAL_IP=$RGW_EXTERNAL_IP" >> /data/ceph_env
+                echo "export RGW_EXTERNAL_PORT=$RGW_EXTERNAL_PORT" >> /data/ceph_env
+                # Exract ARGS and save into a file
+                awk -v RS="ARGS=\"" -v FS="\"" 'NR==2 {gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, "", $1); print $1}' /data/ceph_env > /tmp/ceph-args.conf
+                #awk -v RS="ARGS=\"" -v FS="\"" 'NR==2 {print $1}' /data/ceph_env | sed 's/^[ \t\r\n]\+//;s/[ \t\r\n]\+$//' > /tmp/ceph-args.conf
+                source /data/ceph_env
+                # Create a secret
+                kubectl delete secret rook-external-config --ignore-not-found
+                kubectl delete cm rook-ceph-mon-endpoints-external --ignore-not-found
+                kubectl delete cm external-cluster-user-command --ignore-not-found
+                kubectl create secret generic rook-external-config \
+                  --from-literal=ROOK_EXTERNAL_FSID="$ROOK_EXTERNAL_FSID" \
+                  --from-literal=ROOK_EXTERNAL_USERNAME="$ROOK_EXTERNAL_USERNAME" \
+                  --from-literal=ROOK_EXTERNAL_CEPH_MON_DATA="$ROOK_EXTERNAL_CEPH_MON_DATA" \
+                  --from-literal=ROOK_EXTERNAL_USER_SECRET="$ROOK_EXTERNAL_USER_SECRET" \
+                  --from-literal=ROOK_EXTERNAL_DASHBOARD_LINK="$ROOK_EXTERNAL_DASHBOARD_LINK" \
+                  --from-literal=CSI_RBD_NODE_SECRET="$CSI_RBD_NODE_SECRET" \
+                  --from-literal=CSI_RBD_NODE_SECRET_NAME="$CSI_RBD_NODE_SECRET_NAME" \
+                  --from-literal=CSI_RBD_PROVISIONER_SECRET="$CSI_RBD_PROVISIONER_SECRET" \
+                  --from-literal=CSI_RBD_PROVISIONER_SECRET_NAME="$CSI_RBD_PROVISIONER_SECRET_NAME" \
+                  --from-literal=CEPHFS_POOL_NAME="$CEPHFS_POOL_NAME" \
+                  --from-literal=RBD_POOL_NAME="$RBD_POOL_NAME" \
+                  --from-literal=CEPHFS_METADATA_POOL_NAME="$CEPHFS_METADATA_POOL_NAME" \
+                  --from-literal=CEPHFS_FS_NAME="$CEPHFS_FS_NAME" \
+                  --from-literal=CSI_CEPHFS_NODE_SECRET="$CSI_CEPHFS_NODE_SECRET" \
+                  --from-literal=CSI_CEPHFS_NODE_SECRET_NAME="$CSI_CEPHFS_NODE_SECRET_NAME" \
+                  --from-literal=CSI_CEPHFS_PROVISIONER_SECRET="$CSI_CEPHFS_PROVISIONER_SECRET" \
+                  --from-literal=CSI_CEPHFS_PROVISIONER_SECRET_NAME="$CSI_CEPHFS_PROVISIONER_SECRET_NAME" \
+                  --from-literal=RGW_POOL_PREFIX="$RGW_POOL_PREFIX" \
+                  --from-literal=RGW_ADMIN_OPS_USER_ACCESS_KEY="$RGW_ADMIN_OPS_USER_ACCESS_KEY" \
+                  --from-literal=RGW_ADMIN_OPS_USER_SECRET_KEY="$RGW_ADMIN_OPS_USER_SECRET_KEY" \
+                  --from-literal=RGW_ENDPOINT="$RGW_ENDPOINT" \
+                  --from-literal=RGW_EXTERNAL_IP="$RGW_EXTERNAL_IP" \
+                  --from-literal=RGW_EXTERNAL_PORT="$RGW_EXTERNAL_PORT" \
+                  --from-literal=RGW_SUB_DOMAIN="${ARGOCD_ENV_storage_rgw_subdomain}" \
+                  --from-file=ARGS=/tmp/ceph-args.conf \
+                  --dry-run=client -o yaml | kubectl apply -f -
+
+              # Create configmaps
+              kubectl create configmap  "rook-ceph-mon-endpoints-external" \
+                --from-literal=data="$ROOK_EXTERNAL_CEPH_MON_DATA" \
+                --from-literal=mapping="{}" \
+                --from-literal=maxMonId="2"
+
+              kubectl create configmap  "external-cluster-user-command" \
+                --from-literal=args="$ARGS"
+                #--from-file=ARGS=/tmp/ceph-args.conf
+
+              else
+                echo "Error: /data/ceph_env is empty!"
+                exit 1
+              fi
+      initContainers:
+        - name: rook-ceph-external-configs
+          image: quay.io/ceph/ceph:v19
+          command:
+            - /bin/bash
+            - -c
+            - |
+              # Replicate the script from toolbox.sh inline so the ceph image
+              # can be run directly, instead of requiring the rook toolbox
+              CEPH_CONFIG="/etc/ceph/ceph.conf"
+              MON_CONFIG="/etc/rook/mon-endpoints"
+              KEYRING_FILE="/etc/ceph/keyring"
+
+              write_endpoints() {
+                endpoints=$(cat $${MON_CONFIG})
+                mon_endpoints=$(echo "$${endpoints}" | sed 's/[a-z0-9_-]\+=//g')
+                DATE=$(date)
+                echo "$DATE writing mon endpoints to $${CEPH_CONFIG}: $${endpoints}"
+                cat <<EOF > $${CEPH_CONFIG}
+              [global]
+              mon_host = $${mon_endpoints}
+
+              [client.admin]
+              keyring = $${KEYRING_FILE}
+              EOF
+              }
+
+              ceph_secret=$${ROOK_CEPH_SECRET}
+              if [[ "$ceph_secret" == "" ]]; then
+                ceph_secret=$(cat /var/lib/rook-ceph-mon/secret.keyring)
+              fi
+
+              cat <<EOF > $${KEYRING_FILE}
+              [$${ROOK_CEPH_USERNAME}]
+              key = $${ceph_secret}
+              EOF
+
+              write_endpoints
+
+              # Download export script
+              curl -fsSL -o /data/create-external-cluster-resources.py \
+                https://raw.githubusercontent.com/rook/rook/refs/heads/release-1.17/deploy/examples/create-external-cluster-resources.py
+
+              # Prepare ceph for external use
+              RGW_ENDPOINT=$(cat /tmp/rgw-secret/RGW_ENDPOINT)
+              echo "Running create-external-cluster-resources.py..."
+              python3 /data/create-external-cluster-resources.py \
+                --rbd-data-pool-name ceph-blockpool \
+                --rgw-endpoint $RGW_ENDPOINT \
+                --cephfs-data-pool-name ceph-filesystem-replicated \
+                --skip-monitoring-endpoint \
+                --rgw-skip-tls true \
+                --namespace ${ARGOCD_ENV_storage_namespace} --format bash > /data/ceph_env
+          imagePullPolicy: IfNotPresent
+          tty: true
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 2016
+            runAsGroup: 2016
+            capabilities:
+              drop: ["ALL"]
+          env:
+            - name: ROOK_CEPH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: "${ARGOCD_ENV_storage_namespace}-mon"
+                  key: ceph-username
+          volumeMounts:
+            - mountPath: /etc/ceph
+              name: ceph-config
+            - name: mon-endpoint-volume
+              mountPath: /etc/rook
+            - name: ceph-admin-secret
+              mountPath: /var/lib/rook-ceph-mon
+              readOnly: true
+            - name: shared-data
+              mountPath: /data
+            - name: rgw-endpoint
+              mountPath: /tmp/rgw-secret
+              readOnly: true
+      volumes:
+        - name: ceph-admin-secret
+          secret:
+            secretName: "${ARGOCD_ENV_storage_namespace}-mon"
+            optional: false
+            items:
+              - key: ceph-secret
+                path: secret.keyring
+        - name: mon-endpoint-volume
+          configMap:
+            name: "${ARGOCD_ENV_storage_namespace}-mon-endpoints"
+            items:
+              - key: data
+                path: mon-endpoints
+        - name: ceph-config
+          emptyDir: {}
+        - name: shared-data
+          emptyDir: {}
+        - name: rgw-endpoint
+          secret:
+            secretName: rgw-endpoint
+      tolerations:
+        - key: "node.kubernetes.io/unreachable"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 5

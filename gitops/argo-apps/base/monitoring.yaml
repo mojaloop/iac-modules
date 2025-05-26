@@ -69,6 +69,9 @@ spec:
     plugin:
       name: envsubst
       env:
+        - name: "cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+
         - name: "monitoring_namespace"
           value: "${ARGOCD_ENV_monitoring_pre_namespace}"
 
@@ -95,12 +98,6 @@ spec:
           value: "${ARGOCD_ENV_monitoring_prometheus_remote_write_tenant_id}"
         - name: "cluster_label_value"
           value: "${ARGOCD_ENV_monitoring_prometheus_cluster_label_value}"
-
-        - name: "metrics_server_helm_version"
-          value: "${ARGOCD_ENV_monitoring_metrics_server_helm_version}"
-        - name: "metrics_server_replicas"
-          value: "${ARGOCD_ENV_monitoring_metrics_server_replicas}"
-
         - name: "mimir_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_name}"
         - name: "mimir_max_global_series_per_user"
@@ -121,12 +118,12 @@ spec:
           value: "7948"
 
 
-        - name: "ctrl_cntr_loki_bucket_name"
-          value: "${ARGOCD_ENV_monitoring_pre_ctrl_cntr_loki_bucket_name}"
-        - name: "ctrl_cntr_loki_helm_version"
-          value: "${ARGOCD_ENV_monitoring_monitoring_ctrl_cntr_loki_helm_version}"
-        - name: "ctrl_cntr_loki_retention_period"
-          value: "${ARGOCD_ENV_monitoring_monitoring_ctrl_cntr_loki_retention_period}"
+        - name: "loki_bucket_name"
+          value: "${ARGOCD_ENV_monitoring_pre_loki_bucket_name}"
+        - name: "loki_helm_version"
+          value: "${ARGOCD_ENV_monitoring_monitoring_loki_helm_version}"
+        - name: "loki_retention_period"
+          value: "${ARGOCD_ENV_monitoring_monitoring_loki_retention_period}"
         - name: "loki_ingester_max_chunk_age"
           value: "${ARGOCD_ENV_monitoring_loki_ingester_max_chunk_age}"
         - name: "loki_ingester_replication_factor"
@@ -135,7 +132,6 @@ spec:
           value: "7947"
         - name: "loki_release_name"
           value: "control-center-loki"
-
         - name: "mimir_distributor_replica_count"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_replica_count}"
         - name: "mimir_ingester_replica_count"
@@ -161,7 +157,6 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_store_gateway_storage_size}"
         - name: "mimir_alertmanager_storage_size"
           value: "${ARGOCD_ENV_monitoring_mimir_alertmanager_storage_size}"
-
 
         - name: "mimir_distributor_requests_cpu"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_requests_cpu}"
@@ -250,7 +245,29 @@ spec:
         - name: "loki_compactor_limits_memory"
           value: "${ARGOCD_ENV_monitoring_loki_compactor_limits_memory}"
 
-
-
         - name: "cloudwatch_exporter_role_arn"
           value: "${ARGOCD_ENV_monitoring_monitoring_cloudwatch_exporter_role_arn}"
+
+        - name: "object_storage_endpoint"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_endpoint}"
+
+        - name: "object_storage_host"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_host}"
+
+        - name: "object_storage_regional_host"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_regional_host}"
+
+        - name: "object_storage_regional_endpoint"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_regional_endpoint}"
+
+        - name: "object_storage_path_style"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_path_style}"
+
+        - name: "object_store_insecure_connection"
+          value: "${ARGOCD_ENV_utils_storage_object_store_insecure_connection}"
+
+        - name: "bucket_lookup_type"
+          value: "${ARGOCD_ENV_monitoring_mimir_bucket_lookup_type}"
+
+        - name: "cloud_region"
+          value: "${ARGOCD_ENV_monitoring_monitoring_cloud_region}"

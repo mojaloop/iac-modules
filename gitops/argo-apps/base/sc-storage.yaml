@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_utils_capi_capi_rook_ceph_app_name}
+  namespace: ${ARGOCD_ENV_argocd_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_capi_capi_rook_ceph_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
+    path: gitops/applications/base/sc-storage
+    plugin:
+      name: envsubst
+      env:
+        - name: "control_center_cluster_name"
+          value: "${ARGOCD_ENV_cluster_name}"
+
+        - name: "rook_ceph_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_helm_version}"
+
+        - name: "rook_ceph_image_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_image_version}"
+
+        - name: "storage_namespace"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
+
+        - name: "rook_ceph_pool_replication_size"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rbd_pool_replication_size}"
+
+        - name: "storage_rgw_external_ip"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"
+
+        - name: "storage_rgw_subdomain"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_subdomain}"
+
+        - name: "storage_rgw_instance_replicas"
+          value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_instance_replicas}"

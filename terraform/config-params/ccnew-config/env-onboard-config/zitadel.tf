@@ -240,7 +240,7 @@ resource "vault_kv_secret_v2" "env_argocd_oidc_client_secret" {
 resource "zitadel_user_grant" "zitadel_env_admin_grant" {
   project_id = zitadel_project.env.id
   org_id     = local.org_id
-  role_keys  = [zitadel_project_role.argocd_admins_role.role_key, zitadel_project_role.vault_admins_role.role_key, zitadel_project_role.grafana_admins_role.role_key,zitadel_project_role.k8s_techops_admin.role_key]
+  role_keys  = [zitadel_project_role.argocd_admins_role.role_key, zitadel_project_role.vault_admins_role.role_key, zitadel_project_role.grafana_admins_role.role_key, zitadel_project_role.k8s_techops_admin.role_key]
   user_id    = var.zitadel_admin_human_user_id
 }
 
@@ -332,6 +332,22 @@ resource "gitlab_project_variable" "kubernetes_oidc_k8s_user_group" {
   project   = data.gitlab_project.env.id
   key       = "KUBERNETES_OIDC_K8S_USER_GROUP"
   value     = "${zitadel_project.env.id}:${var.k8s_user_rbac_group}"
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "netbird_operator_management_url" {
+  project   = data.gitlab_project.env.id
+  key       = "netbird_operator_management_url"
+  value     = var.netbird_operator_management_url
+  protected = false
+  masked    = false
+}
+
+resource "gitlab_project_variable" "netbird_operator_api_key_vault_path" {
+  project   = data.gitlab_project.env.id
+  key       = "netbird_operator_api_key_vault_path"
+  value     = var.netbird_operator_api_key_vault_path
   protected = false
   masked    = false
 }

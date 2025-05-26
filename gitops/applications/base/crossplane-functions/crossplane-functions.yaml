@@ -1,0 +1,35 @@
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: Function
+metadata:
+  name: function-patch-and-transform
+spec:
+  package: ghcr.io/mojaloop/infra/crossplane-contrib/function-patch-and-transform:v${ARGOCD_ENV_crossplane_functions_patch_and_transform_version}
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: Function
+metadata:
+  name: function-go-templating
+spec:
+  package: ghcr.io/mojaloop/infra/crossplane-contrib/function-go-templating:v${ARGOCD_ENV_crossplane_functions_go_templating_version}
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: Function
+metadata:
+  name: function-kcl
+spec:
+  package: ghcr.io/mojaloop/infra/crossplane-contrib/function-kcl:v${ARGOCD_ENV_crossplane_functions_kcl_version}
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: Function
+metadata:
+  name: function-auto-ready
+spec:
+  package: ghcr.io/mojaloop/infra/crossplane-contrib/function-auto-ready:v${ARGOCD_ENV_crossplane_functions_auto_ready_version}
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: Function
+metadata:
+  name: function-extra-resources
+spec:
+  package: ghcr.io/mojaloop/infra/crossplane-contrib/function-extra-resources:v${ARGOCD_ENV_crossplane_functions_extra_resources_version}

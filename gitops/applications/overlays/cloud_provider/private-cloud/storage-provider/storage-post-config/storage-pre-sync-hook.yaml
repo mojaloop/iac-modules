@@ -1,0 +1,93 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: check-sc-ceph-resources
+  namespace: ${ARGOCD_ENV_storage_namespace}
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: '-90'
+spec:
+  template:
+    spec:
+      serviceAccountName: storage-job-sa
+      restartPolicy: OnFailure
+      containers:
+      - name: check-sc-ceph-resources
+        image: bitnami/kubectl:latest
+        command:
+          - /bin/sh
+          - -c
+          - |
+            set -e
+
+            INTERVAL=10
+            TIMEOUT=1200
+            SC_KUBECONFIG_SOURCE_NS="${ARGOCD_ENV_capi_cluster_namespace}"
+            SC_KUBECONFIG_SECRET_NAME="${ARGOCD_ENV_capi_cluster_name}-kubeconfig"
+            SC_NAMESPACE=${ARGOCD_ENV_sc_storage_namespace}
+            KUBECONFIG_PATH="/tmp/kubeconfig"
+
+            # Extract and decode the kubeconfig
+            kubectl get secret "$SC_KUBECONFIG_SECRET_NAME" -n "$SC_KUBECONFIG_SOURCE_NS" -o jsonpath="{.data.value}" | base64 -d > "$KUBECONFIG_PATH"
+            export KUBECONFIG="$KUBECONFIG_PATH"
+
+            check_external_config_secret() {
+              local SECRET_NAME="rook-external-config"
+              echo "🔍 Checking if secret '$SECRET_NAME' in namespace '$SC_NAMESPACE' exists and is not empty..."
+              SECONDS=0
+              until kubectl get secret -n "$SC_NAMESPACE" "$SECRET_NAME" -o jsonpath='{.data}' 2>/dev/null | grep -q '[^[:space:]]'; do
+                if [ $SECONDS -ge $TIMEOUT ]; then
+                  echo "❌ Timeout waiting for secret '$SECRET_NAME' to exist and contain data."
+                  exit 1
+                fi
+                echo "⏳ Secret '$SECRET_NAME' not ready yet..."
+                sleep $INTERVAL
+              done
+              echo "✅ Secret '$SECRET_NAME' exists and contains data."
+            }
+
+            check_cm_external_cluster_user_command() {
+              local CM_NAME="external-cluster-user-command"
+              echo "🔍 Checking if ConfigMap '$CM_NAME' in namespace '$SC_NAMESPACE' exists and is not empty..."
+              SECONDS=0
+              until kubectl get configmap -n "$SC_NAMESPACE" "$CM_NAME" -o jsonpath='{.data}' 2>/dev/null | grep -q '[^[:space:]]'; do
+                if [ $SECONDS -ge $TIMEOUT ]; then
+                  echo "❌ Timeout waiting for ConfigMap '$CM_NAME' to exist and contain data."
+                  exit 1
+                fi
+                echo "⏳ ConfigMap '$CM_NAME' not ready yet..."
+                sleep $INTERVAL
+              done
+              echo "✅ ConfigMap '$CM_NAME' exists and contains data."
+            }
+
+            check_cm_rook_ceph_mon_endpoints_external() {
+              local CM_NAME="rook-ceph-mon-endpoints-external"
+              echo "🔍 Checking if ConfigMap '$CM_NAME' in namespace '$SC_NAMESPACE' exists and is not empty..."
+              SECONDS=0
+              until kubectl get configmap -n "$SC_NAMESPACE" "$CM_NAME" -o jsonpath='{.data}' 2>/dev/null | grep -q '[^[:space:]]'; do
+                if [ $SECONDS -ge $TIMEOUT ]; then
+                  echo "❌ Timeout waiting for ConfigMap '$CM_NAME' to exist and contain data."
+                  exit 1
+                fi
+                echo "⏳ ConfigMap '$CM_NAME' not ready yet..."
+                sleep $INTERVAL
+              done
+              echo "✅ ConfigMap '$CM_NAME' exists and contains data."
+            }
+
+            check_external_config_secret &
+            PID1=$!
+            check_cm_external_cluster_user_command &
+            PID2=$!
+            check_cm_rook_ceph_mon_endpoints_external &
+            PID3=$!
+
+            wait $PID1
+            wait $PID2
+            wait $PID3
+
+            echo "✅ All ConfigMaps and Secrets are ready."
+      backoffLimit: 5
+      ttlSecondsAfterFinished: 100

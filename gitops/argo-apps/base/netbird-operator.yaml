@@ -1,0 +1,136 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_security_netbird_operator_app_name}
+  namespace: ${ARGOCD_ENV_security_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_security_netbird_operator_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 50
+      backoff:
+        duration: 2s
+        maxDuration: 1m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_security_netbird_operator_namespace}
+
+  sources:
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
+      path: gitops/applications/base/netbird-operator
+      plugin:
+        name: envsubst
+        env:
+          - name: "netbird_namespace"
+            value: "${ARGOCD_ENV_security_netbird_namespace}"
+
+          - name: "netbird_operator_helm_version"
+            value: "${ARGOCD_ENV_security_netbird_operator_helm_version}"
+
+          - name: "netbird_operator_namespace"
+            value: "${ARGOCD_ENV_security_netbird_operator_namespace}"
+
+          - name: "netbird_operator_app_name"
+            value: "${ARGOCD_ENV_security_netbird_operator_release_name}"
+
+          - name: "netbird_operator_management_url"
+            value: "https://netbird.${ARGOCD_ENV_security_netbird_dns_subdomain}:443"
+
+          - name: "netbird_operator_network_resource_group"
+            value: "${ARGOCD_ENV_security_netbird_operator_cc_network_resource_group}"
+
+          - name: "netbird_operator_api_key_secret"
+            value: "nb-operator-api-key"
+
+          - name: "netbird_operator_sync_wave"
+            value: "${ARGOCD_ENV_security_netbird_operator_sync_wave}"
+
+          - name: "netbird_rbac_user_group"
+            value: "${ARGOCD_ENV_security_netbird_rbac_user_group}"
+
+          - name: "netbird_rbac_admin_group"
+            value: "${ARGOCD_ENV_security_netbird_rbac_admin_group}"
+
+          - name: "netbird_preconfig_output_secret"
+            value: "${ARGOCD_ENV_security_netbird_preconfig_output_secret}"
+
+          - name: "netbird_operator_cluster_name"
+            value: "${ARGOCD_ENV_cluster_name}"
+
+          - name: "netbird_operator_cc_cluster_cidr"
+            value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
+
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_capi_cloud_provider}/storage-provider/netbird-operator
+      plugin:
+        name: envsubst
+        env:
+          - name: "netbird_dns_subdomain"
+            value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
+
+          - name: "netbird_namespace"
+            value: "${ARGOCD_ENV_security_netbird_namespace}"
+
+          - name: "zitadel_namespace"
+            value: "${ARGOCD_ENV_security_zitadel_namespace}"
+
+          - name: "netbird_post_config_app_name"
+            value: "${ARGOCD_ENV_security_netbird_app_name}-post-config"
+
+          - name: "netbird_preconfig_output_secret"
+            value: "${ARGOCD_ENV_security_netbird_preconfig_output_secret}"
+
+          - name: "setup_key_secret_name"
+            value: "${ARGOCD_ENV_security_netbird_setup_key_secret_name}"
+
+          - name: "netbird_ansible_collection_tag"
+            value: ${ARGOCD_ENV_security_netbird_ansible_collection_tag}
+
+          - name: "netbird_ansible_repo_url"
+            value: "${ARGOCD_ENV_ansible_gitrepo_url}"
+
+          - name: "netbird_operator_cluster_name"
+            value: "${ARGOCD_ENV_cluster_name}-storage-cluster"
+
+          - name: "netbird_operator_sc_cluster_cidr"
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_cidr}"
+
+          - name: "netbird_rbac_user_group"
+            value: "${ARGOCD_ENV_security_netbird_rbac_user_group}"
+
+          - name: "netbird_rbac_admin_group"
+            value: "${ARGOCD_ENV_security_netbird_rbac_admin_group}"
+
+          - name: "zitadel_grant_prefix"
+            value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
+
+          - name: "argocd_namespace"
+            value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+
+          - name: "netbird_operator_helm_version"
+            value: "${ARGOCD_ENV_security_netbird_operator_helm_version}"
+
+          - name: "netbird_operator_management_url"
+            value: "https://netbird.${ARGOCD_ENV_security_netbird_dns_subdomain}:443"
+
+          - name: "netbird_operator_argoapp_revision"
+            value: ${ARGOCD_ENV_security_application_gitrepo_tag}
+
+          - name: "netbird_operator_network_resource_group"
+            value: "${ARGOCD_ENV_security_netbird_operator_sc_network_resource_group}"

@@ -1,8 +1,8 @@
-module "config_deepmerge" {
+/*module "config_deepmerge" {
   source  = "cloudposse/config/yaml//modules/deepmerge"
   version = "0.2.0"
   maps    = local.stateful_resources_config_vars_list
-}
+}*/
 
 resource "local_sensitive_file" "ansible_inventory" {
   content = templatefile(
@@ -73,7 +73,7 @@ resource "local_sensitive_file" "ec2_ssh_key" {
   file_permission = "0600"
 }
 
-data "gitlab_project_variable" "external_rds_stateful_resource_instance_address" {
+/*data "gitlab_project_variable" "external_rds_stateful_resource_instance_address" {
   for_each = local.managed_rds_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
@@ -83,12 +83,12 @@ data "gitlab_project_variable" "external_kafka_stateful_resource_instance_addres
   for_each = local.managed_kafka_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
-}
+}*/
 
 
 locals {
   jumphostmap = {
-    ansible_ssh_common_args = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -i ${local_sensitive_file.ec2_ssh_key.filename} -o StrictHostKeyChecking=no -q ${var.ansible_bastion_os_username}@${var.ansible_bastion_public_ip}\""
+    ansible_ssh_common_args = "-o UserKnownHostsFile=/dev/null -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o ProxyCommand=\"ssh -W %h:%p -i ${local_sensitive_file.ec2_ssh_key.filename} -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -q ${var.ansible_bastion_os_username}@${var.ansible_bastion_public_ip}\""
   }
   ansible_output_dir = "${var.ansible_base_output_dir}/k8s-deploy"
   ssh_private_key_file_map = {
@@ -98,21 +98,21 @@ locals {
     kubeconfig_local_location = local.ansible_output_dir
   }
 
-  st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
-  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
+  # st_res_managed_vars           = yamldecode(file(var.managed_stateful_resources_config_file))
+  # plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
 
-  stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
+  # stateful_resources_config_vars_list = [local.st_res_managed_vars, local.plt_st_res_config]
 
-  stateful_resources               = module.config_deepmerge.merged
-  enabled_stateful_resources       = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
-  managed_rds_stateful_resources   = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
-  managed_kafka_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
+  # stateful_resources               = module.config_deepmerge.merged
+  # enabled_stateful_resources       = { for key, stateful_resource in local.stateful_resources : key => stateful_resource if stateful_resource.enabled }
+  # managed_rds_stateful_resources   = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "mysql" }
+  # managed_kafka_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" && managed_resource.resource_type == "kafka" }
 
 
-  external_rds_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_rds_stateful_resource_instance_address : address.key => address.value }
-  external_kafka_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_kafka_stateful_resource_instance_address : address.key => address.value }
+  # external_rds_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_rds_stateful_resource_instance_address : address.key => address.value }
+  # external_kafka_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_kafka_stateful_resource_instance_address : address.key => address.value }
 
-  
-  managed_kafka_brokers_list  = { for key, service in local.managed_kafka_stateful_resources : key => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }
+
+  # managed_kafka_brokers_list  = { for key, service in local.managed_kafka_stateful_resources : key => split(",", local.external_kafka_stateful_resource_instance_addresses[service.external_resource_config.instance_address_key_name]) }
 
 }

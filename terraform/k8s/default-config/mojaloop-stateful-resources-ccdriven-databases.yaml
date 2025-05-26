@@ -1,0 +1,275 @@
+common_platform_db:
+  provider: in-cluster  # possbile values are rds, dbaas and in-cluster
+  app_owner: "platform"
+  dbaas_resource_config:
+    # Percona XtraDB Cluster (PXC) specific configurations
+    cluster_name: "common-platform-db"                          # Name of the cluster
+    cr_version: "1.16.1"                                         # Custom Resource version for the operator
+    pxc_image: "percona/percona-xtradb-cluster:8.0.39-30.1"      # Docker image for the PXC nodes
+    mysql_storage_size: "30Gi"                                  # Storage size for MySQL data
+    mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
+    mysql_requests_memory: "512Mi"                              # Memory request for MySQL pods
+    mysql_requests_cpu: "300m"                                      # CPU request for MySQL pods
+    mysql_limits_memory: "4Gi"                                   # Memory limit for MySQL pods
+    mysql_limits_cpu: "2000m"                                        # CPU limit for MySQL pods
+
+    # HAProxy specific configurations (for load balancing)
+    haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
+    haproxy_expose: "true"                                       # Whether HAProxy should be exposed
+    haproxy_replicas: 1                                          # Number of HAProxy replicas
+    haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
+    haproxy_requests_cpu: "100m"                                  # CPU request for HAProxy pods
+    haproxy_limits_memory: "1Gi"                                 # Memory limit for HAProxy pods
+    haproxy_limits_cpu: "1000m"                                      # CPU limit for HAProxy pods
+
+    # Log Collector specific configurations
+    logcollector_image: "percona/percona-xtradb-cluster-operator:1.16.1-logcollector-fluentbit3.2.2"  # Image for log collector
+    logcollector_requests_memory: "200Mi"                        # Memory request for log collector
+    logcollector_requests_cpu: "100m"                            # CPU request for log collector
+    logcollector_limits_memory: "512Mi"                          # Memory limit for log collector
+    logcollector_limits_cpu: "200m"                              # CPU limit for log collector
+
+    # Backup specific configurations
+    backup_image: "percona/percona-xtradb-cluster-operator:1.14.0"   # Docker image for the backup tool
+    backup_verify_tls: "false"
+    backup_schedule_name: "daily_backup"                         # Name for the backup schedule
+    backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
+    backup_retention: "3"                                        # Number of backups to retain
+  external_resource_config:
+    allow_major_version_upgrade: false
+    apply_immediately: false
+    password_key_name: common_platform_db_password
+    instance_address_key_name: common_platform_db_instance_address
+    allocated_storage: ''
+    storage_type: ''
+    storage_iops: ''
+    backup_retention_period: 1
+    backup_window: 01:00-04:00
+    db_name: common_platform_db
+    deletion_protection: false
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
+    final_snapshot_identifier: common_platform_db_final_snapshot
+    instance_class: db.t3.medium
+    replicas: 1
+    maintenance_window: Sun:04:00-Sun:06:00
+    major_engine_version: "8.0"
+    monitoring_interval: "30"
+    options:
+      - option_name: MARIADB_AUDIT_PLUGIN
+        option_settings:
+          - name: SERVER_AUDIT_EVENTS
+            value: CONNECT
+          - name: SERVER_AUDIT_FILE_ROTATIONS
+            value: "37"
+    parameters:
+      - name: character_set_client
+        value: utf8mb4
+      - name: character_set_server
+        value: utf8mb4
+      - name: innodb_lock_wait_timeout
+        value: "120"
+      - name: connect_timeout
+        value: "600"
+      - name: wait_timeout
+        value: "600"
+      - name: interactive_timeout
+        value: "600"
+      - name: max_connections
+        value: "4000"
+      - name: aurora_fwd_writer_max_connections_pct
+        value: "30"
+    port: "3306"
+    skip_final_snapshot: true
+    multi_az: false
+    storage_encrypted: true
+    tags:
+      Origin: Terraform
+      mojaloop/cost_center: mlf-iac-sandbox
+      mojaloop/env: ft-sbox-rw
+      mojaloop/owner: Samuel-Kummary
+    username: root
+    master_user_password_secret_namespace: stateful-resources
+    master_user_password_secret: common-platform-db-secret
+    master_user_password_secret_key: password
+    logical_service_name: common-platform-db
+    logical_service_port: 3306
+    vault_master_user_password_secret_key: common_platform_db_password
+    vault_instance_address_key: common_platform_db_instance_address
+common_mojaloop_db:
+  provider: in-cluster  # possbile values are rds, dbaas and in-cluster
+  app_owner: "mojaloop"
+  dbaas_resource_config:
+    # Percona XtraDB Cluster (PXC) specific configurations
+    cluster_name: "common-mojaloop-db"                          # Name of the cluster
+    cr_version: "1.16.1"                                         # Custom Resource version for the operator
+    pxc_image: "percona/percona-xtradb-cluster:8.0.39-30.1"      # Docker image for the PXC nodes
+    mysql_storage_size: "30Gi"                                  # Storage size for MySQL data
+    mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
+    mysql_requests_memory: "512Mi"                              # Memory request for MySQL pods
+    mysql_requests_cpu: "300m"                                    # CPU request for MySQL pods
+    mysql_limits_memory: "4Gi"                                   # Memory limit for MySQL pods
+    mysql_limits_cpu: "2000m"                                        # CPU limit for MySQL pods
+
+    # HAProxy specific configurations (for load balancing)
+    haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
+    haproxy_expose: "true"                                       # Whether HAProxy should be exposed
+    haproxy_replicas: 1                                          # Number of HAProxy replicas
+    haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
+    haproxy_requests_cpu: "100m"                                  # CPU request for HAProxy pods
+    haproxy_limits_memory: "1Gi"                                 # Memory limit for HAProxy pods
+    haproxy_limits_cpu: "1000m"                                      # CPU limit for HAProxy pods
+
+    # Log Collector specific configurations
+    logcollector_image: "percona/percona-xtradb-cluster-operator:1.16.1-logcollector-fluentbit3.2.2"  # Image for log collector
+    logcollector_requests_memory: "200Mi"                        # Memory request for log collector
+    logcollector_requests_cpu: "100m"                            # CPU request for log collector
+    logcollector_limits_memory: "512Mi"                          # Memory limit for log collector
+    logcollector_limits_cpu: "200m"                              # CPU limit for log collector
+
+    # Backup specific configurations
+    backup_image: "percona/percona-xtradb-cluster-operator:1.14.0"   # Docker image for the backup tool
+    backup_verify_tls: "false"                                 # Whether to verify TLS for backup
+    backup_schedule_name: "daily_backup"                         # Name for the backup schedule
+    backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
+    backup_retention: "3"                                        # Number of backups to retain
+  external_resource_config:
+    allow_major_version_upgrade: false
+    apply_immediately: false
+    password_key_name: common_mojaloop_db_password
+    instance_address_key_name: common_mojaloop_db_instance_address
+    allocated_storage: ''
+    storage_type: ''
+    storage_iops: ''
+    backup_retention_period: 1
+    backup_window: 01:00-04:00
+    db_name: common_mojaloop_db
+    deletion_protection: false
+    engine: aurora-mysql
+    engine_version: 8.0.mysql_aurora.3.04.0
+    family: aurora-mysql8.0
+    final_snapshot_identifier: common_mojaloop_db_final_snapshot
+    instance_class: db.t3.medium
+    replicas: 1
+    maintenance_window: Sun:04:00-Sun:06:00
+    major_engine_version: "8.0"
+    monitoring_interval: "30"
+    options:
+      - option_name: MARIADB_AUDIT_PLUGIN
+        option_settings:
+          - name: SERVER_AUDIT_EVENTS
+            value: CONNECT
+          - name: SERVER_AUDIT_FILE_ROTATIONS
+            value: "37"
+    parameters:
+      - name: character_set_client
+        value: utf8mb4
+      - name: character_set_server
+        value: utf8mb4
+      - name: max_connections
+        value: "4000"
+      - name: aurora_fwd_writer_max_connections_pct
+        value: "30"
+    port: "3306"
+    skip_final_snapshot: true
+    multi_az: false
+    storage_encrypted: true
+    tags:
+      Origin: Terraform
+      mojaloop/cost_center: mlf-iac-sandbox
+      mojaloop/env: ft-sbox-rw
+      mojaloop/owner: Samuel-Kummary
+    username: root
+    master_user_password_secret_namespace: stateful-resources
+    master_user_password_secret: common-mojaloop-db-secret
+    master_user_password_secret_key: password
+    logical_service_name: common-mojaloop-db
+    logical_service_port: 3306
+    vault_master_user_password_secret_key: common_mojaloop_db_password
+    vault_instance_address_key: common_mojaloop_db_instance_address
+common_mongodb:
+  provider: in-cluster  # possbile values are documentdb, dbaas and in-cluster
+  app_owner: "mojaloop"
+  dbaas_resource_config:
+    cluster_name: "common-mongodb"                          # Name of the cluster
+    cr_version: "1.19.1"
+    image: "percona/percona-server-mongodb:7.0.15-9-multi"
+
+    # Backup inputs
+    backup_enabled: false
+    backup_image: "percona/percona-backup-mongodb:2.8.0-multi"
+    backup_verify_tls: true
+    backup_schedule_name: "daily-backup"
+    backup_cron_schedule: "0 0 * * *"
+    backup_retention: 7
+    schedule_enabled: false
+
+    # Replset inputs
+    replset_name: "rs0"
+    replset_size: 1
+    replset_limits_cpu: "300m"
+    replset_limits_memory: "0.5G"
+    replset_requests_cpu: "50m"
+    replset_requests_memory: "0.5G"
+    replset_storage: 30Gi
+
+    # Sharding inputs
+    sharding_enabled: true
+    configsvr_size: 1
+    configsvr_expose_enabled: false
+    configsvr_expose_type: "clusterIP"
+    configsvr_limits_cpu: "300m"
+    configsvr_limits_memory: "0.5G"
+    configsvr_requests_cpu: "50m"
+    configsvr_requests_memory: "0.5G"
+    configsvr_storage: 30Gi
+
+    mongos_size: 1
+    mongos_limits_cpu: "300m"
+    mongos_limits_memory: "0.5G"
+    mongos_requests_cpu: "50m"
+    mongos_requests_memory: "0.5G"
+  external_resource_config:
+    allocated_storage: 100
+    allow_major_version_upgrade: false
+    apply_immediately: false
+    backup_retention_period: 1
+    backup_window: 01:00-04:00
+    db_name: common_database
+    deletion_protection: false
+    engine: docdb
+    engine_version: "5.0"
+    family: docdb5.0
+    final_snapshot_identifier: common_document_db_final_snapshot
+    instance_address_key_name: common_document_db_instance_address
+    instance_class: db.t3.medium
+    maintenance_window: Sun:04:00-Sun:06:00
+    major_engine_version: "5.0"
+    monitorin_interval: "30"
+    multi_az: false
+    options: []
+    parameters:
+      - apply_method: pending-reboot
+        name: tls
+        value: disabled
+    password_key_name: common_mongodb_password
+    port: "27017"
+    replicas: 1
+    skip_final_snapshot: true
+    storage_encrypted: true
+    storage_type: standard
+    storage_iops: 5000
+    tags:
+      Origin: Terraform
+      mojaloop/cost_center: mlf-iac-sandbox
+      mojaloop/env: ft-sbox-rw
+      mojaloop/owner: Samuel-Kummary
+    username: userAdmin
+    master_user_password_secret_namespace: stateful-resources
+    master_user_password_secret: common-mongodb-secret
+    master_user_password_secret_key: password
+    logical_service_name: common-mongodb
+    logical_service_port: 27017
+    vault_master_user_password_secret_key: common_mongodb_password
+    vault_instance_address_key: common_mongodb_instance_address

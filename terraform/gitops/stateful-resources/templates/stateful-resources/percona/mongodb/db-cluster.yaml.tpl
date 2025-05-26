@@ -555,10 +555,10 @@ spec:
       ${backupStorageName}:
         type: s3
         s3:
-          bucket: ${ceph_percona_backup_bucket}
-          region: us-east-1
+          bucket: ${object_store_percona_backup_bucket}
+          region: ${object_store_region}
           credentialsSecret: ${percona_credentials_secret}
-          endpointUrl: ${ceph_api_url}
+          endpointUrl: ${object_store_api_url}
           insecureSkipTLSVerify: false
           prefix: ${cluster_name}
 #      azure-blob:
@@ -633,9 +633,10 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        AWS_ENDPOINTS: ${ceph_api_url}
+        AWS_ENDPOINTS: ${object_store_api_url}
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY  | toString }}"
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID  | toString }}"
+        AWS_REGION: ${object_store_region}
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic

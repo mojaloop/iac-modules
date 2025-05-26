@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_utils_argocd_app_name}-${ARGOCD_ENV_utils_crossplane_functions_app_name}
+  namespace: ${ARGOCD_ENV_utils_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_crossplane_functions_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_utils_crossplane_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
+    path: gitops/applications/base/crossplane-functions
+    plugin:
+      name: envsubst
+      env:
+
+        - name: "crossplane_functions_patch_and_transform_version"
+          value: "${ARGOCD_ENV_utils_crossplane_functions_patch_and_transform_version}"
+
+        - name: "crossplane_functions_go_templating_version"
+          value: "${ARGOCD_ENV_utils_crossplane_functions_go_templating_version}"
+
+        - name: "crossplane_functions_kcl_version"
+          value: "${ARGOCD_ENV_utils_crossplane_functions_kcl_version}"
+
+        - name: "crossplane_functions_auto_ready_version"
+          value: "${ARGOCD_ENV_utils_crossplane_functions_auto_ready_version}"
+
+        - name: "crossplane_functions_extra_resources_version"
+          value: "${ARGOCD_ENV_utils_crossplane_functions_extra_resources_version}"
