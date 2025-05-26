@@ -158,8 +158,8 @@ locals {
   }, yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}", local.env_vars)))
   cluster_vars = {
     cluster = merge(local.env_vars, {
-      master_node_count = get_env("cloud_platform") == "bare-metal" ? try(length(keys(local.cloud_platform_vars.master_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
-      agent_node_count  = get_env("cloud_platform") == "bare-metal" ? try(length(keys(local.cloud_platform_vars.agent_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
+      master_node_count = get_env("cloud_platform") == "private-cloud" ? try(length(keys(local.cloud_platform_vars.master_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
+      agent_node_count  = get_env("cloud_platform") == "private-cloud" ? try(length(keys(local.cloud_platform_vars.agent_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
     })
   }
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
