@@ -132,7 +132,8 @@ coredns_localcache_version: "1.12.1"
 
 
 crossplane_packages_argocd_config_version: "v0.1.0-pr62-15117476143"
-crossplane_packages_zitadel_config_version: "v0.1.0-pr62-15117476143"
+crossplane_packages_zitadel_config_version: "v0.1.0-pr62-15260504679"
+
 kyverno_helm_version: "3.3.7"
 
 istio_egress_gateway_max_replicas: 5
