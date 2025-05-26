@@ -16,6 +16,7 @@ spec:
 #  unmanaged: false
   crVersion: ${cr_version}
   image: percona/percona-server-mongodb:${percona_server_mongodb_version}
+  imagePullPolicy: IfNotPresent
   allowUnsafeConfigurations: true
 #  tls:
 #    mode: preferTLS
@@ -137,16 +138,16 @@ spec:
 #      inMemory:
 #        engineConfig:
 #           inMemorySizeRatio: 0.5
-#    livenessProbe:
+    livenessProbe:
 #      failureThreshold: 4
 #      initialDelaySeconds: 60
-#      periodSeconds: 30
+      periodSeconds: 30
 #      timeoutSeconds: 10
 #      startupDelaySeconds: 7200
-#    readinessProbe:
+    readinessProbe:
 #      failureThreshold: 8
 #      initialDelaySeconds: 10
-#      periodSeconds: 3
+      periodSeconds: 30
 #      successThreshold: 1
 #      timeoutSeconds: 2
 #    containerSecurityContext:
@@ -385,16 +386,16 @@ spec:
 #        rack: rack-22
 #      nodeSelector:
 #        disktype: ssd
-#      livenessProbe:
+      livenessProbe:
 #        failureThreshold: 4
 #        initialDelaySeconds: 60
-#        periodSeconds: 30
+        periodSeconds: 30
 #        timeoutSeconds: 10
 #        startupDelaySeconds: 7200
-#      readinessProbe:
+      readinessProbe:
 #        failureThreshold: 3
 #        initialDelaySeconds: 10
-#        periodSeconds: 3
+        periodSeconds: 30
 #        successThreshold: 1
 #        timeoutSeconds: 2
 #      containerSecurityContext:
@@ -487,16 +488,16 @@ spec:
 #        rack: rack-22
 #      nodeSelector:
 #        disktype: ssd
-#      livenessProbe:
+      livenessProbe:
 #        failureThreshold: 4
 #        initialDelaySeconds: 60
-#        periodSeconds: 30
+        periodSeconds: 30
 #        timeoutSeconds: 10
 #        startupDelaySeconds: 7200
-#      readinessProbe:
+      readinessProbe:
 #        failureThreshold: 3
 #        initialDelaySeconds: 10
-#        periodSeconds: 3
+        periodSeconds: 30
 #        successThreshold: 1
 #        timeoutSeconds: 2
 #      containerSecurityContext:

@@ -104,6 +104,9 @@ spec:
         max_connections=${database_config.max_connections}
         innodb_buffer_pool_size=${database_config.innodb_buffer_pool_size}
         wsrep_auto_increment_control=OFF
+        coredumper=/tmp/mysql-core-dump
+        innodb_buffer_pool_in_core_file=OFF
+
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
 #      [sst]
@@ -139,7 +142,7 @@ spec:
 #      runAsGroup: 1001
 #      supplementalGroups: [1001]
 #    serviceAccountName: percona-xtradb-cluster-operator-workload
-#    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
 #    runtimeClassName: image-rc
 #    sidecars:
 #    - image: busybox
@@ -222,7 +225,7 @@ spec:
     enabled: true
     size: ${haproxy_count}
     image: percona/percona-xtradb-cluster-operator:${percona_xtradb_haproxy_version}
-#    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
 #    schedulerName: mycustom-scheduler
 #    readinessDelaySec: 15
 #    livenessDelaySec: 600
@@ -397,7 +400,7 @@ spec:
     enabled: false
     size: 3
     image: percona/proxysql2:2.5.5
-#    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
 #    configuration: |
 #      datadir="/var/lib/proxysql"
 #

@@ -65,6 +65,9 @@ spec:
 
         - name: "utils_argocd_helm_helm_version"
           value: ${ARGOCD_ENV_utils_argocd_helm_helm_version}
+
+        - name: "utils_capi_capi_calico_helm_version"
+          value: ${ARGOCD_ENV_utils_capi_capi_calico_helm_version}
         # rook
         - name: "utils_capi_capi_rook_ceph_namespace"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_namespace}"
@@ -170,6 +173,12 @@ spec:
         - name: "utils_base_monitoring_grafana_crd_version_tag"
           value: "${ARGOCD_ENV_utils_base_monitoring_grafana_crd_version_tag}"
 
+        - name: "monitoring_metrics_server_helm_version"
+          value: "${ARGOCD_ENV_monitoring_metrics_server_helm_version}"
+
+        - name: "monitoring_metrics_server_replicas"
+          value: "${ARGOCD_ENV_monitoring_metrics_server_replicas}"
+
         # percona operator
 
         - name: utils_percona_pg_operator_helm_version
@@ -214,3 +223,32 @@ spec:
 
         - name: utils_app_namespace
           value: "${ARGOCD_ENV_utils_app_namespace}"
+
+        # argocd
+
+        - name: utils_argocd_helm_helm_version
+          value: "${ARGOCD_ENV_utils_argocd_helm_helm_version}"
+
+        - name: utils_argocd_helm_app_name
+          value: "${ARGOCD_ENV_utils_argocd_helm_app_name}"
+
+        - name: utils_argocd_helm_kube_version
+          value: "${ARGOCD_ENV_utils_argocd_helm_kube_version}"
+
+        - name: helm_version
+          value: "${ARGOCD_ENV_helm_version}"
+
+        - name: utils_argocd_helm_git_plugin_version
+          value: "${ARGOCD_ENV_utils_argocd_helm_git_plugin_version}"
+
+        - name: utils_argocd_helm_envsubst_version
+          value: "${ARGOCD_ENV_utils_argocd_helm_envsubst_version}"
+
+        - name: helmfile_version
+          value: "${ARGOCD_ENV_helmfile_version}"
+
+        - name: utils_argocd_helm_rollout_extension_version
+          value: "${ARGOCD_ENV_utils_argocd_helm_rollout_extension_version}"
+
+        - name: utils_argocd_helm_download_tools_golang_image_version
+          value: "${ARGOCD_ENV_utils_argocd_helm_download_tools_golang_image_version}"

@@ -7,13 +7,25 @@ metadata:
     alertmanagerConfig: primary
 spec:
   route:
-    groupBy: ['job']
+    groupBy: ['cluster', 'job', 'alertname']
     groupWait: 30s
     groupInterval: 5m
     repeatInterval: 24h
-    receiver: 'slack'
+    receiver: 'blackhole'
+    routes:
+    - receiver: 'blackhole'
+      continue: true
+%{ if alertmanager_slack_integration_enabled  ~}
+    - receiver: 'slack'
+      continue: true
+%{ endif ~}
+%{ if alertmanager_jira_integration_enabled ~}
+    - receiver: 'jira'
+      continue: true
+%{ endif ~}
 
   receivers:
+  - name: 'blackhole'
 %{ if alertmanager_slack_integration_enabled  ~}
   - name: slack
     slackConfigs:
@@ -21,6 +33,8 @@ spec:
         name: alertmanager-slack-alert-notifications
         key: webhook
       sendResolved: true
+      title: "[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"
+      text: "{{ range .Alerts }}{{ .Annotations.summary }}\n\n{{ end }}"
 %{ endif ~}
 %{ if alertmanager_jira_integration_enabled ~}
   - name: jira
@@ -28,7 +42,18 @@ spec:
     - apiKey: 
         name: alertmanager-jira-secret
         key: data
-      tags: ${grafana_subdomain}     
+      tags: ${grafana_subdomain}
+      sendResolved: true
+      # message field contains title
+      message: "[{{ .Status  }}] {{ .GroupLabels.cluster }} | {{ .GroupLabels.alertname }}"
+      # description field contains the body
+      description: "
+        {{ range .Alerts }}
+        SUMMARY: {{ .Annotations.summary }} \n
+        DESCRIPTION: {{ .Annotations.description }} \n
+
+        {{ end }}
+        "
 %{ endif ~}
 
 %{ if alertmanager_jira_integration_enabled ~}

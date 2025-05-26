@@ -5,6 +5,7 @@ loki:
       retention_enabled: true # enable deletion using compactor
       shared_store: s3
     limits_config:
+      volume_enabled: true
       retention_period: ${ARGOCD_ENV_loki_retention_period}
     ingester:
       max_chunk_age: ${ARGOCD_ENV_loki_ingester_max_chunk_age}
@@ -32,6 +33,17 @@ loki:
         secret_access_key: $${password}
         bucketnames: "loki-${ARGOCD_ENV_cluster_name}"
         region: ${ARGOCD_ENV_cloud_region}
+    memberlist:
+      advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
+      bind_port: ${ARGOCD_ENV_loki_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate
+      join_members:
+      - "${ARGOCD_ENV_loki_release_name}-grafana-loki-gossip-ring:${ARGOCD_ENV_loki_gossip_ring_port}"
+  gossipRing:
+    service:
+      ports:
+        http: ${ARGOCD_ENV_loki_gossip_ring_port}
+  containerPorts:
+    gossipRing: ${ARGOCD_ENV_loki_gossip_ring_port}
 
 metrics:
   enabled: true
@@ -108,7 +120,7 @@ queryScheduler:
     limits:
       cpu: ${ARGOCD_ENV_loki_query_scheduler_limits_cpu}
       memory: ${ARGOCD_ENV_loki_query_scheduler_limits_memory}
-  enabled: true
+  enabled: false
   extraArgs: ["-config.expand-env"]
   extraEnvVarsSecret: "loki-${ARGOCD_ENV_cluster_name}"
 

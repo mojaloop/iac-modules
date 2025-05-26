@@ -1,0 +1,83 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: check-ceph-cluster-health
+  namespace: ${ARGOCD_ENV_storage_namespace}
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded,HookFailed
+    argocd.argoproj.io/sync-wave: '-11'  # Same wave as post-config
+spec:
+  template:
+    spec:
+      containers:
+      - name: check-ceph-cluster-health
+        image: bitnami/kubectl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          set -e
+          INTERVAL=10
+          TIMEOUT=300
+
+          check_cephcluster() {
+            echo "🔍 Checking CephCluster..."
+            SECONDS=0
+            until kubectl get cephcluster -n rook-ceph rook-ceph -o jsonpath='{.status.ceph.health}' 2>/dev/null | grep -q "HEALTH_OK"; do
+              if [ $SECONDS -ge $TIMEOUT ]; then
+                echo "❌ Timeout waiting for CephCluster"
+                exit 1
+              fi
+              echo "⏳ CephCluster not healthy yet..."
+              sleep $INTERVAL
+            done
+            echo "✅ CephCluster is HEALTH_OK"
+          }
+
+          check_blockpool() {
+            echo "🔍 Checking CephBlockPool..."
+            SECONDS=0
+            until kubectl get cephblockpool -n rook-ceph ceph-blockpool -o jsonpath='{.status.phase}' 2>/dev/null | grep -q "Ready"; do
+              if [ $SECONDS -ge $TIMEOUT ]; then
+                echo "❌ Timeout waiting for CephBlockPool"
+                exit 1
+              fi
+              echo "⏳ CephBlockPool not ready yet..."
+              sleep $INTERVAL
+            done
+            echo "✅ CephBlockPool is Ready"
+          }
+
+          check_objectstore() {
+            echo "🔍 Checking CephObjectStore..."
+            SECONDS=0
+            until kubectl get cephobjectstore -n rook-ceph default -o jsonpath='{.status.phase}' 2>/dev/null | grep -q "Ready"; do
+              if [ $SECONDS -ge $TIMEOUT ]; then
+                echo "❌ Timeout waiting for CephObjectStore"
+                exit 1
+              fi
+              echo "⏳ CephObjectStore not ready yet..."
+              sleep $INTERVAL
+            done
+            echo "✅ CephObjectStore is Ready"
+          }
+
+          # Run checks in background
+          check_cephcluster &
+          PID1=$!
+          check_blockpool &
+          PID2=$!
+          check_objectstore &
+          PID3=$!
+
+          # Wait for all to finish
+          wait $PID1
+          wait $PID2
+          wait $PID3
+
+          echo "✅ All Ceph components are ready"
+      restartPolicy: OnFailure
+      serviceAccountName: ceph-job-sa
+  backoffLimit: 5
+  ttlSecondsAfterFinished: 100

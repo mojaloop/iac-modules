@@ -7,6 +7,15 @@ argocd_override:
         argocd_helm:
           public_ingress_access_domain: "${argocd_public_access}"
           helm_version: "${argocd_helm_version}"
+          server_log_level: "${argocd_server_log_level}"
+          reposerver_log_level: "${argocd_reposerver_log_level}"
+          controller_log_level: "${argocd_controller_log_level}"
+          applicationsetcontroller_log_level: "${argocd_applicationsetcontroller_log_level}"
+          kube_version: "${argocd_helm_kube_version}"
+          git_plugin_version: "${argocd_helm_git_plugin_version}"
+          envsubst_version: "${argocd_envsubst_version}"
+          rollout_extension_version: "${argocd_rollout_extension_version}"
+          download_tools_golang_image_version: "${argocd_download_tools_golang_image_version}"
         rook_ceph:
           helm_version: "${rook_ceph_helm_version}"
           image_version: "${rook_ceph_image_version}"
@@ -105,6 +114,7 @@ argocd_override:
           capi_cluster_name: "sc-${cluster_name}"
           capi_rook_ceph_rgw_subdomain: "cephobjectstore.${cluster_domain}"
           capi_rook_ceph_rgw_instance_replicas: "${capi_rook_ceph_rgw_instance_replicas}"
+          capi_calico_helm_version: "${capi_calico_helm_version}"
 
         storage:
           cloud_provider: "${cloud_platform}"
@@ -519,6 +529,7 @@ argocd_override:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
+          prometheus_scrape_interval: "${prometheus_scrape_interval}"
           prometheus_retention_period: "${prometheus_retention_period}"
           loki_helm_version: "${loki_helm_version}"
           loki_retention_period: "${loki_retention_period}"
@@ -535,6 +546,7 @@ argocd_override:
           max_global_series_per_user: "${mimir_max_global_series_per_user}"
           ingestion_rate: "${mimir_ingestion_rate}"
           ingestion_burst_size: "${mimir_ingestion_burst_size}"
+          ingester_replication_factor: "${mimir_ingester_replication_factor}"
           retention_period: "${mimir_retention_period}"
           compactor_deletion_delay: "${mimir_compactor_deletion_delay}"
           alerts_notification_receiver: "${mimir_alerts_notification_receiver}"

@@ -8,8 +8,10 @@ resource "gitlab_project" "envs" {
   for_each               = local.environment_list
   name                   = each.value
   namespace_id           = data.gitlab_group.iac.id
-  initialize_with_readme = true
-  shared_runners_enabled = true
+
+  initialize_with_readme     = true
+  shared_runners_enabled     = true
+  container_registry_access_level = "private"
 }
 
 resource "gitlab_project_variable" "loki_bucket" {
@@ -293,4 +295,5 @@ resource "gitlab_repository_file" "vault_token_update" {
   content        = base64encode("vault-token-${sha256(vault_token.env_token[each.value].client_token)}")
   author_name    = "Terraform"
   commit_message = "tf_trigger: vault_token_update"
+  encoding       = "text"
 }

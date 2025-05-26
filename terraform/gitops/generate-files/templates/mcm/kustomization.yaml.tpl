@@ -10,6 +10,7 @@ resources:
 %{ if istio_create_ingress_gateways ~}
   - istio-gateway.yaml
 %{ endif ~}
+  - service-monitors.yaml 
 configMapGenerator:
   - name: vault-agent
     files:

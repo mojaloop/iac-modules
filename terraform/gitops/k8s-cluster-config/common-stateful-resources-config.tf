@@ -18,6 +18,7 @@ module "common_stateful_resources" {
   external_secret_sync_wave                     = var.external_secret_sync_wave
   monolith_stateful_resources                   = local.monolith_for_common_sts_resources
   monolith_external_stateful_resource_instance_addresses = local.monolith_external_stateful_resource_instance_addresses
+  cluster                                       = var.app_var_map.cluster
   managed_svc_as_monolith                       = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
   storage_class_name                            = var.storage_class_name
 }

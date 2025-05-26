@@ -35,7 +35,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/pm4mlapi/<.*>
+    url: <http|https>://${mcm_external_fqdn}/pm4mlapi/<.*>
     methods:
       - POST
       - GET

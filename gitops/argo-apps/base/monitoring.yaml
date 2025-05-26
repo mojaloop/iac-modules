@@ -83,6 +83,8 @@ spec:
 
         - name: "prometheus_pvc_size"
           value: "${ARGOCD_ENV_monitoring_prometheus_pvc_size}"
+        - name: "prometheus_scrape_interval"
+          value: "${ARGOCD_ENV_monitoring_prometheus_scrape_interval}"
         - name: "prometheus_retention_period"
           value: "${ARGOCD_ENV_monitoring_prometheus_retention_period}"
         # TODO: add prometheus before the config name
@@ -96,18 +98,14 @@ spec:
           value: "${ARGOCD_ENV_monitoring_prometheus_remote_write_tenant_id}"
         - name: "cluster_label_value"
           value: "${ARGOCD_ENV_monitoring_prometheus_cluster_label_value}"
-
-        - name: "metrics_server_helm_version"
-          value: "${ARGOCD_ENV_monitoring_metrics_server_helm_version}"
-        - name: "metrics_server_replicas"
-          value: "${ARGOCD_ENV_monitoring_metrics_server_replicas}"
-
         - name: "mimir_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_mimir_bucket_name}"
         - name: "mimir_max_global_series_per_user"
           value: "${ARGOCD_ENV_monitoring_mimir_max_global_series_per_user}"
         - name: "mimir_ingestion_rate"
           value: "${ARGOCD_ENV_monitoring_mimir_ingestion_rate}"
+        - name: "mimir_ingester_replication_factor"
+          value: "${ARGOCD_ENV_monitoring_mimir_ingester_replication_factor}"
         - name: "mimir_ingestion_burst_size"
           value: "${ARGOCD_ENV_monitoring_mimir_ingestion_burst_size}"
         - name: "mimir_retention_period"
@@ -116,6 +114,9 @@ spec:
           value: "${ARGOCD_ENV_monitoring_mimir_max_label_names_per_series}"
         - name: "mimir_compactor_deletion_delay"
           value: "${ARGOCD_ENV_monitoring_mimir_compactor_deletion_delay}"
+        - name: "mimir_gossip_ring_port"
+          value: "7948"
+
 
         - name: "loki_bucket_name"
           value: "${ARGOCD_ENV_monitoring_pre_loki_bucket_name}"
@@ -127,7 +128,10 @@ spec:
           value: "${ARGOCD_ENV_monitoring_loki_ingester_max_chunk_age}"
         - name: "loki_ingester_replication_factor"
           value: "${ARGOCD_ENV_monitoring_loki_ingester_replication_factor}"
-
+        - name: "loki_gossip_ring_port"
+          value: "7947"
+        - name: "loki_release_name"
+          value: "control-center-loki"
         - name: "mimir_distributor_replica_count"
           value: "${ARGOCD_ENV_monitoring_mimir_distributor_replica_count}"
         - name: "mimir_ingester_replica_count"

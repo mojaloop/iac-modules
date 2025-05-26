@@ -253,6 +253,8 @@ account-lookup-service:
       ${indent(8, account_lookup_admin_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
     replicaCount: 1 # timeout handler is designed to run as a single instance
     config: *ALS_CONFIG
     ingress:
@@ -1093,6 +1095,12 @@ ml-testing-toolkit:
         password: *TTK_MONGO_PASSWORD
         secret: *TTK_MONGO_SECRET
         database: *TTK_MONGO_DATABASE
+# %{ if ttk_testcases_tag != "" }
+    config_files:
+      rules_callback__default.json: "https://github.com/mojaloop/testing-toolkit-test-cases/raw/v${ttk_testcases_tag}/rules/hub/rules_callback/default.json"
+      rules_response__default.json: "https://github.com/mojaloop/testing-toolkit-test-cases/raw/v${ttk_testcases_tag}/rules/hub/rules_response/default.json"
+      rules_validation__default.json: "https://github.com/mojaloop/testing-toolkit-test-cases/raw/v${ttk_testcases_tag}/rules/hub/rules_validation/default.json"
+# %{ endif }
     ingress:
 # %{ if istio_create_ingress_gateways }
       enabled: false
@@ -1102,9 +1110,9 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         specApi:
-          host: ${ttk_backend_fqdn}
+          host: ${ttk_fqdn}
         adminApi:
-          host: ${ttk_backend_fqdn}
+          host: ${ttk_fqdn}
     parameters: &simNames
       simNamePayerfsp: 'payerfsp'
       simNamePayeefsp: 'payeefsp'
@@ -1139,11 +1147,11 @@ ml-testing-toolkit:
       className: *INGRESS_CLASS
       hosts:
         ui:
-          host: ${ttk_frontend_fqdn}
+          host: ${ttk_fqdn}
           port: 6060
           paths: ['/']
     config:
-      API_BASE_URL: https://${ttk_backend_fqdn}
+      API_BASE_URL: https://${ttk_fqdn}
 
 ml-ttk-test-setup:
   tests:
@@ -1155,7 +1163,8 @@ ml-ttk-test-setup:
     testSuiteName: Provisioning
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1168,6 +1177,7 @@ ml-ttk-test-setup:
     generateNameEnabled: false
     annotations:
       argocd.argoproj.io/hook: PostSync
+      argocd.argoproj.io/sync-wave: "${mojaloop_setup_sync_wave}"
 
 ml-ttk-test-val-gp:
   configFileDefaults:
@@ -1179,7 +1189,8 @@ ml-ttk-test-val-gp:
     testSuiteName: GP Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1202,7 +1213,8 @@ ml-ttk-test-val-bulk:
     testSuiteName: Bulk Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1215,7 +1227,8 @@ ml-ttk-test-setup-tp:
     testSuiteName: Third Party Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1228,7 +1241,8 @@ ml-ttk-test-val-tp:
     testSuiteName: Third Party Validation Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1241,7 +1255,8 @@ ml-ttk-test-setup-sdk-bulk:
     testSuiteName: SDK Bulk Provisioning Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues
@@ -1254,7 +1269,8 @@ ml-ttk-test-val-sdk-bulk:
     testSuiteName: SDK Bulk Validation Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://ttksim1.${ingress_subdomain}
+    brief: true
+    saveReportBaseUrl: https://ttksim1.${ingress_subdomain}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttksim1InputValues
@@ -1267,7 +1283,8 @@ ml-ttk-test-val-sdk-r2p:
     testSuiteName: SDK Request To Pay Tests
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://ttksim1.${ingress_subdomain}
+    brief: true
+    saveReportBaseUrl: https://ttksim1.${ingress_subdomain}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttksim1InputValues
@@ -1282,7 +1299,8 @@ ml-ttk-test-cleanup:
     testSuiteName: Post Cleanup
     environmentName: ${ingress_subdomain}
     saveReport: true
-    saveReportBaseUrl: http://${ttk_backend_fqdn}
+    brief: true
+    saveReportBaseUrl: https://${ttk_fqdn}
   parameters:
     <<: *simNames
   testCaseEnvironmentFile:  *ttkInputValues

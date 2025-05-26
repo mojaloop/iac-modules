@@ -7,19 +7,21 @@ kind: Redis
 metadata:
   name: ${name}
   namespace: ${namespace}
+  annotations:
+    redis.opstreelabs.in/recreate-statefulset: "true"
 spec:
   podSecurityContext:
     runAsUser: 1000
     fsGroup: 1000
   kubernetesConfig:
-    image: quay.io/opstree/redis:v7.2.3
+    image: quay.io/opstree/redis:v7.2.7
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: 101m
+        cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 101m
+        cpu: 2000m
         memory: 128Mi
         # redisSecret:
         #   name: redis-secret
@@ -43,6 +45,39 @@ spec:
       periodSeconds: 15
       successThreshold: 1
       timeoutSeconds: 5
+    affinity:
+      podAntiAffinity:
+        # %{ if !disable_ha }
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: redis_setup_type
+                  operator: In
+                  values:
+                    - cluster
+            matchLabelKeys:
+              - apps.kubernetes.io/pod-index
+            topologyKey: kubernetes.io/hostname
+        # %{ endif }
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - leader
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - follower
+              topologyKey: kubernetes.io/hostname
+            weight: 10
   redisFollower:
     readinessProbe:
       failureThreshold: 5
@@ -56,17 +91,50 @@ spec:
       periodSeconds: 15
       successThreshold: 1
       timeoutSeconds: 5
+    affinity:
+      podAntiAffinity:
+        # %{ if !disable_ha }
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: redis_setup_type
+                  operator: In
+                  values:
+                    - cluster
+            matchLabelKeys:
+              - apps.kubernetes.io/pod-index
+            topologyKey: kubernetes.io/hostname
+        # %{ endif }
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - follower
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: role
+                    operator: In
+                    values:
+                      - leader
+              topologyKey: kubernetes.io/hostname
+            weight: 10
 # %{ endif }
   redisExporter:
     enabled: false
-    image: quay.io/opstree/redis-exporter:v1.45.0
-    imagePullPolicy: Always
+    image: quay.io/opstree/redis-exporter:v1.48.0
+    imagePullPolicy: IfNotPresent
     resources:
       requests:
         cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 100m
+        cpu: 2000m
         memory: 128Mi
         # Environment Variables for Redis Exporter
         # env:
@@ -111,13 +179,4 @@ spec:
         resources:
           requests:
             storage: 1Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ${name}
-  namespace: ${namespace}
-spec:
-  type: ExternalName
-  externalName: mojaloop-redis-leader.${namespace}.svc.cluster.local
 # %{ endif }

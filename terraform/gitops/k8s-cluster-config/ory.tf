@@ -37,8 +37,10 @@ module "generate_ory_files" {
     keycloak_name                        = var.keycloak_name
     keycloak_fqdn                        = local.keycloak_fqdn
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
+    istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
     keycloak_namespace                   = var.keycloak_namespace
     istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
+    istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
     bof_chart_version                    = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
     bof_release_name                     = local.bof_release_name
     vault_secret_key                     = var.vault_secret_key

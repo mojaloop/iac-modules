@@ -15,8 +15,6 @@ module "generate_reflector_files" {
     velero_credentials_secret              = "velero-s3-credentials"
     velero_bsl_credentials_secret          = "velerobsl-s3-credentials"
     external_secret_sync_wave              = var.external_secret_sync_wave
-    kyverno_chart_version                  = var.kyverno_chart_version
-
 
   }
   file_list       = [for f in fileset(local.base_utils_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.base_utils_app_file, f))]
@@ -62,10 +60,4 @@ variable "base_utils_sync_wave" {
   type        = string
   description = "cert_manager_issuer_sync_wave"
   default     = "-11"
-}
-
-variable "kyverno_chart_version" {
-  type        = string
-  description = "kyverno_chart_version"
-  default     = "3.3.7"
 }

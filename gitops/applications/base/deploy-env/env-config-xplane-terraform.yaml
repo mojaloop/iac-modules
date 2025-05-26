@@ -85,7 +85,7 @@ spec:
         required_providers {
           gitlab = {
             source = "gitlabhq/gitlab"
-            version = "~> 16.0"
+            version = "~> 18.0"
           }
           vault = "${ARGOCD_ENV_vault_tf_provider_version}"
 

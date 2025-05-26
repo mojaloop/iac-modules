@@ -53,10 +53,13 @@ module "generate_monitoring_files" {
     loki_distributor_replica_count         = try(var.common_var_map.loki_distributor_replica_count, local.loki_distributor_replica_count)
     loki_ingester_replica_count            = try(var.common_var_map.loki_ingester_replica_count, local.loki_ingester_replica_count)
     loki_querier_replica_count             = try(var.common_var_map.loki_querier_replica_count, local.loki_querier_replica_count)
+    prometheus_scrape_interval             = try(var.common_var_map.prometheus_scrape_interval, local.prometheus_scrape_interval)
+    prometheus_rate_interval               = try(var.common_var_map.prometheus_rate_interval, local.prometheus_rate_interval)
     prometheus_retention_period            = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                   = try(var.common_var_map.alertmanager_enabled, false)
     alertmanager_slack_integration_enabled = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
     alertmanager_jira_integration_enabled  = try(var.common_var_map.alertmanager_jira_integration_enabled, false)
+    promtail_kubernetes_sd_configs         = try(var.common_var_map.promtail_kubernetes_sd_configs, [{ role = "pod" }])
     object_store_loki_credentials_secret_name      = "ceph-loki-credentials-secret"
     object_store_api_url                           = var.object_store_api_url
     object_store_region                            = var.object_store_region
@@ -157,7 +160,7 @@ locals {
   prometheus_process_exporter_version = "0.4.2"
   tempo_chart_version                 = "3.1.0"
   metrics_server_chart_version        = "3.12.2"
-  grafana_version                     = "10.2.3"
+  grafana_version                     = "11.6.1"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17" # NOTE: only for those dashboards which are in mojaloop/helm repo
   grafana_dashboard_tag_iac_modules   = "main"                # tag for dashboards in mojaloop/iac-modules repo
   grafana_operator_version            = "3.5.11"
@@ -173,6 +176,8 @@ locals {
   loki_distributor_replica_count      = "2"
   loki_ingester_replica_count         = "3"
   loki_querier_replica_count          = "1"
+  prometheus_scrape_interval          = "5m"
+  prometheus_rate_interval            = "15m"
   prometheus_retention_period         = "10d"
   tempo_retention_period              = "72h"
   prom_tsdb_min_block_duration        = "30m"

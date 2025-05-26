@@ -1,0 +1,11 @@
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: ceph-blockpool
+  namespace: ${ARGOCD_ENV_rook_ceph_namespace}
+spec:
+  failureDomain: host
+  replicated:
+    size: ${ARGOCD_ENV_objects_replica_count}
+    requireSafeReplicaSize: false
+    #targetSizeRatio: .5

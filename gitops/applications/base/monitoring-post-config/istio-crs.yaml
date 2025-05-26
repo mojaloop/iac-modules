@@ -14,7 +14,6 @@ spec:
   jobLabel: envoy-stats
   podMetricsEndpoints:
   - path: /stats/prometheus
-    interval: 15s
     relabelings:
     - action: keep
       sourceLabels: [__meta_kubernetes_pod_container_name]
@@ -61,7 +60,6 @@ spec:
     any: true
   endpoints:
   - port: http-monitoring
-    interval: 15s
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
@@ -86,7 +84,7 @@ spec:
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 7639
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -102,7 +100,7 @@ spec:
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 11829
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -118,7 +116,7 @@ spec:
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 7636
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -134,7 +132,7 @@ spec:
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 7630
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -150,5 +148,5 @@ spec:
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
   grafanaCom:
     id: 7645
-    revision: 194
+    revision: 255
 ---

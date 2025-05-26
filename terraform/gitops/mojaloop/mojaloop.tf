@@ -9,7 +9,9 @@ module "generate_mojaloop_files" {
     mojaloop_namespace                                                = var.mojaloop_namespace
     storage_class_name                                                = var.storage_class_name
     mojaloop_sync_wave                                                = var.mojaloop_sync_wave
+    mojaloop_setup_sync_wave                                           = var.mojaloop_setup_sync_wave
     mojaloop_test_sync_wave                                           = var.mojaloop_test_sync_wave
+    mojaloop_hub_provisioning_sync_wave                               = var.mojaloop_hub_provisioning_sync_wave
     internal_ttk_enabled                                              = var.internal_ttk_enabled
     ttk_testcases_tag                                                 = try(var.app_var_map.ttk_testcases_tag, "")
     ttk_test_currency1                                                = var.app_var_map.ttk_test_currency1
@@ -42,8 +44,7 @@ module "generate_mojaloop_files" {
     mojaloop_wildcard_gateway                                         = local.mojaloop_wildcard_gateway
     keycloak_fqdn                                                     = var.keycloak_fqdn
     keycloak_realm_name                                               = var.keycloak_hubop_realm_name
-    ttk_frontend_fqdn                                                 = local.ttk_frontend_fqdn
-    ttk_backend_fqdn                                                  = local.ttk_backend_fqdn
+    ttk_fqdn                                                          = local.ttk_fqdn
     ttk_istio_gateway_namespace                                       = local.ttk_istio_gateway_namespace
     ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name
     kafka_host                                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
@@ -194,6 +195,7 @@ module "generate_mojaloop_files" {
     ttk_gp_testcase_labels                                            = try(var.app_var_map.ttk_gp_testcase_labels, var.ttk_gp_testcase_labels)
     ttk_setup_testcase_labels                                         = try(var.app_var_map.ttk_setup_testcase_labels, var.ttk_setup_testcase_labels)
     ttk_cleanup_testcase_labels                                       = try(var.app_var_map.ttk_cleanup_testcase_labels, var.ttk_cleanup_testcase_labels)
+    ttk_hub_provisioning_testcase_labels                              = try(var.app_var_map.ttk_hub_provisioning_testcase_labels, var.ttk_hub_provisioning_testcase_labels)
     mojaloop_override_values_file_exists                              = local.mojaloop_override_values_file_exists
     finance_portal_override_values_file_exists                        = local.finance_portal_override_values_file_exists
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
@@ -202,6 +204,8 @@ module "generate_mojaloop_files" {
     hub_name                                                          = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     opentelemetry_enabled                                             = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable
+    ml_testing_toolkit_cli_chart_version                              = try(var.app_var_map.ml_testing_toolkit_cli_chart_version, var.ml_testing_toolkit_cli_chart_version)
+    hub_provisioning_ttk_test_case_version                            = try(var.app_var_map.hub_provisioning_ttk_test_case_version, var.hub_provisioning_ttk_test_case_version)
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -231,10 +235,16 @@ resource "local_file" "finance_portal_values_override" {
   depends_on = [module.generate_mojaloop_files]
 }
 
+resource "local_file" "values_hub_provisioning_override" {
+  count      = local.values_hub_provisioning_override_file_exists ? 1 : 0
+  content    = templatefile(var.values_hub_provisioning_override_file, var.app_var_map)
+  filename   = "${local.output_path}/values-hub-provisioning-override.yaml"
+  depends_on = [module.generate_mojaloop_files]
+}
+
 locals {
   mojaloop_wildcard_gateway       = try(var.app_var_map.mojaloop_ingress_internal_lb, true) ? "internal" : "external"
-  ttk_frontend_fqdn               = local.mojaloop_wildcard_gateway == "external" ? "ttkfrontend.${var.public_subdomain}" : "ttkfrontend.${var.private_subdomain}"
-  ttk_backend_fqdn                = local.mojaloop_wildcard_gateway == "external" ? "ttkbackend.${var.public_subdomain}" : "ttkbackend.${var.private_subdomain}"
+  ttk_fqdn                        = local.mojaloop_wildcard_gateway == "external" ? "ttk.${var.public_subdomain}" : "ttk.${var.private_subdomain}"
   ttk_istio_wildcard_gateway_name = local.mojaloop_wildcard_gateway == "external" ? var.istio_external_wildcard_gateway_name : var.istio_internal_wildcard_gateway_name
   ttk_istio_gateway_namespace     = local.mojaloop_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
 
@@ -267,6 +277,7 @@ locals {
   mojaloop_override_values_file_exists         = fileexists(var.mojaloop_values_override_file)
   mcm_override_values_file_exists              = fileexists(var.mcm_values_override_file)
   finance_portal_override_values_file_exists   = fileexists(var.finance_portal_values_override_file)
+  values_hub_provisioning_override_file_exists = fileexists(var.values_hub_provisioning_override_file)
 }
 
 variable "app_var_map" {
@@ -311,10 +322,22 @@ variable "mojaloop_sync_wave" {
   default     = "0"
 }
 
+variable "mojaloop_hub_provisioning_sync_wave" {
+  type        = string
+  description = "mojaloop_hub_provisioning_sync_wave"
+  default     = "1"
+}
+
+variable "mojaloop_setup_sync_wave" {
+  type        = string
+  description = "mojaloop_sync_wave"
+  default     = "2"
+}
+
 variable "mojaloop_test_sync_wave" {
   type        = string
   description = "mojaloop_sync_wave"
-  default     = "1"
+  default     = "3"
 }
 
 variable "internal_ttk_enabled" {
@@ -399,6 +422,10 @@ variable "finance_portal_values_override_file" {
   type = string
 }
 
+variable "values_hub_provisioning_override_file" {
+  type = string
+}
+
 variable "reporting_templates_chart_version" {
   type    = string
   default = "1.1.7"
@@ -432,4 +459,17 @@ variable "ttk_setup_testcase_labels" {
 variable "ttk_cleanup_testcase_labels" {
   type    = string
   default = ""
+}
+
+variable "ttk_hub_provisioning_testcase_labels" {
+  type    = string
+  default = ""
+}
+
+variable "ml_testing_toolkit_cli_chart_version" {
+  description = "Mojaloop ttk cli version to install via Helm"
+}
+
+variable "hub_provisioning_ttk_test_case_version" {
+  description = "Mojaloop ttk test case version to use hub provisioning"
 }

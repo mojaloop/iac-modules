@@ -6,7 +6,6 @@ vault_tf_provider_version: "~> 3.16"
 zitadel_tf_provider_version: "99.99.99"
 netbird_tf_provider_version: "99.99.99"
 grafana_tf_provider_version: 3.6.0
-argocd_helm_version: "7.6.12"
 reflector_helm_version: "9.0.322"
 reloader_helm_version: "2.0.0"
 crossplane_helm_version: "1.19.0"
@@ -15,6 +14,14 @@ netbird_helm_version: "1.5.6"
 netbird_image_version: "0.41.3"
 netbird_client_version: "0.41.3"
 netbird_dashboard_image_version: "v2.10.0"
+
+# argocd
+argocd_helm_version: "8.0.1"
+argocd_helm_kube_version: "1.31.0"
+argocd_helm_git_plugin_version: "1.3.0"
+argocd_envsubst_version: "1.0.3"
+argocd_rollout_extension_version: "0.3.7"
+argocd_download_tools_golang_image_version: "1.22.4-alpine3.20"
 #netbird db settings
 netbird_rdbms_provider: "dbaas"
 #netbird db percona specific
@@ -39,9 +46,9 @@ netbird_perc_backup_diff_schedule: "0 6 * * *"
 netbird_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.8-pgbouncer1.24.0"
 netbird_perc_pgbouncer_replicas: "'1'"
 netbird_perc_pgbouncer_expose_superusers: "'true'"
-netbird_perc_pgbouncer_pool_mode: session
+netbird_perc_pgbouncer_pool_mode: "transaction"
 netbird_perc_pgbouncer_query_wait_timeout: "'30'"
-netbird_perc_pgbouncer_max_prepared_statements: "'0'"
+netbird_perc_pgbouncer_max_prepared_statements: "'1'"
 netbird_perc_pgbouncer_cpu_limit: "200m"
 netbird_perc_pgbouncer_memory_limit: "128Mi"
 netbird_perc_pgbouncer_cpu_request: "100m"
@@ -76,7 +83,6 @@ psmdb_operator_helm_version: "1.19.1"
 stunner_gateway_operator_helm_version: "0.19.0"
 nexus_helm_version: "4.44.0"
 cert_manager_helm_version: "1.17.1"
-consul_helm_version: "1.4.0"
 external_dns_helm_version: "7.5.5"
 vault_helm_version: "0.28.1"
 vault_config_operator_helm_version: "0.8.28"
@@ -88,7 +94,7 @@ crossplane_providers_terraform_version: "0.16.0"
 crossplane_providers_ansible_version: "0.6.0"
 crossplane_providers_k8s_version: "0.18.0"
 crossplane_providers_helm_version: "0.20.4"
-crossplane_providers_netbird_version: "0.0.21"
+crossplane_providers_netbird_version: "0.0.25"
 crossplane_providers_zitadel_version: "0.0.1-rc01"
 crossplane_providers_aws_version: "0.49.2"
 crossplane_providers_aws_family_version: "1.21.1"
@@ -108,11 +114,11 @@ crossplane_packages_utils_version: "v0.5.0"
 crossplane_packages_gitlab_version: "v0.3.0-pr62-15042744081"
 crossplane_packages_vault_config_version: "v0.1.0"
 crossplane_packages_sc_postgres_version: "v0.2.0-pr71-14928307069"
-crossplane_packages_sc_mysql_version: "v0.1.0"
-crossplane_packages_sc_mongodb_version: "v0.1.0"
-crossplane_packages_sc_bootstrap_version: "v0.3.0-pr70-14927767025"
+crossplane_packages_sc_mysql_version: "v0.2.0"
+crossplane_packages_sc_mongodb_version: "v0.2.0"
+crossplane_packages_sc_bootstrap_version: "v0.3.2-pr75-15065070413"
 crossplane_packages_sc_nboperatorinstall_version: "v0.1.0"
-crossplane_packages_nb_config_version: "v0.1.1"
+crossplane_packages_nb_config_version: "v0.1.1-pr76-15185499088"
 crossplane_packages_aws_documentdb_version: "v0.4.0"
 crossplane_packages_aws_rds_version: "v0.2.0"
 crossplane_packages_argocd_config_version: "v0.1.0-pr62-15117476143"
@@ -134,15 +140,13 @@ netbird_log_level: info
 
 nexus_image_version: 3.75.1
 nexus_public_access: false
-nexus_storage_size: 30Gi
+nexus_storage_size: 80Gi
 nexus_cpu_limit: "4000m" #https://help.sonatype.com/en/sonatype-nexus-repository-system-requirements.html#UUID-fc21e0ee-c297-0311-0105-1383dfc28a38_bridgehead-idm23446974390921 increase if required
 nexus_memory_limit: "8Gi"
 nexus_cpu_request: "2000m"
 nexus_memory_request: "4Gi"
 
 zitadel_public_access: true
-consul_storage_size: "3Gi"
-consul_replica_count: 1
 argocd_admin_rbac_group: "argocd_administrators"
 argocd_user_rbac_group: "argocd_users"
 vault_rbac_admin_group: "techops-admin"
@@ -157,6 +161,8 @@ prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: "4.4.12"
 grafana_image_version: 11.1.1
 prometheus_pvc_size: 50Gi
+prometheus_scrape_interval: 5m
+prometheus_rate_interval: 15m
 prometheus_retention_period: 10d
 
 # Metrics server
@@ -172,6 +178,7 @@ mimir_max_label_names_per_series: "'35'"
 mimir_max_global_series_per_user: "'5000000'"
 mimir_ingestion_rate: "'200000'"
 mimir_ingestion_burst_size: "'500000'"
+mimir_ingester_replication_factor: "'1'"
 mimir_retention_period: "7d"
 mimir_compactor_deletion_delay: "12h"
 mimir_alerts_notification_receiver: "slack" # options: slack, jira, blackhole. blackhole disables
@@ -244,7 +251,7 @@ loki_query_scheduler_limits_memory: "192Mi"
 loki_compactor_limits_cpu: "150m"
 loki_compactor_limits_memory: "192Mi"
 
-gitlab_helm_version: "8.1.2"
+gitlab_helm_version: "9.0.0"
 gitlab_public_access: true
 gitlab_redis_cluster_size: "'3'"
 gitlab_redis_storage_size: "'5Gi'"
@@ -315,7 +322,7 @@ gitlab_perc_backup_diff_schedule: "0 6 * * *"
 gitlab_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.8-pgbouncer1.24.0"
 gitlab_perc_pgbouncer_replicas: "'1'"
 gitlab_perc_pgbouncer_expose_superusers: "'true'"
-gitlab_perc_pgbouncer_pool_mode: transaction
+gitlab_perc_pgbouncer_pool_mode: "transaction"
 gitlab_perc_pgbouncer_query_wait_timeout: "'120'"
 gitlab_perc_pgbouncer_max_prepared_statements: "'0'"
 gitlab_perc_pgbouncer_cpu_limit: "200m"
@@ -363,7 +370,7 @@ praefect_perc_backup_diff_schedule: "0 6 * * *"
 praefect_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.8-pgbouncer1.24.0"
 praefect_perc_pgbouncer_replicas: "'1'"
 praefect_perc_pgbouncer_expose_superusers: "'true'"
-praefect_perc_pgbouncer_pool_mode: session
+praefect_perc_pgbouncer_pool_mode: "transaction"
 praefect_perc_pgbouncer_query_wait_timeout: "'30'"
 praefect_perc_pgbouncer_max_prepared_statements: "'0'"
 praefect_perc_pgbouncer_cpu_limit: "200m"
@@ -424,7 +431,7 @@ zitadel_perc_backup_diff_schedule: "0 6 * * *"
 zitadel_perc_pgbouncer_image: "percona/percona-postgresql-operator:2.6.0-ppg16.8-pgbouncer1.24.0"
 zitadel_perc_pgbouncer_replicas: "'1'"
 zitadel_perc_pgbouncer_expose_superusers: "'true'"
-zitadel_perc_pgbouncer_pool_mode: transaction
+zitadel_perc_pgbouncer_pool_mode: "transaction"
 zitadel_perc_pgbouncer_query_wait_timeout: "'30'"
 zitadel_perc_pgbouncer_max_prepared_statements: "'1'"
 zitadel_perc_pgbouncer_cpu_limit: "200m"
@@ -439,6 +446,14 @@ rook_ceph_mon_volumes_size: "10Gi"
 rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
 rook_ceph_cloud_pv_reclaim_policy: "Delete" # Retain, Delete
+
+
+# argocd
+argocd_server_log_level: "info"
+argocd_reposerver_log_level: "warn"
+argocd_controller_log_level: "warn"
+argocd_applicationsetcontroller_log_level: "info"
+
 aws_ebs_csi_driver_replicas: "'2'"
 rook_ceph_objects_replica_count: "'3'"
 rook_ceph_osd_count: "'3'"
@@ -466,4 +481,5 @@ capi_cluster_cidr: "10.10.127/24"
 capi_os_disk_size: "100G"
 capi_rook_ceph_disk_size: "300G"
 capi_rook_ceph_rgw_instance_replicas: "'2'"
+capi_calico_helm_version: "v3.30.0"
 ##end capi

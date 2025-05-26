@@ -3,10 +3,11 @@ kind: Job
 metadata:
   name: rook-ceph-external-config
   namespace: ${ARGOCD_ENV_storage_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: '-9'
 spec:
   template:
     spec:
-      # ttlSecondsAfterFinished: 30
       restartPolicy: Never
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: ceph-job-sa
