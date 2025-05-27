@@ -480,3 +480,8 @@ capi_rook_ceph_disk_size: "300G"
 capi_rook_ceph_rgw_instance_replicas: "'2'"
 capi_calico_helm_version: "v3.30.0"
 ##end capi
+
+
+#backup
+cc_backup_bucket: "control-center-backup"
+cc_backup_storage_size: "100Gi"
