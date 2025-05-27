@@ -113,3 +113,9 @@ spec:
 
         - name: "object_storage_region"
           value: "${ARGOCD_ENV_utils_storage_object_storage_region}"
+
+        - name: "object_storage_path_style"
+          value: "${ARGOCD_ENV_utils_storage_object_storage_path_style}"
+
+        - name: "object_store_insecure_connection"
+          value: "${ARGOCD_ENV_utils_storage_object_store_insecure_connection}"
