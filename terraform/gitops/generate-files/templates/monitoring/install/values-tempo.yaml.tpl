@@ -106,14 +106,11 @@ tempo:
         wal:
           path: {{ .Values.tempo.dataDir }}/wal
         s3:
-          forcepathstyle: true
+          forcepathstyle: ${object_storage_path_style}
           endpoint: ${object_store_regional_endpoint}
-          insecure: false
+          insecure: ${object_store_insecure_connection}
           bucket: ${tempo_bucket}
           region: ${object_store_region}
-
-
-
 compactor:
   resourcesPreset: large
   extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
