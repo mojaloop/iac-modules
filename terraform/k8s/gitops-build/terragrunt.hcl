@@ -58,7 +58,7 @@ inputs = {
   external_ingress_https_port              = dependency.k8s_deploy.outputs.target_group_external_https_port
   external_ingress_http_port               = dependency.k8s_deploy.outputs.target_group_external_http_port
   common_var_map                           = local.common_vars
-  app_var_map                              = merge(local.pm4ml_vars, local.proxy_pm4ml_vars, local.mojaloop_vars, local.vnext_vars)
+  app_var_map                              = merge(local.pm4ml_vars, local.proxy_pm4ml_vars, local.mojaloop_vars, local.vnext_vars, local.cluster_vars)
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
@@ -72,6 +72,7 @@ inputs = {
   mojaloop_stateful_res_op_config_file     = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-local-operator.yaml")
   mojaloop_stateful_res_mangd_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
+  values_hub_provisioning_override_file    = find_in_parent_folders("${get_env("CONFIG_PATH")}/values-hub-provisioning-override.yaml", "values-hub-provisioning-override.yaml")
   mojaloop_stateful_res_monolith_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-ccdriven-databases.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
@@ -157,6 +158,12 @@ locals {
     target_group_external_http_port  = 32080,
     private_network_cidr             = "${get_env("vpc_cidr")}"
   }, yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}", local.env_vars)))
+  cluster_vars = {
+    cluster = merge(local.env_vars, {
+      master_node_count = get_env("cloud_platform") == "private-cloud" ? try(length(keys(local.cloud_platform_vars.master_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
+      agent_node_count  = get_env("cloud_platform") == "private-cloud" ? try(length(keys(local.cloud_platform_vars.agent_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
+    })
+  }
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
   zitadel_server_url            = get_env("ZITADEL_FQDN")
   GITOPS_BUILD_OUTPUT_DIR       = get_env("GITOPS_BUILD_OUTPUT_DIR")

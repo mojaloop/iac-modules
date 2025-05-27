@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ${ARGOCD_ENV_argocd_repo_url}
     targetRevision: ${ARGOCD_ENV_monitoring_application_gitrepo_tag}
-    
+
     path: gitops/applications/base/monitoring-post-config
     plugin:
       name: envsubst
@@ -126,3 +126,9 @@ spec:
 
         - name: "mimir_alerts_notification_receiver"
           value: "${ARGOCD_ENV_monitoring_mimir_alerts_notification_receiver}"
+
+        - name: "prometheus_scrape_interval"
+          value: "${ARGOCD_ENV_monitoring_monitoring_prometheus_scrape_interval}"
+
+        - name: "prometheus_rate_interval"
+          value: "${ARGOCD_ENV_monitoring_monitoring_prometheus_rate_interval}"

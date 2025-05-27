@@ -56,3 +56,13 @@ spec:
       dashboards: "grafana"
   url: "https://raw.githubusercontent.com/mojaloop/helm/${ARGOCD_ENV_mojaloop_dashboards_tag}/monitoring/dashboards/infrastructure/mojaloop-prometheus-stats.json"
 ---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: mojaloop-remote-write-resources-overview
+spec:
+  folder: monitoring
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/assets/grafana-dashboards/remote-write-resources-overview.json"

@@ -4,6 +4,7 @@ operator:
 alertmanager:
   enabled: false
 prometheus:
+  scrapeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
   persistence:
     enabled: true
     size: ${ARGOCD_ENV_prometheus_pvc_size}
@@ -28,6 +29,7 @@ prometheus:
       url: http://central-monitoring-grafana-mimir-gateway/prometheus/api/v1/read
       headers:
         X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
+
 
 kubelet:
   serviceMonitor:

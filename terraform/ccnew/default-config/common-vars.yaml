@@ -137,7 +137,7 @@ netbird_log_level: info
 
 nexus_image_version: 3.75.1
 nexus_public_access: false
-nexus_storage_size: 30Gi
+nexus_storage_size: 80Gi
 nexus_cpu_limit: "4000m" #https://help.sonatype.com/en/sonatype-nexus-repository-system-requirements.html#UUID-fc21e0ee-c297-0311-0105-1383dfc28a38_bridgehead-idm23446974390921 increase if required
 nexus_memory_limit: "8Gi"
 nexus_cpu_request: "2000m"
@@ -158,6 +158,8 @@ prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: "4.4.12"
 grafana_image_version: 11.1.1
 prometheus_pvc_size: 50Gi
+prometheus_scrape_interval: 5m
+prometheus_rate_interval: 15m
 prometheus_retention_period: 10d
 
 # Metrics server
@@ -173,6 +175,7 @@ mimir_max_label_names_per_series: "'35'"
 mimir_max_global_series_per_user: "'5000000'"
 mimir_ingestion_rate: "'200000'"
 mimir_ingestion_burst_size: "'500000'"
+mimir_ingester_replication_factor: "'1'"
 mimir_retention_period: "7d"
 mimir_compactor_deletion_delay: "12h"
 mimir_alerts_notification_receiver: "slack" # options: slack, jira, blackhole. blackhole disables
@@ -440,6 +443,14 @@ rook_ceph_mon_volumes_size: "10Gi"
 rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
 rook_ceph_cloud_pv_reclaim_policy: "Delete" # Retain, Delete
+
+
+# argocd
+argocd_server_log_level: "info"
+argocd_reposerver_log_level: "warn"
+argocd_controller_log_level: "warn"
+argocd_applicationsetcontroller_log_level: "info"
+
 aws_ebs_csi_driver_replicas: "'2'"
 rook_ceph_objects_replica_count: "'3'"
 rook_ceph_osd_count: "'3'"
@@ -469,3 +480,8 @@ capi_rook_ceph_disk_size: "300G"
 capi_rook_ceph_rgw_instance_replicas: "'2'"
 capi_calico_helm_version: "v3.30.0"
 ##end capi
+
+
+#backup
+cc_backup_bucket: "control-center-backup"
+cc_backup_bucket_storage_size: "100Gi"

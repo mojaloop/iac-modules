@@ -7,6 +7,10 @@ argocd_override:
         argocd_helm:
           public_ingress_access_domain: "${argocd_public_access}"
           helm_version: "${argocd_helm_version}"
+          server_log_level: "${argocd_server_log_level}"
+          reposerver_log_level: "${argocd_reposerver_log_level}"
+          controller_log_level: "${argocd_controller_log_level}"
+          applicationsetcontroller_log_level: "${argocd_applicationsetcontroller_log_level}"
           kube_version: "${argocd_helm_kube_version}"
           git_plugin_version: "${argocd_helm_git_plugin_version}"
           envsubst_version: "${argocd_envsubst_version}"
@@ -132,11 +136,15 @@ argocd_override:
           pxc_operator_helm_version: "${pxc_operator_helm_version}"
           psmdb_operator_helm_version: "${psmdb_operator_helm_version}"
 
-    maintenance:
+    velero:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
+        pre:
+          object_storage_region: "${cloud_region}"
+          cc_backup_bucket: "${cc_backup_bucket}"
+          cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
+          object_storage_provider: "${object_storage_provider}"
         velero:
-          app_name: "velero"
           helm_version: "${velero_helm_version}"
           object_storage_cloud_role: "${object_storage_cloud_role}"
           enable_object_storage_backend: "'${enable_object_storage_backend}'"
@@ -522,6 +530,8 @@ argocd_override:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
+          prometheus_scrape_interval: "${prometheus_scrape_interval}"
+          prometheus_rate_interval: "${prometheus_rate_interval}"
           prometheus_retention_period: "${prometheus_retention_period}"
           loki_helm_version: "${loki_helm_version}"
           loki_retention_period: "${loki_retention_period}"
@@ -538,6 +548,7 @@ argocd_override:
           max_global_series_per_user: "${mimir_max_global_series_per_user}"
           ingestion_rate: "${mimir_ingestion_rate}"
           ingestion_burst_size: "${mimir_ingestion_burst_size}"
+          ingester_replication_factor: "${mimir_ingester_replication_factor}"
           retention_period: "${mimir_retention_period}"
           compactor_deletion_delay: "${mimir_compactor_deletion_delay}"
           alerts_notification_receiver: "${mimir_alerts_notification_receiver}"

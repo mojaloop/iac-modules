@@ -5,7 +5,9 @@ loki:
       retention_enabled: true # enable deletion using compactor
       shared_store: s3
     limits_config:
+      volume_enabled: true
       retention_period: ${loki_ingester_retention_period}
+      allow_structured_metadata: true
     ingester:
       max_chunk_age: ${loki_ingester_max_chunk_age}
       lifecycler:
@@ -167,8 +169,49 @@ promtail:
               firstline: '^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}:\d{2}\.\d{3}|^{'
               max_wait_time: 3s
               max_lines: 128
-        kubernetes_sd_configs:
-          - role: pod
+          - match:
+              selector: '{instance="moja"}'
+              stages:
+                - decolorize:
+                - regex:
+                    expression: '^(?P<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z) - (?P<level>[^:]+): (?P<msg>.*) -\t(?P<json>.*)$'
+                - template:
+                    source: output
+                    template: '{{ "{{ .msg }} : {{ .json }}" }}'
+                - json:
+                    source: json
+                    expressions:
+                      context: context
+                      trace_id: trace_id
+                      span_id: span_id
+                      method: method
+                      type: type
+                      system: system
+                      actor: actor
+                      code: code
+                - output:
+                    source: output
+                - timestamp:
+                    source: time
+                    format: RFC3339
+                - labeldrop:
+                    - filename
+                    - job
+                    - stream
+                    - pod
+                    - node_name
+                - structured_metadata:
+                    pod:
+                    node_name:
+                    trace_id:
+                    span_id:
+                    method:
+                    type:
+                    system:
+                - labels:
+                    level:
+                    context:
+        kubernetes_sd_configs: ${jsonencode(promtail_kubernetes_sd_configs)}
         relabel_configs:
           - source_labels:
               - __meta_kubernetes_pod_controller_name
@@ -228,5 +271,11 @@ promtail:
             - __meta_kubernetes_pod_annotation_kubernetes_io_config_hash
             - __meta_kubernetes_pod_container_name
             target_label: __path__
+          - source_labels:
+              - __meta_kubernetes_pod_label_app_kubernetes_io_instance
+              - __meta_kubernetes_pod_label_instance
+            regex: ^;*([^;]+)(;.*)?$
+            action: replace
+            target_label: instance
   tolerations:
     - operator: "Exists"

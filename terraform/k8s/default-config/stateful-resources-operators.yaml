@@ -31,7 +31,7 @@ redis:
   helm_chart: redis-operator
   namespace: redis
   release_name: redis
-  helm_chart_version: 0.16.4
+  helm_chart_version: 0.20.0
   helm_chart_repo: https://ot-container-kit.github.io/helm-charts/
   helm_chart_values_file: values-redis.yaml
 # percona-postgresql:

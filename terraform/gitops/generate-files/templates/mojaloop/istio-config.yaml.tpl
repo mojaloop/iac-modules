@@ -73,6 +73,15 @@ spec:
             host: ${mojaloop_release_name}-account-lookup-service
             port:
               number: 80
+    - name: ping
+      match:
+        - uri:
+            prefix: /ping
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-participant-connection-test-svc
+            port:
+              number: 80
     - name: quotes
       match:
         - uri:
@@ -162,6 +171,15 @@ spec:
             host: ${mojaloop_release_name}-account-lookup-service
             port:
               number: 80
+    - name: ping
+      match:
+        - uri:
+            prefix: /ping
+      route:
+        - destination:
+            host: ${mojaloop_release_name}-ml-participant-connection-test-svc
+            port:
+              number: 80
     - name: quotes
       match:
         - uri:
@@ -248,31 +266,12 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: mojaloop-ttkfront-vs
+  name: mojaloop-ttk-vs
 spec:
   gateways:
   - ${ttk_istio_gateway_namespace}/${ttk_istio_wildcard_gateway_name}
   hosts:
-  - '${ttk_frontend_fqdn}'
-  http:
-    - match:
-        - uri:
-            prefix: /
-      route:
-        - destination:
-            host: ${mojaloop_release_name}-ml-testing-toolkit-frontend
-            port:
-              number: 6060
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: mojaloop-ttkback-vs
-spec:
-  gateways:
-  - ${ttk_istio_gateway_namespace}/${ttk_istio_wildcard_gateway_name}
-  hosts:
-  - '${ttk_backend_fqdn}'
+  - '${ttk_fqdn}'
   http:
     - name: api
       match:
@@ -292,15 +291,15 @@ spec:
             host: ${mojaloop_release_name}-ml-testing-toolkit-backend
             port:
               number: 5050
-    - name: root
+    - name: frontend
       match:
         - uri:
             prefix: /
       route:
         - destination:
-            host: ${mojaloop_release_name}-ml-testing-toolkit-backend
+            host: ${mojaloop_release_name}-ml-testing-toolkit-frontend
             port:
-              number: 4040
+              number: 6060
 ---
 %{ endif ~}
 

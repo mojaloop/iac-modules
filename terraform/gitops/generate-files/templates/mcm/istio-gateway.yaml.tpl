@@ -18,17 +18,6 @@ spec:
             host: mcm-connection-manager-api
             port:
               number: 3001
-    - name: "pm4mlapi"
-      match:
-        - uri:
-            prefix: /pm4mlapi
-      rewrite:
-        uri: /api
-      route:
-        - destination:
-            host: mcm-connection-manager-api
-            port:
-              number: 3001
     - name: kratos-logout-proxy
       match:
         - uri:
@@ -76,5 +65,46 @@ spec:
   rules:
     - to:
         - operation:
-            paths: ["/api/*", "/pm4mlapi/*"]
+            paths: ["/api/*"]
             hosts: ["${mcm_fqdn}", "${mcm_fqdn}:*"]
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: mcm-external-vs
+spec:
+  gateways:
+  - ${mcm_istio_external_gateway_namespace}/${mcm_istio_external_wildcard_gateway_name}
+  hosts:
+  - '${mcm_external_fqdn}'
+  http:
+    - name: "pm4mlapi"
+      match:
+        - uri:
+            prefix: /pm4mlapi
+      rewrite:
+        uri: /api
+      route:
+        - destination:
+            host: mcm-connection-manager-api
+            port:
+              number: 3001
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: mcm-jwt-external
+  namespace: ${mcm_istio_external_gateway_namespace}
+spec:
+  selector:
+    matchLabels:
+      app: ${mcm_istio_external_gateway_name}
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+  rules:
+    - to:
+        - operation:
+            paths: ["/pm4mlapi/*"]
+            hosts: ["${mcm_external_fqdn}", "${mcm_external_fqdn}:*"]

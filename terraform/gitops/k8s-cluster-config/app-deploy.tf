@@ -63,6 +63,7 @@ module "mojaloop" {
   mojaloop_values_override_file        = var.mojaloop_values_override_file
   mcm_values_override_file             = var.mcm_values_override_file
   finance_portal_values_override_file  = var.finance_portal_values_override_file
+  values_hub_provisioning_override_file = var.values_hub_provisioning_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
   platform_stateful_res_config         = module.config_deepmerge.merged
@@ -72,6 +73,8 @@ module "mojaloop" {
   external_secret_sync_wave            = var.external_secret_sync_wave
   pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
   monolith_stateful_resources          = local.monolith_stateful_resources
+  ml_testing_toolkit_cli_chart_version = var.app_var_map.ml_testing_toolkit_cli_chart_version
+  hub_provisioning_ttk_test_case_version = var.app_var_map.hub_provisioning_ttk_test_case_version
   managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
   storage_class_name                   = var.storage_class_name
 }
@@ -114,6 +117,7 @@ module "pm4ml" {
   oathkeeper_auth_provider_name            = local.oathkeeper_auth_provider_name
   vault_root_ca_name                       = "pki-${var.cluster_name}"
   app_var_map                              = local.pm4ml_var_map
+  cluster                                  = local.cluster
   bof_release_name                         = local.bof_release_name
   role_assign_svc_user                     = var.role_assign_svc_user
   role_assign_svc_secret_prefix            = "role-assign-svc-secret-"
@@ -357,6 +361,10 @@ variable "finance_portal_values_override_file" {
   type = string
 }
 
+variable "values_hub_provisioning_override_file" {
+  type = string
+}
+
 variable "argocd_ingress_internal_lb" {
   default     = true
   description = "whether argocd should only be available on private network"
@@ -372,10 +380,11 @@ variable "object_store_region"{
   description = "object_store_region"
 }
 locals {
-  auth_fqdn = "auth.${var.public_subdomain}"
+  auth_fqdn = "auth.${var.private_subdomain}"
 
   pm4ml_var_map = try(var.app_var_map.pm4mls, {})
   proxy_pm4ml_var_map = try(var.app_var_map.proxy_pm4mls, {})
+  cluster = var.app_var_map.cluster
 
   st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
   st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))

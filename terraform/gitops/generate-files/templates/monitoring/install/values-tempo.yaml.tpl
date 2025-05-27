@@ -81,6 +81,8 @@ tempo:
       ring:
         kvstore:
           store: memberlist
+      traces_storage:
+        path: {{ .Values.tempo.dataDir }}/traces
       storage:
         path: {{ .Values.tempo.dataDir }}/wal
         remote_write: {{ include "common.tplvalues.render" (dict "value" .Values.metricsGenerator.remoteWrite "context" $) | nindent 6 }}
@@ -89,6 +91,9 @@ tempo:
       join_members:
         - {{ include "grafana-tempo.gossip-ring.fullname" . }}
     overrides:
+      defaults:
+        metrics_generator:
+          processors: ['local-blocks']
       per_tenant_override_config: /bitnami/grafana-tempo/conf/overrides.yaml
     server:
       http_listen_port: {{ .Values.tempo.containerPorts.web }}
@@ -127,6 +132,7 @@ ingester:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 metricsGenerator:
+  resourcesPreset: small
   extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard

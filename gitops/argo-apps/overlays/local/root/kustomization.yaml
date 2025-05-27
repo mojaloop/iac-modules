@@ -34,8 +34,8 @@ resources:
   - ../../../base/dns-utils-post-config.yaml
   - ../../../base/dns-utils-pre.yaml
 
-  # maintenance (velero,etc)
-  # - ../../../base/maintenance.yaml
+  # velero
+  # - ../../../base/velero-pre.yaml
   # - ../../../base/maintenance-pre.yaml
 
   # security
