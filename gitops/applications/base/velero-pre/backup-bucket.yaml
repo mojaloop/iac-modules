@@ -1,0 +1,22 @@
+
+apiVersion: objectstore.mojaloop.io/v1alpha1
+kind: ObjectStore
+metadata:
+  name: ${ARGOCD_ENV_velero_cc_backup_bucket}
+  namespace: ${ARGOCD_ENV_velero_namespace}
+spec:
+  parameters:
+    clusterName: ${ARGOCD_ENV_cluster_name}
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
+    bucketName: ${ARGOCD_ENV_velero_cc_backup_bucket}
+    ccK8sProviderName: "kubernetes-provider"
+    namespace: ${ARGOCD_ENV_velero_namespace}
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_velero_cc_backup_storage_size}"

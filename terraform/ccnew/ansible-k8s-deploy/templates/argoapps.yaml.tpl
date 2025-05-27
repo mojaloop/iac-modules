@@ -136,11 +136,15 @@ argocd_override:
           pxc_operator_helm_version: "${pxc_operator_helm_version}"
           psmdb_operator_helm_version: "${psmdb_operator_helm_version}"
 
-    maintenance:
+    velero:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
-        velero:
+        pre:
           app_name: "velero"
+          object_storage_region: "${cloud_region}"
+          cc_backup_bucket: "${cc_backup_bucket}"
+          cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
+        velero:
           helm_version: "${velero_helm_version}"
           object_storage_cloud_role: "${object_storage_cloud_role}"
           enable_object_storage_backend: "'${enable_object_storage_backend}'"
