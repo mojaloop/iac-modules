@@ -140,7 +140,6 @@ argocd_override:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
         pre:
-          app_name: "velero"
           object_storage_region: "${cloud_region}"
           cc_backup_bucket: "${cc_backup_bucket}"
           cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
