@@ -52,8 +52,6 @@ module "generate_mcm_files" {
     mcm_vault_k8s_role_name              = var.mcm_vault_k8s_role_name
     k8s_auth_path                        = var.k8s_auth_path
     mcm_secret_path                      = local.mcm_secret_path
-    totp_issuer                          = "not-used-yet"
-    token_issuer_fqdn                    = "keycloak.${var.public_subdomain}"
     nginx_external_namespace             = var.nginx_external_namespace
     istio_internal_wildcard_gateway_name = var.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
@@ -96,6 +94,27 @@ module "generate_mcm_files" {
     dfsp_seed                            = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}${can(value.pm4ml_scheme_a_config)?":proxy":""}" if length(try(value.currency, "")) > 0])
     hub_name                             = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     ttk_fqdn                             = local.ttk_fqdn
+    mcm_custom_realm_name                = var.mcm_custom_realm_name
+    mcm_custom_realm_config              = templatefile("${local.mcm_template_path}/mcm-realm-config.yaml.tpl", {
+      dfsp_api_service_secret = var.dfsp_api_service_secret
+      dfsp_auth_client_secret = var.dfsp_auth_client_secret
+      mcm_fqdn                = local.mcm_fqdn
+      dfsps_admin_username    = var.dfsps_admin_username
+      dfsps_admin_email       = var.dfsps_admin_email
+      dfsps_admin_password    = var.dfsps_admin_password
+      smtp_host               = var.smtp_host
+      smtp_port               = var.smtp_port
+      smtp_ssl                = var.smtp_ssl
+      smtp_starttls           = var.smtp_starttls
+      smtp_auth               = var.smtp_auth
+    })
+    dfsp_api_service_secret_name         = var.dfsp_api_service_secret_name
+    dfsp_api_service_secret_key          = var.dfsp_api_service_secret_key
+    dfsp_auth_client_secret_name         = var.dfsp_auth_client_secret_name
+    dfsp_auth_client_secret_key          = var.dfsp_auth_client_secret_key
+    openid_allow_insecure                = var.openid_allow_insecure
+    openid_enabled                       = var.openid_enabled
+    auth_2fa_enabled                     = var.auth_2fa_enabled
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -141,7 +160,7 @@ variable "mcm_chart_repo" {
 
 variable "mcm_chart_version" {
   type        = string
-  default     = "0.7.6"
+  default     = "0.8.0"
   description = "mcm_chart_version"
 }
 
@@ -216,12 +235,129 @@ variable "keycloak_namespace" {
   description = "namespace of keycloak in which to create realm"
 }
 
+variable "keycloak_hubop_realm_name" {
+  type        = string
+  description = "name of realm for hub operator access"
+  default     = "hubops"
+}
+
 variable "fspiop_use_ory_for_auth" {
   type = bool
 }
 
 variable "pm4mls" {
   type = any
+}
+
+variable "mcm_custom_realm_name" {
+  type        = string
+  description = "Name of the custom MCM realm"
+}
+
+variable "mcm_custom_realm_config" {
+  type        = string
+  description = "Custom realm configuration in YAML format"
+}
+
+variable "dfsp_api_service_secret" {
+  type        = string
+  description = "Secret for connection-manager-api-service client"
+  sensitive   = true
+}
+
+variable "dfsp_auth_client_secret" {
+  type        = string
+  description = "Secret for connection-manager-auth-client"
+  sensitive   = true
+}
+
+variable "dfsps_admin_username" {
+  type        = string
+  description = "Username for DFSP admin user"
+  default     = "dfsp-admin"
+}
+
+variable "dfsps_admin_email" {
+  type        = string
+  description = "Email for DFSP admin user"
+}
+
+variable "dfsps_admin_password" {
+  type        = string
+  description = "Password for DFSP admin user"
+  sensitive   = true
+}
+
+variable "smtp_host" {
+  type        = string
+  description = "SMTP server host"
+  default     = "mailhog"
+}
+
+variable "smtp_port" {
+  type        = string
+  description = "SMTP server port"
+  default     = "1025"
+}
+
+variable "smtp_ssl" {
+  type        = string
+  description = "SMTP SSL enabled"
+  default     = "false"
+}
+
+variable "smtp_starttls" {
+  type        = string
+  description = "SMTP STARTTLS enabled"
+  default     = "false"
+}
+
+variable "smtp_auth" {
+  type        = string
+  description = "SMTP authentication enabled"
+  default     = "false"
+}
+
+variable "dfsp_api_service_secret_name" {
+  type        = string
+  description = "Name of the secret containing the API service client secret"
+  default     = "mcm-api-service-secret"
+}
+
+variable "dfsp_api_service_secret_key" {
+  type        = string
+  description = "Key in the secret containing the API service client secret"
+  default     = "secret"
+}
+
+variable "dfsp_auth_client_secret_name" {
+  type        = string
+  description = "Name of the secret containing the auth client secret"
+  default     = "mcm-auth-client-secret"
+}
+
+variable "dfsp_auth_client_secret_key" {
+  type        = string
+  description = "Key in the secret containing the auth client secret"
+  default     = "secret"
+}
+
+variable "openid_allow_insecure" {
+  type        = string
+  description = "Allow insecure OpenID connections (for development)"
+  default     = "false"
+}
+
+variable "auth_2fa_enabled" {
+  type        = bool
+  description = "Enable two-factor authentication"
+  default     = true
+}
+
+variable "openid_enabled" {
+  type        = bool
+  description = "Enable OpenID authentication"
+  default     = true
 }
 
 locals {

@@ -15,26 +15,57 @@ api:
   extraTLS:
     rootCert:
       enabled: false
-  wso2TokenIssuer:
-    cert:
-      enabled: false
-  oauth:
-    enabled: false
-    issuer: https://${token_issuer_fqdn}/oauth2/token
-    key: ${oauth_key}
-    clientSecretSecret: ${oauth_secret_secret}
-    clientSecretSecretKey: ${oauth_secret_secret_key}
-  auth2fa:
-    enabled: false
-  totp:
-    label: MCM
-    issuer: ${totp_issuer}
   certManager:
     enabled: true
     serverCertSecretName: ${server_cert_secret_name}
     serverCertSecretNamespace: ${server_cert_secret_namespace}
   switchFQDN: ${switch_domain}
   switchId: ${hub_name}
+  extraEnv:
+    # Keycloak integration settings
+    - name: KEYCLOAK_ENABLED
+      value: "true"
+    - name: KEYCLOAK_BASE_URL
+      value: "https://${keycloak_fqdn}"
+    - name: KEYCLOAK_DISCOVERY_URL
+      value: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration"
+    - name: KEYCLOAK_ADMIN_CLIENT_ID
+      value: "connection-manager-api-service"
+    - name: KEYCLOAK_ADMIN_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: ${dfsp_api_service_secret_name}
+          key: ${dfsp_api_service_secret_key}
+    - name: KEYCLOAK_DFSPS_REALM
+      value: "${keycloak_dfsp_realm_name}"
+    - name: KEYCLOAK_AUTO_CREATE_ACCOUNTS
+      value: "true"
+    # 2FA Authentication settings
+    - name: AUTH_2FA_ENABLED
+      value: "${auth_2fa_enabled}"
+    # OpenID settings
+    - name: OPENID_ENABLED
+      value: "${openid_enabled}"
+    - name: OPENID_ALLOW_INSECURE
+      value: "${openid_allow_insecure}"
+    - name: OPENID_DISCOVERY_URL
+      value: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration"
+    - name: OPENID_CLIENT_ID
+      value: "connection-manager-auth-client"
+    - name: OPENID_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: ${dfsp_auth_client_secret_name}
+          key: ${dfsp_auth_client_secret_key}
+    - name: OPENID_REDIRECT_URI
+      value: "https://${mcm_fqdn}/api/auth/callback"
+    # Cookie and role settings
+    - name: OPENID_JWT_COOKIE_NAME
+      value: "MCM-API_ACCESS_TOKEN"
+    - name: OPENID_EVERYONE_ROLE
+      value: "everyone"
+    - name: OPENID_MTA_ROLE
+      value: "dfsp-admin"
   vault:
     auth:
       k8s:
