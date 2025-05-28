@@ -35,8 +35,8 @@ resources:
   - ../../../base/dns-utils-pre.yaml
 
   # velero
-  # - ../../../base/velero-pre.yaml
-  # - ../../../base/maintenance-pre.yaml
+  - ../../../base/velero-pre.yaml
+  - ../../../base/velero.yaml
 
   # security
   - ../../../base/zitadel-pre.yaml
