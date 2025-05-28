@@ -57,6 +57,7 @@ metadata:
     argocd.argoproj.io/sync-wave: 10
 spec:
   package: ghcr.io/mojaloop/infra/upbound/provider-aws-rds:v${ARGOCD_ENV_crossplane_providers_aws_rds_version}
+  skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
@@ -66,3 +67,4 @@ metadata:
     argocd.argoproj.io/sync-wave: 10
 spec:
   package: ghcr.io/mojaloop/infra/upbound/provider-aws-route53:v${ARGOCD_ENV_crossplane_providers_aws_route53_version}
+  skipDependencyResolution: true
