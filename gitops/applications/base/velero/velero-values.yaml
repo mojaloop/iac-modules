@@ -25,6 +25,8 @@ configuration:
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
 
+  volumeSnapshotLocation: []
+
 initContainers:
   - name: velero-plugin-for-aws
     image: velero/velero-plugin-for-aws:${ARGOCD_ENV_velero_plugin_version}
