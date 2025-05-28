@@ -23,6 +23,7 @@ configuration:
         region: ${ARGOCD_ENV_object_storage_region}
         #s3ForcePathStyle: ${ARGOCD_ENV_object_storage_path_style}
         #s3Url: ${ARGOCD_ENV_object_storage_endpoint}
+
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
 
