@@ -36,7 +36,7 @@ resources:
 
   # velero
   - ../../../base/velero-pre.yaml
-  - ../../../base/velero.yaml
+  #- ../../../base/velero.yaml
 
   # security
   - ../../../base/zitadel-pre.yaml
