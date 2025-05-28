@@ -54,3 +54,9 @@ spec:
 
           - name: "cluster_name"
             value: "${ARGOCD_ENV_cluster_name}"
+
+          - name: "object_storage_secret_name"
+            value: "${ARGOCD_ENV_velero_velero_object_storage_secret_name}"
+
+          - name: "object_storage_secret_key"
+            value: "${ARGOCD_ENV_velero_velero_object_storage_secret_key}"
