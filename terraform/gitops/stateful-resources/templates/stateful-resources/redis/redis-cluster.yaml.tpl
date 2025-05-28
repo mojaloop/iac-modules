@@ -78,6 +78,21 @@ spec:
                       - follower
               topologyKey: kubernetes.io/hostname
             weight: 10
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            role: leader
+            clusterId: redis-cluster
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            role: leader
+            clusterId: redis-cluster
   redisFollower:
     readinessProbe:
       failureThreshold: 5
@@ -124,6 +139,21 @@ spec:
                       - leader
               topologyKey: kubernetes.io/hostname
             weight: 10
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            role: follower
+            clusterId: redis-cluster
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            role: follower
+            clusterId: redis-cluster
 # %{ endif }
   redisExporter:
     enabled: false
