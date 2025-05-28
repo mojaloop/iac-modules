@@ -109,5 +109,5 @@ metadata:
   name: zitadel-config
 spec:
   # package: ghcr.io/mojaloop/iac-crossplane-packages/zitadel-config:${ARGOCD_ENV_crossplane_packages_zitadel_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/zitadel-config:v0.1.0-pr62-15260656743 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/zitadel-config:v0.1.0-pr62-15303275312 # TODO: Temporary
   skipDependencyResolution: true
