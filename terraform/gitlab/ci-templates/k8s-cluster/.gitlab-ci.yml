@@ -129,7 +129,8 @@ fmt:
     - !reference [.source, script]
     - terragrunt hclfmt -check -diff
     - terragrunt run-all fmt -check -diff -recursive || true
-  when: manual
+  rules:
+    - when: never
 
 init:
   stage: init
@@ -154,7 +155,8 @@ validate:
     - !reference [.source, script]
     - terragrunt run-all validate-inputs
     - terragrunt run-all validate
-  when: manual
+  rules:
+    - when: never
 
 build:
   extends: .terraform:build
@@ -163,7 +165,8 @@ build:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
-  when: manual
+  rules:
+    - when: never
 
 deploy-infra:
   extends: .terraform:deploy
@@ -237,7 +240,6 @@ destroy:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^destroy:.*/
       when: manual
-    - when: never
 
 refresh-deploy-infra:
   extends: .terraform:deploy
@@ -290,10 +292,6 @@ tf-refresh-deploy-infra:
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^tf_trigger.*/
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
-      when: manual
-      allow_failure: true
-    - when: manual
 
 lint-apps:
   stage: deploy
