@@ -9,6 +9,7 @@ module "generate_monitoring_files" {
     prometheus_operator_version            = try(var.common_var_map.prometheus_operator_version, local.prometheus_operator_version)
     prometheus_operator_release_name       = local.prometheus_operator_release_name
     prometheus_process_exporter_version    = try(var.common_var_map.prometheus_process_exporter_version, local.prometheus_process_exporter_version)
+    process_exporter_enabled               = try(var.common_var_map.process_exporter_enabled, local.process_exporter_enabled)
     loki_release_name                      = local.loki_release_name
     grafana_operator_repo                  = try(var.common_var_map.grafana_operator_repo, local.bitnami_repo)
     grafana_operator_version               = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
@@ -160,6 +161,7 @@ locals {
   loki_chart_version                  = "2.13.0"
   prometheus_operator_version         = "8.22.8"
   prometheus_process_exporter_version = "0.4.2"
+  process_exporter_enabled            = false
   tempo_chart_version                 = "3.1.0"
   metrics_server_chart_version        = "3.12.2"
   grafana_version                     = "11.6.1"
