@@ -58,3 +58,9 @@ spec:
 
           - name: "velero_cc_backup_bucket"
             value: "${ARGOCD_ENV_velero_pre_cc_backup_bucket}"
+
+          - name: "object_storage_endpoint"
+            value: "${ARGOCD_ENV_utils_storage_object_storage_endpoint}"
+
+          - name: "object_storage_path_style"
+            value: "${ARGOCD_ENV_utils_storage_object_storage_path_style}"
