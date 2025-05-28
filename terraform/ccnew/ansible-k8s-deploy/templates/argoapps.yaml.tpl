@@ -139,11 +139,15 @@ argocd_override:
           pxc_operator_helm_version: "${pxc_operator_helm_version}"
           psmdb_operator_helm_version: "${psmdb_operator_helm_version}"
 
-    maintenance:
+    velero:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
+        pre:
+          object_storage_region: "${cloud_region}"
+          cc_backup_bucket: "${cc_backup_bucket}"
+          cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
+          object_storage_provider: "${object_storage_provider}"
         velero:
-          app_name: "velero"
           helm_version: "${velero_helm_version}"
           object_storage_cloud_role: "${object_storage_cloud_role}"
           enable_object_storage_backend: "'${enable_object_storage_backend}'"
@@ -530,6 +534,7 @@ argocd_override:
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
           prometheus_pvc_size: "${prometheus_pvc_size}"
           prometheus_scrape_interval: "${prometheus_scrape_interval}"
+          prometheus_rate_interval: "${prometheus_rate_interval}"
           prometheus_retention_period: "${prometheus_retention_period}"
           loki_helm_version: "${loki_helm_version}"
           loki_retention_period: "${loki_retention_period}"

@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_velero_argocd_app_name}-${ARGOCD_ENV_velero_pre_app_name}
+  namespace: ${ARGOCD_ENV_velero_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_velero_pre_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_velero_app_namespace}
+
+  sources:
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_velero_application_gitrepo_tag}
+      path: gitops/applications/base/velero-pre
+      plugin:
+        name: envsubst
+        env:
+
+          - name: "velero_namespace"
+            value: "${ARGOCD_ENV_velero_pre_namespace}"
+
+          - name: "velero_cc_backup_bucket"
+            value: "${ARGOCD_ENV_velero_pre_cc_backup_bucket}"
+
+          - name: "velero_cc_backup_storage_size"
+            value: "${ARGOCD_ENV_velero_pre_cc_backup_storage_size}"
+
+          - name: "cloud_region"
+            value: "${ARGOCD_ENV_velero_pre_object_storage_region}"
+
+          - name: "object_storage_provider"
+            value: "${ARGOCD_ENV_velero_pre_object_storage_provider}"
+
+          - name: "cluster_name"
+            value: "${ARGOCD_ENV_cluster_name}"

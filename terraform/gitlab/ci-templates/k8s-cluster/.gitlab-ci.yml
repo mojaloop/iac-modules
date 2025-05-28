@@ -95,7 +95,7 @@ prepare:image:
   needs: []
   stage: prepare
   image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   rules:
     # Tag with the commit SHA if we're in an MR
@@ -207,6 +207,9 @@ deploy-infra:
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-infra:.*/
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
+      when: manual
+      allow_failure: true
     - when: manual
 
 refresh-templates:
@@ -218,7 +221,12 @@ refresh-templates:
   script:
     - !reference [.source, script]
     - .gitlab/scripts/refresh-repo.sh $cluster_name $TMP_GIT_REPO $TMP_TEMPLATES_DIR $GITLAB_CI_PAT $iac_terraform_modules_tag
-  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^refresh:.*/
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
+      when: manual
+      allow_failure: true
+    - when: manual
 
 destroy:
   extends: .opentofu:destroy
@@ -263,6 +271,9 @@ refresh-deploy-infra:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy:.*/
     - if: $CI_PIPELINE_TRIGGERED && $CI_PIPELINE_SOURCE == "trigger" && $CD_UPDATE_PROFILE
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
+      when: manual
+      allow_failure: true
     - when: manual
 
 tf-refresh-deploy-infra:
@@ -288,6 +299,9 @@ tf-refresh-deploy-infra:
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^tf_trigger.*/
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
+      when: manual
+      allow_failure: true
     - when: manual
 
 lint-apps:

@@ -100,16 +100,16 @@ spec:
             value: "${ARGOCD_ENV_dns_utils_cr_config_cert_manager_cloud_policy}"
 
           - name: "object_storage_cloud_role"
-            value: "${ARGOCD_ENV_maintenance_velero_object_storage_cloud_role}"
+            value: "${ARGOCD_ENV_velero_velero_object_storage_cloud_role}"
 
           - name: "object_storage_backend_path"
-            value: "${ARGOCD_ENV_maintenance_velero_object_storage_backend_path}"
+            value: "${ARGOCD_ENV_velero_velero_object_storage_backend_path}"
 
           - name: "enable_object_storage_backend"
-            value: "${ARGOCD_ENV_maintenance_velero_enable_object_storage_backend}"
+            value: "${ARGOCD_ENV_velero_velero_enable_object_storage_backend}"
 
           - name: "object_storage_access_role"
-            value: "${ARGOCD_ENV_maintenance_velero_object_storage_access_role}"
+            value: "${ARGOCD_ENV_velero_velero_object_storage_access_role}"
 
           - name: "cloud_platform_api_client_secret"
             value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_secret}"

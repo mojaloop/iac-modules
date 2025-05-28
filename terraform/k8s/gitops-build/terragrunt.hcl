@@ -91,6 +91,8 @@ inputs = {
   object_store_api_url                     = local.object_store_fqdn
   object_store_regional_endpoint           = local.object_store_regional_endpoint
   object_store_region                      = local.object_store_region
+  object_storage_path_style                = local.object_storage_path_style
+  object_store_insecure_connection         = local.object_store_insecure_connection
   central_observability_endpoint           = local.central_observability_endpoint
   managed_db_host                          = ""      # to correct later
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
@@ -158,8 +160,8 @@ locals {
   }, yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/${get_env("cloud_platform")}-vars.yaml")}", local.env_vars)))
   cluster_vars = {
     cluster = merge(local.env_vars, {
-      master_node_count = get_env("cloud_platform") == "bare-metal" ? try(length(keys(local.cloud_platform_vars.master_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
-      agent_node_count  = get_env("cloud_platform") == "bare-metal" ? try(length(keys(local.cloud_platform_vars.agent_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
+      master_node_count = get_env("cloud_platform") == "private-cloud" ? try(length(keys(local.cloud_platform_vars.master_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
+      agent_node_count  = get_env("cloud_platform") == "private-cloud" ? try(length(keys(local.cloud_platform_vars.agent_hosts)), 0) : try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
     })
   }
   GITLAB_SERVER_URL             = get_env("GITLAB_SERVER_URL")
@@ -181,11 +183,13 @@ locals {
   VAULT_GITLAB_ROOT_TOKEN       = get_env("ENV_VAULT_TOKEN")
   TRANSIT_VAULT_UNSEAL_KEY_NAME = get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")
   mig_transit_vault_unseal_key_name = "${get_env("TRANSIT_VAULT_UNSEAL_KEY_NAME")}-migrated"
-  VAULT_SERVER_URL              = get_env("VAULT_SERVER_URL")
-  VAULT_ADDR                    = get_env("VAULT_ADDR")
-  object_store_fqdn             = get_env("OBJECTSTORE_FQDN")
+  VAULT_SERVER_URL               = get_env("VAULT_SERVER_URL")
+  VAULT_ADDR                     = get_env("VAULT_ADDR")
+  object_store_fqdn              = get_env("OBJECTSTORE_FQDN")
   object_store_regional_endpoint = get_env("OBJECTSTORE_REGIONAL_ENDPOINT")
   object_store_region            = get_env("OBJECTSTORE_REGION")
+  object_storage_path_style      = get_env("OBJECT_STORAGE_PATH_STYLE")
+  object_store_insecure_connection = get_env("OBJECT_STORE_INSECURE_CONNECTION")
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
   migrate                       = get_env("migrate")
   argocd_ingress_internal_lb    = true
