@@ -101,7 +101,7 @@ metadata:
   name: argocd-config
 spec:
   # package: ghcr.io/mojaloop/iac-crossplane-packages/argocd-config:${ARGOCD_ENV_crossplane_packages_argocd_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/argocd-config:v0.1.0-pr62-15324047279 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/argocd-config:v0.1.0-pr62-15328323581 # TODO: Temporary
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1

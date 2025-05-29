@@ -837,3 +837,52 @@ spec:
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
                 namespace: argocd
+        extraObjects:
+          - apiVersion: kyverno.io/v1
+            kind: ClusterPolicy
+            metadata:
+              name: restart-argocd-server
+            spec:
+              admission: true
+              background: true
+              emitWarning: false
+              rules:
+              - match:
+                  any:
+                  - resources:
+                      kinds:
+                      - ConfigMap
+                      names:
+                      - argocd-cm
+                      namespaces:
+                      - ${ARGOCD_ENV_utils_argocd_helm_namespace}
+                  - resources:
+                      kinds:
+                      - Secret
+                      namespaces:
+                      - ${ARGOCD_ENV_utils_argocd_helm_namespace}
+                      selector:
+                        matchLabels:
+                          argocd.mojaloop.com/oidc-secret: "true"
+                mutate:
+                  patchStrategicMerge:
+                    spec:
+                      template:
+                        metadata:
+                          annotations:
+                            kyverno.platform.mojaloop.com/triggerrestart: '{{request.object.metadata.resourceVersion}}'
+                  targets:
+                  - apiVersion: apps/v1
+                    kind: Deployment
+                    namespace: ${ARGOCD_ENV_utils_argocd_helm_namespace}
+                    selector:
+                      matchLabels:
+                        app.kubernetes.io/name: argocd-server
+                name: add-annotation-on-configmap-and-secret-update
+                preconditions:
+                  all:
+                  - key: '{{request.operation}}'
+                    operator: Equals
+                    value: UPDATE
+                skipBackgroundRequests: true
+              validationFailureAction: Audit
