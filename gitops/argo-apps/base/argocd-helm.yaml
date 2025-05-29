@@ -5,7 +5,6 @@ metadata:
   namespace: ${ARGOCD_ENV_utils_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_utils_sync_wave}
-    argocd.argoproj.io/sync-options: Validate=false
 
   # Add this finalizer ONLY if you want these to cascade delete (A cascade delete, deletes both the app and its resources, rather than only the app.)
   # finalizers:
