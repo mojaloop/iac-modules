@@ -17,7 +17,6 @@ spec:
       key: zitadel_admin_human_user_id
     adminRbacGroup: "${ARGOCD_ENV_argocd_admin_rbac_group}"
     userRbacGroup: "${ARGOCD_ENV_argocd_user_rbac_group}"
-    oidcSecretName: "${ARGOCD_ENV_argocd_oidc_secret}"
     organizationIdSecretRef:
       name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}
       namespace: ${ARGOCD_ENV_zitadel_namespace}
