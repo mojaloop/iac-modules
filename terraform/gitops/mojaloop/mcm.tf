@@ -2,6 +2,8 @@ module "generate_mcm_pre_files" {
   source = "../generate-files"
   var_map = {
     mcm_enabled                          = var.mcm_enabled
+    mcm_pre_sync_wave                    = var.mcm_pre_sync_wave
+    gitlab_project_url                   = var.gitlab_project_url
     mcm_service_account_name             = var.mcm_service_account_name
     mcm_namespace                        = var.mcm_namespace
     mcm_vault_k8s_role_name              = var.mcm_vault_k8s_role_name
@@ -167,6 +169,13 @@ variable "mcm_sync_wave" {
   description = "mcm_sync_wave"
   default     = "-2"
 }
+
+variable "mcm_pre_sync_wave" {
+  type        = string
+  description = "mcm_pre_sync_wave"
+  default     = "-3"
+}
+
 
 variable "mcm_namespace" {
   type        = string
