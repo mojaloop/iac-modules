@@ -871,7 +871,7 @@ spec:
                         template:
                           metadata:
                             annotations:
-                              kyverno.platform.mojaloop.com/triggerrestart: "{{ `{{request.object.metadata.resourceVersion}}` }}"
+                              kyverno.platform.mojaloop.com/triggerrestart: "`{{request.object.metadata.resourceVersion}}`"
                     targets:
                     - apiVersion: apps/v1
                       kind: Deployment
@@ -882,7 +882,7 @@ spec:
                   name: add-annotation-on-configmap-and-secret-update
                   preconditions:
                     all:
-                    - key: "{{ `{{request.operation}}` }}"
+                    - key: "`{{request.operation}}`"
                       operator: Equals
                       value: UPDATE
                   skipBackgroundRequests: true
