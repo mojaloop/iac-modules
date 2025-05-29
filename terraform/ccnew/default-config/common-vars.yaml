@@ -444,7 +444,6 @@ rook_ceph_osd_volumes_storage_class: "gp3"
 rook_ceph_mon_volumes_storage_class: "gp3"
 rook_ceph_cloud_pv_reclaim_policy: "Delete" # Retain, Delete
 
-
 # argocd
 argocd_server_log_level: "info"
 argocd_reposerver_log_level: "warn"
@@ -462,6 +461,8 @@ capi_infra_provider_version: "0.4.5"
 capi_cluster_proxmox_worker_cpu: "'8'"
 capi_cluster_proxmox_worker_memory: "'32768'"
 capi_cluster_proxmox_worker_replicas: "'3'"
+capi_cluster_proxmox_control_plane_memory: "'8192'"
+capi_cluster_proxmox_control_plane_cpu: "'2'"
 capi_cluster_storage_name: "pve-sdb"
 capi_rook_ceph_rgw_external_ip: "10.10.127.10"
 capi_cluster_proxmox_user: "root@pam"
@@ -480,7 +481,6 @@ capi_rook_ceph_disk_size: "300G"
 capi_rook_ceph_rgw_instance_replicas: "'2'"
 capi_calico_helm_version: "v3.30.0"
 ##end capi
-
 
 #backup
 cc_backup_bucket: "control-center-backup"
