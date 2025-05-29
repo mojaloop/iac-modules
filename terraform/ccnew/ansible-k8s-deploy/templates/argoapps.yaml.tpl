@@ -98,6 +98,8 @@ argocd_override:
           capi_cluster_kubeapi_host: "${capi_cluster_kubeapi_host}"
           capi_cluster_proxmox_host_vlan: "${capi_cluster_proxmox_host_vlan}"
           capi_infra_provider_version: "${capi_infra_provider_version}"
+          capi_cluster_proxmox_control_plane_memory: "${capi_cluster_proxmox_control_plane_memory}"
+          capi_cluster_proxmox_control_plane_cpu: "${capi_cluster_proxmox_control_plane_cpu}"
           capi_cluster_proxmox_worker_cpu: "${capi_cluster_proxmox_worker_cpu}"
           capi_cluster_proxmox_worker_memory: "${capi_cluster_proxmox_worker_memory}"
           capi_cluster_proxmox_worker_replicas: "${capi_cluster_proxmox_worker_replicas}"
