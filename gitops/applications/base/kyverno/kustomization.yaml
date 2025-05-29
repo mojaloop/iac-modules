@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - namespaces.yaml
   - image-rewrite-policy.yaml
+  - argocd-restart-policy.yaml
 
 helmCharts:
   - name: kyverno
