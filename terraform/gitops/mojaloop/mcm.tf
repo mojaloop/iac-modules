@@ -8,6 +8,10 @@ module "generate_mcm_pre_files" {
     mcm_namespace                        = var.mcm_namespace
     mcm_vault_k8s_role_name              = var.mcm_vault_k8s_role_name
     k8s_auth_path                        = var.k8s_auth_path
+    whitelist_secret_path                = local.whitelist_secret_path
+    onboarding_secret_path               = local.dfsp_client_cert_bundle
+    pki_path                             = var.vault_root_ca_name
+    mcm_secret_path                      = local.mcm_secret_path
   }
   file_list       = [for f in fileset(local.mcm_pre_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_pre_app_file, f))]
   template_path   = local.mcm_pre_template_path
