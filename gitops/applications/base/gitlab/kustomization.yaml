@@ -4,6 +4,7 @@ resources:
   - virtualservice.yaml
   - ruby-script-config-map.yaml
   - rbac-runner.yaml
+  - reg-restart-hook.yaml
 
 helmCharts:
   - name: gitlab
@@ -22,7 +23,7 @@ patches:
     patch: |
       - op: add
         path: /spec/template/spec/dnsConfig
-        value: 
+        value:
           options:
             - name: ndots
               value: "3"
@@ -36,7 +37,7 @@ patches:
     patch: |
       - op: add
         path: /spec/template/spec/containers/0/lifecycle
-        value: 
+        value:
           postStart:
             exec:
               command:
