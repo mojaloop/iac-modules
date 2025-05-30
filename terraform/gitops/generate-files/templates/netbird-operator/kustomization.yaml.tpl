@@ -12,15 +12,3 @@ helmCharts:
     valuesFile: values-netbird-operator.yaml
     namespace: ${netbird_operator_namespace}
     includeCRDs: true
-patches:
-  - target:
-      group: netbird.io
-      version: v1
-      kind: NBRoutingPeer
-    patch: |
-      - op: add
-        path: /metadata/annotations/argocd.argoproj.io~1sync-options
-        value: "PruneLast=true"
-      - op: add
-        path: /metadata/annotations/helm.sh~1hook
-        value: "pre-delete"
