@@ -19,14 +19,14 @@ data:
     user.save!
   rmdelayedprojectdelete.rb: |
     settings = ApplicationSetting.current
-    if settings.deletion_adjourned_period == 0
-      puts "deletion_adjourned_period is already 0 (no change needed)"
+    if settings.adjourned_deletion_for_projects_and_groups == 0
+      puts "adjourned_deletion_for_projects_and_groups is already 0 (no change needed)"
       exit 0
     end
-    puts "Current deletion_adjourned_period: #{settings.deletion_adjourned_period}"
-    if settings.update(deletion_adjourned_period: 0)
-      puts "Successfully updated deletion_adjourned_period to 0"
-      puts "New value: #{ApplicationSetting.current.deletion_adjourned_period}"
+    puts "Current adjourned_deletion_for_projects_and_groups: #{settings.adjourned_deletion_for_projects_and_groups}"
+    if settings.update(adjourned_deletion_for_projects_and_groups: 0)
+      puts "Successfully updated adjourned_deletion_for_projects_and_groups to 0"
+      puts "New value: #{ApplicationSetting.current.adjourned_deletion_for_projects_and_groups}"
     else
       puts "Failed to update settings: #{settings.errors.full_messages.join(', ')}"
       exit 1
