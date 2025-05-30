@@ -4,10 +4,6 @@ ingress:
   enabled: true
   router:
     enabled: true
-    annotations:
-      helm.sh/hook: pre-delete
-      helm.sh/hook-weight: "-5"
-      argocd.argoproj.io/sync-options: PruneLast=true
   kubernetesAPI:
     enabled: false
 netbirdAPI:
