@@ -3,7 +3,7 @@ cluster:
 ingress:
   enabled: true
   router:
-    enabled: false
+    enabled: true
   kubernetesAPI:
     enabled: false
 netbirdAPI:

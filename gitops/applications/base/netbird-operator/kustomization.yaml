@@ -5,7 +5,6 @@ resources:
   - nbopbootstrap-claim.yaml
   - nboppost-claim.yaml
   - kyverno-policy.yaml
-  - netbird-router.yaml
 helmCharts:
   - name: kubernetes-operator
     releaseName: ${ARGOCD_ENV_netbird_operator_app_name}
