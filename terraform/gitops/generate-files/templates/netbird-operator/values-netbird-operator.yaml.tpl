@@ -7,8 +7,6 @@ ingress:
     annotations:
       helm.sh/hook: pre-delete
       helm.sh/hook-weight: "-5"
-      argocd.argoproj.io/hook: PreDelete
-      argocd.argoproj.io/sync-wave: "-5"
       argocd.argoproj.io/sync-options: PruneLast=true
   kubernetesAPI:
     enabled: false
