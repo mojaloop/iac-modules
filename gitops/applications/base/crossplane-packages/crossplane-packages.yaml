@@ -68,7 +68,8 @@ kind: Configuration
 metadata:
   name: gitlab
 spec:
-  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:${ARGOCD_ENV_crossplane_packages_gitlab_version}
+  # package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:${ARGOCD_ENV_crossplane_packages_gitlab_version}
+  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:v0.3.3-pr62-15344123874 # TODO: Temporary
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
