@@ -17,3 +17,17 @@ data:
     end
     token.save!
     user.save!
+  rmdelayedprojectdelete.rb: |
+    settings = ApplicationSetting.current
+    if settings.deletion_adjourned_period == 0
+      puts "deletion_adjourned_period is already 0 (no change needed)"
+      exit 0
+    end
+    puts "Current deletion_adjourned_period: #{settings.deletion_adjourned_period}"
+    if settings.update(deletion_adjourned_period: 0)
+      puts "Successfully updated deletion_adjourned_period to 0"
+      puts "New value: #{ApplicationSetting.current.deletion_adjourned_period}"
+    else
+      puts "Failed to update settings: #{settings.errors.full_messages.join(', ')}"
+      exit 1
+    end

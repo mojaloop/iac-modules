@@ -44,7 +44,7 @@ patches:
                 - /bin/bash
                 - '-c'
                 - >-
-                  cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb
+                  cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb && bundle exec rails runner -e production /tmp/rmdelayedprojectdelete.rb
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
@@ -59,3 +59,9 @@ patches:
           name: ruby-script-volume
           mountPath: /tmp/maketoken.rb
           subPath: maketoken.rb
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: ruby-script-volume
+          mountPath: /tmp/rmdelayedprojectdelete.rb
+          subPath: rmdelayedprojectdelete.rb
