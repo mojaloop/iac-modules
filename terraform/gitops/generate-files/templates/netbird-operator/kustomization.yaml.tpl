@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - kyverno-policy.yaml
   - netbird-access-key-external-secret.yaml
+  - netbirdroutingpeer.yaml
 helmCharts:
   - name: kubernetes-operator
     releaseName: netbird-operator
