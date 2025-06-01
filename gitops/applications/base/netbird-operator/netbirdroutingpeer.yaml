@@ -3,7 +3,7 @@ kind: NBRoutingPeer
 metadata:
   annotations:
     test: "test"
-    "argocd.argoproj.io/hook": PreDelete
+    argocd.argoproj.io/hook: "PreDelete"
   finalizers:
     - netbird.io/cleanup
   labels:
