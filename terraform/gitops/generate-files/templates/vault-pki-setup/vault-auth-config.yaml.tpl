@@ -2,8 +2,9 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: SecretEngineMount
 metadata:
   name: ${vault_root_ca_name}
+  namespace: ${vault_pki_namespace}
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -18,8 +19,9 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineConfig
 metadata:
   name: ${vault_root_ca_name}
+  namespace: ${vault_pki_namespace}
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -31,14 +33,15 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineRole
 metadata:
   name: ${pki_server_cert_role}
+  namespace: ${vault_pki_namespace}
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
       name: default
   path: ${vault_root_ca_name}
-  allowedDomains: 
+  allowedDomains:
    - ${trimsuffix(public_subdomain, ".")}
   maxTTL: "2160h"
   TTL: "2160h"
@@ -59,14 +62,15 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PKISecretEngineRole
 metadata:
   name: ${pki_client_cert_role}
+  namespace: ${vault_pki_namespace}
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
       name: default
   path: ${vault_root_ca_name}
-  allowedDomains: 
+  allowedDomains:
    - ${trimsuffix(public_subdomain, ".")}
   maxTTL: "2160h"
   TTL: "2160h"
@@ -87,8 +91,9 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Policy
 metadata:
   name: base-token-polcies
+  namespace: ${vault_pki_namespace}
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -107,8 +112,9 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Policy
 metadata:
   name: pki-root-full
+  namespace: ${vault_pki_namespace}
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -117,5 +123,5 @@ spec:
     path "${vault_root_ca_name}/*" {
       capabilities = ["create", "read", "update", "delete", "list"]
     }
-  type: acl 
+  type: acl
 ---
