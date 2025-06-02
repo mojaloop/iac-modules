@@ -1,0 +1,13 @@
+cluster:
+  name: test
+ingress:
+  enabled: true
+  router:
+    enabled: false
+  kubernetesAPI:
+    enabled: false
+netbirdAPI:
+  keyFromSecret:
+    name: test
+    key: NB_API_KEY
+managementURL: https://test.com
