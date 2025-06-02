@@ -1,0 +1,4 @@
+resources:
+  # utils
+  - cr-app.yaml
+  - op-app.yaml
