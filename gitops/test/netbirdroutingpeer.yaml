@@ -3,6 +3,8 @@ kind: NBRoutingPeer
 metadata:
   finalizers:
     - netbird.io/cleanup
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"
   labels:
     app.kubernetes.io/component: operator
     app.kubernetes.io/instance: netop
