@@ -3,7 +3,6 @@ kind: NBRoutingPeer
 metadata:
   annotations:
     helm.sh/hook: "pre-delete"
-    argocd.argoproj.io/sync-options: "ServerSideApply=true"
   finalizers:
     - netbird.io/cleanup
   labels:
