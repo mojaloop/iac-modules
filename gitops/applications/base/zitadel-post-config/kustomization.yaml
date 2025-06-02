@@ -3,8 +3,9 @@ kind: Kustomization
 resources:
   - zitadel-xplane-terraform-init.yaml
   - zitadel-xplane-terraform.yaml
-  - vault-oidc-xplane-terraform.yaml
+  # - vault-oidc-xplane-terraform.yaml
   # - argocd-oidc-xplane-terraform.yaml
   - k8s-oidc-xplane-terraform.yaml
   - zitadel-xplane-providerconfig.yaml
   - argocd-oidc.yaml
+  - vault-oidc.yaml
