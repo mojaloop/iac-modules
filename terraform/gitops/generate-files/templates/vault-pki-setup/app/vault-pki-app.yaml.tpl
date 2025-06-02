@@ -15,7 +15,7 @@ spec:
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: argocd
+    namespace: ${vault_pki_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
