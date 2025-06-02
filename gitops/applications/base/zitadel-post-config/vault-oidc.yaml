@@ -1,0 +1,22 @@
+apiVersion: vault.mojaloop.io/v1alpha1
+kind: VaultOIDC
+metadata:
+  name: vault-oidc-claim
+  namespace: ${ARGOCD_ENV_vault_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 5
+spec:
+  parameters:
+    vaultFqdn: "vault.${ARGOCD_ENV_vault_dns_subdomain}"
+    zitadelFqdn: "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+    vaultNamespace: "${ARGOCD_ENV_vault_namespace}"
+    zitadelAdminHumanUserIdRef:
+      name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      key: zitadel_admin_human_user_id
+    adminRbacGroup: "${ARGOCD_ENV_vault_rbac_admin_group}"
+    oidcProviderGroupClaimPrefix: "${ARGOCD_ENV_zitadel_grant_prefix}"
+  providerConfigsRef:
+    zitadelProviderName: "zitadel-provider"
+    kubernetesProviderName: "kubernetes-provider"
+    vaultProviderName: "vault-provider"
