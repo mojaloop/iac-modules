@@ -101,7 +101,7 @@ kubeApiServer:
 kube-state-metrics:
   serviceMonitor:
     relabelings:
-    # NOTE: there are valid endpoint and service labels. Therefore, labeldop can not be used.
+    # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
     - sourceLabels: [endpoint]
       regex: http
       targetLabel: endpoint
