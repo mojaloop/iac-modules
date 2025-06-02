@@ -2,7 +2,7 @@ apiVersion: netbird.io/v1
 kind: NBRoutingPeer
 metadata:
   annotations:
-    helm.sh/hook: "pre-delete"
+    test: "test"
   finalizers:
     - netbird.io/cleanup
   labels:
