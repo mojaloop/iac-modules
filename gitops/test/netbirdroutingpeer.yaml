@@ -2,7 +2,7 @@ apiVersion: netbird.io/v1
 kind: NBRoutingPeer
 metadata:
   annotations:
-    argocd.argoproj.io/hook: "PreDelete"
+    helm.sh/hook: "pre-delete"
   finalizers:
     - netbird.io/cleanup
   labels:
@@ -10,6 +10,7 @@ metadata:
     app.kubernetes.io/instance: netop
     app.kubernetes.io/name: kubernetes-operator
     app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: kubernetes-operator-0.1.10
   name: router
   namespace: default
 spec: {}
