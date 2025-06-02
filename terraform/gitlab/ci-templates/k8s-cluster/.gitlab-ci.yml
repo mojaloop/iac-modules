@@ -132,7 +132,9 @@ fmt:
     - !reference [.source, script]
     - terragrunt hclfmt -check -diff
     - terragrunt run-all fmt -check -diff -recursive || true
-  when: manual
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /^manual:.*/
+      when: manual
 
 merge-config:
   stage: merge-config
@@ -174,7 +176,9 @@ validate:
     - !reference [.source, script]
     - terragrunt run-all validate-inputs
     - terragrunt run-all validate
-  when: manual
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /^manual:.*/
+      when: manual
 
 build:
   extends: .opentofu:plan
@@ -185,7 +189,9 @@ build:
       aud: https://$VAULT_FQDN
   script:
     - !reference [.source, script]
-  when: manual
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /^manual:.*/
+      when: manual
 
 deploy-infra:
   extends: .opentofu:apply
@@ -205,6 +211,16 @@ deploy-infra:
       - $GITOPS_BUILD_OUTPUT_DIR
       - $CONFIG_PATH
     when: always
+  cache:
+    - key: "${TF_ROOT}"
+      paths:
+        - ${TF_ROOT}/**/.terraform
+        - ${TF_ROOT}/**/.terraform.lock.hcl
+        - ${TF_ROOT}/**/.terragrunt-cache
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-infra:.*/
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
@@ -242,7 +258,9 @@ destroy:
     - !reference [.source, script]
     - terragrunt run-all destroy --terragrunt-non-interactive -input=false
     - .gitlab/scripts/cleanapps.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
-  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^destroy:.*/
+      when: manual
 
 refresh-deploy-infra:
   extends: .opentofu:apply
@@ -299,10 +317,6 @@ tf-refresh-deploy-infra:
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^tf_trigger.*/
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
-      when: manual
-      allow_failure: true
-    - when: manual
 
 lint-apps:
   stage: deploy
