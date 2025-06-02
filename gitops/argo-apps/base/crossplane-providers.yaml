@@ -87,3 +87,6 @@ spec:
 
         - name: "crossplane_providers_gitlab_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_gitlab_version}"
+
+        - name: "crossplane_providers_grafana_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_grafana_version}"

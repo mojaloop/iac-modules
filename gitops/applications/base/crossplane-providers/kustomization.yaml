@@ -11,6 +11,7 @@ resources:
   - terraform.yaml
   - vault.yaml
   - zitadel.yaml
+  - grafana.yaml
 
 secretGenerator:
   - name: terraformrc

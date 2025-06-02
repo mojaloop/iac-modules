@@ -52,6 +52,7 @@ argocd_override:
           aws_route53_version: "${crossplane_providers_aws_route53_version}"
           netbird_version: "${crossplane_providers_netbird_version}"
           zitadel_version: "${crossplane_providers_zitadel_version}"
+          grafana_version: "${crossplane_providers_grafana_version}"
         crossplane_functions:
           patch_and_transform_version: "${crossplane_functions_patch_and_transform_version}"
           go_templating_version: "${crossplane_functions_go_templating_version}"
@@ -73,6 +74,7 @@ argocd_override:
           aws_rds_version: "${crossplane_packages_aws_rds_version}"
           argocd_config_version: "${crossplane_packages_argocd_config_version}"
           zitadel_config_version: "${crossplane_packages_zitadel_config_version}"
+          grafana_config_version: "${crossplane_packages_grafana_config_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
