@@ -1,4 +1,4 @@
 resources:
   # utils
-  - ../cr-app.yaml
-  - ../op-app.yaml
+  - ../test-apps/cr-app.yaml
+  - ../test-apps/op-app.yaml
