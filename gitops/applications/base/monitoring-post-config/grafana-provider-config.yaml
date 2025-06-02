@@ -1,0 +1,17 @@
+apiVersion: grafana.mojaloop.io/v1alpha1
+kind: GrafanaProviderConfig
+metadata:
+  name: grafana-provider
+  namespace: ${ARGOCD_ENV_monitoring_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 0
+spec:
+  parameters:
+    domain: "grafana.${ARGOCD_ENV_grafana_dns_subdomain}"
+    grafanaAdminSecretRef:
+      name: ${ARGOCD_ENV_grafana_admin_secret}
+      namespace: ${ARGOCD_ENV_monitoring_namespace}
+      key: ${ARGOCD_ENV_grafana_admin_creds_json_key}
+    providerConfigName: "grafana-provider"
+  providerConfigsRef:
+    kubernetesProviderName: "kubernetes-provider"
