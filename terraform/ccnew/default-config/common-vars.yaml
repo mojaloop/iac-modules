@@ -492,7 +492,6 @@ sc_metallb_dynamic_ip_range_end: "10.10.127.49"
 capi_cluster_cidr: "10.10.127/24"
 capi_os_disk_size: "100G"
 capi_rook_ceph_disk_size: "150G"
-
 capi_rook_ceph_rgw_instance_replicas: "'2'"
 capi_calico_helm_version: "v3.30.0"
 ##end capi
