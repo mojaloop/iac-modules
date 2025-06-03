@@ -1,3 +1,26 @@
+module "generate_mcm_pre_files" {
+  source = "../generate-files"
+  var_map = {
+    mcm_enabled                          = var.mcm_enabled
+    mcm_pre_sync_wave                    = var.mcm_pre_sync_wave
+    gitlab_project_url                   = var.gitlab_project_url
+    mcm_service_account_name             = var.mcm_service_account_name
+    mcm_namespace                        = var.mcm_namespace
+    mcm_vault_k8s_role_name              = var.mcm_vault_k8s_role_name
+    k8s_auth_path                        = var.k8s_auth_path
+    whitelist_secret_path                = local.whitelist_secret_path
+    onboarding_secret_path               = local.dfsp_client_cert_bundle
+    pki_path                             = var.vault_root_ca_name
+    mcm_secret_path                      = local.mcm_secret_path
+  }
+  file_list       = [for f in fileset(local.mcm_pre_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_pre_app_file, f))]
+  template_path   = local.mcm_pre_template_path
+  output_path     = "${var.output_dir}/mcm-pre"
+  app_file        = local.mcm_pre_app_file
+  app_output_path = "${var.output_dir}/app-yamls"
+}
+
+
 module "generate_mcm_files" {
   source = "../generate-files"
   var_map = {
@@ -151,6 +174,13 @@ variable "mcm_sync_wave" {
   default     = "-2"
 }
 
+variable "mcm_pre_sync_wave" {
+  type        = string
+  description = "mcm_pre_sync_wave"
+  default     = "-3"
+}
+
+
 variable "mcm_namespace" {
   type        = string
   description = "mcm_namespace"
@@ -226,7 +256,9 @@ variable "pm4mls" {
 
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
+  mcm_pre_template_path          = "${path.module}/../generate-files/templates/mcm-pre"
   mcm_app_file                   = "mcm-app.yaml"
+  mcm_pre_app_file               = "mcm-pre-app.yaml"
   mcm_resource_index             =  "mcm-db"
   mcm_wildcard_gateway           = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
