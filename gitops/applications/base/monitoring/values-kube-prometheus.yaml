@@ -51,6 +51,9 @@ kubelet:
     - sourceLabels: ['__name__']
       regex: 'etcd_request_duration_seconds_bucket|apiserver_watch_events_sizes_bucket'
       action: drop
+    - sourceLabels: ['__name__']
+      regex: 'apiserver_watch_cache_read_wait_seconds_bucket'
+      action: drop
     - regex: endpoint|service
       action: labeldrop
     cAdvisorMetricRelabelings:
