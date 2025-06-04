@@ -120,8 +120,8 @@ crossplane_packages_sc_nboperatorinstall_version: "v0.1.0"
 crossplane_packages_nb_config_version: "v0.1.4"
 crossplane_packages_aws_documentdb_version: "v0.4.0"
 crossplane_packages_aws_rds_version: "v0.2.0"
-velero_helm_version: "8.3.0"
-velero_plugin_version: "v1.11.1"
+velero_helm_version: "10.0.1"
+velero_plugin_version: "v1.12.1"
 coredns_localcache_version: "1.12.1"
 kyverno_helm_version: "3.3.7"
 
@@ -485,4 +485,6 @@ capi_calico_helm_version: "v3.30.0"
 
 #backup
 cc_backup_bucket: "control-center-backup"
-cc_backup_bucket_storage_size: "100Gi"
+cc_backup_bucket_storage_size: "30Gi"
+cc_backup_schedule: "0 * * * *"
+cc_backup_ttl: "24h0m0s"

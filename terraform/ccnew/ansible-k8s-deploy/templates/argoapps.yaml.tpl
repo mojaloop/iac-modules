@@ -155,6 +155,9 @@ argocd_override:
           object_storage_region: "${cloud_region}"
           object_storage_bucket: "${object_storage_bucket_name}"
           plugin_version: "${velero_plugin_version}"
+        post_config:
+          cc_backup_schedule: "${cc_backup_schedule}"
+          cc_backup_ttl: "${cc_backup_ttl}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
