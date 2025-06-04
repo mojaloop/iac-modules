@@ -4,6 +4,7 @@ metadata:
   name: controlcenter-backup
   namespace: ${ARGOCD_ENV_velero_namespace}
 spec:
+  paused: false
   schedule: ${ARGOCD_ENV_cc_backup_schedule}
   template:
     ttl: ${ARGOCD_ENV_cc_backup_ttl}
