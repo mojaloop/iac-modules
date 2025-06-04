@@ -48,3 +48,13 @@ spec:
                   name: ${ref_secret_name}
                   key: ${ref_secret_key}
 %{ endfor ~}
+            startupProbe:
+              httpGet:
+                path: /health/live
+                port: 8443
+                scheme: HTTPS
+              initialDelaySeconds: 20
+              timeoutSeconds: 1
+              periodSeconds: 2
+              successThreshold: 1
+              failureThreshold: 300
