@@ -40,7 +40,10 @@ prometheus:
     url: ${central_observability_endpoint}/api/v1/push
     headers:
       X-Scope-OrgID: ${central_observability_tenant_id}
+    metadataConfig:
+      sendInterval: ${prometheus_scrape_interval}
 %{endif ~}
+
 
 %{if enable_central_observability_read ~}
   remoteRead:
