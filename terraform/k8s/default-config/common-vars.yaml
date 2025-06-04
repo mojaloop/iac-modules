@@ -11,7 +11,7 @@ nginx_helm_chart_version: 4.6.1
 keycloak_operator_version: 22.0.2
 istio_chart_version: 1.18.2
 external_secrets_version: 0.8.2
-argocd_version: 2.13.1
+argocd_version: 3.0.5
 argocd_lovely_plugin_version: 0.18.0
 mcm_enabled: true
 mojaloop_enabled: true
@@ -54,7 +54,7 @@ istio_proxy_log_level: warn
 longhorn_backup_job_enabled: false
 enable_central_observability_write: false
 enable_central_observability_read: false
-coredns_localcache_version: "1.11.3"
+coredns_localcache_version: "1.12.1"
 aws_ebs_csi_driver_helm_version: "2.39.0"
 aws_ebs_csi_driver_replicas: 2
 rook_ceph_helm_version: "1.17.1"

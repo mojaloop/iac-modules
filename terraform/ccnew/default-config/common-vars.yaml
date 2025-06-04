@@ -16,7 +16,7 @@ netbird_client_version: "0.41.3"
 netbird_dashboard_image_version: "v2.10.0"
 
 # argocd
-argocd_helm_version: "8.0.1"
+argocd_helm_version: "8.0.14"
 argocd_helm_kube_version: "1.31.0"
 argocd_helm_git_plugin_version: "1.3.0"
 argocd_envsubst_version: "1.0.3"
@@ -122,7 +122,7 @@ crossplane_packages_aws_documentdb_version: "v0.4.0"
 crossplane_packages_aws_rds_version: "v0.2.0"
 velero_helm_version: "8.3.0"
 velero_plugin_version: "v1.11.1"
-coredns_localcache_version: "1.11.3"
+coredns_localcache_version: "1.12.1"
 kyverno_helm_version: "3.3.7"
 
 istio_egress_gateway_max_replicas: 5
@@ -456,6 +456,7 @@ rook_ceph_osd_count: "'3'"
 rook_ceph_volume_size_per_osd: "500Gi"
 rook_ceph_volumes_provider: "pvc" # host, pvc
 aws_ebs_csi_driver_helm_version: "2.39.0"
+
 ##capi
 capi_infra_provider_version: "0.4.5"
 capi_cluster_proxmox_worker_cpu: "'8'"
@@ -477,7 +478,7 @@ sc_metallb_dynamic_ip_range_begin: "10.10.127.21"
 sc_metallb_dynamic_ip_range_end: "10.10.127.49"
 capi_cluster_cidr: "10.10.127/24"
 capi_os_disk_size: "100G"
-capi_rook_ceph_disk_size: "300G"
+capi_rook_ceph_disk_size: "150G"
 capi_rook_ceph_rgw_instance_replicas: "'2'"
 capi_calico_helm_version: "v3.30.0"
 ##end capi
