@@ -69,7 +69,7 @@ metadata:
   name: gitlab
 spec:
   # package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:${ARGOCD_ENV_crossplane_packages_gitlab_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:v0.3.3-pr62-15441952201 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:v0.3.3-pr62-15445850136 # TODO: Temporary
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -78,7 +78,7 @@ metadata:
   name: vault-config
 spec:
   # package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:${ARGOCD_ENV_crossplane_packages_vault_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:v0.1.0-pr62-15398640387 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:v0.1.0-pr62-15445926141 # TODO: Temporary
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -121,5 +121,5 @@ metadata:
   name: grafana-config
 spec:
   # package: ghcr.io/mojaloop/iac-crossplane-packages/grafana-config:${ARGOCD_ENV_crossplane_packages_grafana_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/grafana-config:v0.1.0-pr62-15445235649 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/grafana-config:v0.1.0-pr62-15445850136 # TODO: Temporary
   skipDependencyResolution: true
