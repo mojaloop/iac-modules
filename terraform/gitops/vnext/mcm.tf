@@ -97,6 +97,9 @@ module "generate_mcm_files" {
       smtp_ssl                = var.smtp_ssl
       smtp_starttls           = var.smtp_starttls
       smtp_auth               = var.smtp_auth
+      smtp_from               = var.smtp_from
+      smtp_from_display_name  = var.smtp_from_display_name
+      smtp_reply_to           = var.smtp_reply_to
     })
     dfsp_api_service_secret_name         = var.dfsp_api_service_secret_name
     dfsp_api_service_secret_key          = var.dfsp_api_service_secret_key
@@ -301,6 +304,24 @@ variable "smtp_auth" {
   type        = string
   description = "SMTP authentication enabled"
   default     = "false"
+}
+
+variable "smtp_from" {
+  type        = string
+  description = "SMTP from email address"
+  default     = "noreply@mojaloop.io"
+}
+
+variable "smtp_from_display_name" {
+  type        = string
+  description = "SMTP from display name"
+  default     = "Mojaloop Hub"
+}
+
+variable "smtp_reply_to" {
+  type        = string
+  description = "SMTP reply-to email address"
+  default     = "noreply@mojaloop.io"
 }
 
 variable "dfsp_api_service_secret_name" {
