@@ -121,5 +121,5 @@ metadata:
   name: grafana-config
 spec:
   # package: ghcr.io/mojaloop/iac-crossplane-packages/grafana-config:${ARGOCD_ENV_crossplane_packages_grafana_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/grafana-config:v0.1.0-pr62-15443379075 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/grafana-config:v0.1.0-pr62-15445235649 # TODO: Temporary
   skipDependencyResolution: true
