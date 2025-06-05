@@ -74,6 +74,7 @@ spec:
           cloud-provider: external
     preKubeadmCommands:
       - echo "KUBELET_EXTRA_ARGS=--allowed-unsafe-sysctls=net.ipv4.ip_forward --node-ip=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)" >> /etc/default/kubelet
+      - /etc/kube-vip-prepare.sh
     files:
       - content: |
           apiVersion: v1
@@ -140,7 +141,6 @@ spec:
           # Perms workaround required for kubeadm init with kube-vip:
           # xref: https://github.com/kube-vip/kube-vip/issues/684
 
-
           IS_KUBEADM_INIT="false"
 
           # cloud-init kubeadm init
@@ -159,9 +159,6 @@ spec:
           fi
         owner: root:root
         permissions: "0700"
-
-    preKubeadmCommands:
-      - /etc/kube-vip-prepare.sh
     initConfiguration:
       nodeRegistration:
         kubeletExtraArgs:
