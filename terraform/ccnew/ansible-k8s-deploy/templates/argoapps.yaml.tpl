@@ -148,13 +148,13 @@ argocd_override:
           cc_backup_bucket: "${cc_backup_bucket}"
           cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
           object_storage_provider: "${cc_backup_object_storage_provider}"
-          object_storage_endpoint: "${cc_backup_object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
         velero:
           helm_version: "${velero_helm_version}"
           object_storage_cloud_role: "${object_storage_cloud_role}"
           enable_object_storage_backend: "'${enable_object_storage_backend}'"
           object_storage_region: "${cloud_region}"
           object_storage_bucket: "${object_storage_bucket_name}"
+          object_storage_endpoint: "${cc_backup_object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
           plugin_version: "${velero_plugin_version}"
         post_config:
           cc_backup_schedule: "${cc_backup_schedule}"
