@@ -138,7 +138,7 @@ spec:
           set -e
 
           # Perms workaround required for kubeadm init with kube-vip:
-          # xref: https://github.com/kube-vip/kube-vip/issues/684
+          # ref: https://github.com/kube-vip/kube-vip/issues/684
 
           IS_KUBEADM_INIT="false"
 
@@ -176,6 +176,7 @@ kind: ProxmoxMachineTemplate
 metadata:
   labels:
     cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+    cluster.x-k8s.io/control-plane: ""
   name: "${ARGOCD_ENV_capi_cluster_name}-controlplane"
   namespace: ${ARGOCD_ENV_capi_cluster_namespace}
 spec:
