@@ -8,5 +8,5 @@ metadata:
     app.kubernetes.io/instance: netbird-operator
     app.kubernetes.io/name: kubernetes-operator
   name: router
-  namespace: ${netbird_operator_post_config_namespace}
+  namespace: ${netbird_operator_namespace}
 spec: {}

@@ -4,6 +4,7 @@ module "generate_netbird_operator_post_config_files" {
     netbird_operator_cluster_name          = "${var.cluster_name}-cluster"
     netbird_operator_post_config_sync_wave = var.netbird_operator_post_config_sync_wave
     netbird_operator_post_config_namespace = var.netbird_operator_post_config_namespace
+    netbird_operator_namespace             = var.netbird_operator_namespace
     netbird_operator_helm_version          = var.netbird_operator_helm_version
     gitlab_project_url                     = var.gitlab_project_url
   }
