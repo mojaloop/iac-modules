@@ -147,7 +147,7 @@ argocd_override:
           object_storage_region: "${cloud_region}"
           cc_backup_bucket: "${cc_backup_bucket}"
           cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
-          object_storage_provider: "${object_storage_provider}"
+          object_storage_provider: "${velero_object_storage_provider}"
         velero:
           helm_version: "${velero_helm_version}"
           object_storage_cloud_role: "${object_storage_cloud_role}"
