@@ -111,4 +111,3 @@ spec:
           [default]
           aws_access_key_id = {{ .username | toString }}
           aws_secret_access_key = {{ .password  | toString }}
-          region = ${ARGOCD_ENV_object_storage_region}
