@@ -167,7 +167,6 @@ spec:
       apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
       kind: ProxmoxMachineTemplate
       name: "${ARGOCD_ENV_capi_cluster_name}-controlplane"
-  #hardcoded to 1 for now
   replicas: ${ARGOCD_ENV_capi_cluster_proxmox_control_plane_replicas}
   version: "v${ARGOCD_ENV_capi_cluster_kube_version}"
 ---
@@ -203,14 +202,14 @@ spec:
             - ${ARGOCD_ENV_capi_cluster_proxmox_host_sshkey}
           user: ubuntu
           password: ${ARGOCD_ENV_capi_cluster_proxmox_host_password}
-          # chpasswd: { expire: "false" }
+          chpasswd: { expire: "false" }
           manage_etc_hosts: true
           runCmd:
             - "modprobe overlay"
             - "modprobe br_netfilter"
             - "sysctl --system"
             - "mkdir -p /usr/local/bin"
-            - curl -L "https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
+            - curl -L "https://github.com/containerd/containerd/releases/download/v2.1.1/containerd-2.1.1-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
             - curl -L "https://raw.githubusercontent.com/containerd/containerd/main/containerd.service" -o /etc/systemd/system/containerd.service
             - "mkdir -p /etc/containerd"
             - "containerd config default > /etc/containerd/config.toml"
@@ -218,11 +217,11 @@ spec:
             - "systemctl daemon-reload"
             - "systemctl enable --now containerd"
             - "mkdir -p /usr/local/sbin"
-            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64" -o /usr/local/sbin/runc
+            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64" -o /usr/local/sbin/runc
             - "chmod 755 /usr/local/sbin/runc"
             - "mkdir -p /opt/cni/bin"
-            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz" | tar -C "/opt/cni/bin" -xz
-            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
+            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz" | tar -C "/opt/cni/bin" -xz
+            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.31.1/crictl-v1.31.1-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
             - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubeadm -o /usr/local/bin/kubeadm
             - chmod +x /usr/local/bin/kubeadm
             - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubelet -o /usr/local/bin/kubelet
@@ -358,7 +357,7 @@ spec:
             - "modprobe br_netfilter"
             - "sysctl --system"
             - "mkdir -p /usr/local/bin"
-            - curl -L "https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
+            - curl -L "https://github.com/containerd/containerd/releases/download/v2.1.1/containerd-2.1.1-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
             - curl -L "https://raw.githubusercontent.com/containerd/containerd/main/containerd.service" -o /etc/systemd/system/containerd.service
             - "mkdir -p /etc/containerd"
             - "containerd config default > /etc/containerd/config.toml"
@@ -366,11 +365,11 @@ spec:
             - "systemctl daemon-reload"
             - "systemctl enable --now containerd"
             - "mkdir -p /usr/local/sbin"
-            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64" -o /usr/local/sbin/runc
+            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64" -o /usr/local/sbin/runc
             - "chmod 755 /usr/local/sbin/runc"
             - "mkdir -p /opt/cni/bin"
-            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz" | tar -C "/opt/cni/bin" -xz
-            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
+            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz" | tar -C "/opt/cni/bin" -xz
+            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.31.1/crictl-v1.31.1-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
             - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubeadm -o /usr/local/bin/kubeadm
             - chmod +x /usr/local/bin/kubeadm
             - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubelet -o /usr/local/bin/kubelet
