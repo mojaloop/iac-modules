@@ -13,7 +13,7 @@ spec:
     namespace: ${ARGOCD_ENV_velero_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
-      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      bucketRegion: ${ARGOCD_ENV_object_storage_region}
       forceDestroy: true
       deletionPolicy: "Delete"
     ceph:
