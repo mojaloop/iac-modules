@@ -21,9 +21,8 @@ configuration:
       # for details of required/optional fields for your provider.
       config:
         region: ${ARGOCD_ENV_object_storage_region}
-        s3ForcePathStyle: ${ARGOCD_ENV_object_storage_path_style}
+        #s3ForcePathStyle: ${ARGOCD_ENV_object_storage_path_style}
         #s3Url: ${ARGOCD_ENV_object_storage_endpoint}
-        s3Url: https://eu-west-1.s3.amazonaws.com # to change later
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
 
