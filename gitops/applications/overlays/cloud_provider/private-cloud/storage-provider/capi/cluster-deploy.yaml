@@ -174,7 +174,7 @@ spec:
             - ${ARGOCD_ENV_capi_cluster_proxmox_host_sshkey}
           user: ubuntu
           password: ${ARGOCD_ENV_capi_cluster_proxmox_host_password}
-          chpasswd: { expire: "false" }
+          # chpasswd: { expire: "false" }
           manage_etc_hosts: true
           runCmd:
             - "modprobe overlay"
