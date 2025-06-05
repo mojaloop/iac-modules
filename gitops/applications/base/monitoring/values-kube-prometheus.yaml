@@ -70,12 +70,14 @@ kubelet:
       targetLabel: name
       replacement: ''
       action: replace
-    # removing id entirely make ambiguous series
-    - sourceLabels: [id]
-      regex: '.+/pod.+'
-      targetLabel: id
-      replacement: ''
-      action: replace
+    # NOTE: removing this label is expected to reduce remote write bandwidth by 15%
+    # removing id label causes err-mimir-sample-duplicate-timestamp error
+    # droping id entirely collapses multiple ts into one
+    # - sourceLabels: [id]
+    #   regex: '.+/pod.+'
+    #   targetLabel: id
+    #   replacement: ''
+    #   action: replace
 
 kubeApiServer:
   enabled: false
@@ -95,7 +97,7 @@ kube-state-metrics:
       replacement: ''
       action: replace
     metricRelabelings:
-    - regex: container_id|uid
+    - regex: uid
       action: labeldrop
 
 
