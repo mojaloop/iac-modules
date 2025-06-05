@@ -133,32 +133,32 @@ spec:
         owner: root:root
         path: /etc/kubernetes/manifests/kube-vip.yaml
 
-      - path: /etc/kube-vip-prepare.sh
-        content: |
-          #!/bin/bash
-          set -e
+      # - path: /etc/kube-vip-prepare.sh
+      #   content: |
+      #     #!/bin/bash
+      #     set -e
 
-          # Perms workaround required for kubeadm init with kube-vip:
-          # xref: https://github.com/kube-vip/kube-vip/issues/684
+      #     # Perms workaround required for kubeadm init with kube-vip:
+      #     # xref: https://github.com/kube-vip/kube-vip/issues/684
 
-          IS_KUBEADM_INIT="false"
+      #     IS_KUBEADM_INIT="false"
 
-          # cloud-init kubeadm init
-          if [[ -f /run/kubeadm/kubeadm.yaml ]]; then
-            IS_KUBEADM_INIT="true"
-          fi
+      #     # cloud-init kubeadm init
+      #     if [[ -f /run/kubeadm/kubeadm.yaml ]]; then
+      #       IS_KUBEADM_INIT="true"
+      #     fi
 
-          # ignition kubeadm init
-          if [[ -f /etc/kubeadm.sh ]] && grep -q -e "kubeadm init" /etc/kubeadm.sh; then
-            IS_KUBEADM_INIT="true"
-          fi
+      #     # ignition kubeadm init
+      #     if [[ -f /etc/kubeadm.sh ]] && grep -q -e "kubeadm init" /etc/kubeadm.sh; then
+      #       IS_KUBEADM_INIT="true"
+      #     fi
 
-          if [[ "$IS_KUBEADM_INIT" == "true" ]]; then
-            sed -i 's#path: /etc/kubernetes/admin.conf#path: /etc/kubernetes/super-admin.conf#' \
-              /etc/kubernetes/manifests/kube-vip.yaml
-          fi
-        owner: root:root
-        permissions: "0700"
+      #     if [[ "$IS_KUBEADM_INIT" == "true" ]]; then
+      #       sed -i 's#path: /etc/kubernetes/admin.conf#path: /etc/kubernetes/super-admin.conf#' \
+      #         /etc/kubernetes/manifests/kube-vip.yaml
+      #     fi
+      #   owner: root:root
+      #   permissions: "0700"
     initConfiguration:
       nodeRegistration:
         kubeletExtraArgs:
