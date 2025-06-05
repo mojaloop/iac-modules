@@ -92,7 +92,7 @@ spec:
               - name: vip_interface
                 value: ""
               - name: address
-                value: ${CONTROLPLANE_HOST}
+                value: ${ARGOCD_ENV_capi_cluster_kubeapi_host}
               - name: port
                 value: "6443"
               - name: vip_arp
