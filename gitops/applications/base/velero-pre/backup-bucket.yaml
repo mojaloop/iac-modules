@@ -13,7 +13,7 @@ spec:
     namespace: ${ARGOCD_ENV_velero_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
-      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      bucketRegion: ${ARGOCD_ENV_object_storage_region}
       forceDestroy: true
       deletionPolicy: "Delete"
     ceph:
@@ -107,8 +107,8 @@ spec:
       data:
         AWS_SECRET_ACCESS_KEY: "{{ .password }}"
         AWS_ACCESS_KEY_ID: "{{ .username }}"
+        AWS_REGION: ${ARGOCD_ENV_object_storage_region}
         ${ARGOCD_ENV_object_storage_secret_key}: |
           [default]
           aws_access_key_id = {{ .username | toString }}
           aws_secret_access_key = {{ .password  | toString }}
-          region = ${ARGOCD_ENV_object_storage_region}

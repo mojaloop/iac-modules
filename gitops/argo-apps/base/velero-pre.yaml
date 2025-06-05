@@ -46,7 +46,7 @@ spec:
           - name: "velero_cc_backup_storage_size"
             value: "${ARGOCD_ENV_velero_pre_cc_backup_storage_size}"
 
-          - name: "cloud_region"
+          - name: "object_storage_region"
             value: "${ARGOCD_ENV_velero_pre_object_storage_region}"
 
           - name: "object_storage_provider"
