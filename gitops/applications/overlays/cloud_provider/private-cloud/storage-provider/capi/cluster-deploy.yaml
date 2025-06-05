@@ -74,6 +74,62 @@ spec:
           cloud-provider: external
     preKubeadmCommands:
       - echo "KUBELET_EXTRA_ARGS=--allowed-unsafe-sysctls=net.ipv4.ip_forward --node-ip=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)" >> /etc/default/kubelet
+    files:
+      - content: |
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            creationTimestamp: null
+            name: kube-vip
+            namespace: kube-system
+          spec:
+            containers:
+            - args:
+              - manager
+              env:
+              - name: cp_enable
+                value: "true"
+              - name: vip_interface
+                value: ""
+              - name: address
+                value: ${CONTROLPLANE_HOST}
+              - name: port
+                value: "6443"
+              - name: vip_arp
+                value: "true"
+              - name: vip_leaderelection
+                value: "true"
+              - name: vip_leaseduration
+                value: "15"
+              - name: vip_renewdeadline
+                value: "10"
+              - name: vip_retryperiod
+                value: "2"
+              image: ghcr.io/kube-vip/kube-vip:v0.5.11
+              imagePullPolicy: IfNotPresent
+              name: kube-vip
+              resources: {}
+              securityContext:
+                capabilities:
+                  add:
+                  - NET_ADMIN
+                  - NET_RAW
+              volumeMounts:
+              - mountPath: /etc/kubernetes/admin.conf
+                name: kubeconfig
+            hostAliases:
+            - hostnames:
+              - kubernetes
+              ip: 127.0.0.1
+            hostNetwork: true
+            volumes:
+            - hostPath:
+                path: /etc/kubernetes/admin.conf
+                type: FileOrCreate
+              name: kubeconfig
+          status: {}
+        owner: root:root
+        path: /etc/kubernetes/manifests/kube-vip.yaml
     postKubeadmCommands:
       - "curl -L https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl"
       - "chmod +x /usr/local/bin/kubectl"
@@ -84,7 +140,7 @@ spec:
       kind: ProxmoxMachineTemplate
       name: "${ARGOCD_ENV_capi_cluster_name}-controlplane"
   #hardcoded to 1 for now
-  replicas: 1
+  replicas: ${ARGOCD_ENV_capi_cluster_proxmox_control_plane_replicas}
   version: "v${ARGOCD_ENV_capi_cluster_kube_version}"
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
@@ -160,8 +216,9 @@ spec:
       network:
         # nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
         ipConfig:
-          ip: "${ARGOCD_ENV_capi_cluster_kubeapi_host}/${ARGOCD_ENV_capi_cluster_network_subnet}"
-          gateway: ${ARGOCD_ENV_capi_cluster_network_gateway}
+          # ip: "${ARGOCD_ENV_capi_cluster_kubeapi_host}/${ARGOCD_ENV_capi_cluster_network_subnet}"
+          # gateway: ${ARGOCD_ENV_capi_cluster_network_gateway}
+          ip: dhcp
       storage: ${ARGOCD_ENV_capi_cluster_storage_name}
       image:
         checksum: c5eed826009c9f671bc5f7c9d5d63861aa2afe91aeff1c0d3a4cb5b28b2e35d6
