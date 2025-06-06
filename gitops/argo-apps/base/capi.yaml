@@ -107,6 +107,9 @@ spec:
         - name: "capi_cluster_proxmox_control_plane_replicas"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_control_plane_replicas}"
 
+        - name: "capi_kube_vip_version"
+          value: "${ARGOCD_ENV_utils_capi_capi_kube_vip_version}"
+
         - name: "capi_cluster_proxmox_user"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_proxmox_user}"
 
