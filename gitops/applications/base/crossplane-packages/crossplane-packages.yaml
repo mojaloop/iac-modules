@@ -68,8 +68,7 @@ kind: Configuration
 metadata:
   name: gitlab
 spec:
-  # package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:${ARGOCD_ENV_crossplane_packages_gitlab_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:v0.3.3-pr62-15446588783 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/gitlab:${ARGOCD_ENV_crossplane_packages_gitlab_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -77,8 +76,7 @@ kind: Configuration
 metadata:
   name: vault-config
 spec:
-  # package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:${ARGOCD_ENV_crossplane_packages_vault_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:v0.1.0-pr62-15445926141 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/vault-config:${ARGOCD_ENV_crossplane_packages_vault_config_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -102,8 +100,7 @@ kind: Configuration
 metadata:
   name: argocd-config
 spec:
-  # package: ghcr.io/mojaloop/iac-crossplane-packages/argocd-config:${ARGOCD_ENV_crossplane_packages_argocd_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/argocd-config:v0.1.0-pr62-15398640387 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/argocd-config:${ARGOCD_ENV_crossplane_packages_argocd_config_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -111,8 +108,7 @@ kind: Configuration
 metadata:
   name: zitadel-config
 spec:
-  # package: ghcr.io/mojaloop/iac-crossplane-packages/zitadel-config:${ARGOCD_ENV_crossplane_packages_zitadel_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/zitadel-config:v0.1.0-pr62-15398640387 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/zitadel-config:${ARGOCD_ENV_crossplane_packages_zitadel_config_version}
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
@@ -120,6 +116,5 @@ kind: Configuration
 metadata:
   name: grafana-config
 spec:
-  # package: ghcr.io/mojaloop/iac-crossplane-packages/grafana-config:${ARGOCD_ENV_crossplane_packages_grafana_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/grafana-config:v0.1.0-pr62-15446239878 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/grafana-config:${ARGOCD_ENV_crossplane_packages_grafana_config_version}
   skipDependencyResolution: true
