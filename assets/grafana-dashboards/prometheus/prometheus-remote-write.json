@@ -18,7 +18,7 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 1,
-    "id": 86,
+    "id": 90,
     "links": [
       {
         "asDropdown": false,
@@ -854,7 +854,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "63a2fb69-1835-42f9-9635-c42ddcd2ac00"
+          "uid": "${datasource}"
         },
         "description": "",
         "fieldConfig": {
@@ -1568,9 +1568,9 @@
       "list": [
         {
           "current": {
-            "selected": true,
-            "text": "Mimir",
-            "value": "63a2fb69-1835-42f9-9635-c42ddcd2ac00"
+            "selected": false,
+            "text": "Prometheus",
+            "value": "d4d76e42-8172-4d2d-8a35-a5643dd4042d"
           },
           "hide": 0,
           "includeAll": false,
@@ -1647,7 +1647,7 @@
     "timepicker": {},
     "timezone": "",
     "title": "Prometheus Remote write",
-    "uid": "d2a65853-b3b1-47bf-b728-cc727b20-v002",
+    "uid": "d2a65853-b3b1-47bf-b728-cc727b20-v003",
     "version": 1,
     "weekStart": ""
   }

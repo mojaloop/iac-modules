@@ -34,13 +34,11 @@ metadata:
   name: mojaloop-prometheus-remote-write
 spec:
   folder: monitoring
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus" 
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/${grafana_dashboard_tag}/monitoring/dashboards/infrastructure/prometheus-remote-write.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${grafana_dashboard_tag_iac_modules}/assets/grafana-dashboards/prometheus/prometheus-remote-write.json"
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
