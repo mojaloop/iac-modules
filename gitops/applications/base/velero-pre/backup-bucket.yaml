@@ -13,10 +13,102 @@ spec:
     namespace: ${ARGOCD_ENV_velero_namespace}
     s3:
       awsProviderName: "aws-cp-upbound-provider-config"
-      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      bucketRegion: ${ARGOCD_ENV_object_storage_region}
       forceDestroy: true
       deletionPolicy: "Delete"
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_velero_cc_backup_storage_size}"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: velero-secret-creator
+  namespace: ${ARGOCD_ENV_velero_namespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: ${ARGOCD_ENV_velero_namespace}
+  name: velero-secret-role
+rules:
+  - apiGroups: [""]
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - selfsubjectrulesreviews
+    verbs:
+      - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: velero-secret-creator
+  namespace: ${ARGOCD_ENV_velero_namespace}
+subjects:
+  - kind: ServiceAccount
+    name: velero-secret-creator
+roleRef:
+  kind: Role
+  name: velero-secret-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: velero-k8s-secret-store
+  namespace: ${ARGOCD_ENV_velero_namespace}
+spec:
+  provider:
+    kubernetes:
+      auth:
+        serviceAccount:
+          name: "velero-secret-creator"
+      remoteNamespace: ${ARGOCD_ENV_velero_namespace}
+      server:
+        caProvider:
+          type: ConfigMap
+          name: kube-root-ca.crt
+          key: ca.crt
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: ${ARGOCD_ENV_object_storage_secret_name}
+  namespace: ${ARGOCD_ENV_velero_namespace}
+spec:
+  refreshInterval: 1m
+
+  secretStoreRef:
+    kind: SecretStore
+    name: velero-k8s-secret-store
+
+  data:
+    - secretKey: username
+      remoteRef:
+        key: ${ARGOCD_ENV_velero_cc_backup_bucket}
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: ${ARGOCD_ENV_velero_cc_backup_bucket}
+        property: password
+
+  target:
+    name:  ${ARGOCD_ENV_object_storage_secret_name}
+    creationPolicy: Owner
+    template:
+      data:
+        AWS_SECRET_ACCESS_KEY: "{{ .password }}"
+        AWS_ACCESS_KEY_ID: "{{ .username }}"
+        AWS_REGION: ${ARGOCD_ENV_object_storage_region}
+        ${ARGOCD_ENV_object_storage_secret_key}: |
+          [default]
+          aws_access_key_id = {{ .username | toString }}
+          aws_secret_access_key = {{ .password  | toString }}

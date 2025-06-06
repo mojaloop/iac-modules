@@ -33,8 +33,9 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: KubernetesAuthEngineRole
 metadata:
   name: ${cert_manager_cluster_issuer_role_name}
+  namespace: ${vault_pki_namespace}
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -43,8 +44,8 @@ spec:
   tokenTTL: 3600
   policies:
     - pki-root-full
-  targetServiceAccounts: 
-    - vault-k8s  
+  targetServiceAccounts:
+    - vault-k8s
   targetNamespaces:
     targetNamespaces:
       - ${cert_manager_namespace}
@@ -53,6 +54,7 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: ${cert_man_vault_cluster_issuer_name}
+  namespace: ${vault_pki_namespace}
 spec:
   vault:
     path: ${vault_root_ca_name}/sign/server-cert-role

@@ -3,15 +3,3 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: ${ARGOCD_ENV_velero_namespace}
----
-apiVersion: utils.mojaloop.io/v1alpha1
-kind: RemoteNamespace
-metadata:
-  name: "${ARGOCD_ENV_velero_namespace}"
-spec:
-  parameters:
-    name: "${ARGOCD_ENV_velero_namespace}"
-  providerConfigsRef:
-    destinationK8sProviderName: sc-kubernetes-provider
-  managementPolicies:
-    - "*"

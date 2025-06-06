@@ -15,6 +15,7 @@ module "generate_vault_pki_setup_files" {
     k8s_auth_path                         = var.k8s_auth_path
     vault_endpoint                        = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
     vault_pki_sync_wave                   = var.vault_pki_sync_wave
+    vault_pki_namespace                   = var.vault_pki_namespace
   }
   file_list       = [for f in fileset(local.vault_pki_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vault_pki_app_file, f))]
   template_path   = local.vault_pki_template_path
@@ -71,6 +72,12 @@ variable "vault_pki_sync_wave" {
   type        = string
   description = "vault_pki_sync_wave"
   default     = "-5"
+}
+
+variable "vault_pki_namespace" {
+  description = "vault_pki_namespace"
+  type        = string
+  default     = "vault"
 }
 
 locals {

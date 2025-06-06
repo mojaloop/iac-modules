@@ -102,8 +102,7 @@ management:
       }
     }
   image:
-    repository: wiretrustee/management
-    tag: user-role-debug
+    tag: ${ARGOCD_ENV_netbird_image_version}
   ingress:
     enabled: false
   ingressGrpc:

@@ -1,0 +1,47 @@
+configuration:
+  logLevel: debug
+  # Parameters for the BackupStorageLocation(s). Configure multiple by adding other element(s) to the backupStorageLocation slice.
+  # See https://velero.io/docs/v1.6/api-types/backupstoragelocation/
+  backupStorageLocation:
+    # name is the name of the backup storage location where backups should be stored. If a name is not provided,
+    # a backup storage location will be created with the name "default". Optional.
+    - name: "control-center-backup"
+      # provider is the name for the backup storage location provider.
+      provider: aws
+      # bucket is the name of the bucket to store backups in. Required.
+      bucket: ${ARGOCD_ENV_velero_cc_backup_bucket}
+      # default indicates this location is the default backup storage location. Optional.
+      default: true
+      # validationFrequency defines how frequently Velero should validate the object storage. Optional.
+      accessMode: ReadWrite
+      credential:
+        key: ${ARGOCD_ENV_object_storage_secret_key}
+        name: ${ARGOCD_ENV_object_storage_secret_name}
+      # Additional provider-specific configuration. See link above
+      # for details of required/optional fields for your provider.
+      config:
+        region: ${ARGOCD_ENV_object_storage_region}
+        #s3ForcePathStyle: ${ARGOCD_ENV_object_storage_path_style}
+        #s3Url: ${ARGOCD_ENV_object_storage_endpoint}
+      # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
+      annotations: {}
+
+  volumeSnapshotLocation: []
+
+initContainers:
+  - name: velero-plugin-for-aws
+    image: velero/velero-plugin-for-aws:${ARGOCD_ENV_velero_plugin_version}
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+      - mountPath: /target
+        name: plugins
+      - name: cloud-credentials
+        mountPath: /credentials
+
+credentials:
+  useSecret: true
+  existingSecret: ${ARGOCD_ENV_object_storage_secret_name}
+  #extraSecretRef: ${ARGOCD_ENV_object_storage_secret_name}
+
+annotations:
+  secret.reloader.stakater.com/reload: ${ARGOCD_ENV_object_storage_secret_name}

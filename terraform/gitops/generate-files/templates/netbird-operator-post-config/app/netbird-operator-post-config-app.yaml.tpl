@@ -2,27 +2,26 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${vault_pki_sync_wave}"
-  name: vault-pki-app
+    argocd.argoproj.io/sync-wave: "${netbird_operator_post_config_sync_wave}"
+  name: netbird-operator-post-config-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/vault-pki-setup
+    path: apps/netbird-operator-post-config
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${vault_pki_namespace}
+    namespace: ${netbird_operator_post_config_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-      allowEmpty: true
     retry:
       limit: 5
       backoff:

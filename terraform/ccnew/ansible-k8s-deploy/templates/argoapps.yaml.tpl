@@ -113,6 +113,8 @@ argocd_override:
           capi_rook_ceph_image_version: "${rook_ceph_image_version}"
           capi_rook_ceph_rbd_pool_replication_size: "${rook_ceph_objects_replica_count}"
           capi_rook_ceph_rgw_external_ip: "${capi_rook_ceph_rgw_external_ip}"
+          capi_os_disk_size: "${capi_os_disk_size}"
+          capi_rook_ceph_disk_size: "${capi_rook_ceph_disk_size}"
           cloud_provider: "${cloud_platform }"
           capi_cluster_cidr: "${capi_cluster_cidr}"
           capi_cluster_name: "sc-${cluster_name}"
@@ -150,14 +152,19 @@ argocd_override:
           object_storage_region: "${cloud_region}"
           cc_backup_bucket: "${cc_backup_bucket}"
           cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
-          object_storage_provider: "${object_storage_provider}"
+          object_storage_provider: "${cc_backup_object_storage_provider}"
         velero:
           helm_version: "${velero_helm_version}"
           object_storage_cloud_role: "${object_storage_cloud_role}"
           enable_object_storage_backend: "'${enable_object_storage_backend}'"
           object_storage_region: "${cloud_region}"
           object_storage_bucket: "${object_storage_bucket_name}"
+          object_storage_endpoint: "${cc_backup_object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
+          object_storage_path_style: "${cc_backup_object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           plugin_version: "${velero_plugin_version}"
+        post_config:
+          cc_backup_schedule: "${cc_backup_schedule}"
+          cc_backup_ttl: "${cc_backup_ttl}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
