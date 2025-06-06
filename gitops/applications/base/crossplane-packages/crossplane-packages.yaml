@@ -45,7 +45,7 @@ metadata:
   name: nb-config
 spec:
   #package: ghcr.io/mojaloop/iac-crossplane-packages/nb-config:${ARGOCD_ENV_crossplane_packages_nb_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/nb-config:v0.1.4-pr81-15411676403
+  package: ghcr.io/mojaloop/iac-crossplane-packages/nb-config:v0.1.3
   skipDependencyResolution: true
 ---
 apiVersion: pkg.crossplane.io/v1
