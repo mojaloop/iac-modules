@@ -3,6 +3,8 @@ kind: K8sOIDC
 metadata:
   name: zitadel-k8s-oidc-config
   namespace: ${ARGOCD_ENV_zitadel_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 2
 spec:
   parameters:
     zitadelFqdn: "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
