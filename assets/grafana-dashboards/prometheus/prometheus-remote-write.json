@@ -26,7 +26,6 @@
         "includeVars": false,
         "keepTime": false,
         "tags": [
-          "mojaloop",
           "monitoring",
           "prometheus"
         ],
@@ -55,7 +54,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "",
         "gridPos": {
@@ -79,7 +78,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "expr": "",
             "instant": false,
@@ -206,7 +205,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "Shows the amount of time after which samples are being read by TSDB WAL watcher. The delay may increase in case of prometheus restarts (WAL replay). Considerable increase (20sec +)  suggests an outage and possible data loss. \n\n- Expected delay should be less than 20 seconds\n- increasing delay time means remote write is falling behind and will lead to data loss",
         "fieldConfig": {
@@ -290,7 +289,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "-(prometheus_wal_watcher_current_segment{cluster=~\"$cluster\", instance=~\"$instance\"}\n - ignoring(consumer) group_left\nprometheus_tsdb_wal_segment_current{cluster=~\"$cluster\", instance=~\"$instance\"})\n",
@@ -319,7 +318,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "No. of samples/metadata sent per second. \nShould show steady activity. Reduced activity should be coupled with increase in error rate or less timeseries data being scrapped. ",
         "fieldConfig": {
@@ -403,7 +402,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "rate(prometheus_remote_storage_samples_total{cluster=~\"$cluster\", instance=~\"$instance\"}[$__rate_interval])",
@@ -420,7 +419,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "No. of samples/metadata retried per second. \n\nIdeally zero. It indicates problems with the network or remote storage endpoint if there is a steady high rate for this metric. That may mean we need to reduce throughput of remote write to reduce load on the other end.\n",
         "fieldConfig": {
@@ -504,7 +503,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "rate(prometheus_remote_storage_samples_retried_total{cluster=~\"$cluster\", instance=~\"$instance\"}[$__rate_interval])",
@@ -534,7 +533,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "No. of shards currently being used to send data to remote write endpoinds. This number should be less than max shards. A number near max shards mean that we may be throttled in case of any data increase",
         "fieldConfig": {
@@ -616,7 +615,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "prometheus_remote_storage_shards{cluster=~\"$cluster\", instance=~\"$instance\"}",
@@ -632,7 +631,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "No. of shards estimated by algorithm to push data to remote endpoints ",
         "fieldConfig": {
@@ -715,7 +714,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "prometheus_remote_storage_shards_desired{cluster=~\"$cluster\", instance=~\"$instance\"}",
@@ -731,7 +730,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "Prometheus remote write min and max shards as per configuration",
         "fieldConfig": {
@@ -813,7 +812,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "prometheus_remote_storage_shards_min{cluster=~\"$cluster\", instance=~\"$instance\"}",
@@ -825,7 +824,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "prometheus_remote_storage_shards_max{cluster=~\"$cluster\", instance=~\"$instance\"}",
@@ -938,7 +937,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "rate(prometheus_remote_storage_samples_dropped_total{cluster=~\"$cluster\", instance=~\"$instance\"}[$__rate_interval])",
@@ -954,7 +953,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "",
         "fieldConfig": {
@@ -1037,7 +1036,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "rate(prometheus_remote_storage_samples_failed_total{cluster=~\"$cluster\", instance=~\"$instance\"}[$__rate_interval])",
@@ -1053,7 +1052,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "",
         "fieldConfig": {
@@ -1136,7 +1135,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "rate(prometheus_remote_storage_samples_retried_total{cluster=~\"$cluster\", instance=~\"$instance\"}[$__rate_interval])",
@@ -1152,7 +1151,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "Rate of enqueue operation failure because a shard’s queue was full",
         "fieldConfig": {
@@ -1235,7 +1234,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "rate(prometheus_remote_storage_enqueue_retries_total{cluster=~\"$cluster\", instance=~\"$instance\"}[$__rate_interval])",
@@ -1264,7 +1263,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "",
         "fieldConfig": {
@@ -1348,7 +1347,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "histogram_quantile(0.99, sum(rate(prometheus_remote_storage_sent_batch_duration_seconds_bucket{cluster=~\"$cluster\", instance=~\"$instance\"}[$__rate_interval])) by (le,remote_name))",
@@ -1364,7 +1363,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "",
         "fieldConfig": {
@@ -1448,7 +1447,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "histogram_quantile(0.90, sum(rate(prometheus_remote_storage_sent_batch_duration_seconds_bucket{cluster=~\"$cluster\", instance=~\"$instance\"}[$__rate_interval])) by (le,remote_name))",
@@ -1464,7 +1463,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "Mimir"
+          "uid": "${datasource}"
         },
         "description": "",
         "fieldConfig": {
@@ -1548,7 +1547,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "Mimir"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "histogram_quantile(0.5, sum(rate(prometheus_remote_storage_sent_batch_duration_seconds_bucket{cluster=~\"$cluster\", instance=~\"$instance\"}[$__rate_interval])) by (le,remote_name))",
@@ -1642,12 +1641,12 @@
       ]
     },
     "time": {
-      "from": "now-3h",
+      "from": "now-1h",
       "to": "now"
     },
     "timepicker": {},
     "timezone": "",
-    "title": "Mojaloop - Prometheus Remote write",
+    "title": "Prometheus Remote write",
     "uid": "d2a65853-b3b1-47bf-b728-cc727b20-v002",
     "version": 1,
     "weekStart": ""
