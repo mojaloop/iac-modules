@@ -131,5 +131,5 @@ metadata:
   name: k8s-config
 spec:
   # package: ghcr.io/mojaloop/iac-crossplane-packages/k8s-config:${ARGOCD_ENV_crossplane_packages_k8s_config_version}
-  package: ghcr.io/mojaloop/iac-crossplane-packages/k8s-config:v0.1.0-pr83-15489555218 # TODO: Temporary
+  package: ghcr.io/mojaloop/iac-crossplane-packages/k8s-config:v0.1.0-pr83-15504891725 # TODO: Temporary
   skipDependencyResolution: true

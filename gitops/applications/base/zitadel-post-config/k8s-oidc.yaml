@@ -8,7 +8,8 @@ metadata:
 spec:
   parameters:
     zitadelFqdn: "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
-    k8sNamespace: "kube-system"
+    oidcSecretNamespace: ${ARGOCD_ENV_zitadel_namespace}
+    oidcSecret: "${ARGOCD_ENV_k8s_oidc_post_config_output_secret}"
     zitadelAdminHumanUserIdRef:
       name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
       namespace: ${ARGOCD_ENV_zitadel_namespace}
