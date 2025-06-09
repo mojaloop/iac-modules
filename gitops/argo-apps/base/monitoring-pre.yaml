@@ -56,3 +56,6 @@ spec:
           value: "${ARGOCD_ENV_monitoring_pre_loki_bucket_name}"
         - name: "object_storage_provider"
           value: "${ARGOCD_ENV_monitoring_pre_object_storage_provider}"
+
+        - name: "cloud_region"
+          value: "${ARGOCD_ENV_monitoring_monitoring_cloud_region}"
