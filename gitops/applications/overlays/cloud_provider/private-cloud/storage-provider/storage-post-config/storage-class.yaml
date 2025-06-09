@@ -36,7 +36,7 @@ parameters:
   csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
   csi.storage.k8s.io/provisioner-secret-namespace: ${ARGOCD_ENV_storage_namespace}
   fsName: ceph-filesystem
-  pool: ceph-filesystem-data0
+  pool: ceph-filesystem-replicated
 provisioner: "${ARGOCD_ENV_storage_namespace}.cephfs.csi.ceph.com"
 reclaimPolicy: Delete
 volumeBindingMode: Immediate

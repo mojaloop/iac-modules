@@ -461,6 +461,7 @@ aws_ebs_csi_driver_helm_version: "2.39.0"
 capi_infra_provider_version: "0.4.5"
 capi_cluster_proxmox_worker_cpu: "'8'"
 capi_cluster_proxmox_worker_memory: "'32768'"
+capi_cluster_proxmox_control_plane_replicas: "'3'"
 capi_cluster_proxmox_worker_replicas: "'3'"
 capi_cluster_proxmox_control_plane_memory: "'8192'"
 capi_cluster_proxmox_control_plane_cpu: "'2'"
@@ -481,6 +482,9 @@ capi_os_disk_size: "100G"
 capi_rook_ceph_disk_size: "150G"
 capi_rook_ceph_rgw_instance_replicas: "'2'"
 capi_calico_helm_version: "v3.30.0"
+
+capi_kube_vip_version: "v0.9.1"
+
 ##end capi
 
 #backup

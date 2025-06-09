@@ -103,6 +103,8 @@ argocd_override:
           capi_cluster_proxmox_worker_cpu: "${capi_cluster_proxmox_worker_cpu}"
           capi_cluster_proxmox_worker_memory: "${capi_cluster_proxmox_worker_memory}"
           capi_cluster_proxmox_worker_replicas: "${capi_cluster_proxmox_worker_replicas}"
+          capi_cluster_proxmox_control_plane_replicas: "${capi_cluster_proxmox_control_plane_replicas}"
+          capi_kube_vip_version: "${capi_kube_vip_version}"
           capi_cluster_storage_name: "${capi_cluster_storage_name}"
           capi_rook_ceph_helm_version: "${rook_ceph_helm_version}"
           capi_rook_ceph_image_version: "${rook_ceph_image_version}"
