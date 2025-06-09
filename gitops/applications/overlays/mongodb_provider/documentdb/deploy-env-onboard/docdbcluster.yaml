@@ -27,7 +27,7 @@ spec:
         name: tls
         value: disabled
     passwordSecret:
-      key: "password"
+      key: "MONGODB_USER_ADMIN_PASSWORD"
       name: ${ARGOCD_ENV_db_secret}
       namespace: "${ARGOCD_ENV_namespace}"
     port: ${ARGOCD_ENV_port}
