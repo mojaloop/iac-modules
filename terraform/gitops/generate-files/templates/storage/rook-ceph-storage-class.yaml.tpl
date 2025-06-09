@@ -37,7 +37,7 @@ parameters:
   csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
   csi.storage.k8s.io/provisioner-secret-namespace: ${storage_namespace}
   fsName: ceph-filesystem
-  pool: ceph-filesystem-data0
+  pool: ceph-filesystem-replicated
 provisioner: "${storage_namespace}.cephfs.csi.ceph.com"
 reclaimPolicy: Delete
 volumeBindingMode: Immediate

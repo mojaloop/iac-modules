@@ -25,6 +25,7 @@ volumeBindingMode: "Immediate"
 parameters:
   clusterID: "${ARGOCD_ENV_storage_namespace}"
   fsName: ceph-filesystem
+  pool: ceph-filesystem-replicated
   csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
   csi.storage.k8s.io/provisioner-secret-namespace: "${ARGOCD_ENV_storage_namespace}"
   csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner

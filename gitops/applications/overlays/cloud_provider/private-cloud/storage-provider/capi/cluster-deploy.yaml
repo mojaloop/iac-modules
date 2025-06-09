@@ -74,6 +74,90 @@ spec:
           cloud-provider: external
     preKubeadmCommands:
       - echo "KUBELET_EXTRA_ARGS=--allowed-unsafe-sysctls=net.ipv4.ip_forward --node-ip=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)" >> /etc/default/kubelet
+      - /etc/kube-vip-prepare.sh
+    files:
+      - content: |
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            creationTimestamp: null
+            name: kube-vip
+            namespace: kube-system
+          spec:
+            containers:
+            - args:
+              - manager
+              env:
+              - name: cp_enable
+                value: "true"
+              - name: vip_interface
+                value: ""
+              - name: address
+                value: ${ARGOCD_ENV_capi_cluster_kubeapi_host}
+              - name: port
+                value: "6443"
+              - name: vip_arp
+                value: "true"
+              - name: vip_leaderelection
+                value: "true"
+              - name: vip_leaseduration
+                value: "15"
+              - name: vip_renewdeadline
+                value: "10"
+              - name: vip_retryperiod
+                value: "2"
+              image: ghcr.io/kube-vip/kube-vip:${ARGOCD_ENV_capi_kube_vip_version}
+              imagePullPolicy: IfNotPresent
+              name: kube-vip
+              resources: {}
+              securityContext:
+                capabilities:
+                  add:
+                  - NET_ADMIN
+                  - NET_RAW
+              volumeMounts:
+              - mountPath: /etc/kubernetes/admin.conf
+                name: kubeconfig
+            hostAliases:
+            - hostnames:
+              - localhost
+              - kubernetes
+              ip: 127.0.0.1
+            hostNetwork: true
+            volumes:
+            - hostPath:
+                path: /etc/kubernetes/admin.conf
+                type: FileOrCreate
+              name: kubeconfig
+          status: {}
+        owner: root:root
+        path: /etc/kubernetes/manifests/kube-vip.yaml
+      - path: /etc/kube-vip-prepare.sh
+        content: |
+          #!/bin/bash
+          set -e
+
+          # Perms workaround required for kubeadm init with kube-vip:
+          # ref: https://github.com/kube-vip/kube-vip/issues/684
+
+          IS_KUBEADM_INIT="false"
+
+          # cloud-init kubeadm init
+          if [[ -f /run/kubeadm/kubeadm.yaml ]]; then
+            IS_KUBEADM_INIT="true"
+          fi
+
+          # ignition kubeadm init
+          if [[ -f /etc/kubeadm.sh ]] && grep -q -e "kubeadm init" /etc/kubeadm.sh; then
+            IS_KUBEADM_INIT="true"
+          fi
+
+          if [[ "$IS_KUBEADM_INIT" == "true" ]]; then
+            sed -i 's#path: /etc/kubernetes/admin.conf#path: /etc/kubernetes/super-admin.conf#' \
+              /etc/kubernetes/manifests/kube-vip.yaml
+          fi
+        owner: root:root
+        permissions: "0700"
     postKubeadmCommands:
       - "curl -L https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl"
       - "chmod +x /usr/local/bin/kubectl"
@@ -83,8 +167,7 @@ spec:
       apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
       kind: ProxmoxMachineTemplate
       name: "${ARGOCD_ENV_capi_cluster_name}-controlplane"
-  #hardcoded to 1 for now
-  replicas: 1
+  replicas: ${ARGOCD_ENV_capi_cluster_proxmox_control_plane_replicas}
   version: "v${ARGOCD_ENV_capi_cluster_kube_version}"
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
@@ -92,6 +175,7 @@ kind: ProxmoxMachineTemplate
 metadata:
   labels:
     cluster.x-k8s.io/cluster-name: ${ARGOCD_ENV_capi_cluster_name}
+    cluster.x-k8s.io/control-plane: ""
   name: "${ARGOCD_ENV_capi_cluster_name}-controlplane"
   namespace: ${ARGOCD_ENV_capi_cluster_namespace}
 spec:
@@ -118,13 +202,14 @@ spec:
             - ${ARGOCD_ENV_capi_cluster_proxmox_host_sshkey}
           user: ubuntu
           password: ${ARGOCD_ENV_capi_cluster_proxmox_host_password}
+          chpasswd: { expire: "false" }
           manage_etc_hosts: true
           runCmd:
             - "modprobe overlay"
             - "modprobe br_netfilter"
             - "sysctl --system"
             - "mkdir -p /usr/local/bin"
-            - curl -L "https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
+            - curl -L "https://github.com/containerd/containerd/releases/download/v2.1.1/containerd-2.1.1-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
             - curl -L "https://raw.githubusercontent.com/containerd/containerd/main/containerd.service" -o /etc/systemd/system/containerd.service
             - "mkdir -p /etc/containerd"
             - "containerd config default > /etc/containerd/config.toml"
@@ -132,11 +217,11 @@ spec:
             - "systemctl daemon-reload"
             - "systemctl enable --now containerd"
             - "mkdir -p /usr/local/sbin"
-            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64" -o /usr/local/sbin/runc
+            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64" -o /usr/local/sbin/runc
             - "chmod 755 /usr/local/sbin/runc"
             - "mkdir -p /opt/cni/bin"
-            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz" | tar -C "/opt/cni/bin" -xz
-            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
+            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz" | tar -C "/opt/cni/bin" -xz
+            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.31.1/crictl-v1.31.1-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
             - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubeadm -o /usr/local/bin/kubeadm
             - chmod +x /usr/local/bin/kubeadm
             - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubelet -o /usr/local/bin/kubelet
@@ -160,8 +245,9 @@ spec:
       network:
         # nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
         ipConfig:
-          ip: "${ARGOCD_ENV_capi_cluster_kubeapi_host}/${ARGOCD_ENV_capi_cluster_network_subnet}"
-          gateway: ${ARGOCD_ENV_capi_cluster_network_gateway}
+          # ip: "${ARGOCD_ENV_capi_cluster_kubeapi_host}/${ARGOCD_ENV_capi_cluster_network_subnet}"
+          # gateway: ${ARGOCD_ENV_capi_cluster_network_gateway}
+          ip: dhcp
       storage: ${ARGOCD_ENV_capi_cluster_storage_name}
       image:
         checksum: c5eed826009c9f671bc5f7c9d5d63861aa2afe91aeff1c0d3a4cb5b28b2e35d6
@@ -271,7 +357,7 @@ spec:
             - "modprobe br_netfilter"
             - "sysctl --system"
             - "mkdir -p /usr/local/bin"
-            - curl -L "https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
+            - curl -L "https://github.com/containerd/containerd/releases/download/v2.1.1/containerd-2.1.1-linux-amd64.tar.gz" | tar Cxvz "/usr/local"
             - curl -L "https://raw.githubusercontent.com/containerd/containerd/main/containerd.service" -o /etc/systemd/system/containerd.service
             - "mkdir -p /etc/containerd"
             - "containerd config default > /etc/containerd/config.toml"
@@ -279,11 +365,11 @@ spec:
             - "systemctl daemon-reload"
             - "systemctl enable --now containerd"
             - "mkdir -p /usr/local/sbin"
-            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64" -o /usr/local/sbin/runc
+            - curl -L "https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64" -o /usr/local/sbin/runc
             - "chmod 755 /usr/local/sbin/runc"
             - "mkdir -p /opt/cni/bin"
-            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz" | tar -C "/opt/cni/bin" -xz
-            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
+            - curl -L "https://github.com/containernetworking/plugins/releases/download/v1.7.1/cni-plugins-linux-amd64-v1.7.1.tgz" | tar -C "/opt/cni/bin" -xz
+            - curl -L "https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.31.1/crictl-v1.31.1-linux-amd64.tar.gz" | tar -C "/usr/local/bin" -xz
             - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubeadm -o /usr/local/bin/kubeadm
             - chmod +x /usr/local/bin/kubeadm
             - curl -L --remote-name-all https://dl.k8s.io/release/v${ARGOCD_ENV_capi_cluster_kube_version}/bin/linux/amd64/kubelet -o /usr/local/bin/kubelet
