@@ -360,7 +360,7 @@
         },
         "id": 4,
         "panels": [],
-        "title": "Inter cluster traffic",
+        "title": "Intra cluster traffic",
         "type": "row"
       },
       {
