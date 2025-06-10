@@ -1,0 +1,28 @@
+---
+apiVersion: argocd.mojaloop.io/v1alpha1
+kind: ArgocdOIDC
+metadata:
+  name: zitadel-argocd-oidc-config
+  namespace: ${ARGOCD_ENV_zitadel_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 5
+spec:
+  parameters:
+    argocdFqdn: "argocd.${ARGOCD_ENV_argocd_dns_subdomain}"
+    zitadelFqdn: "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+    argocdNamespace: "${ARGOCD_ENV_argocd_namespace}"
+    zitadelAdminHumanUserIdRef:
+      name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      key: zitadel_admin_human_user_id
+    adminRbacGroup: "${ARGOCD_ENV_argocd_admin_rbac_group}"
+    userRbacGroup: "${ARGOCD_ENV_argocd_user_rbac_group}"
+    oidcProviderGroupClaimPrefix: "${ARGOCD_ENV_zitadel_grant_prefix}"
+    organizationIdSecretRef:
+      name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      key: zitadel_org_id
+
+  providerConfigsRef:
+    zitadelProviderName: zitadel-provider
+    kubernetesProviderName: kubernetes-provider

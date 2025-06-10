@@ -5,7 +5,8 @@ resources:
   - grafana-crs.yaml
   - virtual-service.yaml
   - vault-secrets.yaml
-  - grafana-oidc-xplane-terraform.yaml
+  - grafana-provider-config.yaml
+  - grafana-oidc.yaml
   # - dashboards-aws-managed-svs.yaml
   - dashboards-default.yaml
   - dashboards-infra.yaml

@@ -10,6 +10,8 @@ resources:
   - netbird.yaml
   - terraform.yaml
   - vault.yaml
+  - zitadel.yaml
+  - grafana.yaml
 
 secretGenerator:
   - name: terraformrc

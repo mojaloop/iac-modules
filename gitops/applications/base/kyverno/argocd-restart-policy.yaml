@@ -1,0 +1,48 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restart-argocd-server
+spec:
+  admission: true
+  background: true
+  emitWarning: false
+  rules:
+  - match:
+      any:
+      - resources:
+          kinds:
+          - ConfigMap
+          names:
+          - argocd-cm
+          namespaces:
+          - argocd
+      - resources:
+          kinds:
+          - Secret
+          namespaces:
+          - argocd
+          selector:
+            matchLabels:
+              argocd.mojaloop.com/oidc-secret: "true"
+    mutate:
+      patchStrategicMerge:
+        spec:
+          template:
+            metadata:
+              annotations:
+                kyverno.platform.mojaloop.com/triggerrestart: "{{request.object.metadata.resourceVersion}}"
+      targets:
+      - apiVersion: apps/v1
+        kind: Deployment
+        namespace: argocd
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: argocd-server
+    name: add-annotation-on-configmap-and-secret-update
+    preconditions:
+      all:
+      - key: "{{request.operation}}"
+        operator: Equals
+        value: UPDATE
+    skipBackgroundRequests: true
+  validationFailureAction: Audit

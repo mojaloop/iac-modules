@@ -4,7 +4,7 @@ resources:
   - namespace.yaml
   - vault-secrets.yaml
   - objectstorage.yaml
-  - gitlab-oidc-xplane-terraform.yaml
+  - gitlab-oidc.yaml
 
 helmCharts:
 - name: redis

@@ -1,0 +1,24 @@
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-grafana
+spec:
+  package: ghcr.io/mojaloop/infra/grafana/provider-grafana:v${ARGOCD_ENV_crossplane_providers_grafana_version}
+  runtimeConfigRef:
+    name: crossplane-grafana-controller
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: crossplane-grafana-controller
+spec:
+  deploymentTemplate:
+    spec:
+      selector: {}
+      template:
+        spec:
+          containers:
+            - name: package-runtime
+              args:
+                - --enable-management-policies

@@ -1,0 +1,28 @@
+apiVersion: gitlab.mojaloop.io/v1alpha1
+kind: GitlabOIDC
+metadata:
+  name: gitlab-oidc-claim
+  namespace: ${ARGOCD_ENV_zitadel_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 5
+spec:
+  parameters:
+    gitlabFqdn: gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}
+    zitadelFqdn: zitadel.${ARGOCD_ENV_gitlab_dns_subdomain}
+    gitlabNamespace: ${ARGOCD_ENV_gitlab_namespace}
+    zitadelAdminHumanUserIdRef:
+      name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      key: zitadel_admin_human_user_id
+    adminRbacGroup: "${ARGOCD_ENV_gitlab_admin_rbac_group}"
+    maintainerRbacGroup: "${ARGOCD_ENV_gitlab_maintainer_rbac_group}"
+    userRbacGroup: "${ARGOCD_ENV_gitlab_user_rbac_group}"
+    oidcProviderGroupClaimPrefix: "${ARGOCD_ENV_zitadel_grant_prefix}"
+    organizationIdSecretRef: # TODO: FIX
+      name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      key: zitadel_org_id
+
+  providerConfigsRef:
+    zitadelProviderName: "zitadel-provider"
+    kubernetesProviderName: "kubernetes-provider"
