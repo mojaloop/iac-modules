@@ -1,4 +1,4 @@
-{
+  {
     "annotations": {
       "list": [
         {
@@ -18,7 +18,7 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 61,
+    "id": 93,
     "links": [],
     "panels": [
       {
@@ -52,7 +52,6 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -83,7 +82,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -155,7 +155,6 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -186,7 +185,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -258,7 +258,6 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -289,7 +288,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -361,7 +361,6 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -392,7 +391,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -464,7 +464,6 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -495,7 +494,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -567,7 +567,6 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -598,7 +597,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -880,31 +880,43 @@
         "type": "timeseries"
       }
     ],
-    "preload": false,
-    "schemaVersion": 41,
+    "schemaVersion": 39,
     "tags": [],
     "templating": {
       "list": [
         {
           "allowCustomValue": false,
           "current": {
+            "selected": false,
             "text": "Prometheus",
-            "value": "8e1361e4-e9b7-4b90-a9d5-fe0a2dad45a7"
+            "value": "d4d76e42-8172-4d2d-8a35-a5643dd4042d"
           },
+          "hide": 0,
+          "includeAll": false,
+          "multi": false,
           "name": "datasource",
           "options": [],
           "query": "prometheus",
           "refresh": 1,
           "regex": "",
+          "skipUrlSync": false,
           "type": "datasource"
         },
         {
           "allowCustomValue": true,
           "current": {
+            "selected": false,
             "text": "",
             "value": ""
           },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "definition": "label_values(node_uname_info,cluster)",
+          "hide": 0,
+          "includeAll": false,
+          "multi": false,
           "name": "cluster",
           "options": [],
           "query": {
@@ -914,11 +926,14 @@
           },
           "refresh": 1,
           "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
           "type": "query"
         },
         {
           "allowCustomValue": true,
           "current": {
+            "selected": true,
             "text": [
               "All"
             ],
@@ -926,7 +941,12 @@
               "$__all"
             ]
           },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "definition": "label_values(node_uname_info{cluster=\"$cluster\"},nodename)",
+          "hide": 0,
           "includeAll": true,
           "multi": true,
           "name": "node",
@@ -938,13 +958,11 @@
           },
           "refresh": 1,
           "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
           "type": "query"
         },
         {
-          "current": {
-            "text": ".+rbdplugin.+|coredns-nodecache.+|.+node-exporter.+|.+cephfsplugin.+|calico-node.+|node-debugger.+",
-            "value": ".+rbdplugin.+|coredns-nodecache.+|.+node-exporter.+|.+cephfsplugin.+|calico-node.+|node-debugger.+"
-          },
           "description": "Regular expression to exclude specific pods from being displayed on the chart",
           "hide": 2,
           "name": "ignore_pods_regexp",
@@ -957,6 +975,7 @@
             "text": ".+",
             "value": ".+"
           },
+          "hide": 0,
           "label": "pod filter",
           "name": "pod_filter",
           "options": [
@@ -967,6 +986,7 @@
             }
           ],
           "query": ".+",
+          "skipUrlSync": false,
           "type": "textbox"
         }
       ]
@@ -978,6 +998,7 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "Network - Quick view",
-    "uid": "deojbe4mokjk0a",
-    "version": 37
+    "uid": "deojbe4mokj-v001",
+    "version": 1,
+    "weekStart": ""
   }
