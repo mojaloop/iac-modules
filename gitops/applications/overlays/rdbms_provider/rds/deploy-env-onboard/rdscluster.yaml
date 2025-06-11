@@ -40,7 +40,7 @@ spec:
       - name: aurora_fwd_writer_max_connections_pct
         value: "30"
     passwordSecret:
-      key: "password"
+      key: "root"
       name: ${ARGOCD_ENV_db_secret}
       namespace: "${ARGOCD_ENV_namespace}"
     port: ${ARGOCD_ENV_port}

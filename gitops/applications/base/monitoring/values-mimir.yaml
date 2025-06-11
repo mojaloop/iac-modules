@@ -29,7 +29,7 @@ mimir:
           access_key_id: $${username}
           secret_access_key: $${password}
           bucket_name: "mimir-${ARGOCD_ENV_cluster_name}"
-          endpoint: ${ARGOCD_ENV_object_storage_host}
+          endpoint: ${ARGOCD_ENV_object_storage_regional_host}
           insecure: ${ARGOCD_ENV_object_store_insecure_connection}
           bucket_lookup_type: ${ARGOCD_ENV_bucket_lookup_type}
           region: ${ARGOCD_ENV_cloud_region}
@@ -43,7 +43,7 @@ mimir:
   gossipRing:
     service:
       ports:
-        http: ${ARGOCD_ENV_mimir_gossip_ring_port} 
+        http: ${ARGOCD_ENV_mimir_gossip_ring_port}
   containerPorts:
     gossipRing: ${ARGOCD_ENV_mimir_gossip_ring_port}
 metrics:
