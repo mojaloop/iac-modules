@@ -1336,7 +1336,7 @@ gitlab-runner:
             BucketLocation = "${ARGOCD_ENV_cloud_region}"
             Insecure = ${ARGOCD_ENV_object_store_insecure_connection}
           [runners.cache.s3.config]
-            UsePathStyle = ${ARGOCD_ENV_bucket_lookup_type}
+            UsePathStyle = ${ARGOCD_ENV_object_storage_path_style}
     cache:
       secretName: "gitlab-runner-cache-secret"
   podAnnotations:
