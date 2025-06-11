@@ -40,7 +40,10 @@ prometheus:
     url: ${central_observability_endpoint}/api/v1/push
     headers:
       X-Scope-OrgID: ${central_observability_tenant_id}
+    metadataConfig:
+      sendInterval: ${prometheus_scrape_interval}
 %{endif ~}
+
 
 %{if enable_central_observability_read ~}
   remoteRead:
@@ -86,7 +89,7 @@ kubelet:
     - sourceLabels: ['__name__']
       regex: 'container_tasks_state|container_memory_failures_total|container_blkio_device_usage_total'
       action: drop
-    - regex: endpoint|service|id
+    - regex: endpoint|service
       action: labeldrop
     # remove name label with hexadecimal values only
     - sourceLabels: [name]
@@ -94,6 +97,14 @@ kubelet:
       targetLabel: name
       replacement: ''
       action: replace
+    # NOTE: removing this label is expected to reduce remote write bandwidth by 15%
+    # removing id label causes err-mimir-sample-duplicate-timestamp error 
+    # droping id entirely collapses multiple ts into one
+    # - sourceLabels: [id]
+    #   regex: '.+/pod.+'
+    #  targetLabel: id
+    #  replacement: ''
+    #  action: replace
 
 kubeApiServer:
   enabled: false
@@ -101,7 +112,7 @@ kubeApiServer:
 kube-state-metrics:
   serviceMonitor:
     relabelings:
-    # NOTE: there are valid endpoint and service labels. Therefore, labeldop can not be used.
+    # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
     - sourceLabels: [endpoint]
       regex: http
       targetLabel: endpoint
@@ -113,7 +124,7 @@ kube-state-metrics:
       replacement: ''
       action: replace
     metricRelabelings:
-    - regex: container_id|uid
+    - regex: uid
       action: labeldrop
 
 commonLabels:
