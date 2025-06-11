@@ -5,4 +5,4 @@ metadata:
   namespace: ${keycloak_namespace}
 spec:
   keycloakCRName: ${keycloak_name}
-  realm: ${mcm_custom_realm_config} 
+  realm: ${mcm_custom_realm_config}

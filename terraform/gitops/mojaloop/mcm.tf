@@ -1,4 +1,3 @@
-// Auto-generated secrets for MCM
 resource "random_password" "mcm_dfsp_admin_password" {
   length  = 16
   special = true
@@ -336,7 +335,7 @@ variable "dfsp_secrets" {
       secret_key  = string
     })
   })
-  description = "DFSP client secret configuration for Keycloak authentication (secrets are auto-generated)"
+  description = "DFSP client secret configuration for Keycloak authentication"
   default = {
     api_service = {
       secret_name = "mcm-api-service-secret"
@@ -443,7 +442,7 @@ variable "dfsp_admin" {
     username = string
     email    = string
   })
-  description = "DFSP admin user configuration (password is auto-generated)"
+  description = "DFSP admin user configuration"
   default = {
     username = "dfsp-admin"
     email    = ""
