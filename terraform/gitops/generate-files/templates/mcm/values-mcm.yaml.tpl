@@ -21,51 +21,29 @@ api:
     serverCertSecretNamespace: ${server_cert_secret_namespace}
   switchFQDN: ${switch_domain}
   switchId: ${hub_name}
-  extraEnv:
-    # Keycloak integration settings
-    - name: KEYCLOAK_ENABLED
-      value: "true"
-    - name: KEYCLOAK_BASE_URL
-      value: "https://${keycloak_fqdn}"
-    - name: KEYCLOAK_DISCOVERY_URL
-      value: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration"
-    - name: KEYCLOAK_ADMIN_CLIENT_ID
-      value: "connection-manager-api-service"
-    - name: KEYCLOAK_ADMIN_CLIENT_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: ${dfsp_api_service_secret_name}
-          key: ${dfsp_api_service_secret_key}
-    - name: KEYCLOAK_DFSPS_REALM
-      value: "${keycloak_dfsp_realm_name}"
-    - name: KEYCLOAK_AUTO_CREATE_ACCOUNTS
-      value: "true"
-    # 2FA Authentication settings
-    - name: AUTH_2FA_ENABLED
-      value: "${auth_2fa_enabled}"
-    # OpenID settings
-    - name: OPENID_ENABLED
-      value: "${openid_enabled}"
-    - name: OPENID_ALLOW_INSECURE
-      value: "${openid_allow_insecure}"
-    - name: OPENID_DISCOVERY_URL
-      value: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration"
-    - name: OPENID_CLIENT_ID
-      value: "connection-manager-auth-client"
-    - name: OPENID_CLIENT_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: ${dfsp_auth_client_secret_name}
-          key: ${dfsp_auth_client_secret_key}
-    - name: OPENID_REDIRECT_URI
-      value: "https://${mcm_fqdn}/api/auth/callback"
-    # Cookie and role settings
-    - name: OPENID_JWT_COOKIE_NAME
-      value: "MCM-API_ACCESS_TOKEN"
-    - name: OPENID_EVERYONE_ROLE
-      value: "everyone"
-    - name: OPENID_MTA_ROLE
-      value: "dfsp-admin"
+  keycloak:
+    enabled: ${keycloak_config.enabled}
+    baseUrl: ${keycloak_config.base_url}
+    discoveryUrl: ${keycloak_config.discovery_url}
+    adminClientId: ${keycloak_config.admin_client_id}
+    adminClientSecret:
+      secretName: ${dfsp_api_service_secret_name}
+      secretKey: ${dfsp_api_service_secret_key}
+    dfspsRealm: ${keycloak_config.dfsps_realm}
+    autoCreateAccounts: ${keycloak_config.auto_create_accounts}
+  auth:
+    enable2fa: ${auth_config.two_fa_enabled}
+    enabled: ${openid_config.enabled}
+    allowInsecure: ${openid_config.allow_insecure}
+    discoveryUrl: ${openid_config.discovery_url}
+    clientId: ${openid_config.client_id}
+    clientSecret:
+      secretName: ${dfsp_auth_client_secret_name}
+      secretKey: ${dfsp_auth_client_secret_key}
+    redirectUri: ${openid_config.redirect_uri}
+    jwtCookieName: ${openid_config.jwt_cookie_name}
+    everyoneRole: ${openid_config.everyone_role}
+    mtaRole: ${openid_config.mta_role}
   vault:
     auth:
       k8s:
@@ -90,11 +68,14 @@ api:
     enabled: false
   annotations:
     vault.hashicorp.com/agent-inject: "true"
-    vault.hashicorp.com/log-level: "debug"
+    vault.hashicorp.com/log-level: "info"
     vault.hashicorp.com/agent-image: ghcr.io/mojaloop/vault-agent-util:0.0.2
     vault.hashicorp.com/agent-configmap: "vault-agent"
     vault.hashicorp.com/agent-pre-populate: "true"
-    vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
+    vault.hashicorp.com/agent-limits-mem: "128Mi"
+    vault.hashicorp.com/agent-requests-mem: "64Mi"
+    vault.hashicorp.com/agent-limits-cpu: "200m"
+    vault.hashicorp.com/agent-requests-cpu: "100m"
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
@@ -123,7 +104,7 @@ ingress:
       - "*.${mcm_fqdn}"
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "${mcm_ingress_whitelist_source_range}"
 migrations:
   enabled: true
 

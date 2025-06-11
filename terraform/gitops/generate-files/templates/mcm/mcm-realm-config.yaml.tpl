@@ -15,7 +15,7 @@ clients:
     authorizationServicesEnabled: false
     implicitFlowEnabled: false
     attributes:
-      access.token.lifespan: "43200"
+      access.token.lifespan: "${keycloak_access_token_lifespan}"
   - clientId: connection-manager-auth-client
     secret: ${dfsp_auth_client_secret}
     enabled: true
@@ -33,7 +33,7 @@ clients:
     authorizationServicesEnabled: false
     implicitFlowEnabled: false
     attributes:
-      access.token.lifespan: "43200"
+      access.token.lifespan: "${keycloak_access_token_lifespan}"
     protocolMappers:
       - name: groups
         protocol: openid-connect
