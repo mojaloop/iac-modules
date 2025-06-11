@@ -1331,10 +1331,12 @@ gitlab-runner:
           Path = "gitlab-runner"
           Shared = true
           [runners.cache.s3]
-            ServerAddress = "${ARGOCD_ENV_object_storage_host}"
+            ServerAddress = "${ARGOCD_ENV_object_storage_regional_endpoint}"
             BucketName = "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
             BucketLocation = "${ARGOCD_ENV_cloud_region}"
-            Insecure = true
+            Insecure = ${ARGOCD_ENV_object_store_insecure_connection}
+          [runners.cache.s3.config]
+            UsePathStyle = ${ARGOCD_ENV_bucket_lookup_type}
     cache:
       secretName: "gitlab-runner-cache-secret"
   podAnnotations:
