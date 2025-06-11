@@ -9,7 +9,7 @@ module "generate_mojaloop_files" {
     mojaloop_namespace                                                = var.mojaloop_namespace
     storage_class_name                                                = var.storage_class_name
     mojaloop_sync_wave                                                = var.mojaloop_sync_wave
-    mojaloop_setup_sync_wave                                           = var.mojaloop_setup_sync_wave
+    mojaloop_setup_sync_wave                                          = var.mojaloop_setup_sync_wave
     mojaloop_test_sync_wave                                           = var.mojaloop_test_sync_wave
     mojaloop_hub_provisioning_sync_wave                               = var.mojaloop_hub_provisioning_sync_wave
     internal_ttk_enabled                                              = var.internal_ttk_enabled
@@ -199,8 +199,8 @@ module "generate_mojaloop_files" {
     mojaloop_override_values_file_exists                              = local.mojaloop_override_values_file_exists
     finance_portal_override_values_file_exists                        = local.finance_portal_override_values_file_exists
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
-    updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}=${key}:${value}"])
-    updater_alias                                                     = [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}"]
+    updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key, "/[-./]/", "_")}=${key}:${value}"])
+    updater_alias                                                     = [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key, "/[-./]/", "_")}"]
     hub_name                                                          = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     opentelemetry_enabled                                             = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable

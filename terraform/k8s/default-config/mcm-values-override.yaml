@@ -1,6 +1,6 @@
 api:
   image:
-    version: v2.1.0
+    version: v3.0.0
 ui:
   image:
     version: 1.8.4

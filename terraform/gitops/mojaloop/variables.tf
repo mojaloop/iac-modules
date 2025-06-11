@@ -185,7 +185,7 @@ variable "platform_stateful_res_config" {
 }
 
 variable "monolith_stateful_resources" {
-  type        = any
+  type = any
 }
 
 variable "managed_svc_as_monolith" {
