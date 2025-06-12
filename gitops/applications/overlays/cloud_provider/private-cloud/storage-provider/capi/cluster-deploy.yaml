@@ -325,6 +325,7 @@ spec:
         extraDisks:
           - size: ${ARGOCD_ENV_capi_rook_ceph_disk_size}
             storage: ${ARGOCD_ENV_capi_cluster_storage_name}
+      node: "pve50"
       options:
         onBoot: true
       network:
