@@ -1,0 +1,29 @@
+apiVersion: k8s.mojaloop.io/v1alpha1
+kind: K8sOIDC
+metadata:
+  name: zitadel-k8s-oidc-config
+  namespace: ${ARGOCD_ENV_zitadel_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: 1
+spec:
+  parameters:
+    zitadelFqdn: "zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+    oidcSecretNamespace: ${ARGOCD_ENV_zitadel_namespace}
+    oidcSecret: "${ARGOCD_ENV_k8s_oidc_post_config_output_secret}"
+    zitadelAdminHumanUserIdRef:
+      name: ${ARGOCD_ENV_zitadel_post_config_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      key: zitadel_admin_human_user_id
+
+
+    adminRbacGroup: ${ARGOCD_ENV_k8s_admin_rbac_group}
+    userRbacGroup: ${ARGOCD_ENV_k8s_user_rbac_group}
+
+    organizationIdSecretRef:
+      name: ${ARGOCD_ENV_zitadel_post_config_init_output_secret}
+      namespace: ${ARGOCD_ENV_zitadel_namespace}
+      key: zitadel_org_id
+
+  providerConfigsRef:
+    zitadelProviderName: "zitadel-provider"
+    kubernetesProviderName: "kubernetes-provider"
