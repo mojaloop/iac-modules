@@ -17,6 +17,8 @@ spec:
       image: ${ARGOCD_ENV_pxc_image}
       imagePullPolicy: IfNotPresent
       storageSize: ${ARGOCD_ENV_mysql_storage_size}
+      volumeSpec: ${ARGOCD_ENV_pxc_volume_spec}
+      annotations: ${ARGOCD_ENV_pxc_annotations}
       replicas: ${ARGOCD_ENV_mysql_replicas}
       resources:
         requests:
@@ -82,6 +84,7 @@ spec:
       scheduleName: ${ARGOCD_ENV_backup_schedule_name}
       cronScheduleExpression: ${ARGOCD_ENV_backup_cron_schedule}
       backupRetention: ${ARGOCD_ENV_backup_retention}
+      pvc: ${ARGOCD_ENV_backup_pvc}
 
     dns:
       name: ${ARGOCD_ENV_env_name}-${ARGOCD_ENV_externalservice_name}
