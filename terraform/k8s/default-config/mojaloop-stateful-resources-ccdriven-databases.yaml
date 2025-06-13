@@ -5,7 +5,7 @@ common_platform_db:
     # Percona XtraDB Cluster (PXC) specific configurations
     cluster_name: "common-platform-db"                          # Name of the cluster
     cr_version: "1.16.1"                                         # Custom Resource version for the operator
-    pxc_image: "percona/percona-xtradb-cluster:8.0.39-30.1"      # Docker image for the PXC nodes
+    pxc_image: "percona/percona-xtradb-cluster:8.4.3-3.1"      # Docker image for the PXC nodes
     mysql_storage_size: "30Gi"                                  # Storage size for MySQL data
     mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
     mysql_requests_memory: "512Mi"                              # Memory request for MySQL pods
@@ -30,7 +30,7 @@ common_platform_db:
     logcollector_limits_cpu: "200m"                              # CPU limit for log collector
 
     # Backup specific configurations
-    backup_image: "percona/percona-xtradb-cluster-operator:1.14.0"   # Docker image for the backup tool
+    backup_image: "percona/percona-xtradb-cluster-operator:1.17.0-pxc8.4-backup-pxb8.4.0"   # Docker image for the backup tool
     backup_verify_tls: "false"
     backup_schedule_name: "daily_backup"                         # Name for the backup schedule
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
