@@ -31,3 +31,7 @@ spec:
   storage:
     useAllNodes: true
     useAllDevices: true
+  cephConfig:
+    global:
+      # https://docs.ceph.com/en/reef/rbd/rbd-config-ref/#confval-rbd_default_order
+      rbd_default_order: "14" # 16 kB
