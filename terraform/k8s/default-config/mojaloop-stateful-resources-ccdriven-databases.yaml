@@ -4,7 +4,7 @@ common_platform_db:
   dbaas_resource_config:
     # Percona XtraDB Cluster (PXC) specific configurations
     cluster_name: "common-platform-db"                          # Name of the cluster
-    cr_version: "1.16.1"                                         # Custom Resource version for the operator
+    cr_version: "1.17.0"                                         # Custom Resource version for the operator
     pxc_image: "percona/percona-xtradb-cluster:8.4.3-3.1"      # Docker image for the PXC nodes
     mysql_storage_size: "30Gi"                                  # Storage size for MySQL data
     mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
@@ -23,7 +23,7 @@ common_platform_db:
     haproxy_limits_cpu: "1000m"                                      # CPU limit for HAProxy pods
 
     # Log Collector specific configurations
-    logcollector_image: "percona/percona-xtradb-cluster-operator:1.16.1-logcollector-fluentbit3.2.2"  # Image for log collector
+    logcollector_image: "percona/percona-xtradb-cluster-operator:1.17.0-logcollector-fluentbit4.0.0"  # Image for log collector
     logcollector_requests_memory: "200Mi"                        # Memory request for log collector
     logcollector_requests_cpu: "100m"                            # CPU request for log collector
     logcollector_limits_memory: "512Mi"                          # Memory limit for log collector
