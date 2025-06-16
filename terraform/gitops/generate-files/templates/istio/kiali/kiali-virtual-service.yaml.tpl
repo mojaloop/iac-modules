@@ -13,6 +13,6 @@ spec:
             prefix: /
       route:
         - destination:
-            host: kiali-server
+            host: kiali
             port:
               number: 20001
