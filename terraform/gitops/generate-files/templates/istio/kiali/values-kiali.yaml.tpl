@@ -1,10 +1,3 @@
-# 'fullnameOverride' is deprecated. Use 'deployment.instance_name' instead.
-# This is only supported for backward compatibility and will be removed in a future version.
-# If 'fullnameOverride' is not "kiali" and 'deployment.instance_name' is "kiali",
-# then 'deployment.instance_name' will take the value of 'fullnameOverride' value.
-# Otherwise, 'fullnameOverride' is ignored and 'deployment.instance_name' is used.
-fullnameOverride: "kiali"
-
 # This is required for "openshift" auth strategy.
 # You have to know ahead of time what your Route URL will be because
 # right now the helm chart can't figure this out at runtime (it would
@@ -18,6 +11,11 @@ kiali_route_url: ""
 # Note that only those values used by the Helm Chart will be here.
 #
 
+additional_display_details:
+- annotation: kiali.io/api-spec
+  icon_annotation: kiali.io/api-type
+  title: API Documentation
+
 istio_namespace: "" # default is where Kiali is installed
 
 auth:
@@ -25,23 +23,35 @@ auth:
   openshift: {}
   strategy: ""
 
+clustering:
+  autodetect_secrets:
+    enabled: true
+    label: "kiali.io/multiCluster=true"
+  clusters: []
+
 deployment:
-  # This only limits what Kiali will attempt to see, but Kiali Service Account has permissions to see everything.
-  # For more control over what the Kial Service Account can see, use the Kiali Operator
-  accessible_namespaces:
-  - "**"
   additional_service_yaml: {}
   affinity:
     node: {}
     pod: {}
     pod_anti: {}
+  # The Kiali server helm chart only supports cluster-wide access; setting cluster_wide_access to false is not supported.
+  # For more control over what the Kial Service Account can see, use the Kiali Operator.
+  cluster_wide_access: true
+  configmap_annotations: {}
+  custom_envs: []
+  custom_secrets: []
+  dns:
+    config: {}
+    policy: ""
+  extra_labels: {}
   host_aliases: []
   hpa:
-    api_version: "autoscaling/v2beta2"
+    api_version: "autoscaling/v2"
     spec: {}
   image_digest: "" # use "sha256" if image_version is a sha256 hash (do NOT prefix this value with a "@")
-  image_name: registry.cn-hangzhou.aliyuncs.com/goodrain/kiali
-  image_pull_policy: "IfNotPresent"
+  image_name: quay.io/kiali/kiali
+  image_pull_policy: "Always"
   image_pull_secrets: []
   image_version: v1.42.0 # version like "v1.39" (see: https://quay.io/repository/kiali/kiali?tab=tags) or a digest hash
   ingress_enabled: false
@@ -52,43 +62,62 @@ deployment:
     time_field_format: "2006-01-02T15:04:05Z07:00"
     sampler_rate: "1"
   node_selector: {}
-  override_ingress_yaml:
-    metadata: {}
-  pod_annotations: {}
+  pod_annotations:
+    proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
   pod_labels: {}
   priority_class_name: ""
+  probes:
+    liveness:
+      initial_delay_seconds: 5
+      period_seconds: 30
+    readiness:
+      initial_delay_seconds: 5
+      period_seconds: 30
+    startup:
+      failure_threshold: 6
+      initial_delay_seconds: 30
+      period_seconds: 10
+  remote_cluster_resources_only: false
+  # if deployment.hpa is defined, this replicas setting will be ignored
   replicas: 1
-  resources: {}
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "64Mi"
+    limits:
+      memory: "1Gi"
   secret_name: "kiali"
+  security_context: {}
   service_annotations: {}
   service_type: ""
   tolerations: []
-  version_label: v1.42.0 # v1.39 # v1.39.0 # see: https://quay.io/repository/kiali/kiali?tab=tags
+  topology_spread_constraints: []
+  version_label: v2.11.0 # v1.39 # v1.39.0 # see: https://quay.io/repository/kiali/kiali?tab=tags
   view_only_mode: false
 
 external_services:
   custom_dashboards:
     enabled: true
-  prometheus:
-    url: "http://rbd-monitor.rbd-system.svc.cluster.local:9999/"
+  istio:
+    root_namespace: ""
 
 identity: {}
   #cert_file:
   #private_key_file:
 
 kiali_feature_flags:
-  certificates_information_indicators:
-   enabled: true
-   secrets:
-   - cacerts
-   - istio-ca-secret
-  clustering:
-    enabled: true
+  disabled_features: []
+  validations:
+    ignore: ["KIA1301"]
+
 login_token:
   signing_key: ""
 
 server:
   port: 20001
-  metrics_enabled: true
-  metrics_port: 9090
+  #node_port:
+  observability:
+    metrics:
+      enabled: true
+      port: 9090
   web_root: ""
