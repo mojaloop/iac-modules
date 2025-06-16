@@ -29,8 +29,6 @@ module "generate_istio_files" {
     public_subdomain                     = var.public_subdomain
     private_subdomain                    = var.private_subdomain
     istio_gateways_sync_wave             = var.istio_gateways_sync_wave
-    kiali_chart_version                  = var.kiali_chart_version
-    kiali_chart_repo                     = var.kiali_chart_repo
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     oathkeeper_auth_url                  = local.oathkeeper_auth_url
@@ -40,6 +38,12 @@ module "generate_istio_files" {
     argocd_private_fqdn                  = local.argocd_private_fqdn
     argocd_namespace                     = var.argocd_namespace
     istio_proxy_log_level                = try(var.common_var_map.istio_proxy_log_level, local.istio_proxy_log_level)
+    kiali_chart_version                  = var.kiali_chart_version
+    kiali_chart_repo                     = var.kiali_chart_repo
+    kiali_fqdn                           = local.kiali_fqdn
+    kiali_istio_wildcard_gateway_name    = local.kiali_istio_wildcard_gateway_name
+    kiali_istio_gateway_namespace        = local.kiali_istio_gateway_namespace
+    kiali_sync_wave                      = var.kiali_sync_wave
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -61,6 +65,10 @@ locals {
   istio_external_wildcard_gateway_name = "external-wildcard-gateway"
   istio_egress_gateway_name            = "callback-egress-gateway"
   istio_egress_gateway_namespace       = "egress-gateway"
+  kiali_istio_wildcard_gateway_name    = local.kiali_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  kiali_istio_gateway_namespace        = local.kiali_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  kiali_wildcard_gateway               = var.kiali_ingress_internal_lb ? "internal" : "external"
+  kiali_fqdn                           = local.kiali_wildcard_gateway == "external" ? "kiali.${var.public_subdomain}" : "kiali.${var.private_subdomain}"
 }
 
 
@@ -98,6 +106,12 @@ variable "istio_gateways_sync_wave" {
   type        = string
   description = "istio_gateways_sync_wave"
   default     = "-8"
+}
+
+variable "kiali_sync_wave" {
+  type        = string
+  description = "kiali_sync_wave"
+  default     = "-7"
 }
 
 variable "istio_namespace" {
@@ -140,4 +154,10 @@ variable "istio_egress_gateway_max_replicas" {
   type        = number
   description = "istio_egress_gateway_max_replicas"
   default     = 5
+}
+
+variable "kiali_ingress_internal_lb" {
+  type        = bool
+  description = "kiali_ingress_internal_lb"
+  default     = true
 }

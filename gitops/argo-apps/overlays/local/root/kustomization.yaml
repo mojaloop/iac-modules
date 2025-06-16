@@ -21,6 +21,7 @@ resources:
   - ../../../base/capi-post-config.yaml
   - ../../../base/base-monitoring.yaml
   - ../../../base/kyverno.yaml
+  - ../../../base/kiali.yaml
 
   # xplane database config
   - ../../../base/xplane-provider-config.yaml
