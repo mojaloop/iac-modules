@@ -106,6 +106,7 @@ spec:
         wsrep_auto_increment_control=OFF
         coredumper=/tmp/mysql-core-dump
         innodb_buffer_pool_in_core_file=OFF
+        mysql_native_password=ON
 
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
