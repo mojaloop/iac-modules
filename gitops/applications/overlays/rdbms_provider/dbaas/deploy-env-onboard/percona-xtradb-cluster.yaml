@@ -30,7 +30,6 @@ spec:
       configuration: |
         [mysqld]
         pxc_strict_mode=PERMISSIVE
-        default_authentication_plugin=mysql_native_password
         max_allowed_packet=16M
         bind-address="*"
         character-set-server=UTF8
