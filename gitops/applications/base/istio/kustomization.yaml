@@ -18,3 +18,17 @@ helmCharts:
     repo: https://istio-release.storage.googleapis.com/charts
     valuesFile: istio-istiod-values.yaml
     namespace: ${ARGOCD_ENV_istio_namespace}
+
+  - name: cni
+    releaseName: istio-cni
+    version: ${ARGOCD_ENV_istio_helm_version}
+    repo: https://istio-release.storage.googleapis.com/charts
+    valuesFile: istio-cni-values.yaml
+    namespace: ${ARGOCD_ENV_istio_namespace}
+
+  - name: ztunnel
+    releaseName: ztunnel
+    version: ${ARGOCD_ENV_istio_helm_version}
+    repo: https://istio-release.storage.googleapis.com/charts
+    valuesFile: istio-ztunnel-values.yaml
+    namespace: ${ARGOCD_ENV_istio_namespace}

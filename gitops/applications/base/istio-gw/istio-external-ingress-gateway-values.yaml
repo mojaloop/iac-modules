@@ -75,7 +75,10 @@ autoscaling:
 env: {}
 
 # Labels to apply to all resources
-labels: { istio: "${ARGOCD_ENV_istio_external_gateway_name}" }
+labels:
+  istio: "${ARGOCD_ENV_istio_external_gateway_name}"
+  # By default, don't enroll gateways into the ambient dataplane
+  istio.io/dataplane-mode: "none"
 
 # Annotations to apply to all resources
 annotations: {}
