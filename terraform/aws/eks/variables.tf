@@ -325,7 +325,7 @@ variable "backup_bucket_force_destroy" {
 variable "bastion_instance_number" {
   type        = number
   description = "number of bastions to configure in asg"
-  default     = 2
+  default     = 1
 }
 
 variable "bastion_instance_size" {
