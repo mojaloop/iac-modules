@@ -43,3 +43,4 @@ coredns_bind_address: "169.254.20.10"
 single_nat_gateway: true
 single_zone_az_nodegroup: true
 az_count: 2
+create_cloudwatch_log_group_eks: false

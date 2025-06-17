@@ -365,6 +365,11 @@ variable "single_zone_az_nodegroup" {
   description = "whether to use a single zone for eks nodegroup"
 }
 
+variable "create_cloudwatch_log_group" {
+  type        = bool
+  default     = false
+  description = "Whether to create a CloudWatch log group for the EKS cluster"
+}
 ###
 # Local copies of variables to allow for parsing
 ###
