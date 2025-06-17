@@ -80,7 +80,7 @@ module "eks" {
   kms_key_enable_default_policy = true
 
   vpc_id                   = module.base_infra.vpc_id
-  subnet_ids               = var.single_zone_az_nodegroup ? module.base_infra.private_subnets[0] : module.base_infra.private_subnets
+  subnet_ids               = var.single_zone_az_nodegroup ? [module.base_infra.private_subnets[0]] : module.base_infra.private_subnets
   control_plane_subnet_ids = module.base_infra.private_subnets
 
   cluster_addons = {
