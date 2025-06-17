@@ -79,8 +79,10 @@ module "eks" {
   # Enable the default key policy (no need for kms_key_administrators or kms_key_owners)
   kms_key_enable_default_policy = true
 
-  vpc_id     = module.base_infra.vpc_id
-  subnet_ids = module.base_infra.private_subnets
+  vpc_id                   = module.base_infra.vpc_id
+  subnet_ids               = var.single_zone_az_nodegroup ? module.base_infra.private_subnets[0] : module.base_infra.private_subnets
+  control_plane_subnet_ids = module.base_infra.private_subnets
+
   cluster_addons = {
     vpc-cni = {
       # Specify the VPC CNI addon should be deployed before compute to ensure

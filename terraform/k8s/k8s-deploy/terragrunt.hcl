@@ -44,6 +44,8 @@ inputs = {
   kubernetes_oidc_username_prefix  = get_env("KUBERNETES_OIDC_USERNAME_PREFIX")
   kubernetes_oidc_username_claim   = get_env("KUBERNETES_OIDC_USERNAME_CLAIM")
   bastion_instance_size            = local.env_vars.bastion_instance_size
+  az_count                         = local.az_count
+  single_zone_az_nodegroup     = local.single_zone_az_nodegroup
 }
 
 locals {
@@ -72,6 +74,8 @@ locals {
   netbird_setup_key         = get_env("NETBIRD_K8S_SETUP_KEY")
   cc_cidr_block             = get_env("CC_CIDR_BLOCK")
   coredns_bind_address      = get_env("coredns_bind_address")
+  az_count                  = get_env("az_count")
+  single_zone_az_nodegroup = get_env("single_zone_az_nodegroup")
 }
 
 generate "required_providers_override" {
