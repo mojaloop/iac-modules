@@ -101,6 +101,10 @@ deployment:
   view_only_mode: false
 
 external_services:
+  grafana:
+    internal_url: "http://grafana-service.monitoring:3000/"
+  prometheus:
+    url: "http://prometheus-operated.monitoring:9090/"
   custom_dashboards:
     enabled: true
   istio:
