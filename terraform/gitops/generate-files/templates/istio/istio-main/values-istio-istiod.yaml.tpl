@@ -150,10 +150,10 @@ telemetry:
       # Indicates whether to enable WebAssembly runtime for stats filter.
       wasmEnabled: false
       # overrides stats EnvoyFilter configuration.
-      configOverride:
-        gateway: {}
-        inboundSidecar: {}
-        outboundSidecar: {}
+      # configOverride:
+      #   gateway: {}
+      #   inboundSidecar: {}
+      #   outboundSidecar: {}
     # stackdriver filter settings.
     stackdriver:
       enabled: false
@@ -163,7 +163,7 @@ telemetry:
       disableOutbound: false
       #  configOverride parts give you the ability to override the low level configuration params passed to envoy filter.
 
-      configOverride: {}
+      # configOverride: {}
       #  e.g.
       #  disable_server_access_logging: false
       #  disable_host_header_fallback: true
