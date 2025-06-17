@@ -33,6 +33,8 @@ inputs = {
   coredns_bind_address                 = local.coredns_bind_address
   single_nat_gateway                   = try(local.env_vars.single_nat_gateway, true)
   manage_parent_domain                 = try(local.env_vars.manage_parent_domain, true)
+  az_count                             = local.az_count
+  single_zone_az_nodegroup         = local.single_zone_az_nodegroup
 }
 
 locals {
@@ -52,6 +54,9 @@ locals {
   CLOUD_REGION              = get_env("cloud_region")
   CLOUD_PLATFORM            = get_env("cloud_platform")
   coredns_bind_address      = get_env("coredns_bind_address")
+  az_count                  = get_env("az_count")
+  single_zone_az_nodegroup = get_env("single_zone_az_nodegroup")
+
 }
 
 generate "required_providers_override" {

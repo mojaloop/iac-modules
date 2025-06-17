@@ -68,7 +68,7 @@ variable "node_pools" {
 
 variable "az_count" {
   type        = number
-  default     = 3 #debug
+  default     = 3
   description = "Number of azs"
 }
 
@@ -238,6 +238,12 @@ variable "coredns_bind_address" {
 variable "single_nat_gateway" {
   type    = bool
   default = true
+}
+
+variable "single_zone_az_nodegroup" {
+  type        = bool
+  default     = false
+  description = "whether to use a single zone for eks nodegroup"
 }
 
 ###

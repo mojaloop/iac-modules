@@ -359,6 +359,11 @@ variable "single_nat_gateway" {
   type    = bool
   default = true
 }
+variable "single_zone_az_nodegroup" {
+  type        = bool
+  default     = false
+  description = "whether to use a single zone for eks nodegroup"
+}
 
 ###
 # Local copies of variables to allow for parsing
