@@ -86,7 +86,7 @@ variable "kiali_chart_repo" {
 
 variable "kiali_chart_version" {
   type        = string
-  default     = "1.42.0"
+  default     = "2.11.0"
   description = "kiali_chart_version"
 }
 
