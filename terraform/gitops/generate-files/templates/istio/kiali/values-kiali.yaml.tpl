@@ -53,8 +53,13 @@ deployment:
   image_name: quay.io/kiali/kiali
   image_pull_policy: "Always"
   image_pull_secrets: []
-  image_version: v1.42.0 # version like "v1.39" (see: https://quay.io/repository/kiali/kiali?tab=tags) or a digest hash
-  ingress_enabled: false
+  #image_version: v1.42.0 # version like "v1.39" (see: https://quay.io/repository/kiali/kiali?tab=tags) or a digest hash
+  ingress:
+    additional_labels: {}
+    class_name: "nginx"
+    enabled: false
+    override_yaml:
+      metadata: {}
   instance_name: "kiali"
   logger:
     log_format: "text"
