@@ -15,7 +15,7 @@ spec:
     - '${argocd_public_fqdn}'
 %{ else ~}
     - '${argocd_private_fqdn}'
-%{ endif ~}  
+%{ endif ~}
   http:
     - match:
         - uri:
@@ -24,8 +24,8 @@ spec:
         - destination:
             host: argocd-server
             port:
-              number: 80      
----              
+              number: 443
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -35,4 +35,5 @@ spec:
   host: argocd-server
   trafficPolicy:
     tls:
-      mode: SIMPLE                
+      mode: SIMPLE
+      insecureSkipVerify: true
