@@ -19,19 +19,19 @@ module "generate_pm4ml_files" {
     pm4ml_wildcard_gateway                          = each.value.pm4ml_ingress_internal_lb ? "internal" : "external"
     proxy_id                                        = try(each.value.pm4ml_proxy_id, each.key)
     pm4ml_service_account_name                      = "${var.pm4ml_service_account_name}-${each.key}"
-    client_id_a        =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_id, each.key)
-    client_id_b        =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_id, each.key)
-    peer_domain_a      =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_fqdn, "extapi.${each.value.pm4ml_scheme_a_config.domain}")
-    peer_domain_b      =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_fqdn, "extapi.${each.value.pm4ml_scheme_b_config.domain}")
-    oidc_origin_a      =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.pm4ml_scheme_a_config.domain}")
-    oidc_origin_b      =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.pm4ml_scheme_b_config.domain}")
-    oidc_path_a        =try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_oidc_token_route, "realms/dfsps/protocol/openid-connect/token")
-    oidc_path_b        =try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_oidc_token_route, "realms/dfsps/protocol/openid-connect/token")
-    mcm_domain_a       =try(each.value.pm4ml_scheme_a_config.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.pm4ml_scheme_a_config.domain}")
-    mcm_domain_b       =try(each.value.pm4ml_scheme_b_config.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.pm4ml_scheme_b_config.domain}")
+    client_id_a                                     = try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_client_id, each.key)
+    client_id_b                                     = try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_id, each.key)
+    peer_domain_a                                   = try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_fqdn, "extapi.${each.value.pm4ml_scheme_a_config.domain}")
+    peer_domain_b                                   = try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_fqdn, "extapi.${each.value.pm4ml_scheme_b_config.domain}")
+    oidc_origin_a                                   = try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.pm4ml_scheme_a_config.domain}")
+    oidc_origin_b                                   = try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_oidc_url, "https://keycloak.${each.value.pm4ml_scheme_b_config.domain}")
+    oidc_path_a                                     = try(each.value.pm4ml_scheme_a_config.pm4ml_external_switch_oidc_token_route, "realms/dfsps/protocol/openid-connect/token")
+    oidc_path_b                                     = try(each.value.pm4ml_scheme_b_config.pm4ml_external_switch_oidc_token_route, "realms/dfsps/protocol/openid-connect/token")
+    mcm_domain_a                                    = try(each.value.pm4ml_scheme_a_config.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.pm4ml_scheme_a_config.domain}")
+    mcm_domain_b                                    = try(each.value.pm4ml_scheme_b_config.pm4ml_external_mcm_public_fqdn, "mcm.${each.value.pm4ml_scheme_b_config.domain}")
     server_cert_secret_namespace                    = each.key
-    server_cert_secret_name                         = var.vault_certman_secretname
-    vault_certman_secretname                        = var.vault_certman_secretname
+    server_cert_secret_name                         = "${each.key}-${var.vault_certman_secretname_suffix}"
+    vault_certman_secretname                        = "${each.key}-${var.vault_certman_secretname_suffix}"
     vault_pki_mount                                 = var.vault_root_ca_name
     vault_pki_client_role                           = var.pki_client_cert_role
     vault_pki_server_role                           = var.pki_server_cert_role
@@ -83,9 +83,9 @@ resource "local_file" "proxy_values_override" {
 }
 
 locals {
-  pm4ml_template_path = "${path.module}/../generate-files/templates/proxy-pm4ml"
-  pm4ml_app_file      = "proxy-pm4ml-app.yaml"
-  proxy_override_values_file_exists         = fileexists(var.proxy_values_override_file)
+  pm4ml_template_path               = "${path.module}/../generate-files/templates/proxy-pm4ml"
+  pm4ml_app_file                    = "proxy-pm4ml-app.yaml"
+  proxy_override_values_file_exists = fileexists(var.proxy_values_override_file)
 
   pm4ml_var_map = var.app_var_map
 
