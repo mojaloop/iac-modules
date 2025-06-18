@@ -137,6 +137,7 @@ module "eks" {
 
   self_managed_node_groups = local.self_managed_node_groups
   create_cloudwatch_log_group = var.create_cloudwatch_log_group
+  cluster_enabled_log_types   = []
   tags                     = var.tags
 }
 
