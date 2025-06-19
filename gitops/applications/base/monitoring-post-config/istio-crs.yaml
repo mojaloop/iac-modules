@@ -111,12 +111,14 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
-  grafanaCom:
-    id: 7636
-    revision: 255
+  # datasources:
+  #   - inputName: "DS_PROMETHEUS"
+  #     datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"       
+  # grafanaCom:
+  #   id: 7636
+  #   revision: 255
+  url: "https://raw.githubusercontent.com/istio/istio/3079b265074b34ed7f288fb9dce0efc86357900b/manifests/addons/dashboards/istio-service-dashboard.json"
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
