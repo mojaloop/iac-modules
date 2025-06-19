@@ -8,12 +8,12 @@ helmCharts:
     releaseName: prometheus-operator-crds
     version: ${ARGOCD_ENV_prometheus_crd_version}
     repo: https://prometheus-community.github.io/helm-charts/
-  - name: grafana-operator
-    releaseName: grafana
-    version: ${ARGOCD_ENV_grafana_operator_version}
-    repo: https://charts.bitnami.com/bitnami
-    valuesFile: values-grafana-operator.yaml
-    namespace: ${ARGOCD_ENV_monitoring_namespace}
+  # - name: grafana-operator
+  #   releaseName: grafana
+  #   version: ${ARGOCD_ENV_grafana_operator_version}
+  #   repo: https://charts.bitnami.com/bitnami
+  #   valuesFile: values-grafana-operator.yaml
+  #   namespace: ${ARGOCD_ENV_monitoring_namespace}
   # - name: metrics-server
   #   releaseName: metrics-server
   #   repo: https://kubernetes-sigs.github.io/metrics-server
