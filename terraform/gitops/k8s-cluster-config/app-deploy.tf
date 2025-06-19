@@ -63,6 +63,7 @@ module "mojaloop" {
   mojaloop_values_override_file        = var.mojaloop_values_override_file
   mcm_values_override_file             = var.mcm_values_override_file
   finance_portal_values_override_file  = var.finance_portal_values_override_file
+  mojaloop_stateful_mangd_override_file = var.mojaloop_stateful_mangd_override_file
   values_hub_provisioning_override_file = var.values_hub_provisioning_override_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
@@ -352,6 +353,10 @@ variable "pm4ml_values_override_file" {
 }
 
 variable "finance_portal_values_override_file" {
+  type = string
+}
+
+variable "mojaloop_stateful_mangd_override_file" {
   type = string
 }
 
