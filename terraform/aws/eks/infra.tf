@@ -136,8 +136,8 @@ module "eks" {
   } : {}
 
   self_managed_node_groups = local.self_managed_node_groups
-  create_cloudwatch_log_group = var.enable_eks_controlplane_logging
-  cluster_enabled_log_types   = var.enable_eks_controlplane_logging ? var.cluster_enabled_log_types : []
+  #create_cloudwatch_log_group = var.enable_eks_controlplane_logging
+  #cluster_enabled_log_types   = var.enable_eks_controlplane_logging ? var.cluster_enabled_log_types : []
   tags                     = var.tags
 }
 
