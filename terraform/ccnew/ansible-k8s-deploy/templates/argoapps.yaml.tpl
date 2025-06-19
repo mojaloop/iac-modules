@@ -75,6 +75,7 @@ argocd_override:
           argocd_config_version: "${crossplane_packages_argocd_config_version}"
           zitadel_config_version: "${crossplane_packages_zitadel_config_version}"
           grafana_config_version: "${crossplane_packages_grafana_config_version}"
+          k8s_config_version: "${crossplane_packages_k8s_config_version}"
         external_secrets:
           helm_version: "${external_secrets_helm_version}"
         istio:
