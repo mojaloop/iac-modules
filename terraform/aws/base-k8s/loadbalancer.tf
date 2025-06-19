@@ -4,8 +4,8 @@
 resource "aws_lb" "internal" { #  for internal traffic, including kube traffic
   internal                         = true
   load_balancer_type               = "network"
-  enable_cross_zone_load_balancing = var.single_zone_az_nodegroup ? false : true
-  subnets                          = var.single_zone_az_nodegroup ? [module.base_infra.private_subnets[0]] :  module.base_infra.private_subnets
+  enable_cross_zone_load_balancing = true
+  subnets                          = module.base_infra.private_subnets
   tags                             = merge({ Name = "${local.base_domain}-internal" }, local.common_tags)
 }
 
@@ -94,7 +94,7 @@ resource "aws_lb_target_group" "internal_http" {
 resource "aws_lb" "lb" {
   internal           = false
   load_balancer_type = "network"
-  subnets            = var.single_zone_az_nodegroup ? [module.base_infra.public_subnets[0]] : module.base_infra.public_subnets
+  subnets            = module.base_infra.public_subnets
   tags               = merge({ Name = "${local.base_domain}-public" }, local.common_tags)
 }
 
