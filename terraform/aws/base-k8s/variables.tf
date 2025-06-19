@@ -245,11 +245,15 @@ variable "single_zone_az_nodegroup" {
   default     = false
   description = "whether to use a single zone for eks nodegroup"
 }
-
-variable "create_cloudwatch_log_group" {
+variable "enable_eks_controlplane_logging" {
   type        = bool
   default     = false
-  description = "Whether to create a CloudWatch log group for the EKS cluster"
+  description = "Whether to create a CloudWatch log group for the EKS cluster and enable eks logging"
+}
+variable "cluster_enabled_logging_types" {
+  type        = list(string)
+  default     = ["api","audit","authenticator"]
+  description = "List of EKS control plane logging types to enable"
 }
 
 ###

@@ -35,7 +35,7 @@ inputs = {
   manage_parent_domain                 = try(local.env_vars.manage_parent_domain, true)
   az_count                             = local.az_count
   single_zone_az_nodegroup             = local.single_zone_az_nodegroup
-  create_cloudwatch_log_group          = local.create_cloudwatch_log_group
+  enable_eks_controlplane_logging      = local.enable_eks_controlplane_logging
 }
 
 locals {
@@ -56,8 +56,8 @@ locals {
   CLOUD_PLATFORM            = get_env("cloud_platform")
   coredns_bind_address      = get_env("coredns_bind_address")
   az_count                  = get_env("az_count")
-  single_zone_az_nodegroup    = get_env("single_zone_az_nodegroup")
-  create_cloudwatch_log_group = get_env("create_cloudwatch_log_group_eks")
+  single_zone_az_nodegroup        = get_env("single_zone_az_nodegroup")
+  enable_eks_controlplane_logging = get_env("enable_eks_controlplane_logging")
 
 }
 

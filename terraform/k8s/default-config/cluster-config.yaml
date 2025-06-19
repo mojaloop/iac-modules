@@ -63,4 +63,4 @@ object_storage_provider: s3
 db_mediated_by_control_center: false
 single_zone_az_nodegroup: true
 az_count: 3
-create_cloudwatch_log_group_eks: false
+enable_eks_controlplane_logging: false
