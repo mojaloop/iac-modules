@@ -4,8 +4,8 @@
 resource "aws_lb" "internal" { #  for internal traffic, including kube traffic
   internal           = true
   load_balancer_type = "network"
-  enable_cross_zone_load_balancing = true
-  subnets            = module.base_infra.private_subnets
+  enable_cross_zone_load_balancing = var.single_zone_az_nodegroup ? false : true
+  subnets            = var.single_zone_az_nodegroup ? [module.base_infra.private_subnets[0]] : module.base_infra.private_subnets
   tags = merge({ Name = "${local.base_domain}-internal" }, local.common_tags)
 }
 
@@ -41,6 +41,8 @@ resource "aws_lb_target_group" "internal_https" {
   port     = var.target_group_internal_https_port
   protocol = "TCP"
   vpc_id   = module.base_infra.vpc_id
+  preserve_client_ip = false
+  proxy_protocol_v2  = false
 
   health_check {
     interval            = 10
@@ -94,7 +96,7 @@ resource "aws_lb_target_group" "internal_http" {
 resource "aws_lb" "lb" {
   internal           = false
   load_balancer_type = "network"
-  subnets            = module.base_infra.public_subnets
+  subnets            = var.single_zone_az_nodegroup ? [module.base_infra.public_subnets[0]] : module.base_infra.public_subnets
   tags = merge({ Name = "${local.base_domain}-public" }, local.common_tags)
 }
 
@@ -173,7 +175,7 @@ resource "aws_lb_target_group" "wireguard" {
   protocol = "UDP"
   vpc_id   = module.base_infra.vpc_id
 
-  # TODO: can't health check against a UDP port, but need to have a health check when backend is an instance. 
+  # TODO: can't health check against a UDP port, but need to have a health check when backend is an instance.
   # check tcp port 80 (ingress) for now, but probably need to add a http sidecar or something to act as a health check for wireguard
   health_check {
     protocol = "TCP"

@@ -41,6 +41,8 @@ resource "aws_lb_target_group" "internal_https" {
   port     = var.target_group_internal_https_port
   protocol = "TCP"
   vpc_id   = module.base_infra.vpc_id
+  preserve_client_ip = false
+  proxy_protocol_v2  = false
 
   health_check {
     interval            = 10
@@ -173,7 +175,7 @@ resource "aws_lb_target_group" "wireguard" {
   protocol = "UDP"
   vpc_id   = module.base_infra.vpc_id
 
-  # TODO: can't health check against a UDP port, but need to have a health check when backend is an instance. 
+  # TODO: can't health check against a UDP port, but need to have a health check when backend is an instance.
   # check tcp port 80 (ingress) for now, but probably need to add a http sidecar or something to act as a health check for wireguard
   health_check {
     protocol = "TCP"

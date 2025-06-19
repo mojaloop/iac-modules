@@ -81,9 +81,9 @@ variable "bastion_asg_config" {
 
   default = {
     name             = "bastion"
-    desired_capacity = 2
-    max_size         = 2
-    min_size         = 2
+    desired_capacity = 1
+    max_size         = 1
+    min_size         = 1
     instance_type    = "t2.micro"
   }
 }
