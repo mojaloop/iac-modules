@@ -12,6 +12,13 @@ consul:
     resources:
       limits:
         memory: "2500Mi"
-        cpu: "1000m"
+        cpu: "4000m"
+    extraConfig: |
+      {
+        "limits": {
+          "http_max_conns_per_client": 1000,
+          "rpc_max_conns_per_client": 1000
+        }
+      }
   connectInject:
     enabled: false
