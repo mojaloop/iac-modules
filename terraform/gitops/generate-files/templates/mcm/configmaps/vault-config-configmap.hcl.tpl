@@ -68,7 +68,7 @@ spec:
       tls.crt: '{{ `{{ .clientcertsecret.client_cert_chain }}` }}'
     type: kubernetes.io/tls
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: {{ .Data.host }}
@@ -81,81 +81,11 @@ spec:
   - number: 80
     name: http
     protocol: HTTP
+    targetPort: 443
   - number: 443
     name: https
     protocol: HTTPS
   resolution: DNS
----
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: {{ .Data.host }}-callback-gateway
-  namespace: ${mojaloop_namespace}
-spec:
-  selector:
-    istio: ${istio_egress_gateway_name}
-  servers:
-  - hosts:
-    - '{{ .Data.fqdn }}'
-    port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: ISTIO_MUTUAL
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: {{ .Data.host }}-callback
-  namespace: ${mojaloop_namespace}
-spec:
-  host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
-  subsets:
-  - name: {{ .Data.host }}
-    trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-      portLevelSettings:
-      - port:
-          number: 443
-        tls:
-          mode: ISTIO_MUTUAL
-          sni: {{ .Data.fqdn }}
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: {{ .Data.host }}-callback
-  namespace: ${mojaloop_namespace}
-spec:
-  hosts:
-  - {{ .Data.fqdn }}
-  gateways:
-  - {{ .Data.host }}-callback-gateway
-  - mesh
-  http:
-  - match:
-    - gateways:
-      - mesh
-      port: 80
-    route:
-    - destination:
-        host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
-        subset: {{ .Data.host }}
-        port:
-          number: 443
-      weight: 100
-  - match:
-    - gateways:
-      - {{ .Data.host }}-callback-gateway
-      port: 443
-    route:
-    - destination:
-        host: {{ .Data.fqdn }}
-        port:
-          number: 443
-      weight: 100
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -163,13 +93,16 @@ metadata:
   name: originate-mtls-for-{{ .Data.host }}-callback
   namespace: ${mojaloop_namespace}
 spec:
+  workloadSelector:
+    matchLabels:
+      app.kubernetes.io/instance: moja
   host: {{ .Data.fqdn }}
   trafficPolicy:
     loadBalancer:
       simple: ROUND_ROBIN
     portLevelSettings:
     - port:
-        number: 443
+        number: 80
       tls:
         mode: MUTUAL
         credentialName: {{ .Data.host }}-clientcert-tls
