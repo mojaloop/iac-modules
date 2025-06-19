@@ -41,6 +41,8 @@ resource "aws_lb_target_group" "internal_https" {
   port     = var.target_group_internal_https_port
   protocol = "TCP"
   vpc_id   = module.base_infra.vpc_id
+  preserve_client_ip = false
+  proxy_protocol_v2  = false
 
   health_check {
     interval            = 10
