@@ -1,3 +1,6 @@
+# Enable ambient profile
+profile: ambient
+
 #.Values.pilot for discovery and mesh wide config
 
 ## Discovery Settings
