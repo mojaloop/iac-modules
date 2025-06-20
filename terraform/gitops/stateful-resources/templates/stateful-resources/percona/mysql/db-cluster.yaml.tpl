@@ -780,6 +780,7 @@ metadata:
   name: init-${cluster_name}
   namespace: ${namespace}
   annotations:
+    argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/sync-wave: "-4"
 spec:
   template:

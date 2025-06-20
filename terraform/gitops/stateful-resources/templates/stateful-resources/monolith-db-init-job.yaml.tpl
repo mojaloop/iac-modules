@@ -4,6 +4,7 @@ metadata:
   name: init-job-${resource_name}
   namespace: ${stateful_resources_namespace}
   annotations:
+    argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/sync-wave: "-11"
 spec:
   template:

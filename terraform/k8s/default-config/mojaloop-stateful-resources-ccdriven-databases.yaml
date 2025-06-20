@@ -10,8 +10,8 @@ common_platform_db:
     mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
     mysql_requests_memory: "512Mi"                              # Memory request for MySQL pods
     mysql_requests_cpu: "300m"                                      # CPU request for MySQL pods
-    mysql_limits_memory: "4Gi"                                   # Memory limit for MySQL pods
-    mysql_limits_cpu: "2000m"                                        # CPU limit for MySQL pods
+    mysql_limits_memory: "16Gi"                                   # Memory limit for MySQL pods
+    mysql_limits_cpu: "16000m"                                        # CPU limit for MySQL pods
 
     # HAProxy specific configurations (for load balancing)
     haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
