@@ -12,3 +12,4 @@ spec:
       name: vault-keys
       namespace: ${ARGOCD_ENV_vault_namespace}
     source: Secret
+  skip_child_token: true
