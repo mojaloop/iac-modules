@@ -5,7 +5,6 @@ global:
   # Default hub for Istio images.
   hub: docker.io/istio
   # Default tag for Istio images.
-  #tag: ${ARGOCD_ENV_istio_helm_version}
   # Specify image pull policy if default behavior isn't desired.
   # Default behavior: latest images will be Always else IfNotPresent.
   imagePullPolicy: ""

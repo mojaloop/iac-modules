@@ -5,6 +5,8 @@ profile: ambient
 
 ## Discovery Settings
 pilot:
+  cni:
+    enabled: true
   autoscaleEnabled: true
   autoscaleMin: 1
   autoscaleMax: 5
