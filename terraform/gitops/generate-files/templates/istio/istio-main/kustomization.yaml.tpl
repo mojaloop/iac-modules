@@ -17,3 +17,15 @@ helmCharts:
   repo: ${istio_chart_repo}
   valuesFile: values-istio-istiod.yaml
   namespace: ${istio_namespace}
+- name: cni
+  releaseName: istio-cni
+  version: ${istio_chart_version}
+  repo: ${istio_chart_repo}
+  valuesFile: values-istio-cni.yaml
+  namespace: ${istio_namespace}
+- name: ztunnel
+  releaseName: ztunnel
+  version: ${istio_chart_version}
+  repo: ${istio_chart_repo}
+  valuesFile: values-istio-ztunnel.yaml
+  namespace: ${istio_namespace}
