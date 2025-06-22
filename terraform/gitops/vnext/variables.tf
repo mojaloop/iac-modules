@@ -172,9 +172,9 @@ variable "platform_stateful_res_config" {
   type        = any
   description = "merged config of platform stateful resources"
 }
- 
+
 variable "monolith_stateful_resources" {
-  type        = any
+  type = any
 }
 
 variable "managed_svc_as_monolith" {

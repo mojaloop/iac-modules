@@ -15,26 +15,35 @@ api:
   extraTLS:
     rootCert:
       enabled: false
-  wso2TokenIssuer:
-    cert:
-      enabled: false
-  oauth:
-    enabled: false
-    issuer: https://${token_issuer_fqdn}/oauth2/token
-    key: ${oauth_key}
-    clientSecretSecret: ${oauth_secret_secret}
-    clientSecretSecretKey: ${oauth_secret_secret_key}
-  auth2fa:
-    enabled: false
-  totp:
-    label: MCM
-    issuer: ${totp_issuer}
   certManager:
     enabled: true
     serverCertSecretName: ${server_cert_secret_name}
     serverCertSecretNamespace: ${server_cert_secret_namespace}
   switchFQDN: ${switch_domain}
   switchId: ${hub_name}
+  keycloak:
+    enabled: ${keycloak_config.enabled}
+    baseUrl: ${keycloak_config.base_url}
+    discoveryUrl: ${keycloak_config.discovery_url}
+    adminClientId: ${keycloak_config.admin_client_id}
+    adminClientSecret:
+      secretName: ${dfsp_api_service_secret_name}
+      secretKey: ${dfsp_api_service_secret_key}
+    dfspsRealm: ${keycloak_config.dfsps_realm}
+    autoCreateAccounts: ${keycloak_config.auto_create_accounts}
+  auth:
+    enable2fa: ${auth_config.two_fa_enabled}
+    enabled: ${openid_config.enabled}
+    allowInsecure: ${openid_config.allow_insecure}
+    discoveryUrl: ${openid_config.discovery_url}
+    clientId: ${openid_config.client_id}
+    clientSecret:
+      secretName: ${dfsp_auth_client_secret_name}
+      secretKey: ${dfsp_auth_client_secret_key}
+    redirectUri: ${openid_config.redirect_uri}
+    jwtCookieName: ${openid_config.jwt_cookie_name}
+    everyoneRole: ${openid_config.everyone_role}
+    mtaRole: ${openid_config.mta_role}
   vault:
     auth:
       k8s:
@@ -59,11 +68,14 @@ api:
     enabled: false
   annotations:
     vault.hashicorp.com/agent-inject: "true"
-    vault.hashicorp.com/log-level: "debug"
+    vault.hashicorp.com/log-level: "info"
     vault.hashicorp.com/agent-image: ghcr.io/mojaloop/vault-agent-util:0.0.2
     vault.hashicorp.com/agent-configmap: "vault-agent"
     vault.hashicorp.com/agent-pre-populate: "true"
-    vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
+    vault.hashicorp.com/agent-limits-mem: "128Mi"
+    vault.hashicorp.com/agent-requests-mem: "64Mi"
+    vault.hashicorp.com/agent-limits-cpu: "200m"
+    vault.hashicorp.com/agent-requests-cpu: "100m"
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
@@ -92,7 +104,7 @@ ingress:
       - "*.${mcm_fqdn}"
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "${mcm_ingress_whitelist_source_range}"
 migrations:
   enabled: true
 

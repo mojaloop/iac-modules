@@ -1,3 +1,18 @@
+resource "random_password" "mcm_dfsp_admin_password" {
+  length  = 16
+  special = true
+}
+
+resource "random_password" "mcm_dfsp_api_service_secret" {
+  length  = 32
+  special = false
+}
+
+resource "random_password" "mcm_dfsp_auth_client_secret" {
+  length  = 32
+  special = false
+}
+
 module "generate_mcm_files" {
   source = "../generate-files"
   var_map = {
@@ -48,8 +63,6 @@ module "generate_mcm_files" {
     mcm_vault_k8s_role_name              = var.mcm_vault_k8s_role_name
     k8s_auth_path                        = var.k8s_auth_path
     mcm_secret_path                      = local.mcm_secret_path
-    totp_issuer                          = "not-used-yet"
-    token_issuer_fqdn                    = "keycloak.${var.public_subdomain}"
     nginx_external_namespace             = var.nginx_external_namespace
     istio_internal_wildcard_gateway_name = var.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
@@ -86,6 +99,53 @@ module "generate_mcm_files" {
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     switch_dfspid                        = var.switch_dfspid
+    mcm_custom_realm_name                = var.mcm_custom_realm_name
+    mcm_custom_realm_config = templatefile("${local.mcm_template_path}/mcm-realm-config.yaml.tpl", {
+      dfsp_api_service_secret = random_password.mcm_dfsp_api_service_secret.result
+      dfsp_auth_client_secret = random_password.mcm_dfsp_auth_client_secret.result
+      mcm_fqdn                = local.mcm_fqdn
+      dfsps_admin_username    = var.dfsp_admin.username
+      dfsps_admin_email       = var.dfsp_admin.email
+      dfsps_admin_password    = random_password.mcm_dfsp_admin_password.result
+      smtp_host               = var.smtp.host
+      smtp_port               = var.smtp.port
+      smtp_ssl                = var.smtp.ssl
+      smtp_starttls           = var.smtp.starttls
+      smtp_auth               = var.smtp.auth
+      smtp_from               = var.smtp.from
+      smtp_from_display_name  = var.smtp.from_display_name
+      smtp_reply_to           = var.smtp.reply_to
+    })
+    dfsp_api_service_secret_name       = var.dfsp_secrets.api_service.secret_name
+    dfsp_api_service_secret_key        = var.dfsp_secrets.api_service.secret_key
+    dfsp_auth_client_secret_name       = var.dfsp_secrets.auth_client.secret_name
+    dfsp_auth_client_secret_key        = var.dfsp_secrets.auth_client.secret_key
+    openid_allow_insecure              = var.openid_allow_insecure
+    openid_enabled                     = var.openid_enabled
+    auth_2fa_enabled                   = var.auth_2fa_enabled
+    keycloak_access_token_lifespan     = var.keycloak_access_token_lifespan
+    mcm_ingress_whitelist_source_range = var.mcm_ingress_whitelist_source_range
+    keycloak_config = {
+      enabled              = true
+      base_url             = "https://${var.keycloak_fqdn}"
+      discovery_url        = "https://${var.keycloak_fqdn}/realms/${var.keycloak_dfsp_realm_name}/.well-known/openid-configuration"
+      admin_client_id      = "connection-manager-api-service"
+      dfsps_realm          = var.keycloak_dfsp_realm_name
+      auto_create_accounts = true
+    }
+    auth_config = {
+      two_fa_enabled = var.auth_2fa_enabled
+    }
+    openid_config = {
+      enabled         = var.openid_enabled
+      allow_insecure  = var.openid_allow_insecure
+      discovery_url   = "https://${var.keycloak_fqdn}/realms/${var.keycloak_dfsp_realm_name}/.well-known/openid-configuration"
+      client_id       = "connection-manager-auth-client"
+      redirect_uri    = "https://${local.mcm_fqdn}/api/auth/callback"
+      jwt_cookie_name = "MCM-API_ACCESS_TOKEN"
+      everyone_role   = "everyone"
+      mta_role        = "dfsp-admin"
+    }
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -130,7 +190,7 @@ variable "mcm_chart_repo" {
 
 variable "mcm_chart_version" {
   type        = string
-  default     = "0.7.6"
+  default     = "0.8.0"
   description = "mcm_chart_version"
 }
 
@@ -173,40 +233,209 @@ variable "nginx_external_namespace" {
   description = "nginx_external_namespace"
 }
 variable "mcm_oidc_client_secret_secret_key" {
-  type = string
+  type        = string
+  description = "Key in the secret containing the MCM OIDC client secret"
+  default     = "secret"
 }
 variable "mcm_oidc_client_secret_secret" {
-  type = string
+  type        = string
+  description = "Name of the secret containing the MCM OIDC client secret"
+  default     = "mcm-oidc-client-secret"
 }
 variable "jwt_client_secret_secret_key" {
-  type = string
+  type        = string
+  description = "Key in the secret containing the JWT client secret"
+  default     = "secret"
 }
 variable "jwt_client_secret_secret" {
-  type = string
+  type        = string
+  description = "Name of the secret containing the JWT client secret"
+  default     = "jwt-client-secret"
 }
 
 variable "keycloak_dfsp_realm_name" {
   type        = string
-  description = "name of realm for dfsp api access"
+  description = "Name of realm for DFSP API access in Keycloak"
   default     = "dfsps"
+
+  validation {
+    condition     = length(var.keycloak_dfsp_realm_name) > 0
+    error_message = "The keycloak_dfsp_realm_name cannot be empty."
+  }
 }
 
 variable "keycloak_name" {
   type        = string
-  description = "name of keycloak instance"
+  description = "Name of the Keycloak instance/deployment"
+
+  validation {
+    condition     = length(var.keycloak_name) > 0
+    error_message = "The keycloak_name cannot be empty."
+  }
 }
 
 variable "keycloak_fqdn" {
   type        = string
-  description = "fqdn of keycloak"
+  description = "Fully qualified domain name of the Keycloak service"
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.keycloak_fqdn))
+    error_message = "The keycloak_fqdn must be a valid domain name."
+  }
 }
+
 variable "keycloak_namespace" {
   type        = string
-  description = "namespace of keycloak in which to create realm"
+  description = "Kubernetes namespace where Keycloak is deployed"
+
+  validation {
+    condition     = length(var.keycloak_namespace) > 0
+    error_message = "The keycloak_namespace cannot be empty."
+  }
 }
 
 variable "fspiop_use_ory_for_auth" {
   type = bool
+}
+
+variable "mcm_custom_realm_name" {
+  type        = string
+  description = "Name of the custom MCM realm"
+}
+
+variable "mcm_custom_realm_config" {
+  type        = string
+  description = "Custom realm configuration in YAML format"
+}
+
+variable "smtp" {
+  type = object({
+    host              = string
+    port              = number
+    ssl               = bool
+    starttls          = bool
+    auth              = bool
+    from              = string
+    from_display_name = string
+    reply_to          = string
+  })
+  description = "SMTP server configuration for email notifications"
+  default = {
+    host              = "mailhog"
+    port              = 1025
+    ssl               = false
+    starttls          = false
+    auth              = false
+    from              = "noreply@mojaloop.io"
+    from_display_name = "Mojaloop Hub"
+    reply_to          = "noreply@mojaloop.io"
+  }
+
+  validation {
+    condition     = var.smtp.port > 0 && var.smtp.port <= 65535
+    error_message = "The smtp.port must be a valid port number between 1 and 65535."
+  }
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.smtp.from))
+    error_message = "The smtp.from must be a valid email address."
+  }
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.smtp.reply_to))
+    error_message = "The smtp.reply_to must be a valid email address."
+  }
+
+  validation {
+    condition     = length(var.smtp.host) > 0
+    error_message = "The smtp.host cannot be empty."
+  }
+
+  validation {
+    condition     = length(var.smtp.from_display_name) > 0
+    error_message = "The smtp.from_display_name cannot be empty."
+  }
+}
+
+variable "dfsp_admin" {
+  type = object({
+    username = string
+    email    = string
+  })
+  description = "DFSP admin user configuration"
+  default = {
+    username = "dfsp-admin"
+    email    = ""
+  }
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.dfsp_admin.email))
+    error_message = "The dfsp_admin.email must be a valid email address."
+  }
+}
+
+variable "dfsp_secrets" {
+  type = object({
+    api_service = object({
+      secret_name = string
+      secret_key  = string
+    })
+    auth_client = object({
+      secret_name = string
+      secret_key  = string
+    })
+  })
+  description = "DFSP client secret configuration for Keycloak authentication"
+  default = {
+    api_service = {
+      secret_name = "mcm-api-service-secret"
+      secret_key  = "secret"
+    }
+    auth_client = {
+      secret_name = "mcm-auth-client-secret"
+      secret_key  = "secret"
+    }
+  }
+}
+
+variable "openid_allow_insecure" {
+  type        = bool
+  description = "Allow insecure OpenID connections (for development)"
+  default     = false
+}
+
+variable "openid_enabled" {
+  type        = bool
+  description = "OpenID enabled"
+  default     = true
+}
+
+variable "auth_2fa_enabled" {
+  type        = bool
+  description = "2FA enabled"
+  default     = true
+}
+
+variable "keycloak_access_token_lifespan" {
+  type        = number
+  description = "Access token lifespan in seconds for Keycloak clients"
+  default     = 3600
+
+  validation {
+    condition     = var.keycloak_access_token_lifespan > 0
+    error_message = "The keycloak_access_token_lifespan must be a positive number."
+  }
+}
+
+variable "mcm_ingress_whitelist_source_range" {
+  type        = string
+  description = "Source IP ranges allowed to access MCM ingress (CIDR notation)"
+  default     = "0.0.0.0/0"
+
+  validation {
+    condition     = can(cidrnetmask(var.mcm_ingress_whitelist_source_range))
+    error_message = "The mcm_ingress_whitelist_source_range must be a valid CIDR notation (e.g., '10.0.0.0/16' or '0.0.0.0/0')."
+  }
 }
 
 locals {
