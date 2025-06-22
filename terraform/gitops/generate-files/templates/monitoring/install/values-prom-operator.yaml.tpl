@@ -40,7 +40,10 @@ prometheus:
     url: ${central_observability_endpoint}/api/v1/push
     headers:
       X-Scope-OrgID: ${central_observability_tenant_id}
+    metadataConfig:
+      sendInterval: ${prometheus_scrape_interval}
 %{endif ~}
+
 
 %{if enable_central_observability_read ~}
   remoteRead:
@@ -78,11 +81,51 @@ kubelet:
       regex: 'apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket'
       action: drop
     - sourceLabels: ['__name__']
-      regex: 'etcd_request_duration_seconds_bucket'
+      regex: 'etcd_request_duration_seconds_bucket|apiserver_watch_events_sizes_bucket'
       action: drop
+    - regex: endpoint|service
+      action: labeldrop
+    cAdvisorMetricRelabelings:
+    - sourceLabels: ['__name__']
+      regex: 'container_tasks_state|container_memory_failures_total|container_blkio_device_usage_total'
+      action: drop
+    - regex: endpoint|service
+      action: labeldrop
+    # remove name label with hexadecimal values only
+    - sourceLabels: [name]
+      regex: '^[a-f0-9]{64}$'
+      targetLabel: name
+      replacement: ''
+      action: replace
+    # NOTE: removing this label is expected to reduce remote write bandwidth by 15%
+    # removing id label causes err-mimir-sample-duplicate-timestamp error 
+    # droping id entirely collapses multiple ts into one
+    # - sourceLabels: [id]
+    #   regex: '.+/pod.+'
+    #  targetLabel: id
+    #  replacement: ''
+    #  action: replace
 
 kubeApiServer:
   enabled: false
+
+kube-state-metrics:
+  serviceMonitor:
+    relabelings:
+    # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
+    - sourceLabels: [endpoint]
+      regex: http
+      targetLabel: endpoint
+      replacement: ''
+      action: replace
+    - sourceLabels: [service]
+      regex: prom-kube-state-metrics
+      targetLabel: service
+      replacement: ''
+      action: replace
+    metricRelabelings:
+    - regex: uid
+      action: labeldrop
 
 commonLabels:
   build: argocd
@@ -94,6 +137,8 @@ node-exporter:
     relabelings:
     - sourceLabels: [__meta_kubernetes_pod_node_name]
       targetLabel: nodename
+    - regex: endpoint|service
+      action: labeldrop
   tolerations:
     - operator: "Exists"
 blackboxExporter:
