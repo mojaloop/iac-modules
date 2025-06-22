@@ -59,6 +59,8 @@ module "mojaloop" {
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   vault_root_ca_name                   = "pki-${var.cluster_name}"
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
+  mcm_custom_realm_name                = var.mcm_custom_realm_name
+  mcm_custom_realm_config              = var.mcm_custom_realm_config
   rbac_api_resources_file              = var.rbac_api_resources_file
   mojaloop_values_override_file        = var.mojaloop_values_override_file
   mcm_values_override_file             = var.mcm_values_override_file
@@ -212,6 +214,8 @@ module "vnext" {
   bof_release_name                     = local.bof_release_name
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
+  mcm_custom_realm_name                = var.mcm_custom_realm_name
+  mcm_custom_realm_config              = var.mcm_custom_realm_config
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
@@ -367,6 +371,18 @@ variable "argocd_ingress_internal_lb" {
 variable "argocd_namespace" {
   default     = "argocd"
   description = "namespace argocd is deployed to"
+}
+
+variable "mcm_custom_realm_name" {
+  type        = string
+  description = "MCM custom realm name"
+  default     = ""
+}
+
+variable "mcm_custom_realm_config" {
+  type        = any
+  description = "MCM custom realm configuration"
+  default     = {}
 }
 
 locals {
