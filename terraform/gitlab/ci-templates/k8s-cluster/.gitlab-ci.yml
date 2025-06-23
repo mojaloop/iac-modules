@@ -337,7 +337,7 @@ lint-apps:
     - export KUBECONFIG=.kubeconfig
     - ./bin/kubectl config set clusters.microk8s-cluster.server https://kubernetes:8443
     - ./bin/kubectl get nodes
-    # - ./bin/kubectl-validate test |& tee test/lint.txt | grep -v $'OK\033\[0m$' | sed '/^$/N;/^\n$/D'
+    - ./bin/kubectl-validate test |& tee test/lint.txt | grep -v $'OK\033\[0m$' | sed '/^$/N;/^\n$/D'
   artifacts:
     when: always
     paths:
