@@ -182,10 +182,6 @@ account-lookup-service:
   account-lookup-service:
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
 # %{ if account_lookup_service_affinity != null }
     affinity:
       ${indent(8, account_lookup_service_affinity)}
@@ -193,6 +189,11 @@ account-lookup-service:
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
+    podAnnotations:
+      proxy.istio.io/config: |
+        proxyMetadata:
+          ISTIO_META_DNS_CAPTURE: "false"
+      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${account_lookup_service_replica_count}
     config: &ALS_CONFIG
       hub_participant: *HUB_PARTICIPANT
@@ -257,13 +258,13 @@ account-lookup-service:
       ${indent(8, account_lookup_admin_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
-    commonAnnotations:
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
+    podAnnotations:
       proxy.istio.io/config: |
         proxyMetadata:
           ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: 1 # timeout handler is designed to run as a single instance
     config: *ALS_CONFIG
     ingress:
@@ -292,10 +293,6 @@ quoting-service:
   quoting-service:
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
 # %{ if quoting_service_affinity != null }
     affinity:
       ${indent(6, quoting_service_affinity)}
@@ -303,6 +300,11 @@ quoting-service:
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
+    podAnnotations:
+      proxy.istio.io/config: |
+        proxyMetadata:
+          ISTIO_META_DNS_CAPTURE: "false"
+      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${quoting_service_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -332,10 +334,6 @@ quoting-service:
   quoting-service-handler:
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
 # %{ if quoting_service_affinity != null }
     affinity:
       ${indent(6, quoting_service_affinity)}
@@ -343,6 +341,11 @@ quoting-service:
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
+    podAnnotations:
+      proxy.istio.io/config: |
+        proxyMetadata:
+          ISTIO_META_DNS_CAPTURE: "false"
+      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${quoting_service_handler_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -398,10 +401,6 @@ ml-api-adapter:
   ml-api-adapter-handler-notification:
     commonAnnotations:
       secret.reloader.stakater.com/reload: "${jws_key_secret}"
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
 # %{ if ml_api_adapter_handler_notifications_affinity != null }
     affinity:
       ${indent(8, ml_api_adapter_handler_notifications_affinity)}
@@ -409,6 +408,11 @@ ml-api-adapter:
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
       sidecar.istio.io/inject: "${enable_istio_injection}"
+    podAnnotations:
+      proxy.istio.io/config: |
+        proxyMetadata:
+          ISTIO_META_DNS_CAPTURE: "false"
+      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -754,13 +758,13 @@ centralsettlement:
       db_database: *CS_DB_DATABASE
 
 transaction-requests-service:
-  commonAnnotations:
+  podLabels:
+    sidecar.istio.io/inject: "${enable_istio_injection}"
+  podAnnotations:
     proxy.istio.io/config: |
       proxyMetadata:
         ISTIO_META_DNS_CAPTURE: "false"
-    traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
-  podLabels:
-    sidecar.istio.io/inject: "${enable_istio_injection}"
+    traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
 # %{ if transaction_requests_service_affinity != null }
   affinity:
     ${indent(8, transaction_requests_service_affinity)}
@@ -783,13 +787,13 @@ thirdparty:
   auth-svc:
     enabled: true
     tolerations: *MOJALOOP_TOLERATIONS
-    commonAnnotations:
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
+    podAnnotations:
       proxy.istio.io/config: |
         proxyMetadata:
           ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${auth_service_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -833,13 +837,13 @@ thirdparty:
   tp-api-svc:
     enabled: true
     tolerations: *MOJALOOP_TOLERATIONS
-    commonAnnotations:
+    podLabels:
+      sidecar.istio.io/inject: "${enable_istio_injection}"
+    podAnnotations:
       proxy.istio.io/config: |
         proxyMetadata:
           ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${tp_api_svc_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -892,15 +896,14 @@ mojaloop-bulk:
         className: *INGRESS_CLASS
         hostname: bulk-api-adapter.${ingress_subdomain}
     bulk-api-adapter-handler-notification:
-      commonAnnotations:
-        secret.reloader.stakater.com/reload: "${jws_key_secret}"
-        proxy.istio.io/config: |
-          proxyMetadata:
-            ISTIO_META_DNS_CAPTURE: "false"
-        traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
       tolerations: *MOJALOOP_TOLERATIONS
       podLabels:
         sidecar.istio.io/inject: "${enable_istio_injection}"
+      podAnnotations:
+        proxy.istio.io/config: |
+          proxyMetadata:
+            ISTIO_META_DNS_CAPTURE: "false"
+        traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
       replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
       config:
         hub_participant: *HUB_PARTICIPANT
@@ -1218,10 +1221,6 @@ ml-ttk-test-setup:
     annotations:
       argocd.argoproj.io/hook: PostSync
       argocd.argoproj.io/sync-wave: "${mojaloop_setup_sync_wave}"
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
 
 ml-ttk-test-val-gp:
   configFileDefaults:
@@ -1248,10 +1247,6 @@ ml-ttk-test-val-gp:
     annotations:
       argocd.argoproj.io/hook: PostSync
       argocd.argoproj.io/sync-wave: "${mojaloop_test_sync_wave}"
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '9092,3306'
 
 ml-ttk-test-val-bulk:
   tests:
