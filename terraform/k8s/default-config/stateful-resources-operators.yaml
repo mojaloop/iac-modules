@@ -4,7 +4,7 @@ strimzi:
   helm_chart: strimzi-kafka-operator
   namespace: strimzi
   release_name: strimzi
-  helm_chart_version: 0.40.0
+  helm_chart_version: 0.46.0
   helm_chart_repo: https://strimzi.io/charts
   helm_chart_values_file: values-strimzi.yaml
 percona-mysql:
