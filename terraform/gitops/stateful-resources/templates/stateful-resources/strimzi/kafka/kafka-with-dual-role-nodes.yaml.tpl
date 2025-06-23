@@ -71,7 +71,7 @@ spec:
         volumeMounts:
           - name: data-0
             mountPath: /var/lib/kafka/data-0
-# %{ else }
+# %{ endif }
   entityOperator:
     topicOperator: {}
     userOperator: {}
