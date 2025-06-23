@@ -447,6 +447,8 @@ mojaloop-kafka:
       generate_secret_vault_base_path:
       generate_secret_extra_namespaces: []
     kafka_data:
+      use_in_memory_storage: false
+      in_memory_storage_size_limit: 2Gi
       storage_size: 8Gi
       service_port: 9092
       replica_count: 1

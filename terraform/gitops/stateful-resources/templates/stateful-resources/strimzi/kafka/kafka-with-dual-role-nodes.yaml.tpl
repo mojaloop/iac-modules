@@ -14,14 +14,29 @@ spec:
     type: jbod
     volumes:
       - id: 0
+# %{ if node_pool_use_in_memory_storage }
+        type: ephemeral
+# %{ else }
         type: persistent-claim
         size: ${node_pool_storage_size}
         deleteClaim: false
-# %{ if node_pool_affinity != null }
+# %{ endif }
+# %{ if node_pool_affinity != null || node_pool_use_in_memory_storage }
   template:
     pod:
+# %{   if node_pool_affinity != null }
       affinity:
         ${indent(8, yamlencode(node_pool_affinity))}
+# %{   endif }
+# %{   if node_pool_use_in_memory_storage }
+      volumes:
+        - name: data-0
+          emptyDir:
+            medium: Memory
+# %{     if node_pool_in_memory_storage_size_limit != null }
+            sizeLimit: ${node_pool_in_memory_storage_size_limit}
+# %{     endif }
+# %{   endif }
 # %{ endif }
 ---
 apiVersion: kafka.strimzi.io/v1beta2
