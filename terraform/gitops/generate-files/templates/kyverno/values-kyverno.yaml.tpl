@@ -1,3 +1,7 @@
+config:
+  preserve: false
+webhookLabels:
+  app.kubernetes.io/managed-by: argocd
 reportsController:
   rbac:
     coreClusterRole:
