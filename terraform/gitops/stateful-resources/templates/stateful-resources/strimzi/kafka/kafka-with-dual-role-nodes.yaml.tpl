@@ -36,10 +36,10 @@ spec:
 # %{     if node_pool_in_memory_storage_size_limit != null }
             sizeLimit: ${node_pool_in_memory_storage_size_limit}
 # %{     endif }
-      kafkaContainer:
-        volumeMounts:
-          - name: data-0
-            mountPath: /var/lib/kafka/data-0
+    kafkaContainer:
+      volumeMounts:
+        - name: data-0
+          mountPath: /var/lib/kafka/data-0
 # %{   endif }
 # %{ endif }
 
