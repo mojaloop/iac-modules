@@ -135,6 +135,13 @@ spec:
             - name: "monitoring_metrics_server_replicas"
               value: '"${ARGOCD_ENV_monitoring_metrics_server_replicas}"'
 
+            - name: "monitoring_sync_wave"
+              value: '"${ARGOCD_ENV_monitoring_sync_wave}"'
+
+            - name: "monitoring_monitoring_namespace"
+              value: "${ARGOCD_ENV_monitoring_monitoring_namespace}"
+
+
             # percona operator
 
             - name: utils_percona_pg_operator_helm_version

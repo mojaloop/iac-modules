@@ -11,3 +11,4 @@ resources:
   - ../../../base/percona-operator.yaml
   - ../../../base/base-monitoring.yaml
   - ../../../base/kyverno.yaml
+  - ../../../base/sc-monitoring.yaml
