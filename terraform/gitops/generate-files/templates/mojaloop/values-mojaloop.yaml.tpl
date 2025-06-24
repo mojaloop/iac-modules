@@ -187,13 +187,6 @@ account-lookup-service:
       ${indent(8, account_lookup_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
-    podAnnotations:
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${account_lookup_service_replica_count}
     config: &ALS_CONFIG
       hub_participant: *HUB_PARTICIPANT
@@ -258,13 +251,6 @@ account-lookup-service:
       ${indent(8, account_lookup_admin_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
-    podAnnotations:
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: 1 # timeout handler is designed to run as a single instance
     config: *ALS_CONFIG
     ingress:
@@ -298,13 +284,6 @@ quoting-service:
       ${indent(6, quoting_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
-    podAnnotations:
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${quoting_service_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -339,13 +318,6 @@ quoting-service:
       ${indent(6, quoting_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
-    podAnnotations:
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${quoting_service_handler_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -406,13 +378,6 @@ ml-api-adapter:
       ${indent(8, ml_api_adapter_handler_notifications_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
-    podAnnotations:
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -758,13 +723,6 @@ centralsettlement:
       db_database: *CS_DB_DATABASE
 
 transaction-requests-service:
-  podLabels:
-    sidecar.istio.io/inject: "${enable_istio_injection}"
-  podAnnotations:
-    proxy.istio.io/config: |
-      proxyMetadata:
-        ISTIO_META_DNS_CAPTURE: "false"
-    traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
 # %{ if transaction_requests_service_affinity != null }
   affinity:
     ${indent(8, transaction_requests_service_affinity)}
@@ -787,13 +745,6 @@ thirdparty:
   auth-svc:
     enabled: true
     tolerations: *MOJALOOP_TOLERATIONS
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
-    podAnnotations:
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${auth_service_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -837,13 +788,6 @@ thirdparty:
   tp-api-svc:
     enabled: true
     tolerations: *MOJALOOP_TOLERATIONS
-    podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
-    podAnnotations:
-      proxy.istio.io/config: |
-        proxyMetadata:
-          ISTIO_META_DNS_CAPTURE: "false"
-      traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
     replicaCount: ${tp_api_svc_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -897,13 +841,6 @@ mojaloop-bulk:
         hostname: bulk-api-adapter.${ingress_subdomain}
     bulk-api-adapter-handler-notification:
       tolerations: *MOJALOOP_TOLERATIONS
-      podLabels:
-        sidecar.istio.io/inject: "${enable_istio_injection}"
-      podAnnotations:
-        proxy.istio.io/config: |
-          proxyMetadata:
-            ISTIO_META_DNS_CAPTURE: "false"
-        traffic.sidecar.istio.io/excludeOutboundPorts: '${account_lookup_db_port},${kafka_port}'
       replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
       config:
         hub_participant: *HUB_PARTICIPANT
@@ -1213,8 +1150,6 @@ ml-ttk-test-setup:
   testCaseEnvironmentFile:  *ttkInputValues
   job:
     enabled: true
-    templateLabels:
-      sidecar.istio.io/inject: "false"
     ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
     # ttlSecondsAfterFinished: 50
     generateNameEnabled: false
@@ -1239,8 +1174,6 @@ ml-ttk-test-val-gp:
   testCaseEnvironmentFile:  *ttkInputValues
   job:
     enabled: true
-    templateLabels:
-      sidecar.istio.io/inject: "false"
     ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
     # ttlSecondsAfterFinished: 50
     generateNameEnabled: false
