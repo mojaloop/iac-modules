@@ -271,3 +271,6 @@ spec:
 
         - name: "cloud_region"
           value: "${ARGOCD_ENV_monitoring_monitoring_cloud_region}"
+
+        - name: "cluster_domain"
+          value: "${ARGOCD_ENV_monitoring_monitoring_cluster_domain}"

@@ -542,6 +542,7 @@ argocd_override:
           loki_bucket_max_objects: "${loki_bucket_max_objects}"
           loki_bucket_storage_size: "${loki_bucket_storage_size}"
           object_storage_provider: "${object_storage_provider}"
+          cluster_domain: "${cluster_domain}"
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
@@ -552,6 +553,7 @@ argocd_override:
           loki_helm_version: "${loki_helm_version}"
           loki_retention_period: "${loki_retention_period}"
           cloud_region: "${cloud_region}"
+          cluster_domain: "${cluster_domain}"
         grafana:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"

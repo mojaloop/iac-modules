@@ -41,7 +41,7 @@ spec:
             value: "${ARGOCD_ENV_velero_pre_namespace}"
 
           - name: "velero_cc_backup_bucket"
-            value: "${ARGOCD_ENV_velero_pre_cc_backup_bucket}-${ARGOCD_ENV_cluster_name}"
+            value: "${ARGOCD_ENV_velero_pre_cc_backup_bucket}.${ARGOCD_ENV_cluster_name}.${ARGOCD_ENV_cluster_domain}"
 
           - name: "velero_cc_backup_storage_size"
             value: "${ARGOCD_ENV_velero_pre_cc_backup_storage_size}"

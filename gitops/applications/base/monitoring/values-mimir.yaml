@@ -28,7 +28,7 @@ mimir:
         s3:
           access_key_id: $${username}
           secret_access_key: $${password}
-          bucket_name: "mimir-${ARGOCD_ENV_cluster_name}"
+          bucket_name: "mimir.${ARGOCD_ENV_cluster_name}.${ARGOCD_ENV_cluster_domain}"
           endpoint: ${ARGOCD_ENV_object_storage_regional_host}
           insecure: ${ARGOCD_ENV_object_store_insecure_connection}
           bucket_lookup_type: ${ARGOCD_ENV_bucket_lookup_type}
