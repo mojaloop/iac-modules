@@ -34,7 +34,8 @@ spec:
           emptyDir:
             medium: Memory
 # %{     if node_pool_in_memory_storage_size_limit != null }
-            sizeLimit: ${node_pool_in_memory_storage_size_limit}
+            sizeLimit:
+              amount: ${node_pool_in_memory_storage_size_limit}
 # %{     endif }
     kafkaContainer:
       volumeMounts:
