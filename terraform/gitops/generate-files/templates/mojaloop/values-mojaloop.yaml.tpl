@@ -187,6 +187,8 @@ account-lookup-service:
       ${indent(8, account_lookup_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      istio.io/use-waypoint: waypoint
     replicaCount: ${account_lookup_service_replica_count}
     config: &ALS_CONFIG
       hub_participant: *HUB_PARTICIPANT
@@ -251,6 +253,8 @@ account-lookup-service:
       ${indent(8, account_lookup_admin_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      istio.io/use-waypoint: waypoint
     replicaCount: 1 # timeout handler is designed to run as a single instance
     config: *ALS_CONFIG
     ingress:
@@ -284,6 +288,8 @@ quoting-service:
       ${indent(6, quoting_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      istio.io/use-waypoint: waypoint
     replicaCount: ${quoting_service_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -318,6 +324,8 @@ quoting-service:
       ${indent(6, quoting_service_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      istio.io/use-waypoint: waypoint
     replicaCount: ${quoting_service_handler_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -378,6 +386,8 @@ ml-api-adapter:
       ${indent(8, ml_api_adapter_handler_notifications_affinity)}
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      istio.io/use-waypoint: waypoint
     replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -723,6 +733,8 @@ centralsettlement:
       db_database: *CS_DB_DATABASE
 
 transaction-requests-service:
+  podLabels:
+    istio.io/use-waypoint: waypoint
 # %{ if transaction_requests_service_affinity != null }
   affinity:
     ${indent(8, transaction_requests_service_affinity)}
@@ -745,6 +757,8 @@ thirdparty:
   auth-svc:
     enabled: true
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      istio.io/use-waypoint: waypoint
     replicaCount: ${auth_service_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -788,6 +802,8 @@ thirdparty:
   tp-api-svc:
     enabled: true
     tolerations: *MOJALOOP_TOLERATIONS
+    podLabels:
+      istio.io/use-waypoint: waypoint
     replicaCount: ${tp_api_svc_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -841,6 +857,8 @@ mojaloop-bulk:
         hostname: bulk-api-adapter.${ingress_subdomain}
     bulk-api-adapter-handler-notification:
       tolerations: *MOJALOOP_TOLERATIONS
+      podLabels:
+        istio.io/use-waypoint: waypoint
       replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
       config:
         hub_participant: *HUB_PARTICIPANT
