@@ -1,0 +1,17 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-ambient-mode-namespace
+spec:
+  rules:
+    - name: add-ambient-mode-enabled
+      match:
+        any:
+          - resources:
+              kinds:
+                - Namespace
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              istio.io/dataplane-mode: ambient
