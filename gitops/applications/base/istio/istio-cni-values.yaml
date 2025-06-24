@@ -1,3 +1,6 @@
+# Enable ambient profile
+profile: ambient
+
 global:
   # Default hub for Istio images.
   hub: docker.io/istio
