@@ -109,7 +109,7 @@ persistence:
 
 extraVolumeMounts: []
 
-resources: 
+resources:
   limits:
     cpu: ${ARGOCD_ENV_nexus_cpu_limit}
     memory: ${ARGOCD_ENV_nexus_memory_limit}
@@ -144,10 +144,10 @@ license:
   key: nexus.license
 
 envVars:
-  jvmMinHeapSize: 1024m
-  jvmMaxHeapSize: 1024m
-  jvmAdditionalMemoryOptions: "-XX:MaxDirectMemorySize=2048m"
-  jvmAdditionalOptions: ""
+  jvmMinHeapSize: "4096m"
+  jvmMaxHeapSize: "6144m"
+  jvmAdditionalMemoryOptions: "-XX:MaxDirectMemorySize=1g"
+  jvmAdditionalOptions: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
 
 env: []
 #   - name: VARIABLE
