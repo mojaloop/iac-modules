@@ -152,6 +152,7 @@ resource "local_file" "strimzi-crs" {
       node_pool_name         = "${each.key}-nodepool"
       node_pool_size         = each.value.local_operator_config.node_pool_size
       node_pool_storage_size = each.value.local_operator_config.kafka_data.storage_size
+      node_pool_storage_class_name = each.value.local_operator_config.kafka_data.storage_class_name
       node_pool_affinity     = each.value.local_operator_config.kafka_data.affinity_definition
       namespace              = each.value.local_operator_config.resource_namespace
       kafka_topics           = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}

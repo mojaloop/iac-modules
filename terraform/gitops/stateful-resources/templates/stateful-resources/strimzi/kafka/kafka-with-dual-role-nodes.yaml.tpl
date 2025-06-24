@@ -17,6 +17,9 @@ spec:
         type: persistent-claim
         size: ${node_pool_storage_size}
         deleteClaim: false
+# %{ if node_pool_storage_class_name != null }
+        class: ${node_pool_storage_class_name}
+# %{ endif }
 # %{ if node_pool_affinity != null }
   template:
     pod:
