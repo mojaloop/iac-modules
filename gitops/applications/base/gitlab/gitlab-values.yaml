@@ -671,7 +671,7 @@ global:
 
   ## https://docs.gitlab.com/charts/charts/globals#configure-registry-settings
   registry:
-    bucket: "registry-${ARGOCD_ENV_cluster_name}"
+    bucket: "registry.${ARGOCD_ENV_gitlab_dns_subdomain}"
 
     certificate:
       {}
@@ -1332,7 +1332,7 @@ gitlab-runner:
           Shared = true
           [runners.cache.s3]
             ServerAddress = "${ARGOCD_ENV_object_storage_regional_host}"
-            BucketName = "gitlab-runner-cache-${ARGOCD_ENV_cluster_name}"
+            BucketName = "gitlab.runner.cache.${ARGOCD_ENV_gitlab_dns_subdomain}"
             BucketLocation = "${ARGOCD_ENV_cloud_region}"
             Insecure = ${ARGOCD_ENV_object_store_insecure_connection}
           [runners.cache.s3.config]
