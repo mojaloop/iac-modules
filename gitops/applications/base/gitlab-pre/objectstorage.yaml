@@ -8,7 +8,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "git.lfs.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "git-lfs-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -30,7 +30,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.artifacts.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-artifacts-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -52,7 +52,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.uploads.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-uploads-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -74,7 +74,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.packages.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-packages-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -96,7 +96,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "registry.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "registry-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -118,7 +118,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.mr.diffs.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-mr-diffs-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -140,7 +140,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.ci.secure.files.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-ci-secure-files-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -162,7 +162,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.terraform.state.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-terraform-state-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -184,7 +184,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.dependency.proxy.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-dependency-proxy-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -206,7 +206,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.runner.cache.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-runner-cache-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -228,7 +228,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.backups.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-backups-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -250,7 +250,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "gitlab.backups.tmp.${ARGOCD_ENV_gitlab_dns_subdomain}"
+    bucketName: "gitlab-backups-tmp-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     s3:
@@ -335,11 +335,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: "git.lfs.${ARGOCD_ENV_gitlab_dns_subdomain}"
+        key: "git-lfs-${ARGOCD_ENV_dns_hyphenated_subdomain}"
         property: username
     - secretKey: password
       remoteRef:
-        key: "git.lfs.${ARGOCD_ENV_gitlab_dns_subdomain}"
+        key: "git-lfs-${ARGOCD_ENV_dns_hyphenated_subdomain}"
         property: password
 
   target:
@@ -376,11 +376,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.artifacts.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-artifacts-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.artifacts.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-artifacts-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -417,11 +417,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.uploads.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-uploads-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.uploads.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-uploads-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -458,11 +458,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.packages.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-packages-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.packages.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-packages-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -499,11 +499,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.mr.diffs.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-mr-diffs-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.mr.diffs.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-mr-diffs-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -540,11 +540,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.ci.secure.files.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-ci-secure-files-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.ci.secure.files.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-ci-secure-files-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -581,11 +581,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.terraform.state.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-terraform-state-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.terraform.state.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-terraform-state-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -622,11 +622,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.dependency.proxy.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-dependency-proxy-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.dependency.proxy.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-dependency-proxy-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -663,11 +663,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: registry.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: registry-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: registry.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: registry-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -677,7 +677,7 @@ spec:
       data:
         connection: |
           s3:
-           bucket: registry.${ARGOCD_ENV_gitlab_dns_subdomain}
+           bucket: registry-${ARGOCD_ENV_dns_hyphenated_subdomain}
            v4auth: true
            pathstyle: ${ARGOCD_ENV_object_storage_path_style}
            region: ${ARGOCD_ENV_cloud_region}
@@ -700,11 +700,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.backups.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-backups-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.backups.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-backups-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -741,11 +741,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.backups.tmp.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-backups-tmp-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.backups.tmp.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-backups-tmp-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:
@@ -782,11 +782,11 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitlab.runner.cache.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-runner-cache-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: username
     - secretKey: password
       remoteRef:
-        key: gitlab.runner.cache.${ARGOCD_ENV_gitlab_dns_subdomain}
+        key: gitlab-runner-cache-${ARGOCD_ENV_dns_hyphenated_subdomain}
         property: password
 
   target:

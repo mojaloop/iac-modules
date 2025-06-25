@@ -57,7 +57,7 @@ spec:
             value: "${ARGOCD_ENV_velero_velero_object_storage_bucket}"
 
           - name: "velero_cc_backup_bucket"
-            value: "${ARGOCD_ENV_velero_pre_cc_backup_bucket}.${ARGOCD_ENV_cluster_name}.${ARGOCD_ENV_cluster_domain}"
+            value: "${ARGOCD_ENV_velero_pre_cc_backup_bucket}-${ARGOCD_ENV_velero_pre_dns_hyphenated_subdomain}"
 
           - name: "object_storage_endpoint"
             value: "${ARGOCD_ENV_velero_velero_object_storage_endpoint}"
