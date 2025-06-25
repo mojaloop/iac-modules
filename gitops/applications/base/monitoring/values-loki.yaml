@@ -76,7 +76,7 @@ ingester:
       cpu: ${ARGOCD_ENV_loki_ingester_limits_cpu}
       memory: ${ARGOCD_ENV_loki_ingester_limits_memory}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "loki.${ARGOCD_ENV_cluster_domain}"
 compactor:
   replicaCount: ${ARGOCD_ENV_loki_compactor_replica_count}
   resources:
@@ -84,7 +84,7 @@ compactor:
       cpu: ${ARGOCD_ENV_loki_compactor_limits_cpu}
       memory: ${ARGOCD_ENV_loki_compactor_limits_memory}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "loki.${ARGOCD_ENV_cluster_domain}"
   updateStrategy:
     type: Recreate
 distributor:
@@ -97,7 +97,7 @@ distributor:
       cpu: ${ARGOCD_ENV_loki_distributor_limits_cpu}
       memory: ${ARGOCD_ENV_loki_distributor_limits_memory}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "loki.${ARGOCD_ENV_cluster_domain}"
 querier:
   replicaCount: ${ARGOCD_ENV_loki_querier_replica_count}
   resources:
@@ -105,7 +105,7 @@ querier:
       cpu: ${ARGOCD_ENV_loki_querier_limits_cpu}
       memory: ${ARGOCD_ENV_loki_querier_limits_memory}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "loki.${ARGOCD_ENV_cluster_domain}"
 queryFrontend:
   replicaCount: ${ARGOCD_ENV_loki_query_frontend_replica_count}
   resources:
@@ -113,7 +113,7 @@ queryFrontend:
       cpu: ${ARGOCD_ENV_loki_query_frontend_limits_cpu}
       memory: ${ARGOCD_ENV_loki_query_frontend_limits_memory}
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "loki.${ARGOCD_ENV_cluster_domain}"
 queryScheduler:
   replicaCount: ${ARGOCD_ENV_loki_query_scheduler_replica_count}
   resources:
@@ -122,7 +122,7 @@ queryScheduler:
       memory: ${ARGOCD_ENV_loki_query_scheduler_limits_memory}
   enabled: false
   extraArgs: ["-config.expand-env"]
-  extraEnvVarsSecret: "loki-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "loki.${ARGOCD_ENV_cluster_domain}"
 
 
 memcachedchunks:
