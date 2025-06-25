@@ -31,7 +31,7 @@ loki:
         insecure: ${ARGOCD_ENV_object_store_insecure_connection}
         access_key_id: $${username}
         secret_access_key: $${password}
-        bucketnames: "loki.${ARGOCD_ENV_cluster_name}.${ARGOCD_ENV_cluster_domain}"
+        bucketnames: "loki.${ARGOCD_ENV_cluster_domain}"
         region: ${ARGOCD_ENV_cloud_region}
     memberlist:
       advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
