@@ -1,4 +1,4 @@
-{
+  {
     "annotations": {
       "list": [
         {
@@ -23,23 +23,12 @@
     "links": [],
     "panels": [
       {
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 9,
-        "title": "RDS traffic",
-        "type": "row"
-      },
-      {
         "collapsed": false,
         "gridPos": {
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 1
+          "y": 0
         },
         "id": 3,
         "panels": [],
@@ -111,7 +100,7 @@
           "h": 8,
           "w": 8,
           "x": 0,
-          "y": 2
+          "y": 1
         },
         "id": 1,
         "options": {
@@ -209,7 +198,7 @@
           "h": 8,
           "w": 8,
           "x": 8,
-          "y": 2
+          "y": 1
         },
         "id": 15,
         "options": {
@@ -312,7 +301,7 @@
           "h": 8,
           "w": 8,
           "x": 16,
-          "y": 2
+          "y": 1
         },
         "id": 16,
         "options": {
@@ -356,11 +345,11 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 10
+          "y": 9
         },
         "id": 4,
         "panels": [],
-        "title": "Intra cluster traffic",
+        "title": "Inter cluster traffic",
         "type": "row"
       },
       {
@@ -428,7 +417,7 @@
           "h": 8,
           "w": 8,
           "x": 0,
-          "y": 11
+          "y": 10
         },
         "id": 2,
         "options": {
@@ -531,7 +520,7 @@
           "h": 8,
           "w": 8,
           "x": 8,
-          "y": 11
+          "y": 10
         },
         "id": 7,
         "options": {
@@ -634,7 +623,7 @@
           "h": 8,
           "w": 8,
           "x": 16,
-          "y": 11
+          "y": 10
         },
         "id": 8,
         "options": {
@@ -678,7 +667,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 19
+          "y": 18
         },
         "id": 5,
         "panels": [],
@@ -752,7 +741,7 @@
                 "options": {
                   "mode": "exclude",
                   "names": [
-                    "region-dev-master-1"
+                    "mw-dev-master-1"
                   ],
                   "prefix": "All except:",
                   "readOnly": true
@@ -775,7 +764,7 @@
           "h": 8,
           "w": 8,
           "x": 0,
-          "y": 20
+          "y": 19
         },
         "id": 6,
         "options": {
@@ -880,7 +869,7 @@
           "h": 8,
           "w": 8,
           "x": 8,
-          "y": 20
+          "y": 19
         },
         "id": 13,
         "options": {
@@ -983,7 +972,7 @@
           "h": 8,
           "w": 8,
           "x": 16,
-          "y": 20
+          "y": 19
         },
         "id": 14,
         "options": {
@@ -1027,7 +1016,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 28
+          "y": 27
         },
         "id": 10,
         "panels": [],
@@ -1093,38 +1082,13 @@
             },
             "unit": "binBps"
           },
-          "overrides": [
-            {
-              "__systemRef": "hideSeriesFrom",
-              "matcher": {
-                "id": "byNames",
-                "options": {
-                  "mode": "exclude",
-                  "names": [
-                    "cc-dev-master-1"
-                  ],
-                  "prefix": "All except:",
-                  "readOnly": true
-                }
-              },
-              "properties": [
-                {
-                  "id": "custom.hideFrom",
-                  "value": {
-                    "legend": false,
-                    "tooltip": false,
-                    "viz": true
-                  }
-                }
-              ]
-            }
-          ]
+          "overrides": []
         },
         "gridPos": {
           "h": 8,
           "w": 8,
           "x": 0,
-          "y": 29
+          "y": 28
         },
         "id": 11,
         "options": {
@@ -1229,7 +1193,7 @@
           "h": 8,
           "w": 8,
           "x": 8,
-          "y": 29
+          "y": 28
         },
         "id": 17,
         "options": {
@@ -1332,7 +1296,7 @@
           "h": 8,
           "w": 8,
           "x": 16,
-          "y": 29
+          "y": 28
         },
         "id": 18,
         "options": {
@@ -1435,7 +1399,7 @@
           "h": 8,
           "w": 8,
           "x": 0,
-          "y": 37
+          "y": 36
         },
         "id": 12,
         "options": {
@@ -1472,7 +1436,232 @@
             "refId": "A"
           }
         ],
-        "title": "S3 write estimate",
+        "title": "S3 write estimate (per pod)",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 44
+        },
+        "id": 9,
+        "panels": [],
+        "title": "Block storage traffic",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "description": "Estimates data written to block storage over network. This can be ignored in AWS cloud deployment because AWS uses internal infra for block storage networking.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "binBps"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 0,
+          "y": 45
+        },
+        "id": 21,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull",
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true,
+            "sortBy": "Mean",
+            "sortDesc": true
+          },
+          "timezone": [
+            ""
+          ],
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${datasource}"
+            },
+            "editorMode": "code",
+            "expr": "sum(rate(container_fs_writes_bytes_total{cluster=~\"$cluster\",node=~\"$node\",container!=\"\",pod=~\".+-\\\\d+\"}[20m])) by (node)",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "{{node}}",
+            "range": true,
+            "refId": "B"
+          }
+        ],
+        "title": "Container Disk write",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "description": "Estimates data written to block storage over network. This can be ignored in AWS cloud deployment because AWS uses internal infra for block storage networking.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "binBps"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 13,
+          "x": 8,
+          "y": 45
+        },
+        "id": 22,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull",
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true,
+            "sortBy": "Mean",
+            "sortDesc": true
+          },
+          "timezone": [
+            ""
+          ],
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${datasource}"
+            },
+            "editorMode": "code",
+            "expr": "rate(container_fs_writes_bytes_total{cluster=~\"$cluster\",node=~\"$node\",container!=\"\",pod=~\".+-\\\\d+\"}[20m])",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "{{node}}/{{pod}}",
+            "range": true,
+            "refId": "B"
+          }
+        ],
+        "title": "Container Disk write (per pod)",
         "type": "timeseries"
       }
     ],
@@ -1485,8 +1674,8 @@
         {
           "current": {
             "selected": true,
-            "text": "Prometheus",
-            "value": "d4d76e42-8172-4d2d-8a35-a5643dd4042d"
+            "text": "Mimir",
+            "value": "63a2fb69-1835-42f9-9635-c42ddcd2ac00"
           },
           "hide": 0,
           "includeAll": false,
@@ -1503,9 +1692,13 @@
         {
           "allValue": ".*",
           "current": {
-            "selected": false,
-            "text": "All",
-            "value": "$__all"
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
           },
           "datasource": {
             "type": "prometheus",
@@ -1530,9 +1723,13 @@
         },
         {
           "current": {
-            "selected": false,
-            "text": "cc-dev-master-1",
-            "value": "cc-dev-master-1"
+            "selected": true,
+            "text": [
+              "cc-dev-master-1"
+            ],
+            "value": [
+              "cc-dev-master-1"
+            ]
           },
           "datasource": {
             "type": "prometheus",
@@ -1676,13 +1873,13 @@
       ]
     },
     "time": {
-      "from": "now-15m",
+      "from": "now-1h",
       "to": "now"
     },
     "timepicker": {},
     "timezone": "browser",
     "title": "Networking cost estimation",
-    "uid": "ben5crl1tc740b",
-    "version": 63,
+    "uid": "ben5crl1tc7-v002",
+    "version": 64,
     "weekStart": ""
   }

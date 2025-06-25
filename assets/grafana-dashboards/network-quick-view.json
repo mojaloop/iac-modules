@@ -17,8 +17,8 @@
     },
     "editable": true,
     "fiscalYearStartMonth": 0,
-    "graphTooltip": 0,
-    "id": 93,
+    "graphTooltip": 1,
+    "id": 94,
     "links": [],
     "panels": [
       {
@@ -683,7 +683,6 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -714,7 +713,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -790,7 +790,6 @@
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "barWidthFactor": 0.6,
               "drawStyle": "line",
               "fillOpacity": 0,
               "gradientMode": "none",
@@ -821,7 +820,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -906,7 +906,7 @@
           "allowCustomValue": true,
           "current": {
             "selected": false,
-            "text": "",
+            "text": "None",
             "value": ""
           },
           "datasource": {
@@ -933,7 +933,7 @@
         {
           "allowCustomValue": true,
           "current": {
-            "selected": true,
+            "selected": false,
             "text": [
               "All"
             ],
@@ -972,6 +972,7 @@
         },
         {
           "current": {
+            "selected": true,
             "text": ".+",
             "value": ".+"
           },
@@ -998,7 +999,7 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "Network - Quick view",
-    "uid": "deojbe4mokj-v001",
+    "uid": "deojbe4mokj-v002",
     "version": 1,
     "weekStart": ""
   }
