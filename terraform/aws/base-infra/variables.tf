@@ -124,6 +124,12 @@ variable "single_nat_gateway" {
   default = true
 }
 
+variable "single_zone_bastion_asg" {
+  type        = bool
+  default     = false
+  description = "whether to use a single zone for bastion asg"
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###
@@ -146,4 +152,5 @@ locals {
   subnet_list                   = flatten([for az in local.azs : concat(["private-${az}", "public-${az}"])])
   public_subnet_cidrs           = [for subnet_name in local.public_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
   private_subnet_cidrs          = [for subnet_name in local.private_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
+  bastion_subnets               = var.single_zone_bastion_asg ? [module.vpc.public_subnets[0]] : module.vpc.public_subnets
 }
