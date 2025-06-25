@@ -64,4 +64,4 @@ spec:
           value: "${ARGOCD_ENV_monitoring_pre_cluster_domain}"
 
         - name: "dns_hyphenated_subdomain"
-          value: "${ARGOCD_ENV_monitoring_monitoring_hyphenated_subdomain}"
+          value: "${ARGOCD_ENV_monitoring_monitoring_dns_hyphenated_subdomain}"
