@@ -366,7 +366,7 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           gitaly_storage_size: "${gitaly_storage_size}"
           gitlab_token_ttl: "${gitlab_token_ttl_days}"
-
+          dns_subdomain_string: "${replace(dns_public_subdomain, ".", "-")}"
         pre:
           #  object storage bucket configuration
           object_storage_region: "${cloud_region}"
@@ -544,6 +544,7 @@ argocd_override:
           loki_bucket_storage_size: "${loki_bucket_storage_size}"
           object_storage_provider: "${object_storage_provider}"
           cluster_domain: "${cluster_domain}"
+          dns_subdomain_string: "${replace(dns_public_subdomain, ".", "-")}"
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
