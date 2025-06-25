@@ -15,7 +15,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_env_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "loki-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_domain}"
+    bucketName: "loki-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
     namespace: ${ARGOCD_ENV_env_name}
     ccK8sProviderName: "kubernetes-provider"
     esoPushSecret: true
@@ -40,7 +40,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_env_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "tempo-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_domain}"
+    bucketName: "tempo-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
     namespace: ${ARGOCD_ENV_env_name}
     ccK8sProviderName: "kubernetes-provider"
     esoPushSecret: true
@@ -91,7 +91,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_env_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "percona-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_domain}"
+    bucketName: "percona-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
     namespace: ${ARGOCD_ENV_env_name}
     ccK8sProviderName: "kubernetes-provider"
     esoPushSecret: true
