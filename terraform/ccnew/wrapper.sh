@@ -25,12 +25,14 @@ source scripts/setlocalvars.sh
 
 git pull
 
-tagcheck=$(git tag -l | grep -E "(^|\\s)${iac_terraform_modules_tag}($|\\s)")
+tagcheck=$(git tag -l | grep -E "(^|\s)${iac_terraform_modules_tag}($|\s)")
+branchcheck=$(git branch --list | grep -E "(^|\s)${iac_terraform_modules_tag}($|\s)")
 
-if [[ "$tagcheck" == "$iac_terraform_modules_tag" ]]; then
-echo "tag exist"
+if [[ "$tagcheck" == "$iac_terraform_modules_tag" || "$branchcheck" == *"$iac_terraform_modules_tag"* ]]; then
+  echo "Tag or branch exists: ${iac_terraform_modules_tag}"
 else
-exit -1
+  echo "Neither tag nor branch exists: ${iac_terraform_modules_tag}"
+  exit 1
 fi
 
 LOG_TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")

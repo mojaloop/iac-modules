@@ -24,7 +24,7 @@ spec:
         requests:
           memory: ${ARGOCD_ENV_mysql_requests_memory}
           cpu: ${ARGOCD_ENV_mysql_requests_cpu}
-        limit:
+        limits:
           memory: ${ARGOCD_ENV_mysql_limits_memory}
           cpu: ${ARGOCD_ENV_mysql_limits_cpu}
       configuration: |
