@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali-ui
+  namespace: ${ARGOCD_ENV_istio_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_kiali_istio_gateway_namespace}/${ARGOCD_ENV_kiali_istio_wildcard_gateway_name}
+  hosts:
+    - "kiali.${ARGOCD_ENV_kiali_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: kiali
+            port:
+              number: 20001

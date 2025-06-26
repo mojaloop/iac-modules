@@ -139,7 +139,7 @@ variable "opentelemetry_enabled" {
   type        = bool
   description = "bool that enables opentelemetry in cluster"
   default     = false
-} 
+}
 
 variable "opentelemetry_namespace_filtering_enable" {
   type        = bool
@@ -160,7 +160,7 @@ variable "cert_manager_namespace" {
   type        = string
   description = "cert_manager_namespace"
 }
-variable "vault_certman_secretname" {
+variable "vault_certman_secretname_suffix" {
   description = "secret name to create for tls offloading via certmanager"
   type        = string
   default     = "vault-tls-cert"
