@@ -215,6 +215,9 @@ spec:
 
           - name: "sc_provider_config_name"
             value: "${ARGOCD_ENV_utils_capi_capi_crossplane_k8s_providerconfig_name}"
+
+          - name: "dns_hyphenated_subdomain"
+            value: "${ARGOCD_ENV_gitlab_gitlab_dns_hyphenated_subdomain}"
     #main gitlab db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}

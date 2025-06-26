@@ -59,3 +59,9 @@ spec:
 
         - name: "cloud_region"
           value: "${ARGOCD_ENV_monitoring_monitoring_cloud_region}"
+
+        - name: "cluster_domain"
+          value: "${ARGOCD_ENV_monitoring_pre_cluster_domain}"
+
+        - name: "dns_hyphenated_subdomain"
+          value: "${ARGOCD_ENV_monitoring_monitoring_dns_hyphenated_subdomain}"

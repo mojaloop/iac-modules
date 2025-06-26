@@ -137,3 +137,6 @@ spec:
 
         - name: "object_store_insecure_connection"
           value: "${ARGOCD_ENV_utils_storage_object_store_insecure_connection}"
+
+        - name: "dns_hyphenated_subdomain"
+          value: "${ARGOCD_ENV_gitlab_gitlab_dns_hyphenated_subdomain}"

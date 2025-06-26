@@ -325,7 +325,7 @@ variable "backup_bucket_force_destroy" {
 variable "bastion_instance_number" {
   type        = number
   description = "number of bastions to configure in asg"
-  default     = 2
+  default     = 1
 }
 
 variable "bastion_instance_size" {
@@ -358,6 +358,23 @@ variable "enable_registry_mirror" {
 variable "single_nat_gateway" {
   type    = bool
   default = true
+}
+variable "single_zone_az_nodegroup" {
+  type        = bool
+  default     = false
+  description = "whether to use a single zone for eks nodegroup"
+}
+
+variable "enable_eks_controlplane_logging" {
+  type        = bool
+  default     = false
+  description = "Whether to create a CloudWatch log group for the EKS cluster"
+}
+
+variable "cluster_enabled_log_types" {
+  type        = list(string)
+  default     = ["api","audit","authenticator"]
+  description = "List of EKS control plane logging types to enable"
 }
 
 ###

@@ -68,7 +68,7 @@ variable "node_pools" {
 
 variable "az_count" {
   type        = number
-  default     = 3 #debug
+  default     = 3
   description = "Number of azs"
 }
 
@@ -220,7 +220,7 @@ variable "backup_bucket_force_destroy" {
 variable "bastion_instance_number" {
   type        = number
   description = "number of bastions to configure in asg"
-  default     = 2
+  default     = 1
 }
 
 variable "bastion_instance_size" {
@@ -238,6 +238,22 @@ variable "coredns_bind_address" {
 variable "single_nat_gateway" {
   type    = bool
   default = true
+}
+
+variable "single_zone_az_nodegroup" {
+  type        = bool
+  default     = false
+  description = "whether to use a single zone for eks nodegroup"
+}
+variable "enable_eks_controlplane_logging" {
+  type        = bool
+  default     = false
+  description = "Whether to create a CloudWatch log group for the EKS cluster and enable eks logging"
+}
+variable "cluster_enabled_logging_types" {
+  type        = list(string)
+  default     = ["api","audit","authenticator"]
+  description = "List of EKS control plane logging types to enable"
 }
 
 ###

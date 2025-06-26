@@ -8,7 +8,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "mimir-${ARGOCD_ENV_cluster_name}"
+    bucketName: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_monitoring_namespace}
     s3:
@@ -30,7 +30,7 @@ spec:
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
-    bucketName: "loki-${ARGOCD_ENV_cluster_name}"
+    bucketName: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
     ccK8sProviderName: "kubernetes-provider"
     namespace: ${ARGOCD_ENV_monitoring_namespace}
     s3:

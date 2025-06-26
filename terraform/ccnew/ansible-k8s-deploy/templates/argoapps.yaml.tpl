@@ -156,6 +156,8 @@ argocd_override:
           cc_backup_bucket: "${cc_backup_bucket}"
           cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
           object_storage_provider: "${cc_backup_object_storage_provider}"
+          cluster_domain: "${cluster_domain}"
+          dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
         velero:
           helm_version: "${velero_helm_version}"
           object_storage_cloud_role: "${object_storage_cloud_role}"
@@ -366,7 +368,7 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           gitaly_storage_size: "${gitaly_storage_size}"
           gitlab_token_ttl: "${gitlab_token_ttl_days}"
-
+          dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
         pre:
           #  object storage bucket configuration
           object_storage_region: "${cloud_region}"
@@ -543,6 +545,7 @@ argocd_override:
           loki_bucket_max_objects: "${loki_bucket_max_objects}"
           loki_bucket_storage_size: "${loki_bucket_storage_size}"
           object_storage_provider: "${object_storage_provider}"
+          cluster_domain: "${cluster_domain}"
         monitoring:
           kube_prometheus_helm_version: "${kube_prometheus_helm_version}"
           grafana_mimir_helm_version: "${grafana_mimir_helm_version}"
@@ -553,6 +556,8 @@ argocd_override:
           loki_helm_version: "${loki_helm_version}"
           loki_retention_period: "${loki_retention_period}"
           cloud_region: "${cloud_region}"
+          cluster_domain: "${cluster_domain}"
+          dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
         grafana:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"

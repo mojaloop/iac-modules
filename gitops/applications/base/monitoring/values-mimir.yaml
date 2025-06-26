@@ -28,7 +28,7 @@ mimir:
         s3:
           access_key_id: $${username}
           secret_access_key: $${password}
-          bucket_name: "mimir-${ARGOCD_ENV_cluster_name}"
+          bucket_name: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
           endpoint: ${ARGOCD_ENV_object_storage_regional_host}
           insecure: ${ARGOCD_ENV_object_store_insecure_connection}
           bucket_lookup_type: ${ARGOCD_ENV_bucket_lookup_type}
@@ -79,7 +79,7 @@ ingester:
     limits:
       cpu: ${ARGOCD_ENV_mimir_ingester_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ingester_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   persistence:
     size: ${ARGOCD_ENV_mimir_ingester_storage_size}
 
@@ -89,7 +89,7 @@ querier:
     limits:
       cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
 
 queryFrontend:
   replicaCount: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
@@ -100,7 +100,7 @@ queryFrontend:
 
 compactor:
   replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_compactor_limits_cpu}
@@ -114,7 +114,7 @@ storeGateway:
     limits:
       cpu: ${ARGOCD_ENV_mimir_store_gateway_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_store_gateway_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   persistence:
     size: ${ARGOCD_ENV_mimir_store_gateway_storage_size}
 
@@ -125,7 +125,7 @@ ruler:
     limits:
       cpu: ${ARGOCD_ENV_mimir_ruler_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ruler_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
 
 alertmanager:
   enabled: true
@@ -134,6 +134,6 @@ alertmanager:
     limits:
       cpu: ${ARGOCD_ENV_mimir_alertmanager_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_alertmanager_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_cluster_name}"
+  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   persistence:
     size: ${ARGOCD_ENV_mimir_alertmanager_storage_size}
