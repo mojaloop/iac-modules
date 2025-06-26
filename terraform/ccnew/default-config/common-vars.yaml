@@ -148,6 +148,10 @@ nexus_cpu_limit: "4000m" #https://help.sonatype.com/en/sonatype-nexus-repository
 nexus_memory_limit: "8Gi"
 nexus_cpu_request: "2000m"
 nexus_memory_request: "4Gi"
+nexus_jvm_min_heap_size: "4096m"
+nexus_jvm_max_heap_size: "6144m"
+nexus_jvm_additional_memory_options: "-XX:MaxDirectMemorySize=1g"
+nexus_jvm_additional_options: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
 
 zitadel_public_access: true
 argocd_admin_rbac_group: "argocd_administrators"
