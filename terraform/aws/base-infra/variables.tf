@@ -124,6 +124,12 @@ variable "single_nat_gateway" {
   default = true
 }
 
+variable "single_zone_bastion_asg" {
+  type        = bool
+  default     = false
+  description = "whether to use a single zone for bastion asg"
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###
