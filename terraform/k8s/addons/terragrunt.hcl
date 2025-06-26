@@ -5,7 +5,9 @@ include "root" {
 inputs = {
   outputDir                = get_env("GITOPS_BUILD_OUTPUT_DIR")
   configPath               = find_in_parent_folders(get_env("CONFIG_PATH"))
-  clusterConfig            = merge(local.clusterConfig, {
+  clusterConfig            = merge({
+    domainSuffix           = "${replace(local.clusterConfig.env,"/^.*(-[^-]+)$|^[^-]+([^-]{3})$/","$1$2")}.${local.clusterConfig.domain}"
+  }, local.clusterConfig, {
     gitlabUrl              = get_env("GITLAB_PROVIDER_URL")
     gitlabProjectUrl       = get_env("GITLAB_PROJECT_URL")
     gitlabProjectId        = get_env("GITLAB_CURRENT_PROJECT_ID")
@@ -14,7 +16,6 @@ inputs = {
       ansible_collection_tag  = local.clusterConfig.ansible_collection_tag
     }))
     gitlabProjectApi       = "${get_env("GITLAB_API_URL")}/projects/${get_env("GITLAB_CURRENT_PROJECT_ID")}"
-    domainSuffix           = "${replace(local.clusterConfig.env,"/^.*(-[^-]+)$|^[^-]+([^-]{3})$/","$1$2")}.${local.clusterConfig.domain}"
   })
 }
 
