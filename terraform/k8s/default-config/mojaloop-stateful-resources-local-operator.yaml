@@ -448,6 +448,7 @@ mojaloop-kafka:
       generate_secret_extra_namespaces: []
     kafka_data:
       storage_size: 8Gi
+      storage_class_name: null
       service_port: 9092
       replica_count: 1
       affinity_definition:
