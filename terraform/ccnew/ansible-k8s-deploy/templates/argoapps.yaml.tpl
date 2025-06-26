@@ -356,6 +356,10 @@ argocd_override:
           memory_limit: "${nexus_memory_limit}"
           cpu_request: "${nexus_cpu_request}"
           memory_request: "${nexus_memory_request}"
+          jvm_min_heap_size: "${nexus_jvm_min_heap_size}"
+          jvm_max_heap_size: "${nexus_jvm_max_heap_size}"
+          jvm_additional_memory_options: "${nexus_jvm_additional_memory_options}"
+          jvm_additional_options: "${nexus_jvm_additional_options}"
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
 
