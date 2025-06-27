@@ -135,6 +135,11 @@ data "aws_subnet" "private_selected" {
   id    = module.vpc.private_subnets[count.index]
 }
 
+data "aws_subnet" "public_selected" {
+  count = length(module.vpc.public_subnets)
+  id    = module.vpc.public_subnets[count.index]
+}
+
 ###
 # Local copies of variables to allow for parsing
 ###
@@ -158,4 +163,9 @@ locals {
   public_subnet_cidrs           = [for subnet_name in local.public_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
   private_subnet_cidrs          = [for subnet_name in local.private_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
   azs_ordered                   = [for s in data.aws_subnet.private_selected : s.availability_zone]
+
+  first_private_subnet          = data.aws_subnet.private_selected[0]
+  target_az                     = local.first_private_subnet.availability_zone
+  matching_public_subnet        = [for s in data.aws_subnet.public_selected :    s if endswith(s.tags["Name"], local.target_az) ]
+  public_subnet_id_matching     = length(local.matching_public_subnet) > 0 ? local.matching_public_subnet[0].id : null
 }
