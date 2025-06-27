@@ -131,8 +131,8 @@ variable "single_zone_bastion_asg" {
 }
 
 data "aws_subnet" "private_selected" {
-  for_each = toset(module.vpc.private_subnets)
-  id       = each.value
+  count = length(module.vpc.private_subnets)
+  id    = module.vpc.private_subnets[count.index]
 }
 
 ###
