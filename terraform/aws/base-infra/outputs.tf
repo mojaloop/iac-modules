@@ -76,3 +76,11 @@ output "key_pair_name" {
 output "availability_zones" {
   value = local.azs_ordered
 }
+
+output "public_subnet_id_matching" {
+  value = local.public_subnet_id_matching
+}
+
+output "private_subnet_id_matching" {
+  value = local.first_private_subnet
+}
