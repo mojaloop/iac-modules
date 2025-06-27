@@ -157,5 +157,5 @@ locals {
   subnet_list                   = flatten([for az in local.azs : concat(["private-${az}", "public-${az}"])])
   public_subnet_cidrs           = [for subnet_name in local.public_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
   private_subnet_cidrs          = [for subnet_name in local.private_subnets_list : module.subnet_addrs.network_cidr_blocks[subnet_name]]
-  azs_ordered                   = [for id in module.vpc.private_subnets : data.aws_subnet.private_selected[id].availability_zone]
+  azs_ordered                   = [for s in data.aws_subnet.private_selected : s.availability_zone]
 }
