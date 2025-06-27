@@ -74,5 +74,5 @@ output "key_pair_name" {
 }
 
 output "availability_zones" {
-  value = local.azs
+  value = local.azs_ordered
 }
