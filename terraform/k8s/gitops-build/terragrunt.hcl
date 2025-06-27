@@ -129,9 +129,9 @@ inputs = {
 locals {
   skip_outputs = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
   clusterConfig                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
-  env_vars                      = merge(local.clusterConfig, {
+  env_vars                      = merge({
     domainSuffix                = "${replace(local.clusterConfig.env,"/^.*(-[^-]+)$|^[^-]+([^-]{3})$/","$1$2")}.${local.clusterConfig.domain}"
-  })
+  }, local.clusterConfig)
   tags                          = local.env_vars.tags
   gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
   gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
