@@ -1,4 +1,4 @@
-{
+  {
     "annotations": {
       "list": [
         {
@@ -18,7 +18,7 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 79,
+    "id": 62,
     "links": [],
     "panels": [
       {
@@ -45,8 +45,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -90,7 +89,7 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "11.1.1",
+        "pluginVersion": "11.6.1",
         "targets": [
           {
             "datasource": {
@@ -123,27 +122,24 @@
                 "image_spec": true,
                 "instance": true,
                 "job": true,
-                "namespace": true,
+                "namespace": false,
                 "service": true,
                 "uid": true
               },
               "includeByName": {},
               "indexByName": {
-                "Time": 3,
-                "Value": 14,
-                "__name__": 4,
-                "container": 1,
-                "container_id": 5,
-                "endpoint": 6,
-                "image": 2,
+                "Time": 4,
+                "Value": 11,
+                "__name__": 5,
+                "container": 2,
+                "container_id": 6,
+                "image": 3,
                 "image_id": 7,
                 "image_spec": 8,
                 "instance": 9,
                 "job": 10,
-                "namespace": 11,
-                "pod": 0,
-                "service": 12,
-                "uid": 13
+                "namespace": 0,
+                "pod": 1
               },
               "renameByName": {}
             }
@@ -152,32 +148,28 @@
         "type": "table"
       }
     ],
-    "schemaVersion": 39,
+    "preload": false,
+    "refresh": "",
+    "schemaVersion": 41,
     "tags": [],
     "templating": {
       "list": [
         {
           "current": {
-            "selected": false,
             "text": "Prometheus",
-            "value": "5fc98bec-6b17-4979-8f12-43a23955a2a0"
+            "value": "6472278b-575b-47a3-a945-a89538e7b4e6"
           },
-          "hide": 0,
           "includeAll": false,
-          "multi": false,
           "name": "datasource",
           "options": [],
           "query": "prometheus",
-          "queryValue": "",
           "refresh": 1,
           "regex": "",
-          "skipUrlSync": false,
           "type": "datasource"
         },
         {
           "current": {
-            "selected": false,
-            "text": "None",
+            "text": "",
             "value": ""
           },
           "datasource": {
@@ -185,9 +177,7 @@
             "uid": "${datasource}"
           },
           "definition": "label_values(kube_pod_container_info,cluster)",
-          "hide": 0,
           "includeAll": false,
-          "multi": false,
           "name": "cluster",
           "options": [],
           "query": {
@@ -197,14 +187,11 @@
           },
           "refresh": 1,
           "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
           "type": "query"
         },
         {
           "allValue": ".+",
           "current": {
-            "selected": true,
             "text": "All",
             "value": "$__all"
           },
@@ -213,9 +200,7 @@
             "uid": "${datasource}"
           },
           "definition": "label_values(kube_pod_container_info{cluster=\"$cluster\"},namespace)",
-          "hide": 0,
           "includeAll": true,
-          "multi": false,
           "name": "namespace",
           "options": [],
           "query": {
@@ -225,17 +210,13 @@
           },
           "refresh": 1,
           "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
           "type": "query"
         },
         {
           "current": {
-            "selected": false,
             "text": "",
             "value": ""
           },
-          "hide": 0,
           "name": "pod",
           "options": [
             {
@@ -245,7 +226,6 @@
             }
           ],
           "query": "",
-          "skipUrlSync": false,
           "type": "textbox"
         }
       ]
@@ -257,7 +237,6 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "Deployment Report",
-    "uid": "aefm37jpxy-v001",
-    "version": 8,
-    "weekStart": ""
+    "uid": "aefm37jpxy-v002",
+    "version": 2
   }
