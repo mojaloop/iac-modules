@@ -72,3 +72,7 @@ output "netmaker_public_ip" {
 output "key_pair_name" {
   value = local.cluster_domain
 }
+
+output "availability_zones" {
+  value = local.azs
+}
