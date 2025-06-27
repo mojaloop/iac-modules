@@ -62,6 +62,5 @@ manage_parent_domain: true
 object_storage_provider: s3
 db_mediated_by_control_center: false
 single_zone_az_nodegroup: true
-single_zone_bastion_asg: true
 az_count: 3
 enable_eks_controlplane_logging: false

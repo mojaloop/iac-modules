@@ -46,7 +46,7 @@ inputs = {
   bastion_instance_size            = local.env_vars.bastion_instance_size
   az_count                         = local.az_count
   single_zone_az_nodegroup         = local.single_zone_az_nodegroup
-  single_zone_bastion_asg          = local.single_zone_bastion_asg
+  single_zone_bastion_asg          = local.single_zone_az_nodegroup
   enable_eks_controlplane_logging  = local.enable_eks_controlplane_logging
 }
 
@@ -78,7 +78,6 @@ locals {
   coredns_bind_address      = get_env("coredns_bind_address")
   az_count                  = get_env("az_count")
   single_zone_az_nodegroup    = get_env("single_zone_az_nodegroup")
-  single_zone_bastion_asg     = get_env("single_zone_bastion_asg")
   enable_eks_controlplane_logging = get_env("enable_eks_controlplane_logging")
 }
 
