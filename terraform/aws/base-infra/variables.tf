@@ -166,7 +166,6 @@ locals {
 
   first_private_subnet          = data.aws_subnet.private_selected[0]
   target_az                     = local.first_private_subnet.availability_zone
-  # matching_public_subnet        = [for s in data.aws_subnet.public_selected :    s if endswith(s.tags["Name"], local.target_az) ]
-  matching_public_subnet        = [ for s in data.aws_subnet.public_selected : s if s.availability_zone == target_az ]
+  matching_public_subnet        = [for s in data.aws_subnet.public_selected :    s if endswith(s.tags["Name"], local.target_az) ]
   public_subnet_id_matching     = length(local.matching_public_subnet) > 0 ? local.matching_public_subnet[0].id : null
 }
