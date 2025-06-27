@@ -288,6 +288,9 @@ spec:
           - name: "subnet_list"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_rdbms_subnet_list}"
 
+          - name: "azs"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_rdbms_azs}"
+
           - name: "cloud_region"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_db_provider_cloud_region}"
 
@@ -493,6 +496,9 @@ spec:
 
           - name: "subnet_list"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_rdbms_subnet_list}"
+
+          - name: "azs"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_rdbms_azs}"
 
           - name: "cloud_region"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_db_provider_cloud_region}"
