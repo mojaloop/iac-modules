@@ -58,7 +58,6 @@ locals {
   coredns_bind_address      = get_env("coredns_bind_address")
   az_count                  = get_env("az_count")
   single_zone_az_nodegroup        = get_env("single_zone_az_nodegroup")
-  single_zone_bastion_asg         = get_env("single_zone_az_nodegroup")
   enable_eks_controlplane_logging = get_env("enable_eks_controlplane_logging")
 
 }
