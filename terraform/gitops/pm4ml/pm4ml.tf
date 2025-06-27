@@ -93,6 +93,7 @@ module "generate_pm4ml_files" {
     role_assign_svc_user                            = var.role_assign_svc_user
     pm4ml_reserve_notification                      = each.value.pm4ml_reserve_notification
     core_connector_config                           = each.value.core_connector_config
+    cbs_mock_config                                 = each.value.cbs_mock_config
     payment_token_adapter_config                    = each.value.payment_token_adapter_config
     ui_custom_config                                = each.value.ui_custom_config
     pm4ml_istio_gateway_namespace                   = local.pm4ml_istio_gateway_namespaces[each.key]
