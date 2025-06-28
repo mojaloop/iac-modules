@@ -28,6 +28,7 @@ dependency "k8s_deploy" {
     object_storage_bucket_name  = "null"
     private_subnets             = ["null"]
     vpc_id                      = "null"
+    availability_zones          = ["null"]
     target_group_internal_https_port = 0
     target_group_internal_http_port = 0
     target_group_internal_health_port = 0
@@ -105,6 +106,7 @@ inputs = {
     environment_list                  = local.environment_list.environments
     rdbms_subnet_list                 = dependency.k8s_deploy.outputs.private_subnets
     rdbms_vpc_id                      = dependency.k8s_deploy.outputs.vpc_id
+    rdbms_azs                         = dependency.k8s_deploy.outputs.availability_zones
     vpc_cidr                          = get_env("vpc_cidr")
     object_storage_cloud_role         = dependency.k8s_deploy.outputs.object_storage_cloud_role
     object_storage_bucket_name        = dependency.k8s_deploy.outputs.object_storage_bucket_name

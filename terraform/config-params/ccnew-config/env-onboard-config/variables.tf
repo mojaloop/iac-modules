@@ -125,3 +125,20 @@ variable "netbird_operator_api_key_vault_path" {
 variable "netbird_operator_management_url" {
   description = "url to reach management api of netbird"
 }
+
+
+variable "hyphenated_domain"  {
+  description = "hyphenated domain for the environment"
+}
+
+locals {
+  org_id             = [for org in data.zitadel_org.default : org.id if org.is_default][0]
+  netbird_project_id = [for project_id in data.zitadel_projects.netbird.project_ids : project_id][0]
+
+  env_buckets = {
+    loki    = "loki"
+    tempo   = "tempo"
+    velero  = "velero"
+    percona = "percona"
+  }
+}

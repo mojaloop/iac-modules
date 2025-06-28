@@ -53,6 +53,7 @@ spec:
     storageType: "${ARGOCD_ENV_storage_type}"
     allocatedStorage: ${ARGOCD_ENV_allocated_storage}
     subnets: ${ARGOCD_ENV_subnet_list}
+    azs: ${ARGOCD_ENV_azs}
     username: ${ARGOCD_ENV_db_username}
     vpcCidr: ${ARGOCD_ENV_vpc_cidr}
     vpcId: ${ARGOCD_ENV_vpc_id}

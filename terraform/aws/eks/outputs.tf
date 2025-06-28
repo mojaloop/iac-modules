@@ -199,3 +199,15 @@ output "private_subnets" {
 output "vpc_id" {
   value = module.base_infra.vpc_id
 }
+
+output "availability_zones" {
+  value = module.base_infra.availability_zones
+}
+
+output "public_subnet_id_matching" {
+  value = module.base_infra.public_subnet_id_matching
+}
+
+output "private_subnet_id_matching" {
+  value = module.base_infra.private_subnet_id_matching
+}

@@ -144,10 +144,10 @@ license:
   key: nexus.license
 
 envVars:
-  jvmMinHeapSize: "4096m"
-  jvmMaxHeapSize: "6144m"
-  jvmAdditionalMemoryOptions: "-XX:MaxDirectMemorySize=1g"
-  jvmAdditionalOptions: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+  jvmMinHeapSize: ${ARGOCD_ENV_nexus_jvm_min_heap_size}
+  jvmMaxHeapSize: ${ARGOCD_ENV_nexus_jvm_max_heap_size}
+  jvmAdditionalMemoryOptions: ${ARGOCD_ENV_nexus_jvm_additional_memory_options}
+  jvmAdditionalOptions: ${ARGOCD_ENV_nexus_jvm_additional_options}
 
 env: []
 #   - name: VARIABLE

@@ -35,6 +35,7 @@ inputs = {
   manage_parent_domain                 = try(local.env_vars.manage_parent_domain, true)
   az_count                             = local.az_count
   single_zone_az_nodegroup             = local.single_zone_az_nodegroup
+  single_zone_bastion_asg              = local.single_zone_az_nodegroup
   enable_eks_controlplane_logging      = local.enable_eks_controlplane_logging
 }
 
