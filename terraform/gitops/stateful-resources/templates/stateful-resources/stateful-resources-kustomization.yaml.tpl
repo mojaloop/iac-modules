@@ -55,3 +55,11 @@ helmCharts:
   repo: ${stateful_resource.local_helm_config.resource_helm_repo}
   valuesFile: values-${stateful_resource.local_helm_config.resource_helm_chart}-${key}.yaml
 # %{ endfor }
+patches:
+  - target:
+      kind: Namespace
+      name: "*kafka*"
+    patch: |
+      - op: add
+        path: "/metadata/labels/opt-out-mesh"
+        value: "true"

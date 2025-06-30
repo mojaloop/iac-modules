@@ -12,3 +12,11 @@ helmCharts:
   valuesFile: ${stateful_resources_operator.helm_chart_values_file}
   includeCRDs: true
 %{ endfor ~}
+patches:
+  - target:
+      kind: Namespace
+      name: "*strimzi*"  # Matches namespaces with "kafka" in the name
+    patch: |
+      - op: add
+        path: "/metadata/labels/opt-out-mesh"
+        value: "true"
