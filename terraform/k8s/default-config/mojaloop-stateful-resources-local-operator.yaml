@@ -13,13 +13,13 @@ thirdparty-auth-svc-db:
     secret_config:
       generate_secret_name: mysql-auth-svc-secret
       generate_secret_keys:
-          - root
-          - xtrabackup
-          - monitor
-          - proxyadmin
-          - operator
-          - replication
-          - mysql-password
+        - root
+        - xtrabackup
+        - monitor
+        - proxyadmin
+        - operator
+        - replication
+        - mysql-password
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces:
         - mojaloop
@@ -68,7 +68,7 @@ mysql-consent-oracle-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: mysql-consent-oracle-secret
       generate_secret_keys:
@@ -127,7 +127,7 @@ mcm-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: mcm-db-secret
       generate_secret_keys:
@@ -186,7 +186,7 @@ account-lookup-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: account-lookup-db-secret
       generate_secret_keys:
@@ -253,7 +253,7 @@ central-ledger-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: central-ledger-db-secret
       generate_secret_keys:
@@ -321,20 +321,20 @@ bulk-mongodb:
     secret_config:
       generate_secret_name: mongodb-bulk-secret
       generate_secret_keys:
-          - MONGODB_BACKUP_USER
-          - MONGODB_BACKUP_PASSWORD
-          - MONGODB_DATABASE_ADMIN_USER
-          - MONGODB_DATABASE_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_ADMIN_USER
-          - MONGODB_CLUSTER_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_MONITOR_USER
-          - MONGODB_CLUSTER_MONITOR_PASSWORD
-          - MONGODB_USER_ADMIN_USER
-          - MONGODB_USER_ADMIN_PASSWORD
-          - PMM_SERVER_USER
-          - PMM_SERVER_PASSWORD
-          - PMM_SERVER_API_KEY
-          - mongodb-passwords
+        - MONGODB_BACKUP_USER
+        - MONGODB_BACKUP_PASSWORD
+        - MONGODB_DATABASE_ADMIN_USER
+        - MONGODB_DATABASE_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_ADMIN_USER
+        - MONGODB_CLUSTER_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_MONITOR_USER
+        - MONGODB_CLUSTER_MONITOR_PASSWORD
+        - MONGODB_USER_ADMIN_USER
+        - MONGODB_USER_ADMIN_PASSWORD
+        - PMM_SERVER_USER
+        - PMM_SERVER_PASSWORD
+        - PMM_SERVER_API_KEY
+        - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
@@ -362,20 +362,20 @@ cep-mongodb:
     secret_config:
       generate_secret_name: mongodb-cep-secret
       generate_secret_keys:
-          - MONGODB_BACKUP_USER
-          - MONGODB_BACKUP_PASSWORD
-          - MONGODB_DATABASE_ADMIN_USER
-          - MONGODB_DATABASE_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_ADMIN_USER
-          - MONGODB_CLUSTER_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_MONITOR_USER
-          - MONGODB_CLUSTER_MONITOR_PASSWORD
-          - MONGODB_USER_ADMIN_USER
-          - MONGODB_USER_ADMIN_PASSWORD
-          - PMM_SERVER_USER
-          - PMM_SERVER_PASSWORD
-          - PMM_SERVER_API_KEY
-          - mongodb-passwords
+        - MONGODB_BACKUP_USER
+        - MONGODB_BACKUP_PASSWORD
+        - MONGODB_DATABASE_ADMIN_USER
+        - MONGODB_DATABASE_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_ADMIN_USER
+        - MONGODB_CLUSTER_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_MONITOR_USER
+        - MONGODB_CLUSTER_MONITOR_PASSWORD
+        - MONGODB_USER_ADMIN_USER
+        - MONGODB_USER_ADMIN_PASSWORD
+        - PMM_SERVER_USER
+        - PMM_SERVER_PASSWORD
+        - PMM_SERVER_API_KEY
+        - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
@@ -388,7 +388,7 @@ cep-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges: []      
+    additional_privileges: []
 reporting-events-mongodb:
   local_operator_config:
     cr_version: 1.16.2
@@ -403,20 +403,20 @@ reporting-events-mongodb:
     secret_config:
       generate_secret_name: mongodb-reporting-events-secret
       generate_secret_keys:
-          - MONGODB_BACKUP_USER
-          - MONGODB_BACKUP_PASSWORD
-          - MONGODB_DATABASE_ADMIN_USER
-          - MONGODB_DATABASE_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_ADMIN_USER
-          - MONGODB_CLUSTER_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_MONITOR_USER
-          - MONGODB_CLUSTER_MONITOR_PASSWORD
-          - MONGODB_USER_ADMIN_USER
-          - MONGODB_USER_ADMIN_PASSWORD
-          - PMM_SERVER_USER
-          - PMM_SERVER_PASSWORD
-          - PMM_SERVER_API_KEY
-          - mongodb-passwords
+        - MONGODB_BACKUP_USER
+        - MONGODB_BACKUP_PASSWORD
+        - MONGODB_DATABASE_ADMIN_USER
+        - MONGODB_DATABASE_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_ADMIN_USER
+        - MONGODB_CLUSTER_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_MONITOR_USER
+        - MONGODB_CLUSTER_MONITOR_PASSWORD
+        - MONGODB_USER_ADMIN_USER
+        - MONGODB_USER_ADMIN_PASSWORD
+        - PMM_SERVER_USER
+        - PMM_SERVER_PASSWORD
+        - PMM_SERVER_API_KEY
+        - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
@@ -434,7 +434,7 @@ reporting-events-mongodb:
         action: "collMod"
 mojaloop-kafka:
   local_operator_config:
-    resource_namespace: mojaloop
+    resource_namespace: moja-kafka
     override_service_name: mojaloop-kafka-kafka-brokers
     node_pool_size: 3
     resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -485,20 +485,20 @@ ttk-mongodb:
     secret_config:
       generate_secret_name: mongodb-ttk-secret
       generate_secret_keys:
-          - MONGODB_BACKUP_USER
-          - MONGODB_BACKUP_PASSWORD
-          - MONGODB_DATABASE_ADMIN_USER
-          - MONGODB_DATABASE_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_ADMIN_USER
-          - MONGODB_CLUSTER_ADMIN_PASSWORD
-          - MONGODB_CLUSTER_MONITOR_USER
-          - MONGODB_CLUSTER_MONITOR_PASSWORD
-          - MONGODB_USER_ADMIN_USER
-          - MONGODB_USER_ADMIN_PASSWORD
-          - PMM_SERVER_USER
-          - PMM_SERVER_PASSWORD
-          - PMM_SERVER_API_KEY
-          - mongodb-passwords
+        - MONGODB_BACKUP_USER
+        - MONGODB_BACKUP_PASSWORD
+        - MONGODB_DATABASE_ADMIN_USER
+        - MONGODB_DATABASE_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_ADMIN_USER
+        - MONGODB_CLUSTER_ADMIN_PASSWORD
+        - MONGODB_CLUSTER_MONITOR_USER
+        - MONGODB_CLUSTER_MONITOR_PASSWORD
+        - MONGODB_USER_ADMIN_USER
+        - MONGODB_USER_ADMIN_PASSWORD
+        - PMM_SERVER_USER
+        - PMM_SERVER_PASSWORD
+        - PMM_SERVER_API_KEY
+        - mongodb-passwords
       generate_secret_vault_base_path: "/secret/generated"
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
@@ -511,7 +511,7 @@ ttk-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges: []      
+    additional_privileges: []
 
 keycloak-db:
   local_operator_config:
@@ -526,7 +526,7 @@ keycloak-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: keycloak-db-secret
       generate_secret_keys:
@@ -585,7 +585,7 @@ keto-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: keto-db-secret
       generate_secret_keys:
@@ -645,7 +645,7 @@ kratos-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: kratos-db-secret
       generate_secret_keys:
