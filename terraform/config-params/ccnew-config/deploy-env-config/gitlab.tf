@@ -14,42 +14,6 @@ resource "gitlab_project" "envs" {
   container_registry_access_level = "private"
 }
 
-resource "gitlab_project_variable" "loki_bucket" {
-  for_each  = local.environment_list
-  project   = gitlab_project.envs[each.key].id
-  key       = "loki_bucket"
-  value     = "${each.value}-loki"
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "tempo_bucket" {
-  for_each  = local.environment_list
-  project   = gitlab_project.envs[each.key].id
-  key       = "tempo_bucket"
-  value     = "${each.value}-tempo"
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "velero_bucket" {
-  for_each  = local.environment_list
-  project   = gitlab_project.envs[each.key].id
-  key       = "velero_bucket"
-  value     = "${each.value}-velero"
-  protected = false
-  masked    = false
-}
-
-resource "gitlab_project_variable" "percona_bucket" {
-  for_each  = local.environment_list
-  project   = gitlab_project.envs[each.key].id
-  key       = "percona_bucket"
-  value     = "${each.value}-percona"
-  protected = false
-  masked    = false
-}
-
 resource "gitlab_project_access_token" "envs" {
   for_each     = local.environment_list
   project      = gitlab_project.envs[each.key].id
