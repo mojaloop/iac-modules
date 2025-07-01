@@ -77,6 +77,13 @@ module "mojaloop" {
   hub_provisioning_ttk_test_case_version = var.app_var_map.hub_provisioning_ttk_test_case_version
   managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
   storage_class_name                   = var.storage_class_name
+  cc_name                              = var.cc_name
+  vpc_cidr                             = var.vpc_cidr
+  vpc_id                               = var.vpc_id
+  database_subnets                     = var.database_subnets
+  availability_zones                   = var.availability_zones
+  cloud_region                         = var.cloud_region
+
 }
 
 module "pm4ml" {
@@ -227,6 +234,12 @@ module "vnext" {
   monolith_stateful_resources          = local.monolith_stateful_resources
   managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
   storage_class_name                   = var.storage_class_name
+  cc_name                              = var.cc_name
+  vpc_cidr                             = var.vpc_cidr
+  vpc_id                               = var.vpc_id
+  database_subnets                     = var.database_subnets
+  availability_zones                   = var.availability_zones
+  cloud_region                         = var.cloud_region
 }
 
 variable "app_var_map" {
@@ -255,7 +268,7 @@ variable "mojaloop_stateful_res_mangd_config_file" {
 }
 
 variable "mojaloop_stateful_res_monolith_config_file" {
-  default     = "../config/mojaloop-stateful-resources-ccdriven-databases.yaml"
+  default     = "../config/mojaloop-stateful-resources-monolith-databases.yaml"
   type        = string
   description = "where to pull monolith stateful resources config for mojaloop"
 }

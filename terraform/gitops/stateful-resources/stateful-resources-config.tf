@@ -85,6 +85,8 @@ resource "local_file" "monolith_external_name_services" {
   filename = "${local.stateful_resources_output_path}/monolith-external-name-services.yaml"
 }
 
+
+
 resource "local_file" "monolith-init-db" {
   for_each = local.monolith_init_mysql_managed_stateful_resources
 
@@ -231,6 +233,43 @@ resource "local_file" "percona-crs" {
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
 
+resource "local_file" "rds-crs" {
+  for_each = { for key, stateful_resource in local.monolith_mysql_rds_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/aws/${each.value.resource_type}/db-cluster.yaml.tpl",
+    {
+        cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
+        dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
+        namespace                    = each.value.external_resource_config.resource_namespace
+        externalservice_name         = each.value.externalservice_name
+        allow_major_version_upgrade  = each.value.external_resource_config.allow_major_version_upgrade
+        apply_immediately            = each.value.external_resource_config.apply_immediately
+        backup_retention_period      = each.value.external_resource_config.backup_retention_period
+        db_name                      = each.value.external_resource_config.database_name
+        instance_class               = each.value.external_resource_config.instance_class
+        deletion_protection          = each.value.external_resource_config.deletion_protection
+        engine                       = each.value.external_resource_config.engine
+        engine_version               = each.value.external_resource_config.engine_version
+        family                       = each.value.external_resource_config.family
+        instance_count               = each.value.external_resource_config.replica_count
+        db_secret                    = each.value.external_resource_config.master_user_password_secret
+        port                         = each.value.external_resource_config.port
+        preferred_backup_window      = each.value.external_resource_config.backup_window
+        preferred_maintenance_window = each.value.external_resource_config.maintenance_window
+        cloud_region                 = var.cloud_region
+        skip_final_snapshot          = each.value.external_resource_config.skip_final_snapshot
+        final_snapshot_identifier    = "${var.cc_name}-${var.cluster_name}-${each.key}-final-snapshot"
+        storage_encrypted            = each.value.external_resource_config.storage_encrypted
+        storage_type                 = each.value.external_resource_config.storage_type
+        subnet_list                  = jsonencode(var.database_subnets)
+        azs                          = jsonencode(var.availability_zones)
+        db_username                  = each.value.external_resource_config.username
+        vpc_cidr                     = var.vpc_cidr
+        vpc_id                       = var.vpc_id
+  })
+  filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
+}
+
+
 resource "local_file" "stateful-resources-app-file" {
   content  = templatefile("${local.stateful_resources_template_path}/app/${local.stateful_resources_app_file}.tpl", local.stateful_resources_vars)
   filename = "${local.app_stateful_resources_output_path}/${local.stateful_resources_name}-${local.stateful_resources_app_file}"
@@ -263,6 +302,12 @@ locals {
     secret_key  = stateful_resource.logical_service_config.user_password_secret_key
     }
   }
+
+  monolith_mysql_rds_resources    =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.resource_type == "mysql" && monolith_resource.provider == "rds" }
+  monolith_mongo_docdb_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.resource_type == "mongodb" && monolith_resource.provider == "documentdb" }
+  monolith_mysql_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.resource_type == "mysql" && monolith_resource.provider == "dbaas" }
+  monolith_mongo_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.resource_type == "mongodb" && monolith_resource.provider == "dbaas" }
+
   monolith_managed_password_map = { for key, stateful_resource in var.monolith_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
     namespace   = stateful_resource.external_resource_config.master_user_password_secret_namespace
@@ -395,4 +440,34 @@ variable "cluster" {
 }
 
 variable "storage_class_name" {
+}
+
+variable "cc_name" {
+  type        = string
+  description = "The name of the control center."
+}
+
+variable "cloud_region" {
+  type        = string
+  description = "The AWS region where resources will be deployed."
+}
+
+variable "database_subnets" {
+  type        = string
+  description = "A list of subnet IDs to deploy the database instances into."
+}
+
+variable "availability_zones" {
+  type        = string
+  description = "A list of availability zones for the database instances."
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "The ID of the VPC where resources will be deployed."
+}
+
+variable "vpc_cidr" {
+  type        = string
+  description = "The CIDR block of the VPC."
 }

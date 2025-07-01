@@ -30,6 +30,16 @@ variable "crossplane_packages_utils_version" {
   type        = string
 }
 
+variable "crossplane_packages_aws_documentdb_version" {
+  type        = string
+}
+
+
+variable "crossplane_packages_aws_rds_version" {
+  type        = string
+}
+
+
 variable "crossplane_functions_kcl_version" {
   type        = string
 }

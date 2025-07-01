@@ -5,6 +5,7 @@ cloud_platform: aws
 dns_provider: aws
 managed_svc_cloud_platform: aws
 cloud_platform_client_secret_name: AWS_SECRET_ACCESS_KEY
+cloud_platform_client_access_key_name: AWS_ACCESS_KEY_ID
 k8s_cluster_module: base-k8s
 cloud_region: eu-west-1
 k8s_cluster_type: microk8s
@@ -64,3 +65,4 @@ db_mediated_by_control_center: false
 single_zone_az_nodegroup: true
 az_count: 3
 enable_eks_controlplane_logging: false
+cc_name: "controlcenter" # to be removed when it is added in gitlab group variables

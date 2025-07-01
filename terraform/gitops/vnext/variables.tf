@@ -171,10 +171,40 @@ variable "platform_stateful_res_config" {
   type        = any
   description = "merged config of platform stateful resources"
 }
- 
+
 variable "monolith_stateful_resources" {
   type        = any
 }
 
 variable "managed_svc_as_monolith" {
+}
+
+variable "cc_name" {
+  type        = string
+  description = "The name of the control center."
+}
+
+variable "cloud_region" {
+  type        = string
+  description = "The AWS region where resources will be deployed."
+}
+
+variable "database_subnets" {
+  type        = string
+  description = "A list of subnet IDs to deploy the database instances into."
+}
+
+variable "availability_zones" {
+  type        = string
+  description = "A list of availability zones for the database instances."
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "The ID of the VPC where resources will be deployed."
+}
+
+variable "vpc_cidr" {
+  type        = string
+  description = "The CIDR block of the VPC."
 }
