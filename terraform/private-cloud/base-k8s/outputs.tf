@@ -205,14 +205,6 @@ output "availability_zones" {
   value = "unused"
 }
 
-output "public_subnet_id_matching" {
-  value = "unused"
-}
-
-output "private_subnet_id_matching" {
-  value = "unused"
-}
-
 locals {
 
   secrets_var_map = merge(var.app_var_map.create_iam_user ? {
