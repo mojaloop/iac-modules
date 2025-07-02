@@ -202,7 +202,7 @@ output "vpc_id" {
 }
 
 output "availability_zones" {
-  value = ["null"]
+  value = ["empty"]
 }
 
 locals {
