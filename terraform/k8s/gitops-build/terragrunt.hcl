@@ -38,7 +38,7 @@ dependency "k8s_deploy" {
     private_network_cidr              = local.cloud_platform_vars.private_network_cidr
     dns_provider                      = "aws"
     vpc_id                            = ""
-    database_subnets                  = ""
+    private_subnets                   = ""
     availability_zones                = ""
 
   }
