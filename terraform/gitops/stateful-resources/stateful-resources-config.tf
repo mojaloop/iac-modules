@@ -275,7 +275,6 @@ resource "local_file" "aws-db-vault-crs" {
 
   content = templatefile("${local.stateful_resources_template_path}/monolith-env-vpc-vault-crs.yaml.tpl", {
     key           = each.key
-    resource      = each.value
     namespace     = "stateful-resources"
     secret_name   = each.value.secret_name
     secret_key    = each.value.secret_key
