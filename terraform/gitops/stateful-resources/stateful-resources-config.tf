@@ -20,9 +20,9 @@ resource "local_file" "vault_crs" {
   })
   filename = "${local.stateful_resources_output_path}/vault-crs-${each.key}.yaml"
 }
-
+# not required in case of env vpc
 resource "local_file" "managed_crs" {
-  for_each = local.managed_resource_password_map
+  for_each = var.deploy_env_monolithic_db ? {} : local.managed_resource_password_map
 
   content = templatefile("${local.stateful_resources_template_path}/managed-crs.yaml.tpl", {
     password_map = each.value
@@ -30,8 +30,9 @@ resource "local_file" "managed_crs" {
   filename = "${local.stateful_resources_output_path}/managed-crs-${each.key}.yaml"
 }
 
+# not required in case of env vpc
 resource "local_file" "monolith_managed_crs" {
-  for_each = local.monolith_managed_password_map
+  for_each = var.deploy_env_monolithic_db ? {} : local.monolith_managed_password_map
 
   content = templatefile("${local.stateful_resources_template_path}/monolith-managed-crs.yaml.tpl", {
     secret_name = each.value.secret_name
@@ -42,8 +43,9 @@ resource "local_file" "monolith_managed_crs" {
   filename = "${local.stateful_resources_output_path}/monolith-managed-crs-${each.key}.yaml"
 }
 
+# not required in case of env vpc
 resource "local_file" "mysql_managed_stateful_resources" {
-  for_each = local.mysql_managed_stateful_resources
+  for_each = var.deploy_env_monolithic_db ? {} : local.mysql_managed_stateful_resources
 
   content = templatefile("${local.stateful_resources_template_path}/managed-mysql.yaml.tpl", {
     resource_name                = each.key
@@ -54,8 +56,9 @@ resource "local_file" "mysql_managed_stateful_resources" {
   filename = "${local.stateful_resources_output_path}/managed-mysql-${each.key}.yaml"
 }
 
+# not required in case of env vpc
 resource "local_file" "mongodb_managed_stateful_resources" {
-  for_each = local.mongodb_managed_stateful_resources
+  for_each = var.deploy_env_monolithic_db ? {} : local.mongodb_managed_stateful_resources
 
   content = templatefile("${local.stateful_resources_template_path}/managed-mongodb.yaml.tpl", {
     resource_name                = each.key
@@ -334,7 +337,7 @@ locals {
     namespace   = stateful_resource.external_resource_config.master_user_password_secret_namespace
     secret_name = stateful_resource.external_resource_config.master_user_password_secret
     secret_key  = stateful_resource.external_resource_config.master_user_password_secret_key
-    } if var.deploy_env_monolithic_db == false
+    }
   }
   monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
 
