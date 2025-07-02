@@ -8,6 +8,8 @@ module "generate_crossplane_providers_files" {
     crossplane_providers_vault_version = var.crossplane_providers_vault_version
     cloud_credentials_id_provider_key     = "${var.cluster_name}/${local.cloud_credentials_id_provider_key}"
     cloud_credentials_secret_provider_key = "${var.cluster_name}/${local.cloud_credentials_secret_provider_key}"
+    crossplane_packages_aws_documentdb_version = var.crossplane_packages_aws_documentdb_version
+    crossplane_packages_aws_rds_version        = var.crossplane_packages_aws_rds_version
     external_secret_sync_wave             = var.external_secret_sync_wave
   }
   file_list       = [for f in fileset(local.crossplane_providers_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.crossplane_providers_app_file, f))]

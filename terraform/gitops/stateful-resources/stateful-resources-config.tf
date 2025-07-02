@@ -22,7 +22,7 @@ resource "local_file" "vault_crs" {
 }
 # not required in case of env vpc
 resource "local_file" "managed_crs" {
-  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.managed_resource_password_map
+  for_each = local.managed_resource_password_map
 
   content = templatefile("${local.stateful_resources_template_path}/managed-crs.yaml.tpl", {
     password_map = each.value
@@ -32,7 +32,7 @@ resource "local_file" "managed_crs" {
 
 # not required in case of env vpc
 resource "local_file" "monolith_managed_crs" {
-  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.monolith_managed_password_map
+  for_each = local.monolith_managed_password_map
 
   content = templatefile("${local.stateful_resources_template_path}/monolith-managed-crs.yaml.tpl", {
     secret_name = each.value.secret_name
@@ -45,12 +45,12 @@ resource "local_file" "monolith_managed_crs" {
 
 # not required in case of env vpc
 resource "local_file" "mysql_managed_stateful_resources" {
-  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.mysql_managed_stateful_resources
+  for_each = local.mysql_managed_stateful_resources_non_env_vpc
 
   content = templatefile("${local.stateful_resources_template_path}/managed-mysql.yaml.tpl", {
     resource_name                = each.key
     stateful_resources_namespace = var.stateful_resources_namespace
-    managed_stateful_resource    = local.mysql_managed_stateful_resources[each.key]
+    managed_stateful_resource    = local.mysql_managed_stateful_resources_non_env_vpc[each.key]
     resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
   })
   filename = "${local.stateful_resources_output_path}/managed-mysql-${each.key}.yaml"
@@ -58,12 +58,12 @@ resource "local_file" "mysql_managed_stateful_resources" {
 
 # not required in case of env vpc
 resource "local_file" "mongodb_managed_stateful_resources" {
-  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.mongodb_managed_stateful_resources
+  for_each = local.mongodb_managed_stateful_resources_non_env_vpc
 
   content = templatefile("${local.stateful_resources_template_path}/managed-mongodb.yaml.tpl", {
     resource_name                = each.key
     stateful_resources_namespace = var.stateful_resources_namespace
-    managed_stateful_resource    = local.mongodb_managed_stateful_resources[each.key]
+    managed_stateful_resource    = local.mongodb_managed_stateful_resources_non_env_vpc[each.key]
     resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
   })
   filename = "${local.stateful_resources_output_path}/managed-mongodb-${each.key}.yaml"
@@ -317,7 +317,7 @@ locals {
     namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
     secret_name = stateful_resource.logical_service_config.user_password_secret
     secret_key  = stateful_resource.logical_service_config.user_password_secret_key
-    }
+    } if var.deploy_env_monolithic_db == false
   }
 
   monolith_env_vpc_child_databases = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if var.managed_svc_as_monolith == true }
@@ -337,13 +337,15 @@ locals {
     namespace   = stateful_resource.external_resource_config.master_user_password_secret_namespace
     secret_name = stateful_resource.external_resource_config.master_user_password_secret
     secret_key  = stateful_resource.external_resource_config.master_user_password_secret_key
-    }
+    } if var.deploy_env_monolithic_db == false
   }
   monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
 
   monolith_init_mysql_managed_stateful_resources = { for key, resource in local.mysql_managed_stateful_resources : key => resource if var.managed_svc_as_monolith == true }
   monolith_init_mongodb_managed_stateful_resources = { for key, resource in local.mongodb_managed_stateful_resources : key => resource if var.managed_svc_as_monolith == true }
 
+  mysql_managed_stateful_resources_non_env_vpc = { for key, resource in local.mysql_managed_stateful_resources : key => resource if var.deploy_env_monolithic_db == false }
+  mongodb_managed_stateful_resources_non_env_vpc = { for key, resource in local.mongodb_managed_stateful_resources : key => resource if var.deploy_env_monolithic_db == false }
   stateful_resources_vars = {
     stateful_resources_namespace = var.stateful_resources_namespace
     gitlab_project_url           = var.gitlab_project_url
