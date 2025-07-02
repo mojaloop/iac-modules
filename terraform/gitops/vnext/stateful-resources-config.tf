@@ -51,13 +51,13 @@ variable "object_store_percona_backup_bucket" {
 }
 
 data "gitlab_project_variable" "external_stateful_resource_instance_address" {
-  for_each = local.managed_stateful_resources
+  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.managed_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
 }
 
 data "gitlab_project_variable" "monolith_external_stateful_resource_instance_address" {
-  for_each = var.monolith_stateful_resources
+  for_each = var.deploy_env_monolithic_db ? tomap({}) : var.monolith_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
 }
@@ -66,6 +66,6 @@ locals {
   mojaloop_stateful_resources = { for key, resource in var.platform_stateful_res_config : key => resource if (resource.app_owner == "mojaloop" && resource.enabled )}
   monolith_for_mojaloop_sts_resources = { for key, resource in var.monolith_stateful_resources : key => resource if resource.app_owner == "mojaloop" }
   managed_stateful_resources  = { for key, managed_resource in local.mojaloop_stateful_resources :  key => managed_resource if managed_resource.deployment_type == "external"  }
-  external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
-  monolith_external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.monolith_external_stateful_resource_instance_address : address.key => address.value }
+  external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value if var.deploy_env_monolithic_db == false }
+  monolith_external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.monolith_external_stateful_resource_instance_address : address.key => address.value if var.deploy_env_monolithic_db == false  }
 }

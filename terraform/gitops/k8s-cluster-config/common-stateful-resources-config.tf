@@ -37,13 +37,13 @@ variable "stateful_resources_namespace" {
 
 
 data "gitlab_project_variable" "external_stateful_resource_instance_address" {
-  for_each = local.managed_stateful_resources
+  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.managed_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
 }
 
 data "gitlab_project_variable" "monolith_external_stateful_resource_instance_address" {
-  for_each = local.monolith_stateful_resources
+  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.monolith_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
 }
@@ -53,6 +53,6 @@ locals {
   monolith_for_common_sts_resources = { for key, resource in local.monolith_stateful_resources : key => resource if resource.app_owner == "platform" }
   enabled_stateful_resources = { for key, stateful_resource in module.config_deepmerge.merged  : key => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
-  external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
-  monolith_external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.monolith_external_stateful_resource_instance_address : address.key => address.value }
+  external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value if var.deploy_env_monolithic_db == false}
+  monolith_external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.monolith_external_stateful_resource_instance_address : address.key => address.value  if var.deploy_env_monolithic_db == false}
 }
