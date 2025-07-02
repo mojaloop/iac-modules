@@ -75,7 +75,7 @@ module "mojaloop" {
   monolith_stateful_resources          = local.monolith_stateful_resources
   ml_testing_toolkit_cli_chart_version = var.app_var_map.ml_testing_toolkit_cli_chart_version
   hub_provisioning_ttk_test_case_version = var.app_var_map.hub_provisioning_ttk_test_case_version
-  managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
+  managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center || var.deploy_env_monolithic_db)
   deploy_env_monolithic_db             = var.deploy_env_monolithic_db
   storage_class_name                   = var.storage_class_name
   cc_name                              = var.cc_name
@@ -233,7 +233,7 @@ module "vnext" {
   object_store_percona_backup_bucket   = data.gitlab_project_variable.object_store_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
   monolith_stateful_resources          = local.monolith_stateful_resources
-  managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
+  managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center || var.deploy_env_monolithic_db)
   deploy_env_monolithic_db             = var.deploy_env_monolithic_db
   storage_class_name                   = var.storage_class_name
   cc_name                              = var.cc_name
@@ -407,7 +407,7 @@ locals {
   plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
   monolith_stateful_resources_int = yamldecode(file(var.mojaloop_stateful_res_monolith_config_file))
 
-  monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )}
+  monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if ( var.managed_svc_as_monolith || var.db_mediated_by_control_center || var.deploy_env_monolithic_db)}
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
 }

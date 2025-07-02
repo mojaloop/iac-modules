@@ -19,7 +19,7 @@ module "common_stateful_resources" {
   monolith_stateful_resources                   = local.monolith_for_common_sts_resources
   monolith_external_stateful_resource_instance_addresses = local.monolith_external_stateful_resource_instance_addresses
   cluster                                       = var.app_var_map.cluster
-  managed_svc_as_monolith                       = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
+  managed_svc_as_monolith                       = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center || var.deploy_env_monolithic_db )
   deploy_env_monolithic_db                      = var.deploy_env_monolithic_db
   storage_class_name                            = var.storage_class_name
   cc_name                                       = var.cc_name
