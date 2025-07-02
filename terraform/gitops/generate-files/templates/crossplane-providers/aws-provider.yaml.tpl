@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: ${external_dns_credentials_secret}
+  name: secret-aws-xplane-backend-creds
   annotations:
     argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
 spec:
