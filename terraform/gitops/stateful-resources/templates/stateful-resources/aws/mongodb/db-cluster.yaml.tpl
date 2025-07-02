@@ -1,7 +1,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PasswordPolicy
 metadata:
-  name: ${dbdeploy_name_prefix}-rds-password-policy
+  name: ${dbdeploy_name_prefix}-docdb-password-policy
   namespace: ${namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-6"
@@ -34,7 +34,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
-  name: ${dbdeploy_name_prefix}-rds-password
+  name: ${dbdeploy_name_prefix}-docdb-password
   namespace: ${namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-6"
@@ -45,10 +45,10 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: true
-  path: /secret/data/${env_name}
+  path: /secret/generated
   secretKey: password
   secretFormat:
-    passwordPolicyName: ${dbdeploy_name_prefix}-rds-password-policy
+    passwordPolicyName: ${dbdeploy_name_prefix}-docdb-password-policy
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
@@ -66,11 +66,11 @@ spec:
         serviceAccount:
           name: default
       name: dynamicsecret_db_password
-      path: /secret/data/${env_name}/${dbdeploy_name_prefix}-rds-password
+      path: /secret/generated/${dbdeploy_name_prefix}-docdb-password
   output:
     name: ${db_secret}
     stringData:
-      root: "{{ .dynamicsecret_db_password.password }}"
+      ${db_secret_key}: "{{ .dynamicsecret_db_password.password }}"
     type: Opaque
 ---
 apiVersion: aws.mojaloop.io/v1alpha1
@@ -102,7 +102,7 @@ spec:
         name: tls
         value: disabled
     passwordSecret:
-      key: "MONGODB_USER_ADMIN_PASSWORD"
+      key: ${db_secret_key}
       name: ${db_secret}
       namespace: "${namespace}"
     port: ${port}

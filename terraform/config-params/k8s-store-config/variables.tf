@@ -43,6 +43,11 @@ variable "db_mediated_by_control_center" {
   default     = false
 }
 
+variable "deploy_env_monolithic_db" {
+  type        = bool
+  default     = false
+}
+
 variable "monolith_managed_stateful_resources_config_file" {
   type = string
 }

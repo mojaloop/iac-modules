@@ -208,3 +208,8 @@ variable "vpc_cidr" {
   type        = string
   description = "The CIDR block of the VPC."
 }
+
+variable "deploy_env_monolithic_db" {
+  type        = bool
+  default     = false
+}

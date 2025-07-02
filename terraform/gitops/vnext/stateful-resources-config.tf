@@ -19,6 +19,7 @@ module "vnext_stateful_resources" {
   monolith_stateful_resources                   = local.monolith_for_mojaloop_sts_resources
   monolith_external_stateful_resource_instance_addresses = local.monolith_external_stateful_resource_instance_addresses
   managed_svc_as_monolith                       = var.managed_svc_as_monolith
+  deploy_env_monolithic_db                      = var.deploy_env_monolithic_db
   cluster                                       = var.app_var_map.cluster
   storage_class_name                            = var.storage_class_name
   cc_name                                       = var.cc_name

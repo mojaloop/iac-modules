@@ -76,6 +76,7 @@ module "mojaloop" {
   ml_testing_toolkit_cli_chart_version = var.app_var_map.ml_testing_toolkit_cli_chart_version
   hub_provisioning_ttk_test_case_version = var.app_var_map.hub_provisioning_ttk_test_case_version
   managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
+  deploy_env_monolithic_db             = var.deploy_env_monolithic_db
   storage_class_name                   = var.storage_class_name
   cc_name                              = var.cc_name
   vpc_cidr                             = var.vpc_cidr
@@ -233,6 +234,7 @@ module "vnext" {
   external_secret_sync_wave            = var.external_secret_sync_wave
   monolith_stateful_resources          = local.monolith_stateful_resources
   managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
+  deploy_env_monolithic_db             = var.deploy_env_monolithic_db
   storage_class_name                   = var.storage_class_name
   cc_name                              = var.cc_name
   vpc_cidr                             = var.vpc_cidr

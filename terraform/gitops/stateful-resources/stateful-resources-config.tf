@@ -233,8 +233,8 @@ resource "local_file" "percona-crs" {
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
 
-resource "local_file" "rds-crs" {
-  for_each = { for key, stateful_resource in local.monolith_mysql_rds_resources : key => stateful_resource }
+resource "local_file" "aws-db-crs" {
+  for_each = { for key, stateful_resource in local.monolith_env_vpc_aws_db_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/aws/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
@@ -252,6 +252,7 @@ resource "local_file" "rds-crs" {
         family                       = each.value.external_resource_config.family
         instance_count               = each.value.external_resource_config.replica_count
         db_secret                    = each.value.external_resource_config.master_user_password_secret
+        db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
         port                         = each.value.external_resource_config.port
         preferred_backup_window      = each.value.external_resource_config.backup_window
         preferred_maintenance_window = each.value.external_resource_config.maintenance_window
@@ -267,6 +268,20 @@ resource "local_file" "rds-crs" {
         vpc_id                       = var.vpc_id
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
+}
+
+resource "local_file" "aws-db-vault-crs" {
+  for_each = { for key, stateful_resource in local.monolith_env_vpc_resource_password_map : key => stateful_resource }
+
+  content = templatefile("${local.stateful_resources_template_path}/monolith-env-vpc-vault-crs.yaml.tpl", {
+    key           = each.key
+    resource      = each.stateful_resource
+    namespace     = "stateful-resources"
+    secret_name   = each.value.secret_name
+    secret_key    = each.value.secret_key
+    extra_namespaces = each.value.namespaces
+  })
+  filename = "${local.stateful_resources_output_path}/monolith-env-vpc-vault-crs-${each.key}.yaml"
 }
 
 
@@ -303,17 +318,24 @@ locals {
     }
   }
 
-  monolith_mysql_rds_resources    =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.resource_type == "mysql" && monolith_resource.provider == "rds" }
-  monolith_mongo_docdb_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.resource_type == "mongodb" && monolith_resource.provider == "documentdb" }
-  monolith_mysql_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.resource_type == "mysql" && monolith_resource.provider == "dbaas" }
-  monolith_mongo_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.resource_type == "mongodb" && monolith_resource.provider == "dbaas" }
+  monolith_env_vpc_child_databases = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if var.managed_svc_as_monolith == true }
+
+  monolith_env_vpc_resource_password_map = { for key, stateful_resource in local.monolith_env_vpc_child_databases : key => {
+    namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
+    secret_name = stateful_resource.logical_service_config.user_password_secret
+    secret_key  = stateful_resource.logical_service_config.user_password_secret_key
+    }
+  }
+
+  monolith_env_vpc_aws_db_resources =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "rds" || monolith_resource.provider == "documentdb"}
+  monolith_env_vpc_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" }
 
   monolith_managed_password_map = { for key, stateful_resource in var.monolith_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
     namespace   = stateful_resource.external_resource_config.master_user_password_secret_namespace
     secret_name = stateful_resource.external_resource_config.master_user_password_secret
     secret_key  = stateful_resource.external_resource_config.master_user_password_secret_key
-    }
+    } if var.deploy_env_monolithic_db == false
   }
   monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
 
@@ -470,4 +492,9 @@ variable "vpc_id" {
 variable "vpc_cidr" {
   type        = string
   description = "The CIDR block of the VPC."
+}
+
+variable "deploy_env_monolithic_db" {
+  type        = bool
+  default     = false
 }
