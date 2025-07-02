@@ -50,6 +50,9 @@ experience-api:
 mojaloop-core-connector:
   ${indent(2, yamlencode(core_connector_config))}
 
+cbs-mock:
+  ${indent(2, yamlencode(cbs_mock_config))}
+
 mojaloop-payment-token-adapter:
   ${indent(2, yamlencode(payment_token_adapter_config))}
 
