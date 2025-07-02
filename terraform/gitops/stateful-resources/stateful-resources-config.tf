@@ -22,7 +22,7 @@ resource "local_file" "vault_crs" {
 }
 # not required in case of env vpc
 resource "local_file" "managed_crs" {
-  for_each = var.deploy_env_monolithic_db ? {} : local.managed_resource_password_map
+  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.managed_resource_password_map
 
   content = templatefile("${local.stateful_resources_template_path}/managed-crs.yaml.tpl", {
     password_map = each.value
@@ -32,7 +32,7 @@ resource "local_file" "managed_crs" {
 
 # not required in case of env vpc
 resource "local_file" "monolith_managed_crs" {
-  for_each = var.deploy_env_monolithic_db ? {} : local.monolith_managed_password_map
+  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.monolith_managed_password_map
 
   content = templatefile("${local.stateful_resources_template_path}/monolith-managed-crs.yaml.tpl", {
     secret_name = each.value.secret_name
@@ -45,7 +45,7 @@ resource "local_file" "monolith_managed_crs" {
 
 # not required in case of env vpc
 resource "local_file" "mysql_managed_stateful_resources" {
-  for_each = var.deploy_env_monolithic_db ? {} : local.mysql_managed_stateful_resources
+  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.mysql_managed_stateful_resources
 
   content = templatefile("${local.stateful_resources_template_path}/managed-mysql.yaml.tpl", {
     resource_name                = each.key
@@ -58,7 +58,7 @@ resource "local_file" "mysql_managed_stateful_resources" {
 
 # not required in case of env vpc
 resource "local_file" "mongodb_managed_stateful_resources" {
-  for_each = var.deploy_env_monolithic_db ? {} : local.mongodb_managed_stateful_resources
+  for_each = var.deploy_env_monolithic_db ? tomap({}) : local.mongodb_managed_stateful_resources
 
   content = templatefile("${local.stateful_resources_template_path}/managed-mongodb.yaml.tpl", {
     resource_name                = each.key
