@@ -201,6 +201,10 @@ output "vpc_id" {
   value = "unused"
 }
 
+output "availability_zones" {
+  value = ["null"]
+}
+
 locals {
 
   secrets_var_map = merge(var.app_var_map.create_iam_user ? {

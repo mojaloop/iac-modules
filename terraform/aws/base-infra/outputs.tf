@@ -72,3 +72,15 @@ output "netmaker_public_ip" {
 output "key_pair_name" {
   value = local.cluster_domain
 }
+
+output "availability_zones" {
+  value = local.azs_ordered
+}
+
+output "public_subnet_id_matching" {
+  value = local.public_subnet_id_matching
+}
+
+output "private_subnet_id_matching" {
+  value = local.first_private_subnet
+}

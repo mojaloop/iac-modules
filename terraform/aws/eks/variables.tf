@@ -365,6 +365,12 @@ variable "single_zone_az_nodegroup" {
   description = "whether to use a single zone for eks nodegroup"
 }
 
+variable "single_zone_bastion_asg" {
+  type        = bool
+  default     = false
+  description = "whether to use a single zone for bastion asg"
+}
+
 variable "enable_eks_controlplane_logging" {
   type        = bool
   default     = false

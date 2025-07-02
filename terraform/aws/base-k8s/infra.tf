@@ -24,6 +24,7 @@ module "base_infra" {
   create_haproxy_dns_record  = var.create_haproxy_dns_record
   block_size                 = var.block_size
   single_nat_gateway         = var.single_nat_gateway
+  single_zone_bastion_asg    = var.single_zone_bastion_asg
   bastion_asg_config = {
     name             = "bastion"
     desired_capacity = var.bastion_instance_number

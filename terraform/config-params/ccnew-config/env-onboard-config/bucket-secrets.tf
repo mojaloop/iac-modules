@@ -1,6 +1,6 @@
 data "kubernetes_secret_v1" "loki_bucket" {
   metadata {
-      name      = "${var.env_name}-loki"
+      name      = "loki-${var.env_name}-${var.hyphenated_domain}"
       namespace = var.env_name
   }
 }
@@ -30,7 +30,7 @@ resource "vault_kv_secret_v2" "loki_bucket_secret_key_id" {
 
 data "kubernetes_secret_v1" "tempo_bucket" {
   metadata {
-      name      = "${var.env_name}-tempo"
+      name      = "tempo-${var.env_name}-${var.hyphenated_domain}"
       namespace = var.env_name
   }
 }
@@ -60,7 +60,7 @@ resource "vault_kv_secret_v2" "tempo_bucket_secret_key_id" {
 
 data "kubernetes_secret_v1" "velero_bucket" {
   metadata {
-      name      = "${var.env_name}-velero"
+      name      = "velero-${var.env_name}-${var.hyphenated_domain}"
       namespace = var.env_name
   }
 }
@@ -89,7 +89,7 @@ resource "vault_kv_secret_v2" "velero_bucket_secret_key_id" {
 
 data "kubernetes_secret_v1" "percona_bucket" {
   metadata {
-      name      = "${var.env_name}-percona"
+      name      = "percona-${var.env_name}-${var.hyphenated_domain}"
       namespace = var.env_name
   }
 }
@@ -118,4 +118,13 @@ resource "vault_kv_secret_v2" "percona_bucket_secret_key_id" {
 
 data "gitlab_project" "env" {
   path_with_namespace = "iac/${var.env_name}"
+}
+
+resource "gitlab_project_variable" "bucket" {
+  for_each  = local.env_buckets
+  project   = data.gitlab_project.env.id
+  key       = "${each.key}_bucket"
+  value     = "${each.value}-${var.env_name}-${var.hyphenated_domain}"
+  protected = false
+  masked    = false
 }
