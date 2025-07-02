@@ -242,6 +242,7 @@ common_mongodb:
     mongos_requests_cpu: "50m"
     mongos_requests_memory: "0.5G"
   external_resource_config:
+    dbdeploy_name_prefix: "cmn"
     allocated_storage: 100
     allow_major_version_upgrade: false
     apply_immediately: false

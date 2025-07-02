@@ -22,7 +22,7 @@ resource "local_file" "vault_crs" {
 }
 # not required in case of env vpc
 resource "local_file" "managed_crs" {
-  for_each = local.managed_resource_password_map
+  for_each = local.managed_resource_password_map_non_env_vpc
 
   content = templatefile("${local.stateful_resources_template_path}/managed-crs.yaml.tpl", {
     password_map = each.value
@@ -32,7 +32,7 @@ resource "local_file" "managed_crs" {
 
 # not required in case of env vpc
 resource "local_file" "monolith_managed_crs" {
-  for_each = local.monolith_managed_password_map
+  for_each = local.monolith_managed_password_map_non_env_vpc
 
   content = templatefile("${local.stateful_resources_template_path}/monolith-managed-crs.yaml.tpl", {
     secret_name = each.value.secret_name
@@ -242,18 +242,18 @@ resource "local_file" "aws-db-crs" {
     {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
-        namespace                    = each.value.external_resource_config.resource_namespace
+        namespace                    = each.value.resource_namespace
         externalservice_name         = each.value.externalservice_name
         allow_major_version_upgrade  = each.value.external_resource_config.allow_major_version_upgrade
         apply_immediately            = each.value.external_resource_config.apply_immediately
         backup_retention_period      = each.value.external_resource_config.backup_retention_period
-        db_name                      = each.value.external_resource_config.database_name
+        db_name                      = each.value.external_resource_config.db_name
         instance_class               = each.value.external_resource_config.instance_class
         deletion_protection          = each.value.external_resource_config.deletion_protection
         engine                       = each.value.external_resource_config.engine
         engine_version               = each.value.external_resource_config.engine_version
         family                       = each.value.external_resource_config.family
-        instance_count               = each.value.external_resource_config.replica_count
+        instance_count               = each.value.external_resource_config.replicas
         db_secret                    = each.value.external_resource_config.master_user_password_secret
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
         port                         = each.value.external_resource_config.port
@@ -312,11 +312,20 @@ locals {
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }
   managed_external_name_map           = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(var.external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name], "") }
   external_name_map                   = merge(local.local_operator_external_name_map, merge(local.local_external_name_map, local.managed_external_name_map)) # mutually exclusive maps
+
   managed_resource_password_map = { for key, stateful_resource in local.managed_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
     namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
     secret_name = stateful_resource.logical_service_config.user_password_secret
     secret_key  = stateful_resource.logical_service_config.user_password_secret_key
+    }
+  }
+
+  managed_resource_password_map_non_env_vpc = { for key, stateful_resource in local.managed_resource_password_map : key => {
+    vault_path  = stateful_resource.vault_path
+    namespaces  = stateful_resource.namespaces
+    secret_name = stateful_resource.secret_name
+    secret_key  = stateful_resource.secret_key
     } if var.deploy_env_monolithic_db == false
   }
 
@@ -337,8 +346,17 @@ locals {
     namespace   = stateful_resource.external_resource_config.master_user_password_secret_namespace
     secret_name = stateful_resource.external_resource_config.master_user_password_secret
     secret_key  = stateful_resource.external_resource_config.master_user_password_secret_key
+    }
+  }
+
+  monolith_managed_password_map_non_env_vpc = { for key, stateful_resource in local.monolith_managed_password_map : key => {
+    vault_path  = stateful_resource.vault_path
+    namespace   = stateful_resource.namespace
+    secret_name = stateful_resource.secret_name
+    secret_key  = stateful_resource.secret_key
     } if var.deploy_env_monolithic_db == false
   }
+
   monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
 
   monolith_init_mysql_managed_stateful_resources = { for key, resource in local.mysql_managed_stateful_resources : key => resource if var.managed_svc_as_monolith == true }
