@@ -92,6 +92,19 @@ module "generate_mcm_files" {
     dfsp_seed                            = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}${can(value.pm4ml_scheme_a_config)?":proxy":""}" if length(try(value.currency, "")) > 0])
     hub_name                             = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     ttk_backend_fqdn                     = local.ttk_backend_fqdn
+    keycloak_access_token_lifespan       = 43200
+    vault_secret_key                     = var.vault_secret_key
+    portal_admin_user                    = var.portal_admin_user
+    portal_admin_email                   = var.portal_admin_email
+    portal_admin_secret_name             = join("$", ["", "{${replace(var.portal_admin_secret, "-", "_")}}"])
+    smtp_from                            = var.mcm_smtp_from
+    smtp_from_display_name               = var.mcm_smtp_from_display_name
+    smtp_reply_to                        = var.mcm_smtp_reply_to
+    smtp_host                            = var.mcm_smtp_host
+    smtp_port                            = var.mcm_smtp_port
+    smtp_ssl                             = var.mcm_smtp_ssl
+    smtp_starttls                        = var.mcm_smtp_starttls
+    smtp_auth                            = var.mcm_smtp_auth
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -218,6 +231,67 @@ variable "fspiop_use_ory_for_auth" {
 
 variable "pm4mls" {
   type = any
+}
+
+variable "vault_secret_key" {
+  type        = string
+  description = "Default key name for vault secrets"
+  default     = "secret"
+}
+
+variable "portal_admin_user" {
+  type    = string
+  default = "portal_admin"
+}
+
+variable "portal_admin_email" {
+  type    = string
+  default = "portal_admin@none.com"
+}
+
+variable "portal_admin_secret" {
+  type    = string
+  default = "portal-admin-secret"
+}
+
+variable "mcm_smtp_from" {
+  type    = string
+  default = "noreply@mojaloop.io"
+}
+
+variable "mcm_smtp_from_display_name" {
+  type    = string
+  default = "Mojaloop"
+}
+
+variable "mcm_smtp_reply_to" {
+  type    = string
+  default = "noreply@mojaloop.io"
+}
+
+variable "mcm_smtp_host" {
+  type    = string
+  default = "localhost"
+}
+
+variable "mcm_smtp_port" {
+  type    = string
+  default = "587"
+}
+
+variable "mcm_smtp_ssl" {
+  type    = string
+  default = "false"
+}
+
+variable "mcm_smtp_starttls" {
+  type    = string
+  default = "true"
+}
+
+variable "mcm_smtp_auth" {
+  type    = string
+  default = "false"
 }
 
 locals {
