@@ -157,10 +157,6 @@ variable "keycloak_hubop_realm_name" {
   description = "name of realm for hub operator api access"
 }
 
-variable "vault_secret_key" {
-  type = string
-}
-
 variable "role_assign_svc_secret" {
   type = string
 }
