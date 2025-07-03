@@ -174,6 +174,7 @@ resource "local_file" "redis-crs" {
       namespace              = each.value.local_operator_config.resource_namespace
       nodes                  = each.value.local_operator_config.nodes
       storage_size           = each.value.local_operator_config.redis_data.storage_size
+      persistence_enabled    = each.value.local_operator_config.redis_data.persistence_enabled
       disable_ha             = try(
         each.value.local_operator_config.disable_ha,
         var.cluster.master_node_count + var.cluster.agent_node_count < each.value.local_operator_config.nodes,

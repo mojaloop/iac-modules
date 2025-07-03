@@ -465,6 +465,7 @@ mojaloop-redis:
     resource_namespace: mojaloop
     nodes: 3
     redis_data:
+      persistence_enabled: false
       storage_size: 1Gi
     secret_config:
       generate_secret_name:
