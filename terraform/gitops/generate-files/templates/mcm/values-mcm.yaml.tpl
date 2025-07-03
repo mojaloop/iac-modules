@@ -10,7 +10,7 @@ db:
 api:
   image:
     name: ghcr.io/pm4ml/connection-manager-api
-    version: v2.4.0
+    version: v3.0.0-snapshot.3
   url: https://${mcm_fqdn}
   extraTLS:
     rootCert:
@@ -53,7 +53,7 @@ api:
     pkiClientRole: ${pki_client_role}
     signExpiryHours: 43800
   serviceAccount:
-    externallyManaged: true
+    externallyManaged: false
     serviceAccountNameOverride: ${mcm_service_account_name}
   rbac:
     enabled: false
@@ -65,6 +65,15 @@ api:
     vault.hashicorp.com/agent-pre-populate: "true"
     vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
+  env:
+    KEYCLOAK_ENABLED=true
+    KEYCLOAK_BASE_URL=https://${keycloak_fqdn}
+    KEYCLOAK_DISCOVERY_URL=https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration
+    KEYCLOAK_ADMIN_CLIENT_ID=connection-manager-api-service
+    KEYCLOAK_ADMIN_CLIENT_SECRET=dfsps123
+    KEYCLOAK_DFSPS_REALM=${keycloak_dfsp_realm_name}
+    KEYCLOAK_AUTO_CREATE_ACCOUNTS=true
+    CLIENT_URL: https://${mcm_fqdn}
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
@@ -77,7 +86,7 @@ ui:
     clientSecretName: ${oauth_secret_secret}
     clientSecretKey: ${oauth_secret_secret_key}
   image:
-    version: 1.8.4
+    version: feat-keycloak
 
 ingress:
 %{ if istio_create_ingress_gateways ~}
