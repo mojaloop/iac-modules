@@ -96,6 +96,7 @@ module "generate_mcm_files" {
     vault_secret_key                     = var.vault_secret_key
     portal_admin_user                    = var.portal_admin_user
     portal_admin_email                   = var.portal_admin_email
+    portal_admin_secret                  = var.portal_admin_secret
     portal_admin_secret_name             = join("$", ["", "{${replace(var.portal_admin_secret, "-", "_")}}"])
     smtp_from                            = var.mcm_smtp_from
     smtp_from_display_name               = var.mcm_smtp_from_display_name
