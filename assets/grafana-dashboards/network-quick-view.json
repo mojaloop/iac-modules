@@ -1236,7 +1236,7 @@
           "description": "Regular expression to exclude specific pods from being displayed on the chart",
           "hide": 2,
           "name": "ignore_pods_regexp",
-          "query": ".+rbdplugin.+|coredns-nodecache.+|.+node-exporter.+|.+cephfsplugin.+|calico-node.+|node-debugger.+",
+          "query": ".+rbdplugin.+|coredns-nodecache.+|.+node-exporter.+|.+cephfsplugin.+|calico-node.+|node-debugger.+|kube-proxy.+|aws-node.+",
           "skipUrlSync": true,
           "type": "constant"
         },
@@ -1269,7 +1269,7 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "Network - Quick view",
-    "uid": "deojbe4mokj-v003",
+    "uid": "deojbe4mokj-v004",
     "version": 3,
     "weekStart": ""
   }
