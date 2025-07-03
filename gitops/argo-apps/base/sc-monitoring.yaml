@@ -4,7 +4,8 @@ metadata:
   name: ${ARGOCD_ENV_monitoring_monitoring_app_name}
   namespace: ${ARGOCD_ENV_monitoring_app_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_monitoring_sync_wave}
+    # argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_monitoring_sync_wave}
+    argocd.argoproj.io/sync-wave: -8
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
