@@ -50,10 +50,11 @@ kind: ServiceEntry
 metadata:
   name: {{ .Data.host }}
   namespace: ${mojaloop_namespace}
+  labels:
+    istio.io/use-waypoint: egress-waypoint
 spec:
   hosts:
   - '{{ .Data.fqdn }}'
-  location: MESH_EXTERNAL
   ports:
   - number: 80
     name: http
@@ -70,9 +71,6 @@ metadata:
   name: originate-mtls-for-{{ .Data.host }}-callback
   namespace: ${mojaloop_namespace}
 spec:
-  workloadSelector:
-    matchLabels:
-      app.kubernetes.io/instance: moja
   host: {{ .Data.fqdn }}
   trafficPolicy:
     loadBalancer:

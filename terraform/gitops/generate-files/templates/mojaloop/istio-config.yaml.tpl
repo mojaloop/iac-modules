@@ -482,7 +482,7 @@ kind: Gateway
 metadata:
   labels:
     istio.io/waypoint-for: service
-  name: waypoint
+  name: egress-waypoint
   namespace: ${mojaloop_namespace}
 spec:
   gatewayClassName: istio-waypoint
