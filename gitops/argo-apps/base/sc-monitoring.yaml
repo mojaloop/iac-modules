@@ -1,7 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_monitoring_monitoring_app_name}
+  # name: ${ARGOCD_ENV_monitoring_monitoring_app_name}
+  name: monitoring
   namespace: ${ARGOCD_ENV_monitoring_app_namespace}
   annotations:
     # argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_monitoring_sync_wave}
