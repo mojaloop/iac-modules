@@ -45,119 +45,27 @@ spec:
       tls.crt: '{{ `{{ .clientcertsecret.client_cert_chain }}` }}'
     type: kubernetes.io/tls
 ---
-apiVersion: redhatcop.redhat.io/v1alpha1
-kind: VaultSecret
-metadata:
-  name: {{ .Data.host }}-clientcert-tls
-  namespace: ${istio_egress_gateway_namespace}
-spec:
-  refreshPeriod: 1m0s
-  vaultSecretDefinitions:
-    - authentication:
-        path: kubernetes
-        role: policy-admin
-        serviceAccount:
-            name: default
-      name: clientcertsecret
-      path: ${onboarding_secret_path}/{{ .Data.host }}
-  output:
-    name: {{ .Data.host }}-clientcert-tls
-    stringData:
-      ca.crt: '{{ `{{ .clientcertsecret.ca_bundle }}` }}'
-      tls.key: '{{ `{{ .clientcertsecret.client_key }}` }}'
-      tls.crt: '{{ `{{ .clientcertsecret.client_cert_chain }}` }}'
-    type: kubernetes.io/tls
----
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: {{ .Data.host }}
   namespace: ${mojaloop_namespace}
+  labels:
+    istio.io/use-waypoint: egress-waypoint
 spec:
   hosts:
   - '{{ .Data.fqdn }}'
-  location: MESH_EXTERNAL
   ports:
   - number: 80
     name: http
     protocol: HTTP
+    targetPort: 443
   - number: 443
     name: https
     protocol: HTTPS
   resolution: DNS
 ---
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: {{ .Data.host }}-callback-gateway
-  namespace: ${mojaloop_namespace}
-spec:
-  selector:
-    istio: ${istio_egress_gateway_name}
-  servers:
-  - hosts:
-    - '{{ .Data.fqdn }}'
-    port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: ISTIO_MUTUAL
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: {{ .Data.host }}-callback
-  namespace: ${mojaloop_namespace}
-spec:
-  host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
-  subsets:
-  - name: {{ .Data.host }}
-    trafficPolicy:
-      loadBalancer:
-        simple: ROUND_ROBIN
-      portLevelSettings:
-      - port:
-          number: 443
-        tls:
-          mode: ISTIO_MUTUAL
-          sni: {{ .Data.fqdn }}
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: {{ .Data.host }}-callback
-  namespace: ${mojaloop_namespace}
-spec:
-  hosts:
-  - {{ .Data.fqdn }}
-  gateways:
-  - {{ .Data.host }}-callback-gateway
-  - mesh
-  http:
-  - match:
-    - gateways:
-      - mesh
-      port: 80
-    route:
-    - destination:
-        host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
-        subset: {{ .Data.host }}
-        port:
-          number: 443
-      weight: 100
-  - match:
-    - gateways:
-      - {{ .Data.host }}-callback-gateway
-      port: 443
-    route:
-    - destination:
-        host: {{ .Data.fqdn }}
-        port:
-          number: 443
-      weight: 100
----
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-{{ .Data.host }}-callback
@@ -169,7 +77,7 @@ spec:
       simple: ROUND_ROBIN
     portLevelSettings:
     - port:
-        number: 443
+        number: 80
       tls:
         mode: MUTUAL
         credentialName: {{ .Data.host }}-clientcert-tls
