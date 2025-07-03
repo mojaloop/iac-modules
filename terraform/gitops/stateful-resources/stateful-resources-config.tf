@@ -243,6 +243,7 @@ resource "local_file" "aws-db-crs" {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
+        consumer_app_externalname_services = local.consumer_app_externalname_services[key]
         externalservice_name         = each.value.externalservice_name
         allow_major_version_upgrade  = each.value.external_resource_config.allow_major_version_upgrade
         apply_immediately            = each.value.external_resource_config.apply_immediately
@@ -365,6 +366,16 @@ locals {
 
   mysql_managed_stateful_resources_non_env_vpc = { for key, resource in local.mysql_managed_stateful_resources : key => resource if var.deploy_env_monolithic_db == false }
   mongodb_managed_stateful_resources_non_env_vpc = { for key, resource in local.mongodb_managed_stateful_resources : key => resource if var.deploy_env_monolithic_db == false }
+
+
+  consumer_app_externalname_services = { for db_server, entries in {
+      for key, resource in local.managed_stateful_resources :
+                  v.monolith_db_server => [
+                      for inner_k, inner_v in local.managed_stateful_resources : inner_v.logical_service_config.logical_service_name if inner_v.monolith_db_server == resource.monolith_db_server && inner_v.enabled
+                    ]
+      } : db_server => distinct(entries)
+  }
+
   stateful_resources_vars = {
     stateful_resources_namespace = var.stateful_resources_namespace
     gitlab_project_url           = var.gitlab_project_url
