@@ -102,8 +102,8 @@ spec:
         long_query_time=${database_config.long_query_time}
         innodb_use_native_aio=${database_config.innodb_use_native_aio}
         max_connections=${database_config.max_connections}
-        innodb_buffer_pool_size=${database_config.innodb_buffer_pool_size} 
-        wsrep_auto_increment_control=OFF      
+        innodb_buffer_pool_size=${database_config.innodb_buffer_pool_size}
+        wsrep_auto_increment_control=OFF
 #      wsrep_debug=CLIENT
 #      wsrep_provider_options="gcache.size=1G; gcache.recover=yes"
 #      [sst]
@@ -174,10 +174,10 @@ spec:
 #      whenUnsatisfiable: DoNotSchedule
     affinity:
       antiAffinityTopologyKey: "kubernetes.io/hostname"
-%{ if affinity_definition != null ~}      
+%{ if affinity_definition != null ~}
       advanced:
         ${indent(8, yamlencode(affinity_definition))}
-%{ endif ~}  
+%{ endif ~}
 #        nodeAffinity:
 #          requiredDuringSchedulingIgnoredDuringExecution:
 #            nodeSelectorTerms:
@@ -730,7 +730,7 @@ metadata:
   name: ${cluster_name}-backup
   namespace: ${namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"    
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   pxcCluster: ${cluster_name}
   storageName: ${backupStorageName}
@@ -760,11 +760,11 @@ spec:
 
   data:
     - secretKey: AWS_SECRET_ACCESS_KEY # TODO: max provider agnostic
-      remoteRef: 
+      remoteRef:
         key: ${percona_credentials_secret_provider_key}
         property: value
     - secretKey: AWS_ACCESS_KEY_ID # Key given to the secret to be created on the cluster
-      remoteRef: 
+      remoteRef:
         key: ${percona_credentials_id_provider_key}
         property: value
 ---
@@ -774,7 +774,7 @@ metadata:
   name: init-${cluster_name}
   namespace: ${namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"     
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   template:
     spec:
@@ -789,7 +789,7 @@ spec:
             - >
               mysql -h${cluster_name}-haproxy -uroot -p$${MYSQL_ROOT_PASSWORD} << EOF
                 CREATE DATABASE IF NOT EXISTS \`${database_name}\`;
-                CREATE USER IF NOT EXISTS '${database_user}' IDENTIFIED WITH mysql_native_password BY '$${MYSQL_USER_PASSWORD}';
+                CREATE USER IF NOT EXISTS '${database_user}' IDENTIFIED WITH BY '$${MYSQL_USER_PASSWORD}';
                 GRANT ALL PRIVILEGES ON \`${database_name}\`.* to '${database_user}'@'%';
               EOF
           env:
@@ -802,7 +802,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name:  ${existing_secret}
-                  key: mysql-password          
+                  key: mysql-password
           resources: {}
           imagePullPolicy: IfNotPresent
       initContainers:
