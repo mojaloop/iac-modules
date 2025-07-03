@@ -87,6 +87,7 @@ spec:
   parameters:
     externalServiceName: "${externalservice_name}"
     appNamespace: "${namespace}"
+    consumerAppsExternalServices: ${consumer_app_externalname_services}
     allowMajorVersionUpgrade: ${allow_major_version_upgrade}
     applyImmediately: ${apply_immediately}
     backupRetentionPeriod: ${backup_retention_period}
