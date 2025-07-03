@@ -201,6 +201,19 @@ module "generate_mojaloop_files" {
     hub_name                                                          = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     opentelemetry_enabled                                             = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable
+    keycloak_access_token_lifespan                                    = 43200
+    portal_admin_user                                                 = var.portal_admin_user
+    portal_admin_email                                                = var.portal_admin_email
+    portal_admin_secret                                               = var.portal_admin_secret
+    portal_admin_secret_name                                          = join("$", ["", "{${replace(var.portal_admin_secret, "-", "_")}}"])
+    smtp_from                                                         = var.mcm_smtp_from
+    smtp_from_display_name                                            = var.mcm_smtp_from_display_name
+    smtp_reply_to                                                     = var.mcm_smtp_reply_to
+    smtp_host                                                         = var.mcm_smtp_host
+    smtp_port                                                         = var.mcm_smtp_port
+    smtp_ssl                                                          = var.mcm_smtp_ssl
+    smtp_starttls                                                     = var.mcm_smtp_starttls
+    smtp_auth                                                         = var.mcm_smtp_auth
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
