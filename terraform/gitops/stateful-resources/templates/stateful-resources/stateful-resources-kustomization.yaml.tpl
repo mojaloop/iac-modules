@@ -46,6 +46,19 @@ resources:
 # %{ for key,stateful_resource in percona_stateful_resources }
 - db-cluster-${key}.yaml
 # %{ endfor }
+
+patches:
+  - target:
+      kind: Namespace
+      name: ".*kafka.*" # Matches namespaces with "kafka" in the name
+    patch: |
+      - op: add
+        path: "/metadata/labels"
+        value: {}
+      - op: add
+        path: "/metadata/labels/opt-out-mesh"
+        value: "true"
+
 helmCharts:
 # %{ for key, stateful_resource in helm_stateful_resources }
 - name: ${stateful_resource.local_helm_config.resource_helm_chart}
