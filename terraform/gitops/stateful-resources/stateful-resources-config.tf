@@ -264,6 +264,7 @@ resource "local_file" "aws-db-crs" {
         final_snapshot_identifier    = "${var.cc_name}-${var.cluster_name}-${each.key}-final-snapshot"
         storage_encrypted            = each.value.external_resource_config.storage_encrypted
         storage_type                 = each.value.external_resource_config.storage_type
+        allocated_storage            = each.value.external_resource_config.allocated_storage
         subnet_list                  = jsonencode(var.database_subnets)
         azs                          = jsonencode(var.availability_zones)
         db_username                  = each.value.external_resource_config.username
@@ -357,7 +358,7 @@ locals {
     } if var.deploy_env_monolithic_db == false
   }
 
-  monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
+  monolith_managed_external_name_map = { for key, stateful_resource in var.monolith_stateful_resources : stateful_resource.external_resource_config.logical_service_name => var.monolith_external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] if var.deploy_env_monolithic_db == false }
 
   monolith_init_mysql_managed_stateful_resources = { for key, resource in local.mysql_managed_stateful_resources : key => resource if var.managed_svc_as_monolith == true }
   monolith_init_mongodb_managed_stateful_resources = { for key, resource in local.mongodb_managed_stateful_resources : key => resource if var.managed_svc_as_monolith == true }
