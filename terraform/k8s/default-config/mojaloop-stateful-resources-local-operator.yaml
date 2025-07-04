@@ -25,7 +25,7 @@ thirdparty-auth-svc-db:
         - mojaloop
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -85,7 +85,7 @@ mysql-consent-oracle-db:
         - mojaloop
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -145,7 +145,7 @@ mcm-db:
         - mcm
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -205,7 +205,7 @@ account-lookup-db:
         - mojaloop
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -277,7 +277,7 @@ central-ledger-db:
       general_log: 0
       slow_query_log: 0
       root_password: ""
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -551,7 +551,7 @@ keycloak-db:
         - keycloak
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -612,7 +612,7 @@ keto-db:
       generate_secret_special_chars: _
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -673,7 +673,7 @@ kratos-db:
       generate_secret_special_chars: _
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"

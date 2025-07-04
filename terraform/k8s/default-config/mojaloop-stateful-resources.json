@@ -71,7 +71,7 @@
             ],
             "mysql_data": {
                 "is_legacy": false,
-                "default_authentication_plugin": "mysql_native_password",
+                "default_authentication_plugin": "caching_sha2_password",
                 "basedir": "/opt/bitnami/mysql",
                 "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
                 "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
@@ -140,7 +140,7 @@
             ],
             "mysql_data": {
                 "is_legacy": false,
-                "default_authentication_plugin": "mysql_native_password",
+                "default_authentication_plugin": "caching_sha2_password",
                 "basedir": "/opt/bitnami/mysql",
                 "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
                 "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
@@ -209,7 +209,7 @@
             ],
             "mysql_data": {
                 "is_legacy": false,
-                "default_authentication_plugin": "mysql_native_password",
+                "default_authentication_plugin": "caching_sha2_password",
                 "basedir": "/opt/bitnami/mysql",
                 "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
                 "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
@@ -279,7 +279,7 @@
             ],
             "mysql_data": {
                 "is_legacy": false,
-                "default_authentication_plugin": "mysql_native_password",
+                "default_authentication_plugin": "caching_sha2_password",
                 "basedir": "/opt/bitnami/mysql",
                 "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
                 "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
@@ -421,7 +421,7 @@
                 "general_log": 0,
                 "slow_query_log": 0,
                 "root_password": "",
-                "default_authentication_plugin": "mysql_native_password",
+                "default_authentication_plugin": "caching_sha2_password",
                 "basedir": "/opt/bitnami/mysql",
                 "plugin_dir": "/opt/bitnami/mysql/lib/plugin",
                 "socket": "/opt/bitnami/mysql/tmp/mysql.sock",
