@@ -10,7 +10,7 @@ spec:
     enabled: true
     clients:
     - clientId: connection-manager-api-service
-      secret: "$${keycloak_${replace(keycloak_dfsp_realm_name, "-", "_")}_realm_api_secret}"
+      secret: ${keycloak_realm_api_secret_name}
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris: []
@@ -25,7 +25,7 @@ spec:
       attributes:
         access.token.lifespan: "${keycloak_access_token_lifespan}"
     - clientId: connection-manager-auth-client
-      secret: "$${keycloak_${replace(keycloak_dfsp_realm_name, "-", "_")}_realm_auth_secret}"
+      secret: ${keycloak_realm_auth_secret_name}
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris:
@@ -110,7 +110,7 @@ spec:
       lastName: Admin
       credentials:
       - type: password
-        value: "$${${replace(portal_admin_secret, "-", "_")}}"
+        value: "$${portal_admin_secret}"
       clientRoles: {}
       requiredActions: []
       notBefore: 0

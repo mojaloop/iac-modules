@@ -87,7 +87,8 @@ module "generate_mcm_files" {
     keycloak_access_token_lifespan       = 43200
     portal_admin_user                    = var.portal_admin_user
     portal_admin_email                   = var.portal_admin_email
-    portal_admin_secret_name             = join("$", ["", "{${replace(var.portal_admin_secret, "-", "_")}}"])
+    keycloak_realm_api_secret_name       = join("$", ["", "{keycloak_${replace(var.keycloak_dfsp_realm_name, "-", "_")}_realm_api_secret}"])
+    keycloak_realm_auth_secret_name      = join("$", ["", "{keycloak_${replace(var.keycloak_dfsp_realm_name, "-", "_")}_realm_auth_secret}"])
     smtp_from                            = var.mcm_smtp_from
     smtp_from_display_name               = var.mcm_smtp_from_display_name
     smtp_reply_to                        = var.mcm_smtp_reply_to

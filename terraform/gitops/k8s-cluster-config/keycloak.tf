@@ -109,10 +109,8 @@ locals {
   # For MCM realm secrets, we need multiple keys from the same K8s secret
   # So we create multiple entries with different secret names to get different keys
   mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
-    "keycloak-${var.keycloak_dfsp_realm_name}-realm-api-secret"  = "secret"
-    "keycloak-${var.keycloak_dfsp_realm_name}-realm-auth-secret" = "secret"
-    "mcm-smtp-credentials"                                       = "secret"
-    "mcm-smtp-password-credentials"                              = "secret"
+    "mcm-smtp-credentials-user"                                  = "secret"
+    "mcm-smtp-credentials-password"                              = "secret"
   })
 
   pm4ml_keycloak_realm_env_secret_map = merge(
