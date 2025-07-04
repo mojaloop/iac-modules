@@ -1,7 +1,29 @@
+# Password Policy for Client Secrets (32 chars, alphanumeric)
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: PasswordPolicy
+metadata:
+  name: ${keycloak_dfsp_realm_name}-client-secret-policy
+  namespace: ${keycloak_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
+spec:
+  authentication:
+    path: kubernetes
+    role: policy-admin
+    serviceAccount:
+      name: default
+  passwordPolicy: |
+    length = 32
+    rule "charset" {
+      charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      min-chars = 32
+    }
+---
+# API Service Client Secret
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: RandomSecret
 metadata:
-  name: ${keycloak_dfsp_realm_name}-realm-secrets
+  name: ${keycloak_dfsp_realm_name}-api-service-client-secret
   namespace: ${keycloak_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-4"
@@ -13,16 +35,28 @@ spec:
       name: default
   isKVSecretsEngineV2: false
   path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets
-  secretKey: secret
+  secretKey: api-service-client-secret
   secretFormat:
-    # Client secrets for Keycloak clients
-    api-service-client-secret: "[a-zA-Z0-9]{32}"
-    auth-client-secret: "[a-zA-Z0-9]{32}"
-
-    # User passwords (16 chars with special characters)
-    admin-password: "[a-zA-Z0-9@#$%^&*()_+=\\-]{16}"
-
-    # Additional secrets for future use
-    jwt-signing-secret: "[a-zA-Z0-9+/]{64}"
-    encryption-key: "[a-fA-F0-9]{64}"
+    passwordPolicyName: ${keycloak_dfsp_realm_name}-client-secret-policy
+  secretType: Opaque
+---
+# Auth Client Secret
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: RandomSecret
+metadata:
+  name: ${keycloak_dfsp_realm_name}-auth-client-secret
+  namespace: ${keycloak_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"
+spec:
+  authentication:
+    path: kubernetes
+    role: policy-admin
+    serviceAccount:
+      name: default
+  isKVSecretsEngineV2: false
+  path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets
+  secretKey: auth-client-secret
+  secretFormat:
+    passwordPolicyName: ${keycloak_dfsp_realm_name}-client-secret-policy
   secretType: Opaque
