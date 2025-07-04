@@ -5,3 +5,4 @@ resources:
   - debug-config.yaml
   - kubernetes-provider.yaml
   - vault-provider.yaml
+  - aws-provider.yaml

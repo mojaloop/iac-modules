@@ -18,6 +18,7 @@ thirdparty-auth-svc-redis:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 thirdparty-auth-svc-db:
   enabled: false
   app_owner: "mojaloop"
@@ -38,6 +39,7 @@ thirdparty-auth-svc-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 mysql-consent-oracle-db:
   enabled: false
   app_owner: "mojaloop"
@@ -67,6 +69,7 @@ mysql-consent-oracle-db:
     generate_secret_vault_base_path: "/secret/generated"
     generate_secret_extra_namespaces:
       - mojaloop
+  monolith_db_server: common_mojaloop_db
 mcm-db:
   enabled: true
   app_owner: "mojaloop"
@@ -87,6 +90,7 @@ mcm-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 account-lookup-db:
   enabled: true
   app_owner: "mojaloop"
@@ -107,6 +111,7 @@ account-lookup-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 central-ledger-db:
   enabled: true
   app_owner: "mojaloop"
@@ -127,6 +132,7 @@ central-ledger-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 bulk-mongodb:
   enabled: true
   app_owner: "mojaloop"
@@ -149,6 +155,7 @@ bulk-mongodb:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mongodb
 cep-mongodb:
   enabled: false
   app_owner: "mojaloop"
@@ -171,6 +178,7 @@ cep-mongodb:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mongodb
 reporting-events-mongodb:
   enabled: true
   app_owner: "mojaloop"
@@ -193,6 +201,7 @@ reporting-events-mongodb:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mongodb
 mojaloop-kafka:
   enabled: true
   app_owner: "mojaloop"
@@ -275,6 +284,7 @@ ttk-mongodb:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mongodb
 ttk-redis:
   enabled: true
   resource_type: redis
@@ -309,6 +319,7 @@ keycloak-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_platform_db
 keto-db:
   enabled: true
   app_owner: "platform"
@@ -329,6 +340,7 @@ keto-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_platform_db
 kratos-db:
   enabled: true
   app_owner: "platform"
@@ -349,3 +361,4 @@ kratos-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_platform_db

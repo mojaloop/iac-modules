@@ -1,6 +1,9 @@
 common_platform_db:
   provider: in-cluster  # possbile values are rds, dbaas and in-cluster
   app_owner: "platform"
+  resource_type: "mysql"
+  externalservice_name: "common-platform-db"
+  resource_namespace: "stateful-resources"  # Namespace where the resource will be created
   dbaas_resource_config:
     # Percona XtraDB Cluster (PXC) specific configurations
     cluster_name: "common-platform-db"                          # Name of the cluster
@@ -36,6 +39,7 @@ common_platform_db:
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
     backup_retention: "3"                                        # Number of backups to retain
   external_resource_config:
+    dbdeploy_name_prefix: "plt"
     allow_major_version_upgrade: false
     apply_immediately: false
     password_key_name: common_platform_db_password
@@ -92,7 +96,7 @@ common_platform_db:
     username: root
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-platform-db-secret
-    master_user_password_secret_key: password
+    master_user_password_secret_key: root
     logical_service_name: common-platform-db
     logical_service_port: 3306
     vault_master_user_password_secret_key: common_platform_db_password
@@ -100,6 +104,9 @@ common_platform_db:
 common_mojaloop_db:
   provider: in-cluster  # possbile values are rds, dbaas and in-cluster
   app_owner: "mojaloop"
+  resource_type: "mysql"
+  externalservice_name: "common-mojaloop-db"
+  resource_namespace: "stateful-resources"
   dbaas_resource_config:
     # Percona XtraDB Cluster (PXC) specific configurations
     cluster_name: "common-mojaloop-db"                          # Name of the cluster
@@ -135,6 +142,7 @@ common_mojaloop_db:
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
     backup_retention: "3"                                        # Number of backups to retain
   external_resource_config:
+    dbdeploy_name_prefix: "moja"
     allow_major_version_upgrade: false
     apply_immediately: false
     password_key_name: common_mojaloop_db_password
@@ -183,7 +191,7 @@ common_mojaloop_db:
     username: root
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-mojaloop-db-secret
-    master_user_password_secret_key: password
+    master_user_password_secret_key: root
     logical_service_name: common-mojaloop-db
     logical_service_port: 3306
     vault_master_user_password_secret_key: common_mojaloop_db_password
@@ -191,6 +199,9 @@ common_mojaloop_db:
 common_mongodb:
   provider: in-cluster  # possbile values are documentdb, dbaas and in-cluster
   app_owner: "mojaloop"
+  resource_type: "mongodb"
+  externalservice_name: "common-mongodb"
+  resource_namespace: "stateful-resources"
   dbaas_resource_config:
     cluster_name: "common-mongodb"                          # Name of the cluster
     cr_version: "1.19.1"
@@ -231,6 +242,7 @@ common_mongodb:
     mongos_requests_cpu: "50m"
     mongos_requests_memory: "0.5G"
   external_resource_config:
+    dbdeploy_name_prefix: "cmn"
     allocated_storage: 100
     allow_major_version_upgrade: false
     apply_immediately: false
@@ -268,7 +280,7 @@ common_mongodb:
     username: userAdmin
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-mongodb-secret
-    master_user_password_secret_key: password
+    master_user_password_secret_key: MONGODB_USER_ADMIN_PASSWORD
     logical_service_name: common-mongodb
     logical_service_port: 27017
     vault_master_user_password_secret_key: common_mongodb_password

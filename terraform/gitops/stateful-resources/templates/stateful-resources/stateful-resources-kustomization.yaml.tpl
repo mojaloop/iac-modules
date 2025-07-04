@@ -3,28 +3,21 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - external-name-services.yaml
+
+# %{ for key, stateful_resource in monolith_env_vpc_resource_password_map }
+- monolith-env-vpc-vault-crs-${key}.yaml
+# %{ endfor }
+
+# %{ for key,stateful_resource in monolith_env_vpc_aws_db_resources }
+- db-cluster-${key}.yaml
+# %{ endfor }
+
 # %{ if managed_svc_as_monolith }
 - monolith-external-name-services.yaml
 # %{ endif }
 - namespace.yaml
 # %{ for key, stateful_resource in all_local_stateful_resources }
 - vault-crs-${key}.yaml
-# %{ endfor }
-
-# %{ for key,stateful_resource in managed_stateful_resources }
-- managed-crs-${key}.yaml
-# %{ endfor }
-
-# %{ for key,stateful_resource in monolith_stateful_resources }
-- monolith-managed-crs-${key}.yaml
-# %{ endfor }
-
-# %{ for key,stateful_resource in mysql_managed_stateful_resources }
-- managed-mysql-${key}.yaml
-# %{ endfor }
-
-# %{ for key,stateful_resource in mongodb_managed_stateful_resources }
-- managed-mongodb-${key}.yaml
 # %{ endfor }
 
 # %{ for key,stateful_resource in monolith_init_mysql_managed_stateful_resources }
