@@ -10,6 +10,10 @@ resources:
 - monolith-env-vpc-vault-crs-${key}.yaml
 # %{ endfor }
 
+# %{ for key,stateful_resource in monolith_env_vpc_aws_db_resources }
+- db-cluster-${key}.yaml
+# %{ endfor }
+
 # %{ if managed_svc_as_monolith }
 - monolith-external-name-services.yaml
 # %{ endif }
