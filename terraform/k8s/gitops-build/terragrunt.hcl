@@ -134,8 +134,8 @@ inputs = {
   cc_name                                  = local.cc_name
   vpc_cidr                                 = local.vpc_cidr
   vpc_id                                   = dependency.k8s_deploy.outputs.vpc_id
-  database_subnets                         = dependency.k8s_deploy.outputs.private_subnets
-  availability_zones                       = dependency.k8s_deploy.outputs.availability_zones
+  database_subnets                         = join( ",", dependency.k8s_deploy.outputs.private_subnets)
+  availability_zones                       = join( ",", dependency.k8s_deploy.outputs.availability_zones)
   cloud_region                             = local.CLOUD_REGION
 }
 
