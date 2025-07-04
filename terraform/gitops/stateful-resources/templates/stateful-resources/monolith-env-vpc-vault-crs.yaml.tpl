@@ -44,7 +44,6 @@ spec:
     role: policy-admin
     serviceAccount:
       name: default
-  isKVSecretsEngineV2: true
   path: /secret/generated/${key}
   secretKey: password
   secretFormat:
