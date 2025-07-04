@@ -38,8 +38,8 @@ dependency "k8s_deploy" {
     private_network_cidr              = local.cloud_platform_vars.private_network_cidr
     dns_provider                      = "aws"
     vpc_id                            = ""
-    private_subnets                   = ""
-    availability_zones                = ""
+    private_subnets                   = [""]
+    availability_zones                = [""]
 
   }
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
