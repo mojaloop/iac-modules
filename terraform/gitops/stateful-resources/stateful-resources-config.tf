@@ -368,12 +368,16 @@ locals {
   mongodb_managed_stateful_resources_non_env_vpc = { for key, resource in local.mongodb_managed_stateful_resources : key => resource if var.deploy_env_monolithic_db == false }
 
 
-  consumer_app_externalname_services = { for db_server, entries in {
-      for key, resource in local.managed_stateful_resources :
-                  resource.monolith_db_server => [
-                      for inner_k, inner_v in local.managed_stateful_resources : inner_v.logical_service_config.logical_service_name if inner_v.monolith_db_server == resource.monolith_db_server && inner_v.enabled
-                    ]
-      } : db_server => distinct(entries)
+  consumer_app_externalname_services = {
+    for db_server in distinct([
+      for _, resource in local.managed_stateful_resources :
+      resource.monolith_db_server if resource.enabled
+    ]) :
+    db_server => [
+      for _, resource in local.managed_stateful_resources :
+      resource.logical_service_config.logical_service_name
+      if resource.monolith_db_server == db_server && resource.enabled
+    ]
   }
 
   stateful_resources_vars = {
