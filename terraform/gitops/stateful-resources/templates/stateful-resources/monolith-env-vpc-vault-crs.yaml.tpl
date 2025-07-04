@@ -45,7 +45,7 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: true
-  path: /secret/generated
+  path: /secret/generated/${key}
   secretKey: password
   secretFormat:
     passwordPolicyName: ${key}-password-policy
@@ -67,7 +67,7 @@ spec:
         serviceAccount:
           name: default
       name: dynamicsecret_db_password
-      path: /secret/generated/${secret_name}
+      path: /secret/generated/${key}/${secret_name}
   output:
     name: ${secret_name}
     stringData:
