@@ -72,6 +72,7 @@ resource "local_file" "mongodb_managed_stateful_resources" {
 
 
 resource "local_file" "external_name_services" {
+  count   = var.deploy_env_monolithic_db ? 0 : 1
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
     { config                       = local.external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
@@ -131,6 +132,7 @@ resource "local_file" "kustomization" {
       percona_stateful_resources          = local.percona_stateful_resources
       monolith_stateful_resources         = var.monolith_stateful_resources
       managed_svc_as_monolith             = var.managed_svc_as_monolith
+      deploy_env_monolithic_db            = var.deploy_env_monolithic_db
 
       monolith_init_mysql_managed_stateful_resources   = local.monolith_init_mysql_managed_stateful_resources
       monolith_init_mongodb_managed_stateful_resources = local.monolith_init_mongodb_managed_stateful_resources
