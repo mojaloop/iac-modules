@@ -266,8 +266,8 @@ resource "local_file" "aws-db-crs" {
         storage_encrypted            = each.value.external_resource_config.storage_encrypted
         storage_type                 = each.value.external_resource_config.storage_type
         allocated_storage            = each.value.external_resource_config.allocated_storage
-        subnet_list                  = join(",", var.database_subnets)
-        azs                          = join(",", var.availability_zones)
+        subnet_list                  = var.database_subnets
+        azs                          = var.availability_zones
         db_username                  = each.value.external_resource_config.username
         vpc_cidr                     = var.vpc_cidr
         vpc_id                       = var.vpc_id
