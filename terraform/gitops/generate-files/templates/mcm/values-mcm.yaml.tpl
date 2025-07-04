@@ -66,14 +66,18 @@ api:
     vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
   env:
-    KEYCLOAK_ENABLED=true
-    KEYCLOAK_BASE_URL=https://${keycloak_fqdn}
-    KEYCLOAK_DISCOVERY_URL=https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration
-    KEYCLOAK_ADMIN_CLIENT_ID=connection-manager-api-service
-    KEYCLOAK_ADMIN_CLIENT_SECRET=dfsps123
-    KEYCLOAK_DFSPS_REALM=${keycloak_dfsp_realm_name}
-    KEYCLOAK_AUTO_CREATE_ACCOUNTS=true
-    CLIENT_URL: https://${mcm_fqdn}
+    KEYCLOAK_ENABLED: "true"
+    KEYCLOAK_BASE_URL: "https://${keycloak_fqdn}"
+    KEYCLOAK_DISCOVERY_URL: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration"
+    KEYCLOAK_ADMIN_CLIENT_ID: "connection-manager-api-service"
+    KEYCLOAK_DFSPS_REALM: "${keycloak_dfsp_realm_name}"
+    KEYCLOAK_AUTO_CREATE_ACCOUNTS: "true"
+    CLIENT_URL: "https://${mcm_fqdn}"
+    KEYCLOAK_ADMIN_CLIENT_SECRET:
+      valueFrom:
+        secretKeyRef:
+          name: keycloak-${keycloak_dfsp_realm_name}-realm-api-secret
+          key: secret
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser

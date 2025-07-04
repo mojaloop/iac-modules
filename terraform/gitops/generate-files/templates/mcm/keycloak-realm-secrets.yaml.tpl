@@ -18,10 +18,10 @@ spec:
     # Client secrets for Keycloak clients
     api-service-client-secret: "[a-zA-Z0-9]{32}"
     auth-client-secret: "[a-zA-Z0-9]{32}"
-    
+
     # User passwords (16 chars with special characters)
     admin-password: "[a-zA-Z0-9@#$%^&*()_+=\\-]{16}"
-    
+
     # Additional secrets for future use
     jwt-signing-secret: "[a-zA-Z0-9+/]{64}"
     encryption-key: "[a-fA-F0-9]{64}"

@@ -789,7 +789,7 @@ spec:
             - >
               mysql -h${cluster_name}-haproxy -uroot -p$${MYSQL_ROOT_PASSWORD} << EOF
                 CREATE DATABASE IF NOT EXISTS \`${database_name}\`;
-                CREATE USER IF NOT EXISTS '${database_user}' IDENTIFIED WITH BY '$${MYSQL_USER_PASSWORD}';
+                CREATE USER IF NOT EXISTS '${database_user}' IDENTIFIED WITH caching_sha2_password BY '$${MYSQL_USER_PASSWORD}';
                 GRANT ALL PRIVILEGES ON \`${database_name}\`.* to '${database_user}'@'%';
               EOF
           env:
