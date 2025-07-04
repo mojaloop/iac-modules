@@ -72,7 +72,6 @@ resource "local_file" "mongodb_managed_stateful_resources" {
 
 
 resource "local_file" "external_name_services" {
-  count   = var.deploy_env_monolithic_db ? 0 : 1
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
     { config                       = local.external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
@@ -316,7 +315,7 @@ locals {
   mongodb_managed_stateful_resources  = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if managed_resource.resource_type == "mongodb" }
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }
-  managed_external_name_map           = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(var.external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name], "") }
+  managed_external_name_map           = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(var.external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name], "") if var.deploy_env_monolithic_db == false }
   external_name_map                   = merge(local.local_operator_external_name_map, merge(local.local_external_name_map, local.managed_external_name_map)) # mutually exclusive maps
 
   managed_resource_password_map = { for key, stateful_resource in local.managed_stateful_resources : key => {
