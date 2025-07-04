@@ -93,7 +93,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: mcm-smtp-credentials
+  name: mcm-smtp-credentials-user
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -107,7 +107,7 @@ spec:
       name: smtpcreds
       path: /secret/mcm/smtp-credentials
   output:
-    name: mcm-smtp-credentials
+    name: mcm-smtp-credentials-user
     stringData:
       secret: '{{ .smtpcreds.smtp_user }}'
     type: Opaque
@@ -116,7 +116,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: mcm-smtp-password-credentials
+  name: mcm-smtp-credentials-password
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -130,7 +130,7 @@ spec:
       name: smtpcreds
       path: /secret/mcm/smtp-credentials
   output:
-    name: mcm-smtp-password-credentials
+    name: mcm-smtp-credentials-password
     stringData:
       secret: '{{ .smtpcreds.smtp_password }}'
     type: Opaque
