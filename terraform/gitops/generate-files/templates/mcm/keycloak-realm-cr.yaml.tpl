@@ -136,14 +136,14 @@ spec:
       xXSSProtection: 1; mode=block
       strictTransportSecurity: max-age=31536000; includeSubDomains
     smtpServer:
-      from: ${smtp_from}
-      fromDisplayName: ${smtp_from_display_name}
-      replyTo: ${smtp_reply_to}
-      host: ${smtp_host}
-      port: ${smtp_port}
-      ssl: ${smtp_ssl}
-      starttls: ${smtp_starttls}
-      auth: ${smtp_auth}
+      from: "${smtp_from}"
+      fromDisplayName: "${smtp_from_display_name}"
+      replyTo: "${smtp_reply_to}"
+      host: "${smtp_host}"
+      port: "${smtp_port}"
+      ssl: "${smtp_ssl}"
+      starttls: "${smtp_starttls}"
+      auth: "${smtp_auth}"
 %{ if smtp_auth == "true" ~}
       user: "$${mcm_smtp_credentials_user}"
       password: "$${mcm_smtp_credentials_password}"
