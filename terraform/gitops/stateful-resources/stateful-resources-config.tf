@@ -133,6 +133,7 @@ resource "local_file" "kustomization" {
       monolith_stateful_resources         = var.monolith_stateful_resources
       managed_svc_as_monolith             = var.managed_svc_as_monolith
       deploy_env_monolithic_db            = var.deploy_env_monolithic_db
+      monolith_env_vpc_resource_password_map = local.monolith_env_vpc_resource_password_map
 
       monolith_init_mysql_managed_stateful_resources   = local.monolith_init_mysql_managed_stateful_resources
       monolith_init_mongodb_managed_stateful_resources = local.monolith_init_mongodb_managed_stateful_resources
