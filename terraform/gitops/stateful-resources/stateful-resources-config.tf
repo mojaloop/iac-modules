@@ -243,7 +243,7 @@ resource "local_file" "aws-db-crs" {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
-        consumer_app_externalname_services = local.consumer_app_externalname_services[each.key]
+        consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
         externalservice_name         = each.value.externalservice_name
         allow_major_version_upgrade  = each.value.external_resource_config.allow_major_version_upgrade
         apply_immediately            = each.value.external_resource_config.apply_immediately
@@ -266,8 +266,8 @@ resource "local_file" "aws-db-crs" {
         storage_encrypted            = each.value.external_resource_config.storage_encrypted
         storage_type                 = each.value.external_resource_config.storage_type
         allocated_storage            = each.value.external_resource_config.allocated_storage
-        subnet_list                  = jsonencode(var.database_subnets)
-        azs                          = jsonencode(var.availability_zones)
+        subnet_list                  = join(",", var.database_subnets)
+        azs                          = join(",", var.availability_zones)
         db_username                  = each.value.external_resource_config.username
         vpc_cidr                     = var.vpc_cidr
         vpc_id                       = var.vpc_id
