@@ -72,9 +72,6 @@ ui:
   oauth:
     enabled: true
     hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
-#    clientId: ${oauth_key}
-#    clientSecretName: ${oauth_secret_secret}
-#    clientSecretKey: ${oauth_secret_secret_key}
   image:
     version: feat-keycloak
 
