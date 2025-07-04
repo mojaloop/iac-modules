@@ -243,7 +243,7 @@ resource "local_file" "aws-db-crs" {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
-        consumer_app_externalname_services = local.consumer_app_externalname_services[key]
+        consumer_app_externalname_services = local.consumer_app_externalname_services[each.key]
         externalservice_name         = each.value.externalservice_name
         allow_major_version_upgrade  = each.value.external_resource_config.allow_major_version_upgrade
         apply_immediately            = each.value.external_resource_config.apply_immediately
