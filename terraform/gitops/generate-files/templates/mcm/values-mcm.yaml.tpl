@@ -15,20 +15,6 @@ api:
   extraTLS:
     rootCert:
       enabled: false
-  wso2TokenIssuer:
-    cert:
-      enabled: false
-  oauth:
-    enabled: false
-    issuer: https://${token_issuer_fqdn}/oauth2/token
-    key: ${oauth_key}
-    clientSecretSecret: ${oauth_secret_secret}
-    clientSecretSecretKey: ${oauth_secret_secret_key}
-  auth2fa:
-    enabled: false
-  totp:
-    label: MCM
-    issuer: ${totp_issuer}
   certManager:
     enabled: true
     serverCertSecretName: ${server_cert_secret_name}
@@ -86,9 +72,9 @@ ui:
   oauth:
     enabled: true
     hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
-    clientId: ${oauth_key}
-    clientSecretName: ${oauth_secret_secret}
-    clientSecretKey: ${oauth_secret_secret_key}
+#    clientId: ${oauth_key}
+#    clientSecretName: ${oauth_secret_secret}
+#    clientSecretKey: ${oauth_secret_secret_key}
   image:
     version: feat-keycloak
 
@@ -102,7 +88,7 @@ ingress:
   host: ${mcm_fqdn}
   tls:
     - hosts:
-      - "*.${mcm_fqdn}"
+      - "${mcm_fqdn}"
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
