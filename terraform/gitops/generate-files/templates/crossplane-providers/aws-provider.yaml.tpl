@@ -38,6 +38,8 @@ apiVersion: aws.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: aws-cp-upbound-provider-config
+  annotations:
+    argocd.argoproj.io/sync-wave: -9
 spec:
   credentials:
     source: Secret
@@ -51,7 +53,7 @@ kind: Provider
 metadata:
   name: provider-family-aws
   annotations:
-    argocd.argoproj.io/sync-wave: 5
+    argocd.argoproj.io/sync-wave: -10
 spec:
   package: ghcr.io/mojaloop/infra/upbound/provider-family-aws:v${crossplane_providers_aws_family_version}
   skipDependencyResolution: true
@@ -61,7 +63,7 @@ kind: Provider
 metadata:
   name: provider-aws-iam
   annotations:
-    argocd.argoproj.io/sync-wave: 10
+    argocd.argoproj.io/sync-wave: -9
 spec:
   package: ghcr.io/mojaloop/infra/upbound/provider-aws-iam:v${crossplane_providers_aws_iam_version}
   skipDependencyResolution: true
@@ -71,7 +73,7 @@ kind: Provider
 metadata:
   name: provider-aws-docdb
   annotations:
-    argocd.argoproj.io/sync-wave: 10
+    argocd.argoproj.io/sync-wave: -9
 spec:
   package: ghcr.io/mojaloop/infra/upbound/provider-aws-docdb:v${crossplane_providers_aws_docdb_version}
   skipDependencyResolution: true
@@ -81,7 +83,7 @@ kind: Provider
 metadata:
   name: provider-aws-ec2
   annotations:
-    argocd.argoproj.io/sync-wave: 10
+    argocd.argoproj.io/sync-wave: -9
 spec:
   package: ghcr.io/mojaloop/infra/upbound/provider-aws-ec2:v${crossplane_providers_aws_ec2_version}
   skipDependencyResolution: true
@@ -91,7 +93,7 @@ kind: Provider
 metadata:
   name: provider-aws-rds
   annotations:
-    argocd.argoproj.io/sync-wave: 10
+    argocd.argoproj.io/sync-wave: -9
 spec:
   package: ghcr.io/mojaloop/infra/upbound/provider-aws-rds:v${crossplane_providers_aws_rds_version}
   skipDependencyResolution: true
@@ -101,7 +103,7 @@ kind: Provider
 metadata:
   name: provider-aws-route53
   annotations:
-    argocd.argoproj.io/sync-wave: 10
+    argocd.argoproj.io/sync-wave: -9
 spec:
   package: ghcr.io/mojaloop/infra/upbound/provider-aws-route53:v${crossplane_providers_aws_route53_version}
   skipDependencyResolution: true
