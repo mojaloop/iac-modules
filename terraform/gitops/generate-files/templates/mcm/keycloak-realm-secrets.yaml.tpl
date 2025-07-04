@@ -34,11 +34,10 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets/${keycloak_dfsp_realm_name}-api-service-client-secret
+  path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets
   secretKey: password
   secretFormat:
     passwordPolicyName: ${keycloak_dfsp_realm_name}-client-secret-policy
-  secretType: Opaque
 ---
 # Auth Client Secret
 apiVersion: redhatcop.redhat.io/v1alpha1
@@ -55,8 +54,7 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets/${keycloak_dfsp_realm_name}-auth-client-secret
+  path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets
   secretKey: password
   secretFormat:
     passwordPolicyName: ${keycloak_dfsp_realm_name}-client-secret-policy
-  secretType: Opaque
