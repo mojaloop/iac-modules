@@ -58,12 +58,12 @@ spec:
         role: policy-admin
         serviceAccount:
             name: default
-      name: realm-secrets
-      path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets
+      name: apisecret
+      path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets/${keycloak_dfsp_realm_name}-api-service-client-secret
   output:
     name: keycloak-${keycloak_dfsp_realm_name}-realm-api-secret
     stringData:
-      secret: '{{ .realm-secrets.api-service-client-secret }}'
+      secret: '{{ .apisecret.password }}'
     type: Opaque
 ---
 # Auth Client Secret  
@@ -81,12 +81,12 @@ spec:
         role: policy-admin
         serviceAccount:
             name: default
-      name: realm-secrets
-      path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets
+      name: authsecret
+      path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets/${keycloak_dfsp_realm_name}-auth-client-secret
   output:
     name: keycloak-${keycloak_dfsp_realm_name}-realm-auth-secret
     stringData:
-      secret: '{{ .realm-secrets.auth-client-secret }}'
+      secret: '{{ .authsecret.password }}'
     type: Opaque
 ---
 # SMTP User Secret

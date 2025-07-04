@@ -34,8 +34,8 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets
-  secretKey: api-service-client-secret
+  path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets/${keycloak_dfsp_realm_name}-api-service-client-secret
+  secretKey: password
   secretFormat:
     passwordPolicyName: ${keycloak_dfsp_realm_name}-client-secret-policy
   secretType: Opaque
@@ -55,8 +55,8 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: false
-  path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets
-  secretKey: auth-client-secret
+  path: /secret/keycloak/${keycloak_dfsp_realm_name}-realm-secrets/${keycloak_dfsp_realm_name}-auth-client-secret
+  secretKey: password
   secretFormat:
     passwordPolicyName: ${keycloak_dfsp_realm_name}-client-secret-policy
   secretType: Opaque
