@@ -55,7 +55,7 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
   name: ${secret_name}
-  namespace: ${namespace}
+  namespace: ${ns}
   annotations:
     argocd.argoproj.io/sync-wave: "-6"
 spec:
@@ -73,4 +73,5 @@ spec:
     stringData:
       ${secret_key}: "{{ .dynamicsecret_db_password.password }}"
     type: Opaque
+---
 %{ endfor ~}
