@@ -2,9 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-# %{ if deploy_env_monolithic_db == false }
 - external-name-services.yaml
-# %{ endif }
 
 # %{ for key, stateful_resource in monolith_env_vpc_resource_password_map }
 - monolith-env-vpc-vault-crs-${key}.yaml
