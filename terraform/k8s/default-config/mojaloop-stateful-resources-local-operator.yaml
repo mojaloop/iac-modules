@@ -1,7 +1,7 @@
 thirdparty-auth-svc-db:
   local_operator_config:
     cr_version: 1.17.0
-    percona_xtradb_mysql_version: 8.0.42-33
+    percona_xtradb_mysql_version: 8.0.42
     percona_xtradb_haproxy_version: 1.14.1-haproxy
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
@@ -59,7 +59,7 @@ thirdparty-auth-svc-db:
 mysql-consent-oracle-db:
   local_operator_config:
     cr_version: 1.17.0
-    percona_xtradb_mysql_version: 8.0.42-33
+    percona_xtradb_mysql_version: 8.0.42
     percona_xtradb_haproxy_version: 1.14.1-haproxy
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
@@ -119,7 +119,7 @@ mysql-consent-oracle-db:
 mcm-db:
   local_operator_config:
     cr_version: 1.17.0
-    percona_xtradb_mysql_version: 8.0.42-33
+    percona_xtradb_mysql_version: 8.0.42
     percona_xtradb_haproxy_version: 1.14.1-haproxy
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
@@ -179,7 +179,7 @@ mcm-db:
 account-lookup-db:
   local_operator_config:
     cr_version: 1.17.0
-    percona_xtradb_mysql_version: 8.0.42-33
+    percona_xtradb_mysql_version: 8.0.42
     percona_xtradb_haproxy_version: 1.14.1-haproxy
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
@@ -247,7 +247,7 @@ account-lookup-db:
 central-ledger-db:
   local_operator_config:
     cr_version: 1.17.0
-    percona_xtradb_mysql_version: 8.0.42-33
+    percona_xtradb_mysql_version: 8.0.42
     percona_xtradb_haproxy_version: 1.14.1-haproxy
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
@@ -525,7 +525,7 @@ ttk-mongodb:
 keycloak-db:
   local_operator_config:
     cr_version: 1.17.0
-    percona_xtradb_mysql_version: 8.0.42-33
+    percona_xtradb_mysql_version: 8.0.42
     percona_xtradb_haproxy_version: 1.14.1-haproxy
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
@@ -585,7 +585,7 @@ keycloak-db:
 keto-db:
   local_operator_config:
     cr_version: 1.17.0
-    percona_xtradb_mysql_version: 8.0.42-33
+    percona_xtradb_mysql_version: 8.0.42
     percona_xtradb_haproxy_version: 1.14.1-haproxy
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
@@ -646,7 +646,7 @@ keto-db:
 kratos-db:
   local_operator_config:
     cr_version: 1.17.0
-    percona_xtradb_mysql_version: 8.0.42-33
+    percona_xtradb_mysql_version: 8.0.42
     percona_xtradb_haproxy_version: 1.14.1-haproxy
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
