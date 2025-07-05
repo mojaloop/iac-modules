@@ -9,7 +9,8 @@ db:
 
 api:
   image:
-    name: ghcr.io/pm4ml/connection-manager-api
+    # name: ghcr.io/pm4ml/connection-manager-api
+    name: infitx/connection-manager-api
     version: v3.0.0-snapshot.3
   url: https://${mcm_fqdn}
   extraTLS:
@@ -79,6 +80,8 @@ ui:
     hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
   image:
     version: feat-keycloak
+  env:
+    REACT_APP_CONFIG_PORT: 443
 
 ingress:
 %{ if istio_create_ingress_gateways ~}
