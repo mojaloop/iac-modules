@@ -108,9 +108,10 @@ locals {
     "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
   }
 
-    # Note: SMTP secrets are NOT included here as they're handled separately 
-  # in keycloak template due to different vault path (/secret/mcm/smtp-credentials)
-  mcm_keycloak_realm_env_secret_map = local.mojaloop_keycloak_realm_env_secret_map
+  mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
+    "keycloak-${var.keycloak_dfsp_realm_name}-realm-api-secret"  = "secret"
+    "keycloak-${var.keycloak_dfsp_realm_name}-realm-auth-secret" = "secret"
+  })
 
   pm4ml_keycloak_realm_env_secret_map = merge(
     { for key, pm4ml in local.pm4ml_var_map : "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.vault_secret_key },
