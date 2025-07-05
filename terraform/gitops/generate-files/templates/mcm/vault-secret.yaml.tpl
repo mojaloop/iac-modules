@@ -42,4 +42,50 @@ spec:
     stringData:
       secret: '{{ .keycloakmcmsecret.${mcm_oidc_client_secret_secret_key} }}'
     type: Opaque
+---
+# API Service Client Secret (read from keycloak namespace)
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: keycloak-${keycloak_dfsp_realm_name}-realm-api-secret
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication:
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: apisecret
+      path: /secret/keycloak/keycloak-${keycloak_dfsp_realm_name}-realm-api-secret
+  output:
+    name: keycloak-${keycloak_dfsp_realm_name}-realm-api-secret
+    stringData:
+      secret: '{{ .apisecret.secret }}'
+    type: Opaque
+---
+# Auth Client Secret (read from keycloak namespace)
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: keycloak-${keycloak_dfsp_realm_name}-realm-auth-secret
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication:
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: authsecret
+      path: /secret/keycloak/keycloak-${keycloak_dfsp_realm_name}-realm-auth-secret
+  output:
+    name: keycloak-${keycloak_dfsp_realm_name}-realm-auth-secret
+    stringData:
+      secret: '{{ .authsecret.secret }}'
+    type: Opaque
 

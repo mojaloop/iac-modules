@@ -64,6 +64,11 @@ api:
         secretKeyRef:
           name: keycloak-${keycloak_dfsp_realm_name}-realm-api-secret
           key: secret
+    OPENID_CLIENT_SECRET:
+      valueFrom:
+        secretKeyRef:
+          name: keycloak-${keycloak_dfsp_realm_name}-realm-auth-secret
+          key: secret
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
