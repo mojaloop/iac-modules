@@ -80,8 +80,6 @@ ui:
     hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
   image:
     version: feat-keycloak
-  env:
-    REACT_APP_CONFIG_PORT: 443
 
 ingress:
 %{ if istio_create_ingress_gateways ~}
