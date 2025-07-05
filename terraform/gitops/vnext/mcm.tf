@@ -268,7 +268,7 @@ variable "mcm_smtp_starttls" {
 
 variable "mcm_smtp_auth" {
   type    = string
-  default = "false"
+  default = false
 }
 
 locals {

@@ -144,7 +144,7 @@ spec:
       ssl: "${smtp_ssl}"
       starttls: "${smtp_starttls}"
       auth: "${smtp_auth}"
-%{ if smtp_auth == "true" ~}
+%{ if smtp_auth ~}
       user: "$${mcm_smtp_credentials_user}"
       password: "$${mcm_smtp_credentials_password}"
 %{ endif ~}

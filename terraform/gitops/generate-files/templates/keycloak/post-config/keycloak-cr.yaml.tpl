@@ -38,7 +38,7 @@ spec:
                   name: ${ref_secret_name}
                   key: ${ref_secret_key}
 %{ endfor ~}
-%{ if mcm_smtp_enabled && mcm_smtp_auth == "true" ~}
+%{ if mcm_smtp_enabled && mcm_smtp_auth ~}
             - name: mcm_smtp_credentials_user
               valueFrom:
                 secretKeyRef:

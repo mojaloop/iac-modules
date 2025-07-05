@@ -106,3 +106,11 @@ workload_definitions:
                   operator: In
                   values:
                     - "enabled"
+mcm_smtp_host: "localhost"
+mcm_smtp_port: "587"
+mcm_smtp_ssl: false
+mcm_smtp_starttls: true
+mcm_smtp_auth: false
+mcm_smtp_from: "noreply@mojaloop.io"
+mcm_smtp_from_display_name: "Mojaloop MCM"
+mcm_smtp_reply_to: "noreply@mojaloop.io"

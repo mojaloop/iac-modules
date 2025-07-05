@@ -68,7 +68,7 @@ spec:
     type: Opaque
 ---
 %{ endfor ~}
-%{ if mcm_smtp_enabled && mcm_smtp_auth == "true" ~}
+%{ if mcm_smtp_enabled && mcm_smtp_auth ~}
 # MCM SMTP User Secret (for Keycloak realm import environment variables)
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
