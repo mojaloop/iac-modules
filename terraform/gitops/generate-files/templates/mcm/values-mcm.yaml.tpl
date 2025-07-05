@@ -91,7 +91,7 @@ ingress:
   host: ${mcm_fqdn}
   tls:
     - hosts:
-      - "${mcm_fqdn}"
+      - "*.${mcm_fqdn}"
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
