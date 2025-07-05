@@ -108,12 +108,9 @@ locals {
     "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
   }
 
-  mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map,
-    (var.common_var_map.mcm_enabled && try(var.app_var_map.mcm_smtp_auth, "false") == "true") ? {
-      "mcm-smtp-credentials-user"     = "secret"
-      "mcm-smtp-credentials-password" = "secret"
-    } : {}
-  )
+    # Note: SMTP secrets are NOT included here as they're handled separately 
+  # in keycloak template due to different vault path (/secret/mcm/smtp-credentials)
+  mcm_keycloak_realm_env_secret_map = local.mojaloop_keycloak_realm_env_secret_map
 
   pm4ml_keycloak_realm_env_secret_map = merge(
     { for key, pm4ml in local.pm4ml_var_map : "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.vault_secret_key },
@@ -130,6 +127,10 @@ locals {
       "${var.role_assign_svc_secret}"          = var.vault_secret_key
       "${var.portal_admin_secret}"             = var.vault_secret_key
       "${var.mcm_admin_secret}"                = var.vault_secret_key
-    }
+    },
+    (var.common_var_map.mcm_enabled && try(var.app_var_map.mcm_smtp_auth, "false") == "true") ? {
+      "mcm-smtp-credentials-user"     = "secret"
+      "mcm-smtp-credentials-password" = "secret"
+    } : {}
   )
 }
