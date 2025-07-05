@@ -68,9 +68,8 @@ spec:
     type: Opaque
 ---
 %{ endfor ~}
-# MCM SMTP credentials (only created when mcm-smtp-credentials-* secrets are configured)
-%{ if contains(keys(ref_secrets), "mcm-smtp-credentials-user") ~}
-# MCM SMTP User Secret (for Keycloak realm import)
+%{ if mcm_smtp_enabled && mcm_smtp_auth == "true" ~}
+# MCM SMTP User Secret (for Keycloak realm import environment variables)
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
@@ -93,7 +92,7 @@ spec:
       secret: '{{ .smtpcreds.smtp_user }}'
     type: Opaque
 ---
-# MCM SMTP Password Secret (for Keycloak realm import)
+# MCM SMTP Password Secret (for Keycloak realm import environment variables)
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:

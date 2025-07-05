@@ -33,6 +33,8 @@ module "generate_keycloak_files" {
     istio_create_ingress_gateways = var.istio_create_ingress_gateways
     ref_secrets                   = local.keycloak_realm_env_secret_map
     ref_secrets_path              = local.keycloak_secrets_path
+    mcm_smtp_enabled              = var.common_var_map.mcm_enabled
+    mcm_smtp_auth                 = try(var.app_var_map.mcm_smtp_auth, "false")
   }
   file_list       = [for f in fileset(local.keycloak_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.keycloak_app_file, f))]
   template_path   = local.keycloak_template_path
@@ -106,12 +108,12 @@ locals {
     "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
   }
 
-  # For MCM realm secrets, we need multiple keys from the same K8s secret
-  # So we create multiple entries with different secret names to get different keys
-  mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
-    "mcm-smtp-credentials-user"                                  = "secret"
-    "mcm-smtp-credentials-password"                              = "secret"
-  })
+  mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map,
+    (var.common_var_map.mcm_enabled && try(var.app_var_map.mcm_smtp_auth, "false") == "true") ? {
+      "mcm-smtp-credentials-user"     = "secret"
+      "mcm-smtp-credentials-password" = "secret"
+    } : {}
+  )
 
   pm4ml_keycloak_realm_env_secret_map = merge(
     { for key, pm4ml in local.pm4ml_var_map : "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.vault_secret_key },
