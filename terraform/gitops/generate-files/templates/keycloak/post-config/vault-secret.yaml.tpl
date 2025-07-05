@@ -68,3 +68,52 @@ spec:
     type: Opaque
 ---
 %{ endfor ~}
+# MCM SMTP credentials (only created when mcm-smtp-credentials-* secrets are configured)
+%{ if contains(keys(ref_secrets), "mcm-smtp-credentials-user") ~}
+# MCM SMTP User Secret (for Keycloak realm import)
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: mcm-smtp-credentials-user
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication:
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: smtpcreds
+      path: /secret/mcm/smtp-credentials
+  output:
+    name: mcm-smtp-credentials-user
+    stringData:
+      secret: '{{ .smtpcreds.smtp_user }}'
+    type: Opaque
+---
+# MCM SMTP Password Secret (for Keycloak realm import)
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: mcm-smtp-credentials-password
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication:
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: smtpcreds
+      path: /secret/mcm/smtp-credentials
+  output:
+    name: mcm-smtp-credentials-password
+    stringData:
+      secret: '{{ .smtpcreds.smtp_password }}'
+    type: Opaque
+---
+%{ endif ~}
