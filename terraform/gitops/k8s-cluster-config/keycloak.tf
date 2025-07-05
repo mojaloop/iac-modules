@@ -127,10 +127,6 @@ locals {
       "${var.role_assign_svc_secret}"          = var.vault_secret_key
       "${var.portal_admin_secret}"             = var.vault_secret_key
       "${var.mcm_admin_secret}"                = var.vault_secret_key
-    },
-    (var.common_var_map.mcm_enabled && try(var.app_var_map.mcm_smtp_auth, "false") == "true") ? {
-      "mcm-smtp-credentials-user"     = "secret"
-      "mcm-smtp-credentials-password" = "secret"
-    } : {}
+    }
   )
 }
