@@ -4,4 +4,4 @@ api:
     version: v3.0.0-snapshot.3
 ui:
   image:
-    version: sha-4e59110c90c9a4999591ab0b35ddef1224ac9db8
+    version: sha-32695f31bc9893bf7c8877d5fba741f3647d5428
