@@ -82,6 +82,9 @@ kratos:
         port: 4433
         cors:
           enabled: true
+          allowed_origins:
+          - https://*.${private_subdomain}
+          - https://*.${public_subdomain}
       admin:
         port: 4434
 

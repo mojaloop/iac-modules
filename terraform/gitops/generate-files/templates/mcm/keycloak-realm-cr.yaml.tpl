@@ -29,10 +29,12 @@ spec:
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris:
-      - http://${mcm_fqdn}/api/auth/callback
-      - http://${mcm_fqdn}/*
+      - https://${mcm_fqdn}/api/auth/callback
+      - https://${mcm_fqdn}/*
+      - https://${auth_fqdn}/*
       webOrigins:
-      - http://${mcm_fqdn}
+      - https://${mcm_fqdn}
+      - https://${auth_fqdn}
       publicClient: false
       protocol: openid-connect
       serviceAccountsEnabled: false
