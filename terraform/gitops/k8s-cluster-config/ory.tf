@@ -128,7 +128,7 @@ locals {
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
-  keycloak_mcm_realm_auth_secret_name = join("$", ["", "{keycloak_${replace(var.keycloak_dfsp_realm_name, "-", "_")}_realm_auth_secret}"])
+  keycloak_mcm_realm_auth_secret_name = "keycloak-${var.keycloak_dfsp_realm_name}-realm-auth-secret"
   oidc_providers = concat(var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
     realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
