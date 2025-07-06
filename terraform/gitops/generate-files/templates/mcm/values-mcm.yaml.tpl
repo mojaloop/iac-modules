@@ -73,7 +73,7 @@ api:
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
-#  loginProvider: ${keycloak_dfsp_realm_name}
+  loginProvider: ${keycloak_dfsp_realm_name}
   logoutUrl: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_dfsp_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
   oauth:
     enabled: true
