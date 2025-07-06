@@ -51,6 +51,7 @@ module "generate_ory_files" {
     oidc_providers                       = local.oidc_providers
     permissionExclusions                 = local.permissionExclusions
     mojaloopRoles                        = local.mojaloopRoles
+    hubop_mapper_base64                  = local.hubop_mapper_base64
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -117,6 +118,8 @@ variable "rbac_permissions_file" {
 }
 
 
+
+
 locals {
   ory_template_path              = "${path.module}/../generate-files/templates/ory"
   ory_app_file                   = "ory-app.yaml"
@@ -129,13 +132,83 @@ locals {
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
   keycloak_mcm_realm_auth_secret_name = "keycloak-${var.keycloak_dfsp_realm_name}-realm-auth-secret"
+  default_mapper_jsonnet = <<-EOF
+local claims = std.extVar('claims');
+
+{
+  identity: {
+    traits: {
+      email: claims.email,
+      name: claims.email,
+      subject: claims.sub
+    },
+  },
+}
+EOF
+  mcm_mapper_jsonnet = <<-EOF
+local claims = std.extVar("claims");
+
+local APPLICATION = "Application";
+local MTA = "mta";
+local PTA = "pta";
+local DFSP = "DFSP";
+local EVERYONE = "everyone";
+
+local rolesMap = {
+  [APPLICATION + "/MTA"]: MTA,
+  [APPLICATION + "/PTA"]: PTA,
+};
+
+local groups = if std.objectHas(claims, "groups") then claims.groups else [];
+
+local stripLeadingSlash = function(s)
+  if std.substr(s, 0, 1) == "/"
+  then std.substr(s, 1, std.length(s) - 1)
+  else s;
+
+local normalizedGroups = [stripLeadingSlash(group) for group in groups];
+
+local mappedRoles = [
+  rolesMap[group]
+  for group in normalizedGroups
+  if std.objectHas(rolesMap, group)
+];
+
+local dfspRoles = [
+  group
+  for group in normalizedGroups
+  if std.substr(group, 0, std.length(APPLICATION + "/" + DFSP + ":")) == APPLICATION + "/" + DFSP + ":"
+];
+
+local isDfsp = std.length(dfspRoles) > 0;
+
+local extraRoles =
+  if isDfsp then ["dfsp", EVERYONE]
+  else [EVERYONE];
+
+{
+  identity: {
+    traits: {
+      email: claims.email,
+      name: if std.objectHas(claims, "name") then claims.name else claims.preferred_username,
+      subject: claims.sub,
+      roles: mappedRoles + dfspRoles + extraRoles,
+    },
+  },
+}
+EOF
+  default_mapper_base64 = base64encode(local.default_mapper_jsonnet)
+  mcm_mapper_base64     = base64encode(local.mcm_mapper_jsonnet)
+  hubop_mapper_base64   = base64encode(local.default_mapper_jsonnet)
   oidc_providers = concat(var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
     realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
+    mapper_url  = "base64://${local.default_mapper_base64}"
   }] : [], var.common_var_map.mcm_enabled ? [{
     realm       = "${var.keycloak_dfsp_realm_name}"
     client_id   = "connection-manager-auth-client"
     secret_name = local.keycloak_mcm_realm_auth_secret_name
+    mapper_url  = "base64://${local.mcm_mapper_base64}"
   }] : [])
 }
