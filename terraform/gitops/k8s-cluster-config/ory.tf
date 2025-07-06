@@ -206,10 +206,12 @@ EOF
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
     mapper_url  = "base64://${local.default_mapper_base64}"
+    scope       = ["openid", "email", "profile"]
   }] : [], var.common_var_map.mcm_enabled ? [{
     realm       = "${var.keycloak_dfsp_realm_name}"
     client_id   = "connection-manager-auth-client"
     secret_name = local.keycloak_mcm_realm_auth_secret_name
     mapper_url  = "base64://${local.mcm_mapper_base64}"
+    scope       = ["openid", "email", "profile", "groups"]
   }] : [])
 }

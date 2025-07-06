@@ -261,7 +261,7 @@ spec:
             "provider":"generic",
             "client_id":"${provider.client_id}",
             "client_secret":"{{ .${replace(provider.realm, "-", "_")}.${vault_secret_key} }}",
-            "scope":["openid", "profile", "email"],
+            "scope": ${provider.scope},
             "mapper_url":"${provider.mapper_url}",
             "issuer_url":"https://${keycloak_fqdn}/realms/${provider.realm}"
           }
