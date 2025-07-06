@@ -79,7 +79,7 @@ ui:
     enabled: true
     hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
   image:
-    version: feat-keycloak
+    version: sha-4e59110c90c9a4999591ab0b35ddef1224ac9db8
 
 ingress:
 %{ if istio_create_ingress_gateways ~}
