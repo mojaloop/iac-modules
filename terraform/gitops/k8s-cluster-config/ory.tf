@@ -115,6 +115,8 @@ variable "bof_chart_version" {
 variable "rbac_permissions_file" {
   type = string
 }
+
+
 locals {
   ory_template_path              = "${path.module}/../generate-files/templates/ory"
   ory_app_file                   = "ory-app.yaml"
@@ -126,9 +128,14 @@ locals {
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
-  oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
+  keycloak_mcm_realm_auth_secret_name = join("$", ["", "{keycloak_${replace(var.keycloak_dfsp_realm_name, "-", "_")}_realm_auth_secret}"])
+  oidc_providers = concat(var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
     realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
-  }] : []
+  }] : [], var.common_var_map.mcm_enabled ? [{
+    realm       = "${var.keycloak_dfsp_realm_name}"
+    client_id   = "connection-manager-auth-client"
+    secret_name = local.keycloak_mcm_realm_auth_secret_name
+  }] : [])
 }
