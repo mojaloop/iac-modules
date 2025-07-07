@@ -51,7 +51,7 @@ spec:
             - name: MONGODB_MASTER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                    name: ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.master_user_password_secret}
-                    key:  ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.master_user_password_secret_key}
+                    name: ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.master_user_password_secret}
+                    key:  ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.master_user_password_secret_key}
           resources: {}
           imagePullPolicy: IfNotPresent
