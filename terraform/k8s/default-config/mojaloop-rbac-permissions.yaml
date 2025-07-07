@@ -369,6 +369,130 @@ roles:
   permissions:
   - mcmApi
   - mcmOnboarding
+
+# MCM Roles - Based on OpenAPI schema analysis
+- rolename: mta
+  permissions:
+  # General MCM API access
+  - mcmApi
+  - basicAccess
+  # Hub management (full access)
+  - hubEndpointsView
+  - hubEndpointsManage
+  - hubCertificatesView
+  - hubCertificatesManage
+  - hubServerCertsView
+  - hubServerCertsManage
+  # DFSP management (full access)
+  - dfspList
+  - dfspView
+  - dfspManage
+  - dfspAccess
+  - dfspCertificatesView
+  - dfspCertificatesManage
+  - dfspEndpointsView
+  - dfspEndpointsManage
+  - dfspServerCertsView
+  - dfspServerCertsManage
+  - dfspEnrollmentsView
+  - dfspEnrollmentsManage
+  - dfspOnboard
+  # JWS Certificates (full access)
+  - jwsCertificatesView
+  - jwsCertificatesManage
+  # Monetary zones
+  - monetaryZonesView
+  # Admin permissions
+  - iamView
+  - iamEdit
+
+- rolename: pta
+  permissions:
+  # General MCM API access
+  - mcmApi
+  - basicAccess
+  # Hub management (full access)
+  - hubEndpointsView
+  - hubEndpointsManage
+  - hubCertificatesView
+  - hubCertificatesManage
+  - hubServerCertsView
+  - hubServerCertsManage
+  # DFSP management (full access)
+  - dfspList
+  - dfspView
+  - dfspManage
+  - dfspCertificatesView
+  - dfspCertificatesManage
+  - dfspEndpointsView
+  - dfspEndpointsManage
+  - dfspServerCertsView
+  - dfspServerCertsManage
+  - dfspEnrollmentsView
+  - dfspEnrollmentsManage
+  - dfspOnboard
+  - dfspEndpointConfirmation
+  # JWS Certificates (full access) 
+  - jwsCertificatesView
+  - jwsCertificatesManage
+  # Monetary zones
+  - monetaryZonesView
+  # Admin permissions
+  - iamView
+
+- rolename: everyone
+  permissions:
+  # Basic authenticated access
+  - basicAccess
+  # Read-only access to basic endpoints
+  - hubEndpointsView
+  - dfspStatusView
+  - dfspList
+
+# DFSP-specific role template (actual DFSP roles are created dynamically)
+- rolename: dfsp
+  permissions:
+  # DFSP can only access their own resources
+  - basicAccess
+  - dfspSelfAccess
+  - dfspCredentialsManage
+  - dfspSelfCertificatesView
+  - dfspSelfEndpointsView
+  - dfspSelfServerCertsView
+  - dfspSelfStatusView
+
+# Legacy MCM admin role (expanded)
+- rolename: mcmadmin
+  permissions:
+  # All MCM permissions (same as MTA)
+  - mcmApi
+  - mcmOnboarding
+  - basicAccess
+  - hubEndpointsView
+  - hubEndpointsManage
+  - hubCertificatesView
+  - hubCertificatesManage
+  - hubServerCertsView
+  - hubServerCertsManage
+  - dfspList
+  - dfspView
+  - dfspManage
+  - dfspAccess
+  - dfspCertificatesView
+  - dfspCertificatesManage
+  - dfspEndpointsView
+  - dfspEndpointsManage
+  - dfspServerCertsView
+  - dfspServerCertsManage
+  - dfspEnrollmentsView
+  - dfspEnrollmentsManage
+  - dfspOnboard
+  - jwsCertificatesView
+  - jwsCertificatesManage
+  - monetaryZonesView
+  - iamView
+  - iamEdit
+
 permission-exclusions:
 - name: audit-exclusion
   permissionsA:
