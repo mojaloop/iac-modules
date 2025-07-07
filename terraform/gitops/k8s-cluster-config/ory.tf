@@ -68,22 +68,22 @@ variable "ory_sync_wave" {
 variable "oathkeeper_chart_version" {
   type        = string
   description = "oathkeeper_chart_version"
-  default     = "0.39.0"
+  default     = "0.55.0"
 }
 variable "kratos_chart_version" {
   type        = string
   description = "kratos_chart_version"
-  default     = "0.39.0"
+  default     = "0.55.0"
 }
 variable "keto_chart_version" {
   type        = string
   description = "keto_chart_version"
-  default     = "0.39.0"
+  default     = "0.55.0"
 }
 variable "self_service_ui_chart_version" {
   type        = string
   description = "self_service_ui_chart_version"
-  default     = "0.39.0"
+  default     = "0.55.0"
 }
 variable "ory_namespace" {
   type        = string
@@ -152,7 +152,7 @@ local APPLICATION = "Application";
 local MTA = "mta";
 local PTA = "pta";
 local DFSP = "DFSP";
-local EVERYONE = "everyone";
+local EVERYONE = "everyone111";
 
 local rolesMap = {
   [APPLICATION + "/MTA"]: MTA,
