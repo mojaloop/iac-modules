@@ -152,7 +152,7 @@ local APPLICATION = "Application";
 local MTA = "mta";
 local PTA = "pta";
 local DFSP = "DFSP";
-local EVERYONE = "everyone111";
+local EVERYONE = "everyone";
 
 local rolesMap = {
   [APPLICATION + "/MTA"]: MTA,
@@ -212,6 +212,6 @@ EOF
     client_id   = "connection-manager-auth-client"
     secret_name = local.keycloak_mcm_realm_auth_secret_name
     mapper_url  = "base64://${local.mcm_mapper_base64}"
-    scope       = ["openid", "email", "profile", "groups"]
+    scope       = ["openid", "email", "profile"]
   }] : [])
 }
