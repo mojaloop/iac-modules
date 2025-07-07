@@ -159,7 +159,11 @@ local rolesMap = {
   [APPLICATION + "/PTA"]: PTA,
 };
 
-local groups = if std.objectHas(claims, "groups") then claims.groups else [];
+local groups =
+  if std.objectHas(claims, "groups") then claims.groups
+  else if std.objectHas(claims, "raw_claims") && std.objectHas(claims.raw_claims, "groups")
+  then claims.raw_claims.groups
+  else [];
 
 local stripLeadingSlash = function(s)
   if std.substr(s, 0, 1) == "/"
