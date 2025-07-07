@@ -3,7 +3,7 @@ kind: ExternalSecret
 metadata:
   name: secret-aws-xplane-backend-creds
   annotations:
-    argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
+    argocd.argoproj.io/sync-wave: "-9"
 spec:
   refreshInterval: 5m
 
