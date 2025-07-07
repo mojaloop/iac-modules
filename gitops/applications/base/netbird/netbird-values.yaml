@@ -112,6 +112,7 @@ management:
     size: 5Gi
   env:
     NETBIRD_STORE_CONFIG_ENGINE: postgres
+    NETBIRD_MGMT_DISABLE_DEFAULT_POLICY: "true"
   envRaw:
     - name: NETBIRD_CLI_CLIENT_ID
       valueFrom:
