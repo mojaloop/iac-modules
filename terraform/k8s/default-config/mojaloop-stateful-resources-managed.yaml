@@ -25,7 +25,6 @@ keycloak-db:
 keto-db:
   external_resource_config:
     password_key_name: keto_password
-    monolith_db_server: common_platform_db
 kratos-db:
   external_resource_config:
     password_key_name: kratos_password
