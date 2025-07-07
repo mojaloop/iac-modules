@@ -6,6 +6,5 @@ helmCharts:
     releaseName: prom
     version: ${ARGOCD_ENV_monitoring_kube_prometheus_helm_version}
     repo: oci://registry-1.docker.io/bitnamicharts
-    # valuesFile: values-kube-prometheus.yaml
-    # namespace: ${ARGOCD_ENV_monitoring_namespace}
-    namespace: monitoring
+    valuesFile: values-kube-prometheus.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
