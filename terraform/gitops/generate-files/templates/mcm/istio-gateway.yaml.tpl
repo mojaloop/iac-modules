@@ -15,20 +15,18 @@ spec:
             prefix: /api
       route:
         - destination:
-            host: mcm-connection-manager-api
+            host: oathkeeper.ory.svc.cluster.local
             port:
-              number: 3001
+              number: 4455
     - name: "pm4mlapi"
       match:
         - uri:
             prefix: /pm4mlapi
-      rewrite:
-        uri: /api
       route:
         - destination:
-            host: mcm-connection-manager-api
+            host: oathkeeper.ory.svc.cluster.local
             port:
-              number: 3001
+              number: 4455
     - name: kratos-logout-proxy
       match:
         - uri:

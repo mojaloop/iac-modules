@@ -5,6 +5,8 @@ metadata:
   name: mcm-auth-endpoints
   namespace: ${mcm_namespace}
 spec:
+  upstream:
+    url: ${mcm_api_service_url}
   match:
     url: <http|https>://${mcm_fqdn}/api/auth/<.*>
     methods:
@@ -25,6 +27,8 @@ metadata:
   name: mcm-dfsps-list
   namespace: ${mcm_namespace}
 spec:
+  upstream:
+    url: ${mcm_api_service_url}
   match:
     url: <http|https>://${mcm_fqdn}/api/dfsps/?$
     methods:
@@ -62,6 +66,8 @@ metadata:
   name: mcm-dfsps-create
   namespace: ${mcm_namespace}
 spec:
+  upstream:
+    url: ${mcm_api_service_url}
   match:
     url: <http|https>://${mcm_fqdn}/api/dfsps/?$
     methods:
@@ -99,6 +105,8 @@ metadata:
   name: mcm-dfsp-admin-access
   namespace: ${mcm_namespace}
 spec:
+  upstream:
+    url: ${mcm_api_service_url}
   match:
     url: <http|https>://${mcm_fqdn}/api/dfsps/([^/]+)/<.*>
     methods:
@@ -140,6 +148,8 @@ metadata:
   name: mcm-dfsp-owner-access
   namespace: ${mcm_namespace}
 spec:
+  upstream:
+    url: ${mcm_api_service_url}
   match:
     url: <http|https>://${mcm_fqdn}/api/dfsps/([^/]+)/<.*>
     methods:
@@ -179,6 +189,8 @@ metadata:
   name: mcm-hub-read
   namespace: ${mcm_namespace}
 spec:
+  upstream:
+    url: ${mcm_api_service_url}
   match:
     url: <http|https>://${mcm_fqdn}/api/hub/<.*>
     methods:
@@ -211,6 +223,8 @@ metadata:
   name: mcm-hub-write
   namespace: ${mcm_namespace}
 spec:
+  upstream:
+    url: ${mcm_api_service_url}
   match:
     url: <http|https>://${mcm_fqdn}/api/hub/<.*>
     methods:
@@ -245,6 +259,10 @@ metadata:
   name: mcm-pm4mlapi
   namespace: ${mcm_namespace}
 spec:
+  upstream:
+    url: ${mcm_api_service_url}
+    strip_path: /pm4mlapi
+    preserve_host: true
   match:
     url: <http|https>://${mcm_fqdn}/pm4mlapi/<.*>
     methods:
