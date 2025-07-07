@@ -65,10 +65,7 @@ inputs = {
   ansible_playbook_name         = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
   ansible_destroy_playbook_name = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
   master_node_supports_traffic             = (local.total_agent_count == 0) ? true : false
-  managed_stateful_resources_config_file   = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
-  platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
-
 }
 
 locals {

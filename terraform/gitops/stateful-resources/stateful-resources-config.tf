@@ -37,7 +37,7 @@ resource "local_file" "monolith-init-db" {
     resource_name                = each.key
     stateful_resources_namespace = var.stateful_resources_namespace
     managed_stateful_resource    = local.mysql_managed_stateful_resources[each.key]
-    resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
+#    resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
     monolith_stateful_resources  = var.monolith_stateful_resources
   })
   filename = "${local.stateful_resources_output_path}/monolith-db-init-job-${each.key}.yaml"
@@ -50,7 +50,7 @@ resource "local_file" "monolith-init-mongodb" {
     resource_name                = each.key
     stateful_resources_namespace = var.stateful_resources_namespace
     managed_stateful_resource    = local.mongodb_managed_stateful_resources[each.key]
-    resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
+#    resource_password_vault_path = local.managed_resource_password_map[each.key].vault_path
     monolith_stateful_resources  = var.monolith_stateful_resources
     additional_privileges        = each.value.logical_service_config.additional_privileges
     database_name                = each.value.logical_service_config.database_name
@@ -258,21 +258,13 @@ locals {
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }
   external_name_map                   = merge(local.local_operator_external_name_map, local.local_external_name_map) # mutually exclusive maps
 
-  managed_resource_password_map = { for key, stateful_resource in local.managed_stateful_resources : key => {
-    vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
-    namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
-    secret_name = stateful_resource.logical_service_config.user_password_secret
-    secret_key  = stateful_resource.logical_service_config.user_password_secret_key
-    }
-  }
- # not required
-  managed_resource_password_map_non_env_vpc = { for key, stateful_resource in local.managed_resource_password_map : key => {
-    vault_path  = stateful_resource.vault_path
-    namespaces  = stateful_resource.namespaces
-    secret_name = stateful_resource.secret_name
-    secret_key  = stateful_resource.secret_key
-    } if var.deploy_env_monolithic_db == false
-  }
+  # managed_resource_password_map = { for key, stateful_resource in local.managed_stateful_resources : key => {
+  #   vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
+  #   namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
+  #   secret_name = stateful_resource.logical_service_config.user_password_secret
+  #   secret_key  = stateful_resource.logical_service_config.user_password_secret_key
+  #   }
+  # }
 
   monolith_env_vpc_child_databases = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if var.managed_svc_as_monolith == true }
 
