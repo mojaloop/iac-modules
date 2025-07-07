@@ -78,6 +78,8 @@ kind: RDSCluster
 metadata:
   name: "${cluster_name}"
   namespace: "${namespace}"
+  annotations:
+    argocd.argoproj.io/sync-wave: "-6"
 spec:
   managementPolicies:
     - "*"
