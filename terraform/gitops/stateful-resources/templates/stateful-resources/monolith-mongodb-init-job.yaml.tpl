@@ -4,7 +4,7 @@ metadata:
   name: init-${resource_name}
   namespace: ${stateful_resources_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"
+    argocd.argoproj.io/hook: PostSync
 spec:
   template:
     spec:
