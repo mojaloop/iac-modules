@@ -17,7 +17,7 @@ spec:
             - "-c"
           args:
             - >
-%{ if monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].provider == "dbaas" ~}
+%{ if monolith_stateful_resources[managed_stateful_resource.monolith_db_server].provider == "dbaas" ~}
                echo "use ${database_name}" >> ~/init.js;
                echo "db.createUser({user: \"${database_user}\",pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
 %{ for privilege in additional_privileges ~}
@@ -27,7 +27,7 @@ spec:
                echo "db.updateUser(\"${database_user}\", { roles: [ { db: \"${database_name}\", role: \"readWrite\" },{ role: \"additionalRole\", db: \"${database_user}\" }]})" >> ~/init.js;
 %{ endif ~}
 %{ endif ~}
-%{ if monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].provider  == "documentdb" ~}
+%{ if monolith_stateful_resources[managed_stateful_resource.monolith_db_server].provider  == "documentdb" ~}
                echo "use admin" >> ~/init.js;
 %{ for privilege in additional_privileges ~}
                echo "db.createRole({ role: \"additionalRole\", privileges: [{ resource: { db: \"${managed_stateful_resource.logical_service_config.database_name}\", collection: \"${privilege.collection}\" }, actions: [\"${privilege.action}\"] }], roles: [] })" >> ~/init.js;
@@ -41,7 +41,7 @@ spec:
 %{ endif ~}
                chmod +x ~/init.js;
                echo "running init.js";
-               mongosh "mongodb://${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.username}:$${MONGODB_MASTER_PASSWORD}@${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local:${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.port}" < ~/init.js
+               mongosh "mongodb://${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username}:$${MONGODB_MASTER_PASSWORD}@${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local:${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port}" < ~/init.js
           env:
             - name: MONGODB_USER_PASSWORD
               valueFrom:
