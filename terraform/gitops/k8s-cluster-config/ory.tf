@@ -193,7 +193,6 @@ local extraRoles =
       name: if std.objectHas(claims, "name") then claims.name else claims.preferred_username,
       subject: claims.sub,
       roles: mappedRoles + dfspRoles + extraRoles,
-      debug_claims: claims,
     },
   },
 }
