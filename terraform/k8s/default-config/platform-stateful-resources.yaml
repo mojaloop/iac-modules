@@ -142,6 +142,7 @@ bulk-mongodb:
     logical_service_port: 27017
     logical_service_name: bulk-mongodb-svc
     db_username: mojaloop
+    additional_privileges: []
     user_password_secret: mongodb-bulk-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -165,6 +166,7 @@ cep-mongodb:
     logical_service_port: 27017
     logical_service_name: mongodb-cep-mongodb
     db_username: mojaloop
+    additional_privileges: []
     user_password_secret: mongodb-cep-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -188,6 +190,9 @@ reporting-events-mongodb:
     logical_service_port: 27017
     logical_service_name: mongodb-reporting-events-mongodb
     db_username: reporting
+    additional_privileges:
+      - collection: reporting
+        action: "collMod"
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
@@ -271,6 +276,9 @@ ttk-mongodb:
     logical_service_port: 27017
     logical_service_name: ttk-mongodb-svc
     db_username: ttk
+    additional_privileges:
+      - collection: reporting
+        action: "collMod"
     user_password_secret: mongodb-ttk-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:

@@ -68,7 +68,7 @@ mysql-consent-oracle-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: mysql-consent-oracle-secret
       generate_secret_keys:
@@ -127,7 +127,7 @@ mcm-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: mcm-db-secret
       generate_secret_keys:
@@ -186,7 +186,7 @@ account-lookup-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: account-lookup-db-secret
       generate_secret_keys:
@@ -253,7 +253,7 @@ central-ledger-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: central-ledger-db-secret
       generate_secret_keys:
@@ -347,7 +347,6 @@ bulk-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges: []
 cep-mongodb:
   local_operator_config:
     cr_version: 1.16.2
@@ -388,7 +387,6 @@ cep-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges: []      
 reporting-events-mongodb:
   local_operator_config:
     cr_version: 1.16.2
@@ -429,9 +427,6 @@ reporting-events-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges:
-      - collection: reporting
-        action: "collMod"
 mojaloop-kafka:
   local_operator_config:
     resource_namespace: mojaloop
@@ -511,7 +506,6 @@ ttk-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges: []      
 
 keycloak-db:
   local_operator_config:
@@ -526,7 +520,7 @@ keycloak-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: keycloak-db-secret
       generate_secret_keys:
@@ -585,7 +579,7 @@ keto-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: keto-db-secret
       generate_secret_keys:
@@ -645,7 +639,7 @@ kratos-db:
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
-    haproxy_count: 1    
+    haproxy_count: 1
     secret_config:
       generate_secret_name: kratos-db-secret
       generate_secret_keys:
