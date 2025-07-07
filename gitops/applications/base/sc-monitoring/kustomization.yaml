@@ -4,8 +4,7 @@ kind: Kustomization
 helmCharts:
   - name: kube-prometheus
     releaseName: prom
-    # version: ${ARGOCD_ENV_kube_prometheus_helm_version}
-    version: 9.5.10
+    version: ${ARGOCD_ENV_monitoring_kube_prometheus_helm_version}
     repo: oci://registry-1.docker.io/bitnamicharts
     # valuesFile: values-kube-prometheus.yaml
     # namespace: ${ARGOCD_ENV_monitoring_namespace}

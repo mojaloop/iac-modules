@@ -1,7 +1,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  # name: ${ARGOCD_ENV_monitoring_monitoring_app_name}
   name: monitoring
   namespace: ${ARGOCD_ENV_monitoring_app_namespace}
   annotations:
@@ -37,5 +36,7 @@ spec:
     plugin:
       name: envsubst
       env:
-        - name: "muz"
-          value: "good_values"
+        - name: "monitoring_kube_prometheus_helm_version"
+          value: "${ARGOCD_ENV_monitoring_kube_prometheus_helm_version}"
+        - name: "monitoring_namespace"
+          value: "${ARGOCD_ENV_monitoring_monitoring_namespace}"

@@ -185,6 +185,8 @@ spec:
         - name: "monitoring_monitoring_namespace"
           value: "${ARGOCD_ENV_monitoring_monitoring_namespace}"
 
+        - name: "monitoring_kube_prometheus_helm_version"
+          value: "${ARGOCD_ENV_monitoring_monitoring_kube_prometheus_helm_version}"
         # percona operator
 
         - name: utils_percona_pg_operator_helm_version
