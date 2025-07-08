@@ -38,8 +38,8 @@ spec:
               RGW_ENDPOINT=$(cat /tmp/rgw-secret/RGW_ENDPOINT)
 
               # Get API details
-              SERVER=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.server}')
-              CA_DATA=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.certificate-authority-data}')
+              SERVER=$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.server}')
+              CA_DATA=$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}')
 
               # Append other variables to /data/ceph_env and create secret
               if [ -s /data/ceph_env ]; then
