@@ -2,9 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kratos-role-webhook
-data:
-  server.js: |
-${indent(4, file("${path.module}/kratos-role-webhook.js"))}
+  data:
+    server.js: |
+${indent(4, file("./kratos-role-webhook.js"))}
 
 ---
 apiVersion: apps/v1
