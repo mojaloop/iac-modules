@@ -83,6 +83,7 @@ module "generate_mcm_files" {
     auth_fqdn                            = var.auth_fqdn
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
+    keto_write_url                       = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     switch_dfspid                        = var.switch_dfspid
     keycloak_access_token_lifespan       = 43200
     portal_admin_user                    = var.portal_admin_user

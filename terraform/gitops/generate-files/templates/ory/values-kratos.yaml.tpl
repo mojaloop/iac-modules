@@ -60,10 +60,23 @@ kratos:
               "name": {
                 "title": "Name",
                 "type": "string"
+              },
+              "roles": {
+                "title": "User Roles",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
         }
+      }
+    "role-injection-body.jsonnet": |
+      local identity = std.extVar('identity');
+      {
+        identity_id: identity.id,
+        user_subject: identity.traits.subject
       }
 
   config:
@@ -108,6 +121,20 @@ kratos:
           after:
             oidc:
               default_browser_return_url: https://${auth_fqdn}/ui/welcome
+              hooks:
+                - hook: web_hook
+                  config:
+                    url: http://kratos-role-webhook.${ory_namespace}.svc.cluster.local/inject-roles
+                    method: POST
+                    body: file:///etc/config/role-injection-body.jsonnet
+                    response:
+                      parse: false
+                    auth:
+                      type: api_key
+                      config:
+                        name: Authorization
+                        value: Bearer kratos-webhook-token
+                        in: header
 
         logout:
           after:

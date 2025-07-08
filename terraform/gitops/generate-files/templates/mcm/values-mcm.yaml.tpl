@@ -11,7 +11,7 @@ api:
   image:
     # name: ghcr.io/pm4ml/connection-manager-api
     name: infitx/connection-manager-api
-    version: v3.0.0-snapshot.3
+    version: v3.0.0-snapshot.7
   url: https://${mcm_fqdn}
   extraTLS:
     rootCert:
@@ -59,6 +59,8 @@ api:
     KEYCLOAK_ADMIN_CLIENT_ID: "connection-manager-api-service"
     KEYCLOAK_DFSPS_REALM: "${keycloak_dfsp_realm_name}"
     KEYCLOAK_AUTO_CREATE_ACCOUNTS: "true"
+    ENABLE_KETO: "true"
+    KETO_WRITE_URL: ${keto_write_url}
     CLIENT_URL: "https://${mcm_fqdn}"
     KEYCLOAK_ADMIN_CLIENT_SECRET:
       valueFrom:

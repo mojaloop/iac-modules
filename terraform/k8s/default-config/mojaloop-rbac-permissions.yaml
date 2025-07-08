@@ -440,9 +440,6 @@ roles:
   permissions:
   # Basic authenticated access
   - basicAccess
-  # Read-only access to basic endpoints
-  - hubEndpointsView
-  - dfspStatusView
 
 # DFSP-specific role template (actual DFSP roles are created dynamically)
 - rolename: dfsp
