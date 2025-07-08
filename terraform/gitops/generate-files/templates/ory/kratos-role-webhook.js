@@ -1,4 +1,4 @@
-const { createServer } = require('node:http');
+import { createServer } from 'node:http';
 
 const PORT = process.env.PORT || 8080;
 const KRATOS_ADMIN_URL = process.env.KRATOS_ADMIN_URL || 'http://kratos-admin';
