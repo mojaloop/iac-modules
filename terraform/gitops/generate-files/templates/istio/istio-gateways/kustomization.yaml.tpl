@@ -5,6 +5,7 @@ resources:
   - lets-wildcard-cert-external.yaml
   - lets-wildcard-cert-internal.yaml
   - proxy-protocol.yaml
+  - proxy-security-headers.yaml
   - gateways.yaml
   - argocd-vs.yaml
 helmCharts:
