@@ -147,6 +147,71 @@ spec:
           X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
 ---
+# DFSP endpoints/unprocessed
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-dfsp-endpoints-unprocessed
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_fqdn}/api/dfsps/endpoints/unprocessed
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: ${keto_read_url}/relation-tuples/check
+      payload: |
+        {
+          "namespace": "permission",
+          "object": "dfspManage",
+          "relation": "granted",
+          "subject_id": "user:{{ print .Subject }}"
+        }
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User: '{{ print .Subject }}'
+          X-Email: '{{ print (((.Extra.identity).traits).email) }}'
+---
+# DFSP servercerts
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-dfsp-servercerts
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_fqdn}/api/dfsps/servercerts
+    methods:
+      - GET
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: ${keto_read_url}/relation-tuples/check
+      payload: |
+        {
+          "namespace": "permission",
+          "object": "dfspManage",
+          "relation": "granted",
+          "subject_id": "user:{{ print .Subject }}"
+        }
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User: '{{ print .Subject }}'
+          X-Email: '{{ print (((.Extra.identity).traits).email) }}'
+---
 # Hub endpoints - read access (check for hubEndpointsView permission)
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
@@ -197,33 +262,6 @@ spec:
         {
           "namespace": "permission",
           "object": "hubEndpointsManage",
-          "relation": "granted",
-          "subject_id": "user:{{ print .Subject }}"
-        }
-  mutators:
-    - handler: header
----
-# Monetaryzones endpoints - read access (check for monetaryZonesView permission)
-apiVersion: oathkeeper.ory.sh/v1alpha1
-kind: Rule
-metadata:
-  name: mcm-monetaryzones-read
-  namespace: ${mcm_namespace}
-spec:
-  match:
-    url: <http|https>://${mcm_fqdn}/api/monetaryzones<.*>
-    methods:
-      - GET
-  authenticators:
-    - handler: cookie_session
-  authorizer:
-    handler: remote_json
-    config:
-      remote: ${keto_read_url}/relation-tuples/check
-      payload: |
-        {
-          "namespace": "permission",
-          "object": "monetaryZonesView",
           "relation": "granted",
           "subject_id": "user:{{ print .Subject }}"
         }
