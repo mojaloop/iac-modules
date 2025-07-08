@@ -203,6 +203,33 @@ spec:
   mutators:
     - handler: header
 ---
+# Monetaryzones endpoints - read access (check for monetaryZonesView permission)
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-monetaryzones-read
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_fqdn}/api/monetaryzones<.*>
+    methods:
+      - GET
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: ${keto_read_url}/relation-tuples/check
+      payload: |
+        {
+          "namespace": "permission",
+          "object": "monetaryZonesView",
+          "relation": "granted",
+          "subject_id": "user:{{ print .Subject }}"
+        }
+  mutators:
+    - handler: header
+---
 # PM4ML API - DFSP list endpoint (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
