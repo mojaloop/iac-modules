@@ -73,10 +73,9 @@ kratos:
         }
       }
     "role-injection-body.jsonnet": |
-      local identity = std.extVar('identity');
-      {
-        identity_id: identity.id,
-        user_subject: identity.traits.subject
+      function(ctx) {
+        identity_id: ctx.identity.id,
+        user_subject: ctx.identity.traits.subject
       }
 
   config:
