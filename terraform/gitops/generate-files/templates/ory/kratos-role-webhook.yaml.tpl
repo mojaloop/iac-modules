@@ -2,8 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kratos-role-webhook
-  data:
-    server.js: |
+data:
+  server.js: |
 ${indent(4, file("../generate-files/templates/ory/kratos-role-webhook.js"))}
 
 ---
