@@ -38,11 +38,10 @@ spec:
               RGW_ENDPOINT=$(cat /tmp/rgw-secret/RGW_ENDPOINT)
 
               # Get API details
-              SERVER=$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.server}')
+              SERVER="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}"
               echo "SERVER: $SERVER"
-              CA_DATA=$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}')
+              CA_DATA=$(base64 -w 0 /var/run/secrets/kubernetes.io/serviceaccount/ca.crt)
               echo "CA_DATA: $CA_DATA"
-
               # Append other variables to /data/ceph_env and create secret
               if [ -s /data/ceph_env ]; then
                 echo "export RGW_EXTERNAL_IP=$RGW_EXTERNAL_IP" >> /data/ceph_env
