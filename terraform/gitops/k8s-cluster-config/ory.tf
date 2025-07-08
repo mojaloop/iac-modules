@@ -52,7 +52,7 @@ module "generate_ory_files" {
     permissionExclusions                 = local.permissionExclusions
     mojaloopRoles                        = local.mojaloopRoles
     hubop_mapper_base64                  = local.hubop_mapper_base64
-    keto_read_url                        = var.keto_read_url
+    keto_read_url                        = local.keto_read_url
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -118,11 +118,6 @@ variable "rbac_permissions_file" {
   type = string
 }
 
-variable "keto_read_url" {
-  type        = string
-  description = "URL for Keto read API"
-}
-
 
 
 
@@ -134,6 +129,7 @@ locals {
   oathkeeper_auth_url            = "oathkeeper-api.${var.ory_namespace}.svc.cluster.local"
   oathkeeper_auth_provider_name  = "ory-authz"
   bof_release_name               = "bof"
+  keto_read_url                  = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
