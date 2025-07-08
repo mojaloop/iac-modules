@@ -39,7 +39,9 @@ spec:
 
               # Get API details
               SERVER=$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.server}')
+              echo "SERVER: $SERVER"
               CA_DATA=$(kubectl config view --raw -o jsonpath='{.clusters[0].cluster.certificate-authority-data}')
+              echo "CA_DATA: $CA_DATA"
 
               # Append other variables to /data/ceph_env and create secret
               if [ -s /data/ceph_env ]; then
