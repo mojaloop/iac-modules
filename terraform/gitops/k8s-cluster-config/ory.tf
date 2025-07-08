@@ -179,7 +179,7 @@ local mappedRoles = [
 ];
 
 local dfspRoles = [
-  group
+  "dfsp:" + std.substr(group, std.length(APPLICATION + "/" + DFSP + ":"), std.length(group) - std.length(APPLICATION + "/" + DFSP + ":"))
   for group in normalizedGroups
   if std.substr(group, 0, std.length(APPLICATION + "/" + DFSP + ":")) == APPLICATION + "/" + DFSP + ":"
 ];

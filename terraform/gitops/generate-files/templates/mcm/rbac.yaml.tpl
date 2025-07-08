@@ -26,7 +26,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/?$
+    url: <http|https>://${mcm_fqdn}/api/dfsps<$>
     methods:
       - GET
   authenticators:
@@ -35,17 +35,24 @@ spec:
   authorizer:
     handler: remote_json
     config:
-      remote: ${keto_read_url}/relation-tuples/check
+      remote: ${keto_read_url}/relation-tuples/batch/check
       payload: |
         {
-          "namespace": "permission",
-          "object": "dfspList",
-          "relation": "granted",
-          "subject_set": {
-            "namespace": "role",
-            "object": "{{ if has (((.Extra.identity).traits).roles) \"pta\" }}pta{{ else if has (((.Extra.identity).traits).roles) \"everyone\" }}everyone{{ else }}no_role{{ end }}",
-            "relation": "member"
-          }
+          "tuples": [
+            {{- $roles := .Extra.identity.traits.roles }}
+            {{- range $i, $role := $roles }}
+            {
+              "namespace": "permission",
+              "object": "dfspList",
+              "relation": "granted",
+              "subject_set": {
+                "namespace": "role",
+                "object": "{{ $role }}",
+                "relation": "member"
+              }
+            }{{ if ne (add $i 1) (len $roles) }},{{ end }}
+            {{- end }}
+          ]
         }
   mutators:
     - handler: header
@@ -63,7 +70,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/?$
+    url: <http|https>://${mcm_fqdn}/api/dfsps<$>
     methods:
       - POST
   authenticators:
@@ -72,17 +79,24 @@ spec:
   authorizer:
     handler: remote_json
     config:
-      remote: ${keto_read_url}/relation-tuples/check
+      remote: ${keto_read_url}/relation-tuples/batch/check
       payload: |
         {
-          "namespace": "permission",
-          "object": "dfspManage",
-          "relation": "granted",
-          "subject_set": {
-            "namespace": "role",
-            "object": "{{ if has (((.Extra.identity).traits).roles) \"pta\" }}pta{{ else if has (((.Extra.identity).traits).roles) \"mta\" }}mta{{ else }}no_role{{ end }}",
-            "relation": "member"
-          }
+          "tuples": [
+            {{- $roles := .Extra.identity.traits.roles }}
+            {{- range $i, $role := $roles }}
+            {
+              "namespace": "permission",
+              "object": "dfspManage",
+              "relation": "granted",
+              "subject_set": {
+                "namespace": "role",
+                "object": "{{ $role }}",
+                "relation": "member"
+              }
+            }{{ if ne (add $i 1) (len $roles) }},{{ end }}
+            {{- end }}
+          ]
         }
   mutators:
     - handler: header
@@ -112,17 +126,29 @@ spec:
   authorizer:
     handler: remote_json
     config:
-      remote: ${keto_read_url}/relation-tuples/check
+      remote: ${keto_read_url}/relation-tuples/batch/check
       payload: |
         {
-          "namespace": "permission",
-          "object": "dfspAccess",
-          "relation": "granted",
-          "subject_set": {
-            "namespace": "role",
-            "object": "{{ if has (((.Extra.identity).traits).roles) \"pta\" }}pta{{ else if has (((.Extra.identity).traits).roles) \"mta\" }}mta{{ else }}no_role{{ end }}",
-            "relation": "member"
-          }
+          "tuples": [
+            {{- $roles := .Extra.identity.traits.roles }}
+            {{- $comma := false }}
+            {{- range $i, $r := $roles }}
+              {{- if eq $r "pta" }}
+                {{- if $comma }},{{ end }}
+                {
+                  "namespace": "permission",
+                  "object": "dfspManage",
+                  "relation": "granted",
+                  "subject_set": {
+                    "namespace": "role",
+                    "object": "pta",
+                    "relation": "member"
+                  }
+                }
+                {{- $comma = true }}
+              {{- end }}
+            {{- end }}
+          ]
         }
   mutators:
     - handler: header
@@ -153,16 +179,15 @@ spec:
     config:
       remote: ${keto_read_url}/relation-tuples/check
       payload: |
+        {{ $dfspId := printIndex .MatchContext.RegexpCaptureGroups 0 }}
+        {{ if has (printf "dfsp:%s" $dfspId) .Extra.identity.traits.roles }}
         {
-          "namespace": "role",
-          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
-          "relation": "member",
-          "subject_set": {
-            "namespace": "trait_roles",
-            "object": "{{ print .Subject }}",
-            "relation": "has_role"
-          }
+          "namespace": "permission",
+          "object": "dfspSelfAccess",
+          "relation": "granted",
+          "subject": "dfsp"
         }
+        {{ end }}
   mutators:
     - handler: header
       config:
@@ -189,17 +214,24 @@ spec:
   authorizer:
     handler: remote_json
     config:
-      remote: ${keto_read_url}/relation-tuples/check
+      remote: ${keto_read_url}/relation-tuples/batch/check
       payload: |
         {
-          "namespace": "permission",
-          "object": "hubEndpointsView",
-          "relation": "granted",
-          "subject_set": {
-            "namespace": "role",
-            "object": "{{ if has (((.Extra.identity).traits).roles) \"pta\" }}pta{{ else if has (((.Extra.identity).traits).roles) \"mta\" }}mta{{ else if has (((.Extra.identity).traits).roles) \"everyone\" }}everyone{{ else }}no_role{{ end }}",
-            "relation": "member"
-          }
+          "tuples": [
+            {{- $roles := .Extra.identity.traits.roles }}
+            {{- range $i, $role := $roles }}
+            {
+              "namespace": "permission",
+              "object": "hubEndpointsView",
+              "relation": "granted",
+              "subject_set": {
+                "namespace": "role",
+                "object": "{{ $role }}",
+                "relation": "member"
+              }
+            }{{ if ne (add $i 1) (len $roles) }},{{ end }}
+            {{- end }}
+          ]
         }
   mutators:
     - handler: header
@@ -223,17 +255,24 @@ spec:
   authorizer:
     handler: remote_json
     config:
-      remote: ${keto_read_url}/relation-tuples/check
+      remote: ${keto_read_url}/relation-tuples/batch/check
       payload: |
         {
-          "namespace": "permission",
-          "object": "hubEndpointsManage",
-          "relation": "granted",
-          "subject_set": {
-            "namespace": "role",
-            "object": "{{ if has (((.Extra.identity).traits).roles) \"pta\" }}pta{{ else if has (((.Extra.identity).traits).roles) \"mta\" }}mta{{ else }}no_role{{ end }}",
-            "relation": "member"
-          }
+          "tuples": [
+            {{- $roles := .Extra.identity.traits.roles }}
+            {{- range $i, $role := $roles }}
+            {
+              "namespace": "permission",
+              "object": "hubEndpointsManage",
+              "relation": "granted",
+              "subject_set": {
+                "namespace": "role",
+                "object": "{{ $role }}",
+                "relation": "member"
+              }
+            }{{ if ne (add $i 1) (len $roles) }},{{ end }}
+            {{- end }}
+          ]
         }
   mutators:
     - handler: header

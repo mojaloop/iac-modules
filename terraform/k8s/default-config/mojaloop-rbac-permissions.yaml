@@ -443,7 +443,6 @@ roles:
   # Read-only access to basic endpoints
   - hubEndpointsView
   - dfspStatusView
-  - dfspList
 
 # DFSP-specific role template (actual DFSP roles are created dynamically)
 - rolename: dfsp
