@@ -4,6 +4,9 @@ common_platform_db:
   resource_type: "mysql"
   externalservice_name: "common-platform-db"
   resource_namespace: "stateful-resources"  # Namespace where the resource will be created
+  ca_bundle_configmap:
+    name: "global-ca-bundle"
+    key: "ca-bundle.crt"
   dbaas_resource_config:
     # Percona XtraDB Cluster (PXC) specific configurations
     cluster_name: "common-platform-db"                          # Name of the cluster
@@ -84,6 +87,10 @@ common_platform_db:
         value: "4000"
       - name: aurora_fwd_writer_max_connections_pct
         value: "30"
+      - name: require_secure_transport
+        value: "ON"
+      - name: tls_version
+        value: "TLSv1.3"
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
@@ -107,6 +114,9 @@ common_mojaloop_db:
   resource_type: "mysql"
   externalservice_name: "common-mojaloop-db"
   resource_namespace: "stateful-resources"
+  ca_bundle_configmap:
+    name: "global-ca-bundle"
+    key: "ca-bundle.crt"
   dbaas_resource_config:
     # Percona XtraDB Cluster (PXC) specific configurations
     cluster_name: "common-mojaloop-db"                          # Name of the cluster
@@ -175,10 +185,22 @@ common_mojaloop_db:
         value: utf8mb4
       - name: character_set_server
         value: utf8mb4
+      - name: innodb_lock_wait_timeout
+        value: "120"
+      - name: connect_timeout
+        value: "600"
+      - name: wait_timeout
+        value: "600"
+      - name: interactive_timeout
+        value: "600"
       - name: max_connections
         value: "4000"
       - name: aurora_fwd_writer_max_connections_pct
         value: "30"
+      - name: require_secure_transport
+        value: "ON"
+      - name: tls_version
+        value: "TLSv1.3"
     port: "3306"
     skip_final_snapshot: true
     multi_az: false
@@ -202,6 +224,9 @@ common_mongodb:
   resource_type: "mongodb"
   externalservice_name: "common-mongodb"
   resource_namespace: "stateful-resources"
+  ca_bundle_configmap:
+    name: "global-ca-bundle-mongo"
+    key: "ca-bundle.crt"
   dbaas_resource_config:
     cluster_name: "common-mongodb"                          # Name of the cluster
     cr_version: "1.19.1"
@@ -264,7 +289,7 @@ common_mongodb:
     parameters:
       - apply_method: pending-reboot
         name: tls
-        value: disabled
+        value: enabled
     password_key_name: common_mongodb_password
     port: "27017"
     replicas: 1

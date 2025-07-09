@@ -89,6 +89,7 @@ spec:
     externalServiceName: "${externalservice_name}"
     appNamespace: "${namespace}"
     consumerAppsExternalServices: ${consumer_app_externalname_services}
+    consumerAppsConfigMaps: ${consumer_app_configmaps}
     allowMajorVersionUpgrade: ${allow_major_version_upgrade}
     applyImmediately: ${apply_immediately}
     backupRetentionPeriod: ${backup_retention_period}
@@ -99,10 +100,7 @@ spec:
     engineVersion: "${engine_version}"
     family: ${family}
     instanceCount: ${instance_count}
-    parameter:
-      - applyMethod: pending-reboot
-        name: tls
-        value: disabled
+    parameter: ${parameter}
     passwordSecret:
       key: ${db_secret_key}
       name: ${db_secret}

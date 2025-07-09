@@ -6,3 +6,4 @@ resources:
   - kubernetes-provider.yaml
   - vault-provider.yaml
   - aws-provider.yaml
+  - http-provider.yaml

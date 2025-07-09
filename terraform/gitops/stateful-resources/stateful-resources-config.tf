@@ -187,6 +187,7 @@ resource "local_file" "aws-db-crs" {
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
         consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
+        consumer_app_configmaps      = jsonencode(local.ca_bundle_configmaps_by_monolith[each.key])
         externalservice_name         = each.value.externalservice_name
         allow_major_version_upgrade  = each.value.external_resource_config.allow_major_version_upgrade
         apply_immediately            = each.value.external_resource_config.apply_immediately
@@ -197,6 +198,7 @@ resource "local_file" "aws-db-crs" {
         engine                       = each.value.external_resource_config.engine
         engine_version               = each.value.external_resource_config.engine_version
         family                       = each.value.external_resource_config.family
+        parameter                    = jsonencode(each.value.external_resource_config.parameter)
         instance_count               = each.value.external_resource_config.replicas
         db_secret                    = each.value.external_resource_config.master_user_password_secret
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
@@ -298,6 +300,25 @@ locals {
       resource.logical_service_config.logical_service_name
       if resource.monolith_db_server == db_server && resource.enabled
     ]
+  }
+
+  ca_bundle_configmaps_by_monolith = {
+    for monolith_key, monolith in var.var.monolith_stateful_resources : monolith_key => {
+      ca_bundle_configmap = monolith.ca_bundle_configmap.name
+      namespaces = distinct(
+        concat(
+          # From all services referencing this monolith
+          flatten([
+            for key, resource in local.managed_stateful_resources : (
+              resource.monolith_db_server == monolith_key ?
+              resource.logical_service_config.secret_extra_namespaces :
+              []
+            )
+          ]),
+          [monolith.resource_namespace]
+        )
+      )
+    }
   }
 
   stateful_resources_vars = {

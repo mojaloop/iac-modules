@@ -90,6 +90,7 @@ spec:
     externalServiceName: "${externalservice_name}"
     appNamespace: "${namespace}"
     consumerAppsExternalServices: ${consumer_app_externalname_services}
+    consumerAppsConfigMaps: ${consumer_app_configmaps}
     allowMajorVersionUpgrade: ${allow_major_version_upgrade}
     applyImmediately: ${apply_immediately}
     backupRetentionPeriod: ${backup_retention_period}
@@ -100,23 +101,7 @@ spec:
     engineVersion: "${engine_version}"
     family: ${family}
     instanceCount: ${instance_count}
-    parameter:
-      - name: character_set_client
-        value: utf8mb4
-      - name: character_set_server
-        value: utf8mb4
-      - name: innodb_lock_wait_timeout
-        value: "120"
-      - name: connect_timeout
-        value: "600"
-      - name: wait_timeout
-        value: "600"
-      - name: interactive_timeout
-        value: "600"
-      - name: max_connections
-        value: "4000"
-      - name: aurora_fwd_writer_max_connections_pct
-        value: "30"
+    parameter: ${parameter}
     passwordSecret:
       key: ${db_secret_key}
       name: ${db_secret}
