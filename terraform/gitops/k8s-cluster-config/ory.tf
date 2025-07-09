@@ -56,14 +56,14 @@ module "generate_ory_files" {
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
     keycloak_access_token_lifespan       = 43200
     mcm_fqdn                             = local.mcm_fqdn
-    smtp_from                            = var.smtp.from
-    smtp_from_display_name               = var.smtp.from_display_name
-    smtp_reply_to                        = var.smtp.reply_to
-    smtp_host                            = var.smtp.host
-    smtp_port                            = var.smtp.port
-    smtp_ssl                             = var.smtp.ssl
-    smtp_starttls                        = var.smtp.starttls
-    smtp_auth                            = var.smtp.auth
+    smtp_from                            = var.smtp_from
+    smtp_from_display_name               = var.smtp_from_display_name
+    smtp_reply_to                        = var.smtp_reply_to
+    smtp_host                            = var.smtp_host
+    smtp_port                            = var.smtp_port
+    smtp_ssl                             = var.smtp_ssl
+    smtp_starttls                        = var.smtp_starttls
+    smtp_auth                            = var.smtp_auth
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path

@@ -37,9 +37,7 @@ dependency "gitops_build" {
 inputs = {
   tags                                     = local.tags
   common_var_map                           = local.common_vars
-  app_var_map                              = merge(local.addons_vars, local.mojaloop_vars)
-  # ADD SMTP configuration from mojaloop vars
-  smtp                                     = local.mojaloop_vars.smtp
+  app_var_map                              = local.addons_vars
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
