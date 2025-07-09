@@ -364,18 +364,7 @@ variable "rbac_api_resources_file" {
   type = string
 }
 
-# DEBUG: Add SMTP configuration debug output
-resource "local_file" "smtp_debug" {
-  content  = jsonencode({
-    smtp_variable_received = var.smtp
-    smtp_from             = try(var.smtp.from, "NOT_SET")
-    smtp_host             = try(var.smtp.host, "NOT_SET")
-    smtp_port             = try(var.smtp.port, "NOT_SET")
-    smtp_auth             = try(var.smtp.auth, "NOT_SET")
-    debug_timestamp       = timestamp()
-  })
-  filename = "${var.output_dir}/debug-smtp-config.json"
-}
+
 
 variable "mojaloop_values_override_file" {
   type = string
