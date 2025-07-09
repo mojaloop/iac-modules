@@ -101,7 +101,7 @@ spec:
     engineVersion: "${engine_version}"
     family: ${family}
     instanceCount: ${instance_count}
-    parameter: ${parameter}
+    parameter: ${parameters}
     passwordSecret:
       key: ${db_secret_key}
       name: ${db_secret}
