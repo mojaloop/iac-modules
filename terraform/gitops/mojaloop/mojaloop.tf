@@ -411,7 +411,7 @@ variable "smtp_host" {
 }
 
 variable "smtp_port" {
-  type = string
+  type = number
 }
 
 variable "smtp_ssl" {

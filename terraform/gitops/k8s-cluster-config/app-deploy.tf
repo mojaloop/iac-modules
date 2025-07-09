@@ -339,7 +339,7 @@ variable "mcm_admin_client_secret_name" {
 variable "smtp" {
   type = object({
     host              = string
-    port              = string
+    port              = number
     ssl               = bool
     starttls          = bool
     auth              = bool
@@ -350,7 +350,7 @@ variable "smtp" {
   description = "SMTP configuration for Keycloak email notifications"
   default = {
     host              = "localhost"
-    port              = "587"
+    port              = 587
     ssl               = false
     starttls          = true
     auth              = false

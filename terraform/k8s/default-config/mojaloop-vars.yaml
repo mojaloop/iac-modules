@@ -108,7 +108,7 @@ workload_definitions:
                     - "enabled"
 smtp:
   host: "localhost"
-  port: "587"
+  port: 587
   ssl: false
   starttls: true
   auth: false
