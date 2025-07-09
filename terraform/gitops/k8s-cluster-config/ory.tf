@@ -55,6 +55,16 @@ module "generate_ory_files" {
     keto_read_url                        = local.keto_read_url
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
     mcm_oidc_client_secret_name          = var.mcm_oidc_client_secret_name
+    keycloak_access_token_lifespan       = 43200
+    mcm_fqdn                             = local.mcm_fqdn
+    smtp_from                            = var.smtp_from
+    smtp_from_display_name               = var.smtp_from_display_name
+    smtp_reply_to                        = var.smtp_reply_to
+    smtp_host                            = var.smtp_host
+    smtp_port                            = var.smtp_port
+    smtp_ssl                             = var.smtp_ssl
+    smtp_starttls                        = var.smtp_starttls
+    smtp_auth                            = var.smtp_auth
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -116,6 +126,46 @@ variable "rbac_permissions_file" {
   type = string
 }
 
+variable "smtp_from" {
+  type        = string
+  description = "SMTP from address for Keycloak email notifications"
+}
+
+variable "smtp_from_display_name" {
+  type        = string
+  description = "SMTP from display name for Keycloak email notifications"
+}
+
+variable "smtp_reply_to" {
+  type        = string
+  description = "SMTP reply-to address for Keycloak email notifications"
+}
+
+variable "smtp_host" {
+  type        = string
+  description = "SMTP host for Keycloak email notifications"
+}
+
+variable "smtp_port" {
+  type        = string
+  description = "SMTP port for Keycloak email notifications"
+}
+
+variable "smtp_ssl" {
+  type        = string
+  description = "SMTP SSL setting for Keycloak email notifications"
+}
+
+variable "smtp_starttls" {
+  type        = string
+  description = "SMTP STARTTLS setting for Keycloak email notifications"
+}
+
+variable "smtp_auth" {
+  type        = bool
+  description = "SMTP authentication setting for Keycloak email notifications"
+}
+
 
 
 
@@ -131,7 +181,11 @@ locals {
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
-      keycloak_mcm_realm_auth_secret_name = var.mcm_oidc_client_secret_name
+  keycloak_mcm_realm_auth_secret_name = var.mcm_oidc_client_secret_name
+  
+  # MCM FQDN calculation (based on MCM ingress configuration)
+  mcm_wildcard_gateway = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
+  mcm_fqdn = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
   default_mapper_jsonnet = <<-EOF
 local claims = std.extVar('claims');
 
