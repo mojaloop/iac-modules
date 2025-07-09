@@ -199,7 +199,7 @@ resource "local_file" "aws-db-crs" {
         engine                       = each.value.external_resource_config.engine
         engine_version               = each.value.external_resource_config.engine_version
         family                       = each.value.external_resource_config.family
-        parameter                    = jsonencode(each.value.external_resource_config.parameter)
+        parameters                    = jsonencode(each.value.external_resource_config.parameters)
         instance_count               = each.value.external_resource_config.replicas
         db_secret                    = each.value.external_resource_config.master_user_password_secret
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
