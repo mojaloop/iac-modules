@@ -59,7 +59,17 @@ inputs = {
   external_ingress_http_port               = dependency.k8s_deploy.outputs.target_group_external_http_port
   common_var_map                           = local.common_vars
   app_var_map                              = merge(local.pm4ml_vars, local.proxy_pm4ml_vars, local.mojaloop_vars, local.vnext_vars)
-  smtp                                     = local.mojaloop_vars.smtp
+  # TEMPORARY TEST: Hardcode SMTP values to test if plumbing works
+  smtp                                     = {
+    host              = "smtp.eu.mailgun.org"
+    port              = 465
+    ssl               = true
+    starttls          = false
+    auth              = true
+    from              = "mailer@sw005.hub005.yevhen.io"
+    from_display_name = "Mojaloop Hub"
+    reply_to          = "noreply@sw005.hub005.yevhen.io"
+  }
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
@@ -195,3 +205,5 @@ provider "gitlab" {
 }
 EOF
 }
+
+
