@@ -41,7 +41,7 @@ spec:
 %{ endif ~}
                chmod +x ~/init.js;
                echo "running init.js";
-               mongosh "mongodb://${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username}:$${MONGODB_MASTER_PASSWORD}@${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local:${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port}" < ~/init.js
+               mongosh "mongodb://${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username}:$${MONGODB_MASTER_PASSWORD}@${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local:${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port}/tls=true&tlsCAFile=/tmp/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_configmap.key}&tlsAllowInvalidHostnames=true" < ~/init.js
           env:
             - name: MONGODB_USER_PASSWORD
               valueFrom:
@@ -55,3 +55,11 @@ spec:
                     key:  ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.master_user_password_secret_key}
           resources: {}
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - name: ca-bundle-volume
+            mountPath: "/tmp"
+            readOnly: true
+      volumes:
+      - name: ca-bundle-volume
+        configMap:
+          name: ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_configmap.name}

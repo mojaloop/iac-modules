@@ -11,6 +11,9 @@ thirdparty-auth-svc-redis:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: mojaloop
     storage_size: 10G
     replica_count: 3
@@ -32,6 +35,9 @@ thirdparty-auth-svc-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: auth-svc
     storage_size: 10G
     replica_count: 1
@@ -53,6 +59,9 @@ mysql-consent-oracle-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: consent-oracle
     storage_size: 10G
     replica_count: 1
@@ -83,6 +92,9 @@ mcm-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mcm
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: mcm
     storage_size: 10G
     replica_count: 1
@@ -104,6 +116,9 @@ account-lookup-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: account_lookup
     storage_size: 10G
     replica_count: 1
@@ -125,6 +140,9 @@ central-ledger-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: central_ledger
     storage_size: 10G
     replica_count: 1
@@ -147,6 +165,9 @@ bulk-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: mlos
     storage_size: 10G
     replica_count: 3
@@ -171,6 +192,9 @@ cep-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_configmap:
+      name: "global-ca-bundle-mongo"
+      key: "ca-bundle.crt"
     database_name: mojaloop
     storage_size: 10G
     replica_count: 3
@@ -197,6 +221,9 @@ reporting-events-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_configmap:
+      name: "global-ca-bundle-mongo"
+      key: "ca-bundle.crt"
     database_name: reporting
     storage_size: 10G
     replica_count: 3
@@ -283,6 +310,9 @@ ttk-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_configmap:
+      name: "global-ca-bundle-mongo"
+      key: "ca-bundle.crt"
     database_name: ttk
     storage_size: 10G
     replica_count: 3
@@ -320,6 +350,9 @@ keycloak-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - keycloak
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: keycloak
     storage_size: 10G
     replica_count: 1
@@ -341,6 +374,9 @@ keto-db:
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: keto
     storage_size: 10G
     replica_count: 1
@@ -362,6 +398,9 @@ kratos-db:
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
+    ca_bundle_configmap:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: kratos
     storage_size: 10G
     replica_count: 1
