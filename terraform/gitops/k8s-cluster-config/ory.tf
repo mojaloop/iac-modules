@@ -53,6 +53,8 @@ module "generate_ory_files" {
     mojaloopRoles                        = local.mojaloopRoles
     hubop_mapper_base64                  = local.hubop_mapper_base64
     keto_read_url                        = local.keto_read_url
+    mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+    mcm_oidc_client_secret_name          = var.mcm_oidc_client_secret_name
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
