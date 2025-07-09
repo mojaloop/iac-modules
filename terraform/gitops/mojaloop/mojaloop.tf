@@ -272,7 +272,7 @@ locals {
   mojaloop_kafka_resource_index                = "mojaloop-kafka"
   third_party_redis_resource_index             = "thirdparty-auth-svc-redis"
   third_party_auth_db_resource_index           = "thirdparty-auth-svc-db"
-  third_party_consent_oracle_db_resource_index = "mysql-consent-oracle-db"
+  third_party_consent_oracle_db_resource_index = "consent-oracle-db"
   ttk_redis_resource_index                     = "ttk-redis"
   reporting_events_mongodb_resource_index      = "reporting-events-mongodb"
   apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
