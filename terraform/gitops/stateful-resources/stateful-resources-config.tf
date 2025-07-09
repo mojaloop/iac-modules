@@ -188,7 +188,7 @@ resource "local_file" "aws-db-crs" {
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
         consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
-        consumer_app_configmaps      = jsonencode(local.ca_bundle_configmaps_by_monolith[each.key])
+        consumer_app_configmap       = jsonencode(local.ca_bundle_configmaps_by_monolith[each.key])
         externalservice_name         = each.value.externalservice_name
         allow_major_version_upgrade  = each.value.external_resource_config.allow_major_version_upgrade
         apply_immediately            = each.value.external_resource_config.apply_immediately
@@ -306,6 +306,7 @@ locals {
   ca_bundle_configmaps_by_monolith = {
     for monolith_key, monolith in var.monolith_stateful_resources : monolith_key => {
       ca_bundle_configmap = monolith.ca_bundle_configmap.name
+      ca_bundle_configmap_key = monolith.ca_bundle_configmap.key
       namespaces = distinct(
         concat(
           # From all services referencing this monolith
