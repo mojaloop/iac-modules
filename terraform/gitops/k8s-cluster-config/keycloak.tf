@@ -98,57 +98,7 @@ variable "keycloak_hubop_realm_name" {
   default     = "hub-operators"
 }
 
-variable "mcm_admin_client_secret_name" {
-  type        = string
-  description = "name of MCM admin client secret for Keycloak administrative operations"
-  default     = "mcm-admin-client-secret"
-}
 
-variable "mcm_oidc_client_secret_name" {
-  type        = string
-  description = "name of MCM OIDC client secret for user authentication flows"
-  default     = "mcm-oidc-client-secret"
-}
-
-variable "smtp_from" {
-  type        = string
-  description = "SMTP from address for Keycloak email notifications"
-}
-
-variable "smtp_from_display_name" {
-  type        = string
-  description = "SMTP from display name for Keycloak email notifications"
-}
-
-variable "smtp_reply_to" {
-  type        = string
-  description = "SMTP reply-to address for Keycloak email notifications"
-}
-
-variable "smtp_host" {
-  type        = string
-  description = "SMTP host for Keycloak email notifications"
-}
-
-variable "smtp_port" {
-  type        = string
-  description = "SMTP port for Keycloak email notifications"
-}
-
-variable "smtp_ssl" {
-  type        = string
-  description = "SMTP SSL setting for Keycloak email notifications"
-}
-
-variable "smtp_starttls" {
-  type        = string
-  description = "SMTP STARTTLS setting for Keycloak email notifications"
-}
-
-variable "smtp_auth" {
-  type        = bool
-  description = "SMTP authentication setting for Keycloak email notifications"
-}
 
 locals {
   keycloak_mysql_resource_index           = "keycloak-db"

@@ -104,11 +104,7 @@ variable "hubop_oidc_client_id" {
   default     = "hub-op"
 }
 
-variable "keycloak_hubop_realm_name" {
-  type        = string
-  description = "name of realm for dfsp api access"
-  default     = "hub-operators"
-}
+
 variable "bof_chart_version" {
   type    = string
   default = "5.1.0"
