@@ -242,6 +242,9 @@ spec:
             - name: sc_openebs_namespace
               value: "${ARGOCD_ENV_sc_openebs_namespace}"
 
+            - name: sc_openebs_sync_wave
+              value: '"${ARGOCD_ENV_sc_openebs_sync_wave}"'
+
             - name: sc_openebs_helm_version
               value: "${ARGOCD_ENV_sc_openebs_helm_version}"
 
