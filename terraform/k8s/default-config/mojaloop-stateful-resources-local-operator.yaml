@@ -65,7 +65,7 @@ mysql-consent-oracle-db:
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: thirdparty-db
     override_service_name:
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -125,7 +125,7 @@ mcm-db:
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: mcm-db
     override_service_name: mcm-db-haproxy
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -185,7 +185,7 @@ account-lookup-db:
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: mojaloop-db
     override_service_name: account-lookup-db-haproxy
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -253,7 +253,7 @@ central-ledger-db:
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: mojaloop-db
     override_service_name: central-ledger-db-haproxy
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -319,7 +319,7 @@ bulk-mongodb:
     percona_backup_mongodb_version: 2.4.1
     resource_namespace: mojaloop
     override_service_name: bulk-mongodb-mongos
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
@@ -361,7 +361,7 @@ cep-mongodb:
     percona_backup_mongodb_version: 2.4.1
     resource_namespace: mojaloop
     override_service_name: mongodb-cep-mongodb
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
@@ -403,7 +403,7 @@ reporting-events-mongodb:
     percona_backup_mongodb_version: 2.4.1
     resource_namespace: mojaloop
     override_service_name: reporting-events-mongodb-mongos
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
@@ -445,7 +445,7 @@ mojaloop-kafka:
     resource_namespace: mojaloop
     override_service_name: mojaloop-kafka-kafka-brokers
     node_pool_size: 3
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: kafka
     resource_helm_chart_version: 26.5.0
     resource_helm_values_ref: values-kafka.yaml.tpl
@@ -486,7 +486,7 @@ ttk-mongodb:
     percona_backup_mongodb_version: 2.4.1
     resource_namespace: mojaloop
     override_service_name: ttk-mongodb-mongos
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
@@ -531,7 +531,7 @@ keycloak-db:
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: keycloak-db
     override_service_name: keycloak-db-haproxy
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -591,7 +591,7 @@ keto-db:
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: keto-db
     override_service_name: keto-db-haproxy
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -652,7 +652,7 @@ kratos-db:
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: kratos-db
     override_service_name: kratos-db-haproxy
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl

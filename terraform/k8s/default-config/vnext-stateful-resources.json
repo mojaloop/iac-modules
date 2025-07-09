@@ -18,7 +18,7 @@
         "local_resource_config": {
             "resource_namespace": "mcm-db",
             "override_service_name": "mysql-mcm-db",
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_repo": "https://charts.bitnami.com/bitnami",
             "resource_helm_chart": "mysql",
             "resource_helm_chart_version": "9.7.0",
             "resource_helm_values_ref": "values-mysql.yaml.tpl",
@@ -68,7 +68,7 @@
         "local_resource_config": {
             "resource_namespace": "mojaloop",
             "override_service_name": "mongodb-vnext-mongodb",
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_repo": "https://charts.bitnami.com/bitnami",
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
             "resource_helm_values_ref": "values-mongodb.yaml.tpl",
@@ -107,7 +107,7 @@
         "local_resource_config": {
             "resource_namespace": "vnext",
             "override_service_name": null,
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_repo": "https://charts.bitnami.com/bitnami",
             "resource_helm_chart": "kafka",
             "resource_helm_chart_version": "26.5.0",
             "resource_helm_values_ref": "values-kafka.yaml.tpl",
@@ -295,9 +295,9 @@
         "local_resource_config": {
             "resource_namespace": "mojaloop",
             "override_service_name": "redis-vnext-redis-master",
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_repo": "https://charts.bitnami.com/bitnami",
             "resource_helm_chart": "redis",
-            "resource_helm_chart_version": "17.3.7",
+            "resource_helm_chart_version": "17.3.18",
             "resource_helm_values_ref": "values-redis.yaml.tpl",
             "generate_secret_name": null,
             "generate_secret_keys": null,

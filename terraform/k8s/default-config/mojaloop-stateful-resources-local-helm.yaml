@@ -2,7 +2,7 @@ thirdparty-auth-svc-db:
   local_helm_config:
     resource_namespace: thirdparty-db
     override_service_name: mysql-thirdparty-auth-svc-db
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -51,7 +51,7 @@ mysql-consent-oracle-db:
   local_helm_config:
     resource_namespace: thirdparty-db
     override_service_name:
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -100,7 +100,7 @@ mcm-db:
   local_helm_config:
     resource_namespace: mcm-db
     override_service_name: mysql-mcm-db
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -149,7 +149,7 @@ account-lookup-db:
   local_helm_config:
     resource_namespace: mojaloop-db
     override_service_name: mysql-account-lookup-db
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -206,7 +206,7 @@ central-ledger-db:
   local_helm_config:
     resource_namespace: mojaloop-db
     override_service_name: mysql-central-ledger-db
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -263,7 +263,7 @@ bulk-mongodb:
   local_helm_config:
     resource_namespace: mojaloop
     override_service_name: mongodb-bulk-mongodb
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
@@ -288,7 +288,7 @@ cep-mongodb:
   local_helm_config:
     resource_namespace: mojaloop
     override_service_name: mongodb-cep-mongodb
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
@@ -313,7 +313,7 @@ reporting-events-mongodb:
   local_helm_config:
     resource_namespace: mojaloop
     override_service_name: mongodb-reporting-events-mongodb
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
@@ -338,7 +338,7 @@ mojaloop-kafka:
   local_helm_config:
     resource_namespace: mojaloop
     override_service_name:
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: kafka
     resource_helm_chart_version: 26.5.0
     resource_helm_values_ref: values-kafka.yaml.tpl
@@ -374,7 +374,7 @@ ttk-mongodb:
   local_helm_config:
     resource_namespace: mojaloop
     override_service_name: mongodb-ttk-mongodb
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mongodb
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
@@ -408,9 +408,9 @@ ttk-redis:
   local_helm_config:
     resource_namespace: mojaloop
     override_service_name: redis-ttk-redis-master
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: redis
-    resource_helm_chart_version: 17.3.7
+    resource_helm_chart_version: 17.3.18
     resource_helm_values_ref: values-redis.yaml.tpl
     secret_config:
       generate_secret_name: 
@@ -435,7 +435,7 @@ keycloak-db:
   local_helm_config:
     resource_namespace: keycloak-db
     override_service_name: mysql-keycloak-db
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -484,7 +484,7 @@ keto-db:
   local_helm_config:
     resource_namespace: keto-db
     override_service_name: mysql-keto-db
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
@@ -534,7 +534,7 @@ kratos-db:
   local_helm_config:
     resource_namespace: kratos-db
     override_service_name: mysql-kratos-db
-    resource_helm_repo: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
