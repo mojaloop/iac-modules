@@ -103,11 +103,7 @@ variable "ory_namespace" {
   default     = "ory"
 }
 
-variable "hubop_oidc_client_secret_secret" {
-  type        = string
-  description = "hubop_oidc_client_secret_secret"
-  default     = "hubop-oidc-secret"
-}
+
 
 variable "hubop_oidc_client_id" {
   type        = string
