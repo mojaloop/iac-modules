@@ -36,9 +36,9 @@ spec:
     plugin:
       name: envsubst
       env:
-        - name: "openebs_namespace"
+        - name: "sc_openebs_namespace"
           value: "${ARGOCD_ENV_sc_openebs_namespace}"
 
-        - name: "openebs_helm_version"
+        - name: "sc_openebs_helm_version"
           value: "${ARGOCD_ENV_sc_openebs_helm_version}"
 
