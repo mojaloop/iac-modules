@@ -2,7 +2,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: PasswordPolicy
 metadata:
-  name: ${resource.resource_type}-${key}-policy
+  name: ${key}-policy
   namespace: ${namespace} 
   annotations:
     argocd.argoproj.io/sync-wave: "-6"
@@ -50,7 +50,7 @@ spec:
   path: ${secret_config.generate_secret_vault_base_path}/${key}
   secretKey: password
   secretFormat:
-    passwordPolicyName: ${resource.resource_type}-${key}-policy
+    passwordPolicyName: ${key}-policy
 ---
 %{ endfor ~}
 %{ for ns in concat([namespace], secret_config.generate_secret_extra_namespaces) ~}

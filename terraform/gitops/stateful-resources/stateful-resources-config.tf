@@ -151,7 +151,7 @@ resource "local_file" "percona-crs" {
   for_each = { for key, stateful_resource in local.percona_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/percona/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
-      cluster_name        = try(each.value.local_operator_config.override_cluster_name, each.key)
+      cluster_name        = each.key
       cr_version          = each.value.local_operator_config.cr_version
       replica_count       = each.value.logical_service_config.replica_count
       namespace           = each.value.local_operator_config.resource_namespace
