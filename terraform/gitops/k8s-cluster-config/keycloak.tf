@@ -119,8 +119,8 @@ locals {
   }
 
   mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
-    var.mcm_admin_client_secret_name = var.vault_secret_key
-    var.mcm_oidc_client_secret_name  = var.vault_secret_key
+    (var.mcm_admin_client_secret_name) = var.vault_secret_key
+    (var.mcm_oidc_client_secret_name)  = var.vault_secret_key
   })
 
   pm4ml_keycloak_realm_env_secret_map = merge(
