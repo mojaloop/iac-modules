@@ -31,8 +31,6 @@ module "mojaloop" {
   vault_namespace                      = var.vault_namespace
   cert_manager_namespace               = var.cert_manager_namespace
   hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
-  jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
-  jwt_client_secret_secret             = var.jwt_client_secret_secret
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
@@ -193,8 +191,6 @@ module "vnext" {
   vault_namespace                      = var.vault_namespace
   cert_manager_namespace               = var.cert_manager_namespace
   hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
-  jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
-  jwt_client_secret_secret             = var.jwt_client_secret_secret
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
@@ -281,14 +277,7 @@ variable "hubop_oidc_client_secret_secret" {
   type    = string
   default = "hubop-oidc-secret"
 }
-variable "jwt_client_secret_secret_key" {
-  type    = string
-  default = "secret"
-}
-variable "jwt_client_secret_secret" {
-  type    = string
-  default = "jwt-oidc-client-secret"
-}
+
 
 variable "vault_secret_key" {
   type    = string

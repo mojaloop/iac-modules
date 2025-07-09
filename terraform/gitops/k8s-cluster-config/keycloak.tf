@@ -114,7 +114,6 @@ locals {
 
   mojaloop_keycloak_realm_env_secret_map = {
     "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
-    "${var.jwt_client_secret_secret}"        = var.jwt_client_secret_secret_key
   }
 
   mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
