@@ -165,16 +165,19 @@ variable "oathkeeper_auth_provider_name" {
 variable "keycloak_hubop_realm_name" {
   type        = string
   description = "name of realm for hub operator api access"
+  default     = "hub-operators"
 }
 
 variable "mcm_admin_client_secret_name" {
   type        = string
   description = "name of MCM admin client secret for Keycloak administrative operations"
+  default     = "mcm-admin-client-secret"
 }
 
 variable "mcm_oidc_client_secret_name" {
   type        = string
   description = "name of MCM OIDC client secret for user authentication flows"
+  default     = "mcm-oidc-client-secret"
 }
 
 variable "smtp_from" {

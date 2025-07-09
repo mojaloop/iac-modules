@@ -184,21 +184,7 @@ variable "jwt_client_secret_secret" {
   type = string
 }
 
-variable "keycloak_hubop_realm_name" {
-  type        = string
-  description = "name of realm for hub operators access"
-  default     = "hub-operators"
-}
 
-variable "mcm_admin_client_secret_name" {
-  type        = string
-  description = "name of MCM admin client secret for Keycloak administrative operations"
-}
-
-variable "mcm_oidc_client_secret_name" {
-  type        = string
-  description = "name of MCM OIDC client secret for user authentication flows"
-}
 
 variable "keycloak_name" {
   type        = string
