@@ -220,6 +220,14 @@ module "vnext" {
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
   mcm_oidc_client_secret_name          = var.mcm_oidc_client_secret_name
+  smtp_from                            = var.smtp_from
+  smtp_from_display_name               = var.smtp_from_display_name
+  smtp_reply_to                        = var.smtp_reply_to
+  smtp_host                            = var.smtp_host
+  smtp_port                            = var.smtp_port
+  smtp_ssl                             = var.smtp_ssl
+  smtp_starttls                        = var.smtp_starttls
+  smtp_auth                            = var.smtp_auth
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
