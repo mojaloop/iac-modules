@@ -166,7 +166,7 @@ bulk-mongodb:
     secret_extra_namespaces:
       - mojaloop
     ca_bundle_configmap:
-      name: "global-ca-bundle"
+      name: "global-ca-bundle-mongo"
       key: "ca-bundle.crt"
     database_name: mlos
     storage_size: 10G
@@ -351,7 +351,7 @@ keycloak-db:
     secret_extra_namespaces:
       - keycloak
     ca_bundle_configmap:
-      name: "global-ca-bundle"
+      name: "global-ca-bundle-plat"
       key: "ca-bundle.crt"
     database_name: keycloak
     storage_size: 10G
@@ -375,7 +375,7 @@ keto-db:
     secret_extra_namespaces:
       - ory
     ca_bundle_configmap:
-      name: "global-ca-bundle"
+      name: "global-ca-bundle-plat"
       key: "ca-bundle.crt"
     database_name: keto
     storage_size: 10G
@@ -399,7 +399,7 @@ kratos-db:
     secret_extra_namespaces:
       - ory
     ca_bundle_configmap:
-      name: "global-ca-bundle"
+      name: "global-ca-bundle-plat"
       key: "ca-bundle.crt"
     database_name: kratos
     storage_size: 10G
