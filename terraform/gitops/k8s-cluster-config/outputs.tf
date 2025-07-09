@@ -21,3 +21,16 @@ output "mojaloop_stateful_resources" {
 output "common_stateful_resources" {
   value = module.common_stateful_resources.stateful_resources
 }
+
+# DEBUG: Add SMTP configuration debug output to logs
+output "debug_smtp_config" {
+  value = {
+    smtp_variable_received = var.smtp
+    smtp_from             = try(var.smtp.from, "NOT_SET")
+    smtp_host             = try(var.smtp.host, "NOT_SET") 
+    smtp_port             = try(var.smtp.port, "NOT_SET")
+    smtp_auth             = try(var.smtp.auth, "NOT_SET")
+    debug_message         = "This should show your custom SMTP config from mojaloop-vars.yaml"
+  }
+  description = "Debug output to verify SMTP configuration is being passed correctly"
+}
