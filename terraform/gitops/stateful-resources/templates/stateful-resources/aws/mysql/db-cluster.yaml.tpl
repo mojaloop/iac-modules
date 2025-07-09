@@ -93,7 +93,11 @@ spec:
     consumerAppsConfigMap:
         name: ${consumer_app_configmap.ca_bundle_configmap}
         key: ${consumer_app_configmap.ca_bundle_configmap_key}
-        namespaces: ${consumer_app_configmap.namespaces}    allowMajorVersionUpgrade: ${allow_major_version_upgrade}
+        namespaces:
+        %{ for ns in consumer_app_configmap.namespaces ~}
+          - ${ns}
+        %{ endfor ~}
+    allowMajorVersionUpgrade: ${allow_major_version_upgrade}
     applyImmediately: ${apply_immediately}
     backupRetentionPeriod: ${backup_retention_period}
     databaseName: "${db_name}"
