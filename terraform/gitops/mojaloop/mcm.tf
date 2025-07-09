@@ -65,11 +65,9 @@ module "generate_mcm_files" {
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
     jwt_client_secret_secret_name        = join("$", ["", "{${replace(var.jwt_client_secret_secret, "-", "_")}}"])
     mcm_oidc_client_id                   = var.mcm_oidc_client_id
-    mcm_oidc_client_secret_secret_name   = join("$", ["", "{${replace(var.mcm_oidc_client_secret_secret, "-", "_")}}"])
+    hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
     jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
     jwt_client_secret_secret             = var.jwt_client_secret_secret
-    mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
-    mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_gateway_name          = var.istio_internal_gateway_name
@@ -95,7 +93,7 @@ module "generate_mcm_files" {
     portal_admin_email                   = var.portal_admin_email
     portal_admin_secret                  = var.portal_admin_secret
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-    mcm_oidc_client_secret_name          = var.mcm_oidc_client_secret_name
+
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -171,10 +169,7 @@ variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
 }
-variable "mcm_oidc_client_secret_secret_key" {
-  type = string
-}
-variable "mcm_oidc_client_secret_secret" {
+variable "hubop_oidc_client_secret_secret" {
   type = string
 }
 variable "jwt_client_secret_secret_key" {

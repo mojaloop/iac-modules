@@ -54,7 +54,6 @@ module "generate_ory_files" {
     hubop_mapper_base64                  = local.hubop_mapper_base64
     keto_read_url                        = local.keto_read_url
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-    mcm_oidc_client_secret_name          = var.mcm_oidc_client_secret_name
     keycloak_access_token_lifespan       = 43200
     mcm_fqdn                             = local.mcm_fqdn
     smtp_from                            = var.smtp_from
@@ -141,8 +140,8 @@ locals {
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
-  keycloak_mcm_realm_auth_secret_name = var.mcm_oidc_client_secret_name
-  
+
+
   # MCM FQDN calculation (based on MCM ingress configuration)
   mcm_wildcard_gateway = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
   mcm_fqdn = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
@@ -162,17 +161,11 @@ EOF
 
   default_mapper_base64 = base64encode(local.default_mapper_jsonnet)
   hubop_mapper_base64   = base64encode(local.default_mapper_jsonnet)
-  oidc_providers = concat(var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
+  oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
     realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
     mapper_url  = "base64://${local.default_mapper_base64}"
     scope       = ["openid", "email", "profile"]
-  }] : [], var.common_var_map.mcm_enabled ? [{
-    realm       = "${var.keycloak_hubop_realm_name}"
-    client_id   = "connection-manager-auth-client"
-    secret_name = local.keycloak_mcm_realm_auth_secret_name
-    mapper_url  = "base64://${local.default_mapper_base64}"
-    scope       = ["openid", "email", "profile"]
-  }] : [])
+  }] : []
 }

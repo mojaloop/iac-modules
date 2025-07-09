@@ -67,7 +67,6 @@ module "generate_vnext_files" {
     vnext_istio_gateway_namespace        = local.vnext_istio_gateway_namespace
     vnext_istio_wildcard_gateway_name    = local.vnext_istio_wildcard_gateway_name
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-    mcm_oidc_client_secret_name          = var.mcm_oidc_client_secret_name
     smtp_from                            = var.smtp_from
     smtp_from_display_name               = var.smtp_from_display_name
     smtp_reply_to                        = var.smtp_reply_to
@@ -174,11 +173,7 @@ variable "mcm_admin_client_secret_name" {
   default     = "mcm-admin-client-secret"
 }
 
-variable "mcm_oidc_client_secret_name" {
-  type        = string
-  description = "name of MCM OIDC client secret for user authentication flows"
-  default     = "mcm-oidc-client-secret"
-}
+
 
 variable "smtp_from" {
   type        = string

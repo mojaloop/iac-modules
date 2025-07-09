@@ -34,7 +34,6 @@ module "generate_keycloak_files" {
     ref_secrets                   = local.keycloak_realm_env_secret_map
     ref_secrets_path              = local.keycloak_secrets_path
     mcm_admin_client_secret_name  = var.mcm_admin_client_secret_name
-    mcm_oidc_client_secret_name   = var.mcm_oidc_client_secret_name
     mcm_smtp_enabled              = var.common_var_map.mcm_enabled
     smtp_from                     = var.smtp_from
     smtp_from_display_name        = var.smtp_from_display_name
@@ -115,13 +114,12 @@ locals {
   keycloak_secrets_path                      = "/secret/keycloak"
 
   mojaloop_keycloak_realm_env_secret_map = {
-    "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
-    "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
+    "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
+    "${var.jwt_client_secret_secret}"        = var.jwt_client_secret_secret_key
   }
 
   mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
     (var.mcm_admin_client_secret_name) = var.vault_secret_key
-    (var.mcm_oidc_client_secret_name)  = var.vault_secret_key
   })
 
   pm4ml_keycloak_realm_env_secret_map = merge(

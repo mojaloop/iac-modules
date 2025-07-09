@@ -70,7 +70,7 @@ api:
     OPENID_CLIENT_SECRET:
       valueFrom:
         secretKeyRef:
-          name: ${mcm_oidc_client_secret_name}
+          name: ${hubop_oidc_client_secret_secret}
           key: secret
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami

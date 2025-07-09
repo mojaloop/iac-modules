@@ -215,7 +215,6 @@ module "generate_mojaloop_files" {
     smtp_starttls                                                     = var.smtp_starttls
     smtp_auth                                                         = var.smtp_auth
     mcm_admin_client_secret_name                                      = var.mcm_admin_client_secret_name
-    mcm_oidc_client_secret_name                                       = var.mcm_oidc_client_secret_name
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -393,11 +392,7 @@ variable "mcm_admin_client_secret_name" {
   default     = "mcm-admin-client-secret"
 }
 
-variable "mcm_oidc_client_secret_name" {
-  type        = string
-  description = "name of MCM OIDC client secret for user authentication flows"
-  default     = "mcm-oidc-client-secret"
-}
+
 
 variable "smtp_from" {
   type        = string

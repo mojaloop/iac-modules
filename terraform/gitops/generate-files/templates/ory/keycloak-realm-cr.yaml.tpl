@@ -9,27 +9,6 @@ spec:
     realm: ${keycloak_hubop_realm_name}
     enabled: true
     clients:
-    - clientId: '${hubop_oidc_client_id}'
-      name: '${hubop_oidc_client_id}'
-      enabled: true
-      clientAuthenticatorType: client-secret
-      secret: ${hubop_oidc_client_secret_secret_name}
-      redirectUris:
-      - "*"
-      webOrigins:
-      - "*"
-      standardFlowEnabled: true
-      directAccessGrantsEnabled: true
-      publicClient: true
-      frontchannelLogout: true
-      protocol: openid-connect
-      attributes:
-        oidc.ciba.grant.enabled: 'false'
-        oauth2.device.authorization.grant.enabled: 'false'
-        backchannel.logout.session.required: 'true'
-        backchannel.logout.revoke.offline.tokens: 'false'
-      fullScopeAllowed: true
-      nodeReRegistrationTimeout: -1
     - clientId: connection-manager-api-service
       secret: ${mcm_admin_client_secret_name}
       enabled: true
@@ -45,15 +24,17 @@ spec:
       implicitFlowEnabled: false
       attributes:
         access.token.lifespan: "${keycloak_access_token_lifespan}"
-    - clientId: connection-manager-auth-client
-      secret: ${mcm_oidc_client_secret_name}
+    - clientId: ${hubop_oidc_client_id}
+      secret: ${hubop_oidc_client_secret_secret_name}
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris:
+      - "*"
       - https://${mcm_fqdn}/api/auth/callback
       - https://${mcm_fqdn}/*
       - https://${auth_fqdn}/*
       webOrigins:
+      - "*"
       - https://${mcm_fqdn}
       - https://${auth_fqdn}
       publicClient: false

@@ -21,10 +21,11 @@ spec:
       secret: '{{ .keycloakjwtsecret.${jwt_client_secret_secret_key} }}'
     type: Opaque
 ---
+# Hub Operators OIDC Client Secret (for MCM user authentication flows)
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${mcm_oidc_client_secret_secret}
+  name: ${hubop_oidc_client_secret_secret}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -35,12 +36,12 @@ spec:
         role: policy-admin
         serviceAccount:
             name: default
-      name: keycloakmcmsecret
-      path: /secret/keycloak/${mcm_oidc_client_secret_secret}
+      name: hubopoidcsecret
+      path: /secret/keycloak/${hubop_oidc_client_secret_secret}
   output:
-    name: ${mcm_oidc_client_secret_secret}
+    name: ${hubop_oidc_client_secret_secret}
     stringData:
-      secret: '{{ .keycloakmcmsecret.${mcm_oidc_client_secret_secret_key} }}'
+      secret: '{{ .hubopoidcsecret.secret }}'
     type: Opaque
 ---
 # MCM Admin Client Secret (for Keycloak administrative operations)
@@ -65,27 +66,5 @@ spec:
     stringData:
       secret: '{{ .apisecret.secret }}'
     type: Opaque
----
-# MCM OIDC Client Secret (for user authentication flows)
-apiVersion: redhatcop.redhat.io/v1alpha1
-kind: VaultSecret
-metadata:
-  name: ${mcm_oidc_client_secret_name}
-  annotations:
-    argocd.argoproj.io/sync-wave: "-3"
-spec:
-  refreshPeriod: 1m0s
-  vaultSecretDefinitions:
-    - authentication:
-        path: kubernetes
-        role: policy-admin
-        serviceAccount:
-            name: default
-      name: authsecret
-      path: /secret/keycloak/${mcm_oidc_client_secret_name}
-  output:
-    name: ${mcm_oidc_client_secret_name}
-    stringData:
-      secret: '{{ .authsecret.secret }}'
-    type: Opaque
+
 

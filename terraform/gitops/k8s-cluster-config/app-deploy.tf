@@ -30,8 +30,7 @@ module "mojaloop" {
   keycloak_namespace                   = var.keycloak_namespace
   vault_namespace                      = var.vault_namespace
   cert_manager_namespace               = var.cert_manager_namespace
-  mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
-  mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
+  hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
   jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
   jwt_client_secret_secret             = var.jwt_client_secret_secret
   vault_secret_key                     = var.vault_secret_key
@@ -60,7 +59,6 @@ module "mojaloop" {
   vault_root_ca_name                   = "pki-${var.cluster_name}"
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-  mcm_oidc_client_secret_name          = var.mcm_oidc_client_secret_name
   smtp_from                            = var.smtp_from
   smtp_from_display_name               = var.smtp_from_display_name
   smtp_reply_to                        = var.smtp_reply_to
@@ -194,8 +192,7 @@ module "vnext" {
   keycloak_namespace                   = var.keycloak_namespace
   vault_namespace                      = var.vault_namespace
   cert_manager_namespace               = var.cert_manager_namespace
-  mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
-  mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
+  hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
   jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
   jwt_client_secret_secret             = var.jwt_client_secret_secret
   vault_secret_key                     = var.vault_secret_key
@@ -219,7 +216,6 @@ module "vnext" {
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-  mcm_oidc_client_secret_name          = var.mcm_oidc_client_secret_name
   smtp_from                            = var.smtp_from
   smtp_from_display_name               = var.smtp_from_display_name
   smtp_reply_to                        = var.smtp_reply_to
@@ -281,13 +277,9 @@ variable "private_network_cidr" {
   type        = string
 }
 
-variable "mcm_oidc_client_secret_secret_key" {
+variable "hubop_oidc_client_secret_secret" {
   type    = string
-  default = "secret"
-}
-variable "mcm_oidc_client_secret_secret" {
-  type    = string
-  default = "mcm-oidc-client-secret"
+  default = "hubop-oidc-secret"
 }
 variable "jwt_client_secret_secret_key" {
   type    = string
@@ -353,11 +345,7 @@ variable "mcm_admin_client_secret_name" {
   default     = "mcm-admin-client-secret"
 }
 
-variable "mcm_oidc_client_secret_name" {
-  type        = string
-  description = "name of MCM OIDC client secret for user authentication flows"
-  default     = "mcm-oidc-client-secret"
-}
+
 
 variable "smtp_from" {
   type        = string
