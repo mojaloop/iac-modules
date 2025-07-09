@@ -18,7 +18,7 @@ module "generate_keycloak_files" {
     keycloak_admin_fqdn                        = local.keycloak_admin_fqdn
     keycloak_admin_istio_gateway_namespace     = local.keycloak_admin_istio_gateway_namespace
     keycloak_admin_istio_wildcard_gateway_name = local.keycloak_admin_istio_wildcard_gateway_name
-    keycloak_dfsp_realm_name                   = var.keycloak_dfsp_realm_name
+    keycloak_hubop_realm_name                  = var.keycloak_hubop_realm_name
     keycloak_sync_wave                         = var.keycloak_sync_wave
     keycloak_post_config_sync_wave             = var.keycloak_post_config_sync_wave
     ingress_class                              = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
@@ -33,8 +33,17 @@ module "generate_keycloak_files" {
     istio_create_ingress_gateways = var.istio_create_ingress_gateways
     ref_secrets                   = local.keycloak_realm_env_secret_map
     ref_secrets_path              = local.keycloak_secrets_path
+    mcm_admin_client_secret_name  = var.mcm_admin_client_secret_name
+    mcm_oidc_client_secret_name   = var.mcm_oidc_client_secret_name
     mcm_smtp_enabled              = var.common_var_map.mcm_enabled
-    mcm_smtp_auth                 = try(var.app_var_map.mcm_smtp_auth, false)
+    smtp_from                     = var.smtp_from
+    smtp_from_display_name        = var.smtp_from_display_name
+    smtp_reply_to                 = var.smtp_reply_to
+    smtp_host                     = var.smtp_host
+    smtp_port                     = var.smtp_port
+    smtp_ssl                      = var.smtp_ssl
+    smtp_starttls                 = var.smtp_starttls
+    smtp_auth                     = var.smtp_auth
   }
   file_list       = [for f in fileset(local.keycloak_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.keycloak_app_file, f))]
   template_path   = local.keycloak_template_path
@@ -83,11 +92,62 @@ variable "keycloak_namespace" {
   description = "keycloak_namespace"
   default     = "keycloak"
 }
-# rm this later, this is for nginx backwards compatability, not used in istio
-variable "keycloak_dfsp_realm_name" {
+variable "keycloak_hubop_realm_name" {
   type        = string
-  description = "name of realm for dfsp api access"
-  default     = "dfsps"
+  description = "name of realm for hub operators access"
+  default     = "hub-operators"
+}
+
+variable "mcm_admin_client_secret_name" {
+  type        = string
+  description = "name of MCM admin client secret for Keycloak administrative operations"
+  default     = "mcm-admin-client-secret"
+}
+
+variable "mcm_oidc_client_secret_name" {
+  type        = string
+  description = "name of MCM OIDC client secret for user authentication flows"
+  default     = "mcm-oidc-client-secret"
+}
+
+variable "smtp_from" {
+  type        = string
+  description = "SMTP from address for Keycloak email notifications"
+}
+
+variable "smtp_from_display_name" {
+  type        = string
+  description = "SMTP from display name for Keycloak email notifications"
+}
+
+variable "smtp_reply_to" {
+  type        = string
+  description = "SMTP reply-to address for Keycloak email notifications"
+}
+
+variable "smtp_host" {
+  type        = string
+  description = "SMTP host for Keycloak email notifications"
+}
+
+variable "smtp_port" {
+  type        = string
+  description = "SMTP port for Keycloak email notifications"
+}
+
+variable "smtp_ssl" {
+  type        = string
+  description = "SMTP SSL setting for Keycloak email notifications"
+}
+
+variable "smtp_starttls" {
+  type        = string
+  description = "SMTP STARTTLS setting for Keycloak email notifications"
+}
+
+variable "smtp_auth" {
+  type        = bool
+  description = "SMTP authentication setting for Keycloak email notifications"
 }
 
 locals {
@@ -109,8 +169,8 @@ locals {
   }
 
   mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
-    "keycloak-${var.keycloak_dfsp_realm_name}-realm-api-secret"  = "secret"
-    "keycloak-${var.keycloak_dfsp_realm_name}-realm-auth-secret" = "secret"
+    var.mcm_admin_client_secret_name = var.vault_secret_key
+    var.mcm_oidc_client_secret_name  = var.vault_secret_key
   })
 
   pm4ml_keycloak_realm_env_secret_map = merge(

@@ -31,7 +31,7 @@ spec:
       fullScopeAllowed: true
       nodeReRegistrationTimeout: -1
     - clientId: connection-manager-api-service
-      secret: ${keycloak_realm_api_secret_name}
+      secret: ${mcm_admin_client_secret_name}
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris: []
@@ -46,7 +46,7 @@ spec:
       attributes:
         access.token.lifespan: "${keycloak_access_token_lifespan}"
     - clientId: connection-manager-auth-client
-      secret: ${keycloak_realm_auth_secret_name}
+      secret: ${mcm_oidc_client_secret_name}
       enabled: true
       clientAuthenticatorType: client-secret
       redirectUris:
@@ -120,7 +120,7 @@ spec:
       disableableCredentialTypes: []
       requiredActions: []
       realmRoles:
-      - default-roles-${keycloak_dfsp_realm_name}
+      - default-roles-${keycloak_hubop_realm_name}
       - dfsp-admin
       clientRoles: {}
       notBefore: 0

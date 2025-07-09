@@ -42,7 +42,7 @@ spec:
 %{ if !fspiop_use_ory_for_auth ~}
       from:
         - source:
-            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
+            notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/*"]
 %{ endif ~}
 ---
 apiVersion: networking.istio.io/v1alpha3

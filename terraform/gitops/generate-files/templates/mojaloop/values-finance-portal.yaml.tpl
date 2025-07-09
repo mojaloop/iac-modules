@@ -66,7 +66,8 @@ role-assignment-service:
           "mcmadmin"
         ],
         "AUTO_GRANT_PORTAL_ADMIN_ROLES": [
-          "manager"
+          "manager",
+          "pta"
         ]
       }
 

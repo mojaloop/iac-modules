@@ -59,7 +59,6 @@ module "generate_mcm_files" {
     private_network_cidr                 = var.private_network_cidr
     interop_switch_fqdn                  = local.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn
-    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
     keycloak_name                        = var.keycloak_name
     keycloak_namespace                   = var.keycloak_namespace
@@ -95,16 +94,8 @@ module "generate_mcm_files" {
     portal_admin_user                    = var.portal_admin_user
     portal_admin_email                   = var.portal_admin_email
     portal_admin_secret                  = var.portal_admin_secret
-    keycloak_realm_api_secret_name       = join("$", ["", "{keycloak_${replace(var.keycloak_dfsp_realm_name, "-", "_")}_realm_api_secret}"])
-    keycloak_realm_auth_secret_name      = join("$", ["", "{keycloak_${replace(var.keycloak_dfsp_realm_name, "-", "_")}_realm_auth_secret}"])
-    smtp_from                            = var.mcm_smtp_from
-    smtp_from_display_name               = var.mcm_smtp_from_display_name
-    smtp_reply_to                        = var.mcm_smtp_reply_to
-    smtp_host                            = var.mcm_smtp_host
-    smtp_port                            = var.mcm_smtp_port
-    smtp_ssl                             = var.mcm_smtp_ssl
-    smtp_starttls                        = var.mcm_smtp_starttls
-    smtp_auth                            = var.mcm_smtp_auth
+    mcm_admin_client_secret_name         = join("$", ["", "{${replace(var.mcm_admin_client_secret_name, "-", "_")}}"])
+    mcm_oidc_client_secret_name          = join("$", ["", "{${replace(var.mcm_oidc_client_secret_name, "-", "_")}}"])
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -193,10 +184,20 @@ variable "jwt_client_secret_secret" {
   type = string
 }
 
-variable "keycloak_dfsp_realm_name" {
+variable "keycloak_hubop_realm_name" {
   type        = string
-  description = "name of realm for dfsp api access"
-  default     = "dfsps"
+  description = "name of realm for hub operators access"
+  default     = "hub-operators"
+}
+
+variable "mcm_admin_client_secret_name" {
+  type        = string
+  description = "name of MCM admin client secret for Keycloak administrative operations"
+}
+
+variable "mcm_oidc_client_secret_name" {
+  type        = string
+  description = "name of MCM OIDC client secret for user authentication flows"
 }
 
 variable "keycloak_name" {
@@ -242,45 +243,7 @@ variable "portal_admin_secret" {
   default = "portal-admin-secret"
 }
 
-variable "mcm_smtp_from" {
-  type    = string
-  default = "noreply@mojaloop.io"
-}
 
-variable "mcm_smtp_from_display_name" {
-  type    = string
-  default = "Mojaloop"
-}
-
-variable "mcm_smtp_reply_to" {
-  type    = string
-  default = "noreply@mojaloop.io"
-}
-
-variable "mcm_smtp_host" {
-  type    = string
-  default = "localhost"
-}
-
-variable "mcm_smtp_port" {
-  type    = string
-  default = "587"
-}
-
-variable "mcm_smtp_ssl" {
-  type    = string
-  default = "false"
-}
-
-variable "mcm_smtp_starttls" {
-  type    = string
-  default = "true"
-}
-
-variable "mcm_smtp_auth" {
-  type    = bool
-  default = false
-}
 
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"

@@ -55,9 +55,9 @@ api:
   env:
     KEYCLOAK_ENABLED: "true"
     KEYCLOAK_BASE_URL: "https://${keycloak_fqdn}"
-    KEYCLOAK_DISCOVERY_URL: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/.well-known/openid-configuration"
+    KEYCLOAK_DISCOVERY_URL: "https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/.well-known/openid-configuration"
     KEYCLOAK_ADMIN_CLIENT_ID: "connection-manager-api-service"
-    KEYCLOAK_DFSPS_REALM: "${keycloak_dfsp_realm_name}"
+    KEYCLOAK_DFSPS_REALM: "${keycloak_hubop_realm_name}"
     KEYCLOAK_AUTO_CREATE_ACCOUNTS: "true"
     ENABLE_KETO: "true"
     KETO_WRITE_URL: ${keto_write_url}
@@ -65,21 +65,21 @@ api:
     KEYCLOAK_ADMIN_CLIENT_SECRET:
       valueFrom:
         secretKeyRef:
-          name: keycloak-${keycloak_dfsp_realm_name}-realm-api-secret
+          name: ${mcm_admin_client_secret_name}
           key: secret
     OPENID_CLIENT_SECRET:
       valueFrom:
         secretKeyRef:
-          name: keycloak-${keycloak_dfsp_realm_name}-realm-auth-secret
+          name: ${mcm_oidc_client_secret_name}
           key: secret
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
-  loginProvider: ${keycloak_dfsp_realm_name}
-  logoutUrl: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_dfsp_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
+  loginProvider: ${keycloak_hubop_realm_name}
+  logoutUrl: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_hubop_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
   oauth:
     enabled: true
-    hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
+    hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect"
   image:
     version: sha-fdd7609d7aa7796c616041deaab30226243f5d3b
 

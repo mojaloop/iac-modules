@@ -133,7 +133,7 @@ locals {
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
-  keycloak_mcm_realm_auth_secret_name = "keycloak-${var.keycloak_dfsp_realm_name}-realm-auth-secret"
+      keycloak_mcm_realm_auth_secret_name = var.mcm_oidc_client_secret_name
   default_mapper_jsonnet = <<-EOF
 local claims = std.extVar('claims');
 
@@ -157,7 +157,7 @@ EOF
     mapper_url  = "base64://${local.default_mapper_base64}"
     scope       = ["openid", "email", "profile"]
   }] : [], var.common_var_map.mcm_enabled ? [{
-    realm       = "${var.keycloak_dfsp_realm_name}"
+    realm       = "${var.keycloak_hubop_realm_name}"
     client_id   = "connection-manager-auth-client"
     secret_name = local.keycloak_mcm_realm_auth_secret_name
     mapper_url  = "base64://${local.default_mapper_base64}"

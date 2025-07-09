@@ -42,7 +42,7 @@ spec:
     - host: token-${keycloak_fqdn}
       http:
         paths:
-          - path: /realms/${keycloak_dfsp_realm_name}/protocol/openid-connect
+          - path: /realms/${keycloak_hubop_realm_name}/protocol/openid-connect
             pathType: ImplementationSpecific
             backend:
               service:

@@ -1,8 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - keycloak-realm-secrets.yaml
-  - keycloak-realm-cr.yaml
   - vault-secret.yaml
   - vault-certificate.yaml
   - vault-rbac.yaml
