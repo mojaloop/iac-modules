@@ -93,9 +93,9 @@ spec:
         name: ${consumer_app_configmap.ca_bundle_configmap}
         key: ${consumer_app_configmap.ca_bundle_configmap_key}
         namespaces:
-        %{ for ns in consumer_app_configmap.namespaces ~}
+%{ for ns in consumer_app_configmap.namespaces ~}
           - ${ns}
-        %{ endfor ~}
+%{ endfor ~}
     allowMajorVersionUpgrade: ${allow_major_version_upgrade}
     applyImmediately: ${apply_immediately}
     backupRetentionPeriod: ${backup_retention_period}
