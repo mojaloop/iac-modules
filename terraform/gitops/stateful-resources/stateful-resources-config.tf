@@ -304,7 +304,7 @@ locals {
   }
 
   ca_bundle_configmaps_by_monolith = {
-    for monolith_key, monolith in var.var.monolith_stateful_resources : monolith_key => {
+    for monolith_key, monolith in var.monolith_stateful_resources : monolith_key => {
       ca_bundle_configmap = monolith.ca_bundle_configmap.name
       namespaces = distinct(
         concat(
