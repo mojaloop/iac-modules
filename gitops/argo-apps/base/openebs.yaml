@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: ${ARGOCD_ENV_sc_openebs_app_name}
-  namespace: ${ARGOCD_ENV_sc_openebs_namespace}
+  namespace: ${ARGOCD_ENV_sc_app_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_sc_openebs_sync_wave}
 
