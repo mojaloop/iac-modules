@@ -656,3 +656,5 @@ argocd_override:
           static_ip_range_end: "${sc_metallb_static_ip_range_end}"
           dynamic_ip_range_begin: "${sc_metallb_dynamic_ip_range_begin}"
           dynamic_ip_range_end: "${sc_metallb_dynamic_ip_range_end}"
+        openebs:
+          helm_version: "${sc_openebs_helm_version}"
