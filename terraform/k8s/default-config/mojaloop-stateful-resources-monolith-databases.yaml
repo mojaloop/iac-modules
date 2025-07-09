@@ -5,7 +5,7 @@ common_platform_db:
   externalservice_name: "common-platform-db"
   resource_namespace: "stateful-resources"  # Namespace where the resource will be created
   ca_bundle_configmap:
-    name: "global-ca-bundle"
+    name: "global-ca-bundle-plat"
     key: "ca-bundle.crt"
   dbaas_resource_config:
     # Percona XtraDB Cluster (PXC) specific configurations
