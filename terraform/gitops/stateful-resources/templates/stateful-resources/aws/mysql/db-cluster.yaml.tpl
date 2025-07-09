@@ -86,6 +86,7 @@ spec:
   providerConfigsRef:
     awsProviderConfigName: "aws-cp-upbound-provider-config"
     ccK8sProviderName: "kubernetes-provider"
+    httpProviderConfigName: "http-conf"
   parameters:
     externalServiceName: "${externalservice_name}"
     appNamespace: "${namespace}"
