@@ -106,12 +106,12 @@ workload_definitions:
                   operator: In
                   values:
                     - "enabled"
-smtp:
-  host: "localhost"
-  port: 587
-  ssl: false
-  starttls: true
-  auth: false
-  from: "noreply@mojaloop.io"
-  from_display_name: "Mojaloop"
-  reply_to: "noreply@mojaloop.io"
+
+smtp_host: "localhost"
+smtp_port: 587
+smtp_ssl: false
+smtp_starttls: true
+smtp_auth: false
+smtp_from: "noreply@mojaloop.io"
+smtp_from_display_name: "Mojaloop"
+smtp_reply_to: "noreply@mojaloop.io"
