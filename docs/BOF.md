@@ -113,25 +113,34 @@ Protect backend endpoints by assigning required permissions to roles and users. 
 
 ### SMTP Setup for Email Notifications
 
-MCM requires SMTP configuration for sending email notifications during participant onboarding. The system comes with sensible SMTP defaults that can be overridden if needed.
+MCM requires SMTP configuration for sending email notifications during participant onboarding.
 
-**Configure SMTP credentials in Vault:**
+**SMTP credentials in Vault:**
 
 ```bash
-vault kv put /secret/mcm/smtp-credentials \
+vault kv put /secret/smtp-credentials \
   smtp_user="your-smtp-username" \
   smtp_password="your-smtp-password"
 ```
 
-**Override SMTP defaults (optional):**
+**Or via Vault UI:**
+1. Access Vault web interface and login
+2. Navigate to **Secrets** → Select **KV secrets engine**
+3. Click **"Create secret +"**
+4. Set **Path**: `smtp-credentials`
+5. Add keys: `smtp_user` and `smtp_password` with your values
+6. Click **"Save"**
 
-To override the default SMTP settings, add configuration to your `custom-config/cluster-config.yaml`:
+**SMTP settings:**
+
+Add configuration to your `custom-config/cluster-config.yaml`:
 
 ```hcl
-# Override defaults only if needed
-mcm_smtp_host = "smtp.company.com"  # default: "localhost"
-mcm_smtp_from = "mcm@company.com"   # default: "noreply@mojaloop.io"
+# Override defaults
+smtp = {
+  host = "smtp.company.com" 
+  from = "mcm@company.com"
+  # ... other smtp fields
+}
 # See terraform/k8s/default-config/common-vars.yaml for all default values
 ```
-
-**Note:** SMTP credentials (username/password) are stored securely in Vault and retrieved automatically. All MCM user passwords and client secrets are auto-generated during deployment.

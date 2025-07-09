@@ -34,16 +34,15 @@ module "generate_keycloak_files" {
     ref_secrets                   = local.keycloak_realm_env_secret_map
     ref_secrets_path              = local.keycloak_secrets_path
     mcm_admin_client_secret_name  = var.mcm_admin_client_secret_name
-    mcm_smtp_enabled              = var.common_var_map.mcm_enabled
-    smtp_from                     = var.smtp_from
-    smtp_from_display_name        = var.smtp_from_display_name
-    smtp_reply_to                 = var.smtp_reply_to
-    smtp_host                     = var.smtp_host
-    smtp_port                     = var.smtp_port
-    smtp_ssl                      = var.smtp_ssl
-    smtp_starttls                 = var.smtp_starttls
-    smtp_auth                     = var.smtp_auth
-    mcm_smtp_auth                 = var.smtp_auth
+    mcm_enabled                   = var.common_var_map.mcm_enabled
+    smtp_from                     = var.smtp.from
+    smtp_from_display_name        = var.smtp.from_display_name
+    smtp_reply_to                 = var.smtp.reply_to
+    smtp_host                     = var.smtp.host
+    smtp_port                     = var.smtp.port
+    smtp_ssl                      = var.smtp.ssl
+    smtp_starttls                 = var.smtp.starttls
+    smtp_auth                     = var.smtp.auth
   }
   file_list       = [for f in fileset(local.keycloak_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.keycloak_app_file, f))]
   template_path   = local.keycloak_template_path

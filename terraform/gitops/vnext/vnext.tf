@@ -176,43 +176,35 @@ variable "mcm_admin_client_secret_name" {
 
 
 variable "smtp_from" {
-  type        = string
-  description = "SMTP from address for Keycloak email notifications"
+  type = string
 }
 
 variable "smtp_from_display_name" {
-  type        = string
-  description = "SMTP from display name for Keycloak email notifications"
+  type = string
 }
 
 variable "smtp_reply_to" {
-  type        = string
-  description = "SMTP reply-to address for Keycloak email notifications"
+  type = string
 }
 
 variable "smtp_host" {
-  type        = string
-  description = "SMTP host for Keycloak email notifications"
+  type = string
 }
 
 variable "smtp_port" {
-  type        = string
-  description = "SMTP port for Keycloak email notifications"
+  type = string
 }
 
 variable "smtp_ssl" {
-  type        = string
-  description = "SMTP SSL setting for Keycloak email notifications"
+  type = bool
 }
 
 variable "smtp_starttls" {
-  type        = string
-  description = "SMTP STARTTLS setting for Keycloak email notifications"
+  type = bool
 }
 
 variable "smtp_auth" {
-  type        = bool
-  description = "SMTP authentication setting for Keycloak email notifications"
+  type = bool
 }
 
 

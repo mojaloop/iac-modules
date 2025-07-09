@@ -59,14 +59,14 @@ module "mojaloop" {
   vault_root_ca_name                   = "pki-${var.cluster_name}"
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-  smtp_from                            = var.smtp_from
-  smtp_from_display_name               = var.smtp_from_display_name
-  smtp_reply_to                        = var.smtp_reply_to
-  smtp_host                            = var.smtp_host
-  smtp_port                            = var.smtp_port
-  smtp_ssl                             = var.smtp_ssl
-  smtp_starttls                        = var.smtp_starttls
-  smtp_auth                            = var.smtp_auth
+  smtp_from                            = var.smtp.from
+  smtp_from_display_name               = var.smtp.from_display_name
+  smtp_reply_to                        = var.smtp.reply_to
+  smtp_host                            = var.smtp.host
+  smtp_port                            = var.smtp.port
+  smtp_ssl                             = var.smtp.ssl
+  smtp_starttls                        = var.smtp.starttls
+  smtp_auth                            = var.smtp.auth
   rbac_api_resources_file              = var.rbac_api_resources_file
   mojaloop_values_override_file        = var.mojaloop_values_override_file
   mcm_values_override_file             = var.mcm_values_override_file
@@ -216,14 +216,14 @@ module "vnext" {
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-  smtp_from                            = var.smtp_from
-  smtp_from_display_name               = var.smtp_from_display_name
-  smtp_reply_to                        = var.smtp_reply_to
-  smtp_host                            = var.smtp_host
-  smtp_port                            = var.smtp_port
-  smtp_ssl                             = var.smtp_ssl
-  smtp_starttls                        = var.smtp_starttls
-  smtp_auth                            = var.smtp_auth
+  smtp_from                            = var.smtp.from
+  smtp_from_display_name               = var.smtp.from_display_name
+  smtp_reply_to                        = var.smtp.reply_to
+  smtp_host                            = var.smtp.host
+  smtp_port                            = var.smtp.port
+  smtp_ssl                             = var.smtp.ssl
+  smtp_starttls                        = var.smtp.starttls
+  smtp_auth                            = var.smtp.auth
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                      = var.managed_db_host
@@ -347,52 +347,28 @@ variable "mcm_admin_client_secret_name" {
 
 
 
-variable "smtp_from" {
-  type        = string
-  description = "SMTP from address for Keycloak email notifications"
-  default     = "noreply@mojaloop.io"
-}
-
-variable "smtp_from_display_name" {
-  type        = string
-  description = "SMTP from display name for Keycloak email notifications"
-  default     = "Mojaloop"
-}
-
-variable "smtp_reply_to" {
-  type        = string
-  description = "SMTP reply-to address for Keycloak email notifications"
-  default     = "noreply@mojaloop.io"
-}
-
-variable "smtp_host" {
-  type        = string
-  description = "SMTP host for Keycloak email notifications"
-  default     = "localhost"
-}
-
-variable "smtp_port" {
-  type        = string
-  description = "SMTP port for Keycloak email notifications"
-  default     = "587"
-}
-
-variable "smtp_ssl" {
-  type        = string
-  description = "SMTP SSL setting for Keycloak email notifications"
-  default     = "false"
-}
-
-variable "smtp_starttls" {
-  type        = string
-  description = "SMTP STARTTLS setting for Keycloak email notifications"
-  default     = "true"
-}
-
-variable "smtp_auth" {
-  type        = bool
-  description = "SMTP authentication setting for Keycloak email notifications"
-  default     = false
+variable "smtp" {
+  type = object({
+    host              = string
+    port              = string
+    ssl               = bool
+    starttls          = bool
+    auth              = bool
+    from              = string
+    from_display_name = string
+    reply_to          = string
+  })
+  description = "SMTP configuration for Keycloak email notifications"
+  default = {
+    host              = "localhost"
+    port              = "587"
+    ssl               = false
+    starttls          = true
+    auth              = false
+    from              = "noreply@mojaloop.io"
+    from_display_name = "Mojaloop"
+    reply_to          = "noreply@mojaloop.io"
+  }
 }
 
 variable "rbac_api_resources_file" {

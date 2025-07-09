@@ -38,15 +38,15 @@ spec:
                   name: ${ref_secret_name}
                   key: ${ref_secret_key}
 %{ endfor ~}
-%{ if mcm_smtp_enabled && mcm_smtp_auth ~}
-            - name: mcm_smtp_credentials_user
+%{ if smtp_auth ~}
+            - name: smtp_credentials_user
               valueFrom:
                 secretKeyRef:
-                  name: mcm-smtp-credentials-user
+                  name: smtp-credentials-user
                   key: secret
-            - name: mcm_smtp_credentials_password
+            - name: smtp_credentials_password
               valueFrom:
                 secretKeyRef:
-                  name: mcm-smtp-credentials-password
+                  name: smtp-credentials-password
                   key: secret
 %{ endif ~}

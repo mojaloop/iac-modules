@@ -170,8 +170,8 @@ spec:
       starttls: "${smtp_starttls}"
       auth: "${smtp_auth}"
 %{ if smtp_auth ~}
-      user: "$${mcm_smtp_credentials_user}"
-      password: "$${mcm_smtp_credentials_password}"
+      user: "$${smtp_credentials_user}"
+      password: "$${smtp_credentials_password}"
 %{ endif ~}
 
     eventsEnabled: true

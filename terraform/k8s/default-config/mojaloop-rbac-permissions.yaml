@@ -366,20 +366,20 @@ roles:
   - auditSettlement
   - report-settlement-audit
 
-# MCM Roles - Based on OpenAPI schema analysis
+# MCM Roles
 - rolename: mta
   permissions:
   # General MCM API access
   - mcmApi
   - basicAccess
-  # Hub management (full access)
+  # Hub management
   - hubEndpointsView
   - hubEndpointsManage
   - hubCertificatesView
   - hubCertificatesManage
   - hubServerCertsView
   - hubServerCertsManage
-  # DFSP management (full access)
+  # DFSP management
   - dfspList
   - dfspView
   - dfspManage
@@ -393,7 +393,7 @@ roles:
   - dfspEnrollmentsView
   - dfspEnrollmentsManage
   - dfspOnboard
-  # JWS Certificates (full access)
+  # JWS Certificates
   - jwsCertificatesView
   - jwsCertificatesManage
   # Monetary zones
@@ -407,14 +407,14 @@ roles:
   # General MCM API access
   - mcmApi
   - basicAccess
-  # Hub management (full access)
+  # Hub management
   - hubEndpointsView
   - hubEndpointsManage
   - hubCertificatesView
   - hubCertificatesManage
   - hubServerCertsView
   - hubServerCertsManage
-  # DFSP management (full access)
+  # DFSP management
   - dfspList
   - dfspView
   - dfspManage
@@ -428,7 +428,7 @@ roles:
   - dfspEnrollmentsManage
   - dfspOnboard
   - dfspEndpointConfirmation
-  # JWS Certificates (full access) 
+  # JWS Certificates
   - jwsCertificatesView
   - jwsCertificatesManage
   # Monetary zones
@@ -441,7 +441,7 @@ roles:
   # Basic authenticated access
   - basicAccess
 
-# DFSP-specific role template (actual DFSP roles are created dynamically)
+# DFSP base role (actual "dfsp:{dfsp_name}" roles are created dynamically)
 - rolename: dfsp
   permissions:
   # DFSP can only access their own resources
@@ -453,7 +453,7 @@ roles:
   - dfspSelfServerCertsView
   - dfspSelfStatusView
 
-# Legacy MCM admin role (expanded)
+# Legacy MCM admin role
 - rolename: mcmadmin
   permissions:
   # All MCM permissions (same as MTA)

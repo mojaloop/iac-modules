@@ -68,12 +68,12 @@ spec:
     type: Opaque
 ---
 %{ endfor ~}
-%{ if mcm_smtp_enabled && mcm_smtp_auth ~}
-# MCM SMTP User Secret (for Keycloak realm import environment variables)
+%{ if smtp_auth ~}
+# SMTP User Secret
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: mcm-smtp-credentials-user
+  name: smtp-credentials-user
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -85,18 +85,18 @@ spec:
         serviceAccount:
             name: default
       name: smtpcreds
-      path: /secret/mcm/smtp-credentials
+      path: /secret/smtp-credentials
   output:
-    name: mcm-smtp-credentials-user
+    name: smtp-credentials-user
     stringData:
       secret: '{{ .smtpcreds.smtp_user }}'
     type: Opaque
 ---
-# MCM SMTP Password Secret (for Keycloak realm import environment variables)
+# SMTP Password Secret
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: mcm-smtp-credentials-password
+  name: smtp-credentials-password
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -108,9 +108,9 @@ spec:
         serviceAccount:
             name: default
       name: smtpcreds
-      path: /secret/mcm/smtp-credentials
+      path: /secret/smtp-credentials
   output:
-    name: mcm-smtp-credentials-password
+    name: smtp-credentials-password
     stringData:
       secret: '{{ .smtpcreds.smtp_password }}'
     type: Opaque
