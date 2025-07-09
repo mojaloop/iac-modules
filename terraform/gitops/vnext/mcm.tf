@@ -87,8 +87,8 @@ module "generate_mcm_files" {
     keycloak_access_token_lifespan       = 43200
     portal_admin_user                    = var.portal_admin_user
     portal_admin_email                   = var.portal_admin_email
-    mcm_admin_client_secret_name         = join("$", ["", "{${replace(var.mcm_admin_client_secret_name, "-", "_")}}"])
-    mcm_oidc_client_secret_name          = join("$", ["", "{${replace(var.mcm_oidc_client_secret_name, "-", "_")}}"])
+    mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+    mcm_oidc_client_secret_name          = var.mcm_oidc_client_secret_name
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
