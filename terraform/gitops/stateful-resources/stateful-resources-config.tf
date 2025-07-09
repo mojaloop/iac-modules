@@ -188,6 +188,7 @@ resource "local_file" "aws-db-crs" {
         namespace                    = each.value.resource_namespace
         consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
         consumer_app_configmap       = local.ca_bundle_configmaps_by_monolith[each.key]
+        ca_bundle_url                = each.value.external_resource_config.ca_bundle_url
         externalservice_name         = each.value.externalservice_name
         allow_major_version_upgrade  = each.value.external_resource_config.allow_major_version_upgrade
         apply_immediately            = each.value.external_resource_config.apply_immediately

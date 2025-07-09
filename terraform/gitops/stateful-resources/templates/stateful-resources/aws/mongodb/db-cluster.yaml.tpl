@@ -97,6 +97,7 @@ spec:
 %{ for ns in consumer_app_configmap.namespaces ~}
           - ${ns}
 %{ endfor ~}
+    caBundleUrl: ${ca_bundle_url}
     allowMajorVersionUpgrade: ${allow_major_version_upgrade}
     applyImmediately: ${apply_immediately}
     backupRetentionPeriod: ${backup_retention_period}
