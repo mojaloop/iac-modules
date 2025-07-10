@@ -141,6 +141,7 @@ inputs = {
   database_subnets                         = join( ",", dependency.k8s_deploy.outputs.private_subnets)
   availability_zones                       = join( ",", dependency.k8s_deploy.outputs.availability_zones)
   cloud_region                             = local.CLOUD_REGION
+  reclaim_policy                           = local.persistent_volume_reclaim_policy
 }
 
 locals {
@@ -219,6 +220,7 @@ locals {
   netbird_operator_api_key_vault_path = get_env("netbird_operator_api_key_vault_path")
   cc_name                        = get_env("cc_name")
   vpc_cidr                       = get_env("vpc_cidr")
+  persistent_volume_reclaim_policy = get_env("persistent_volume_reclaim_policy")
 }
 
 generate "required_providers_override" {
