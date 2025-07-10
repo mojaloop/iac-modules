@@ -166,7 +166,7 @@ management:
       - --log-file=console
       - --disable-anonymous-metrics=true
       - --port=80
-      - --dns-domain=netbird.selfhosted"
+      - --dns-domain=netbird.selfhosted
   metrics:
     enabled: true
 
