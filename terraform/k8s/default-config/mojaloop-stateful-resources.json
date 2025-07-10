@@ -107,7 +107,7 @@
     },
     {
         "enabled": false,
-        "resource_name": "mysql-consent-oracle-db",
+        "resource_name": "consent-oracle-db",
         "resource_type": "mysql",
         "external_service": false,
         "logical_service_config": {
@@ -528,7 +528,7 @@
             "logical_service_port": 27017,
             "logical_service_name": "bulk-mongodb-svc",
             "username": "mojaloop",
-            "user_password_secret": "mongodb-bulk-secret",
+            "user_password_secret": "bulk-mongodb-secret",
             "user_password_secret_key": "mongodb-passwords",
             "secret_extra_namespaces": [
                 "mojaloop"
@@ -542,7 +542,7 @@
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
             "resource_helm_values_ref": "values-mongodb.yaml.tpl",
-            "generate_secret_name": "mongodb-bulk-secret",
+            "generate_secret_name": "bulk-mongodb-secret",
             "generate_secret_keys": [
                 "mongodb-passwords",
                 "mongodb-root-password"
@@ -551,7 +551,7 @@
             "generate_secret_extra_namespaces": [],
             "generate_secret_special_chars": "_",
             "mongodb_data": {
-                "existing_secret": "mongodb-bulk-secret",
+                "existing_secret": "bulk-mongodb-secret",
                 "root_password": "",
                 "user": "mojaloop",
                 "user_password": "",
@@ -572,7 +572,7 @@
             "logical_service_port": 27017,
             "logical_service_name": "mongodb-cep-mongodb",
             "username": "mojaloop",
-            "user_password_secret": "mongodb-cep-secret",
+            "user_password_secret": "cep-mongodb-secret",
             "user_password_secret_key": "mongodb-passwords",
             "secret_extra_namespaces": [
                 "mojaloop"
@@ -586,7 +586,7 @@
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
             "resource_helm_values_ref": "values-mongodb.yaml.tpl",
-            "generate_secret_name": "mongodb-cep-secret",
+            "generate_secret_name": "cep-mongodb-secret",
             "generate_secret_keys": [
                 "mongodb-passwords",
                 "mongodb-root-password"
@@ -595,7 +595,7 @@
             "generate_secret_extra_namespaces": [],
             "generate_secret_special_chars": "_",
             "mongodb_data": {
-                "existing_secret": "mongodb-cep-secret",
+                "existing_secret": "cep-mongodb-secret",
                 "root_password": "",
                 "user": "mojaloop",
                 "user_password": "",
@@ -616,7 +616,7 @@
             "logical_service_port": 27017,
             "logical_service_name": "mongodb-reporting-events-mongodb",
             "username": "mojaloop",
-            "user_password_secret": "mongodb-reporting-events-secret",
+            "user_password_secret": "reporting-events-mongodb-secret",
             "user_password_secret_key": "mongodb-passwords",
             "secret_extra_namespaces": [
                 "mojaloop"
@@ -630,7 +630,7 @@
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
             "resource_helm_values_ref": "values-mongodb.yaml.tpl",
-            "generate_secret_name": "mongodb-reporting-events-secret",
+            "generate_secret_name": "reporting-events-mongodb-secret",
             "generate_secret_keys": [
                 "mongodb-passwords",
                 "mongodb-root-password"
@@ -639,7 +639,7 @@
             "generate_secret_extra_namespaces": [],
             "generate_secret_special_chars": "_",
             "mongodb_data": {
-                "existing_secret": "mongodb-reporting-events-secret",
+                "existing_secret": "reporting-events-mongodb-secret",
                 "root_password": "",
                 "user": "mojaloop",
                 "user_password": "",
@@ -1041,7 +1041,7 @@
             "logical_service_port": 27017,
             "logical_service_name": "ttk-mongodb-svc",
             "username": "ttk",
-            "user_password_secret": "mongodb-ttk-secret",
+            "user_password_secret": "ttk-mongodb-secret",
             "user_password_secret_key": "mongodb-passwords",
             "secret_extra_namespaces": [
                 "mojaloop"
@@ -1055,7 +1055,7 @@
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
             "resource_helm_values_ref": "values-mongodb.yaml.tpl",
-            "generate_secret_name": "mongodb-ttk-secret",
+            "generate_secret_name": "ttk-mongodb-secret",
             "generate_secret_keys": [
                 "mongodb-passwords",
                 "mongodb-root-password"
@@ -1064,7 +1064,7 @@
             "generate_secret_extra_namespaces": [],
             "generate_secret_special_chars": "_",
             "mongodb_data": {
-                "existing_secret": "mongodb-ttk-secret",
+                "existing_secret": "ttk-mongodb-secret",
                 "root_password": "",
                 "user": "ttk",
                 "user_password": "",

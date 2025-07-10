@@ -58,7 +58,7 @@
             "logical_service_port": 27017,
             "logical_service_name": "mongodb-vnext-mongodb",
             "username": "mojaloop",
-            "user_password_secret": "mongodb-vnext-secret",
+            "user_password_secret": "vnext-mongodb-secret",
             "user_password_secret_key": "mongodb-passwords",
             "secret_extra_namespaces": [
                 "mojaloop"
@@ -72,7 +72,7 @@
             "resource_helm_chart": "mongodb",
             "resource_helm_chart_version": "13.3.1",
             "resource_helm_values_ref": "values-mongodb.yaml.tpl",
-            "generate_secret_name": "mongodb-vnext-secret",
+            "generate_secret_name": "vnext-mongodb-secret",
             "generate_secret_keys": [
                 "mongodb-passwords",
                 "mongodb-root-password"
@@ -81,7 +81,7 @@
             "generate_secret_extra_namespaces": [],
             "generate_secret_special_chars": "_",
             "mongodb_data": {
-                "existing_secret": "mongodb-vnext-secret",
+                "existing_secret": "vnext-mongodb-secret",
                 "root_password": "",
                 "user": "mojaloop",
                 "user_password": "",
