@@ -179,6 +179,32 @@ spec:
         - name: "monitoring_metrics_server_replicas"
           value: "${ARGOCD_ENV_monitoring_metrics_server_replicas}"
 
+        - name: "monitoring_sync_wave"
+          value: "${ARGOCD_ENV_monitoring_sync_wave}"
+
+        - name: "monitoring_monitoring_namespace"
+          value: "${ARGOCD_ENV_monitoring_monitoring_namespace}"
+
+        - name: "monitoring_kube_prometheus_helm_version"
+          value: "${ARGOCD_ENV_monitoring_monitoring_kube_prometheus_helm_version}"
+
+        - name: "monitoring_prometheus_pvc_size"
+          value: "${ARGOCD_ENV_monitoring_prometheus_pvc_size}"
+        - name: "monitoring_monitoring_prometheus_scrape_interval"
+          value: "${ARGOCD_ENV_monitoring_monitoring_prometheus_scrape_interval}"
+        - name: "monitoring_prometheus_retention_period"
+          value: "${ARGOCD_ENV_monitoring_prometheus_retention_period}"
+        - name: "monitoring_prometheus_tsdb_min_block_duration"
+          value: "${ARGOCD_ENV_monitoring_prometheus_tsdb_min_block_duration}"
+        - name: "monitoring_prometheus_tsdb_max_block_duration"
+          value: "${ARGOCD_ENV_monitoring_prometheus_tsdb_max_block_duration}"
+        - name: "monitoring_prometheus_resources_preset_bitnami"
+          value: "${ARGOCD_ENV_monitoring_prometheus_resources_preset_bitnami}"
+        - name: "monitoring_prometheus_remote_write_tenant_id"
+          value: "${ARGOCD_ENV_monitoring_prometheus_remote_write_tenant_id}"
+        - name: "monitoring_prometheus_cluster_label_value"
+          value: "${ARGOCD_ENV_monitoring_prometheus_cluster_label_value}"
+
         # percona operator
 
         - name: utils_percona_pg_operator_helm_version
