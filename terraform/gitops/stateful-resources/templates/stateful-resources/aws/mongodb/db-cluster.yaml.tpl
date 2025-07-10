@@ -90,11 +90,11 @@ spec:
     externalServiceName: "${externalservice_name}"
     appNamespace: "${namespace}"
     consumerAppsExternalServices: ${consumer_app_externalname_services}
-    consumerAppsConfigMap:
-        name: ${consumer_app_configmap.ca_bundle_configmap}
-        key: ${consumer_app_configmap.ca_bundle_configmap_key}
+    consumerAppsSecret:
+        name: ${consumer_app_secret.ca_bundle_secret}
+        key: ${consumer_app_secret.ca_bundle_secret_key}
         namespaces:
-%{ for ns in consumer_app_configmap.namespaces ~}
+%{ for ns in consumer_app_secret.namespaces ~}
           - ${ns}
 %{ endfor ~}
     caBundleUrl: ${ca_bundle_url}

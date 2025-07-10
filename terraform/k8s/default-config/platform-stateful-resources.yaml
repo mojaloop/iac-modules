@@ -11,7 +11,7 @@ thirdparty-auth-svc-redis:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle"
       key: "ca-bundle.crt"
     database_name: mojaloop
@@ -35,7 +35,7 @@ thirdparty-auth-svc-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle"
       key: "ca-bundle.crt"
     database_name: auth-svc
@@ -59,7 +59,7 @@ mysql-consent-oracle-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle"
       key: "ca-bundle.crt"
     database_name: consent-oracle
@@ -92,7 +92,7 @@ mcm-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mcm
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle"
       key: "ca-bundle.crt"
     database_name: mcm
@@ -116,7 +116,7 @@ account-lookup-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle"
       key: "ca-bundle.crt"
     database_name: account_lookup
@@ -140,7 +140,7 @@ central-ledger-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle"
       key: "ca-bundle.crt"
     database_name: central_ledger
@@ -165,7 +165,7 @@ bulk-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle-mongo"
       key: "ca-bundle.crt"
     database_name: mlos
@@ -192,7 +192,7 @@ cep-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle-mongo"
       key: "ca-bundle.crt"
     database_name: mojaloop
@@ -221,7 +221,7 @@ reporting-events-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle-mongo"
       key: "ca-bundle.crt"
     database_name: reporting
@@ -310,7 +310,7 @@ ttk-mongodb:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle-mongo"
       key: "ca-bundle.crt"
     database_name: ttk
@@ -350,7 +350,7 @@ keycloak-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - keycloak
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle-plat"
       key: "ca-bundle.crt"
     database_name: keycloak
@@ -374,7 +374,7 @@ keto-db:
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle-plat"
       key: "ca-bundle.crt"
     database_name: keto
@@ -398,7 +398,7 @@ kratos-db:
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
-    ca_bundle_configmap:
+    ca_bundle_secret:
       name: "global-ca-bundle-plat"
       key: "ca-bundle.crt"
     database_name: kratos
