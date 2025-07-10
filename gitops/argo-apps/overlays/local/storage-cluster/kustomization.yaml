@@ -7,6 +7,7 @@ resources:
   - ../../../base/metallb.yaml
   - ../../../base/sc-storage.yaml
   - ../../../base/sc-storage-post-config.yaml
+  - ../../../base/openebs.yaml
   - ../../../base/cert-manager.yaml
   - ../../../base/percona-operator.yaml
   - ../../../base/base-monitoring.yaml

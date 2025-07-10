@@ -209,6 +209,19 @@ spec:
             - name: utils_argocd_helm_download_tools_golang_image_version
               value: "${ARGOCD_ENV_utils_argocd_helm_download_tools_golang_image_version}"
 
+            # openebs
+            - name: sc_openebs_app_name
+              value: "${ARGOCD_ENV_sc_openebs_app_name}"
+
+            - name: sc_openebs_namespace
+              value: "${ARGOCD_ENV_sc_openebs_namespace}"
+
+            - name: sc_openebs_sync_wave
+              value: '"${ARGOCD_ENV_sc_openebs_sync_wave}"'
+
+            - name: sc_openebs_helm_version
+              value: "${ARGOCD_ENV_sc_openebs_helm_version}"
+
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
     scHelmProviderName: sc-helm-provider
