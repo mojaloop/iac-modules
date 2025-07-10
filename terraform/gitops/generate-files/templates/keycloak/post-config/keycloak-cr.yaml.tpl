@@ -15,6 +15,7 @@ spec:
     passwordSecret:
       name: ${keycloak_mysql_password_secret}
       key: ${keycloak_mysql_password_secret_key}
+    url: "jdbc:mysql://${keycloak_mysql_host}:${keycloak_mysql_port}/${keycloak_mysql_database}?sslMode=VERIFY_CA&trustCertificateKeyStoreUrl=file:/tmp/truststore.jks&trustCertificateKeyStoreType=JKS"
   ingress:
     enabled: false
   transaction:
@@ -37,6 +38,13 @@ spec:
                 until nslookup ${keycloak_mysql_host}; do
                 echo waiting for DNS ; sleep 5; done;
             imagePullPolicy: IfNotPresent
+          - name: convert-pem-to-jks
+            image: openjdk:17-jdk-slim
+            command:
+             - sh
+             - '-c'
+             - >-
+               keytool -importcert -alias ca-bundle -file /tmp/${keycloak_mysql_ca_secret_key}  -keystore /tmp/truststore.jks  -storepass changeit -noprompt
         containers:
           - env:
             - name: JAVA_OPTS_APPEND
@@ -58,3 +66,11 @@ spec:
               periodSeconds: 2
               successThreshold: 1
               failureThreshold: 300
+            volumeMounts:
+              - name: ca-bundle-volume
+                mountPath: "/tmp/"
+                readOnly: true
+        volumes:
+        - name: ca-bundle-volume
+          secret:
+            secretName: ${keycloak_mysql_ca_secret}
