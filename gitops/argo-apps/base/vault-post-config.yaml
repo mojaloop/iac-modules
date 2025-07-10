@@ -119,3 +119,6 @@ spec:
 
           - name: "zitadel_dns_subdomain"
             value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
+
+          - name: "gitlab_dns_subdomain"
+            value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"

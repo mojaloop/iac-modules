@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: zitadel-health-check
+  name: gitlab-health-check
   namespace: ${ARGOCD_ENV_vault_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "-100"
@@ -17,9 +17,9 @@ spec:
             - sh
             - -c
             - |
-              echo "⏳ Waiting for ZITADEL to become healthy..."
-              until [ "$(curl -s -o /dev/null -w '%{http_code}' https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/ready)" = "200" ]; do
-                echo "❌ ZITADEL is not healthy yet. Retrying in 10s..."
+              echo "⏳ Waiting for GITLAB to become healthy..."
+              until [ "$(curl -s -o /dev/null -w '%{http_code}' https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}/-/readiness)" = "200" ]; do
+                echo "❌ GITLAB is not healthy yet. Retrying in 10s..."
                 sleep 10
               done
-              echo "✅ ZITADEL is healthy! Proceeding with deployment."
+              echo "✅ GITLAB is healthy! Proceeding with deployment."
