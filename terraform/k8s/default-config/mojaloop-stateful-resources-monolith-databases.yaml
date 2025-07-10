@@ -4,7 +4,7 @@ common_platform_db:
   resource_type: "mysql"
   externalservice_name: "common-platform-db"
   resource_namespace: "stateful-resources"  # Namespace where the resource will be created
-  ca_bundle_configmap:
+  ca_bundle_secret:
     name: "global-ca-bundle-plat"
     key: "ca-bundle.crt"
   dbaas_resource_config:
@@ -115,7 +115,7 @@ common_mojaloop_db:
   resource_type: "mysql"
   externalservice_name: "common-mojaloop-db"
   resource_namespace: "stateful-resources"
-  ca_bundle_configmap:
+  ca_bundle_secret:
     name: "global-ca-bundle"
     key: "ca-bundle.crt"
   dbaas_resource_config:
@@ -226,7 +226,7 @@ common_mongodb:
   resource_type: "mongodb"
   externalservice_name: "common-mongodb"
   resource_namespace: "stateful-resources"
-  ca_bundle_configmap:
+  ca_bundle_secret:
     name: "global-ca-bundle-mongo"
     key: "ca-bundle.crt"
   dbaas_resource_config:
