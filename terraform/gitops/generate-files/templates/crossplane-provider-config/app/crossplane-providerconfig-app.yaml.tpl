@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/crossplane-providers
+    path: apps/crossplane-provider-config
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
