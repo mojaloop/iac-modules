@@ -83,6 +83,8 @@ kubeApiServer:
   enabled: false
 
 kube-state-metrics:
+  networkPolicy:
+    enabled: false
   serviceMonitor:
     relabelings:
     # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
@@ -102,6 +104,8 @@ kube-state-metrics:
 
 
 node-exporter:
+  networkPolicy:
+    enabled: false
   serviceMonitor:
     relabelings:
       - sourceLabels: [__meta_kubernetes_pod_node_name]
