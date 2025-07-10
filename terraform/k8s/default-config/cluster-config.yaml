@@ -62,3 +62,4 @@ single_zone_az_nodegroup: true
 az_count: 3
 enable_eks_controlplane_logging: false
 cc_name: "controlcenter" # to be removed when it is added in gitlab group variables
+persistent_volume_reclaim_policy: "Delete" # Delete or Retain
