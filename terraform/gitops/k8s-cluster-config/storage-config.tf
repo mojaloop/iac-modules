@@ -24,6 +24,9 @@ module "generate_storage_files" {
     rook_ceph_rgw_endpoint          = "${var.cluster_name}/rook_ceph_rgw_endpoint"
     rook_ceph_mon_data              = "${var.cluster_name}/rook_ceph_mon_data"
     rook_ceph_cluster_user_command  = "${var.cluster_name}/rook_ceph_cluster_user_command"
+    sc_api_server                   = "${var.cluster_name}/sc_api_server"
+    sc_api_ca                       = "${var.cluster_name}/sc_api_ca"
+    sc_api_token                    = "${var.cluster_name}/sc_api_token"
     cloud_provider                  = var.cloud_platform
     reclaim_policy                  = var.reclaim_policy
   }

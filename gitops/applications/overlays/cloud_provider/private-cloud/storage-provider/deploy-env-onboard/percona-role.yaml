@@ -1,0 +1,16 @@
+apiVersion: utils.mojaloop.io/v1alpha1
+kind: PerconaRole
+metadata:
+  name: "${ARGOCD_ENV_env_name}-role-claim"
+  namespace: ${ARGOCD_ENV_env_name}
+spec:
+  parameters:
+    clusterName: ${ARGOCD_ENV_env_name}
+    appNamespace: ${ARGOCD_ENV_env_name}
+    esoPushSecret: true
+    vaultSecretPath: "${ARGOCD_ENV_env_name}/sc_api_token"
+  providerConfigsRef:
+    scK8sProviderName: sc-kubernetes-provider
+    ccK8sProviderName: cc-kubernetes-provider
+  managementPolicies:
+    - "*"

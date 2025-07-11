@@ -37,19 +37,27 @@ spec:
               RGW_EXTERNAL_PORT=$(cat /tmp/rgw-secret/RGW_EXTERNAL_PORT)
               RGW_ENDPOINT=$(cat /tmp/rgw-secret/RGW_ENDPOINT)
 
+              # Get API details
+              SERVER=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.server}')
+              CA_DATA=$(kubectl config view --raw --minify -o jsonpath='{.clusters[0].cluster.certificate-authority-data}')
+
               # Append other variables to /data/ceph_env and create secret
               if [ -s /data/ceph_env ]; then
                 echo "export RGW_EXTERNAL_IP=$RGW_EXTERNAL_IP" >> /data/ceph_env
                 echo "export RGW_EXTERNAL_PORT=$RGW_EXTERNAL_PORT" >> /data/ceph_env
+
                 # Exract ARGS and save into a file
                 awk -v RS="ARGS=\"" -v FS="\"" 'NR==2 {gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, "", $1); print $1}' /data/ceph_env > /tmp/ceph-args.conf
                 #awk -v RS="ARGS=\"" -v FS="\"" 'NR==2 {print $1}' /data/ceph_env | sed 's/^[ \t\r\n]\+//;s/[ \t\r\n]\+$//' > /tmp/ceph-args.conf
+
+                # Create Ceph config secrets
                 source /data/ceph_env
-                # Create a secret
                 kubectl delete secret rook-external-config --ignore-not-found
                 kubectl delete cm rook-ceph-mon-endpoints-external --ignore-not-found
                 kubectl delete cm external-cluster-user-command --ignore-not-found
                 kubectl create secret generic rook-external-config \
+                  --from-literal=SC_API_SERVER="$SERVER" \
+                  --from-literal=SC_API_CA="$CA_DATA" \
                   --from-literal=ROOK_EXTERNAL_FSID="$ROOK_EXTERNAL_FSID" \
                   --from-literal=ROOK_EXTERNAL_USERNAME="$ROOK_EXTERNAL_USERNAME" \
                   --from-literal=ROOK_EXTERNAL_CEPH_MON_DATA="$ROOK_EXTERNAL_CEPH_MON_DATA" \
