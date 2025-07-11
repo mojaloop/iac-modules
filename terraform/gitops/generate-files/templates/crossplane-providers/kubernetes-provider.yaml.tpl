@@ -119,4 +119,3 @@ spec:
               user: sc-k8s-user
           current-context: sc-k8s-cluster
 %{ endif ~}
->>>>>>> a690bab4f (fix: merge conflicts)
