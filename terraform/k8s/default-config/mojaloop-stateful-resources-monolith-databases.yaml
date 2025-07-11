@@ -289,10 +289,7 @@ common_mongodb:
     monitorin_interval: "30"
     multi_az: false
     options: []
-    parameters:
-      - apply_method: pending-reboot
-        name: tls
-        value: enabled
+    parameters: []
     password_key_name: common_mongodb_password
     port: "27017"
     replicas: 1
