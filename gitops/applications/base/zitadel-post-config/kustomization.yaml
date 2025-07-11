@@ -8,4 +8,3 @@ resources:
   - vault-oidc.yaml
   - k8s-oidc.yaml
   - zitadel-health-check-job.yaml
-  # - gitlab-health-check-job.yaml
