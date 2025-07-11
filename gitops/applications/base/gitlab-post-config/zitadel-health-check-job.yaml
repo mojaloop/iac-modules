@@ -18,7 +18,7 @@ spec:
             - -c
             - |
               echo "⏳ Waiting for ZITADEL to become healthy..."
-              until [ "$(curl -s -o /dev/null -w '%{http_code}' https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/ready)" = "200" ]; do
+              until [ "$(curl -s -o /dev/null -w '%{http_code}' https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/debug/ready)" = "200" ]; do
                 echo "❌ ZITADEL is not healthy yet. Retrying in 10s..."
                 sleep 10
               done
