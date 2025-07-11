@@ -6,13 +6,11 @@ const KETO_READ_URL = process.env.KETO_READ_URL || 'http://keto-read';
 
 const getUserRoles = async (userSubject) => {
   try {
-    const response = await fetch(`${KETO_READ_URL}/relation-tuples?subject_id=user:${userSubject}&namespace=role&relation=member`);
+    const response = await fetch(`${KETO_READ_URL}/relation-tuples?subject_id=${userSubject}&namespace=role&relation=member`);
     if (!response.ok) return ['everyone'];
     
     const { relation_tuples = [] } = await response.json();
-    const roles = relation_tuples
-      .filter(t => t.object?.startsWith('role:'))
-      .map(t => t.object.substring(5));
+    const roles = relation_tuples.map(t => t.object);
     
     return [...new Set([...roles, 'everyone'])];
   } catch {
