@@ -209,7 +209,7 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        dsn: 'mysql://${kratos_mysql_user}:{{ .kratosDBManagedPasswordKey }}@tcp(${kratos_mysql_host}:${kratos_mysql_port})/${kratos_mysql_database}?tls=true&max_conns=20&max_idle_conns=4&sql_mode=TRADITIONAL'
+        dsn: 'mysql://${kratos_mysql_user}:{{ .kratosDBManagedPasswordKey }}@tcp(${kratos_mysql_host}:${kratos_mysql_port})/${kratos_mysql_database}?tls=skip-verify&max_conns=20&max_idle_conns=4&sql_mode=TRADITIONAL'
         smtpConnectionURI: "{{ .smtpConnectionURI }}"
         secretsDefault: "{{ .secretsDefault }}"
         secretsCookie: "{{ .secretsCookie }}"
@@ -384,6 +384,6 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        dsn: 'mysql://${keto_mysql_user}:{{ .ketoDBManagedPasswordKey }}@tcp(${keto_mysql_host}:${keto_mysql_port})/${keto_mysql_database}?tls=true&max_conns=20&max_idle_conns=4'
+        dsn: 'mysql://${keto_mysql_user}:{{ .ketoDBManagedPasswordKey }}@tcp(${keto_mysql_host}:${keto_mysql_port})/${keto_mysql_database}?tls=skip-verify&max_conns=20&max_idle_conns=4'
 
 %{ endif }
