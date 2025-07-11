@@ -15,7 +15,7 @@ spec:
     passwordSecret:
       name: ${keycloak_mysql_password_secret}
       key: ${keycloak_mysql_password_secret_key}
-    url: "jdbc:mysql://${keycloak_mysql_host}:${keycloak_mysql_port}/${keycloak_mysql_database}?sslMode=VERIFY_CA&trustCertificateKeyStoreUrl=file:/tmp/truststore.jks&trustCertificateKeyStoreType=JKS"
+    url: "jdbc:mysql://${keycloak_mysql_host}:${keycloak_mysql_port}/${keycloak_mysql_database}?sslMode=VERIFY_CA&trustCertificateKeyStoreUrl=file:/tmp/jks/truststore.jks&trustCertificateKeyStoreType=JKS"
   ingress:
     enabled: false
   transaction:
@@ -44,11 +44,13 @@ spec:
              - sh
              - '-c'
              - >-
-               keytool -importcert -alias ca-bundle -file /tmp/${keycloak_mysql_ca_secret_key}  -keystore /tmp/truststore.jks  -storepass changeit -noprompt
+               keytool -importcert -alias ca-bundle -file /tmp/ca/${keycloak_mysql_ca_secret_key}  -keystore /tmp/jks/truststore.jks  -storepass changeit -noprompt
             volumeMounts:
-              - name: ca-bundle-volume
-                mountPath: "/tmp/"
+              - mountPath: /tmp/ca
+                name: ca-bundle-volume
                 readOnly: true
+              - mountPath: /tmp/jks
+                name: truststore-volume
         containers:
           - env:
             - name: JAVA_OPTS_APPEND
@@ -71,9 +73,11 @@ spec:
               successThreshold: 1
               failureThreshold: 300
             volumeMounts:
-              - name: ca-bundle-volume
-                mountPath: "/tmp/"
+              - mountPath: /tmp/ca
+                name: ca-bundle-volume
                 readOnly: true
+              - mountPath: /tmp/jks
+                name: truststore-volume
         volumes:
         - name: ca-bundle-volume
           secret:
