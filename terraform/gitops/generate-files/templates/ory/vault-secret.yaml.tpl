@@ -75,7 +75,7 @@ spec:
   secretKey: secret
   secretFormat:
     passwordPolicyName: "kratos-secret-policy"
-%{ if kratos_mysql_deploy_type == "helm-chart" || kratos_mysql_deploy_type == "operator" ~}    
+%{ if kratos_mysql_deploy_type == "helm-chart" || kratos_mysql_deploy_type == "operator" ~}
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
@@ -186,30 +186,30 @@ spec:
     - secretKey: smtpConnectionURI
       remoteRef:
         key: kratos-secret-intermediate
-        property: smtpConnectionURI      
+        property: smtpConnectionURI
     - secretKey: secretsDefault
       remoteRef:
         key: kratos-secret-intermediate
-        property: secretsDefault   
+        property: secretsDefault
     - secretKey: secretsCookie
       remoteRef:
         key: kratos-secret-intermediate
-        property: secretsCookie   
+        property: secretsCookie
     - secretKey: secretsCipher
       remoteRef:
         key: kratos-secret-intermediate
-        property: secretsCipher   
+        property: secretsCipher
     - secretKey: secretsCSRFCookie
       remoteRef:
         key: kratos-secret-intermediate
-        property: secretsCSRFCookie  
+        property: secretsCSRFCookie
 
   target:
     name: kratos-secret
     creationPolicy: Owner
     template:
       data:
-        dsn: 'mysql://${kratos_mysql_user}:{{ .kratosDBManagedPasswordKey }}@tcp(${kratos_mysql_host}:${kratos_mysql_port})/${kratos_mysql_database}?max_conns=20&max_idle_conns=4&sql_mode=TRADITIONAL'
+        dsn: 'mysql://${kratos_mysql_user}:{{ .kratosDBManagedPasswordKey }}@tcp(${kratos_mysql_host}:${kratos_mysql_port})/${kratos_mysql_database}?tls=true&max_conns=20&max_idle_conns=4&sql_mode=TRADITIONAL'
         smtpConnectionURI: "{{ .smtpConnectionURI }}"
         secretsDefault: "{{ .secretsDefault }}"
         secretsCookie: "{{ .secretsCookie }}"
@@ -277,7 +277,7 @@ metadata:
   name: ory-secret-creator
   namespace: ${ory_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"    
+    argocd.argoproj.io/sync-wave: "-4"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -285,7 +285,7 @@ metadata:
   namespace: ${ory_namespace}
   name: ory-secret-role
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"    
+    argocd.argoproj.io/sync-wave: "-4"
 rules:
   - apiGroups: [""]
     resources:
@@ -307,7 +307,7 @@ metadata:
   name: ory-secret-creator
   namespace: ${ory_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"    
+    argocd.argoproj.io/sync-wave: "-4"
 subjects:
   - kind: ServiceAccount
     name: ory-secret-creator
@@ -322,7 +322,7 @@ metadata:
   name: ory-k8s-secret-store
   namespace: ${ory_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"    
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   provider:
     kubernetes:
@@ -384,6 +384,6 @@ spec:
     creationPolicy: Owner
     template:
       data:
-        dsn: 'mysql://${keto_mysql_user}:{{ .ketoDBManagedPasswordKey }}@tcp(${keto_mysql_host}:${keto_mysql_port})/${keto_mysql_database}?max_conns=20&max_idle_conns=4' 
+        dsn: 'mysql://${keto_mysql_user}:{{ .ketoDBManagedPasswordKey }}@tcp(${keto_mysql_host}:${keto_mysql_port})/${keto_mysql_database}?tls=true&max_conns=20&max_idle_conns=4'
 
 %{ endif }
