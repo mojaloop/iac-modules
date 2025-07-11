@@ -1,9 +1,15 @@
 operator:
   resourcesPreset: small
   logLevel: debug
+  networkPolicy:
+    enabled: false
 alertmanager:
   enabled: false
+  networkPolicy:
+    enabled: false
 prometheus:
+  networkPolicy:
+    enabled: false
   scrapeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
   persistence:
     enabled: true
