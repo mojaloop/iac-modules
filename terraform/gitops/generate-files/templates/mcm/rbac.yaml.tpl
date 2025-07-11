@@ -39,7 +39,7 @@ spec:
           "namespace": "permission",
           "object": "dfspList",
           "relation": "granted",
-          "subject_id": "user:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -70,7 +70,7 @@ spec:
           "namespace": "permission",
           "object": "dfspManage",
           "relation": "granted",
-          "subject_id": "user:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -104,7 +104,7 @@ spec:
           "namespace": "permission",
           "object": "dfspManage",
           "relation": "granted",
-          "subject_id": "user:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -137,7 +137,7 @@ spec:
           "namespace": "role",
           "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
           "relation": "member",
-          "subject_id": "user:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -172,7 +172,7 @@ spec:
           "namespace": "permission",
           "object": "dfspManage",
           "relation": "granted",
-          "subject_id": "user:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -203,7 +203,7 @@ spec:
           "namespace": "permission",
           "object": "dfspManage",
           "relation": "granted",
-          "subject_id": "user:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -234,7 +234,7 @@ spec:
           "namespace": "permission",
           "object": "hubEndpointsView",
           "relation": "granted",
-          "subject_id": "user:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -263,7 +263,7 @@ spec:
           "namespace": "permission",
           "object": "hubEndpointsManage",
           "relation": "granted",
-          "subject_id": "user:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -293,7 +293,7 @@ spec:
           "namespace": "permission",
           "object": "dfspList",
           "relation": "granted",
-          "subject_id": "client:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -326,7 +326,7 @@ spec:
           "namespace": "permission",
           "object": "dfspManage",
           "relation": "granted",
-          "subject_id": "client:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -362,7 +362,7 @@ spec:
           "namespace": "permission",
           "object": "dfspManage",
           "relation": "granted",
-          "subject_id": "client:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -397,7 +397,7 @@ spec:
           "namespace": "role",
           "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
           "relation": "member",
-          "subject_id": "client:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -431,7 +431,7 @@ spec:
           "namespace": "permission",
           "object": "hubEndpointsView",
           "relation": "granted",
-          "subject_id": "client:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
@@ -463,7 +463,7 @@ spec:
           "namespace": "permission",
           "object": "hubEndpointsManage",
           "relation": "granted",
-          "subject_id": "client:{{ print .Subject }}"
+          "subject_id": "{{ print .Subject }}"
         }
   mutators:
     - handler: header
