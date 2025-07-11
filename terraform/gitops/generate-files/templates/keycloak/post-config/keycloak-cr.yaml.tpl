@@ -45,6 +45,10 @@ spec:
              - '-c'
              - >-
                keytool -importcert -alias ca-bundle -file /tmp/${keycloak_mysql_ca_secret_key}  -keystore /tmp/truststore.jks  -storepass changeit -noprompt
+            volumeMounts:
+              - name: ca-bundle-volume
+                mountPath: "/tmp/"
+                readOnly: true
         containers:
           - env:
             - name: JAVA_OPTS_APPEND
