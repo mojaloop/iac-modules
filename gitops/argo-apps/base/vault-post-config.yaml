@@ -116,9 +116,3 @@ spec:
 
           - name: "cloud_platform_api_client_id"
             value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_id}"
-
-          - name: "zitadel_dns_subdomain"
-            value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
-
-          - name: "gitlab_dns_subdomain"
-            value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
