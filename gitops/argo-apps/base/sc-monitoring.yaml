@@ -57,4 +57,4 @@ spec:
         - name: "remote_write_tenant_id"
           value: "${ARGOCD_ENV_monitoring_prometheus_remote_write_tenant_id}"
         - name: "cluster_label_value"
-          value: "${ARGOCD_ENV_monitoring_prometheus_cluster_label_value}"
+          value: storage
