@@ -11,9 +11,11 @@ module "generate_crossplane_files" {
     crossplane_providers_vault_version = var.crossplane_providers_vault_version
     crossplane_packages_utils_version  = var.crossplane_packages_utils_version
     crossplane_helm_version            = var.crossplane_helm_version
-
     crossplane_packages_aws_documentdb_version = var.crossplane_packages_aws_documentdb_version
     crossplane_packages_aws_rds_version        = var.crossplane_packages_aws_rds_version
+    crossplane_packages_sc_mysql_version = var.crossplane_packages_sc_mysql_version
+    crossplane_packages_sc_mongodb_version = var.crossplane_packages_sc_mongodb_version
+    sc_api_token                       = "${var.cluster_name}/sc_api_token"
   }
   file_list       = [for f in fileset(local.crossplane_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.crossplane_app_file, f))]
   template_path   = local.crossplane_template_path
@@ -41,4 +43,12 @@ variable "crossplane_namespace" {
 variable "crossplane_helm_version" {
   type        = string
   default    = "1.19.0"
+}
+
+variable "crossplane_packages_sc_mysql_version" {
+  type        = string
+}
+
+variable "crossplane_packages_sc_mongodb_version" {
+  type        = string
 }
