@@ -8,6 +8,7 @@ spec:
   realm:
     realm: ${keycloak_hubop_realm_name}
     enabled: true
+    registrationEmailAsUsername: true
     clients:
     - clientId: connection-manager-api-service
       secret: ${mcm_admin_client_secret_name}
