@@ -53,7 +53,7 @@ module "generate_ory_files" {
     mojaloopRoles                        = local.mojaloopRoles
     hubop_mapper_base64                  = local.hubop_mapper_base64
     keto_read_url                        = local.keto_read_url
-    mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+    mcm_admin_client_secret_name         = join("$", ["", "{${replace(var.mcm_admin_client_secret_name, "-", "_")}}"])
     keycloak_access_token_lifespan       = 43200
     mcm_fqdn                             = local.mcm_fqdn
     smtp_from                            = var.app_var_map.smtp_from
