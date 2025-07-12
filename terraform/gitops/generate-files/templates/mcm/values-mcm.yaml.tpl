@@ -67,6 +67,7 @@ api:
         secretKeyRef:
           name: ${mcm_admin_client_secret_name}
           key: secret
+    OPENID_CLIENT_ID: "${hubop_oidc_client_id}"
     OPENID_CLIENT_SECRET:
       valueFrom:
         secretKeyRef:
