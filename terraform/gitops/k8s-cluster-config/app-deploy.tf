@@ -279,11 +279,6 @@ variable "hubop_oidc_client_secret_secret" {
   default = "hubop-oidc-secret"
 }
 
-variable "hubop_oidc_client_id" {
-  type        = string
-  default     = "hub-op"
-}
-
 
 variable "vault_secret_key" {
   type    = string
