@@ -212,6 +212,37 @@ spec:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
 ---
+# Monetary zones
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-monetaryzones
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_fqdn}/api/monetaryzones
+    methods:
+      - GET
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: ${keto_read_url}/relation-tuples/check
+      payload: |
+        {
+          "namespace": "permission",
+          "object": "monetaryZonesView",
+          "relation": "granted",
+          "subject_id": "{{ print .Subject }}"
+        }
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User: '{{ print .Subject }}'
+          X-Email: '{{ print (((.Extra.identity).traits).email) }}'
+---
 # Hub endpoints - read access (check for hubEndpointsView permission)
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
