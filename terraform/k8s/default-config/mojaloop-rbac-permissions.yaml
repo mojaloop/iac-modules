@@ -446,6 +446,7 @@ roles:
   permissions:
   # DFSP can only access their own resources
   - basicAccess
+  - dfspList
   - dfspSelfAccess
   - dfspCredentialsManage
   - dfspSelfCertificatesView
