@@ -47,7 +47,7 @@ spec:
         headers:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # DFSP create endpoint - check if user has dfspManage permission
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -79,7 +79,7 @@ spec:
         headers:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # DFSP-specific admin access - check if user has admin permissions
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -114,7 +114,7 @@ spec:
         headers:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
           X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
 ---
 # DFSP-specific owner access - check if user is member of dfsp:{dfspId} role
@@ -148,7 +148,7 @@ spec:
         headers:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
           X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
 ---
 # DFSP endpoints/unprocessed
@@ -184,7 +184,7 @@ spec:
         headers:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # DFSP servercerts
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -216,7 +216,7 @@ spec:
         headers:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # Monetary zones
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -248,7 +248,7 @@ spec:
         headers:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # Hub endpoints - read access (check for hubEndpointsView permission)
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -280,7 +280,7 @@ spec:
         headers:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # Hub endpoints - write access (check for hubEndpointsManage permission)
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -314,7 +314,7 @@ spec:
         headers:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # PM4ML API - DFSP list endpoint (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -348,7 +348,7 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # PM4ML API - DFSP create endpoint (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -382,7 +382,7 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # PM4ML API - DFSP-specific admin access (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -419,7 +419,7 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
           X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
 ---
 # PM4ML API - DFSP-specific owner access (machine clients)
@@ -455,7 +455,7 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
           X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
 ---
 # PM4ML API - Hub endpoints read access (machine clients)
@@ -490,7 +490,7 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # PM4ML API - Hub endpoints write access (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -526,4 +526,4 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ print (((.Extra.identity).traits).roles) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'

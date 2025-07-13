@@ -1,7 +1,7 @@
 api:
   image:
     name: infitx/connection-manager-api
-    version: v3.0.0-snapshot.18
+    version: v3.0.0-snapshot.21
 ui:
   image:
     version: sha-bffc3acaf587301a1ff2e570a4b14708670642c6
