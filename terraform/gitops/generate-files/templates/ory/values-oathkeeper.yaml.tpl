@@ -48,6 +48,13 @@ oathkeeper:
     authorizers:
       allow:
         enabled: true
+      keto_engine_acp_ory:
+        enabled: true
+        config:
+          base_url: "http://keto-read"
+          required_action: "read"
+          required_resource: "unknown"
+          flavor: "regex"
       remote_json:
         enabled: true
         config:
@@ -130,7 +137,7 @@ oathkeeper-maester:
   deployment:
     envs:
     - name: authorizersAvailable
-      value: allow,deny,noop,remote_json
+      value: allow,deny,noop,remote_json,keto_engine_acp_ory
 
 ## -- Parameters for the Prometheus ServiceMonitor objects.
 # Reference: https://docs.openshift.com/container-platform/4.6/rest_api/monitoring_apis/servicemonitor-monitoring-coreos-com-v1.html

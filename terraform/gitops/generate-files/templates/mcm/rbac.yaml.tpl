@@ -81,7 +81,7 @@ spec:
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
-# DFSP-specific admin access - check if user has admin permissions
+# DFSP-specific access
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
 metadata:
@@ -89,7 +89,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/<([^/]+)>/<.*>
+    url: <http|https>://${mcm_fqdn}/api/dfsps/<[^/]+>/<.*>
     methods:
       - GET
       - POST
@@ -100,13 +100,23 @@ spec:
   authorizer:
     handler: remote_json
     config:
-      remote: ${keto_read_url}/relation-tuples/check
+      remote: http://keto-batch-auth.${ory_namespace}.svc.cluster.local
       payload: |
         {
-          "namespace": "permission",
-          "object": "dfspManage",
-          "relation": "granted",
-          "subject_id": "{{ print .Subject }}"
+          "tuples": [
+            {
+              "namespace": "permissions",
+              "object": "dfspManage",
+              "relation": "granted",
+              "subject_id": "{{ print .Subject }}"
+            },
+            {
+              "namespace": "roles",
+              "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
+              "relation": "member",
+              "subject_id": "{{ print .Subject }}"
+            }
+          ]
         }
   mutators:
     - handler: header
@@ -115,41 +125,7 @@ spec:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
-          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
----
-# DFSP-specific owner access - check if user is member of dfsp:{dfspId} role
-apiVersion: oathkeeper.ory.sh/v1alpha1
-kind: Rule
-metadata:
-  name: mcm-dfsp-owner-access
-  namespace: ${mcm_namespace}
-spec:
-  match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/<([^/]+)>/<.*>
-    methods:
-      - GET
-      - POST
-  authenticators:
-    - handler: cookie_session
-  authorizer:
-    handler: remote_json
-    config:
-      remote: ${keto_read_url}/relation-tuples/check
-      payload: |
-        {
-          "namespace": "role",
-          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
-          "relation": "member",
-          "subject_id": "{{ print .Subject }}"
-        }
-  mutators:
-    - handler: header
-      config:
-        headers:
-          X-User: '{{ print .Subject }}'
-          X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
-          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
+          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}'
 ---
 # DFSP endpoints/unprocessed
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -384,43 +360,6 @@ spec:
           X-Client: '{{ print .Subject }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
-# PM4ML API - DFSP-specific admin access (machine clients)
-apiVersion: oathkeeper.ory.sh/v1alpha1
-kind: Rule
-metadata:
-  name: mcm-pm4mlapi-dfsp-admin-access
-  namespace: ${mcm_namespace}
-spec:
-  match:
-    url: <http|https>://${mcm_fqdn}/pm4mlapi/dfsps/([^/]+)/<.*>
-    methods:
-      - GET
-      - POST
-      - PUT
-      - DELETE
-  authenticators:
-    - handler: jwt
-      config:
-        jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
-  authorizer:
-    handler: remote_json
-    config:
-      remote: ${keto_read_url}/relation-tuples/check
-      payload: |
-        {
-          "namespace": "permission",
-          "object": "dfspManage",
-          "relation": "granted",
-          "subject_id": "{{ print .Subject }}"
-        }
-  mutators:
-    - handler: header
-      config:
-        headers:
-          X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
-          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
 ---
 # PM4ML API - DFSP-specific owner access (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -430,7 +369,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/pm4mlapi/dfsps/<([^/]+)>/<.*>
+    url: <http|https>://${mcm_fqdn}/pm4mlapi/dfsps/<[^/]+>/<.*>
     methods:
       - GET
       - POST
@@ -446,7 +385,7 @@ spec:
       payload: |
         {
           "namespace": "role",
-          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}",
+          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
           "relation": "member",
           "subject_id": "{{ print .Subject }}"
         }
