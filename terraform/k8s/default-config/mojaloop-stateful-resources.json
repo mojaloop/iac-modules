@@ -112,9 +112,9 @@
         "external_service": false,
         "logical_service_config": {
             "logical_service_port": 3306,
-            "logical_service_name": "mysql-consent-oracle",
+            "logical_service_name": "consent-oracle",
             "username": "consent-oracle",
-            "user_password_secret": "mysql-consent-oracle-secret",
+            "user_password_secret": "consent-oracle-db-secret",
             "user_password_secret_key": "mysql-password",
             "secret_extra_namespaces": [
                 "mojaloop"
@@ -123,12 +123,12 @@
         },
         "local_resource_config": {
             "resource_namespace": "thirdparty-db",
-            "override_service_name": null,
+            "override_service_name": "consent-oracle-db-haproxy",
             "resource_helm_repo": "https://charts.bitnami.com/bitnami",
             "resource_helm_chart": "mysql",
             "resource_helm_chart_version": "9.7.0",
             "resource_helm_values_ref": "values-mysql.yaml.tpl",
-            "generate_secret_name": "mysql-consent-oracle-secret",
+            "generate_secret_name": "consent-oracle-db-secret",
             "generate_secret_keys": [
                 "mysql-password",
                 "mysql-root-password",

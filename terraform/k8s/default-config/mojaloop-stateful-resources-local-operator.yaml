@@ -64,7 +64,7 @@ consent-oracle-db:
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: thirdparty-db
-    override_service_name:
+    override_service_name: consent-oracle-db-haproxy
     resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
