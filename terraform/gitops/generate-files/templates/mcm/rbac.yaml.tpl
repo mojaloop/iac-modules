@@ -81,6 +81,42 @@ spec:
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
+# DFSP credentials endpoint - only for DFSP owners (not admin users)
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-dfsp-credentials
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_fqdn}/api/dfsps/<[^/]+>/credentials
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: ${keto_read_url}/relation-tuples/check
+      payload: |
+        {
+          "namespace": "role",
+          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
+          "relation": "member",
+          "subject_id": "{{ print .Subject }}"
+        }
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User: '{{ print .Subject }}'
+          X-Email: '{{ print (((.Extra.identity).traits).email) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}'
+---
 # DFSP-specific access
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
