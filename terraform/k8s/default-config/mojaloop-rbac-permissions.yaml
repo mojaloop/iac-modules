@@ -396,6 +396,7 @@ roles:
   # JWS Certificates
   - jwsCertificatesView
   - jwsCertificatesManage
+  - dfspJwsCertsView
   # Monetary zones
   - monetaryZonesView
   # Admin permissions
@@ -431,6 +432,7 @@ roles:
   # JWS Certificates
   - jwsCertificatesView
   - jwsCertificatesManage
+  - dfspJwsCertsView
   # Monetary zones
   - monetaryZonesView
   # Admin permissions
@@ -453,6 +455,7 @@ roles:
   - dfspSelfEndpointsView
   - dfspSelfServerCertsView
   - dfspSelfStatusView
+  - dfspJwsCertsView
 
 # Legacy MCM admin role
 - rolename: mcmadmin
@@ -482,6 +485,7 @@ roles:
   - dfspOnboard
   - jwsCertificatesView
   - jwsCertificatesManage
+  - dfspJwsCertsView
   - monetaryZonesView
   - iamView
   - iamEdit
