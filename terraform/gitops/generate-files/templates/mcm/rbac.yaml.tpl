@@ -534,3 +534,35 @@ spec:
         headers:
           X-Client: '{{ print .Subject }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+---
+# DFSP jwscerts
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-dfsp-jwscerts
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_fqdn}/pm4mlapi/dfsps/jwscerts
+    methods:
+      - GET
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: remote_json
+    config:
+      remote: ${keto_read_url}/relation-tuples/check
+      payload: |
+        {
+          "namespace": "permission",
+          "object": "dfspJwsCertsView",
+          "relation": "granted",
+          "subject_id": "{{ print .Subject }}"
+        }
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User: '{{ print .Subject }}'
+          X-Email: '{{ print (((.Extra.identity).traits).email) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'

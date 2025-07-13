@@ -456,6 +456,7 @@ roles:
   - dfspSelfServerCertsView
   - dfspSelfStatusView
   - dfspJwsCertsView
+  - hubEndpointsView
 
 # Legacy MCM admin role
 - rolename: mcmadmin
