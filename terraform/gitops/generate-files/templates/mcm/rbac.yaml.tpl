@@ -89,7 +89,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/([^/]+)/<.*>
+    url: <http|https>://${mcm_fqdn}/api/dfsps/<([^/]+)>/<.*>
     methods:
       - GET
       - POST
@@ -125,7 +125,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/([^/]+)/<.*>
+    url: <http|https>://${mcm_fqdn}/api/dfsps/<([^/]+)>/<.*>
     methods:
       - GET
       - POST
@@ -430,7 +430,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/pm4mlapi/dfsps/([^/]+)/<.*>
+    url: <http|https>://${mcm_fqdn}/pm4mlapi/dfsps/<([^/]+)>/<.*>
     methods:
       - GET
       - POST
