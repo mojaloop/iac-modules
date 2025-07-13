@@ -1,3 +1,8 @@
+moved {
+  from = module.generate_ory_files.local_file.config-file["keto-auth-service"]
+  to   = module.generate_ory_files.local_file.config-file["keto-batch-auth"]
+}
+
 module "generate_ory_files" {
   source = "../generate-files"
   var_map = {
