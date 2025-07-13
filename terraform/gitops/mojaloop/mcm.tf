@@ -77,6 +77,7 @@ module "generate_mcm_files" {
     onboarding_funds_in                  = var.app_var_map.onboarding_funds_in
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
     auth_fqdn                            = var.auth_fqdn
+    ory_namespace                        = var.ory_namespace
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
     keto_write_url                       = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
