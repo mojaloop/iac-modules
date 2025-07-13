@@ -105,13 +105,13 @@ spec:
         {
           "tuples": [
             {
-              "namespace": "permissions",
+              "namespace": "permission",
               "object": "dfspManage",
               "relation": "granted",
               "subject_id": "{{ print .Subject }}"
             },
             {
-              "namespace": "roles",
+              "namespace": "role",
               "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
               "relation": "member",
               "subject_id": "{{ print .Subject }}"
