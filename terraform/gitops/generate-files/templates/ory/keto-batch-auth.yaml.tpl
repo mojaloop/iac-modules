@@ -15,7 +15,7 @@ metadata:
     configmap.reloader.stakater.com/reload: keto-batch-auth
 spec:
   replicas: 1
-      selector:
+  selector:
     matchLabels:
       app: keto-batch-auth
   template:
