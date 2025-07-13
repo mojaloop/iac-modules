@@ -125,7 +125,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/<[^/]+>/<.*>
+    url: <http|https>://${mcm_fqdn}/api/dfsps/<[^/]+>/<?!credentials><.*>
     methods:
       - GET
       - POST
