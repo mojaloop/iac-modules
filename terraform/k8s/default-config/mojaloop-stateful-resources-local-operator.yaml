@@ -6,7 +6,7 @@ thirdparty-auth-svc-db:
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: thirdparty-db
-    override_service_name: mysql-thirdparty-auth-svc-db
+    override_service_name: thirdparty-auth-svc-db-haproxy
     resource_operator_crd_version: 1.15.0
     resource_operator_cr_ref: percona/mysql/db-cluster.yaml.tpl
     haproxy_count: 1

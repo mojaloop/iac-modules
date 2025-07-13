@@ -45,7 +45,7 @@
             "logical_service_port": 3306,
             "logical_service_name": "thirdparty-auth-db",
             "username": "account_lookup",
-            "user_password_secret": "mysql-auth-svc-secret",
+            "user_password_secret": "auth-svc-db-secret",
             "user_password_secret_key": "mysql-password",
             "secret_extra_namespaces": [
                 "mojaloop"
@@ -54,12 +54,12 @@
         },
         "local_resource_config": {
             "resource_namespace": "thirdparty-db",
-            "override_service_name": "mysql-thirdparty-auth-svc-db",
+            "override_service_name": "thirdparty-auth-svc-db-haproxy",
             "resource_helm_repo": "https://charts.bitnami.com/bitnami",
             "resource_helm_chart": "mysql",
             "resource_helm_chart_version": "9.7.0",
             "resource_helm_values_ref": "values-mysql.yaml.tpl",
-            "generate_secret_name": "mysql-auth-svc-secret",
+            "generate_secret_name": "auth-svc-db-secret",
             "generate_secret_keys": [
                 "mysql-password",
                 "mysql-root-password",
@@ -88,7 +88,7 @@
                 "max_connections": 2000,
                 "innodb_buffer_pool_size": 2147483648,
                 "port": 3306,
-                "existing_secret": "mysql-auth-svc-secret",
+                "existing_secret": "auth-svc-db-secret",
                 "general_log": 0,
                 "slow_query_log": 0,
                 "root_password": "",

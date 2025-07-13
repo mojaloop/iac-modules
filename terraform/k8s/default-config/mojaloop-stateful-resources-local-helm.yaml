@@ -1,7 +1,7 @@
 thirdparty-auth-svc-db:
   local_helm_config:
     resource_namespace: thirdparty-db
-    override_service_name: mysql-thirdparty-auth-svc-db
+    override_service_name: thirdparty-auth-svc-db-haproxy
     resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
@@ -398,7 +398,7 @@ ttk-mongodb:
 thirdparty-auth-svc-redis:
   local_helm_config:
     resource_namespace: mojaloop
-    override_service_name: redis-thirdparty-auth-redis-master
+    override_service_name: redis-thirdparty-auth-svc-redis-master
     resource_helm_repo: https://charts.bitnami.com/bitnami
     resource_helm_chart: redis
     resource_helm_chart_version: 17.3.18
