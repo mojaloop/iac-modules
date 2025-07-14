@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - rook-ceph-health-check.yaml
   - rook-external-config-job.yaml
+  # - rook-ceph-objectstore-exporter.yaml
