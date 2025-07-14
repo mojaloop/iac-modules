@@ -106,7 +106,7 @@ reporting-legacy-api:
 reporting-events-processor-svc:
   enabled: true
   image:
-    tag: v3.0.0
+    tag: v3.3.1
   kafka:
     host: ${kafka_host}
     port: ${kafka_port}
@@ -114,9 +114,10 @@ reporting-events-processor-svc:
     consumerGroup: reporting_events_processor_consumer_group
     clientId: reporting_events_processor_consumer
   configFiles:
-    default.json: {
+    default.json: |
+      {
         "KAFKA": {
-          "TOPIC_EVENT": 'topic-event-audit',
+          "TOPIC_EVENT": "topic-event-audit",
           "CONSUMER": {
             "EVENT": {
               "config": {
@@ -131,21 +132,13 @@ reporting-events-processor-svc:
                   "consumeTimeout": 10
                 },
                 "rdkafkaConf": {
-                  "clientId": 'reporting_events_processor_consumer',
-                  "groupId": 'reporting_events_processor_consumer_group',
-                  "metadataBrokerList": '${kafka_host}:${kafka_port}',
+                  "clientId": "reporting_events_processor_consumer",
+                  "groupId": "reporting_events_processor_consumer_group",
+                  "metadataBrokerList": "${kafka_host}:${kafka_port}",
                   "socketKeepaliveEnable": true,
                   "allowAutoCreateTopics": true,
                   "partitionAssignmentStrategy": "",
-                  "enableAutoCommit": false,
-                  "brokerAddressFamily": "v4",
-                  "metadataRequestTimeoutMs": 10000,
-                  "socketTimeoutMs": 10000,
-                  "messageTimeoutMs": 10000,
-                  "requestTimeoutMs": 30000,
-                  "retryBackoffMs": 100,
-                  "reconnectBackoffMs": 100,
-                  "reconnectBackoffMaxMs": 10000
+                  "enableAutoCommit": false
                 },
                 "topicConf": {
                   "autoOffsetReset": "earliest"

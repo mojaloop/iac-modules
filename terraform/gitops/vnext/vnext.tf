@@ -138,7 +138,7 @@ variable "vnext_chart_version" {
 
 variable "finance_portal_chart_version" {
   description = "finance portal chart version"
-  default     = "4.2.3"
+  default     = "5.0.2"
 }
 
 variable "vnext_sync_wave" {
