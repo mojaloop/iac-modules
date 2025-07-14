@@ -7,3 +7,4 @@ resources:
   - argocd-oidc.yaml
   - vault-oidc.yaml
   - k8s-oidc.yaml
+  - zitadel-health-check-job.yaml

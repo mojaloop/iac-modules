@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: zitadel-health-check
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  backoffLimit: 0  # No retries at Kubernetes level, we handle it inside the script
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: health-check
+          image: curlimages/curl:7.88.1
+          command:
+            - sh
+            - -c
+            - |
+              echo "⏳ Waiting for ZITADEL to become healthy..."
+              until [ "$(curl -s -o /dev/null -w '%{http_code}' https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}/debug/ready)" = "200" ]; do
+                echo "❌ ZITADEL is not healthy yet. Retrying in 10s..."
+                sleep 10
+              done
+              echo "✅ ZITADEL is healthy! Proceeding with deployment."
