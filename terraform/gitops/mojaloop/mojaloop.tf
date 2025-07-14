@@ -46,7 +46,7 @@ module "generate_mojaloop_files" {
     ttk_backend_fqdn                                                  = local.ttk_backend_fqdn
     ttk_istio_gateway_namespace                                       = local.ttk_istio_gateway_namespace
     ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name
-    kafka_host                                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    kafka_host                                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].local_operator_config.override_service_name, "")}.${var.mojaloop_namespace}.svc.cluster.local"
     kafka_port                                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port, "")
     account_lookup_db_existing_secret                                 = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret, "")
     account_lookup_db_user                                            = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.db_username, "")
