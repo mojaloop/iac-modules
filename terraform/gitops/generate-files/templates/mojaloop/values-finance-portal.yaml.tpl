@@ -114,40 +114,31 @@ reporting-events-processor-svc:
     consumerGroup: reporting_events_processor_consumer_group
     clientId: reporting_events_processor_consumer
   configFiles:
-    default.json: |
-      {
-        "KAFKA": {
-          "TOPIC_EVENT": "topic-event-audit",
-          "CONSUMER": {
-            "EVENT": {
-              "config": {
-                "options": {
-                  "mode": 2,
-                  "batchSize": 50,
-                  "pollFrequency": 10,
-                  "recursiveTimeout": 100,
-                  "messageCharset": "utf8",
-                  "messageAsJSON": true,
-                  "sync": true,
-                  "consumeTimeout": 10
-                },
-                "rdkafkaConf": {
-                  "clientId": "reporting_events_processor_consumer",
-                  "groupId": "reporting_events_processor_consumer_group",
-                  "metadataBrokerList": "${kafka_host}:${kafka_port}",
-                  "socketKeepaliveEnable": true,
-                  "allowAutoCreateTopics": true,
-                  "partitionAssignmentStrategy": "",
-                  "enableAutoCommit": false
-                },
-                "topicConf": {
-                  "autoOffsetReset": "earliest"
-                }
-              }
-            }
-          }
-        }
-      }
+    default.json:
+      KAFKA:
+        TOPIC_EVENT: "topic-event-audit"
+        CONSUMER:
+          EVENT:
+            config:
+              options:
+                mode: 2
+                batchSize: 50
+                pollFrequency: 10
+                recursiveTimeout: 100
+                messageCharset: "utf8"
+                messageAsJSON: true
+                sync: true
+                consumeTimeout: 10
+              rdkafkaConf:
+                clientId: "reporting_events_processor_consumer"
+                groupId: "reporting_events_processor_consumer_group"
+                metadataBrokerList: "${kafka_host}:${kafka_port}"
+                socketKeepaliveEnable: true
+                allowAutoCreateTopics: true
+                partitionAssignmentStrategy: ""
+                enableAutoCommit: false
+              topicConf:
+                autoOffsetReset: "earliest"
 
 reporting-hub-bop-experience-api-svc:
   enabled: true
