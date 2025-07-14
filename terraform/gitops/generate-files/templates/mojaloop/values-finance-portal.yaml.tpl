@@ -137,7 +137,15 @@ reporting-events-processor-svc:
                   "socketKeepaliveEnable": true,
                   "allowAutoCreateTopics": true,
                   "partitionAssignmentStrategy": "",
-                  "enableAutoCommit": false
+                  "enableAutoCommit": false,
+                  "brokerAddressFamily": "v4",
+                  "metadataRequestTimeoutMs": 10000,
+                  "socketTimeoutMs": 10000,
+                  "messageTimeoutMs": 10000,
+                  "requestTimeoutMs": 30000,
+                  "retryBackoffMs": 100,
+                  "reconnectBackoffMs": 100,
+                  "reconnectBackoffMaxMs": 10000
                 },
                 "topicConf": {
                   "autoOffsetReset": "earliest"
