@@ -1,0 +1,19 @@
+apiVersion: nb.mojaloop.io/v1alpha1
+kind: NetbirdEnvPolicyConfig
+metadata:
+  name: netbird-env-policy-config
+  namespace: ${ARGOCD_ENV_env_name}
+spec:
+  parameters:
+    envProperties:
+      groupNames:
+        ccNetworkResource: ${ARGOCD_ENV_cc_network_resource_group}
+        scNetworkResource: ${ARGOCD_ENV_sc_network_resource_group}
+        envK8sNodes: ${ARGOCD_ENV_env_name}-k8s-nodes
+      policy:
+        ccPorts: ${ARGOCD_ENV_cc_ports}
+        scPorts: ${ARGOCD_ENV_sc_ports}
+  providerConfigsRef:
+    netbirdProviderConfigName: "netbird-crossplane-provider-config"
+  managementPolicies:
+    - "*"
