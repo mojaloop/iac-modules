@@ -7,7 +7,7 @@ multiCluster:
 
 # Configuration log level of ztunnel binary, default is info.
 # Valid values are: trace, debug, info, warn, error
-logLevel: info
+logLevel: ${istio_ztunnel_log_level}
 
 # K8s DaemonSet update strategy.
 # https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/daemon-set-v1/#DaemonSetSpec).
