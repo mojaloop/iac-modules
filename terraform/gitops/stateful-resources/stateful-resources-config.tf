@@ -222,8 +222,8 @@ resource "local_file" "aws-db-crs" {
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
 
-resource "local_file" "dbaas-crs" {
-  for_each = { for key, stateful_resource in local.monolith_env_vpc_dbaas_resources : key => stateful_resource }
+resource "local_file" "dbaas-crs-mysql" {
+  for_each = { for key, stateful_resource in local.monolith_env_mysql_dbaas_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/dbaas/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
@@ -264,6 +264,24 @@ resource "local_file" "dbaas-crs" {
         backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
         backup_retention             = each.value.dbaas_resource_config.backup_retention
         dns_name                     = each.value.dbaas_resource_config.dns_name
+        dns_region                   = var.cloud_region
+        dns_zone_id                  = var.private_dns_zone_id
+  })
+  filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
+}
+
+resource "local_file" "dbaas-crs-mongodb" {
+  for_each = { for key, stateful_resource in local.monolith_env_mongo_dbaas_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/dbaas/${each.value.resource_type}/db-cluster.yaml.tpl",
+    {
+        cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
+        dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
+        namespace                    = each.value.resource_namespace
+        appNamespace                 = each.value.resource_namespace
+        image                        = each.value.dbaas_resource_config.image
+        db_secret                    = each.value.external_resource_config.master_user_password_secret
+        db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
+        externalservice_name         = each.value.externalservice_name
         dns_region                   = var.cloud_region
         dns_zone_id                  = var.private_dns_zone_id
   })
@@ -327,7 +345,9 @@ locals {
   }
 
   monolith_env_vpc_aws_db_resources =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "rds" || monolith_resource.provider == "documentdb"}
-  monolith_env_vpc_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" }
+  monolith_env_mysql_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mysql" }
+  monolith_env_mongo_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mongodb" }
+
 
   monolith_managed_password_map = { for key, stateful_resource in var.monolith_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
