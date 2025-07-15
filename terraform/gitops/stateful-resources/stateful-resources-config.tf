@@ -239,7 +239,6 @@ resource "local_file" "dbaas-crs-mysql" {
         db_name                      = each.value.external_resource_config.db_name
         mysql_storage_size           = each.value.dbaas_resource_config.mysql_storage_size
         pxc_image                    = each.value.dbaas_resource_config.pxc_image
-        pxc_annotations              = each.value.dbaas_resource_config.pxc_annotations
         mysql_replicas               = each.value.dbaas_resource_config.mysql_replicas
         mysql_requests_memory        = each.value.dbaas_resource_config.mysql_requests_memory
         mysql_requests_cpu           = each.value.dbaas_resource_config.mysql_requests_cpu
@@ -285,6 +284,7 @@ resource "local_file" "dbaas-crs-mongodb" {
         backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
         backup_image                 = each.value.dbaas_resource_config.backup_image
         backup_bucket_region         = var.cloud_region
+        schedule_enabled             = each.value.dbaas_resource_config.schedule_enabled
         backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
         backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
         backup_retention             = each.value.dbaas_resource_config.backup_retention

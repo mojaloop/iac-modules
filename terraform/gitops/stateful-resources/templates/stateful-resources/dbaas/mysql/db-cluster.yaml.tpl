@@ -17,7 +17,6 @@ spec:
       image: ${pxc_image}
       imagePullPolicy: ${image_pull_policy}
       storageSize: ${mysql_storage_size}
-      annotations: ${pxc_annotations}
       replicas: ${mysql_replicas}
       resources:
         requests:
