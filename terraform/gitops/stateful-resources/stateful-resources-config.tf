@@ -222,6 +222,60 @@ resource "local_file" "aws-db-crs" {
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
 
+resource "local_file" "dbaas-crs" {
+  for_each = { for key, stateful_resource in local.monolith_env_vpc_dbaas_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/dbaas/${each.value.resource_type}/db-cluster.yaml.tpl",
+    {
+        cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.dbaas_resource_config.dbdeploy_name_prefix}"
+        dbdeploy_name_prefix         = each.value.dbaas_resource_config.dbdeploy_name_prefix
+        namespace                    = each.value.resource_namespace
+        appNamespace                 = each.value.resource_namespace
+        cr_version                   = each.value.dbaas_resource_config.cr_version
+        db_secret                    = each.value.dbaas_resource_config.master_user_password_secret
+        db_secret_key                = each.value.dbaas_resource_config.master_user_password_secret_key
+        externalservice_name         = each.value.externalservice_name
+        db_name                      = each.value.dbaas_resource_config.db_name
+
+        pxc_image                    = each.value.dbaas_resource_config.pxc_image
+        mysql_storage_size           = each.value.dbaas_resource_config.mysql_storage_size
+        mysql_replicas               = each.value.dbaas_resource_config.mysql_replicas
+        mysql_requests_memory        = each.value.dbaas_resource_config.mysql_requests_memory
+        mysql_requests_cpu           = each.value.dbaas_resource_config.mysql_requests_cpu
+        mysql_limits_memory          = each.value.dbaas_resource_config.mysql_limits_memory
+        mysql_limits_cpu             = each.value.dbaas_resource_config.mysql_limits_cpu
+
+        haproxy_image                = each.value.dbaas_resource_config.haproxy_image
+        haproxy_expose               = each.value.dbaas_resource_config.haproxy_expose
+        haproxy_replicas             = each.value.dbaas_resource_config.haproxy_replicas
+        haproxy_requests_memory      = each.value.dbaas_resource_config.haproxy_requests_memory
+        haproxy_requests_cpu         = each.value.dbaas_resource_config.haproxy_requests_cpu
+        haproxy_limits_memory        = each.value.dbaas_resource_config.haproxy_limits_memory
+        haproxy_limits_cpu           = each.value.dbaas_resource_config.haproxy_limits_cpu
+
+        logcollector_image           = each.value.dbaas_resource_config.logcollector_image
+        logcollector_requests_memory  = each.value.dbaas_resource_config.logcollector_requests_memory
+        logcollector_requests_cpu     = each.value.dbaas_resource_config.logcollector_requests_cpu
+        logcollector_limits_memory    = each.value.dbaas_resource_config.logcollector_limits_memory
+        logcollector_limits_cpu       = each.value.dbaas_resource_config.logcollector_limits_cpu
+
+        backup_image                 = each.value.dbaas_resource_config.backup_image
+        backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
+        backup_bucket                = each.value.dbaas_resource_config.backup_bucket
+        backup_credentials_secret    = each.value.dbaas_resource_config.backup_credentials_secret
+        backup_bucket_region         = each.value.dbaas_resource_config.backup_bucket_region
+        backup_schedule_enabled      = each.value.dbaas_resource_config.backup_schedule_enabled
+        backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
+        backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
+        backup_retention             = each.value.dbaas_resource_config.backup_retention
+        # backup_pvc                   = each.value.dbaas_resource_config.backup_pvc
+
+        dns_name                     = each.value.dbaas_resource_config.dns_name
+        dns_region                   = var.cloud_region
+        dns_zone_id                  = var.zone_id
+  })
+  filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
+}
+
 resource "local_file" "aws-db-vault-crs" {
   for_each = { for key, stateful_resource in local.monolith_env_vpc_resource_password_map : key => stateful_resource }
 
@@ -443,6 +497,11 @@ variable "cc_name" {
 variable "cloud_region" {
   type        = string
   description = "The AWS region where resources will be deployed."
+}
+
+variable "zone_id" {
+  type        = string
+  description = "The Route53 zone ID."
 }
 
 variable "database_subnets" {
