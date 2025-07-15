@@ -1,13 +1,13 @@
 apiVersion: sc.mojaloop.io/v1alpha1
-kind: XMysqlCluster
+kind: MysqlCluster
 metadata:
   name: "${cluster_name}"
   namespace: "${namespace}"
 spec:
   parameters:
-    clusterName: ${percona_cluster_name}
+    clusterName: ${cluster_name}
     externalServiceName: ${externalservice_name}
-    appNamespace: ${namespace}
+    appNamespace: ${appNamespace}
     crVersion: ${cr_version}
     dbSecret: ${db_secret}
     dbUsername: ${db_username}
@@ -83,18 +83,17 @@ spec:
       verifyTLS: ${backup_verify_tls}
       bucket: ${env_name}-percona
       credentialsSecret: ${env_name}-percona
-      bucketRegion: ${backup_bucket_region}
+      bucketRegion: ${cloud_region}
       scheduleName: ${backup_schedule_name}
       cronScheduleExpression: ${backup_cron_schedule}
       backupRetention: ${backup_retention}
-      pvc: ${backup_pvc}
 
     dns:
       name: ${env_name}-${externalservice_name}
-      region: ${region}
+      region: ${dns_region}
       ttl: 300
       type: A
-      zoneId: ${zone_id}
+      zoneId: ${dns_zone_id}
 
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
