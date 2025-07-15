@@ -50,8 +50,8 @@ spec:
       configsvrReplSet:
         size: ${configsvr_size}
         expose:
-          enabled: false
-          type: ClusterIP
+          enabled: ${configsvr_expose_enabled}
+          type: ${configsvr_expose_type}
         resources:
           limits:
             cpu: ${configsvr_limits_cpu}

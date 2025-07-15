@@ -283,7 +283,6 @@ resource "local_file" "dbaas-crs-mongodb" {
         backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
         backup_image                 = each.value.dbaas_resource_config.backup_image
         backup_bucket_region         = var.cloud_region
-        backup_schedule_enabled      = each.value.dbaas_resource_config.backup_schedule_enabled
         backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
         backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
         backup_retention             = each.value.dbaas_resource_config.backup_retention
@@ -293,7 +292,8 @@ resource "local_file" "dbaas-crs-mongodb" {
         replset_limits_memory        = each.value.dbaas_resource_config.replset_limits_memory
         replset_requests_cpu         = each.value.dbaas_resource_config.replset_requests_cpu
         replset_requests_memory      = each.value.dbaas_resource_config.replset_requests_memory
-        replset_expose_enabled       = each.value.dbaas_resource_config.replset_expose_enabled
+        configsvr_expose_enabled     = each.value.dbaas_resource_config.configsvr_expose_enabled
+        configsvr_expose_type        = each.value.dbaas_resource_config.configsvr_expose_type
         replset_storage              = each.value.dbaas_resource_config.replset_storage
         sharding_enabled             = each.value.dbaas_resource_config.sharding_enabled
         configsvr_size               = each.value.dbaas_resource_config.configsvr_size
