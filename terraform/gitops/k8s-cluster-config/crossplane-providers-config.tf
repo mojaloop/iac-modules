@@ -15,6 +15,7 @@ module "generate_crossplane_providers_files" {
     cloud_credentials_id_provider_key        = "${var.cluster_name}/${local.cloud_credentials_id_provider_key}"
     cloud_credentials_secret_provider_key    = "${var.cluster_name}/${local.cloud_credentials_secret_provider_key}"
     cloud_provider                           = var.cloud_platform
+    external_secret_sync_wave                = var.external_secret_sync_wave
   }
   file_list       = [for f in fileset(local.crossplane_providers_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.crossplane_providers_app_file, f))]
   template_path   = local.crossplane_providers_template_path
