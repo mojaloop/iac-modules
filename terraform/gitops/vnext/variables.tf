@@ -194,7 +194,7 @@ variable "availability_zones" {
   description = "A list of availability zones for the database instances."
 }
 
-variable "zone_id" {
+variable "private_dns_zone_id" {
   type        = string
   description = "The Route53 zone ID."
 }

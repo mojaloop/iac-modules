@@ -499,7 +499,7 @@ variable "cloud_region" {
   description = "The AWS region where resources will be deployed."
 }
 
-variable "zone_id" {
+variable "private_dns_zone_id" {
   type        = string
   description = "The Route53 zone ID."
 }
