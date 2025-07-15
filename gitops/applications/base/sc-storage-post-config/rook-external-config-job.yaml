@@ -57,7 +57,7 @@ spec:
                 kubectl delete cm rook-ceph-mon-endpoints-external --ignore-not-found
                 kubectl delete cm external-cluster-user-command --ignore-not-found
                 kubectl create secret generic rook-external-config \
-                  --from-literal=SC_API_SERVER="https://${K8S_API_HOST}:${K8S_API_PORT}" \
+                  --from-literal=SC_API_SERVER="https://$K8S_API_HOST:$K8S_API_PORT" \
                   --from-literal=SC_API_CA="$CA_DATA" \
                   --from-literal=ROOK_EXTERNAL_FSID="$ROOK_EXTERNAL_FSID" \
                   --from-literal=ROOK_EXTERNAL_USERNAME="$ROOK_EXTERNAL_USERNAME" \
