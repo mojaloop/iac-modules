@@ -136,6 +136,7 @@ locals {
     eks_aws_access_key_id        = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
     eks_aws_session_token        = local.K8S_CLUSTER_TYPE == "eks" ? try(get_env("AWS_SESSION_TOKEN"), "") : ""
     eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
+    private_dns_zone_id          = dependency.k8s_deploy.outputs.private_dns_zone_id
   }
   all_hosts_var_maps = {
     object_store_listening_port              = get_env("OBJECTSTORE_PORT")

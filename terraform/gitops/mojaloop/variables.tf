@@ -189,7 +189,7 @@ variable "database_subnets" {
   description = "A list of subnet IDs to deploy the database instances into."
 }
 
-variable "zone_id" {
+variable "private_dns_zone_id" {
   type        = string
   description = "The Route53 zone ID."
 }

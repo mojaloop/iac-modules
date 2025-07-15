@@ -143,7 +143,7 @@ inputs = {
   database_subnets                         = join( ",", dependency.k8s_deploy.outputs.private_subnets)
   availability_zones                       = join( ",", dependency.k8s_deploy.outputs.availability_zones)
   cloud_region                             = local.CLOUD_REGION
-  zone_id                                  = dependency.k8s_deploy.outputs.private_dns_zone_id
+  private_dns_zone_id                      = dependency.k8s_deploy.outputs.private_dns_zone_id
   reclaim_policy                           = local.persistent_volume_reclaim_policy
 }
 
