@@ -261,7 +261,7 @@ resource "local_file" "dbaas-crs-mysql" {
         backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
         backup_retention             = each.value.dbaas_resource_config.backup_retention
         dns_name                     = "${var.cluster_name}-${each.value.externalservice_name}-external"
-        dns_region                   = var.cloud_region
+        cloud_region                 = var.cloud_region
         dns_zone_id                  = var.private_dns_zone_id
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
@@ -311,7 +311,7 @@ resource "local_file" "dbaas-crs-mongodb" {
         db_username                  = each.value.external_resource_config.username
         image                        = each.value.dbaas_resource_config.image
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
-        dns_region                   = var.cloud_region
+        cloud_region                 = var.cloud_region
         dns_zone_id                  = var.private_dns_zone_id
         dns_name                     = "${var.cluster_name}-${each.value.externalservice_name}-external"
   })

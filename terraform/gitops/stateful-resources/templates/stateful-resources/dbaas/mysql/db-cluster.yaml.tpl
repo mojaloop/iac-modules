@@ -88,7 +88,7 @@ spec:
 
     dns:
       name: ${cluster_name}-${externalservice_name}
-      region: ${dns_region}
+      region: ${cloud_region}
       ttl: 300
       type: A
       zoneId: ${dns_zone_id}

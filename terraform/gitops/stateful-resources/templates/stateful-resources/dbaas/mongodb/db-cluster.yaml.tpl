@@ -84,7 +84,7 @@ spec:
 
     dns:
       name: ${dns_name}
-      region: ${dns_region}
+      region: ${cloud_region}
       ttl: 300
       type: A
       zoneId: ${dns_zone_id}
