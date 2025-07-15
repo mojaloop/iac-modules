@@ -44,11 +44,3 @@ variable "crossplane_helm_version" {
   type        = string
   default    = "1.19.0"
 }
-
-variable "crossplane_packages_sc_mysql_version" {
-  type        = string
-}
-
-variable "crossplane_packages_sc_mongodb_version" {
-  type        = string
-}
