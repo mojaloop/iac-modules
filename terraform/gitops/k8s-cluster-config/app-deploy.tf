@@ -81,7 +81,7 @@ module "mojaloop" {
   database_subnets                     = var.database_subnets
   availability_zones                   = var.availability_zones
   cloud_region                         = var.cloud_region
-  zone_id                              = var.zone_id
+  private_dns_zone_id                  = var.private_dns_zone_id
 
 }
 
@@ -237,7 +237,7 @@ module "vnext" {
   database_subnets                     = var.database_subnets
   availability_zones                   = var.availability_zones
   cloud_region                         = var.cloud_region
-  zone_id                              = var.zone_id
+  private_dns_zone_id                  = var.private_dns_zone_id
 }
 
 variable "app_var_map" {
