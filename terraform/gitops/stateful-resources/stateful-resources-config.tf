@@ -227,7 +227,7 @@ resource "local_file" "dbaas-crs" {
   content = templatefile("${local.stateful_resources_template_path}/dbaas/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
-        dbdeploy_name_prefix         = each.value.dbaas_resource_config.dbdeploy_name_prefix
+        dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
         appNamespace                 = each.value.resource_namespace
         cr_version                   = each.value.dbaas_resource_config.cr_version
