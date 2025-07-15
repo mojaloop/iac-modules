@@ -17,7 +17,6 @@ spec:
       image: ${pxc_image}
       imagePullPolicy: IfNotPresent
       storageSize: ${mysql_storage_size}
-      volumeSpec: ${pxc_volume_spec}
       annotations: ${pxc_annotations}
       replicas: ${mysql_replicas}
       resources:

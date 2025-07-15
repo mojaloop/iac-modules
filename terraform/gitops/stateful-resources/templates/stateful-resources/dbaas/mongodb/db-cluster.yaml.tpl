@@ -10,7 +10,7 @@ spec:
     appNamespace: ${appNamespace}
     crVersion: ${cr_version}
     image: ${image}
-    imagePullPolicy: IfNotPresent
+    imagePullPolicy: ${image_pull_policy}
     dbSecret: ${db_secret}
     backup:
       enabled: ${backup_enabled}
