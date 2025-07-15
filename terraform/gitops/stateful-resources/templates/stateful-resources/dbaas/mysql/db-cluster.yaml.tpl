@@ -15,7 +15,7 @@ spec:
 
     pxc:
       image: ${pxc_image}
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: ${image_pull_policy}
       storageSize: ${mysql_storage_size}
       annotations: ${pxc_annotations}
       replicas: ${mysql_replicas}
@@ -49,7 +49,7 @@ spec:
 
     haproxy:
       image: ${haproxy_image}
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: ${image_pull_policy}
       expose:
         type: LoadBalancer
         annotations: {}
@@ -67,7 +67,7 @@ spec:
 
     logcollector:
       image: ${logcollector_image}
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: ${image_pull_policy}
       resources:
         requests:
           memory: ${logcollector_requests_memory}
@@ -78,7 +78,7 @@ spec:
 
     backup:
       image: ${backup_image}
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: ${image_pull_policy}
       verifyTLS: ${backup_verify_tls}
       bucket: "${cluster_name}-percona"
       credentialsSecret: "${cluster_name}-percona"
