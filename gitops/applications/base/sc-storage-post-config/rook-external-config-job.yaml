@@ -38,7 +38,9 @@ spec:
               RGW_ENDPOINT=$(cat /tmp/rgw-secret/RGW_ENDPOINT)
 
               # Get API details
-              SERVER="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}"
+              K8S_API_PORT=6443
+              K8S_API_HOST="${ARGOCD_ENV_capi_cluster_kubeapi_host}"
+              SERVER="https://${K8S_API_HOST}:${K8S_API_PORT}"
               echo "SERVER: $SERVER"
               CA_DATA=$(base64 -w 0 /var/run/secrets/kubernetes.io/serviceaccount/ca.crt)
               echo "CA_DATA: $CA_DATA"
