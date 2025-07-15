@@ -16,6 +16,8 @@ module "generate_crossplane_files" {
     crossplane_packages_sc_mysql_version = var.crossplane_packages_sc_mysql_version
     crossplane_packages_sc_mongodb_version = var.crossplane_packages_sc_mongodb_version
     sc_api_token                       = "${var.cluster_name}/sc_api_token"
+    sc_api_server                      = "${var.cluster_name}/sc_api_server"
+    sc_api_ca                          = "${var.cluster_name}/sc_api_ca"
   }
   file_list       = [for f in fileset(local.crossplane_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.crossplane_app_file, f))]
   template_path   = local.crossplane_template_path
