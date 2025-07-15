@@ -25,6 +25,7 @@ module "mojaloop_stateful_resources" {
   database_subnets                              = var.database_subnets
   availability_zones                            = var.availability_zones
   cloud_region                                  = var.cloud_region
+  zone_id                                       = var.zone_id
 }
 
 variable "stateful_resources_namespace" {

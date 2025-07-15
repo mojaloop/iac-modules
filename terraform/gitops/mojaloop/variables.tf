@@ -200,6 +200,11 @@ variable "database_subnets" {
   description = "A list of subnet IDs to deploy the database instances into."
 }
 
+variable "zone_id" {
+  type        = string
+  description = "The Route53 zone ID."
+}
+
 variable "availability_zones" {
   type        = string
   description = "A list of availability zones for the database instances."

@@ -194,6 +194,11 @@ variable "availability_zones" {
   description = "A list of availability zones for the database instances."
 }
 
+variable "zone_id" {
+  type        = string
+  description = "The Route53 zone ID."
+}
+
 variable "vpc_id" {
   type        = string
   description = "The ID of the VPC where resources will be deployed."
