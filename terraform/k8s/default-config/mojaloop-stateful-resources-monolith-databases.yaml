@@ -9,24 +9,25 @@ common_platform_db:
     key: "ca-bundle.crt"
   dbaas_resource_config:
     # Percona XtraDB Cluster (PXC) specific configurations
-    cluster_name: "common-platform-db"                          # Name of the cluster
-    cr_version: "1.17.0"                                         # Custom Resource version for the operator
+    cluster_name: "common-platform-db"                         # Name of the cluster
+    cr_version: "1.17.0"                                       # Custom Resource version for the operator
     pxc_image: "percona/percona-xtradb-cluster:8.4.3-3.1"      # Docker image for the PXC nodes
-    mysql_storage_size: "30Gi"                                  # Storage size for MySQL data
-    mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
-    mysql_requests_memory: "512Mi"                              # Memory request for MySQL pods
-    mysql_requests_cpu: "300m"                                      # CPU request for MySQL pods
-    mysql_limits_memory: "16Gi"                                   # Memory limit for MySQL pods
-    mysql_limits_cpu: "16000m"                                        # CPU limit for MySQL pods
+    image_pull_policy: "IfNotPresent"                          # Image pull policy for the PXC nodes
+    mysql_storage_size: "30Gi"                                 # Storage size for MySQL data
+    mysql_replicas: 1                                          # Number of MySQL replicas in the cluster
+    mysql_requests_memory: "512Mi"                             # Memory request for MySQL pods
+    mysql_requests_cpu: "300m"                                 # CPU request for MySQL pods
+    mysql_limits_memory: "16Gi"                                # Memory limit for MySQL pods
+    mysql_limits_cpu: "16000m"                                 # CPU limit for MySQL pods
 
     # HAProxy specific configurations (for load balancing)
     haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
     haproxy_expose: "true"                                       # Whether HAProxy should be exposed
     haproxy_replicas: 1                                          # Number of HAProxy replicas
     haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
-    haproxy_requests_cpu: "100m"                                  # CPU request for HAProxy pods
+    haproxy_requests_cpu: "100m"                                 # CPU request for HAProxy pods
     haproxy_limits_memory: "1Gi"                                 # Memory limit for HAProxy pods
-    haproxy_limits_cpu: "1000m"                                      # CPU limit for HAProxy pods
+    haproxy_limits_cpu: "1000m"                                  # CPU limit for HAProxy pods
 
     # Log Collector specific configurations
     logcollector_image: "percona/percona-xtradb-cluster-operator:1.17.0-logcollector-fluentbit4.0.0"  # Image for log collector
@@ -121,24 +122,25 @@ common_mojaloop_db:
     key: "ca-bundle.crt"
   dbaas_resource_config:
     # Percona XtraDB Cluster (PXC) specific configurations
-    cluster_name: "common-platform-db"                          # Name of the cluster
-    cr_version: "1.17.0"                                         # Custom Resource version for the operator
+    cluster_name: "common-platform-db"                         # Name of the cluster
+    cr_version: "1.17.0"                                       # Custom Resource version for the operator
     pxc_image: "percona/percona-xtradb-cluster:8.4.3-3.1"      # Docker image for the PXC nodes
-    mysql_storage_size: "30Gi"                                  # Storage size for MySQL data
-    mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
-    mysql_requests_memory: "512Mi"                              # Memory request for MySQL pods
-    mysql_requests_cpu: "300m"                                      # CPU request for MySQL pods
-    mysql_limits_memory: "16Gi"                                   # Memory limit for MySQL pods
-    mysql_limits_cpu: "16000m"                                        # CPU limit for MySQL pods
+    pxc_annotations: {}                                        # Annotations for the PXC nodes
+    mysql_storage_size: "30Gi"                                 # Storage size for MySQL data
+    mysql_replicas: 1                                          # Number of MySQL replicas in the cluster
+    mysql_requests_memory: "512Mi"                             # Memory request for MySQL pods
+    mysql_requests_cpu: "300m"                                 # CPU request for MySQL pods
+    mysql_limits_memory: "16Gi"                                # Memory limit for MySQL pods
+    mysql_limits_cpu: "16000m"                                 # CPU limit for MySQL pods
 
     # HAProxy specific configurations (for load balancing)
     haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
     haproxy_expose: "true"                                       # Whether HAProxy should be exposed
     haproxy_replicas: 1                                          # Number of HAProxy replicas
     haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
-    haproxy_requests_cpu: "100m"                                  # CPU request for HAProxy pods
+    haproxy_requests_cpu: "100m"                                 # CPU request for HAProxy pods
     haproxy_limits_memory: "1Gi"                                 # Memory limit for HAProxy pods
-    haproxy_limits_cpu: "1000m"                                      # CPU limit for HAProxy pods
+    haproxy_limits_cpu: "1000m"                                  # CPU limit for HAProxy pods
 
     # Log Collector specific configurations
     logcollector_image: "percona/percona-xtradb-cluster-operator:1.17.0-logcollector-fluentbit4.0.0"  # Image for log collector

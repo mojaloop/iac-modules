@@ -235,9 +235,11 @@ resource "local_file" "dbaas-crs-mysql" {
         db_secret                    = each.value.external_resource_config.master_user_password_secret
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
         externalservice_name         = each.value.externalservice_name
+        image_pull_policy            = each.value.dbaas_resource_config.image_pull_policy
         db_name                      = each.value.external_resource_config.db_name
         mysql_storage_size           = each.value.dbaas_resource_config.mysql_storage_size
         pxc_image                    = each.value.dbaas_resource_config.pxc_image
+        pxc_annotations              = each.value.dbaas_resource_config.pxc_annotations
         mysql_replicas               = each.value.dbaas_resource_config.mysql_replicas
         mysql_requests_memory        = each.value.dbaas_resource_config.mysql_requests_memory
         mysql_requests_cpu           = each.value.dbaas_resource_config.mysql_requests_cpu
