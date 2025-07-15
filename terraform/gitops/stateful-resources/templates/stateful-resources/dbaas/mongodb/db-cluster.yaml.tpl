@@ -1,13 +1,13 @@
 apiVersion: sc.mojaloop.io/v1alpha1
-kind: XMongodbCluster
+kind: MongodbCluster
 metadata:
-  name: "${cluster_name}-${dbdeploy_name_prefix}"
+  name: "${cluster_name}"
   namespace: ${namespace}
 spec:
   parameters:
-    clusterName: ${percona_cluster_name}
+    clusterName: ${cluster_name}
     externalServiceName: ${externalservice_name}
-    appNamespace: ${namespace}
+    appNamespace: ${appNamespace}
     crVersion: ${cr_version}
     image: ${image}
     imagePullPolicy: IfNotPresent
@@ -16,8 +16,8 @@ spec:
       enabled: ${backup_enabled}
       verifyTLS: ${backup_verify_tls}
       image: ${backup_image}
-      bucket: ${env_name}-percona
-      credentialsSecret: ${env_name}-percona
+      bucket: ${cluster_name}-percona
+      credentialsSecret: ${cluster_name}-percona
       bucketRegion: ${backup_bucket_region}
       scheduleEnabled: ${backup_schedule_enabled}
       scheduleName: ${backup_schedule_name}
@@ -83,11 +83,11 @@ spec:
         priorityClassName: ""
 
     dns:
-      name: ${env_name}-${externalservice_name}
-      region: ${region}
+      name: ${cluster_name}-${externalservice_name}
+      region: ${dns_region}
       ttl: 300
       type: A
-      zoneId: ${zone_id}
+      zoneId: ${dns_zone_id}
 
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
