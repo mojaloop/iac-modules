@@ -81,8 +81,8 @@ spec:
       image: ${backup_image}
       imagePullPolicy: IfNotPresent
       verifyTLS: ${backup_verify_tls}
-      bucket: ${cluster_name}-percona
-      credentialsSecret: ${cluster_name}-percona
+      bucket: "${cluster_name}-percona"
+      credentialsSecret: "${cluster_name}-percona"
       bucketRegion: ${cloud_region}
       scheduleName: ${backup_schedule_name}
       cronScheduleExpression: ${backup_cron_schedule}
