@@ -226,7 +226,7 @@ resource "local_file" "dbaas-crs" {
   for_each = { for key, stateful_resource in local.monolith_env_vpc_dbaas_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/dbaas/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
-        cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.dbaas_resource_config.dbdeploy_name_prefix}"
+        cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
         dbdeploy_name_prefix         = each.value.dbaas_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
         appNamespace                 = each.value.resource_namespace
