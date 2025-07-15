@@ -235,7 +235,6 @@ resource "local_file" "dbaas-crs-mysql" {
         db_secret                    = each.value.external_resource_config.master_user_password_secret
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
         externalservice_name         = each.value.externalservice_name
-        image_pull_policy            = each.value.dbaas_resource_config.image_pull_policy
         db_name                      = each.value.external_resource_config.db_name
         mysql_storage_size           = each.value.dbaas_resource_config.mysql_storage_size
         pxc_image                    = each.value.dbaas_resource_config.pxc_image
@@ -278,7 +277,6 @@ resource "local_file" "dbaas-crs-mongodb" {
         namespace                    = each.value.resource_namespace
         cr_version                   = each.value.dbaas_resource_config.cr_version
         image                        = each.value.dbaas_resource_config.image
-        image_pull_policy            = each.value.dbaas_resource_config.image_pull_policy
         db_secret                    = each.value.external_resource_config.master_user_password_secret
         backup_enabled               = each.value.dbaas_resource_config.backup_enabled
         backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
