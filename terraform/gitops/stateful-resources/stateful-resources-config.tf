@@ -271,7 +271,7 @@ resource "local_file" "dbaas-crs" {
 
         dns_name                     = each.value.dbaas_resource_config.dns_name
         dns_region                   = var.cloud_region
-        dns_zone_id                  = var.zone_id
+        dns_zone_id                  = var.private_dns_zone_id
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
