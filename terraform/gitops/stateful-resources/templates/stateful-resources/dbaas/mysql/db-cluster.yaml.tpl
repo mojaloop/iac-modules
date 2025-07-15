@@ -81,15 +81,15 @@ spec:
       image: ${backup_image}
       imagePullPolicy: IfNotPresent
       verifyTLS: ${backup_verify_tls}
-      bucket: ${env_name}-percona
-      credentialsSecret: ${env_name}-percona
+      bucket: ${cluster_name}-percona
+      credentialsSecret: ${cluster_name}-percona
       bucketRegion: ${cloud_region}
       scheduleName: ${backup_schedule_name}
       cronScheduleExpression: ${backup_cron_schedule}
       backupRetention: ${backup_retention}
 
     dns:
-      name: ${env_name}-${externalservice_name}
+      name: ${cluster_name}-${externalservice_name}
       region: ${dns_region}
       ttl: 300
       type: A
