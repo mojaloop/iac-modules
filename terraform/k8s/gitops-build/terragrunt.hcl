@@ -195,7 +195,6 @@ locals {
   GITLAB_CURRENT_GROUP_NAME     = get_env("GITLAB_CURRENT_GROUP_NAME")
   GITLAB_API_URL                = get_env("GITLAB_API_URL")
   CLOUD_REGION                  = get_env("cloud_region")
-  zone_id                       = get_env("zone_id")
   ENABLE_VAULT_OIDC             = get_env("enable_vault_oidc")
   ENABLE_GRAFANA_OIDC           = get_env("enable_grafana_oidc")
   LETSENCRYPT_EMAIL             = get_env("letsencrypt_email")
