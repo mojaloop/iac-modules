@@ -256,14 +256,10 @@ resource "local_file" "dbaas-crs-mysql" {
         logcollector_limits_cpu       = each.value.dbaas_resource_config.logcollector_limits_cpu
         backup_image                 = each.value.dbaas_resource_config.backup_image
         backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
-        backup_bucket                = each.value.dbaas_resource_config.backup_bucket
-        backup_credentials_secret    = each.value.dbaas_resource_config.backup_credentials_secret
-        backup_bucket_region         = each.value.dbaas_resource_config.backup_bucket_region
-        backup_schedule_enabled      = each.value.dbaas_resource_config.backup_schedule_enabled
         backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
         backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
         backup_retention             = each.value.dbaas_resource_config.backup_retention
-        dns_name                     = each.value.dbaas_resource_config.dns_name
+        dns_name                     = "${var.cluster_name}-${each.value.externalservice_name}-external"
         dns_region                   = var.cloud_region
         dns_zone_id                  = var.private_dns_zone_id
   })

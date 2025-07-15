@@ -41,6 +41,7 @@ common_platform_db:
     backup_schedule_name: "daily_backup"                         # Name for the backup schedule
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
     backup_retention: "3"                                        # Number of backups to retain
+
   external_resource_config:
     ca_bundle_url: "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem"
     dbdeploy_name_prefix: "plt"
