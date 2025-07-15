@@ -235,6 +235,7 @@ common_mongodb:
     cluster_name: "common-mongodb"                          # Name of the cluster
     cr_version: "1.19.1"
     image: "percona/percona-server-mongodb:7.0.15-9-multi"
+    image_pull_policy: "IfNotPresent"
 
     # Backup inputs
     backup_enabled: false
