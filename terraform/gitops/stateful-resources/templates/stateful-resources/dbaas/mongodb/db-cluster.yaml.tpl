@@ -19,7 +19,7 @@ spec:
       bucket: ${cluster_name}-percona
       credentialsSecret: ${cluster_name}-percona
       bucketRegion: ${backup_bucket_region}
-      scheduleEnabled: ${backup_schedule_enabled}
+      scheduleEnabled: ${schedule_enabled}
       scheduleName: ${backup_schedule_name}
       cronScheduleExpression: ${backup_cron_schedule}
       backupRetention: ${backup_retention}
@@ -83,7 +83,7 @@ spec:
         priorityClassName: ""
 
     dns:
-      name: ${cluster_name}-${externalservice_name}
+      name: ${dns_name}
       region: ${dns_region}
       ttl: 300
       type: A
