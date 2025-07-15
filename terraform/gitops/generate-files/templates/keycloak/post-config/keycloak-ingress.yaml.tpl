@@ -8,6 +8,10 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
     nginx.ingress.kubernetes.io/ssl-passthrough: true
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header X-Forwarded-Port $server_port;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 spec:
   ingressClassName: ${ingress_class}
   tls:
@@ -33,6 +37,10 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
     nginx.ingress.kubernetes.io/ssl-passthrough: true
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header X-Forwarded-Port $server_port;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 spec:
   ingressClassName: ${external_ingress_class_name}
   tls:
