@@ -1,4 +1,5 @@
 %{ if !istio_create_ingress_gateways ~}
+%{ set nginx_configuration_snippet = "proxy_set_header X-Forwarded-Proto $scheme;\n      proxy_set_header X-Forwarded-Port $server_port;\n      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;" ~}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -9,9 +10,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
     nginx.ingress.kubernetes.io/ssl-passthrough: true
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header X-Forwarded-Port $server_port;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      ${nginx_configuration_snippet}
 spec:
   ingressClassName: ${ingress_class}
   tls:
@@ -38,9 +37,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
     nginx.ingress.kubernetes.io/ssl-passthrough: true
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header X-Forwarded-Port $server_port;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      ${nginx_configuration_snippet}
 spec:
   ingressClassName: ${external_ingress_class_name}
   tls:
