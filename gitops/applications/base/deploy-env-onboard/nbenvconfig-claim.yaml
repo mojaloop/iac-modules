@@ -14,6 +14,9 @@ spec:
         vaultSecretPath: ${ARGOCD_ENV_env_name}/netbird_k8s_setup_key
       groupNames:
         envK8sNodes: ${ARGOCD_ENV_env_name}-k8s-nodes
+        ccNetworkResource: ${ARGOCD_ENV_cc_network_resource_group}
+      policy:
+        ccPorts: ${ARGOCD_ENV_cc_ports}
   providerConfigsRef:
     netbirdProviderConfigName: "netbird-crossplane-provider-config"
     k8sProviderConfigName: "kubernetes-provider"
