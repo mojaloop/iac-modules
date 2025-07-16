@@ -114,7 +114,7 @@ spec:
           - name: sc-k8s-cluster
             context:
               cluster: sc-k8s-cluster
-              namespace: env-namespace
+              namespace: ${cluster_name}
               user: sc-k8s-user
           current-context: sc-k8s-cluster
 %{ endif ~}
