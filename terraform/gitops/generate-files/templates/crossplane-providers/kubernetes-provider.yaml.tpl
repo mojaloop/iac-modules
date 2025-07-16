@@ -47,6 +47,8 @@ apiVersion: kubernetes.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
   name: sc-k8s-providerconfig
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   credentials:
     source: Secret
