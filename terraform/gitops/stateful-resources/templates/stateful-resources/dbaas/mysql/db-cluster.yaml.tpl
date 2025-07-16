@@ -58,7 +58,7 @@ spec:
         requests:
           memory: ${haproxy_requests_memory}
           cpu: ${haproxy_requests_cpu}
-        limit:
+        limits:
           memory: ${haproxy_limits_memory}
           cpu: ${haproxy_limits_cpu}
       tolerations: []
@@ -71,7 +71,7 @@ spec:
         requests:
           memory: ${logcollector_requests_memory}
           cpu: ${logcollector_requests_cpu}
-        limit:
+        limits:
           memory: ${logcollector_limits_memory}
           cpu: ${logcollector_limits_cpu}
 
