@@ -232,6 +232,8 @@ resource "local_file" "dbaas-crs-mysql" {
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
         appNamespace                 = each.value.resource_namespace
+        consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
+        consumer_app_secret          = local.ca_bundle_secrets_by_monolith[each.key]
         cr_version                   = each.value.dbaas_resource_config.cr_version
         db_username                  = each.value.external_resource_config.username
         db_secret                    = each.value.external_resource_config.master_user_password_secret
@@ -276,6 +278,8 @@ resource "local_file" "dbaas-crs-mongodb" {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
         externalservice_name         = each.value.externalservice_name
         appNamespace                 = each.value.resource_namespace
+        consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
+        consumer_app_secret          = local.ca_bundle_secrets_by_monolith[each.key]
         namespace                    = each.value.resource_namespace
         cr_version                   = each.value.dbaas_resource_config.cr_version
         image                        = each.value.dbaas_resource_config.image

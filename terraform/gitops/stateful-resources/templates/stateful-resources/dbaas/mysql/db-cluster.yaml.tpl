@@ -12,7 +12,14 @@ spec:
     dbSecret: ${db_secret}
     dbUsername: ${db_username}
     dbName: "${db_name}"
-
+    consumerAppsExternalServices: ${consumer_app_externalname_services}
+    consumerAppsSecret:
+        name: ${consumer_app_secret.ca_bundle_secret}
+        key: ${consumer_app_secret.ca_bundle_secret_key}
+        namespaces:
+%{ for ns in consumer_app_secret.namespaces ~}
+          - ${ns}
+%{ endfor ~}
     pxc:
       image: ${pxc_image}
       imagePullPolicy: IfNotPresent
