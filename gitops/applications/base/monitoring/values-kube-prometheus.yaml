@@ -32,11 +32,6 @@ prometheus:
         X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
       metadataConfig:
         sendInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
-  remoteRead:
-    - name: central-monitoring
-      url: http://central-monitoring-grafana-mimir-gateway/prometheus/api/v1/read
-      headers:
-        X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
 
 
 kubelet:
