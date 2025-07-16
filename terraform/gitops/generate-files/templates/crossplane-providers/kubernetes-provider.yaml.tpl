@@ -46,7 +46,7 @@ spec:
 apiVersion: kubernetes.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
-  name: sc-k8s-providerconfig
+  name: sc-kubernetes-provider
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
