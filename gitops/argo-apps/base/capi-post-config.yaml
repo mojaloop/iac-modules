@@ -204,6 +204,8 @@ spec:
           value: "${ARGOCD_ENV_monitoring_prometheus_remote_write_tenant_id}"
         - name: "monitoring_prometheus_cluster_label_value"
           value: "${ARGOCD_ENV_monitoring_prometheus_cluster_label_value}"
+        - name: "monitoring_mimir_dns_subdomain"
+          value: "${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
 
         # percona operator
 
