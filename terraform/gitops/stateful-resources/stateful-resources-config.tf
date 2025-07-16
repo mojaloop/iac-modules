@@ -70,6 +70,8 @@ resource "local_file" "kustomization" {
       redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
       monolith_env_vpc_aws_db_resources   = local.monolith_env_vpc_aws_db_resources
+      monolith_env_mysql_dbaas_resources  = local.monolith_env_mysql_dbaas_resources
+      monolith_env_mongo_dbaas_resources  = local.monolith_env_mongo_dbaas_resources
       monolith_stateful_resources         = var.monolith_stateful_resources
       managed_svc_as_monolith             = var.managed_svc_as_monolith
       deploy_env_monolithic_db            = var.deploy_env_monolithic_db
