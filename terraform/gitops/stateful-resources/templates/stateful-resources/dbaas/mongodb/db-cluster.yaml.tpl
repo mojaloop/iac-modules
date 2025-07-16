@@ -12,6 +12,14 @@ spec:
     image: ${image}
     imagePullPolicy: IfNotPresent
     dbSecret: ${db_secret}
+    consumerAppsExternalServices: ${consumer_app_externalname_services}
+    consumerAppsSecret:
+        name: ${consumer_app_secret.ca_bundle_secret}
+        key: ${consumer_app_secret.ca_bundle_secret_key}
+        namespaces:
+%{ for ns in consumer_app_secret.namespaces ~}
+          - ${ns}
+%{ endfor ~}
     backup:
       enabled: ${backup_enabled}
       verifyTLS: ${backup_verify_tls}
