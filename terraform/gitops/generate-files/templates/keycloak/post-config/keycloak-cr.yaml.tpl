@@ -41,12 +41,6 @@ spec:
           - env:
             - name: JAVA_OPTS_APPEND
               value: "-Dkeycloak.migration.replace-placeholders=true"
-            - name: KC_COOKIE_SECURE
-              value: "true"
-            - name: KC_COOKIE_SAME_SITE
-              value: "strict"
-            - name: KC_FEATURES_DISABLED
-              value: "legacy"
 %{ for ref_secret_name, ref_secret_key in ref_secrets ~}
             - name: ${replace(ref_secret_name, "-", "_")}
               valueFrom:
