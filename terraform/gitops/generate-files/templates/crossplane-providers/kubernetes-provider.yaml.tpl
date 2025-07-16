@@ -72,7 +72,7 @@ spec:
     - secretKey: sc_api_server
       remoteRef:
         key: ${sc_api_server}
-        property: sc_api_server
+        property: sc-api-server
       sourceRef:
         storeRef:
           name: tenant-vault-secret-store
@@ -80,16 +80,15 @@ spec:
     - secretKey: sc_api_ca
       remoteRef:
         key: ${sc_api_ca}
-        property: sc_api_ca
+        property: sc-api-ca
       sourceRef:
         storeRef:
           name: tenant-vault-secret-store
           kind: ClusterSecretStore
-
     - secretKey: sc_api_token
       remoteRef:
         key: ${sc_api_token}
-        property: sc_api_token
+        property: token
       sourceRef:
         storeRef:
           name: tenant-vault-secret-store
