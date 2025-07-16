@@ -19,6 +19,7 @@ module "generate_crossplane_providers_files" {
     sc_api_server                            = "${var.cluster_name}/sc_api_server"
     sc_api_ca                                = "${var.cluster_name}/sc_api_ca"
     sc_api_token                             = "${var.cluster_name}/sc_api_token"
+    cluster_name                             = var.cluster_name
   }
   file_list       = [for f in fileset(local.crossplane_providers_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.crossplane_providers_app_file, f))]
   template_path   = local.crossplane_providers_template_path
