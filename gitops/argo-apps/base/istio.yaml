@@ -79,3 +79,6 @@ spec:
 
         - name: "istio_proxy_log_level"
           value: "${ARGOCD_ENV_utils_istio_proxy_log_level}"
+
+        - name: "istio_ztunnel_log_level"
+          value: "${ARGOCD_ENV_utils_istio_ztunnel_log_level}"

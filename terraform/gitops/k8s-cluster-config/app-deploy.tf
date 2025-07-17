@@ -5,78 +5,76 @@ module "config_deepmerge" {
 }
 
 module "mojaloop" {
-  count                                = var.common_var_map.mojaloop_enabled ? 1 : 0
-  source                               = "../mojaloop"
-  nat_public_ips                       = var.nat_public_ips
-  internal_load_balancer_dns           = var.internal_load_balancer_dns
-  external_load_balancer_dns           = var.external_load_balancer_dns
-  private_subdomain                    = var.private_subdomain
-  public_subdomain                     = var.public_subdomain
-  secrets_key_map                      = var.secrets_key_map
-  properties_key_map                   = var.properties_key_map
-  output_dir                           = var.output_dir
-  gitlab_project_url                   = var.gitlab_project_url
-  cluster_name                         = var.cluster_name
-  current_gitlab_project_id            = var.current_gitlab_project_id
-  gitlab_group_name                    = var.gitlab_group_name
-  gitlab_api_url                       = var.gitlab_api_url
-  gitlab_server_url                    = var.gitlab_server_url
-  kv_path                              = var.kv_path
-  private_network_cidr                 = var.private_network_cidr
-  cert_manager_service_account_name    = var.cert_manager_service_account_name
-  nginx_external_namespace             = var.nginx_external_namespace
-  keycloak_fqdn                        = local.keycloak_fqdn
-  keycloak_name                        = var.keycloak_name
-  keycloak_namespace                   = var.keycloak_namespace
-  vault_namespace                      = var.vault_namespace
-  cert_manager_namespace               = var.cert_manager_namespace
-  mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
-  mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
-  jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
-  jwt_client_secret_secret             = var.jwt_client_secret_secret
-  vault_secret_key                     = var.vault_secret_key
-  role_assign_svc_secret               = var.role_assign_svc_secret
-  role_assign_svc_user                 = var.role_assign_svc_user
-  istio_external_gateway_name          = var.istio_external_gateway_name
-  istio_internal_gateway_name          = var.istio_internal_gateway_name
-  istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
-  istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
-  istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
-  istio_egress_gateway_name            = local.istio_egress_gateway_name
-  mojaloop_chart_version               = var.app_var_map.mojaloop_chart_version
-  mcm_enabled                          = var.common_var_map.mcm_enabled
-  mcm_chart_version                    = var.app_var_map.mcm_chart_version
-  mojaloop_enabled                     = var.common_var_map.mojaloop_enabled
-  bulk_enabled                         = var.app_var_map.bulk_enabled
-  third_party_enabled                  = var.app_var_map.third_party_enabled
-  local_vault_kv_root_path             = local.local_vault_kv_root_path
+  count                                    = var.common_var_map.mojaloop_enabled ? 1 : 0
+  source                                   = "../mojaloop"
+  nat_public_ips                           = var.nat_public_ips
+  internal_load_balancer_dns               = var.internal_load_balancer_dns
+  external_load_balancer_dns               = var.external_load_balancer_dns
+  private_subdomain                        = var.private_subdomain
+  public_subdomain                         = var.public_subdomain
+  secrets_key_map                          = var.secrets_key_map
+  properties_key_map                       = var.properties_key_map
+  output_dir                               = var.output_dir
+  gitlab_project_url                       = var.gitlab_project_url
+  cluster_name                             = var.cluster_name
+  current_gitlab_project_id                = var.current_gitlab_project_id
+  gitlab_group_name                        = var.gitlab_group_name
+  gitlab_api_url                           = var.gitlab_api_url
+  gitlab_server_url                        = var.gitlab_server_url
+  kv_path                                  = var.kv_path
+  private_network_cidr                     = var.private_network_cidr
+  cert_manager_service_account_name        = var.cert_manager_service_account_name
+  nginx_external_namespace                 = var.nginx_external_namespace
+  keycloak_fqdn                            = local.keycloak_fqdn
+  keycloak_name                            = var.keycloak_name
+  keycloak_namespace                       = var.keycloak_namespace
+  vault_namespace                          = var.vault_namespace
+  cert_manager_namespace                   = var.cert_manager_namespace
+  mcm_oidc_client_secret_secret_key        = var.mcm_oidc_client_secret_secret_key
+  mcm_oidc_client_secret_secret            = var.mcm_oidc_client_secret_secret
+  jwt_client_secret_secret_key             = var.jwt_client_secret_secret_key
+  jwt_client_secret_secret                 = var.jwt_client_secret_secret
+  vault_secret_key                         = var.vault_secret_key
+  role_assign_svc_secret                   = var.role_assign_svc_secret
+  role_assign_svc_user                     = var.role_assign_svc_user
+  istio_external_gateway_name              = var.istio_external_gateway_name
+  istio_internal_gateway_name              = var.istio_internal_gateway_name
+  istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
+  istio_internal_wildcard_gateway_name     = local.istio_internal_wildcard_gateway_name
+  mojaloop_chart_version                   = var.app_var_map.mojaloop_chart_version
+  mcm_enabled                              = var.common_var_map.mcm_enabled
+  mcm_chart_version                        = var.app_var_map.mcm_chart_version
+  mojaloop_enabled                         = var.common_var_map.mojaloop_enabled
+  bulk_enabled                             = var.app_var_map.bulk_enabled
+  third_party_enabled                      = var.app_var_map.third_party_enabled
+  local_vault_kv_root_path                 = local.local_vault_kv_root_path
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
-  app_var_map                          = var.app_var_map
-  auth_fqdn                            = local.auth_fqdn
-  ory_namespace                        = var.ory_namespace
-  bof_release_name                     = local.bof_release_name
-  oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
-  vault_root_ca_name                   = "pki-${var.cluster_name}"
-  keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
-  rbac_api_resources_file              = var.rbac_api_resources_file
-  mojaloop_values_override_file        = var.mojaloop_values_override_file
-  mcm_values_override_file             = var.mcm_values_override_file
-  finance_portal_values_override_file  = var.finance_portal_values_override_file
-  values_hub_provisioning_override_file = var.values_hub_provisioning_override_file
-  fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
-  managed_db_host                      = var.managed_db_host
-  platform_stateful_res_config         = module.config_deepmerge.merged
-  object_store_api_url                 = var.object_store_api_url
-  object_store_region                  = var.object_store_region
-  object_store_percona_backup_bucket   = data.gitlab_project_variable.object_store_percona_backup_bucket.value
-  external_secret_sync_wave            = var.external_secret_sync_wave
-  pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
-  monolith_stateful_resources          = local.monolith_stateful_resources
-  ml_testing_toolkit_cli_chart_version = var.app_var_map.ml_testing_toolkit_cli_chart_version
-  hub_provisioning_ttk_test_case_version = var.app_var_map.hub_provisioning_ttk_test_case_version
-  managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
-  storage_class_name                   = var.storage_class_name
+  app_var_map                              = var.app_var_map
+  auth_fqdn                                = local.auth_fqdn
+  ory_namespace                            = var.ory_namespace
+  bof_release_name                         = local.bof_release_name
+  oathkeeper_auth_provider_name            = local.oathkeeper_auth_provider_name
+  vault_root_ca_name                       = "pki-${var.cluster_name}"
+  keycloak_hubop_realm_name                = var.keycloak_hubop_realm_name
+  rbac_api_resources_file                  = var.rbac_api_resources_file
+  mojaloop_values_override_file            = var.mojaloop_values_override_file
+  mcm_values_override_file                 = var.mcm_values_override_file
+  finance_portal_values_override_file      = var.finance_portal_values_override_file
+  values_hub_provisioning_override_file    = var.values_hub_provisioning_override_file
+  fspiop_use_ory_for_auth                  = var.app_var_map.fspiop_use_ory_for_auth
+  managed_db_host                          = var.managed_db_host
+  platform_stateful_res_config             = module.config_deepmerge.merged
+  object_store_api_url                     = var.object_store_api_url
+  object_store_region                      = var.object_store_region
+  object_store_percona_backup_bucket       = data.gitlab_project_variable.object_store_percona_backup_bucket.value
+  external_secret_sync_wave                = var.external_secret_sync_wave
+  pm4mls                                   = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
+  monolith_stateful_resources              = local.monolith_stateful_resources
+  ml_testing_toolkit_cli_chart_version     = var.app_var_map.ml_testing_toolkit_cli_chart_version
+  hub_provisioning_ttk_test_case_version   = var.app_var_map.hub_provisioning_ttk_test_case_version
+  managed_svc_as_monolith                  = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
+  storage_class_name                       = var.storage_class_name
 }
 
 module "pm4ml" {
@@ -203,8 +201,6 @@ module "vnext" {
   istio_internal_gateway_name          = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
-  istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
-  istio_egress_gateway_name            = local.istio_egress_gateway_name
   vnext_chart_version                  = var.app_var_map.vnext_chart_version
   mcm_enabled                          = var.common_var_map.mcm_enabled
   mcm_chart_version                    = var.app_var_map.mcm_chart_version
@@ -225,7 +221,7 @@ module "vnext" {
   object_store_percona_backup_bucket   = data.gitlab_project_variable.object_store_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
   monolith_stateful_resources          = local.monolith_stateful_resources
-  managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
+  managed_svc_as_monolith              = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
   storage_class_name                   = var.storage_class_name
 }
 
@@ -375,24 +371,24 @@ variable "argocd_namespace" {
   description = "namespace argocd is deployed to"
 }
 
-variable "object_store_region"{
+variable "object_store_region" {
   type        = string
   description = "object_store_region"
 }
 locals {
   auth_fqdn = "auth.${var.private_subdomain}"
 
-  pm4ml_var_map = try(var.app_var_map.pm4mls, {})
+  pm4ml_var_map       = try(var.app_var_map.pm4mls, {})
   proxy_pm4ml_var_map = try(var.app_var_map.proxy_pm4mls, {})
-  cluster = var.app_var_map.cluster
+  cluster             = var.app_var_map.cluster
 
-  st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
-  st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
-  st_res_managed_vars           = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
-  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
+  st_res_local_helm_vars          = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
+  st_res_local_operator_vars      = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
+  st_res_managed_vars             = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
+  plt_st_res_config               = yamldecode(file(var.platform_stateful_resources_config_file))
   monolith_stateful_resources_int = yamldecode(file(var.mojaloop_stateful_res_monolith_config_file))
 
-  monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )}
+  monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if(var.managed_svc_as_monolith || var.db_mediated_by_control_center) }
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
 }

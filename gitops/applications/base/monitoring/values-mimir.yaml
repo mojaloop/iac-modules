@@ -69,6 +69,8 @@ distributor:
     limits:
       cpu: ${ARGOCD_ENV_mimir_distributor_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_distributor_limits_memory}
+  networkPolicy:
+    enabled: false
 
 ingester:
   replicaCount: ${ARGOCD_ENV_mimir_ingester_replica_count}
@@ -82,6 +84,8 @@ ingester:
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   persistence:
     size: ${ARGOCD_ENV_mimir_ingester_storage_size}
+  networkPolicy:
+    enabled: false
 
 querier:
   replicaCount: ${ARGOCD_ENV_mimir_querier_replica_count}
@@ -90,6 +94,8 @@ querier:
       cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  networkPolicy:
+    enabled: false
 
 queryFrontend:
   replicaCount: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
@@ -97,6 +103,8 @@ queryFrontend:
     limits:
       cpu: ${ARGOCD_ENV_mimir_query_frontend_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_query_frontend_limits_memory}
+  networkPolicy:
+    enabled: false
 
 compactor:
   replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
@@ -107,6 +115,8 @@ compactor:
       memory: ${ARGOCD_ENV_mimir_compactor_limits_memory}
   persistence:
     size: ${ARGOCD_ENV_mimir_compactor_storage_size}
+  networkPolicy:
+    enabled: false
 
 storeGateway:
   replicaCount: ${ARGOCD_ENV_mimir_store_gateway_replica_count}
@@ -117,6 +127,8 @@ storeGateway:
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   persistence:
     size: ${ARGOCD_ENV_mimir_store_gateway_storage_size}
+  networkPolicy:
+    enabled: false
 
 ruler:
   enabled: true
@@ -126,6 +138,8 @@ ruler:
       cpu: ${ARGOCD_ENV_mimir_ruler_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ruler_limits_memory}
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  networkPolicy:
+    enabled: false
 
 alertmanager:
   enabled: true
@@ -137,3 +151,22 @@ alertmanager:
   extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   persistence:
     size: ${ARGOCD_ENV_mimir_alertmanager_storage_size}
+  networkPolicy:
+    enabled: false
+
+gateway:
+  networkPolicy:
+    enabled: false
+
+memcachedchunks:
+  networkPolicy:
+    enabled: false
+memcachedfrontend:
+  networkPolicy:
+    enabled: false
+memcachedindex:
+  networkPolicy:
+    enabled: false
+memcachedmetadata:
+  networkPolicy:
+    enabled: false
