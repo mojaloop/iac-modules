@@ -5,7 +5,7 @@ metadata:
   namespace: ${namespace}
 spec:
   parameters:
-    clusterName: "${cluster_name}-${dbdeploy_name_prefix}"
+    clusterName: "${cluster_name}-${dbdeploy_name_prefix}-mongodb"
     externalServiceName: ${externalservice_name}
     appNamespace: ${appNamespace}
     scAppNamespace: ${cluster_name}
