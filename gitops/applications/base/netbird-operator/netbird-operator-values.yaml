@@ -13,4 +13,4 @@ netbirdAPI:
 managementURL: ${ARGOCD_ENV_netbird_operator_management_url}
 webhook:
   failurePolicy: Ignore
-routingClientImage: ${ARGOCD_ENV_netbird_image_version}
+routingClientImage: netbirdio/netbird:${ARGOCD_ENV_netbird_image_version}
