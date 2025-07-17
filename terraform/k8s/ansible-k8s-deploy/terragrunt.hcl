@@ -127,7 +127,6 @@ locals {
     repo_username                = get_env("GITLAB_USERNAME")
     repo_password                = get_env("GITLAB_CI_PAT")
     tenant_vault_token           = get_env("ENV_VAULT_TOKEN")
-    cluster_name                 = get_env("cluster_name")
     netmaker_env_network_name    = get_env("cluster_name")
     cluster_domain               = "${get_env("cluster_name")}.${get_env("domain")}"
     argocd_domain                = local.argocd_oidc_domain
@@ -158,6 +157,7 @@ locals {
     kubernetes_oidc_k8s_admin_group  = get_env("KUBERNETES_OIDC_K8S_ADMIN_GROUP")
     cc_cidr_block                    = get_env("CC_CIDR_BLOCK")
     max_pods_per_node                = local.common_vars.max_pods_per_node
+    cluster_name                     = get_env("cluster_name")
   }
 }
 
