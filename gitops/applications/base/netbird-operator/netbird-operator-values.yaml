@@ -11,3 +11,6 @@ netbirdAPI:
     name: ${ARGOCD_ENV_netbird_operator_api_key_secret}
     key: NB_API_KEY
 managementURL: ${ARGOCD_ENV_netbird_operator_management_url}
+webhook:
+  failurePolicy: Ignore
+routingClientImage: ${ARGOCD_ENV_netbird_image_version}

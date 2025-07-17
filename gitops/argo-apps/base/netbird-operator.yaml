@@ -75,6 +75,9 @@ spec:
           - name: "netbird_operator_cc_cluster_cidr"
             value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
 
+          - name: "netbird_image_version"
+            value: "${ARGOCD_ENV_security_netbird_image_version}"
+
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_security_application_gitrepo_tag}
       path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_capi_cloud_provider}/storage-provider/netbird-operator
