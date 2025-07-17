@@ -5,9 +5,10 @@ metadata:
   namespace: "${namespace}"
 spec:
   parameters:
-    clusterName: ${cluster_name}
+    clusterName: "${cluster_name}-${dbdeploy_name_prefix}"
     externalServiceName: ${externalservice_name}
     appNamespace: ${appNamespace}
+    scAppNamespace: ${cluster_name}
     crVersion: ${cr_version}
     dbSecret: ${db_secret}
     dbUsername: ${db_username}
