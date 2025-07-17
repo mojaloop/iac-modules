@@ -73,9 +73,7 @@ inputs = {
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
-  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps,
-  {netbird_version = local.common_vars.netbird_image_version
-   coredns_localcache_version = local.common_vars.coredns_localcache_version},
+  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps,
   (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.env_vars.microk8s_version, "1.31/stable")
@@ -144,7 +142,6 @@ locals {
   cluster_domain                   = "${get_env("cluster_name")}.${get_env("domain")}"
 
   bastion_hosts_var_maps = {
-    cluster_name                  = get_env("cluster_name")
     cluster_domain                = "${get_env("cluster_name")}.${get_env("domain")}"
     eks_aws_secret_access_key     = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
     eks_aws_access_key_id         = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""
@@ -155,6 +152,11 @@ locals {
     private_repo                  = try(get_env("PRIVATE_REPO"), "null")
     private_repo_user             = try(get_env("PRIVATE_REPO_USER"), "null")
   }
+  all_hosts_var_maps = {
+    netbird_version = local.common_vars.netbird_image_version
+    coredns_localcache_version = local.common_vars.coredns_localcache_version
+    cluster_name                  = get_env("cluster_name")
+   }
 
 }
 
