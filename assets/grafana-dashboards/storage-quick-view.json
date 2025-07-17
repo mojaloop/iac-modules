@@ -1,4 +1,4 @@
-{
+  {
     "annotations": {
       "list": [
         {
@@ -18,7 +18,7 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 88,
+    "id": 89,
     "links": [],
     "panels": [
       {
@@ -90,11 +90,24 @@
             },
             "unit": "bytes"
           },
-          "overrides": []
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byFrameRefID",
+                "options": "B"
+              },
+              "properties": [
+                {
+                  "id": "custom.pointSize",
+                  "value": 10
+                }
+              ]
+            }
+          ]
         },
         "gridPos": {
-          "h": 7,
-          "w": 24,
+          "h": 9,
+          "w": 8,
           "x": 0,
           "y": 1
         },
@@ -102,10 +115,11 @@
         "options": {
           "legend": {
             "calcs": [
-              "lastNotNull"
+              "lastNotNull",
+              "mean"
             ],
             "displayMode": "table",
-            "placement": "right",
+            "placement": "bottom",
             "showLegend": true,
             "sortBy": "Last *",
             "sortDesc": true
@@ -123,6 +137,7 @@
             },
             "editorMode": "code",
             "expr": "kubelet_volume_stats_used_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}",
+            "hide": false,
             "instant": false,
             "legendFormat": "{{persistentvolumeclaim}}",
             "range": true,
@@ -134,7 +149,7 @@
               "uid": "${datasource}"
             },
             "editorMode": "code",
-            "expr": "sum(kubelet_volume_stats_used_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"})",
+            "expr": "sum(kubelet_volume_stats_used_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}) * ${show_sum}",
             "hide": false,
             "instant": false,
             "legendFormat": "sum of all series",
@@ -142,7 +157,7 @@
             "refId": "B"
           }
         ],
-        "title": "PVC usage (Bytes) ",
+        "title": "PVC usage",
         "type": "timeseries"
       },
       {
@@ -203,22 +218,36 @@
             },
             "unit": "bytes"
           },
-          "overrides": []
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byFrameRefID",
+                "options": "B"
+              },
+              "properties": [
+                {
+                  "id": "custom.pointSize",
+                  "value": 10
+                }
+              ]
+            }
+          ]
         },
         "gridPos": {
-          "h": 7,
-          "w": 24,
-          "x": 0,
-          "y": 8
+          "h": 9,
+          "w": 8,
+          "x": 8,
+          "y": 1
         },
         "id": 3,
         "options": {
           "legend": {
             "calcs": [
-              "lastNotNull"
+              "lastNotNull",
+              "mean"
             ],
             "displayMode": "table",
-            "placement": "right",
+            "placement": "bottom",
             "showLegend": true,
             "sortBy": "Last *",
             "sortDesc": true
@@ -247,7 +276,7 @@
               "uid": "${datasource}"
             },
             "editorMode": "code",
-            "expr": "sum(kubelet_volume_stats_capacity_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"})",
+            "expr": "sum(kubelet_volume_stats_capacity_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}) * ${show_sum}",
             "hide": false,
             "instant": false,
             "legendFormat": "sum of all series",
@@ -255,7 +284,122 @@
             "refId": "B"
           }
         ],
-        "title": "PVC Capacity (Bytes) ",
+        "title": "PVC Capacity",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "description": "usage/capacity percentage",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byFrameRefID",
+                "options": "B"
+              },
+              "properties": [
+                {
+                  "id": "custom.pointSize",
+                  "value": 10
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 16,
+          "y": 1
+        },
+        "id": 4,
+        "options": {
+          "legend": {
+            "calcs": [
+              "lastNotNull",
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true,
+            "sortBy": "Last *",
+            "sortDesc": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${datasource}"
+            },
+            "editorMode": "code",
+            "expr": "kubelet_volume_stats_used_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}\n/\nkubelet_volume_stats_capacity_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}",
+            "instant": false,
+            "legendFormat": "{{persistentvolumeclaim}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "PVC utilisation (%) ",
         "type": "timeseries"
       }
     ],
@@ -270,7 +414,7 @@
           "current": {
             "selected": false,
             "text": "Mimir",
-            "value": "875d27db-ae0b-485d-9093-1cc5d58ff144"
+            "value": "f2c5e670-4103-4f4a-a7d9-8aa64a8e3365"
           },
           "hide": 0,
           "includeAll": false,
@@ -286,7 +430,7 @@
         },
         {
           "current": {
-            "selected": false,
+            "selected": true,
             "text": "control-center",
             "value": "control-center"
           },
@@ -313,7 +457,7 @@
         },
         {
           "current": {
-            "selected": false,
+            "selected": true,
             "text": "All",
             "value": "$__all"
           },
@@ -321,7 +465,7 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "definition": "label_values(kube_pod_info{cluster=~\"$cluster\"},namespace)",
+          "definition": "label_values(kubelet_volume_stats_used_bytes{cluster=~\"$cluster\"},namespace)",
           "hide": 0,
           "includeAll": true,
           "multi": false,
@@ -329,7 +473,7 @@
           "options": [],
           "query": {
             "qryType": 1,
-            "query": "label_values(kube_pod_info{cluster=~\"$cluster\"},namespace)",
+            "query": "label_values(kubelet_volume_stats_used_bytes{cluster=~\"$cluster\"},namespace)",
             "refId": "PrometheusVariableQueryEditor-VariableQuery"
           },
           "refresh": 1,
@@ -341,8 +485,8 @@
         {
           "current": {
             "selected": false,
-            "text": ".+",
-            "value": ".+"
+            "text": "",
+            "value": ""
           },
           "hide": 0,
           "label": "PVC name",
@@ -350,13 +494,42 @@
           "options": [
             {
               "selected": true,
-              "text": ".+",
-              "value": ".+"
+              "text": "",
+              "value": ""
             }
           ],
-          "query": ".+",
+          "query": "",
           "skipUrlSync": false,
           "type": "textbox"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": "No",
+            "value": "No"
+          },
+          "description": "Select \"Yes\" to display the aggregate (sum) value along with individual metrics",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Show sum",
+          "multi": false,
+          "name": "show_sum",
+          "options": [
+            {
+              "selected": false,
+              "text": "Yes",
+              "value": "1"
+            },
+            {
+              "selected": true,
+              "text": "No",
+              "value": "No"
+            }
+          ],
+          "query": "Yes : 1, No : No",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
         }
       ]
     },
@@ -367,7 +540,7 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "Storage - Quick view",
-    "uid": "aee3wdgy5-v004",
-    "version": 2,
+    "uid": "aee3wdgy5-v005",
+    "version": 8,
     "weekStart": ""
   }
