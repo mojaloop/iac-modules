@@ -47,6 +47,7 @@ module "mojaloop" {
   mojaloop_enabled                         = var.common_var_map.mojaloop_enabled
   bulk_enabled                             = var.app_var_map.bulk_enabled
   third_party_enabled                      = var.app_var_map.third_party_enabled
+  ttk_dev_mode_enabled                     = var.app_var_map.ttk_dev_mode_enabled
   local_vault_kv_root_path                 = local.local_vault_kv_root_path
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable

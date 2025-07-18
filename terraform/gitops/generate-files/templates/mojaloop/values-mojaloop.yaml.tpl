@@ -1135,6 +1135,7 @@ ml-testing-toolkit:
           SIMPLE_ROUTING_MODE_ENABLED: ${quoting_service_simple_routing_mode_enabled}
           NET_DEBIT_CAP: "10000000"
   ml-testing-toolkit-frontend:
+    enabled: ${ttk_dev_mode_enabled}
     tolerations: *MOJALOOP_TOLERATIONS
     ingress:
 # %{ if istio_create_ingress_gateways }

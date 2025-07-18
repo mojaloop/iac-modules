@@ -263,6 +263,7 @@ spec:
             port:
               number: 80
 ---
+%{ if ttk_dev_mode_enabled ~}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -301,6 +302,8 @@ spec:
             port:
               number: 6060
 ---
+%{ endif ~}
+
 %{ endif ~}
 
 ---
