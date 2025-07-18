@@ -14,7 +14,7 @@ spec:
     defaultSignatureAlgorithm: RS256
     revokeRefreshToken: false
     refreshTokenMaxReuse: 0
-    accessTokenLifespan: 300
+    accessTokenLifespan: 3600
     accessTokenLifespanForImplicitFlow: 900
     ssoSessionIdleTimeout: 1800
     ssoSessionMaxLifespan: 36000
