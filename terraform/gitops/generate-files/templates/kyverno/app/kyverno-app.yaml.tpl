@@ -31,3 +31,8 @@ spec:
       - PrunePropagationPolicy=background
       - PruneLast=true
       - ServerSideApply=true
+  ignoreDifferences:
+    - group: kyverno.io
+      kind: ClusterPolicy
+      jsonPointers:
+        - /spec/rules/0/skipBackgroundRequests
