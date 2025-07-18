@@ -25,8 +25,8 @@ spec:
       enabled: ${backup_enabled}
       verifyTLS: ${backup_verify_tls}
       image: ${backup_image}
-      bucket: ${cluster_name}-percona
-      credentialsSecret: ${cluster_name}-percona
+      bucket: "${cc_name}-${cluster_name}-${dbdeploy_name_prefix}-percona"
+      credentialsSecret: "${cluster_name}-${dbdeploy_name_prefix}-percona"
       bucketRegion: ${backup_bucket_region}
       scheduleEnabled: ${schedule_enabled}
       scheduleName: ${backup_schedule_name}
