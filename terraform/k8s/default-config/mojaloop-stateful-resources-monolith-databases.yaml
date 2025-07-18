@@ -96,6 +96,7 @@ common_platform_db:
     skip_final_snapshot: true
     multi_az: false
     storage_encrypted: true
+    snapshot_identifier: ""
     tags:
       Origin: Terraform
       mojaloop/cost_center: mlf-iac-sandbox
@@ -207,6 +208,7 @@ common_mojaloop_db:
     skip_final_snapshot: true
     multi_az: false
     storage_encrypted: true
+    snapshot_identifier: ""
     tags:
       Origin: Terraform
       mojaloop/cost_center: mlf-iac-sandbox
@@ -295,6 +297,7 @@ common_mongodb:
     replicas: 1
     skip_final_snapshot: true
     storage_encrypted: true
+    snapshot_identifier: ""
     storage_type: standard
     storage_iops: 5000
     tags:

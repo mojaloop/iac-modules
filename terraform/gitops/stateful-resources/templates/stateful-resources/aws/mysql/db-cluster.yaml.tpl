@@ -128,3 +128,6 @@ spec:
     username: ${db_username}
     vpcCidr: ${vpc_cidr}
     vpcId: ${vpc_id}
+%{ if snapshot_identifier != "" ~}
+    snapshotIdentifier: ${snapshot_identifier}
+%{ endif ~}

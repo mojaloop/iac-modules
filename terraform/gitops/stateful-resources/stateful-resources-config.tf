@@ -217,6 +217,7 @@ resource "local_file" "aws-db-crs" {
         db_username                  = each.value.external_resource_config.username
         vpc_cidr                     = var.vpc_cidr
         vpc_id                       = var.vpc_id
+        snapshot_identifier          = each.value.external_resource_config.snapshot_identifier
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
