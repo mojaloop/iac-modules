@@ -53,7 +53,7 @@ common_platform_db:
     storage_iops: ''
     backup_retention_period: 1
     backup_window: 01:00-04:00
-    db_name: common_platform_db
+    db_name: platform
     deletion_protection: false
     engine: aurora-mysql
     engine_version: 8.0.mysql_aurora.3.04.0
@@ -165,7 +165,7 @@ common_mojaloop_db:
     storage_iops: ''
     backup_retention_period: 1
     backup_window: 01:00-04:00
-    db_name: common_mojaloop_db
+    db_name: mojaloop
     deletion_protection: false
     engine: aurora-mysql
     engine_version: 8.0.mysql_aurora.3.04.0
