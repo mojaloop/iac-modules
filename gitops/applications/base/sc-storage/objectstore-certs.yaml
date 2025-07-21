@@ -14,8 +14,8 @@ metadata:
 spec:
   commonName: objectstore-selfsigned-ca
   isCA: true
-  duration: 90d
-  renewBefore: 10d
+  duration: 87600h
+  renewBefore: 2160h
   privateKey:
     algorithm: ECDSA
     size: 256
@@ -46,8 +46,8 @@ spec:
     kind: Issuer
     group: cert-manager.io
   secretName: objectstore-internal-tls
-  duration: 60d
-  renewBefore: 5d
+  duration: 4320h
+  renewBefore: 720h
   privateKey:
     algorithm: RSA
     size: 2048
