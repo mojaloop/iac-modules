@@ -49,6 +49,7 @@ inputs = {
   platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
   monolith_managed_stateful_resources_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-monolith-databases.yaml")
   db_mediated_by_control_center            = local.db_mediated_by_control_center
+  deploy_env_monolithic_db                 = local.deploy_env_monolithic_db
 }
 
 locals {
@@ -72,6 +73,7 @@ locals {
   k8s_cluster_type          = get_env("k8s_cluster_type")
 
   db_mediated_by_control_center = get_env("db_mediated_by_control_center")
+  deploy_env_monolithic_db      = get_env("deploy_env_monolithic_db")
 
 #replacing env vars from old control center post config
   properties_var_map = {

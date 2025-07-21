@@ -96,7 +96,7 @@ common_platform_db:
     username: root
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-platform-db-secret
-    master_user_password_secret_key: password
+    master_user_password_secret_key: root
     logical_service_name: common-platform-db
     logical_service_port: 3306
     vault_master_user_password_secret_key: common_platform_db_password
@@ -191,7 +191,7 @@ common_mojaloop_db:
     username: root
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-mojaloop-db-secret
-    master_user_password_secret_key: password
+    master_user_password_secret_key: root
     logical_service_name: common-mojaloop-db
     logical_service_port: 3306
     vault_master_user_password_secret_key: common_mojaloop_db_password
@@ -279,7 +279,7 @@ common_mongodb:
     username: userAdmin
     master_user_password_secret_namespace: stateful-resources
     master_user_password_secret: common-mongodb-secret
-    master_user_password_secret_key: password
+    master_user_password_secret_key: MONGODB_USER_ADMIN_PASSWORD
     logical_service_name: common-mongodb
     logical_service_port: 27017
     vault_master_user_password_secret_key: common_mongodb_password

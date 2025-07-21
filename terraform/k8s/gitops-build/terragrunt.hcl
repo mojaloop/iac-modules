@@ -118,6 +118,7 @@ inputs = {
   aws_ebs_csi_driver_replicas              = local.common_vars.aws_ebs_csi_driver_replicas
   rook_ceph_helm_version                   = local.common_vars.rook_ceph_helm_version
   db_mediated_by_control_center            = local.db_mediated_by_control_center
+  deploy_env_monolithic_db                 = local.deploy_env_monolithic_db
   crossplane_providers_k8s_version         = local.common_vars.crossplane_providers_k8s_version
   crossplane_providers_vault_version       = local.common_vars.crossplane_providers_vault_version
   crossplane_packages_utils_version        = local.common_vars.crossplane_packages_utils_version
@@ -210,6 +211,7 @@ locals {
   managed_svc_as_monolith       = get_env("managed_svc_as_monolith")
   k8s_cluster_type              = get_env("k8s_cluster_type")
   db_mediated_by_control_center = get_env("db_mediated_by_control_center")
+  deploy_env_monolithic_db      = get_env("deploy_env_monolithic_db")
   netbird_operator_management_url = get_env("netbird_operator_management_url")
   netbird_operator_api_key_vault_path = get_env("netbird_operator_api_key_vault_path")
   cc_name                        = get_env("cc_name")

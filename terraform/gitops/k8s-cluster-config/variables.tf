@@ -178,6 +178,11 @@ variable "db_mediated_by_control_center" {
   default     = false
 }
 
+variable "deploy_env_monolithic_db" {
+  type        = bool
+  default     = false
+}
+
 variable "cc_name" {
   type        = string
   description = "The name of the control center."

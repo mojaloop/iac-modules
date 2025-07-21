@@ -45,7 +45,7 @@ spec:
     serviceAccount:
       name: default
   isKVSecretsEngineV2: true
-  path: /secret/data/${env_name}
+  path: /secret/generated
   secretKey: password
   secretFormat:
     passwordPolicyName: ${dbdeploy_name_prefix}-rds-password-policy
@@ -66,11 +66,11 @@ spec:
         serviceAccount:
           name: default
       name: dynamicsecret_db_password
-      path: /secret/data/${env_name}/${dbdeploy_name_prefix}-rds-password
+      path: /secret/generated/${dbdeploy_name_prefix}-rds-password
   output:
     name: ${db_secret}
     stringData:
-      root: "{{ .dynamicsecret_db_password.password }}"
+      ${db_secret_key}: "{{ .dynamicsecret_db_password.password }}"
     type: Opaque
 
 ---
@@ -116,7 +116,7 @@ spec:
       - name: aurora_fwd_writer_max_connections_pct
         value: "30"
     passwordSecret:
-      key: "root"
+      key: ${db_secret_key}
       name: ${db_secret}
       namespace: "${namespace}"
     port: ${port}
