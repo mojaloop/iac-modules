@@ -114,7 +114,7 @@ module "eks" {
   }
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
-    update_launch_template_default_version = true
+    update_launch_template_default_version = var.update_launch_template_default_version
     iam_role_additional_policies = {
       AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
     }
