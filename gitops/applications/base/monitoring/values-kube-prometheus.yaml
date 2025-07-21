@@ -1,9 +1,15 @@
 operator:
   resourcesPreset: small
   logLevel: debug
+  networkPolicy:
+    enabled: false
 alertmanager:
   enabled: false
+  networkPolicy:
+    enabled: false
 prometheus:
+  networkPolicy:
+    enabled: false
   scrapeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
   persistence:
     enabled: true
@@ -83,6 +89,8 @@ kubeApiServer:
   enabled: false
 
 kube-state-metrics:
+  networkPolicy:
+    enabled: false
   serviceMonitor:
     relabelings:
     # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
@@ -102,6 +110,8 @@ kube-state-metrics:
 
 
 node-exporter:
+  networkPolicy:
+    enabled: false
   serviceMonitor:
     relabelings:
       - sourceLabels: [__meta_kubernetes_pod_node_name]

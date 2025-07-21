@@ -17,6 +17,7 @@ pm4ml_reserve_notification: false
 currency: ${currency}
 fxp_id: "fxp"
 core_connector_config: {}
+cbs_mock_config: {}
 payment_token_adapter_config: {
   enabled: false
 }

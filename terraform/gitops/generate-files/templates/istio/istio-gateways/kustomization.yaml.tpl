@@ -5,6 +5,7 @@ resources:
   - lets-wildcard-cert-external.yaml
   - lets-wildcard-cert-internal.yaml
   - proxy-protocol.yaml
+  - proxy-security-headers.yaml
   - gateways.yaml
   - argocd-vs.yaml
 helmCharts:
@@ -20,9 +21,3 @@ helmCharts:
   repo: ${istio_chart_repo}
   valuesFile: values-istio-internal-ingress-gateway.yaml
   namespace: ${istio_internal_gateway_namespace}
-- name: gateway
-  releaseName: egress-gateway
-  version: ${istio_chart_version}
-  repo: ${istio_chart_repo}
-  valuesFile: values-istio-egress-gateway.yaml
-  namespace: ${istio_egress_gateway_namespace}

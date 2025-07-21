@@ -29,7 +29,7 @@ spec:
         # imagePullSecrets:
         #   - name: regcred
 # %{ if nodes >= 3 }
-  persistenceEnabled: true
+  persistenceEnabled: ${persistence_enabled}
   clusterSize: ${nodes}
   clusterVersion: v7
   redisLeader:

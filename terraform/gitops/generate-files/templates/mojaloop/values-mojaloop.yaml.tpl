@@ -188,7 +188,7 @@ account-lookup-service:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      istio.io/use-waypoint: waypoint
     replicaCount: ${account_lookup_service_replica_count}
     config: &ALS_CONFIG
       hub_participant: *HUB_PARTICIPANT
@@ -254,7 +254,7 @@ account-lookup-service:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      istio.io/use-waypoint: waypoint
     replicaCount: 1 # timeout handler is designed to run as a single instance
     config: *ALS_CONFIG
     ingress:
@@ -289,7 +289,7 @@ quoting-service:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      istio.io/use-waypoint: waypoint
     replicaCount: ${quoting_service_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -325,7 +325,7 @@ quoting-service:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      istio.io/use-waypoint: waypoint
     replicaCount: ${quoting_service_handler_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -387,7 +387,7 @@ ml-api-adapter:
 # %{ endif }
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      istio.io/use-waypoint: waypoint
     replicaCount: ${ml_api_adapter_handler_notifications_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -734,7 +734,7 @@ centralsettlement:
 
 transaction-requests-service:
   podLabels:
-    sidecar.istio.io/inject: "${enable_istio_injection}"
+    istio.io/use-waypoint: waypoint
 # %{ if transaction_requests_service_affinity != null }
   affinity:
     ${indent(8, transaction_requests_service_affinity)}
@@ -758,7 +758,7 @@ thirdparty:
     enabled: true
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      istio.io/use-waypoint: waypoint
     replicaCount: ${auth_service_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -803,7 +803,7 @@ thirdparty:
     enabled: true
     tolerations: *MOJALOOP_TOLERATIONS
     podLabels:
-      sidecar.istio.io/inject: "${enable_istio_injection}"
+      istio.io/use-waypoint: waypoint
     replicaCount: ${tp_api_svc_replica_count}
     config:
       hub_participant: *HUB_PARTICIPANT
@@ -856,11 +856,9 @@ mojaloop-bulk:
         className: *INGRESS_CLASS
         hostname: bulk-api-adapter.${ingress_subdomain}
     bulk-api-adapter-handler-notification:
-      commonAnnotations:
-        secret.reloader.stakater.com/reload: "${jws_key_secret}"
       tolerations: *MOJALOOP_TOLERATIONS
       podLabels:
-        sidecar.istio.io/inject: "${enable_istio_injection}"
+        istio.io/use-waypoint: waypoint
       replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
       config:
         hub_participant: *HUB_PARTICIPANT
@@ -1170,8 +1168,6 @@ ml-ttk-test-setup:
   testCaseEnvironmentFile:  *ttkInputValues
   job:
     enabled: true
-    templateLabels:
-      sidecar.istio.io/inject: "false"
     ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
     # ttlSecondsAfterFinished: 50
     generateNameEnabled: false
@@ -1196,8 +1192,6 @@ ml-ttk-test-val-gp:
   testCaseEnvironmentFile:  *ttkInputValues
   job:
     enabled: true
-    templateLabels:
-      sidecar.istio.io/inject: "false"
     ## Set the TTL for Job Cleanup - ref: https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/
     # ttlSecondsAfterFinished: 50
     generateNameEnabled: false

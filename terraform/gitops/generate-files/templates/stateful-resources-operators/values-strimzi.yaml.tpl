@@ -27,6 +27,8 @@ tmpDirSizeLimit: 1Mi
 extraEnvs:
   - name: STRIMZI_LABELS_EXCLUSION_PATTERN
     value: "argocd.argoproj.io/instance"
+  - name: KUBERNETES_SERVICE_DNS_DOMAIN
+    value: "cluster.local"
 
 tolerations: []
 affinity: {}
@@ -46,11 +48,11 @@ leaderElection:
   enable: true
 
 # https://kubernetes.io/docs/tasks/run-application/configure-pdb/
-podDisruptionBudget:  
+podDisruptionBudget:
   enabled: false
-  # The PDB definition only has two attributes to control the availability requirements: minAvailable or maxUnavailable (mutually exclusive). 
+  # The PDB definition only has two attributes to control the availability requirements: minAvailable or maxUnavailable (mutually exclusive).
   # Field maxUnavailable tells how many pods can be down and minAvailable tells how many pods must be running in a cluster.
-  
+
   # The pdb template will check values according to below order
   #
   #  {{- if .Values.podDisruptionBudget.minAvailable }}

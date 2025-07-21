@@ -123,16 +123,6 @@ variable "istio_create_ingress_gateways" {
   default     = true
 }
 
-variable "istio_egress_gateway_name" {
-  type        = string
-  description = "istio_egress_gateway_name"
-}
-
-variable "istio_egress_gateway_namespace" {
-  type        = string
-  description = "istio_egress_gateway_namespace"
-}
-
 variable "istio_internal_gateway_namespace" {
   type        = string
   description = "istio_internal_gateway_namespace"
@@ -168,7 +158,7 @@ variable "platform_stateful_res_config" {
 }
 
 variable "monolith_stateful_resources" {
-  type        = any
+  type = any
 }
 
 variable "managed_svc_as_monolith" {

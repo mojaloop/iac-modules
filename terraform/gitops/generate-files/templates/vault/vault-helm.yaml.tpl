@@ -38,3 +38,6 @@ spec:
       - PrunePropagationPolicy=background
       - PruneLast=true
       - RespectIgnoreDifferences=true
+    managedNamespaceMetadata:
+      labels:
+        opt-out-mesh: "true"

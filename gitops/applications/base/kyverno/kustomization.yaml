@@ -5,6 +5,7 @@ resources:
   - namespaces.yaml
   - image-rewrite-policy.yaml
   - argocd-restart-policy.yaml
+  - add-ambient-mode.yaml
 
 helmCharts:
   - name: kyverno

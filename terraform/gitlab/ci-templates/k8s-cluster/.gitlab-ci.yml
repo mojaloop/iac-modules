@@ -56,7 +56,7 @@ cache:
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
     - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
-    - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
+    - ${ANSIBLE_BASE_OUTPUT_DIR}/**/*oidc-kubeconfig
 
 .source:
   script:
@@ -205,7 +205,7 @@ deploy-infra:
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
   artifacts:
     paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/*oidc-kubeconfig
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
       - $GITOPS_BUILD_OUTPUT_DIR
@@ -220,7 +220,7 @@ deploy-infra:
         - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
         - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
         - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
-        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/*oidc-kubeconfig
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-infra:.*/
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
@@ -282,7 +282,7 @@ refresh-deploy-infra:
     - .gitlab/scripts/pushtorepo.sh $CI_PROJECT_PATH $CI_SERVER_HOST $CI_COMMIT_REF_NAME $GITOPS_BUILD_OUTPUT_DIR $GITLAB_CI_PAT $ARGO_CD_ROOT_APP_PATH
   artifacts:
     paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/*oidc-kubeconfig
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
@@ -311,7 +311,7 @@ tf-refresh-deploy-infra:
     - terragrunt run-all apply --terragrunt-non-interactive -input=false
   artifacts:
     paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
+      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/*oidc-kubeconfig
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
       - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
     when: always
@@ -335,7 +335,7 @@ lint-apps:
         - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
         - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
         - ${ANSIBLE_BASE_OUTPUT_DIR}/**/kubeconfig
-        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
+        - ${ANSIBLE_BASE_OUTPUT_DIR}/**/*oidc-kubeconfig
     - key:
         files:
           - .gitlab/lint/download.sh
