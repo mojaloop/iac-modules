@@ -207,6 +207,11 @@ variable "vpc_cidr" {
   type        = string
   description = "The CIDR block of the VPC."
 }
+
+variable "private_dns_zone_id" {
+  type = string
+  description = "The Route53 zone ID."
+}
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value

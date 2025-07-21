@@ -41,7 +41,12 @@ spec:
 %{ endif ~}
                chmod +x ~/init.js;
                echo "running init.js";
+%{ if monolith_stateful_resources[managed_stateful_resource.monolith_db_server].provider  == "dbaas" ~}
+               mongosh "mongodb://${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username}:$${MONGODB_MASTER_PASSWORD}@${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local:${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port}/?tls=true&tlsCAFile=/tmp/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}&tlsCertificateKeyFile=/tmp/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}&tlsAllowInvalidHostnames=true" < ~/init.js
+%{ endif ~}
+%{ if monolith_stateful_resources[managed_stateful_resource.monolith_db_server].provider  == "documentdb" ~}
                mongosh "mongodb://${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username}:$${MONGODB_MASTER_PASSWORD}@${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local:${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port}/?tls=true&tlsCAFile=/tmp/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}&tlsAllowInvalidHostnames=true" < ~/init.js
+%{ endif ~}
           env:
             - name: MONGODB_USER_PASSWORD
               valueFrom:

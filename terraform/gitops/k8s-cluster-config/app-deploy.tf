@@ -81,6 +81,7 @@ module "mojaloop" {
   database_subnets                         = var.database_subnets
   availability_zones                       = var.availability_zones
   cloud_region                             = var.cloud_region
+  private_dns_zone_id                      = var.private_dns_zone_id
 }
 
 module "pm4ml" {
@@ -133,7 +134,6 @@ module "pm4ml" {
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
   storage_class_name                       = var.storage_class_name
-
 }
 
 module "proxy_pm4ml" {

@@ -12,6 +12,14 @@ resources:
 - db-cluster-${key}.yaml
 # %{ endfor }
 
+# %{ for key, stateful_resource in monolith_env_mysql_dbaas_resources }
+- db-cluster-${key}.yaml
+# %{ endfor }
+
+# %{ for key, stateful_resource in monolith_env_mongo_dbaas_resources }
+- db-cluster-${key}.yaml
+# %{ endfor }
+
 - namespace.yaml
 # %{ for key, stateful_resource in all_local_stateful_resources }
 - vault-crs-${key}.yaml
