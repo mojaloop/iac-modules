@@ -4,3 +4,4 @@ resources:
   - sc-namespace.yaml
   - push-storage-secrets-vault.yaml
   - netbird-env-policy-config-claim.yaml
+  - percona-role.yaml
