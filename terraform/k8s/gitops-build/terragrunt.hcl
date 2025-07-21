@@ -35,8 +35,12 @@ dependency "k8s_deploy" {
       external_dns_cred_id_key         = "route53_external_dns_access_key"
       external_dns_cred_secret_key     = "route53_external_dns_secret_key"
     }
-    private_network_cidr = local.cloud_platform_vars.private_network_cidr
-    dns_provider = "aws"
+    private_network_cidr              = local.cloud_platform_vars.private_network_cidr
+    dns_provider                      = "aws"
+    vpc_id                            = ""
+    database_subnets                  = ""
+    availability_zones                = ""
+
   }
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -73,7 +77,7 @@ inputs = {
   mojaloop_stateful_res_mangd_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
   values_hub_provisioning_override_file    = find_in_parent_folders("${get_env("CONFIG_PATH")}/values-hub-provisioning-override.yaml", "values-hub-provisioning-override.yaml")
-  mojaloop_stateful_res_monolith_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-ccdriven-databases.yaml")
+  mojaloop_stateful_res_monolith_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-monolith-databases.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -117,6 +121,8 @@ inputs = {
   crossplane_providers_k8s_version         = local.common_vars.crossplane_providers_k8s_version
   crossplane_providers_vault_version       = local.common_vars.crossplane_providers_vault_version
   crossplane_packages_utils_version        = local.common_vars.crossplane_packages_utils_version
+  crossplane_packages_aws_rds_version      = local.common_vars.crossplane_packages_aws_rds_version
+  crossplane_packages_aws_documentdb_version = local.common_vars.crossplane_packages_aws_documentdb_version
   crossplane_helm_version                  = local.common_vars.crossplane_helm_version
   crossplane_functions_kcl_version         = local.common_vars.crossplane_functions_kcl_version
   crossplane_functions_auto_ready_version  = local.common_vars.crossplane_functions_auto_ready_version
@@ -124,6 +130,12 @@ inputs = {
   cloud_platform                           = get_env("cloud_platform")
   netbird_operator_management_url          = local.netbird_operator_management_url
   netbird_operator_api_key_vault_path      = local.netbird_operator_api_key_vault_path
+  cc_name                                  = local.cc_name
+  vpc_cidr                                 = local.vpc_cidr
+  vpc_id                                   = dependency.k8s_deploy.outputs.vpc_id
+  database_subnets                         = dependency.k8s_deploy.outputs.private_subnets
+  availability_zones                       = dependency.k8s_deploy.outputs.availability_zones
+  cloud_region                             = local.CLOUD_REGION
 }
 
 locals {
@@ -200,6 +212,8 @@ locals {
   db_mediated_by_control_center = get_env("db_mediated_by_control_center")
   netbird_operator_management_url = get_env("netbird_operator_management_url")
   netbird_operator_api_key_vault_path = get_env("netbird_operator_api_key_vault_path")
+  cc_name                        = get_env("cc_name")
+  vpc_cidr                       = get_env("vpc_cidr")
 }
 
 generate "required_providers_override" {

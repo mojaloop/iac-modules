@@ -47,7 +47,7 @@ inputs = {
 
   managed_stateful_resources_config_file   = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
-  monolith_managed_stateful_resources_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-ccdriven-databases.yaml")
+  monolith_managed_stateful_resources_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-monolith-databases.yaml")
   db_mediated_by_control_center            = local.db_mediated_by_control_center
 }
 

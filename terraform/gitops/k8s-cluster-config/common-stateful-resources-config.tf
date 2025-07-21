@@ -21,6 +21,12 @@ module "common_stateful_resources" {
   cluster                                       = var.app_var_map.cluster
   managed_svc_as_monolith                       = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
   storage_class_name                            = var.storage_class_name
+  cc_name                                        = var.cc_name
+  vpc_cidr                                       = var.vpc_cidr
+  vpc_id                                         = var.vpc_id
+  database_subnets                               = var.database_subnets
+  availability_zones                             = var.availability_zones
+  cloud_region                                   = var.cloud_region
 }
 
 variable "stateful_resources_namespace" {

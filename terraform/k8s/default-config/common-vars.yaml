@@ -68,4 +68,6 @@ crossplane_functions_kcl_version: "0.11.3"
 crossplane_functions_auto_ready_version: "0.4.2"
 crossplane_functions_extra_resources_version: "0.0.3"
 crossplane_packages_utils_version: "v0.5.0"
+crossplane_packages_aws_documentdb_version: "v0.5.0"
+crossplane_packages_aws_rds_version: "v0.3.0"
 max_pods_per_node: 110

@@ -50,31 +50,37 @@ module "mojaloop" {
   local_vault_kv_root_path                 = local.local_vault_kv_root_path
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
-  app_var_map                              = var.app_var_map
-  auth_fqdn                                = local.auth_fqdn
-  ory_namespace                            = var.ory_namespace
-  bof_release_name                         = local.bof_release_name
-  oathkeeper_auth_provider_name            = local.oathkeeper_auth_provider_name
-  vault_root_ca_name                       = "pki-${var.cluster_name}"
-  keycloak_hubop_realm_name                = var.keycloak_hubop_realm_name
-  rbac_api_resources_file                  = var.rbac_api_resources_file
-  mojaloop_values_override_file            = var.mojaloop_values_override_file
-  mcm_values_override_file                 = var.mcm_values_override_file
-  finance_portal_values_override_file      = var.finance_portal_values_override_file
-  values_hub_provisioning_override_file    = var.values_hub_provisioning_override_file
-  fspiop_use_ory_for_auth                  = var.app_var_map.fspiop_use_ory_for_auth
-  managed_db_host                          = var.managed_db_host
-  platform_stateful_res_config             = module.config_deepmerge.merged
-  object_store_api_url                     = var.object_store_api_url
-  object_store_region                      = var.object_store_region
-  object_store_percona_backup_bucket       = data.gitlab_project_variable.object_store_percona_backup_bucket.value
-  external_secret_sync_wave                = var.external_secret_sync_wave
-  pm4mls                                   = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
-  monolith_stateful_resources              = local.monolith_stateful_resources
-  ml_testing_toolkit_cli_chart_version     = var.app_var_map.ml_testing_toolkit_cli_chart_version
-  hub_provisioning_ttk_test_case_version   = var.app_var_map.hub_provisioning_ttk_test_case_version
-  managed_svc_as_monolith                  = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
-  storage_class_name                       = var.storage_class_name
+  app_var_map                          = var.app_var_map
+  auth_fqdn                            = local.auth_fqdn
+  ory_namespace                        = var.ory_namespace
+  bof_release_name                     = local.bof_release_name
+  oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
+  vault_root_ca_name                   = "pki-${var.cluster_name}"
+  keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
+  rbac_api_resources_file              = var.rbac_api_resources_file
+  mojaloop_values_override_file        = var.mojaloop_values_override_file
+  mcm_values_override_file             = var.mcm_values_override_file
+  finance_portal_values_override_file  = var.finance_portal_values_override_file
+  values_hub_provisioning_override_file = var.values_hub_provisioning_override_file
+  fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
+  managed_db_host                      = var.managed_db_host
+  platform_stateful_res_config         = module.config_deepmerge.merged
+  object_store_api_url                 = var.object_store_api_url
+  object_store_region                  = var.object_store_region
+  object_store_percona_backup_bucket   = data.gitlab_project_variable.object_store_percona_backup_bucket.value
+  external_secret_sync_wave            = var.external_secret_sync_wave
+  pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
+  monolith_stateful_resources          = local.monolith_stateful_resources
+  ml_testing_toolkit_cli_chart_version = var.app_var_map.ml_testing_toolkit_cli_chart_version
+  hub_provisioning_ttk_test_case_version = var.app_var_map.hub_provisioning_ttk_test_case_version
+  managed_svc_as_monolith              = ( var.managed_svc_as_monolith || var.db_mediated_by_control_center )
+  storage_class_name                   = var.storage_class_name
+  cc_name                              = var.cc_name
+  vpc_cidr                             = var.vpc_cidr
+  vpc_id                               = var.vpc_id
+  database_subnets                     = var.database_subnets
+  availability_zones                   = var.availability_zones
+  cloud_region                         = var.cloud_region
 }
 
 module "pm4ml" {
@@ -223,6 +229,12 @@ module "vnext" {
   monolith_stateful_resources          = local.monolith_stateful_resources
   managed_svc_as_monolith              = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
   storage_class_name                   = var.storage_class_name
+  cc_name                              = var.cc_name
+  vpc_cidr                             = var.vpc_cidr
+  vpc_id                               = var.vpc_id
+  database_subnets                     = var.database_subnets
+  availability_zones                   = var.availability_zones
+  cloud_region                         = var.cloud_region
 }
 
 variable "app_var_map" {
@@ -251,7 +263,7 @@ variable "mojaloop_stateful_res_mangd_config_file" {
 }
 
 variable "mojaloop_stateful_res_monolith_config_file" {
-  default     = "../config/mojaloop-stateful-resources-ccdriven-databases.yaml"
+  default     = "../config/mojaloop-stateful-resources-monolith-databases.yaml"
   type        = string
   description = "where to pull monolith stateful resources config for mojaloop"
 }
