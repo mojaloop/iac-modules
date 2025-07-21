@@ -256,11 +256,11 @@ variable "mojaloop_stateful_res_op_config_file" {
   description = "where to pull stateful resources config for mojaloop"
 }
 
-variable "mojaloop_stateful_res_mangd_config_file" {
-  default     = "../config/mojaloop-stateful-resources-managed.yaml"
-  type        = string
-  description = "where to pull stateful resources config for mojaloop"
-}
+# variable "mojaloop_stateful_res_mangd_config_file" {
+#   default     = "../config/mojaloop-stateful-resources-managed.yaml"
+#   type        = string
+#   description = "where to pull stateful resources config for mojaloop"
+# }
 
 variable "mojaloop_stateful_res_monolith_config_file" {
   default     = "../config/mojaloop-stateful-resources-monolith-databases.yaml"
@@ -394,13 +394,13 @@ locals {
   proxy_pm4ml_var_map = try(var.app_var_map.proxy_pm4mls, {})
   cluster             = var.app_var_map.cluster
 
-  st_res_local_helm_vars          = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
-  st_res_local_operator_vars      = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
-  st_res_managed_vars             = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
-  plt_st_res_config               = yamldecode(file(var.platform_stateful_resources_config_file))
+  st_res_local_helm_vars        = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
+  st_res_local_operator_vars    = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
+  #st_res_managed_vars           = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
+  plt_st_res_config             = yamldecode(file(var.platform_stateful_resources_config_file))
   monolith_stateful_resources_int = yamldecode(file(var.mojaloop_stateful_res_monolith_config_file))
 
   monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if var.deploy_env_monolithic_db }
 
-  stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
+  stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.plt_st_res_config]
 }
