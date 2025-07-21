@@ -98,7 +98,6 @@ inputs = {
   object_storage_path_style                = local.object_storage_path_style
   object_store_insecure_connection         = local.object_store_insecure_connection
   central_observability_endpoint           = local.central_observability_endpoint
-  managed_db_host                          = ""      # to correct later
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
   rbac_api_resources_file                  = (local.common_vars.mojaloop_enabled || local.common_vars.vnext_enabled) ? find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-rbac-api-resources.yaml") : ""
@@ -112,7 +111,6 @@ inputs = {
   zitadel_project_id                       = local.zitadel_project_id
   grafana_admin_rbac_group                 = local.grafana_admin_rbac_group
   grafana_user_rbac_group                  = local.grafana_user_rbac_group
-  managed_svc_as_monolith                  = local.managed_svc_as_monolith
   kubelet_dir_path                         = local.k8s_cluster_type == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
   aws_ebs_csi_driver_helm_version          = local.common_vars.aws_ebs_csi_driver_helm_version
   aws_ebs_csi_driver_replicas              = local.common_vars.aws_ebs_csi_driver_replicas
@@ -214,7 +212,6 @@ locals {
   argocd_ingress_internal_lb    = true
   grafana_ingress_internal_lb   = true
   vault_ingress_internal_lb     = true
-  managed_svc_as_monolith       = get_env("managed_svc_as_monolith")
   k8s_cluster_type              = get_env("k8s_cluster_type")
   db_mediated_by_control_center = get_env("db_mediated_by_control_center")
   deploy_env_monolithic_db      = get_env("deploy_env_monolithic_db")

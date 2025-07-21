@@ -3,7 +3,6 @@ domain: labsk8s2010.mojaloop.live
 currency: EUR
 cloud_platform: aws
 dns_provider: aws
-managed_svc_cloud_platform: aws
 cloud_platform_client_secret_name: AWS_SECRET_ACCESS_KEY
 cloud_platform_client_access_key_name: AWS_ACCESS_KEY_ID
 k8s_cluster_module: base-k8s
@@ -14,13 +13,11 @@ iac_terraform_modules_tag: v5.4.0-rc3
 letsencrypt_email: test@mojalabs.io
 dns_zone_force_destroy: true
 longhorn_backup_object_store_destroy: true
-managed_svc_enabled: false
 addons_module_enabled: false
 enable_vault_oidc: true
 enable_grafana_oidc: true
 object_storage_force_destroy_bucket: true #prod should set to false
 bastion_instance_size: t3.micro
-managed_svc_bastion_instance_size: t3.micro
 nodes:
   master-generic:
     master: true
@@ -42,7 +39,6 @@ nodes:
       workload-class.mojaloop.io/RDBMS-ALS-LIVE: "enabled"
       workload-class.mojaloop.io/MONITORING: "enabled"
 vpc_cidr: "10.106.0.0/23"
-managed_vpc_cidr: "10.28.0.0/23"
 enable_k6s_test_harness: false
 k6s_docker_server_instance_type: "m5.large"
 master_node_supports_traffic: true
@@ -58,7 +54,6 @@ gitlab_readonly_rbac_group: tenant-viewers
 coredns_bind_address: "169.254.20.10"
 single_nat_gateway: true
 migrate: false
-managed_svc_as_monolith: false
 manage_parent_domain: true
 object_storage_provider: s3
 db_mediated_by_control_center: false

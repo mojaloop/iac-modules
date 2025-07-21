@@ -88,7 +88,6 @@ cache:
     - git config --global advice.detachedHead false
     - source set-ansible-destroy-preq-vars.sh
     - export TERRAGRUNT_EXCLUDE_DIR="/dev/null"
-    - if [ "$managed_svc_enabled" == "false" ]; then export TERRAGRUNT_EXCLUDE_DIR="${TERRAGRUNT_EXCLUDE_DIR},${TF_ROOT}/managed-services,${TF_ROOT}/ansible-managed-svcs-deploy"; fi
     - if [ "$addons_module_enabled" == "false" ]; then export TERRAGRUNT_EXCLUDE_DIR="${TERRAGRUNT_EXCLUDE_DIR},$TF_ROOT/addons-gitops-build"; fi
     - set
 

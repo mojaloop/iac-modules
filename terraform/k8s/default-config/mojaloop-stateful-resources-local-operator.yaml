@@ -347,7 +347,6 @@ bulk-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges: []
 cep-mongodb:
   local_operator_config:
     cr_version: 1.16.2
@@ -388,7 +387,6 @@ cep-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges: []
 reporting-events-mongodb:
   local_operator_config:
     cr_version: 1.16.2
@@ -429,9 +427,6 @@ reporting-events-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges:
-      - collection: reporting
-        action: "collMod"
 mojaloop-kafka:
   local_operator_config:
     resource_namespace: moja-kafka
@@ -512,7 +507,6 @@ ttk-mongodb:
       storage_size: 8Gi
       service_port: 27017
       affinity_definition: {}
-    additional_privileges: []
 
 keycloak-db:
   local_operator_config:

@@ -163,11 +163,6 @@ variable "default_internal_ssl_certificate" {
   default     = "lets-enc-internal-tls"
 }
 
-variable "managed_db_host" {
-  type        = string
-  description = "url to managed db based on haproxy"
-}
-
 variable "managed_svc_as_monolith" {
   type        = bool
   default     = false
