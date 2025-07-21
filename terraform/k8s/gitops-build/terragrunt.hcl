@@ -128,6 +128,8 @@ inputs = {
   crossplane_packages_utils_version        = local.common_vars.crossplane_packages_utils_version
   crossplane_packages_aws_rds_version      = local.common_vars.crossplane_packages_aws_rds_version
   crossplane_packages_aws_documentdb_version = local.common_vars.crossplane_packages_aws_documentdb_version
+  crossplane_packages_sc_mysql_version       = local.common_vars.crossplane_packages_sc_mysql_version
+  crossplane_packages_sc_mongodb_version     = local.common_vars.crossplane_packages_sc_mongodb_version
   crossplane_helm_version                  = local.common_vars.crossplane_helm_version
   crossplane_functions_kcl_version         = local.common_vars.crossplane_functions_kcl_version
   crossplane_functions_auto_ready_version  = local.common_vars.crossplane_functions_auto_ready_version
@@ -142,6 +144,7 @@ inputs = {
   availability_zones                       = join( ",", dependency.k8s_deploy.outputs.availability_zones)
   cloud_region                             = local.CLOUD_REGION
   reclaim_policy                           = local.persistent_volume_reclaim_policy
+  private_dns_zone_id                      = dependency.k8s_deploy.outputs.private_dns_zone_id
 }
 
 locals {

@@ -204,6 +204,11 @@ variable "vpc_cidr" {
   description = "The CIDR block of the VPC."
 }
 
+variable "private_dns_zone_id" {
+  type = string
+  description = "The Route53 zone ID."
+}
+
 variable "deploy_env_monolithic_db" {
   type        = bool
   default     = false
