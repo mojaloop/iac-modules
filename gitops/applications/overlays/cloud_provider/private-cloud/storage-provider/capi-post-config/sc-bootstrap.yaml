@@ -70,6 +70,9 @@ spec:
             - name: "utils_capi_capi_rook_ceph_rgw_instance_replicas"
               value: '"${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_instance_replicas}"'
 
+            - name: "utils_capi_capi_cluster_kubeapi_host"
+              value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_host}"
+
             # metallb
             - name: "sc_metallb_app_name"
               value: "${ARGOCD_ENV_sc_metallb_app_name}"
@@ -143,7 +146,7 @@ spec:
 
             - name: "monitoring_kube_prometheus_helm_version"
               value: "${ARGOCD_ENV_monitoring_kube_prometheus_helm_version}"
-              
+
             - name: "monitoring_prometheus_pvc_size"
               value: "${ARGOCD_ENV_monitoring_prometheus_pvc_size}"
             - name: "monitoring_monitoring_prometheus_scrape_interval"
