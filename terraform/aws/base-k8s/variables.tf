@@ -257,6 +257,13 @@ variable "enable_eks_controlplane_logging" {
   default     = false
   description = "Whether to create a CloudWatch log group for the EKS cluster and enable eks logging"
 }
+
+variable "update_launch_template_default_version" {
+  type        = bool
+  default     = false
+  description = "Whether to update the launch template default version"
+}
+
 variable "cluster_enabled_logging_types" {
   type        = list(string)
   default     = ["api","audit","authenticator"]
