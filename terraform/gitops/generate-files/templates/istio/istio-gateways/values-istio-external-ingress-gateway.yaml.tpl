@@ -1,5 +1,7 @@
 # Name allows overriding the release name. Generally this should not be set
 name: ${istio_external_gateway_name}
+replicaCount: 2
+
 # revision declares which revision this gateway is a part of
 revision: ""
 
