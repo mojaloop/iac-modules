@@ -104,8 +104,6 @@ reporting-legacy-api:
 
 reporting-events-processor-svc:
   enabled: true
-  image:
-    tag: v3.0.0
   kafka:
     host: ${kafka_host}
     port: ${kafka_port}
