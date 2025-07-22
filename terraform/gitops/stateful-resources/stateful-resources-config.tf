@@ -470,3 +470,8 @@ variable "deploy_env_monolithic_db" {
   type        = bool
   default     = false
 }
+
+variable "private_dns_zone_id" {
+  type        = string
+  description = "The ID of the private DNS zone for the environment."
+}
