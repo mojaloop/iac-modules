@@ -11,7 +11,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   rules:
-    - name: add-annotation-on-secret-update
+    - name: restart-rgw-deployment-on-tls-update
       match:
         any:
         - resources:
@@ -21,24 +21,24 @@ spec:
               - objectstore-internal-tls
             namespaces:
               - ${ARGOCD_ENV_storage_namespace}
+      preconditions:
+        all:
+          - key: "{{request.operation}}"
+            operator: Equals
+            value: UPDATE
       mutate:
+        targets:
+          - apiVersion: apps/v1
+            kind: Deployment
+            namespace: ${ARGOCD_ENV_storage_namespace}
+            selector:
+              matchLabels:
+                app: rook-ceph-rgw
         patchStrategicMerge:
           spec:
             template:
               metadata:
                 annotations:
-                  kyverno.platform.mojaloop.com/triggerrestart: "{{request.object.metadata.resourceVersion}}"
-        targets:
-        - apiVersion: apps/v1
-          kind: Deployment
-          namespace: ${ARGOCD_ENV_storage_namespace}
-          selector:
-            matchLabels:
-              app: rook-ceph-rgw
-      preconditions:
-        all:
-        - key: "{{request.operation}}"
-          operator: Equals
-          value: UPDATE
-      skipBackgroundRequests: true
-  validationFailureAction: Audit
+                  cert-rotation-timestamp: "{{ time_now_utc() }}"
+
+
