@@ -1,3 +1,12 @@
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: kubernetes-provider
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  credentials:
+    source: InjectedIdentity
 %{ if cloud_provider == "private-cloud" ~}
 ---
 apiVersion: kubernetes.crossplane.io/v1alpha1
