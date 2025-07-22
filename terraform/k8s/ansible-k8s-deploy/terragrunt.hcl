@@ -42,6 +42,7 @@ inputs = {
     tenant_vault_server_url = "https://${local.vault_fqdn}"
     internal_load_balancer_dns = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     public_subdomain = dependency.k8s_deploy.outputs.public_subdomain
+    private_dns_zone_id = dependency.k8s_deploy.outputs.private_dns_zone_id
   })
   agent_hosts_var_maps          = merge(dependency.k8s_deploy.outputs.agent_hosts_var_maps, local.agent_hosts_var_maps)
   master_hosts_var_maps         = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps)

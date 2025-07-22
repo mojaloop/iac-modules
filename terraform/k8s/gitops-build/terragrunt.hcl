@@ -19,6 +19,7 @@ dependency "k8s_deploy" {
     external_load_balancer_dns       = local.cloud_platform_vars.external_load_balancer_dns
     private_subdomain                = local.cloud_platform_vars.private_subdomain
     public_subdomain                 = local.cloud_platform_vars.public_subdomain
+    private_dns_zone_id              = local.cloud_platform_vars.private_dns_zone_id
     external_interop_switch_fqdn     = ""
     internal_interop_switch_fqdn     = ""
     target_group_internal_https_port = local.cloud_platform_vars.target_group_internal_https_port
@@ -50,6 +51,7 @@ inputs = {
   tags                                     = local.tags
   nat_public_ips                           = dependency.k8s_deploy.outputs.nat_public_ips
   internal_load_balancer_dns               = dependency.k8s_deploy.outputs.internal_load_balancer_dns
+  private_dns_zone_id                      = dependency.k8s_deploy.outputs.private_dns_zone_id
   external_load_balancer_dns               = dependency.k8s_deploy.outputs.external_load_balancer_dns
   private_subdomain                        = dependency.k8s_deploy.outputs.private_subdomain
   public_subdomain                         = dependency.k8s_deploy.outputs.public_subdomain
@@ -170,6 +172,7 @@ locals {
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
     internal_load_balancer_dns       = "",
+    private_dns_zone_id              = "",
     external_load_balancer_dns       = "",
     private_subdomain                = "int.${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",
     public_subdomain                 = "${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",
