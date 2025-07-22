@@ -382,7 +382,8 @@ locals {
   }
 
   monolith_env_vpc_aws_db_resources =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "rds" || monolith_resource.provider == "documentdb"}
-  monolith_env_vpc_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" }
+  monolith_env_mysql_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mysql" }
+  monolith_env_mongo_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mongodb" }
 
   monolith_managed_password_map = { for key, stateful_resource in var.monolith_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
