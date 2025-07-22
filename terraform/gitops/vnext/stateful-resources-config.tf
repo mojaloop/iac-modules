@@ -19,6 +19,7 @@ module "vnext_stateful_resources" {
   deploy_env_monolithic_db                      = var.deploy_env_monolithic_db
   cluster                                       = var.app_var_map.cluster
   storage_class_name                            = var.storage_class_name
+  private_dns_zone_id                           = var.private_dns_zone_id
   cc_name                                       = var.cc_name
   vpc_cidr                                      = var.vpc_cidr
   vpc_id                                        = var.vpc_id
