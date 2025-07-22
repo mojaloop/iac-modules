@@ -6,7 +6,7 @@ helmCharts:
     releaseName: netbird
     namespace: ${ARGOCD_ENV_netbird_namespace}
     version: ${ARGOCD_ENV_netbird_helm_version}
-    repo: https://totmicro.github.io/helms
+    repo: https://netbirdio.github.io/helms
     valuesFile: netbird-values.yaml
 
 patches:
