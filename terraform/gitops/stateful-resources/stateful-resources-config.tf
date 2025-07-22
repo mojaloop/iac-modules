@@ -70,6 +70,8 @@ resource "local_file" "kustomization" {
       redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
       monolith_env_vpc_aws_db_resources   = local.monolith_env_vpc_aws_db_resources
+      monolith_env_mysql_dbaas_resources  = local.monolith_env_mysql_dbaas_resources
+      monolith_env_mongo_dbaas_resources  = local.monolith_env_mongo_dbaas_resources
       monolith_stateful_resources         = var.monolith_stateful_resources
       managed_svc_as_monolith             = var.managed_svc_as_monolith
       deploy_env_monolithic_db            = var.deploy_env_monolithic_db
@@ -176,6 +178,106 @@ resource "local_file" "percona-crs" {
       database_name   = each.value.logical_service_config.database_name
       database_user   = each.value.logical_service_config.db_username
       database_config = each.value.resource_type == "mysql" ? each.value.local_operator_config.mysql_data : each.value.local_operator_config.mongodb_data
+  })
+  filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
+}
+
+resource "local_file" "dbaas-crs-mysql" {
+  for_each = { for key, stateful_resource in local.monolith_env_mysql_dbaas_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/dbaas/${each.value.resource_type}/db-cluster.yaml.tpl",
+    {
+        cluster_name                 = var.cluster_name
+        dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
+        namespace                    = each.value.resource_namespace
+        appNamespace                 = each.value.resource_namespace
+        consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
+        consumer_app_secret          = local.ca_bundle_secrets_by_monolith[each.key]
+        cr_version                   = each.value.dbaas_resource_config.cr_version
+        db_username                  = each.value.external_resource_config.username
+        db_secret                    = each.value.external_resource_config.master_user_password_secret
+        db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
+        externalservice_name         = each.value.externalservice_name
+        db_name                      = each.value.external_resource_config.db_name
+        mysql_storage_size           = each.value.dbaas_resource_config.mysql_storage_size
+        pxc_image                    = each.value.dbaas_resource_config.pxc_image
+        mysql_replicas               = each.value.dbaas_resource_config.mysql_replicas
+        mysql_requests_memory        = each.value.dbaas_resource_config.mysql_requests_memory
+        mysql_requests_cpu           = each.value.dbaas_resource_config.mysql_requests_cpu
+        mysql_limits_memory          = each.value.dbaas_resource_config.mysql_limits_memory
+        mysql_limits_cpu             = each.value.dbaas_resource_config.mysql_limits_cpu
+        haproxy_image                = each.value.dbaas_resource_config.haproxy_image
+        haproxy_expose               = each.value.dbaas_resource_config.haproxy_expose
+        haproxy_replicas             = each.value.dbaas_resource_config.haproxy_replicas
+        haproxy_requests_memory      = each.value.dbaas_resource_config.haproxy_requests_memory
+        haproxy_requests_cpu         = each.value.dbaas_resource_config.haproxy_requests_cpu
+        haproxy_limits_memory        = each.value.dbaas_resource_config.haproxy_limits_memory
+        haproxy_limits_cpu           = each.value.dbaas_resource_config.haproxy_limits_cpu
+        logcollector_image           = each.value.dbaas_resource_config.logcollector_image
+        logcollector_requests_memory  = each.value.dbaas_resource_config.logcollector_requests_memory
+        logcollector_requests_cpu     = each.value.dbaas_resource_config.logcollector_requests_cpu
+        logcollector_limits_memory    = each.value.dbaas_resource_config.logcollector_limits_memory
+        logcollector_limits_cpu       = each.value.dbaas_resource_config.logcollector_limits_cpu
+        backup_image                 = each.value.dbaas_resource_config.backup_image
+        backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
+        backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
+        backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
+        backup_retention             = each.value.dbaas_resource_config.backup_retention
+        dns_name                     = each.value.externalservice_name
+        cloud_region                 = var.cloud_region
+        dns_zone_id                  = var.private_dns_zone_id
+  })
+  filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
+}
+
+resource "local_file" "dbaas-crs-mongodb" {
+  for_each = { for key, stateful_resource in local.monolith_env_mongo_dbaas_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/dbaas/${each.value.resource_type}/db-cluster.yaml.tpl",
+    {
+        cluster_name                 = var.cluster_name
+        externalservice_name         = each.value.externalservice_name
+        appNamespace                 = each.value.resource_namespace
+        consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
+        consumer_app_secret          = local.ca_bundle_secrets_by_monolith[each.key]
+        namespace                    = each.value.resource_namespace
+        cr_version                   = each.value.dbaas_resource_config.cr_version
+        image                        = each.value.dbaas_resource_config.image
+        db_secret                    = each.value.external_resource_config.master_user_password_secret
+        backup_enabled               = each.value.dbaas_resource_config.backup_enabled
+        backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
+        backup_image                 = each.value.dbaas_resource_config.backup_image
+        backup_bucket_region         = var.cloud_region
+        schedule_enabled             = each.value.dbaas_resource_config.schedule_enabled
+        backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
+        backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
+        backup_retention             = each.value.dbaas_resource_config.backup_retention
+        replset_name                 = each.value.dbaas_resource_config.replset_name
+        replset_size                 = each.value.dbaas_resource_config.replset_size
+        replset_limits_cpu           = each.value.dbaas_resource_config.replset_limits_cpu
+        replset_limits_memory        = each.value.dbaas_resource_config.replset_limits_memory
+        replset_requests_cpu         = each.value.dbaas_resource_config.replset_requests_cpu
+        replset_requests_memory      = each.value.dbaas_resource_config.replset_requests_memory
+        configsvr_expose_enabled     = each.value.dbaas_resource_config.configsvr_expose_enabled
+        configsvr_expose_type        = each.value.dbaas_resource_config.configsvr_expose_type
+        replset_storage              = each.value.dbaas_resource_config.replset_storage
+        sharding_enabled             = each.value.dbaas_resource_config.sharding_enabled
+        configsvr_size               = each.value.dbaas_resource_config.configsvr_size
+        configsvr_limits_cpu         = each.value.dbaas_resource_config.configsvr_limits_cpu
+        configsvr_limits_memory      = each.value.dbaas_resource_config.configsvr_limits_memory
+        configsvr_requests_cpu       = each.value.dbaas_resource_config.configsvr_requests_cpu
+        configsvr_requests_memory    = each.value.dbaas_resource_config.configsvr_requests_memory
+        configsvr_storage            = each.value.dbaas_resource_config.configsvr_storage
+        mongos_size                  = each.value.dbaas_resource_config.mongos_size
+        mongos_limits_cpu            = each.value.dbaas_resource_config.mongos_limits_cpu
+        mongos_limits_memory         = each.value.dbaas_resource_config.mongos_limits_memory
+        mongos_requests_cpu          = each.value.dbaas_resource_config.mongos_requests_cpu
+        mongos_requests_memory       = each.value.dbaas_resource_config.mongos_requests_memory
+        dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
+        db_username                  = each.value.external_resource_config.username
+        image                        = each.value.dbaas_resource_config.image
+        db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
+        cloud_region                 = var.cloud_region
+        dns_zone_id                  = var.private_dns_zone_id
+        dns_name                     = "${var.cluster_name}-${each.value.externalservice_name}-external"
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
