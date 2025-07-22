@@ -16,6 +16,12 @@ spec:
       kind: ValidatingWebhookConfiguration
       jqPathExpressions:
         - .webhooks[]?.failurePolicy
+    - group: apps
+      kind: DaemonSet
+      namespace: istio-system
+      jsonPointers:
+        - /metadata/annotations/deprecated.daemonset.template.generation
+        - /spec/template/spec/containers/0/image
   syncPolicy:
     automated:
       prune: true
