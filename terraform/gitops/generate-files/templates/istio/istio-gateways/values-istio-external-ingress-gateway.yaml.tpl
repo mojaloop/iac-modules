@@ -1,13 +1,11 @@
 # Name allows overriding the release name. Generally this should not be set
 name: ${istio_external_gateway_name}
-replicaCount: 3
 ## replicaCount: ${istio_external_gateway_replica_count}
 
 # revision declares which revision this gateway is a part of
 revision: ""
 
-#kind: DaemonSet
-kind: Deployment
+kind: DaemonSet
 
 rbac:
   # If enabled, roles will be created to enable accessing certificates from Gateways. This is not needed
@@ -71,9 +69,9 @@ resources:
 
 #idisyncracy with istio gw chart
 autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 1
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 80
 
 # Pod environment variables
