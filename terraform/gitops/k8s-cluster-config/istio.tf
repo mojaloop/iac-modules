@@ -53,7 +53,8 @@ module "generate_istio_files" {
     external_secret_sync_wave            = var.external_secret_sync_wave
     # Internal domain configuration for egress routing
     internal_wildcard_hosts              = local.internal_wildcard_hosts_list
-    internal_non_https_ports             = local.internal_non_https_ports_list
+    # Internal subnet configuration for egress routing
+    internal_subnets                     = local.internal_subnets_list
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -84,14 +85,8 @@ locals {
   netbird_setup_key_secret_name        = "netbird-setup-key"
   netbird_setup_key_secret_key         = "setup-key"
   # Parse comma-delimited strings into lists for Netbird egress routing
-  internal_wildcard_hosts_list = split(",", trimspace(var.internal_wildcard_hosts))
-  internal_non_https_ports_list = [
-    for port_spec in split(",", trimspace(var.internal_non_https_ports)) : {
-      number   = tonumber(split(":", port_spec)[0])
-      name     = split(":", port_spec)[1]
-      protocol = split(":", port_spec)[2]
-    }
-  ]
+  internal_wildcard_hosts_list = var.internal_wildcard_hosts != "" ? split(",", trimspace(var.internal_wildcard_hosts)) : []
+  internal_subnets_list        = var.internal_subnets != "" ? split(",", trimspace(var.internal_subnets)) : []
 }
 
 
@@ -194,11 +189,11 @@ variable "netbird_setup_key_vault_path" {
 variable "internal_wildcard_hosts" {
   type        = string
   description = "Comma-delimited list of domain suffixes for internal domain routing (without wildcard prefix)"
-  default     = "int.test.com"
+  default = ""
 }
 
-variable "internal_non_https_ports" {
+variable "internal_subnets" {
   type        = string
-  description = "Comma-delimited list of non-HTTPS ports for internal domain routing (format: number:name:protocol)"
-  default     = "80:http:HTTP,8200:vault-api:HTTP,3000:grafana:HTTP,9090:prometheus:HTTP"
+  description = "Comma-delimited list of CIDR subnets for internal subnet routing (e.g., '10.10.106.0/24,192.168.1.0/24')"
+  default     = ""
 }
