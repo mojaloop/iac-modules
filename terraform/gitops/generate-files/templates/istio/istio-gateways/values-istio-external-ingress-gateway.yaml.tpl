@@ -1,11 +1,13 @@
 # Name allows overriding the release name. Generally this should not be set
 name: ${istio_external_gateway_name}
 replicaCount: 3
+## replicaCount: ${istio_external_gateway_replica_count}
 
 # revision declares which revision this gateway is a part of
 revision: ""
 
-kind: DaemonSet
+#kind: DaemonSet
+kind: Deployment
 
 rbac:
   # If enabled, roles will be created to enable accessing certificates from Gateways. This is not needed
