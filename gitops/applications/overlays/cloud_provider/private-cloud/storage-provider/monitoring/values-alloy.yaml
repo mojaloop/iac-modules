@@ -6,12 +6,56 @@ alloy:
     limits:
       cpu: 200m
       memory: 512Mi
-  # use parameterized value
+  # TODO: use parameterized value
   extraConfig: |
+    discovery.relabel "pod_logs" {
+      targets = discovery.kubernetes.pods.targets
+      rule {
+        source_labels = ["__meta_kubernetes_namespace"]
+        action = "replace"
+        target_label = "namespace"
+      }
+      rule {
+        source_labels = ["__meta_kubernetes_pod_name"]
+        action = "replace"
+        target_label = "pod"
+      }
+      rule {
+        source_labels = ["__meta_kubernetes_pod_container_name"]
+        action = "replace"
+        target_label = "container"
+      }
+      rule {
+        source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+        action = "replace"
+        target_label = "app"
+      }
+      rule {
+        source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_component","__meta_kubernetes_pod_label_component"]
+        action = "replace"
+        target_label = "component"
+        regex = "^;*([^;]+)(;.*)?$"
+      }
+      rule {
+        source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_container_name"]
+        action = "replace"
+        target_label = "job"
+        separator = "/"
+        replacement = "$1"
+      }
+      rule {
+        source_labels = ["__meta_kubernetes_pod_node_name"]
+        action = "replace"
+        target_label = "node_name"
+      }
+    }
+
+
     loki.source.kubernetes "pod_logs" {
-      targets    = discovery.kubernetes.pods.targets
+      targets    = discovery.relabel.pod_logs.output
       forward_to = [loki.process.pod_logs.receiver]
     }
+
 
     loki.process "pod_logs" {
       stage.static_labels {
