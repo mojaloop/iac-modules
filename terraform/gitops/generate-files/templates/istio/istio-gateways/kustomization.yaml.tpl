@@ -9,6 +9,7 @@ resources:
   - gateways.yaml
   - argocd-vs.yaml
   - netbird-external-secret.yaml
+  - netbird-egress-routing.yaml
 helmCharts:
 - name: gateway
   releaseName: ext-gateway
