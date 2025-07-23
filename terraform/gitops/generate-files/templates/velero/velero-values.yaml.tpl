@@ -21,8 +21,6 @@ configuration:
       # for details of required/optional fields for your provider.
       config:
         region: ${object_store_region}
-        #s3ForcePathStyle: ${ARGOCD_ENV_object_storage_path_style}
-        #s3Url: ${ARGOCD_ENV_object_storage_endpoint}
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
 
@@ -41,7 +39,6 @@ initContainers:
 credentials:
   useSecret: true
   existingSecret: ${object_store_velero_credentials_secret_name}
-  #extraSecretRef: ${ARGOCD_ENV_object_storage_secret_name}
 
 annotations:
   secret.reloader.stakater.com/reload: ${object_store_velero_credentials_secret_name}
