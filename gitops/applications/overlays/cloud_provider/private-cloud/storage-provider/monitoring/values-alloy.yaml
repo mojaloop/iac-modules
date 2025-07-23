@@ -58,6 +58,7 @@ alloy:
 
 
     loki.process "pod_logs" {
+      stage.cri {}
       stage.static_labels {
           values = {
             cluster = "storage",
