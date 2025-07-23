@@ -12,5 +12,5 @@ helmCharts:
     releaseName: alloy
     version: 1.0.0
     repo: oci://registry-1.docker.io/bitnamicharts
-    valuesFile: values-kube-prometheus.yaml
-    # namespace: ${ARGOCD_ENV_monitoring_namespace}
+    valuesFile: values-alloy.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}

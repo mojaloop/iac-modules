@@ -1,0 +1,23 @@
+alloy:
+  # use parameterized value
+  extraConfig: |
+    loki.source.kubernetes "pod_logs" {
+      targets    = discovery.kubernetes.pods.targets
+      forward_to = [loki.process.pod_logs.receiver]
+    }
+
+    loki.process "pod_logs" {
+      stage.static_labels {
+          values = {
+            cluster = "storage",
+          }
+      }
+
+      forward_to = [loki.write.central_loki.receiver]
+    }
+
+    loki.write "central_loki" {
+      endpoint {
+        url = "https://loki.int.ccinfra05.drpp-onprem.global/loki/api/v1/push" 
+      }
+    }
