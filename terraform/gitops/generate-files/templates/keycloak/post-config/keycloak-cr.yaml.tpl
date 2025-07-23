@@ -3,7 +3,7 @@ kind: Keycloak
 metadata:
   name: ${keycloak_name}
 spec:
-  instances: 1
+  instances: ${keycloak_replica_count}
   db:
     vendor: mysql
     host: ${keycloak_mysql_host}
