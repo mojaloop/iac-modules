@@ -158,6 +158,7 @@ locals {
     cc_cidr_block                    = get_env("CC_CIDR_BLOCK")
     sc_cidr_block                    = get_env("SC_CIDR_BLOCK")
     internal_subnets                 = join(",", compact([get_env("CC_CIDR_BLOCK"), get_env("SC_CIDR_BLOCK")]))
+    netbird_management_url           = get_env("netbird_operator_management_url")
     max_pods_per_node                = local.common_vars.max_pods_per_node
     cluster_name                     = get_env("cluster_name")
   }
