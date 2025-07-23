@@ -1,7 +1,6 @@
 # Name allows overriding the release name. Generally this should not be set
 name: ${istio_external_gateway_name}
 replicaCount: 3
-#replicaCount: ${istio_external_gateway_replica_count}
 
 # revision declares which revision this gateway is a part of
 revision: ""
@@ -67,9 +66,10 @@ resources:
   limits:
     cpu: "2"
     memory: 1Gi
+
 #idisyncracy with istio gw chart
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 1
   targetCPUUtilizationPercentage: 80
