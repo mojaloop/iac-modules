@@ -269,6 +269,15 @@ resource "gitlab_group_variable" "cc_cidr_block" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "tenancy_internal_wildcard_hosts_list" {
+  group             = data.gitlab_group.iac.id
+  key               = "SC_CIDR_BLOCK"
+  value             = var.sc_cidr_block
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_repository_file" "vault_token_update" {
   for_each       = local.environment_list
   project        = gitlab_project.envs[each.key].id
