@@ -57,6 +57,7 @@ module "generate_mcm_files" {
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
     mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
     istio_external_gateway_name          = var.istio_external_gateway_name
+    istio_external_gateway_replica_count = try(var.istio_external_gateway_replica_count, 1)
     private_network_cidr                 = var.private_network_cidr
     interop_switch_fqdn                  = local.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn

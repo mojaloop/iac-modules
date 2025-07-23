@@ -18,6 +18,7 @@ module "generate_istio_files" {
     internal_ingress_https_port          = var.internal_ingress_https_port
     internal_ingress_http_port           = var.internal_ingress_http_port
     internal_ingress_health_port         = var.internal_ingress_health_port
+    istio_external_gateway_replica_count = try(var.istio_external_gateway_replica_count, 1)
     istio_external_gateway_name          = var.istio_external_gateway_name
     istio_internal_gateway_name          = var.istio_internal_gateway_name
     default_ssl_certificate              = var.default_ssl_certificate
@@ -138,6 +139,12 @@ variable "istio_external_gateway_name" {
   type        = string
   description = "istio_external_gateway_name"
   default     = "istio-external-ingress-gw"
+}
+
+variable "istio_external_gateway_replica_count" {
+  type        = number
+  description = "istio_external_gateway_replica_count"
+  default     = 1
 }
 
 variable "istio_create_ingress_gateways" {

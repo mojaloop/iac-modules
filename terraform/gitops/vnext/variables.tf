@@ -107,6 +107,11 @@ variable "istio_external_gateway_name" {
   description = "istio_external_gateway_name"
 }
 
+variable "istio_external_gateway_replica_count" {
+  type        = number
+  description = "istio_external_gateway_replica_count"
+}
+
 variable "istio_internal_wildcard_gateway_name" {
   type        = string
   description = "istio_internal_wildcard_gateway_name"

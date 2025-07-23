@@ -14,6 +14,7 @@ module "generate_vnext_files" {
     vault_certman_secretname             = var.vault_certman_secretname
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
     istio_external_gateway_name          = var.istio_external_gateway_name
+    istio_external_gateway_replica_count = try(var.istio_external_gateway_replica_count, 1)
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_wildcard_gateway_name = var.istio_internal_wildcard_gateway_name
     istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
