@@ -45,6 +45,7 @@ module "generate_istio_files" {
     # Netbird egress gateway variables
     istio_egress_gateway_name            = local.istio_egress_gateway_name
     istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
+    istio_egress_gateway_max_replicas    = var.istio_egress_gateway_max_replicas
     netbird_version                      = try(var.common_var_map.netbird_image_version, "0.51.1")
     netbird_management_url               = var.netbird_management_url
     netbird_setup_key_secret_name        = local.netbird_setup_key_secret_name
@@ -186,10 +187,16 @@ variable "netbird_setup_key_vault_path" {
   default     = "kv/data/netbird/setup-key"
 }
 
+variable "istio_egress_gateway_max_replicas" {
+  type        = number
+  description = "Maximum number of replicas for the Istio egress gateway"
+  default     = 3
+}
+
 variable "internal_wildcard_hosts" {
   type        = string
   description = "Comma-delimited list of domain suffixes for internal domain routing (without wildcard prefix)"
-  default = ""
+  default     = ""
 }
 
 variable "internal_subnets" {
