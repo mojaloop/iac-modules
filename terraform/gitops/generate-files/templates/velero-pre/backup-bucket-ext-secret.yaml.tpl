@@ -28,7 +28,7 @@ spec:
         AWS_SECRET_ACCESS_KEY: "{{ .password }}"
         AWS_ACCESS_KEY_ID: "{{ .username }}"
         AWS_REGION: ${object_store_region}
-        ${object_store_velero_secret_key}: |§
+        ${object_store_velero_secret_key}: |
           [default]
           aws_access_key_id = {{ .username | toString }}
           aws_secret_access_key = {{ .password  | toString }}
