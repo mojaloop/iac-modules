@@ -57,6 +57,7 @@ module "generate_mcm_files" {
     mcm_chart_repo                           = var.mcm_chart_repo
     mcm_chart_version                        = var.mcm_chart_version
     mcm_namespace                            = var.mcm_namespace
+    mcm_api_replica_count                    = try(var.app_var_map.mcm_api_replica_count, 1)
     gitlab_project_url                       = var.gitlab_project_url
     public_subdomain                         = var.public_subdomain
     enable_oidc                              = var.enable_mcm_oidc
