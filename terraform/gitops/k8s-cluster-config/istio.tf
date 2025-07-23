@@ -42,6 +42,18 @@ module "generate_istio_files" {
     kiali_istio_wildcard_gateway_name    = local.kiali_istio_wildcard_gateway_name
     kiali_istio_gateway_namespace        = local.kiali_istio_gateway_namespace
     kiali_sync_wave                      = var.kiali_sync_wave
+    # Netbird egress gateway variables
+    istio_egress_gateway_name            = local.istio_egress_gateway_name
+    istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
+    netbird_version                      = try(var.common_var_map.netbird_image_version, "0.51.1")
+    netbird_management_url               = var.netbird_management_url
+    netbird_setup_key_secret_name        = local.netbird_setup_key_secret_name
+    netbird_setup_key_secret_key         = local.netbird_setup_key_secret_key
+    netbird_setup_key_vault_path         = var.netbird_setup_key_vault_path
+    external_secret_sync_wave            = var.external_secret_sync_wave
+    # Internal domain configuration for egress routing
+    internal_wildcard_hosts              = local.internal_wildcard_hosts_list
+    internal_non_https_ports             = local.internal_non_https_ports_list
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -65,6 +77,21 @@ locals {
   kiali_istio_gateway_namespace        = local.kiali_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   kiali_wildcard_gateway               = var.kiali_ingress_internal_lb ? "internal" : "external"
   kiali_fqdn                           = local.kiali_wildcard_gateway == "external" ? "kiali.${var.public_subdomain}" : "kiali.${var.private_subdomain}"
+  # Netbird egress gateway configuration
+  istio_egress_gateway_name            = "istio-netbird-egress-gw"
+  istio_egress_gateway_namespace       = "istio-egress-nb"
+  # Netbird secret configuration
+  netbird_setup_key_secret_name        = "netbird-setup-key"
+  netbird_setup_key_secret_key         = "setup-key"
+  # Parse comma-delimited strings into lists for Netbird egress routing
+  internal_wildcard_hosts_list = split(",", trimspace(var.internal_wildcard_hosts))
+  internal_non_https_ports_list = [
+    for port_spec in split(",", trimspace(var.internal_non_https_ports)) : {
+      number   = tonumber(split(":", port_spec)[0])
+      name     = split(":", port_spec)[1]
+      protocol = split(":", port_spec)[2]
+    }
+  ]
 }
 
 
@@ -150,4 +177,28 @@ variable "kiali_ingress_internal_lb" {
   type        = bool
   description = "kiali_ingress_internal_lb"
   default     = true
+}
+
+variable "netbird_management_url" {
+  type        = string
+  description = "Netbird management server URL"
+  default     = "https://api.netbird.io"
+}
+
+variable "netbird_setup_key_vault_path" {
+  type        = string
+  description = "Vault path where the Netbird setup key is stored"
+  default     = "kv/data/netbird/setup-key"
+}
+
+variable "internal_wildcard_hosts" {
+  type        = string
+  description = "Comma-delimited list of domain suffixes for internal domain routing (without wildcard prefix)"
+  default     = "int.test.com"
+}
+
+variable "internal_non_https_ports" {
+  type        = string
+  description = "Comma-delimited list of non-HTTPS ports for internal domain routing (format: number:name:protocol)"
+  default     = "80:http:HTTP,8200:vault-api:HTTP,3000:grafana:HTTP,9090:prometheus:HTTP"
 }
