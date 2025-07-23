@@ -110,6 +110,7 @@ variable "istio_external_gateway_name" {
 variable "istio_external_gateway_replica_count" {
   type        = number
   description = "Number of replicas for the Istio external gateway"
+  default     = 1
 }
 
 variable "istio_internal_wildcard_gateway_name" {
