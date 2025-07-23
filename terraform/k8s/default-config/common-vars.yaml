@@ -51,6 +51,7 @@ alertmanager_enabled: false
 alertmanager_prod_alerts_enabled: false # if false, alerts are sent to dev alerts slack channel
 alertmanager_slack_integration_enabled: false
 alertmanager_jira_integration_enabled: false
+istio_external_gateway_replica_count: 1
 istio_proxy_log_level: warn
 longhorn_backup_job_enabled: false
 enable_central_observability_write: false
