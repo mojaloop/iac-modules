@@ -109,7 +109,7 @@ locals {
   bastion_hosts_var_maps = {
     netbird_version              = get_env("NETBIRD_VERSION")
     netbird_api_host             = get_env("NETBIRD_API_HOST")
-    netbird_setup_key            = get_env("NETBIRD_GW_SETUP_KEY")
+    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY")
     migrate                      = get_env("migrate")
     nexus_fqdn                   = get_env("NEXUS_FQDN")
     object_store_fqdn            = get_env("OBJECTSTORE_FQDN")
