@@ -8,6 +8,7 @@ resources:
   - proxy-security-headers.yaml
   - gateways.yaml
   - argocd-vs.yaml
+  - netbird-external-secret.yaml
 helmCharts:
 - name: gateway
   releaseName: ext-gateway
@@ -21,3 +22,9 @@ helmCharts:
   repo: ${istio_chart_repo}
   valuesFile: values-istio-internal-ingress-gateway.yaml
   namespace: ${istio_internal_gateway_namespace}
+- name: gateway
+  releaseName: egress-gateway
+  version: ${istio_chart_version}
+  repo: ${istio_chart_repo}
+  valuesFile: values-istio-nb-egress-gateway.yaml
+  namespace: ${istio_egress_gateway_namespace}
