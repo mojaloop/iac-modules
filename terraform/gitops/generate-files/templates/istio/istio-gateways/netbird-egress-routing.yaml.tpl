@@ -1,4 +1,5 @@
 # ServiceEntry for wildcard internal domain traffic
+%{ if length(internal_wildcard_hosts) > 0 ~}
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
@@ -19,8 +20,34 @@ spec:
     protocol: TCP
   location: MESH_EXTERNAL
   resolution: DNS
+%{ endif ~}
+%{ if length(internal_subnets) > 0 ~}
+---
+# ServiceEntry for internal subnet traffic
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: netbird-traffic-subnets
+  namespace: istio-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
+spec:
+  addresses:
+%{ for subnet in internal_subnets ~}
+  - "${subnet}"
+%{ endfor ~}
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  - name: tcp
+    protocol: TCP
+  location: MESH_EXTERNAL
+  resolution: NONE
+%{ endif ~}
 ---
 # Gateway for Netbird egress traffic
+%{ if length(internal_wildcard_hosts) > 0 || length(internal_subnets) > 0 ~}
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
@@ -41,6 +68,11 @@ spec:
 %{ for host in internal_wildcard_hosts ~}
     - "*.${host}"
 %{ endfor ~}
+%{ if length(internal_subnets) > 0 ~}
+%{ for subnet in internal_subnets ~}
+    - "${subnet}"
+%{ endfor ~}
+%{ endif ~}
     tls:
       mode: PASSTHROUGH
   # All other TCP ports (catch-all including HTTP port 80)
@@ -51,8 +83,15 @@ spec:
 %{ for host in internal_wildcard_hosts ~}
     - "*.${host}"
 %{ endfor ~}
+%{ if length(internal_subnets) > 0 ~}
+%{ for subnet in internal_subnets ~}
+    - "${subnet}"
+%{ endfor ~}
+%{ endif ~}
+%{ endif ~}
 ---
 # VirtualService for routing internal domain traffic through Netbird egress gateway
+%{ if length(internal_wildcard_hosts) > 0 || length(internal_subnets) > 0 ~}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -65,6 +104,11 @@ spec:
 %{ for host in internal_wildcard_hosts ~}
   - "*.${host}"
 %{ endfor ~}
+%{ if length(internal_subnets) > 0 ~}
+%{ for subnet in internal_subnets ~}
+  - "${subnet}"
+%{ endfor ~}
+%{ endif ~}
   gateways:
   - mesh
   - ${istio_egress_gateway_namespace}/netbird-egress-gateway
@@ -79,14 +123,31 @@ spec:
     - destination:
         host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
   
-  # Route TCP from egress gateway to external destination
+%{ if length(internal_wildcard_hosts) > 0 ~}
+  # Route TCP from egress gateway to external destination (hostname-based)
   - match:
     - gateways:
       - ${istio_egress_gateway_namespace}/netbird-egress-gateway
     route:
     - destination:
         host: ${internal_wildcard_hosts[0]}
+%{ endif ~}
+%{ if length(internal_subnets) > 0 ~}
   
+  # Route subnet TCP traffic from egress gateway to preserve destination IP
+  - match:
+    - gateways:
+      - ${istio_egress_gateway_namespace}/netbird-egress-gateway
+      destinationSubnets:
+%{ for subnet in internal_subnets ~}
+      - "${subnet}"
+%{ endfor ~}
+    route:
+    - destination:
+        host: PassthroughCluster
+%{ endif ~}
+  
+%{ if length(internal_wildcard_hosts) > 0 ~}
   # TLS/HTTPS traffic routing with SNI passthrough
   tls:
   # Route HTTPS from mesh to egress gateway
@@ -116,8 +177,11 @@ spec:
         host: ${internal_wildcard_hosts[0]}
         port:
           number: 443
+%{ endif ~}
+%{ endif ~}
 ---
 # ServiceMonitor for monitoring egress gateway metrics (optional)
+%{ if length(internal_wildcard_hosts) > 0 || length(internal_subnets) > 0 ~}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -137,3 +201,4 @@ spec:
   - port: http-monitoring
     interval: 15s
     path: /stats/prometheus
+%{ endif ~}

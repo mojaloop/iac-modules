@@ -119,3 +119,6 @@ spec:
 
         - name: "object_store_insecure_connection"
           value: "${ARGOCD_ENV_utils_storage_object_store_insecure_connection}"
+
+        - name: "sc_cidr_block"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_cidr}"
