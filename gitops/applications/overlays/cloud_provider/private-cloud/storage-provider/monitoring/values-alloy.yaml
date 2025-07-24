@@ -59,10 +59,6 @@ alloy:
 
     loki.process "pod_logs" {
       stage.cri {}
-      stage.limit {
-        rate  = 200
-        burst = 500
-      }
       stage.static_labels {
           values = {
             cluster = "storage",
