@@ -33,6 +33,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
 spec:
+  hosts:
+  - istio-subnet-dummy.local
   addresses:
 %{ for subnet in internal_subnets ~}
   - "${subnet}"
@@ -71,9 +73,7 @@ spec:
     - "*.${host}"
 %{ endfor ~}
 %{ if length(internal_subnets) > 0 ~}
-%{ for subnet in internal_subnets ~}
-    - "${subnet}"
-%{ endfor ~}
+    - "*"
 %{ endif ~}
   # HTTPS traffic with SNI passthrough
   - port:
@@ -85,9 +85,7 @@ spec:
     - "*.${host}"
 %{ endfor ~}
 %{ if length(internal_subnets) > 0 ~}
-%{ for subnet in internal_subnets ~}
-    - "${subnet}"
-%{ endfor ~}
+    - "*"
 %{ endif ~}
     tls:
       mode: PASSTHROUGH
@@ -108,9 +106,7 @@ spec:
   - "*.${host}"
 %{ endfor ~}
 %{ if length(internal_subnets) > 0 ~}
-%{ for subnet in internal_subnets ~}
-  - "${subnet}"
-%{ endfor ~}
+  - "*"
 %{ endif ~}
   gateways:
   - mesh
