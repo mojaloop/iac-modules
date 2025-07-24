@@ -11,6 +11,10 @@ resources:
   - keep-alive.yaml
   - netbird-external-secret.yaml
   - netbird-egress-routing.yaml
+
+patchesStrategicMerge:
+  - netbird-egress-gateway-patch.yaml
+
 helmCharts:
 - name: gateway
   releaseName: ext-gateway
