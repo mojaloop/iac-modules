@@ -23,7 +23,7 @@ locals {
 
 variable "velero_post_config_sync_wave" {
   type        = string
-  default     = "-7"
+  default     = "-8"
 }
 
 variable "velero_backup_schedule" {
