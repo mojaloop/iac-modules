@@ -125,6 +125,7 @@ inputs = {
   netbird_operator_management_url          = local.netbird_operator_management_url
   netbird_management_url                   = local.netbird_operator_management_url
   netbird_operator_api_key_vault_path      = local.netbird_operator_api_key_vault_path
+  internal_subnets                         = join(",", compact([get_env("CC_CIDR_BLOCK"), get_env("SC_CIDR_BLOCK")]))
 }
 
 locals {
