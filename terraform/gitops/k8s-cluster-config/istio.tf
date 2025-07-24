@@ -50,7 +50,7 @@ module "generate_istio_files" {
     netbird_management_url               = var.netbird_management_url
     netbird_setup_key_secret_name        = local.netbird_setup_key_secret_name
     netbird_setup_key_secret_key         = local.netbird_setup_key_secret_key
-    netbird_setup_key_vault_path         = var.netbird_setup_key_vault_path
+    netbird_setup_key_vault_path         = "${var.cluster_name}/${local.netbird_setup_key_vault_path}"
     external_secret_sync_wave            = var.external_secret_sync_wave
     # Internal domain configuration for egress routing
     internal_wildcard_hosts              = local.internal_wildcard_hosts_list
@@ -85,6 +85,8 @@ locals {
   # Netbird secret configuration
   netbird_setup_key_secret_name        = "netbird-setup-key"
   netbird_setup_key_secret_key         = "setup-key"
+  # Netbird vault path configuration
+  netbird_setup_key_vault_path         = "netbird_k8s_setup_key"
   # Parse comma-delimited strings into lists for Netbird egress routing
   internal_wildcard_hosts_list = var.internal_wildcard_hosts != "" ? split(",", trimspace(var.internal_wildcard_hosts)) : []
   internal_subnets_list        = var.internal_subnets != "" ? split(",", trimspace(var.internal_subnets)) : []
@@ -179,12 +181,6 @@ variable "netbird_management_url" {
   type        = string
   description = "Netbird management server URL"
   default     = "https://api.netbird.io"
-}
-
-variable "netbird_setup_key_vault_path" {
-  type        = string
-  description = "Vault path where the Netbird setup key is stored"
-  default     = "kv/data/netbird/setup-key"
 }
 
 variable "istio_egress_gateway_max_replicas" {
