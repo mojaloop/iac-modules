@@ -24,7 +24,7 @@ locals {
 
 variable "velero_pre_sync_wave" {
   type        = string
-  default     = "-9"
+  default     = "-10"
 }
 
 variable "velero_namespace" {

@@ -6,7 +6,7 @@ module "generate_velero_files" {
     velero_namespace               = var.velero_namespace
     velero_backup_bucket_name       = local.velero_bucket
     object_store_velero_credentials_secret_name = "velero-credentials-secret"
-    object_store_api_url                           = "https://${var.object_store_api_url}"
+    object_store_api_url                           = "http://${var.object_store_api_url}"
     object_store_region            = var.object_store_region
     object_store_velero_secret_key = "cloud"
     velero_plugin_version          = var.velero_plugin_version
@@ -26,7 +26,7 @@ locals {
 
 variable "velero_sync_wave" {
   type        = string
-  default     = "-8"
+  default     = "-9"
 }
 
 variable "velero_plugin_version" {
