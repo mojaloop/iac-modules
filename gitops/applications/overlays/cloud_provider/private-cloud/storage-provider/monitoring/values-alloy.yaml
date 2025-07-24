@@ -60,7 +60,7 @@ alloy:
     loki.process "pod_logs" {
       stage.cri {}
       stage.limit {
-        rate  = 100
+        rate  = 200
         burst = 500
       }
       stage.static_labels {
