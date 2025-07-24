@@ -18,7 +18,7 @@ spec:
     - secretKey: password
       remoteRef:
         key: ${object_store_velero_password_key}
-        property: password
+        property: value
 
   target:
     name:  ${object_store_velero_credentials_secret_name}
