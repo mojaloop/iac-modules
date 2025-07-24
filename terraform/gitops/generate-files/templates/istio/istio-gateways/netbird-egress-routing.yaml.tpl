@@ -13,6 +13,9 @@ spec:
   - "*.${host}"
 %{ endfor ~}
   ports:
+  - number: 80
+    name: http
+    protocol: HTTP
   - number: 443
     name: https
     protocol: HTTPS
@@ -37,6 +40,9 @@ spec:
   - "${subnet}"
 %{ endfor ~}
   ports:
+  - number: 80
+    name: http
+    protocol: HTTP
   - number: 443
     name: https
     protocol: HTTPS
@@ -59,6 +65,20 @@ spec:
   selector:
     istio: ${istio_egress_gateway_name}
   servers:
+  # HTTP traffic (port 80)
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+%{ for host in internal_wildcard_hosts ~}
+    - "*.${host}"
+%{ endfor ~}
+%{ if length(internal_subnets) > 0 ~}
+%{ for subnet in internal_subnets ~}
+    - "${subnet}"
+%{ endfor ~}
+%{ endif ~}
   # HTTPS traffic with SNI passthrough
   - port:
       number: 443
@@ -75,7 +95,7 @@ spec:
 %{ endif ~}
     tls:
       mode: PASSTHROUGH
-  # All other TCP ports (catch-all including HTTP port 80)
+  # All other TCP ports (catch-all)
   - port:
       name: tcp
       protocol: TCP
@@ -113,7 +133,31 @@ spec:
   - mesh
   - ${istio_egress_gateway_namespace}/netbird-egress-gateway
   
-  # TCP traffic routing (catches all non-HTTPS ports including HTTP port 80)
+  # HTTP traffic routing (for ambient mode compatibility)
+  http:
+  # Route HTTP from mesh to egress gateway
+  - match:
+    - gateways:
+      - mesh
+    route:
+    - destination:
+        host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
+        port:
+          number: 80
+  
+%{ if length(internal_wildcard_hosts) > 0 ~}
+  # Route HTTP from egress gateway to external destination (hostname-based)
+  - match:
+    - gateways:
+      - ${istio_egress_gateway_namespace}/netbird-egress-gateway
+    route:
+    - destination:
+        host: ${internal_wildcard_hosts[0]}
+        port:
+          number: 80
+%{ endif ~}
+  
+  # TCP traffic routing (catches all non-HTTP/HTTPS ports)
   tcp:
   # Route TCP from mesh to egress gateway
   - match:
