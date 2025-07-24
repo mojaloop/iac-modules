@@ -154,9 +154,6 @@ locals {
     kubernetes_oidc_username_claim   = get_env("KUBERNETES_OIDC_USERNAME_CLAIM")
     kubernetes_oidc_k8s_user_group   = get_env("KUBERNETES_OIDC_K8S_USER_GROUP")
     kubernetes_oidc_k8s_admin_group  = get_env("KUBERNETES_OIDC_K8S_ADMIN_GROUP")
-    cc_cidr_block                    = get_env("CC_CIDR_BLOCK")
-    sc_cidr_block                    = get_env("SC_CIDR_BLOCK")
-    internal_subnets                 = join(",", compact([get_env("CC_CIDR_BLOCK"), get_env("SC_CIDR_BLOCK")]))
     netbird_management_url           = get_env("netbird_operator_management_url")
     max_pods_per_node                = local.common_vars.max_pods_per_node
     install_root_app                 = local.env_vars.install_root_app
