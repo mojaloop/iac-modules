@@ -72,8 +72,8 @@ spec:
 %{ for host in internal_wildcard_hosts ~}
     - "*.${host}"
 %{ endfor ~}
-%{ if length(internal_subnets) > 0 ~}
-    - "*"
+%{ if length(internal_subnets) > 0 && length(internal_wildcard_hosts) == 0 ~}
+    - "istio-subnet-dummy.local"
 %{ endif ~}
   # HTTPS traffic with SNI passthrough
   - port:
@@ -84,8 +84,8 @@ spec:
 %{ for host in internal_wildcard_hosts ~}
     - "*.${host}"
 %{ endfor ~}
-%{ if length(internal_subnets) > 0 ~}
-    - "*"
+%{ if length(internal_subnets) > 0 && length(internal_wildcard_hosts) == 0 ~}
+    - "istio-subnet-dummy.local"
 %{ endif ~}
     tls:
       mode: PASSTHROUGH
@@ -105,8 +105,8 @@ spec:
 %{ for host in internal_wildcard_hosts ~}
   - "*.${host}"
 %{ endfor ~}
-%{ if length(internal_subnets) > 0 ~}
-  - "*"
+%{ if length(internal_subnets) > 0 && length(internal_wildcard_hosts) == 0 ~}
+  - "istio-subnet-dummy.local"
 %{ endif ~}
   gateways:
   - mesh
@@ -134,6 +134,19 @@ spec:
         host: ${internal_wildcard_hosts[0]}
         port:
           number: 80
+%{ endif ~}
+%{ if length(internal_subnets) > 0 ~}
+  
+  # Route HTTP from egress gateway for subnet traffic (IP-based)
+  - match:
+    - gateways:
+      - ${istio_egress_gateway_namespace}/netbird-egress-gateway
+      headers:
+        ":authority":
+          regex: "^([0-9]{1,3}\\.){3}[0-9]{1,3}(:[0-9]+)?$"
+    route:
+    - destination:
+        host: PassthroughCluster
 %{ endif ~}
   
   # TCP traffic routing (catches all non-HTTP/HTTPS ports)
