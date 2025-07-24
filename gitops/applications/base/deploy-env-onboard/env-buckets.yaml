@@ -80,7 +80,8 @@ spec:
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
-      maxSize: "${ARGOCD_ENV_velero_bucket_storage_size}"
+      # maxSize: "${ARGOCD_ENV_velero_bucket_storage_size}" # TODO: Temporary hardcoded
+      maxSize: "10Gi"
 ---
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
