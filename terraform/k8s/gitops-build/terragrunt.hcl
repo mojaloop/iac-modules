@@ -130,6 +130,7 @@ inputs = {
   velero_helm_version                      = local.common_vars.velero_helm_version
   velero_backup_schedule                   = local.common_vars.velero_backup_schedule
   velero_backup_ttl                        = local.common_vars.velero_backup_ttl
+  internal_subnets                         = join(",", compact([get_env("CC_CIDR_BLOCK"), get_env("SC_CIDR_BLOCK")]))
 }
 
 locals {
