@@ -19,8 +19,6 @@ spec:
   - number: 443
     name: https
     protocol: HTTPS
-  - name: tcp
-    protocol: TCP
   location: MESH_EXTERNAL
   resolution: DNS
 %{ endif ~}
@@ -46,8 +44,6 @@ spec:
   - number: 443
     name: https
     protocol: HTTPS
-  - name: tcp
-    protocol: TCP
   location: MESH_EXTERNAL
   resolution: NONE
 %{ endif ~}
@@ -95,19 +91,6 @@ spec:
 %{ endif ~}
     tls:
       mode: PASSTHROUGH
-  # All other TCP ports (catch-all)
-  - port:
-      name: tcp
-      protocol: TCP
-    hosts:
-%{ for host in internal_wildcard_hosts ~}
-    - "*.${host}"
-%{ endfor ~}
-%{ if length(internal_subnets) > 0 ~}
-%{ for subnet in internal_subnets ~}
-    - "${subnet}"
-%{ endfor ~}
-%{ endif ~}
 %{ endif ~}
 ---
 # VirtualService for routing internal domain traffic through Netbird egress gateway
@@ -158,6 +141,8 @@ spec:
 %{ endif ~}
   
   # TCP traffic routing (catches all non-HTTP/HTTPS ports)
+  # Note: TCP routes in VirtualService automatically handle all protocols
+  # that are not HTTP or HTTPS, as documented in Istio TCP routing
   tcp:
   # Route TCP from mesh to egress gateway
   - match:
