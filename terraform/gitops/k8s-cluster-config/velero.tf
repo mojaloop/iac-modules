@@ -30,7 +30,7 @@ variable "velero_sync_wave" {
 
 variable "velero_plugin_version" {
   type        = string
-  default     = "1.12.1"
+  default     = "v1.12.1"
 }
 
 variable "velero_helm_version" {
