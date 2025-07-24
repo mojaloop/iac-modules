@@ -53,27 +53,8 @@ autoscaling:
 # Pod environment variables
 env: {}
 
-# Additional containers to run alongside the gateway
-additionalContainers:
-  - name: netbird-sidecar
-    image: netbirdio/netbird:${netbird_version}
-    args:
-    - '--setup-key-file'
-    - /etc/nbkey
-    - '-m'
-    - ${netbird_management_url}
-    env:
-    - name: NB_SETUP_KEY
-      valueFrom:
-        secretKeyRef:
-          name: ${netbird_setup_key_secret_name}
-          key: ${netbird_setup_key_secret_key}
-    - name: NB_MANAGEMENT_URL
-      value: ${netbird_management_url}
-    securityContext:
-      capabilities:
-        add:
-        - NET_ADMIN
+# Note: Netbird sidecar is added via Kustomize strategic merge patch
+# See: netbird-egress-gateway-patch.yaml
 
 
 # Labels to apply to all resources
