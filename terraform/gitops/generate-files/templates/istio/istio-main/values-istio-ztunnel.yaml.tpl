@@ -117,6 +117,15 @@ affinity:
           operator: In
           values:
           - "true"
+  # Pod anti-affinity to distribute load across nodes
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchLabels:
+            app: ztunnel
+        topologyKey: kubernetes.io/hostname
 
 # Tolerations to ensure ztunnel runs on all nodes including those with taints
 tolerations:
