@@ -27,7 +27,7 @@ spec:
 %{ endfor ~}
 %{ endif ~}
   location: MESH_EXTERNAL
-  resolution: DNS
+  resolution: NONE
 %{ endif ~}
 ---
 # Gateway for Netbird egress traffic
