@@ -114,15 +114,50 @@ spec:
   
   # HTTP traffic routing (for ambient mode compatibility)
   http:
-  # Route HTTP from mesh to egress gateway
+  # Route HTTP from mesh to egress gateway (hostname-based)
+%{ if length(internal_wildcard_hosts) > 0 ~}
   - match:
     - gateways:
       - mesh
+      headers:
+        ":authority":
+          regex: ".*\\.${replace(internal_wildcard_hosts[0], ".", "\\.")}(:[0-9]+)?$"
     route:
     - destination:
         host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
         port:
           number: 80
+    headers:
+      request:
+        set:
+          x-netbird-route: "mesh-to-egress-hostname"
+          x-debug-timestamp: "%START_TIME%"
+          x-egress-gateway: "${istio_egress_gateway_name}"
+          x-virtualservice: "netbird-traffic-egress-vs"
+%{ endif ~}
+%{ if length(internal_subnets) > 0 ~}
+  
+  # Route HTTP from mesh to egress gateway (subnet-based)
+  - match:
+    - gateways:
+      - mesh
+      headers:
+        ":authority":
+          regex: "^([0-9]{1,3}\\.){3}[0-9]{1,3}(:[0-9]+)?$"
+    route:
+    - destination:
+        host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
+        port:
+          number: 80
+    headers:
+      request:
+        set:
+          x-netbird-route: "mesh-to-egress-subnet"
+          x-debug-timestamp: "%START_TIME%"
+          x-egress-gateway: "${istio_egress_gateway_name}"
+          x-virtualservice: "netbird-traffic-egress-vs"
+          x-subnet-routing: "true"
+%{ endif ~}
   
 %{ if length(internal_wildcard_hosts) > 0 ~}
   # Route HTTP from egress gateway to external destination (hostname-based)
@@ -134,6 +169,11 @@ spec:
         host: ${internal_wildcard_hosts[0]}
         port:
           number: 80
+    headers:
+      request:
+        set:
+          x-netbird-route: "egress-to-external-hostname"
+          x-netbird-gateway: "${istio_egress_gateway_name}"
 %{ endif ~}
 %{ if length(internal_subnets) > 0 ~}
   
@@ -147,19 +187,42 @@ spec:
     route:
     - destination:
         host: PassthroughCluster
+    headers:
+      request:
+        set:
+          x-netbird-route: "egress-to-external-subnet"
+          x-netbird-passthrough: "true"
+          x-debug-source: "%DOWNSTREAM_REMOTE_ADDRESS%"
+          x-debug-destination: "%UPSTREAM_HOST%"
 %{ endif ~}
   
   # TCP traffic routing (catches all non-HTTP/HTTPS ports)
   # Note: TCP routes in VirtualService automatically handle all protocols
   # that are not HTTP or HTTPS, as documented in Istio TCP routing
   tcp:
-  # Route TCP from mesh to egress gateway
+%{ if length(internal_subnets) > 0 ~}
+  # Route TCP from mesh to egress gateway (subnet-based)
+  - match:
+    - gateways:
+      - mesh
+      destinationSubnets:
+%{ for subnet in internal_subnets ~}
+      - "${subnet}"
+%{ endfor ~}
+    route:
+    - destination:
+        host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
+%{ endif ~}
+%{ if length(internal_wildcard_hosts) > 0 ~}
+  
+  # Route TCP from mesh to egress gateway (fallback for hostname traffic)
   - match:
     - gateways:
       - mesh
     route:
     - destination:
         host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
+%{ endif ~}
   
 %{ if length(internal_wildcard_hosts) > 0 ~}
   # Route TCP from egress gateway to external destination (hostname-based)
