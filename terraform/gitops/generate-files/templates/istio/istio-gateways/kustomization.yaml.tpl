@@ -12,8 +12,8 @@ resources:
   - netbird-external-secret.yaml
   - netbird-egress-routing.yaml
 
-patchesStrategicMerge:
-  - netbird-egress-gateway-patch.yaml
+patches:
+  - path: netbird-egress-gateway-patch.yaml
 
 helmCharts:
 - name: gateway
