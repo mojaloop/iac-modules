@@ -39,6 +39,9 @@ env:
   PILOT_ENABLE_AMBIENT_CONTROLLER: true
   # Optimize for bandwidth by reducing unnecessary operations
   ISTIO_META_DNS_CAPTURE: false
+  # DNS bypass configuration - exclude CoreDNS node cache from interception
+  ZTUNNEL_DNS_BYPASS_IPS: "169.254.20.10"  # CoreDNS node cache IP
+  ZTUNNEL_EXCLUDED_IPS: "169.254.20.10"    # Alternative config name
   # Buffer sizes for better network performance
   ZTUNNEL_INBOUND_BUFFER_SIZE: "65536"
   ZTUNNEL_OUTBOUND_BUFFER_SIZE: "65536"
