@@ -76,3 +76,4 @@ velero_backup_ttl: "720h0m0s"
 keto_replica_count: 1
 oathkeeper_replica_count: 1
 keycloak_replica_count: 1
+netbird_tcp_ports: "3306,5432"

@@ -269,10 +269,10 @@ resource "gitlab_group_variable" "cc_cidr_block" {
   environment_scope = "*"
 }
 
-resource "gitlab_group_variable" "tenancy_internal_wildcard_hosts_list" {
+resource "gitlab_group_variable" "cc_domain" {
   group             = data.gitlab_group.iac.id
-  key               = "SC_CIDR_BLOCK"
-  value             = var.sc_cidr_block
+  key               = "CC_DOMAIN"
+  value             = var.cc_domain
   protected         = true
   masked            = false
   environment_scope = "*"
