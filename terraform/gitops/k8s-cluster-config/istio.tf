@@ -54,8 +54,8 @@ module "generate_istio_files" {
     external_secret_sync_wave            = var.external_secret_sync_wave
     # Internal domain configuration for egress routing
     internal_wildcard_hosts              = local.internal_wildcard_hosts_list
-    # Internal subnet configuration for egress routing
-    internal_subnets                     = local.internal_subnets_list
+    # TCP ports configuration for egress routing
+    tcp_ports                           = local.tcp_ports_list
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -89,7 +89,7 @@ locals {
   netbird_setup_key_vault_path         = "netbird_k8s_setup_key"
   # Parse comma-delimited strings into lists for Netbird egress routing
   internal_wildcard_hosts_list = var.internal_wildcard_hosts != "" ? split(",", trimspace(var.internal_wildcard_hosts)) : []
-  internal_subnets_list        = var.internal_subnets != "" ? split(",", trimspace(var.internal_subnets)) : []
+  tcp_ports_list              = var.tcp_ports != "" ? [for port in split(",", trimspace(var.tcp_ports)) : tonumber(trimspace(port))] : []
 }
 
 
@@ -195,8 +195,8 @@ variable "internal_wildcard_hosts" {
   default     = ""
 }
 
-variable "internal_subnets" {
+variable "tcp_ports" {
   type        = string
-  description = "Comma-delimited list of CIDR subnets for internal subnet routing (e.g., '10.10.106.0/24,192.168.1.0/24')"
+  description = "Comma-delimited list of TCP port numbers for internal service routing (e.g., '3306,5432,6379')"
   default     = ""
 }
