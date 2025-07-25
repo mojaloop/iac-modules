@@ -131,6 +131,8 @@ inputs = {
   velero_backup_schedule                   = local.common_vars.velero_backup_schedule
   velero_backup_ttl                        = local.common_vars.velero_backup_ttl
   internal_subnets                         = join(",", compact([get_env("CC_CIDR_BLOCK"), get_env("SC_CIDR_BLOCK")]))
+  internal_wildcard_hosts                  = get_env("CC_DOMAIN")
+  tcp_ports                                = local.common_vars.netbird_tcp_ports
 }
 
 locals {
