@@ -105,8 +105,6 @@ reporting-legacy-api:
 
 reporting-events-processor-svc:
   enabled: true
-  image:
-    tag: v3.3.1
   kafka:
     host: ${kafka_host}
     port: ${kafka_port}
@@ -187,10 +185,6 @@ reporting-hub-bop-trx-ui:
 
 reporting-hub-bop-settlements-ui:
   ## Overriding the image version for bugfix related to https://modusbox.atlassian.net/browse/MBP-639
-  image:
-    registry: docker.io
-    repository: mojaloop/reporting-hub-bop-settlements-ui
-    tag: v0.0.19-snapshot.2
   enabled: true
   config:
     env:
