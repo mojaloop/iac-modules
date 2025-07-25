@@ -48,6 +48,7 @@ inputs = {
   single_zone_az_nodegroup         = local.single_zone_az_nodegroup
   single_zone_bastion_asg          = local.single_zone_az_nodegroup
   enable_eks_controlplane_logging  = local.enable_eks_controlplane_logging
+  install_root_app                 = local.env_vars.install_root_app
 }
 
 locals {
