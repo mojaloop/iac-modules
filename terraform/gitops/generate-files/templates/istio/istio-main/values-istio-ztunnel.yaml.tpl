@@ -43,7 +43,7 @@ env:
   ZTUNNEL_INBOUND_BUFFER_SIZE: "65536"
   ZTUNNEL_OUTBOUND_BUFFER_SIZE: "65536"
   # Network performance optimizations
-  ZTUNNEL_WORKER_THREADS: "auto"  # Auto-detect optimal thread count
+  ZTUNNEL_WORKER_THREADS: "4"  # Optimal thread count for most workloads
   ZTUNNEL_CONNECTION_POOL_SIZE: "1024"  # Increase connection pool
   ZTUNNEL_TCP_KEEPALIVE: "true"  # Enable TCP keepalive
   ZTUNNEL_TCP_NODELAY: "true"  # Disable Nagle's algorithm for lower latency
