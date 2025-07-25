@@ -104,7 +104,7 @@ spec:
       - mesh
       headers:
         ":authority":
-          regex: ".*\\.${replace(internal_wildcard_hosts[0], ".", "\\.")}(:[0-9]+)?$"
+          regex: ".*\\.${replace(internal_wildcard_hosts[0], ".", "\\\\.")}(:[0-9]+)?$"
     route:
     - destination:
         host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
