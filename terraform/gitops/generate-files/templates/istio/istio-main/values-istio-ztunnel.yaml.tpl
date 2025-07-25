@@ -69,73 +69,6 @@ env:
   ZTUNNEL_ENABLE_KERNEL_BYPASS: "false"  # Keep false for stability, true for max performance
   ZTUNNEL_USE_MMSG: "true"  # Use sendmmsg/recvmmsg for batch operations
 
-# Performance tuning for DaemonSet
-# More aggressive update strategy for faster rollouts in bandwidth-critical environments
-updateStrategy:
-  type: RollingUpdate
-  rollingUpdate:
-    # Allow 2 pods to be updated simultaneously for faster rollouts
-    maxSurge: 2
-    # Ensure high availability during updates
-    maxUnavailable: 1
-
-# Node affinity to ensure optimal network performance
-nodeSelector:
-  kubernetes.io/os: linux
-
-# Advanced affinity rules for network performance
-affinity:
-  nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-    # Prefer nodes with high network bandwidth
-    - weight: 100
-      preference:
-        matchExpressions:
-        - key: node.kubernetes.io/instance-type
-          operator: In
-          values:
-          - c5n.large
-          - c5n.xlarge
-          - c5n.2xlarge
-          - c5n.4xlarge
-          - c6gn.large
-          - c6gn.xlarge
-          - c6gn.2xlarge
-    # Prefer nodes with enhanced networking
-    - weight: 80
-      preference:
-        matchExpressions:
-        - key: network.node.kubernetes.io/enhanced-networking
-          operator: In
-          values:
-          - "true"
-    # Prefer nodes with SR-IOV support
-    - weight: 60
-      preference:
-        matchExpressions:
-        - key: network.node.kubernetes.io/sr-iov
-          operator: In
-          values:
-          - "true"
-  # Pod anti-affinity to distribute load across nodes
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-    - weight: 100
-      podAffinityTerm:
-        labelSelector:
-          matchLabels:
-            app: ztunnel
-        topologyKey: kubernetes.io/hostname
-
-# Tolerations to ensure ztunnel runs on all nodes including those with taints
-tolerations:
-- effect: NoSchedule
-  operator: Exists
-- effect: NoExecute
-  operator: Exists
-
-# Priority class for ztunnel pods to ensure they get scheduled quickly
-priorityClassName: system-node-critical
 
 # Security context optimized for network operations
 securityContext:
@@ -253,13 +186,3 @@ startupProbe:
   initialDelaySeconds: 1
   periodSeconds: 1
   failureThreshold: 60  # Allow up to 60 seconds for startup
-
-# Additional performance annotations
-annotations:
-  # CPU manager policy for dedicated CPU cores
-  cpu-manager.alpha.kubernetes.io/policy: "static"
-  # Topology manager policy for NUMA awareness
-  topology-manager.alpha.kubernetes.io/policy: "best-effort"
-  # Network performance annotations
-  network.alpha.kubernetes.io/bandwidth: "10Gi"
-  network.alpha.kubernetes.io/burst: "1Gi"
