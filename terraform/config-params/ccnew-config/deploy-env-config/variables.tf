@@ -103,6 +103,6 @@ variable "obj_store_region" {
   description = "cloud region"
 }
 
-variable "sc_cidr_block" {
-  description = "cidr block that sc is running in"
+variable "cc_domain" {
+  description = "domain that cc is running in"
 }
