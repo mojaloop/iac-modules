@@ -108,5 +108,4 @@ spec:
     matchLabels:
       app.kubernetes.io/name: ceph-objectstore-exporter
   endpoints:
-  - interval: 1m
-    port: http
+  - port: http
