@@ -2,7 +2,7 @@ loki:
   overrideConfiguration:
     # https://grafana.com/docs/loki/latest/operations/storage/retention/
     server:
-      grpc_server_max_recv_msg_size: 8388608 # TODO parametrize it
+      grpc_server_max_recv_msg_size: 8388608 # 8MB
     compactor:
       retention_enabled: true # enable deletion using compactor
       shared_store: s3
