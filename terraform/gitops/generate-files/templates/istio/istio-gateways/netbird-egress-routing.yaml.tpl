@@ -30,6 +30,17 @@ spec:
   resolution: NONE
 %{ endif ~}
 ---
+apiVersion: netbird.io/v1
+kind: NBSetupKey
+metadata:
+  name: netbird-egress-routing
+  namespace: istio-system
+spec:
+  managementURL: ${netbird_management_url}
+  secretKeyRef:
+    name: ${netbird_setup_key_secret_name}
+    key: ${netbird_setup_key_secret_key}
+---
 # Waypoint proxy for ambient mode egress routing (cross-namespace with netbird sidecar)
 %{ if length(internal_wildcard_hosts) > 0 ~}
 apiVersion: gateway.networking.k8s.io/v1beta1
@@ -39,6 +50,7 @@ metadata:
   namespace: istio-system
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
+    netbird.io/setup-key: netbird-egress-routing
 spec:
   gatewayClassName: istio-waypoint
   listeners:
