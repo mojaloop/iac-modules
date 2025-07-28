@@ -1,7 +1,7 @@
 bulk_enabled: false
 third_party_enabled: false
-mcm_chart_version: 1.2.4
-mojaloop_chart_version: 16.0.0
+mcm_chart_version: 1.3.0
+mojaloop_chart_version: 17.0.2-21488-f282b43
 currency: ${currency}
 ttk_test_currency1: ${currency}
 ttk_test_currency2: USD
