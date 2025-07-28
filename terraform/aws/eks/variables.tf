@@ -389,12 +389,6 @@ variable "cluster_enabled_log_types" {
   description = "List of EKS control plane logging types to enable"
 }
 
-variable "update_launch_template_default_version" {
-  type        = bool
-  default     = false
-  description = "Whether to update the launch template default version"
-}
-
 ###
 # Local copies of variables to allow for parsing
 ###
