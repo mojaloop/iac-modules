@@ -4,7 +4,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
   name: ${netbird_setup_key_secret_name}
-  namespace: ${istio_egress_gateway_namespace}
+  namespace: istio-system
 spec:
   refreshInterval: 5m
 
