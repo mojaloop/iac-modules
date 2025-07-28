@@ -124,6 +124,10 @@ inputs = {
   cloud_platform                           = get_env("cloud_platform")
   netbird_operator_management_url          = local.netbird_operator_management_url
   netbird_operator_api_key_vault_path      = local.netbird_operator_api_key_vault_path
+  velero_plugin_version                    = local.common_vars.velero_plugin_version
+  velero_helm_version                      = local.common_vars.velero_helm_version
+  velero_backup_schedule                   = local.common_vars.velero_backup_schedule
+  velero_backup_ttl                        = local.common_vars.velero_backup_ttl
 }
 
 locals {

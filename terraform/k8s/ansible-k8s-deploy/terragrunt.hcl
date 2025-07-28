@@ -157,11 +157,8 @@ locals {
     kubernetes_oidc_k8s_admin_group  = get_env("KUBERNETES_OIDC_K8S_ADMIN_GROUP")
     cc_cidr_block                    = get_env("CC_CIDR_BLOCK")
     max_pods_per_node                = local.common_vars.max_pods_per_node
-<<<<<<< HEAD
     cluster_name                     = get_env("cluster_name")
-=======
     install_root_app                 = local.env_vars.install_root_app
->>>>>>> ce4987ae0 (introduce install_root_app)
   }
 }
 
