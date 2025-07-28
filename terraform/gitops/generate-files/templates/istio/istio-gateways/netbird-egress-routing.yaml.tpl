@@ -186,7 +186,7 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
-  name: netbird-waypoint
+  name: waypoint
   namespace: istio-system
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
