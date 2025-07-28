@@ -60,3 +60,6 @@ spec:
           value: storage
         - name: "prometheus_remote_write_endpoint"
           value: "https://mimir.${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
+
+        - name: "loki_endpoint"
+          value: "https://loki.${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
