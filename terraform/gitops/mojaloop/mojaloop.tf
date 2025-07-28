@@ -20,6 +20,7 @@ module "generate_mojaloop_files" {
     internal_sim_enabled                                              = var.internal_sim_enabled
     mojaloop_thirdparty_support_enabled                               = var.third_party_enabled
     bulk_enabled                                                      = var.bulk_enabled
+    ttk_dev_mode_enabled                                              = var.ttk_dev_mode_enabled
     ttksims_enabled                                                   = var.ttksims_enabled
     ingress_subdomain                                                 = var.public_subdomain
     quoting_service_simple_routing_mode_enabled                       = var.quoting_service_simple_routing_mode_enabled
@@ -358,6 +359,12 @@ variable "third_party_enabled" {
 
 variable "bulk_enabled" {
   description = "whether bulk is enabled or not"
+  type        = bool
+  default     = false
+}
+
+variable "ttk_dev_mode_enabled" {
+  description = "whether TTK (UI and backend) accessible from outside the cluster"
   type        = bool
   default     = false
 }

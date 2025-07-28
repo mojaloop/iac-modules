@@ -142,7 +142,6 @@ locals {
   cluster_domain                   = "${get_env("cluster_name")}.${get_env("domain")}"
 
   bastion_hosts_var_maps = {
-    cluster_name                  = get_env("cluster_name")
     cluster_domain                = "${get_env("cluster_name")}.${get_env("domain")}"
     eks_aws_secret_access_key     = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
     eks_aws_access_key_id         = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_ACCESS_KEY_ID") : ""

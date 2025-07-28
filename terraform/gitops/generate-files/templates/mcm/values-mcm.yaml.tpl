@@ -11,6 +11,7 @@ api:
   image:
     name: ghcr.io/pm4ml/connection-manager-api
     version: v2.4.0
+  replicaCount: ${mcm_api_replica_count}
   url: https://${mcm_fqdn}
   extraTLS:
     rootCert:

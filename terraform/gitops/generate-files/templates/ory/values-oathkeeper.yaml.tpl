@@ -4,7 +4,7 @@ global:
       maester:
         mode: controller
 # -- Number of ORY Oathkeeper members
-replicaCount: 1
+replicaCount: ${oathkeeper_replica_count}
 
 # -- Full chart name override
 fullnameOverride: "oathkeeper"

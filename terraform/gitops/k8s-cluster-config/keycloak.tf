@@ -4,6 +4,7 @@ module "generate_keycloak_files" {
     keycloak_name                         = var.keycloak_name
     keycloak_operator_version             = var.common_var_map.keycloak_operator_version
     keycloak_namespace                    = var.keycloak_namespace
+    keycloak_replica_count                = try(var.common_var_map.keycloak_replica_count, 1)
     gitlab_project_url                    = var.gitlab_project_url
     keycloak_mysql_database            = try(module.common_stateful_resources.stateful_resources[local.keycloak_mysql_resource_index].logical_service_config.database_name,"")
     keycloak_mysql_user                = try(module.common_stateful_resources.stateful_resources[local.keycloak_mysql_resource_index].logical_service_config.db_username,"")

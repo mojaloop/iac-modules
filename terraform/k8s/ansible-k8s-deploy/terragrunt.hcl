@@ -125,7 +125,6 @@ locals {
     repo_username                = get_env("GITLAB_USERNAME")
     repo_password                = get_env("GITLAB_CI_PAT")
     tenant_vault_token           = get_env("ENV_VAULT_TOKEN")
-    cluster_name                 = get_env("cluster_name")
     netmaker_env_network_name    = get_env("cluster_name")
     cluster_domain               = "${get_env("cluster_name")}.${get_env("domain")}"
     argocd_domain                = local.argocd_oidc_domain

@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 # -- Number of replicas in deployment
-replicaCount: 1
+replicaCount: ${keto_replica_count}
 
 ## -- Secret management
 secret:
