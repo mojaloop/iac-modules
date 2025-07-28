@@ -5,7 +5,7 @@ alloy:
       memory: 256Mi
     limits:
       cpu: 200m
-      memory: 512Mi
+      memory: ${ARGOCD_ENV_alloy_limits_memory}
   # TODO: use parameterized value
   extraConfig: |
     discovery.relabel "pod_logs" {
@@ -70,6 +70,6 @@ alloy:
 
     loki.write "central_loki" {
       endpoint {
-        url = "${ARGOCD_ENV_loki_endpoint}/loki/api/v1/push" 
+        url = "${ARGOCD_ENV_alloy_target_loki_endpoint}/loki/api/v1/push" 
       }
     }
