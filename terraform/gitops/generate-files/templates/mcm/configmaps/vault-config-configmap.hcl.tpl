@@ -51,7 +51,8 @@ metadata:
   name: {{ .Data.host }}
   namespace: ${mojaloop_namespace}
   labels:
-    istio.io/use-waypoint: egress-waypoint
+    istio.io/use-waypoint: waypoint
+    istio.io/use-waypoint-namespace: istio-system
 spec:
   hosts:
   - '{{ .Data.fqdn }}'
