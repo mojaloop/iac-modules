@@ -76,3 +76,10 @@ velero_plugin_version: "v1.12.1"
 velero_helm_version: "10.0.1"
 velero_backup_schedule: "0 0 * * *"
 velero_backup_ttl: "720h0m0s"
+keto_replica_count: 1
+oathkeeper_replica_count: 1
+keycloak_replica_count: 1
+velero_plugin_version: "v1.12.1"
+velero_helm_version: "10.0.1"
+velero_backup_schedule: "0 0 * * *"
+velero_backup_ttl: "720h0m0s"
