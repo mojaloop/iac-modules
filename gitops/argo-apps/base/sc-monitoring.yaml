@@ -61,5 +61,7 @@ spec:
         - name: "prometheus_remote_write_endpoint"
           value: "https://mimir.${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
 
-        - name: "loki_endpoint"
+        - name: "alloy_target_loki_endpoint"
           value: "https://loki.${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
+        - name: "alloy_limits_memory"
+          value: "1024Mi"
