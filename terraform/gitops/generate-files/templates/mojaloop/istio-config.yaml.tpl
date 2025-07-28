@@ -262,6 +262,8 @@ spec:
             host: ${mojaloop_release_name}-account-lookup-service-admin
             port:
               number: 80
+
+%{ if ttk_dev_mode_enabled ~}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -300,6 +302,8 @@ spec:
             host: ${mojaloop_release_name}-ml-testing-toolkit-frontend
             port:
               number: 6060
+%{ endif ~}
+
 ---
 %{ endif ~}
 
@@ -475,3 +479,18 @@ spec:
             paths:
               - /api/*
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
+---
+#adding waypoint for mojaloop ns
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  labels:
+    istio.io/waypoint-for: service
+  name: egress-waypoint
+  namespace: ${mojaloop_namespace}
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE

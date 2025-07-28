@@ -117,14 +117,3 @@ spec:
     id: 15760
     revision: 26
 ---
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: network-quick-view
-spec:
-  folder: kubernetes
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${grafana_dashboard_tag_iac_modules}/assets/grafana-dashboards/network-quick-view.json"
----

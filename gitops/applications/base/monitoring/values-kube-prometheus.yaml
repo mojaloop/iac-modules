@@ -1,9 +1,15 @@
 operator:
   resourcesPreset: small
   logLevel: debug
+  networkPolicy:
+    enabled: false
 alertmanager:
   enabled: false
+  networkPolicy:
+    enabled: false
 prometheus:
+  networkPolicy:
+    enabled: false
   scrapeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
   persistence:
     enabled: true
@@ -21,16 +27,11 @@ prometheus:
   resourcesPreset: ${ARGOCD_ENV_resources_preset_bitnami}
   remoteWrite:
     - name: central-monitoring
-      url: http://central-monitoring-grafana-mimir-gateway/api/v1/push
+      url: ${ARGOCD_ENV_prometheus_remote_write_endpoint}/api/v1/push
       headers:
         X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
       metadataConfig:
         sendInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
-  remoteRead:
-    - name: central-monitoring
-      url: http://central-monitoring-grafana-mimir-gateway/prometheus/api/v1/read
-      headers:
-        X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
 
 
 kubelet:
@@ -83,6 +84,8 @@ kubeApiServer:
   enabled: false
 
 kube-state-metrics:
+  networkPolicy:
+    enabled: false
   serviceMonitor:
     relabelings:
     # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
@@ -102,6 +105,8 @@ kube-state-metrics:
 
 
 node-exporter:
+  networkPolicy:
+    enabled: false
   serviceMonitor:
     relabelings:
       - sourceLabels: [__meta_kubernetes_pod_node_name]

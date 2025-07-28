@@ -21,6 +21,8 @@ dependency "k8s_deploy" {
     bastion_os_username         = "null"
     bastion_public_ip           = "null"
     private_dns_zone_id         = "null"
+    public_subdomain            = "null"
+    internal_load_balancer_dns  = "null"
   }
   skip_outputs = local.skip_outputs
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
@@ -38,6 +40,8 @@ inputs = {
   bastion_hosts = dependency.k8s_deploy.outputs.bastion_hosts
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
     tenant_vault_server_url = "https://${local.vault_fqdn}"
+    internal_load_balancer_dns = dependency.k8s_deploy.outputs.internal_load_balancer_dns
+    public_subdomain = dependency.k8s_deploy.outputs.public_subdomain
   })
   agent_hosts_var_maps          = merge(dependency.k8s_deploy.outputs.agent_hosts_var_maps, local.agent_hosts_var_maps)
   master_hosts_var_maps         = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps)
@@ -123,7 +127,6 @@ locals {
     repo_username                = get_env("GITLAB_USERNAME")
     repo_password                = get_env("GITLAB_CI_PAT")
     tenant_vault_token           = get_env("ENV_VAULT_TOKEN")
-    cluster_name                 = get_env("cluster_name")
     netmaker_env_network_name    = get_env("cluster_name")
     cluster_domain               = "${get_env("cluster_name")}.${get_env("domain")}"
     argocd_domain                = local.argocd_oidc_domain
@@ -155,6 +158,7 @@ locals {
     cc_cidr_block                    = get_env("CC_CIDR_BLOCK")
     max_pods_per_node                = local.common_vars.max_pods_per_node
     install_root_app                 = local.env_vars.install_root_app
+    cluster_name                     = get_env("cluster_name")
   }
 }
 

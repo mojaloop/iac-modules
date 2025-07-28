@@ -99,7 +99,8 @@ management:
         "TrustedHTTPProxies": null,
         "TrustedHTTPProxiesCount": 0,
         "TrustedPeers": null
-      }
+      },
+      "DisableDefaultPolicy": true
     }
   image:
     tag: ${ARGOCD_ENV_netbird_image_version}
@@ -110,8 +111,6 @@ management:
   persistentVolume:
     enabled: false
     size: 5Gi
-  env:
-    NETBIRD_STORE_CONFIG_ENGINE: postgres
   envRaw:
     - name: NETBIRD_CLI_CLIENT_ID
       valueFrom:

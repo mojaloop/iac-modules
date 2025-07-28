@@ -65,3 +65,4 @@ single_zone_az_nodegroup: true
 az_count: 3
 enable_eks_controlplane_logging: false
 install_root_app: true
+update_launch_template_default_version: false

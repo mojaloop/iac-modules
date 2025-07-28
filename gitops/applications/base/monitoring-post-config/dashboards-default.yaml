@@ -123,3 +123,15 @@ spec:
   grafanaCom:
     id: 11527
     revision: 1
+---    
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: network-traffic-analyser
+spec:
+  folder: default
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/assets/grafana-dashboards/network-traffic-analyser.json"
+---

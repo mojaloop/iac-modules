@@ -73,6 +73,17 @@ spec:
               if response_handle:headers():get("X-Powered-By") then
                 response_handle:headers():remove("X-Powered-By");
               end
+              non_legacy_cookies = {};
+              for i = 0, response_handle:headers():getNumValues("Set-Cookie")-1 do
+                cookie = response_handle:headers():getAtIndex("Set-Cookie", i);
+                if cookie and not cookie:find("_LEGACY") then
+                  table.insert(non_legacy_cookies, cookie);
+                end
+              end
+              response_handle:headers():remove("Set-Cookie")
+              for _, cookie in ipairs(non_legacy_cookies) do
+                response_handle:headers():add("Set-Cookie", cookie)
+              end
             end
   workloadSelector:
     labels:

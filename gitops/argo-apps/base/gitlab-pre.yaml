@@ -426,7 +426,6 @@ spec:
           - name: "pgbouncer_expose_type"
             value: "ClusterIP"
 
-
     #praefect db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}

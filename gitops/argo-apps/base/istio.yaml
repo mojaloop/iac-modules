@@ -16,6 +16,12 @@ spec:
       kind: ValidatingWebhookConfiguration
       jqPathExpressions:
         - .webhooks[]?.failurePolicy
+    - group: apps
+      kind: DaemonSet
+      namespace: istio-system
+      jsonPointers:
+        - /metadata/annotations/deprecated.daemonset.template.generation
+        - /spec/template/spec/containers/0/image
   syncPolicy:
     automated:
       prune: true
@@ -79,3 +85,6 @@ spec:
 
         - name: "istio_proxy_log_level"
           value: "${ARGOCD_ENV_utils_istio_proxy_log_level}"
+
+        - name: "istio_ztunnel_log_level"
+          value: "${ARGOCD_ENV_utils_istio_ztunnel_log_level}"

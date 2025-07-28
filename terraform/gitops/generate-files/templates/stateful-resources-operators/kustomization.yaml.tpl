@@ -2,6 +2,19 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - namespace.yaml
+
+patches:
+  - target:
+      kind: Namespace
+      name: ".*strimzi.*" # Matches namespaces with "strimzi" in the name
+    patch: |
+      - op: add
+        path: "/metadata/labels"
+        value: {}
+      - op: add
+        path: "/metadata/labels/opt-out-mesh"
+        value: "true"
+
 helmCharts:
 %{ for stateful_resources_operator in stateful_resources_operators ~}
 - name: ${stateful_resources_operator.helm_chart}

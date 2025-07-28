@@ -53,6 +53,8 @@ module "generate_ory_files" {
     oidc_providers                       = local.oidc_providers
     permissionExclusions                 = local.permissionExclusions
     mojaloopRoles                        = local.mojaloopRoles
+    keto_replica_count                   = try(var.common_var_map.keto_replica_count, 1)
+    oathkeeper_replica_count             = try(var.common_var_map.oathkeeper_replica_count, 1)
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path

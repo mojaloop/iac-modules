@@ -118,12 +118,18 @@ compactor:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  networkPolicy:
+    enabled: false
+
 distributor:
   extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  networkPolicy:
+    enabled: false
+
 ingester:
   resourcesPreset: large
   extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
@@ -131,6 +137,9 @@ ingester:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  networkPolicy:
+    enabled: false
+
 metricsGenerator:
   resourcesPreset: small
   extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
@@ -138,6 +147,9 @@ metricsGenerator:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  networkPolicy:
+    enabled: false
+
 querier:
   resourcesPreset: small
   extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
@@ -145,19 +157,31 @@ querier:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  networkPolicy:
+    enabled: false
+
 queryFrontend:
   extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  networkPolicy:
+    enabled: false
+
 vulture:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  networkPolicy:
+    enabled: false
+
 memcached:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  networkPolicy:
+    enabled: false
+

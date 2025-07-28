@@ -69,6 +69,10 @@ spec:
             host: ${keycloak_name}-service
             port:
               number: 8443
+          headers:
+            response:
+              add:
+                Content-Security-Policy: script-src 'unsafe-inline' 'self';default-src 'self';frame-ancestors 'self' ${keycloak_admin_fqdn}
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -88,6 +92,10 @@ spec:
             host: ${keycloak_name}-service
             port:
               number: 8443
+          headers:
+            response:
+              add:
+                Content-Security-Policy: connect-src 'self' ${keycloak_fqdn};script-src 'unsafe-inline' 'self';style-src 'unsafe-inline' 'self';frame-src ${keycloak_fqdn};default-src 'self'
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -99,4 +107,5 @@ spec:
   trafficPolicy:
     tls:
       mode: SIMPLE
+      insecureSkipVerify: true
 %{ endif ~}
