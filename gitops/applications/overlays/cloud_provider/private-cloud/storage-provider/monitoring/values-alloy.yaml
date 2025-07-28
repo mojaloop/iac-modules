@@ -6,7 +6,6 @@ alloy:
     limits:
       cpu: 200m
       memory: ${ARGOCD_ENV_alloy_limits_memory}
-  # TODO: use parameterized value
   extraConfig: |
     discovery.relabel "pod_logs" {
       targets = discovery.kubernetes.pods.targets
@@ -56,9 +55,15 @@ alloy:
       forward_to = [loki.process.pod_logs.receiver]
     }
 
-
     loki.process "pod_logs" {
       stage.cri {}
+      stage.limit {
+        rate  = 100
+        burst = 500
+        drop  = true
+        by_label_name = "pod"
+      }
+
       stage.static_labels {
           values = {
             cluster = "storage",
