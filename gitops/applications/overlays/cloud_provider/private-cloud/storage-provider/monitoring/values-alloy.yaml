@@ -70,6 +70,6 @@ alloy:
 
     loki.write "central_loki" {
       endpoint {
-        url = "https://loki.int.ccinfra05.drpp-onprem.global/loki/api/v1/push" 
+        url = "${ARGOCD_ENV_loki_endpoint}/loki/api/v1/push" 
       }
     }
