@@ -28,10 +28,8 @@ variable "velero_post_config_sync_wave" {
 
 variable "velero_backup_schedule" {
   type        = string
-  default     = "0 0 * * *"
 }
 
 variable "velero_backup_ttl" {
   type        = string
-  default     = "720h0m0s"
 }
