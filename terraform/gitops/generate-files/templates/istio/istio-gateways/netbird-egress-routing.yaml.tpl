@@ -27,7 +27,23 @@ spec:
 %{ endfor ~}
 %{ endif ~}
   location: MESH_EXTERNAL
-  resolution: NONE
+  resolution: DNS
+%{ endif ~}
+---
+# DestinationRule for Netbird egress gateway traffic policies
+%{ if length(internal_wildcard_hosts) > 0 ~}
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: netbird-egress-gateway-dr
+  namespace: istio-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
+spec:
+  host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
 %{ endif ~}
 ---
 # Gateway for Netbird egress traffic
@@ -102,19 +118,11 @@ spec:
   - match:
     - gateways:
       - mesh
-      headers:
-        ":authority":
-          regex: ".*\\.${replace(internal_wildcard_hosts[0], ".", "\\\\.")}(:[0-9]+)?$"
     route:
     - destination:
         host: ${istio_egress_gateway_name}.${istio_egress_gateway_namespace}.svc.cluster.local
         port:
           number: 80
-    headers:
-      request:
-        set:
-          x-netbird-route: "mesh-to-egress"
-          x-egress-gateway: "${istio_egress_gateway_name}"
   
   # Route HTTP from egress gateway to external destination
   - match:
@@ -125,10 +133,6 @@ spec:
         host: ${internal_wildcard_hosts[0]}
         port:
           number: 80
-    headers:
-      request:
-        set:
-          x-netbird-route: "egress-to-external"
   
   # TCP traffic routing for configured ports
 %{ if length(tcp_ports) > 0 ~}
