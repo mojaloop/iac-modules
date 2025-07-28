@@ -57,35 +57,34 @@ resource "vault_kv_secret_v2" "tempo_bucket_secret_key_id" {
   )
 }
 
+data "kubernetes_secret_v1" "velero_bucket" {
+  metadata {
+      name      = "velero-${var.env_name}-${var.hyphenated_domain}"
+      namespace = var.env_name
+  }
+}
 
-# data "kubernetes_secret_v1" "velero_bucket" {
-#   metadata {
-#       name      = "velero-${var.env_name}-${var.hyphenated_domain}"
-#       namespace = var.env_name
-#   }
-# }
+resource "vault_kv_secret_v2" "velero_bucket_access_key_id" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/velero_bucket_access_key_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = try(data.kubernetes_secret_v1.velero_bucket.data.username, "")
+    }
+  )
+}
 
-# resource "vault_kv_secret_v2" "velero_bucket_access_key_id" {
-#   mount               = var.kv_path
-#   name                = "${var.env_name}/velero_bucket_access_key_id"
-#   delete_all_versions = true
-#   data_json = jsonencode(
-#     {
-#       value = try(data.kubernetes_secret_v1.velero_bucket.data.username, "")
-#     }
-#   )
-# }
-
-# resource "vault_kv_secret_v2" "velero_bucket_secret_key_id" {
-#   mount               = var.kv_path
-#   name                = "${var.env_name}/velero_bucket_secret_key_id"
-#   delete_all_versions = true
-#   data_json = jsonencode(
-#     {
-#       value = try(data.kubernetes_secret_v1.velero_bucket.data.password, "")
-#     }
-#   )
-# }
+resource "vault_kv_secret_v2" "velero_bucket_secret_key_id" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/velero_bucket_secret_key_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = try(data.kubernetes_secret_v1.velero_bucket.data.password, "")
+    }
+  )
+}
 
 data "kubernetes_secret_v1" "percona_bucket" {
   metadata {
