@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${istio_egress_gateway_name}
-  namespace: ${istio_egress_gateway_namespace}
+  name: waypoint
+  namespace: istio-system
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
 spec:
   template:
     spec:
       containers:
-      # This will be merged with the existing istio-proxy container
+      # This will be merged with the existing waypoint proxy container
       - name: istio-proxy
-        # Keep existing istio-proxy configuration
+        # Keep existing waypoint proxy configuration
       # Add Netbird sidecar container
       - name: netbird-sidecar
         image: netbirdio/netbird:${netbird_version}
