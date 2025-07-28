@@ -57,7 +57,6 @@ resource "vault_kv_secret_v2" "tempo_bucket_secret_key_id" {
   )
 }
 
-
 data "kubernetes_secret_v1" "velero_bucket" {
   metadata {
       name      = "velero-${var.env_name}-${var.hyphenated_domain}"
