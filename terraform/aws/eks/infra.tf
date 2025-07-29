@@ -290,6 +290,8 @@ data "template_file" "post_bootstrap_user_data" {
     container_registry_mirrors = join(" ", var.container_registry_mirrors)
     enable_registry_mirror     = var.enable_registry_mirror
     registry_mirror_fqdn       = var.registry_mirror_fqdn
+    docker_registry_username   = var.docker_registry_username
+    docker_registry_password   = var.docker_registry_password
   }
 }
 
