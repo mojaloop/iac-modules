@@ -56,6 +56,8 @@ module "generate_istio_files" {
     internal_wildcard_hosts              = local.internal_wildcard_hosts_list
     # TCP ports configuration for egress routing
     tcp_ports                           = local.tcp_ports_list
+    # Target namespaces for netbird ServiceEntry deployment
+    netbird_target_namespaces           = local.netbird_target_namespaces_list
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -90,6 +92,7 @@ locals {
   # Parse comma-delimited strings into lists for Netbird egress routing
   internal_wildcard_hosts_list = var.internal_wildcard_hosts != "" ? split(",", trimspace(var.internal_wildcard_hosts)) : []
   tcp_ports_list              = var.tcp_ports != "" ? [for port in split(",", trimspace(var.tcp_ports)) : tonumber(trimspace(port))] : []
+  netbird_target_namespaces_list = var.netbird_target_namespaces != "" ? split(",", trimspace(var.netbird_target_namespaces)) : ["istio-system"]
 }
 
 
@@ -199,4 +202,10 @@ variable "tcp_ports" {
   type        = string
   description = "Comma-delimited list of TCP port numbers for internal service routing (e.g., '3306,5432,6379')"
   default     = ""
+}
+
+variable "netbird_target_namespaces" {
+  type        = string
+  description = "Comma-delimited list of namespaces where netbird ServiceEntry should be deployed for selective waypoint routing"
+  default     = "istio-system,argocd,external-secrets,vault"
 }
