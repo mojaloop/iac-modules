@@ -58,8 +58,8 @@ alloy:
     loki.process "pod_logs" {
       stage.cri {}
       stage.limit {
-        rate  = 100
-        burst = 500
+        rate  = ${ARGOCD_ENV_alloy_log_rate_limit_per_pod}
+        burst = ${ARGOCD_ENV_alloy_log_burst_rate_limit_per_pod}
         drop  = true
         by_label_name = "pod"
       }
