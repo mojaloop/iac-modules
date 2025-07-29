@@ -12,5 +12,8 @@ helmCharts:
     releaseName: grafana
     version: ${ARGOCD_ENV_grafana_operator_version}
     repo: https://charts.bitnami.com/bitnami
-    valuesFile: values-grafana-operator.yaml
+    # valuesFile: values-grafana-operator.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
+    valuesInline:
+      grafana:
+        enabled: false
