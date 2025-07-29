@@ -70,7 +70,7 @@ inputs = {
     internal_load_balancer_dns        = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns        = dependency.k8s_deploy.outputs.external_load_balancer_dns
     stunner_nodeport_port             = dependency.k8s_deploy.outputs.target_group_vpn_port
-    cluster_cloud_provider            = local.env_vars.cloud_platform 
+    cluster_cloud_provider            = get_env("cluster_cloud_provider")
     cloud_platform                    = local.env_vars.cloud_platform
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
@@ -117,6 +117,7 @@ inputs = {
     rook_csi_kubelet_dir_path         = local.K8S_CLUSTER_TYPE == "microk8s" ?  "/var/snap/microk8s/common/var/lib/kubelet" : "/var/lib/kubelet"
     eks_name                          = local.eks_name
     cluster_domain                    = local.cluster_domain
+    internal_cluster_domain           = local.internal_cluster_domain
     capi_cluster_proxmox_host_sshkey  = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.ssh_public_key, "")
     cloud_platform                    = get_env("cloud_platform")
     object_storage_provider           = get_env("object_storage_provider")
@@ -134,6 +135,11 @@ inputs = {
   master_node_supports_traffic  = (local.total_agent_count == 0) ? true : false
 }
 
+terraform {
+  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/ansible/cc-k8s-deploy?ref=${get_env("iac_terraform_modules_tag")}"
+  inputs = local.inputs
+}
+
 locals {
   env_vars = yamldecode(
   file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
@@ -146,7 +152,7 @@ locals {
   total_master_count               = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
   eks_name                         = substr("${replace(get_env("cluster_name"), "-", "")}-${replace(get_env("domain"), ".", "-")}", 0, 16)
   cluster_domain                   = "${get_env("cluster_name")}.${get_env("domain")}"
-
+  internal_cluster_domain          = "int.${get_env("cluster_name")}.${get_env("domain")}"
   bastion_hosts_var_maps = {
     cluster_domain                = "${get_env("cluster_name")}.${get_env("domain")}"
     eks_aws_secret_access_key     = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("AWS_SECRET_ACCESS_KEY") : ""
