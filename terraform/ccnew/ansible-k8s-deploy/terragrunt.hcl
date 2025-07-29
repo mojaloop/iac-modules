@@ -70,6 +70,7 @@ inputs = {
     internal_load_balancer_dns        = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     external_load_balancer_dns        = dependency.k8s_deploy.outputs.external_load_balancer_dns
     stunner_nodeport_port             = dependency.k8s_deploy.outputs.target_group_vpn_port
+    cluster_cloud_provider            = local.env_vars.cloud_platform 
     cloud_platform                    = local.env_vars.cloud_platform
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
