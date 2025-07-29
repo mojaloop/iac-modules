@@ -352,7 +352,7 @@ argocd_override:
         nexus:
           helm_version: "${nexus_helm_version}"
           image_version: "${nexus_image_version}"
-          public_ingress_access_domain: "${nexus_public_access}"
+          public_ingress_access_domain: "${nexus_repo_public_access}"
           storage_size: "${nexus_storage_size}"
           cpu_limit: "${nexus_cpu_limit}"
           memory_limit: "${nexus_memory_limit}"
@@ -362,6 +362,8 @@ argocd_override:
           jvm_max_heap_size: "${nexus_jvm_max_heap_size}"
           jvm_additional_memory_options: "${nexus_jvm_additional_memory_options}"
           jvm_additional_options: "${nexus_jvm_additional_options}"
+        ui:
+          public_ingress_access_domain: "${nexus_ui_public_access}"
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
 
