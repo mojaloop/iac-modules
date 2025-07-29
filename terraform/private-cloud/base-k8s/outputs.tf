@@ -11,6 +11,10 @@ output "external_load_balancer_dns" {
   value = var.app_var_map.external_load_balancer_dns
 }
 
+output "external_load_balancer_private_ip" {
+  value = var.app_var_map.external_load_balancer_private_ip
+}
+
 output "private_subdomain" {
   value = var.app_var_map.private_subdomain
 }
