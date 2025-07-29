@@ -135,11 +135,6 @@ inputs = {
   master_node_supports_traffic  = (local.total_agent_count == 0) ? true : false
 }
 
-terraform {
-  source = "git::https://github.com/mojaloop/iac-modules.git//terraform/ansible/cc-k8s-deploy?ref=${get_env("iac_terraform_modules_tag")}"
-  inputs = local.inputs
-}
-
 locals {
   env_vars = yamldecode(
   file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
