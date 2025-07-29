@@ -38,6 +38,7 @@ dependency "k8s_deploy" {
     target_group_vpn_port = 0
     internal_load_balancer_dns = "null"
     external_load_balancer_dns = "null"
+    external_loadbalancer_private_ip = "null"
     internal_k8s_network_cidr = ["none"]
     secrets_key_map = {
       iac_user_cred_id_key = "testkey1"
@@ -58,18 +59,18 @@ inputs = {
   agent_hosts   = dependency.k8s_deploy.outputs.agent_hosts
   bastion_hosts = dependency.k8s_deploy.outputs.bastion_hosts
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
-    dns_public_subdomain         = dependency.k8s_deploy.outputs.public_subdomain
-    dns_private_subdomain        = dependency.k8s_deploy.outputs.private_subdomain
-    internal_ingress_https_port  = dependency.k8s_deploy.outputs.target_group_internal_https_port
-    internal_ingress_http_port   = dependency.k8s_deploy.outputs.target_group_internal_http_port
-    internal_ingress_health_port = dependency.k8s_deploy.outputs.target_group_internal_health_port
-    external_ingress_https_port  = dependency.k8s_deploy.outputs.target_group_external_https_port
-    external_ingress_http_port   = dependency.k8s_deploy.outputs.target_group_external_http_port
-    external_ingress_health_port = dependency.k8s_deploy.outputs.target_group_external_health_port
-    internal_load_balancer_dns   = dependency.k8s_deploy.outputs.internal_load_balancer_dns
-    external_load_balancer_dns   = dependency.k8s_deploy.outputs.external_load_balancer_dns
-    stunner_nodeport_port        = dependency.k8s_deploy.outputs.target_group_vpn_port
-    cloud_platform               = local.env_vars.cloud_platform
+    dns_public_subdomain              = dependency.k8s_deploy.outputs.public_subdomain
+    dns_private_subdomain             = dependency.k8s_deploy.outputs.private_subdomain
+    internal_ingress_https_port       = dependency.k8s_deploy.outputs.target_group_internal_https_port
+    internal_ingress_http_port        = dependency.k8s_deploy.outputs.target_group_internal_http_port
+    internal_ingress_health_port      = dependency.k8s_deploy.outputs.target_group_internal_health_port
+    external_ingress_https_port       = dependency.k8s_deploy.outputs.target_group_external_https_port
+    external_ingress_http_port        = dependency.k8s_deploy.outputs.target_group_external_http_port
+    external_ingress_health_port      = dependency.k8s_deploy.outputs.target_group_external_health_port
+    internal_load_balancer_dns        = dependency.k8s_deploy.outputs.internal_load_balancer_dns
+    external_load_balancer_dns        = dependency.k8s_deploy.outputs.external_load_balancer_dns
+    stunner_nodeport_port             = dependency.k8s_deploy.outputs.target_group_vpn_port
+    cloud_platform                    = local.env_vars.cloud_platform
   })
   agent_hosts_var_maps          = dependency.k8s_deploy.outputs.agent_hosts_var_maps
   master_hosts_var_maps         = dependency.k8s_deploy.outputs.master_hosts_var_maps
@@ -81,9 +82,13 @@ inputs = {
     kubernetes_oidc_enabled = try(local.env_vars.kubernetes_oidc_enabled, false)
     enable_rook_disk_reset = true
     rook_disk_vol = try(local.env_vars.rook_disk_vol, "none")
+    external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps)
-  bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml.tpl", merge({
+  bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml.tpl", merge(
+    (local.K8S_CLUSTER_TYPE == "microk8s") ? {
+      external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
+    } : {}, {
     nexus_ansible_collection_tag      =  local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     netbird_ansible_collection_tag    = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     dns_public_subdomain              = dependency.k8s_deploy.outputs.public_subdomain
