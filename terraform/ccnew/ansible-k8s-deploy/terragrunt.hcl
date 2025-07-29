@@ -38,7 +38,7 @@ dependency "k8s_deploy" {
     target_group_vpn_port = 0
     internal_load_balancer_dns = "null"
     external_load_balancer_dns = "null"
-    external_loadbalancer_private_ip = "null"
+    external_load_balancer_private_ip = "null"
     internal_k8s_network_cidr = ["none"]
     secrets_key_map = {
       iac_user_cred_id_key = "testkey1"
