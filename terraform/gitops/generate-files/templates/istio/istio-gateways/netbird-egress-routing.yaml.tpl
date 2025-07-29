@@ -1,12 +1,22 @@
 # ServiceEntry for wildcard internal domain traffic (ambient mode with waypoint)
+# Dynamic ServiceEntry creation across multiple namespaces for selective waypoint routing
 %{ if length(internal_wildcard_hosts) > 0 ~}
+%{ for namespace in netbird_target_namespaces ~}
+# ServiceEntry in ${namespace} namespace
 apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: netbird-traffic-wildcard
-  namespace: istio-system
+  namespace: ${namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
+  labels:
+%{ if namespace == "istio-system" ~}
+    istio.io/use-waypoint: waypoint
+%{ else ~}
+    istio.io/use-waypoint: waypoint
+    istio.io/use-waypoint-namespace: istio-system
+%{ endif ~}
 spec:
   hosts:
 %{ for host in internal_wildcard_hosts ~}
@@ -28,7 +38,8 @@ spec:
 %{ endif ~}
   location: MESH_EXTERNAL
   resolution: NONE
-%{ endif ~}
+---
+%{ endfor ~}
 ---
 apiVersion: netbird.io/v1
 kind: NBSetupKey
