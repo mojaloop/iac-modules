@@ -106,3 +106,7 @@ variable "obj_store_region" {
 variable "cc_domain" {
   description = "domain that cc is running in"
 }
+
+variable "nexus_readonly_username" {
+  description = "readonly username for nexus"
+}
