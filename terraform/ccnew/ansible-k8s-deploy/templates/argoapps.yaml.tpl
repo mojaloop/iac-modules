@@ -189,6 +189,7 @@ argocd_override:
           cert_manager_cloud_policy: "${cert_manager_cloud_policy}"
           letsencrypt_email: "${letsencrypt_email}"
           dns_cloud_api_region: "${cloud_region}"
+          external_load_balancer_private_ip: "${external_load_balancer_private_ip}"
     xplane_provider_config:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
 
