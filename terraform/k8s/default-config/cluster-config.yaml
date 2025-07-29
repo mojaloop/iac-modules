@@ -64,3 +64,4 @@ enable_eks_controlplane_logging: false
 update_launch_template_default_version: false
 cc_name: "controlcenter" # to be removed when it is added in gitlab group variables
 persistent_volume_reclaim_policy: "Delete" # Delete or Retain
+automated_sync: true

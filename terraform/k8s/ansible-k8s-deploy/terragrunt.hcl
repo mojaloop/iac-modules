@@ -156,6 +156,7 @@ locals {
     cc_cidr_block                    = get_env("CC_CIDR_BLOCK")
     max_pods_per_node                = local.common_vars.max_pods_per_node
     cluster_name                     = get_env("cluster_name")
+    automated_sync                   = get_env("automated_sync") == "true" ? true : false
   }
 }
 
