@@ -36,6 +36,7 @@ if [[ "${enable_registry_mirror}" == "true" && -n "${registry_mirror_fqdn}" ]]; 
 server = "https://$${registry}"
 [host."https://${registry_mirror_fqdn}"]
 capabilities = ["pull", "resolve"]
+authorization = "Basic ${base64encode("${docker_registry_username}:${docker_registry_password}")}"
 EOF
     done
 
