@@ -278,6 +278,15 @@ resource "gitlab_group_variable" "cc_domain" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "nexus_readonly_username" {
+  group             = data.gitlab_group.iac.id
+  key               = "NEXUS_READONLY_USERNAME"
+  value             = var.nexus_readonly_username
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_repository_file" "vault_token_update" {
   for_each       = local.environment_list
   project        = gitlab_project.envs[each.key].id
