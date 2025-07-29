@@ -354,6 +354,16 @@ variable "enable_registry_mirror" {
   type    = bool
   default = false
 }
+variable "docker_registry_username" {
+  type        = string
+  description = "docker registry username"
+  default     = ""
+}
+variable "docker_registry_password" {
+  type        = string
+  description = "docker registry password"
+  default     = ""
+}
 
 variable "single_nat_gateway" {
   type    = bool
