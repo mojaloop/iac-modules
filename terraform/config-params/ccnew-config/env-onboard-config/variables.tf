@@ -131,6 +131,16 @@ variable "hyphenated_domain"  {
   description = "hyphenated domain for the environment"
 }
 
+variable "nexus_readonly_password_secret_name" {
+  description = "name of the secret in k8s for nexus readonly password"
+  default     = "external-docker-nexus-secret"
+}
+
+variable "nexus_readonly_password_secret_namespace" {
+  description = "namespace of the secret in k8s for nexus readonly password"
+  default     = "vault"
+}
+
 locals {
   org_id             = [for org in data.zitadel_org.default : org.id if org.is_default][0]
   netbird_project_id = [for project_id in data.zitadel_projects.netbird.project_ids : project_id][0]

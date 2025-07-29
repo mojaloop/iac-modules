@@ -48,6 +48,8 @@ inputs = {
   all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps,
   {
     registry_mirror_fqdn        = local.NEXUS_FQDN
+    docker_registry_password    = local.NEXUS_READONLY_PASSWORD
+    docker_registry_username    = local.NEXUS_READONLY_USERNAME
   }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.common_vars.microk8s_version, "1.31/stable")
@@ -82,6 +84,8 @@ locals {
   CLUSTER_NAME                     = get_env("cluster_name")
   NEXUS_DOCKER_REPO_LISTENING_PORT = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
   NEXUS_FQDN                       = get_env("NEXUS_FQDN")
+  NEXUS_READONLY_USERNAME          = get_env("NEXUS_READONLY_USERNAME")
+  NEXUS_READONLY_PASSWORD          = get_env("NEXUS_READONLY_PASSWORD")
   GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
   vault_fqdn                       = get_env("VAULT_FQDN")
 
