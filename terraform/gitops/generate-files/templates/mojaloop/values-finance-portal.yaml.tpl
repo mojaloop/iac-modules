@@ -169,6 +169,10 @@ reporting-hub-bop-shell:
       LOGIN_PROVIDER: keycloak
       AUTH_TOKEN_URL: /kratos/sessions/whoami
       AUTH_ENABLED: true
+      REMOTE_1_URL: https://${portal_fqdn}/uis/iam
+      REMOTE_2_URL: https://${portal_fqdn}/uis/transfers
+      REMOTE_3_URL: https://${portal_fqdn}/uis/settlements
+      REMOTE_4_URL: https://${portal_fqdn}/uis/positions
     # images after v2.3.2 use config.json and remotes.json
     config.json:
       AUTH_MOCK_API: 'false'
