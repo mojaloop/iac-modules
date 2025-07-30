@@ -173,6 +173,7 @@ reporting-hub-bop-shell:
       REMOTE_2_URL: https://${portal_fqdn}/uis/transfers
       REMOTE_3_URL: https://${portal_fqdn}/uis/settlements
       REMOTE_4_URL: https://${portal_fqdn}/uis/positions
+  configFiles:
     # images after v2.3.2 use config.json and remotes.json
     config.json:
       AUTH_MOCK_API: 'false'
