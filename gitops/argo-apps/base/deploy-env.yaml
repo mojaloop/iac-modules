@@ -122,3 +122,6 @@ spec:
 
         - name: "cc_domain"
           value: "${ARGOCD_ENV_dns_utils_cr_config_dns_private_subdomain}"
+
+        - name: "nexus_readonly_username"
+          value: "${ARGOCD_ENV_nexus_nexus_readonly_user_name}"
