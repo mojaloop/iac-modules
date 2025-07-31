@@ -189,7 +189,7 @@ reporting-hub-bop-shell:
         appComponent: App
         baseUrl: https://${portal_fqdn}/uis/iam
         url: https://${portal_fqdn}/uis/iam/app.js
-        appName: reporting_hub_bop_role_ui"
+        appName: reporting_hub_bop_role_ui
       transfers:
         path: /transfers
         label: Transfers
@@ -197,7 +197,7 @@ reporting-hub-bop-shell:
         appComponent: App
         baseUrl: https://${portal_fqdn}/uis/transfers
         url: https://${portal_fqdn}/uis/transfers/app.js
-        appName: reporting_hub_bop_trx_ui"
+        appName: reporting_hub_bop_trx_ui
       settlements:
         path: /settlements
         label: Settlements
@@ -205,7 +205,7 @@ reporting-hub-bop-shell:
         appComponent: App
         baseUrl: https://${portal_fqdn}/uis/settlements
         url: https://${portal_fqdn}/uis/settlements/app.js
-        appName: reporting_hub_bop_settlements_ui"
+        appName: reporting_hub_bop_settlements_ui
       positions:
         path: /positions
         label: Financial Positions
@@ -213,7 +213,7 @@ reporting-hub-bop-shell:
         appComponent: App
         baseUrl: https://${portal_fqdn}/uis/positions
         url: https://${portal_fqdn}/uis/positions/app.js
-        appName: reporting_hub_bop_positions_ui"
+        appName: reporting_hub_bop_positions_ui
 
 ### Micro-frontends
 reporting-hub-bop-role-ui:
