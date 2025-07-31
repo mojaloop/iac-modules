@@ -103,4 +103,4 @@ spec:
     ccK8sProviderName: kubernetes-provider
     awsProviderName: aws-cp-upbound-provider-config
   managementPolicies:
-    - "*"
+    - "Observe"
