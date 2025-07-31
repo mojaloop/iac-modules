@@ -172,6 +172,7 @@ reporting-hub-bop-shell:
   configFiles:
     # images after v2.3.2 use config.json and remotes.json
     config.json:
+      AUTH_API_BASE_URL: ''
       AUTH_MOCK_API: 'false'
       REMOTE_API_BASE_URL: ''
       REMOTE_MOCK_API: 'false'
