@@ -40,6 +40,7 @@ spec:
   resolution: NONE
 ---
 %{ endfor ~}
+%{ endif ~}
 ---
 apiVersion: netbird.io/v1
 kind: NBSetupKey
