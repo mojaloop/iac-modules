@@ -61,4 +61,4 @@ spec:
     scK8sProviderName: sc-kubernetes-provider
     ccK8sProviderName: kubernetes-provider
   managementPolicies:
-    - "*"
+    - "Observe"
