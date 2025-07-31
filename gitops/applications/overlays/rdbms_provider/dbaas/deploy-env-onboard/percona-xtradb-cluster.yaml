@@ -4,8 +4,6 @@ metadata:
   name: "${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}"
   namespace: ${ARGOCD_ENV_namespace}
 spec:
-  managementPolicies:
-    - "Observe"
   parameters:
     clusterName: ${ARGOCD_ENV_percona_cluster_name}
     externalServiceName: ${ARGOCD_ENV_externalservice_name}
@@ -103,4 +101,4 @@ spec:
     ccK8sProviderName: kubernetes-provider
     awsProviderName: aws-cp-upbound-provider-config
   managementPolicies:
-    - "*"
+    - "Observe"
