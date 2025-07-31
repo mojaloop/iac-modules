@@ -23,6 +23,7 @@ dependency "k8s_deploy" {
     private_dns_zone_id         = "null"
     public_subdomain            = "null"
     internal_load_balancer_dns  = "null"
+    external_load_balancer_private_ip = "null"
   }
   skip_outputs = local.skip_outputs
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
@@ -50,9 +51,13 @@ inputs = {
     registry_mirror_fqdn        = local.NEXUS_FQDN
     docker_registry_password    = local.NEXUS_READONLY_PASSWORD
     docker_registry_username    = local.NEXUS_READONLY_USERNAME
+    cluster_cloud_provider      = local.CLOUD_PLATFORM
+    vpc_cidr                    = local.private_network_cidr
+
   }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.common_vars.microk8s_version, "1.31/stable")
+    external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
@@ -70,7 +75,6 @@ inputs = {
   managed_stateful_resources_config_file   = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
   platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
-
 }
 
 locals {
@@ -88,7 +92,8 @@ locals {
   NEXUS_READONLY_PASSWORD          = get_env("NEXUS_READONLY_PASSWORD")
   GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
   vault_fqdn                       = get_env("VAULT_FQDN")
-
+  CLOUD_PLATFORM                   = get_env("cloud_platform")
+  private_network_cidr             = "${get_env("vpc_cidr")}"
   private_subdomain                = "int.${get_env("cluster_name")}.${get_env("domain")}"
   argocd_oidc_domain               = local.private_subdomain
 
