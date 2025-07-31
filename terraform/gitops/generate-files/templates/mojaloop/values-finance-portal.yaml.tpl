@@ -220,19 +220,23 @@ reporting-hub-bop-role-ui:
   enabled: true
   ingress:
     enabled: false
-  config:
-    env:
-      REACT_APP_API_BASE_URL: https://${portal_fqdn}/api/iam
-      REACT_APP_MOCK_API: false
+  configFiles:
+    runtime-env.js: |
+      window.transferEnv = {
+        REACT_APP_API_BASE_URL: 'https://${portal_fqdn}/api/iam',
+        REACT_APP_MOCK_API: 'false'
+      };
 
 reporting-hub-bop-trx-ui:
   enabled: true
   ingress:
     enabled: false
-  config:
-    env:
-      REACT_APP_API_BASE_URL: https://${portal_fqdn}/api/transfers
-      REACT_APP_MOCK_API: false
+  configFiles:
+    runtime-env.js: |
+      window.transferEnv = {
+        REACT_APP_API_BASE_URL: 'https://${portal_fqdn}/api/transfers',
+        REACT_APP_MOCK_API: 'false'
+      };
 
 reporting-hub-bop-settlements-ui:
   ## Overriding the image version for bugfix related to https://modusbox.atlassian.net/browse/MBP-639
@@ -241,20 +245,24 @@ reporting-hub-bop-settlements-ui:
     repository: mojaloop/reporting-hub-bop-settlements-ui
     tag: v0.0.19-snapshot.2
   enabled: true
-  config:
-    env:
-      CENTRAL_LEDGER_ENDPOINT: https://${portal_fqdn}/api/central-admin
-      CENTRAL_SETTLEMENTS_ENDPOINT: https://${portal_fqdn}/api/central-settlements
-      REPORTING_API_ENDPOINT: https://${portal_fqdn}/api/transfers
-      REPORTING_TEMPLATE_API_ENDPOINT: https://${portal_fqdn}/api/reports/report-bilateral-settlement
+  configFiles:
+    runtime-env.js: |
+      window.settlementEnv = {
+        CENTRAL_LEDGER_ENDPOINT: 'https://${portal_fqdn}/api/central-admin',
+        CENTRAL_SETTLEMENTS_ENDPOINT: 'https://${portal_fqdn}/api/central-settlements',
+        REPORTING_API_ENDPOINT: 'https://${portal_fqdn}/api/transfers',
+        REPORTING_TEMPLATE_API_ENDPOINT: 'https://${portal_fqdn}/api/reports/report-bilateral-settlement'
+      };
   ingress:
     enabled: false
 
 
 reporting-hub-bop-positions-ui:
   enabled: true
-  config:
-    env:
-      CENTRAL_LEDGER_ENDPOINT: https://${portal_fqdn}/api/central-admin
+  configFiles:
+    runtime-env.js: |
+      window.positionsEnv = {
+        CENTRAL_LEDGER_ENDPOINT: 'https://${portal_fqdn}/api/central-admin'
+      };
   ingress:
     enabled: false
