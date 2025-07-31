@@ -4,6 +4,8 @@ metadata:
   name: ${ARGOCD_ENV_db_name}
   namespace: ${ARGOCD_ENV_namespace}
 spec:
+  managementPolicies:
+    - "Observe"
   parameters:
     clusterName: ${ARGOCD_ENV_cluster_name}
     externalServiceName: ${ARGOCD_ENV_externalservice_name}
