@@ -42,6 +42,7 @@ module "generate_ory_files" {
     istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name
     istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
     bof_chart_version                    = try(var.app_var_map.bof_chart_version, var.bof_chart_version)
+    security_role_chart_version          = try(var.app_var_map.security_role_chart_version, var.security_role_chart_version)
     bof_release_name                     = local.bof_release_name
     vault_secret_key                     = var.vault_secret_key
     role_assign_svc_secret_name          = join("$", ["", "{${replace(var.role_assign_svc_secret, "-", "_")}}"])
@@ -113,7 +114,12 @@ variable "keycloak_hubop_realm_name" {
 }
 variable "bof_chart_version" {
   type    = string
-  default = "5.1.0"
+  default = "5.1.1"
+}
+
+variable "security_role_chart_version" {
+  type    = string
+  default = "2.1.10"
 }
 
 variable "rbac_permissions_file" {
