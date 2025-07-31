@@ -269,6 +269,15 @@ resource "gitlab_group_variable" "cc_cidr_block" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "sc_cidr_block" {
+  group             = data.gitlab_group.iac.id
+  key               = "SC_CIDR_BLOCK"
+  value             = var.sc_cloud_provider == "private-cloud" ? var.sc_cidr_block : ""
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_group_variable" "cc_domain" {
   group             = data.gitlab_group.iac.id
   key               = "CC_DOMAIN"
