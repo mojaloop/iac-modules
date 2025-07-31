@@ -42,6 +42,10 @@ spec:
         value: ${ARGOCD_ENV_kubernetes_oidc_groups_claim}
       - key: cc_cidr_block
         value: ${ARGOCD_ENV_cc_cidr_block}
+      - key: sc_cidr_block
+        value: ${ARGOCD_ENV_sc_cidr_block}
+      - key: sc_cloud_provider
+        value: ${ARGOCD_ENV_sc_cloud_provider}
       - key: env_token_ttl
         value: ${ARGOCD_ENV_env_token_ttl}
       - key: cc_domain
