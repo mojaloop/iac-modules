@@ -222,7 +222,7 @@ reporting-hub-bop-role-ui:
     enabled: false
   configFiles:
     runtime-env.js: |
-      window.transferEnv = {
+      window.roleEnv = {
         REACT_APP_API_BASE_URL: 'https://${portal_fqdn}/api/iam',
         REACT_APP_MOCK_API: 'false'
       };
