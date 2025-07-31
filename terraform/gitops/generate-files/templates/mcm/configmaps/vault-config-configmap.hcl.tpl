@@ -127,6 +127,8 @@ spec:
               - key: cli-add-dfsp-environment.json
                 path: cli-add-dfsp-environment.json
             defaultMode: 420
+        - name: tmp
+          emptyDir: {}
 
       containers:
         - name: ml-ttk-add-dfsp
@@ -143,9 +145,9 @@ spec:
               https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${onboarding_collection_tag}.zip
               -O downloaded-test-collections.zip;
 
-              mkdir tmp_test_cases;
+              mkdir /tmp/test_cases;
 
-              unzip -d tmp_test_cases -o downloaded-test-collections.zip;
+              unzip -d /tmp/test_cases -o downloaded-test-collections.zip;
 
               fxp_currencies="{{ .Data.fxpCurrencies }}"
 
@@ -154,7 +156,7 @@ spec:
                 npm run cli -- \
                   -c cli-add-dfsp-config.json \
                   -e cli-add-dfsp-environment.json \
-                  -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_dfsp.json \
+                  -i /tmp/test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_dfsp.json \
                   -u http://moja-ml-testing-toolkit-backend:5050 \
                   --report-format html \
                   --report-auto-filename-enable true \
@@ -172,7 +174,7 @@ spec:
                   npm run cli -- \
                     -c cli-add-dfsp-config.json \
                     -e fxp.json \
-                    -i tmp_test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_fxp.json \
+                    -i /tmp/test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_fxp.json \
                     -u http://moja-ml-testing-toolkit-backend:5050 \
                     --report-format html \
                     --report-auto-filename-enable true \
@@ -193,6 +195,9 @@ spec:
           envFrom:
             - secretRef:
                 name: moja-ml-ttk-test-setup-aws-creds
+          env:
+            - name: NPM_CONFIG_UPDATE_NOTIFIER
+              value: "false"
           resources: {}
           volumeMounts:
             - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
@@ -201,13 +206,16 @@ spec:
             - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
               mountPath: /opt/app/cli-add-dfsp-config.json
               subPath: cli-add-dfsp-config.json
+            - name: tmp
+              mountPath: /tmp
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
       restartPolicy: Never
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
-      securityContext: {}
+      securityContext:
+        readOnlyRootFilesystem: true
       schedulerName: default-scheduler
   completionMode: NonIndexed
   suspend: false
