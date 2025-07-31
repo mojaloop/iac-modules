@@ -94,6 +94,14 @@ variable "cc_cidr_block" {
   description = "cidr block that cc is running in"
 }
 
+variable "sc_cidr_block" {
+  description = "cidr block that sc is running in"
+}
+
+variable "sc_cloud_provider" {
+  description = "cloud provider that sc is running in"
+}
+
 variable "env_token_ttl" {
   type        = string
   description = "time to live for the env token"
