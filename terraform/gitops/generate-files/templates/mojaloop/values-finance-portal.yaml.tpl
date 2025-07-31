@@ -181,28 +181,32 @@ reporting-hub-bop-shell:
       LOGOUT_URL: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
       AUTH_TOKEN_URL: /kratos/sessions/whoami
     remotes.json:
-      - path: /iam
+      roles:
+        path: /iam
         label: Roles
         menuComponent: Menu
         appComponent: App
         baseUrl: https://${portal_fqdn}/uis/iam
         url: https://${portal_fqdn}/uis/iam/app.js
         appName: reporting_hub_bop_role_ui"
-      - path: /transfers
+      transfers:
+        path: /transfers
         label: Transfers
         menuComponent: Menu
         appComponent: App
         baseUrl: https://${portal_fqdn}/uis/transfers
         url: https://${portal_fqdn}/uis/transfers/app.js
         appName: reporting_hub_bop_trx_ui"
-      - path: /settlements
+      settlements:
+        path: /settlements
         label: Settlements
         menuComponent: Menu
         appComponent: App
         baseUrl: https://${portal_fqdn}/uis/settlements
         url: https://${portal_fqdn}/uis/settlements/app.js
         appName: reporting_hub_bop_settlements_ui"
-      - path: /positions
+      positions:
+        path: /positions
         label: Financial Positions
         menuComponent: Menu
         appComponent: App
