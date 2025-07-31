@@ -525,6 +525,7 @@ argocd_override:
           cloud_platform: "${cloud_platform}"
           cloud_region: "${cloud_region}"
           dns_zone_id: "${private_dns_zone_id}"
+          dbaas_default_management_policy: "${dbaas_default_management_policy}"
         onboard_common_platform_db_rds_provider:
           rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
           rdbms_azs: "${join(",", rdbms_azs)}"
