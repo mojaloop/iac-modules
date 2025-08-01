@@ -23,5 +23,5 @@ patches:
           name: HARBOR_ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
-              secretName: harbor-secret
+              name: harbor-secret
               key: harbor-password
