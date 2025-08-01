@@ -143,11 +143,11 @@ spec:
 
               wget
               https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${onboarding_collection_tag}.zip
-              -O downloaded-test-collections.zip;
+              -O /tmp/downloaded-test-collections.zip;
 
               mkdir /tmp/test_cases;
 
-              unzip -d /tmp/test_cases -o downloaded-test-collections.zip;
+              unzip -d /tmp/test_cases -o /tmp/downloaded-test-collections.zip;
 
               fxp_currencies="{{ .Data.fxpCurrencies }}"
 
