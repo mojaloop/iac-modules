@@ -56,3 +56,11 @@ spec:
             host: harbor-registry
             port:
               number: 5000
+    - match:
+        - uri:
+            prefix: /service/
+      route:
+        - destination:
+            host: harbor-core
+            port:
+              number: 80
