@@ -69,29 +69,3 @@ spec:
         - name: "harbor_storage_size"
           value: "${ARGOCD_ENV_harbor_harbor_storage_size}"
 
-        - name: "harbor_cpu_limit"
-          value: "${ARGOCD_ENV_harbor_harbor_cpu_limit}"
-
-        - name: "harbor_memory_limit"
-          value: "${ARGOCD_ENV_harbor_harbor_memory_limit}"
-
-        - name: "harbor_cpu_request"
-          value: "${ARGOCD_ENV_harbor_harbor_cpu_request}"
-
-        - name: "harbor_memory_request"
-          value: "${ARGOCD_ENV_harbor_harbor_memory_request}"
-
-        - name: "harbor_image_version"
-          value: "${ARGOCD_ENV_harbor_harbor_image_version}"
-
-        - name: "harbor_jvm_min_heap_size"
-          value: "${ARGOCD_ENV_harbor_harbor_jvm_min_heap_size}"
-
-        - name: "harbor_jvm_max_heap_size"
-          value: "${ARGOCD_ENV_harbor_harbor_jvm_max_heap_size}"
-
-        - name: "harbor_jvm_additional_memory_options"
-          value: "${ARGOCD_ENV_harbor_harbor_jvm_additional_memory_options}"
-
-        - name: "harbor_jvm_additional_options"
-          value: "${ARGOCD_ENV_harbor_harbor_jvm_additional_options}"
