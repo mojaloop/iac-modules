@@ -9,13 +9,20 @@ spec:
   hosts:
     - "harbor.${ARGOCD_ENV_harbor_ui_dns_subdomain}"
   http:
+
+    - match:
+        - uri:
+            prefix: /v2/
+      route:
+        - destination:
+            host: harbor-registry
+            port:
+              number: 5000
     - match:
         - uri:
             prefix: /api/
         - uri:
             prefix: /c/
-        - uri:
-            prefix: /v2/
       route:
         - destination:
             host: harbor-core
@@ -43,9 +50,9 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /
+            prefix: /v2/
       route:
         - destination:
-            host: harbor-core
+            host: harbor-registry
             port:
               number: 5000
