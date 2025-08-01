@@ -58,7 +58,16 @@ spec:
               number: 5000
     - match:
         - uri:
-            prefix: /service/
+            prefix: /service/token
+      route:
+        - destination:
+            host: harbor-core
+            port:
+              number: 80
+
+    - match:
+        - uri:
+            prefix: /
       route:
         - destination:
             host: harbor-core
