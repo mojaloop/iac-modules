@@ -16,18 +16,32 @@ spec:
             - /bin/sh
             - -c
             - |
+              # Echo start of the script
+              echo "Starting MySQL database initialization script..."
               # Loop until a successful connection is made
+              echo "Waiting for MySQL server to become available..."
               until mysql -h ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local -P ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port} -u ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username} -p$${MYSQL_MASTER_PASSWORD} --ssl-ca="/etc/mysql/certs/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}" --ssl-mode=VERIFY_CA -e "SELECT 1" &>/dev/null; do
                 echo "MySQL is unavailable or connection failed - sleeping for 5 seconds..."
                 sleep 5
               done
+              echo "Connection to MySQL established successfully!"
 
-              mysql -h ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local -P ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port} -u ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username} -p$${MYSQL_MASTER_PASSWORD}   --ssl-ca="/etc/mysql/certs/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}" --ssl-mode=VERIFY_CA -e "
+              echo "Creating database and user with appropriate permissions..."
+
+              mysql -h ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local -P ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port} -u ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username} -p$${MYSQL_MASTER_PASSWORD}    --ssl-ca="/etc/mysql/certs/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}" --ssl-mode=VERIFY_CA -e "
               CREATE DATABASE IF NOT EXISTS ${managed_stateful_resource.logical_service_config.database_name};
               CREATE USER IF NOT EXISTS '${managed_stateful_resource.logical_service_config.db_username}'@'%' IDENTIFIED WITH mysql_native_password BY '$${MYSQL_PASSWORD}';
-              ALTER USER '${managed_stateful_resource.logical_service_config.db_username}'@'%' IDENTIFIED WITH mysql_native_password BY '$${MYSQL_PASSWORD}'  REQUIRE SSL;
               GRANT ALL PRIVILEGES ON ${managed_stateful_resource.logical_service_config.database_name}.* TO '${managed_stateful_resource.logical_service_config.db_username}'@'%';
               FLUSH PRIVILEGES;"
+              echo "Database, user, and permissions created successfully!"
+
+              echo "Altering user..."
+
+              mysql -h ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local -P ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port} -u ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username} -p$${MYSQL_MASTER_PASSWORD}    --ssl-ca="/etc/mysql/certs/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}" --ssl-mode=VERIFY_CA -e "
+              ALTER USER '${managed_stateful_resource.logical_service_config.db_username}'@'%' IDENTIFIED WITH mysql_native_password BY '$${MYSQL_PASSWORD}' REQUIRE SSL;
+              echo "Database user altered successfully!"
+
+              echo "Script finished."
           env:
             - name: MYSQL_PASSWORD
               valueFrom:
