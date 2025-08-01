@@ -5,7 +5,7 @@ metadata:
   namespace: ${namespace}
 spec:
   parameters:
-    clusterName: ${cluster_name}
+    clusterName: ${db_cluster_name}
     externalServiceName: ${externalservice_name}
     appNamespace: ${appNamespace}
     scAppNamespace: ${cluster_name}
