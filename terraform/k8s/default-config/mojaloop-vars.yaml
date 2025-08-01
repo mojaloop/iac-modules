@@ -107,11 +107,11 @@ workload_definitions:
                   values:
                     - "enabled"
 
-smtp_host: "localhost"
-smtp_port: 587
+smtp_host: "mailhog.mailhog.svc.cluster.local"
+smtp_port: 1025
 smtp_ssl: false
-smtp_starttls: true
+smtp_starttls: false
 smtp_auth: false
-smtp_from: "noreply@mojaloop.io"
-smtp_from_display_name: "Mojaloop"
-smtp_reply_to: "noreply@mojaloop.io"
+smtp_from: "mailer@sw005.hub005.yevhen.io"
+smtp_from_display_name: "Mojaloop Hub"
+smtp_reply_to: "noreply@sw005.hub005.yevhen.io"

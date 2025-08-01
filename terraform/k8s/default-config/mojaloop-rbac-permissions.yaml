@@ -490,6 +490,14 @@ roles:
   - monetaryZonesView
   - iamView
   - iamEdit
+  - mailhogAccess
+
+# Infrastructure admin role  
+- rolename: techops-admin
+  permissions:
+  # Platform administration access
+  - basicAccess
+  - mailhogAccess
 
 permission-exclusions:
 - name: audit-exclusion
