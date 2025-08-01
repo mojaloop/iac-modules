@@ -14,7 +14,7 @@ spec:
             prefix: /
       route:
         - destination:
-            host: harbor-core
+            host: harbor-portal
             port:
               number: 80
 ---
