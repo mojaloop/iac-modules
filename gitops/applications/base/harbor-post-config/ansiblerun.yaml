@@ -1,0 +1,21 @@
+apiVersion: ansible.crossplane.io/v1alpha1
+kind: AnsibleRun
+metadata:
+  name: ${ARGOCD_ENV_harbor_post_config_app_name}
+  namespace: ${ARGOCD_ENV_harbor_namespace}  
+spec:
+  providerConfigRef:
+    name: ${ARGOCD_ENV_harbor_post_config_app_name}
+  forProvider:
+    inventories:
+      - source: Secret
+        secretRef:
+          namespace: ${ARGOCD_ENV_harbor_namespace}  
+          name: harbor-ansible-secret-vars
+          key: inventory
+    playbookInline: |
+      ---
+      - hosts: all
+        roles:
+         - mojaloop.iac.harbor
+        connection: local        

@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_harbor_argocd_app_name}-post-config
+  namespace: ${ARGOCD_ENV_harbor_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_harbor_post_config_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_harbor_app_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_harbor_application_gitrepo_tag}
+    path: gitops/applications/base/harbor-post-config
+    plugin:
+      name: envsubst
+      env:
+        - name: "harbor_namespace"
+          value: "${ARGOCD_ENV_harbor_harbor_namespace}"
+
+        - name: "harbor_post_config_app_name"
+          value: "${ARGOCD_ENV_harbor_post_config_app_name}"
+
+        - name: "harbor_ansible_collection_tag"
+          value: ${ARGOCD_ENV_harbor_post_config_ansible_collection_tag}
+
+        - name: "harbor_ansible_repo_url"
+          value: ${ARGOCD_ENV_ansible_gitrepo_url}
