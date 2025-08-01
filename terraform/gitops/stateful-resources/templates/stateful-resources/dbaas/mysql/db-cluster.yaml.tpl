@@ -4,8 +4,6 @@ metadata:
   name: "${cluster_name}-${dbdeploy_name_prefix}"
   namespace: "${namespace}"
 spec:
-  managementPolicies:
-    - "Observe"
   parameters:
     clusterName: "${cluster_name}-${dbdeploy_name_prefix}-mysql"
     externalServiceName: ${externalservice_name}
