@@ -155,6 +155,11 @@ nexus_jvm_max_heap_size: "6144m"
 nexus_jvm_additional_memory_options: "-XX:MaxDirectMemorySize=1g"
 nexus_jvm_additional_options: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
 
+harbor_helm_version: 1.17.1
+harbor_ui_public_access: false
+harbor_repo_public_access: true
+harbor_storage_size: 80Gi
+
 zitadel_public_access: true
 argocd_admin_rbac_group: "argocd_administrators"
 argocd_user_rbac_group: "argocd_users"
