@@ -11,6 +11,18 @@ spec:
   http:
     - match:
         - uri:
+            prefix: /api/
+        - uri:
+            prefix: /c/
+        - uri:
+            prefix: /v2/
+      route:
+        - destination:
+            host: harbor-core
+            port:
+              number: 80
+    - match:
+        - uri:
             prefix: /
       route:
         - destination:
