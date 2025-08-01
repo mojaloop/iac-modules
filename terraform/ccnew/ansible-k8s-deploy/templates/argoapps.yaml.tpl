@@ -381,7 +381,7 @@ argocd_override:
       sub_apps:
         harbor:
           helm_version: "${harbor_helm_version}"
-=         public_ingress_access_domain: "${harbor_repo_public_access}"
+          public_ingress_access_domain: "${harbor_repo_public_access}"
           storage_size: "${harbor_storage_size}"
         ui:
           public_ingress_access_domain: "${harbor_ui_public_access}"
