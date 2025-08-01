@@ -90,8 +90,9 @@ inputs = {
     (local.K8S_CLUSTER_TYPE == "microk8s") ? {
       external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
     } : {}, {
-    nexus_ansible_collection_tag      =  local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
+    nexus_ansible_collection_tag      = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     netbird_ansible_collection_tag    = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
+    harbor_ansible_collection_tag     = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     dns_public_subdomain              = dependency.k8s_deploy.outputs.public_subdomain
     dns_private_subdomain             = dependency.k8s_deploy.outputs.private_subdomain
     internal_ingress_https_port       = dependency.k8s_deploy.outputs.target_group_internal_https_port
