@@ -186,7 +186,7 @@ resource "local_file" "dbaas-crs-mysql" {
   for_each = { for key, stateful_resource in local.monolith_env_mysql_dbaas_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/dbaas/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
-        cluster_name                 = var.cluster_name
+        cluster_name                 = each.value.dbaas_resource_config.cluster_name
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         namespace                    = each.value.resource_namespace
         appNamespace                 = each.value.resource_namespace
@@ -195,6 +195,7 @@ resource "local_file" "dbaas-crs-mysql" {
         cr_version                   = each.value.dbaas_resource_config.cr_version
         db_username                  = each.value.external_resource_config.username
         db_secret                    = each.value.external_resource_config.master_user_password_secret
+        db_source_secret             = each.value.external_resource_config.db_source_secret
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
         externalservice_name         = each.value.externalservice_name
         db_name                      = each.value.external_resource_config.db_name
@@ -223,6 +224,7 @@ resource "local_file" "dbaas-crs-mysql" {
         backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
         backup_retention             = each.value.dbaas_resource_config.backup_retention
         dns_name                     = each.value.externalservice_name
+        management_policy            = each.value.dbaas_resource_config.management_policy
         cloud_region                 = var.cloud_region
         dns_zone_id                  = var.private_dns_zone_id
         cc_name                      = var.cc_name
@@ -234,7 +236,7 @@ resource "local_file" "dbaas-crs-mongodb" {
   for_each = { for key, stateful_resource in local.monolith_env_mongo_dbaas_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/dbaas/${each.value.resource_type}/db-cluster.yaml.tpl",
     {
-        cluster_name                 = var.cluster_name
+        cluster_name                 = each.value.dbaas_resource_config.cluster_name
         externalservice_name         = each.value.externalservice_name
         appNamespace                 = each.value.resource_namespace
         consumer_app_externalname_services = jsonencode(local.consumer_app_externalname_services[each.key])
@@ -243,6 +245,7 @@ resource "local_file" "dbaas-crs-mongodb" {
         cr_version                   = each.value.dbaas_resource_config.cr_version
         image                        = each.value.dbaas_resource_config.image
         db_secret                    = each.value.external_resource_config.master_user_password_secret
+        db_source_secret             = each.value.external_resource_config.db_source_secret
         backup_enabled               = each.value.dbaas_resource_config.backup_enabled
         backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
         backup_image                 = each.value.dbaas_resource_config.backup_image
@@ -274,6 +277,7 @@ resource "local_file" "dbaas-crs-mongodb" {
         mongos_requests_memory       = each.value.dbaas_resource_config.mongos_requests_memory
         dbdeploy_name_prefix         = each.value.external_resource_config.dbdeploy_name_prefix
         db_username                  = each.value.external_resource_config.username
+        management_policy            = each.value.dbaas_resource_config.management_policy
         image                        = each.value.dbaas_resource_config.image
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
         cloud_region                 = var.cloud_region

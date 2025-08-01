@@ -5,7 +5,7 @@ metadata:
   namespace: ${namespace}
 spec:
   parameters:
-    clusterName: "${cluster_name}-${dbdeploy_name_prefix}-mongodb"
+    clusterName: ${cluster_name}
     externalServiceName: ${externalservice_name}
     appNamespace: ${appNamespace}
     scAppNamespace: ${cluster_name}
@@ -13,6 +13,7 @@ spec:
     image: ${image}
     imagePullPolicy: IfNotPresent
     dbSecret: ${db_secret}
+    dbsourceSecret: ${db_source_secret}
     consumerAppsExternalServices: ${consumer_app_externalname_services}
     consumerAppsSecret:
         name: ${consumer_app_secret.ca_bundle_secret}
@@ -103,4 +104,4 @@ spec:
     ccK8sProviderName: kubernetes-provider
     awsProviderName: aws-cp-upbound-provider-config
   managementPolicies:
-    - "Observe"
+    - "${management_policy}"

@@ -5,12 +5,13 @@ metadata:
   namespace: "${namespace}"
 spec:
   parameters:
-    clusterName: "${cluster_name}-${dbdeploy_name_prefix}-mysql"
+    clusterName: ${cluster_name}
     externalServiceName: ${externalservice_name}
     appNamespace: ${appNamespace}
     scAppNamespace: ${cluster_name}
     crVersion: ${cr_version}
     dbSecret: ${db_secret}
+    dbsourceSecret: ${db_source_secret}
     dbUsername: ${db_username}
     dbName: "${db_name}"
     consumerAppsExternalServices: ${consumer_app_externalname_services}
@@ -106,4 +107,4 @@ spec:
     ccK8sProviderName: kubernetes-provider
     awsProviderName: aws-cp-upbound-provider-config
   managementPolicies:
-    - "Observe"
+    - "${management_policy}"
