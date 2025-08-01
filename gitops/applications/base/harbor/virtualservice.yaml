@@ -1,0 +1,39 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: harbor-ui
+  namespace: ${ARGOCD_ENV_harbor_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_harbor_ui_istio_gateway_namespace}/${ARGOCD_ENV_harbor_ui_istio_wildcard_gateway_name}
+  hosts:
+    - "harbor.${ARGOCD_ENV_harbor_ui_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: harbor-core
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: harbor-registry
+  namespace: ${ARGOCD_ENV_harbor_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_harbor_istio_gateway_namespace}/${ARGOCD_ENV_harbor_istio_wildcard_gateway_name}
+  hosts:
+    - "harbor-registry.${ARGOCD_ENV_harbor_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: harbor-core
+            port:
+              number: 5000

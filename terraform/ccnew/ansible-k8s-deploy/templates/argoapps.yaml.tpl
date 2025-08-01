@@ -376,7 +376,17 @@ argocd_override:
           public_ingress_access_domain: "${nexus_ui_public_access}"
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
-
+    harbor:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      sub_apps:
+        harbor:
+          helm_version: "${harbor_helm_version}"
+=         public_ingress_access_domain: "${harbor_repo_public_access}"
+          storage_size: "${harbor_storage_size}"
+        ui:
+          public_ingress_access_domain: "${harbor_ui_public_access}"
+        post_config:
+          ansible_collection_tag: "${harbor_ansible_collection_tag}"
     gitlab:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
