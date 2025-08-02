@@ -171,10 +171,10 @@ spec:
 
                 for fxp_currency in $fxp_currencies; do
                   echo "Onboarding FXP currency $fxp_currency"
-                  node -e "const x=require('./cli-add-dfsp-environment.json');x.inputValues.fxpCurrency='$fxp_currency';console.log(JSON.stringify(x))" > fxp.json
+                  node -e "const x=require('./cli-add-dfsp-environment.json');x.inputValues.fxpCurrency='$fxp_currency';console.log(JSON.stringify(x))" > /tmp/fxp.json
                   npm run cli -- \
                     -c cli-add-dfsp-config.json \
-                    -e fxp.json \
+                    -e /tmp/fxp.json \
                     -i /tmp/test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_fxp.json \
                     -u http://moja-ml-testing-toolkit-backend:5050 \
                     --report-format html \
