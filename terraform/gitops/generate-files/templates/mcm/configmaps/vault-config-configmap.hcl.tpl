@@ -132,7 +132,7 @@ spec:
 
       containers:
         - name: ml-ttk-add-dfsp
-          image: mojaloop/ml-testing-toolkit-client-lib:v1.2.0
+          image: mojaloop/ml-testing-toolkit-client-lib:v1.10.3-rorfs.0
           command:
             - /bin/sh
             - '-c'
