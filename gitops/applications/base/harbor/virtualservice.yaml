@@ -50,26 +50,21 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /v2/
-      route:
-        - destination:
-            host: harbor-registry
-            port:
-              number: 5000
-    - match:
+            prefix: /service/
         - uri:
-            prefix: /service/token
+            prefix: /v2/token
       route:
         - destination:
-            host: harbor-core
+            host: harbor-core.harbor.svc.cluster.local
             port:
               number: 80
 
+    # 2️⃣ Actual blob pulls go to registry
     - match:
         - uri:
-            prefix: /
+            prefix: /v2/
       route:
         - destination:
-            host: harbor-core
+            host: harbor-registry.harbor.svc.cluster.local
             port:
-              number: 80
+              number: 5000
