@@ -162,6 +162,7 @@ spec:
                   --report-auto-filename-enable true \
                   --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${ttk_fqdn}" \
                   --save-report true \
+                  --report-folder /tmp \
                   --report-name standard_provisioning_collection \
                   --save-report-base-url https://${ttk_fqdn};
                 export TEST_RUNNER_EXIT_CODE="$?";
@@ -180,6 +181,7 @@ spec:
                     --report-auto-filename-enable true \
                     --extra-summary-information="Test Suite:Provisioning FXP currency $fxp_currency,Environment:${ttk_fqdn}" \
                     --save-report true \
+                    --report-folder /tmp \
                     --report-name standard_provisioning_collection \
                     --save-report-base-url https://${ttk_fqdn};
                   export TEST_RUNNER_EXIT_CODE="$?";
