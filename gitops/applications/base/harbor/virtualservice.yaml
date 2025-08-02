@@ -52,19 +52,9 @@ spec:
         - uri:
             prefix: /service/
         - uri:
-            prefix: /v2/token
-      route:
-        - destination:
-            host: harbor-core.harbor.svc.cluster.local
-            port:
-              number: 80
-
-    # 2️⃣ Actual blob pulls go to registry
-    - match:
-        - uri:
             prefix: /v2/
       route:
         - destination:
-            host: harbor-registry.harbor.svc.cluster.local
+            host: harbor-core
             port:
-              number: 5000
+              number: 80
