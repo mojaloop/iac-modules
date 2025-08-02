@@ -3,7 +3,7 @@ expose:
   tls:
     enabled: false
 
-externalURL: "harbor-registry.${ARGOCD_ENV_harbor_ui_dns_subdomain}"
+externalURL: "harbor-registry.${ARGOCD_ENV_harbor_dns_subdomain}"
 
 persistence:
   enabled: true
