@@ -198,6 +198,8 @@ spec:
           env:
             - name: NPM_CONFIG_UPDATE_NOTIFIER
               value: "false"
+          securityContext:
+            readOnlyRootFilesystem: true
           resources: {}
           volumeMounts:
             - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
@@ -214,8 +216,7 @@ spec:
       restartPolicy: Never
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
-      securityContext:
-        readOnlyRootFilesystem: true
+      securityContext: {}
       schedulerName: default-scheduler
   completionMode: NonIndexed
   suspend: false
