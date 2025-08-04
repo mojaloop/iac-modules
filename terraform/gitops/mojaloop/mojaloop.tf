@@ -279,6 +279,7 @@ locals {
   mcm_override_values_file_exists              = fileexists(var.mcm_values_override_file)
   finance_portal_override_values_file_exists   = fileexists(var.finance_portal_values_override_file)
   values_hub_provisioning_override_file_exists = fileexists(var.values_hub_provisioning_override_file)
+  values_reporting_k8s_templates_override_file_exists = fileexists(var.values_reporting_k8s_templates_override_file)
 }
 
 variable "app_var_map" {
@@ -430,6 +431,10 @@ variable "finance_portal_values_override_file" {
 }
 
 variable "values_hub_provisioning_override_file" {
+  type = string
+}
+
+variable "values_reporting_k8s_templates_override_file" {
   type = string
 }
 
