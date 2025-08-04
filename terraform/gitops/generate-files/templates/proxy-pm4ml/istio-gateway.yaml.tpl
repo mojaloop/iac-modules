@@ -82,34 +82,16 @@ spec:
               number: 4000
 
 ---
+# %{ if ttk_enabled }
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: ${pm4ml_release_name}-ttkfront-vs
+  name: ${pm4ml_release_name}-ttk-vs
 spec:
   gateways:
   - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
   hosts:
-  - '${ttk_frontend_fqdn}'
-  http:
-    - match:
-        - uri:
-            prefix: /
-      route:
-        - destination:
-            host: ${pm4ml_release_name}-ttk-frontend
-            port:
-              number: 6060
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ${pm4ml_release_name}-ttkback-vs
-spec:
-  gateways:
-  - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
-  hosts:
-  - '${ttk_backend_fqdn}'
+  - '${ttk_fqdn}'
   http:
     - name: api
       match:
@@ -129,14 +111,14 @@ spec:
             host: ${pm4ml_release_name}-ttk-backend
             port:
               number: 5050
-    - name: root
+    - name: frontend
       match:
         - uri:
             prefix: /
       route:
         - destination:
-            host: ${pm4ml_release_name}-ttk-backend
+            host: ${pm4ml_release_name}-ttk-frontend
             port:
-              number: 4040
-
+              number: 6060
 ---
+# %{ endif }

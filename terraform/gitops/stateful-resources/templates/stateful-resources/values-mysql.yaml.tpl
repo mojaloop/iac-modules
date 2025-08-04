@@ -249,7 +249,7 @@ primary:
   ## @param primary.podManagementPolicy podManagementPolicy to manage scaling operation of MySQL primary pods
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-management-policies
   ##
-  podManagementPolicy: ""
+  podManagementPolicy: OrderedReady
   ## MySQL primary Pod security context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param primary.podSecurityContext.enabled Enable security context for MySQL primary pods
@@ -557,7 +557,7 @@ secondary:
   ## @param secondary.podManagementPolicy podManagementPolicy to manage scaling operation of MySQL secondary pods
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-management-policies
   ##
-  podManagementPolicy: ""
+  podManagementPolicy: OrderedReady
   ## MySQL secondary Pod security context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param secondary.podSecurityContext.enabled Enable security context for MySQL secondary pods

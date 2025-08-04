@@ -5,11 +5,12 @@ loki:
       retention_enabled: true # enable deletion using compactor
       shared_store: s3
     limits_config:
+      volume_enabled: true
       retention_period: ${ARGOCD_ENV_ctrl_cntr_loki_retention_period}
     ingester:
-      max_chunk_age: ${ARGOCD_ENV_ctrl_cntr_loki_ingester_max_chunk_age}
+      max_chunk_age: ${ARGOCD_ENV_loki_ingester_max_chunk_age}
       lifecycler:
-        ring: 
+        ring:
           replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
     schema_config:
       configs:
@@ -31,7 +32,17 @@ loki:
         access_key_id: $${AWS_ACCESS_KEY_ID}
         secret_access_key: $${AWS_SECRET_ACCESS_KEY}
         bucketnames: $${BUCKET_NAME}
-
+    memberlist:
+      advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
+      bind_port: ${ARGOCD_ENV_loki_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate
+      join_members:
+      - "${ARGOCD_ENV_loki_release_name}-grafana-loki-gossip-ring:${ARGOCD_ENV_loki_gossip_ring_port}"
+  gossipRing:
+    service:
+      ports:
+        http: ${ARGOCD_ENV_loki_gossip_ring_port}
+  containerPorts:
+    gossipRing: ${ARGOCD_ENV_loki_gossip_ring_port}
 metrics:
   enabled: true
   serviceMonitor:
@@ -69,13 +80,13 @@ compactor:
   replicaCount: ${ARGOCD_ENV_loki_compactor_replica_count}
   resources:
     limits:
-      cpu: ${ARGOCD_ENV_loki_querier_limits_cpu}
-      memory: ${ARGOCD_ENV_loki_querier_limits_memory}
+      cpu: ${ARGOCD_ENV_loki_compactor_limits_cpu}
+      memory: ${ARGOCD_ENV_loki_compactor_limits_memory}
   extraArgs: ["-config.expand-env"]
   extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   updateStrategy:
-    type: Recreate  
+    type: Recreate
 distributor:
   replicaCount: ${ARGOCD_ENV_loki_distributor_replica_count}
   resources:
@@ -112,7 +123,7 @@ queryScheduler:
     limits:
       cpu: ${ARGOCD_ENV_loki_query_scheduler_limits_cpu}
       memory: ${ARGOCD_ENV_loki_query_scheduler_limits_memory}
-  enabled: true
+  enabled: false
   extraArgs: ["-config.expand-env"]
   extraEnvVarsCM: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}
   extraEnvVarsSecret: ${ARGOCD_ENV_ctrl_cntr_loki_bucket_name}

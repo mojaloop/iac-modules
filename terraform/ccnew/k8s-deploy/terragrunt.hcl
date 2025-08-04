@@ -32,6 +32,7 @@ inputs = {
   bastion_instance_size                = local.env_vars.bastion_instance_size
   coredns_bind_address                 = local.coredns_bind_address
   single_nat_gateway                   = try(local.env_vars.single_nat_gateway, true)
+  manage_parent_domain                 = try(local.env_vars.manage_parent_domain, true)
 }
 
 locals {

@@ -9,6 +9,7 @@ resources:
   - switch-jws-deployment.yaml
   - opentelemetry-instrumentation.yaml
   - rbac-api-resources.yaml
+  - simulator-issuer.yaml
 helmCharts:
 - name: mojaloop
   releaseName: ${mojaloop_release_name}
@@ -34,3 +35,11 @@ helmCharts:
   repo: https://mojaloop.github.io/reporting-k8s-templates
   namespace: ${mojaloop_namespace}
   includeCRDs: false
+- name: ml-testing-toolkit-cli
+  releaseName: hub-provisioning
+  version: ${ml_testing_toolkit_cli_chart_version}
+  repo: ${mojaloop_chart_repo}
+  valuesFile: values-hub-provisioning.yaml
+  namespace: ${mojaloop_namespace}
+  additionalValuesFiles:
+  - values-hub-provisioning-override.yaml

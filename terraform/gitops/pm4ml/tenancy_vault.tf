@@ -10,6 +10,11 @@ resource "vault_kv_secret_v2" "mcm_client" {
   mount        = var.kv_path
   name         = "${var.cluster_name}/${each.key}/mcmdev_client_secret"
   data_json    = jsonencode({ value = "dummy" })
+  custom_metadata {
+    data = {
+      managed-by = "external-secrets"
+    }
+  }
   disable_read = true
   lifecycle {
     ignore_changes  = [data_json]

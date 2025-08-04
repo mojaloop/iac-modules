@@ -33,6 +33,13 @@ spec:
                 name: ${mojaloop_release_name}-account-lookup-service
                 port:
                   number: 80
+          - path: /ping
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ${mojaloop_release_name}-ml-participant-connection-test-svc
+                port:
+                  number: 80
           - path: /quotes
             pathType: ImplementationSpecific
             backend:

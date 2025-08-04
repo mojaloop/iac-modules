@@ -42,12 +42,16 @@ helmCharts:
   repo: https://open-telemetry.github.io/opentelemetry-helm-charts
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
+
+%{if process_exporter_enabled ~}
 - name: prometheus-process-exporter
   releaseName: process-exporter
   version: ${prometheus_process_exporter_version}
   repo: https://raw.githubusercontent.com/mumoshu/prometheus-process-exporter/master/docs
   valuesFile: values-process-exporter.yaml
   namespace: ${monitoring_namespace}
+%{endif ~}
+
 - name: metrics-server
   releaseName: metrics-server
   repo: https://kubernetes-sigs.github.io/metrics-server

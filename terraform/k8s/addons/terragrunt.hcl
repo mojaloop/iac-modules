@@ -9,7 +9,10 @@ inputs = {
     gitlabUrl              = get_env("GITLAB_PROVIDER_URL")
     gitlabProjectUrl       = get_env("GITLAB_PROJECT_URL")
     gitlabProjectId        = get_env("GITLAB_CURRENT_PROJECT_ID")
-    submoduleRevisions     = get_env("SUBMODULE_REVISIONS")
+    submoduleRevisions     = jsonencode(merge(try(jsondecode(get_env("SUBMODULE_REVISIONS")), {}), {
+      iac_terraform_modules_tag = local.clusterConfig.iac_terraform_modules_tag,
+      ansible_collection_tag  = local.clusterConfig.ansible_collection_tag
+    }))
     gitlabProjectApi       = "${get_env("GITLAB_API_URL")}/projects/${get_env("GITLAB_CURRENT_PROJECT_ID")}"
     domainSuffix           = "${replace(local.clusterConfig.env,"/^.*(-[^-]+)$|^[^-]+([^-]{3})$/","$1$2")}.${local.clusterConfig.domain}"
   })

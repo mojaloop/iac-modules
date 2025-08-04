@@ -6,6 +6,7 @@ ROOT_TOKEN=$4
 WORKING_DIR=$PWD
 BASE_GITLAB_URL=https://root:${ROOT_TOKEN}@${CI_SERVER_HOST}/iac
 IAC_MODULES_TAG=$5
+COMMIT_MESSAGE=${6-"refreshing templates from release ${IAC_MODULES_TAG} to project"}
 DIR="${0%/*}"
 
 if [[ "$DIR" =~ ^(.*)\.sh$ ]];
@@ -27,6 +28,8 @@ cp -r $TMP_TEMPLATE_DIR/${CURRENT_ENV_NAME}/. .
 git config --global user.email "root@${gitlab_hostname}"
 git config --global user.name "root"
 git add .
-git diff --cached --exit-code || git commit -m "refreshing templates from release ${IAC_MODULES_TAG} to project"
+git diff --cached --exit-code || git commit -m "$(echo $COMMIT_MESSAGE)"
+git diff --numstat origin > /tmp/changes.txt
+cat /tmp/changes.txt
 git push
 rm -rf $TMP_REPO_DIR

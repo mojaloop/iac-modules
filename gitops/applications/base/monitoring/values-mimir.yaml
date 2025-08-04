@@ -5,6 +5,13 @@ mimir:
   overrideConfiguration:
     frontend:
       max_outstanding_per_tenant: 4096
+    ingester:
+      ring:
+        replication_factor: ${ARGOCD_ENV_mimir_ingester_replication_factor}
+    blocks_storage:
+      tsdb:
+        block_ranges_period:
+        - 1h
     compactor:
       deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
     ruler:
@@ -29,9 +36,15 @@ mimir:
       storage_prefix: alertmanager
     ruler_storage:
       storage_prefix: ruler
-
-
-
+    memberlist:
+      advertise_port: ${ARGOCD_ENV_mimir_gossip_ring_port}
+      bind_port: ${ARGOCD_ENV_mimir_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate
+  gossipRing:
+    service:
+      ports:
+        http: ${ARGOCD_ENV_mimir_gossip_ring_port} 
+  containerPorts:
+    gossipRing: ${ARGOCD_ENV_mimir_gossip_ring_port}
 metrics:
   enabled: true
   serviceMonitor:
@@ -92,8 +105,8 @@ compactor:
   extraEnvVarsSecret: ${ARGOCD_ENV_mimir_bucket_name}
   resources:
     limits:
-      cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
-      memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
+      cpu: ${ARGOCD_ENV_mimir_compactor_limits_cpu}
+      memory: ${ARGOCD_ENV_mimir_compactor_limits_memory}
   persistence:
     size: ${ARGOCD_ENV_mimir_compactor_storage_size}
 

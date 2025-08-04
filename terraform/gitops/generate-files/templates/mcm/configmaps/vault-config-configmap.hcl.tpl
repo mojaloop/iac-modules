@@ -250,10 +250,10 @@ spec:
                   -u http://moja-ml-testing-toolkit-backend:5050 \
                   --report-format html \
                   --report-auto-filename-enable true \
-                  --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${ttk_backend_fqdn}" \
+                  --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${ttk_fqdn}" \
                   --save-report true \
                   --report-name standard_provisioning_collection \
-                  --save-report-base-url https://${ttk_backend_fqdn};
+                  --save-report-base-url https://${ttk_fqdn};
                 export TEST_RUNNER_EXIT_CODE="$?";
 
               else
@@ -268,10 +268,10 @@ spec:
                     -u http://moja-ml-testing-toolkit-backend:5050 \
                     --report-format html \
                     --report-auto-filename-enable true \
-                    --extra-summary-information="Test Suite:Provisioning FXP currency $fxp_currency,Environment:${ttk_backend_fqdn}" \
+                    --extra-summary-information="Test Suite:Provisioning FXP currency $fxp_currency,Environment:${ttk_fqdn}" \
                     --save-report true \
                     --report-name standard_provisioning_collection \
-                    --save-report-base-url https://${ttk_backend_fqdn};
+                    --save-report-base-url https://${ttk_fqdn};
                   export TEST_RUNNER_EXIT_CODE="$?";
                   if [ "$TEST_RUNNER_EXIT_CODE" -ne 0 ]; then break; fi;
                 done;

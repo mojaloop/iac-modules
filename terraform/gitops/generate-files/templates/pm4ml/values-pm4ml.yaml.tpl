@@ -250,8 +250,8 @@ ttk:
             ],
         }
       rules_response__default.json: https://raw.githubusercontent.com/mojaloop/testing-toolkit-test-cases/v16.1.0-fx-snapshot.1/rules/pm4ml/fxp_response_rules.json
-      api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.7.11/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
-      api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.7.11/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.10.2/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
+      api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.10.2/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
       api_definitions__mojaloop_connector_outbound_2.1__callback_map.json: []
     extraEnvironments:
       pm4ml-default-environment.json: {
@@ -287,7 +287,7 @@ ttk:
     nameOverride: ttk-frontend
     fullnameOverride: ttk-frontend
     config:
-      API_BASE_URL: https://${ttk_backend_fqdn}
+      API_BASE_URL: https://${ttk_fqdn}
 
 #%{ else}
   enabled: false

@@ -24,5 +24,5 @@ for submodule in "${submodules[@]}"; do
     echo "Adding new submodule $path with ref $ref"
     git submodule add "$url" "$path"
   fi
-  (cd "$path" && git fetch && git checkout "$ref" && git pull)
+  (cd "$path" && git fetch && git checkout "$ref" && (! git symbolic-ref HEAD || git pull))
 done

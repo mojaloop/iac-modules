@@ -15,7 +15,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes Node not ready (instance {{ $labels.instance }})
+        summary: Kubernetes Node not ready (instance {{ $labels.nodename }})
         description: "Node {{ $labels.node }} has been unready for a long time\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"      
     - alert: KubernetesNodeMemoryPressure
       expr: 'kube_node_status_condition{condition="MemoryPressure",status="true"} == 1'
@@ -39,43 +39,26 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes Node network unavailable (instance {{ $labels.instance }})
+        summary: Kubernetes Node network unavailable (instance {{ $labels.nodename }})
         description: "Node {{ $labels.node }} has NetworkUnavailable condition\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-    - alert: KubernetesNodeOutOfPodCapacity
-      expr: 'sum by (node) ((kube_pod_status_phase{phase="Running"} == 1) + on(uid) group_left(node) (0 * kube_pod_info{pod_template_hash=""})) / sum by (node) (kube_node_status_allocatable{resource="pods"}) * 100 > 90'
-      for: 2m
-      labels:
-        severity: warning
-      annotations:
-        summary: Kubernetes Node out of pod capacity (instance {{ $labels.instance }})
-        description: "Node {{ $labels.node }} is out of pod capacity\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      # We optimized uid label, so removing this alert for now.
+#    - alert: KubernetesNodeOutOfPodCapacity
+#      expr: 'sum by (node) ((kube_pod_status_phase{phase="Running"} == 1) + on(uid) group_left(node) (0 * kube_pod_info{pod_template_hash=""})) / sum by (node) (kube_node_status_allocatable{resource="pods"}) * 100 > 90'
+#      for: 2m
+#      labels:
+#        severity: warning
+#      annotations:
+#        summary: Kubernetes Node out of pod capacity (instance {{ $labels.nodename }})
+#        description: "Node {{ $labels.node }} is out of pod capacity\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesContainerOomKiller
-      expr: '(kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1'
+      expr: '(kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset ${prometheus_rate_interval} >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[${prometheus_rate_interval}]) == 1'
       for: 0m
       labels:
         severity: warning
       annotations:
         summary: Kubernetes container oom killer ({{ $labels.namespace }}/{{ $labels.pod }}:{{ $labels.container }})
         description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
-    - alert: KubernetesJobFailed
-      expr: 'kube_job_status_failed > 0'
-      for: 0m
-      labels:
-        severity: warning
-      annotations:
-        summary: Kubernetes Job failed ({{ $labels.namespace }}/{{ $labels.job_name }})
-        description: "Job {{ $labels.namespace }}/{{ $labels.job_name }} failed to complete\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
-    - alert: KubernetesCronjobSuspended
-      expr: 'kube_cronjob_spec_suspend != 0'
-      for: 0m
-      labels:
-        severity: warning
-      annotations:
-        summary: Kubernetes CronJob suspended ({{ $labels.namespace }}/{{ $labels.cronjob }})
-        description: "CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} is suspended\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPersistentvolumeclaimPending
       expr: 'kube_persistentvolumeclaim_status_phase{phase="Pending"} == 1'
@@ -92,7 +75,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes Volume out of disk space (instance {{ $labels.instance }})
+        summary: Kubernetes Volume out of disk space (instance {{ $labels.nodename }})
         description: "Volume is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesVolumeFullInFourDays
@@ -101,7 +84,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes Volume full in four days (instance {{ $labels.instance }})
+        summary: Kubernetes volume full in four days (pvc {{ $labels.persistentvolumeclaim }})
         description: "Volume under {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is expected to fill up within four days. Currently {{ $value | humanize }}% is available.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPersistentvolumeError
@@ -129,7 +112,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes HPA scale inability (instance {{ $labels.instance }})
+        summary: Kubernetes HPA scale inability (instance {{ $labels.nodename }})
         description: "HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler }} is unable to scale\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesHpaMetricsUnavailability
@@ -138,7 +121,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes HPA metrics unavailability (instance {{ $labels.instance }})
+        summary: Kubernetes HPA metrics unavailability (instance {{ $labels.nodename }})
         description: "HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler }} is unable to collect metrics\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesHpaScaleMaximum
@@ -147,7 +130,7 @@ spec:
       labels:
         severity: info
       annotations:
-        summary: Kubernetes HPA scale maximum (instance {{ $labels.instance }})
+        summary: Kubernetes HPA scale maximum (instance {{ $labels.nodename }})
         description: "HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler }} has hit maximum number of desired pods\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesHpaUnderutilized
@@ -156,11 +139,13 @@ spec:
       labels:
         severity: info
       annotations:
-        summary: Kubernetes HPA underutilized (instance {{ $labels.instance }})
+        summary: Kubernetes HPA underutilized (instance {{ $labels.nodename }})
         description: "HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler }} is constantly at minimum replicas for 50% of the time. Potential cost saving here.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPodNotHealthy
-      expr: 'sum by (namespace, pod) (kube_pod_status_phase{phase=~"Pending|Unknown|Failed"}) > 0'
+      # expr: 'sum by (namespace, pod) (kube_pod_status_phase{phase=~"Pending|Unknown|Failed"}) > 0'
+      # filter out 'cron' and 'test' pods
+      expr: 'sum by (namespace, pod) (kube_pod_status_phase{phase=~"Pending|Unknown|Failed", pod!~"(.+cron.+)|(.+test.+)"}) > 0'
       for: 15m
       labels:
         severity: critical
@@ -169,7 +154,7 @@ spec:
         description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-running state for longer than 15 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesPodCrashLooping
-      expr: 'increase(kube_pod_container_status_restarts_total[1m]) > 3'
+      expr: 'increase(kube_pod_container_status_restarts_total[${prometheus_rate_interval}]) > 3'
       for: 2m
       labels:
         severity: warning
@@ -201,7 +186,7 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes StatefulSet replicas mismatch (instance {{ $labels.instance }})
+        summary: Kubernetes StatefulSet replicas mismatch (instance {{ $labels.nodename }})
         description: "StatefulSet does not match the expected number of replicas.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesDeploymentGenerationMismatch
@@ -268,50 +253,50 @@ spec:
         description: "Kubernetes Job {{ $labels.namespace }}/{{ $labels.job_name }} did not complete in time.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesApiServerErrors
-      expr: 'sum(rate(apiserver_request_total{job="apiserver",code=~"^(?:5..)$"}[1m])) / sum(rate(apiserver_request_total{job="apiserver"}[1m])) * 100 > 3'
+      expr: 'sum(rate(apiserver_request_total{job="apiserver",code=~"^(?:5..)$"}[${prometheus_rate_interval}])) / sum(rate(apiserver_request_total{job="apiserver"}[${prometheus_rate_interval}])) * 100 > 3'
       for: 2m
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes API server errors (instance {{ $labels.instance }})
+        summary: Kubernetes API server errors (instance {{ $labels.nodename }})
         description: "Kubernetes API server is experiencing high error rate\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesApiClientErrors
-      expr: '(sum(rate(rest_client_requests_total{code=~"(4|5).."}[1m])) by (instance, job) / sum(rate(rest_client_requests_total[1m])) by (instance, job)) * 100 > 1'
+      expr: '(sum(rate(rest_client_requests_total{code=~"(4|5).."}[${prometheus_rate_interval}])) by (instance, job) / sum(rate(rest_client_requests_total[${prometheus_rate_interval}])) by (instance, job)) * 100 > 1'
       for: 2m
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes API client errors (instance {{ $labels.instance }})
+        summary: Kubernetes API client errors (instance {{ $labels.nodename }})
         description: "Kubernetes API client is experiencing high error rate\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesClientCertificateExpiresNextWeek
-      expr: 'apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 7*24*60*60'
+      expr: 'apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[${prometheus_rate_interval}]))) < 7*24*60*60'
       for: 0m
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes client certificate expires next week (instance {{ $labels.instance }})
+        summary: Kubernetes client certificate expires next week (instance {{ $labels.nodename }})
         description: "A client certificate used to authenticate to the apiserver is expiring next week.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesClientCertificateExpiresSoon
-      expr: 'apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 24*60*60'
+      expr: 'apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[${prometheus_rate_interval}]))) < 24*60*60'
       for: 0m
       labels:
         severity: critical
       annotations:
-        summary: Kubernetes client certificate expires soon (instance {{ $labels.instance }})
+        summary: Kubernetes client certificate expires soon (instance {{ $labels.nodename }})
         description: "A client certificate used to authenticate to the apiserver is expiring in less than 24.0 hours.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
     - alert: KubernetesApiServerLatency
       # Note: We removed the deprecated metric from query
       # this query needs fix based on https://github.com/samber/awesome-prometheus-alerts/issues/404
-      expr: 'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{subresource!="log",verb!~"^(?:CONNECT|WATCHLIST|WATCH|PROXY)$"} [10m])) WITHOUT (instance, resource)) / 1e+06 > 1'
+      expr: 'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{subresource!="log",verb!~"^(?:CONNECT|WATCHLIST|WATCH|PROXY)$"} [${prometheus_rate_interval}])) WITHOUT (instance, resource)) / 1e+06 > 1'
       for: 2m
       labels:
         severity: warning
       annotations:
-        summary: Kubernetes API server latency (instance {{ $labels.instance }})
+        summary: Kubernetes API server latency (instance {{ $labels.nodename }})
         description: "Kubernetes API server has a 99th percentile latency of {{ $value }} seconds for {{ $labels.verb }} {{ $labels.resource }}.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
   - name: k8s-capacity-alert-rules

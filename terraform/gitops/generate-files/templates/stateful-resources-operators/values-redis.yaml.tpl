@@ -1,2 +1,2 @@
 redisOperator:
-  imageTag: v0.18.0
+  imageTag: v0.20.1

@@ -36,7 +36,7 @@ resource "local_file" "addon-file" {
       )
     )
   ]) # this represents addon-name/app-name/folder-name/filename list of files filtered by enabled app-yamls
-  content  = file("${path.module}/${each.key}")
+  content_base64 = filebase64("${path.module}/${each.key}")
   filename = "${var.outputDir}${replace(each.key, "/^[^/]*/", "")}"
 }
 

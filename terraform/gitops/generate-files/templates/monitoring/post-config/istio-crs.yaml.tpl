@@ -14,7 +14,6 @@ spec:
   jobLabel: envoy-stats
   podMetricsEndpoints:
   - path: /stats/prometheus
-    interval: 15s
     relabelings:
     - action: keep
       sourceLabels: [__meta_kubernetes_pod_container_name]
@@ -61,7 +60,6 @@ spec:
     any: true
   endpoints:
   - port: http-monitoring
-    interval: 15s
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaFolder
@@ -86,7 +84,7 @@ spec:
       datasourceName: "Prometheus"       
   grafanaCom:
     id: 7639
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -102,7 +100,7 @@ spec:
       datasourceName: "Prometheus"       
   grafanaCom:
     id: 11829
-    revision: 194
+    revision: 255
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -113,12 +111,8 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
-  grafanaCom:
-    id: 7636
-    revision: 194
+  url: "https://raw.githubusercontent.com/istio/istio/3079b265074b34ed7f288fb9dce0efc86357900b/manifests/addons/dashboards/istio-service-dashboard.json"
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -129,12 +123,8 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  datasources:
-    - inputName: "DS_PROMETHEUS"
-      datasourceName: "Prometheus"       
-  grafanaCom:
-    id: 7630
-    revision: 194
+  url: "https://raw.githubusercontent.com/istio/istio/3079b265074b34ed7f288fb9dce0efc86357900b/manifests/addons/dashboards/istio-workload-dashboard.json"
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -150,5 +140,5 @@ spec:
       datasourceName: "Prometheus"       
   grafanaCom:
     id: 7645
-    revision: 194
+    revision: 255
 ---

@@ -175,11 +175,11 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: ${pm4ml_release_name}-jwt
-  namespace: ${istio_external_gateway_namespace}
+  namespace: ${pm4ml_istio_gateway_namespace}
 spec:
   selector:
     matchLabels:
-      app: ${istio_external_gateway_name}
+      app: ${pm4ml_istio_gateway_name}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
@@ -229,101 +229,18 @@ spec:
             host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc
             port:
               number: 4000
+
 ---
+# %{ if ttk_enabled }
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: ${pm4ml_release_name}-test-vs
-spec:
-  gateways:
-    - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
-  hosts:
-    - '${test_fqdn}'
-  http:
-    - name: "sim-backend"
-      match:
-        - uri:
-            prefix: /sim-backend-test/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: sim-backend
-            port:
-              number: 3003
-    - name: "mojaloop-core-connector"
-      match:
-        - uri:
-            prefix: /cc-send/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: ${pm4ml_release_name}-mojaloop-core-connector
-            port:
-              number: 3003
-    - name: "mlcon-outbound"
-      match:
-        - uri:
-            prefix: /mlcon-outbound/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc
-            port:
-              number: 4001
-    - name: "mlcon-sdktest"
-      match:
-        - uri:
-            prefix: /mlcon-sdktest/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: ${pm4ml_release_name}-sdk-scheme-adapter-api-svc
-            port:
-              number: 4002
-    - name: "mgmt-api"
-      match:
-        - uri:
-            prefix: /mgmt-api/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: ${pm4ml_release_name}-management-api
-            port:
-              number: 9050
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ${pm4ml_release_name}-ttkfront-vs
+  name: ${pm4ml_release_name}-ttk-vs
 spec:
   gateways:
   - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
   hosts:
-  - '${ttk_frontend_fqdn}'
-  http:
-    - match:
-        - uri:
-            prefix: /
-      route:
-        - destination:
-            host: ${pm4ml_release_name}-ttk-frontend
-            port:
-              number: 6060
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ${pm4ml_release_name}-ttkback-vs
-spec:
-  gateways:
-  - ${pm4ml_istio_gateway_namespace}/${pm4ml_istio_wildcard_gateway_name}
-  hosts:
-  - '${ttk_backend_fqdn}'
+  - '${ttk_fqdn}'
   http:
     - name: api
       match:
@@ -343,18 +260,18 @@ spec:
             host: ${pm4ml_release_name}-ttk-backend
             port:
               number: 5050
-    - name: root
+    - name: frontend
       match:
         - uri:
             prefix: /
       route:
         - destination:
-            host: ${pm4ml_release_name}-ttk-backend
+            host: ${pm4ml_release_name}-ttk-frontend
             port:
-              number: 4040
-
+              number: 6060
 ---
-
+# %{ endif }
+# %{ if payment_token_adapter_config.enabled}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -374,3 +291,4 @@ spec:
             port:
               number: 3000
 ---
+#%{ endif}

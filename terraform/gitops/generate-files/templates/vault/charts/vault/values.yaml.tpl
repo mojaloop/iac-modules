@@ -37,9 +37,11 @@ vault:
 
     extraContainers:
       - name: statsd-exporter
-        image: prom/statsd-exporter:latest
+        image: prom/statsd-exporter:v0.28.0
+        imagePullPolicy: IfNotPresent
       - name: init-sidecar
         image: ghcr.io/mojaloop/vault-utils:0.0.4
+        imagePullPolicy: IfNotPresent
         command: ["sh","-c","cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do /tmp/bootstrap.sh; sleep 300; done"]
         volumeMounts:
           - name: userconfig-post-config

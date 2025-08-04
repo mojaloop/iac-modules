@@ -18,7 +18,7 @@ spec:
   ingress:
     enabled: false
   transaction:
-    xaEnabled: false         
+    xaEnabled: false
   http:
     tlsSecret: ${keycloak_tls_secretname}
   hostname:
@@ -27,6 +27,16 @@ spec:
   unsupported:
     podTemplate:
       spec:
+        initContainers: # this exists also for the purpose of avoiding realm import failures
+          - name: keycloak-init
+            image: busybox:1.28
+            command:
+              - sh
+              - '-c'
+              - >-
+                until nslookup ${keycloak_mysql_host}; do
+                echo waiting for DNS ; sleep 5; done;
+            imagePullPolicy: IfNotPresent
         containers:
           - env:
             - name: JAVA_OPTS_APPEND

@@ -142,6 +142,11 @@ resource "local_file" "redis-crs" {
       namespace              = each.value.local_operator_config.resource_namespace
       nodes                  = each.value.local_operator_config.nodes
       storage_size           = each.value.local_operator_config.redis_data.storage_size
+      disable_ha             = try(
+        each.value.local_operator_config.disable_ha,
+        var.cluster.master_node_count + var.cluster.agent_node_count < each.value.local_operator_config.nodes,
+        false
+      )
   })
   filename = "${local.stateful_resources_output_path}/redis-cluster-${each.key}.yaml"
 }
@@ -344,6 +349,11 @@ variable "monolith_stateful_resources" {
 
 variable "managed_svc_as_monolith" {
 }
+
+variable "cluster" {
+  type = any
+}
+
 
 # Handle resource renaming for consent-oracle-db
 moved {
