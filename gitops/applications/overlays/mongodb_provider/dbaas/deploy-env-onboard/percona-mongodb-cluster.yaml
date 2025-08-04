@@ -12,6 +12,7 @@ spec:
     image: ${ARGOCD_ENV_image}
     imagePullPolicy: IfNotPresent
     dbSecret: ${ARGOCD_ENV_db_secret}
+    dbsourceSecret: ${ARGOCD_ENV_db_secret}
     backup:
       enabled: ${ARGOCD_ENV_backup_enabled}
       verifyTLS: ${ARGOCD_ENV_backup_verify_tls}
