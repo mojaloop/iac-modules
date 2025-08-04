@@ -35,4 +35,4 @@ spec:
     path: gitops/applications/base/mailhog
     plugin:
       name: envsubst
-      env:
+      env: {}
