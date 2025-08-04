@@ -1,5 +1,5 @@
 module "generate_mailhog_files" {
-  count  = var.common_var_map.mailhog_enabled ? 1 : 0
+  count  = try(var.common_var_map.mailhog_enabled, true) ? 1 : 0
   source = "../generate-files"
   var_map = {
     gitlab_project_url                           = var.gitlab_project_url

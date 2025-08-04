@@ -94,18 +94,18 @@ oathkeeper:
           config:
             verbose: true
         redirect:
-          enabled: false
-        #   config:
-        #     # set this to whatever the main URL is, it'll ensure that browser errors redirect there
-        #     to: https://auth.awsdev.labsk8s1009.mojaloop.live/
-        #     when:
-        #     - error:
-        #       - unauthorized
-        #       - forbidden
-        #       request:
-        #         header:
-        #           accept:
-        #           - text/html
+          enabled: true
+          config:
+            # set this to whatever the main URL is, it'll ensure that browser errors redirect there
+            to: https://${auth_fqdn}/kratos/self-service/login/browser
+            when:
+            - error:
+              - unauthorized
+              - forbidden
+              request:
+                header:
+                  accept:
+                  - text/html
     serve:
       proxy:
         port: 4455

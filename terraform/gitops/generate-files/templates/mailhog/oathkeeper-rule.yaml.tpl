@@ -14,16 +14,7 @@ spec:
   authenticators:
     - handler: cookie_session
   authorizer:
-    handler: remote_json
-    config:
-      remote: http://keto-read.ory.svc.cluster.local:80/relation-tuples/check
-      payload: |
-        {
-          "namespace": "permission",
-          "object": "mailhogAccess",
-          "relation": "granted",
-          "subject_id": "{{ print .Subject }}"
-        }
+    handler: allow
   mutators:
     - handler: header
       config:
@@ -31,3 +22,7 @@ spec:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+  errors:
+    - handler: redirect
+      config:
+        to: https://${auth_fqdn}/kratos/self-service/login/browser
