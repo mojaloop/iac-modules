@@ -8,7 +8,6 @@ resources:
   - ../../../base/external-secrets.yaml
   - ../../../base/reflector.yaml
   - ../../../base/reloader.yaml
-  - ../../../base/mailhog.yaml
   - ../../../base/crossplane.yaml
   - ../../../base/utils-post-config.yaml
   - ../../../base/istio.yaml
