@@ -63,6 +63,7 @@ module "mojaloop" {
   mcm_values_override_file                 = var.mcm_values_override_file
   finance_portal_values_override_file      = var.finance_portal_values_override_file
   values_hub_provisioning_override_file    = var.values_hub_provisioning_override_file
+  values_reporting_k8s_templates_override_file = var.values_reporting_k8s_templates_override_file
   fspiop_use_ory_for_auth                  = var.app_var_map.fspiop_use_ory_for_auth
   managed_db_host                          = var.managed_db_host
   platform_stateful_res_config             = module.config_deepmerge.merged
@@ -359,6 +360,10 @@ variable "finance_portal_values_override_file" {
 }
 
 variable "values_hub_provisioning_override_file" {
+  type = string
+}
+
+variable "values_reporting_k8s_templates_override_file" {
   type = string
 }
 
