@@ -132,7 +132,7 @@ spec:
 
       containers:
         - name: ml-ttk-add-dfsp
-          image: mojaloop/ml-testing-toolkit-client-lib:v1.2.0
+          image: mojaloop/ml-testing-toolkit-client-lib:v1.10.3
           command:
             - /bin/sh
             - '-c'
@@ -143,11 +143,11 @@ spec:
 
               wget
               https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${onboarding_collection_tag}.zip
-              -O downloaded-test-collections.zip;
+              -O /tmp/downloaded-test-collections.zip;
 
               mkdir /tmp/test_cases;
 
-              unzip -d /tmp/test_cases -o downloaded-test-collections.zip;
+              unzip -d /tmp/test_cases -o /tmp/downloaded-test-collections.zip;
 
               fxp_currencies="{{ .Data.fxpCurrencies }}"
 
@@ -162,6 +162,7 @@ spec:
                   --report-auto-filename-enable true \
                   --extra-summary-information="Test Suite:Provisioning DFSP,Environment:${ttk_fqdn}" \
                   --save-report true \
+                  --report-folder /tmp \
                   --report-name standard_provisioning_collection \
                   --save-report-base-url https://${ttk_fqdn};
                 export TEST_RUNNER_EXIT_CODE="$?";
@@ -170,16 +171,17 @@ spec:
 
                 for fxp_currency in $fxp_currencies; do
                   echo "Onboarding FXP currency $fxp_currency"
-                  node -e "const x=require('./cli-add-dfsp-environment.json');x.inputValues.fxpCurrency='$fxp_currency';console.log(JSON.stringify(x))" > fxp.json
+                  node -e "const x=require('./cli-add-dfsp-environment.json');x.inputValues.fxpCurrency='$fxp_currency';console.log(JSON.stringify(x))" > /tmp/fxp.json
                   npm run cli -- \
                     -c cli-add-dfsp-config.json \
-                    -e fxp.json \
+                    -e /tmp/fxp.json \
                     -i /tmp/test_cases/testing-toolkit-test-cases-${onboarding_collection_tag}/collections/hub/provisioning/new_participants/new_fxp.json \
                     -u http://moja-ml-testing-toolkit-backend:5050 \
                     --report-format html \
                     --report-auto-filename-enable true \
                     --extra-summary-information="Test Suite:Provisioning FXP currency $fxp_currency,Environment:${ttk_fqdn}" \
                     --save-report true \
+                    --report-folder /tmp \
                     --report-name standard_provisioning_collection \
                     --save-report-base-url https://${ttk_fqdn};
                   export TEST_RUNNER_EXIT_CODE="$?";
@@ -198,6 +200,8 @@ spec:
           env:
             - name: NPM_CONFIG_UPDATE_NOTIFIER
               value: "false"
+          securityContext:
+            readOnlyRootFilesystem: true
           resources: {}
           volumeMounts:
             - name: {{ .Data.host }}-ml-ttk-add-dfsp-conf
@@ -214,8 +218,7 @@ spec:
       restartPolicy: Never
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
-      securityContext:
-        readOnlyRootFilesystem: true
+      securityContext: {}
       schedulerName: default-scheduler
   completionMode: NonIndexed
   suspend: false
