@@ -5,7 +5,7 @@ metadata:
   namespace: mailhog
 spec:
   match:
-    url: <http|https>://mailhog.${ARGOCD_ENV_mailhog_internal_dns_subdomain}/<.*>
+    url: <http|https>://mailhog.<.*>/<.*>
     methods:
       - GET
       - POST

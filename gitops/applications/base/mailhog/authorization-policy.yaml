@@ -13,4 +13,4 @@ spec:
   rules:
     - to:
         - operation:
-            hosts: ["mailhog.${ARGOCD_ENV_mailhog_internal_dns_subdomain}", "mailhog.${ARGOCD_ENV_mailhog_internal_dns_subdomain}:*"]
+            hosts: ["mailhog.*", "mailhog.*:*"]
