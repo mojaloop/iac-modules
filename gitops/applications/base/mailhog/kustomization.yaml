@@ -13,4 +13,4 @@ helmCharts:
     version: 5.2.3
     repo: https://codecentric.github.io/helm-charts
     valuesFile: mailhog-values.yaml
-    namespace: ${ARGOCD_ENV_mailhog_namespace}
+    namespace: mailhog

@@ -2,11 +2,11 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: mailhog-auth
-  namespace: ${ARGOCD_ENV_mailhog_istio_internal_gateway_namespace}
+  namespace: mailhog
 spec:
   selector:
     matchLabels:
-      app: ${ARGOCD_ENV_mailhog_istio_internal_gateway_name}
+      app: mailhog
   action: CUSTOM
   provider:
     name: ory-authz
