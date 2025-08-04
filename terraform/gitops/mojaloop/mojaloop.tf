@@ -243,6 +243,13 @@ resource "local_file" "values_hub_provisioning_override" {
   depends_on = [module.generate_mojaloop_files]
 }
 
+resource "local_file" "values_reporting_k8s_templates_override" {
+  count      = local.values_reporting_k8s_templates_override_file_exists ? 1 : 0
+  content    = templatefile(var.values_reporting_k8s_templates_override_file, var.app_var_map)
+  filename   = "${local.output_path}/values-reporting-k8s-templates-override.yaml"
+  depends_on = [module.generate_mojaloop_files]
+}
+
 locals {
   mojaloop_wildcard_gateway       = try(var.app_var_map.mojaloop_ingress_internal_lb, true) ? "internal" : "external"
   ttk_fqdn                        = local.mojaloop_wildcard_gateway == "external" ? "ttk.${var.public_subdomain}" : "ttk.${var.private_subdomain}"
