@@ -1,7 +1,7 @@
 apiVersion: sc.mojaloop.io/v1alpha1
 kind: MysqlCluster
 metadata:
-  name: "${cluster_name}-${dbdeploy_name_prefix}"
+  name: ${db_cluster_name}
   namespace: "${namespace}"
 spec:
   parameters:
