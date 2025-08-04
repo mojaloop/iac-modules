@@ -1,11 +1,3 @@
-image:
-  repository: mailhog/mailhog
-  tag: v1.0.1
-  pullPolicy: IfNotPresent
-
-nameOverride: ""
-fullnameOverride: ""
-
 service:
   type: ClusterIP
   port:

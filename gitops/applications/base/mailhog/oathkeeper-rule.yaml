@@ -2,7 +2,7 @@ apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
 metadata:
   name: mailhog-ui-access
-  namespace: ${ARGOCD_ENV_mailhog_namespace}
+  namespace: mailhog
 spec:
   match:
     url: <http|https>://mailhog.${ARGOCD_ENV_mailhog_internal_dns_subdomain}/<.*>

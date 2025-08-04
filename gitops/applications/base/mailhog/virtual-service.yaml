@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: mailhog-ui
-  namespace: ${ARGOCD_ENV_mailhog_namespace}
+  namespace: mailhog
 spec:
   gateways:
     - ${ARGOCD_ENV_mailhog_istio_internal_gateway_namespace}/${ARGOCD_ENV_mailhog_istio_internal_wildcard_gateway_name}
