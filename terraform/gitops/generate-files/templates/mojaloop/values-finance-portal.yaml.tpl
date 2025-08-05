@@ -184,7 +184,6 @@ reporting-hub-bop-trx-ui:
       REACT_APP_MOCK_API: false
 
 reporting-hub-bop-settlements-ui:
-  ## Overriding the image version for bugfix related to https://modusbox.atlassian.net/browse/MBP-639
   enabled: true
   config:
     env:
