@@ -333,6 +333,21 @@ resource "local_file" "aws-db-crs" {
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
 
+resource "local_file" "monolith-db-monitoring" {
+  for_each = { for key, stateful_resource in local.monolith_env_vpc_aws_rds_resources : key => stateful_resource }
+  content = templatefile("${local.stateful_resources_template_path}/monolith-db-monitoring.yaml.tpl",
+    {
+        cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
+        namespace                    = each.value.resource_namespace
+        externalservice_name         = each.value.externalservice_name
+        db_secret                    = each.value.external_resource_config.master_user_password_secret
+        db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
+        port                         = each.value.external_resource_config.port
+        db_username                  = each.value.external_resource_config.username
+  })
+  filename = "${local.stateful_resources_output_path}/monolith-db-monitoring-${each.key}.yaml"
+}
+
 resource "local_file" "aws-db-vault-crs" {
   for_each = { for key, stateful_resource in local.monolith_env_vpc_resource_password_map : key => stateful_resource }
 
@@ -390,6 +405,7 @@ locals {
   }
 
   monolith_env_vpc_aws_db_resources =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "rds" || monolith_resource.provider == "documentdb"}
+  monolith_env_vpc_aws_rds_resources =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "rds"}
   monolith_env_mysql_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mysql" }
   monolith_env_mongo_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mongodb" }
 
