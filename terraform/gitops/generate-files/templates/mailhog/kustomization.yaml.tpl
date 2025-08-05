@@ -4,8 +4,6 @@ kind: Kustomization
 resources:
   - namespaces.yaml
   - virtual-service.yaml
-  - authorization-policy.yaml
-  - oathkeeper-rule.yaml
 
 helmCharts:
   - name: mailhog
