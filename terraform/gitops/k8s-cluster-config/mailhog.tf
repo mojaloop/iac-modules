@@ -10,6 +10,7 @@ module "generate_mailhog_files" {
     mailhog_istio_internal_wildcard_gateway_name = local.istio_internal_wildcard_gateway_name
     mailhog_istio_internal_gateway_name          = var.istio_internal_gateway_name
     ory_namespace                                = var.ory_namespace
+    auth_fqdn                                    = local.auth_fqdn
   }
   file_list       = [for f in fileset(local.mailhog_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mailhog_app_file, f))]
   template_path   = local.mailhog_template_path
@@ -21,6 +22,7 @@ module "generate_mailhog_files" {
 locals {
   mailhog_template_path = "${path.module}/../generate-files/templates/mailhog"
   mailhog_app_file      = "mailhog-app.yaml"
+  auth_fqdn            = "auth.${var.private_subdomain}"
 }
 
 variable "mailhog_namespace" {
