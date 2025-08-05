@@ -22,7 +22,6 @@ module "generate_mailhog_files" {
 locals {
   mailhog_template_path = "${path.module}/../generate-files/templates/mailhog"
   mailhog_app_file      = "mailhog-app.yaml"
-  auth_fqdn            = "auth.${var.private_subdomain}"
 }
 
 variable "mailhog_namespace" {
