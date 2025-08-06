@@ -10,6 +10,7 @@ spec:
     appNamespace: ${ARGOCD_ENV_namespace}
     crVersion: ${ARGOCD_ENV_cr_version}
     dbSecret: ${ARGOCD_ENV_db_secret}
+    dbsourceSecret: ${ARGOCD_ENV_db_secret}
     dbUsername: ${ARGOCD_ENV_db_username}
     dbName: ${ARGOCD_ENV_db_name}
 
