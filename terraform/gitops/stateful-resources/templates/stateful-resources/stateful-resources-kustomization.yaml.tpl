@@ -29,6 +29,10 @@ resources:
 - monolith-db-init-job-${key}.yaml
 # %{ endfor }
 
+# %{ for key, stateful_resource in monolith_env_vpc_aws_rds_resources }
+- monolith-db-monitoring-${key}.yaml
+# %{ endfor }
+
 # %{ for key,stateful_resource in monolith_init_mongodb_managed_stateful_resources }
 - monolith-mongodb-init-job-${key}.yaml
 # %{ endfor }
