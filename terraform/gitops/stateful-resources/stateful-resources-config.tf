@@ -345,6 +345,8 @@ resource "local_file" "monolith-db-monitoring" {
         db_secret_key                = each.value.external_resource_config.master_user_password_secret_key
         port                         = each.value.external_resource_config.port
         db_username                  = each.value.external_resource_config.username
+        ca_bundle_secret_key         = each.value.ca_bundle_secret.key
+        ca_bundle_secret_name        = each.value.ca_bundle_secret.name
   })
   filename = "${local.stateful_resources_output_path}/monolith-db-monitoring-${each.key}.yaml"
 }

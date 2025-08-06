@@ -13,6 +13,30 @@ spec:
       labels:
         app.kubernetes.io/name: mysql-exporter-${cluster_name}
     spec:
+      initContainers:
+      - name: init-mycnf
+        image: busybox
+        command:
+        - sh
+        - -c
+        - |
+          mkdir -p /etc/mysql-cnf && \
+          cat <<EOF > /etc/mysql-cnf/exporter.cnf
+          [client]
+          ssl-ca=/etc/mysql-certs/${ca_bundle_secret_key}
+          ssl-mode=SKIP_VERIFY
+          EOF
+        env:
+        - name: MYSQLD_EXPORTER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ${db_secret}
+              key: ${db_secret_key}
+        volumeMounts:
+        - name: ca-bundle-volume
+          mountPath: /etc/mysql-certs
+        - name: mysql-cnf
+          mountPath: /etc/mysql-cnf
       containers:
       - name: mysql-exporter
         image: prom/mysqld-exporter:v0.17.2
@@ -28,6 +52,12 @@ spec:
             secretKeyRef:
               name: ${db_secret}
               key: ${db_secret_key}
+      volumes:
+      - name: ca-bundle-volume
+        secret:
+          secretName: ${ca_bundle_secret}
+      - name: mysql-cnf
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
