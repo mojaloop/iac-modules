@@ -55,7 +55,7 @@ spec:
       volumes:
       - name: ca-bundle-volume
         secret:
-          secretName: ${ca_bundle_secret}
+          secretName: ${ca_bundle_secret_name}
       - name: mysql-cnf
         emptyDir: {}
 ---
