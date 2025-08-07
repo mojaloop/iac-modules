@@ -10,7 +10,7 @@ global:
   imagePullPolicy: ""
   # Default logging level for Istio components
   logging:
-    level: info
+    level: ${istio_proxy_log_level}
   logAsJson: false
   # Default resources allocated
   defaultResources:

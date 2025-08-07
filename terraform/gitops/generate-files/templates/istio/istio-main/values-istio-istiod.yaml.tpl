@@ -239,7 +239,7 @@ global:
   # The control plane has different scopes depending on component, but can configure default log level across all components
   # If empty, default scope and level will be used as configured in code
   logging:
-    level: "default:info"
+    level: "default:${istio_proxy_log_level}"
 
   omitSidecarInjectorConfigMap: false
 
