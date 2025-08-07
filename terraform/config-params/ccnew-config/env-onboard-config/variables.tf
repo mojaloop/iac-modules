@@ -127,7 +127,7 @@ variable "netbird_operator_management_url" {
 }
 
 
-variable "hyphenated_domain"  {
+variable "hyphenated_domain" {
   description = "hyphenated domain for the environment"
 }
 
@@ -138,6 +138,16 @@ variable "nexus_readonly_password_secret_name" {
 
 variable "nexus_readonly_password_secret_namespace" {
   description = "namespace of the secret in k8s for nexus readonly password"
+  default     = "vault"
+}
+
+variable "registry_mirror_readonly_password_secret_name" {
+  description = "name of the secret in k8s for registry mirror readonly password"
+  default     = "external-docker-harbor-password"
+}
+
+variable "registry_mirror_readonly_password_secret_namespace" {
+  description = "namespace of the secret in k8s for registry mirror readonly password"
   default     = "vault"
 }
 
