@@ -8,6 +8,10 @@ variable "nexus_fqdn" {
   description = "fqdn for nexus"
 }
 
+variable "registry_mirror_fqdn" {
+  description = "fqdn for registry mirror"
+}
+
 variable "zitadel_fqdn" {
   description = "fqdn for zitadel"
 }
@@ -117,4 +121,8 @@ variable "cc_domain" {
 
 variable "nexus_readonly_username" {
   description = "readonly username for nexus"
+}
+
+variable "registry_mirror_readonly_username" {
+  description = "readonly username for registry mirror"
 }
