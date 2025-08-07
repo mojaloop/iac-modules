@@ -43,6 +43,7 @@ spec:
         args:
         - --mysqld.address=${externalservice_name}.${namespace}:${port}
         - --mysqld.username=${db_username}
+        - --tls.insecure-skip-verify
         ports:
         - name: http
           containerPort: 9104
