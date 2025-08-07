@@ -24,3 +24,14 @@ spec:
       remoteRef:
         key: ${netbird_setup_key_vault_path}
         property: value
+---
+apiVersion: netbird.io/v1
+kind: NBSetupKey
+metadata:
+  name: ${netbird_setup_key_name}
+  namespace: istio-system
+spec:
+  managementURL: ${netbird_management_url}
+  secretKeyRef:
+    name: ${netbird_setup_key_secret_name}
+    key: ${netbird_setup_key_secret_key}
