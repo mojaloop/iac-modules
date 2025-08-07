@@ -5,27 +5,27 @@ terraform {
 dependency "k8s_deploy" {
   config_path = "../k8s-deploy"
   mock_outputs = {
-    master_hosts                = {}
-    agent_hosts                 = {}
-    bastion_hosts               = {}
-    bastion_hosts_var_maps      = {}
-    agent_hosts_var_maps        = {}
-    master_hosts_var_maps       = {}
-    all_hosts_var_maps          = {}
-    master_hosts_yaml_maps      = {}
-    agent_hosts_yaml_maps       = {}
-    bastion_hosts_yaml_maps     = {}
-    test_harness_hosts          = {}
-    test_harness_hosts_var_maps = {}
-    bastion_ssh_key             = "key"
-    bastion_os_username         = "null"
-    bastion_public_ip           = "null"
-    private_dns_zone_id         = "null"
-    public_subdomain            = "null"
-    internal_load_balancer_dns  = "null"
+    master_hosts                      = {}
+    agent_hosts                       = {}
+    bastion_hosts                     = {}
+    bastion_hosts_var_maps            = {}
+    agent_hosts_var_maps              = {}
+    master_hosts_var_maps             = {}
+    all_hosts_var_maps                = {}
+    master_hosts_yaml_maps            = {}
+    agent_hosts_yaml_maps             = {}
+    bastion_hosts_yaml_maps           = {}
+    test_harness_hosts                = {}
+    test_harness_hosts_var_maps       = {}
+    bastion_ssh_key                   = "key"
+    bastion_os_username               = "null"
+    bastion_public_ip                 = "null"
+    private_dns_zone_id               = "null"
+    public_subdomain                  = "null"
+    internal_load_balancer_dns        = "null"
     external_load_balancer_private_ip = "null"
   }
-  skip_outputs = local.skip_outputs
+  skip_outputs                            = local.skip_outputs
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
 }
@@ -40,25 +40,25 @@ inputs = {
   agent_hosts   = dependency.k8s_deploy.outputs.agent_hosts
   bastion_hosts = dependency.k8s_deploy.outputs.bastion_hosts
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
-    tenant_vault_server_url = "https://${local.vault_fqdn}"
+    tenant_vault_server_url    = "https://${local.vault_fqdn}"
     internal_load_balancer_dns = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     public_subdomain = dependency.k8s_deploy.outputs.public_subdomain
     private_dns_zone_id = dependency.k8s_deploy.outputs.private_dns_zone_id
   })
-  agent_hosts_var_maps          = merge(dependency.k8s_deploy.outputs.agent_hosts_var_maps, local.agent_hosts_var_maps)
-  master_hosts_var_maps         = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps)
-  all_hosts_var_maps            = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps,
-  {
-    registry_mirror_fqdn        = local.NEXUS_FQDN
-    docker_registry_password    = local.NEXUS_READONLY_PASSWORD
-    docker_registry_username    = local.NEXUS_READONLY_USERNAME
-    cluster_cloud_provider      = local.CLOUD_PLATFORM
-    vpc_cidr                    = local.private_network_cidr
+  agent_hosts_var_maps  = merge(dependency.k8s_deploy.outputs.agent_hosts_var_maps, local.agent_hosts_var_maps)
+  master_hosts_var_maps = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps)
+  all_hosts_var_maps = merge(dependency.k8s_deploy.outputs.all_hosts_var_maps, local.all_hosts_var_maps,
+    {
+      registry_mirror_fqdn     = local.REGISTRY_MIRROR_FQDN
+      docker_registry_password = local.REGISTRY_MIRROR_READONLY_PASSWORD
+      docker_registry_username = local.REGISTRY_MIRROR_READONLY_USERNAME
+      cluster_cloud_provider   = local.CLOUD_PLATFORM
+      vpc_cidr                 = local.private_network_cidr
 
-  }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
-    microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
-    microk8s_version       = try(local.common_vars.microk8s_version, "1.31/stable")
-    external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
+      }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
+      microk8s_dns_resolvers            = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
+      microk8s_version                  = try(local.common_vars.microk8s_version, "1.31/stable")
+      external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
@@ -80,21 +80,24 @@ locals {
   skip_outputs = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
   env_vars = yamldecode(
   file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
-  common_vars = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
-  ANSIBLE_BASE_OUTPUT_DIR          = get_env("ANSIBLE_BASE_OUTPUT_DIR")
-  K8S_CLUSTER_TYPE                 = get_env("k8s_cluster_type")
-  ARGO_CD_ROOT_APP_PATH            = get_env("ARGO_CD_ROOT_APP_PATH")
-  CLUSTER_NAME                     = get_env("cluster_name")
-  NEXUS_DOCKER_REPO_LISTENING_PORT = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
-  NEXUS_FQDN                       = get_env("NEXUS_FQDN")
-  NEXUS_READONLY_USERNAME          = get_env("NEXUS_READONLY_USERNAME")
-  NEXUS_READONLY_PASSWORD          = get_env("NEXUS_READONLY_PASSWORD")
-  GITLAB_CURRENT_PROJECT_ID        = get_env("GITLAB_CURRENT_PROJECT_ID")
-  vault_fqdn                       = get_env("VAULT_FQDN")
-  CLOUD_PLATFORM                   = get_env("cloud_platform")
-  private_network_cidr             = "${get_env("vpc_cidr")}"
-  private_subdomain                = "int.${get_env("cluster_name")}.${get_env("domain")}"
-  argocd_oidc_domain               = local.private_subdomain
+  common_vars                       = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
+  ANSIBLE_BASE_OUTPUT_DIR           = get_env("ANSIBLE_BASE_OUTPUT_DIR")
+  K8S_CLUSTER_TYPE                  = get_env("k8s_cluster_type")
+  ARGO_CD_ROOT_APP_PATH             = get_env("ARGO_CD_ROOT_APP_PATH")
+  CLUSTER_NAME                      = get_env("cluster_name")
+  NEXUS_DOCKER_REPO_LISTENING_PORT  = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
+  NEXUS_FQDN                        = get_env("NEXUS_FQDN")
+  NEXUS_READONLY_USERNAME           = get_env("NEXUS_READONLY_USERNAME")
+  NEXUS_READONLY_PASSWORD           = get_env("NEXUS_READONLY_PASSWORD")
+  REGISTRY_MIRROR_FQDN              = get_env("REGISTRY_MIRROR_FQDN")
+  REGISTRY_MIRROR_READONLY_USERNAME = get_env("REGISTRY_MIRROR_READONLY_USERNAME")
+  REGISTRY_MIRROR_READONLY_PASSWORD = get_env("REGISTRY_MIRROR_READONLY_PASSWORD")
+  GITLAB_CURRENT_PROJECT_ID         = get_env("GITLAB_CURRENT_PROJECT_ID")
+  vault_fqdn                        = get_env("VAULT_FQDN")
+  CLOUD_PLATFORM                    = get_env("cloud_platform")
+  private_network_cidr              = get_env("vpc_cidr")
+  private_subdomain                 = "int.${get_env("cluster_name")}.${get_env("domain")}"
+  argocd_oidc_domain                = local.private_subdomain
 
   total_agent_count  = try(sum([for node in local.env_vars.nodes : node.node_count if !node.master]), 0)
   total_master_count = try(sum([for node in local.env_vars.nodes : node.node_count if node.master]), 0)
@@ -102,19 +105,19 @@ locals {
   bastion_hosts_yaml_maps = {
     #netmaker_join_tokens = yamlencode(concat([get_env("NETMAKER_OPS_TOKEN")], [get_env("NETMAKER_ENV_TOKEN")]))
   }
-  agent_hosts_var_maps  = {
-    netbird_version              = get_env("NETBIRD_VERSION")
-    netbird_api_host             = get_env("NETBIRD_API_HOST")
-    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY")
-    migrate                      = get_env("migrate")
-    coredns_localcache_version   = local.common_vars.coredns_localcache_version
+  agent_hosts_var_maps = {
+    netbird_version            = get_env("NETBIRD_VERSION")
+    netbird_api_host           = get_env("NETBIRD_API_HOST")
+    netbird_setup_key          = get_env("NETBIRD_K8S_SETUP_KEY")
+    migrate                    = get_env("migrate")
+    coredns_localcache_version = local.common_vars.coredns_localcache_version
   }
-  master_hosts_var_maps  = {
-    netbird_version              = get_env("NETBIRD_VERSION")
-    netbird_api_host             = get_env("NETBIRD_API_HOST")
-    netbird_setup_key            = get_env("NETBIRD_K8S_SETUP_KEY")
-    migrate                      = get_env("migrate")
-    coredns_localcache_version   = local.common_vars.coredns_localcache_version
+  master_hosts_var_maps = {
+    netbird_version            = get_env("NETBIRD_VERSION")
+    netbird_api_host           = get_env("NETBIRD_API_HOST")
+    netbird_setup_key          = get_env("NETBIRD_K8S_SETUP_KEY")
+    migrate                    = get_env("migrate")
+    coredns_localcache_version = local.common_vars.coredns_localcache_version
   }
   bastion_hosts_var_maps = {
     netbird_version              = get_env("NETBIRD_VERSION")
@@ -148,7 +151,7 @@ locals {
     eks_aws_region               = (local.K8S_CLUSTER_TYPE == "eks") ? get_env("cloud_region") : ""
   }
   all_hosts_var_maps = {
-    object_store_listening_port              = get_env("OBJECTSTORE_PORT")
+    object_store_listening_port      = get_env("OBJECTSTORE_PORT")
     nexus_docker_repo_listening_port = get_env("NEXUS_DOCKER_REPO_LISTENING_PORT")
     nexus_fqdn                       = get_env("NEXUS_FQDN")
     vault_listening_port             = get_env("TENANT_VAULT_LISTENING_PORT")
