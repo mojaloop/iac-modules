@@ -16,26 +16,28 @@ spec:
         value: https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
       - key: nexus_fqdn
         value: nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}
+      - key: registry_mirror_fqdn
+        value: harbor-registry.${ARGOCD_ENV_harbor_dns_subdomain}
       - key: obj_store_gw_fqdn
         value: ${ARGOCD_ENV_object_storage_endpoint}
-      - key: "obj_store_regional_endpoint"
+      - key: 'obj_store_regional_endpoint'
         value: ${ARGOCD_ENV_object_storage_regional_endpoint}
       - key: obj_store_region
         value: ${ARGOCD_ENV_object_storage_region}
       - key: object_storage_path_style
-        value: "${ARGOCD_ENV_object_storage_path_style}"
+        value: '${ARGOCD_ENV_object_storage_path_style}'
       - key: object_store_insecure_connection
-        value: "${ARGOCD_ENV_object_store_insecure_connection}"
+        value: '${ARGOCD_ENV_object_store_insecure_connection}'
       - key: mimir_gw_fqdn
-        value: "https://mimir.${ARGOCD_ENV_grafana_dns_subdomain}"
+        value: 'https://mimir.${ARGOCD_ENV_grafana_dns_subdomain}'
       - key: environment_list
         value: ${ARGOCD_ENV_environment_list}
       - key: netbird_version
-        value: "${ARGOCD_ENV_netbird_version}"
+        value: '${ARGOCD_ENV_netbird_version}'
       - key: netbird_client_version
-        value: "${ARGOCD_ENV_netbird_client_version}"
+        value: '${ARGOCD_ENV_netbird_client_version}'
       - key: netbird_api_host
-        value: "netbird.${ARGOCD_ENV_netbird_dns_subdomain}"
+        value: 'netbird.${ARGOCD_ENV_netbird_dns_subdomain}'
       - key: argocd_namespace
         value: ${ARGOCD_ENV_argocd_namespace}
       - key: kubernetes_oidc_groups_claim
@@ -52,6 +54,8 @@ spec:
         value: ${ARGOCD_ENV_cc_domain}
       - key: nexus_readonly_username
         value: ${ARGOCD_ENV_nexus_readonly_username}
+      - key: registry_mirror_readonly_username
+        value: ${ARGOCD_ENV_harbor_readonly_username}
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: env-config
