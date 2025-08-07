@@ -50,16 +50,6 @@ spec:
   http:
     - match:
         - uri:
-            prefix: /docker.io/v2/
-      rewrite:
-        uri: /v2/docker.io/
-      route:
-        - destination:
-            host: harbor-core
-            port:
-              number: 80
-    - match:
-        - uri:
             prefix: /service/
         - uri:
             prefix: /v2/
