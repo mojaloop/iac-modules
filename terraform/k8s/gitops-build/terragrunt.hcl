@@ -33,8 +33,8 @@ dependency "k8s_deploy" {
       cert_manager_credentials_client_secret_name_key = "cert_manager_credentials_client_secret_name"
     }
     secrets_key_map = {
-      external_dns_cred_id_key         = "route53_external_dns_access_key"
-      external_dns_cred_secret_key     = "route53_external_dns_secret_key"
+      external_dns_cred_id_key     = "route53_external_dns_access_key"
+      external_dns_cred_secret_key = "route53_external_dns_secret_key"
     }
     private_network_cidr              = local.cloud_platform_vars.private_network_cidr
     dns_provider                      = "aws"
@@ -159,24 +159,24 @@ inputs = {
 }
 
 locals {
-  skip_outputs = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
-  clusterConfig                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
-  env_vars                      = merge({
-    domainSuffix                = "${replace(local.clusterConfig.env,"/^.*(-[^-]+)$|^[^-]+([^-]{3})$/","$1$2")}.${local.clusterConfig.domain}"
+  skip_outputs  = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
+  clusterConfig = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
+  env_vars = merge({
+    domainSuffix = "${replace(local.clusterConfig.env, "/^.*(-[^-]+)$|^[^-]+([^-]{3})$/", "$1$2")}.${local.clusterConfig.domain}"
   }, local.clusterConfig)
-  tags                          = local.env_vars.tags
-  gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
-  gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
-  grafana_admin_rbac_group      = get_env("grafana_admin_rbac_group")
-  grafana_user_rbac_group       = get_env("grafana_user_rbac_group")
-  vault_admin_rbac_group        = get_env("vault_admin_rbac_group")
-  vault_readonly_rbac_group     = get_env("vault_user_rbac_group")
-  zitadel_project_id            = get_env("zitadel_project_id")
-  common_vars                   = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}", local.env_vars))
-  pm4ml_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}", local.env_vars))
-  proxy_pm4ml_vars              = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}", local.env_vars))
-  mojaloop_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}", local.env_vars))
-  vnext_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}", local.env_vars))
+  tags                       = local.env_vars.tags
+  gitlab_readonly_rbac_group = get_env("GITLAB_READONLY_RBAC_GROUP")
+  gitlab_admin_rbac_group    = get_env("GITLAB_ADMIN_RBAC_GROUP")
+  grafana_admin_rbac_group   = get_env("grafana_admin_rbac_group")
+  grafana_user_rbac_group    = get_env("grafana_user_rbac_group")
+  vault_admin_rbac_group     = get_env("vault_admin_rbac_group")
+  vault_readonly_rbac_group  = get_env("vault_user_rbac_group")
+  zitadel_project_id         = get_env("zitadel_project_id")
+  common_vars                = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}", local.env_vars))
+  pm4ml_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}", local.env_vars))
+  proxy_pm4ml_vars           = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}", local.env_vars))
+  mojaloop_vars              = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}", local.env_vars))
+  vnext_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}", local.env_vars))
 
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],

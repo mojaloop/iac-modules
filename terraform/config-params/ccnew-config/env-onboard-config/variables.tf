@@ -131,6 +131,16 @@ variable "nexus_readonly_password_secret_namespace" {
   default     = "vault"
 }
 
+variable "registry_mirror_readonly_password_secret_name" {
+  description = "name of the secret in k8s for registry mirror readonly password"
+  default     = "external-docker-harbor-password"
+}
+
+variable "registry_mirror_readonly_password_secret_namespace" {
+  description = "namespace of the secret in k8s for registry mirror readonly password"
+  default     = "vault"
+}
+
 locals {
   org_id             = [for org in data.zitadel_org.default : org.id if org.is_default][0]
   netbird_project_id = [for project_id in data.zitadel_projects.netbird.project_ids : project_id][0]

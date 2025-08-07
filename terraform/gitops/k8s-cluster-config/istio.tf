@@ -43,21 +43,12 @@ module "generate_istio_files" {
     kiali_istio_gateway_namespace        = local.kiali_istio_gateway_namespace
     kiali_sync_wave                      = var.kiali_sync_wave
     # Netbird egress gateway variables
-    istio_egress_gateway_name            = local.istio_egress_gateway_name
-    istio_egress_gateway_namespace       = local.istio_egress_gateway_namespace
-    istio_egress_gateway_max_replicas    = var.istio_egress_gateway_max_replicas
-    netbird_version                      = try(var.common_var_map.netbird_image_version, "0.51.1")
-    netbird_management_url               = var.netbird_management_url
-    netbird_setup_key_secret_name        = local.netbird_setup_key_secret_name
-    netbird_setup_key_secret_key         = local.netbird_setup_key_secret_key
-    netbird_setup_key_vault_path         = "${var.cluster_name}/${local.netbird_setup_key_vault_path}"
-    external_secret_sync_wave            = var.external_secret_sync_wave
+    istio_egress_gateway_name         = local.istio_egress_gateway_name
+    istio_egress_gateway_namespace    = local.istio_egress_gateway_namespace
+    istio_egress_gateway_max_replicas = var.istio_egress_gateway_max_replicas
     # Internal domain configuration for egress routing
-    internal_wildcard_hosts              = local.internal_wildcard_hosts_list
-    # TCP ports configuration for egress routing
-    tcp_ports                           = local.tcp_ports_list
-    # Target namespaces for netbird ServiceEntry deployment
-    netbird_target_namespaces           = local.netbird_target_namespaces_list
+    netbird_traffic_hosts  = local.netbird_traffic_hosts_list
+    netbird_setup_key_name = var.netbird_setup_key_name
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -82,17 +73,10 @@ locals {
   kiali_wildcard_gateway               = var.kiali_ingress_internal_lb ? "internal" : "external"
   kiali_fqdn                           = local.kiali_wildcard_gateway == "external" ? "kiali.${var.public_subdomain}" : "kiali.${var.private_subdomain}"
   # Netbird egress gateway configuration
-  istio_egress_gateway_name            = "istio-netbird-egress-gw"
-  istio_egress_gateway_namespace       = "istio-egress-nb"
-  # Netbird secret configuration
-  netbird_setup_key_secret_name        = "netbird-setup-key"
-  netbird_setup_key_secret_key         = "setup-key"
-  # Netbird vault path configuration
-  netbird_setup_key_vault_path         = "netbird_k8s_setup_key"
+  istio_egress_gateway_name      = "istio-netbird-egress-gw"
+  istio_egress_gateway_namespace = "istio-egress-nb"
   # Parse comma-delimited strings into lists for Netbird egress routing
-  internal_wildcard_hosts_list = var.internal_wildcard_hosts != "" ? split(",", trimspace(var.internal_wildcard_hosts)) : []
-  tcp_ports_list              = var.tcp_ports != "" ? [for port in split(",", trimspace(var.tcp_ports)) : tonumber(trimspace(port))] : []
-  netbird_target_namespaces_list = var.netbird_target_namespaces != "" ? split(",", trimspace(var.netbird_target_namespaces)) : ["istio-system"]
+  netbird_traffic_hosts_list = var.netbird_traffic_hosts != "" ? split(",", trimspace(var.netbird_traffic_hosts)) : []
 }
 
 
@@ -180,32 +164,14 @@ variable "kiali_ingress_internal_lb" {
   default     = true
 }
 
-variable "netbird_management_url" {
-  type        = string
-  description = "Netbird management server URL"
-  default     = "https://api.netbird.io"
-}
-
 variable "istio_egress_gateway_max_replicas" {
   type        = number
   description = "Maximum number of replicas for the Istio egress gateway"
   default     = 3
 }
 
-variable "internal_wildcard_hosts" {
+variable "netbird_traffic_hosts" {
   type        = string
   description = "Comma-delimited list of domain suffixes for internal domain routing (without wildcard prefix)"
   default     = ""
-}
-
-variable "tcp_ports" {
-  type        = string
-  description = "Comma-delimited list of TCP port numbers for internal service routing (e.g., '3306,5432,6379')"
-  default     = ""
-}
-
-variable "netbird_target_namespaces" {
-  type        = string
-  description = "Comma-delimited list of namespaces where netbird ServiceEntry should be deployed for selective waypoint routing"
-  default     = "istio-system,argocd,external-secrets,vault"
 }
