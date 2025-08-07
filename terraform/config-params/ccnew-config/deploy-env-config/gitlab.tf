@@ -5,12 +5,12 @@ data "gitlab_group" "iac" {
 
 # environment projects
 resource "gitlab_project" "envs" {
-  for_each               = local.environment_list
-  name                   = each.value
-  namespace_id           = data.gitlab_group.iac.id
+  for_each     = local.environment_list
+  name         = each.value
+  namespace_id = data.gitlab_group.iac.id
 
-  initialize_with_readme     = true
-  shared_runners_enabled     = true
+  initialize_with_readme          = true
+  shared_runners_enabled          = true
   container_registry_access_level = "private"
 }
 
@@ -57,6 +57,15 @@ resource "gitlab_group_variable" "nexus_fqdn" {
   group             = data.gitlab_group.iac.id
   key               = "NEXUS_FQDN"
   value             = var.nexus_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "registry_mirror_fqdn" {
+  group             = data.gitlab_group.iac.id
+  key               = "REGISTRY_MIRROR_FQDN"
+  value             = var.registry_mirror_fqdn
   protected         = true
   masked            = false
   environment_scope = "*"
@@ -291,6 +300,15 @@ resource "gitlab_group_variable" "nexus_readonly_username" {
   group             = data.gitlab_group.iac.id
   key               = "NEXUS_READONLY_USERNAME"
   value             = var.nexus_readonly_username
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "registry_mirror_readonly_username" {
+  group             = data.gitlab_group.iac.id
+  key               = "REGISTRY_MIRROR_READONLY_USERNAME"
+  value             = var.registry_mirror_readonly_username
   protected         = true
   masked            = false
   environment_scope = "*"
