@@ -16,6 +16,15 @@ module "generate_netbird_operator_post_config_files" {
     netbird_setup_key_name       = var.netbird_setup_key_name
     netbird_setup_key_namespace  = var.netbird_setup_key_namespace
     external_secret_sync_wave    = var.external_secret_sync_wave
+    netbird_target_labels = var.netbird_target_labels != "" ? [
+      for label in split(",", trimspace(var.netbird_target_labels)) : {
+        name  = split("=", label)[0]
+        value = split("=", label)[1]
+      }
+    ] : []
+    netbird_setup_key_name      = var.netbird_setup_key_name
+    netbird_setup_key_namespace = var.netbird_setup_key_namespace
+    opt_out_namespace_list      = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
   }
 
   file_list       = [for f in fileset(local.netbird_operator_post_config_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.netbird_operator_post_config_app_file, f))]
@@ -56,4 +65,16 @@ variable "netbird_setup_key_namespace" {
 variable "netbird_setup_key_vault_path" {
   type        = string
   description = "Vault path for the netbird setup key"
+}
+
+variable "netbird_target_labels" {
+  type        = string
+  description = "Comma-delimited list of label selectors in format name=value to match for adding netbird sidecar to pods"
+  default     = "app.kubernetes.io/name=argocd-repo-server,app.kubernetes.io/name=vault"
+}
+
+variable "opt_out_namespace_list" {
+  type        = string
+  description = "Comma-delimited list of additional namespaces to opt out of ambient mode"
+  default     = ""
 }
