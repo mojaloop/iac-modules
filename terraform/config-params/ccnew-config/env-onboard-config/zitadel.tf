@@ -347,3 +347,11 @@ resource "gitlab_project_variable" "netbird_operator_api_key_vault_path" {
   protected = false
   masked    = false
 }
+
+resource "gitlab_project_variable" "netbird_setup_key_vault_path" {
+  project   = data.gitlab_project.env.id
+  key       = "netbird_setup_key_vault_path"
+  value     = var.netbird_setup_key_vault_path
+  protected = false
+  masked    = false
+}
