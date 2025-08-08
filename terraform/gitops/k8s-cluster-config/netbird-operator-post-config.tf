@@ -7,14 +7,15 @@ module "generate_netbird_operator_post_config_files" {
     netbird_operator_namespace             = var.netbird_operator_namespace
     netbird_operator_helm_version          = var.netbird_operator_helm_version
     gitlab_project_url                     = var.gitlab_project_url
-      # Netbird secret configuration
-    netbird_setup_key_secret_name        = "netbird-setup-key"
-    netbird_setup_key_secret_key         = "setup-key"
+    # Netbird secret configuration
+    netbird_setup_key_secret_name = "netbird-setup-key"
+    netbird_setup_key_secret_key  = "setup-key"
     # Netbird vault path configuration
-    netbird_setup_key_vault_path         = "netbird_k8s_setup_key"
-    netbird_management_url               = var.netbird_operator_management_url
-    netbird_setup_key_name               = var.netbird_setup_key_name
-    external_secret_sync_wave            = var.external_secret_sync_wave
+    netbird_setup_key_vault_path = "netbird_k8s_setup_key"
+    netbird_management_url       = var.netbird_operator_management_url
+    netbird_setup_key_name       = var.netbird_setup_key_name
+    netbird_setup_key_namespace  = var.netbird_setup_key_namespace
+    external_secret_sync_wave    = var.external_secret_sync_wave
   }
 
   file_list       = [for f in fileset(local.netbird_operator_post_config_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.netbird_operator_post_config_app_file, f))]
@@ -40,8 +41,14 @@ variable "netbird_operator_post_config_namespace" {
   description = "netbird_operator_post_config_namespace"
   default     = "netbird-operator-post-config"
 }
- variable "netbird_setup_key_name" {
+variable "netbird_setup_key_name" {
   type        = string
   description = "Name of the netbird setup key"
   default     = "netbird-setup-key"
+}
+
+variable "netbird_setup_key_namespace" {
+  type        = string
+  description = "Namespace for the netbird setup key"
+  default     = "istio-system"
 }
