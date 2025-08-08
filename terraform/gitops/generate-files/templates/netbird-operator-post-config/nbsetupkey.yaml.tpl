@@ -4,7 +4,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${external_secret_sync_wave}"
   name: ${netbird_setup_key_secret_name}
-  namespace: istio-system
+  namespace: ${netbird_setup_key_namespace}
 spec:
   refreshInterval: 5m
 
@@ -29,7 +29,7 @@ apiVersion: netbird.io/v1
 kind: NBSetupKey
 metadata:
   name: ${netbird_setup_key_name}
-  namespace: istio-system
+  namespace: ${netbird_setup_key_namespace}
 spec:
   managementURL: ${netbird_management_url}
   secretKeyRef:
