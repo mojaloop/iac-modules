@@ -5,15 +5,6 @@ module "generate_kyverno_files" {
     kyverno_namespace     = var.kyverno_namespace
     kyverno_sync_wave     = var.kyverno_sync_wave
     kyverno_chart_version = var.kyverno_chart_version
-    netbird_target_labels = var.netbird_target_labels != "" ? [
-      for label in split(",", trimspace(var.netbird_target_labels)) : {
-        name  = split("=", label)[0]
-        value = split("=", label)[1]
-      }
-    ] : []
-    netbird_setup_key_name      = var.netbird_setup_key_name
-    netbird_setup_key_namespace = var.netbird_setup_key_namespace
-    opt_out_namespace_list      = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
   }
   file_list       = [for f in fileset(local.kyverno_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.kyverno_app_file, f))]
   template_path   = local.kyverno_template_path
@@ -45,16 +36,4 @@ variable "kyverno_chart_version" {
   type        = string
   description = "kyverno_chart_version"
   default     = "3.3.7"
-}
-
-variable "netbird_target_labels" {
-  type        = string
-  description = "Comma-delimited list of label selectors in format name=value to match for adding netbird sidecar to pods"
-  default     = "app.kubernetes.io/name=argocd-repo-server,app.kubernetes.io/name=vault"
-}
-
-variable "opt_out_namespace_list" {
-  type        = string
-  description = "Comma-delimited list of additional namespaces to opt out of ambient mode"
-  default     = ""
 }
