@@ -1,12 +1,18 @@
 module "generate_kyverno_files" {
   source = "../generate-files"
   var_map = {
-    gitlab_project_url     = var.gitlab_project_url
-    kyverno_namespace      = var.kyverno_namespace
-    kyverno_sync_wave      = var.kyverno_sync_wave
-    kyverno_chart_version  = var.kyverno_chart_version
-    netbird_target_labels  = local.netbird_target_labels_list
+    gitlab_project_url    = var.gitlab_project_url
+    kyverno_namespace     = var.kyverno_namespace
+    kyverno_sync_wave     = var.kyverno_sync_wave
+    kyverno_chart_version = var.kyverno_chart_version
+    netbird_target_labels = var.netbird_target_labels != "" ? [
+      for label in split(",", trimspace(var.netbird_target_labels)) : {
+        name  = split("=", label)[0]
+        value = split("=", label)[1]
+      }
+    ] : []
     netbird_setup_key_name = var.netbird_setup_key_name
+    opt_out_namespace_list = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
   }
   file_list       = [for f in fileset(local.kyverno_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.kyverno_app_file, f))]
   template_path   = local.kyverno_template_path
@@ -16,9 +22,8 @@ module "generate_kyverno_files" {
 }
 
 locals {
-  kyverno_template_path      = "${path.module}/../generate-files/templates/kyverno"
-  kyverno_app_file           = "kyverno-app.yaml"
-  netbird_target_labels_list = var.netbird_target_labels != "" ? split(",", trimspace(var.netbird_target_labels)) : ["argocd-repo-server", "vault"]
+  kyverno_template_path = "${path.module}/../generate-files/templates/kyverno"
+  kyverno_app_file      = "kyverno-app.yaml"
 }
 
 
@@ -43,6 +48,12 @@ variable "kyverno_chart_version" {
 
 variable "netbird_target_labels" {
   type        = string
-  description = "Comma-delimited list of app.kubernetes.io/name labels to match for adding netbird sidecar to pods"
-  default     = "argocd-repo-server,vault"
+  description = "Comma-delimited list of label selectors in format name=value to match for adding netbird sidecar to pods"
+  default     = "app.kubernetes.io/name=argocd-repo-server,app.kubernetes.io/name=vault"
+}
+
+variable "opt_out_namespace_list" {
+  type        = string
+  description = "Comma-delimited list of additional namespaces to opt out of ambient mode"
+  default     = ""
 }
