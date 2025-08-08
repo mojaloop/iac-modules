@@ -209,6 +209,7 @@ locals {
   netbird_operator_management_url     = get_env("netbird_operator_management_url")
   netbird_operator_api_key_vault_path = get_env("netbird_operator_api_key_vault_path")
   internal_cc_subdomain               = get_env("CC_DOMAIN")
+}
 generate "required_providers_override" {
   path = "required_providers_override.tf"
 
