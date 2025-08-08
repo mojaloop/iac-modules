@@ -11,8 +11,9 @@ module "generate_kyverno_files" {
         value = split("=", label)[1]
       }
     ] : []
-    netbird_setup_key_name = var.netbird_setup_key_name
-    opt_out_namespace_list = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
+    netbird_setup_key_name      = var.netbird_setup_key_name
+    netbird_setup_key_namespace = var.netbird_setup_key_namespace
+    opt_out_namespace_list      = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
   }
   file_list       = [for f in fileset(local.kyverno_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.kyverno_app_file, f))]
   template_path   = local.kyverno_template_path
