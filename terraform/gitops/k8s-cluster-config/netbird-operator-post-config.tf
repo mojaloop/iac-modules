@@ -11,7 +11,7 @@ module "generate_netbird_operator_post_config_files" {
     netbird_setup_key_secret_name = "netbird-setup-key"
     netbird_setup_key_secret_key  = "setup-key"
     # Netbird vault path configuration
-    netbird_setup_key_vault_path = "netbird_k8s_setup_key"
+    netbird_setup_key_vault_path = var.netbird_setup_key_vault_path
     netbird_management_url       = var.netbird_operator_management_url
     netbird_setup_key_name       = var.netbird_setup_key_name
     netbird_setup_key_namespace  = var.netbird_setup_key_namespace
@@ -51,4 +51,9 @@ variable "netbird_setup_key_namespace" {
   type        = string
   description = "Namespace for the netbird setup key"
   default     = "istio-system"
+}
+
+variable "netbird_setup_key_vault_path" {
+  type        = string
+  description = "Vault path for the netbird setup key"
 }
