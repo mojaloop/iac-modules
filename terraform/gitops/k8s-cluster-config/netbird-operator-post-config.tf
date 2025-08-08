@@ -24,7 +24,6 @@ module "generate_netbird_operator_post_config_files" {
     ] : []
     netbird_setup_key_name      = var.netbird_setup_key_name
     netbird_setup_key_namespace = var.netbird_setup_key_namespace
-    opt_out_namespace_list      = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
   }
 
   file_list       = [for f in fileset(local.netbird_operator_post_config_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.netbird_operator_post_config_app_file, f))]
@@ -73,8 +72,3 @@ variable "netbird_target_labels" {
   default     = "app.kubernetes.io/name=argocd-repo-server,app.kubernetes.io/name=vault"
 }
 
-variable "opt_out_namespace_list" {
-  type        = string
-  description = "Comma-delimited list of additional namespaces to opt out of ambient mode"
-  default     = ""
-}
