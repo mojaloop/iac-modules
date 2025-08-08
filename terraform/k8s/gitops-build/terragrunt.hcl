@@ -80,6 +80,7 @@ inputs = {
   platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
   values_hub_provisioning_override_file    = find_in_parent_folders("${get_env("CONFIG_PATH")}/values-hub-provisioning-override.yaml", "values-hub-provisioning-override.yaml")
   mojaloop_stateful_res_monolith_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-monolith-databases.yaml")
+  values_reporting_k8s_templates_override_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/values-reporting-k8s-templates-override.yaml", "values-reporting-k8s-templates-override.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
   gitlab_group_name                        = local.GITLAB_CURRENT_GROUP_NAME
   gitlab_api_url                           = local.GITLAB_API_URL
@@ -147,6 +148,10 @@ inputs = {
   cloud_region                             = local.CLOUD_REGION
   reclaim_policy                           = local.persistent_volume_reclaim_policy
   private_dns_zone_id                      = dependency.k8s_deploy.outputs.private_dns_zone_id
+  velero_plugin_version                    = local.common_vars.velero_plugin_version
+  velero_helm_version                      = local.common_vars.velero_helm_version
+  velero_backup_schedule                   = local.common_vars.velero_backup_schedule
+  velero_backup_ttl                        = local.common_vars.velero_backup_ttl
 }
 
 locals {

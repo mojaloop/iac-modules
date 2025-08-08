@@ -1,22 +1,21 @@
-# %{ if mcm_enabled }
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${mcm_sync_wave}"
-  name: mcm-app
+    argocd.argoproj.io/sync-wave: "${velero_sync_wave}"
+  name: velero-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/mcm
+    path: apps/velero
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
     plugin:
       name: argocd-lovely-plugin-v1.0
   destination:
-    namespace: ${mcm_namespace}
+    namespace: ${velero_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
@@ -33,7 +32,3 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
-    managedNamespaceMetadata:
-      labels:
-        istio.io/use-waypoint: istio-waypoint
-# %{ endif }

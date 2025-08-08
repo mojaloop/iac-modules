@@ -71,16 +71,12 @@ role-assignment-service:
       }
 
 reporting-hub-bop-api-svc:
-  containerSecurityContext:
-    enabled: false
   enabled: true
   ingress:
     enabled: false
 
 
 reporting-legacy-api:
-  containerSecurityContext:
-    enabled: false
   enabled: true
   ingress:
     enabled: false
@@ -157,6 +153,7 @@ reporting-hub-bop-shell:
     enabled: false
 
   config:
+    # images before v2.3.2 use env variables
     env:
       AUTH_MOCK_API: false
       REMOTE_API_BASE_URL: ''
@@ -172,25 +169,74 @@ reporting-hub-bop-shell:
       REMOTE_2_URL: https://${portal_fqdn}/uis/transfers
       REMOTE_3_URL: https://${portal_fqdn}/uis/settlements
       REMOTE_4_URL: https://${portal_fqdn}/uis/positions
+  configFiles:
+    # images after v2.3.2 use config.json and remotes.json
+    config.json:
+      AUTH_API_BASE_URL: ''
+      AUTH_MOCK_API: 'false'
+      REMOTE_API_BASE_URL: ''
+      REMOTE_MOCK_API: 'false'
+      AUTH_ENABLED: 'true'
+      LOGIN_URL: https://${auth_fqdn}/kratos/self-service/login/browser
+      LOGIN_PROVIDER: keycloak
+      LOGOUT_URL: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
+      AUTH_TOKEN_URL: /kratos/sessions/whoami
+    remotes.json:
+      roles:
+        path: /iam
+        label: Roles
+        menuComponent: Menu
+        appComponent: App
+        baseUrl: https://${portal_fqdn}/uis/iam
+        url: https://${portal_fqdn}/uis/iam/app.js
+        appName: reporting_hub_bop_role_ui
+      transfers:
+        path: /transfers
+        label: Transfers
+        menuComponent: Menu
+        appComponent: App
+        baseUrl: https://${portal_fqdn}/uis/transfers
+        url: https://${portal_fqdn}/uis/transfers/app.js
+        appName: reporting_hub_bop_trx_ui
+      settlements:
+        path: /settlements
+        label: Settlements
+        menuComponent: Menu
+        appComponent: App
+        baseUrl: https://${portal_fqdn}/uis/settlements
+        url: https://${portal_fqdn}/uis/settlements/app.js
+        appName: reporting_hub_bop_settlements_ui
+      positions:
+        path: /positions
+        label: Financial Positions
+        menuComponent: Menu
+        appComponent: App
+        baseUrl: https://${portal_fqdn}/uis/positions
+        url: https://${portal_fqdn}/uis/positions/app.js
+        appName: reporting_hub_bop_positions_ui
 
 ### Micro-frontends
 reporting-hub-bop-role-ui:
   enabled: true
   ingress:
     enabled: false
-  config:
-    env:
-      REACT_APP_API_BASE_URL: https://${portal_fqdn}/api/iam
-      REACT_APP_MOCK_API: false
+  configFiles:
+    runtime-env.js: |
+      window.roleEnv = {
+        REACT_APP_API_BASE_URL: 'https://${portal_fqdn}/api/iam',
+        REACT_APP_MOCK_API: 'false'
+      };
 
 reporting-hub-bop-trx-ui:
   enabled: true
   ingress:
     enabled: false
-  config:
-    env:
-      REACT_APP_API_BASE_URL: https://${portal_fqdn}/api/transfers
-      REACT_APP_MOCK_API: false
+  configFiles:
+    runtime-env.js: |
+      window.transferEnv = {
+        REACT_APP_API_BASE_URL: 'https://${portal_fqdn}/api/transfers',
+        REACT_APP_MOCK_API: 'false'
+      };
 
 reporting-hub-bop-settlements-ui:
   ## Overriding the image version for bugfix related to https://modusbox.atlassian.net/browse/MBP-639
@@ -199,20 +245,24 @@ reporting-hub-bop-settlements-ui:
     repository: mojaloop/reporting-hub-bop-settlements-ui
     tag: v0.0.19-snapshot.2
   enabled: true
-  config:
-    env:
-      CENTRAL_LEDGER_ENDPOINT: https://${portal_fqdn}/api/central-admin
-      CENTRAL_SETTLEMENTS_ENDPOINT: https://${portal_fqdn}/api/central-settlements
-      REPORTING_API_ENDPOINT: https://${portal_fqdn}/api/transfers
-      REPORTING_TEMPLATE_API_ENDPOINT: https://${portal_fqdn}/api/reports/report-bilateral-settlement
+  configFiles:
+    runtime-env.js: |
+      window.settlementEnv = {
+        CENTRAL_LEDGER_ENDPOINT: 'https://${portal_fqdn}/api/central-admin',
+        CENTRAL_SETTLEMENTS_ENDPOINT: 'https://${portal_fqdn}/api/central-settlements',
+        REPORTING_API_ENDPOINT: 'https://${portal_fqdn}/api/transfers',
+        REPORTING_TEMPLATE_API_ENDPOINT: 'https://${portal_fqdn}/api/reports/report-bilateral-settlement'
+      };
   ingress:
     enabled: false
 
 
 reporting-hub-bop-positions-ui:
   enabled: true
-  config:
-    env:
-      CENTRAL_LEDGER_ENDPOINT: https://${portal_fqdn}/api/central-admin
+  configFiles:
+    runtime-env.js: |
+      window.positionsEnv = {
+        CENTRAL_LEDGER_ENDPOINT: 'https://${portal_fqdn}/api/central-admin'
+      };
   ingress:
     enabled: false

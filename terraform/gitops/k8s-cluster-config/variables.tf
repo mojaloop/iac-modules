@@ -228,4 +228,5 @@ locals {
   longhorn_backups_credentials_id_provider_key     = "longhorn_backup_bucket_access_key_id"
   loki_bucket                                      = data.gitlab_project_variable.loki_bucket.value
   tempo_bucket                                     = data.gitlab_project_variable.tempo_bucket.value
+  velero_bucket                                    = data.gitlab_project_variable.velero_bucket.value
 }

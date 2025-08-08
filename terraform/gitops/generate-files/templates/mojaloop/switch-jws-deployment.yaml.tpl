@@ -18,6 +18,8 @@ spec:
         - name: jws-pubkey-job-wait
           image: busybox:1.28
           command: ["sh", "-c", "echo Keep the app running! && sleep 3600"]
+          securityContext:
+            readOnlyRootFilesystem: true
       initContainers:
         - name: init-secret
           image: alpine
@@ -31,6 +33,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /tmp
+          securityContext:
+            readOnlyRootFilesystem: true
         - name: init-extract-public-key
           image: alpine/openssl:3.1.4
           command:
@@ -42,6 +46,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /tmp
+          securityContext:
+            readOnlyRootFilesystem: true
 
         - name: init-call-mcm
           image: curlimages/curl:8.6.0
@@ -49,7 +55,7 @@ spec:
             - /bin/sh
             - -ec
             - >-
-              curl 
+              curl
               -X POST "${mcm_hub_jws_endpoint}"
               -H "Content-type: application/json"
               -H "accept: application/json"
@@ -57,7 +63,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /tmp
+          securityContext:
+            readOnlyRootFilesystem: true
       volumes:
         - name: data
           emptyDir: {}
-                

@@ -243,6 +243,13 @@ resource "local_file" "values_hub_provisioning_override" {
   depends_on = [module.generate_mojaloop_files]
 }
 
+resource "local_file" "values_reporting_k8s_templates_override" {
+  count      = local.values_reporting_k8s_templates_override_file_exists ? 1 : 0
+  content    = templatefile(var.values_reporting_k8s_templates_override_file, var.app_var_map)
+  filename   = "${local.output_path}/values-reporting-k8s-templates-override.yaml"
+  depends_on = [module.generate_mojaloop_files]
+}
+
 locals {
   mojaloop_wildcard_gateway       = try(var.app_var_map.mojaloop_ingress_internal_lb, true) ? "internal" : "external"
   ttk_fqdn                        = local.mojaloop_wildcard_gateway == "external" ? "ttk.${var.public_subdomain}" : "ttk.${var.private_subdomain}"
@@ -279,6 +286,7 @@ locals {
   mcm_override_values_file_exists              = fileexists(var.mcm_values_override_file)
   finance_portal_override_values_file_exists   = fileexists(var.finance_portal_values_override_file)
   values_hub_provisioning_override_file_exists = fileexists(var.values_hub_provisioning_override_file)
+  values_reporting_k8s_templates_override_file_exists = fileexists(var.values_reporting_k8s_templates_override_file)
 }
 
 variable "app_var_map" {
@@ -430,6 +438,10 @@ variable "finance_portal_values_override_file" {
 }
 
 variable "values_hub_provisioning_override_file" {
+  type = string
+}
+
+variable "values_reporting_k8s_templates_override_file" {
   type = string
 }
 
