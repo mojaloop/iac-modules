@@ -122,6 +122,10 @@ variable "netbird_operator_api_key_vault_path" {
   description = "vault path to get operator access key"
 }
 
+variable "netbird_setup_key_vault_path" {
+  description = "vault path to get setup key for k8s egress"
+}
+
 variable "netbird_operator_management_url" {
   description = "url to reach management api of netbird"
 }
