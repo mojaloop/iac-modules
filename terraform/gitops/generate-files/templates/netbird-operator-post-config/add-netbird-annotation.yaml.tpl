@@ -64,7 +64,7 @@ spec:
                 - "${netbird_setup_key_namespace}"
       generate:
         synchronize: true
-        apiVersion: nbsetupkey.netbird.io/v1alpha1
+        apiVersion: netbird.io/v1
         kind: NBSetupKey
         name: ${netbird_setup_key_name}
         namespace: "{{request.object.metadata.namespace}}"
