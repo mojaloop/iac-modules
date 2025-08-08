@@ -132,6 +132,7 @@ inputs = {
   netbird_traffic_hosts                        = join(",", [for host in split(",", local.common_vars.internal_cc_hosts) : "${host}.${local.internal_cc_subdomain}"])
   netbird_target_labels                        = local.common_vars.netbird_target_labels
   opt_out_namespace_list                       = local.common_vars.opt_out_namespace_list
+  netbird_setup_key_vault_path                 = local.netbird_setup_key
 }
 
 locals {
@@ -209,6 +210,7 @@ locals {
   netbird_operator_management_url     = get_env("netbird_operator_management_url")
   netbird_operator_api_key_vault_path = get_env("netbird_operator_api_key_vault_path")
   internal_cc_subdomain               = get_env("CC_DOMAIN")
+  netbird_setup_key_vault_path        = get_env("netbird_setup_key_vault_path")
 }
 generate "required_providers_override" {
   path = "required_providers_override.tf"
