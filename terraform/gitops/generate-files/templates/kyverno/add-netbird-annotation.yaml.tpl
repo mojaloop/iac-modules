@@ -15,7 +15,7 @@ spec:
           - resources:
               selector:
                 matchLabels:
-                  app.kubernetes.io/name: "${label}"
+                  ${label.name}: "${label.value}"
 %{ endfor ~}
       mutate:
         patchStrategicMerge:
