@@ -143,7 +143,7 @@ variable "nexus_readonly_password_secret_namespace" {
 
 variable "registry_mirror_readonly_password_secret_name" {
   description = "name of the secret in k8s for registry mirror readonly password"
-  default     = "external-docker-harbor-password"
+  default     = "external-docker-harbor-secret"
 }
 
 variable "registry_mirror_readonly_password_secret_namespace" {
