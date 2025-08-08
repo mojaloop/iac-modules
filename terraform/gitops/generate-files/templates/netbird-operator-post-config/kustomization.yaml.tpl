@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - nbroutingpeer.yaml
   - nbsetupkey.yaml
+  - add-netbird-annotation.yaml
