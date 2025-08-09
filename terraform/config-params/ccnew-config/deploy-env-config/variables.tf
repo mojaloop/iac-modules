@@ -119,6 +119,11 @@ variable "cc_domain" {
   description = "domain that cc is running in"
 }
 
+variable "sc_domain" {
+  description = "Domain for the sc endpoints"
+  type        = string
+}
+
 variable "nexus_readonly_username" {
   description = "readonly username for nexus"
 }
