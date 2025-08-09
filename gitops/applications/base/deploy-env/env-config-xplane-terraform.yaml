@@ -52,6 +52,8 @@ spec:
         value: ${ARGOCD_ENV_env_token_ttl}
       - key: cc_domain
         value: ${ARGOCD_ENV_cc_domain}
+      - key: sc_domain
+        value: ${ARGOCD_ENV_sc_domain}
       - key: nexus_readonly_username
         value: ${ARGOCD_ENV_nexus_readonly_username}
       - key: registry_mirror_readonly_username
