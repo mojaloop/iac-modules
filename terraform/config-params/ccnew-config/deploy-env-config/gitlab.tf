@@ -296,6 +296,15 @@ resource "gitlab_group_variable" "cc_domain" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "sc_domain" {
+  group             = data.gitlab_group.iac.id
+  key               = "SC_DOMAIN"
+  value             = var.sc_domain
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_group_variable" "nexus_readonly_username" {
   group             = data.gitlab_group.iac.id
   key               = "NEXUS_READONLY_USERNAME"
