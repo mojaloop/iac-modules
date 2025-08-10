@@ -130,7 +130,7 @@ spec:
           value: '${ARGOCD_ENV_dns_utils_cr_config_dns_private_subdomain}'
 
         - name: 'sc_domain'
-          value: '${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_subdomain}'
+          value: '${ARGOCD_ENV_utils_storage_storage_cluster_domain}'
 
         - name: 'nexus_readonly_username'
           value: '${ARGOCD_ENV_nexus_nexus_readonly_user_name}'
