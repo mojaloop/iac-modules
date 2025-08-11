@@ -69,18 +69,6 @@ spec:
         value: "${ARGOCD_ENV_ceph_max_objects}"
       - key: max_size
         value: ${ARGOCD_ENV_ceph_bucket_max_size}
-      - key: common_platform_db_secret_name
-        value: ${ARGOCD_ENV_common_platform_db_secret_name}
-      - key: common_mojaloop_db_secret_name
-        value: ${ARGOCD_ENV_common_mojaloop_db_secret_name}
-      - key: common_mongodb_secret_name
-        value: ${ARGOCD_ENV_common_mongodb_secret_name}
-      - key: common_platform_db_external_name
-        value: ${ARGOCD_ENV_common_platform_db_external_name_service}
-      - key: common_mojaloop_db_external_name
-        value: ${ARGOCD_ENV_common_mojaloop_db_external_name_service}
-      - key: common_mongodb_external_name
-        value: ${ARGOCD_ENV_common_mongodb_external_name_service}
       - key: netbird_operator_management_url
         value: "https://${ARGOCD_ENV_netbird_fqdn}:443"
       - key: netbird_operator_api_key_vault_path
