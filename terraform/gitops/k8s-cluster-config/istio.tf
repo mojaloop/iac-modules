@@ -49,6 +49,7 @@ module "generate_istio_files" {
     # Internal domain configuration for egress routing
     netbird_traffic_hosts  = local.netbird_traffic_hosts_list
     netbird_setup_key_name = var.netbird_setup_key_name
+    istio_cni_platform     = var.istio_cni_platform
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
