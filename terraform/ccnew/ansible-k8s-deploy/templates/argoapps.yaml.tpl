@@ -526,7 +526,7 @@ argocd_override:
           cloud_region: "${cloud_region}"
           dns_zone_id: "${private_dns_zone_id}"
           dbaas_default_management_policy: "${dbaas_default_management_policy}"
-          velero_bucket_storage_size: "${velero_bucket_storage_size}
+          velero_bucket_storage_size: "${velero_bucket_storage_size}"
 
 
     monitoring:
