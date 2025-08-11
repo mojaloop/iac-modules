@@ -20,8 +20,8 @@ locals {
 }
 
 variable "crossplane_providers_sync_wave" {
-  type        = string
-  default     = "-12"
+  type    = string
+  default = "-14"
 }
 
 variable "crossplane_providers_vault_version" {
