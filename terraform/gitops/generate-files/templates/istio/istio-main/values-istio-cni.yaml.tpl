@@ -17,6 +17,9 @@ global:
     requests:
       cpu: 100m
       memory: 100Mi
+  %{ if istio_cni_platform != "none" ~}
+  platform: ${istio_cni_platform}
+  %{ endif ~}
 
 # CNI-and-platform specific path defaults.
 cniBinDir: /opt/cni/bin
