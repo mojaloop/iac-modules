@@ -61,6 +61,8 @@ module "generate_pm4ml_files" {
     pm4ml_external_switch_client_secret_key         = "token"
     pm4ml_external_switch_client_secret_vault_key   = "${var.cluster_name}/${each.key}/${each.value.pm4ml_external_switch_client_secret_vault_path}"
     pm4ml_external_switch_client_secret_vault_value = "value"
+    pm4ml_core_connector_secret                     = var.pm4ml_core_connector_secret
+    pm4ml_core_connector_secret_key                 = "${var.cluster_name}/core-connector/${each.key}"
     istio_external_gateway_name                     = var.istio_external_gateway_name
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
     auto_accept_party                               = each.value.auto_accept_party
@@ -230,6 +232,12 @@ variable "pm4ml_external_switch_client_secret" {
   type        = string
   description = "secret name for client secret to connect to switch idm"
   default     = "pm4ml-external-switch-client-secret"
+}
+
+variable "pm4ml_core_connector_secret" {
+  type        = string
+  description = "secret name for core connector env vars"
+  default     = "pm4ml-core-connector-secret"
 }
 
 variable "auto_accept_party" {

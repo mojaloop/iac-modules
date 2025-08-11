@@ -48,6 +48,7 @@ experience-api:
     cacheUrl: redis://${redis_host}:${redis_port}
 
 mojaloop-core-connector:
+  envSecret: ${pm4ml_core_connector_secret}
   ${indent(2, yamlencode(core_connector_config))}
 
 cbs-mock:
