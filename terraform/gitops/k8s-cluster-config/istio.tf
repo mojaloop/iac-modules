@@ -175,3 +175,9 @@ variable "netbird_traffic_hosts" {
   description = "Comma-delimited list of domain suffixes for internal domain routing (without wildcard prefix)"
   default     = ""
 }
+
+variable "istio_cni_platform" {
+  type        = string
+  description = "CNI platform for Istio"
+  default     = "none"
+}
