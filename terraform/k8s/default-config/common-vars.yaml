@@ -78,5 +78,5 @@ oathkeeper_replica_count: 1
 keycloak_replica_count: 1
 internal_cc_hosts: 'vault,grafana,loki,mimir'
 internal_sc_hosts: 'cephobjectstore'
-netbird_target_labels: 'app.kubernetes.io/name=argocd-repo-server,app.kubernetes.io/name=vault,app=rook-ceph-operator,app=csi-rbdplugin-provisioner,app=csi-rbdplugin,app=csi-cephfsplugin-provisioner,app=csi-cephfsplugin'
+netbird_target_labels: 'app.kubernetes.io/name=argocd-repo-server,app.kubernetes.io/name=vault'
 opt_out_namespace_list: 'vault,strimzi'

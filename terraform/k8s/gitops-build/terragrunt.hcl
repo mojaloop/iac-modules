@@ -134,6 +134,7 @@ inputs = {
   netbird_target_labels                        = local.common_vars.netbird_target_labels
   opt_out_namespace_list                       = local.common_vars.opt_out_namespace_list
   netbird_setup_key_vault_path                 = local.netbird_setup_key_vault_path
+  istio_cni_platform                           = local.k8s_cluster_type == "microk8s" ? "microk8s" : "none"
 }
 
 locals {
