@@ -41,7 +41,7 @@ locals {
 variable "netbird_operator_post_config_sync_wave" {
   type        = string
   description = "netbird_operator_post_config_sync_wave"
-  default     = "-8"
+  default     = "-13"
 }
 
 variable "netbird_operator_post_config_namespace" {
