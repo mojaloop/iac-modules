@@ -1,0 +1,7 @@
+export CC_VAR_ci_iam_user_secret_key=""
+export CC_VAR_ci_iam_user_access_key=""
+export CC_VAR_ssh_private_key="""
+  -----BEGIN RSA PRIVATE KEY-----
+  -----END RSA PRIVATE KEY-----
+"""
+export CC_VAR_capi_cluster_proxmox_password=""

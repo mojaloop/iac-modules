@@ -1,2 +1,5 @@
 **/vendor/*
 **/*.temp
+
+# .envrc file should not be committed
+.envrc
