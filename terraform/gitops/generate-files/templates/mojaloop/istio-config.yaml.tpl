@@ -240,28 +240,6 @@ spec:
             host: ${mojaloop_release_name}-transaction-requests-service
             port:
               number: 80
-    - name: central-admin
-      match:
-        - uri:
-            prefix: /admin/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: ${mojaloop_release_name}-centralledger-service
-            port:
-              number: 80
-    - name: als-admin
-      match:
-        - uri:
-            prefix: /als-admin/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: ${mojaloop_release_name}-account-lookup-service-admin
-            port:
-              number: 80
 
 %{ if ttk_dev_mode_enabled ~}
 ---
