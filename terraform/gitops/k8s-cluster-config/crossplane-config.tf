@@ -34,15 +34,15 @@ locals {
 variable "crossplane_sync_wave" {
   type        = string
   description = "crossplane_sync_wave"
-  default     = "-13"
+  default     = "-15"
 }
 
 variable "crossplane_namespace" {
-  type        = string
-  default     = "crossplane-system"
+  type    = string
+  default = "crossplane-system"
 }
 
 variable "crossplane_helm_version" {
-  type        = string
-  default    = "1.19.0"
+  type    = string
+  default = "1.19.0"
 }
