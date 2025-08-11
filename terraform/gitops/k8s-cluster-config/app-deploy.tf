@@ -37,6 +37,7 @@ module "mojaloop" {
   vault_secret_key                         = var.vault_secret_key
   role_assign_svc_secret                   = var.role_assign_svc_secret
   role_assign_svc_user                     = var.role_assign_svc_user
+  istio_external_gateway_replica_count     = try(var.istio_external_gateway_replica_count, 1)
   istio_external_gateway_name              = var.istio_external_gateway_name
   istio_internal_gateway_name              = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
@@ -108,6 +109,7 @@ module "pm4ml" {
   pm4ml_oidc_client_secret_secret_prefix   = var.pm4ml_oidc_client_secret_secret
   pm4ml_oidc_client_id_prefix              = var.pm4ml_oidc_client_id_prefix
   keycloak_pm4ml_realm_name                = var.keycloak_pm4ml_realm_name
+  istio_external_gateway_replica_count     = try(var.istio_external_gateway_replica_count, 1)
   istio_external_gateway_name              = var.istio_external_gateway_name
   istio_internal_gateway_name              = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
@@ -153,6 +155,7 @@ module "proxy_pm4ml" {
   cert_manager_service_account_name        = var.cert_manager_service_account_name
   vault_namespace                          = var.vault_namespace
   cert_manager_namespace                   = var.cert_manager_namespace
+  istio_external_gateway_replica_count     = try(var.istio_external_gateway_replica_count, 1)
   istio_external_gateway_name              = var.istio_external_gateway_name
   istio_internal_gateway_name              = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
@@ -199,6 +202,7 @@ module "vnext" {
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
+  istio_external_gateway_replica_count = try(var.istio_external_gateway_replica_count, 1)
   istio_external_gateway_name          = var.istio_external_gateway_name
   istio_internal_gateway_name          = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name = local.istio_external_wildcard_gateway_name

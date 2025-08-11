@@ -57,6 +57,7 @@ module "generate_pm4ml_files" {
     pm4ml_external_switch_b_client_secret_vault_key = "${var.cluster_name}/${each.key}/${each.value.pm4ml_scheme_b_config.pm4ml_external_switch_client_secret_vault_path}"
     pm4ml_external_switch_client_secret_vault_value = "value"
     istio_external_gateway_name                     = var.istio_external_gateway_name
+    istio_external_gateway_replica_count            = try(var.istio_external_gateway_replica_count, 1)
     cert_man_vault_cluster_issuer_name              = var.cert_man_vault_cluster_issuer_name
     ttk_enabled                                     = each.value.pm4ml_ttk_enabled
     ttk_fqdn                                        = local.pm4ml_ttk_fqdns[each.key]
