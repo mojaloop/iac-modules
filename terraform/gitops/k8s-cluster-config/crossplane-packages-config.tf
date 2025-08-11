@@ -26,12 +26,12 @@ locals {
 }
 
 variable "crossplane_packages_sync_wave" {
-  type        = string
-  default     = "-11"
+  type    = string
+  default = "-13"
 }
 
 variable "crossplane_packages_utils_version" {
-  type        = string
+  type = string
 }
 
 variable "crossplane_packages_aws_documentdb_version" {
@@ -51,13 +51,13 @@ variable "crossplane_packages_sc_mongodb_version" {
 }
 
 variable "crossplane_functions_kcl_version" {
-  type        = string
+  type = string
 }
 
 variable "crossplane_functions_auto_ready_version" {
-  type        = string
+  type = string
 }
 
 variable "crossplane_functions_extra_resources_version" {
-  type        = string
+  type = string
 }
