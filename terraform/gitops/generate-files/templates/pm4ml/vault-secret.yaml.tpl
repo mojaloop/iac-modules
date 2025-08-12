@@ -46,7 +46,7 @@ spec:
       remoteRef:
         key: ${pm4ml_external_switch_client_secret_vault_key}
         property: ${pm4ml_external_switch_client_secret_vault_value}
-# %{ if core_connector_config.externalSecretEnabled }
+# %{ if try(core_connector_config.externalSecretEnabled,false) }
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
