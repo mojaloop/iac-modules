@@ -156,7 +156,7 @@ spec:
     - to:
         - operation:
             paths:
-              - /api/{**}
+              - /{**}
             hosts: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3
