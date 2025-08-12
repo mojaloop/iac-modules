@@ -9,6 +9,7 @@ resources:
   - rook-ceph-external-secrets.yaml
   - rook-ceph-storage-class.yaml
   - rook-ceph-crossplane-cm.yaml
+  - rook-ceph-cluster.yaml
 %{ endif ~}
 helmCharts:
 %{ if cloud_provider == "aws" ~}
@@ -25,11 +26,5 @@ helmCharts:
     repo: https://charts.rook.io/release
     namespace: ${storage_namespace}
     valuesFile: rook-ceph-values.yaml
-    version: ${rook_ceph_helm_version}
-  - name: rook-ceph-cluster
-    releaseName: rook-ceph-cluster
-    repo: https://charts.rook.io/release
-    namespace: ${storage_namespace}
-    valuesFile: rook-ceph-cluster-values.yaml
     version: ${rook_ceph_helm_version}
 %{ endif ~}
