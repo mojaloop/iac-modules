@@ -15,7 +15,7 @@ from typing import Any, Dict
 import logging
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
 
@@ -43,7 +43,8 @@ def normalize_private_key(raw_key: str) -> LiteralString:
     Returns:
         LiteralString: Cleaned private key with proper formatting
     """
-        if not raw_key.strip():
+    if not raw_key.strip():
+        logger.warning("Empty private key provided")
         return LiteralString("")
 
     # Split into lines and remove leading whitespace from each line
@@ -69,7 +70,7 @@ def inject_env_vars(file_path: str) -> None:
         FileNotFoundError: If the specified file doesn't exist
         yaml.YAMLError: If the file contains invalid YAML
     """
-        try:
+    try:
         with open(file_path, "r", encoding='utf-8') as f:
             data = yaml.safe_load(f) or {}
     except FileNotFoundError:
@@ -79,7 +80,8 @@ def inject_env_vars(file_path: str) -> None:
         logger.error(f"Invalid YAML in {file_path}: {e}")
         raise
 
-    updated = False
+    original_data = data.copy()
+    env_vars_found = []
 
     # Process all CC_VAR_ environment variables
     for env_key, env_val in os.environ.items():
@@ -87,25 +89,27 @@ def inject_env_vars(file_path: str) -> None:
             continue
 
         yaml_key = env_key[len("CC_VAR_"):]
-
-        # Check if this key exists in the YAML file
-        if yaml_key not in data:
-            continue
+        env_vars_found.append(env_key)
 
         # Special handling for ssh_private_key
         if yaml_key == "ssh_private_key":
             new_value = normalize_private_key(env_val)
+            logger.info(f"Processing private key for {yaml_key}")
         else:
             new_value = env_val
 
         # Only update if the value has changed
         if data[yaml_key] != new_value:
             data[yaml_key] = new_value
-            logger.info(f"Updated {yaml_key} in {file_path}")
-            updated = True
+            logger.info(f"Updated {yaml_key} from environment variable {env_key}")
 
-    # Return early if no changes were made
-    if not updated:
+    # Check if any changes were made
+    if data == original_data:
+        logger.info(f"No changes needed for {file_path}")
+        return
+
+    if not env_vars_found:
+        logger.info("No CC_VAR_ environment variables found")
         return
 
     # Write the updated YAML file
@@ -119,6 +123,7 @@ def inject_env_vars(file_path: str) -> None:
                 indent=2,
                 allow_unicode=True,
             )
+        logger.info(f"Successfully updated {file_path}")
     except IOError as e:
         logger.error(f"Failed to write {file_path}: {e}")
         raise
