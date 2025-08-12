@@ -18,9 +18,28 @@ spec:
 %{ endfor ~}
       mutate:
         patchStrategicMerge:
-          metadata:
-            annotations:
-              netbird.io/setup-key: ${netbird_setup_key_name}
+          spec:
+            containers:
+              - name: netbird
+                image: netbirdio/netbird:${netbird_image_version}
+                imagePullPolicy: Always
+                args:
+                  - --setup-key-file
+                  - /etc/nbkey
+                  - -m
+                  - ${netbird_management_url}
+                env:
+                  - name: NB_SETUP_KEY
+                    valueFrom:
+                      secretKeyRef:
+                        name: ${netbird_setup_key_secret_name}
+                        key: ${netbird_setup_key_secret_key}
+                  - name: NB_MANAGEMENT_URL
+                    value: ${netbird_management_url}
+                securityContext:
+                  capabilities:
+                    add:
+                      - NET_ADMIN
     - name: copy-netbird-secret
       match:
         any:
