@@ -1,4 +1,4 @@
-# %{ if pm4ml_enabled }
+%{ if pm4ml_enabled ~}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -20,10 +20,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
-    managedNamespaceMetadata:
-      labels:
-        istio.io/use-waypoint: istio-waypoint
 # %{ if opentelemetry_namespace_filtering_enable }
+    managedNamespaceMetadata:
       annotations:
         instrumentation.opentelemetry.io/inject-nodejs: "true"
 # %{ endif }
@@ -40,4 +38,4 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
-# %{ endif }
+%{ endif ~}

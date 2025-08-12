@@ -7,6 +7,7 @@ resources:
   - proxy-protocol.yaml
   - proxy-security-headers.yaml
   - gateways.yaml
+  - waypoints.yaml
   - argocd-vs.yaml
 helmCharts:
 - name: gateway

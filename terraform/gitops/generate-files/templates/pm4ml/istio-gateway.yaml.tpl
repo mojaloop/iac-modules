@@ -1,15 +1,3 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  labels:
-    istio.io/waypoint-for: service
-  name: istio-waypoint
-spec:
-  gatewayClassName: istio-waypoint
-  listeners:
-  - name: mesh
-    port: 15008
-    protocol: HBONE
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
