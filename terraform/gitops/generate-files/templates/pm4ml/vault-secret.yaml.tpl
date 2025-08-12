@@ -46,6 +46,7 @@ spec:
       remoteRef:
         key: ${pm4ml_external_switch_client_secret_vault_key}
         property: ${pm4ml_external_switch_client_secret_vault_value}
+# %{ if core_connector_config.enabled }
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -68,6 +69,7 @@ spec:
   dataFrom:
     - extract:
         key: ${pm4ml_core_connector_secret_key}
+# %{ endif }
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
