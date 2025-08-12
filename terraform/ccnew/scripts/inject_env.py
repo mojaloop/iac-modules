@@ -118,7 +118,7 @@ def inject_env_vars(file_path: str) -> None:
     # Write the updated YAML file
     try:
         with open(file_path, "w", encoding='utf-8') as f:
-            yaml.safe_dump(
+            yaml.dump(
                 data,
                 f,
                 default_flow_style=False,
