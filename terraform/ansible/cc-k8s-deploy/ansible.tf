@@ -62,7 +62,7 @@ resource "null_resource" "destroy_ansible_actions" {
 }
 
 resource "local_sensitive_file" "ec2_ssh_key" {
-  content         = replace(var.ansible_bastion_key, "/(^|\\n)  /", "$1")
+  content         = var.ansible_bastion_key
   filename        = "${local.ansible_output_dir}/sshkey"
   file_permission = "0600"
 }
