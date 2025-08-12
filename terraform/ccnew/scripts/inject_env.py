@@ -47,10 +47,8 @@ def normalize_private_key(raw_key: str) -> LiteralString:
         logger.warning("Empty private key provided")
         return LiteralString("")
 
-    # Split into lines and remove leading whitespace from each line
-    lines = raw_key.strip().split('\n')
-    cleaned_lines = [line.lstrip() for line in lines]
-    cleaned = '\n'.join(cleaned_lines)
+    # Remove outer whitespace and normalize indentation
+    cleaned = textwrap.dedent(raw_key.strip())
 
     # Validate basic PEM structure
     if not (cleaned.startswith('-----BEGIN') and cleaned.endswith('-----')):
