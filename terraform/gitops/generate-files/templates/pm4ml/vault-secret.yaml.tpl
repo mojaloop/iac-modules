@@ -69,6 +69,51 @@ spec:
   dataFrom:
     - extract:
         key: ${pm4ml_core_connector_secret_key}
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: PasswordPolicy
+metadata:
+  name: ${pm4ml_core_connector_secret}
+spec:
+  authentication:
+    path: kubernetes
+    role: policy-admin
+    serviceAccount:
+      name: default
+  passwordPolicy: |
+    length = 20
+      rule "charset" {
+        charset = "abcdefghijklmnopqrstuvwxyz"
+        min-chars = 1
+      }
+      rule "charset" {
+        charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        min-chars = 1
+      }
+      rule "charset" {
+        charset = "0123456789"
+        min-chars = 1
+      }
+      rule "charset" {
+        charset = "!@#$%^&*"
+        min-chars = 1
+      }
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: RandomSecret
+metadata:
+  name: ${pm4ml_core_connector_secret}
+spec:
+  authentication:
+    path: kubernetes
+    role: policy-admin
+    serviceAccount:
+      name: default
+  isKVSecretsEngineV2: false
+  path: /secret/${pm4ml_core_connector_secret_key}
+  secretKey: RANDOM_SECRET # avoid issues with a missing secret data
+  secretFormat:
+    passwordPolicyName: ${pm4ml_core_connector_secret}
 # %{ endif }
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
