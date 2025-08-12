@@ -24,7 +24,7 @@ def inject_env_vars(file_path):
             if actual_key in data:
                 # If we're processing the private key, wrap it in our custom class
                 if actual_key == 'ssh_private_key':
-                    data[actual_key] = LiteralString(value)
+                    data[actual_key] = LiteralString(value.strip())
                 else:
                     data[actual_key] = value
 
