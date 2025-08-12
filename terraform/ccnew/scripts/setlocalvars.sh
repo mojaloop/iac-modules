@@ -1,6 +1,12 @@
 export CONFIG_PATH=merged-config
 SCRIPTS_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 $SCRIPTS_DIR/mergeconfigs.sh
+
+for configFile in $(ls $CONFIG_PATH/)
+do
+    python3 $SCRIPTS_DIR/inject_env.py $CONFIG_PATH/$configFile
+done
+
 yq eval '.' $CONFIG_PATH/cluster-config.yaml -o=json > $CONFIG_PATH/cluster-config.json
 for var in $(jq -r 'to_entries[] | "\(.key)=\(.value)\n"' $CONFIG_PATH/cluster-config.json); do export $var; done
 export destroy_ansible_playbook="mojaloop.iac.cc${k8s_cluster_type}_cluster_destroy"

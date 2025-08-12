@@ -20,21 +20,12 @@ def mergedicts(dict1, dict2):
                 yield (k, dict(mergedicts(dict1[k], dict2[k])))
             else:
                 # Value from custom dict overrides one in default
-                # print("wrong one : k = " , k, " and dict2[k] = ", dict2[k], "and dict1[k] = ", dict1[k])
-                # check if env var is set
-                env_var = 'CC_VAR_' + k
-                if os.environ.get(env_var):
-                    yield (k, os.environ[env_var])
-                else:
-                    yield (k, dict2[k])
+                #print("wrong one : k = " , k, " and dict2[k] = ", dict2[k], "and dict1[k] = ", dict1[k])
+                yield (k, dict2[k])
         elif k in dict1:
             yield (k, dict1[k])
         else:
-            env_var = 'CC_VAR_' + k
-            if os.environ.get(env_var):
-                yield (k, os.environ[env_var])
-            else:
-                yield (k, dict2[k])
+            yield (k, dict2[k])
 
 def writeDict(mergedItems, fileType, outputFilename):
     if fileType == ".json":
