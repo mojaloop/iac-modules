@@ -27,16 +27,7 @@ spec:
   targetRefs:
     - kind: Service
       group: core
-      name: ${vnext_release_name}-account-lookup-service
-    - kind: Service
-      group: core
-      name: ${vnext_release_name}-quoting-service
-    - kind: Service
-      group: core
-      name: ${vnext_release_name}-ml-api-adapter-service
-    - kind: Service
-      group: core
-      name: ${vnext_release_name}-transaction-requests-service
+      name: ${istio_external_gateway_name}
 %{ if fspiop_use_ory_for_auth ~}
   action: CUSTOM
   provider:

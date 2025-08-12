@@ -128,13 +128,15 @@ spec:
   targetRefs:
     - kind: Service
       group: core
-      name: ${admin_portal_release_name}-role-assignment-service
+      name: ${pm4ml_istio_gateway_name}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
+            paths:
+              - /api/{**}
             hosts: ["${admin_portal_fqdn}", "${admin_portal_fqdn}:*"]
 ---
 apiVersion: security.istio.io/v1beta1
@@ -146,13 +148,15 @@ spec:
   targetRefs:
     - kind: Service
       group: core
-      name: ${pm4ml_release_name}-experience-api
+      name: ${pm4ml_istio_gateway_name}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
+            paths:
+              - /api/{**}
             hosts: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -190,13 +194,14 @@ spec:
   targetRefs:
     - kind: Service
       group: core
-      name: ${pm4ml_release_name}-frontend
+      name: ${pm4ml_istio_gateway_name}
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
+            paths: ["/api/{**}"]
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3
