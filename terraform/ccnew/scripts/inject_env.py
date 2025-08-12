@@ -1,17 +1,20 @@
 import yaml
 import os
 import sys
-from yaml.dumper import Dumper
+import re
+import io
 
-# Custom Dumper to control indentation
-class CustomDumper(Dumper):
-    def increase_indent(self, flow=False, indentless=False):
-        return super(CustomDumper, self).increase_indent(flow, False)
+# Custom string class to tell PyYAML how to format our private key
+class LiteralString(str):
+    pass
 
 def literal_string_representer(dumper, data):
+    # Use the literal block style (|) for our multi-line string
     return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
 
-yaml.add_representer(str, literal_string_representer)
+# Register the custom representer with PyYAML
+yaml.add_representer(LiteralString, literal_string_representer)
+
 
 def inject_env_vars(file_path):
     with open(file_path, 'r') as f:
@@ -21,13 +24,28 @@ def inject_env_vars(file_path):
         if key.startswith('CC_VAR_'):
             actual_key = key[len('CC_VAR_'):]
             if actual_key in data:
+                # If we're processing the private key, wrap it in our custom class
                 if actual_key == 'ssh_private_key':
-                    data[actual_key] = value.strip()
+                    data[actual_key] = LiteralString(value.strip())
                 else:
                     data[actual_key] = value
 
+    # Dump the YAML to an in-memory string stream
+    string_stream = io.StringIO()
+    yaml.dump(data, string_stream, indent=2, default_flow_style=False)
+    content = string_stream.getvalue()
+
+    # This regex finds the ssh_private_key block and removes the indentation from its content
+    corrected_content = re.sub(
+        r"(ssh_private_key: \|-?\n)((?:^\s{2,}.*\n?)*)",
+        lambda m: m.group(1) + ''.join([line[2:] for line in m.group(2).splitlines(True)]),
+        content,
+        flags=re.MULTILINE
+    )
+
     with open(file_path, 'w') as f:
-        yaml.dump(data, f, Dumper=CustomDumper, default_flow_style=False, indent=2)
+        f.write(corrected_content)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
