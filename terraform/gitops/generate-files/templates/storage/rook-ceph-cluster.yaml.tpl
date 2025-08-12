@@ -1,8 +1,8 @@
 apiVersion: ceph.rook.io/v1
 kind: CephCluster
 metadata:
-  name: rook-ceph-external
-  namespace: rook-ceph-external # namespace:cluster
+  name: storage
+  namespace: ${storage_namespace}
 spec:
   external:
     enable: true
