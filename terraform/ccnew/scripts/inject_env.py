@@ -1,56 +1,50 @@
-import yaml
 import os
 import sys
-import re
-import io
+import yaml
+import textwrap
 
-# Custom string class to tell PyYAML how to format our private key
+# Only this class is emitted as a YAML literal block (|)
 class LiteralString(str):
     pass
 
 def literal_string_representer(dumper, data):
-    # Use the literal block style (|) for our multi-line string
-    return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
 
-# Register the custom representer with PyYAML
 yaml.add_representer(LiteralString, literal_string_representer)
 
+def normalize_private_key(raw: str) -> LiteralString:
+    # Trim outer whitespace and remove common indentation from all lines
+    cleaned = textwrap.dedent(raw.strip("\n")).strip()
+    return LiteralString(cleaned)
 
-def inject_env_vars(file_path):
-    with open(file_path, 'r') as f:
+def inject_env(file_path: str) -> None:
+    with open(file_path, "r") as f:
         data = yaml.safe_load(f) or {}
 
-    for key, value in os.environ.items():
-        if key.startswith('CC_VAR_'):
-            actual_key = key[len('CC_VAR_'):]
-            if actual_key in data:
-                # If we're processing the private key, wrap it in our custom class
-                if actual_key == 'ssh_private_key':
-                    data[actual_key] = LiteralString(value.strip())
-                else:
-                    data[actual_key] = value
+    updated = False
+    for env_key, env_val in os.environ.items():
+        if not env_key.startswith("CC_VAR_"):
+            continue
+        key = env_key[len("CC_VAR_"):]
+        value = normalize_private_key(env_val) if key == "ssh_private_key" else env_val
+        if data.get(key) != value:
+            data[key] = value
+            updated = True
 
-    # Dump the YAML to an in-memory string stream
-    string_stream = io.StringIO()
-    yaml.dump(data, string_stream, indent=2, default_flow_style=False)
-    content = string_stream.getvalue()
+    if not updated:
+        return
 
-    # This regex finds the ssh_private_key block and removes the indentation from its content
-    corrected_content = re.sub(
-        r"(ssh_private_key: \|-?\n)((?:^\s{2,}.*\n?)*)",
-        lambda m: m.group(1) + ''.join([line[2:] for line in m.group(2).splitlines(True)]),
-        content,
-        flags=re.MULTILINE
-    )
-
-    with open(file_path, 'w') as f:
-        f.write(corrected_content)
-
+    with open(file_path, "w") as f:
+        yaml.safe_dump(
+            data,
+            f,
+            default_flow_style=False,
+            sort_keys=False,
+            indent=2,
+        )
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python inject_env.py <file_path>")
         sys.exit(1)
-
-    file_path = sys.argv[1]
-    inject_env_vars(file_path)
+    inject_env(sys.argv[1])
