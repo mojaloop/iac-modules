@@ -18,15 +18,396 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 89,
+    "id": 97,
     "links": [],
     "panels": [
       {
+        "collapsed": false,
         "gridPos": {
           "h": 1,
           "w": 24,
           "x": 0,
           "y": 0
+        },
+        "id": 5,
+        "panels": [],
+        "title": "Ceph",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "bytes"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 0,
+          "y": 1
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+            },
+            "editorMode": "code",
+            "expr": "ceph_cluster_total_used_bytes",
+            "instant": false,
+            "legendFormat": "usage",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Total usage",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "bytes"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 5,
+          "y": 1
+        },
+        "id": 7,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+            },
+            "editorMode": "code",
+            "expr": "ceph_cluster_total_bytes",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "capacity",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Total capacity",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 5,
+          "x": 10,
+          "y": 1
+        },
+        "id": 8,
+        "options": {
+          "minVizHeight": 75,
+          "minVizWidth": 75,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto"
+        },
+        "pluginVersion": "11.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+            },
+            "editorMode": "code",
+            "expr": "ceph_cluster_total_used_bytes/ceph_cluster_total_bytes",
+            "instant": false,
+            "legendFormat": "usage",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Total utilisation (%)",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 15,
+          "x": 0,
+          "y": 5
+        },
+        "id": 9,
+        "options": {
+          "minVizHeight": 75,
+          "minVizWidth": 75,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto",
+          "text": {
+            "titleSize": 12
+          }
+        },
+        "pluginVersion": "11.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+            },
+            "editorMode": "code",
+            "expr": "ceph_pool_stored{pool_id=~\"$ceph_pool_id\"}/\n(ceph_pool_stored{pool_id=~\"$ceph_pool_id\"}+ceph_pool_max_avail{pool_id=~\"$ceph_pool_id\"}) \n* on (pool_id) group_left(name) ceph_pool_metadata",
+            "instant": false,
+            "legendFormat": "pool: {{name}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Ceph pool utilisation (%)",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "description": "Indicates buckets which are very near to bucket quota limit. NOTE: bucket quota is being enforced using users quota",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 0.8
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 15,
+          "x": 0,
+          "y": 10
+        },
+        "id": 10,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.1.1",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${datasource}"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "sum(radosgw_usage_user_total_bytes{cluster=~\"$cluster\"}) by (user) / \nsum(radosgw_usage_user_quota_size_bytes{cluster=~\"$cluster\"} ) by (user) > 0.8 ",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "__auto",
+            "range": false,
+            "refId": "B"
+          }
+        ],
+        "title": "Buckets approaching max quota limit",
+        "transformations": [
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "user",
+                  "Value"
+                ]
+              }
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "user",
+              "renamePattern": "bucket"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 15
         },
         "id": 1,
         "title": "Persistent Volumes",
@@ -109,7 +490,7 @@
           "h": 9,
           "w": 8,
           "x": 0,
-          "y": 1
+          "y": 16
         },
         "id": 2,
         "options": {
@@ -237,7 +618,7 @@
           "h": 9,
           "w": 8,
           "x": 8,
-          "y": 1
+          "y": 16
         },
         "id": 3,
         "options": {
@@ -327,19 +708,21 @@
                 "mode": "none"
               },
               "thresholdsStyle": {
-                "mode": "off"
+                "mode": "area"
               }
             },
             "mappings": [],
+            "max": 1,
+            "min": 0,
             "thresholds": {
-              "mode": "absolute",
+              "mode": "percentage",
               "steps": [
                 {
                   "color": "green",
                   "value": null
                 },
                 {
-                  "color": "red",
+                  "color": "#F2495C",
                   "value": 80
                 }
               ]
@@ -365,7 +748,7 @@
           "h": 9,
           "w": 8,
           "x": 16,
-          "y": 1
+          "y": 16
         },
         "id": 4,
         "options": {
@@ -414,7 +797,7 @@
           "current": {
             "selected": false,
             "text": "Mimir",
-            "value": "f2c5e670-4103-4f4a-a7d9-8aa64a8e3365"
+            "value": "f434c087-99bc-4f48-8aa8-da7f156efb83"
           },
           "hide": 0,
           "includeAll": false,
@@ -430,9 +813,9 @@
         },
         {
           "current": {
-            "selected": true,
-            "text": "control-center",
-            "value": "control-center"
+            "selected": false,
+            "text": "storage",
+            "value": "storage"
           },
           "datasource": {
             "type": "prometheus",
@@ -457,7 +840,7 @@
         },
         {
           "current": {
-            "selected": true,
+            "selected": false,
             "text": "All",
             "value": "$__all"
           },
@@ -504,7 +887,7 @@
         },
         {
           "current": {
-            "selected": true,
+            "selected": false,
             "text": "No",
             "value": "No"
           },
@@ -530,6 +913,33 @@
           "queryValue": "",
           "skipUrlSync": false,
           "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "definition": "label_values(ceph_pool_metadata{cluster=\"$cluster\", name=~\".*(rgw.buckets.data|blockpool).*\"},pool_id)",
+          "hide": 2,
+          "includeAll": true,
+          "multi": false,
+          "name": "ceph_pool_id",
+          "options": [],
+          "query": {
+            "qryType": 1,
+            "query": "label_values(ceph_pool_metadata{cluster=\"$cluster\", name=~\".*(rgw.buckets.data|blockpool).*\"},pool_id)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
         }
       ]
     },
@@ -540,7 +950,7 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "Storage - Quick view",
-    "uid": "aee3wdgy5-v005",
-    "version": 8,
+    "uid": "aee3wdgy5-v007",
+    "version": 1,
     "weekStart": ""
   }
