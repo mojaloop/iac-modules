@@ -1,50 +1,154 @@
+#!/usr/bin/env python3
+"""
+Environment variable injection script for YAML configuration files.
+
+This script reads YAML files and injects values from environment variables
+prefixed with 'CC_VAR_'. The ssh_private_key is handled specially to ensure
+proper PEM formatting using YAML literal block style.
+"""
+
 import os
 import sys
 import yaml
 import textwrap
+from typing import Any, Dict
+import logging
 
-# Only this class is emitted as a YAML literal block (|)
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logger = logging.getLogger(__name__)
+
+
 class LiteralString(str):
+    """Custom string class that forces YAML literal block (|) style output."""
     pass
 
-def literal_string_representer(dumper, data):
+
+def literal_string_representer(dumper: yaml.Dumper, data: LiteralString) -> yaml.Node:
+    """YAML representer that outputs LiteralString as literal block style."""
     return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
 
+
+# Register the custom representer
 yaml.add_representer(LiteralString, literal_string_representer)
 
-def normalize_private_key(raw: str) -> LiteralString:
-    # Trim outer whitespace and remove common indentation from all lines
-    cleaned = textwrap.dedent(raw.strip("\n")).strip()
+
+def normalize_private_key(raw_key: str) -> LiteralString:
+    """
+    Normalize a private key string for proper PEM formatting.
+
+    Args:
+        raw_key: Raw private key string that may have inconsistent indentation
+
+    Returns:
+        LiteralString: Cleaned private key with proper formatting
+    """
+    if not raw_key.strip():
+        logger.warning("Empty private key provided")
+        return LiteralString("")
+
+    # Remove outer whitespace and normalize indentation
+    cleaned = textwrap.dedent(raw_key.strip())
+
+    # Validate basic PEM structure
+    if not (cleaned.startswith('-----BEGIN') and cleaned.endswith('-----')):
+        logger.warning("Private key does not appear to be in PEM format")
+
     return LiteralString(cleaned)
 
-def inject_env(file_path: str) -> None:
-    with open(file_path, "r") as f:
-        data = yaml.safe_load(f) or {}
 
-    updated = False
+def inject_env_vars(file_path: str) -> None:
+    """
+    Inject CC_VAR_ environment variables into a YAML file.
+
+    Args:
+        file_path: Path to the YAML file to modify
+
+    Raises:
+        FileNotFoundError: If the specified file doesn't exist
+        yaml.YAMLError: If the file contains invalid YAML
+    """
+    try:
+        with open(file_path, "r", encoding='utf-8') as f:
+            data = yaml.safe_load(f) or {}
+    except FileNotFoundError:
+        logger.error(f"File not found: {file_path}")
+        raise
+    except yaml.YAMLError as e:
+        logger.error(f"Invalid YAML in {file_path}: {e}")
+        raise
+
+    original_data = data.copy()
+    env_vars_found = []
+
+    # Process all CC_VAR_ environment variables
     for env_key, env_val in os.environ.items():
         if not env_key.startswith("CC_VAR_"):
             continue
-        key = env_key[len("CC_VAR_"):]
-        value = normalize_private_key(env_val) if key == "ssh_private_key" else env_val
-        if data.get(key) != value:
-            data[key] = value
-            updated = True
 
-    if not updated:
+        yaml_key = env_key[len("CC_VAR_"):]
+        env_vars_found.append(env_key)
+
+        # Check if this key exists in the YAML file
+        if yaml_key not in data:
+            logger.warning(f"Key '{yaml_key}' not found in {file_path}, skipping")
+            continue
+
+        # Special handling for ssh_private_key
+        if yaml_key == "ssh_private_key":
+            new_value = normalize_private_key(env_val)
+            logger.info(f"Processing private key for {yaml_key}")
+        else:
+            new_value = env_val
+
+        # Only update if the value has changed
+        if data[yaml_key] != new_value:
+            data[yaml_key] = new_value
+            logger.info(f"Updated {yaml_key} from environment variable {env_key}")
+
+    # Check if any changes were made
+    if data == original_data:
+        logger.info(f"No changes needed for {file_path}")
         return
 
-    with open(file_path, "w") as f:
-        yaml.safe_dump(
-            data,
-            f,
-            default_flow_style=False,
-            sort_keys=False,
-            indent=2,
-        )
+    if not env_vars_found:
+        logger.info("No CC_VAR_ environment variables found")
+        return
+
+    # Write the updated YAML file
+    try:
+        with open(file_path, "w", encoding='utf-8') as f:
+            yaml.safe_dump(
+                data,
+                f,
+                default_flow_style=False,
+                sort_keys=False,
+                indent=2,
+                allow_unicode=True,
+            )
+        logger.info(f"Successfully updated {file_path}")
+    except IOError as e:
+        logger.error(f"Failed to write {file_path}: {e}")
+        raise
+
+
+def main() -> None:
+    """Main entry point for the script."""
+    if len(sys.argv) != 2:
+        print("Usage: python inject_env.py <file_path>", file=sys.stderr)
+        print("", file=sys.stderr)
+        print("This script injects CC_VAR_ environment variables into YAML files.", file=sys.stderr)
+        print("Example: CC_VAR_ssh_private_key will update the 'ssh_private_key' key.", file=sys.stderr)
+        sys.exit(1)
+
+    file_path = sys.argv[1]
+
+    try:
+        inject_env_vars(file_path)
+    except (FileNotFoundError, yaml.YAMLError, IOError) as e:
+        logger.error(f"Script failed: {e}")
+        sys.exit(1)
+
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python inject_env.py <file_path>")
-        sys.exit(1)
-    inject_env(sys.argv[1])
+    main()
