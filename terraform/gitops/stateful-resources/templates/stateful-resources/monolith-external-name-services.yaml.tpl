@@ -7,6 +7,7 @@ metadata:
   namespace: ${stateful_resources_namespace}
   labels:
     istio.io/use-waypoint: waypoint
+    istio.io/use-waypoint-namespace: istio-system
 spec:
   hosts:
   - ${logical_service_name}.${stateful_resources_namespace}.svc.cluster.local
