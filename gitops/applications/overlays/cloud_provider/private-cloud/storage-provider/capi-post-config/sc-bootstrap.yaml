@@ -290,6 +290,8 @@ spec:
             - name: velero_sc_backup_bucket
               value: "${ARGOCD_ENV_velero_sc_backup_bucket}"
 
+            - name: utils_storage_cloud_provider
+              value: "${ARGOCD_ENV_utils_storage_cloud_provider}"
 
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider

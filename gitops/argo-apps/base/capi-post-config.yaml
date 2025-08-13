@@ -335,3 +335,6 @@ spec:
 
         - name: velero_sc_backup_bucket
           value: "${ARGOCD_ENV_velero_pre_sc_backup_bucket}-${ARGOCD_ENV_velero_pre_dns_hyphenated_subdomain}"
+
+        - name: utils_storage_cloud_provider
+          value: "${ARGOCD_ENV_utils_storage_cloud_provider}"
