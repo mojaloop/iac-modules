@@ -56,3 +56,6 @@ spec:
 
           - name: "sc_velero_config_namespace"
             value: "sc-velero-post-config"
+
+          - name: "sc_velero_object_storage_provider"
+            value: "s3"
