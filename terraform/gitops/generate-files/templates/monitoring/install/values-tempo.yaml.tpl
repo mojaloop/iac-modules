@@ -111,6 +111,7 @@ tempo:
           insecure: ${object_store_insecure_connection}
           bucket: ${tempo_bucket}
           region: ${object_store_region}
+          tls_insecure_skip_verify: ${object_store_insecure_skip_verify}
 compactor:
   resourcesPreset: large
   extraEnvVarsSecret: ${object_store_tempo_credentials_secret_name}
