@@ -56,19 +56,3 @@ spec:
         clone:
           namespace: "${netbird_setup_key_namespace}"
           name: ${netbird_setup_key_name}
-    # - name: copy-netbird-setupkey-cr
-    #   match:
-    #     any:
-    #     - resources:
-    #         kinds:
-    #         - Namespace
-    #         name: storage
-    #   generate:
-    #     synchronize: true
-    #     apiVersion: netbird.io/v1
-    #     kind: NBSetupKey
-    #     name: ${netbird_setup_key_name}
-    #     namespace: "storage"
-    #     clone:
-    #       namespace: "${netbird_setup_key_namespace}"
-    #       name: ${netbird_setup_key_name}
