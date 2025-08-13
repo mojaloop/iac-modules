@@ -21,8 +21,6 @@ module "vnext_stateful_resources" {
   managed_svc_as_monolith                                = var.managed_svc_as_monolith
   cluster                                                = var.app_var_map.cluster
   storage_class_name                                     = var.storage_class_name
-  create_service_entry                                   = var.cloud_platform == "private-cloud" ? true : false
-
 }
 
 variable "stateful_resources_namespace" {

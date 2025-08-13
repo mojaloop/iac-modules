@@ -72,7 +72,6 @@ resource "local_file" "external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
     { config                       = local.external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
-      service_entry_required       = var.create_service_entry
   })
   filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
 }
@@ -397,10 +396,4 @@ variable "cluster" {
 }
 
 variable "storage_class_name" {
-}
-
-variable "create_service_entry" {
-  type        = bool
-  description = "whether to create service entry"
-  default     = false
 }
