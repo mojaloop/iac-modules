@@ -201,7 +201,7 @@ locals {
   object_store_regional_endpoint      = get_env("OBJECTSTORE_REGIONAL_ENDPOINT")
   object_store_region                 = get_env("OBJECTSTORE_REGION")
   object_storage_path_style           = get_env("OBJECT_STORAGE_PATH_STYLE")
-  object_store_insecure_connection    = get_env("OBJECT_STORE_INSECURE_CONNECTION")
+  object_store_insecure_connection    = "false"
   object_store_insecure_skip_verify   = "true"
   central_observability_endpoint      = get_env("MIMIR_GW_FQDN")
   migrate                             = get_env("migrate")
