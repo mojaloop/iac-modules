@@ -54,7 +54,6 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: mcm-jwt
-  namespace: ${mcm_istio_gateway_namespace}
 spec:
   targetRefs:
     - kind: Service

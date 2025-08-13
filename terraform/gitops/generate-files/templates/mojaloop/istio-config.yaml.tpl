@@ -23,7 +23,6 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: interop-jwt
-  namespace: ${istio_external_gateway_namespace}
 spec:
   targetRefs:
     - kind: Service
@@ -461,7 +460,6 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: finance-portal-auth
-  namespace: ${portal_istio_gateway_namespace}
 spec:
   targetRefs:
     - kind: Service

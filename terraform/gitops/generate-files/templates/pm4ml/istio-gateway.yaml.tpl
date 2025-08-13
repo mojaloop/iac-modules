@@ -123,7 +123,6 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: ${admin_portal_release_name}-${pm4ml_release_name}-auth
-  namespace: ${pm4ml_istio_gateway_namespace}
 spec:
   targetRefs:
     - kind: Service
@@ -141,7 +140,6 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: ${pm4ml_release_name}-exp-auth
-  namespace: ${pm4ml_istio_gateway_namespace}
 spec:
   targetRefs:
     - kind: Service
@@ -185,7 +183,6 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: ${pm4ml_release_name}-jwt
-  namespace: ${pm4ml_istio_gateway_namespace}
 spec:
   targetRefs:
     - kind: Service
