@@ -19,6 +19,7 @@ spec:
   hosts:
     - ${external_name}
   location: MESH_EXTERNAL
+  resolution: DNS
   ports:
     - number: 3306
       name: mysql
@@ -26,6 +27,5 @@ spec:
     - number: 27017
       name: mongodb
       protocol: TCP
-    resolution: DNS
 %{ endif ~}
 %{ endfor ~}
