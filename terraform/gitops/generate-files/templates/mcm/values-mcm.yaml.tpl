@@ -11,7 +11,7 @@ api:
   image:
     # name: ghcr.io/pm4ml/connection-manager-api
     name: infitx/connection-manager-api
-    version: v3.0.0-snapshot.7
+    version: v3.0.0-snapshot.25
   url: https://${mcm_fqdn}
   extraTLS:
     rootCert:

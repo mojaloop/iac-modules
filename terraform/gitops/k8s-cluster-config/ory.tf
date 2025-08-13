@@ -140,7 +140,6 @@ locals {
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
 
 
-  # MCM FQDN calculation (based on MCM ingress configuration)
   mcm_wildcard_gateway = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
   mcm_fqdn = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
   default_mapper_jsonnet = <<-EOF
