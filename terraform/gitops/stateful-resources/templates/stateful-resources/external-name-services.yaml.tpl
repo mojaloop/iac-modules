@@ -8,4 +8,24 @@ metadata:
 spec:
   type: ExternalName
   externalName: ${external_name}
+%{ if service_entry_required ~}
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: ${logical_service_name}-se
+  namespace: ${stateful_resources_namespace}
+spec:
+  hosts:
+    - ${external_name}
+  location: MESH_EXTERNAL
+  ports:
+    - number: 3306
+      name: mysql
+      protocol: TCP
+    - number: 27017
+      name: mongodb
+      protocol: TCP
+    resolution: DNS
+%{ endif ~}
 %{ endfor ~}
