@@ -31,6 +31,3 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
-    managedNamespaceMetadata:
-      labels:
-        opt-out-mesh: "true"

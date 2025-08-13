@@ -1,5 +1,5 @@
 global:
-   tlsDisable: true
+  tlsDisable: true
 server:
   enabled: true
   dev:
@@ -10,7 +10,7 @@ server:
   # readinessProbe:
   #   path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
   standalone:
-      enabled: false
+    enabled: false
   dataStorage:
     enabled: true
     size: ${ARGOCD_ENV_vault_pvc_size}
@@ -28,6 +28,8 @@ server:
         }
         storage "raft" {
             path = "/vault/data"
+            # Make Raft listen on all interfaces so peers can connect
+            bind_addr = "0.0.0.0:8201"
             retry_join {
               leader_api_addr = "http://${ARGOCD_ENV_vault_app_name}-0.${ARGOCD_ENV_vault_app_name}-internal:8200"
             }
@@ -48,8 +50,8 @@ server:
       image: ghcr.io/mojaloop/vault-utils:0.0.6
       command:
         [
-          "sh",
-          "-c",
+          'sh',
+          '-c',
           "order=$(echo $HOSTNAME | awk -F'-' '{print $2}'); delay=$(($order*60 +60)); echo $delay; cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep $delay; /tmp/bootstrap.sh;   done",
         ]
       volumeMounts:
