@@ -27,7 +27,7 @@ spec:
       - PruneLast=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: ${ARGOCD_ENV_velero_velero_namespace}
+    namespace: sc-velero-post-config
   sources:
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
