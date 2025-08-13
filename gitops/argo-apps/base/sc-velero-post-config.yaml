@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${ARGOCD_ENV_velero_velero_app_name}
-  namespace: ${ARGOCD_ENV_argocd_app_namespace}
+  name: sc-velero-post-config
+  namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_velero_sync_wave}
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_velero_post_config_sync_wave}
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -31,18 +31,13 @@ spec:
   sources:
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
-      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_storage_cloud_provider}/storage-provider/sc-velero
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_storage_cloud_provider}/storage-provider/sc-velero-post-config
       plugin:
         name: envsubst
         env:
-          - name: "velero_helm_version"
-            value: "${ARGOCD_ENV_velero_helm_version}"
 
           - name: "velero_namespace"
             value: "${ARGOCD_ENV_velero_namespace}"
-
-          - name: "velero_plugin_version"
-            value: "${ARGOCD_ENV_velero_velero_plugin_version}"
 
           - name: "object_storage_region"
             value: "${ARGOCD_ENV_velero_velero_object_storage_region}"
@@ -53,5 +48,11 @@ spec:
           - name: "object_storage_secret_key"
             value: "${ARGOCD_ENV_velero_velero_object_storage_secret_key}"
 
-          - name: "velero_sc_backup_bucket"
-            value: "${ARGOCD_ENV_velero_sc_backup_bucket}"
+          - name: velero_sc_backup_bucket
+            value: "${ARGOCD_ENV_velero_pre_sc_backup_bucket}-${ARGOCD_ENV_velero_pre_dns_hyphenated_subdomain}"
+
+          - name: utils_storage_cloud_provider
+            value: "${ARGOCD_ENV_utils_storage_cloud_provider}"
+
+          - name: "sc_velero_config_namespace"
+            value: "sc-velero-post-config"
