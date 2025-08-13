@@ -17,7 +17,7 @@ metadata:
   namespace: ${stateful_resources_namespace}
 spec:
   hosts:
-    - ${external_name}
+    - ${logical_service_name}
   location: MESH_EXTERNAL
   resolution: DNS
   ports:
