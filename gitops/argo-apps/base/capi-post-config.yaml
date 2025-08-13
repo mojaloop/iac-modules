@@ -333,8 +333,5 @@ spec:
         - name: velero_velero_object_storage_secret_key
           value: "${ARGOCD_ENV_velero_velero_object_storage_secret_key}"
 
-        - name: velero_velero_object_storage_bucket
-          value: "${ARGOCD_ENV_velero_velero_object_storage_bucket}"
-
         - name: velero_sc_backup_bucket
           value: "${ARGOCD_ENV_velero_pre_sc_backup_bucket}-${ARGOCD_ENV_velero_pre_dns_hyphenated_subdomain}"
