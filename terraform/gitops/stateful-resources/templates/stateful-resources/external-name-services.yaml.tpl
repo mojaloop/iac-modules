@@ -17,7 +17,7 @@ metadata:
   namespace: ${stateful_resources_namespace}
 spec:
   hosts:
-    - ${logical_service_name}
+    - ${logical_service_name}.${stateful_resources_namespace}.svc.cluster.local
   location: MESH_EXTERNAL
   resolution: DNS
   ports:
