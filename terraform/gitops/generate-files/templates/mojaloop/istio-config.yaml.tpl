@@ -28,7 +28,24 @@ spec:
   targetRefs:
     - kind: Service
       group: core
-      name: ${istio_external_gateway_name}
+      name: ${mojaloop_release_name}-account-lookup-service
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-ml-participant-connection-test-svc
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-quoting-service
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-ml-api-adapter-service
+# %{ if bulk_enabled }
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-bulk-api-adapter-service
+# %{ endif }
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-transaction-requests-service
 %{ if fspiop_use_ory_for_auth ~}
   action: CUSTOM
   provider:
@@ -449,15 +466,19 @@ spec:
   targetRefs:
     - kind: Service
       group: core
-      name: ${portal_istio_gateway_name}
+      name: ${finance_portal_release_name}-reporting-hub-bop-api-svc
+    - kind: Service
+      group: core
+      name: ${finance_portal_release_name}-role-assignment-service
+    - kind: Service
+      group: core
+      name: ${finance_portal_release_name}-reporting-hub-bop-experience-api-svc
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
-            paths:
-              - /api/{**}
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
 ---
 #adding waypoint for mojaloop ns

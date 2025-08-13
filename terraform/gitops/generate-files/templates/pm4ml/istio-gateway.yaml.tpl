@@ -1,3 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  labels:
+    istio.io/waypoint-for: service
+  name: istio-waypoint
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -116,15 +128,13 @@ spec:
   targetRefs:
     - kind: Service
       group: core
-      name: ${pm4ml_istio_gateway_name}
+      name: ${admin_portal_release_name}-role-assignment-service
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
-            paths:
-              - /api/{**}
             hosts: ["${admin_portal_fqdn}", "${admin_portal_fqdn}:*"]
 ---
 apiVersion: security.istio.io/v1beta1
@@ -136,15 +146,13 @@ spec:
   targetRefs:
     - kind: Service
       group: core
-      name: ${pm4ml_istio_gateway_name}
+      name: ${pm4ml_release_name}-experience-api
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
-            paths:
-              - /{**}
             hosts: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -182,14 +190,13 @@ spec:
   targetRefs:
     - kind: Service
       group: core
-      name: ${pm4ml_istio_gateway_name}
+      name: ${pm4ml_release_name}-frontend
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
-            paths: ["/api/{**}"]
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3
