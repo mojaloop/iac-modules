@@ -403,11 +403,11 @@ locals {
   proxy_pm4ml_var_map = try(var.app_var_map.proxy_pm4mls, {})
   cluster             = var.app_var_map.cluster
 
-  st_res_local_helm_vars     = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
-  st_res_local_operator_vars = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
-  #st_res_managed_vars           = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
-  plt_st_res_config               = yamldecode(file(var.platform_stateful_resources_config_file))
-  monolith_stateful_resources_int = yamldecode(file(var.mojaloop_stateful_res_monolith_config_file))
+  st_res_local_helm_vars     = yamldecode(templatefile(var.mojaloop_stateful_res_helm_config_file, local.cluster))
+  st_res_local_operator_vars = yamldecode(templatefile(var.mojaloop_stateful_res_op_config_file, local.cluster))
+  #st_res_managed_vars           = yamldecode(templatefile(var.mojaloop_stateful_res_mangd_config_file, local.cluster))
+  plt_st_res_config               = yamldecode(templatefile(var.platform_stateful_resources_config_file, local.cluster))
+  monolith_stateful_resources_int = yamldecode(templatefile(var.mojaloop_stateful_res_monolith_config_file, local.cluster))
 
   monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if var.deploy_env_monolithic_db }
 
