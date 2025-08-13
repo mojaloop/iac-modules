@@ -303,6 +303,9 @@ spec:
         - name: velero_namespace
           value: "${ARGOCD_ENV_velero_velero_namespace}"
 
+        - name: velero_sync_wave
+          value: "${ARGOCD_ENV_velero_sync_wave}"
+
         - name: velero_helm_version
           value: "${ARGOCD_ENV_velero_velero_helm_version}"
 
