@@ -1,0 +1,19 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: storage-cluster-backup
+  namespace: ${ARGOCD_ENV_velero_namespace}
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+spec:
+  paused: false
+  schedule: ${ARGOCD_ENV_velero_sc_backup_schedule}
+  template:
+    ttl: ${ARGOCD_ENV_velero_sc_backup_ttl}
+    storageLocation: "storage-cluster-backup"
+    snapshotVolumes: false
+    includedNamespaces:
+      - '*'
+    includedResources:
+      - '*'
+    hooks: {}

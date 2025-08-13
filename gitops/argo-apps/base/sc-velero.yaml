@@ -55,3 +55,9 @@ spec:
 
           - name: "velero_sc_backup_bucket"
             value: "${ARGOCD_ENV_velero_sc_backup_bucket}"
+
+          - name: "velero_sc_backup_schedule"
+            value: "${ARGOCD_ENV_velero_post_config_sc_backup_schedule}"
+
+          - name: "velero_sc_backup_ttl"
+            value: "${ARGOCD_ENV_velero_post_config_sc_backup_ttl}"
