@@ -4,7 +4,7 @@ metadata:
   name: gitlab-toolbox-restart
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  schedule: '26 * * * *' # Every 20th minute of every hour
+  schedule: '0 * * * *' # every hour
   jobTemplate:
     spec:
       template:
