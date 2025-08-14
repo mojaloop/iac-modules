@@ -27,7 +27,7 @@ resource "local_file" "non_managed_external_name_services" {
     { config                       = local.non_managed_external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
   })
-  filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
+  filename = "${local.stateful_resources_output_path}/non-managed-external-name-services.yaml"
 }
 
 resource "local_file" "managed_service_entries" {
@@ -36,7 +36,7 @@ resource "local_file" "managed_service_entries" {
       stateful_resources_namespace = var.stateful_resources_namespace
       service_entry_sync_wave      = var.service_entry_sync_wave
   })
-  filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
+  filename = "${local.stateful_resources_output_path}/managed-external-name-services.yaml"
 }
 
 resource "local_file" "monolith-init-db" {
