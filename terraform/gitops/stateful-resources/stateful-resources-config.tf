@@ -68,15 +68,22 @@ resource "local_file" "mongodb_managed_stateful_resources" {
 
 
 
-resource "local_file" "external_name_services" {
+resource "local_file" "non_managed_external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
-    { config                       = local.external_name_map
+    { config                       = local.non_managed_external_name_map
+      stateful_resources_namespace = var.stateful_resources_namespace
+  })
+  filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
+}
+
+resource "local_file" "managed_service_entries" {
+  content = templatefile("${local.stateful_resources_template_path}/serviceentries.yaml.tpl",
+    { config                       = local.managed_external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
       service_entry_sync_wave      = var.service_entry_sync_wave
   })
   filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
 }
-
 resource "local_file" "monolith_external_name_services" {
   count = var.managed_svc_as_monolith ? 1 : 0
   content = templatefile("${local.stateful_resources_template_path}/monolith-external-name-services.yaml.tpl",
@@ -258,7 +265,7 @@ locals {
   local_external_name_map             = { for key, stateful_resource in local.helm_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_helm_config.override_service_name, null) != null ? "${stateful_resource.local_helm_config.override_service_name}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_helm_config.resource_namespace}.svc.cluster.local" }
   local_operator_external_name_map    = { for key, stateful_resource in local.operator_stateful_resources : stateful_resource.logical_service_config.logical_service_name => try(stateful_resource.local_operator_config.override_service_name, null) != null ? "${stateful_resource.local_operator_config.override_service_name}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" : "${key}.${stateful_resource.local_operator_config.resource_namespace}.svc.cluster.local" }
   managed_external_name_map           = { for key, stateful_resource in local.managed_stateful_resources : stateful_resource.logical_service_config.logical_service_name => var.external_stateful_resource_instance_addresses[stateful_resource.external_resource_config.instance_address_key_name] }
-  external_name_map                   = merge(local.local_operator_external_name_map, merge(local.local_external_name_map, local.managed_external_name_map)) # mutually exclusive maps
+  non_managed_external_name_map       = merge(local.local_operator_external_name_map, merge(local.local_external_name_map)) # mutually exclusive maps
   managed_resource_password_map = { for key, stateful_resource in local.managed_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
     namespaces  = stateful_resource.logical_service_config.secret_extra_namespaces
