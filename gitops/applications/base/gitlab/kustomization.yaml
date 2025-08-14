@@ -5,6 +5,7 @@ resources:
   - ruby-script-config-map.yaml
   - rbac-runner.yaml
   - reg-restart-hook.yaml
+  - restart-toolbox-cronjob.yaml
 
 helmCharts:
   - name: gitlab
@@ -43,11 +44,8 @@ patches:
               command:
                 - /bin/bash
                 - '-c'
-                - |
-                  while true; do
-                    cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb
-                    sleep 86400
-                  done & disown
+                - >-
+                  cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
