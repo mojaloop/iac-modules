@@ -45,10 +45,10 @@ patches:
                 - /bin/bash
                 - '-c'
                 - |
-                  bash -c 'while true; do
+                  while true; do
                     cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb
                     sleep 86400
-                  done' & disown
+                  done & disown
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
