@@ -17,10 +17,13 @@ spec:
         - operation:
             paths:
               - /api/dfsps/states-status
-    - from: # /api is first checked by the mcm-jwt CUSTOM policy below
-        - source:
-            serviceAccounts:
-              - ${mcm_istio_gateway_namespace}/${mcm_istio_gateway_name}
+    - to: # /api is first checked by the mcm-jwt CUSTOM policy below, but needs to be allowed here too
+        - operation:
+            hosts:
+              - ${mcm_fqdn}
+              - ${mcm_fqdn}:*
+              - ${mcm_external_fqdn}
+              - ${mcm_external_fqdn}:*
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -39,7 +42,8 @@ spec:
         - operation:
             paths:
               - /api/{**}
-    - from:
-        - source:
-            serviceAccounts:
-              - ${mcm_istio_gateway_namespace}/${mcm_istio_gateway_name}
+            hosts:
+              - ${mcm_fqdn}
+              - ${mcm_fqdn}:*
+              - ${mcm_external_fqdn}
+              - ${mcm_external_fqdn}:*
