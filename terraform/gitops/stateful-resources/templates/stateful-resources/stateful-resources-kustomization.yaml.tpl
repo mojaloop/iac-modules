@@ -2,7 +2,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- external-name-services.yaml
+- non-managed-external-name-services.yaml
+- managed-external-name-services.yaml
 # %{ if managed_svc_as_monolith }
 - monolith-external-name-services.yaml
 # %{ endif }
