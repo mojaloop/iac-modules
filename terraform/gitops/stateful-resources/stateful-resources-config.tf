@@ -26,6 +26,7 @@ resource "local_file" "external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
     { config                       = local.external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
+      service_entry_sync_wave      = var.service_entry_sync_wave
   })
   filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
 }
