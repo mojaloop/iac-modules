@@ -4,7 +4,7 @@ metadata:
   name: gitlab-toolbox-restart
   namespace: ${ARGOCD_ENV_gitlab_namespace}
 spec:
-  schedule: '20 * * * *' # Every 20th minute of every hour
+  schedule: '26 * * * *' # Every 20th minute of every hour
   jobTemplate:
     spec:
       template:
@@ -12,7 +12,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: restart-toolbox
-              image: k8s.gcr.io/kubectl:v1.24.0
+              image: bitnami/kubectl:latest
               command:
                 - /bin/sh
                 - -c
