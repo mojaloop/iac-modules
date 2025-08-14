@@ -21,6 +21,7 @@ module "vnext_stateful_resources" {
   managed_svc_as_monolith                                = var.managed_svc_as_monolith
   cluster                                                = var.app_var_map.cluster
   storage_class_name                                     = var.storage_class_name
+  service_entry_sync_wave                                = var.service_entry_sync_wave
 }
 
 variable "stateful_resources_namespace" {
@@ -53,6 +54,11 @@ data "gitlab_project_variable" "monolith_external_stateful_resource_instance_add
   for_each = var.monolith_stateful_resources
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
+}
+
+variable "service_entry_sync_wave" {
+  type        = string
+  description = "The sync wave for the external name service entries, to ensure they are created before jobs"
 }
 
 locals {

@@ -72,6 +72,7 @@ resource "local_file" "external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
     { config                       = local.external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
+      service_entry_sync_wave      = var.service_entry_sync_wave
   })
   filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
 }
@@ -81,6 +82,7 @@ resource "local_file" "monolith_external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/monolith-external-name-services.yaml.tpl",
     { config                       = local.monolith_managed_external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
+      service_entry_sync_wave      = var.service_entry_sync_wave
   })
   filename = "${local.stateful_resources_output_path}/monolith-external-name-services.yaml"
 }
@@ -396,4 +398,9 @@ variable "cluster" {
 }
 
 variable "storage_class_name" {
+}
+
+variable "service_entry_sync_wave" {
+  type        = string
+  description = "The sync wave for the external name service entries, to ensure they are created before jobs"
 }

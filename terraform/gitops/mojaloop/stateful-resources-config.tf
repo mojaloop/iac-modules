@@ -21,6 +21,7 @@ module "mojaloop_stateful_resources" {
   managed_svc_as_monolith                                = var.managed_svc_as_monolith
   cluster                                                = var.app_var_map.cluster
   storage_class_name                                     = var.storage_class_name
+  service_entry_sync_wave                                = var.service_entry_sync_wave
 }
 
 variable "stateful_resources_namespace" {
@@ -54,7 +55,10 @@ data "gitlab_project_variable" "monolith_external_stateful_resource_instance_add
   project  = var.current_gitlab_project_id
   key      = each.value.external_resource_config.instance_address_key_name
 }
-
+variable "service_entry_sync_wave" {
+  type        = string
+  description = "The sync wave for the external name service entries, to ensure they are created before jobs"
+}
 locals {
   mojaloop_stateful_resources                            = { for key, resource in var.platform_stateful_res_config : key => resource if(resource.app_owner == "mojaloop" && resource.enabled) }
   monolith_for_mojaloop_sts_resources                    = { for key, resource in var.monolith_stateful_resources : key => resource if resource.app_owner == "mojaloop" }
