@@ -30,3 +30,10 @@ helmCharts:
   namespace: ${mcm_namespace}
   additionalValuesFiles:
   - values-mcm-override.yaml
+patches:
+  - target:
+      kind: Service
+    patch: |-
+      - op: add
+        path: /metadata/labels/istio.io~1ingress-use-waypoint
+        value: 'true'

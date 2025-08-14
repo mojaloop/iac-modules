@@ -35,7 +35,7 @@ metadata:
   namespace: ${pm4ml_namespace}
 spec:
   match:
-    url: <http|https>://${admin_portal_fqdn}/api/iam/<.*>
+    url: <http|https>://${admin_portal_fqdn}/<(users|participants|roles)(/.*)?>
     methods:
       - GET
   authenticators:
@@ -62,7 +62,7 @@ metadata:
   namespace: ${pm4ml_namespace}
 spec:
   match:
-    url: <http|https>://${admin_portal_fqdn}/api/iam/<.*>
+    url: <http|https>://${admin_portal_fqdn}/<(users|participants|roles)(/.*)?>
     methods:
       - POST
       - PUT
