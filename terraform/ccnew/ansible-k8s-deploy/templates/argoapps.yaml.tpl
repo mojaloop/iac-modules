@@ -389,6 +389,7 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           gitaly_storage_size: "${gitaly_storage_size}"
           gitlab_token_ttl: "${gitlab_token_ttl_days}"
+          gitlab_token_expiry_threshold_hours: "${gitlab_token_expiry_threshold_hours}"
           dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
         pre:
           #  object storage bucket configuration
