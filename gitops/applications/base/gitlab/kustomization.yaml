@@ -44,8 +44,11 @@ patches:
               command:
                 - /bin/bash
                 - '-c'
-                - >-
-                  cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb
+                - |
+                  while true; do
+                    cd /srv/gitlab && bundle exec rails runner -e production /tmp/maketoken.rb
+                    sleep 3600  # run once every hour
+                  done &
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
