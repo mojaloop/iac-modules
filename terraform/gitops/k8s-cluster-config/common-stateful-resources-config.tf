@@ -21,6 +21,7 @@ module "common_stateful_resources" {
   cluster                                                = var.app_var_map.cluster
   managed_svc_as_monolith                                = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
   storage_class_name                                     = var.storage_class_name
+  service_entry_sync_wave                                = var.istio_gateways_sync_wave
 }
 
 variable "stateful_resources_namespace" {

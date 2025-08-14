@@ -77,6 +77,7 @@ module "mojaloop" {
   managed_svc_as_monolith                  = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
   storage_class_name                       = var.storage_class_name
   cloud_platform                           = var.cloud_platform
+  service_entry_sync_wave                  = var.istio_gateways_sync_wave
 }
 
 module "pm4ml" {
@@ -228,6 +229,7 @@ module "vnext" {
   managed_svc_as_monolith              = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
   storage_class_name                   = var.storage_class_name
   cloud_platform                       = var.cloud_platform
+  service_entry_sync_wave              = var.istio_gateways_sync_wave
 }
 
 variable "app_var_map" {
