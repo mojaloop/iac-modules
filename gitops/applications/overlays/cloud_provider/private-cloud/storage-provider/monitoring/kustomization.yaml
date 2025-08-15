@@ -8,3 +8,9 @@ helmCharts:
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesFile: values-kube-prometheus.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
+  - name: grafana-alloy
+    releaseName: alloy
+    version: 1.0.0
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesFile: values-alloy.yaml # TODO: parametrize the values
+    namespace: ${ARGOCD_ENV_monitoring_namespace}

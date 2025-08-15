@@ -143,7 +143,8 @@ netbird_public_access: true
 netbird_log_level: info
 
 nexus_image_version: 3.75.1
-nexus_public_access: false
+nexus_ui_public_access: false
+nexus_repo_public_access: true
 nexus_storage_size: 80Gi
 nexus_cpu_limit: '4000m' #https://help.sonatype.com/en/sonatype-nexus-repository-system-requirements.html#UUID-fc21e0ee-c297-0311-0105-1383dfc28a38_bridgehead-idm23446974390921 increase if required
 nexus_memory_limit: '8Gi'
@@ -153,6 +154,11 @@ nexus_jvm_min_heap_size: '4096m'
 nexus_jvm_max_heap_size: '6144m'
 nexus_jvm_additional_memory_options: '-XX:MaxDirectMemorySize=1g'
 nexus_jvm_additional_options: '-XX:+UseG1GC -XX:MaxGCPauseMillis=200'
+
+harbor_helm_version: 1.17.1
+harbor_ui_public_access: false
+harbor_repo_public_access: true
+harbor_storage_size: 80Gi
 
 zitadel_public_access: true
 argocd_admin_rbac_group: 'argocd_administrators'
@@ -182,7 +188,7 @@ mimir_bucket_name: 'mimir-bucket'
 mimir_bucket_max_objects: "'1000000'"
 mimir_bucket_storage_size: '100Gi'
 
-mimir_max_label_names_per_series: "'35'"
+mimir_max_label_names_per_series: "'40'"
 mimir_max_global_series_per_user: "'5000000'"
 mimir_ingestion_rate: "'200000'"
 mimir_ingestion_burst_size: "'500000'"
@@ -264,6 +270,7 @@ gitlab_public_access: true
 gitlab_redis_cluster_size: "'3'"
 gitlab_redis_storage_size: "'5Gi'"
 gitlab_token_ttl_days: "'14'"
+gitlab_token_expiry_threshold_hours: "'6'"
 git_lfs_max_objects: "'1000000'"
 git_lfs_storage_size: '10Gi'
 gitlab_artifacts_max_objects: "'1000000'"
@@ -478,6 +485,7 @@ capi_cluster_proxmox_control_plane_memory: "'8192'"
 capi_cluster_proxmox_control_plane_cpu: "'2'"
 capi_cluster_storage_name: 'pve-sdb'
 capi_rook_ceph_rgw_external_ip: '10.10.127.10'
+capi_rook_ceph_rgw_hostname: 'cephobjectstore'
 capi_cluster_proxmox_user: 'root@pam'
 capi_cluster_proxmox_password: 'test123'
 capi_cluster_proxmox_url: '10.10.127.3:8006'
@@ -506,3 +514,8 @@ cc_backup_bucket_storage_size: '30Gi'
 cc_backup_schedule: '0 * * * *'
 cc_backup_ttl: '24h0m0s'
 cc_backup_object_storage_provider: 's3'
+
+# audit
+audit_bucket_name: 'control-center-audit-bucket'
+audit_bucket_max_objects: "'1000000'"
+audit_bucket_storage_size: '10Gi'

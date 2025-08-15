@@ -65,7 +65,7 @@ locals {
 variable "vault_sync_wave" {
   type        = string
   description = "vault_sync_wave"
-  default     = "-7"
+  default     = "-8"
 }
 
 variable "vault_namespace" {
@@ -83,13 +83,13 @@ variable "vault_config_operator_namespace" {
 variable "vault_config_operator_sync_wave" {
   type        = string
   description = "vault_config_operator_sync_wave"
-  default     = "-6"
+  default     = "-7"
 }
 
 variable "vault_cm_sync_wave" {
   type        = string
   description = "vault_cm_sync_wave"
-  default     = "-8"
+  default     = "-9"
 }
 
 variable "vault_chart_repo" {

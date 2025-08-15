@@ -2,11 +2,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- external-name-services.yaml
+- non-managed-external-name-services.yaml
+- managed-external-name-services.yaml
 
 # %{ for key, stateful_resource in monolith_env_vpc_resource_password_map }
 - monolith-env-vpc-vault-crs-${key}.yaml
 # %{ endfor }
+
+# %{ if managed_svc_as_monolith }
+- monolith-external-name-services.yaml
+# %{ endif }
 
 # %{ for key,stateful_resource in monolith_env_vpc_aws_db_resources }
 - db-cluster-${key}.yaml

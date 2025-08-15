@@ -45,3 +45,10 @@ helmCharts:
   namespace: ${mojaloop_namespace}
   additionalValuesFiles:
   - values-hub-provisioning-override.yaml
+patches:
+  - target:
+      kind: Service
+    patch: |-
+      - op: add
+        path: /metadata/labels/istio.io~1ingress-use-waypoint
+        value: 'true'

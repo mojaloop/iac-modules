@@ -112,13 +112,37 @@ variable "netbird_operator_api_key_vault_path" {
   description = "vault path to get operator access key"
 }
 
+variable "netbird_setup_key_vault_path" {
+  description = "vault path to get setup key for k8s egress"
+}
+
 variable "netbird_operator_management_url" {
   description = "url to reach management api of netbird"
 }
 
 
-variable "hyphenated_domain"  {
+variable "hyphenated_domain" {
   description = "hyphenated domain for the environment"
+}
+
+variable "nexus_readonly_password_secret_name" {
+  description = "name of the secret in k8s for nexus readonly password"
+  default     = "external-docker-nexus-secret"
+}
+
+variable "nexus_readonly_password_secret_namespace" {
+  description = "namespace of the secret in k8s for nexus readonly password"
+  default     = "vault"
+}
+
+variable "registry_mirror_readonly_password_secret_name" {
+  description = "name of the secret in k8s for registry mirror readonly password"
+  default     = "external-docker-harbor-secret"
+}
+
+variable "registry_mirror_readonly_password_secret_namespace" {
+  description = "namespace of the secret in k8s for registry mirror readonly password"
+  default     = "vault"
 }
 
 locals {
@@ -130,5 +154,6 @@ locals {
     tempo   = "tempo"
     velero  = "velero"
     percona = "percona"
+    audit   = "audit"
   }
 }

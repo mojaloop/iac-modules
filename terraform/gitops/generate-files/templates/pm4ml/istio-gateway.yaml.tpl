@@ -1,3 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  labels:
+    istio.io/waypoint-for: service
+  name: service-ingress-waypoint
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -111,38 +123,34 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: ${admin_portal_release_name}-${pm4ml_release_name}-auth
-  namespace: ${pm4ml_istio_gateway_namespace}
 spec:
-  selector:
-    matchLabels:
-      app: ${pm4ml_istio_gateway_name}
+  targetRefs:
+    - kind: Service
+      group: core
+      name: ${admin_portal_release_name}-role-assignment-service
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
-            paths:
-              - /api/*
             hosts: ["${admin_portal_fqdn}", "${admin_portal_fqdn}:*"]
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: ${pm4ml_release_name}-exp-auth
-  namespace: ${pm4ml_istio_gateway_namespace}
 spec:
-  selector:
-    matchLabels:
-      app: ${pm4ml_istio_gateway_name}
+  targetRefs:
+    - kind: Service
+      group: core
+      name: ${pm4ml_release_name}-experience-api
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
-            paths:
-              - /*
             hosts: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -175,18 +183,17 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: ${pm4ml_release_name}-jwt
-  namespace: ${pm4ml_istio_gateway_namespace}
 spec:
-  selector:
-    matchLabels:
-      app: ${pm4ml_istio_gateway_name}
+  targetRefs:
+    - kind: Service
+      group: core
+      name: ${pm4ml_release_name}-frontend
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
-            paths: ["/api/*"]
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3

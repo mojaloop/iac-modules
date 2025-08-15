@@ -31,7 +31,8 @@ pilot:
   # Set to `type: RuntimeDefault` to use the default profile if available.
   seccompProfile: {}
 
-  env: {}
+  env:
+    ENABLE_INGRESS_WAYPOINT_ROUTING: "true"
 
   cpu:
     targetAverageUtilization: 80
@@ -239,7 +240,7 @@ global:
   # The control plane has different scopes depending on component, but can configure default log level across all components
   # If empty, default scope and level will be used as configured in code
   logging:
-    level: "default:info"
+    level: "default:${istio_proxy_log_level}"
 
   omitSidecarInjectorConfigMap: false
 

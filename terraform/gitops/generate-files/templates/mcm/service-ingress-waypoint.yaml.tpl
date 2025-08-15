@@ -3,7 +3,7 @@ kind: Gateway
 metadata:
   labels:
     istio.io/waypoint-for: service
-  name: istio-waypoint
+  name: service-ingress-waypoint
 spec:
   gatewayClassName: istio-waypoint
   listeners:

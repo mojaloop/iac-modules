@@ -5,9 +5,9 @@ metadata:
   namespace: ${ARGOCD_ENV_nexus_namespace}
 spec:
   gateways:
-    - ${ARGOCD_ENV_nexus_istio_gateway_namespace}/${ARGOCD_ENV_nexus_istio_wildcard_gateway_name}
+    - ${ARGOCD_ENV_nexus_ui_istio_gateway_namespace}/${ARGOCD_ENV_nexus_ui_istio_wildcard_gateway_name}
   hosts:
-    - "nexus.${ARGOCD_ENV_nexus_dns_subdomain}"
+    - "nexus.${ARGOCD_ENV_nexus_ui_dns_subdomain}"
   http:
     - match:
         - uri:

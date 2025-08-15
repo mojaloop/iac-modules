@@ -544,7 +544,6 @@ argocd_override:
           dbaas_default_management_policy: "${dbaas_default_management_policy}"
           velero_bucket_storage_size: "${velero_bucket_storage_size}"
           audit_bucket_storage_size: "${audit_bucket_storage_size}"
-        
     monitoring:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:

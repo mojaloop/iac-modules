@@ -54,6 +54,11 @@ resources:
   - ../../../base/nexus-pre.yaml
   - ../../../base/nexus-post-config.yaml
 
+  # harbor
+  - ../../../base/harbor.yaml
+  - ../../../base/harbor-pre.yaml
+  - ../../../base/harbor-post-config.yaml
+
   # gitlab
   - ../../../base/gitlab-pre.yaml
   - ../../../base/gitlab.yaml

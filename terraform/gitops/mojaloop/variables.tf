@@ -213,3 +213,7 @@ variable "deploy_env_monolithic_db" {
   type        = bool
   default     = false
 }
+
+variable "cloud_platform" {
+  type = string
+}

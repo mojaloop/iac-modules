@@ -23,11 +23,28 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: interop-jwt
-  namespace: ${istio_external_gateway_namespace}
 spec:
-  selector:
-    matchLabels:
-      app: ${istio_external_gateway_name}
+  targetRefs:
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-account-lookup-service
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-ml-participant-connection-test-svc
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-quoting-service
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-ml-api-adapter-service
+# %{ if bulk_enabled }
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-bulk-api-adapter-service
+# %{ endif }
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-transaction-requests-service
 %{ if fspiop_use_ory_for_auth ~}
   action: CUSTOM
   provider:
@@ -240,28 +257,6 @@ spec:
             host: ${mojaloop_release_name}-transaction-requests-service
             port:
               number: 80
-    - name: central-admin
-      match:
-        - uri:
-            prefix: /admin/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: ${mojaloop_release_name}-centralledger-service
-            port:
-              number: 80
-    - name: als-admin
-      match:
-        - uri:
-            prefix: /als-admin/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: ${mojaloop_release_name}-account-lookup-service-admin
-            port:
-              number: 80
 
 %{ if ttk_dev_mode_enabled ~}
 ---
@@ -465,19 +460,23 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: finance-portal-auth
-  namespace: ${portal_istio_gateway_namespace}
 spec:
-  selector:
-    matchLabels:
-      app: ${portal_istio_gateway_name}
+  targetRefs:
+    - kind: Service
+      group: core
+      name: ${finance_portal_release_name}-reporting-hub-bop-api-svc
+    - kind: Service
+      group: core
+      name: ${finance_portal_release_name}-role-assignment-service
+    - kind: Service
+      group: core
+      name: ${finance_portal_release_name}-reporting-hub-bop-experience-api-svc
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
   rules:
     - to:
         - operation:
-            paths:
-              - /api/*
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
 ---
 #adding waypoint for mojaloop ns
@@ -486,7 +485,7 @@ kind: Gateway
 metadata:
   labels:
     istio.io/waypoint-for: service
-  name: egress-waypoint
+  name: service-ingress-waypoint
   namespace: ${mojaloop_namespace}
 spec:
   gatewayClassName: istio-waypoint
