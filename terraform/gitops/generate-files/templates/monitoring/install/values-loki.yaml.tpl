@@ -36,6 +36,8 @@ loki:
         access_key_id: $${CEPH_LOKI_USERNAME}
         secret_access_key: $${CEPH_LOKI_PASSWORD}
         bucketnames: ${loki_bucket}
+        http_config:
+          insecure_skip_verify: ${object_store_insecure_skip_verify}
 
 metrics:
   enabled: true
@@ -142,6 +144,9 @@ memcachedindexwrites:
 
 
 promtail:
+  image:
+    repository: grafana/promtail
+    tag: 2.9.3
   # reference: https://github.com/bitnami/charts/blob/5f843aec99a13573f67e59b5e3193916ca01f308/bitnami/grafana-loki/values.yaml#L4440
   # only multiline stage has been added in pipeline_stages
   configuration: |

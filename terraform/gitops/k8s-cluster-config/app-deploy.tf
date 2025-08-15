@@ -77,6 +77,8 @@ module "mojaloop" {
   hub_provisioning_ttk_test_case_version   = var.app_var_map.hub_provisioning_ttk_test_case_version
   managed_svc_as_monolith                  = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
   storage_class_name                       = var.storage_class_name
+  cloud_platform                           = var.cloud_platform
+  service_entry_sync_wave                  = var.istio_gateways_sync_wave
 }
 
 module "pm4ml" {
@@ -129,6 +131,7 @@ module "pm4ml" {
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
   storage_class_name                       = var.storage_class_name
+  cloud_platform                           = var.cloud_platform
 
 }
 
@@ -164,6 +167,7 @@ module "proxy_pm4ml" {
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
   storage_class_name                       = var.storage_class_name
+  cloud_platform                           = var.cloud_platform
 }
 
 module "vnext" {
@@ -225,6 +229,8 @@ module "vnext" {
   monolith_stateful_resources          = local.monolith_stateful_resources
   managed_svc_as_monolith              = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
   storage_class_name                   = var.storage_class_name
+  cloud_platform                       = var.cloud_platform
+  service_entry_sync_wave              = var.istio_gateways_sync_wave
 }
 
 variable "app_var_map" {

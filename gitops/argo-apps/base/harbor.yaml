@@ -1,0 +1,78 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${ARGOCD_ENV_harbor_argocd_app_name}
+  namespace: ${ARGOCD_ENV_harbor_app_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_harbor_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum~1secret
+        - /spec/template/metadata/annotations/checksum~1secret-core
+        - /spec/template/metadata/annotations/checksum~1secret-jobservice
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ${ARGOCD_ENV_harbor_app_namespace}
+
+  source:
+    repoURL: ${ARGOCD_ENV_argocd_repo_url}
+    targetRevision: ${ARGOCD_ENV_harbor_application_gitrepo_tag}
+    path: gitops/applications/base/harbor
+    plugin:
+      name: envsubst
+      env:
+        - name: "harbor_namespace"
+          value: "${ARGOCD_ENV_harbor_harbor_namespace}"
+
+        - name: "vault_namespace"
+          value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+        - name: "harbor_app_name"
+          value: "${ARGOCD_ENV_harbor_harbor_app_name}"
+
+        - name: "harbor_helm_version"
+          value: "${ARGOCD_ENV_harbor_harbor_helm_version}"
+
+        - name: "harbor_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_harbor_harbor_istio_gateway_namespace}"
+
+        - name: "harbor_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_harbor_harbor_istio_wildcard_gateway_name}"
+
+        - name: "harbor_dns_subdomain"
+          value: "${ARGOCD_ENV_harbor_harbor_dns_subdomain}"
+
+        - name: "harbor_ui_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_harbor_ui_istio_gateway_namespace}"
+
+        - name: "harbor_ui_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_harbor_ui_istio_wildcard_gateway_name}"
+
+        - name: "harbor_ui_dns_subdomain"
+          value: "${ARGOCD_ENV_harbor_ui_dns_subdomain}"
+
+        - name: "harbor_storage_size"
+          value: "${ARGOCD_ENV_harbor_harbor_storage_size}"
+

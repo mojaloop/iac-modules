@@ -8,6 +8,10 @@ variable "nexus_fqdn" {
   description = "fqdn for nexus"
 }
 
+variable "registry_mirror_fqdn" {
+  description = "fqdn for registry mirror"
+}
+
 variable "zitadel_fqdn" {
   description = "fqdn for zitadel"
 }
@@ -94,6 +98,14 @@ variable "cc_cidr_block" {
   description = "cidr block that cc is running in"
 }
 
+variable "sc_cidr_block" {
+  description = "cidr block that sc is running in"
+}
+
+variable "sc_cloud_provider" {
+  description = "cloud provider that sc is running in"
+}
+
 variable "env_token_ttl" {
   type        = string
   description = "time to live for the env token"
@@ -101,4 +113,21 @@ variable "env_token_ttl" {
 
 variable "obj_store_region" {
   description = "cloud region"
+}
+
+variable "cc_domain" {
+  description = "domain that cc is running in"
+}
+
+variable "sc_domain" {
+  description = "Domain for the sc endpoints"
+  type        = string
+}
+
+variable "nexus_readonly_username" {
+  description = "readonly username for nexus"
+}
+
+variable "registry_mirror_readonly_username" {
+  description = "readonly username for registry mirror"
 }

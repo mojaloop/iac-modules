@@ -165,3 +165,7 @@ variable "vault_certman_secretname_suffix" {
   type        = string
   default     = "vault-tls-cert"
 }
+
+variable "cloud_platform" {
+  type = string
+}

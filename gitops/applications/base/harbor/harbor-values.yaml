@@ -1,0 +1,48 @@
+expose:
+  type: clusterIP
+  tls:
+    enabled: false
+
+externalURL: "https://harbor-registry.${ARGOCD_ENV_harbor_dns_subdomain}"
+
+persistence:
+  enabled: true
+  resourcePolicy: "keep"
+  persistentVolumeClaim:
+    registry:
+      size: 50Gi
+      accessMode: ReadWriteOnce
+    database:
+      size: 10Gi
+      accessMode: ReadWriteOnce
+    redis:
+      size: 2Gi
+      accessMode: ReadWriteOnce
+
+database:
+  type: internal
+
+redis:
+  type: internal
+
+components:
+  portal:
+    enabled: true
+  jobservice:
+    enabled: false
+  notary:
+    enabled: false
+  chartmuseum:
+    enabled: false
+  trivy:
+    enabled: false
+
+proxy:
+  enabled: true
+  components:
+    - core
+
+core:
+  extraEnvVars:
+    - name: CFG_ANONYMOUS_ACCESS
+      value: "false"

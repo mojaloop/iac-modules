@@ -131,7 +131,7 @@ variable "object_store_api_url" {
   description = "object_store_api_url"
 }
 
-variable "object_store_regional_endpoint"{
+variable "object_store_regional_endpoint" {
   type        = string
   description = "object_store_regional_endpoint"
 }
@@ -144,6 +144,11 @@ variable "object_storage_path_style" {
 variable "object_store_insecure_connection" {
   type        = bool
   description = "object_store_insecure_connection"
+}
+
+variable "object_store_insecure_skip_verify" {
+  type        = bool
+  description = "object_store_insecure_skip_verify"
 }
 
 variable "central_observability_endpoint" {
@@ -169,13 +174,13 @@ variable "managed_db_host" {
 }
 
 variable "managed_svc_as_monolith" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "db_mediated_by_control_center" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 locals {
