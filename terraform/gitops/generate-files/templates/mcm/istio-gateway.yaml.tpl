@@ -50,24 +50,6 @@ spec:
             port:
               number: 8080
 ---
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: mcm-jwt
-  namespace: ${mcm_istio_gateway_namespace}
-spec:
-  selector:
-    matchLabels:
-      app: ${mcm_istio_gateway_name}
-  action: CUSTOM
-  provider:
-    name: ${oathkeeper_auth_provider_name}
-  rules:
-    - to:
-        - operation:
-            paths: ["/api/*"]
-            hosts: ["${mcm_fqdn}", "${mcm_fqdn}:*"]
----
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -89,22 +71,3 @@ spec:
             host: mcm-connection-manager-api
             port:
               number: 3001
-
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: mcm-jwt-external
-  namespace: ${mcm_istio_external_gateway_namespace}
-spec:
-  selector:
-    matchLabels:
-      app: ${mcm_istio_external_gateway_name}
-  action: CUSTOM
-  provider:
-    name: ${oathkeeper_auth_provider_name}
-  rules:
-    - to:
-        - operation:
-            paths: ["/pm4mlapi/*"]
-            hosts: ["${mcm_external_fqdn}", "${mcm_external_fqdn}:*"]
