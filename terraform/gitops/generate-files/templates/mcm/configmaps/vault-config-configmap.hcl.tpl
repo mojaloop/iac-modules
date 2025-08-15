@@ -235,11 +235,29 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
   name: dfsp-whitelist-ingress-policy
-  namespace: ${istio_external_gateway_namespace}
+  namespace: ${mojaloop_namespace}
 spec:
-  selector:
-    matchLabels:
-      istio: ${istio_external_gateway_name}
+  targetRefs:
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-account-lookup-service
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-ml-participant-connection-test-svc
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-quoting-service
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-ml-api-adapter-service
+# %{ if bulk_enabled }
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-bulk-api-adapter-service
+# %{ endif }
+    - kind: Service
+      group: core
+      name: ${mojaloop_release_name}-transaction-requests-service
   action: DENY
   rules:
   - from:
