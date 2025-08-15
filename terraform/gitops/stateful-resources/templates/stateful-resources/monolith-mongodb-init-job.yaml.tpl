@@ -4,7 +4,7 @@ metadata:
   name: init-${resource_name}
   namespace: ${stateful_resources_namespace}
   annotations:
-    argocd.argoproj.io/sync-wave: "-4"
+    argocd.argoproj.io/hook: PostSync
 spec:
   template:
     spec:
@@ -17,9 +17,10 @@ spec:
             - "-c"
           args:
             - >
-%{ if monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].provider == "dbaas" ~}
+%{ if monolith_stateful_resources[managed_stateful_resource.monolith_db_server].provider == "dbaas" ~}
                echo "use ${database_name}" >> ~/init.js;
                echo "db.createUser({user: \"${database_user}\",pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
+               echo "db.updateUser(\"${managed_stateful_resource.logical_service_config.db_username}\", { pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db:  \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
 %{ for privilege in additional_privileges ~}
                echo "db.createRole({ role: \"additionalRole\", privileges: [{ resource: { db: \"${database_name}\", collection: \"${privilege.collection}\" }, actions: [\"${privilege.action}\"] }], roles: [] })" >> ~/init.js;
 %{ endfor ~}
@@ -27,13 +28,14 @@ spec:
                echo "db.updateUser(\"${database_user}\", { roles: [ { db: \"${database_name}\", role: \"readWrite\" },{ role: \"additionalRole\", db: \"${database_user}\" }]})" >> ~/init.js;
 %{ endif ~}
 %{ endif ~}
-%{ if monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].provider  == "documentdb" ~}
+%{ if monolith_stateful_resources[managed_stateful_resource.monolith_db_server].provider  == "documentdb" ~}
                echo "use admin" >> ~/init.js;
 %{ for privilege in additional_privileges ~}
                echo "db.createRole({ role: \"additionalRole\", privileges: [{ resource: { db: \"${managed_stateful_resource.logical_service_config.database_name}\", collection: \"${privilege.collection}\" }, actions: [\"${privilege.action}\"] }], roles: [] })" >> ~/init.js;
 %{ endfor ~}
                echo "use ${managed_stateful_resource.logical_service_config.database_name};" >> ~/init.js;
                echo "db.createUser({user: \"${managed_stateful_resource.logical_service_config.db_username}\",pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db: \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
+               echo "db.updateUser(\"${managed_stateful_resource.logical_service_config.db_username}\", { pwd: process.env.MONGODB_USER_PASSWORD,roles: [{ db:  \"${database_name}\", role: \"readWrite\" }],mechanisms: [\"SCRAM-SHA-1\"]})" >> ~/init.js;
 %{ if additional_privileges != [] ~}
                echo "use admin" >> ~/init.js;
                echo "db.grantRolesToUser(\"${managed_stateful_resource.logical_service_config.db_username}\", [\"additionalRole\"])" >> ~/init.js;
@@ -41,7 +43,12 @@ spec:
 %{ endif ~}
                chmod +x ~/init.js;
                echo "running init.js";
-               mongosh "mongodb://${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.username}:$${MONGODB_MASTER_PASSWORD}@${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local:${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.port}" < ~/init.js
+%{ if monolith_stateful_resources[managed_stateful_resource.monolith_db_server].provider  == "dbaas" ~}
+               mongosh "mongodb://${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username}:$${MONGODB_MASTER_PASSWORD}@${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local:${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port}/?tls=true&tlsCAFile=/tmp/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}&tlsCertificateKeyFile=/tmp/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}&tlsAllowInvalidHostnames=true" < ~/init.js
+%{ endif ~}
+%{ if monolith_stateful_resources[managed_stateful_resource.monolith_db_server].provider  == "documentdb" ~}
+               mongosh "mongodb://${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username}:$${MONGODB_MASTER_PASSWORD}@${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local:${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port}/?tls=true&tlsCAFile=/tmp/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}&tlsAllowInvalidHostnames=true" < ~/init.js
+%{ endif ~}
           env:
             - name: MONGODB_USER_PASSWORD
               valueFrom:
@@ -51,7 +58,15 @@ spec:
             - name: MONGODB_MASTER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                    name: ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.master_user_password_secret}
-                    key:  ${monolith_stateful_resources[managed_stateful_resource.external_resource_config.monolith_db_server].external_resource_config.master_user_password_secret_key}
+                    name: ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.master_user_password_secret}
+                    key:  ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.master_user_password_secret_key}
           resources: {}
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - name: ca-bundle-volume
+            mountPath: "/tmp"
+            readOnly: true
+      volumes:
+      - name: ca-bundle-volume
+        secret:
+          secretName: ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.name}

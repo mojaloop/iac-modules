@@ -31,6 +31,8 @@ module "generate_mcm_files" {
     db_schema                                = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
     db_port                                  = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
     db_host                                  = "${module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    db_tls_ca_secret_name                    = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name,"")
+    db_tls_ca_secret_key                     = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key,"")
     mcm_fqdn                                 = local.mcm_fqdn
     mcm_istio_gateway_namespace              = local.mcm_istio_gateway_namespace
     mcm_istio_wildcard_gateway_name          = local.mcm_istio_wildcard_gateway_name

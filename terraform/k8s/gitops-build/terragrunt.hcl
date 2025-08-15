@@ -19,6 +19,7 @@ dependency "k8s_deploy" {
     external_load_balancer_dns       = local.cloud_platform_vars.external_load_balancer_dns
     private_subdomain                = local.cloud_platform_vars.private_subdomain
     public_subdomain                 = local.cloud_platform_vars.public_subdomain
+    private_dns_zone_id              = local.cloud_platform_vars.private_dns_zone_id
     external_interop_switch_fqdn     = ""
     internal_interop_switch_fqdn     = ""
     target_group_internal_https_port = local.cloud_platform_vars.target_group_internal_https_port
@@ -37,6 +38,9 @@ dependency "k8s_deploy" {
     }
     private_network_cidr = local.cloud_platform_vars.private_network_cidr
     dns_provider         = "aws"
+    vpc_id               = ""
+    private_subnets      = [""]
+    availability_zones   = [""]
   }
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -162,6 +166,7 @@ locals {
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
     internal_load_balancer_dns       = "",
+    private_dns_zone_id              = "",
     external_load_balancer_dns       = "",
     private_subdomain                = "int.${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",
     public_subdomain                 = "${replace(get_env("cluster_name"), "-", "")}.${get_env("domain")}",
@@ -217,6 +222,9 @@ locals {
   internal_cc_subdomain               = get_env("CC_DOMAIN")
   internal_sc_subdomain               = get_env("SC_DOMAIN")
   netbird_setup_key_vault_path        = get_env("netbird_setup_key_vault_path")
+  cc_name                             = get_env("cc_name")
+  vpc_cidr                            = get_env("vpc_cidr")
+  persistent_volume_reclaim_policy    = get_env("persistent_volume_reclaim_policy")
 }
 generate "required_providers_override" {
   path = "required_providers_override.tf"

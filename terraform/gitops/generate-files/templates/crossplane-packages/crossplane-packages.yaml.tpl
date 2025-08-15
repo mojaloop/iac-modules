@@ -5,3 +5,35 @@ metadata:
 spec:
   package: ghcr.io/mojaloop/iac-crossplane-packages/utils:${crossplane_packages_utils_version}
   skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: aws-docdb
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/aws-docdbcluster:${crossplane_packages_aws_documentdb_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: aws-rdscluster
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/aws-rdscluster:${crossplane_packages_aws_rds_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: sc-mysqlcluster
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-mysqlcluster:${crossplane_packages_sc_mysql_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: sc-mongodbcluster
+spec:
+  package: ghcr.io/mojaloop/iac-crossplane-packages/sc-mongodbcluster:${crossplane_packages_sc_mongodb_version}
+  skipDependencyResolution: true

@@ -1,0 +1,7 @@
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - aws-provider-config.yaml
+  - http-provider-config.yaml
+  - kubernetes-provider-config.yaml

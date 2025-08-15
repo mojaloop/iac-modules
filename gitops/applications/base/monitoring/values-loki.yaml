@@ -147,6 +147,9 @@ memcachedchunks:
 
 
 promtail:
+  image:
+    repository: grafana/promtail
+    tag: 2.9.3
   # reference: https://github.com/bitnami/charts/blob/5f843aec99a13573f67e59b5e3193916ca01f308/bitnami/grafana-loki/values.yaml#L4440
   # only multiline stage has been added in pipeline_stages
   configuration: |

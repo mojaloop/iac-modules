@@ -10,16 +10,22 @@ module "common_stateful_resources" {
   stateful_resources_namespace                           = var.stateful_resources_namespace
   create_stateful_resources_ns                           = true
   kv_path                                                = var.kv_path
-  external_stateful_resource_instance_addresses          = local.external_stateful_resource_instance_addresses
-  managed_db_host                                        = var.managed_db_host
   object_store_api_url                                   = var.object_store_api_url
   object_store_region                                    = var.object_store_region
   object_store_percona_backup_bucket                     = data.gitlab_project_variable.object_store_percona_backup_bucket.value
   external_secret_sync_wave                              = var.external_secret_sync_wave
   monolith_stateful_resources                            = local.monolith_for_common_sts_resources
-  monolith_external_stateful_resource_instance_addresses = local.monolith_external_stateful_resource_instance_addresses
   cluster                                                = var.app_var_map.cluster
-  managed_svc_as_monolith                                = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
+  managed_svc_as_monolith                                = var.deploy_env_monolithic_db
+  deploy_env_monolithic_db                               = var.deploy_env_monolithic_db
+  storage_class_name                                     = var.storage_class_name
+  cc_name                                                = var.cc_name
+  vpc_cidr                                               = var.vpc_cidr
+  vpc_id                                                 = var.vpc_id
+  database_subnets                                       = var.database_subnets
+  availability_zones                                     = var.availability_zones
+  cloud_region                                           = var.cloud_region
+  private_dns_zone_id                                    = var.private_dns_zone_id
   storage_class_name                                     = var.storage_class_name
   service_entry_sync_wave                                = var.istio_gateways_sync_wave
 }
@@ -29,24 +35,10 @@ variable "stateful_resources_namespace" {
   default = "stateful-resources"
 }
 
-
-data "gitlab_project_variable" "external_stateful_resource_instance_address" {
-  for_each = local.managed_stateful_resources
-  project  = var.current_gitlab_project_id
-  key      = each.value.external_resource_config.instance_address_key_name
-}
-
-data "gitlab_project_variable" "monolith_external_stateful_resource_instance_address" {
-  for_each = local.monolith_stateful_resources
-  project  = var.current_gitlab_project_id
-  key      = each.value.external_resource_config.instance_address_key_name
-}
-
 locals {
   common_stateful_resources                              = { for key, resource in module.config_deepmerge.merged : key => resource if(resource.app_owner == "platform" && resource.enabled) }
   monolith_for_common_sts_resources                      = { for key, resource in local.monolith_stateful_resources : key => resource if resource.app_owner == "platform" }
   enabled_stateful_resources                             = { for key, stateful_resource in module.config_deepmerge.merged : key => stateful_resource if stateful_resource.enabled }
   managed_stateful_resources                             = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
-  external_stateful_resource_instance_addresses          = { for address in data.gitlab_project_variable.external_stateful_resource_instance_address : address.key => address.value }
-  monolith_external_stateful_resource_instance_addresses = { for address in data.gitlab_project_variable.monolith_external_stateful_resource_instance_address : address.key => address.value }
+  managed_stateful_resources_non_env_vpc                 = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if var.deploy_env_monolithic_db == false }
 }

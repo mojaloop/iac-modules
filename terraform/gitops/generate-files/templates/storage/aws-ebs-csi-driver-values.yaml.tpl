@@ -44,7 +44,7 @@ storageClasses:
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
   volumeBindingMode: WaitForFirstConsumer
-  reclaimPolicy: Retain
+  reclaimPolicy: ${reclaim_policy}
   parameters:
     encrypted: "true"
 
