@@ -164,5 +164,6 @@ locals {
     tempo   = "tempo"
     velero  = "velero"
     percona = "percona"
+    audit   = "audit"
   }
 }
