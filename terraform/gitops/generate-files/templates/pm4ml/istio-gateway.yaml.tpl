@@ -3,9 +3,9 @@ kind: Gateway
 metadata:
   labels:
     istio.io/waypoint-for: service
-  name: istio-waypoint
+  name: service-ingress-waypoint
 spec:
-  gatewayClassName: istio-waypoint
+  gatewayClassName: service-ingress-waypoint
   listeners:
   - name: mesh
     port: 15008

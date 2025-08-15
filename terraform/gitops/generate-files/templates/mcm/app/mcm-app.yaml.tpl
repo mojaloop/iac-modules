@@ -35,5 +35,5 @@ spec:
       - PruneLast=true
     managedNamespaceMetadata:
       labels:
-        istio.io/use-waypoint: istio-waypoint
+        istio.io/use-waypoint: service-ingress-waypoint
 # %{ endif }

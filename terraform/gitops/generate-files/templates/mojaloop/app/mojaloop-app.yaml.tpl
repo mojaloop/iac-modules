@@ -28,7 +28,7 @@ spec:
   syncPolicy:
     managedNamespaceMetadata:
       labels:
-        istio.io/use-waypoint: istio-waypoint
+        istio.io/use-waypoint: service-ingress-waypoint
 # %{ if opentelemetry_namespace_filtering_enable }
       annotations:
         instrumentation.opentelemetry.io/inject-nodejs: "true"
