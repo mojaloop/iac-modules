@@ -5,6 +5,7 @@ resources:
   - ruby-script-config-map.yaml
   - rbac-runner.yaml
   - reg-restart-hook.yaml
+  - restart-toolbox-cronjob.yaml
 
 helmCharts:
   - name: gitlab
