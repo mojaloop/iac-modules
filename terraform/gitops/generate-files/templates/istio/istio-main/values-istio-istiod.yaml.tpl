@@ -31,7 +31,8 @@ pilot:
   # Set to `type: RuntimeDefault` to use the default profile if available.
   seccompProfile: {}
 
-  env: {}
+  env:
+    ENABLE_INGRESS_WAYPOINT_ROUTING: "true"
 
   cpu:
     targetAverageUtilization: 80

@@ -4,9 +4,9 @@ resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - rbac-api-resources.yaml
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways }
   - istio-gateway.yaml
-%{ endif ~}
+# %{ endif }
   - vault-rbac.yaml
   - opentelemetry-instrumentation.yaml
   - vault-certificate.yaml
@@ -26,3 +26,10 @@ helmCharts:
   valuesFile: values-admin-portal.yaml
   namespace: ${pm4ml_namespace}
   includeCRDs: true
+patches:
+  - target:
+      kind: Service
+    patch: |-
+      - op: add
+        path: /metadata/labels/istio.io~1ingress-use-waypoint
+        value: 'true'

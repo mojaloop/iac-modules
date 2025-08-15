@@ -723,8 +723,6 @@ centralsettlement:
       db_database: *CS_DB_DATABASE
 
 transaction-requests-service:
-  podLabels:
-    istio.io/use-waypoint: waypoint
 # %{ if transaction_requests_service_affinity != null }
   affinity:
     ${indent(8, transaction_requests_service_affinity)}
@@ -843,8 +841,6 @@ mojaloop-bulk:
         hostname: bulk-api-adapter.${ingress_subdomain}
     bulk-api-adapter-handler-notification:
       tolerations: *MOJALOOP_TOLERATIONS
-      podLabels:
-        istio.io/use-waypoint: waypoint
       replicaCount: ${bulk_api_adapter_handler_notification_replica_count}
       config:
         hub_participant: *HUB_PARTICIPANT
