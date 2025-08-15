@@ -5,7 +5,7 @@ metadata:
     istio.io/waypoint-for: service
   name: service-ingress-waypoint
 spec:
-  gatewayClassName: service-ingress-waypoint
+  gatewayClassName: istio-waypoint
   listeners:
   - name: mesh
     port: 15008

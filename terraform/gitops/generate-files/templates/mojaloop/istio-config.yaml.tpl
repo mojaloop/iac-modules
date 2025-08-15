@@ -488,7 +488,7 @@ metadata:
   name: service-ingress-waypoint
   namespace: ${mojaloop_namespace}
 spec:
-  gatewayClassName: service-ingress-waypoint
+  gatewayClassName: istio-waypoint
   listeners:
   - name: mesh
     port: 15008
