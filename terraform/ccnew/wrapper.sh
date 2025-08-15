@@ -19,6 +19,8 @@ fi
 # Create the lock file
 touch "$LOCKFILE"
 
+source .envrc
+
 # actual script work below
 source externalrunner.sh
 source scripts/setlocalvars.sh
