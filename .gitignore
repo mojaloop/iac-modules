@@ -1,2 +1,5 @@
 **/vendor/*
 **/*.temp
+.editorconfig
+.vscode/extensions.json
+.vscode/settings.json

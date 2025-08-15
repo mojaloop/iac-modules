@@ -116,22 +116,24 @@ argocd_override:
           capi_rook_ceph_image_version: "${rook_ceph_image_version}"
           capi_rook_ceph_rbd_pool_replication_size: "${rook_ceph_objects_replica_count}"
           capi_rook_ceph_rgw_external_ip: "${capi_rook_ceph_rgw_external_ip}"
+          capi_rook_ceph_rgw_hostname: "${capi_rook_ceph_rgw_hostname}"
           capi_os_disk_size: "${capi_os_disk_size}"
           capi_rook_ceph_disk_size: "${capi_rook_ceph_disk_size}"
           cloud_provider: "${cloud_platform }"
           capi_cluster_cidr: "${capi_cluster_cidr}"
           capi_cluster_name: "sc-${cluster_name}"
-          capi_rook_ceph_rgw_subdomain: "cephobjectstore.${cluster_domain}"
+          capi_rook_ceph_rgw_subdomain: "${capi_rook_ceph_rgw_hostname}.storage.${cluster_domain}"
           capi_rook_ceph_rgw_instance_replicas: "${capi_rook_ceph_rgw_instance_replicas}"
           capi_calico_helm_version: "${capi_calico_helm_version}"
 
         storage:
           cloud_provider: "${cloud_platform}"
           cluster_domain: "${cluster_domain}"
-          object_storage_host: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "cephobjectstore.${cluster_domain}" }"
-          object_storage_regional_host: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "cephobjectstore.${cluster_domain}" }"
-          object_storage_endpoint: "${object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
-          object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "https://s3.${cloud_region}.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
+          storage_cluster_domain: "storage.${cluster_domain}"
+          object_storage_host: "${object_storage_provider == "s3" ? "s3.amazonaws.com" : "${capi_rook_ceph_rgw_hostname}.storage.${cluster_domain}" }"
+          object_storage_regional_host: "${object_storage_provider == "s3" ? "s3.${cloud_region}.amazonaws.com" : "${capi_rook_ceph_rgw_hostname}.storage.${cluster_domain}" }"
+          object_storage_endpoint: "${object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://${capi_rook_ceph_rgw_hostname}.storage.${cluster_domain}" }"
+          object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "https://s3.${cloud_region}.amazonaws.com" : "http://${capi_rook_ceph_rgw_hostname}.storage.${cluster_domain}" }"
           object_storage_region: "${object_storage_provider == "s3" ? cloud_region : "us-east-1" }"
           object_storage_path_style: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           object_store_insecure_connection: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
@@ -164,7 +166,7 @@ argocd_override:
           enable_object_storage_backend: "'${enable_object_storage_backend}'"
           object_storage_region: "${cloud_region}"
           object_storage_bucket: "${object_storage_bucket_name}"
-          object_storage_endpoint: "${cc_backup_object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
+          object_storage_endpoint: "${cc_backup_object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://${capi_rook_ceph_rgw_hostname}.storage.${cluster_domain}" }"
           object_storage_path_style: "${cc_backup_object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           plugin_version: "${velero_plugin_version}"
         post_config:
@@ -184,6 +186,7 @@ argocd_override:
           cert_manager_cloud_policy: "${cert_manager_cloud_policy}"
           letsencrypt_email: "${letsencrypt_email}"
           dns_cloud_api_region: "${cloud_region}"
+          external_load_balancer_private_ip: "${external_load_balancer_private_ip}"
     xplane_provider_config:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
 
@@ -352,7 +355,7 @@ argocd_override:
         nexus:
           helm_version: "${nexus_helm_version}"
           image_version: "${nexus_image_version}"
-          public_ingress_access_domain: "${nexus_public_access}"
+          public_ingress_access_domain: "${nexus_repo_public_access}"
           storage_size: "${nexus_storage_size}"
           cpu_limit: "${nexus_cpu_limit}"
           memory_limit: "${nexus_memory_limit}"
@@ -362,9 +365,21 @@ argocd_override:
           jvm_max_heap_size: "${nexus_jvm_max_heap_size}"
           jvm_additional_memory_options: "${nexus_jvm_additional_memory_options}"
           jvm_additional_options: "${nexus_jvm_additional_options}"
+        ui:
+          public_ingress_access_domain: "${nexus_ui_public_access}"
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"
-
+    harbor:
+      application_gitrepo_tag: "${iac_terraform_modules_tag}"
+      sub_apps:
+        harbor:
+          helm_version: "${harbor_helm_version}"
+          public_ingress_access_domain: "${harbor_repo_public_access}"
+          storage_size: "${harbor_storage_size}"
+        ui:
+          public_ingress_access_domain: "${harbor_ui_public_access}"
+        post_config:
+          ansible_collection_tag: "${harbor_ansible_collection_tag}"
     gitlab:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -374,6 +389,7 @@ argocd_override:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           gitaly_storage_size: "${gitaly_storage_size}"
           gitlab_token_ttl: "${gitlab_token_ttl_days}"
+          gitlab_token_expiry_threshold_hours: "${gitlab_token_expiry_threshold_hours}"
           dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
         pre:
           #  object storage bucket configuration
@@ -527,8 +543,8 @@ argocd_override:
           dns_zone_id: "${private_dns_zone_id}"
           dbaas_default_management_policy: "${dbaas_default_management_policy}"
           velero_bucket_storage_size: "${velero_bucket_storage_size}"
-
-
+          audit_bucket_storage_size: "${audit_bucket_storage_size}"
+        
     monitoring:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
