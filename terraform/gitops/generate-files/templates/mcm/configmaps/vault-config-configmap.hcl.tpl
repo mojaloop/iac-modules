@@ -268,7 +268,7 @@ spec:
           hosts: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
   EOH
   destination = "/vault/secrets/tmp/whitelist.yaml"
-  command     = "kubectl -n ${istio_external_gateway_namespace} apply -f /vault/secrets/tmp/whitelist.yaml"
+  command     = "kubectl apply -f /vault/secrets/tmp/whitelist.yaml"
 }
 
 vault = {
