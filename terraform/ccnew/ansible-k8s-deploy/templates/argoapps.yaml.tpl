@@ -172,6 +172,7 @@ argocd_override:
           cc_backup_schedule: "${cc_backup_schedule}"
           cc_backup_ttl: "${cc_backup_ttl}"
           sc_backup_schedule: "${sc_backup_schedule}"
+          sc_backup_ttl: "${sc_backup_ttl}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
