@@ -26,7 +26,6 @@ module "common_stateful_resources" {
   availability_zones                            = var.availability_zones
   cloud_region                                  = var.cloud_region
   private_dns_zone_id                           = var.private_dns_zone_id
-  service_entry_sync_wave                       = var.istio_gateways_sync_wave
 }
 
 variable "stateful_resources_namespace" {

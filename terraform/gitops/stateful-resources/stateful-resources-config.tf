@@ -24,7 +24,7 @@ resource "local_file" "vault_crs" {
 
 resource "local_file" "non_managed_external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
-    { config                       = local.non_managed_external_name_map
+    { config                       = local.external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
   })
   filename = "${local.stateful_resources_output_path}/non-managed-external-name-services.yaml"
@@ -566,9 +566,16 @@ variable "cluster" {
 variable "storage_class_name" {
 }
 
-variable "service_entry_sync_wave" {
+variable "waypoint_name" {
   type        = string
-  description = "The sync wave for the external name service entries, to ensure they are created before jobs"
+  description = "The name of the waypoint for the consumer applications"
+  default     = "egress-waypoint"
+}
+
+variable "waypoint_namespace" {
+  type        = string
+  description = "The namespace of the waypoint for the consumer applications"
+  default     = "istio-system"
 }
 
 variable "cc_name" {

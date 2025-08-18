@@ -26,7 +26,6 @@ module "mojaloop_stateful_resources" {
   availability_zones                            = var.availability_zones
   cloud_region                                  = var.cloud_region
   private_dns_zone_id                           = var.private_dns_zone_id
-  service_entry_sync_wave                       = var.service_entry_sync_wave
 }
 
 variable "stateful_resources_namespace" {
@@ -47,11 +46,6 @@ variable "object_store_region" {
 variable "object_store_percona_backup_bucket" {
   type        = string
   description = "object_store_percona_backup_bucket"
-}
-
-variable "service_entry_sync_wave" {
-  type        = string
-  description = "The sync wave for the external name service entries, to ensure they are created before jobs"
 }
 
 locals {
