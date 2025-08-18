@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${service_entry_sync_wave}"
   labels:
-    istio.io/use-waypoint: waypoint
+    istio.io/use-waypoint: egress-waypoint
     istio.io/use-waypoint-namespace: istio-system
 spec:
   hosts:
