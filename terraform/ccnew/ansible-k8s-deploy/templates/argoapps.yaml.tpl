@@ -168,6 +168,7 @@ argocd_override:
           object_storage_endpoint: "${cc_backup_object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
           object_storage_path_style: "${cc_backup_object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           plugin_version: "${velero_plugin_version}"
+          external_snapshotter_version: "${velero_external_snapshotter_version}"
         post_config:
           cc_backup_schedule: "${cc_backup_schedule}"
           cc_backup_ttl: "${cc_backup_ttl}"

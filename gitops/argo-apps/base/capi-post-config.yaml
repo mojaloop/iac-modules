@@ -318,6 +318,9 @@ spec:
         - name: velero_velero_helm_version
           value: "${ARGOCD_ENV_velero_velero_helm_version}"
 
+        - name: velero_velero_external_snapshotter_version
+          value: "${ARGOCD_ENV_velero_velero_external_snapshotter_version}"
+
         - name: velero_velero_namespace
           value: "${ARGOCD_ENV_velero_velero_namespace}"
 
