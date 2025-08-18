@@ -26,6 +26,7 @@ target_group_external_health_port: 32081
 private_network_cidrs:
   - 10.10.51.0/24
 ssh_private_key: |
+  PLACEHOLDER_TO_REPLACE
   -----BEGIN RSA PRIVATE KEY-----
   -----END RSA PRIVATE KEY-----
 ssh_public_key: "ssh-rsa AAA..."
@@ -84,6 +85,8 @@ master_hosts:
 k6s_callback_fqdn: none
 enable_k6s_test_harness: false
 test_harness_private_ip: none
+ci_iam_user_access_key: "PLACEHOLDER_TO_REPLACE"
+ci_iam_user_secret_key: "PLACEHOLDER_TO_REPLACE"
 ci_iam_user_client_secret_name: "replace"
 ci_iam_user_client_id_name: "replace"
 dns_resolver_ip: 10.10.100.1

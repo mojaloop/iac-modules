@@ -35,7 +35,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_external_fqdn}/pm4mlapi/<.*>
+    url: <http|https>://${mcm_external_fqdn}/api/<.*>
     methods:
       - POST
       - GET
@@ -45,7 +45,7 @@ spec:
     - handler: jwt
       config:
         jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs  
+        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
 
   authorizer:
     handler: allow

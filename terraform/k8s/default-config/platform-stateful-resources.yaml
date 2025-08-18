@@ -11,6 +11,9 @@ thirdparty-auth-svc-redis:
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_secret:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: mojaloop
     storage_size: 10G
     replica_count: 3
@@ -18,6 +21,7 @@ thirdparty-auth-svc-redis:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 thirdparty-auth-svc-db:
   enabled: false
   app_owner: "mojaloop"
@@ -31,6 +35,9 @@ thirdparty-auth-svc-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_secret:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: auth-svc
     storage_size: 10G
     replica_count: 1
@@ -38,6 +45,7 @@ thirdparty-auth-svc-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 mysql-consent-oracle-db:
   enabled: false
   app_owner: "mojaloop"
@@ -51,6 +59,9 @@ mysql-consent-oracle-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_secret:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: consent-oracle
     storage_size: 10G
     replica_count: 1
@@ -67,6 +78,7 @@ mysql-consent-oracle-db:
     generate_secret_vault_base_path: "/secret/generated"
     generate_secret_extra_namespaces:
       - mojaloop
+  monolith_db_server: common_mojaloop_db
 mcm-db:
   enabled: true
   app_owner: "mojaloop"
@@ -80,6 +92,9 @@ mcm-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mcm
+    ca_bundle_secret:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: mcm
     storage_size: 10G
     replica_count: 1
@@ -87,6 +102,7 @@ mcm-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 account-lookup-db:
   enabled: true
   app_owner: "mojaloop"
@@ -100,6 +116,9 @@ account-lookup-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_secret:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: account_lookup
     storage_size: 10G
     replica_count: 1
@@ -107,6 +126,7 @@ account-lookup-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 central-ledger-db:
   enabled: true
   app_owner: "mojaloop"
@@ -120,6 +140,9 @@ central-ledger-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_secret:
+      name: "global-ca-bundle"
+      key: "ca-bundle.crt"
     database_name: central_ledger
     storage_size: 10G
     replica_count: 1
@@ -127,6 +150,7 @@ central-ledger-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mojaloop_db
 bulk-mongodb:
   enabled: true
   app_owner: "mojaloop"
@@ -136,10 +160,14 @@ bulk-mongodb:
     logical_service_port: 27017
     logical_service_name: bulk-mongodb-svc
     db_username: mojaloop
+    additional_privileges: []
     user_password_secret: mongodb-bulk-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_secret:
+      name: "global-ca-bundle-mongo"
+      key: "ca-bundle.crt"
     database_name: mlos
     storage_size: 10G
     replica_count: 3
@@ -149,6 +177,7 @@ bulk-mongodb:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mongodb
 cep-mongodb:
   enabled: false
   app_owner: "mojaloop"
@@ -158,10 +187,14 @@ cep-mongodb:
     logical_service_port: 27017
     logical_service_name: mongodb-cep-mongodb
     db_username: mojaloop
+    additional_privileges: []
     user_password_secret: mongodb-cep-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_secret:
+      name: "global-ca-bundle-mongo"
+      key: "ca-bundle.crt"
     database_name: mojaloop
     storage_size: 10G
     replica_count: 3
@@ -171,6 +204,7 @@ cep-mongodb:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mongodb
 reporting-events-mongodb:
   enabled: true
   app_owner: "mojaloop"
@@ -180,10 +214,16 @@ reporting-events-mongodb:
     logical_service_port: 27017
     logical_service_name: mongodb-reporting-events-mongodb
     db_username: reporting
+    additional_privileges:
+      - collection: reporting
+        action: "collMod"
     user_password_secret: mongodb-reporting-events-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_secret:
+      name: "global-ca-bundle-mongo"
+      key: "ca-bundle.crt"
     database_name: reporting
     storage_size: 10G
     replica_count: 3
@@ -193,6 +233,7 @@ reporting-events-mongodb:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mongodb
 mojaloop-kafka:
   enabled: true
   app_owner: "mojaloop"
@@ -262,10 +303,16 @@ ttk-mongodb:
     logical_service_port: 27017
     logical_service_name: ttk-mongodb-svc
     db_username: ttk
+    additional_privileges:
+      - collection: reporting
+        action: "collMod"
     user_password_secret: mongodb-ttk-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
+    ca_bundle_secret:
+      name: "global-ca-bundle-mongo"
+      key: "ca-bundle.crt"
     database_name: ttk
     storage_size: 10G
     replica_count: 3
@@ -275,6 +322,7 @@ ttk-mongodb:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_mongodb
 ttk-redis:
   enabled: true
   resource_type: redis
@@ -302,6 +350,9 @@ keycloak-db:
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - keycloak
+    ca_bundle_secret:
+      name: "global-ca-bundle-plat"
+      key: "ca-bundle.crt"
     database_name: keycloak
     storage_size: 10G
     replica_count: 1
@@ -309,6 +360,7 @@ keycloak-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_platform_db
 keto-db:
   enabled: true
   app_owner: "platform"
@@ -322,6 +374,9 @@ keto-db:
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
+    ca_bundle_secret:
+      name: "global-ca-bundle-plat"
+      key: "ca-bundle.crt"
     database_name: keto
     storage_size: 10G
     replica_count: 1
@@ -329,6 +384,7 @@ keto-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_platform_db
 kratos-db:
   enabled: true
   app_owner: "platform"
@@ -342,6 +398,9 @@ kratos-db:
     user_password_secret_key: password
     secret_extra_namespaces:
       - ory
+    ca_bundle_secret:
+      name: "global-ca-bundle-plat"
+      key: "ca-bundle.crt"
     database_name: kratos
     storage_size: 10G
     replica_count: 1
@@ -349,3 +408,4 @@ kratos-db:
   - name: "sat-night-backup"
     schedule: "0 0 * * 6"
     keep: 3
+  monolith_db_server: common_platform_db

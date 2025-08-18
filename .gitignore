@@ -1,5 +1,11 @@
 **/vendor/*
 **/*.temp
+
 .editorconfig
 .vscode/extensions.json
 .vscode/settings.json
+
+
+# .envrc file should not be committed
+.envrc
+

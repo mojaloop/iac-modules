@@ -80,57 +80,59 @@ pg_operator_helm_version: '2.6.0'
 pxc_operator_helm_version: '1.17.0'
 psmdb_operator_helm_version: '1.19.1'
 
-stunner_gateway_operator_helm_version: '0.19.0'
-nexus_helm_version: '4.44.0'
-cert_manager_helm_version: '1.17.1'
-external_dns_helm_version: '7.5.5'
-vault_helm_version: '0.28.1'
-vault_config_operator_helm_version: '0.8.28'
-istio_helm_version: '1.26.1'
-external_secrets_helm_version: '0.15.1'
-crossplane_providers_vault_version: '2.1.1'
-crossplane_providers_gitlab_version: '0.10.3'
-crossplane_providers_grafana_version: '0.28.0'
-crossplane_providers_terraform_version: '0.16.0'
-crossplane_providers_ansible_version: '0.6.0'
-crossplane_providers_k8s_version: '0.18.0'
-crossplane_providers_helm_version: '0.20.4'
-crossplane_providers_zitadel_version: '0.0.1'
-crossplane_providers_netbird_version: '0.3.1'
-crossplane_providers_aws_version: '0.49.2'
-crossplane_providers_aws_family_version: '1.21.1'
-crossplane_providers_aws_s3_version: '1.21.0'
-crossplane_providers_aws_iam_version: '1.21.0'
-crossplane_providers_aws_docdb_version: '1.21.0'
-crossplane_providers_aws_rds_version: '1.21.0'
-crossplane_providers_aws_route53_version: '1.21.0'
-crossplane_providers_aws_aws_ec2_version: '1.21.0'
-crossplane_functions_patch_and_transform_version: '0.8.2'
-crossplane_functions_go_templating_version: '0.8.0'
-crossplane_functions_kcl_version: '0.11.3'
-crossplane_functions_auto_ready_version: '0.4.2'
-crossplane_functions_extra_resources_version: '0.0.3'
-crossplane_packages_objectstores_version: 'v0.2.0'
-crossplane_packages_utils_version: 'v0.6.0'
-crossplane_packages_gitlab_version: 'v0.4.0'
-crossplane_packages_grafana_config_version: 'v0.1.0'
-crossplane_packages_vault_config_version: 'v0.2.0'
-crossplane_packages_sc_postgres_version: 'v0.2.0'
-crossplane_packages_sc_mysql_version: 'v0.4.0'
-crossplane_packages_sc_mongodb_version: 'v0.2.0'
-crossplane_packages_sc_bootstrap_version: 'v0.4.0'
-crossplane_packages_sc_nboperatorinstall_version: 'v0.1.0'
-crossplane_packages_nb_config_version: 'v0.1.4-pr98-16318587019'
-crossplane_packages_k8s_config_version: 'v0.1.0'
-crossplane_packages_aws_documentdb_version: 'v0.5.0'
-crossplane_packages_aws_rds_version: 'v0.3.0'
-crossplane_packages_argocd_config_version: 'v0.1.0'
-crossplane_packages_zitadel_config_version: 'v0.1.0'
-velero_helm_version: '10.0.1'
-velero_plugin_version: 'v1.12.1'
-velero_bucket_storage_size: '10Gi'
-coredns_localcache_version: '1.12.1'
-kyverno_helm_version: '3.3.7'
+
+stunner_gateway_operator_helm_version: "0.19.0"
+nexus_helm_version: "4.44.0"
+cert_manager_helm_version: "1.17.1"
+external_dns_helm_version: "7.5.5"
+vault_helm_version: "0.28.1"
+vault_config_operator_helm_version: "0.8.28"
+istio_helm_version: "1.26.1"
+external_secrets_helm_version: "0.15.1"
+crossplane_providers_vault_version: "2.1.1"
+crossplane_providers_gitlab_version: "0.10.3"
+crossplane_providers_grafana_version: "0.28.0"
+crossplane_providers_terraform_version: "0.16.0"
+crossplane_providers_ansible_version: "0.6.0"
+crossplane_providers_k8s_version: "0.18.0"
+crossplane_providers_helm_version: "0.20.4"
+crossplane_providers_zitadel_version: "0.0.1"
+crossplane_providers_netbird_version: "0.3.1"
+crossplane_providers_aws_version: "0.49.2"
+crossplane_providers_aws_family_version: "1.21.1"
+crossplane_providers_aws_s3_version: "1.21.0"
+crossplane_providers_aws_iam_version: "1.21.0"
+crossplane_providers_aws_docdb_version: "1.21.0"
+crossplane_providers_aws_rds_version: "1.21.0"
+crossplane_providers_aws_route53_version: "1.21.0"
+crossplane_providers_aws_aws_ec2_version: "1.21.0"
+crossplane_functions_patch_and_transform_version: "0.8.2"
+crossplane_functions_go_templating_version: "0.8.0"
+crossplane_functions_kcl_version: "0.11.3"
+crossplane_functions_auto_ready_version: "0.4.2"
+crossplane_functions_extra_resources_version: "0.0.3"
+crossplane_packages_objectstores_version: "v0.2.0"
+crossplane_packages_utils_version: "v0.7.0"
+crossplane_packages_gitlab_version: "v0.4.0"
+crossplane_packages_grafana_config_version: "v0.1.0"
+crossplane_packages_vault_config_version: "v0.2.0"
+crossplane_packages_sc_postgres_version: "v0.2.0"
+crossplane_packages_sc_mysql_version: "v0.6.0"
+crossplane_packages_sc_mongodb_version: "v0.3.0"
+crossplane_packages_sc_bootstrap_version: "v0.4.0"
+crossplane_packages_sc_nboperatorinstall_version: "v0.1.0"
+crossplane_packages_nb_config_version: "v0.1.4-pr98-16318587019"
+crossplane_packages_k8s_config_version: "v0.1.0"
+crossplane_packages_aws_documentdb_version: "v0.5.0"
+crossplane_packages_aws_rds_version: "v0.3.0"
+crossplane_packages_argocd_config_version: "v0.1.0"
+crossplane_packages_zitadel_config_version: "v0.1.0"
+velero_helm_version: "10.0.1"
+velero_plugin_version: "v1.12.1"
+velero_bucket_storage_size: "10Gi"
+coredns_localcache_version: "1.12.1"
+kyverno_helm_version: "3.3.7"
+
 
 istio_egress_gateway_max_replicas: 5
 istio_proxy_log_level: warn
@@ -483,14 +485,16 @@ capi_cluster_proxmox_control_plane_replicas: "'3'"
 capi_cluster_proxmox_worker_replicas: "'3'"
 capi_cluster_proxmox_control_plane_memory: "'8192'"
 capi_cluster_proxmox_control_plane_cpu: "'2'"
-capi_cluster_storage_name: 'pve-sdb'
-capi_rook_ceph_rgw_external_ip: '10.10.127.10'
+
+capi_cluster_storage_name: "pve-sdb"
+capi_rook_ceph_rgw_external_ip: "10.10.127.10"
 capi_rook_ceph_rgw_hostname: 'cephobjectstore'
-capi_cluster_proxmox_user: 'root@pam'
-capi_cluster_proxmox_password: 'test123'
-capi_cluster_proxmox_url: '10.10.127.3:8006'
-capi_cluster_kubeapi_host: '10.10.127.2'
-capi_cluster_network_gateway: '10.10.127.1'
+capi_cluster_proxmox_user: "root@pam"
+capi_cluster_proxmox_password: "PLACEHOLDER_TO_REPLACE"
+capi_cluster_proxmox_url: "10.10.127.3:8006"
+capi_cluster_kubeapi_host: "10.10.127.2"
+capi_cluster_network_gateway: "10.10.127.1"
+
 capi_cluster_proxmox_host_vlan: "'127'"
 sc_metallb_static_ip_range_begin: '10.10.127.10'
 sc_metallb_static_ip_range_end: '10.10.127.20'
@@ -505,7 +509,8 @@ sc_openebs_helm_version: '4.1.3'
 
 capi_kube_vip_version: 'v0.9.1'
 
-##end capi
+##dbaas
+dbaas_default_management_policy: "*"
 
 #backup
 cc_backup_bucket: 'control-center-backup'

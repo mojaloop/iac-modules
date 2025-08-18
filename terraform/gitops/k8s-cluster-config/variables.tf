@@ -168,11 +168,6 @@ variable "default_internal_ssl_certificate" {
   default     = "lets-enc-internal-tls"
 }
 
-variable "managed_db_host" {
-  type        = string
-  description = "url to managed db based on haproxy"
-}
-
 variable "managed_svc_as_monolith" {
   type    = bool
   default = false
@@ -183,6 +178,45 @@ variable "db_mediated_by_control_center" {
   default = false
 }
 
+variable "deploy_env_monolithic_db" {
+  type        = bool
+  default     = false
+}
+
+variable "cc_name" {
+  type        = string
+  description = "The name of the control center."
+}
+
+variable "cloud_region" {
+  type        = string
+  description = "The AWS region where resources will be deployed."
+}
+
+variable "database_subnets" {
+  type        = string
+  description = "A list of subnet IDs to deploy the database instances into."
+}
+
+variable "availability_zones" {
+  type        = string
+  description = "A list of availability zones for the database instances."
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "The ID of the VPC where resources will be deployed."
+}
+
+variable "vpc_cidr" {
+  type        = string
+  description = "The CIDR block of the VPC."
+}
+
+variable "private_dns_zone_id" {
+  type = string
+  description = "The Route53 zone ID."
+}
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
