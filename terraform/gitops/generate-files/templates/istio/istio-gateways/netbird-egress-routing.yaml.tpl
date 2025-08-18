@@ -7,7 +7,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
   labels:
-    istio.io/use-waypoint: waypoint
+    istio.io/use-waypoint: egress-waypoint
 spec:
   exportTo:
     - "*" # Make it available mesh-wide
@@ -26,7 +26,7 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
-  name: waypoint
+  name: egress-waypoint
   namespace: istio-system
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
