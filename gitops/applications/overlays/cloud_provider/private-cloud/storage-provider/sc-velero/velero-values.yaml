@@ -1,5 +1,7 @@
 configuration:
+  features: EnableCSI
   logLevel: debug
+  defaultSnapshotMoveData: true
   # Parameters for the BackupStorageLocation(s). Configure multiple by adding other element(s) to the backupStorageLocation slice.
   # See https://velero.io/docs/v1.6/api-types/backupstoragelocation/
   backupStorageLocation:
@@ -43,3 +45,6 @@ credentials:
 
 annotations:
   secret.reloader.stakater.com/reload: ${ARGOCD_ENV_object_storage_secret_name}
+
+# Whether to deploy the node-agent daemonset.
+deployNodeAgent: true
