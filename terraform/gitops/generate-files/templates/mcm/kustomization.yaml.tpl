@@ -6,7 +6,7 @@ resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - rbac.yaml
-  - istio-waypoint.yaml
+  - service-ingress-waypoint.yaml
   - authorization-grafana.yaml
 # %{ if istio_create_ingress_gateways }
   - istio-gateway.yaml
@@ -30,3 +30,10 @@ helmCharts:
   namespace: ${mcm_namespace}
   additionalValuesFiles:
   - values-mcm-override.yaml
+patches:
+  - target:
+      kind: Service
+    patch: |-
+      - op: add
+        path: /metadata/labels/istio.io~1ingress-use-waypoint
+        value: 'true'

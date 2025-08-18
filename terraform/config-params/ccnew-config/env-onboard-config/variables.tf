@@ -117,7 +117,7 @@ variable "netbird_operator_management_url" {
 }
 
 
-variable "hyphenated_domain"  {
+variable "hyphenated_domain" {
   description = "hyphenated domain for the environment"
 }
 
@@ -130,5 +130,6 @@ locals {
     tempo   = "tempo"
     velero  = "velero"
     percona = "percona"
+    audit   = "audit"
   }
 }

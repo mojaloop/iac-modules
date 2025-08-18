@@ -64,7 +64,7 @@
   authorizer_permission: settlementCloseWindow
 
 - name: iam-view
-  match_path: /api/iam/<.*>
+  match_path: /<(users|participants|roles)(/.*)?>
   match_methods:
     - GET
   authenticator_handlers:
@@ -73,7 +73,7 @@
   authorizer_permission: iamView
 
 - name: iam-edit
-  match_path: /api/iam/<.*>
+  match_path: /<(users|participants|roles)(/.*)?>
   match_methods:
     - POST
     - PUT

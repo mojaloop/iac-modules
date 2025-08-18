@@ -26,8 +26,10 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
-# %{ if opentelemetry_namespace_filtering_enable }
     managedNamespaceMetadata:
+      labels:
+        istio.io/use-waypoint: service-ingress-waypoint
+# %{ if opentelemetry_namespace_filtering_enable }
       annotations:
         instrumentation.opentelemetry.io/inject-nodejs: "true"
 # %{ endif }

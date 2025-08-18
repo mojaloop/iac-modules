@@ -54,8 +54,12 @@ cache:
 .source:
   script:
     - source $(which gitlab-terraform)
-    - source scripts/setlocalvars.sh
     - export VAULT_TOKEN="$(vault write -field=token auth/${VAULT_AUTH_PATH}/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)"
+    - export CC_VAR_ci_iam_user_secret_key="$(vault kv get -field=ci_iam_user_secret_key -mount=secret cc_vars)"
+    - export CC_VAR_ci_iam_user_access_key="$(vault kv get -field=ci_iam_user_access_key -mount=secret cc_vars)"
+    - export CC_VAR_ssh_private_key="$(vault kv get -field=ssh_private_key -mount=secret cc_vars)"
+    - export CC_VAR_capi_cluster_proxmox_password="$(vault kv get -field=capi_cluster_proxmox_password -mount=secret cc_vars)"
+    - source scripts/setlocalvars.sh
     - export CLOUD_PLATFORM_API_CLIENT_ID="$(vault kv get -field=cloud_platform_api_client_id -mount=secret cloud-api-access)"
     - export CLOUD_PLATFORM_API_CLIENT_SECRET="$(vault kv get -field=cloud_platform_api_client_secret -mount=secret cloud-api-access)"
     - export PRIVATE_REPO_TOKEN="$(vault kv get -field=token -mount=secret ${PRIVATE_REPO_TOKEN_PATH})"
