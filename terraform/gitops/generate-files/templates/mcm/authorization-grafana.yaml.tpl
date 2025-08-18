@@ -17,6 +17,14 @@ spec:
         - operation:
             paths:
               - /api/dfsps/states-status
+    - from:
+        - source:
+            serviceAccounts:
+              - mojaloop/jws-pubkey-job
+      to:
+        - operation:
+            paths:
+              - /api/hub/jwscerts
     - to: # /api is first checked by the mcm-jwt CUSTOM policy below, but needs to be allowed here too
         - operation:
             hosts:
