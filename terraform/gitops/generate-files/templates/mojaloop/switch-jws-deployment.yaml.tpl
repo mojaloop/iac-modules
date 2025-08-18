@@ -14,6 +14,7 @@ spec:
       labels:
         app: jws-pubkey-job
     spec:
+      serviceAccountName: jws-pubkey-job
       containers:
         - name: jws-pubkey-job-wait
           image: busybox:1.28
@@ -68,3 +69,8 @@ spec:
       volumes:
         - name: data
           emptyDir: {}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jws-pubkey-job
