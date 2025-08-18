@@ -1,0 +1,104 @@
+apiVersion: sc.mojaloop.io/v1alpha1
+kind: XMysqlCluster
+metadata:
+  name: "${ARGOCD_ENV_cluster_name}-${ARGOCD_ENV_dbdeploy_name_prefix}"
+  namespace: ${ARGOCD_ENV_namespace}
+spec:
+  parameters:
+    clusterName: ${ARGOCD_ENV_percona_cluster_name}
+    externalServiceName: ${ARGOCD_ENV_externalservice_name}
+    appNamespace: ${ARGOCD_ENV_namespace}
+    crVersion: ${ARGOCD_ENV_cr_version}
+    dbSecret: ${ARGOCD_ENV_db_secret}
+    dbUsername: ${ARGOCD_ENV_db_username}
+    dbName: ${ARGOCD_ENV_db_name}
+
+    pxc:
+      image: ${ARGOCD_ENV_pxc_image}
+      imagePullPolicy: IfNotPresent
+      storageSize: ${ARGOCD_ENV_mysql_storage_size}
+      volumeSpec: ${ARGOCD_ENV_pxc_volume_spec}
+      annotations: ${ARGOCD_ENV_pxc_annotations}
+      replicas: ${ARGOCD_ENV_mysql_replicas}
+      resources:
+        requests:
+          memory: ${ARGOCD_ENV_mysql_requests_memory}
+          cpu: ${ARGOCD_ENV_mysql_requests_cpu}
+        limits:
+          memory: ${ARGOCD_ENV_mysql_limits_memory}
+          cpu: ${ARGOCD_ENV_mysql_limits_cpu}
+      configuration: |
+        [mysqld]
+        pxc_strict_mode=PERMISSIVE
+        max_allowed_packet=16M
+        bind-address="*"
+        character-set-server=UTF8
+        collation-server=utf8_general_ci
+        general_log=0
+        slow_query_log=0
+        long_query_time=10
+        innodb_use_native_aio=0
+        max_connections=2000
+        innodb_buffer_pool_size=2147483648
+        wsrep_auto_increment_control=OFF
+        coredumper=/tmp/mysql-core-dump
+        innodb_buffer_pool_in_core_file=OFF
+        mysql_native_password=ON
+        skip-log-bin
+      tolerations: []
+      priorityClassName: ""
+
+    haproxy:
+      image: ${ARGOCD_ENV_haproxy_image}
+      imagePullPolicy: IfNotPresent
+      expose:
+        type: LoadBalancer
+        annotations: {}
+        labels: {}
+      replicas: ${ARGOCD_ENV_haproxy_replicas}
+      resources:
+        requests:
+          memory: ${ARGOCD_ENV_haproxy_requests_memory}
+          cpu: ${ARGOCD_ENV_haproxy_requests_cpu}
+        limit:
+          memory: ${ARGOCD_ENV_haproxy_limits_memory}
+          cpu: ${ARGOCD_ENV_haproxy_limits_cpu}
+      tolerations: []
+      priorityClassName: ""
+
+    logcollector:
+      image: ${ARGOCD_ENV_logcollector_image}
+      imagePullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: ${ARGOCD_ENV_logcollector_requests_memory}
+          cpu: ${ARGOCD_ENV_logcollector_requests_cpu}
+        limit:
+          memory: ${ARGOCD_ENV_logcollector_limits_memory}
+          cpu: ${ARGOCD_ENV_logcollector_limits_cpu}
+
+    backup:
+      image: ${ARGOCD_ENV_backup_image}
+      imagePullPolicy: IfNotPresent
+      verifyTLS: ${ARGOCD_ENV_backup_verify_tls}
+      bucket: ${ARGOCD_ENV_env_name}-percona
+      credentialsSecret: ${ARGOCD_ENV_env_name}-percona
+      bucketRegion: ${ARGOCD_ENV_backup_bucket_region}
+      scheduleName: ${ARGOCD_ENV_backup_schedule_name}
+      cronScheduleExpression: ${ARGOCD_ENV_backup_cron_schedule}
+      backupRetention: ${ARGOCD_ENV_backup_retention}
+      pvc: ${ARGOCD_ENV_backup_pvc}
+
+    dns:
+      name: ${ARGOCD_ENV_env_name}-${ARGOCD_ENV_externalservice_name}
+      region: ${ARGOCD_ENV_region}
+      ttl: 300
+      type: A
+      zoneId: ${ARGOCD_ENV_zone_id}
+
+  providerConfigsRef:
+    scK8sProviderName: sc-kubernetes-provider
+    ccK8sProviderName: kubernetes-provider
+    awsProviderName: aws-cp-upbound-provider-config
+  managementPolicies:
+    - "*"

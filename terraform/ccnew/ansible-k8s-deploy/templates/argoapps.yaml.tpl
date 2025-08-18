@@ -528,6 +528,24 @@ argocd_override:
           dbaas_default_management_policy: "${dbaas_default_management_policy}"
           velero_bucket_storage_size: "${velero_bucket_storage_size}"
           audit_bucket_storage_size: "${audit_bucket_storage_size}"
+        onboard_common_platform_db_rds_provider:
+          rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
+          rdbms_azs: "${join(",", rdbms_azs)}"
+          db_provider_cloud_region: "${cloud_region}"
+          rdbms_vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
+        onboard_common_mojaloop_db_rds_provider:
+          rdbms_subnet_list: "${join(",", rdbms_subnet_list)}"
+          rdbms_azs: "${join(",", rdbms_azs)}"
+          db_provider_cloud_region: "${cloud_region}"
+          rdbms_vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
+        onboard_common_mongodb_documentdb_provider:
+          subnet_list: "${join(",", rdbms_subnet_list)}"
+          rdbms_azs: "${join(",", rdbms_azs)}"
+          cloud_region: "${cloud_region}"
+          vpc_id: "${rdbms_vpc_id}"
+          vpc_cidr: "${vpc_cidr}"
 
 
     monitoring:
