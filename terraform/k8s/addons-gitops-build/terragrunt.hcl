@@ -16,6 +16,7 @@ dependency "k8s_deploy" {
     public_subdomain                 = ""
     external_interop_switch_fqdn     = ""
     internal_interop_switch_fqdn     = ""
+    private_dns_zone_id               = ""
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -57,7 +58,7 @@ locals {
   gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
   common_vars                   = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}"))
   pm4ml_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}"))
-  proxy_pm4ml_vars              = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}"))  
+  proxy_pm4ml_vars              = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}"))
   mojaloop_vars                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}"))
   vnext_vars                    = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}"))
   addons_vars                   = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/addons-vars.yaml")}"))

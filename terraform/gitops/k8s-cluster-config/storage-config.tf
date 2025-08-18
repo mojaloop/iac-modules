@@ -25,6 +25,7 @@ module "generate_storage_files" {
     rook_ceph_mon_data              = "${var.cluster_name}/rook_ceph_mon_data"
     rook_ceph_cluster_user_command  = "${var.cluster_name}/rook_ceph_cluster_user_command"
     cloud_provider                  = var.cloud_platform
+    reclaim_policy                  = var.reclaim_policy
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
   template_path   = local.storage_template_path
@@ -79,4 +80,10 @@ variable "cloud_platform" {
 variable "fs_storage_class_name" {
   type        = string
   default    = "filesystem"
+}
+
+variable "reclaim_policy" {
+  type        = string
+  description = "Reclaim policy for storage classes"
+  default     = "Delete"
 }

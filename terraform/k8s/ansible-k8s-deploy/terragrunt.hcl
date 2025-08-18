@@ -42,6 +42,7 @@ inputs = {
     tenant_vault_server_url = "https://${local.vault_fqdn}"
     internal_load_balancer_dns = dependency.k8s_deploy.outputs.internal_load_balancer_dns
     public_subdomain = dependency.k8s_deploy.outputs.public_subdomain
+    private_dns_zone_id = dependency.k8s_deploy.outputs.private_dns_zone_id
   })
   agent_hosts_var_maps          = merge(dependency.k8s_deploy.outputs.agent_hosts_var_maps, local.agent_hosts_var_maps)
   master_hosts_var_maps         = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps)
@@ -65,10 +66,7 @@ inputs = {
   ansible_playbook_name         = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
   ansible_destroy_playbook_name = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
   master_node_supports_traffic             = (local.total_agent_count == 0) ? true : false
-  managed_stateful_resources_config_file   = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
-  platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
   current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
-
 }
 
 locals {
@@ -159,6 +157,7 @@ locals {
     max_pods_per_node                = local.common_vars.max_pods_per_node
     install_root_app                 = local.env_vars.install_root_app
     cluster_name                     = get_env("cluster_name")
+    automated_sync                   = get_env("automated_sync") == "true" ? true : false
   }
 }
 

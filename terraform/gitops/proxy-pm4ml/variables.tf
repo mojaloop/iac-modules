@@ -165,3 +165,7 @@ variable "vault_certman_secretname_suffix" {
   type        = string
   default     = "vault-tls-cert"
 }
+variable "private_dns_zone_id" {
+  type = string
+  description = "The Route53 zone ID."
+}

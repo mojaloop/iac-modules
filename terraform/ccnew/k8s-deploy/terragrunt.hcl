@@ -61,7 +61,6 @@ locals {
   single_zone_az_nodegroup        = get_env("single_zone_az_nodegroup")
   enable_eks_controlplane_logging = get_env("enable_eks_controlplane_logging")
   update_launch_template_default_version = get_env("update_launch_template_default_version")
-
 }
 
 generate "required_providers_override" {

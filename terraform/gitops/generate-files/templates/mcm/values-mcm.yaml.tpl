@@ -6,6 +6,11 @@ db:
   port: ${db_port}
   schema: ${db_schema}
   dfspSeed: ${dfsp_seed}
+  sslEnabled: true
+  sslVerify: false
+  ### Configure this if you want to pass a CA certificate of the server.
+  sslCaSecret: ${db_tls_ca_secret_name}
+  sslCaSecretKey: ${db_tls_ca_secret_key}
 
 api:
   image:

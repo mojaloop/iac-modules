@@ -44,3 +44,6 @@ spec:
 
         - name: "storage_rgw_subdomain"
           value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_subdomain}"
+
+        - name: "capi_cluster_kubeapi_host"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_host}"

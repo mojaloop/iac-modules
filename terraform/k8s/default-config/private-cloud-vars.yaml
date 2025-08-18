@@ -1,3 +1,4 @@
+private_dns_zone_id: "zone-id"
 external_load_balancer_dns: publicip
 wireguard_port: 31821
 dns_provider: none
@@ -13,7 +14,6 @@ egress_gateway_cidr: 10.10.100.0/24
 bastion_public_ips: ["publicip"]
 private_subdomain: ""
 public_subdomain: "dev1.devbaremetal.infitx-labs.com"
-private_dns_zone_id: ""
 int_interop_switch_subdomain: intapi
 ext_interop_switch_subdomain: extapi
 target_group_internal_https_port: 31443

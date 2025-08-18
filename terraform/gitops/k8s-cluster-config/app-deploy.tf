@@ -65,7 +65,6 @@ module "mojaloop" {
   values_hub_provisioning_override_file    = var.values_hub_provisioning_override_file
   values_reporting_k8s_templates_override_file = var.values_reporting_k8s_templates_override_file
   fspiop_use_ory_for_auth                  = var.app_var_map.fspiop_use_ory_for_auth
-  managed_db_host                          = var.managed_db_host
   platform_stateful_res_config             = module.config_deepmerge.merged
   object_store_api_url                     = var.object_store_api_url
   object_store_region                      = var.object_store_region
@@ -75,8 +74,16 @@ module "mojaloop" {
   monolith_stateful_resources              = local.monolith_stateful_resources
   ml_testing_toolkit_cli_chart_version     = var.app_var_map.ml_testing_toolkit_cli_chart_version
   hub_provisioning_ttk_test_case_version   = var.app_var_map.hub_provisioning_ttk_test_case_version
-  managed_svc_as_monolith                  = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
+  managed_svc_as_monolith                  = var.deploy_env_monolithic_db
+  deploy_env_monolithic_db                 = var.deploy_env_monolithic_db
   storage_class_name                       = var.storage_class_name
+  cc_name                                  = var.cc_name
+  vpc_cidr                                 = var.vpc_cidr
+  vpc_id                                   = var.vpc_id
+  database_subnets                         = var.database_subnets
+  availability_zones                       = var.availability_zones
+  cloud_region                             = var.cloud_region
+  private_dns_zone_id                      = var.private_dns_zone_id
 }
 
 module "pm4ml" {
@@ -129,7 +136,7 @@ module "pm4ml" {
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
   storage_class_name                       = var.storage_class_name
-
+  private_dns_zone_id                      = var.private_dns_zone_id
 }
 
 module "proxy_pm4ml" {
@@ -164,6 +171,7 @@ module "proxy_pm4ml" {
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
   storage_class_name                       = var.storage_class_name
+  private_dns_zone_id                      = var.private_dns_zone_id
 }
 
 module "vnext" {
@@ -216,15 +224,22 @@ module "vnext" {
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
-  managed_db_host                      = var.managed_db_host
   platform_stateful_res_config         = module.config_deepmerge.merged
   object_store_api_url                 = var.object_store_api_url
   object_store_region                  = var.object_store_region
   object_store_percona_backup_bucket   = data.gitlab_project_variable.object_store_percona_backup_bucket.value
   external_secret_sync_wave            = var.external_secret_sync_wave
   monolith_stateful_resources          = local.monolith_stateful_resources
-  managed_svc_as_monolith              = (var.managed_svc_as_monolith || var.db_mediated_by_control_center)
+  managed_svc_as_monolith              = var.deploy_env_monolithic_db
+  deploy_env_monolithic_db             = var.deploy_env_monolithic_db
   storage_class_name                   = var.storage_class_name
+  cc_name                              = var.cc_name
+  vpc_cidr                             = var.vpc_cidr
+  vpc_id                               = var.vpc_id
+  database_subnets                     = var.database_subnets
+  availability_zones                   = var.availability_zones
+  cloud_region                         = var.cloud_region
+  private_dns_zone_id                  = var.private_dns_zone_id
 }
 
 variable "app_var_map" {
@@ -246,14 +261,14 @@ variable "mojaloop_stateful_res_op_config_file" {
   description = "where to pull stateful resources config for mojaloop"
 }
 
-variable "mojaloop_stateful_res_mangd_config_file" {
-  default     = "../config/mojaloop-stateful-resources-managed.yaml"
-  type        = string
-  description = "where to pull stateful resources config for mojaloop"
-}
+# variable "mojaloop_stateful_res_mangd_config_file" {
+#   default     = "../config/mojaloop-stateful-resources-managed.yaml"
+#   type        = string
+#   description = "where to pull stateful resources config for mojaloop"
+# }
 
 variable "mojaloop_stateful_res_monolith_config_file" {
-  default     = "../config/mojaloop-stateful-resources-ccdriven-databases.yaml"
+  default     = "../config/mojaloop-stateful-resources-monolith-databases.yaml"
   type        = string
   description = "where to pull monolith stateful resources config for mojaloop"
 }
@@ -388,13 +403,13 @@ locals {
   proxy_pm4ml_var_map = try(var.app_var_map.proxy_pm4mls, {})
   cluster             = var.app_var_map.cluster
 
-  st_res_local_helm_vars          = yamldecode(file(var.mojaloop_stateful_res_helm_config_file))
-  st_res_local_operator_vars      = yamldecode(file(var.mojaloop_stateful_res_op_config_file))
-  st_res_managed_vars             = yamldecode(file(var.mojaloop_stateful_res_mangd_config_file))
-  plt_st_res_config               = yamldecode(file(var.platform_stateful_resources_config_file))
-  monolith_stateful_resources_int = yamldecode(file(var.mojaloop_stateful_res_monolith_config_file))
+  st_res_local_helm_vars     = yamldecode(templatefile(var.mojaloop_stateful_res_helm_config_file, local.cluster))
+  st_res_local_operator_vars = yamldecode(templatefile(var.mojaloop_stateful_res_op_config_file, local.cluster))
+  #st_res_managed_vars           = yamldecode(templatefile(var.mojaloop_stateful_res_mangd_config_file, local.cluster))
+  plt_st_res_config               = yamldecode(templatefile(var.platform_stateful_resources_config_file, local.cluster))
+  monolith_stateful_resources_int = yamldecode(templatefile(var.mojaloop_stateful_res_monolith_config_file, local.cluster))
 
-  monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if(var.managed_svc_as_monolith || var.db_mediated_by_control_center) }
+  monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if var.deploy_env_monolithic_db }
 
-  stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.st_res_managed_vars, local.plt_st_res_config]
+  stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.plt_st_res_config]
 }

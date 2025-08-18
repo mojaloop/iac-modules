@@ -8,24 +8,6 @@ dependency "k8s_deploy" {
     properties_var_map = {}
     secrets_var_map    = {}
     secrets_key_map    = {}
-    managed_stateful_resources_config_file = ""
-    platform_stateful_resources_config_file = ""
-  }
-  skip_outputs = local.skip_outputs
-  mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
-  mock_outputs_merge_strategy_with_state  = "shallow"
-}
-
-dependency "managed_services" {
-  enabled = get_env("managed_svc_enabled")
-  config_path = "../managed-services"
-  mock_outputs = {
-    properties_var_map = {}
-    secrets_var_map    = {}
-    secrets_key_map    = {}
-    monolith_properties_var_map = {}
-    monolith_secrets_var_map    = {}
-    monolith_secrets_key_map    = {}
   }
   skip_outputs = local.skip_outputs
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
@@ -41,14 +23,9 @@ inputs = {
   cluster_name       = local.CLUSTER_NAME
   gitlab_project_id  = local.GITLAB_CURRENT_PROJECT_ID
   kv_path            = local.KV_SECRET_PATH
-  properties_var_map = merge(local.properties_var_map, dependency.k8s_deploy.outputs.properties_var_map, dependency.managed_services.outputs.properties_var_map, dependency.managed_services.outputs.monolith_properties_var_map)
-  secrets_var_map    = merge({ for key, value in dependency.k8s_deploy.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }, { for key, value in dependency.managed_services.outputs.monolith_secrets_var_map: key => replace(value, "$${", "$$${") })
-  secrets_key_map    = merge(dependency.k8s_deploy.outputs.secrets_key_map, dependency.managed_services.outputs.secrets_key_map, dependency.managed_services.outputs.monolith_secrets_key_map)
-
-  managed_stateful_resources_config_file   = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-managed.yaml")
-  platform_stateful_resources_config_file  = find_in_parent_folders("${get_env("CONFIG_PATH")}/platform-stateful-resources.yaml")
-  monolith_managed_stateful_resources_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-ccdriven-databases.yaml")
-  db_mediated_by_control_center            = local.db_mediated_by_control_center
+  properties_var_map = merge(local.properties_var_map, dependency.k8s_deploy.outputs.properties_var_map)
+  secrets_var_map    = { for key, value in dependency.k8s_deploy.outputs.secrets_var_map: key => replace(value, "$${", "$$${") }
+  secrets_key_map    = dependency.k8s_deploy.outputs.secrets_key_map
 }
 
 locals {
@@ -72,6 +49,7 @@ locals {
   k8s_cluster_type          = get_env("k8s_cluster_type")
 
   db_mediated_by_control_center = get_env("db_mediated_by_control_center")
+  deploy_env_monolithic_db      = get_env("deploy_env_monolithic_db")
 
 #replacing env vars from old control center post config
   properties_var_map = {
@@ -80,7 +58,6 @@ locals {
     CLOUD_PLATFORM = get_env("cloud_platform")
     K8S_CLUSTER_TYPE = get_env("k8s_cluster_type")
     K8S_CLUSTER_MODULE = get_env("k8s_cluster_module")
-    MANAGED_SVC_CLOUD_PLATFORM = get_env("managed_svc_cloud_platform")
     CLOUD_PLATFORM_CLIENT_SECRET_NAME = get_env("cloud_platform_client_secret_name")
     CLOUD_REGION = get_env("cloud_region")
     LETSENCRYPT_EMAIL = get_env("letsencrypt_email")

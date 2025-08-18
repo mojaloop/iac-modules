@@ -111,13 +111,13 @@ crossplane_functions_kcl_version: "0.11.3"
 crossplane_functions_auto_ready_version: "0.4.2"
 crossplane_functions_extra_resources_version: "0.0.3"
 crossplane_packages_objectstores_version: "v0.2.0"
-crossplane_packages_utils_version: "v0.6.0"
+crossplane_packages_utils_version: "v0.7.0"
 crossplane_packages_gitlab_version: "v0.4.0"
 crossplane_packages_grafana_config_version: "v0.1.0"
 crossplane_packages_vault_config_version: "v0.2.0"
 crossplane_packages_sc_postgres_version: "v0.2.0"
-crossplane_packages_sc_mysql_version: "v0.4.0"
-crossplane_packages_sc_mongodb_version: "v0.2.0"
+crossplane_packages_sc_mysql_version: "v0.6.0"
+crossplane_packages_sc_mongodb_version: "v0.3.0"
 crossplane_packages_sc_bootstrap_version: "v0.4.0"
 crossplane_packages_sc_nboperatorinstall_version: "v0.1.0"
 crossplane_packages_nb_config_version: "v0.1.4-pr98-16318587019"
@@ -497,7 +497,8 @@ sc_openebs_helm_version: "4.1.3"
 
 capi_kube_vip_version: "v0.9.1"
 
-##end capi
+##dbaas
+dbaas_default_management_policy: "*"
 
 #backup
 cc_backup_bucket: "control-center-backup"

@@ -55,10 +55,6 @@ spec:
         value: "${ARGOCD_ENV_k8s_admin_rbac_group}"
       - key: "k8s_user_rbac_group"
         value: "${ARGOCD_ENV_k8s_user_rbac_group}"
-      - key: managed_services_env_cidr
-        value: "${ARGOCD_ENV_managed_services_env_cidr}"
-      - key: managed_svc_enabled
-        value: "${ARGOCD_ENV_managed_svc_enabled}"
       - key: "k8s_cluster_type"
         value: "${ARGOCD_ENV_k8s_cluster_type}"
       - key: cc_cluster_name
@@ -69,18 +65,6 @@ spec:
         value: "${ARGOCD_ENV_ceph_max_objects}"
       - key: max_size
         value: ${ARGOCD_ENV_ceph_bucket_max_size}
-      - key: common_platform_db_secret_name
-        value: ${ARGOCD_ENV_common_platform_db_secret_name}
-      - key: common_mojaloop_db_secret_name
-        value: ${ARGOCD_ENV_common_mojaloop_db_secret_name}
-      - key: common_mongodb_secret_name
-        value: ${ARGOCD_ENV_common_mongodb_secret_name}
-      - key: common_platform_db_external_name
-        value: ${ARGOCD_ENV_common_platform_db_external_name_service}
-      - key: common_mojaloop_db_external_name
-        value: ${ARGOCD_ENV_common_mojaloop_db_external_name_service}
-      - key: common_mongodb_external_name
-        value: ${ARGOCD_ENV_common_mongodb_external_name_service}
       - key: netbird_operator_management_url
         value: "https://${ARGOCD_ENV_netbird_fqdn}:443"
       - key: netbird_operator_api_key_vault_path
