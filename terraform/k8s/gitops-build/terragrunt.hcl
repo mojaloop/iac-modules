@@ -99,6 +99,7 @@ inputs = {
   object_store_region                      = local.object_store_region
   object_storage_path_style                = local.object_storage_path_style
   object_store_insecure_connection         = local.object_store_insecure_connection
+  object_store_insecure_skip_verify        = local.object_store_insecure_skip_verify
   central_observability_endpoint           = local.central_observability_endpoint
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
@@ -225,6 +226,7 @@ locals {
   object_store_region            = get_env("OBJECTSTORE_REGION")
   object_storage_path_style      = get_env("OBJECT_STORAGE_PATH_STYLE")
   object_store_insecure_connection = get_env("OBJECT_STORE_INSECURE_CONNECTION")
+  object_store_insecure_skip_verify = get_env("cloud_platform") == "private-cloud" ? true : false
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
   migrate                       = get_env("migrate")
   argocd_ingress_internal_lb    = true
