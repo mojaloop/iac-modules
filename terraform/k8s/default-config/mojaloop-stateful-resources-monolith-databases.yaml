@@ -38,6 +38,7 @@ common_platform_db:
     logcollector_limits_cpu: "200m"                              # CPU limit for log collector
 
     # Backup specific configurations
+    enable_backup: false
     backup_image: "percona/percona-xtradb-cluster-operator:1.17.0-pxc8.4-backup-pxb8.4.0"   # Docker image for the backup tool
     backup_verify_tls: "false"
     backup_schedule_name: "daily_backup"                         # Name for the backup schedule
@@ -153,6 +154,7 @@ common_mojaloop_db:
     logcollector_limits_cpu: "200m"                              # CPU limit for log collector
 
     # Backup specific configurations
+    enable_backup: false
     backup_image: "percona/percona-xtradb-cluster-operator:1.17.0-pxc8.4-backup-pxb8.4.0"   # Docker image for the backup tool
     backup_verify_tls: "false"                                   # Whether to verify TLS for backup
     backup_schedule_name: "daily_backup"                         # Name for the backup schedule
