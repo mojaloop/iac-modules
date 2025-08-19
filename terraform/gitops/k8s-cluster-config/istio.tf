@@ -42,14 +42,12 @@ module "generate_istio_files" {
     kiali_istio_wildcard_gateway_name    = local.kiali_istio_wildcard_gateway_name
     kiali_istio_gateway_namespace        = local.kiali_istio_gateway_namespace
     kiali_sync_wave                      = var.kiali_sync_wave
-    # Netbird egress gateway variables
-    istio_egress_gateway_name         = local.istio_egress_gateway_name
-    istio_egress_gateway_namespace    = local.istio_egress_gateway_namespace
-    istio_egress_gateway_max_replicas = var.istio_egress_gateway_max_replicas
     # Internal domain configuration for egress routing
     netbird_traffic_hosts  = local.netbird_traffic_hosts_list
     netbird_setup_key_name = var.netbird_setup_key_name
     istio_cni_platform     = var.istio_cni_platform
+    istio_egress_waypoint_name        = var.istio_egress_waypoint_name
+    istio_egress_waypoint_namespace   = var.istio_egress_waypoint_namespace
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -73,9 +71,6 @@ locals {
   kiali_istio_gateway_namespace        = local.kiali_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   kiali_wildcard_gateway               = var.kiali_ingress_internal_lb ? "internal" : "external"
   kiali_fqdn                           = local.kiali_wildcard_gateway == "external" ? "kiali.${var.public_subdomain}" : "kiali.${var.private_subdomain}"
-  # Netbird egress gateway configuration
-  istio_egress_gateway_name      = "istio-netbird-egress-gw"
-  istio_egress_gateway_namespace = "istio-egress-nb"
   # Parse comma-delimited strings into lists for Netbird egress routing
   netbird_traffic_hosts_list = var.netbird_traffic_hosts != "" ? split(",", trimspace(var.netbird_traffic_hosts)) : []
 }
@@ -181,4 +176,16 @@ variable "istio_cni_platform" {
   type        = string
   description = "CNI platform for Istio"
   default     = "none"
+}
+
+variable "istio_egress_waypoint_name" {
+  type        = string
+  description = "Name of the Istio egress waypoint"
+  default     = "egress-waypoint"
+}
+
+variable "istio_egress_waypoint_namespace" {
+  type        = string
+  description = "Namespace of the Istio egress waypoint"
+  default     = "istio-system"
 }
