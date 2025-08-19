@@ -12,6 +12,8 @@ module "generate_mcm_pre_files" {
     onboarding_secret_path   = local.dfsp_client_cert_bundle
     pki_path                 = var.vault_root_ca_name
     mcm_secret_path          = local.mcm_secret_path
+    istio_egress_waypoint_name = var.istio_egress_waypoint_name
+    istio_egress_waypoint_namespace = var.istio_egress_waypoint_namespace
   }
   file_list       = [for f in fileset(local.mcm_pre_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_pre_app_file, f))]
   template_path   = local.mcm_pre_template_path
