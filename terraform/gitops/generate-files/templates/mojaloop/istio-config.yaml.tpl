@@ -374,8 +374,6 @@ spec:
             prefix: /uis/iam/
         - uri:
             exact: /uis/iam
-      rewrite:
-        uri: /
       route:
         - destination:
             host: ${finance_portal_release_name}-reporting-hub-bop-role-ui
@@ -387,8 +385,6 @@ spec:
             prefix: /uis/transfers/
         - uri:
             exact: /uis/transfers
-      rewrite:
-        uri: /
       route:
         - destination:
             host: ${finance_portal_release_name}-reporting-hub-bop-trx-ui
@@ -400,8 +396,6 @@ spec:
             prefix: /uis/settlements/
         - uri:
             exact: /uis/settlements
-      rewrite:
-        uri: /
       route:
         - destination:
             host: ${finance_portal_release_name}-reporting-hub-bop-settlements-ui
@@ -413,8 +407,6 @@ spec:
             prefix: /uis/positions/
         - uri:
             exact: /uis/positions
-      rewrite:
-        uri: /
       route:
         - destination:
             host: ${finance_portal_release_name}-reporting-hub-bop-positions-ui
