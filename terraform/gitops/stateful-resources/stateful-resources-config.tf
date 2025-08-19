@@ -566,18 +566,6 @@ variable "cluster" {
 variable "storage_class_name" {
 }
 
-variable "waypoint_name" {
-  type        = string
-  description = "The name of the waypoint for the consumer applications"
-  default     = "egress-waypoint"
-}
-
-variable "waypoint_namespace" {
-  type        = string
-  description = "The namespace of the waypoint for the consumer applications"
-  default     = "istio-system"
-}
-
 variable "cc_name" {
   type        = string
   description = "The name of the control center."
@@ -618,3 +606,14 @@ variable "private_dns_zone_id" {
   description = "The ID of the private DNS zone for the environment."
 }
 
+variable "istio_egress_waypoint_name" {
+  type        = string
+  description = "Name of the Istio egress waypoint"
+  default     = "egress-waypoint"
+}
+
+variable "istio_egress_waypoint_namespace" {
+  type        = string
+  description = "Namespace of the Istio egress waypoint"
+  default     = "istio-system"
+}

@@ -207,3 +207,15 @@ variable "private_dns_zone_id" {
   type = string
   description = "The Route53 zone ID."
 }
+
+variable "istio_egress_waypoint_name" {
+  type        = string
+  description = "Name of the Istio egress waypoint"
+  default     = "egress-waypoint"
+}
+
+variable "istio_egress_waypoint_namespace" {
+  type        = string
+  description = "Namespace of the Istio egress waypoint"
+  default     = "istio-system"
+}

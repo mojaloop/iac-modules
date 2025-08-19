@@ -78,7 +78,6 @@ module "mojaloop" {
   deploy_env_monolithic_db                 = var.deploy_env_monolithic_db
   storage_class_name                       = var.storage_class_name
   cloud_platform                           = var.cloud_platform
-  service_entry_sync_wave                  = var.istio_gateways_sync_wave
   cc_name                                  = var.cc_name
   vpc_cidr                                 = var.vpc_cidr
   vpc_id                                   = var.vpc_id
@@ -86,6 +85,8 @@ module "mojaloop" {
   availability_zones                       = var.availability_zones
   cloud_region                             = var.cloud_region
   private_dns_zone_id                      = var.private_dns_zone_id
+  istio_egress_waypoint_name               = var.istio_egress_waypoint_name
+  istio_egress_waypoint_namespace          = var.istio_egress_waypoint_namespace
 }
 
 module "pm4ml" {
@@ -238,7 +239,6 @@ module "vnext" {
   deploy_env_monolithic_db             = var.deploy_env_monolithic_db
   storage_class_name                   = var.storage_class_name
   cloud_platform                       = var.cloud_platform
-  service_entry_sync_wave              = var.istio_gateways_sync_wave
   cc_name                              = var.cc_name
   vpc_cidr                             = var.vpc_cidr
   vpc_id                               = var.vpc_id
@@ -246,6 +246,8 @@ module "vnext" {
   availability_zones                   = var.availability_zones
   cloud_region                         = var.cloud_region
   private_dns_zone_id                  = var.private_dns_zone_id
+  istio_egress_waypoint_name           = var.istio_egress_waypoint_name
+  istio_egress_waypoint_namespace      = var.istio_egress_waypoint_namespace
 }
 
 variable "app_var_map" {
