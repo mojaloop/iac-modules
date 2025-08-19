@@ -319,8 +319,6 @@ spec:
             prefix: /api/transfers/
         - uri:
             exact: /api/transfers
-      rewrite:
-        uri: /
       route:
         - destination:
             host: ${finance_portal_release_name}-reporting-hub-bop-api-svc
@@ -365,8 +363,6 @@ spec:
             prefix: /api/reports/
         - uri:
             exact: /api/reports
-      rewrite:
-        uri: /
       route:
         - destination:
             host: ${finance_portal_release_name}-reporting-legacy-api
