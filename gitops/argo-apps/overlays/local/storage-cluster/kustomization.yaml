@@ -13,3 +13,4 @@ resources:
   - ../../../base/base-monitoring.yaml
   - ../../../base/kyverno.yaml
   - ../../../base/sc-monitoring.yaml
+  - ../../../base/sc-velero.yaml

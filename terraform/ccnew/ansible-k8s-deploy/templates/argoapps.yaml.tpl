@@ -154,6 +154,7 @@ argocd_override:
         pre:
           object_storage_region: "${cloud_region}"
           cc_backup_bucket: "${cc_backup_bucket}"
+          sc_backup_bucket: "${sc_backup_bucket}"
           cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
           object_storage_provider: "${cc_backup_object_storage_provider}"
           cluster_domain: "${cluster_domain}"

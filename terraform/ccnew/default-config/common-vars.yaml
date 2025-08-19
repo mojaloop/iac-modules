@@ -502,10 +502,15 @@ dbaas_default_management_policy: "*"
 
 #backup
 cc_backup_bucket: "control-center-backup"
+sc_backup_bucket: "storage-cluster-backups"
 cc_backup_bucket_storage_size: "30Gi"
 cc_backup_schedule: "0 * * * *"
 cc_backup_ttl: "24h0m0s"
 cc_backup_object_storage_provider: "s3"
+
+sc_backup_schedule: "0 * * * *"
+sc_backup_ttl: "24h0m0s"
+sc_backup_object_storage_provider: "s3"
 
 # audit
 audit_bucket_name: "control-center-audit-bucket"
