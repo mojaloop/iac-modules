@@ -7,7 +7,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
   labels:
-    istio.io/use-waypoint: egress-waypoint
+    istio.io/use-waypoint: ${istio_egress_waypoint_name}
+    istio.io/use-waypoint-namespace: ${istio_egress_waypoint_namespace}
 spec:
   exportTo:
     - "*" # Make it available mesh-wide
@@ -26,8 +27,8 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
-  name: egress-waypoint
-  namespace: istio-system
+  name: ${istio_egress_waypoint_name}
+  namespace: ${istio_egress_waypoint_namespace}
   annotations:
     argocd.argoproj.io/sync-wave: "${istio_gateways_sync_wave}"
     netbird.io/setup-key: ${netbird_setup_key_name}

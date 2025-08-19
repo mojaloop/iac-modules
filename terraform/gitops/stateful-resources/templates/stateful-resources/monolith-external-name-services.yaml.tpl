@@ -8,8 +8,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "${service_entry_sync_wave}"
   labels:
-    istio.io/use-waypoint: egress-waypoint
-    istio.io/use-waypoint-namespace: istio-system
+    istio.io/use-waypoint: ${istio_egress_waypoint_name}
+    istio.io/use-waypoint-namespace: ${istio_egress_waypoint_namespace}
 spec:
   hosts:
   - ${logical_service_name}.${stateful_resources_namespace}.svc.cluster.local
