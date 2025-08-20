@@ -118,7 +118,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_token_ttl}"
 
           - name: "gitlab_token_expiry_threshold_hours"
-            value: "${ARGOCD_ENV_gitlab_gitla_gitlab_token_expiry_threshold_hours}"
+            value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_token_expiry_threshold_hours}"
 
           - name: "storage_namespace"
             value: "${ARGOCD_ENV_utils_storage_namespace}"
