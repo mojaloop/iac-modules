@@ -27,7 +27,6 @@ patches:
               key: harbor-password
   - target:
       kind: Deployment
-      name: harbor-registry
     patch: |-
       - op: replace
         path: /spec/strategy
