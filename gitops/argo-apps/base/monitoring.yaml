@@ -270,6 +270,9 @@ spec:
         - name: "object_store_insecure_connection"
           value: "${ARGOCD_ENV_utils_storage_object_store_insecure_connection}"
 
+        - name: "object_store_insecure_skip_verify"
+          value: "${ARGOCD_ENV_utils_storage_object_store_insecure_skip_verify}"
+
         - name: "bucket_lookup_type"
           value: "${ARGOCD_ENV_monitoring_mimir_bucket_lookup_type}"
 
