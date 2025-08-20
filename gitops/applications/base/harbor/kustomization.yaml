@@ -25,3 +25,11 @@ patches:
             secretKeyRef:
               name: harbor-secret
               key: harbor-password
+  - target:
+      kind: Deployment
+      name: harbor-registry
+    patch: |-
+      - op: replace
+        path: /spec/strategy
+        value:
+          type: Recreate
