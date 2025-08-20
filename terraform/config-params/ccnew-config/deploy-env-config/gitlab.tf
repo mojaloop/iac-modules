@@ -135,6 +135,15 @@ resource "gitlab_group_variable" "object_store_insecure_connection" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "object_store_insecure_skip_verify" {
+  group             = data.gitlab_group.iac.id
+  key               = "OBJECT_STORE_INSECURE_SKIP_VERIFY"
+  value             = var.object_store_insecure_skip_verify
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 # to be changed
 resource "gitlab_group_variable" "obj_store_gw_port" {
   group             = data.gitlab_group.iac.id
