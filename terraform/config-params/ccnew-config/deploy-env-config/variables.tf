@@ -47,6 +47,11 @@ variable "object_store_insecure_connection" {
   description = "insecure connection for object storage"
 }
 
+variable "object_store_insecure_skip_verify" {
+  description = "skip tls verify for object storage"
+  default     = false
+}
+
 variable "tenant_vault_listening_port" {
   description = "port for vault"
   default     = 443
