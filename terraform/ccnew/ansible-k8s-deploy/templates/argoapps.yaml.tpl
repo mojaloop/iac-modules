@@ -137,7 +137,7 @@ argocd_override:
           object_storage_regional_endpoint: "${object_storage_provider == "s3" ? "https://s3.${cloud_region}.amazonaws.com" : "http://${capi_rook_ceph_rgw_hostname}.storage.${cluster_domain}" }"
           object_storage_region: "${object_storage_provider == "s3" ? cloud_region : "us-east-1" }"
           object_storage_path_style: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
-          object_store_insecure_connection: "'true'"
+          object_store_insecure_connection: "'false'"
           object_store_insecure_skip_verify: "${object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           dns_zone_id: "${private_dns_zone_id}"
         storage_aws_provider:
