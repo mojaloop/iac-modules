@@ -276,8 +276,8 @@ common_mongodb:
     configsvr_storage: 30Gi
 
     mongos_size: 1
-    mongos_limits_cpu: "300m"
-    mongos_limits_memory: "0.5G"
+    mongos_limits_cpu: "2"
+    mongos_limits_memory: "1.5G"
     mongos_requests_cpu: "50m"
     mongos_requests_memory: "0.5G"
 
