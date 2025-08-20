@@ -28,10 +28,10 @@ spec:
   ignoreDifferences:
     - group: apps
       kind: Deployment
-      jsonPointers:
-        - /spec/template/metadata/annotations/checksum~1secret
-        - /spec/template/metadata/annotations/checksum~1secret-core
-        - /spec/template/metadata/annotations/checksum~1secret-jobservice
+      jqPathExpressions:
+        - '.spec.template.metadata.annotations."checksum/secret"'
+        - '.spec.template.metadata.annotations."checksum/secret-core"'
+        - '.spec.template.metadata.annotations."checksum/secret-jobservice"'
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_harbor_app_namespace}
