@@ -117,7 +117,6 @@ argocd_override:
           capi_rook_ceph_image_version: "${rook_ceph_image_version}"
           capi_rook_ceph_rbd_pool_replication_size: "${rook_ceph_objects_replica_count}"
           capi_rook_ceph_rgw_external_ip: "${capi_rook_ceph_rgw_external_ip}"
-          capi_rook_ceph_rgw_hostname: "${capi_rook_ceph_rgw_hostname}"
           capi_os_disk_size: "${capi_os_disk_size}"
           capi_rook_ceph_disk_size: "${capi_rook_ceph_disk_size}"
           cloud_provider: "${cloud_platform }"

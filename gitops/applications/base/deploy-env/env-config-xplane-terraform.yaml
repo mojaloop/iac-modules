@@ -28,6 +28,8 @@ spec:
         value: '${ARGOCD_ENV_object_storage_path_style}'
       - key: object_store_insecure_connection
         value: '${ARGOCD_ENV_object_store_insecure_connection}'
+      - key: object_store_insecure_skip_verify
+        value: '${ARGOCD_ENV_object_store_insecure_skip_verify}'
       - key: mimir_gw_fqdn
         value: 'https://mimir.${ARGOCD_ENV_grafana_dns_subdomain}'
       - key: environment_list
