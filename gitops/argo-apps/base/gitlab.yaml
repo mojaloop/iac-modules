@@ -119,9 +119,12 @@ spec:
 
           - name: "gitlab_token_expiry_threshold_hours"
             value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_token_expiry_threshold_hours}"
+<<<<<<< HEAD
 
           - name: "storage_namespace"
             value: "${ARGOCD_ENV_utils_storage_namespace}"
+=======
+>>>>>>> ba7f6427f (fix typo)
 
           - name: "storage_namespace"
             value: "${ARGOCD_ENV_utils_storage_namespace}"
