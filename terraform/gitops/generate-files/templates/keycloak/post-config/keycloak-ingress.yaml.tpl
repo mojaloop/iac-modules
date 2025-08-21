@@ -1,4 +1,4 @@
-%{ if !istio_create_ingress_gateways ~}
+# %{ if !istio_create_ingress_gateways }
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -49,7 +49,7 @@ spec:
                 name: ${keycloak_name}-service
                 port:
                   number: 8443
-%{ else ~}
+# %{ else }
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -72,7 +72,7 @@ spec:
           headers:
             response:
               add:
-                Content-Security-Policy: script-src 'unsafe-inline' 'self';default-src 'self';frame-ancestors 'self' ${keycloak_admin_fqdn}
+                Content-Security-Policy: "img-src data: 'self';script-src 'unsafe-inline' 'self';default-src 'self';frame-ancestors 'self' ${keycloak_admin_fqdn}"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -108,4 +108,4 @@ spec:
     tls:
       mode: SIMPLE
       insecureSkipVerify: true
-%{ endif ~}
+# %{ endif }
