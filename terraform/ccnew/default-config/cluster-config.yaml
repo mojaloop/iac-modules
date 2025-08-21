@@ -21,8 +21,8 @@ enable_cloud_csi_provisioner: true
 nodes:
   master-generic:
     master: true
-    instance_type: "m5.4xlarge"
-    node_count: 3
+    instance_type: "m5.2xlarge"
+    node_count: 4
     storage_gbs: 100
     node_taints: []
     node_labels: []
