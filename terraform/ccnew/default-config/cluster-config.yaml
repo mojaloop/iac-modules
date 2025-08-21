@@ -36,9 +36,9 @@ vpc_cidr: "10.106.0.0/23"
 master_node_supports_traffic: true
 tags:
   Origin: Terraform
-  mojaloop/cost_center: controlcenter
-  mojaloop/env: controlcenter
-  mojaloop/owner: Infitx
+  mojaloop/cost_center: mlf-iac-sandbox
+  mojaloop/env: ft-sbox-rw
+  mojaloop/owner: James-Bush
 coredns_bind_address: "169.254.20.10"
 single_nat_gateway: true
 single_zone_az_nodegroup: true
