@@ -22,7 +22,7 @@ nodes:
   master-generic:
     master: true
     instance_type: "m5.2xlarge"
-    node_count: 4
+    node_count: 3
     storage_gbs: 100
     node_taints: []
     node_labels: []
