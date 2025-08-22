@@ -61,6 +61,8 @@ patches:
         path: "/metadata/labels/opt-out-mesh"
         value: "true"
 
+
+# %{ if length(helm_stateful_resources) > 0 }
 helmCharts:
 # %{ for key, stateful_resource in helm_stateful_resources }
 - name: ${stateful_resource.local_helm_config.resource_helm_chart}
@@ -70,3 +72,4 @@ helmCharts:
   repo: ${stateful_resource.local_helm_config.resource_helm_repo}
   valuesFile: values-${stateful_resource.local_helm_config.resource_helm_chart}-${key}.yaml
 # %{ endfor }
+# %{ endif }
