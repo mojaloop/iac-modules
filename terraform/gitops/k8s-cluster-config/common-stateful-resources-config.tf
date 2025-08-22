@@ -42,3 +42,4 @@ locals {
   managed_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   managed_stateful_resources_non_env_vpc = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if var.deploy_env_monolithic_db == false }
 }
+
