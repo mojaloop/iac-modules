@@ -80,7 +80,7 @@ reporting-hub-bop-role-ui:
   image:
     registry: docker.io
     repository: mojaloop/reporting-hub-bop-role-ui
-    tag: v1.5.4-snapshot.5
+    tag: v1.5.9
   ingress:
     enabled: false
   config:

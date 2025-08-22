@@ -220,6 +220,7 @@ resource "local_file" "dbaas-crs-mysql" {
         logcollector_requests_cpu     = each.value.dbaas_resource_config.logcollector_requests_cpu
         logcollector_limits_memory    = each.value.dbaas_resource_config.logcollector_limits_memory
         logcollector_limits_cpu       = each.value.dbaas_resource_config.logcollector_limits_cpu
+        enable_backup                = each.value.dbaas_resource_config.enable_backup
         backup_image                 = each.value.dbaas_resource_config.backup_image
         backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
         backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
