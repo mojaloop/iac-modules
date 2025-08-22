@@ -58,7 +58,7 @@ enable_central_observability_read: false
 coredns_localcache_version: '1.12.1'
 aws_ebs_csi_driver_helm_version: '2.39.0'
 aws_ebs_csi_driver_replicas: 2
-rook_ceph_helm_version: "1.17.1"
+rook_ceph_helm_version: '1.18.0-beta-0'
 crossplane_helm_version: "1.19.0"
 crossplane_providers_aws_family_version: "1.21.1"
 crossplane_providers_aws_iam_version: "1.21.0"
@@ -76,8 +76,8 @@ crossplane_functions_extra_resources_version: "0.0.3"
 crossplane_packages_utils_version: "v0.7.0"
 crossplane_packages_aws_documentdb_version: "v0.6.0"
 crossplane_packages_aws_rds_version: "v0.4.0"
-crossplane_packages_sc_mysql_version: "v0.6.0"
-crossplane_packages_sc_mongodb_version: "v0.4.0"
+crossplane_packages_sc_mysql_version: "v0.6.0-pr103-17205074406"
+crossplane_packages_sc_mongodb_version: "v0.4.0-pr103-17205074406"
 max_pods_per_node: 110
 velero_plugin_version: 'v1.12.1'
 velero_helm_version: '10.0.1'
@@ -86,3 +86,8 @@ velero_backup_ttl: '720h0m0s'
 keto_replica_count: 1
 oathkeeper_replica_count: 1
 keycloak_replica_count: 1
+internal_cc_hosts: 'vault,grafana,loki,mimir'
+internal_sc_hosts: 'cephobjectstore'
+netbird_target_labels: 'app=csi-rbdplugin-provisioner,app=csi-rbdplugin,app=csi-cephfsplugin-provisioner,app=csi-cephfsplugin'
+opt_out_namespace_list: 'strimzi,storage'
+netbird_image_version: '0.54.0'
