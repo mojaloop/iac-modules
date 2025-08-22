@@ -41,7 +41,6 @@ dependency "k8s_deploy" {
     vpc_id                            = ""
     private_subnets                   = [""]
     availability_zones                = [""]
-
   }
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -156,9 +155,12 @@ inputs = {
   velero_helm_version                      = local.common_vars.velero_helm_version
   velero_backup_schedule                   = local.common_vars.velero_backup_schedule
   velero_backup_ttl                        = local.common_vars.velero_backup_ttl
-  internal_subnets                         = join(",", compact([get_env("CC_CIDR_BLOCK"), get_env("SC_CIDR_BLOCK")]))
-  internal_wildcard_hosts                  = get_env("CC_DOMAIN")
-  tcp_ports                                = local.common_vars.netbird_tcp_ports
+  netbird_traffic_hosts                    = join(",", [for host in split(",", local.common_vars.internal_cc_hosts) : "${host}.${local.internal_cc_subdomain}"], [for host in split(",", local.common_vars.internal_sc_hosts) : "${host}.${local.internal_sc_subdomain}"])
+  netbird_target_labels                    = local.common_vars.netbird_target_labels
+  opt_out_namespace_list                   = local.common_vars.opt_out_namespace_list
+  netbird_setup_key_vault_path             = local.netbird_setup_key_vault_path
+  istio_cni_platform                       = local.k8s_cluster_type == "microk8s" ? "microk8s" : "none"
+  netbird_image_version                    = local.common_vars.netbird_image_version
 }
 
 locals {
@@ -240,8 +242,10 @@ locals {
   cc_name                        = get_env("cc_name")
   vpc_cidr                       = get_env("vpc_cidr")
   persistent_volume_reclaim_policy = get_env("persistent_volume_reclaim_policy")
+  internal_cc_subdomain            = get_env("CC_DOMAIN")
+  internal_sc_subdomain            = get_env("SC_DOMAIN")
+  netbird_setup_key_vault_path     = get_env("netbird_setup_key_vault_path")
 }
-
 generate "required_providers_override" {
   path = "required_providers_override.tf"
 
