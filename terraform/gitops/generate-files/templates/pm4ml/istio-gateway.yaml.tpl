@@ -80,8 +80,6 @@ spec:
             prefix: /uis/iam/
         - uri:
             exact: /uis/iam
-      rewrite:
-        uri: /
       route:
         - destination:
             host: ${admin_portal_release_name}-reporting-hub-bop-role-ui
@@ -194,6 +192,7 @@ spec:
   rules:
     - to:
         - operation:
+            paths: ["/api/*"]
             hosts: ["${portal_fqdn}", "${portal_fqdn}:*"]
 ---
 apiVersion: networking.istio.io/v1alpha3

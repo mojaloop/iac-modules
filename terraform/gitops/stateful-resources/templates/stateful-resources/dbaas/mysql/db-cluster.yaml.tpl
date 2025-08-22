@@ -87,6 +87,7 @@ spec:
           cpu: ${logcollector_limits_cpu}
 
     backup:
+      enabled: ${enable_backup}
       image: ${backup_image}
       imagePullPolicy: IfNotPresent
       verifyTLS: ${backup_verify_tls}

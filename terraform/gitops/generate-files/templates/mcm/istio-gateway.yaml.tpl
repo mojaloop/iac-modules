@@ -71,3 +71,20 @@ spec:
             host: mcm-connection-manager-api
             port:
               number: 3001
+#temporary fix for waypoint
+---
+# Waypoint proxy for ambient mode egress routing (cross-namespace with netbird sidecar)
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: egress-waypoint
+  namespace: ${mojaloop_namespace}
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
+    allowedRoutes:
+      namespaces:
+        from: All

@@ -522,4 +522,10 @@ cc_backup_object_storage_provider: 's3'
 # audit
 audit_bucket_name: 'control-center-audit-bucket'
 audit_bucket_max_objects: "'1000000'"
-audit_bucket_storage_size: '10Gi'
+
+audit_bucket_storage_size: "10Gi"
+
+# env loki and tempo
+env_tempo_bucket_storage_size: "10Gi"
+env_loki_bucket_storage_size: "10Gi"
+
