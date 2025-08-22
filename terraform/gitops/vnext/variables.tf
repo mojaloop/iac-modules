@@ -164,6 +164,10 @@ variable "monolith_stateful_resources" {
 variable "managed_svc_as_monolith" {
 }
 
+variable "cloud_platform" {
+  type = string
+}
+
 variable "cc_name" {
   type        = string
   description = "The name of the control center."
