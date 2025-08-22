@@ -22,12 +22,12 @@ resource "local_file" "vault_crs" {
 }
 
 
-resource "local_file" "non_managed_external_name_services" {
+resource "local_file" "external_name_services" {
   content = templatefile("${local.stateful_resources_template_path}/external-name-services.yaml.tpl",
     { config                       = local.external_name_map
       stateful_resources_namespace = var.stateful_resources_namespace
   })
-  filename = "${local.stateful_resources_output_path}/non-managed-external-name-services.yaml"
+  filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
 }
 
 resource "local_file" "managed_service_entries" {
