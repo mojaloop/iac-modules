@@ -11,7 +11,7 @@ spec:
   template:
     ttl: ${ARGOCD_ENV_velero_sc_backup_ttl}
     storageLocation: "storage-cluster-backup"
-    snapshotVolumes: false
+    snapshotVolumes: ${ARGOCD_ENV_velero_sc_snapshot_volumes}
     includedNamespaces:
       - '*'
     includedResources:
