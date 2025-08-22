@@ -234,7 +234,8 @@ resource "local_file" "dbaas-crs-mysql" {
         backup_pvc                   = jsonencode(each.value.dbaas_resource_config.backup_pvc)
         pxc_annotations              = jsonencode(each.value.dbaas_resource_config.pxc_annotations)
         pxc_volume_spec              = jsonencode(each.value.dbaas_resource_config.pxc_volume_spec)
-
+        istio_egress_waypoint_name   = var.istio_egress_waypoint_name
+        istio_egress_waypoint_namespace = var.istio_egress_waypoint_namespace
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
@@ -292,6 +293,8 @@ resource "local_file" "dbaas-crs-mongodb" {
         cc_name                      = var.cc_name
         dns_zone_id                  = var.private_dns_zone_id
         dns_name                     = "${var.cluster_name}-${each.value.externalservice_name}-external"
+        istio_egress_waypoint_name   = var.istio_egress_waypoint_name
+        istio_egress_waypoint_namespace = var.istio_egress_waypoint_namespace
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
