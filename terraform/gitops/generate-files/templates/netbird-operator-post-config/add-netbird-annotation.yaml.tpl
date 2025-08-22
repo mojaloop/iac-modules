@@ -56,3 +56,19 @@ spec:
         clone:
           namespace: "${netbird_setup_key_namespace}"
           name: ${netbird_setup_key_name}
+    - name: copy-netbird-secret-xplane
+      match:
+        any:
+        - resources:
+            kinds:
+            - Namespace
+            name: crossplane-system
+      generate:
+        synchronize: true
+        apiVersion: v1
+        kind: Secret
+        name: ${netbird_setup_key_name}
+        namespace: "crossplane-system"
+        clone:
+          namespace: "${netbird_setup_key_namespace}"
+          name: ${netbird_setup_key_name}
