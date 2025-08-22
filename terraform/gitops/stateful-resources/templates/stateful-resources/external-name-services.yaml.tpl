@@ -1,4 +1,3 @@
-#will be empty for private cloud
 %{ for logical_service_name, external_name in config ~}
 ---
 apiVersion: v1
