@@ -2,6 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+
 - external-name-services.yaml
 
 # %{ for key, stateful_resource in monolith_env_vpc_resource_password_map }

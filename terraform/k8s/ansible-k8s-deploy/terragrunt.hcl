@@ -42,8 +42,8 @@ inputs = {
   bastion_hosts_var_maps = merge(dependency.k8s_deploy.outputs.bastion_hosts_var_maps, local.bastion_hosts_var_maps, {
     tenant_vault_server_url    = "https://${local.vault_fqdn}"
     internal_load_balancer_dns = dependency.k8s_deploy.outputs.internal_load_balancer_dns
-    public_subdomain = dependency.k8s_deploy.outputs.public_subdomain
-    private_dns_zone_id = dependency.k8s_deploy.outputs.private_dns_zone_id
+    public_subdomain           = dependency.k8s_deploy.outputs.public_subdomain
+    private_dns_zone_id        = dependency.k8s_deploy.outputs.private_dns_zone_id
   })
   agent_hosts_var_maps  = merge(dependency.k8s_deploy.outputs.agent_hosts_var_maps, local.agent_hosts_var_maps)
   master_hosts_var_maps = merge(dependency.k8s_deploy.outputs.master_hosts_var_maps, local.master_hosts_var_maps)
@@ -60,20 +60,20 @@ inputs = {
       microk8s_version                  = try(local.common_vars.microk8s_version, "1.31/stable")
       external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
   } : {})
-  bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
-  master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
-  agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
-  test_harness_hosts            = dependency.k8s_deploy.outputs.test_harness_hosts
-  test_harness_hosts_var_maps   = dependency.k8s_deploy.outputs.test_harness_hosts_var_maps
-  ansible_bastion_key           = dependency.k8s_deploy.outputs.bastion_ssh_key
-  ansible_bastion_os_username   = dependency.k8s_deploy.outputs.bastion_os_username
-  ansible_bastion_public_ip     = dependency.k8s_deploy.outputs.bastion_public_ip
-  ansible_collection_tag        = local.env_vars.ansible_collection_tag
-  ansible_base_output_dir       = local.ANSIBLE_BASE_OUTPUT_DIR
-  ansible_playbook_name         = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
-  ansible_destroy_playbook_name = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
-  master_node_supports_traffic             = (local.total_agent_count == 0) ? true : false
-  current_gitlab_project_id                = local.GITLAB_CURRENT_PROJECT_ID
+  bastion_hosts_yaml_maps                 = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
+  master_hosts_yaml_maps                  = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
+  agent_hosts_yaml_maps                   = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
+  test_harness_hosts                      = dependency.k8s_deploy.outputs.test_harness_hosts
+  test_harness_hosts_var_maps             = dependency.k8s_deploy.outputs.test_harness_hosts_var_maps
+  ansible_bastion_key                     = dependency.k8s_deploy.outputs.bastion_ssh_key
+  ansible_bastion_os_username             = dependency.k8s_deploy.outputs.bastion_os_username
+  ansible_bastion_public_ip               = dependency.k8s_deploy.outputs.bastion_public_ip
+  ansible_collection_tag                  = local.env_vars.ansible_collection_tag
+  ansible_base_output_dir                 = local.ANSIBLE_BASE_OUTPUT_DIR
+  ansible_playbook_name                   = "argo${local.K8S_CLUSTER_TYPE}_cluster_deploy"
+  ansible_destroy_playbook_name           = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
+  master_node_supports_traffic            = (local.total_agent_count == 0) ? true : false
+  current_gitlab_project_id               = local.GITLAB_CURRENT_PROJECT_ID
 }
 
 locals {
