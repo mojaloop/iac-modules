@@ -30,6 +30,15 @@ resource "local_file" "external_name_services" {
   filename = "${local.stateful_resources_output_path}/external-name-services.yaml"
 }
 
+resource "local_file" "managed_service_entries" {
+  content = templatefile("${local.stateful_resources_template_path}/serviceentries.yaml.tpl",
+    { config                       = local.managed_external_name_map
+      stateful_resources_namespace = var.stateful_resources_namespace
+      service_entry_sync_wave      = var.service_entry_sync_wave
+  })
+  filename = "${local.stateful_resources_output_path}/managed-external-name-services.yaml"
+}
+
 resource "local_file" "monolith-init-db" {
   for_each = local.monolith_init_mysql_managed_stateful_resources
 
@@ -618,3 +627,4 @@ variable "istio_egress_waypoint_namespace" {
   description = "Namespace of the Istio egress waypoint"
   default     = "istio-system"
 }
+
