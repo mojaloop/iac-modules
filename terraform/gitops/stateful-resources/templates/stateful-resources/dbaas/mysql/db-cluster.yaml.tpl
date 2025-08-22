@@ -92,6 +92,7 @@ spec:
       bucket: "${cc_name}-${cluster_name}-${dbdeploy_name_prefix}-percona"
       credentialsSecret: "${cluster_name}-${dbdeploy_name_prefix}-percona"
       bucketRegion: ${cloud_region}
+      endpointUrl: "https://s3.${cloud_region}.amazonaws.com"
       scheduleName: ${backup_schedule_name}
       cronScheduleExpression: ${backup_cron_schedule}
       backupRetention: ${backup_retention}
