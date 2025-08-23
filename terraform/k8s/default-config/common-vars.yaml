@@ -76,8 +76,8 @@ crossplane_functions_extra_resources_version: "0.0.3"
 crossplane_packages_utils_version: "v0.7.0"
 crossplane_packages_aws_documentdb_version: "v0.6.0"
 crossplane_packages_aws_rds_version: "v0.4.0"
-crossplane_packages_sc_mysql_version: "v0.6.0-pr103-17175442200"
-crossplane_packages_sc_mongodb_version: "v0.4.0-pr103-17175442200"
+crossplane_packages_sc_mysql_version: "v0.6.0-pr103-17180737007"
+crossplane_packages_sc_mongodb_version: "v0.4.0-pr103-17180737007"
 max_pods_per_node: 110
 velero_plugin_version: 'v1.12.1'
 velero_helm_version: '10.0.1'
