@@ -37,6 +37,9 @@ spec:
                   - name: NB_MANAGEMENT_URL
                     value: ${netbird_management_url}
                 securityContext:
+                  runAsUser: 0
+                  runAsGroup: 0
+                  runAsNonRoot: false
                   capabilities:
                     add:
                       - NET_ADMIN
