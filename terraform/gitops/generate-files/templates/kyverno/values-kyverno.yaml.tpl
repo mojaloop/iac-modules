@@ -6,28 +6,39 @@ reportsController:
   rbac:
     coreClusterRole:
       extraResources:
-      - apiGroups:
-        - '*'
-        resources:
-        - '*'
-        verbs:
-        - get
-        - list
-        - watch
+        - apiGroups:
+            - "*"
+          resources:
+            - "*"
+          verbs:
+            - get
+            - list
+            - watch
 backgroundController:
   rbac:
     coreClusterRole:
       extraResources:
         - apiGroups:
-          - 'apps'
+            - "apps"
           resources:
-          - 'deployments'
+            - "deployments"
           verbs:
-          - get
-          - list
-          - watch
-          - update
-          - patch
+            - get
+            - list
+            - watch
+            - update
+            - patch
+        - apiGroups:
+            - ""
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - delete
 cleanupController:
   resources:
     # -- Pod resource limits
@@ -37,3 +48,15 @@ cleanupController:
     requests:
       cpu: 100m
       memory: 128Mi
+admissionController:
+  rbac:
+    coreClusterRole:
+      extraResources:
+        - apiGroups:
+            - ""
+          resources:
+            - secrets
+          verbs:
+            - get
+            - list
+            - watch
