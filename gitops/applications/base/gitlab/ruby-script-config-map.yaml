@@ -8,11 +8,19 @@ data:
     user = User.where(id: 1).first
     token = user.personal_access_tokens.where(name: 'rootapitoken').first
     if token.nil?
-        token = user.personal_access_tokens.create(scopes: [:api], name: 'rootapitoken', expires_at: ${ARGOCD_ENV_gitlab_token_ttl}.days.from_now)
+        token = user.personal_access_tokens.create(
+            scopes: [:api],
+            name: 'rootapitoken',
+            expires_at: ${ARGOCD_ENV_gitlab_token_ttl}.days.from_now
+        )
         token.set_token(ENV["TOKEN_VALUE"])
-    elsif token.expires_at < Time.now
+    elsif token.expires_at < ${ARGOCD_ENV_gitlab_token_expiry_threshold_hours}.hours.from_now
         token.delete
-        token = user.personal_access_tokens.create(scopes: [:api], name: 'rootapitoken', expires_at: ${ARGOCD_ENV_gitlab_token_ttl}.days.from_now)
+        token = user.personal_access_tokens.create(
+            scopes: [:api],
+            name: 'rootapitoken',
+            expires_at: ${ARGOCD_ENV_gitlab_token_ttl}.days.from_now
+        )
         token.set_token(ENV["TOKEN_VALUE"])
     end
     token.save!

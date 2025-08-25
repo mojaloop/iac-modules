@@ -264,6 +264,7 @@ gitlab_public_access: true
 gitlab_redis_cluster_size: "'3'"
 gitlab_redis_storage_size: "'5Gi'"
 gitlab_token_ttl_days: "'14'"
+gitlab_token_expiry_threshold_hours: "'6'"
 git_lfs_max_objects: "'1000000'"
 git_lfs_storage_size: "10Gi"
 gitlab_artifacts_max_objects: "'1000000'"

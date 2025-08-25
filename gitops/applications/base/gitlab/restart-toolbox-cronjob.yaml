@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gitlab-toolbox-restart
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  schedule: '0 * * * *' # every hour
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: restart-toolbox
+              image: bitnami/kubectl:latest
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  echo "Restarting gitlab-toolbox pod..."
+                  kubectl -n gitlab rollout restart deployment gitlab-toolbox
