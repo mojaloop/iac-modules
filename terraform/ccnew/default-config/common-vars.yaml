@@ -512,7 +512,7 @@ cc_backup_object_storage_provider: "s3"
 sc_backup_schedule: "0 * * * *"
 sc_backup_ttl: "24h0m0s"
 sc_backup_object_storage_provider: "s3"
-sc_snapshot_volumes: "false"
+sc_snapshot_volumes: false
 
 # audit
 audit_bucket_name: "control-center-audit-bucket"
