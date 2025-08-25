@@ -382,7 +382,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_backup_endpoint}"
 
           - name: "backup_bucket"
-            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_backup_bucket}"
+            value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_backup_bucket}-${ARGOCD_ENV_gitlab_gitlab_dns_hyphenated_subdomain}"
 
           - name: "backup_region"
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_backup_region}"
@@ -590,7 +590,7 @@ spec:
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_backup_endpoint}"
 
           - name: "backup_bucket"
-            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_backup_bucket}"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_backup_bucket}-${ARGOCD_ENV_gitlab_gitlab_dns_hyphenated_subdomain}"
 
           - name: "backup_region"
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_backup_region}"
