@@ -99,7 +99,7 @@ spec:
       backupRetention: ${backup_retention}
 
     dns:
-      name: ${externalservice_name}
+      name: ${dns_name}
       region: ${cloud_region}
       ttl: 300
       type: A
