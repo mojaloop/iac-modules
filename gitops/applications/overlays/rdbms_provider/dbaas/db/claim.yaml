@@ -30,6 +30,7 @@ spec:
     tolerations: []
 
     backup:
+      enabled: ${ARGOCD_ENV_enable_backup}
       image: ${ARGOCD_ENV_backup_image}
       objectStoreEndpoint: ${ARGOCD_ENV_backup_endpoint}
       bucket: ${ARGOCD_ENV_backup_bucket}
