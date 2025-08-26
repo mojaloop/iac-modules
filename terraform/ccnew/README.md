@@ -10,6 +10,5 @@ These variables are consumed by the `scripts/dictmerge.py` script, which injects
 
 1.  Copy the template: `cp .envrc.template .envrc`
 2.  Fill in the values in the `.envrc` file.
-3.  Ensure you have `direnv` installed and enabled to automatically load these variables.
 
 The `.envrc` file is git-ignored and should not be committed.

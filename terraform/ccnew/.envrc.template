@@ -5,3 +5,5 @@ export CC_VAR_ssh_private_key="""
   -----END RSA PRIVATE KEY-----
 """
 export CC_VAR_capi_cluster_proxmox_password=""
+export CC_VAR_dockerhub_credentials=""
+export CC_VAR_github_pat=""

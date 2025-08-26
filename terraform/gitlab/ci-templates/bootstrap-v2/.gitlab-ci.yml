@@ -59,6 +59,8 @@ cache:
     - export CC_VAR_ci_iam_user_access_key="$(vault kv get -field=ci_iam_user_access_key -mount=secret cc_vars)"
     - export CC_VAR_ssh_private_key="$(vault kv get -field=ssh_private_key -mount=secret cc_vars)"
     - export CC_VAR_capi_cluster_proxmox_password="$(vault kv get -field=capi_cluster_proxmox_password -mount=secret cc_vars)"
+    - export CC_VAR_dockerhub_credentials="$(vault kv get -field=dockerhub_credentials -mount=secret cc_vars)"
+    - export CC_VAR_github_pat="$(vault kv get -field=github_pat -mount=secret cc_vars)"
     - source scripts/setlocalvars.sh
     - export CLOUD_PLATFORM_API_CLIENT_ID="$(vault kv get -field=cloud_platform_api_client_id -mount=secret cloud-api-access)"
     - export CLOUD_PLATFORM_API_CLIENT_SECRET="$(vault kv get -field=cloud_platform_api_client_secret -mount=secret cloud-api-access)"
