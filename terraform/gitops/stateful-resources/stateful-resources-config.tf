@@ -250,7 +250,7 @@ resource "local_file" "dbaas-crs-mongodb" {
         image                        = each.value.dbaas_resource_config.image
         db_secret                    = each.value.external_resource_config.master_user_password_secret
         db_source_secret             = each.value.external_resource_config.db_source_secret
-        backup_enabled               = each.value.dbaas_resource_config.backup_enabled
+        enable_backup               = each.value.dbaas_resource_config.enable_backup
         backup_verify_tls            = each.value.dbaas_resource_config.backup_verify_tls
         backup_image                 = each.value.dbaas_resource_config.backup_image
         backup_bucket_region         = var.cloud_region

@@ -13,7 +13,7 @@ spec:
     imagePullPolicy: IfNotPresent
     dbSecret: ${ARGOCD_ENV_db_secret}
     backup:
-      enabled: ${ARGOCD_ENV_backup_enabled}
+      enabled: ${ARGOCD_ENV_enable_backup}
       verifyTLS: ${ARGOCD_ENV_backup_verify_tls}
       image: ${ARGOCD_ENV_backup_image}
       bucket: ${ARGOCD_ENV_env_name}-percona
