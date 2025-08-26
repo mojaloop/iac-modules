@@ -30,7 +30,7 @@ variable "kyverno_namespace" {
 variable "kyverno_sync_wave" {
   type        = string
   description = "kyverno_sync_wave"
-  default     = "-15"
+  default     = "-17"
 }
 
 variable "kyverno_chart_version" {
