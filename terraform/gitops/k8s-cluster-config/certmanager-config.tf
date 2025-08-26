@@ -46,7 +46,7 @@ variable "cert_manager_namespace" {
 variable "cert_manager_sync_wave" {
   type        = string
   description = "cert_manager_sync_wave"
-  default     = "-15"
+  default     = "-17"
 }
 
 variable "cert_manager_issuer_sync_wave" {
