@@ -103,7 +103,7 @@ spec:
       pvc: ${backup_pvc}
 
     dns:
-      name: ${externalservice_name}
+      name: ${dns_name}
       region: ${cloud_region}
       ttl: 300
       type: A
