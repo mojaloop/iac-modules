@@ -43,35 +43,25 @@ spec:
                   capabilities:
                     add:
                       - NET_ADMIN
-    - name: copy-netbird-secret
+
+    - name: clone-netbird-secret-for-matching-pods
       match:
         any:
-        - resources:
-            kinds:
-            - Namespace
-            name: storage
+%{ for label in netbird_target_labels ~}
+          - resources:
+              kinds:
+                - Pod
+              selector:
+                matchLabels:
+                  ${label.name}: "${label.value}"
+%{ endfor ~}
       generate:
         synchronize: true
         apiVersion: v1
         kind: Secret
         name: ${netbird_setup_key_name}
-        namespace: "storage"
+        namespace: "{{request.object.metadata.namespace}}"
         clone:
           namespace: "${netbird_setup_key_namespace}"
           name: ${netbird_setup_key_name}
-    - name: copy-netbird-secret-xplane
-      match:
-        any:
-        - resources:
-            kinds:
-            - Namespace
-            name: crossplane-system
-      generate:
-        synchronize: true
-        apiVersion: v1
-        kind: Secret
-        name: ${netbird_setup_key_name}
-        namespace: "crossplane-system"
-        clone:
-          namespace: "${netbird_setup_key_namespace}"
-          name: ${netbird_setup_key_name}
+
