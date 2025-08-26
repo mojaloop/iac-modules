@@ -226,7 +226,7 @@ resource "local_file" "dbaas-crs-mysql" {
         backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
         backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
         backup_retention             = each.value.dbaas_resource_config.backup_retention
-        dns_name                     = each.value.externalservice_name
+        dns_name                     = "${each.value.externalservice_name}.${var.dbaas_subdomain}"
         management_policy            = each.value.dbaas_resource_config.management_policy
         cloud_region                 = var.cloud_region
         dns_zone_id                  = var.private_dns_zone_id
@@ -292,7 +292,7 @@ resource "local_file" "dbaas-crs-mongodb" {
         cloud_region                 = var.cloud_region
         cc_name                      = var.cc_name
         dns_zone_id                  = var.private_dns_zone_id
-        dns_name                     = "${var.cluster_name}-${each.value.externalservice_name}-external"
+        dns_name                     = "${var.cluster_name}-${each.value.externalservice_name}-external.${var.dbaas_subdomain}"
         istio_egress_waypoint_name   = var.istio_egress_waypoint_name
         istio_egress_waypoint_namespace = var.istio_egress_waypoint_namespace
   })
@@ -626,3 +626,8 @@ variable "istio_egress_waypoint_namespace" {
   default     = "istio-system"
 }
 
+variable "dbaas_subdomain" {
+  type        = string
+  description = "The subdomain for the DBaaS services."
+  default     = "storage"
+}
