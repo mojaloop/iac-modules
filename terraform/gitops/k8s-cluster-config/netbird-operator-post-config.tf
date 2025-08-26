@@ -22,8 +22,6 @@ module "generate_netbird_operator_post_config_files" {
         value = split("=", label)[1]
       }
     ] : []
-    netbird_setup_key_name      = var.netbird_setup_key_name
-    netbird_setup_key_namespace = var.netbird_setup_key_namespace
     netbird_image_version       = var.netbird_image_version
   }
 
@@ -42,7 +40,7 @@ locals {
 variable "netbird_operator_post_config_sync_wave" {
   type        = string
   description = "netbird_operator_post_config_sync_wave"
-  default     = "-13"
+  default     = "-16"
 }
 
 variable "netbird_operator_post_config_namespace" {
