@@ -32,7 +32,7 @@ spec:
     backup:
       enabled: ${ARGOCD_ENV_enable_backup}
       image: ${ARGOCD_ENV_backup_image}
-      credentialsSecret: ${ARGOCD_ENV_backup_credentials_secret}
+      credentialsSecret: ${ARGOCD_ENV_backup_bucket}
       objectStoreEndpoint: ${ARGOCD_ENV_backup_endpoint}
       bucket: ${ARGOCD_ENV_backup_bucket}
       bucketRegion: ${ARGOCD_ENV_backup_region}
