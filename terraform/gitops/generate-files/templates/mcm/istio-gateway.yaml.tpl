@@ -88,3 +88,27 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: egress-waypoint-cert-access
+  namespace: ${mojaloop_namespace}
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: egress-waypoint-cert-access-binding
+  namespace: ${mojaloop_namespace}
+subjects:
+- kind: ServiceAccount
+  name: egress-waypoint
+  namespace: ${mojaloop_namespace}
+roleRef:
+  kind: Role
+  name: egress-waypoint-cert-access
+  apiGroup: rbac.authorization.k8s.io
