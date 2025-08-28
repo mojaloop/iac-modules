@@ -122,6 +122,7 @@ inputs = {
   deploy_env_monolithic_db                 = local.deploy_env_monolithic_db
   crossplane_providers_aws_family_version  = local.common_vars.crossplane_providers_aws_family_version
   crossplane_providers_aws_iam_version     = local.common_vars.crossplane_providers_aws_iam_version
+  crossplane_providers_aws_s3_version      = local.common_vars.crossplane_providers_aws_s3_version
   crossplane_providers_aws_docdb_version   = local.common_vars.crossplane_providers_aws_docdb_version
   crossplane_providers_aws_rds_version     = local.common_vars.crossplane_providers_aws_rds_version
   crossplane_providers_aws_route53_version = local.common_vars.crossplane_providers_aws_route53_version
