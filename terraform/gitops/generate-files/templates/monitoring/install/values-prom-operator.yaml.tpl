@@ -15,7 +15,7 @@ alertmanager:
 prometheus:
   image:
     repository: prom/prometheus
-    tag: v2.53.1
+    tag: v2.48.0
   scrapeInterval: ${prometheus_scrape_interval}
   persistence:
     enabled: true
