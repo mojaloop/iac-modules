@@ -86,3 +86,47 @@ spec:
                       - name: ORIGINAL_IMAGE
                         value: "{{ element.image }}"
                     image: 'ghcr.io/mojaloop/infra/{{ images.containers."{{element.name}}".path}}:{{images.containers."{{element.name}}".tag}}'
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: redirect-bitnami-to-bitnamilegacy
+spec:
+  rules:
+    - name: redirect-bitnami-to-bitnamilegacy
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              operations:
+                - CREATE
+                - UPDATE
+      exclude:
+        any:
+        - resources:
+            namespaces:
+            - istio-ingress-ext
+            - istio-ingress-int
+            - rook-ceph
+            - storage
+      mutate:
+        foreach:
+          - list: request.object.spec.containers[]
+            preconditions:
+              all:
+                - key: "{{ image_normalize(element.image) }}"
+                  operator: AnyIn
+                  value:
+                    - mirror.gcr.io/bitnami/*                    
+            patchStrategicMerge:
+              metadata:
+                annotations:
+                  kyverno/redirect-bitnami-to-bitnamilegacy: applied
+              spec:
+                containers:
+                  - name: "{{ element.name }}"
+                    env:
+                      - name: ADDITIONAL_BITNAMI_REWRITE
+                        value: "true"
+                    image: 'mirror.gcr.io/bitnamilegacy/{{ images.containers."{{element.name}}".name}}:{{images.containers."{{element.name}}".tag}}'
