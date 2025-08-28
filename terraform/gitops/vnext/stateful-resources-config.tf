@@ -26,8 +26,8 @@ module "vnext_stateful_resources" {
   database_subnets                              = var.database_subnets
   availability_zones                            = var.availability_zones
   cloud_region                                  = var.cloud_region
-  istio_egress_waypoint_name                    = var.istio_egress_waypoint_name
-  istio_egress_waypoint_namespace               = var.istio_egress_waypoint_namespace
+  istio_nb_egress_waypoint_name                 = var.istio_nb_egress_waypoint_name
+  istio_nb_egress_waypoint_namespace            = var.istio_nb_egress_waypoint_namespace
 }
 
 variable "stateful_resources_namespace" {
