@@ -17,3 +17,5 @@ aws:
   credentials:
     secretName: ${ARGOCD_ENV_external_dns_credentials_secret}
   region: ${ARGOCD_ENV_dns_cloud_api_region}
+image:
+  repository: bitnamilegacy/external-dns
