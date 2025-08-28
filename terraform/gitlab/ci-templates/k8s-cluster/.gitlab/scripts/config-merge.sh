@@ -12,7 +12,7 @@ do
         default-config/$configFile \
         profiles/**/?(*-)$configFile \
         profiles/**/?(*-)@($YAML_ENV_CONFIG|$JSON_ENV_CONFIG) \
-        custom-config/$configFile $CONFIG_PATH;
+        custom-config/?(*-)$configFile $CONFIG_PATH;
 done;
 
 # for configFile in {'mojaloop-stateful-resources.json','common-stateful-resources.json','mojaloop-rbac-api-resources.yaml'};
