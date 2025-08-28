@@ -121,8 +121,7 @@ module "generate_mcm_files" {
     hub_name                                 = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     ttk_fqdn                                 = local.ttk_fqdn
     bulk_enabled                             = var.bulk_enabled
-    istio_egress_waypoint_name               = var.istio_egress_waypoint_name
-    istio_egress_waypoint_namespace          = var.istio_egress_waypoint_namespace
+    istio_ml_egress_waypoint_name            = var.istio_ml_egress_waypoint_name
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -256,6 +255,12 @@ variable "fspiop_use_ory_for_auth" {
 
 variable "pm4mls" {
   type = any
+}
+
+variable "istio_ml_egress_waypoint_name" {
+  type        = string
+  description = "Name of the Istio egress waypoint for ML"
+  default     = "ml-egress-waypoint"
 }
 
 locals {

@@ -26,8 +26,8 @@ module "common_stateful_resources" {
   availability_zones                            = var.availability_zones
   cloud_region                                  = var.cloud_region
   private_dns_zone_id                           = var.private_dns_zone_id
-  istio_egress_waypoint_name                    = var.istio_egress_waypoint_name
-  istio_egress_waypoint_namespace               = var.istio_egress_waypoint_namespace
+  istio_nb_egress_waypoint_name                 = var.istio_nb_egress_waypoint_name
+  istio_nb_egress_waypoint_namespace            = var.istio_nb_egress_waypoint_namespace
 }
 
 variable "stateful_resources_namespace" {
