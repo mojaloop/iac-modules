@@ -208,13 +208,13 @@ variable "private_dns_zone_id" {
   description = "The Route53 zone ID."
 }
 
-variable "istio_egress_waypoint_name" {
+variable "istio_nb_egress_waypoint_name" {
   type        = string
   description = "Name of the Istio egress waypoint"
-  default     = "egress-waypoint"
+  default     = "nb-egress-waypoint"
 }
 
-variable "istio_egress_waypoint_namespace" {
+variable "istio_nb_egress_waypoint_namespace" {
   type        = string
   description = "Namespace of the Istio egress waypoint"
   default     = "istio-system"

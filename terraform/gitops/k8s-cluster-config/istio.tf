@@ -46,8 +46,8 @@ module "generate_istio_files" {
     netbird_traffic_hosts  = local.netbird_traffic_hosts_list
     netbird_setup_key_name = var.netbird_setup_key_name
     istio_cni_platform     = var.istio_cni_platform
-    istio_egress_waypoint_name        = var.istio_egress_waypoint_name
-    istio_egress_waypoint_namespace   = var.istio_egress_waypoint_namespace
+    istio_nb_egress_waypoint_name        = var.istio_nb_egress_waypoint_name
+    istio_nb_egress_waypoint_namespace   = var.istio_nb_egress_waypoint_namespace
   }
 
   file_list       = [for f in fileset(local.istio_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.istio_app_file, f))]
@@ -178,13 +178,13 @@ variable "istio_cni_platform" {
   default     = "none"
 }
 
-variable "istio_egress_waypoint_name" {
+variable "istio_nb_egress_waypoint_name" {
   type        = string
   description = "Name of the Istio egress waypoint"
-  default     = "egress-waypoint"
+  default     = "nb-egress-waypoint"
 }
 
-variable "istio_egress_waypoint_namespace" {
+variable "istio_nb_egress_waypoint_namespace" {
   type        = string
   description = "Namespace of the Istio egress waypoint"
   default     = "istio-system"
