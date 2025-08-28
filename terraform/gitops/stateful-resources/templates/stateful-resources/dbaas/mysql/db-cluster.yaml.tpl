@@ -15,8 +15,8 @@ spec:
     dbUsername: ${db_username}
     dbName: "${db_name}"
     consumerAppsExternalServices: ${consumer_app_externalname_services}
-    waypointName: ${istio_egress_waypoint_name}
-    waypointNamespace: ${istio_egress_waypoint_namespace}
+    waypointName: ${istio_nb_egress_waypoint_name}
+    waypointNamespace: ${istio_nb_egress_waypoint_namespace}
     consumerAppsSecret:
         name: ${consumer_app_secret.ca_bundle_secret}
         key: ${consumer_app_secret.ca_bundle_secret_key}

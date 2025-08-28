@@ -218,15 +218,14 @@ variable "deploy_env_monolithic_db" {
   type        = bool
   default     = false
 }
-
-variable "istio_egress_waypoint_name" {
+variable "istio_nb_egress_waypoint_namespace" {
   type        = string
-  description = "Name of the Istio egress waypoint"
-  default     = "egress-waypoint"
+  description = "Namespace of the Istio egress waypoint for netbird"
+  default     = "istio-system"
 }
 
-variable "istio_egress_waypoint_namespace" {
+variable "istio_nb_egress_waypoint_name" {
   type        = string
-  description = "Namespace of the Istio egress waypoint"
-  default     = "istio-system"
+  description = "Name of the Istio egress waypoint for netbird"
+  default     = "nb-egress-waypoint"
 }

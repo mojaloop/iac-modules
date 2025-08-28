@@ -77,7 +77,7 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: Gateway
 metadata:
-  name: egress-waypoint
+  name: ${istio_ml_egress_waypoint_name}
   namespace: ${mojaloop_namespace}
 spec:
   gatewayClassName: istio-waypoint
@@ -92,7 +92,7 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: egress-waypoint-cert-access
+  name: ${istio_ml_egress_waypoint_name}-cert-access
   namespace: ${mojaloop_namespace}
 rules:
 - apiGroups: [""]
@@ -102,13 +102,13 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: egress-waypoint-cert-access-binding
+  name: ${istio_ml_egress_waypoint_name}-cert-access-binding
   namespace: ${mojaloop_namespace}
 subjects:
 - kind: ServiceAccount
-  name: egress-waypoint
+  name: ${istio_ml_egress_waypoint_name}
   namespace: ${mojaloop_namespace}
 roleRef:
   kind: Role
-  name: egress-waypoint-cert-access
+  name: ${istio_ml_egress_waypoint_name}-cert-access
   apiGroup: rbac.authorization.k8s.io
