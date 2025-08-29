@@ -19,7 +19,7 @@ spec:
             - name: rgw-endpoint
               mountPath: /tmp/rgw-secret
               readOnly: true
-          image: bitnami/kubectl:latest
+          image: bitnamilegacy/kubectl:latest
           securityContext:
             runAsNonRoot: true
             runAsUser: 2016
