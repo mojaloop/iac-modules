@@ -13,6 +13,9 @@ alertmanager:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
 prometheus:
+  image:
+    repository: prom/prometheus
+    tag: v2.48.0
   scrapeInterval: ${prometheus_scrape_interval}
   persistence:
     enabled: true

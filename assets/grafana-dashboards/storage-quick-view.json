@@ -18,7 +18,7 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "id": 97,
+    "id": 99,
     "links": [],
     "panels": [
       {
@@ -37,7 +37,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+          "uid": "${datasource}"
         },
         "fieldConfig": {
           "defaults": {
@@ -87,10 +87,10 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
-            "expr": "ceph_cluster_total_used_bytes",
+            "expr": "ceph_cluster_total_used_bytes{cluster=~\"$cluster\"}",
             "instant": false,
             "legendFormat": "usage",
             "range": true,
@@ -103,7 +103,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+          "uid": "${datasource}"
         },
         "fieldConfig": {
           "defaults": {
@@ -153,10 +153,10 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
-            "expr": "ceph_cluster_total_bytes",
+            "expr": "ceph_cluster_total_bytes{cluster=~\"$cluster\"}",
             "hide": false,
             "instant": false,
             "legendFormat": "capacity",
@@ -170,7 +170,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+          "uid": "${datasource}"
         },
         "fieldConfig": {
           "defaults": {
@@ -222,10 +222,10 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
-            "expr": "ceph_cluster_total_used_bytes/ceph_cluster_total_bytes",
+            "expr": "ceph_cluster_total_used_bytes{cluster=~\"$cluster\"}/ceph_cluster_total_bytes{cluster=~\"$cluster\"}",
             "instant": false,
             "legendFormat": "usage",
             "range": true,
@@ -296,7 +296,7 @@
               "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
             },
             "editorMode": "code",
-            "expr": "ceph_pool_stored{pool_id=~\"$ceph_pool_id\"}/\n(ceph_pool_stored{pool_id=~\"$ceph_pool_id\"}+ceph_pool_max_avail{pool_id=~\"$ceph_pool_id\"}) \n* on (pool_id) group_left(name) ceph_pool_metadata",
+            "expr": "ceph_pool_stored{cluster=~\"$cluster\",pool_id=~\"$ceph_pool_id\"}/\n(ceph_pool_stored{cluster=~\"$cluster\",pool_id=~\"$ceph_pool_id\"}+ceph_pool_max_avail{cluster=~\"$cluster\",pool_id=~\"$ceph_pool_id\"}) \n* on (pool_id) group_left(name) ceph_pool_metadata{cluster=~\"$cluster\"}",
             "instant": false,
             "legendFormat": "pool: {{name}}",
             "range": true,
@@ -795,7 +795,7 @@
       "list": [
         {
           "current": {
-            "selected": false,
+            "selected": true,
             "text": "Mimir",
             "value": "f434c087-99bc-4f48-8aa8-da7f156efb83"
           },
@@ -813,7 +813,7 @@
         },
         {
           "current": {
-            "selected": false,
+            "selected": true,
             "text": "storage",
             "value": "storage"
           },
@@ -950,7 +950,7 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "Storage - Quick view",
-    "uid": "aee3wdgy5-v007",
+    "uid": "aee3wdgy5-v008",
     "version": 1,
     "weekStart": ""
   }
