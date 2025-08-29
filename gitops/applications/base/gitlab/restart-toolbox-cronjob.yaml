@@ -19,3 +19,28 @@ spec:
                 - |
                   echo "Restarting gitlab-toolbox pod..."
                   kubectl -n gitlab rollout restart deployment gitlab-toolbox
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gitlab-toolbox-deployment-access
+  namespace: gitlab
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    resourceNames: ["gitlab-toolbox"]
+    verbs: ["get", "list", "watch", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gitlab-toolbox-deployment-access
+  namespace: gitlab
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: gitlab
+roleRef:
+  kind: Role
+  name: gitlab-toolbox-deployment-access
+  apiGroup: rbac.authorization.k8s.io
