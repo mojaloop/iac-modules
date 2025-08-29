@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: check-ceph-cluster-health
-        image: bitnami/kubectl:latest
+        image: bitnamilegacy/kubectl:latest
         command:
         - /bin/sh
         - -c
