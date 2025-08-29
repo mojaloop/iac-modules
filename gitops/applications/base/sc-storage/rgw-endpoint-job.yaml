@@ -10,7 +10,7 @@ spec:
       serviceAccountName: ceph-job-sa
       containers:
         - name: export-rgw-endpoint
-          image: bitnami/kubectl:latest
+          image: bitnamilegacy/kubectl:latest
           command:
             - /bin/sh
             - -c
