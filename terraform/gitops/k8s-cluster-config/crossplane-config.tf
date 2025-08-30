@@ -10,6 +10,7 @@ module "generate_crossplane_files" {
     crossplane_namespace                       = var.crossplane_namespace
     crossplane_providers_vault_version         = var.crossplane_providers_vault_version
     crossplane_packages_utils_version          = var.crossplane_packages_utils_version
+    crossplane_packages_objectstores_version   = var.crossplane_packages_objectstores_version
     crossplane_helm_version                    = var.crossplane_helm_version
     crossplane_packages_aws_documentdb_version = var.crossplane_packages_aws_documentdb_version
     crossplane_packages_aws_rds_version        = var.crossplane_packages_aws_rds_version

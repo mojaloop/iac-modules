@@ -130,6 +130,7 @@ inputs = {
   crossplane_providers_k8s_version         = local.common_vars.crossplane_providers_k8s_version
   crossplane_providers_vault_version       = local.common_vars.crossplane_providers_vault_version
   crossplane_packages_utils_version        = local.common_vars.crossplane_packages_utils_version
+  crossplane_packages_objectstores_version = local.common_vars.crossplane_packages_objectstores_version
   crossplane_packages_aws_rds_version      = local.common_vars.crossplane_packages_aws_rds_version
   crossplane_packages_aws_documentdb_version = local.common_vars.crossplane_packages_aws_documentdb_version
   crossplane_packages_sc_mysql_version       = local.common_vars.crossplane_packages_sc_mysql_version

@@ -5,6 +5,7 @@ module "generate_crossplane_packages_files" {
     gitlab_project_url                           = var.gitlab_project_url
     crossplane_namespace                         = var.crossplane_namespace
     crossplane_packages_utils_version            = var.crossplane_packages_utils_version
+    crossplane_packages_objectstores_version     = var.crossplane_packages_objectstores_version
     crossplane_functions_kcl_version             = var.crossplane_functions_kcl_version
     crossplane_functions_auto_ready_version      = var.crossplane_functions_auto_ready_version
     crossplane_functions_extra_resources_version = var.crossplane_functions_extra_resources_version
@@ -31,6 +32,10 @@ variable "crossplane_packages_sync_wave" {
 }
 
 variable "crossplane_packages_utils_version" {
+  type        = string
+}
+
+variable "crossplane_packages_objectstores_version" {
   type        = string
 }
 
