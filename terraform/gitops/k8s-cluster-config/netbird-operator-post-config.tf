@@ -23,6 +23,7 @@ module "generate_netbird_operator_post_config_files" {
       }
     ] : []
     netbird_image_version       = var.netbird_image_version
+    kyverno_sync_wave           = var.kyverno_sync_wave
   }
 
   file_list       = [for f in fileset(local.netbird_operator_post_config_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.netbird_operator_post_config_app_file, f))]
