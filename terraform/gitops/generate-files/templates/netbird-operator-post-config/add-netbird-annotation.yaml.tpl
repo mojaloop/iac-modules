@@ -3,6 +3,8 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
   name: inject-netbird-sidecar
+  annotations:
+    argocd.argoproj.io/sync-wave: "${kyverno_sync_wave}"
 spec:
   rules:
     - name: inject-netbird-annotation
