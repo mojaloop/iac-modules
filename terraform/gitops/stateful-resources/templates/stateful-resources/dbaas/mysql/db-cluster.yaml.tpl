@@ -24,6 +24,8 @@ spec:
 %{ endfor ~}
     pxc:
       image: ${pxc_image}
+      annotations: ${pxc_annotations}
+      volumeSpec: ${pxc_volume_spec}
       imagePullPolicy: IfNotPresent
       storageSize: ${mysql_storage_size}
       replicas: ${mysql_replicas}
@@ -95,6 +97,7 @@ spec:
       scheduleName: ${backup_schedule_name}
       cronScheduleExpression: ${backup_cron_schedule}
       backupRetention: ${backup_retention}
+      pvc: ${backup_pvc}
 
     dns:
       name: ${externalservice_name}
