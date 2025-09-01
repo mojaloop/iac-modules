@@ -1,0 +1,25 @@
+tempo:
+  extraArgs:
+    "config.expand-env": true
+  storage:
+    trace:
+      # backend: s3
+      backend: local
+      # blocklist_poll: 5m
+      # local:
+      #   path: {{ .Values.tempo.dataDir }}/traces
+      # wal:
+      #   path: {{ .Values.tempo.dataDir }}/wal
+      s3:
+        forcepathstyle: true
+        endpoint: cephobjectstore.ccdev.drpp-onprem.global
+        insecure: true
+        bucket: tempo-ccdev-drpp-onprem-global
+        region: us-east-1
+        # access_key_id: ${username}
+        # secret_access_key: ${password}
+        access_key: PVH738J1TFVJXO2K50NX
+        secret_key: eXk6Pp4G1ByKFIxgii8BUr7t2FFS7PZlCuEYrb0H
+
+
+
