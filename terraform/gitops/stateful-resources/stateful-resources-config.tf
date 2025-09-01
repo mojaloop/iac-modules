@@ -231,7 +231,7 @@ resource "local_file" "dbaas-crs-mysql" {
         cloud_region                 = var.cloud_region
         dns_zone_id                  = var.private_dns_zone_id
         cc_name                      = var.cc_name
-        backup_pvc                   = each.value.dbaas_resource_config.backup_pvc
+        backup_pvc                   = jsonencode(each.value.dbaas_resource_config.backup_pvc)
         pxc_annotations              = jsonencode(each.value.dbaas_resource_config.pxc_annotations)
         pxc_volume_spec              = jsonencode(each.value.dbaas_resource_config.pxc_volume_spec)
 
