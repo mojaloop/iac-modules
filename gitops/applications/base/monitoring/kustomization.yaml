@@ -35,3 +35,9 @@ helmCharts:
     repo:  https://grafana.github.io/helm-charts
     valuesFile: values-tempo.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
+  - name: tempo-vulture
+    releaseName: single-binary
+    version: 0.9.1
+    repo:  https://grafana.github.io/helm-charts
+    valuesFile: values-vulture.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
