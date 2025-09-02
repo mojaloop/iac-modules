@@ -1,7 +1,10 @@
 tempoAddress:
   # -- the url towards your Tempo distributor, e.g. http://distributor
-  push: http://single-binary-tempo:14250
+  # push: http://single-binary-tempo:14250
+  push: http://central-tempo-distributor:14250
   # -- the url towards your Tempo query-frontend, e.g. http://query-frontend:3200
-  query: http://single-binary-tempo:3200
+  query: http://central-tempo-query-frontend:3200
+# extraArgs:
+#   - "-otlp"
 podMonitor:
   enabled: true

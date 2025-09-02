@@ -138,7 +138,7 @@ spec:
     name: Tempo
     type: tempo
     access: proxy
-    url: http://single-binary-tempo:3200
+    url: http://central-tempo-query-frontend:3200
 #     jsonData:
 #       tracesToLogsV2:
 #         datasourceUid: 'Loki'
