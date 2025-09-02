@@ -154,6 +154,7 @@ argocd_override:
         pre:
           object_storage_region: "${cloud_region}"
           cc_backup_bucket: "${cc_backup_bucket}"
+          sc_backup_bucket: "${sc_backup_bucket}"
           cc_backup_storage_size:  "${cc_backup_bucket_storage_size}"
           object_storage_provider: "${cc_backup_object_storage_provider}"
           cluster_domain: "${cluster_domain}"
@@ -167,9 +168,13 @@ argocd_override:
           object_storage_endpoint: "${cc_backup_object_storage_provider == "s3" ? "https://s3.amazonaws.com" : "http://cephobjectstore.${cluster_domain}" }"
           object_storage_path_style: "${cc_backup_object_storage_provider == "ceph" ? "'true'" : "'false'" }"
           plugin_version: "${velero_plugin_version}"
+          external_snapshotter_version: "${velero_external_snapshotter_version}"
         post_config:
           cc_backup_schedule: "${cc_backup_schedule}"
           cc_backup_ttl: "${cc_backup_ttl}"
+          sc_backup_schedule: "${sc_backup_schedule}"
+          sc_backup_ttl: "${sc_backup_ttl}"
+          sc_snapshot_volumes: "${sc_snapshot_volumes}"
     dns_utils:
       application_gitrepo_tag: "${iac_terraform_modules_tag}"
       sub_apps:
@@ -234,6 +239,7 @@ argocd_override:
           postgres_cpu_request: "${zitadel_perc_postgres_cpu_request}"
           postgres_memory_request: "${zitadel_perc_postgres_memory_request}"
           priority_class_name: "${zitadel_perc_priority_class_name}"
+          enable_backup: "${zitadel_db_backup_enable_backup}"
           backup_image: "${zitadel_perc_backup_image}"
           backup_endpoint: "${zitadel_perc_backup_endpoint}"
           backup_bucket: "${zitadel_perc_backup_bucket}"
@@ -303,6 +309,7 @@ argocd_override:
           postgres_cpu_request: "${netbird_perc_postgres_cpu_request}"
           postgres_memory_request: "${netbird_perc_postgres_memory_request}"
           priority_class_name: "${netbird_perc_priority_class_name}"
+          enable_backup: "${netbird_db_backup_enable_backup}"
           backup_image: "${netbird_perc_backup_image}"
           backup_endpoint: "${netbird_perc_backup_endpoint}"
           backup_bucket: "${netbird_perc_backup_bucket}"
@@ -418,6 +425,7 @@ argocd_override:
           postgres_cpu_request: "${gitlab_perc_postgres_cpu_request}"
           postgres_memory_request: "${gitlab_perc_postgres_memory_request}"
           priority_class_name: "${gitlab_perc_priority_class_name}"
+          enable_backup: "${gitlab_db_backup_enable_backup}"
           backup_image: "${gitlab_perc_backup_image}"
           backup_endpoint: "${gitlab_perc_backup_endpoint}"
           backup_bucket: "${gitlab_perc_backup_bucket}"
@@ -447,6 +455,7 @@ argocd_override:
           postgres_cpu_request: "${praefect_perc_postgres_cpu_request}"
           postgres_memory_request: "${praefect_perc_postgres_memory_request}"
           priority_class_name: "${praefect_perc_priority_class_name}"
+          enable_backup: "${praefect_db_backup_enable_backup}"
           backup_image: "${praefect_perc_backup_image}"
           backup_endpoint: "${praefect_perc_backup_endpoint}"
           backup_bucket: "${praefect_perc_backup_bucket}"

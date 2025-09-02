@@ -23,7 +23,7 @@ spec:
           - ${ns}
 %{ endfor ~}
     backup:
-      enabled: ${backup_enabled}
+      enabled: ${enable_backup}
       verifyTLS: ${backup_verify_tls}
       image: ${backup_image}
       bucket: "${cc_name}-${cluster_name}-${dbdeploy_name_prefix}-percona"

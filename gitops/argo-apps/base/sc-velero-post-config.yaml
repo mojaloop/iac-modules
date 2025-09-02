@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sc-velero-post-config
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: ${ARGOCD_ENV_velero_post_config_sync_wave}
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 20
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: sc-velero-post-config
+  sources:
+    - repoURL: ${ARGOCD_ENV_argocd_repo_url}
+      targetRevision: ${ARGOCD_ENV_utils_application_gitrepo_tag}
+      path: gitops/applications/overlays/cloud_provider/${ARGOCD_ENV_utils_storage_cloud_provider}/storage-provider/sc-velero-post-config
+      plugin:
+        name: envsubst
+        env:
+
+          - name: "velero_namespace"
+            value: "${ARGOCD_ENV_velero_velero_namespace}"
+
+          - name: "object_storage_region"
+            value: "${ARGOCD_ENV_velero_velero_object_storage_region}"
+
+          - name: "object_storage_secret_name"
+            value: "${ARGOCD_ENV_velero_velero_object_storage_secret_name}"
+
+          - name: "object_storage_secret_key"
+            value: "${ARGOCD_ENV_velero_velero_object_storage_secret_key}"
+
+          - name: velero_sc_backup_bucket
+            value: "${ARGOCD_ENV_velero_pre_sc_backup_bucket}-${ARGOCD_ENV_velero_pre_dns_hyphenated_subdomain}"
+
+          - name: utils_storage_cloud_provider
+            value: "${ARGOCD_ENV_utils_storage_cloud_provider}"
+
+          - name: "sc_velero_config_namespace"
+            value: "sc-velero-post-config"
+
+          - name: "sc_velero_object_storage_provider"
+            value: "s3"

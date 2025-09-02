@@ -30,7 +30,9 @@ spec:
     tolerations: []
 
     backup:
+      enabled: ${ARGOCD_ENV_enable_backup}
       image: ${ARGOCD_ENV_backup_image}
+      credentialsSecret: "${ARGOCD_ENV_backup_bucket}-secret"
       objectStoreEndpoint: ${ARGOCD_ENV_backup_endpoint}
       bucket: ${ARGOCD_ENV_backup_bucket}
       bucketRegion: ${ARGOCD_ENV_backup_region}
@@ -60,5 +62,6 @@ spec:
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
     ccK8sProviderName: kubernetes-provider
+    awsProviderName: aws-cp-upbound-provider-config
   managementPolicies:
     - "*"

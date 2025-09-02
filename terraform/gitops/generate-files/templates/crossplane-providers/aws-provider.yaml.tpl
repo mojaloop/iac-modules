@@ -17,6 +17,14 @@ spec:
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
+  name: provider-aws-s3
+spec:
+  package: ghcr.io/mojaloop/infra/upbound/provider-aws-s3:v${crossplane_providers_aws_s3_version}
+  skipDependencyResolution: true
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
   name: provider-aws-docdb
 spec:
   package: ghcr.io/mojaloop/infra/upbound/provider-aws-docdb:v${crossplane_providers_aws_docdb_version}

@@ -247,6 +247,9 @@ spec:
           - name: "postgres_memory_request"
             value: "${ARGOCD_ENV_security_zitadel_percona_provider_postgres_memory_request}"
 
+          - name: "enable_backup"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_enable_backup}"
+
           - name: "backup_image"
             value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_image}"
 
@@ -254,7 +257,7 @@ spec:
             value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_endpoint}"
 
           - name: "backup_bucket"
-            value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_bucket}"
+            value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_bucket}-${ARGOCD_ENV_gitlab_gitlab_dns_hyphenated_subdomain}"
 
           - name: "backup_region"
             value: "${ARGOCD_ENV_security_zitadel_percona_provider_backup_region}"
