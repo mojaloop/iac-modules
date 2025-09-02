@@ -12,6 +12,7 @@ spec:
     operatorArgoAppSourceURL: https://github.com//mojaloop/iac-modules.git
     operatorArgoAppSourceRevision: ${ARGOCD_ENV_netbird_operator_argoapp_revision}
     operatorClusterName: ${ARGOCD_ENV_netbird_operator_cluster_name}
+    nbImageVersion: ${ARGOCD_ENV_netbird_image_version}
   providerConfigsRef:
     scK8sProviderName: "sc-kubernetes-provider"
   managementPolicies:
