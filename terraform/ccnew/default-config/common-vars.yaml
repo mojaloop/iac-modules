@@ -11,8 +11,8 @@ reloader_helm_version: '2.0.0'
 crossplane_helm_version: '1.19.0'
 zitadel_helm_version: '8.6.0'
 netbird_helm_version: '1.8.0'
-netbird_image_version: '0.55.1'
-netbird_client_version: '0.55.1'
+netbird_image_version: '0.56.0'
+netbird_client_version: '0.56.0'
 netbird_dashboard_image_version: 'v2.14.0'
 
 # argocd
