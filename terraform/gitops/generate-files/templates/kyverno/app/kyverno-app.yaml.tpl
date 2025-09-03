@@ -16,6 +16,13 @@ spec:
     namespace: ${kyverno_namespace}
     server: https://kubernetes.default.svc
   project: default
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: kiali
+      namespace: istio-system
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum~1config
   syncPolicy:
     automated:
       prune: true
