@@ -9,6 +9,7 @@ object_storage_cloud_role: "arn:obj-store-role"
 backup_bucket_name: storage-bucket
 nat_public_ips: ["publicip"]
 internal_load_balancer_dns: 10.10.10.56
+external_loadbalancer_private_ip: 10.10.10.57
 egress_gateway_cidr: 10.10.100.0/24
 bastion_public_ips: ["publicip"]
 private_subdomain: ""

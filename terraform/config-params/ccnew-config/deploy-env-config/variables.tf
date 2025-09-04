@@ -8,6 +8,10 @@ variable "nexus_fqdn" {
   description = "fqdn for nexus"
 }
 
+variable "registry_mirror_fqdn" {
+  description = "fqdn for registry mirror"
+}
+
 variable "zitadel_fqdn" {
   description = "fqdn for zitadel"
 }
@@ -41,6 +45,11 @@ variable "object_storage_path_style" {
 
 variable "object_store_insecure_connection" {
   description = "insecure connection for object storage"
+}
+
+variable "object_store_insecure_skip_verify" {
+  description = "skip tls verify for object storage"
+  default     = false
 }
 
 variable "tenant_vault_listening_port" {
@@ -94,6 +103,14 @@ variable "cc_cidr_block" {
   description = "cidr block that cc is running in"
 }
 
+variable "sc_cidr_block" {
+  description = "cidr block that sc is running in"
+}
+
+variable "sc_cloud_provider" {
+  description = "cloud provider that sc is running in"
+}
+
 variable "env_token_ttl" {
   type        = string
   description = "time to live for the env token"
@@ -101,4 +118,21 @@ variable "env_token_ttl" {
 
 variable "obj_store_region" {
   description = "cloud region"
+}
+
+variable "cc_domain" {
+  description = "domain that cc is running in"
+}
+
+variable "sc_domain" {
+  description = "Domain for the sc endpoints"
+  type        = string
+}
+
+variable "nexus_readonly_username" {
+  description = "readonly username for nexus"
+}
+
+variable "registry_mirror_readonly_username" {
+  description = "readonly username for registry mirror"
 }

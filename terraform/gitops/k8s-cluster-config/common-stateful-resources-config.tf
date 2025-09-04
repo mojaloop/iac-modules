@@ -26,6 +26,8 @@ module "common_stateful_resources" {
   availability_zones                            = var.availability_zones
   cloud_region                                  = var.cloud_region
   private_dns_zone_id                           = var.private_dns_zone_id
+  istio_nb_egress_waypoint_name                 = var.istio_nb_egress_waypoint_name
+  istio_nb_egress_waypoint_namespace            = var.istio_nb_egress_waypoint_namespace
 }
 
 variable "stateful_resources_namespace" {
@@ -40,3 +42,4 @@ locals {
   managed_stateful_resources = { for key, managed_resource in local.enabled_stateful_resources : key => managed_resource if managed_resource.deployment_type == "external" }
   managed_stateful_resources_non_env_vpc = { for key, managed_resource in local.managed_stateful_resources : key => managed_resource if var.deploy_env_monolithic_db == false }
 }
+

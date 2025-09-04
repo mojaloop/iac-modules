@@ -137,3 +137,6 @@ spec:
 
           - name: "netbird_operator_network_resource_group"
             value: "${ARGOCD_ENV_security_netbird_operator_sc_network_resource_group}"
+
+          - name: "netbird_image_version"
+            value: "${ARGOCD_ENV_security_netbird_image_version}"

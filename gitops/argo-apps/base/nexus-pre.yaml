@@ -47,3 +47,6 @@ spec:
 
         - name: "vault_namespace"
           value: "${ARGOCD_ENV_vault_vault_namespace}"
+
+        - name: "nexus_readonly_user_name"
+          value: "${ARGOCD_ENV_nexus_nexus_readonly_user_name}"

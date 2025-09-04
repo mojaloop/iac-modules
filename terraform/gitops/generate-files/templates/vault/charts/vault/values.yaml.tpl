@@ -24,6 +24,9 @@ vault:
           }
           storage "raft" {
               path = "/vault/data"
+              # Make Raft listen on all interfaces so peers can connect in ambient mode
+              bind_addr = "0.0.0.0:8201"
+              advertise_addr = "vault-$(HOSTNAME).vault-internal:8201"
               retry_join {
                 leader_api_addr = "http://vault-0.vault-internal:8200"
               }

@@ -15,6 +15,8 @@ spec:
     dbUsername: ${db_username}
     dbName: "${db_name}"
     consumerAppsExternalServices: ${consumer_app_externalname_services}
+    waypointName: ${istio_nb_egress_waypoint_name}
+    waypointNamespace: ${istio_nb_egress_waypoint_namespace}
     consumerAppsSecret:
         name: ${consumer_app_secret.ca_bundle_secret}
         key: ${consumer_app_secret.ca_bundle_secret_key}
@@ -84,7 +86,7 @@ spec:
       pvc: ${backup_pvc}
 
     dns:
-      name: ${externalservice_name}
+      name: ${dns_name}
       region: ${cloud_region}
       ttl: 300
       type: A

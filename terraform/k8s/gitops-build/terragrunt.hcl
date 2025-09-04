@@ -33,15 +33,14 @@ dependency "k8s_deploy" {
       cert_manager_credentials_client_secret_name_key = "cert_manager_credentials_client_secret_name"
     }
     secrets_key_map = {
-      external_dns_cred_id_key         = "route53_external_dns_access_key"
-      external_dns_cred_secret_key     = "route53_external_dns_secret_key"
+      external_dns_cred_id_key     = "route53_external_dns_access_key"
+      external_dns_cred_secret_key = "route53_external_dns_secret_key"
     }
     private_network_cidr              = local.cloud_platform_vars.private_network_cidr
     dns_provider                      = "aws"
     vpc_id                            = ""
     private_subnets                   = [""]
     availability_zones                = [""]
-
   }
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -100,6 +99,7 @@ inputs = {
   object_store_region                      = local.object_store_region
   object_storage_path_style                = local.object_storage_path_style
   object_store_insecure_connection         = local.object_store_insecure_connection
+  object_store_insecure_skip_verify        = local.object_store_insecure_skip_verify
   central_observability_endpoint           = local.central_observability_endpoint
   private_network_cidr                     = dependency.k8s_deploy.outputs.private_network_cidr
   dns_provider                             = dependency.k8s_deploy.outputs.dns_provider
@@ -141,6 +141,7 @@ inputs = {
   crossplane_functions_extra_resources_version = local.common_vars.crossplane_functions_extra_resources_version
   cloud_platform                           = get_env("cloud_platform")
   netbird_operator_management_url          = local.netbird_operator_management_url
+  netbird_management_url                   = local.netbird_operator_management_url
   netbird_operator_api_key_vault_path      = local.netbird_operator_api_key_vault_path
   cc_name                                  = local.cc_name
   vpc_cidr                                 = local.vpc_cidr
@@ -154,27 +155,34 @@ inputs = {
   velero_helm_version                      = local.common_vars.velero_helm_version
   velero_backup_schedule                   = local.common_vars.velero_backup_schedule
   velero_backup_ttl                        = local.common_vars.velero_backup_ttl
+  netbird_traffic_hosts                    = join(",", [for host in split(",", local.common_vars.internal_cc_hosts) : "${host}.${local.internal_cc_subdomain}"], [for host in split(",", local.common_vars.internal_sc_hosts) : "${host}.${local.internal_sc_subdomain}"])
+  netbird_target_labels                    = local.common_vars.netbird_target_labels
+  opt_out_namespace_list                   = local.common_vars.opt_out_namespace_list
+  netbird_setup_key_vault_path             = local.netbird_setup_key_vault_path
+  istio_cni_platform                       = local.k8s_cluster_type == "microk8s" ? "microk8s" : "none"
+  netbird_image_version                    = local.common_vars.netbird_image_version
+  netbird_operator_helm_version            = local.common_vars.netbird_operator_helm_version
 }
 
 locals {
-  skip_outputs = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
-  clusterConfig                 = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
-  env_vars                      = merge({
-    domainSuffix                = "${replace(local.clusterConfig.env,"/^.*(-[^-]+)$|^[^-]+([^-]{3})$/","$1$2")}.${local.clusterConfig.domain}"
+  skip_outputs  = get_env("CI_COMMIT_BRANCH") != get_env("CI_DEFAULT_BRANCH")
+  clusterConfig = yamldecode(file("${find_in_parent_folders("${get_env("CONFIG_PATH")}/cluster-config.yaml")}"))
+  env_vars = merge({
+    domainSuffix = "${replace(local.clusterConfig.env, "/^.*(-[^-]+)$|^[^-]+([^-]{3})$/", "$1$2")}.${local.clusterConfig.domain}"
   }, local.clusterConfig)
-  tags                          = local.env_vars.tags
-  gitlab_readonly_rbac_group    = get_env("GITLAB_READONLY_RBAC_GROUP")
-  gitlab_admin_rbac_group       = get_env("GITLAB_ADMIN_RBAC_GROUP")
-  grafana_admin_rbac_group      = get_env("grafana_admin_rbac_group")
-  grafana_user_rbac_group       = get_env("grafana_user_rbac_group")
-  vault_admin_rbac_group        = get_env("vault_admin_rbac_group")
-  vault_readonly_rbac_group     = get_env("vault_user_rbac_group")
-  zitadel_project_id            = get_env("zitadel_project_id")
-  common_vars                   = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}", local.env_vars))
-  pm4ml_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}", local.env_vars))
-  proxy_pm4ml_vars              = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}", local.env_vars))
-  mojaloop_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}", local.env_vars))
-  vnext_vars                    = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}", local.env_vars))
+  tags                       = local.env_vars.tags
+  gitlab_readonly_rbac_group = get_env("GITLAB_READONLY_RBAC_GROUP")
+  gitlab_admin_rbac_group    = get_env("GITLAB_ADMIN_RBAC_GROUP")
+  grafana_admin_rbac_group   = get_env("grafana_admin_rbac_group")
+  grafana_user_rbac_group    = get_env("grafana_user_rbac_group")
+  vault_admin_rbac_group     = get_env("vault_admin_rbac_group")
+  vault_readonly_rbac_group  = get_env("vault_user_rbac_group")
+  zitadel_project_id         = get_env("zitadel_project_id")
+  common_vars                = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/common-vars.yaml")}", local.env_vars))
+  pm4ml_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-vars.yaml")}", local.env_vars))
+  proxy_pm4ml_vars           = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-pm4ml-vars.yaml")}", local.env_vars))
+  mojaloop_vars              = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-vars.yaml")}", local.env_vars))
+  vnext_vars                 = yamldecode(templatefile("${find_in_parent_folders("${get_env("CONFIG_PATH")}/vnext-vars.yaml")}", local.env_vars))
 
   cloud_platform_vars = merge({
     nat_public_ips                   = [""],
@@ -221,6 +229,7 @@ locals {
   object_store_region            = get_env("OBJECTSTORE_REGION")
   object_storage_path_style      = get_env("OBJECT_STORAGE_PATH_STYLE")
   object_store_insecure_connection = get_env("OBJECT_STORE_INSECURE_CONNECTION")
+  object_store_insecure_skip_verify = get_env("cloud_platform") == "private-cloud" ? true : false
   central_observability_endpoint = get_env("MIMIR_GW_FQDN")
   migrate                       = get_env("migrate")
   argocd_ingress_internal_lb    = true
@@ -234,8 +243,10 @@ locals {
   cc_name                        = get_env("cc_name")
   vpc_cidr                       = get_env("vpc_cidr")
   persistent_volume_reclaim_policy = get_env("persistent_volume_reclaim_policy")
+  internal_cc_subdomain            = get_env("CC_DOMAIN")
+  internal_sc_subdomain            = get_env("SC_DOMAIN")
+  netbird_setup_key_vault_path     = get_env("netbird_setup_key_vault_path")
 }
-
 generate "required_providers_override" {
   path = "required_providers_override.tf"
 
