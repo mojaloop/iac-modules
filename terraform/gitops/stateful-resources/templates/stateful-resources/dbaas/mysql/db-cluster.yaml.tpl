@@ -39,7 +39,9 @@ spec:
           memory: ${mysql_limits_memory}
           cpu: ${mysql_limits_cpu}
       configuration: |
-        ${mysql_configuration}
+%{ for line in split("\n", mysql_configuration) ~}
+         ${line}
+%{ endfor ~}
       tolerations: []
       priorityClassName: ""
 
