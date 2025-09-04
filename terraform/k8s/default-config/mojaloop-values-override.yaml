@@ -1,16 +1,16 @@
 _DEFINE:
   DEPLOYMENT: &DEPLOYMENT
     replicaCount: 1
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
     sidecar:
       readinessProbe:
         initialDelaySeconds: 5
       livenessProbe:
         initialDelaySeconds: 5
   DEPLOYMENT_PROBE: &DEPLOYMENT_PROBE
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
     livenessProbe:
       initialDelaySeconds: 5
       timeoutSeconds: 2
