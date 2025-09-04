@@ -526,4 +526,4 @@ audit_bucket_storage_size: "10Gi"
 
 # env loki and tempo
 env_tempo_bucket_storage_size: "10Gi"
-env_loki_bucket_storage_size: "10Gi"
+env_loki_bucket_storage_size: "30Gi"
