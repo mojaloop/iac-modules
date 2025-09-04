@@ -1,20 +1,32 @@
 _DEFINE:
   DEPLOYMENT: &DEPLOYMENT
     replicaCount: 1
-    livenessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 2
-      httpGet:
-        path: /live
-    readinessProbe:
-      initialDelaySeconds: 5
-      timeoutSeconds: 1
-      periodSeconds: 1
     sidecar:
       readinessProbe:
         initialDelaySeconds: 5
       livenessProbe:
         initialDelaySeconds: 5
+  DEPLOYMENT_PROBE: &DEPLOYMENT_PROBE
+    readinessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+      periodSeconds: 1
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+      httpGet:
+        path: /live
+  HANDLER_PROBE: &HANDLER_PROBE
+    livenessProbe:
+      initialDelaySeconds: 5
+      timeoutSeconds: 2
+      periodSeconds: 5
+      successThreshold: 1
+      failureThreshold: 6
+      httpGet:
+        path: /health
+    readinessProbe:
+      enabled: false
   CONFIG: &CONFIG
     replicaCount: 1
     config: &BASE_CONFIG
@@ -31,27 +43,31 @@ _DEFINE:
             - host: mojaloop-redis-leader
               port: 6379
   SERVICE: &SERVICE
-    <<: [*DEPLOYMENT, *CONFIG]
+    <<: [*DEPLOYMENT, *DEPLOYMENT_PROBE, *CONFIG]
   SERVICE_WITH_PROXY: &SERVICE_WITH_PROXY
-    <<: [*DEPLOYMENT, *PROXY_CONFIG]
+    <<: [*DEPLOYMENT, *DEPLOYMENT_PROBE, *PROXY_CONFIG]
+  HANDLER: &HANDLER
+    <<: [*DEPLOYMENT, *HANDLER_PROBE, *CONFIG]
+  HANDLER_WITH_PROXY: &HANDLER_WITH_PROXY
+    <<: [*DEPLOYMENT, *HANDLER_PROBE, *PROXY_CONFIG]
 account-lookup-service:
   account-lookup-service: *SERVICE_WITH_PROXY
   account-lookup-service-admin: *SERVICE_WITH_PROXY
 quoting-service:
   quoting-service: *SERVICE
-  quoting-service-handler: *SERVICE_WITH_PROXY
+  quoting-service-handler: *HANDLER_WITH_PROXY
 ml-api-adapter:
   ml-api-adapter-service: *SERVICE
-  ml-api-adapter-handler-notification: *SERVICE_WITH_PROXY
+  ml-api-adapter-handler-notification: *HANDLER_WITH_PROXY
 centralledger:
   centralledger-service: *SERVICE
-  centralledger-handler-transfer-prepare: *SERVICE_WITH_PROXY
-  centralledger-handler-transfer-position: *SERVICE
-  centralledger-handler-transfer-position-batch: *SERVICE
-  centralledger-handler-transfer-get: *SERVICE
-  centralledger-handler-transfer-fulfil: *SERVICE
-  centralledger-handler-timeout: *SERVICE
-  centralledger-handler-admin-transfer: *SERVICE
+  centralledger-handler-transfer-prepare: *HANDLER_WITH_PROXY
+  centralledger-handler-transfer-position: *HANDLER
+  centralledger-handler-transfer-position-batch: *HANDLER
+  centralledger-handler-transfer-get: *HANDLER
+  centralledger-handler-transfer-fulfil: *HANDLER
+  centralledger-handler-timeout: *HANDLER
+  centralledger-handler-admin-transfer: *HANDLER
 centralsettlement:
   centralsettlement-service: *CONFIG
   centralsettlement-handler-deferredsettlement: *CONFIG
