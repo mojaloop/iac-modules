@@ -10,7 +10,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/mojaloop/helm/${grafana_dashboard_tag}/monitoring/dashboards/datastore/dashboard-mysql-exporter-quickstart.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${grafana_dashboard_tag_iac_modules}/assets/grafana-dashboards/mysql-exporter.json"
 ---
 # NOTE: There is some problem with the dashboard. It is not being added to grafana and operator is in retry loop. 
 # Does not show logs either
