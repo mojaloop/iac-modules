@@ -39,7 +39,7 @@ spec:
           memory: ${mysql_limits_memory}
           cpu: ${mysql_limits_cpu}
       configuration:
-        ${mysql_configuration}
+      %{ indent(4, mysql_configuration) }
       tolerations: []
       priorityClassName: ""
 
