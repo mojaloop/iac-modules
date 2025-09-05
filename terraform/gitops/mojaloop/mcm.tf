@@ -25,9 +25,6 @@ module "generate_mcm_files" {
     server_cert_secret_name              = var.vault_certman_secretname
     vault_certman_secretname             = var.vault_certman_secretname
     server_cert_secret_namespace         = var.mcm_namespace
-    oauth_key                            = var.mcm_oidc_client_id
-    oauth_secret_secret                  = var.mcm_oidc_client_secret_secret
-    oauth_secret_secret_key              = var.mcm_oidc_client_secret_secret_key
     switch_domain                        = var.public_subdomain
     vault_endpoint                       = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
     pki_base_domain                      = var.public_subdomain
@@ -66,18 +63,13 @@ module "generate_mcm_files" {
     private_network_cidr                 = var.private_network_cidr
     interop_switch_fqdn                  = local.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn
-    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
     keycloak_name                        = var.keycloak_name
     keycloak_namespace                   = var.keycloak_namespace
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
-    jwt_client_secret_secret_name        = join("$", ["", "{${replace(var.jwt_client_secret_secret, "-", "_")}}"])
     mcm_oidc_client_id                   = var.mcm_oidc_client_id
-    mcm_oidc_client_secret_secret_name   = join("$", ["", "{${replace(var.mcm_oidc_client_secret_secret, "-", "_")}}"])
-    jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
-    jwt_client_secret_secret             = var.jwt_client_secret_secret
-    mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
-    mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
+    hubop_oidc_client_id                 = var.hubop_oidc_client_id
+    hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
     istio_internal_gateway_name          = var.istio_internal_gateway_name
@@ -89,13 +81,22 @@ module "generate_mcm_files" {
     onboarding_funds_in                  = var.app_var_map.onboarding_funds_in
     oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
     auth_fqdn                            = var.auth_fqdn
+    ory_namespace                        = var.ory_namespace
     kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
     keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
+    keto_write_url                       = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
     switch_dfspid                        = var.switch_dfspid
     pm4mls                               = {for name, value in var.pm4mls : name => value if !value.pm4ml_enabled || can(value.pm4ml_scheme_a_config)}
     dfsp_seed                            = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}${can(value.pm4ml_scheme_a_config)?":proxy":""}" if length(try(value.currency, "")) > 0])
     hub_name                             = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     ttk_fqdn                             = local.ttk_fqdn
+    keycloak_access_token_lifespan       = 43200
+    vault_secret_key                     = var.vault_secret_key
+    portal_admin_user                    = var.portal_admin_user
+    portal_admin_email                   = var.portal_admin_email
+    portal_admin_secret                  = var.portal_admin_secret
+    mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -113,18 +114,6 @@ variable "mcm_enabled" {
 variable "enable_mcm_oidc" {
   type    = bool
   default = false
-}
-
-variable "mcm_oauth_secret_secret" {
-  type        = string
-  description = "mcm_oauth_secret_secret"
-  default     = "mcm-oidc-secret"
-}
-
-variable "mcm_oauth_secret_secret_key" {
-  type        = string
-  description = "mcm_oauth_secret_secret_key"
-  default     = "secret"
 }
 
 variable "mcm_oidc_client_id" {
@@ -183,24 +172,16 @@ variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
 }
-variable "mcm_oidc_client_secret_secret_key" {
-  type = string
+variable "hubop_oidc_client_id" {
+  type        = string
 }
-variable "mcm_oidc_client_secret_secret" {
-  type = string
-}
-variable "jwt_client_secret_secret_key" {
-  type = string
-}
-variable "jwt_client_secret_secret" {
+
+variable "hubop_oidc_client_secret_secret" {
   type = string
 }
 
-variable "keycloak_dfsp_realm_name" {
-  type        = string
-  description = "name of realm for dfsp api access"
-  default     = "dfsps"
-}
+
+
 
 variable "keycloak_name" {
   type        = string
@@ -223,6 +204,29 @@ variable "fspiop_use_ory_for_auth" {
 variable "pm4mls" {
   type = any
 }
+
+variable "vault_secret_key" {
+  type        = string
+  description = "Default key name for vault secrets"
+  default     = "secret"
+}
+
+variable "portal_admin_user" {
+  type    = string
+  default = "portal_admin"
+}
+
+variable "portal_admin_email" {
+  type    = string
+  default = "portal_admin@none.com"
+}
+
+variable "portal_admin_secret" {
+  type    = string
+  default = "portal-admin-secret"
+}
+
+
 
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"

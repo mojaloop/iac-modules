@@ -4,6 +4,8 @@ resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - istio-config.yaml
+  - kratos-role-webhook.yaml
+  - keto-batch-auth.yaml
   - https://raw.githubusercontent.com/ory/k8s/v${oathkeeper_chart_version}/helm/charts/oathkeeper-maester/crds/crd-rules.yaml
   - blank-rule.yaml
   - rbac-role-permissions.yaml

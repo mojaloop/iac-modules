@@ -353,3 +353,15 @@ variable "managed_svc_as_monolith" {
 variable "cluster" {
   type = any
 }
+
+
+# Handle resource renaming for consent-oracle-db
+moved {
+  from = local_file.vault_crs["mysql-consent-oracle-db"]
+  to   = local_file.vault_crs["consent-oracle-db"]
+}
+
+moved {
+  from = local_file.percona-crs["mysql-consent-oracle-db"]
+  to   = local_file.percona-crs["consent-oracle-db"]
+}

@@ -18,7 +18,7 @@
         "local_helm_config": {
             "resource_namespace": "keycloak-db",
             "override_service_name": "postgresql-keycloak-db",
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_repo": "https://charts.bitnami.com/bitnami",
             "resource_helm_chart": "postgresql",
             "resource_helm_chart_version": "12.6.8",
             "resource_helm_values_ref": "values-pgsql.yaml.tpl",
@@ -67,7 +67,7 @@
         "local_helm_config": {
             "resource_namespace": "keto-db",
             "override_service_name": "postgresql-keto-db",
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_repo": "https://charts.bitnami.com/bitnami",
             "resource_helm_chart": "postgresql",
             "resource_helm_chart_version": "12.6.8",
             "resource_helm_values_ref": "values-pgsql.yaml.tpl",
@@ -117,7 +117,7 @@
         "local_helm_config": {
             "resource_namespace": "kratos-db",
             "override_service_name": "postgresql-kratos-db",
-            "resource_helm_repo": "https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami",
+            "resource_helm_repo": "https://charts.bitnami.com/bitnami",
             "resource_helm_chart": "postgresql",
             "resource_helm_chart_version": "12.6.8",
             "resource_helm_values_ref": "values-pgsql.yaml.tpl",

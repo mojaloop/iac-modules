@@ -60,10 +60,22 @@ kratos:
               "name": {
                 "title": "Name",
                 "type": "string"
+              },
+              "roles": {
+                "title": "User Roles",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
         }
+      }
+    "role-injection-body.jsonnet": |
+      function(ctx) {
+        identity_id: ctx.identity.id,
+        user_subject: ctx.identity.traits.subject
       }
 
   config:
@@ -82,6 +94,9 @@ kratos:
         port: 4433
         cors:
           enabled: true
+          allowed_origins:
+          - https://*.${private_subdomain}
+          - https://*.${public_subdomain}
       admin:
         port: 4434
 
@@ -105,6 +120,20 @@ kratos:
           after:
             oidc:
               default_browser_return_url: https://${auth_fqdn}/ui/welcome
+              hooks:
+                - hook: web_hook
+                  config:
+                    url: http://kratos-role-webhook.${ory_namespace}.svc.cluster.local/inject-roles
+                    method: POST
+                    body: file:///etc/config/role-injection-body.jsonnet
+                    response:
+                      parse: false
+                    auth:
+                      type: api_key
+                      config:
+                        name: Authorization
+                        value: Bearer kratos-webhook-token
+                        in: header
 
         logout:
           after:

@@ -18,7 +18,7 @@ module "generate_keycloak_files" {
     keycloak_admin_fqdn                        = local.keycloak_admin_fqdn
     keycloak_admin_istio_gateway_namespace     = local.keycloak_admin_istio_gateway_namespace
     keycloak_admin_istio_wildcard_gateway_name = local.keycloak_admin_istio_wildcard_gateway_name
-    keycloak_dfsp_realm_name                   = var.keycloak_dfsp_realm_name
+    keycloak_hubop_realm_name                  = var.keycloak_hubop_realm_name
     keycloak_sync_wave                         = var.keycloak_sync_wave
     keycloak_post_config_sync_wave             = var.keycloak_post_config_sync_wave
     ingress_class                              = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
@@ -33,6 +33,16 @@ module "generate_keycloak_files" {
     istio_create_ingress_gateways = var.istio_create_ingress_gateways
     ref_secrets                   = local.keycloak_realm_env_secret_map
     ref_secrets_path              = local.keycloak_secrets_path
+    mcm_admin_client_secret_name  = var.mcm_admin_client_secret_name
+    mcm_enabled                   = var.common_var_map.mcm_enabled
+    smtp_from                     = var.app_var_map.smtp_from
+    smtp_from_display_name        = var.app_var_map.smtp_from_display_name
+    smtp_reply_to                 = var.app_var_map.smtp_reply_to
+    smtp_host                     = var.app_var_map.smtp_host
+    smtp_port                     = var.app_var_map.smtp_port
+    smtp_ssl                      = var.app_var_map.smtp_ssl
+    smtp_starttls                 = var.app_var_map.smtp_starttls
+    smtp_auth                     = var.app_var_map.smtp_auth
   }
   file_list       = [for f in fileset(local.keycloak_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.keycloak_app_file, f))]
   template_path   = local.keycloak_template_path
@@ -81,12 +91,13 @@ variable "keycloak_namespace" {
   description = "keycloak_namespace"
   default     = "keycloak"
 }
-# rm this later, this is for nginx backwards compatability, not used in istio
-variable "keycloak_dfsp_realm_name" {
+variable "keycloak_hubop_realm_name" {
   type        = string
-  description = "name of realm for dfsp api access"
-  default     = "dfsps"
+  description = "name of realm for hub operators access"
+  default     = "hub-operators"
 }
+
+
 
 locals {
   keycloak_mysql_resource_index           = "keycloak-db"
@@ -102,9 +113,12 @@ locals {
   keycloak_secrets_path                      = "/secret/keycloak"
 
   mojaloop_keycloak_realm_env_secret_map = {
-    "${var.mcm_oidc_client_secret_secret}" = var.mcm_oidc_client_secret_secret_key
-    "${var.jwt_client_secret_secret}"      = var.jwt_client_secret_secret_key
+    "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
   }
+
+  mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
+    (var.mcm_admin_client_secret_name) = var.vault_secret_key
+  })
 
   pm4ml_keycloak_realm_env_secret_map = merge(
     { for key, pm4ml in local.pm4ml_var_map : "${var.pm4ml_oidc_client_secret_secret}-${key}" => var.vault_secret_key },
@@ -115,6 +129,7 @@ locals {
   keycloak_realm_env_secret_map = merge(
     (var.common_var_map.mojaloop_enabled || var.common_var_map.vnext_enabled) ? local.mojaloop_keycloak_realm_env_secret_map : {},
     var.common_var_map.pm4ml_enabled ? local.pm4ml_keycloak_realm_env_secret_map : {},
+    var.common_var_map.mcm_enabled ? local.mcm_keycloak_realm_env_secret_map : {},
     {
       "${var.hubop_oidc_client_secret_secret}" = var.vault_secret_key
       "${var.role_assign_svc_secret}"          = var.vault_secret_key
