@@ -234,6 +234,7 @@ resource "local_file" "dbaas-crs-mysql" {
         backup_pvc                   = jsonencode(each.value.dbaas_resource_config.backup_pvc)
         pxc_annotations              = jsonencode(each.value.dbaas_resource_config.pxc_annotations)
         pxc_volume_spec              = jsonencode(each.value.dbaas_resource_config.pxc_volume_spec)
+        mysql_configuration          = each.value.dbaas_resource_config.mysql_config
         istio_nb_egress_waypoint_name   = var.istio_nb_egress_waypoint_name
         istio_nb_egress_waypoint_namespace = var.istio_nb_egress_waypoint_namespace
   })
