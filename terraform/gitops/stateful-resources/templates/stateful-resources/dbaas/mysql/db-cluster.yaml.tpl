@@ -39,24 +39,9 @@ spec:
           memory: ${mysql_limits_memory}
           cpu: ${mysql_limits_cpu}
       configuration: |
-        [mysqld]
-        pxc_strict_mode=PERMISSIVE
-        max_allowed_packet=16M
-        bind-address="*"
-        character-set-server=UTF8
-        collation-server=utf8_general_ci
-        general_log=0
-        slow_query_log=0
-        long_query_time=10
-        innodb_use_native_aio=0
-        max_connections=2000
-        innodb_buffer_pool_size=2147483648
-        wsrep_auto_increment_control=OFF
-        coredumper=/tmp/mysql-core-dump
-        innodb_buffer_pool_in_core_file=OFF
-        mysql_native_password=ON
-        require_secure_transport=ON
-        skip-log-bin
+%{ for line in split("\n", mysql_configuration) ~}
+         ${line}
+%{ endfor ~}
       tolerations: []
       priorityClassName: ""
 
