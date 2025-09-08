@@ -124,7 +124,7 @@ argocd_override:
           capi_rook_ceph_rgw_subdomain: "${capi_rook_ceph_rgw_hostname}.storage.${cluster_domain}"
           capi_rook_ceph_rgw_instance_replicas: "${capi_rook_ceph_rgw_instance_replicas}"
           capi_calico_helm_version: "${capi_calico_helm_version}"
-
+          capi_cluster_kubeapi_fqdn: "sck8s.storage.${cluster_domain}"
         storage:
           cloud_provider: "${cloud_platform}"
           cluster_domain: "${cluster_domain}"

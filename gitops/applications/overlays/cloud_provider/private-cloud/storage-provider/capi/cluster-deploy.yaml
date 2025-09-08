@@ -57,6 +57,8 @@ spec:
       apiServer:
         extraArgs:
           cloud-provider: external
+          certSANs:
+            - ${ARGOCD_ENV_capi_cluster_kubeapi_fqdn}
       controllerManager:
         extraArgs:
           cloud-provider: external
@@ -245,8 +247,6 @@ spec:
       network:
         # nameServer: ${ARGOCD_ENV_capi_cluster_network_gateway}
         ipConfig:
-          # ip: "${ARGOCD_ENV_capi_cluster_kubeapi_host}/${ARGOCD_ENV_capi_cluster_network_subnet}"
-          # gateway: ${ARGOCD_ENV_capi_cluster_network_gateway}
           ip: dhcp
       storage: ${ARGOCD_ENV_capi_cluster_storage_name}
       image:
