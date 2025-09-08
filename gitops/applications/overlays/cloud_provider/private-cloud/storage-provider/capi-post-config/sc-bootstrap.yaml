@@ -73,6 +73,12 @@ spec:
             - name: "utils_capi_capi_cluster_kubeapi_host"
               value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_host}"
 
+            - name: "utils_capi_capi_cluster_kubeapi_fqdn"
+              value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_fqdn}"
+
+            - name: "utils_capi_capi_cluster_kubeapi_port"
+              value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_port}"
+
             # metallb
             - name: "sc_metallb_app_name"
               value: "${ARGOCD_ENV_sc_metallb_app_name}"
