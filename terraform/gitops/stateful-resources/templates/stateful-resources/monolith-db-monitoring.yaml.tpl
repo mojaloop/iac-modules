@@ -88,4 +88,3 @@ spec:
       app.kubernetes.io/name: mysql-${cluster_name}-metrics
   endpoints:
   - port: http
-    interval: 60s
