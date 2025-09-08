@@ -162,6 +162,8 @@ inputs = {
   istio_cni_platform                       = local.k8s_cluster_type == "microk8s" ? "microk8s" : "none"
   netbird_image_version                    = local.common_vars.netbird_image_version
   netbird_operator_helm_version            = local.common_vars.netbird_operator_helm_version
+  sc_api_host                              = try(get_env("sc_api_host"), "localhost")
+  sc_api_port                              = try(tonumber(get_env("sc_api_port")), 6443)
 }
 
 locals {

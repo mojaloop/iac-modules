@@ -136,3 +136,15 @@ variable "nexus_readonly_username" {
 variable "registry_mirror_readonly_username" {
   description = "readonly username for registry mirror"
 }
+
+variable "sc_api_host" {
+  type    = string
+  description = "Host for the SC API server"
+  default = "localhost"
+}
+
+variable "sc_api_port" {
+  type    = number
+  description = "Port for the SC API server"
+  default = 6443
+}

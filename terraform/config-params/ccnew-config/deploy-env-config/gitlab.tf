@@ -332,6 +332,24 @@ resource "gitlab_group_variable" "registry_mirror_readonly_username" {
   environment_scope = "*"
 }
 
+resource "gitlab_project_variable" "sc_api_host" {
+  project   = data.gitlab_project.env.id
+  key       = "sc_api_host"
+  value     = var.sc_api_host
+  protected = false
+  masked    = false
+  environment_scope = "*"
+}
+
+resource "gitlab_project_variable" "sc_api_port" {
+  project   = data.gitlab_project.env.id
+  key       = "sc_api_port"
+  value     = var.sc_api_port
+  protected = false
+  masked    = false
+  environment_scope = "*"
+}
+
 resource "gitlab_repository_file" "vault_token_update" {
   for_each       = local.environment_list
   project        = gitlab_project.envs[each.key].id

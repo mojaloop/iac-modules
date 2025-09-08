@@ -143,3 +143,9 @@ spec:
 
         - name: 'harbor_readonly_username'
           value: '${ARGOCD_ENV_harbor_harbor_readonly_user_name}'
+
+        - name: "capi_cluster_kubeapi_fqdn"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_fqdn}"
+
+        - name: "capi_cluster_kubeapi_port"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_port}"
