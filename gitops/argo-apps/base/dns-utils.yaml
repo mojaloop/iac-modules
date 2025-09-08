@@ -104,3 +104,9 @@ spec:
 
           - name: "external_dns_namespace"
             value: "${ARGOCD_ENV_dns_utils_ext_dns_namespace}"
+
+          - name: "capi_cluster_kubeapi_fqdn"
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_fqdn}"
+
+          - name: "capi_cluster_kubeapi_host"
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_host}"
