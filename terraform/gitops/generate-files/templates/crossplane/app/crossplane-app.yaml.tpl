@@ -32,3 +32,6 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient

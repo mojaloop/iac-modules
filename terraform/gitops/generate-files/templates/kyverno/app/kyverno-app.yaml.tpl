@@ -23,6 +23,10 @@ spec:
       namespace: istio-system
       jsonPointers:
         - /spec/template/metadata/annotations/checksum~1config
+    - group: kyverno.io
+      kind: ClusterPolicy
+      jsonPointers:
+        - /spec/rules/0/skipBackgroundRequests
   syncPolicy:
     automated:
       prune: true
@@ -38,8 +42,3 @@ spec:
       - PrunePropagationPolicy=background
       - PruneLast=true
       - ServerSideApply=true
-  ignoreDifferences:
-    - group: kyverno.io
-      kind: ClusterPolicy
-      jsonPointers:
-        - /spec/rules/0/skipBackgroundRequests
