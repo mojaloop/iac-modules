@@ -33,7 +33,7 @@ variable "crossplane_provider_config_sync_wave" {
 }
 
 variable "sc_api_port" {
-  type    = integer
+  type    = number
   description = "Port for the SC API server"
 }
 variable "sc_api_host" {
