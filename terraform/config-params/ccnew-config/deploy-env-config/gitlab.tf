@@ -332,8 +332,8 @@ resource "gitlab_group_variable" "registry_mirror_readonly_username" {
   environment_scope = "*"
 }
 
-resource "gitlab_project_variable" "sc_api_host" {
-  project   = data.gitlab_project.env.id
+resource "gitlab_group_variable" "sc_api_host" {
+  group     = data.gitlab_group.iac.id
   key       = "sc_api_host"
   value     = var.sc_api_host
   protected = false
@@ -341,8 +341,8 @@ resource "gitlab_project_variable" "sc_api_host" {
   environment_scope = "*"
 }
 
-resource "gitlab_project_variable" "sc_api_port" {
-  project   = data.gitlab_project.env.id
+resource "gitlab_group_variable" "sc_api_port" {
+  group     = data.gitlab_group.iac.id
   key       = "sc_api_port"
   value     = var.sc_api_port
   protected = false
