@@ -60,6 +60,10 @@ spec:
         value: ${ARGOCD_ENV_nexus_readonly_username}
       - key: registry_mirror_readonly_username
         value: ${ARGOCD_ENV_harbor_readonly_username}
+      - key: sc_api_host
+        value: "${ARGOCD_ENV_capi_cluster_kubeapi_fqdn}"
+      - key: sc_api_port
+        value: "${ARGOCD_ENV_capi_cluster_kubeapi_port}"
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: env-config
