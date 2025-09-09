@@ -83,8 +83,7 @@ inputs = {
     kubernetes_oidc_enabled = try(local.env_vars.kubernetes_oidc_enabled, false)
     enable_rook_disk_reset = true
     rook_disk_vol = try(local.env_vars.rook_disk_vol, "none")
-    external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
-  } : {})
+  } : {}, {external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps)
   bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml.tpl", merge(
     (local.K8S_CLUSTER_TYPE == "microk8s") ? {} : {}, {
@@ -120,7 +119,6 @@ inputs = {
     cloud_platform                    = get_env("cloud_platform")
     object_storage_provider           = get_env("object_storage_provider")
     private_dns_zone_id               = dependency.k8s_deploy.outputs.private_dns_zone_id
-    external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
