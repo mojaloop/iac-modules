@@ -89,7 +89,7 @@ inputs = {
   bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml.tpl", merge(
     (local.K8S_CLUSTER_TYPE == "microk8s") ? {
       external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
-    } : {}, {
+    } : { external_load_balancer_private_ip = "empty"}, {
     nexus_ansible_collection_tag      = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     netbird_ansible_collection_tag    = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     harbor_ansible_collection_tag     = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
