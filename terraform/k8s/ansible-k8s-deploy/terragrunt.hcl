@@ -54,7 +54,7 @@ inputs = {
       docker_registry_username = local.REGISTRY_MIRROR_READONLY_USERNAME
       cluster_cloud_provider   = local.CLOUD_PLATFORM
       vpc_cidr                 = local.private_network_cidr
-
+      external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
       }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
       microk8s_dns_resolvers            = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
       microk8s_version                  = try(local.common_vars.microk8s_version, "1.31/stable")
@@ -73,7 +73,6 @@ inputs = {
   ansible_destroy_playbook_name           = "argo${local.K8S_CLUSTER_TYPE}_cluster_destroy"
   master_node_supports_traffic            = (local.total_agent_count == 0) ? true : false
   current_gitlab_project_id               = local.GITLAB_CURRENT_PROJECT_ID
-  external_load_balancer_private_ip       = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
 }
 
 locals {
