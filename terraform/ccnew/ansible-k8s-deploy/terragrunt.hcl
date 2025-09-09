@@ -87,9 +87,7 @@ inputs = {
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps)
   bastion_hosts_yaml_fragments   = yamlencode(templatefile("templates/argoapps.yaml.tpl", merge(
-    (local.K8S_CLUSTER_TYPE == "microk8s") ? {
-      external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
-    } : { external_load_balancer_private_ip = "empty"}, {
+    (local.K8S_CLUSTER_TYPE == "microk8s") ? {} : {}, {
     nexus_ansible_collection_tag      = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     netbird_ansible_collection_tag    = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
     harbor_ansible_collection_tag     = local.env_vars.ansible_collection_tag #defaults to main tag, gets overwritten by env files
@@ -122,6 +120,7 @@ inputs = {
     cloud_platform                    = get_env("cloud_platform")
     object_storage_provider           = get_env("object_storage_provider")
     private_dns_zone_id               = dependency.k8s_deploy.outputs.private_dns_zone_id
+    external_load_balancer_private_ip = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
     } , local.common_vars, local.env_vars)))
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
   agent_hosts_yaml_maps         = dependency.k8s_deploy.outputs.agent_hosts_yaml_maps
