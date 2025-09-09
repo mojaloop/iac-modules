@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e
 BRANCH=$1
 ROOT_TOKEN=$2
 GIT_HOST=$3

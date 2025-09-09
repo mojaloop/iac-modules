@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 CURRENT_ENV_NAME=$1
 TMP_GIT_REPO=$2
