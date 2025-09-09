@@ -275,7 +275,7 @@ spec:
           hosts: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
   EOH
   destination = "/vault/secrets/tmp/whitelist.yaml"
-  command     = "/bin/sh -c 'kubectl -n ${istio_external_gateway_namespace} delete AuthorizationPolicy dfsp-whitelist-ingress-policy --namespace istio-ingress-ext;kubectl apply -f /vault/secrets/tmp/whitelist.yaml'"
+  command     = "/bin/sh -c 'kubectl -n ${mojaloop_namespace} delete AuthorizationPolicy dfsp-whitelist-ingress-policy;kubectl apply -f /vault/secrets/tmp/whitelist.yaml'"
 }
 
 vault = {
