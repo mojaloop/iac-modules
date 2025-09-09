@@ -33,8 +33,8 @@ EOF
 # Custom configuration added by post-bootstrap script
 [plugins."io.containerd.grpc.v1.cri".registry.configs]
   [plugins."io.containerd.grpc.v1.cri".registry.configs."${registry_mirror_fqdn}".auth]
-    username = "{{ docker_registry_username }}"
-    password = "{{ docker_registry_password }}"
+    username = "${docker_registry_username}"
+    password = "${docker_registry_password}"
 EOF
     fi
     # Restart containerd
