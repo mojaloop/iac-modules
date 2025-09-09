@@ -1,4 +1,6 @@
 
+# values: https://github.com/grafana/helm-charts/blob/tempo-distributed-1.47.1/charts/tempo-distributed/templates/metrics-generator/deployment-metrics-generator.yaml
+
 storage:
   trace:
     backend: s3
