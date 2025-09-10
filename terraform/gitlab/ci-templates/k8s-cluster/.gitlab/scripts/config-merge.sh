@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e
 shopt -s nullglob globstar extglob
 
 ENV_TYPE=${ENV_TYPE:-dev}

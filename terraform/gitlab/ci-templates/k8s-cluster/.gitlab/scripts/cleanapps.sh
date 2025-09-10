@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e
 CURRENT_PROJECT_FULL_PATH=$1
 GIT_HOST=$2
 BRANCH=$3
