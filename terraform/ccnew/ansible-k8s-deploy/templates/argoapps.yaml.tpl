@@ -294,7 +294,6 @@ argocd_override:
           log_level: "${netbird_log_level}"
           cc_vpc_cidr: "${vpc_cidr}"
           ansible_collection_tag: ${netbird_ansible_collection_tag}
-          netbird_tf_provider_version: "${netbird_tf_provider_version}"
           rdbms_provider: "${netbird_rdbms_provider}"
         netbird_percona_provider:
           postgres_replicas: "${netbird_perc_postgres_replicas}"
