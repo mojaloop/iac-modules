@@ -15,7 +15,7 @@ variable "domain" {
 variable "kubernetes_version" {
   description = "version of k8s"
   type        = string
-  default     = "1.31"
+  default     = "1.32"
 }
 
 variable "eks_node_ami_version" {
