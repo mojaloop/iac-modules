@@ -38,3 +38,23 @@ spec:
             host: central-monitoring-grafana-mimir-gateway
             port:
               number: 80
+--- 
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: traces-gateway
+  namespace: ${ARGOCD_ENV_monitoring_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_mimir_istio_gateway_namespace}/${ARGOCD_ENV_mimir_istio_wildcard_gateway_name} # TODO: update the variables
+  hosts:
+    - "traces.${ARGOCD_ENV_grafana_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: central-tempo-distributor
+            port:
+              number: 4317
