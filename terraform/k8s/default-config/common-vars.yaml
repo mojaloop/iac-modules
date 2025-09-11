@@ -13,6 +13,7 @@ istio_chart_version: 1.26.1
 external_secrets_version: 0.8.2
 argocd_version: 3.0.5
 argocd_lovely_plugin_version: 0.18.0
+argocd_reconciliation_timeout: "10s"
 mcm_enabled: true
 mojaloop_enabled: true
 pm4ml_enabled: false

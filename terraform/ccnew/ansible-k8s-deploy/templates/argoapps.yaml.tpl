@@ -16,6 +16,7 @@ argocd_override:
           envsubst_version: "${argocd_envsubst_version}"
           rollout_extension_version: "${argocd_rollout_extension_version}"
           download_tools_golang_image_version: "${argocd_download_tools_golang_image_version}"
+          reconciliation_timeout: "${argocd_reconciliation_timeout}"
         rook_ceph:
           helm_version: "${rook_ceph_helm_version}"
           image_version: "${rook_ceph_image_version}"
