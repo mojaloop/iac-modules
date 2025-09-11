@@ -64,6 +64,7 @@ common_platform_db:
         coredumper=/tmp/mysql-core-dump
         innodb_buffer_pool_in_core_file=OFF
         mysql_native_password=ON
+        require_secure_transport=ON
         skip-log-bin
 
   external_resource_config:
@@ -201,6 +202,7 @@ common_mojaloop_db:
         coredumper=/tmp/mysql-core-dump
         innodb_buffer_pool_in_core_file=OFF
         mysql_native_password=ON
+        require_secure_transport=ON
         skip-log-bin
   external_resource_config:
     ca_bundle_url: "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem"
