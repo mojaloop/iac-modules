@@ -70,7 +70,7 @@ resource "local_file" "kustomization" {
       redis_operator_stateful_resources   = local.redis_operator_stateful_resources
       percona_stateful_resources          = local.percona_stateful_resources
       monolith_env_vpc_aws_db_resources   = local.monolith_env_vpc_aws_db_resources
-      monolith_env_vpc_aws_rds_resources  = local.monolith_env_vpc_aws_rds_resources
+      monolith_resources_to_monitor       = local.monolith_resources_to_monitor
       monolith_env_mysql_dbaas_resources  = local.monolith_env_mysql_dbaas_resources
       monolith_env_mongo_dbaas_resources  = local.monolith_env_mongo_dbaas_resources
       monolith_stateful_resources         = var.monolith_stateful_resources
@@ -340,7 +340,7 @@ resource "local_file" "aws-db-crs" {
 }
 
 resource "local_file" "monolith-db-monitoring" {
-  for_each = { for key, stateful_resource in local.monolith_env_vpc_aws_rds_resources : key => stateful_resource }
+  for_each = { for key, stateful_resource in local.monolith_resources_to_monitor : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/monolith-db-monitoring.yaml.tpl",
     {
         cluster_name                 = "${var.cc_name}-${var.cluster_name}-${each.value.external_resource_config.dbdeploy_name_prefix}"
@@ -416,6 +416,7 @@ locals {
   monolith_env_vpc_aws_rds_resources =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "rds"}
   monolith_env_mysql_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mysql" }
   monolith_env_mongo_dbaas_resources  =  { for key, monolith_resource in var.monolith_stateful_resources : key => monolith_resource if monolith_resource.provider == "dbaas" && monolith_resource.resource_type == "mongodb" }
+  monolith_resources_to_monitor = merge(local.monolith_env_vpc_aws_rds_resources, local.monolith_env_mysql_dbaas_resources)
 
   monolith_managed_password_map = { for key, stateful_resource in var.monolith_stateful_resources : key => {
     vault_path  = "${var.kv_path}/${var.cluster_name}/${stateful_resource.external_resource_config.password_key_name}"
