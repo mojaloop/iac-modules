@@ -83,7 +83,7 @@ module "generate_monitoring_files" {
     grafana_fqdn                               = local.grafana_fqdn
     grafana_istio_gateway_namespace            = local.grafana_istio_gateway_namespace
     grafana_istio_wildcard_gateway_name        = local.vault_istio_wildcard_gateway_name
-
+    cluster                                = var.app_var_map.cluster
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
     enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)
