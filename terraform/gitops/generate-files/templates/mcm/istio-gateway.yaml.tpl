@@ -49,6 +49,10 @@ spec:
             host: mcm-connection-manager-ui
             port:
               number: 8080
+          headers:
+            response:
+              add:
+                Content-Security-Policy: "default-src 'self';style-src 'self' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline';"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
