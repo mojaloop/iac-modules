@@ -120,6 +120,7 @@ locals {
     external_secrets_version     = local.common_vars.external_secrets_version
     argocd_version               = local.common_vars.argocd_version
     argocd_lovely_plugin_version = local.common_vars.argocd_lovely_plugin_version
+    argocd_reconciliation_timeout = local.common_vars.argocd_reconciliation_timeout
     repo_url                     = get_env("GITLAB_PROJECT_URL")
     gitlab_server_url            = get_env("CI_SERVER_URL")
     zitadel_server_url           = get_env("ZITADEL_FQDN")
