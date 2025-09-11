@@ -297,6 +297,10 @@ spec:
             host: ${mojaloop_release_name}-ml-testing-toolkit-frontend
             port:
               number: 6060
+          headers:
+            response:
+              add:
+                Content-Security-Policy: "default-src 'self'; style-src 'self' 'unsafe-inline';"
 %{ endif ~}
 
 ---
@@ -443,6 +447,10 @@ spec:
             host: ${finance_portal_release_name}-reporting-hub-bop-shell
             port:
               number: 80
+          headers:
+            response:
+              add:
+                Content-Security-Policy: "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline';connect-src 'self' ${auth_fqdn};img-src 'self' data:;"
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy

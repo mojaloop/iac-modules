@@ -53,6 +53,7 @@ spec:
         coredumper=/tmp/mysql-core-dump
         innodb_buffer_pool_in_core_file=OFF
         mysql_native_password=ON
+        require_secure_transport=ON
         skip-log-bin
       tolerations: []
       priorityClassName: ""
