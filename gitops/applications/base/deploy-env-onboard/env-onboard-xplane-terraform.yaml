@@ -7,7 +7,7 @@ spec:
   forProvider:
     # Use any module source supported by terraform init -from-module.
     source: Remote
-    module: git::https://github.com/mojaloop/iac-modules.git//terraform/config-params/ccnew-config/env-onboard-config?ref=${ARGOCD_ENV_deploy_env_onboard_terraform_modules_tag}
+    module: git::https://github.com/infitx-org/terraform-xplane-modules.git//terraform/config-params/ccnew-config/env-onboard-config?ref=main
     env:
       - name: TF_VAR_zitadel_admin_human_user_id
         secretKeyRef:
