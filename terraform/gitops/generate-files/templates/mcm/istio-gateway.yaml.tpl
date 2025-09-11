@@ -52,7 +52,7 @@ spec:
           headers:
             response:
               add:
-                Content-Security-Policy: "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline';connect-src 'self' ${auth_fqdn};"
+                Content-Security-Policy: "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline';connect-src 'self' ${auth_fqdn};"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
