@@ -450,7 +450,7 @@ spec:
           headers:
             response:
               add:
-                Content-Security-Policy: "default-src 'self';style-src 'self' https://fonts.googleapis.com;"
+                Content-Security-Policy: "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
