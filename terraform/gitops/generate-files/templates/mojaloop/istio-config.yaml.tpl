@@ -279,6 +279,13 @@ spec:
             host: ${mojaloop_release_name}-ml-testing-toolkit-backend
             port:
               number: 5050
+          headers:
+            response:
+              add:
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
+                  script-src 'self' 'unsafe-inline';
     - name: socket
       match:
         - uri:
@@ -372,6 +379,13 @@ spec:
             host: ${finance_portal_release_name}-reporting-legacy-api
             port:
               number: 80
+          headers:
+            response:
+              add:
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src-elem 'self' 'unsafe-inline';
+                  img-src 'self' data:;
     - name: reporting-hub-bop-role-ui
       match:
         - uri:
@@ -450,7 +464,13 @@ spec:
           headers:
             response:
               add:
-                Content-Security-Policy: "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline';connect-src 'self' ${auth_fqdn};img-src 'self' data:;"
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                  font-src 'self' https://fonts.gstatic.com;
+                  script-src 'self' 'unsafe-inline';
+                  connect-src 'self' ${auth_fqdn};
+                  img-src 'self' data:;
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy

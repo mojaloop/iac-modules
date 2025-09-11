@@ -20,7 +20,11 @@ spec:
           headers:
             response:
               add:
-                Content-Security-Policy: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  script-src 'self' 'unsafe-inline';
+                  style-src 'self' 'unsafe-inline';
+                  img-src *.${cluster.domain};
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
