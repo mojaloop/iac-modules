@@ -308,7 +308,10 @@ spec:
           headers:
             response:
               add:
-                Content-Security-Policy: "default-src 'self'; style-src 'self' 'unsafe-inline';"
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src 'self' 'unsafe-inline';
+                  connect-src 'self' https://api.github.com;
 %{ endif ~}
 
 ---

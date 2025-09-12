@@ -286,7 +286,10 @@ spec:
           headers:
             response:
               add:
-                Content-Security-Policy: "default-src 'self'; style-src 'self' 'unsafe-inline';"
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src 'self' 'unsafe-inline';
+                  connect-src 'self' https://api.github.com;
 ---
 # %{ endif }
 # %{ if payment_token_adapter_config.enabled}
