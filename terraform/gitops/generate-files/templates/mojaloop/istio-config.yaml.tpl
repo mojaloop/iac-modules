@@ -285,7 +285,8 @@ spec:
                 Content-Security-Policy: >-
                   default-src 'self';
                   style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
-                  script-src 'self' 'unsafe-inline';
+                  script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.datatables.net https://code.jquery.com;
+                  font-src 'self' https://use.fontawesome.com;
     - name: socket
       match:
         - uri:
