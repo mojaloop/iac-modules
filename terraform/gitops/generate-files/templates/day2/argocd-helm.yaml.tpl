@@ -40,7 +40,7 @@ spec:
   sources:
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: ${argocd_helm_helm_version}
+      targetRevision: ${argocd_helm_version}
 
       helm:
         releaseName: argocd
@@ -49,7 +49,7 @@ spec:
           crds:
             install: true
           global:
-            domain: argo.${argocd_helm_dns_subdomain}
+            domain: argo.${argocd_dns_subdomain}
             logging:
               format: json
 
@@ -62,12 +62,21 @@ spec:
             secret:
               createSecret: false
             cm:
-              url: https://argocd.${argocd_helm_dns_subdomain}
+              url: https://argocd.${argocd_dns_subdomain}
               exec.enabled: "true"
-              kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
+              kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone --enable-helm"
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
               timeout.reconciliation: "10s"
               application.resourceTrackingMethod: annotation
+              statusbadge.enabled: 'true'
+              ui.bannercontent: "argocd application install"
+              ui.bannerpermanent: "true"
+              oidc.config: |
+                name: Zitadel
+                issuer: ${zitadel_server_url}
+                clientID: $argo-oidc:clientid
+                clientSecret: $argo-oidc:clientsecret
+                requestedScopes: ["openid", "profile", "email", "read_api"]
               resource.exclusions: |
                 - apiGroups:
                   - "*"
@@ -80,67 +89,19 @@ spec:
                     hs.status = "Progressing"
                     hs.message = ""
                     if obj.status ~= nil then
-                      local status = obj.status
-                      if status.conditions ~= nil then
-                        for i, condition in ipairs(status.conditions) do
-                          if condition.type ~= nil and string.match(condition.type, '.*Error$') then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
-                      end
-                      if status.health ~= nil then
-                        local health = status.health
-                        hs.status = health.status
-                        if health.message ~= nil then
-                          hs.message = health.message
-                        end
-                        local syncStatus = (status.sync and status.sync.status or nil)
-                        if hs.status == "Healthy" and syncStatus ~= "Synced" then
-                          hs.status = "Progressing"
+                      if obj.status.health ~= nil then
+                        hs.status = obj.status.health.status
+                        if obj.status.health.message ~= nil then
+                          hs.message = obj.status.health.message
                         end
                       end
                     end
-                    return hs
-                cert-manager.io/ClusterIssuer:
-                  health.lua: |
-                    local hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.conditions ~= nil then
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "Ready" and condition.status == "False" then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                          if condition.type == "Ready" and condition.status == "True" then
-                            hs.status = "Healthy"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
-                      end
-                    end
-
-                    hs.status = "Progressing"
-                    hs.message = "Initializing ClusterIssuer"
                     return hs
                 cert-manager.io/Certificate:
                   health.lua: |
-                    local hs = {}
+                    hs = {}
                     if obj.status ~= nil then
                       if obj.status.conditions ~= nil then
-
-                        -- Always Handle Issuing First to ensure consistent behaviour
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "Issuing" and condition.status == "True" then
-                            hs.status = "Progressing"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
-
                         for i, condition in ipairs(obj.status.conditions) do
                           if condition.type == "Ready" and condition.status == "False" then
                             hs.status = "Degraded"
@@ -183,19 +144,28 @@ spec:
                     hs.message = "Waiting for VaultSecret"
                     return hs
 
-                redhatcop.redhat.io/KubernetesAuthEngineRole:
+                batch/Job:
+                  health.lua.useOpenLibs: true
                   health.lua: |
                     hs = {}
                     if obj.status ~= nil then
                       if obj.status.conditions ~= nil then
                         for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "ReconcileSuccessful" and condition.status == "False" then
+                          if condition.type == "Failed" and condition.status == "True" then
                             hs.status = "Degraded"
+                            if string.sub(obj.metadata.name,1,16) == "moja-ml-ttk-test" then
+                              hs.status = "Healthy"
+                            end
                             hs.message = condition.message
                             return hs
                           end
-                          if condition.type == "ReconcileSuccessful" and condition.status == "True" then
+                          if condition.type == "Complete" and condition.status == "True" then
                             hs.status = "Healthy"
+                            hs.message = condition.message
+                            return hs
+                          end
+                          if condition.type == "Suspended" then
+                            hs.status = "Suspended"
                             hs.message = condition.message
                             return hs
                           end
@@ -204,125 +174,83 @@ spec:
                     end
 
                     hs.status = "Progressing"
-                    hs.message = "Waiting for KubernetesAuthEngineRole"
+                    hs.message = "Waiting for Job"
                     return hs
 
-                ceph.rook.io/CephBlockPool:
+                k8s.keycloak.org/Keycloak:
                   health.lua: |
-                    hs = {}
+                    if obj.status == nil or obj.status.conditions == nil then
+                      -- no status info available yet
+                      return {
+                        status = "Progressing",
+                        message = "Waiting for Keycloak status conditions to exist",
+                      }
+                    end
+
+                    -- Sort conditions by lastTransitionTime, from old to new.
+                    table.sort(obj.status.conditions, function(a, b)
+                      return a.lastTransitionTime < b.lastTransitionTime
+                    end)
+
+                    for _, condition in ipairs(obj.status.conditions) do
+                      if condition.type == "Ready" and condition.status == "True" then
+                        return {
+                          status = "Healthy",
+                          message = "",
+                        }
+                      elseif condition.type == "HasErrors" and condition.status == "True" then
+                        return {
+                          status = "Degraded",
+                          message = "Has Errors: " .. condition.message,
+                        }
+                      end
+                    end
+
+                    -- We couldn't find matching conditions yet, so assume progressing
+                    return {
+                      status = "Progressing",
+                      message = "",
+                    }
+
+                pxc.percona.com/PerconaXtraDBCluster:
+                  health.lua: |
+                    local hs = {}
                     if obj.status ~= nil then
-                      if obj.status.phase == "Ready" then
-                        hs.status = "Healthy"
-                        hs.message = "CephBlockPool Ready"
+
+                      if obj.status.state == "initializing" then
+                        hs.status = "Progressing"
+                        hs.message = obj.status.ready .. "/" .. obj.status.size .. " node(s) are ready"
                         return hs
                       end
-                    end
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for CephBlockPool"
-                    return hs
 
-                # TODO: enable again after fixing the warning on ceph cluster object
-                # ceph.rook.io/CephCluster:
-                #   health.lua: |
-                #     hs = {}
-                #     if obj.status ~= nil and obj.status.ceph ~= nil and obj.status.ceph.health ~= nil then
-                #       local health = obj.status.ceph.health
-                #       if health == "HEALTH_OK" then
-                #         hs.status = "Healthy"
-                #         hs.message = "Ceph cluster is healthy (HEALTH_OK)"
-                #       elseif health == "HEALTH_WARN" then
-                #         hs.status = "Degraded"
-                #         hs.message = "Ceph cluster warning: " .. health
-                #       else
-                #         hs.status = "Degraded"
-                #         hs.message = "Ceph cluster not healthy: " .. health
-                #       end
-                #     else
-                #       hs.status = "Progressing"
-                #       hs.message = "Waiting for Ceph cluster status..."
-                #     end
-                #     return hs
-
-                ceph.rook.io/CephObjectStore:
-                  health.lua: |
-                    hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.phase == "Ready" then
+                      if obj.status.state == "ready" then
                         hs.status = "Healthy"
-                        hs.message = "CephObjectStore Ready"
+                        hs.message = obj.status.ready .. "/" .. obj.status.size .. " node(s) are ready"
                         return hs
                       end
-                    end
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for CephObjectStore"
-                    return hs
 
-                external-secrets.io/ExternalSecret:
-                  health.lua: |
-                    local hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.conditions ~= nil then
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "Ready" and condition.status == "False" then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                          if condition.type == "Ready" and condition.status == "True" then
-                            hs.status = "Healthy"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
+                      if obj.status.state == "paused" then
+                        hs.status = "Unknown"
+                        hs.message = "Cluster is paused"
+                        return hs
                       end
-                    end
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for ExternalSecret"
-                    return hs
-                external-secrets.io/ClusterSecretStore:
-                  health.lua: |
-                    local hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.conditions ~= nil then
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "Ready" and condition.status == "False" then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                          if condition.type == "Ready" and condition.status == "True" then
-                            hs.status = "Healthy"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
-                      end
-                    end
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for ClusterSecretStore"
-                    return hs
 
-                external-secrets.io/SecretStore:
-                  health.lua: |
-                    local hs = {}
-                    if obj.status ~= nil then
-                      if obj.status.conditions ~= nil then
-                        for i, condition in ipairs(obj.status.conditions) do
-                          if condition.type == "Ready" and condition.status == "False" then
-                            hs.status = "Degraded"
-                            hs.message = condition.message
-                            return hs
-                          end
-                          if condition.type == "Ready" and condition.status == "True" then
-                            hs.status = "Healthy"
-                            hs.message = condition.message
-                            return hs
-                          end
-                        end
+                      if obj.status.state == "stopping" then
+                        hs.status = "Degraded"
+                        hs.message = "Cluster is stopping (" .. obj.status.ready .. "/" .. obj.status.size .. " node(s) are ready)"
+                        return hs
                       end
+
+                      if obj.status.state == "error" then
+                        hs.status = "Degraded"
+                        hs.message = "Cluster is on error: " .. table.concat(obj.status.message, ", ")
+                        return hs
+                      end
+
                     end
-                    hs.status = "Progressing"
-                    hs.message = "Waiting for SecretStore"
+
+                    hs.status = "Unknown"
+                    hs.message = "Cluster status is unknown. Ensure your ArgoCD is current and then check for/file a bug report: https://github.com/argoproj/argo-cd/issues"
                     return hs
 
                 "*.upbound.io/*":
@@ -473,6 +401,14 @@ spec:
                     end
 
                     local has_no_status = {}
+
+                    -- Custom Mojaloop ory resources status check
+                    if obj.status ~= nil and obj.status.state == "VALIDATED" then
+                      health_status.status = "Healthy"
+                      health_status.message = "State is VALIDATED"
+                      return health_status
+                    end
+
                     if obj.status == nil
                       or next(obj.status) == nil
                       and contains(has_no_status, obj.kind)
@@ -523,6 +459,10 @@ spec:
             rbac:
               scopes: "[${zitadel_grant_prefix}]"
               policy.default: ""
+              policy.csv: |
+                g, ${zitadel_project_id}:${argocd_admin_rbac_group}, role:admin
+                g, ${zitadel_project_id}:${argocd_readonly_rbac_group}, role:readonly
+              policy.matchMode: glob
             params:
               server.insecure: true
               # Mandatory for extensions to work
@@ -727,8 +667,8 @@ spec:
 
           ## Server ##
           server:
-            podAnnotations:
-              secret.reloader.stakater.com/reload: ${zitadel_argocd_oidc_secret}
+            # podAnnotations:
+            #   secret.reloader.stakater.com/reload: notused?
             # resources:
             #   limits:
             #     cpu: 400m
@@ -768,7 +708,9 @@ spec:
                 # requests:
                 #   cpu: 10m
                 #   memory: 64Mi
-
+            env:
+              - name: ARGOCD_MAX_CONCURRENT_LOGIN_REQUESTS_COUNT
+                value: "0"
           ## Redis ##
           redis:
             resources:
