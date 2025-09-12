@@ -257,6 +257,13 @@ spec:
             host: ${pm4ml_release_name}-ttk-backend
             port:
               number: 5050
+          headers:
+            response:
+              add:
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
+                  script-src 'self' 'unsafe-inline';
     - name: socket
       match:
         - uri:
