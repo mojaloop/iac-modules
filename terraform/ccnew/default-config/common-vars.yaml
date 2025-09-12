@@ -472,7 +472,7 @@ argocd_server_log_level: "info"
 argocd_reposerver_log_level: "warn"
 argocd_controller_log_level: "warn"
 argocd_applicationsetcontroller_log_level: "info"
-argocd_reconciliation_timeout: "20s"
+argocd_reconciliation_timeout: "10s"
 
 aws_ebs_csi_driver_replicas: "'2'"
 rook_ceph_objects_replica_count: "'3'"
