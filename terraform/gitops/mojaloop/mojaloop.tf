@@ -9,7 +9,7 @@ module "generate_mojaloop_files" {
     mojaloop_namespace                                                = var.mojaloop_namespace
     storage_class_name                                                = var.storage_class_name
     mojaloop_sync_wave                                                = var.mojaloop_sync_wave
-    mojaloop_setup_sync_wave                                           = var.mojaloop_setup_sync_wave
+    mojaloop_setup_sync_wave                                          = var.mojaloop_setup_sync_wave
     mojaloop_test_sync_wave                                           = var.mojaloop_test_sync_wave
     mojaloop_hub_provisioning_sync_wave                               = var.mojaloop_hub_provisioning_sync_wave
     internal_ttk_enabled                                              = var.internal_ttk_enabled
@@ -23,6 +23,7 @@ module "generate_mojaloop_files" {
     ttk_dev_mode_enabled                                              = var.ttk_dev_mode_enabled
     ttksims_enabled                                                   = var.ttksims_enabled
     ingress_subdomain                                                 = var.public_subdomain
+    private_subdomain                                                 = var.private_subdomain
     quoting_service_simple_routing_mode_enabled                       = var.quoting_service_simple_routing_mode_enabled
     central_ledger_handler_transfer_position_batch_processing_enabled = try(var.app_var_map.central_ledger_handler_transfer_position_batch_processing_enabled, false)
     central_ledger_handler_transfer_position_batch_size               = try(var.app_var_map.central_ledger_handler_transfer_position_batch_size, 100)
@@ -200,13 +201,14 @@ module "generate_mojaloop_files" {
     mojaloop_override_values_file_exists                              = local.mojaloop_override_values_file_exists
     finance_portal_override_values_file_exists                        = local.finance_portal_override_values_file_exists
     fspiop_use_ory_for_auth                                           = var.fspiop_use_ory_for_auth
-    updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}=${key}:${value}"])
-    updater_alias                                                     = [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key,"/[-./]/","_")}"]
+    updater_image_list                                                = join(",", [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key, "/[-./]/", "_")}=${key}:${value}"])
+    updater_alias                                                     = [for key, value in try(var.app_var_map.updater_image, {}) : "${replace(key, "/[-./]/", "_")}"]
     hub_name                                                          = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     opentelemetry_enabled                                             = var.opentelemetry_enabled
     opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable
     ml_testing_toolkit_cli_chart_version                              = try(var.app_var_map.ml_testing_toolkit_cli_chart_version, var.ml_testing_toolkit_cli_chart_version)
     hub_provisioning_ttk_test_case_version                            = try(var.app_var_map.hub_provisioning_ttk_test_case_version, var.hub_provisioning_ttk_test_case_version)
+    cluster_name                                                      = "${var.cluster_name}"
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -265,27 +267,27 @@ locals {
   external_interop_switch_fqdn = "extapi.${var.public_subdomain}"
   internal_interop_switch_fqdn = "intapi.${var.private_subdomain}"
 
-  mojaloop_template_path                       = "${path.module}/../generate-files/templates/mojaloop"
-  mojaloop_app_file                            = "mojaloop-app.yaml"
-  output_path                                  = "${var.output_dir}/mojaloop"
-  output_path_mcm                              = "${var.output_dir}/mcm"
-  ml_als_resource_index                        = "account-lookup-db"
-  ml_cl_resource_index                         = "central-ledger-db"
-  bulk_mongodb_resource_index                  = "bulk-mongodb"
-  ttk_mongodb_resource_index                   = "ttk-mongodb"
-  cep_mongodb_resource_index                   = "cep-mongodb"
-  mojaloop_kafka_resource_index                = "mojaloop-kafka"
-  third_party_redis_resource_index             = "thirdparty-auth-svc-redis"
-  third_party_auth_db_resource_index           = "thirdparty-auth-svc-db"
-  third_party_consent_oracle_db_resource_index = "mysql-consent-oracle-db"
-  ttk_redis_resource_index                     = "ttk-redis"
-  reporting_events_mongodb_resource_index      = "reporting-events-mongodb"
-  apiResources                                 = yamldecode(file(var.rbac_api_resources_file))
-  jws_key_secret                               = "switch-jws"
-  mojaloop_override_values_file_exists         = fileexists(var.mojaloop_values_override_file)
-  mcm_override_values_file_exists              = fileexists(var.mcm_values_override_file)
-  finance_portal_override_values_file_exists   = fileexists(var.finance_portal_values_override_file)
-  values_hub_provisioning_override_file_exists = fileexists(var.values_hub_provisioning_override_file)
+  mojaloop_template_path                              = "${path.module}/../generate-files/templates/mojaloop"
+  mojaloop_app_file                                   = "mojaloop-app.yaml"
+  output_path                                         = "${var.output_dir}/mojaloop"
+  output_path_mcm                                     = "${var.output_dir}/mcm"
+  ml_als_resource_index                               = "account-lookup-db"
+  ml_cl_resource_index                                = "central-ledger-db"
+  bulk_mongodb_resource_index                         = "bulk-mongodb"
+  ttk_mongodb_resource_index                          = "ttk-mongodb"
+  cep_mongodb_resource_index                          = "cep-mongodb"
+  mojaloop_kafka_resource_index                       = "mojaloop-kafka"
+  third_party_redis_resource_index                    = "thirdparty-auth-svc-redis"
+  third_party_auth_db_resource_index                  = "thirdparty-auth-svc-db"
+  third_party_consent_oracle_db_resource_index        = "mysql-consent-oracle-db"
+  ttk_redis_resource_index                            = "ttk-redis"
+  reporting_events_mongodb_resource_index             = "reporting-events-mongodb"
+  apiResources                                        = yamldecode(file(var.rbac_api_resources_file))
+  jws_key_secret                                      = "switch-jws"
+  mojaloop_override_values_file_exists                = fileexists(var.mojaloop_values_override_file)
+  mcm_override_values_file_exists                     = fileexists(var.mcm_values_override_file)
+  finance_portal_override_values_file_exists          = fileexists(var.finance_portal_values_override_file)
+  values_hub_provisioning_override_file_exists        = fileexists(var.values_hub_provisioning_override_file)
   values_reporting_k8s_templates_override_file_exists = fileexists(var.values_reporting_k8s_templates_override_file)
 }
 
