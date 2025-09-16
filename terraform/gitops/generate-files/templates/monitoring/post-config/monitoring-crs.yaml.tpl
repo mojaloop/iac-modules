@@ -54,8 +54,7 @@ spec:
     security:
       content_security_policy: "true"
       content_security_policy_template: >-
-        "
-        default-src 'self';
+        "default-src 'self';
         script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;
         object-src 'none';
         font-src 'self';
@@ -64,8 +63,7 @@ spec:
         base-uri 'self';
         connect-src 'self' wss://$ROOT_PATH;
         media-src 'none';
-        form-action 'self';
-        "
+        form-action 'self';"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
