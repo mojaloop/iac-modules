@@ -25,6 +25,14 @@ module "generate_day2_files" {
     cluster_name                               = var.cluster_name
     kubernetes_oidc_k8s_user_group             = var.kubernetes_oidc_k8s_user_group
     kubernetes_oidc_k8s_admin_group            = var.kubernetes_oidc_k8s_admin_group
+    dns_bind_address                           = var.dns_bind_address
+    coredns_wildcard_domain                    = local.coredns_wildcard_domain
+    coredns_aws_dns                            = local.coredns_aws_dns
+    coredns_cc_vpc                             = local.coredns_cc_vpc
+    coredns_wildcard_target                    = local.coredns_wildcard_target
+    coredns_aws_wildcard_domains               = var.coredns_aws_wildcard_domains
+    coredns_localcache_version                 = var.coredns_localcache_version
+    external_secrets_sync_wave                 = var.external_secrets_sync_wave
   }
   file_list       = [for f in fileset(local.base_utils_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.day2_app_file, f))]
   template_path   = local.base_utils_template_path
@@ -34,8 +42,12 @@ module "generate_day2_files" {
 }
 
 locals {
-  base_utils_template_path               = "${path.module}/../generate-files/templates/day2"
+  base_utils_template_path         = "${path.module}/../generate-files/templates/day2"
   day2_app_file                    = "day2-app.yaml"
+  coredns_aws_dns                  = var.cloud_platform == "aws" ? true : false
+  coredns_cc_vpc                   = var.vpc_cidr
+  coredns_wildcard_domain          =  "*.${var.public_subdomain}"
+  coredns_wildcard_target          = var.external_load_balancer_private_ip
 }
 
 variable "argocd_helm_version" {
@@ -145,4 +157,32 @@ variable "kubernetes_oidc_k8s_user_group" {
 variable "kubernetes_oidc_k8s_admin_group" {
   type        = string
   description = "kubernetes_oidc_k8s_admin_group"
+}
+
+variable "dns_bind_address" {
+  type        = string
+  description = "Bind address for CoreDNS nodecache"
+}
+
+variable "external_load_balancer_private_ip" {
+  type        = string
+  description = "Private IP address of the external load balancer"
+}
+
+variable "coredns_aws_wildcard_domains" {
+  type        = list(string)
+  description = "List of AWS wildcard domains for CoreDNS nodecache"
+  default     = []
+}
+
+variable "coredns_localcache_version" {
+  type        = string
+  description = "CoreDNS nodecache image version"
+  default     = "1.12.1"
+}
+
+variable "external_secrets_sync_wave" {
+  type        = string
+  description = "external_secrets_sync_wave needs to go after istio gateways for netbird egress"
+  default     = "-10"
 }

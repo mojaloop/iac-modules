@@ -41,6 +41,7 @@ dependency "k8s_deploy" {
     vpc_id                            = ""
     private_subnets                   = [""]
     availability_zones                = [""]
+    external_load_balancer_private_ip = "null"
   }
   mock_outputs_allowed_terraform_commands = local.skip_outputs ? ["init", "validate", "plan", "show", "apply"] : ["init", "validate", "plan", "show"]
   mock_outputs_merge_strategy_with_state  = "shallow"
@@ -177,6 +178,7 @@ inputs = {
   oidc_admin_group                         = get_env("gitlab_admin_rbac_group")
   argocd_admin_rbac_group                  = get_env("argocd_admin_rbac_group")
   argocd_readonly_rbac_group               = get_env("argocd_user_rbac_group")
+  external_load_balancer_private_ip        = dependency.k8s_deploy.outputs.external_load_balancer_private_ip
 }
 
 locals {

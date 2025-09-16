@@ -4,7 +4,7 @@ metadata:
   name: external-secrets
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: ${day2_sync_wave}
+    argocd.argoproj.io/sync-wave: ${external_secrets_sync_wave}
 
   finalizers:
     - resources-finalizer.argocd.argoproj.io
