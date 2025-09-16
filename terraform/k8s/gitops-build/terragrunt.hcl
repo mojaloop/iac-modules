@@ -164,6 +164,19 @@ inputs = {
   netbird_operator_helm_version            = local.common_vars.netbird_operator_helm_version
   sc_api_host                              = try(get_env("sc_api_host"), "localhost")
   sc_api_port                              = try(tonumber(get_env("sc_api_port")), 6443)
+  external_secrets_version                 = local.common_vars.external_secrets_version
+  argocd_version                           = local.common_vars.argocd_version
+  argocd_lovely_plugin_version             = local.common_vars.argocd_lovely_plugin_version
+  argocd_reconciliation_timeout            = local.common_vars.argocd_reconciliation_timeout
+  repo_url                                 = get_env("GITLAB_PROJECT_URL")
+  repo_username                            = get_env("GITLAB_USERNAME")
+  repo_password                            = get_env("GITLAB_CI_PAT")
+  tenant_vault_token                       = get_env("ENV_VAULT_TOKEN")
+  cluster_domain                           = "${get_env("cluster_name")}.${get_env("domain")}"
+  argocd_domain                            = local.argocd_oidc_domain
+  oidc_admin_group                         = get_env("gitlab_admin_rbac_group")
+  argocd_admin_rbac_group                  = get_env("argocd_admin_rbac_group")
+  argocd_readonly_rbac_group               = get_env("argocd_user_rbac_group")
 }
 
 locals {
@@ -248,6 +261,8 @@ locals {
   internal_cc_subdomain            = get_env("CC_DOMAIN")
   internal_sc_subdomain            = get_env("SC_DOMAIN")
   netbird_setup_key_vault_path     = get_env("netbird_setup_key_vault_path")
+  argocd_oidc_domain                = local.private_subdomain
+  private_subdomain                 = "int.${get_env("cluster_name")}.${get_env("domain")}"
 }
 generate "required_providers_override" {
   path = "required_providers_override.tf"
