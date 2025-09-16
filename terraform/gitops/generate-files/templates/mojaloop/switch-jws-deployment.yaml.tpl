@@ -42,7 +42,7 @@ spec:
             [
               "sh",
               "-c",
-              "openssl x509 -pubkey -noout -in /tmp/JWS_PUB_CERT > /tmp/pubkey.pem;openssl x509 -startdate -noout -in /tmp/JWS_PUB_CERT | cut -d = -f 2- | date +%s -f > /tmp/CREATED_AT",
+              "openssl x509 -pubkey -noout -in /tmp/JWS_PUB_CERT > /tmp/pubkey.pem;openssl x509 -startdate -noout -in /tmp/JWS_PUB_CERT | cut -d = -f 2- | date +%s > /tmp/CREATED_AT",
             ]
           volumeMounts:
             - name: data
