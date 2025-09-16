@@ -82,7 +82,7 @@ crossplane_packages_aws_rds_version: "v0.4.0"
 crossplane_packages_sc_mysql_version: "v0.7.0"
 crossplane_packages_sc_mongodb_version: "v0.5.0"
 max_pods_per_node: 110
-ipv4_services_cidr: "10.152.183.0/24"
+ipv4_services_cidr: "10.152.0.0/16"
 velero_plugin_version: "v1.12.1"
 velero_helm_version: "10.0.1"
 velero_backup_schedule: "0 0 * * *"
