@@ -53,17 +53,7 @@ spec:
       role_attribute_path: "contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_admin_rbac_group}') && 'Admin' || contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_user_rbac_group}') && 'Viewer'"
     security:
       content_security_policy: "true"
-      content_security_policy_template: >-
-        "default-src 'self';
-        script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;
-        object-src 'none';
-        font-src 'self';
-        style-src 'self' 'unsafe-inline' blob:;
-        img-src 'self' *.${cluster.domain} data:;
-        base-uri 'self';
-        connect-src 'self' wss://$ROOT_PATH;
-        media-src 'none';
-        form-action 'self';"
+      content_security_policy_template: "\"\"\"default-src 'self';script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;object-src 'none';font-src 'self';style-src 'self' 'unsafe-inline' blob:;img-src 'self' *.drpp-onprem.global data:;base-uri 'self';connect-src 'self' wss://$ROOT_PATH;media-src 'none';form-action 'self';\"\"\""
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
