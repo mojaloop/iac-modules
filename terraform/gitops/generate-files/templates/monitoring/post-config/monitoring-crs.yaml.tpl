@@ -52,7 +52,7 @@ spec:
       use_refresh_token: "true"
       role_attribute_path: "contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_admin_rbac_group}') && 'Admin' || contains(\"zitadel:grants\"[*], '${zitadel_project_id}:${grafana_user_rbac_group}') && 'Viewer'"
     security:
-      content_security_policy: true
+      content_security_policy: "true"
       content_security_policy_template: >-
         default-src 'self';
         script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' $NONCE;
