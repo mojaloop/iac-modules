@@ -42,7 +42,7 @@ spec:
             [
               "sh",
               "-c",
-              "openssl x509 -pubkey -noout -in /tmp/JWS_PUB_CERT > /tmp/pubkey.pem",
+              "openssl x509 -pubkey -noout -in /tmp/JWS_PUB_CERT > /tmp/pubkey.pem;openssl x509 -startdate -noout -in /tmp/JWS_PUB_CERT | cut -d = -f 2- | date +%s -f > /tmp/CREATED_AT",
             ]
           volumeMounts:
             - name: data
@@ -60,7 +60,7 @@ spec:
               -X POST "${mcm_hub_jws_endpoint}"
               -H "Content-type: application/json"
               -H "accept: application/json"
-              -d "{\"publicKey\":\"$(cat /tmp/pubkey.pem | sed '$ ! s/$/\\r\\n/' | tr -d '\n')\"}"
+              -d "{\"publicKey\":\"$(cat /tmp/pubkey.pem | sed '$ ! s/$/\\r\\n/' | tr -d '\n')\","createdAt":"$(cat /tmp/CREATED_AT | tr -d '\n')\"}"
           volumeMounts:
             - name: data
               mountPath: /tmp
