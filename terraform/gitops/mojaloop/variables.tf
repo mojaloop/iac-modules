@@ -205,11 +205,16 @@ variable "vpc_cidr" {
 }
 
 variable "private_dns_zone_id" {
-  type = string
+  type        = string
   description = "The Route53 zone ID."
 }
 
 variable "deploy_env_monolithic_db" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
+}
+
+variable "cc_domain" {
+  type        = string
+  description = "control center domain"
 }
