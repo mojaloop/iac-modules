@@ -5,8 +5,7 @@ metadata:
   name: mojaloop-instrumentation
 spec:
   exporter:
-    # endpoint: https://traces.${cc_domain} # this is cluster private_subdomain, not CC subdomain
-    endpoint: https://traces.int.ccdev.drpp-onprem.global
+    endpoint: https://traces.int.${cc_domain}
   propagators:
     - tracecontext
     - baggage

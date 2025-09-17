@@ -131,7 +131,7 @@ variable "object_store_api_url" {
   description = "object_store_api_url"
 }
 
-variable "object_store_regional_endpoint"{
+variable "object_store_regional_endpoint" {
   type        = string
   description = "object_store_regional_endpoint"
 }
@@ -164,18 +164,18 @@ variable "default_internal_ssl_certificate" {
 }
 
 variable "managed_svc_as_monolith" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "db_mediated_by_control_center" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "deploy_env_monolithic_db" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "cc_name" {
@@ -209,9 +209,15 @@ variable "vpc_cidr" {
 }
 
 variable "private_dns_zone_id" {
-  type = string
+  type        = string
   description = "The Route53 zone ID."
 }
+
+variable "cc_domain" {
+  type        = string
+  description = "control center domain"
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
