@@ -213,9 +213,9 @@ variable "private_dns_zone_id" {
   description = "The Route53 zone ID."
 }
 
-variable "cc_domain" {
+variable "monitoring_domain" {
   type        = string
-  description = "control center domain"
+  description = "monitoring domain"
 }
 
 locals {

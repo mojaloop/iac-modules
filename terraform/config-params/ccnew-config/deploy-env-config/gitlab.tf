@@ -5,12 +5,12 @@ data "gitlab_group" "iac" {
 
 # environment projects
 resource "gitlab_project" "envs" {
-  for_each               = local.environment_list
-  name                   = each.value
-  namespace_id           = data.gitlab_group.iac.id
+  for_each     = local.environment_list
+  name         = each.value
+  namespace_id = data.gitlab_group.iac.id
 
-  initialize_with_readme     = true
-  shared_runners_enabled     = true
+  initialize_with_readme          = true
+  shared_runners_enabled          = true
   container_registry_access_level = "private"
 }
 
@@ -66,6 +66,15 @@ resource "gitlab_group_variable" "zitadel_fqdn" {
   group             = data.gitlab_group.iac.id
   key               = "ZITADEL_FQDN"
   value             = var.zitadel_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "monitoring_domain" {
+  group             = data.gitlab_group.iac.id
+  key               = "MONITORING_DOMAIN"
+  value             = var.monitoring_domain
   protected         = true
   masked            = false
   environment_scope = "*"

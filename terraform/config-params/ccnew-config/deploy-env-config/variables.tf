@@ -102,3 +102,7 @@ variable "env_token_ttl" {
 variable "obj_store_region" {
   description = "cloud region"
 }
+
+variable "monitoring_domain" {
+  description = "domain for monitoring apps"
+}

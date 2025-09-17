@@ -214,7 +214,7 @@ variable "deploy_env_monolithic_db" {
   default = false
 }
 
-variable "cc_domain" {
+variable "monitoring_domain" {
   type        = string
-  description = "control center domain"
+  description = "monitoring domain"
 }

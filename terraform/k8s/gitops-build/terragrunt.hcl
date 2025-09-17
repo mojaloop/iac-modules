@@ -155,6 +155,7 @@ inputs = {
   velero_helm_version                      = local.common_vars.velero_helm_version
   velero_backup_schedule                   = local.common_vars.velero_backup_schedule
   velero_backup_ttl                        = local.common_vars.velero_backup_ttl
+  monitoring_domain                        = "${get_env("MONITORING_DOMAIN")}"
 }
 
 locals {

@@ -5,7 +5,7 @@ metadata:
   name: mojaloop-instrumentation
 spec:
   exporter:
-    endpoint: https://traces.int.${cc_domain}
+    endpoint: https://traces.${monitoring_domain}
   propagators:
     - tracecontext
     - baggage

@@ -14,6 +14,8 @@ spec:
         value: ${ARGOCD_ENV_vault_kv_secret}
       - key: zitadel_fqdn
         value: https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}
+      - key: monitoring_domain
+        value: ${ARGOCD_ENV_monitoring_dns_subdomain}
       - key: nexus_fqdn
         value: nexusproxy.${ARGOCD_ENV_nexus_dns_subdomain}
       - key: obj_store_gw_fqdn

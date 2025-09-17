@@ -84,7 +84,7 @@ module "mojaloop" {
   availability_zones                           = var.availability_zones
   cloud_region                                 = var.cloud_region
   private_dns_zone_id                          = var.private_dns_zone_id
-  cc_domain                                    = var.cc_domain
+  monitoring_domain                            = var.monitoring_domain
 }
 
 module "pm4ml" {
