@@ -52,6 +52,8 @@ inputs = {
   }, (local.K8S_CLUSTER_TYPE == "microk8s") ? {
     microk8s_dns_resolvers = try(dependency.k8s_deploy.outputs.all_hosts_var_maps.dns_resolver_ip, "")
     microk8s_version       = try(local.common_vars.microk8s_version, "1.31/stable")
+    microk8s_services_cidr = try(local.common_vars.microk8s_services_cidr, "")
+    microk8s_custom_service_cidr_api_ip = try(local.common_vars.microk8s_custom_service_cidr_api_ip, "")
   } : {})
   bastion_hosts_yaml_maps       = merge(dependency.k8s_deploy.outputs.bastion_hosts_yaml_maps, local.bastion_hosts_yaml_maps)
   master_hosts_yaml_maps        = dependency.k8s_deploy.outputs.master_hosts_yaml_maps
@@ -156,7 +158,6 @@ locals {
     kubernetes_oidc_k8s_admin_group  = get_env("KUBERNETES_OIDC_K8S_ADMIN_GROUP")
     cc_cidr_block                    = get_env("CC_CIDR_BLOCK")
     max_pods_per_node                = local.common_vars.max_pods_per_node
-    ipv4_services_cidr               = local.common_vars.ipv4_services_cidr
     install_root_app                 = local.env_vars.install_root_app
     cluster_name                     = get_env("cluster_name")
     automated_sync                   = get_env("automated_sync") == "true" ? true : false
