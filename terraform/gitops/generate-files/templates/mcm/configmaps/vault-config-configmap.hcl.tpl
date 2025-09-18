@@ -73,6 +73,13 @@ metadata:
 spec:
   host: {{ .Data.fqdn }}
   trafficPolicy:
+    connectionPool:
+      tcp:
+        connectTimeout: 3s
+        tcpKeepalive:
+          time: 300s
+          interval: 30s
+          probes: 5
     loadBalancer:
       simple: ROUND_ROBIN
     portLevelSettings:
