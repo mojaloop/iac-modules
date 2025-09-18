@@ -11237,7 +11237,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "71cce3a3-c3ae-4c5f-ba54-532c60a90286"
+          "uid": "${datasource}"
         },
         "definition": "",
         "hide": 0,
@@ -11299,7 +11299,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "71cce3a3-c3ae-4c5f-ba54-532c60a90286"
+          "uid": "${datasource}"
         },
         "definition": "",
         "hide": 0,
@@ -11330,7 +11330,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "71cce3a3-c3ae-4c5f-ba54-532c60a90286"
+          "uid": "${datasource}"
         },
         "definition": "",
         "hide": 0,
