@@ -8,7 +8,7 @@ spec:
   - name: loki-canary.rules
     rules:
     - alert: LokiCanaryMissingEntriesHigh
-      expr: rate(loki_canary_missing_entries_total[10m]) >= 0.5
+      expr: rate(loki_canary_missing_entries_total[${prometheus_rate_interval}]) >= 0.5
       for: 10m
       labels:
         severity: warning
