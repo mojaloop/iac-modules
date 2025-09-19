@@ -31,7 +31,7 @@ helmCharts:
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: loki-canary
     releaseName: loki-canary
-    version: 0.14.0
+    version: ${ARGOCD_ENV_loki_canary_helm_version}
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-loki-canary.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}

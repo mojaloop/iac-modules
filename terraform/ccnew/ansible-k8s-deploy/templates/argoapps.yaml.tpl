@@ -581,6 +581,7 @@ argocd_override:
           prometheus_rate_interval: "${prometheus_rate_interval}"
           prometheus_retention_period: "${prometheus_retention_period}"
           loki_helm_version: "${loki_helm_version}"
+          loki_canary_helm_version: "${loki_canary_helm_version}"
           loki_retention_period: "${loki_retention_period}"
           cloud_region: "${cloud_region}"
           cluster_domain: "${cluster_domain}"
