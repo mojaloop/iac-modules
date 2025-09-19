@@ -19,7 +19,7 @@ spec:
             - name: rgw-endpoint
               mountPath: /tmp/rgw-secret
               readOnly: true
-          image: bitnami/kubectl:latest
+          image: bitnamilegacy/kubectl:latest
           securityContext:
             runAsNonRoot: true
             runAsUser: 2016
@@ -39,7 +39,7 @@ spec:
 
               # Get API details
               K8S_API_PORT=6443
-              K8S_API_HOST="${ARGOCD_ENV_capi_cluster_kubeapi_host}"
+              K8S_API_HOST="${ARGOCD_ENV_capi_cluster_kubeapi_fqdn}"
               CA_DATA=$(base64 -w 0 /var/run/secrets/kubernetes.io/serviceaccount/ca.crt)
               echo "CA_DATA: $CA_DATA"
               # Append other variables to /data/ceph_env and create secret
@@ -58,6 +58,8 @@ spec:
                 kubectl delete cm external-cluster-user-command --ignore-not-found
                 kubectl create secret generic rook-external-config \
                   --from-literal=SC_API_SERVER="https://$K8S_API_HOST:$K8S_API_PORT" \
+                  --from-literal=SC_API_HOST="$K8S_API_HOST" \
+                  --from-literal=SC_API_PORT="$K8S_API_PORT" \
                   --from-literal=SC_API_CA="$CA_DATA" \
                   --from-literal=ROOK_EXTERNAL_FSID="$ROOK_EXTERNAL_FSID" \
                   --from-literal=ROOK_EXTERNAL_USERNAME="$ROOK_EXTERNAL_USERNAME" \

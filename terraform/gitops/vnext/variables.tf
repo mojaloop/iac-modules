@@ -164,6 +164,10 @@ variable "monolith_stateful_resources" {
 variable "managed_svc_as_monolith" {
 }
 
+variable "cloud_platform" {
+  type = string
+}
+
 variable "cc_name" {
   type        = string
   description = "The name of the control center."
@@ -202,4 +206,16 @@ variable "deploy_env_monolithic_db" {
 variable "private_dns_zone_id" {
   type = string
   description = "The Route53 zone ID."
+}
+
+variable "istio_nb_egress_waypoint_name" {
+  type        = string
+  description = "Name of the Istio egress waypoint"
+  default     = "nb-egress-waypoint"
+}
+
+variable "istio_nb_egress_waypoint_namespace" {
+  type        = string
+  description = "Namespace of the Istio egress waypoint"
+  default     = "istio-system"
 }

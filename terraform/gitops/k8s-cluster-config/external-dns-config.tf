@@ -26,8 +26,8 @@ module "generate_extdns_files" {
 }
 
 locals {
-  extdns_template_path              = "${path.module}/../generate-files/templates/external-dns"
-  extdns_app_file                   = "external-dns-app.yaml"
+  extdns_template_path = "${path.module}/../generate-files/templates/external-dns"
+  extdns_app_file      = "external-dns-app.yaml"
 }
 variable "external_dns_chart_repo" {
   type        = string
@@ -42,12 +42,12 @@ variable "external_dns_namespace" {
 }
 
 variable "dns_cloud_region" {
-  type = string
+  type        = string
   description = "cloud region for ext dns"
 }
 
 variable "external_dns_sync_wave" {
   type        = string
   description = "external_dns_sync_wave"
-  default     = "-8"
+  default     = "-13"
 }

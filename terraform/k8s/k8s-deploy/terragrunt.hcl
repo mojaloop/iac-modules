@@ -29,7 +29,9 @@ inputs = {
   netbird_setup_key                    = local.netbird_setup_key
   cc_cidr_block                        = local.cc_cidr_block
   coredns_bind_address                 = local.coredns_bind_address
-  registry_mirror_fqdn                 = get_env("NEXUS_FQDN")
+  registry_mirror_fqdn                 = local.REGISTRY_MIRROR_FQDN
+  docker_registry_password             = local.REGISTRY_MIRROR_READONLY_PASSWORD
+  docker_registry_username             = local.REGISTRY_MIRROR_READONLY_USERNAME
   enable_registry_mirror               = true
   single_nat_gateway                   = try(local.env_vars.single_nat_gateway, true)
   manage_parent_domain                 = try(local.env_vars.manage_parent_domain, true)
@@ -82,6 +84,12 @@ locals {
   single_zone_az_nodegroup    = get_env("single_zone_az_nodegroup")
   enable_eks_controlplane_logging = get_env("enable_eks_controlplane_logging")
   update_launch_template_default_version = get_env("update_launch_template_default_version")
+  NEXUS_FQDN                       = get_env("NEXUS_FQDN")
+  NEXUS_READONLY_USERNAME          = get_env("NEXUS_READONLY_USERNAME")
+  NEXUS_READONLY_PASSWORD          = get_env("NEXUS_READONLY_PASSWORD")
+  REGISTRY_MIRROR_FQDN              = get_env("REGISTRY_MIRROR_FQDN")
+  REGISTRY_MIRROR_READONLY_USERNAME = get_env("REGISTRY_MIRROR_READONLY_USERNAME")
+  REGISTRY_MIRROR_READONLY_PASSWORD = get_env("REGISTRY_MIRROR_READONLY_PASSWORD")
 }
 
 generate "required_providers_override" {

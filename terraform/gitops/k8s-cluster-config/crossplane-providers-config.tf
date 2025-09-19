@@ -34,7 +34,7 @@ locals {
 
 variable "crossplane_providers_sync_wave" {
   type    = string
-  default = "-12"
+  default = "-14"
 }
 
 variable "crossplane_providers_vault_version" {
@@ -81,3 +81,4 @@ variable "crossplane_providers_aws_ec2_version" {
   type        = string
   description = "Version of the Crossplane AWS EC2 provider."
 }
+

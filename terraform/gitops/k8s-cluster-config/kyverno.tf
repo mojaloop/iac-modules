@@ -1,10 +1,11 @@
 module "generate_kyverno_files" {
   source = "../generate-files"
   var_map = {
-    gitlab_project_url    = var.gitlab_project_url
-    kyverno_namespace     = var.kyverno_namespace
-    kyverno_sync_wave     = var.kyverno_sync_wave
-    kyverno_chart_version = var.kyverno_chart_version
+    gitlab_project_url     = var.gitlab_project_url
+    kyverno_namespace      = var.kyverno_namespace
+    kyverno_sync_wave      = var.kyverno_sync_wave
+    kyverno_chart_version  = var.kyverno_chart_version
+    opt_out_namespace_list = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
   }
   file_list       = [for f in fileset(local.kyverno_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.kyverno_app_file, f))]
   template_path   = local.kyverno_template_path
@@ -29,11 +30,17 @@ variable "kyverno_namespace" {
 variable "kyverno_sync_wave" {
   type        = string
   description = "kyverno_sync_wave"
-  default     = "-11"
+  default     = "-17"
 }
 
 variable "kyverno_chart_version" {
   type        = string
   description = "kyverno_chart_version"
   default     = "3.3.7"
+}
+
+variable "opt_out_namespace_list" {
+  type        = string
+  description = "Comma-delimited list of additional namespaces to opt out of ambient mode"
+  default     = ""
 }

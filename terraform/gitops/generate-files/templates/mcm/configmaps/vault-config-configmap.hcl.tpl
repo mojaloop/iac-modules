@@ -51,7 +51,7 @@ metadata:
   name: {{ .Data.host }}
   namespace: ${mojaloop_namespace}
   labels:
-    istio.io/use-waypoint: egress-waypoint
+    istio.io/use-waypoint: ${istio_ml_egress_waypoint_name}
 spec:
   hosts:
   - '{{ .Data.fqdn }}'
@@ -275,7 +275,7 @@ spec:
           hosts: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
   EOH
   destination = "/vault/secrets/tmp/whitelist.yaml"
-  command     = "/bin/sh -c 'kubectl -n ${istio_external_gateway_namespace} delete AuthorizationPolicy dfsp-whitelist-ingress-policy --namespace istio-ingress-ext;kubectl apply -f /vault/secrets/tmp/whitelist.yaml'"
+  command     = "/bin/sh -c 'kubectl -n ${mojaloop_namespace} delete AuthorizationPolicy dfsp-whitelist-ingress-policy;kubectl apply -f /vault/secrets/tmp/whitelist.yaml'"
 }
 
 vault = {

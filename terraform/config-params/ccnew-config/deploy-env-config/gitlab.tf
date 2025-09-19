@@ -5,12 +5,12 @@ data "gitlab_group" "iac" {
 
 # environment projects
 resource "gitlab_project" "envs" {
-  for_each               = local.environment_list
-  name                   = each.value
-  namespace_id           = data.gitlab_group.iac.id
+  for_each     = local.environment_list
+  name         = each.value
+  namespace_id = data.gitlab_group.iac.id
 
-  initialize_with_readme     = true
-  shared_runners_enabled     = true
+  initialize_with_readme          = true
+  shared_runners_enabled          = true
   container_registry_access_level = "private"
 }
 
@@ -57,6 +57,15 @@ resource "gitlab_group_variable" "nexus_fqdn" {
   group             = data.gitlab_group.iac.id
   key               = "NEXUS_FQDN"
   value             = var.nexus_fqdn
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "registry_mirror_fqdn" {
+  group             = data.gitlab_group.iac.id
+  key               = "REGISTRY_MIRROR_FQDN"
+  value             = var.registry_mirror_fqdn
   protected         = true
   masked            = false
   environment_scope = "*"
@@ -121,6 +130,15 @@ resource "gitlab_group_variable" "object_store_insecure_connection" {
   group             = data.gitlab_group.iac.id
   key               = "OBJECT_STORE_INSECURE_CONNECTION"
   value             = var.object_store_insecure_connection
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "object_store_insecure_skip_verify" {
+  group             = data.gitlab_group.iac.id
+  key               = "OBJECT_STORE_INSECURE_SKIP_VERIFY"
+  value             = var.object_store_insecure_skip_verify
   protected         = true
   masked            = false
   environment_scope = "*"
@@ -266,6 +284,69 @@ resource "gitlab_group_variable" "cc_cidr_block" {
   value             = var.cc_cidr_block
   protected         = true
   masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "sc_cidr_block" {
+  group             = data.gitlab_group.iac.id
+  key               = "SC_CIDR_BLOCK"
+  value             = var.sc_cloud_provider == "private-cloud" ? var.sc_cidr_block : ""
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "cc_domain" {
+  group             = data.gitlab_group.iac.id
+  key               = "CC_DOMAIN"
+  value             = var.cc_domain
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "sc_domain" {
+  group             = data.gitlab_group.iac.id
+  key               = "SC_DOMAIN"
+  value             = var.sc_domain
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "nexus_readonly_username" {
+  group             = data.gitlab_group.iac.id
+  key               = "NEXUS_READONLY_USERNAME"
+  value             = var.nexus_readonly_username
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "registry_mirror_readonly_username" {
+  group             = data.gitlab_group.iac.id
+  key               = "REGISTRY_MIRROR_READONLY_USERNAME"
+  value             = var.registry_mirror_readonly_username
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "sc_api_host" {
+  group     = data.gitlab_group.iac.id
+  key       = "sc_api_host"
+  value     = var.sc_api_host
+  protected = false
+  masked    = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "sc_api_port" {
+  group     = data.gitlab_group.iac.id
+  key       = "sc_api_port"
+  value     = var.sc_api_port
+  protected = false
+  masked    = false
   environment_scope = "*"
 }
 

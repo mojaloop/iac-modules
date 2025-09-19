@@ -96,8 +96,17 @@ spec:
           - name: "rook_ceph_rgw_external_ip"
             value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_external_ip}"
 
+          - name: "rook_ceph_rgw_hostname"
+            value: "${ARGOCD_ENV_utils_capi_capi_rook_ceph_rgw_subdomain}"
+
           - name: "dns_zone_id"
             value: "${ARGOCD_ENV_utils_storage_dns_zone_id}"
 
           - name: "external_dns_namespace"
             value: "${ARGOCD_ENV_dns_utils_ext_dns_namespace}"
+
+          - name: "capi_cluster_kubeapi_fqdn"
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_fqdn}"
+
+          - name: "capi_cluster_kubeapi_host"
+            value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_host}"

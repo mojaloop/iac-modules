@@ -211,3 +211,7 @@ output "public_subnet_id_matching" {
 output "private_subnet_id_matching" {
   value = module.base_infra.private_subnet_id_matching
 }
+
+output "external_load_balancer_private_ip" {
+  value = aws_lb.internal.dns_name
+}

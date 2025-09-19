@@ -2,9 +2,9 @@ resource "local_file" "chart_values" {
   for_each = { for key, stateful_resource in local.helm_stateful_resources : key => stateful_resource }
 
   content = templatefile("${local.stateful_resources_template_path}/${each.value.local_helm_config.resource_helm_values_ref}", {
-    resource = each.value,
-    key      = each.key
-    storage_class_name  = var.storage_class_name
+    resource           = each.value,
+    key                = each.key
+    storage_class_name = var.storage_class_name
   })
   filename = "${local.stateful_resources_output_path}/values-${each.value.local_helm_config.resource_helm_chart}-${each.key}.yaml"
 }
@@ -100,13 +100,13 @@ resource "local_file" "strimzi-crs" {
       kafka_cluster_name          = each.key
       kafka_cluster_metrics_label = var.cluster_name
 
-      node_pool_name         = "${each.key}-nodepool"
-      node_pool_size         = each.value.local_operator_config.node_pool_size
-      node_pool_storage_size = each.value.local_operator_config.kafka_data.storage_size
+      node_pool_name               = "${each.key}-nodepool"
+      node_pool_size               = each.value.local_operator_config.node_pool_size
+      node_pool_storage_size       = each.value.local_operator_config.kafka_data.storage_size
       node_pool_storage_class_name = each.value.local_operator_config.kafka_data.storage_class_name
-      node_pool_affinity     = each.value.local_operator_config.kafka_data.affinity_definition
-      namespace              = each.value.local_operator_config.resource_namespace
-      kafka_topics           = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
+      node_pool_affinity           = each.value.local_operator_config.kafka_data.affinity_definition
+      namespace                    = each.value.local_operator_config.resource_namespace
+      kafka_topics                 = each.value.logical_service_config.post_install_schema_config.kafka_provisioning.enabled ? each.value.logical_service_config.post_install_schema_config.kafka_provisioning.topics : {}
 
       strimzi_kafka_grafana_dashboards_version = local.strimzi_kafka_grafana_dashboards_version
       strimzi_kafka_grafana_dashboards_list = ["strimzi-cruise-control", "strimzi-kafka-bridge", "strimzi-kafka-connect",
@@ -121,17 +121,17 @@ resource "local_file" "redis-crs" {
   for_each = { for key, stateful_resource in local.redis_operator_stateful_resources : key => stateful_resource }
   content = templatefile("${local.stateful_resources_template_path}/redis/redis-cluster.yaml.tpl",
     {
-      name                   = each.key
-      namespace              = each.value.local_operator_config.resource_namespace
-      nodes                  = each.value.local_operator_config.nodes
-      storage_size           = each.value.local_operator_config.redis_data.storage_size
-      persistence_enabled    = each.value.local_operator_config.redis_data.persistence_enabled
-      disable_ha             = try(
+      name                = each.key
+      namespace           = each.value.local_operator_config.resource_namespace
+      nodes               = each.value.local_operator_config.nodes
+      storage_size        = each.value.local_operator_config.redis_data.storage_size
+      persistence_enabled = each.value.local_operator_config.redis_data.persistence_enabled
+      disable_ha = try(
         each.value.local_operator_config.disable_ha,
         var.cluster.master_node_count + var.cluster.agent_node_count < each.value.local_operator_config.nodes,
         false
       )
-      storage_class_name     = var.storage_class_name
+      storage_class_name = var.storage_class_name
   })
   filename = "${local.stateful_resources_output_path}/redis-cluster-${each.key}.yaml"
 }
@@ -168,8 +168,8 @@ resource "local_file" "percona-crs" {
       object_store_percona_secret        = "percona-backups-secret"
       object_store_api_url               = "https://${var.object_store_api_url}"
       object_store_region                = var.object_store_region
-      backupSchedule              = each.value.backup_schedule
-      backupStorageName           = "${each.key}-backup-storage"
+      backupSchedule                     = each.value.backup_schedule
+      backupStorageName                  = "${each.key}-backup-storage"
 
       percona_credentials_id_provider_key     = "${var.cluster_name}/${local.percona_credentials_id_provider_key}"
       percona_credentials_secret_provider_key = "${var.cluster_name}/${local.percona_credentials_secret_provider_key}"
@@ -226,7 +226,7 @@ resource "local_file" "dbaas-crs-mysql" {
         backup_schedule_name         = each.value.dbaas_resource_config.backup_schedule_name
         backup_cron_schedule         = each.value.dbaas_resource_config.backup_cron_schedule
         backup_retention             = each.value.dbaas_resource_config.backup_retention
-        dns_name                     = each.value.externalservice_name
+        dns_name                     = "${each.value.externalservice_name}.${var.dbaas_subdomain}"
         management_policy            = each.value.dbaas_resource_config.management_policy
         cloud_region                 = var.cloud_region
         dns_zone_id                  = var.private_dns_zone_id
@@ -234,7 +234,9 @@ resource "local_file" "dbaas-crs-mysql" {
         backup_pvc                   = jsonencode(each.value.dbaas_resource_config.backup_pvc)
         pxc_annotations              = jsonencode(each.value.dbaas_resource_config.pxc_annotations)
         pxc_volume_spec              = jsonencode(each.value.dbaas_resource_config.pxc_volume_spec)
-
+        mysql_configuration          = each.value.dbaas_resource_config.mysql_config
+        istio_nb_egress_waypoint_name   = var.istio_nb_egress_waypoint_name
+        istio_nb_egress_waypoint_namespace = var.istio_nb_egress_waypoint_namespace
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
@@ -291,7 +293,9 @@ resource "local_file" "dbaas-crs-mongodb" {
         cloud_region                 = var.cloud_region
         cc_name                      = var.cc_name
         dns_zone_id                  = var.private_dns_zone_id
-        dns_name                     = "${var.cluster_name}-${each.value.externalservice_name}-external"
+        dns_name                     = "${var.cluster_name}-${each.value.externalservice_name}-external.${var.dbaas_subdomain}"
+        istio_nb_egress_waypoint_name   = var.istio_nb_egress_waypoint_name
+        istio_nb_egress_waypoint_namespace = var.istio_nb_egress_waypoint_namespace
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
@@ -426,7 +430,7 @@ locals {
     }
   }
 
-  monolith_init_mysql_managed_stateful_resources = { for key, resource in local.mysql_managed_stateful_resources : key => resource if var.managed_svc_as_monolith == true }
+  monolith_init_mysql_managed_stateful_resources   = { for key, resource in local.mysql_managed_stateful_resources : key => resource if var.managed_svc_as_monolith == true }
   monolith_init_mongodb_managed_stateful_resources = { for key, resource in local.mongodb_managed_stateful_resources : key => resource if var.managed_svc_as_monolith == true }
 
   consumer_app_externalname_services = {
@@ -610,4 +614,22 @@ variable "deploy_env_monolithic_db" {
 variable "private_dns_zone_id" {
   type        = string
   description = "The ID of the private DNS zone for the environment."
+}
+
+variable "istio_nb_egress_waypoint_name" {
+  type        = string
+  description = "Name of the Istio egress waypoint"
+  default     = "egress-waypoint"
+}
+
+variable "istio_nb_egress_waypoint_namespace" {
+  type        = string
+  description = "Namespace of the Istio egress waypoint"
+  default     = "istio-system"
+}
+
+variable "dbaas_subdomain" {
+  type        = string
+  description = "The subdomain for the DBaaS services."
+  default     = "storage"
 }
