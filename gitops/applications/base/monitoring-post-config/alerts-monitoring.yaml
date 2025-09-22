@@ -1,0 +1,14 @@
+namespace: monitoring
+groups:
+  - name: loki-canary
+    interval: 2m
+    rules:
+      - alert: LokiCanaryMissingEntriesHigh
+        expr: rate(loki_canary_missing_entries_total[${ARGOCD_ENV_prometheus_rate_interval}]) >= 0.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Loki Canary is missing too many entries"
+          description: "The rate of missing entries has been above 0.5 for 10 minutes."
+      
