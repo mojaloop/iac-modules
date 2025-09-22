@@ -1,5 +1,5 @@
 module "generate_certman_files" {
-  source          = "../generate-files"
+  source = "../generate-files"
   var_map = {
     letsencrypt_server                           = var.letsencrypt_server
     letsencrypt_email                            = var.letsencrypt_email
@@ -28,8 +28,8 @@ module "generate_certman_files" {
 }
 
 locals {
-  certman_template_path              = "${path.module}/../generate-files/templates/certmanager"
-  certman_app_file                   = "certmanager-app.yaml"
+  certman_template_path = "${path.module}/../generate-files/templates/certmanager"
+  certman_app_file      = "certmanager-app.yaml"
 }
 
 variable "cert_manager_chart_repo" {
@@ -46,13 +46,13 @@ variable "cert_manager_namespace" {
 variable "cert_manager_sync_wave" {
   type        = string
   description = "cert_manager_sync_wave"
-  default     = "-10"
+  default     = "-17"
 }
 
 variable "cert_manager_issuer_sync_wave" {
   type        = string
   description = "cert_manager_issuer_sync_wave"
-  default     = "-9"
+  default     = "-14"
 }
 
 variable "letsencrypt_server" {

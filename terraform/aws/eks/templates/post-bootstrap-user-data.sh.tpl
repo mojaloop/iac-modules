@@ -1,23 +1,5 @@
 #!/bin/bash
-sudo tee /etc/yum.repos.d/netbird.repo <<EOF
-[netbird]
-name=netbird
-baseurl=https://pkgs.netbird.io/yum/
-enabled=1
-gpgcheck=0
-gpgkey=https://pkgs.netbird.io/yum/repodata/repomd.xml.key
-repo_gpgcheck=1
-EOF
-yum install iscsi-initiator-utils -y && sudo systemctl enable iscsid && sudo systemctl start iscsid 
-
-# Netbird install and configure
-if [[ -n "${netbird_version}" && -n "${netbird_api_host}" && -n "${netbird_setup_key}" ]]; then
-    sudo yum install -y netbird-"${netbird_version}"
-    sudo netbird up -m "${netbird_api_host}" -k "${netbird_setup_key}"
-    sudo iptables -t nat -I POSTROUTING -s ${pod_network_cidr} -o wt0 -j MASQUERADE
-fi
-
-# Nexus Container registry proxy configurations
+# Registry Mirror Container proxy configurations
 if [[ "${enable_registry_mirror}" == "true" && -n "${registry_mirror_fqdn}" ]]; then
     container_registry_mirrors="${container_registry_mirrors}"
     # Split the container_registry_mirrors into an array
@@ -34,11 +16,27 @@ if [[ "${enable_registry_mirror}" == "true" && -n "${registry_mirror_fqdn}" ]]; 
         # Write the configuration to the file
         sudo tee "$config_file" > /dev/null <<EOF
 server = "https://$${registry}"
-[host."https://${registry_mirror_fqdn}"]
+[host."https://${registry_mirror_fqdn}/v2/$${registry}"]
 capabilities = ["pull", "resolve"]
+override_path = true
 EOF
     done
+    containerd_config_file="/etc/containerd/config.toml"
+    if [[ -f "$containerd_config_file" ]]; then
+        # Backup the original config
+        sudo cp "$containerd_config_file" "$containerd_config_file.backup"
+        
+        # Add custom configuration to containerd.toml
+        # Example: Adding registry configuration or other settings
+        sudo tee -a "$containerd_config_file" > /dev/null <<EOF
 
+# Custom configuration added by post-bootstrap script
+[plugins."io.containerd.grpc.v1.cri".registry.configs]
+  [plugins."io.containerd.grpc.v1.cri".registry.configs."${registry_mirror_fqdn}".auth]
+    username = "${docker_registry_username}"
+    password = "${docker_registry_password}"
+EOF
+    fi
     # Restart containerd
     sudo systemctl restart containerd
 fi

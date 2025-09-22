@@ -47,3 +47,6 @@ spec:
 
         - name: "capi_cluster_kubeapi_host"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_host}"
+
+        - name: "capi_cluster_kubeapi_fqdn"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_fqdn}"

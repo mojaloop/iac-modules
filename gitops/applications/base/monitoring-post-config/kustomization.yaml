@@ -27,3 +27,4 @@ configMapGenerator:
     files:
       - alerts-infra.yaml
       - recording-rules-mimir.yaml
+      - alerts-monitoring.yaml

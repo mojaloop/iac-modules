@@ -28,7 +28,7 @@ spec:
   gateways:
     - ${ARGOCD_ENV_mimir_istio_gateway_namespace}/${ARGOCD_ENV_mimir_istio_wildcard_gateway_name}
   hosts:
-    - "mimir.${ARGOCD_ENV_grafana_dns_subdomain}"
+    - "mimir.${ARGOCD_ENV_mimir_dns_subdomain}"
   http:
     - match:
         - uri:
@@ -38,7 +38,27 @@ spec:
             host: central-monitoring-grafana-mimir-gateway
             port:
               number: 80
---- 
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: loki-gateway
+  namespace: ${ARGOCD_ENV_monitoring_namespace}
+spec:
+  gateways:
+    - ${ARGOCD_ENV_mimir_istio_gateway_namespace}/${ARGOCD_ENV_mimir_istio_wildcard_gateway_name} # TODO: use loki subdomain
+  hosts:
+    - "loki.${ARGOCD_ENV_grafana_dns_subdomain}"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: control-center-loki-grafana-loki-gateway
+            port:
+              number: 80
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:

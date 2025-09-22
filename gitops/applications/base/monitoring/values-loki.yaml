@@ -1,6 +1,8 @@
 loki:
   overrideConfiguration:
     # https://grafana.com/docs/loki/latest/operations/storage/retention/
+    server:
+      grpc_server_max_recv_msg_size: 8388608 # 8MB
     compactor:
       retention_enabled: true # enable deletion using compactor
       shared_store: s3
@@ -33,6 +35,8 @@ loki:
         secret_access_key: $${password}
         bucketnames: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
         region: ${ARGOCD_ENV_cloud_region}
+        http_config:
+          insecure_skip_verify: ${ARGOCD_ENV_object_store_insecure_skip_verify}
     memberlist:
       advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
       bind_port: ${ARGOCD_ENV_loki_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate

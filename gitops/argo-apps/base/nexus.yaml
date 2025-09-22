@@ -57,6 +57,15 @@ spec:
         - name: "nexus_dns_subdomain"
           value: "${ARGOCD_ENV_nexus_nexus_dns_subdomain}"
 
+        - name: "nexus_ui_istio_gateway_namespace"
+          value: "${ARGOCD_ENV_nexus_ui_istio_gateway_namespace}"
+
+        - name: "nexus_ui_istio_wildcard_gateway_name"
+          value: "${ARGOCD_ENV_nexus_ui_istio_wildcard_gateway_name}"
+
+        - name: "nexus_ui_dns_subdomain"
+          value: "${ARGOCD_ENV_nexus_ui_dns_subdomain}"
+
         - name: "nexus_storage_size"
           value: "${ARGOCD_ENV_nexus_nexus_storage_size}"
 

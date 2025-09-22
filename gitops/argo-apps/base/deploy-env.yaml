@@ -26,7 +26,7 @@ spec:
       - PrunePropagationPolicy=foreground
       - PruneLast=true
   destination:
-    server: "https://kubernetes.default.svc"
+    server: 'https://kubernetes.default.svc'
     namespace: ${ARGOCD_ENV_deploy_env_config_namespace}
 
   source:
@@ -36,86 +36,119 @@ spec:
     plugin:
       name: envsubst
       env:
-        - name: "gitlab_namespace"
-          value: "${ARGOCD_ENV_deploy_env_config_namespace}"
+        - name: 'gitlab_namespace'
+          value: '${ARGOCD_ENV_deploy_env_config_namespace}'
 
-        - name: "terraform_modules_tag"
-          value: "${ARGOCD_ENV_deploy_env_config_terraform_modules_tag}"
+        - name: 'terraform_modules_tag'
+          value: '${ARGOCD_ENV_deploy_env_config_terraform_modules_tag}'
 
-        - name: "environment_list"
-          value: "${ARGOCD_ENV_deploy_env_config_environment_list}"
+        - name: 'environment_list'
+          value: '${ARGOCD_ENV_deploy_env_config_environment_list}'
 
-        - name: "vault_dns_subdomain"
-          value: "${ARGOCD_ENV_vault_vault_dns_subdomain}"
+        - name: 'vault_dns_subdomain'
+          value: '${ARGOCD_ENV_vault_vault_dns_subdomain}'
 
-        - name: "nexus_dns_subdomain"
-          value: "${ARGOCD_ENV_nexus_nexus_dns_subdomain}"
+        - name: 'nexus_dns_subdomain'
+          value: '${ARGOCD_ENV_nexus_nexus_dns_subdomain}'
 
-        - name: "ceph_dns_subdomain"
-          value: "${ARGOCD_ENV_utils_rook_ceph_bucket_config_dns_subdomain}"
+        - name: 'ceph_dns_subdomain'
+          value: '${ARGOCD_ENV_utils_rook_ceph_bucket_config_dns_subdomain}'
 
-        - name: "monitoring_dns_subdomain"
-          value: "${ARGOCD_ENV_monitoring_monitoring_dns_subdomain}"
+        - name: 'monitoring_dns_subdomain'
+          value: '${ARGOCD_ENV_monitoring_monitoring_dns_subdomain}'
 
-        - name: "vault_kv_secret"
-          value: "${ARGOCD_ENV_vault_vault_vault_kv_secret}"
+        - name: 'grafana_dns_subdomain'
+          value: '${ARGOCD_ENV_monitoring_grafana_dns_subdomain}'
 
-        - name: "gitlab_dns_subdomain"
-          value: "${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}"
+        - name: 'vault_kv_secret'
+          value: '${ARGOCD_ENV_vault_vault_vault_kv_secret}'
 
-        - name: "vault_namespace"
-          value: "${ARGOCD_ENV_vault_vault_namespace}"
+        - name: 'gitlab_dns_subdomain'
+          value: '${ARGOCD_ENV_gitlab_gitlab_dns_subdomain}'
 
-        - name: "deploy_env_config_output_secret"
-          value: "${ARGOCD_ENV_deploy_env_config_output_secret}"
+        - name: 'vault_namespace'
+          value: '${ARGOCD_ENV_vault_vault_namespace}'
 
-        - name: "vault_keys_secret"
-          value: "${ARGOCD_ENV_vault_vault_vault_keys_secret}"
+        - name: 'deploy_env_config_output_secret'
+          value: '${ARGOCD_ENV_deploy_env_config_output_secret}'
 
-        - name: "vault_tf_provider_version"
-          value: "${ARGOCD_ENV_vault_vault_vault_tf_provider_version}"
+        - name: 'vault_keys_secret'
+          value: '${ARGOCD_ENV_vault_vault_vault_keys_secret}'
 
-        - name: "ceph_max_objects"
-          value: "${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_objects}"
+        - name: 'vault_tf_provider_version'
+          value: '${ARGOCD_ENV_vault_vault_vault_tf_provider_version}'
 
-        - name: "ceph_max_size"
-          value: "${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_size}"
+        - name: 'ceph_max_objects'
+          value: '${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_objects}'
 
-        - name: "netbird_version"
-          value: "${ARGOCD_ENV_security_netbird_image_version}"
+        - name: 'ceph_max_size'
+          value: '${ARGOCD_ENV_deploy_env_config_ceph_bucket_max_size}'
 
-        - name: "netbird_client_version"
-          value: "${ARGOCD_ENV_security_netbird_client_version}"
+        - name: 'netbird_version'
+          value: '${ARGOCD_ENV_security_netbird_image_version}'
 
-        - name: "netbird_dns_subdomain"
-          value: "${ARGOCD_ENV_security_netbird_dns_subdomain}"
+        - name: 'netbird_client_version'
+          value: '${ARGOCD_ENV_security_netbird_client_version}'
 
-        - name: "argocd_namespace"
-          value: "${ARGOCD_ENV_utils_argocd_helm_namespace}"
+        - name: 'netbird_dns_subdomain'
+          value: '${ARGOCD_ENV_security_netbird_dns_subdomain}'
 
-        - name: "zitadel_dns_subdomain"
-          value: "${ARGOCD_ENV_security_zitadel_dns_subdomain}"
+        - name: 'argocd_namespace'
+          value: '${ARGOCD_ENV_utils_argocd_helm_namespace}'
 
-        - name: "kubernetes_oidc_groups_claim"
-          value: "${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}"
+        - name: 'zitadel_dns_subdomain'
+          value: '${ARGOCD_ENV_security_zitadel_dns_subdomain}'
 
-        - name: "cc_cidr_block"
-          value: "${ARGOCD_ENV_security_netbird_cc_vpc_cidr}"
+        - name: 'kubernetes_oidc_groups_claim'
+          value: '${ARGOCD_ENV_security_zitadel_zitadel_grant_prefix}'
 
-        - name: "env_token_ttl"
-          value: "${ARGOCD_ENV_deploy_env_config_env_token_ttl}"
+        - name: 'cc_cidr_block'
+          value: '${ARGOCD_ENV_security_netbird_cc_vpc_cidr}'
 
-        - name: "object_storage_endpoint"
-          value: "${ARGOCD_ENV_utils_storage_object_storage_host}"
+        - name: 'sc_cidr_block'
+          value: '${ARGOCD_ENV_utils_capi_capi_cluster_cidr}'
 
-        - name: "object_storage_regional_endpoint"
-          value: "${ARGOCD_ENV_utils_storage_object_storage_regional_host}"
+        - name: 'sc_cloud_provider'
+          value: '${ARGOCD_ENV_utils_capi_cloud_provider}'
 
-        - name: "object_storage_region"
-          value: "${ARGOCD_ENV_utils_storage_object_storage_region}"
+        - name: 'env_token_ttl'
+          value: '${ARGOCD_ENV_deploy_env_config_env_token_ttl}'
 
-        - name: "object_storage_path_style"
-          value: "${ARGOCD_ENV_utils_storage_object_storage_path_style}"
+        - name: 'object_storage_endpoint'
+          value: '${ARGOCD_ENV_utils_storage_object_storage_host}'
 
-        - name: "object_store_insecure_connection"
-          value: "${ARGOCD_ENV_utils_storage_object_store_insecure_connection}"
+        - name: 'object_storage_regional_endpoint'
+          value: '${ARGOCD_ENV_utils_storage_object_storage_regional_host}'
+
+        - name: 'object_storage_region'
+          value: '${ARGOCD_ENV_utils_storage_object_storage_region}'
+
+        - name: 'object_storage_path_style'
+          value: '${ARGOCD_ENV_utils_storage_object_storage_path_style}'
+
+        - name: 'object_store_insecure_connection'
+          value: 'false'
+
+        - name: "object_store_insecure_skip_verify"
+          value: "${ARGOCD_ENV_utils_storage_object_store_insecure_skip_verify}"
+
+        - name: 'cc_domain'
+          value: '${ARGOCD_ENV_dns_utils_cr_config_dns_private_subdomain}'
+
+        - name: 'sc_domain'
+          value: '${ARGOCD_ENV_utils_storage_storage_cluster_domain}'
+
+        - name: 'nexus_readonly_username'
+          value: '${ARGOCD_ENV_nexus_nexus_readonly_user_name}'
+
+        - name: 'harbor_dns_subdomain'
+          value: '${ARGOCD_ENV_harbor_harbor_dns_subdomain}'
+
+        - name: 'harbor_readonly_username'
+          value: '${ARGOCD_ENV_harbor_harbor_readonly_user_name}'
+
+        - name: "capi_cluster_kubeapi_fqdn"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_fqdn}"
+
+        - name: "capi_cluster_kubeapi_port"
+          value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_port}"

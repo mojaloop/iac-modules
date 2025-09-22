@@ -15,7 +15,7 @@ variable "domain" {
 variable "kubernetes_version" {
   description = "version of k8s"
   type        = string
-  default     = "1.31"
+  default     = "1.32"
 }
 
 variable "eks_node_ami_version" {
@@ -353,6 +353,16 @@ variable "container_registry_mirrors" {
 variable "enable_registry_mirror" {
   type    = bool
   default = false
+}
+variable "docker_registry_username" {
+  type        = string
+  description = "docker registry username"
+  default     = ""
+}
+variable "docker_registry_password" {
+  type        = string
+  description = "docker registry password"
+  default     = ""
 }
 
 variable "single_nat_gateway" {

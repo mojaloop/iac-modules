@@ -43,6 +43,12 @@ helmCharts:
   repo: https://open-telemetry.github.io/opentelemetry-helm-charts
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
+- name: loki-canary
+  releaseName: loki-canary
+  version: ${loki_canary_chart_version}
+  repo: ${loki_canary_repo}
+  valuesFile: values-loki-canary.yaml
+  namespace: ${monitoring_namespace}
 
 %{if process_exporter_enabled ~}
 - name: prometheus-process-exporter

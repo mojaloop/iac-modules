@@ -36,6 +36,8 @@ loki:
         access_key_id: $${CEPH_LOKI_USERNAME}
         secret_access_key: $${CEPH_LOKI_PASSWORD}
         bucketnames: ${loki_bucket}
+        http_config:
+          insecure_skip_verify: ${object_store_insecure_skip_verify}
 
 metrics:
   enabled: true

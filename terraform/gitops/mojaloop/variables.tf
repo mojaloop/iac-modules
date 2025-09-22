@@ -174,6 +174,11 @@ variable "monolith_stateful_resources" {
 variable "managed_svc_as_monolith" {
 }
 
+
+variable "cloud_platform" {
+  type = string
+}
+
 variable "cc_name" {
   type        = string
   description = "The name of the control center."
@@ -217,4 +222,15 @@ variable "deploy_env_monolithic_db" {
 variable "monitoring_domain" {
   type        = string
   description = "monitoring domain"
+
+variable "istio_nb_egress_waypoint_namespace" {
+  type        = string
+  description = "Namespace of the Istio egress waypoint for netbird"
+  default     = "istio-system"
+}
+
+variable "istio_nb_egress_waypoint_name" {
+  type        = string
+  description = "Name of the Istio egress waypoint for netbird"
+  default     = "nb-egress-waypoint"
 }

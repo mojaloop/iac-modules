@@ -146,6 +146,11 @@ variable "object_store_insecure_connection" {
   description = "object_store_insecure_connection"
 }
 
+variable "object_store_insecure_skip_verify" {
+  type        = bool
+  description = "object_store_insecure_skip_verify"
+}
+
 variable "central_observability_endpoint" {
   type        = string
   description = "central observability endpoint (mimir api)"
