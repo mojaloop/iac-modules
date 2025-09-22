@@ -89,6 +89,8 @@ velero_backup_ttl: '720h0m0s'
 keto_replica_count: 1
 oathkeeper_replica_count: 1
 keycloak_replica_count: 1
+loki_canary_chart_version: 0.14.0
+loki_canary_repo: https://grafana.github.io/helm-charts
 internal_cc_hosts: 'vault,grafana,loki,mimir'
 internal_sc_hosts: 'cephobjectstore'
 netbird_target_labels: 'app=rook-ceph-operator,app=csi-rbdplugin-provisioner,app=csi-rbdplugin,app=csi-cephfsplugin-provisioner,app=csi-cephfsplugin'

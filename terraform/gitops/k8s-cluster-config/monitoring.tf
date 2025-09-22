@@ -83,6 +83,9 @@ module "generate_monitoring_files" {
     grafana_fqdn                               = local.grafana_fqdn
     grafana_istio_gateway_namespace            = local.grafana_istio_gateway_namespace
     grafana_istio_wildcard_gateway_name        = local.vault_istio_wildcard_gateway_name
+    cluster                                    = var.app_var_map.cluster
+    loki_canary_repo                           = try(var.common_var_map.loki_canary_repo, local.loki_canary_repo)
+    loki_canary_chart_version                  = try(var.common_var_map.loki_canary_chart_version, local.loki_canary_chart_version)
 
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
@@ -196,6 +199,8 @@ locals {
   enable_central_observability_write  = false
   enable_central_observability_read   = false
   central_observability_tenant_id     = "infitx"
+  loki_canary_chart_version           = "0.14.0"
+  loki_canary_repo                    = "https://grafana.github.io/helm-charts"
 
   alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"
   alertmanager_prod_alerts_enabled        = try(var.common_var_map.alertmanager_prod_alerts_enabled, false)

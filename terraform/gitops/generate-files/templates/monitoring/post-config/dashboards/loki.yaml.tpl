@@ -40,3 +40,22 @@ spec:
       dashboards: "grafana"
   url: "https://raw.githubusercontent.com/grafana/loki/v3.0.0/production/helm/loki/src/dashboards/loki-logs.json"
 ---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: loki-canary
+spec:
+  folder: monitoring
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "Prometheus"
+    - inputName: "DS_LOKI"
+      datasourceName: "Loki" 
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  grafanaCom:
+    id: 11489   
+    revision: 4 
+---
+
