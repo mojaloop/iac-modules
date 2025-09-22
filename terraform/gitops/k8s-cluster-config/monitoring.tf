@@ -67,6 +67,7 @@ module "generate_monitoring_files" {
     object_store_regional_endpoint             = var.object_store_regional_endpoint
     object_storage_path_style                  = var.object_storage_path_style
     object_store_insecure_connection           = var.object_store_insecure_connection
+    object_store_insecure_skip_verify          = var.object_store_insecure_skip_verify
     loki_bucket                                = local.loki_bucket
     object_store_loki_user_key                 = "${var.cluster_name}/loki_bucket_access_key_id"
     object_store_loki_password_key             = "${var.cluster_name}/loki_bucket_secret_key_id"
@@ -85,7 +86,6 @@ module "generate_monitoring_files" {
     cluster                                    = var.app_var_map.cluster
     loki_canary_repo                           = try(var.common_var_map.loki_canary_repo, local.loki_canary_repo)
     loki_canary_chart_version                  = try(var.common_var_map.loki_canary_chart_version, local.loki_canary_chart_version)
-
 
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
@@ -169,8 +169,8 @@ locals {
   tempo_chart_version                 = "3.1.0"
   metrics_server_chart_version        = "3.12.2"
   grafana_version                     = "11.6.1"
-  grafana_dashboard_tag               = "v16.3.0-snapshot.17" # NOTE: only for those dashboards which are in mojaloop/helm repo
-  grafana_dashboard_tag_iac_modules   = "main"                # tag for dashboards in mojaloop/iac-modules repo
+  grafana_dashboard_tag               = "v16.3.0-snapshot.17"     # NOTE: only for those dashboards which are in mojaloop/helm repo
+  grafana_dashboard_tag_iac_modules   = "feature/storage-cluster" # tag for dashboards in mojaloop/iac-modules repo
   grafana_operator_version            = "3.5.11"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file                 = "monitoring-app.yaml"

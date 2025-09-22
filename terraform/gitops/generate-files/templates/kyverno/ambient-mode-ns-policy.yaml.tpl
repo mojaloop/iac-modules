@@ -18,6 +18,11 @@ spec:
                 - "kube-system"
                 - "kube-public"
                 - "istio-system"
+%{ if length(opt_out_namespace_list) > 0 ~}
+%{ for ns in opt_out_namespace_list ~}
+                - "${ns}"
+%{ endfor ~}
+%{ endif ~}
 
           # Exclude namespaces with specific labels (OR condition)
           - resources:

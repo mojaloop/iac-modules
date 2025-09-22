@@ -76,4 +76,24 @@ spec:
               namespace: ${cluster_name}
               user: sc-k8s-user
           current-context: sc-k8s-cluster
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: sc-k8s-netbird-traffic
+  namespace: ${crossplane_namespace}
+  labels:
+    istio.io/use-waypoint: ${istio_nb_egress_waypoint_name}
+    istio.io/use-waypoint-namespace: ${istio_nb_egress_waypoint_namespace}
+spec:
+  exportTo:
+    - "*" # Make it available mesh-wide
+  hosts:
+  - "${sc_api_host}"
+  ports:
+    - number: ${sc_api_port}
+      name: https
+      protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS
 %{ endif ~}

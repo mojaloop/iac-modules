@@ -32,9 +32,9 @@ spec:
       - key: kv_path
         value: "${ARGOCD_ENV_vault_kv_secret}"
       - key: netbird_user_rbac_group
-        value: ${ARGOCD_ENV_netbird_user_rbac_group}
+        value: "${ARGOCD_ENV_netbird_user_rbac_group}"
       - key: netbird_admin_rbac_group
-        value: ${ARGOCD_ENV_netbird_admin_rbac_group}
+        value: "${ARGOCD_ENV_netbird_admin_rbac_group}"
       - key: zitadel_fqdn
         value: "${ARGOCD_ENV_zitadel_fqdn}"
       - key: "vault_admin_rbac_group"
@@ -58,29 +58,31 @@ spec:
       - key: "k8s_cluster_type"
         value: "${ARGOCD_ENV_k8s_cluster_type}"
       - key: cc_cluster_name
-        value: ${ARGOCD_ENV_cluster_name}
+        value: "${ARGOCD_ENV_cluster_name}"
       - key: storage_class
         value: "ceph-bucket"
       - key: max_objects
         value: "${ARGOCD_ENV_ceph_max_objects}"
       - key: max_size
-        value: ${ARGOCD_ENV_ceph_bucket_max_size}
+        value: "${ARGOCD_ENV_ceph_bucket_max_size}"
       - key: common_platform_db_secret_name
-        value: ${ARGOCD_ENV_common_platform_db_secret_name}
+        value: "${ARGOCD_ENV_common_platform_db_secret_name}"
       - key: common_mojaloop_db_secret_name
-        value: ${ARGOCD_ENV_common_mojaloop_db_secret_name}
+        value: "${ARGOCD_ENV_common_mojaloop_db_secret_name}"
       - key: common_mongodb_secret_name
-        value: ${ARGOCD_ENV_common_mongodb_secret_name}
+        value: "${ARGOCD_ENV_common_mongodb_secret_name}"
       - key: common_platform_db_external_name
-        value: ${ARGOCD_ENV_common_platform_db_external_name_service}
+        value: "${ARGOCD_ENV_common_platform_db_external_name_service}"
       - key: common_mojaloop_db_external_name
-        value: ${ARGOCD_ENV_common_mojaloop_db_external_name_service}
+        value: "${ARGOCD_ENV_common_mojaloop_db_external_name_service}"
       - key: common_mongodb_external_name
-        value: ${ARGOCD_ENV_common_mongodb_external_name_service}
+        value: "${ARGOCD_ENV_common_mongodb_external_name_service}"
       - key: netbird_operator_management_url
         value: "https://${ARGOCD_ENV_netbird_fqdn}:443"
       - key: netbird_operator_api_key_vault_path
         value: "${ARGOCD_ENV_env_name}/netbird_op_access_token"
+      - key: netbird_setup_key_vault_path
+        value: "${ARGOCD_ENV_env_name}/netbird_k8s_setup_key"
   # All Terraform outputs are written to the connection secret.
   providerConfigRef:
     name: ${ARGOCD_ENV_deploy_env_onboard_app_name}

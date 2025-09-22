@@ -77,6 +77,7 @@ module "mojaloop" {
   managed_svc_as_monolith                  = var.deploy_env_monolithic_db
   deploy_env_monolithic_db                 = var.deploy_env_monolithic_db
   storage_class_name                       = var.storage_class_name
+  cloud_platform                           = var.cloud_platform
   cc_name                                  = var.cc_name
   vpc_cidr                                 = var.vpc_cidr
   vpc_id                                   = var.vpc_id
@@ -84,6 +85,8 @@ module "mojaloop" {
   availability_zones                       = var.availability_zones
   cloud_region                             = var.cloud_region
   private_dns_zone_id                      = var.private_dns_zone_id
+  istio_nb_egress_waypoint_name            = var.istio_nb_egress_waypoint_name
+  istio_nb_egress_waypoint_namespace       = var.istio_nb_egress_waypoint_namespace
 }
 
 module "pm4ml" {
@@ -136,6 +139,7 @@ module "pm4ml" {
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
   storage_class_name                       = var.storage_class_name
+  cloud_platform                           = var.cloud_platform
   private_dns_zone_id                      = var.private_dns_zone_id
 }
 
@@ -171,6 +175,7 @@ module "proxy_pm4ml" {
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
   storage_class_name                       = var.storage_class_name
+  cloud_platform                           = var.cloud_platform
   private_dns_zone_id                      = var.private_dns_zone_id
 }
 
@@ -233,6 +238,7 @@ module "vnext" {
   managed_svc_as_monolith              = var.deploy_env_monolithic_db
   deploy_env_monolithic_db             = var.deploy_env_monolithic_db
   storage_class_name                   = var.storage_class_name
+  cloud_platform                       = var.cloud_platform
   cc_name                              = var.cc_name
   vpc_cidr                             = var.vpc_cidr
   vpc_id                               = var.vpc_id
@@ -240,6 +246,8 @@ module "vnext" {
   availability_zones                   = var.availability_zones
   cloud_region                         = var.cloud_region
   private_dns_zone_id                  = var.private_dns_zone_id
+  istio_nb_egress_waypoint_name        = var.istio_nb_egress_waypoint_name
+  istio_nb_egress_waypoint_namespace   = var.istio_nb_egress_waypoint_namespace
 }
 
 variable "app_var_map" {

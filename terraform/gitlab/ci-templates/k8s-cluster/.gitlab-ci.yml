@@ -31,7 +31,7 @@ stages:
 variables:
   IMAGE_TAG: latest
   #TF_STATE_BASE_ADDRESS: $CI_API_V4_URL/projects/$CI_PROJECT_ID/terraform/state
-  SAST_DISABLED: "true"
+  SAST_DISABLED: 'true'
   CONFIG_PATH: merged-config
   ANSIBLE_BASE_OUTPUT_DIR: $TF_ROOT/ansible
   GITOPS_BUILD_OUTPUT_DIR: $TF_ROOT/gitops
@@ -48,7 +48,7 @@ variables:
 image: ${CI_REGISTRY_IMAGE}:${IMAGE_TAG}
 
 cache:
-  key: "${TF_ROOT}"
+  key: '${TF_ROOT}'
   paths:
     - ${TF_ROOT}/**/.terraform
     - ${TF_ROOT}/**/.terraform.lock.hcl
@@ -81,6 +81,8 @@ cache:
     - export NETBIRD_K8S_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_k8s_setup_key)"
     - export NETBIRD_MS_GW_SETUP_KEY="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/netbird_ms_gw_setup_key)"
     - export KUBERNETES_OIDC_CLIENT_ID="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/kubernetes_oidc_client_id)"
+    - export NEXUS_READONLY_PASSWORD="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/nexus_readonly_password)"
+    - export REGISTRY_MIRROR_READONLY_PASSWORD="$(vault kv get -field=value ${KV_SECRET_PATH}/${CI_PROJECT_NAME}/registry_mirror_readonly_password)"
     - |
       export SUBMODULE_REVISIONS="$((echo "submodules:"; git submodule -q foreach 'echo "  "`git remote get-url origin`": {ref: "`git rev-parse HEAD`", path: "$sm_path"}"') | yq eval '.' -o=json - | tr -d '\n\t\r')"
     - source setcivars.sh
@@ -96,7 +98,7 @@ prepare:image:
   stage: prepare
   image:
     name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
+    entrypoint: ['']
   rules:
     # Tag with the commit SHA if we're in an MR
     - if: $CI_MERGE_REQUEST_IID
@@ -212,7 +214,7 @@ deploy-infra:
       - $CONFIG_PATH
     when: always
   cache:
-    - key: "${TF_ROOT}"
+    - key: '${TF_ROOT}'
       paths:
         - ${TF_ROOT}/**/.terraform
         - ${TF_ROOT}/**/.terraform.lock.hcl
@@ -325,9 +327,9 @@ lint-apps:
     - deploy-infra
   image:
     name: node:20.18.0
-    entrypoint: [""]
+    entrypoint: ['']
   cache:
-    - key: "${TF_ROOT}"
+    - key: '${TF_ROOT}'
       paths:
         - ${TF_ROOT}/**/.terraform
         - ${TF_ROOT}/**/.terraform.lock.hcl

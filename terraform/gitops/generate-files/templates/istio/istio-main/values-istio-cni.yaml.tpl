@@ -10,13 +10,16 @@ global:
   imagePullPolicy: ""
   # Default logging level for Istio components
   logging:
-    level: info
+    level: ${istio_proxy_log_level}
   logAsJson: false
   # Default resources allocated
   defaultResources:
     requests:
       cpu: 100m
       memory: 100Mi
+%{ if istio_cni_platform != "none" ~}
+  platform: ${istio_cni_platform}
+%{ endif ~}
 
 # CNI-and-platform specific path defaults.
 cniBinDir: /opt/cni/bin
