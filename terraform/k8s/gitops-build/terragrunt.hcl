@@ -236,7 +236,7 @@ locals {
   cc_name                        = get_env("cc_name")
   vpc_cidr                       = get_env("vpc_cidr")
   persistent_volume_reclaim_policy = get_env("persistent_volume_reclaim_policy")
-  monitoring_domain              = "${get_env("MONITORING_DOMAIN")}"
+  monitoring_domain              = "${get_env("MONITORING_DOMAIN","update.domain.com")}"
 }
 
 generate "required_providers_override" {
