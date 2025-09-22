@@ -222,6 +222,7 @@ variable "deploy_env_monolithic_db" {
 variable "monitoring_domain" {
   type        = string
   description = "monitoring domain"
+}
 
 variable "istio_nb_egress_waypoint_namespace" {
   type        = string
