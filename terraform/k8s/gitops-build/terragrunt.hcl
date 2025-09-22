@@ -155,7 +155,7 @@ inputs = {
   velero_helm_version                      = local.common_vars.velero_helm_version
   velero_backup_schedule                   = local.common_vars.velero_backup_schedule
   velero_backup_ttl                        = local.common_vars.velero_backup_ttl
-  monitoring_domain                        = "${get_env("MONITORING_DOMAIN")}"
+  monitoring_domain                        = local.monitoring_domain
 }
 
 locals {
@@ -236,6 +236,7 @@ locals {
   cc_name                        = get_env("cc_name")
   vpc_cidr                       = get_env("vpc_cidr")
   persistent_volume_reclaim_policy = get_env("persistent_volume_reclaim_policy")
+  monitoring_domain              = "${get_env("MONITORING_DOMAIN")}"
 }
 
 generate "required_providers_override" {
