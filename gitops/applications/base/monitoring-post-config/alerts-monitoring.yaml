@@ -1,7 +1,7 @@
 namespace: monitoring
 groups:
-  - name: loki-canary.rules
-    interval: 1m
+  - name: loki-canary
+    interval: 2m
     rules:
       - alert: LokiCanaryMissingEntriesHigh
         expr: rate(loki_canary_missing_entries_total[${ARGOCD_ENV_prometheus_rate_interval}]) >= 0.5
