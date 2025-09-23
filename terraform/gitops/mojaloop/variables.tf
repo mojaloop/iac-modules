@@ -224,6 +224,12 @@ variable "monitoring_domain" {
   description = "monitoring domain"
 }
 
+variable "traces_endpoint" {
+  type        = string
+  description = "tracing server endpoint"
+
+}
+
 variable "istio_nb_egress_waypoint_namespace" {
   type        = string
   description = "Namespace of the Istio egress waypoint for netbird"
