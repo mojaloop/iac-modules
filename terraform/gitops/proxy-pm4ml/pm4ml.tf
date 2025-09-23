@@ -66,6 +66,7 @@ module "generate_pm4ml_files" {
     pm4ml_istio_gateway_name                        = local.pm4ml_istio_gateway_names[each.key]
     imagePullSecrets                                = try(yamlencode(each.value.imagePullSecrets), [])
     cluster_name                                    = var.cluster_name
+    traces_endpoint                                 = var.traces_endpoint
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
