@@ -218,11 +218,6 @@ variable "private_dns_zone_id" {
   description = "The Route53 zone ID."
 }
 
-variable "monitoring_domain" {
-  type        = string
-  description = "monitoring domain"
-}
-
 variable "traces_endpoint" {
   type        = string
   description = "tracing server endpoint"

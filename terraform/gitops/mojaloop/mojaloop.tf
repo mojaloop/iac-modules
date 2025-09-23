@@ -209,7 +209,6 @@ module "generate_mojaloop_files" {
     ml_testing_toolkit_cli_chart_version                              = try(var.app_var_map.ml_testing_toolkit_cli_chart_version, var.ml_testing_toolkit_cli_chart_version)
     hub_provisioning_ttk_test_case_version                            = try(var.app_var_map.hub_provisioning_ttk_test_case_version, var.hub_provisioning_ttk_test_case_version)
     cluster_name                                                      = "${var.cluster_name}"
-    monitoring_domain                                                 = var.monitoring_domain
     traces_endpoint                                                   = var.traces_endpoint
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
