@@ -165,6 +165,7 @@ inputs = {
   netbird_operator_helm_version            = local.common_vars.netbird_operator_helm_version
   sc_api_host                              = try(get_env("sc_api_host"), "localhost")
   sc_api_port                              = try(tonumber(get_env("sc_api_port")), 6443)
+  traces_endpoint                          = "traces.${local.internal_cc_subdomain}"
 }
 
 locals {

@@ -142,6 +142,7 @@ module "pm4ml" {
   storage_class_name                       = var.storage_class_name
   cloud_platform                           = var.cloud_platform
   private_dns_zone_id                      = var.private_dns_zone_id
+  traces_endpoint                          = var.traces_endpoint
 }
 
 module "proxy_pm4ml" {

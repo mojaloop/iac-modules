@@ -5,7 +5,7 @@ metadata:
   name: ${pm4ml_release_name}-instrumentation
 spec:
   exporter:
-    endpoint: http://tempo-grafana-tempo-distributor.monitoring.svc.cluster.local:4317
+    endpoint: ${traces_endpoint}
   propagators:
     - tracecontext
     - baggage
