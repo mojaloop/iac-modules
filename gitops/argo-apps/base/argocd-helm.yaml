@@ -545,6 +545,11 @@ spec:
               reposerver.log.level: ${ARGOCD_ENV_utils_argocd_helm_reposerver_log_level}
               controller.log.level: ${ARGOCD_ENV_utils_argocd_helm_controller_log_level}
               applicationsetcontroller.log.level: ${ARGOCD_ENV_utils_argocd_helm_applicationsetcontroller_log_level}
+              
+              # Fix cluster sharding warnings
+              controller.sharding.algorithm: consistent-hashing
+              # Cluster configuration
+              cluster.inClusterEnabled: "true"
 
             cmp:
               create: true
