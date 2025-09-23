@@ -78,7 +78,7 @@ spec:
       masked: false
       environmentScope: "*"
     - key: "VAULT_SERVER_URL"
-      value: "https://${ARGOCD_ENV_vault_fqdn}"
+      value: "https://$VAULT_FQDN"
       protected: true
       masked: false
       environmentScope: "*"
