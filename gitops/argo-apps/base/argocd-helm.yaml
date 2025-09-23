@@ -518,7 +518,7 @@ spec:
                       if contains({"Ready", "Healthy", "Offered", "Established"}, condition.type) then
                         if condition.status == "True" then
                           health_status.status = "Healthy"
-                          health_status.message = "Resource is up-to-date."
+                          hs.message = "Resource is up-to-date."
                           return health_status
                         end
                       end
@@ -640,6 +640,8 @@ spec:
               - name: cmp-plugin
                 configMap:
                   name: argocd-cmp-cm
+              - name: helm-working-dir
+                emptyDir: {}
 
             initContainers:
               - name: helm-plugins
