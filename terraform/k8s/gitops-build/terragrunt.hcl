@@ -155,7 +155,6 @@ inputs = {
   velero_helm_version                      = local.common_vars.velero_helm_version
   velero_backup_schedule                   = local.common_vars.velero_backup_schedule
   velero_backup_ttl                        = local.common_vars.velero_backup_ttl
-  monitoring_domain                        = local.monitoring_domain
   netbird_traffic_hosts                    = join(",", [for host in split(",", local.common_vars.internal_cc_hosts) : "${host}.${local.internal_cc_subdomain}"], [for host in split(",", local.common_vars.internal_sc_hosts) : "${host}.${local.internal_sc_subdomain}"])
   netbird_target_labels                    = local.common_vars.netbird_target_labels
   opt_out_namespace_list                   = local.common_vars.opt_out_namespace_list
@@ -247,7 +246,6 @@ locals {
   cc_name                        = get_env("cc_name")
   vpc_cidr                       = get_env("vpc_cidr")
   persistent_volume_reclaim_policy = get_env("persistent_volume_reclaim_policy")
-  monitoring_domain              = "${get_env("MONITORING_DOMAIN","update.domain.com")}"
   internal_cc_subdomain            = get_env("CC_DOMAIN")
   internal_sc_subdomain            = get_env("SC_DOMAIN")
   netbird_setup_key_vault_path     = get_env("netbird_setup_key_vault_path")
