@@ -54,6 +54,13 @@ spec:
               format: json
 
           applicationSet:
+            resources:
+              requests:
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_applicationset_controller_requests_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_applicationset_controller_requests_memory}
+              limits:
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_applicationset_controller_limits_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_applicationset_controller_limits_memory}
             metrics:
               enabled: true
           notifications:
@@ -579,13 +586,13 @@ spec:
 
           ## Controller ##
           controller:
-            # resources:
-            #   limits:
-            #     cpu: 1
-            #     memory: 1024Mi
-            #   requests:
-            #     cpu: 500m
-            #     memory: 1024Mi
+            resources:
+              requests:
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_application_controller_requests_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_application_controller_requests_memory}
+              limits:
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_application_controller_limits_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_application_controller_limits_memory}
             metrics:
               enabled: true
               serviceMonitor:
@@ -607,13 +614,13 @@ spec:
 
           ## RepoServer ##
           repoServer:
-            # resources:
-            #   limits:
-            #     cpu: 500m
-            #     memory: 1.5Gi
-            #   requests:
-            #     cpu: 250m
-            #     memory: 512Mi
+            resources:
+              requests:
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_repo_server_requests_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_repo_server_requests_memory}
+              limits:
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_repo_server_limits_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_repo_server_limits_memory}
             env:
               - name: HELM_CACHE_HOME
                 value: /helm-working-dir
@@ -781,13 +788,13 @@ spec:
           server:
             podAnnotations:
               secret.reloader.stakater.com/reload: ${ARGOCD_ENV_security_zitadel_argocd_oidc_secret}
-            # resources:
-            #   limits:
-            #     cpu: 400m
-            #     memory: 512Mi
-            #   requests:
-            #     cpu: 400m
-            #     memory: 512Mi
+            resources:
+              requests:
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_server_requests_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_server_requests_memory}
+              limits:
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_server_limits_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_server_limits_memory}
             metrics:
               enabled: true
               serviceMonitor:
@@ -824,12 +831,12 @@ spec:
           ## Redis ##
           redis:
             resources:
-              limits:
-                cpu: 120m
-                memory: 256Mi
               requests:
-                cpu: 120m
-                memory: 256Mi
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_redis_requests_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_redis_requests_memory}
+              limits:
+                cpu: ${ARGOCD_ENV_utils_argocd_helm_redis_limits_cpu}
+                memory: ${ARGOCD_ENV_utils_argocd_helm_redis_limits_memory}
             metrics:
               enabled: true
               serviceMonitor:
