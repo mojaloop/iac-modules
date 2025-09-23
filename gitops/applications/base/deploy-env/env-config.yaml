@@ -199,7 +199,7 @@ spec:
     envTokenTTL: "${ARGOCD_ENV_env_token_ttl}"
   providerConfigsRef:
     vaultProvider: vault-provider
-    kubernetesProvider: provider-kubernetes
-    gitlabProvider: provider-gitlab
+    kubernetesProvider: kubernetes-provider
+    gitlabProvider: gitlab-provider
   managementPolicies:
     - "${ARGOCD_ENV_env_config_management_policy}"
