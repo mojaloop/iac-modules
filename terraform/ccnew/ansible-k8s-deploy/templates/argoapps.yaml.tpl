@@ -545,6 +545,7 @@ argocd_override:
           ceph_bucket_max_objects: "${ceph_bucket_max_objects}"
           ceph_bucket_max_size:  "${ceph_bucket_max_size}"
           env_token_ttl: "${env_token_ttl}"
+          management_policy: "${env_config_management_policy}"
         onboard:
           terraform_modules_tag: "${iac_terraform_modules_tag}"
           object_storage_provider: "${object_storage_provider}"

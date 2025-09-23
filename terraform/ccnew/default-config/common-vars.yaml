@@ -402,6 +402,7 @@ praefect_perc_pgbouncer_memory_request: "64Mi"
 ceph_bucket_max_objects: "'1000000'"
 ceph_bucket_max_size: "30Gi"
 env_token_ttl: "14d"
+env_config_management_policy: "*"
 
 # Zitadel
 zitadel_replicas: "'2'"

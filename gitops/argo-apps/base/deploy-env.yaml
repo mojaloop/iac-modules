@@ -149,3 +149,21 @@ spec:
 
         - name: "capi_cluster_kubeapi_port"
           value: "${ARGOCD_ENV_utils_capi_capi_cluster_kubeapi_port}"
+
+        - name: "obj_store_gw_port"
+          value: "443"
+
+        - name: "tenant_vault_listening_port"
+          value: "443"
+
+        - name: "valut_kv_path"
+          value: "secret"
+
+        - name: "gitlab_admin_rbac_group"
+          value: "${ARGOCD_ENV_gitlab_gitlab_admin_rbac_group}"
+
+        - name: "gitlab_readonly_rbac_group"
+          value: "${ARGOCD_ENV_gitlab_gitlab_readonly_rbac_group}"
+
+        - name: "env_config_management_policy"
+          value: "${ARGOCD_ENV_deploy_env_config_management_policy}"
