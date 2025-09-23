@@ -144,7 +144,6 @@ inputs = {
   netbird_management_url                   = local.netbird_operator_management_url
   netbird_operator_api_key_vault_path      = local.netbird_operator_api_key_vault_path
   cc_name                                  = local.cc_name
-  cc_domain                                = "${get_env("cc")}.${local.CLUSTER_DOMAIN}"
   vpc_cidr                                 = local.vpc_cidr
   vpc_id                                   = dependency.k8s_deploy.outputs.vpc_id
   database_subnets                         = join( ",", dependency.k8s_deploy.outputs.private_subnets)
