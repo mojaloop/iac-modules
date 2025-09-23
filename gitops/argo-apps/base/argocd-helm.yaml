@@ -54,13 +54,6 @@ spec:
               format: json
 
           applicationSet:
-            resources:
-              requests:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_applicationset_controller_requests_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_applicationset_controller_requests_memory}
-              limits:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_applicationset_controller_limits_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_applicationset_controller_limits_memory}
             metrics:
               enabled: true
           notifications:
@@ -518,7 +511,7 @@ spec:
                       if contains({"Ready", "Healthy", "Offered", "Established"}, condition.type) then
                         if condition.status == "True" then
                           health_status.status = "Healthy"
-                          hs.message = "Resource is up-to-date."
+                          health_status.message = "Resource is up-to-date."
                           return health_status
                         end
                       end
@@ -545,11 +538,6 @@ spec:
               reposerver.log.level: ${ARGOCD_ENV_utils_argocd_helm_reposerver_log_level}
               controller.log.level: ${ARGOCD_ENV_utils_argocd_helm_controller_log_level}
               applicationsetcontroller.log.level: ${ARGOCD_ENV_utils_argocd_helm_applicationsetcontroller_log_level}
-              
-              # Fix cluster sharding warnings
-              controller.sharding.algorithm: consistent-hashing
-              # Cluster configuration
-              cluster.inClusterEnabled: "true"
 
             cmp:
               create: true
@@ -591,13 +579,13 @@ spec:
 
           ## Controller ##
           controller:
-            resources:
-              requests:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_application_controller_requests_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_application_controller_requests_memory}
-              limits:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_application_controller_limits_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_application_controller_limits_memory}
+            # resources:
+            #   limits:
+            #     cpu: 1
+            #     memory: 1024Mi
+            #   requests:
+            #     cpu: 500m
+            #     memory: 1024Mi
             metrics:
               enabled: true
               serviceMonitor:
@@ -619,13 +607,13 @@ spec:
 
           ## RepoServer ##
           repoServer:
-            resources:
-              requests:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_repo_server_requests_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_repo_server_requests_memory}
-              limits:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_repo_server_limits_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_repo_server_limits_memory}
+            # resources:
+            #   limits:
+            #     cpu: 500m
+            #     memory: 1.5Gi
+            #   requests:
+            #     cpu: 250m
+            #     memory: 512Mi
             env:
               - name: HELM_CACHE_HOME
                 value: /helm-working-dir
@@ -640,8 +628,6 @@ spec:
               - name: cmp-plugin
                 configMap:
                   name: argocd-cmp-cm
-              - name: helm-working-dir
-                emptyDir: {}
 
             initContainers:
               - name: helm-plugins
@@ -795,13 +781,13 @@ spec:
           server:
             podAnnotations:
               secret.reloader.stakater.com/reload: ${ARGOCD_ENV_security_zitadel_argocd_oidc_secret}
-            resources:
-              requests:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_server_requests_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_server_requests_memory}
-              limits:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_server_limits_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_server_limits_memory}
+            # resources:
+            #   limits:
+            #     cpu: 400m
+            #     memory: 512Mi
+            #   requests:
+            #     cpu: 400m
+            #     memory: 512Mi
             metrics:
               enabled: true
               serviceMonitor:
@@ -838,12 +824,12 @@ spec:
           ## Redis ##
           redis:
             resources:
-              requests:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_redis_requests_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_redis_requests_memory}
               limits:
-                cpu: ${ARGOCD_ENV_utils_argocd_helm_redis_limits_cpu}
-                memory: ${ARGOCD_ENV_utils_argocd_helm_redis_limits_memory}
+                cpu: 120m
+                memory: 256Mi
+              requests:
+                cpu: 120m
+                memory: 256Mi
             metrics:
               enabled: true
               serviceMonitor:
