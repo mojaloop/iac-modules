@@ -160,10 +160,10 @@ spec:
           value: "secret"
 
         - name: "gitlab_admin_rbac_group"
-          value: "${ARGOCD_ENV_gitlab_gitlab_admin_rbac_group}"
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_admin_rbac_group}"
 
-        - name: "gitlab_readonly_rbac_group"
-          value: "${ARGOCD_ENV_gitlab_gitlab_readonly_rbac_group}"
+        - name: "gitlab_user_rbac_group"
+          value: "${ARGOCD_ENV_gitlab_gitlab_gitlab_user_rbac_group}"
 
         - name: "env_config_management_policy"
           value: "${ARGOCD_ENV_deploy_env_config_management_policy}"
