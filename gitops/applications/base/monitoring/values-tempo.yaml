@@ -8,7 +8,7 @@ storage:
     backend: s3
     s3:
       forcepathstyle: true
-      endpoint: cephobjectstore.ccdev.drpp-onprem.global
+      endpoint: ${ARGOCD_ENV_object_storage_regional_host}
       insecure: true
       bucket: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}" 
       region: us-east-1
