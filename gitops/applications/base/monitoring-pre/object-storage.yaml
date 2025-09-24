@@ -63,5 +63,4 @@ spec:
     ceph:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
-      # maxSize: "${ARGOCD_ENV_loki_bucket_storage_size}"
-      maxSize: "10Gi"
+      maxSize: "${ARGOCD_ENV_loki_bucket_storage_size}" # TODO: use a variable for tempo bucket size
