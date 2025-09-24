@@ -7,11 +7,11 @@ storage:
   trace:
     backend: s3
     s3:
-      forcepathstyle: true
+      forcepathstyle: ${ARGOCD_ENV_object_storage_path_style}
       endpoint: ${ARGOCD_ENV_object_storage_regional_host}
-      insecure: true
+      insecure: ${ARGOCD_ENV_object_store_insecure_connection}
       bucket: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}" 
-      region: us-east-1
+      region: ${ARGOCD_ENV_cloud_region}
       access_key: $${username}
       secret_key: $${password}
 
