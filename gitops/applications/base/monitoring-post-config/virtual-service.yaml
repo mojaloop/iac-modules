@@ -46,7 +46,7 @@ metadata:
   namespace: ${ARGOCD_ENV_monitoring_namespace}
 spec:
   gateways:
-    - ${ARGOCD_ENV_mimir_istio_gateway_namespace}/${ARGOCD_ENV_mimir_istio_wildcard_gateway_name} # TODO: use loki subdomain
+    - ${ARGOCD_ENV_mimir_istio_gateway_namespace}/${ARGOCD_ENV_mimir_istio_wildcard_gateway_name} # TODO: use monitoring subdomain
   hosts:
     - "loki.${ARGOCD_ENV_grafana_dns_subdomain}"
   http:
@@ -66,7 +66,7 @@ metadata:
   namespace: ${ARGOCD_ENV_monitoring_namespace}
 spec:
   gateways:
-    - ${ARGOCD_ENV_mimir_istio_gateway_namespace}/${ARGOCD_ENV_mimir_istio_wildcard_gateway_name} # TODO: update the variables
+    - ${ARGOCD_ENV_mimir_istio_gateway_namespace}/${ARGOCD_ENV_mimir_istio_wildcard_gateway_name} # TODO: use monitoring subdomain
   hosts:
     - "traces.${ARGOCD_ENV_grafana_dns_subdomain}"
   http:
