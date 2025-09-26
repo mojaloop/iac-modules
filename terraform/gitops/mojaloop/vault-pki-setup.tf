@@ -13,7 +13,7 @@ module "generate_vault_pki_setup_files" {
     pki_server_cert_role                  = var.pki_server_cert_role
     pki_client_cert_role                  = var.pki_client_cert_role
     k8s_auth_path                         = var.k8s_auth_path
-    vault_endpoint                        = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
+    vault_endpoint                        = "http://vault-active.${var.vault_namespace}.svc.cluster.local:8200"
     vault_pki_sync_wave                   = var.vault_pki_sync_wave
     vault_pki_namespace                   = var.vault_pki_namespace
   }
