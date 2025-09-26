@@ -7,7 +7,7 @@ ENV_TYPE=${ENV_TYPE:-dev}
 mkdir -p $CONFIG_PATH
 for configFile in $({ ls default-config/; ls custom-config/; } | sort -u)
 do
-    echo $configFile
+    echo -n $configFile " ➡️ "
     ENV_CONFIG=${configFile/%.yaml/.$ENV_TYPE.yaml}
     ENV_CONFIG=${ENV_CONFIG/%.json/.$ENV_TYPE.json}
     ADDON_CONFIG=${configFile/%.yaml/.config.yaml}
@@ -24,7 +24,7 @@ do
     # profiles/**/xxx-*.<env>.(yaml|json) sorted by name
     # custom-config/*.(yaml|json)
     # custom-config/xxx-*.(yaml|json) sorted by name
-    echo \
+    python3 .gitlab/scripts/dictmerge.py \
         default-config/$configFile \
         addons/**/@($ADDON_CONFIG) \
         addons/**/+(*-)@($ADDON_CONFIG) \
