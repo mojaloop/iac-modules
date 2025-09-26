@@ -7,6 +7,7 @@ ENV_TYPE=${ENV_TYPE:-dev}
 mkdir -p $CONFIG_PATH
 for configFile in $({ ls default-config/; ls custom-config/; } | sort -u)
 do
+    echo
     echo -n $configFile " ➡️ "
     ENV_CONFIG=${configFile/%.yaml/.$ENV_TYPE.yaml}
     ENV_CONFIG=${ENV_CONFIG/%.json/.$ENV_TYPE.json}
@@ -37,3 +38,4 @@ do
         custom-config/$configFile \
         custom-config/+(*-)$configFile $CONFIG_PATH;
 done;
+echo
