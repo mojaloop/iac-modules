@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ambient-mode-ns-policy.yaml
   - image-rewrite-policy.yaml
+  - image-pull-secret.yaml
 helmCharts:
 - name: kyverno
   releaseName: kyverno

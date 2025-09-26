@@ -6,6 +6,8 @@ module "generate_kyverno_files" {
     kyverno_sync_wave      = var.kyverno_sync_wave
     kyverno_chart_version  = var.kyverno_chart_version
     opt_out_namespace_list = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
+    image_pull_secret_name = var.image_pull_secret_name
+    image_pull_secret_namespace = var.image_pull_secret_namespace
   }
   file_list       = [for f in fileset(local.kyverno_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.kyverno_app_file, f))]
   template_path   = local.kyverno_template_path
@@ -43,4 +45,15 @@ variable "opt_out_namespace_list" {
   type        = string
   description = "Comma-delimited list of additional namespaces to opt out of ambient mode"
   default     = ""
+}
+variable "image_pull_secret_name" {
+  type        = string
+  description = "Name of the image pull secret to be used in the Kyverno policies"
+  default     = "registry-credentials"
+}
+
+variable "image_pull_secret_namespace" {
+  type        = string
+  description = "Namespace of the image pull secret to be used in the Kyverno policies"
+  default     = "external-secrets"
 }
