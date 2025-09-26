@@ -91,6 +91,8 @@ if os.path.isfile(default_config_file):
 else:
     data1 = {}
 
+print(sys.argv)
+
 def load_custom_config(custom_config_file):
     customExt = os.path.splitext(custom_config_file)[1]
     if defaultExt != customExt:
