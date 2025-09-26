@@ -123,11 +123,16 @@ if fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources
         exit(1)
 else:
     merged = {}
-    if fileName == "pm4ml-vars.yaml" or fileName == "proxy-pm4ml-vars.yaml":
+    if fileName == "pm4ml-vars.yaml":
         for custom_config_file in custom_config_files:
             data2 = load_custom_config(custom_config_file)
-            if "default" in data2 and len(data2["default"]) > 0:
-                data1 = dict(mergedicts(data1, data2["default"]))
+            if "pm4mls_default" in data2 and len(data2["pm4mls_default"]) > 0:
+                data1 = dict(mergedicts(data1, data2["pm4mls_default"]))
+    elif fileName == "proxy-pm4ml-vars.yaml":
+        for custom_config_file in custom_config_files:
+            data2 = load_custom_config(custom_config_file)
+            if "proxy_pm4mls_default" in data2 and len(data2["proxy_pm4mls_default"]) > 0:
+                data1 = dict(mergedicts(data1, data2["proxy_pm4mls_default"]))
     for custom_config_file in custom_config_files:
         if fileName == "pm4ml-vars.yaml":
             data2 = load_custom_config(custom_config_file)
