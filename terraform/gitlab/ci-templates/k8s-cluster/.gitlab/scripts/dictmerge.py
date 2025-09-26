@@ -52,13 +52,13 @@ def mergeListOfDicts(data1, data2, fileName, outputFilename, fileType):
     mergedItems=[]
 
     if len(data2) == 0:
-        print("The custom-config file ",fileName, "is empty ,so using the default configuration file")
+        print("  The custom-config file ",fileName, "is empty ,so using the default configuration file")
         mergedItems = data1
         writeDict(mergedItems, fileType, outputFilename)
         exit(0)
 
     if len(data1) != len(data2):
-        print("The number of elements in custom-config and default_config differs for",fileName, ",so using the default configuration file")
+        print("  The number of elements in custom-config and default_config differs for",fileName, ",so using the default configuration file")
         mergedItems = data1
         writeDict(mergedItems, fileType, outputFilename)
         exit(0)
@@ -75,7 +75,7 @@ if len(sys.argv) >= 4:
     outputFilename = outputPath+"/"+fileName
     defaultExt = os.path.splitext(default_config_file)[1]
 else:
-    print("Please pass valid parameters usage : dictmerge.py defaultConfigFilePath ...customConfigFilePath outputPath")
+    print("  Please pass valid parameters usage : dictmerge.py defaultConfigFilePath ...customConfigFilePath outputPath")
     exit(1)
 
 if os.path.isfile(default_config_file):
@@ -86,15 +86,17 @@ if os.path.isfile(default_config_file):
         with open(default_config_file, 'r') as f:
             data1 = json.load(f)
     else:
-       print("File type not supported")
+       print("  File type not supported")
        exit(1)
 else:
     data1 = {}
 
+print(sys.argv)
+
 def load_custom_config(custom_config_file):
     customExt = os.path.splitext(custom_config_file)[1]
     if defaultExt != customExt:
-        print("Please pass same type of files to merge")
+        print("  Please pass same type of files to merge")
         exit(1)
     if os.path.isfile(custom_config_file):
         if customExt == ".yaml":
@@ -105,24 +107,34 @@ def load_custom_config(custom_config_file):
                 with open(custom_config_file, 'r') as f:
                     return json.load(f)
             except json.JSONDecodeError:
-                print("Could not parse the custom config file", custom_config_file," so assigning empty dict")
+                print("  Could not parse the custom config file", custom_config_file," so assigning empty dict")
                 return {}
 
         else:
-            print("File type not supported:", custom_config_file)
+            print("  File type not supported:", custom_config_file)
             exit(1)
     else:
-        print("Custom config file "+custom_config_file+" file does not exist. Assigning empty data dict")
+        print("  Custom config file "+custom_config_file+" file does not exist. Assigning empty data dict")
         return {}
 
 if fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources.json" , "mojaloop-rbac-api-resources.yaml","vnext-stateful-resources.json" ):
     if len(sys.argv) == 4:
         mergeListOfDicts(data1, load_custom_config(custom_config_files[0]), fileName, outputFilename, defaultExt)
     else:
-        print("Please pass valid parameters usage : dictmerge.py defaultConfigFilePath customConfigFilePath outputPath")
+        print("  Please pass valid parameters usage : dictmerge.py defaultConfigFilePath customConfigFilePath outputPath")
         exit(1)
 else:
     merged = {}
+    if fileName == "pm4ml-vars.yaml":
+        for custom_config_file in custom_config_files:
+            data2 = load_custom_config(custom_config_file)
+            if "pm4mls_default" in data2 and len(data2["pm4mls_default"]) > 0:
+                data1 = dict(mergedicts(data1, data2["pm4mls_default"]))
+    elif fileName == "proxy-pm4ml-vars.yaml":
+        for custom_config_file in custom_config_files:
+            data2 = load_custom_config(custom_config_file)
+            if "proxy_pm4mls_default" in data2 and len(data2["proxy_pm4mls_default"]) > 0:
+                data1 = dict(mergedicts(data1, data2["proxy_pm4mls_default"]))
     for custom_config_file in custom_config_files:
         if fileName == "pm4ml-vars.yaml":
             data2 = load_custom_config(custom_config_file)
