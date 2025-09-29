@@ -1,0 +1,5 @@
+tempoAddress:
+  push: http://central-tempo-distributor:14250
+  query: http://central-tempo-query-frontend:3200
+podMonitor:
+  enabled: true

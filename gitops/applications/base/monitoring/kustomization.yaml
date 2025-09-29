@@ -29,6 +29,18 @@ helmCharts:
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesFile: values-loki.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
+  - name: tempo-distributed
+    releaseName: central
+    version: 1.47.1     # Expose via config variables
+    repo:  https://grafana.github.io/helm-charts
+    valuesFile: values-tempo.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
+  - name: tempo-vulture
+    releaseName: central
+    version: 0.9.1
+    repo:  https://grafana.github.io/helm-charts
+    valuesFile: values-vulture.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: loki-canary
     releaseName: loki-canary
     version: ${ARGOCD_ENV_loki_canary_helm_version}

@@ -210,14 +210,21 @@ variable "vpc_cidr" {
 }
 
 variable "private_dns_zone_id" {
-  type = string
+  type        = string
   description = "The Route53 zone ID."
 }
 
 variable "deploy_env_monolithic_db" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
+
+variable "traces_endpoint" {
+  type        = string
+  description = "tracing server endpoint"
+
+}
+
 variable "istio_nb_egress_waypoint_namespace" {
   type        = string
   description = "Namespace of the Istio egress waypoint for netbird"

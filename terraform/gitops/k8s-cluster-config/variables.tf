@@ -179,8 +179,8 @@ variable "db_mediated_by_control_center" {
 }
 
 variable "deploy_env_monolithic_db" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "cc_name" {
@@ -214,9 +214,15 @@ variable "vpc_cidr" {
 }
 
 variable "private_dns_zone_id" {
-  type = string
+  type        = string
   description = "The Route53 zone ID."
 }
+
+variable "traces_endpoint" {
+  type        = string
+  description = "tracing server endpoint"
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value

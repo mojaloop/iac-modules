@@ -158,7 +158,12 @@ variable "cloud_platform" {
 }
 
 variable "private_dns_zone_id" {
-  type = string
+  type        = string
   description = "The Route53 zone ID."
 }
 
+variable "traces_endpoint" {
+  type        = string
+  description = "tracing server endpoint"
+
+}

@@ -120,6 +120,10 @@ variable "obj_store_region" {
   description = "cloud region"
 }
 
+variable "monitoring_domain" {
+  description = "domain for monitoring apps"
+}
+
 variable "cc_domain" {
   description = "domain that cc is running in"
 }
@@ -138,13 +142,13 @@ variable "registry_mirror_readonly_username" {
 }
 
 variable "sc_api_host" {
-  type    = string
+  type        = string
   description = "Host for the SC API server"
-  default = "localhost"
+  default     = "localhost"
 }
 
 variable "sc_api_port" {
-  type    = number
+  type        = number
   description = "Port for the SC API server"
-  default = 6443
+  default     = 6443
 }

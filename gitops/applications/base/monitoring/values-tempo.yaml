@@ -1,0 +1,64 @@
+
+# values: https://github.com/grafana/helm-charts/blob/tempo-distributed-1.47.1/charts/tempo-distributed/templates/metrics-generator/deployment-metrics-generator.yaml
+
+# TODO: enable configuring rention period
+# TODO: enable configuring resource requests and limits
+
+storage:
+  trace:
+    backend: s3
+    s3:
+      forcepathstyle: ${ARGOCD_ENV_object_storage_path_style}
+      endpoint: ${ARGOCD_ENV_object_storage_regional_host}
+      insecure: ${ARGOCD_ENV_object_store_insecure_connection}
+      bucket: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}" 
+      region: ${ARGOCD_ENV_cloud_region}
+      access_key: $${username}
+      secret_key: $${password}
+      tls_insecure_skip_verify: ${ARGOCD_ENV_object_store_insecure_skip_verify}
+
+
+global:
+  extraArgs:
+  - '-config.expand-env=true'
+  extraEnvFrom:
+    - secretRef:
+        name: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}"	
+
+queryFrontend:
+  extraArgs:
+  - '-config.expand-env=true' # unfortunately queryFrontend does not inherit global extraArgs
+
+metricsGenerator:
+  enabled: true
+  extraArgs:
+  - '-config.expand-env=true' # unfortunately metricsGenerator does not inherit global extraArgs
+  extraEnvFrom:
+    - secretRef:
+        name: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}"	
+
+ingester:
+  config:
+    replication_factor: 1 # TODO: make it configurable
+
+traces:
+  jaeger:
+    grpc:
+      enabled: true
+  otlp:
+    grpc:
+      enabled: true
+
+overrides:
+  # -- default config values for all tenants, can be overridden by per-tenant overrides. If a tenant's specific overrides are not found in the `per_tenant_overrides` block, the values in this `default` block will be used. Configs inside this block should follow the new overrides indentation format
+  defaults: 
+    metrics_generator:
+     processors:
+      - service-graphs
+      - span-metrics
+      - local-blocks
+
+
+metaMonitoring:
+  serviceMonitor:
+    enabled: true

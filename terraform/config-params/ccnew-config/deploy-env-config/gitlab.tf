@@ -80,6 +80,15 @@ resource "gitlab_group_variable" "zitadel_fqdn" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "monitoring_domain" {
+  group             = data.gitlab_group.iac.id
+  key               = "MONITORING_DOMAIN"
+  value             = var.monitoring_domain
+  protected         = true
+  masked            = false
+  environment_scope = "*"
+}
+
 resource "gitlab_group_variable" "nexus_docker_repo_listening_port" {
   group             = data.gitlab_group.iac.id
   key               = "NEXUS_DOCKER_REPO_LISTENING_PORT"
