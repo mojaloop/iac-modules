@@ -31,3 +31,10 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
+      - RespectIgnoreDifferences=true
+  ignoreDifferences:
+    - group: ""
+      kind: "Namespace"
+      jsonPointers:
+        - /metadata/annotations # synced elsewhere
+        - /metadata/labels # synced elsewhere
