@@ -125,25 +125,32 @@ if fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources
         exit(1)
 else:
     merged = {}
+    keys = set()
     if fileName == "pm4ml-vars.yaml":
         for custom_config_file in custom_config_files:
             data2 = load_custom_config(custom_config_file)
             if "pm4mls_default" in data2 and len(data2["pm4mls_default"]) > 0:
                 data1 = dict(mergedicts(data1, data2["pm4mls_default"]))
+            if "pm4mls" in data2 and len(data2["pm4mls"]) > 0:
+                keys = keys.union(data2["pm4mls"].keys())
+        merged = dict(mergedicts(merged, {'pm4mls': {name: data1 for name in keys}}))
     elif fileName == "proxy-pm4ml-vars.yaml":
         for custom_config_file in custom_config_files:
             data2 = load_custom_config(custom_config_file)
             if "proxy_pm4mls_default" in data2 and len(data2["proxy_pm4mls_default"]) > 0:
                 data1 = dict(mergedicts(data1, data2["proxy_pm4mls_default"]))
+            if "proxy_pm4mls" in data2 and len(data2["proxy_pm4mls"]) > 0:
+                keys = keys.union(data2["proxy_pm4mls"].keys())
+        merged = dict(mergedicts(merged, {'proxy_pm4mls': {name: data1 for name in keys}}))
     for custom_config_file in custom_config_files:
         if fileName == "pm4ml-vars.yaml":
             data2 = load_custom_config(custom_config_file)
             if "pm4mls" in data2 and len(data2["pm4mls"]) > 0:
-                merged = dict(mergedicts(merged, {'pm4mls': {name: dict(mergedicts(data1, pm4ml)) for name, pm4ml in data2['pm4mls'].items()}}))
+                merged = dict(mergedicts(merged, {'pm4mls': {name: pm4ml for name, pm4ml in data2['pm4mls'].items()}}))
         elif fileName == "proxy-pm4ml-vars.yaml":
             data2 = load_custom_config(custom_config_file)
             if "proxy_pm4mls" in data2 and len(data2["proxy_pm4mls"]) > 0:
-                merged = dict(mergedicts(merged, {'proxy_pm4mls': {name: dict(mergedicts(data1, pm4ml)) for name, pm4ml in data2['proxy_pm4mls'].items()}}))
+                merged = dict(mergedicts(merged, {'proxy_pm4mls': {name: pm4ml for name, pm4ml in data2['proxy_pm4mls'].items()}}))
         else:
             data1 = dict(mergedicts(data1, load_custom_config(custom_config_file)))
             merged = data1
