@@ -1,7 +1,7 @@
 
 # values: https://github.com/grafana/helm-charts/blob/tempo-distributed-1.47.1/charts/tempo-distributed/templates/metrics-generator/deployment-metrics-generator.yaml
 
-# TODO: enable configurations via env vars
+# TODO: enable configuring rention period
 
 storage:
   trace:
