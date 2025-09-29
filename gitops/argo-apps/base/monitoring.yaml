@@ -251,6 +251,9 @@ spec:
         - name: "loki_compactor_limits_memory"
           value: "${ARGOCD_ENV_monitoring_loki_compactor_limits_memory}"
 
+        - name: "tempo_distributed_helm_version"
+          value: "${ARGOCD_ENV_monitoring_monitoring_tempo_distributed_helm_version}"          
+
         - name: "cloudwatch_exporter_role_arn"
           value: "${ARGOCD_ENV_monitoring_monitoring_cloudwatch_exporter_role_arn}"
 

@@ -185,6 +185,9 @@ prometheus_retention_period: 10d
 metrics_server_helm_version: 3.12.2
 metrics_server_replicas: "'1'"
 
+#tempo
+tempo_distributed_helm_version: "1.47.1"
+
 # monitoring/mimir
 mimir_bucket_name: "mimir-bucket"
 mimir_bucket_max_objects: "'1000000'"
