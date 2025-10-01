@@ -25,9 +25,7 @@ global:
     - secretRef:
         name: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}"	
 
-queryFrontend:
-  extraArgs:
-  - '-config.expand-env=true' # unfortunately queryFrontend does not inherit global extraArgs
+
 
 metricsGenerator:
   enabled: true
@@ -37,9 +35,24 @@ metricsGenerator:
     - secretRef:
         name: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}"	
 
+distributor:
+
 ingester:
   config:
     replication_factor: 1 # TODO: make it configurable
+
+querier:
+
+compactor:
+
+
+queryFrontend:
+  extraArgs:
+  - '-config.expand-env=true' # unfortunately queryFrontend does not inherit global extraArgs
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 traces:
   jaeger:
