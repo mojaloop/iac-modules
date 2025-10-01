@@ -34,16 +34,36 @@ metricsGenerator:
   extraEnvFrom:
     - secretRef:
         name: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}"	
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 distributor:
-
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+      
 ingester:
   config:
     replication_factor: 1 # TODO: make it configurable
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 querier:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 compactor:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 
 queryFrontend:
