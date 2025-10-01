@@ -36,34 +36,34 @@ metricsGenerator:
         name: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}"	
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: ${ARGOCD_ENV_tempo_metrics_generator_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_metrics_generator_limits_memory}
 
 distributor:
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
-      
+      cpu: ${ARGOCD_ENV_tempo_distributor_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_distributor_limits_memory}
+
 ingester:
   config:
     replication_factor: 1 # TODO: make it configurable
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: ${ARGOCD_ENV_tempo_ingester_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_ingester_limits_memory}
 
 querier:
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: ${ARGOCD_ENV_tempo_querier_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_querier_limits_memory}
 
 compactor:
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: ${ARGOCD_ENV_tempo_compactor_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_compactor_limits_memory}
 
 
 queryFrontend:
@@ -71,8 +71,8 @@ queryFrontend:
   - '-config.expand-env=true' # unfortunately queryFrontend does not inherit global extraArgs
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: ${ARGOCD_ENV_tempo_query_frontend_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_query_frontend_limits_memory}
 
 traces:
   jaeger:

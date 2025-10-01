@@ -187,6 +187,18 @@ metrics_server_replicas: "'1'"
 
 #tempo
 tempo_helm_version: "1.47.1"
+tempo_distributor_limits_cpu: "500m"
+tempo_distributor_limits_memory: "512Mi"
+tempo_querier_limits_cpu: "500m"
+tempo_querier_limits_memory: "512Mi"
+tempo_compactor_limits_cpu: "500m"
+tempo_compactor_limits_memory: "512Mi"
+tempo_ingester_limits_cpu: "500m"
+tempo_ingester_limits_memory: "512Mi"
+tempo_query_frontend_limits_cpu: "500m"
+tempo_query_frontend_limits_memory: "512Mi"
+tempo_metrics_generator_limits_cpu: "500m"
+tempo_metrics_generator_limits_memory: "512Mi"
 
 # monitoring/mimir
 mimir_bucket_name: "mimir-bucket"
