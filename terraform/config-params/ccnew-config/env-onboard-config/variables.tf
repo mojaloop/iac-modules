@@ -155,5 +155,6 @@ locals {
     velero  = "velero"
     percona = "percona"
     audit   = "audit"
+    report   = "report"
   }
 }

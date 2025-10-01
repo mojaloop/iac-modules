@@ -156,3 +156,32 @@ resource "vault_kv_secret_v2" "audit_bucket_secret_key_id" {
     }
   )
 }
+
+data "kubernetes_secret_v1" "report_bucket" {
+  metadata {
+      name      = "report-${var.env_name}-${var.hyphenated_domain}"
+      namespace = var.env_name
+  }
+}
+
+resource "vault_kv_secret_v2" "report_bucket_access_key_id" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/report_bucket_access_key_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = try(data.kubernetes_secret_v1.report_bucket.data.username, "")
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "report_bucket_secret_key_id" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/report_bucket_secret_key_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = try(data.kubernetes_secret_v1.report_bucket.data.password, "")
+    }
+  )
+}
