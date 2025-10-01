@@ -22,7 +22,7 @@ configuration:
       config:
         region: ${object_store_region}
         s3Url: ${object_store_api_url}
-        s3ForcePathStyle: true
+        s3ForcePathStyle: ${object_storage_path_style}
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
 
