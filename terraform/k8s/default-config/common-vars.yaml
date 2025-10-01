@@ -48,7 +48,7 @@ prometheus_retention_period: 10d
 tempo_retention_period: 72h
 istio_egress_gateway_max_replicas: 5
 microk8s_version: 1.31/stable
-alertmanager_enabled: false
+alertmanager_enabled: true
 alertmanager_prod_alerts_enabled: false # if false, alerts are sent to dev alerts slack channel
 alertmanager_slack_integration_enabled: false
 alertmanager_jira_integration_enabled: false

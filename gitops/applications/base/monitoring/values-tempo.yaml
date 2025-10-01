@@ -1,5 +1,5 @@
 
-# values: https://github.com/grafana/helm-charts/blob/tempo-distributed-1.47.1/charts/tempo-distributed/templates/metrics-generator/deployment-metrics-generator.yaml
+# values: https://github.com/grafana/helm-charts/blob/tempo-distributed-1.47.1/charts/tempo-distributed/values.yaml
 
 # TODO: enable configuring rention period
 # TODO: enable configuring resource requests and limits
