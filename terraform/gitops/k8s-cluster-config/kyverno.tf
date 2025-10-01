@@ -36,7 +36,7 @@ variable "kyverno_sync_wave" {
 variable "kyverno_chart_version" {
   type        = string
   description = "kyverno_chart_version"
-  default     = "3.3.7"
+  default     = "3.5.2"
 }
 
 variable "opt_out_namespace_list" {
