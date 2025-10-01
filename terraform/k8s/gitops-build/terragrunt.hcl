@@ -165,6 +165,7 @@ inputs = {
   sc_api_host                              = try(get_env("sc_api_host"), "localhost")
   sc_api_port                              = try(tonumber(get_env("sc_api_port")), 6443)
   traces_endpoint                          = "https://traces.${local.internal_cc_subdomain}"
+  kyverno_chart_version                    = local.common_vars.kyverno_chart_version
 }
 
 locals {

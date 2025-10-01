@@ -46,7 +46,7 @@ spec:
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: redirect-dockerio-to-mirrorgcrio
+  name: redirect-bitnami-to-bitnamilegacy
 spec:
   rules:
     - name: redirect-bitnami-to-bitnamilegacy
@@ -88,3 +88,23 @@ spec:
                       - name: BITNAMI_REWRITE
                         value: "true"
                     image: 'docker.io/bitnamilegacy/{{ images.containers."{{element.name}}".name}}:{{images.containers."{{element.name}}".tag}}'
+          - list: request.object.spec.initContainers[]
+            preconditions:
+              all:
+                - key: "{{ image_normalize(element.image) }}"
+                  operator: AnyIn
+                  value:
+                    - docker.io/bitnami/*
+            patchStrategicMerge:
+              metadata:
+                annotations:
+                  kyverno/redirect-bitnami-to-bitnamilegacy: applied
+              spec:
+                initContainers:
+                  - name: "{{ element.name }}"
+                    env:
+                      - name: ORIGINAL_IMAGE
+                        value: "{{ element.image }}"
+                      - name: BITNAMI_REWRITE
+                        value: "true"
+                    image: 'docker.io/bitnamilegacy/{{ images.initContainers."{{element.name}}".name}}:{{images.initContainers."{{element.name}}".tag}}'
