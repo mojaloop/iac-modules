@@ -603,7 +603,7 @@ argocd_override:
           cluster_domain: "${cluster_domain}"
           dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
         tempo:
-          tempo_helm_version: ${tempo_helm_version}
+          helm_version: ${tempo_helm_version}
         grafana:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"
