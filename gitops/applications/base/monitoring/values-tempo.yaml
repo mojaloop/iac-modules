@@ -48,7 +48,7 @@ distributor:
       memory: ${ARGOCD_ENV_tempo_distributor_limits_memory}
 
 ingester:
-  replicas: ${ARGOCD_ENV_tempo_ingester_replica_count}
+  replicas: 3
   config:
     replication_factor: 1 # TODO: make it configurable
   resources:
