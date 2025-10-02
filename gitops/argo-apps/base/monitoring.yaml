@@ -277,6 +277,18 @@ spec:
           value: "${ARGOCD_ENV_monitoring_tempo_metrics_generator_limits_cpu}"
         - name: "tempo_metrics_generator_limits_memory"
           value: "${ARGOCD_ENV_monitoring_tempo_metrics_generator_limits_memory}"
+        - name: "tempo_distributor_replica_count"
+          value: "${ARGOCD_ENV_monitoring_tempo_distributor_replica_count}"
+        - name: "tempo_querier_replica_count"
+          value: "${ARGOCD_ENV_monitoring_tempo_querier_replica_count}"
+        - name: "tempo_compactor_replica_count"
+          value: "${ARGOCD_ENV_monitoring_tempo_compactor_replica_count}"
+        - name: "tempo_ingester_replica_count"
+          value: "${ARGOCD_ENV_monitoring_tempo_ingester_replica_count}"
+        - name: "tempo_query_frontend_replica_count"
+          value: "${ARGOCD_ENV_monitoring_tempo_query_frontend_replica_count}"
+        - name: "tempo_metrics_generator_replica_count"
+          value: "${ARGOCD_ENV_monitoring_tempo_metrics_generator_replica_count}"
         
 
         - name: "cloudwatch_exporter_role_arn"

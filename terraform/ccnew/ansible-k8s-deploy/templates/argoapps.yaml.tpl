@@ -616,6 +616,12 @@ argocd_override:
           query_frontend_limits_memory: ${tempo_query_frontend_limits_memory}
           metrics_generator_limits_cpu: ${tempo_metrics_generator_limits_cpu}
           metrics_generator_limits_memory: ${tempo_metrics_generator_limits_memory}
+          distributor_replica_count: ${tempo_distributor_replica_count}
+          querier_replica_count: ${tempo_querier_replica_count}
+          compactor_replica_count: ${tempo_compactor_replica_count}
+          ingester_replica_count: ${tempo_ingester_replica_count}
+          query_frontend_replica_count: ${tempo_query_frontend_replica_count}
+          metrics_generator_replica_count: ${tempo_metrics_generator_replica_count}
         grafana:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"

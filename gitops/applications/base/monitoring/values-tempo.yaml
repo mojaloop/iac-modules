@@ -29,7 +29,7 @@ global:
 
 metricsGenerator:
   enabled: true
-  replicas: 1
+  replicas: ${ARGOCD_ENV_tempo_metrics_generator_replica_count}
   extraArgs:
   - '-config.expand-env=true' # unfortunately metricsGenerator does not inherit global extraArgs
   extraEnvFrom:
@@ -41,14 +41,14 @@ metricsGenerator:
       memory: ${ARGOCD_ENV_tempo_metrics_generator_limits_memory}
 
 distributor:
-  replicas: 2
+  replicas: ${ARGOCD_ENV_tempo_distributor_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_tempo_distributor_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_distributor_limits_memory}
 
 ingester:
-  replicas: 3
+  replicas: ${ARGOCD_ENV_tempo_ingester_replica_count}
   config:
     replication_factor: 1 # TODO: make it configurable
   resources:
@@ -57,14 +57,14 @@ ingester:
       memory: ${ARGOCD_ENV_tempo_ingester_limits_memory}
 
 querier:
-  replicas: 2
+  replicas: ${ARGOCD_ENV_tempo_querier_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_tempo_querier_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_querier_limits_memory}
 
 compactor:
-  replicas: 1
+  replicas: ${ARGOCD_ENV_tempo_compactor_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_tempo_compactor_limits_cpu}
@@ -72,7 +72,7 @@ compactor:
 
 
 queryFrontend:
-  replicas: 1
+  replicas: ${ARGOCD_ENV_tempo_query_frontend_replica_count}
   extraArgs:
   - '-config.expand-env=true' # unfortunately queryFrontend does not inherit global extraArgs
   resources:
