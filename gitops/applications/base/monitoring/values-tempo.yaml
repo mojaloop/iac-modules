@@ -41,7 +41,7 @@ metricsGenerator:
       memory: ${ARGOCD_ENV_tempo_metrics_generator_limits_memory}
 
 distributor:
-  replicaCount: '2'
+  replicas: 2
   resources:
     limits:
       cpu: ${ARGOCD_ENV_tempo_distributor_limits_cpu}
