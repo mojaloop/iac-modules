@@ -50,7 +50,7 @@ distributor:
 ingester:
   replicas: ${ARGOCD_ENV_tempo_ingester_replica_count}
   config:
-    replication_factor: 1 # TODO: make it configurable
+    replication_factor: ${ARGOCD_ENV_tempo_ingester_replication_factor} 
   resources:
     limits:
       cpu: ${ARGOCD_ENV_tempo_ingester_limits_cpu}
@@ -69,6 +69,8 @@ compactor:
     limits:
       cpu: ${ARGOCD_ENV_tempo_compactor_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_compactor_limits_memory}
+  config:
+    block_retention: ${ARGOCD_ENV_tempo_compactor_block_retention}
 
 
 queryFrontend:

@@ -205,6 +205,8 @@ tempo_compactor_replica_count: "'1'"
 tempo_ingester_replica_count: "'3'"
 tempo_query_frontend_replica_count: "'1'"
 tempo_metrics_generator_replica_count: "'1'"
+tempo_ingester_replication_factor: "'1'"
+tempo_compactor_block_retention: "168h"
 
 # monitoring/mimir
 mimir_bucket_name: "mimir-bucket"
