@@ -535,6 +535,11 @@ audit_bucket_name: "control-center-audit-bucket"
 audit_bucket_max_objects: "'1000000'"
 audit_bucket_storage_size: "10Gi"
 
+# report
+report_bucket_name: "control-center-report-bucket"
+report_bucket_max_objects: "'1000000'"
+report_bucket_storage_size: "10Gi"
+
 # env loki and tempo
 env_tempo_bucket_storage_size: "10Gi"
 env_loki_bucket_storage_size: "30Gi"
