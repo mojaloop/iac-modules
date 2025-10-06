@@ -82,6 +82,9 @@ queryFrontend:
     limits:
       cpu: ${ARGOCD_ENV_tempo_query_frontend_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_query_frontend_limits_memory}
+  config:
+    search:
+      max_duration: 3h
 
 traces:
   jaeger:
