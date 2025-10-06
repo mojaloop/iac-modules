@@ -100,9 +100,6 @@ overrides:
       - service-graphs
       - span-metrics
       - local-blocks
-    query_frontend:
-      search:
-        query_ingesters_until: 2h0m0s
 
 metaMonitoring:
   serviceMonitor:
