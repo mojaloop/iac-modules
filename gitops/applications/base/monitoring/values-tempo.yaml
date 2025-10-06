@@ -71,7 +71,7 @@ compactor:
       memory: ${ARGOCD_ENV_tempo_compactor_limits_memory}
   config:
     compaction:
-      block_retention: 72h
+      block_retention: ${ARGOCD_ENV_tempo_compactor_block_retention}
 
 
 queryFrontend:
