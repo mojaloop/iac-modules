@@ -4,6 +4,7 @@ csi:
     enabled: false
     interval: 60s
 enableDiscoveryDaemon: true
+obcAllowAdditionalConfigFields: maxObjects,maxSize,bucketPolicy,bucketLifecycle
 monitoring:
   enabled: true
 resources:

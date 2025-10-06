@@ -156,3 +156,21 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_report_bucket_storage_size}"
+    bucketPolicy:
+      Version: "2012-10-17"
+      Statement:
+        # Report bucket is publicly readable
+        - Effect: Allow
+          Principal: "*"
+          Action: s3:GetObject
+          Resource:
+            - arn:aws:s3:::report-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}/*
+            - arn:aws:s3:::report-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}
+    bucketLifecycle:
+      Rules:
+        # Automatically delete objects in the report bucket after 7 days
+        - ID: ExpireAfter7Days
+          Status: Enabled
+          Prefix: ""
+          Expiration:
+            Days: 7
