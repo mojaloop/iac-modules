@@ -1,9 +1,6 @@
 
 # values: https://github.com/grafana/helm-charts/blob/tempo-distributed-1.47.1/charts/tempo-distributed/values.yaml
 
-# TODO: enable configuring rention period
-# TODO: enable configuring resource requests and limits
-
 storage:
   trace:
     backend: s3
