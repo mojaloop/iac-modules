@@ -31,7 +31,7 @@ helmCharts:
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: tempo-distributed
     releaseName: central
-    version: 1.47.1     # Expose via config variables
+    version: ${ARGOCD_ENV_tempo_helm_version}    # Expose via config variables
     repo:  https://grafana.github.io/helm-charts
     valuesFile: values-tempo.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}

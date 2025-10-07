@@ -185,6 +185,29 @@ prometheus_retention_period: 10d
 metrics_server_helm_version: 3.12.2
 metrics_server_replicas: "'1'"
 
+#tempo
+tempo_helm_version: "1.47.1"
+tempo_distributor_limits_cpu: "500m"
+tempo_distributor_limits_memory: "512Mi"
+tempo_querier_limits_cpu: "500m"
+tempo_querier_limits_memory: "512Mi"
+tempo_compactor_limits_cpu: "500m"
+tempo_compactor_limits_memory: "512Mi"
+tempo_ingester_limits_cpu: "500m"
+tempo_ingester_limits_memory: "1Gi"
+tempo_query_frontend_limits_cpu: "500m"
+tempo_query_frontend_limits_memory: "512Mi"
+tempo_metrics_generator_limits_cpu: "500m"
+tempo_metrics_generator_limits_memory: "512Mi"
+tempo_distributor_replica_count: "'2'"
+tempo_querier_replica_count: "'2'"
+tempo_compactor_replica_count: "'1'"
+tempo_ingester_replica_count: "'3'"
+tempo_query_frontend_replica_count: "'1'"
+tempo_metrics_generator_replica_count: "'1'"
+tempo_ingester_replication_factor: "'1'"
+tempo_compactor_block_retention: "168h"   #it should be kept in hours format
+
 # monitoring/mimir
 mimir_bucket_name: "mimir-bucket"
 mimir_bucket_max_objects: "'1000000'"

@@ -1,9 +1,6 @@
 
 # values: https://github.com/grafana/helm-charts/blob/tempo-distributed-1.47.1/charts/tempo-distributed/values.yaml
 
-# TODO: enable configuring rention period
-# TODO: enable configuring resource requests and limits
-
 storage:
   trace:
     backend: s3
@@ -25,21 +22,64 @@ global:
     - secretRef:
         name: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}"	
 
-queryFrontend:
-  extraArgs:
-  - '-config.expand-env=true' # unfortunately queryFrontend does not inherit global extraArgs
+
 
 metricsGenerator:
   enabled: true
+  replicas: ${ARGOCD_ENV_tempo_metrics_generator_replica_count}
   extraArgs:
   - '-config.expand-env=true' # unfortunately metricsGenerator does not inherit global extraArgs
   extraEnvFrom:
     - secretRef:
         name: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}"	
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_tempo_metrics_generator_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_metrics_generator_limits_memory}
+
+distributor:
+  replicas: ${ARGOCD_ENV_tempo_distributor_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_tempo_distributor_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_distributor_limits_memory}
 
 ingester:
+  replicas: ${ARGOCD_ENV_tempo_ingester_replica_count}
   config:
-    replication_factor: 1 # TODO: make it configurable
+    replication_factor: ${ARGOCD_ENV_tempo_ingester_replication_factor} 
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_tempo_ingester_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_ingester_limits_memory}
+
+querier:
+  replicas: ${ARGOCD_ENV_tempo_querier_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_tempo_querier_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_querier_limits_memory}
+
+compactor:
+  replicas: ${ARGOCD_ENV_tempo_compactor_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_tempo_compactor_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_compactor_limits_memory}
+  config:
+    compaction:
+      block_retention: ${ARGOCD_ENV_tempo_compactor_block_retention}
+
+
+queryFrontend:
+  replicas: ${ARGOCD_ENV_tempo_query_frontend_replica_count}
+  extraArgs:
+  - '-config.expand-env=true' # unfortunately queryFrontend does not inherit global extraArgs
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_tempo_query_frontend_limits_cpu}
+      memory: ${ARGOCD_ENV_tempo_query_frontend_limits_memory}
+
 
 traces:
   jaeger:
@@ -57,7 +97,6 @@ overrides:
       - service-graphs
       - span-metrics
       - local-blocks
-
 
 metaMonitoring:
   serviceMonitor:
