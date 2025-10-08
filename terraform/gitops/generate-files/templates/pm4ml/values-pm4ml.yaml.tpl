@@ -175,6 +175,8 @@ scheme-adapter:
 #%{ else}
       REQUEST_PROCESSING_TIMEOUT_SECONDS: 10
 #%{ endif}
+      ${indent(6, yamlencode(additional_ml_connector_config))}
+
 
 #%{ if enable_sdk_bulk_transaction_support}
   sdk-scheme-adapter-dom-evt-handler:
