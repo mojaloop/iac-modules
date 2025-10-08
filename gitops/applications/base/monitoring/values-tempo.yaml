@@ -69,6 +69,7 @@ compactor:
   config:
     compaction:
       block_retention: ${ARGOCD_ENV_tempo_compactor_block_retention}
+      compaction_window: 10m
 
 
 queryFrontend:
