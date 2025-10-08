@@ -98,6 +98,7 @@ module "generate_pm4ml_files" {
     cbs_mock_config                                 = each.value.cbs_mock_config
     payment_token_adapter_config                    = each.value.payment_token_adapter_config
     ui_custom_config                                = each.value.ui_custom_config
+    additional_ml_connector_config                  = each.value.additional_ml_connector_config
     pm4ml_istio_gateway_namespace                   = local.pm4ml_istio_gateway_namespaces[each.key]
     pm4ml_istio_wildcard_gateway_name               = local.pm4ml_istio_wildcard_gateway_names[each.key]
     pm4ml_istio_gateway_name                        = local.pm4ml_istio_gateway_names[each.key]
