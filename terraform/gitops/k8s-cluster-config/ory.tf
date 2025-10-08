@@ -114,12 +114,12 @@ variable "keycloak_hubop_realm_name" {
 }
 variable "bof_chart_version" {
   type    = string
-  default = "5.1.1"
+  default = "5.1.2"
 }
 
 variable "security_role_chart_version" {
   type    = string
-  default = "2.1.10"
+  default = "7.2.4"
 }
 
 variable "rbac_permissions_file" {
