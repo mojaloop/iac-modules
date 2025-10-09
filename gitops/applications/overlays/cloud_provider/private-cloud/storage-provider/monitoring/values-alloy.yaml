@@ -4,7 +4,7 @@ alloy:
       cpu: 100m
       memory: 256Mi
     limits:
-      cpu: 200m
+      cpu: 500m
       memory: ${ARGOCD_ENV_alloy_limits_memory}
   extraConfig: |
     discovery.relabel "pod_logs" {
