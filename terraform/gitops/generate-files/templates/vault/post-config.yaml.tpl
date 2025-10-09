@@ -60,9 +60,19 @@ data:
       fetch_vault_root_token
     fi
 
-    echo "Logging into Vault..."
-vault login -no-print $VAULT_ROOT_TOKEN || true
-
+echo "Logging into Vault..."
+vault login -no-print $VAULT_ROOT_TOKEN
+cat <<EOT >/tmp/vault-admin-policy.hcl
+path "/*" {
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+EOT
+cat <<EOT >/tmp/vault-read-secrets-policy.hcl
+path "${local_vault_kv_root_path}/*" {
+  capabilities = ["read", "list"]
+}
+EOT
+eral
 # Policies
 vault policy write vault-admin /tmp/vault-admin-policy.hcl || true
 vault policy write read-secrets /tmp/vault-read-secrets-policy.hcl || true
@@ -100,6 +110,18 @@ vault write auth/oidc/role/techops-admin -<<EOF
   "oidc_scopes": ["openid"],
   "bound_claims": { "zitadel:grants": ["${zitadel_project_id}:${vault_admin_rbac_group}"] }
 }
+EOF
+vault write auth/oidc/role/techops-readonly -<<EOF
+  {
+    "user_claim": "sub",
+    "bound_audiences": "$${OIDC_CLIENT_ID}",
+    "allowed_redirect_uris": ["https://${vault_fqdn}/ui/vault/auth/oidc/oidc/callback"],
+    "role_type": "oidc",
+    "token_policies": "read-secrets",
+    "ttl": "1h",
+    "oidc_scopes": ["openid"],
+    "bound_claims": { "zitadel:grants": ["${zitadel_project_id}:${vault_readonly_rbac_group}"] }
+  }
 EOF
 %{ endif ~}
 
