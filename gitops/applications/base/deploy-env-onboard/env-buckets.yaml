@@ -174,3 +174,29 @@ spec:
             Prefix: ""
             Expiration:
               Days: 7
+
+---
+apiVersion: objectstore.mojaloop.io/v1alpha1
+kind: ObjectStore
+metadata:
+  name: "${ARGOCD_ENV_env_name}-vault-backup-bucket"
+  namespace: ${ARGOCD_ENV_env_name}
+spec:
+  parameters:
+    clusterName: ${ARGOCD_ENV_env_name}
+    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
+    bucketName: "vault-backup-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
+    namespace: ${ARGOCD_ENV_env_name}
+    ccK8sProviderName: "kubernetes-provider"
+    esoPushSecret: true
+    vaultSecretStore: "vault-secret-store"
+    vaultSecretPath: "${ARGOCD_ENV_env_name}/vault_backup_bucket_access_key_id"
+    s3:
+      awsProviderName: "aws-cp-upbound-provider-config"
+      bucketRegion: ${ARGOCD_ENV_cloud_region}
+      forceDestroy: true
+      deletionPolicy: "Delete"
+    ceph:
+      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
+      storageClassName: "ceph-bucket"
+      maxSize: "${ARGOCD_ENV_vault_backup_bucket_storage_size}"
