@@ -39,9 +39,8 @@ metricsGenerator:
     limits:
       cpu: ${ARGOCD_ENV_tempo_metrics_generator_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_metrics_generator_limits_memory}
-  config:
-    local_blocks:                                                                                                                                                  │
-│     flush_to_storage: true  
+
+
 
 distributor:
   replicas: ${ARGOCD_ENV_tempo_distributor_replica_count}
@@ -122,3 +121,10 @@ overrides:
 metaMonitoring:
   serviceMonitor:
     enabled: true
+
+tempo:
+  config:
+    metrics_generator:
+      processor:
+        local_blocks:
+          flush_to_storage: true
