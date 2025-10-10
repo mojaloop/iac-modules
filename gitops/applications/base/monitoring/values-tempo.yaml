@@ -40,10 +40,9 @@ metricsGenerator:
       cpu: ${ARGOCD_ENV_tempo_metrics_generator_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_metrics_generator_limits_memory}
   config:
-    metrics_generator:
-      processor:
-        local_blocks:
-          flush_to_storage: true
+    processor:
+      local_blocks:
+        flush_to_storage: true
 
 
 
