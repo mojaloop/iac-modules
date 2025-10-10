@@ -39,6 +39,9 @@ metricsGenerator:
     limits:
       cpu: ${ARGOCD_ENV_tempo_metrics_generator_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_metrics_generator_limits_memory}
+  processor:
+    local_blocks:                                                                                                                                                  │
+│     flush_to_storage: true  
 
 distributor:
   replicas: ${ARGOCD_ENV_tempo_distributor_replica_count}
@@ -97,9 +100,6 @@ queryFrontend:
     limits:
       cpu: ${ARGOCD_ENV_tempo_query_frontend_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_query_frontend_limits_memory}
-  config:
-    metrics:
-      query_backend_after: ${ARGOCD_ENV_tempo_query_frontend_metrics_query_backend_after}
 
 
 traces:
