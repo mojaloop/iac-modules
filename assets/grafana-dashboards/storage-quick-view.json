@@ -520,7 +520,7 @@
             "expr": "kubelet_volume_stats_used_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}",
             "hide": false,
             "instant": false,
-            "legendFormat": "{{persistentvolumeclaim}}",
+            "legendFormat": "{{namespace}} / {{persistentvolumeclaim}}",
             "range": true,
             "refId": "A"
           },
