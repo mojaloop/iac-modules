@@ -33,13 +33,25 @@ metricsGenerator:
     - secretRef:
         name: "tempo-${ARGOCD_ENV_dns_hyphenated_subdomain}"	
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_tempo_metrics_generator_requests_cpu}
+      memory: ${ARGOCD_ENV_tempo_metrics_generator_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_tempo_metrics_generator_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_metrics_generator_limits_memory}
+  config:
+    processor:
+      local_blocks:
+        flush_to_storage: true
+
+
 
 distributor:
   replicas: ${ARGOCD_ENV_tempo_distributor_replica_count}
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_tempo_distributor_requests_cpu}
+      memory: ${ARGOCD_ENV_tempo_distributor_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_tempo_distributor_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_distributor_limits_memory}
@@ -49,6 +61,9 @@ ingester:
   config:
     replication_factor: ${ARGOCD_ENV_tempo_ingester_replication_factor} 
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_tempo_ingester_requests_cpu}
+      memory: ${ARGOCD_ENV_tempo_ingester_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_tempo_ingester_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_ingester_limits_memory}
@@ -56,6 +71,9 @@ ingester:
 querier:
   replicas: ${ARGOCD_ENV_tempo_querier_replica_count}
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_tempo_querier_requests_cpu}
+      memory: ${ARGOCD_ENV_tempo_querier_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_tempo_querier_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_querier_limits_memory}
@@ -63,6 +81,9 @@ querier:
 compactor:
   replicas: ${ARGOCD_ENV_tempo_compactor_replica_count}
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_tempo_compactor_requests_cpu}
+      memory: ${ARGOCD_ENV_tempo_compactor_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_tempo_compactor_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_compactor_limits_memory}
@@ -76,6 +97,9 @@ queryFrontend:
   extraArgs:
   - '-config.expand-env=true' # unfortunately queryFrontend does not inherit global extraArgs
   resources:
+    requests:
+      cpu: ${ARGOCD_ENV_tempo_query_frontend_requests_cpu}
+      memory: ${ARGOCD_ENV_tempo_query_frontend_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_tempo_query_frontend_limits_cpu}
       memory: ${ARGOCD_ENV_tempo_query_frontend_limits_memory}
@@ -101,3 +125,4 @@ overrides:
 metaMonitoring:
   serviceMonitor:
     enabled: true
+
