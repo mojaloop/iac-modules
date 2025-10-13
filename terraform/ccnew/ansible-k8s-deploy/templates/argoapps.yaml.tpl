@@ -636,7 +636,6 @@ argocd_override:
           metrics_generator_replica_count: "${tempo_metrics_generator_replica_count}"
           ingester_replication_factor: "${tempo_ingester_replication_factor}"
           compactor_block_retention: "${tempo_compactor_block_retention}"
-          query_frontend_metrics_query_backend_after: "${tempo_query_frontend_metrics_query_backend_after}"
         grafana:
           public_ingress_access_domain: "${grafana_public_access}"
           tf_provider_version: "${grafana_tf_provider_version}"
