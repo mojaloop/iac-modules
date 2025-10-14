@@ -44,7 +44,7 @@ data:
             --form "value=$value" -o /dev/null
         echo "Updated GitLab variable $key"
     fi
-   }
+    }
 
     if [[ $(vault status -format=json | jq .initialized) == "false" ]]
     then
@@ -76,17 +76,17 @@ data:
       path "/*" {
         capabilities = ["create", "read", "update", "delete", "list", "sudo"]
       }
-  EOT
+    EOT
       cat <<EOT >/tmp/vault-read-secrets-policy.hcl
       path "${local_vault_kv_root_path}/*" {
         capabilities = ["read", "list"]
       }
-  EOT
+    EOT
       cat <<EOT >/tmp/vault-snapshot-policy.hcl
       path "sys/storage/raft/snapshot" {
         capabilities = ["read"]
       }
-  EOT
+    EOT
       vault policy write vault-admin /tmp/vault-admin-policy.hcl
       vault policy write read-secrets /tmp/vault-read-secrets-policy.hcl
 
@@ -153,7 +153,7 @@ data:
           "oidc_scopes": ["openid"],
           "bound_claims": { "zitadel:grants": ["${zitadel_project_id}:${vault_admin_rbac_group}"] }
         }
-  EOF
+    EOF
       vault write auth/oidc/role/techops-readonly -<<EOF
         {
           "user_claim": "sub",
@@ -165,7 +165,7 @@ data:
           "oidc_scopes": ["openid"],
           "bound_claims": { "zitadel:grants": ["${zitadel_project_id}:${vault_readonly_rbac_group}"] }
         }
-  EOF
+    EOF
   %{ endif ~}
       rm /tmp/output.json || true
     else
