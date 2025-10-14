@@ -29,7 +29,7 @@ data:
       "apiVersion": "v1",
       "kind": "Secret",
       "metadata": {
-        "name": "${SECRET_NAME}"
+        "name": "$${SECRET_NAME}"
       },
       "type": "Opaque",
       "data": {
