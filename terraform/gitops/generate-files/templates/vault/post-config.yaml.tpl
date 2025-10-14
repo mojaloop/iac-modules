@@ -27,7 +27,7 @@ data:
     local key="$1"
     local value="$2"
 
-    HTTP_STATUS=$(curl -sw '%{http_code}' --request GET "$GITLAB_URL/$key" \
+    HTTP_STATUS=$(curl -sw '%%{http_code}' --request GET "$GITLAB_URL/$key" \
         --header "Authorization: Bearer $GITLAB_TOKEN" -o /dev/null)
 
     if [ "$HTTP_STATUS" == "404" ]; then
