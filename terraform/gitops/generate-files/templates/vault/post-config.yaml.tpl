@@ -12,6 +12,58 @@ data:
     export VAULT_SKIP_VERIFY=true
     export NUM_KEYS=5
 
+
+    create_k8s_secret() {
+      local SECRET_NAME="$1"
+      local ROLE_ID="$2"
+      local SECRET_ID="$3"
+
+      local TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+      local NS=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+      local CA=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      local API="https://kubernetes.default.svc"
+
+      # Build JSON body
+      cat <<EOF >/tmp/secret.json
+    {
+      "apiVersion": "v1",
+      "kind": "Secret",
+      "metadata": {
+        "name": "${SECRET_NAME}"
+      },
+      "type": "Opaque",
+      "data": {
+        "VAULT_SNAPSHOT_ROLE_ID": "$(echo -n "$ROLE_ID" | base64 -w0)",
+        "VAULT_SNAPSHOT_SECRET_ID": "$(echo -n "$SECRET_ID" | base64 -w0)"
+      }
+    }
+    EOF
+
+      # Check if secret exists
+      HTTP_STATUS=$(curl -sk -o /dev/null -w "%%{http_code}" \
+        --cacert "$CA" \
+        --header "Authorization: Bearer $TOKEN" \
+        "$API/api/v1/namespaces/$NS/secrets/$SECRET_NAME")
+
+      if [ "$HTTP_STATUS" == "200" ]; then
+        echo "🔄 Updating existing Secret: $SECRET_NAME"
+        curl -sk -X PUT \
+          --cacert "$CA" \
+          --header "Authorization: Bearer $TOKEN" \
+          --header "Content-Type: application/json" \
+          -d @/tmp/secret.json \
+          "$API/api/v1/namespaces/$NS/secrets/$SECRET_NAME"
+      else
+        echo "🆕 Creating new Secret: $SECRET_NAME"
+        curl -sk -X POST \
+          --cacert "$CA" \
+          --header "Authorization: Bearer $TOKEN" \
+          --header "Content-Type: application/json" \
+          -d @/tmp/secret.json \
+          "$API/api/v1/namespaces/$NS/secrets"
+      fi
+    }
+
     # Function: get VAULT_ROOT_TOKEN from GitLab
     fetch_vault_root_token() {
       echo "Fetching existing VAULT_ROOT_TOKEN from GitLab..."
@@ -123,8 +175,7 @@ data:
       ROLE_ID=$(vault read -format=json auth/approle/role/snapshot-agent/role-id | jq -r .data.role_id)
       SECRET_ID=$(vault write -f -format=json auth/approle/role/snapshot-agent/secret-id | jq -r .data.secret_id)
 
-      create_or_update_gitlab_var "VAULT_SNAPSHOT_ROLE_ID" "$ROLE_ID"
-      create_or_update_gitlab_var "VAULT_SNAPSHOT_SECRET_ID" "$SECRET_ID"
+      create_k8s_secret "vault-snapshot-cred" "$ROLE_ID" "$SECRET_ID"
 
   %{ if enable_vault_oidc ~}
 
