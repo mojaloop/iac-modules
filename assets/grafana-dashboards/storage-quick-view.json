@@ -647,7 +647,7 @@
             "editorMode": "code",
             "expr": "kubelet_volume_stats_capacity_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}",
             "instant": false,
-            "legendFormat": "{{namespace}}/{{persistentvolumeclaim}}",
+            "legendFormat": "{{namespace}} / {{persistentvolumeclaim}}",
             "range": true,
             "refId": "A"
           },
@@ -777,7 +777,7 @@
             "editorMode": "code",
             "expr": "kubelet_volume_stats_used_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}\n/\nkubelet_volume_stats_capacity_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",persistentvolumeclaim=~\".*$pvc_name.*\",job=\"kubelet\"}",
             "instant": false,
-            "legendFormat": "{{namespace}}/{{persistentvolumeclaim}}",
+            "legendFormat": "{{namespace}} / {{persistentvolumeclaim}}",
             "range": true,
             "refId": "A"
           }
