@@ -26,7 +26,7 @@ spec:
             # - build your custom `vault` image
             - |
               curl -sS https://webinstall.dev/jq | sh
-              export VAULT_TOKEN=$(vault write auth/approle/login role_id=$VAULT_APPROLE_ROLE_ID secret_id=$VAULT_APPROLE_SECRET_ID -format=json | /jq/jq -r .auth.client_token);
+              export VAULT_TOKEN=$(vault write auth/approle/login role_id=$VAULT_SNAPSHOT_ROLE_ID secret_id=$VAULT_SNAPSHOT_SECRET_ID -format=json | /jq/jq -r .auth.client_token);
               vault operator raft snapshot save /share/vault-raft.snap;
             envFrom:
             - secretRef:

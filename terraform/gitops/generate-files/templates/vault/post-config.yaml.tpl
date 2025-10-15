@@ -136,7 +136,7 @@ data:
     EOT
       cat <<EOT >/tmp/vault-snapshot-policy.hcl
       path "sys/storage/raft/snapshot" {
-        capabilities = ["read"]
+        capabilities = ["read", "create", "update", "sudo"]
       }
     EOT
       vault policy write vault-admin /tmp/vault-admin-policy.hcl
