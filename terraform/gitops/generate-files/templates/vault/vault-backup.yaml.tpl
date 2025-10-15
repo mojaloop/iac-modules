@@ -51,7 +51,7 @@ spec:
             # change the s3://<path> to your desired location
             - |
               until [ -f /share/vault-raft.snap ]; do sleep 5; done;
-              aws s3 cp /share/vault-raft.snap s3://${vault_backup_bucket}/vault_raft_$(date +"%Y%m%d_%H%M%S").snap --endpoint-url $AWS_ENDPOINT_URL;
+              aws s3 cp /share/vault-raft.snap s3://${vault_backup_bucket}/vault_raft_$(date +"%Y%m%d_%H%M%S").snap --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl;
             envFrom:
             - secretRef:
                 name: ${object_store_vb_credentials_secret_name}

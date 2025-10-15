@@ -49,7 +49,7 @@ module "generate_vault_files" {
     vault_backup_schedule                    = var.vault_backup_schedule
     vault_backupjob_image                    = var.vault_backupjob_image
     vault_snapshot_cred                      = "vault-snapshot-agent-token"
-    object_store_api_url                     = var.object_store_api_url
+    object_store_api_url                     = "https://${var.object_store_api_url}"
     vault_backup_bucket                      = local.vault_backup_bucket
   }
 
