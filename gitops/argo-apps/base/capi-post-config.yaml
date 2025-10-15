@@ -216,6 +216,8 @@ spec:
         - name: "monitoring_mimir_dns_subdomain"
           value: "${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
 
+        - name: "monitoring_alloy_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_monitoring_alloy_limits_memory}"
         # percona operator
 
         - name: utils_percona_pg_operator_helm_version
