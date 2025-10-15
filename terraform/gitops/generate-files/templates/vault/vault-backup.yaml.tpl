@@ -33,7 +33,7 @@ spec:
                 name: ${vault_snapshot_cred}
             env:
             - name: VAULT_ADDR
-              valut: http://vault-active.vault.svc.cluster.local:8200
+              value: http://vault-active.vault.svc.cluster.local:8200
             volumeMounts:
             - mountPath: /share
               name: share
