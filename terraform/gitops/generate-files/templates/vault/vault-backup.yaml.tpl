@@ -20,10 +20,6 @@ spec:
             - /bin/sh
             args:
             - -ec
-            # The offical vault docker image actually doesn't come with `jq`. You can
-            # - install it during runtime (not a good idea and your security team may not like it)
-            # - ship `jq` static binary in a standalone image and mount it using a shared volume from `initContainers`
-            # - build your custom `vault` image
             - |
               export VAULT_SKIP_VERIFY=true
               export VAULT_TOKEN=$(vault write auth/approle/login role_id=$VAULT_SNAPSHOT_ROLE_ID secret_id=$VAULT_SNAPSHOT_SECRET_ID -format=json | jq -r .auth.client_token);
@@ -44,11 +40,6 @@ spec:
             - /bin/sh
             args:
             - -ec
-            # the script wait untill the snapshot file is available
-            # then upload to s3
-            # for folks using non-aws S3 like IBM Cloud Object Storage service, add a `--endpoint-url` option
-            # run `aws --endpoint-url <https://your_s3_endpoint> s3 cp ...`
-            # change the s3://<path> to your desired location
             - |
               until [ -f /share/vault-raft.snap ]; do sleep 5; done;
               aws s3 cp /share/vault-raft.snap s3://${vault_backup_bucket}/vault_raft_$(date +"%Y%m%d_%H%M%S").snap --endpoint-url $AWS_ENDPOINT_URL --no-verify-ssl;
