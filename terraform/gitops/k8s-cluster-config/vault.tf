@@ -50,6 +50,7 @@ module "generate_vault_files" {
     vault_backupjob_image                    = var.vault_backupjob_image
     vault_snapshot_cred                      = "vault-snapshot-agent-token"
     object_store_api_url                     = var.object_store_api_url
+    vault_backup_bucket                      = local.vault_backup_bucket
   }
 
   file_list       = [for f in fileset(local.vault_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vault_app_file, f))]
