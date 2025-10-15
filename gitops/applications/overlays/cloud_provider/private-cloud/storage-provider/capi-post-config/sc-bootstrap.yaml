@@ -314,6 +314,10 @@ spec:
             - name: "velero_post_config_sc_snapshot_volumes"
               value: '"${ARGOCD_ENV_velero_post_config_sc_snapshot_volumes}"'
 
+            #alloy
+            - name: "monitoring_alloy_limits_memory"
+              value: "${ARGOCD_ENV_monitoring_alloy_limits_memory}"
+
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
     scHelmProviderName: sc-helm-provider

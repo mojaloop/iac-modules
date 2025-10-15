@@ -181,6 +181,8 @@ prometheus_scrape_interval: 5m
 prometheus_rate_interval: 15m
 prometheus_retention_period: 10d
 
+alloy_limits_memory: "1Gi"
+
 # Metrics server
 metrics_server_helm_version: 3.12.2
 metrics_server_replicas: "'1'"
