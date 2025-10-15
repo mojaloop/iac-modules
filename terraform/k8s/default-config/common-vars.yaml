@@ -98,3 +98,5 @@ opt_out_namespace_list: 'strimzi,storage'
 netbird_image_version: '0.56.0'
 netbird_operator_helm_version: '0.1.12'
 kyverno_chart_version: '3.5.2'
+vault_backup_schedule: "0 */12 * * *" # Every 12 hours
+vault_backupjob_image: "hashicorp/vault:1.17.2"

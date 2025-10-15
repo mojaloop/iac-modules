@@ -42,6 +42,14 @@ module "generate_vault_files" {
     vault_fqdn                               = local.vault_fqdn
     vault_istio_gateway_namespace            = local.vault_istio_gateway_namespace
     vault_istio_wildcard_gateway_name        = local.vault_istio_wildcard_gateway_name
+    object_store_vb_credentials_secret_name  = "vault-backup-objectstore-secret"
+    object_store_region                      = var.object_store_region
+    object_store_vb_user_key                 = "${var.cluster_name}/vault_backup_bucket_access_key_id"
+    object_store_vb_password_key             = "${var.cluster_name}/vault_backup_bucket_secret_key_id"
+    vault_backup_schedule                    = var.vault_backup_schedule
+    vault_backupjob_image                    = var.vault_backupjob_image
+    vault_snapshot_cred                      = "vault-snapshot-agent-token"
+    object_store_api_url                     = var.object_store_api_url
   }
 
   file_list       = [for f in fileset(local.vault_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vault_app_file, f))]
@@ -151,4 +159,16 @@ variable "vault_k8s_auth_path" {
 variable "enable_vault_oidc" {
   type    = bool
   default = false
+}
+
+variable "vault_backup_schedule" {
+  type        = string
+  description = "Cron schedule for Vault backup job"
+  default     = "0 */12 * * *" # Every 12 hours
+}
+
+variable "vault_backupjob_image" {
+  type        = string
+  description = "Docker image for Vault backup job"
+  default     = "hashicorp/vault:1.17.2"
 }

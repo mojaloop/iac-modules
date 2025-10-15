@@ -175,7 +175,7 @@ data:
       ROLE_ID=$(vault read -format=json auth/approle/role/snapshot-agent/role-id | jq -r .data.role_id)
       SECRET_ID=$(vault write -f -format=json auth/approle/role/snapshot-agent/secret-id | jq -r .data.secret_id)
 
-      create_k8s_secret "vault-snapshot-cred" "$ROLE_ID" "$SECRET_ID"
+      create_k8s_secret "${vault_snapshot_cred}" "$ROLE_ID" "$SECRET_ID"
 
   %{ if enable_vault_oidc ~}
 
