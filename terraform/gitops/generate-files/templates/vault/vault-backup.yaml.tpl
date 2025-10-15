@@ -4,7 +4,7 @@ metadata:
   name: vault-snapshot-cronjob
   namespace: ${vault_namespace}
 spec:
-  schedule: ${vault_backup_schedule}
+  schedule: "${vault_backup_schedule}"
   jobTemplate:
     spec:
       template:
