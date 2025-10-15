@@ -316,9 +316,7 @@ spec:
         - name: "tempo_ingester_replication_factor"
           value: "${ARGOCD_ENV_monitoring_tempo_ingester_replication_factor}"
         - name: "tempo_compactor_block_retention"
-          value: "${ARGOCD_ENV_monitoring_tempo_compactor_block_retention}"
-        - name: "tempo_query_frontend_metrics_query_backend_after"
-          value: "${ARGOCD_ENV_monitoring_tempo_query_frontend_metrics_query_backend_after}"          
+          value: "${ARGOCD_ENV_monitoring_tempo_compactor_block_retention}"        
         
 
         - name: "cloudwatch_exporter_role_arn"
