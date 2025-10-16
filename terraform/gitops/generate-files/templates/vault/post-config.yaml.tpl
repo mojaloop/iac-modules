@@ -98,6 +98,25 @@ data:
     fi
     }
 
+    write_secret_to_tenancy_vault() {
+    local key="$1"
+    local value="$2"
+    local vault_path="${tenancy_secret_base_path}/${key}"
+
+    echo "Writing secret $key to Vault path: ${vault_path}"
+
+    local payload
+    payload=$(jq -n --arg v "$value" '{ data: { value: $v } }')
+
+    curl -s --header "X-Vault-Token: ${TENANCY_VAULT_TOKEN}" \
+          --header "Content-Type: application/json" \
+          --request POST \
+          --data "$payload" \
+          "${transit_vault_url}/v1/${vault_path}" >/dev/null
+
+    echo "✅ Stored secret '$key' in tenancy Vault cluster"
+    }
+
     if [[ $(vault status -format=json | jq .initialized) == "false" ]]
     then
       vault operator init -format=json > /tmp/output.json
@@ -105,6 +124,7 @@ data:
       if [ "$VAULT_ROOT_TOKEN" != "" ]
       then
         create_or_update_gitlab_var "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
+        write_secret_to_vault "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
       else
         echo "VAULT_ROOT_TOKEN not parsed correctly, exiting"
         exit 1
@@ -113,6 +133,7 @@ data:
       do
         export RECOVERY_KEY=$(cat /tmp/output.json | jq .recovery_keys_b64[$i] | tr -d '"')
         create_or_update_gitlab_var "RECOVERY_KEY_$i" "$RECOVERY_KEY"
+        write_secret_to_vault "RECOVERY_KEY_$i" "$RECOVERY_KEY"
       done
     else
       echo "vault already initialized"
