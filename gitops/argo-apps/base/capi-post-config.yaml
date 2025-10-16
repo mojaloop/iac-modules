@@ -218,6 +218,9 @@ spec:
 
         - name: "monitoring_alloy_limits_memory"
           value: "${ARGOCD_ENV_monitoring_monitoring_alloy_limits_memory}"
+        - name: "monitoring_alloy_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_monitoring_alloy_limits_cpu}"
+          
         # percona operator
 
         - name: utils_percona_pg_operator_helm_version
