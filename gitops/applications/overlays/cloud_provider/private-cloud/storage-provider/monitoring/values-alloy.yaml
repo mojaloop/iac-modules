@@ -5,7 +5,7 @@ alloy:
       memory: 256Mi
     limits:
       cpu: 500m
-      memory: ${ARGOCD_ENV_alloy_limits_memory}
+      memory: ${ARGOCD_ENV_monitoring_alloy_limits_memory}
   extraConfig: |
     discovery.relabel "pod_logs" {
       targets = discovery.kubernetes.pods.targets
