@@ -101,7 +101,7 @@ data:
     write_secret_to_tenancy_vault() {
     local key="$1"
     local value="$2"
-    local vault_path="${tenancy_secret_base_path}/${key}"
+    local vault_path="${tenancy_secret_base_path}/$${key}"
 
     echo "Writing secret $key to Vault path: ${vault_path}"
 
