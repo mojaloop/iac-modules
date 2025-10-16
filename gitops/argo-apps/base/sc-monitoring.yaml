@@ -65,6 +65,8 @@ spec:
           value: "https://loki.${ARGOCD_ENV_monitoring_mimir_dns_subdomain}"
         - name: "monitoring_alloy_limits_memory"
           value: "${ARGOCD_ENV_monitoring_alloy_limits_memory}"
+        - name: "monitoring_alloy_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_alloy_limits_cpu}"
         - name: "alloy_log_rate_limit_per_pod"
           value: "200"
         - name: "alloy_log_burst_rate_limit_per_pod"

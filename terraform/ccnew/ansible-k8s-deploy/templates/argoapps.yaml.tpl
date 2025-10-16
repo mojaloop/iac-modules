@@ -604,6 +604,7 @@ argocd_override:
           cluster_domain: "${cluster_domain}"
           dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
           alloy_limits_memory: "${alloy_limits_memory}"
+          alloy_limits_cpu: "${alloy_limits_cpu}"
         tempo:
           helm_version: "${tempo_helm_version}"
           distributor_limits_cpu: "${tempo_distributor_limits_cpu}"

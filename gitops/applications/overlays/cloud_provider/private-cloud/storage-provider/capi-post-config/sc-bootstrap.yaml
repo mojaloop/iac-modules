@@ -317,6 +317,8 @@ spec:
             #alloy
             - name: "monitoring_alloy_limits_memory"
               value: "${ARGOCD_ENV_monitoring_alloy_limits_memory}"
+            - name: "monitoring_alloy_limits_cpu"
+              value: "${ARGOCD_ENV_monitoring_alloy_limits_cpu}"
 
   providerConfigsRef:
     scK8sProviderName: sc-kubernetes-provider
