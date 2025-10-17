@@ -109,7 +109,7 @@ data:
     local payload
     payload=$(jq -n --arg v "$value" '{ data: { value: $v } }')
 
-    curl -s --header "X-Vault-Token: $${TENANCY_VAULT_TOKEN}" \
+    curl -s --header "X-Vault-Token: $${VAULT_TOKEN}" \
           --header "Content-Type: application/json" \
           --request POST \
           --data "$payload" \
