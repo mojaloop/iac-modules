@@ -109,11 +109,11 @@ data:
     local payload
     payload=$(jq -n --arg v "$value" '{ data: { value: $v } }')
 
-    curl -s --header "X-Vault-Token: $${VAULT_TOKEN}" \
+    curl -s --header "X-Vault-Token: $${TENANCY_VAULT_TOKEN}" \
           --header "Content-Type: application/json" \
           --request POST \
           --data "$payload" \
-          "${transit_vault_url}/v1/$${vault_path}" >/dev/null
+          "${transit_vault_url}/v1/$${vault_path}"
 
     echo "✅ Stored secret '$key' in tenancy Vault cluster"
     }
