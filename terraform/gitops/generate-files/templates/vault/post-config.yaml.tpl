@@ -12,7 +12,7 @@ data:
     export VAULT_SKIP_VERIFY=true
     export NUM_KEYS=5
 
-
+    # Function: create_k8s_secret to create kubernetes secret
     create_k8s_secret() {
       local SECRET_NAME="$1"
       local ROLE_ID="$2"
@@ -75,6 +75,7 @@ data:
       fi
     }
 
+    # Function: create_or_update_gitlab_var to create or udpate gitlab variables
     create_or_update_gitlab_var() {
     local key="$1"
     local value="$2"
@@ -124,7 +125,7 @@ data:
       if [ "$VAULT_ROOT_TOKEN" != "" ]
       then
         create_or_update_gitlab_var "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
-        write_secret_to_vault "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
+        write_secret_to_tenancy_vault "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
       else
         echo "VAULT_ROOT_TOKEN not parsed correctly, exiting"
         exit 1
@@ -133,7 +134,7 @@ data:
       do
         export RECOVERY_KEY=$(cat /tmp/output.json | jq .recovery_keys_b64[$i] | tr -d '"')
         create_or_update_gitlab_var "RECOVERY_KEY_$i" "$RECOVERY_KEY"
-        write_secret_to_vault "RECOVERY_KEY_$i" "$RECOVERY_KEY"
+        write_secret_to_tenancy_vault "RECOVERY_KEY_$i" "$RECOVERY_KEY"
       done
     else
       echo "vault already initialized"
