@@ -33,8 +33,7 @@ spec:
       - PruneLast=true
       - RespectIgnoreDifferences=true
   ignoreDifferences:
-    - group: ""
-      kind: "Namespace"
+    - kind: Namespace
       jsonPointers:
         - /metadata/annotations # synced elsewhere
         - /metadata/labels # synced elsewhere

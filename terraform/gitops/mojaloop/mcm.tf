@@ -122,6 +122,7 @@ module "generate_mcm_files" {
     ttk_fqdn                                 = local.ttk_fqdn
     bulk_enabled                             = var.bulk_enabled
     istio_ml_egress_waypoint_name            = var.istio_ml_egress_waypoint_name
+    cluster                                  = var.app_var_map.cluster
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path

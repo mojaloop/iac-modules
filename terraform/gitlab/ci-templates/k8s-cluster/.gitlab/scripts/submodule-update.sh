@@ -26,3 +26,14 @@ for submodule in "${submodules[@]}"; do
   fi
   (cd "$path" && git fetch && git checkout "$ref" && (! git symbolic-ref HEAD || git pull))
 done
+
+# check for removed submodules
+current_submodules=$(git config --file .gitmodules --get-regexp path | awk '{print $2}')
+for submodule in $current_submodules; do
+  if ! grep -q "\"$submodule\"" <<< "${submodules[*]}"; then
+    echo "Removing submodule $submodule"
+    git submodule deinit -f "$submodule"
+    rm -rf ".git/modules/$submodule"
+    git rm -f "$submodule"
+  fi
+done
