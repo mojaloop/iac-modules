@@ -60,8 +60,8 @@ spec:
                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
                   font-src 'self' https://fonts.gstatic.com;
                   script-src 'self' 'unsafe-inline';
-                  connect-src 'self' ${auth_fqdn};
-                  img-src 'self' data:;
+                  connect-src 'self' ${auth_fqdn} ${experience_api_fqdn};
+                  img-src 'self' data: https://img.icons8.com;
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -134,8 +134,8 @@ spec:
                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
                   font-src 'self' https://fonts.gstatic.com;
                   script-src 'self' 'unsafe-inline';
-                  connect-src 'self' ${auth_fqdn};
-                  img-src 'self' data:;
+                  connect-src 'self' ${auth_fqdn} ${experience_api_fqdn};
+                  img-src 'self' data: https://img.icons8.com;
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
