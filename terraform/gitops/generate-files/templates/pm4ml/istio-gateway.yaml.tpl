@@ -52,6 +52,16 @@ spec:
             host: ${pm4ml_release_name}-frontend
             port:
               number: 80
+          headers:
+            response:
+              add:
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                  font-src 'self' https://fonts.gstatic.com;
+                  script-src 'self' 'unsafe-inline';
+                  connect-src 'self' ${auth_fqdn} ${experience_api_fqdn};
+                  img-src 'self' data: https://img.icons8.com;
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -116,6 +126,16 @@ spec:
             host: ${admin_portal_release_name}-reporting-hub-bop-shell
             port:
               number: 80
+          headers:
+            response:
+              add:
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                  font-src 'self' https://fonts.gstatic.com;
+                  script-src 'self' 'unsafe-inline';
+                  connect-src 'self' ${auth_fqdn} ${experience_api_fqdn};
+                  img-src 'self' data: https://img.icons8.com;
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -290,6 +310,7 @@ spec:
                   default-src 'self';
                   style-src 'self' 'unsafe-inline';
                   connect-src 'self' https://api.github.com;
+                  frame-ancestors 'self' *.${cluster.domain};
 ---
 # %{ endif }
 # %{ if payment_token_adapter_config.enabled}
