@@ -116,6 +116,16 @@ spec:
             host: ${admin_portal_release_name}-reporting-hub-bop-shell
             port:
               number: 80
+          headers:
+            response:
+              add:
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                  font-src 'self' https://fonts.gstatic.com;
+                  script-src 'self' 'unsafe-inline';
+                  connect-src 'self' ${auth_fqdn};
+                  img-src 'self' data:;
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -265,7 +275,8 @@ spec:
                   style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
                   script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.datatables.net https://code.jquery.com;
                   font-src 'self' https://use.fontawesome.com;
-    - name: socket
+                  frame-ancestors 'self' *.${cluster.domain};
+ - name: socket
       match:
         - uri:
             prefix: /socket.io/
