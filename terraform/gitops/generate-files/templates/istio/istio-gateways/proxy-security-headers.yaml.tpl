@@ -39,6 +39,9 @@ spec:
                   response_handle:headers():replace("Content-Security-Policy", csp);
                 end
               end
+              if not response_handle:headers():get("Permissions-Policy") then
+                response_handle:headers():add("Permissions-Policy", "microphone=(), geolocation=(), camera=(), display-capture=()");
+              end
               if not response_handle:headers():get("X-Frame-Options") then
                 response_handle:headers():add("X-Frame-Options", "deny");
               end
@@ -129,6 +132,9 @@ spec:
                   csp = csp .. ";frame-ancestors none;";
                   response_handle:headers():replace("Content-Security-Policy", csp);
                 end
+              end
+              if not response_handle:headers():get("Permissions-Policy") then
+                response_handle:headers():add("Permissions-Policy", "microphone=(), geolocation=(), camera=(), display-capture=()");
               end
               if not response_handle:headers():get("X-Frame-Options") then
                 response_handle:headers():add("X-Frame-Options", "deny");
