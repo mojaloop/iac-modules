@@ -40,7 +40,7 @@ spec:
                 end
               end
               if not response_handle:headers():get("Permissions-Policy") then
-                response_handle:headers():add("Permissions-Policy", "microphone=(), geolocation=(), camera=(), display-capture=()");
+                response_handle:headers():add("Permissions-Policy", "microphone=(), geolocation=(), camera=(), display-capture=(), payment=(), usb=()");
               end
               if not response_handle:headers():get("X-Frame-Options") then
                 response_handle:headers():add("X-Frame-Options", "deny");
@@ -68,9 +68,7 @@ spec:
                                               "camera 'none';"..
                                               "microphone 'none';"..
                                               "geolocation 'none';"..
-                                              "encrypted-media 'none';"..
                                               "payment 'none';"..
-                                              "speaker 'none';"..
                                               "usb 'none';");
               end
               if response_handle:headers():get("X-Powered-By") then
@@ -134,7 +132,7 @@ spec:
                 end
               end
               if not response_handle:headers():get("Permissions-Policy") then
-                response_handle:headers():add("Permissions-Policy", "microphone=(), geolocation=(), camera=(), display-capture=()");
+                response_handle:headers():add("Permissions-Policy", "microphone=(), geolocation=(), camera=(), display-capture=(), payment=(), usb=()");
               end
               if not response_handle:headers():get("X-Frame-Options") then
                 response_handle:headers():add("X-Frame-Options", "deny");
@@ -162,9 +160,7 @@ spec:
                                               "camera 'none';"..
                                               "microphone 'none';"..
                                               "geolocation 'none';"..
-                                              "encrypted-media 'none';"..
                                               "payment 'none';"..
-                                              "speaker 'none';"..
                                               "usb 'none';");
               end
               if response_handle:headers():get("X-Powered-By") then
