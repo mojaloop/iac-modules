@@ -285,7 +285,7 @@ spec:
                   style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
                   script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.datatables.net https://code.jquery.com;
                   font-src 'self' https://use.fontawesome.com;
- - name: socket
+    - name: socket
       match:
         - uri:
             prefix: /socket.io/
