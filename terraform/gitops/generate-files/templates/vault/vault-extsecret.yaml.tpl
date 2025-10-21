@@ -89,3 +89,35 @@ spec:
       remoteRef:
         key: ${vault_gitlab_credentials_secret_key}
         property: token
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: ${object_store_vb_credentials_secret_name}
+  namespace: ${vault_namespace}
+spec:
+  refreshInterval: 5m
+
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: tenant-vault-secret-store
+
+  data:
+    - secretKey: username
+      remoteRef:
+        key: ${object_store_vb_user_key}
+        property: value
+    - secretKey: password
+      remoteRef:
+        key: ${object_store_vb_password_key}
+        property: value
+
+  target:
+    name:  ${object_store_vb_credentials_secret_name}
+    creationPolicy: Owner
+    template:
+      data:
+        AWS_SECRET_ACCESS_KEY: "{{ .password }}"
+        AWS_ACCESS_KEY_ID: "{{ .username }}"
+        AWS_DEFAULT_REGION: ${object_store_region}
+        AWS_ENDPOINT_URL: ${object_store_api_url}

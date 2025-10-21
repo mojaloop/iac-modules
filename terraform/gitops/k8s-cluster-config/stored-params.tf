@@ -78,3 +78,8 @@ data "gitlab_project_variable" "object_store_report_backup_bucket" {
   project = var.current_gitlab_project_id
   key     = "report_bucket"
 }
+
+data "gitlab_project_variable" "object_store_vault_backup_bucket" {
+  project = var.current_gitlab_project_id
+  key     = "vault_backup_bucket"
+}

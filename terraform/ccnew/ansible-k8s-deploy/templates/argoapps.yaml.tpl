@@ -554,6 +554,7 @@ argocd_override:
           dbaas_default_management_policy: "${dbaas_default_management_policy}"
           velero_bucket_storage_size: "${velero_bucket_storage_size}"
           audit_bucket_storage_size: "${audit_bucket_storage_size}"
+          vault_backup_bucket_storage_size: "${vault_backup_bucket_storage_size}"
           report_bucket_storage_size: "${report_bucket_storage_size}"
           tempo_bucket_storage_size: "${env_tempo_bucket_storage_size}"
           loki_bucket_storage_size: "${env_loki_bucket_storage_size}"
@@ -602,6 +603,8 @@ argocd_override:
           cloud_region: "${cloud_region}"
           cluster_domain: "${cluster_domain}"
           dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
+          alloy_limits_memory: "${alloy_limits_memory}"
+          alloy_limits_cpu: "${alloy_limits_cpu}"
         tempo:
           helm_version: "${tempo_helm_version}"
           distributor_limits_cpu: "${tempo_distributor_limits_cpu}"

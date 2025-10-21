@@ -77,6 +77,12 @@ vault:
               secretKeyRef:
                 name: ${vault_oidc_client_id_secret}
                 key: TOKEN
+          - name: TENANCY_VAULT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: ${vault_seal_token_secret}
+                key: TOKEN
+
 
     affinity:
       nodeAffinity:

@@ -240,4 +240,5 @@ locals {
   loki_bucket                                      = data.gitlab_project_variable.loki_bucket.value
   tempo_bucket                                     = data.gitlab_project_variable.tempo_bucket.value
   velero_bucket                                    = data.gitlab_project_variable.velero_bucket.value
+  vault_backup_bucket                              = data.gitlab_project_variable.object_store_vault_backup_bucket.value
 }

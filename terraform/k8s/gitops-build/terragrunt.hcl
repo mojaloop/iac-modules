@@ -166,6 +166,8 @@ inputs = {
   sc_api_port                              = try(tonumber(get_env("sc_api_port")), 6443)
   traces_endpoint                          = "https://traces.${local.internal_cc_subdomain}"
   kyverno_chart_version                    = local.common_vars.kyverno_chart_version
+  vault_backup_schedule                    = local.common_vars.vault_backup_schedule
+  vault_backupjob_image                    = local.common_vars.vault_backupjob_image
 }
 
 locals {

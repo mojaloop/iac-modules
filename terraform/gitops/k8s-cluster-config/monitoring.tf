@@ -86,7 +86,6 @@ module "generate_monitoring_files" {
     cluster                                    = var.app_var_map.cluster
     loki_canary_repo                           = try(var.common_var_map.loki_canary_repo, local.loki_canary_repo)
     loki_canary_chart_version                  = try(var.common_var_map.loki_canary_chart_version, local.loki_canary_chart_version)
-
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
     enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)
@@ -170,7 +169,7 @@ locals {
   metrics_server_chart_version        = "3.12.2"
   grafana_version                     = "11.6.1"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17"     # NOTE: only for those dashboards which are in mojaloop/helm repo
-  grafana_dashboard_tag_iac_modules   = "feature/storage-cluster" # tag for dashboards in mojaloop/iac-modules repo
+  grafana_dashboard_tag_iac_modules   = "cto-1448--fix-cpu-throttling-alert" # tag for dashboards in mojaloop/iac-modules repo
   grafana_operator_version            = "3.5.11"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file                 = "monitoring-app.yaml"
@@ -201,7 +200,6 @@ locals {
   central_observability_tenant_id     = "infitx"
   loki_canary_chart_version           = "0.14.0"
   loki_canary_repo                    = "https://grafana.github.io/helm-charts"
-
   alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"
   alertmanager_prod_alerts_enabled        = try(var.common_var_map.alertmanager_prod_alerts_enabled, false)
   alertmanager_slack_external_secret_name = local.alertmanager_prod_alerts_enabled ? "slack-prod-alert-notifications" : "slack-dev-alert-notifications"

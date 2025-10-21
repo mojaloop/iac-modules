@@ -156,5 +156,6 @@ locals {
     percona = "percona"
     audit   = "audit"
     report   = "report"
+    vault_backup = "vault-backup"
   }
 }
