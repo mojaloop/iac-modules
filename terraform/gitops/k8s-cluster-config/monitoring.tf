@@ -86,8 +86,6 @@ module "generate_monitoring_files" {
     cluster                                    = var.app_var_map.cluster
     loki_canary_repo                           = try(var.common_var_map.loki_canary_repo, local.loki_canary_repo)
     loki_canary_chart_version                  = try(var.common_var_map.loki_canary_chart_version, local.loki_canary_chart_version)
-    alloy_limits_memory                = try(var.common_var_map.alloy_limits_memory, local.alloy_limits_memory)
-    alloy_limits_cpu                   = try(var.common_var_map.alloy_limits_cpu, local.alloy_limits_cpu)
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
     enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)
@@ -202,8 +200,6 @@ locals {
   central_observability_tenant_id     = "infitx"
   loki_canary_chart_version           = "0.14.0"
   loki_canary_repo                    = "https://grafana.github.io/helm-charts"
-  alloy_limits_memory                 = "1Gi"
-  alloy_limits_cpu                    = "1000m"
   alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"
   alertmanager_prod_alerts_enabled        = try(var.common_var_map.alertmanager_prod_alerts_enabled, false)
   alertmanager_slack_external_secret_name = local.alertmanager_prod_alerts_enabled ? "slack-prod-alert-notifications" : "slack-dev-alert-notifications"
