@@ -52,6 +52,16 @@ spec:
             host: ${pm4ml_release_name}-frontend
             port:
               number: 80
+          headers:
+            response:
+              add:
+                Content-Security-Policy: >-
+                  default-src 'self';
+                  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                  font-src 'self' https://fonts.gstatic.com;
+                  script-src 'self' 'unsafe-inline';
+                  connect-src 'self' ${auth_fqdn};
+                  img-src 'self' data:;
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -275,7 +285,6 @@ spec:
                   style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
                   script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.datatables.net https://code.jquery.com;
                   font-src 'self' https://use.fontawesome.com;
-                  frame-ancestors 'self' *.${cluster.domain};
  - name: socket
       match:
         - uri:
@@ -301,6 +310,7 @@ spec:
                   default-src 'self';
                   style-src 'self' 'unsafe-inline';
                   connect-src 'self' https://api.github.com;
+                  frame-ancestors 'self' *.${cluster.domain};
 ---
 # %{ endif }
 # %{ if payment_token_adapter_config.enabled}
