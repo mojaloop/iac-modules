@@ -8,7 +8,7 @@ module "generate_velero_files" {
     object_store_velero_credentials_secret_name = "velero-credentials-secret"
     object_store_api_url                        = "https://${var.object_store_api_url}"
     object_storage_path_style                   = var.object_storage_path_style
-    object_store_insecure_connection            = var.object_store_insecure_connection
+    object_store_insecure_skip_verify            = var.object_store_insecure_skip_verify
     object_store_region            = var.object_store_region
     object_store_velero_secret_key = "cloud"
     velero_plugin_version          = var.velero_plugin_version
