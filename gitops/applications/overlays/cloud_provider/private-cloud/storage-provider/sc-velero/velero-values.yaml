@@ -52,4 +52,3 @@ deployNodeAgent: true
 kubectl:
   image:
     repository: docker.io/bitnamilegacy/kubectl
-    tag: 1.32
