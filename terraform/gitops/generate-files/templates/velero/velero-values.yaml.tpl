@@ -23,7 +23,7 @@ configuration:
         region: ${object_store_region}
         s3Url: ${object_store_api_url}
         s3ForcePathStyle: ${object_storage_path_style}
-        insecureSkipTLSVerify: ${object_store_insecure_connection}
+        insecureSkipTLSVerify: ${object_store_insecure_skip_verify}
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
 
