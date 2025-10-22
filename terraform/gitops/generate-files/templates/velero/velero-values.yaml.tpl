@@ -21,8 +21,10 @@ configuration:
       # for details of required/optional fields for your provider.
       config:
         region: ${object_store_region}
+%{ if object_store_api_url != "s3.amazonaws.com" ~}
         s3Url: ${object_store_api_url}
         s3ForcePathStyle: ${object_storage_path_style}
+%{ endif ~}
       # annotations allows adding arbitrary annotations to this BackupStorageLocation resource. Optional.
       annotations: {}
 
