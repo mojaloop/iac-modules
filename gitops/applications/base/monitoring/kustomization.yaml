@@ -11,10 +11,10 @@ kind: Kustomization
 # - cloudwatch-exporter.yaml
 
 helmCharts:
-  - name: grafana-mimir
+  - name: mimir-distributed
     releaseName: central-monitoring
     version: ${ARGOCD_ENV_grafana_mimir_helm_version}
-    repo: oci://registry-1.docker.io/bitnamicharts
+    repo: https://grafana.github.io/helm-charts
     valuesFile: values-mimir.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: kube-prometheus
