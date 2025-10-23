@@ -1,0 +1,24 @@
+apiVersion: kubernetes.crossplane.io/v1alpha2
+kind: Object
+metadata:
+  name: ${ARGOCD_ENV_env_name}-ca-access
+spec:
+  forProvider:
+    manifest:
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
+      metadata:
+        name: ${ARGOCD_ENV_env_name}-ca-access
+        namespace: ${ARGOCD_ENV_storage_namespace}
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: Role
+        name: ca-access
+      subjects:
+        - kind: ServiceAccount
+          name: ${ARGOCD_ENV_env_name}
+          namespace: ${ARGOCD_ENV_env_name}
+  managementPolicies:
+    - '*'
+  providerConfigRef:
+    name: sc-kubernetes-provider
