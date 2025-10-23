@@ -13,7 +13,7 @@ alertmanager:
 prometheus:
   image:
     repository: prom/prometheus
-    tag: 2.53.1
+    tag: v2.53.1
   networkPolicy:
     enabled: false
   scrapeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
