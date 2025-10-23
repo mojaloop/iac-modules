@@ -1,7 +1,7 @@
 alertmanager:
   image:
     repository: ubuntu/alertmanager
-    tag: 0.26.0
+    tag: 0.26.0-22.04_stable
   enabled: ${alertmanager_enabled}
   externalConfig: true
   configuration:
