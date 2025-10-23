@@ -40,6 +40,7 @@ spec:
     destination:
       namespace: ${mojaloop_namespace}
       name: object-storage-ca
+      secretType: kubernetes.io/tls
   providerConfigsRef:
     sourceK8sProviderName: sc-kubernetes-provider
     destinationK8sProviderName: kubernetes-provider
