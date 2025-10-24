@@ -1,7 +1,8 @@
 alertmanager:
   image:
-    repository: ubuntu/alertmanager
-    tag: 0.26.0-22.04_stable
+    registry: quay.io
+    repository: prometheus/alertmanager
+    tag: v0.26.0
   enabled: ${alertmanager_enabled}
   externalConfig: true
   configuration:
