@@ -140,6 +140,10 @@ commonAnnotations:
   build: argocd
 
 node-exporter:
+  image:
+    registry: quay.io
+    repository: prometheus/node-exporter
+    tag: v1.7.0
   serviceMonitor:
     relabelings:
     - sourceLabels: [__meta_kubernetes_pod_node_name]
