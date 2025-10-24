@@ -117,6 +117,10 @@ kubeApiServer:
   enabled: false
 
 kube-state-metrics:
+  image:
+    registry: registry.k8s.io
+    repository: kube-state-metrics/kube-state-metrics
+    tag: 2.10.1
   serviceMonitor:
     relabelings:
     # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
