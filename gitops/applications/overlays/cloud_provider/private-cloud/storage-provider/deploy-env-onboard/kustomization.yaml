@@ -5,3 +5,4 @@ resources:
   - push-storage-secrets-vault.yaml
   - netbird-env-policy-config-claim.yaml
   - percona-role.yaml
+  - storage-ca-access.yaml

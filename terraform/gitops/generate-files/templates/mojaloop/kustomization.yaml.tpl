@@ -10,6 +10,7 @@ resources:
   - opentelemetry-instrumentation.yaml
   - rbac-api-resources.yaml
   - simulator-issuer.yaml
+  - report-bucket.yaml
 helmCharts:
 - name: mojaloop
   releaseName: ${mojaloop_release_name}
