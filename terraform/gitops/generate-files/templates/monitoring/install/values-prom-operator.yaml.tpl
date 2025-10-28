@@ -66,10 +66,6 @@ operator:
     registry: quay.io
     repository: prometheus-operator/prometheus-operator
     tag: v0.70.0
-  configReloaderImage:
-    registry: quay.io
-    repository: prometheus-operator/prometheus-config-reloader
-    tag: v0.70.0
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
