@@ -62,9 +62,6 @@ prometheus:
 
 
 operator:
-  extraEnvVars:
-    - name: PROMETHEUS_CONFIG_RELOADER
-      value: quay.io/prometheus-operator/prometheus-config-reloader:v0.70.0
   image:
     registry: quay.io
     repository: prometheus-operator/prometheus-operator
