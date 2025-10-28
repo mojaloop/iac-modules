@@ -122,12 +122,12 @@ spec:
                 return false;
               end
               if not response_handle:headers():get("Content-Security-Policy") then
-                csp = "frame-ancestors none;default-src 'self'";
+                csp = "frame-ancestors 'none';default-src 'self'";
                 response_handle:headers():add("Content-Security-Policy", csp);
               elseif response_handle:headers():get("Content-Security-Policy") then
                 if not hasFrameAncestors(response_handle) then
                   csp = response_handle:headers():get("Content-Security-Policy");
-                  csp = csp .. ";frame-ancestors none;";
+                  csp = csp .. ";frame-ancestors 'none';";
                   response_handle:headers():replace("Content-Security-Policy", csp);
                 end
               end
