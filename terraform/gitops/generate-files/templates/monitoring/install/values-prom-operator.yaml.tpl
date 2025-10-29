@@ -71,6 +71,10 @@ operator:
       registry: quay.io
       repository: prometheus-operator/prometheus-config-reloader
       tag: v0.70.0
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 0
+      runAsGroup: 0
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
