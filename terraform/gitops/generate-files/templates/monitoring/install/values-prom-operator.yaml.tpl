@@ -16,6 +16,12 @@ alertmanager:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  podSecurityContext:
+    fsGroup: 65534
+  containerSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
 prometheus:
   image:
     repository: prom/prometheus
@@ -71,10 +77,6 @@ operator:
       registry: quay.io
       repository: prometheus-operator/prometheus-config-reloader
       tag: v0.70.0
-    containerSecurityContext:
-      enabled: true
-      runAsUser: 0
-      runAsGroup: 0
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
