@@ -1,6 +1,11 @@
 grafana:
   enabled: false
 operator:
+  image:
+    registry: ghcr.io
+    repository: grafana/grafana-operator
+    tag: v5.6.0
+    pullPolicy: IfNotPresent
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
