@@ -17,15 +17,10 @@ alertmanager:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
   podSecurityContext:
-    enabled: true
-    fsGroup: 65534       
-    runAsNonRoot: true
-  containerSecurityContext:
-    enabled: true
+    enabled: true    
+    runAsNonRoot: false
     runAsUser: 65534    
     runAsGroup: 65534
-    allowPrivilegeEscalation: false
-    runAsNonRoot: true
 prometheus:
   image:
     repository: prom/prometheus
