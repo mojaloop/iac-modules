@@ -83,10 +83,10 @@ operator:
       tag: v0.70.0
     containerSecurityContext:
       enabled: true
-      runAsUser: 65534
-      runAsGroup: 65534
-      runAsNonRoot: true
+      runAsNonRoot: false
       allowPrivilegeEscalation: false
+      runAsUser: 65534  
+      runAsGroup: 65534
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
