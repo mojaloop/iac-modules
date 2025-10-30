@@ -4,9 +4,9 @@ operator:
   image:
     registry: ghcr.io
     repository: grafana/grafana-operator
-    tag: v5.10.0
+    tag: v5.6.0
     pullPolicy: IfNotPresent
-  command: ["/manager"] 
+  command: ["/usr/bin/grafana-operator"] 
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
