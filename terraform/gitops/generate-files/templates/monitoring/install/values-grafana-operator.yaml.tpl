@@ -6,6 +6,7 @@ operator:
     repository: grafana/grafana-operator
     tag: v5.6.0
     pullPolicy: IfNotPresent
+  command: ["/manager"] 
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
