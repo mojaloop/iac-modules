@@ -51,8 +51,26 @@ spec:
               number: 8080
           headers:
             response:
-              add:
-                Content-Security-Policy: "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline';connect-src 'self' ${auth_fqdn};"
+              set:
+                Content-Security-Policy:
+                  default-src 'self';
+                  form-action
+                    'self'
+                    https://${auth_fqdn}/kratos/
+                    https://keycloak.${cluster.env}.${cluster.domain}/realms/hub-operators/;
+                  style-src
+                    'self'
+                    'unsafe-inline'
+                    https://fonts.googleapis.com;
+                  font-src
+                    'self'
+                    https://fonts.gstatic.com;
+                  script-src
+                    'self'
+                    'unsafe-inline';
+                  connect-src
+                    'self'
+                    https://${auth_fqdn};
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService

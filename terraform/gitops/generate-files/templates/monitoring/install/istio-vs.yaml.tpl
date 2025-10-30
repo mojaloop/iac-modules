@@ -1,4 +1,4 @@
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways }
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -38,7 +38,14 @@ spec:
               number: 9093
           headers:
             response:
-              add:
-                Content-Security-Policy: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
-
-%{ endif ~}
+              set:
+                Content-Security-Policy:
+                  default-src 'self';
+                  form-action 'self';
+                  script-src
+                    'self'
+                    'unsafe-inline';
+                  style-src
+                    'self'
+                    'unsafe-inline';
+# %{ endif }
