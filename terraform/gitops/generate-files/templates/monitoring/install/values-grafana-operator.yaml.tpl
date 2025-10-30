@@ -4,7 +4,7 @@ operator:
   image:
     registry: ghcr.io
     repository: grafana/grafana-operator
-    tag: v5.6.3
+    tag: v5.10.0
     pullPolicy: IfNotPresent
   command: ["/manager"] 
   nodeAffinityPreset:
