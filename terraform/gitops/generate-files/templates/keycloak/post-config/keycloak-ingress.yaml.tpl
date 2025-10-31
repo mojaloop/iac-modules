@@ -110,9 +110,15 @@ spec:
                 Content-Security-Policy:
                   default-src 'self';
                   form-action 'self';
-                  connect-src 'self' https://${keycloak_fqdn};
-                  script-src 'unsafe-inline' 'self';
-                  style-src 'unsafe-inline' 'self';
+                  connect-src
+                    'self'
+                    https://${keycloak_fqdn};
+                  script-src
+                    'unsafe-inline'
+                    'self';
+                  style-src
+                    'unsafe-inline'
+                    'self';
                   frame-src https://${keycloak_fqdn};
 ---
 apiVersion: networking.istio.io/v1alpha3
