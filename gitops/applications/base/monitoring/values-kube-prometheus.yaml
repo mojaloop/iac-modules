@@ -3,13 +3,34 @@ operator:
   logLevel: debug
   networkPolicy:
     enabled: false
+  image:
+    registry: quay.io
+    repository: prometheus-operator/prometheus-operator
+    tag: v0.70.0
+  prometheusConfigReloader:
+    image:
+      registry: quay.io
+      repository: prometheus-operator/prometheus-config-reloader
+      tag: v0.70.0
+    containerSecurityContext:
+      enabled: true
+      runAsNonRoot: false
+      allowPrivilegeEscalation: false
+      runAsUser: 65534  
+      runAsGroup: 65534
 alertmanager:
   image:
-    repository: ubuntu/alertmanager
-    tag: 0.26.0
+    registry: quay.io
+    repository: prometheus/alertmanager
+    tag: v0.26.0
   enabled: false
   networkPolicy:
     enabled: false
+  podSecurityContext:
+    enabled: true    
+    runAsNonRoot: false
+    runAsUser: 65534    
+    runAsGroup: 65534
 prometheus:
   image:
     repository: prom/prometheus
@@ -91,8 +112,9 @@ kubeApiServer:
 
 kube-state-metrics:
   image:
-    repository: registry.k8s.io/kube-state-metrics/kube-state-metrics
-    tag: 2.10.1
+    registry: registry.k8s.io
+    repository: kube-state-metrics/kube-state-metrics
+    tag: v2.10.1
   networkPolicy:
     enabled: false
   serviceMonitor:
@@ -115,8 +137,9 @@ kube-state-metrics:
 
 node-exporter:
   image:
-    repository: prom/node-exporter
-    tag: 1.7.0
+    registry: quay.io
+    repository: prometheus/node-exporter
+    tag: v1.7.0
   networkPolicy:
     enabled: false
   serviceMonitor:
