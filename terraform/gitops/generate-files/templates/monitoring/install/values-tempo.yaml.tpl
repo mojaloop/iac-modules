@@ -1,3 +1,7 @@
+global:
+  security:
+    allowInsecureImages: true
+
 tempo:
   image:
     registry: docker.io
