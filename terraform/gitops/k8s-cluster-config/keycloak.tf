@@ -36,6 +36,7 @@ module "generate_keycloak_files" {
     istio_create_ingress_gateways = var.istio_create_ingress_gateways
     ref_secrets                   = local.keycloak_realm_env_secret_map
     ref_secrets_path              = local.keycloak_secrets_path
+    cluster                       = var.app_var_map.cluster
   }
   file_list       = [for f in fileset(local.keycloak_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.keycloak_app_file, f))]
   template_path   = local.keycloak_template_path
