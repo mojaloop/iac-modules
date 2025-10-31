@@ -1,4 +1,4 @@
-%{ if istio_create_ingress_gateways ~}
+# %{ if istio_create_ingress_gateways }
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -45,22 +45,22 @@ spec:
     - kind: Service
       group: core
       name: ${mojaloop_release_name}-transaction-requests-service
-%{ if fspiop_use_ory_for_auth ~}
+# %{ if fspiop_use_ory_for_auth }
   action: CUSTOM
   provider:
     name: ${oathkeeper_auth_provider_name}
-%{ else ~}
+# %{ else }
   action: DENY
-%{ endif ~}
+# %{ endif }
   rules:
     - to:
         - operation:
             hosts: ["${interop_switch_fqdn}", "${interop_switch_fqdn}:*"]
-%{ if !fspiop_use_ory_for_auth ~}
+# %{ if !fspiop_use_ory_for_auth }
       from:
         - source:
             notRequestPrincipals: ["https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/*"]
-%{ endif ~}
+# %{ endif }
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -121,7 +121,7 @@ spec:
             host: ${mojaloop_release_name}-ml-api-adapter-service
             port:
               number: 80
-%{ if bulk_enabled ~}
+# %{ if bulk_enabled }
     - name: bulkQuotes
       match:
         - uri:
@@ -140,7 +140,7 @@ spec:
             host: ${mojaloop_release_name}-bulk-api-adapter-service
             port:
               number: 80
-%{ endif ~}
+# %{ endif }
     - name: transactionRequests
       match:
         - uri:
@@ -219,7 +219,7 @@ spec:
             host: ${mojaloop_release_name}-ml-api-adapter-service
             port:
               number: 80
-%{ if bulk_enabled ~}
+# %{ if bulk_enabled }
     - name: bulkQuotes
       match:
         - uri:
@@ -238,7 +238,7 @@ spec:
             host: ${mojaloop_release_name}-bulk-api-adapter-service
             port:
               number: 80
-%{ endif ~}
+# %{ endif }
     - name: transactionRequests
       match:
         - uri:
@@ -258,7 +258,7 @@ spec:
             port:
               number: 80
 
-%{ if ttk_dev_mode_enabled ~}
+# %{ if ttk_dev_mode_enabled }
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -281,13 +281,29 @@ spec:
               number: 5050
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
-                  style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
-                  script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.datatables.net https://code.jquery.com;
-                  font-src 'self' https://use.fontawesome.com;
-                  frame-ancestors 'self' *.${cluster.domain};
+                  form-action 'self';
+                  style-src
+                    'self'
+                    'unsafe-inline'
+                    https://use.fontawesome.com
+                    https://cdnjs.cloudflare.com
+                    https://stackpath.bootstrapcdn.com
+                    https://cdn.datatables.net;
+                  script-src
+                    'self'
+                    'unsafe-inline'
+                    https://cdnjs.cloudflare.com
+                    https://cdn.datatables.net
+                    https://code.jquery.com;
+                  font-src
+                    'self'
+                    https://use.fontawesome.com;
+                  frame-ancestors
+                    'self'
+                    https://*.${cluster.domain};
     - name: socket
       match:
         - uri:
@@ -308,15 +324,20 @@ spec:
               number: 6060
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
-                  style-src 'self' 'unsafe-inline';
-                  connect-src 'self' https://api.github.com;
-%{ endif ~}
+                  form-action 'self';
+                  style-src
+                    'self'
+                    'unsafe-inline';
+                  connect-src
+                    'self'
+                    https://api.github.com;
+# %{ endif }
 
 ---
-%{ endif ~}
+# %{ endif }
 
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -386,11 +407,16 @@ spec:
               number: 80
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
-                  style-src-elem 'self' 'unsafe-inline';
-                  img-src 'self' data:;
+                  form-action 'self';
+                  style-src-elem
+                    'self'
+                    'unsafe-inline';
+                  img-src
+                    'self'
+                    data:;
     - name: reporting-hub-bop-role-ui
       match:
         - uri:
@@ -468,14 +494,29 @@ spec:
               number: 80
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
-                  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-                  font-src 'self' https://fonts.gstatic.com;
-                  script-src 'self' 'unsafe-inline';
-                  connect-src 'self' ${auth_fqdn};
-                  img-src 'self' data:;
+                  form-action
+                    'self'
+                    https://${auth_fqdn}/kratos/
+                    https://keycloak.${cluster.env}.${cluster.domain}/realms/hub-operators/;
+                  style-src
+                    'self'
+                    'unsafe-inline'
+                    https://fonts.googleapis.com;
+                  font-src
+                    'self'
+                    https://fonts.gstatic.com;
+                  script-src
+                    'self'
+                    'unsafe-inline';
+                  connect-src
+                    'self'
+                    https://${auth_fqdn};
+                  img-src
+                    'self'
+                    data:;
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy

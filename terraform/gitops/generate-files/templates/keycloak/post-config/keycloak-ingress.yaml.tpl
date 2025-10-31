@@ -71,8 +71,20 @@ spec:
               number: 8443
           headers:
             response:
-              add:
-                Content-Security-Policy: "img-src data: 'self';script-src 'unsafe-inline' 'self';default-src 'self';frame-ancestors 'self' ${keycloak_admin_fqdn}"
+              set:
+                Content-Security-Policy:
+                  default-src 'self';
+                  img-src 'self' data:;
+                  script-src 'unsafe-inline' 'self';
+                  form-action
+                    'self'
+                    https://${keycloak_admin_fqdn}/
+                    https://auth.int.${cluster.env}.${cluster.domain}/kratos/
+                    https://finance-portal.int.${cluster.env}.${cluster.domain}/
+                    https://mcm.int.${cluster.env}.${cluster.domain}/;
+                  frame-ancestors
+                    'self'
+                    https://${keycloak_admin_fqdn}/;
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -94,8 +106,20 @@ spec:
               number: 8443
           headers:
             response:
-              add:
-                Content-Security-Policy: connect-src 'self' ${keycloak_fqdn};script-src 'unsafe-inline' 'self';style-src 'unsafe-inline' 'self';frame-src ${keycloak_fqdn};default-src 'self'
+              set:
+                Content-Security-Policy:
+                  default-src 'self';
+                  form-action 'self';
+                  connect-src
+                    'self'
+                    https://${keycloak_fqdn};
+                  script-src
+                    'unsafe-inline'
+                    'self';
+                  style-src
+                    'unsafe-inline'
+                    'self';
+                  frame-src https://${keycloak_fqdn};
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule

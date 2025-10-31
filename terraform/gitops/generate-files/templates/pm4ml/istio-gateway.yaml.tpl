@@ -54,14 +54,31 @@ spec:
               number: 80
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
-                  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-                  font-src 'self' https://fonts.gstatic.com;
-                  script-src 'self' 'unsafe-inline';
-                  connect-src 'self' ${auth_fqdn} ${experience_api_fqdn};
-                  img-src 'self' data: https://img.icons8.com;
+                  form-action
+                    'self'
+                    https://${auth_fqdn}/kratos/
+                    https://keycloak.${cluster.env}.${cluster.domain}/realms/;
+                  style-src
+                    'self'
+                    'unsafe-inline'
+                    https://fonts.googleapis.com;
+                  font-src
+                    'self'
+                    https://fonts.gstatic.com;
+                  script-src
+                    'self'
+                    'unsafe-inline';
+                  connect-src
+                    'self'
+                    https://${auth_fqdn}
+                    https://${experience_api_fqdn};
+                  img-src
+                    'self'
+                    https://img.icons8.com
+                    data:;
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -128,14 +145,14 @@ spec:
               number: 80
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
                   font-src 'self' https://fonts.gstatic.com;
                   script-src 'self' 'unsafe-inline';
                   connect-src 'self' ${auth_fqdn} ${experience_api_fqdn};
-                  img-src 'self' data: https://img.icons8.com;
+                  img-src 'self' https://img.icons8.com data:;
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -192,7 +209,7 @@ spec:
               number: 80
           headers:
             response:
-              add:
+              set:
                 access-control-allow-origin: "https://${portal_fqdn}"
                 access-control-allow-credentials: "true"
 
@@ -279,8 +296,8 @@ spec:
               number: 5050
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
                   style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
                   script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.datatables.net https://code.jquery.com;
@@ -305,8 +322,8 @@ spec:
               number: 6060
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
                   style-src 'self' 'unsafe-inline';
                   connect-src 'self' https://api.github.com;

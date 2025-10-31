@@ -3,9 +3,8 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: ${pm4ml_release_name}-connector-gateway-a
-  annotations: {
+  annotations:
     external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
-  }
 spec:
   selector:
     istio: ${istio_external_gateway_name}
@@ -24,9 +23,8 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: ${pm4ml_release_name}-connector-gateway-b
-  annotations: {
+  annotations:
     external-dns.alpha.kubernetes.io/target: ${external_load_balancer_dns}
-  }
 spec:
   selector:
     istio: ${istio_external_gateway_name}
@@ -104,12 +102,25 @@ spec:
               number: 5050
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
-                  style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
-                  script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.datatables.net https://code.jquery.com;
-                  font-src 'self' https://use.fontawesome.com;
+                  style-src
+                    'self'
+                    'unsafe-inline'
+                    https://use.fontawesome.com
+                    https://cdnjs.cloudflare.com
+                    https://stackpath.bootstrapcdn.com
+                    https://cdn.datatables.net;
+                  script-src
+                    'self'
+                    'unsafe-inline'
+                    https://cdnjs.cloudflare.com
+                    https://cdn.datatables.net
+                    https://code.jquery.com;
+                  font-src
+                    'self'
+                    https://use.fontawesome.com;
     - name: socket
       match:
         - uri:
@@ -130,10 +141,14 @@ spec:
               number: 6060
           headers:
             response:
-              add:
-                Content-Security-Policy: >-
+              set:
+                Content-Security-Policy:
                   default-src 'self';
-                  style-src 'self' 'unsafe-inline';
-                  connect-src 'self' https://api.github.com;
+                  style-src
+                    'self'
+                    'unsafe-inline';
+                  connect-src
+                    'self'
+                    https://api.github.com;
 ---
 # %{ endif }
