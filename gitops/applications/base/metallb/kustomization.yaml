@@ -1,5 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - github.com/metallb/metallb/config/native?ref=v${ARGOCD_ENV_metallb_version}&timeout=600
+  - github.com/metallb/metallb/config/native?ref=v${ARGOCD_ENV_metallb_version}&timeout=600s
   - ipaddress_pools.yaml
