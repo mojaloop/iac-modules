@@ -180,6 +180,11 @@ queryFrontend:
     enabled: false
 
 vulture:
+  image:
+    registry: docker.io
+    repository: grafana/tempo-vulture
+    tag: 2.7.0
+    pullPolicy: IfNotPresent
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
