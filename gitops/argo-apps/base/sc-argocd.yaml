@@ -305,6 +305,10 @@ spec:
                 value: /helm-working-dir
               - name: HELM_DATA_HOME
                 value: /helm-working-dir
+              - name: ARGOCD_EXEC_TIMEOUT
+                value: "600s"
+              - name: ARGOCD_EXEC_FATAL_TIMEOUT
+                value: "630s"
 
             volumes:
               - name: custom-tools
