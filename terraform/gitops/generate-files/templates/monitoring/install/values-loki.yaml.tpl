@@ -1,4 +1,9 @@
 loki:
+  image:
+    registry: docker.io
+    repository: grafana/loki
+    tag: 2.9.3
+    pullPolicy: IfNotPresent
   overrideConfiguration:
     # https://grafana.com/docs/loki/latest/operations/storage/retention/
     compactor:
