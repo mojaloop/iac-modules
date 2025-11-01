@@ -201,9 +201,6 @@ spec:
               $TEST_RUNNER_EXIT_CODE";
 
               exit $TEST_RUNNER_EXIT_CODE;
-          envFrom:
-            - secretRef:
-                name: moja-ml-ttk-test-setup-aws-creds
           env:
             - name: NPM_CONFIG_UPDATE_NOTIFIER
               value: "false"
