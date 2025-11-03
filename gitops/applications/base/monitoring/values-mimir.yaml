@@ -162,6 +162,11 @@ alertmanager:
     enabled: false
 
 gateway:
+  image:
+    registry: docker.io
+    repository: nginx/nginx
+    tag: 1.27
+    pullPolicy: IfNotPresent
   networkPolicy:
     enabled: false
 
