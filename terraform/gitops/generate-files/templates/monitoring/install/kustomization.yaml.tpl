@@ -31,12 +31,6 @@ helmCharts:
   repo: ${loki_repo}
   valuesFile: values-loki.yaml
   namespace: ${monitoring_namespace}
-- name: grafana-tempo
-  releaseName: tempo
-  version: ${tempo_chart_version}
-  repo: ${tempo_repo}
-  valuesFile: values-tempo.yaml
-  namespace: ${monitoring_namespace}
 - name: opentelemetry-operator
   releaseName: opentelemetry-operator
   version: ${opentelemetry_chart_version}
