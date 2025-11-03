@@ -171,6 +171,10 @@ gateway:
     enabled: false
 
 memcachedchunks:
+  image:
+    registry: docker.io
+    repository: memcached
+    tag: 1.6.29
   networkPolicy:
     enabled: false
 memcachedfrontend:
