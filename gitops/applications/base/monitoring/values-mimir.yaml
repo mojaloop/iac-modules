@@ -1,9 +1,6 @@
 minio:
   enabled: false
 
-global:
-  imageRegistry: docker.io
-
 mimir:
   image:
     registry: docker.io
@@ -167,7 +164,7 @@ alertmanager:
 gateway:
   image:
     registry: docker.io
-    repository: nginx/nginx
+    repository: nginx
     tag: 1.27
     pullPolicy: IfNotPresent
   networkPolicy:
