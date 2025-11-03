@@ -16,8 +16,6 @@ module "generate_monitoring_files" {
     grafana_version                            = try(var.common_var_map.grafana_version, local.grafana_version)
     grafana_dashboard_tag                      = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
     grafana_dashboard_tag_iac_modules          = try(var.common_var_map.grafana_dashboard_tag_iac_modules, local.grafana_dashboard_tag_iac_modules)
-    tempo_repo                                 = try(var.common_var_map.tempo_repo, local.bitnami_repo)
-    tempo_chart_version                        = try(var.common_var_map.tempo_chart_version, local.tempo_chart_version)
     metrics_server_chart_version               = try(var.common_var_map.metrics_server_chart_version, local.metrics_server_chart_version)
     metrics_server_replicas                    = var.metrics_server_replicas
     opentelemetry_chart_version                = try(var.common_var_map.opentelemetry_chart_version, local.opentelemetry_chart_version)
@@ -165,7 +163,6 @@ locals {
   prometheus_operator_version         = "8.22.8"
   prometheus_process_exporter_version = "0.4.2"
   process_exporter_enabled            = false
-  tempo_chart_version                 = "3.1.0"
   metrics_server_chart_version        = "3.12.2"
   grafana_version                     = "11.6.1"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17"     # NOTE: only for those dashboards which are in mojaloop/helm repo
