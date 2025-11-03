@@ -135,10 +135,6 @@ queryScheduler:
 
 
 memcachedchunks:
-  image:
-    registry: docker.io
-    repository: memcached
-    tag: 1.6.22
   metrics:
     enabled: true
     serviceMonitor:
@@ -155,18 +151,6 @@ memcachedchunks:
     # We did not change "aggressive" configs for memcache client in loki since memcache is completely RAM backed as of now.
     - "--memory-limit=1400"   # max memory limit for all cached items in mega bytes
     - "--max-item-size=2m"    # max memory limit for a single item
-
-memcachedfrontend:
-  image:
-    registry: docker.io
-    repository: memcached
-    tag: 1.6.22
-
-memcachedindex:
-  image:
-    registry: docker.io
-    repository: memcached
-    tag: 1.6.22
 
 
 promtail:
