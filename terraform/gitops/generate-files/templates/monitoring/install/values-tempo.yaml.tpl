@@ -1,13 +1,4 @@
-global:
-  security:
-    allowInsecureImages: true
-
 tempo:
-  image:
-    registry: docker.io
-    repository: grafana/tempo
-    tag: 2.7.0
-    pullPolicy: IfNotPresent
   traces:
     otlp:
       grpc: true
@@ -180,11 +171,6 @@ queryFrontend:
     enabled: false
 
 vulture:
-  image:
-    registry: docker.io
-    repository: grafana/tempo-vulture
-    tag: 2.7.0
-    pullPolicy: IfNotPresent
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
