@@ -302,12 +302,13 @@ spec:
             #     cpu: 250m
             #     memory: 512Mi
             env:
-              - name: HELM_CACHE_HOME
-                value: /helm-working-dir
-              - name: HELM_CONFIG_HOME
-                value: /helm-working-dir
-              - name: HELM_DATA_HOME
-                value: /helm-working-dir
+              # commenting since useEphemeralHelmWorkingDir is true by default
+              # - name: HELM_CACHE_HOME
+              #   value: /helm-working-dir
+              # - name: HELM_CONFIG_HOME
+              #   value: /helm-working-dir
+              # - name: HELM_DATA_HOME
+              #   value: /helm-working-dir
               - name: ARGOCD_EXEC_TIMEOUT
                 value: "600s"
               - name: ARGOCD_EXEC_FATAL_TIMEOUT
