@@ -164,8 +164,8 @@ alertmanager:
 gateway:
   image:
     registry: docker.io
-    repository: nginx
-    tag: 1.27
+    repository: awaiszulfiqar/nginx
+    tag: 1.27.0-debian-12-r4
     pullPolicy: IfNotPresent
   networkPolicy:
     enabled: false
