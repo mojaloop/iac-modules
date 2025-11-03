@@ -1,6 +1,9 @@
 minio:
   enabled: false
 
+global:
+  imageRegistry: docker.io
+
 mimir:
   image:
     registry: docker.io
