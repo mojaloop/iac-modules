@@ -178,7 +178,7 @@ gateway:
 # Index Gateway (required for TSDB)
 indexGateway:
   enabled: true
-  replicas: 2
+  replicas: 1
   extraEnvFrom:
     - secretRef:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
