@@ -3,10 +3,29 @@ operator:
   logLevel: debug
   networkPolicy:
     enabled: false
+  image:
+    registry: quay.io
+    repository: prometheus-operator/prometheus-operator
+    tag: v0.70.0
+  prometheusConfigReloader:
+    image:
+      registry: quay.io
+      repository: prometheus-operator/prometheus-config-reloader
+      tag: v0.70.0
+    containerSecurityContext:
+      enabled: true
+      runAsNonRoot: false
+      allowPrivilegeEscalation: false
+      runAsUser: 65534
+      runAsGroup: 65534
 alertmanager:
   enabled: false
   networkPolicy:
     enabled: false
+  image:
+    registry: quay.io
+    repository: prometheus/alertmanager
+    tag: v0.26.0
 prometheus:
   image:
     repository: prom/prometheus
@@ -30,7 +49,7 @@ prometheus:
   resourcesPreset: ${ARGOCD_ENV_resources_preset_bitnami}
   remoteWrite:
     - name: central-monitoring
-      url: ${ARGOCD_ENV_prometheus_remote_write_endpoint}/api/v1/push 
+      url: ${ARGOCD_ENV_prometheus_remote_write_endpoint}/api/v1/push
       headers:
         X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
       metadataConfig:
@@ -87,6 +106,10 @@ kubeApiServer:
   enabled: false
 
 kube-state-metrics:
+  image:
+    registry: registry.k8s.io
+    repository: kube-state-metrics/kube-state-metrics
+    tag: v2.10.1
   networkPolicy:
     enabled: false
   serviceMonitor:
@@ -108,6 +131,10 @@ kube-state-metrics:
 
 
 node-exporter:
+  image:
+    registry: quay.io
+    repository: prometheus/node-exporter
+    tag: v1.7.0
   networkPolicy:
     enabled: false
   serviceMonitor:

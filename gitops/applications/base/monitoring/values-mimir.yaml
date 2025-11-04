@@ -2,6 +2,11 @@ minio:
   enabled: false
 
 mimir:
+  image:
+    registry: docker.io
+    repository: grafana/mimir
+    tag: 2.13.0
+    pullPolicy: IfNotPresent
   overrideConfiguration:
     frontend:
       max_outstanding_per_tenant: 4096
@@ -161,14 +166,30 @@ gateway:
     enabled: false
 
 memcachedchunks:
+  image:
+    registry: docker.io
+    repository: memcached
+    tag: 1.6.29
   networkPolicy:
     enabled: false
 memcachedfrontend:
+  image:
+    registry: docker.io
+    repository: memcached
+    tag: 1.6.29
   networkPolicy:
     enabled: false
 memcachedindex:
+  image:
+    registry: docker.io
+    repository: memcached
+    tag: 1.6.29
   networkPolicy:
     enabled: false
 memcachedmetadata:
+  image:
+    registry: docker.io
+    repository: memcached
+    tag: 1.6.29
   networkPolicy:
     enabled: false

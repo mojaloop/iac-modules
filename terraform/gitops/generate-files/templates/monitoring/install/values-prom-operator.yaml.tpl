@@ -1,4 +1,8 @@
 alertmanager:
+  image:
+    registry: quay.io
+    repository: prometheus/alertmanager
+    tag: v0.26.0
   enabled: ${alertmanager_enabled}
   externalConfig: true
   configuration:
@@ -12,6 +16,11 @@ alertmanager:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  podSecurityContext:
+    enabled: true
+    runAsNonRoot: false
+    runAsUser: 65534
+    runAsGroup: 65534
 prometheus:
   image:
     repository: prom/prometheus
@@ -58,6 +67,21 @@ prometheus:
 
 
 operator:
+  image:
+    registry: quay.io
+    repository: prometheus-operator/prometheus-operator
+    tag: v0.70.0
+  prometheusConfigReloader:
+    image:
+      registry: quay.io
+      repository: prometheus-operator/prometheus-config-reloader
+      tag: v0.70.0
+    containerSecurityContext:
+      enabled: true
+      runAsNonRoot: false
+      allowPrivilegeEscalation: false
+      runAsUser: 65534
+      runAsGroup: 65534
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -101,7 +125,7 @@ kubelet:
       replacement: ''
       action: replace
     # NOTE: removing this label is expected to reduce remote write bandwidth by 15%
-    # removing id label causes err-mimir-sample-duplicate-timestamp error 
+    # removing id label causes err-mimir-sample-duplicate-timestamp error
     # droping id entirely collapses multiple ts into one
     # - sourceLabels: [id]
     #   regex: '.+/pod.+'
@@ -113,6 +137,10 @@ kubeApiServer:
   enabled: false
 
 kube-state-metrics:
+  image:
+    registry: registry.k8s.io
+    repository: kube-state-metrics/kube-state-metrics
+    tag: v2.10.1
   serviceMonitor:
     relabelings:
     # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
@@ -136,6 +164,10 @@ commonAnnotations:
   build: argocd
 
 node-exporter:
+  image:
+    registry: quay.io
+    repository: prometheus/node-exporter
+    tag: v1.7.0
   serviceMonitor:
     relabelings:
     - sourceLabels: [__meta_kubernetes_pod_node_name]
