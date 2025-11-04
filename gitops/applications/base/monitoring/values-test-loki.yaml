@@ -232,4 +232,9 @@ memberlist:
   service:
     publishNotReadyAddresses: false
 
-
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
