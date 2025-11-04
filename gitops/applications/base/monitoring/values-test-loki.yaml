@@ -226,9 +226,7 @@ monitoring:
 # Loki Canary
 lokiCanary:
   enabled: true
-  serviceAccount:
-    create: true
-    name: test-loki-canary
+
 
 # Memberlist service configuration
 memberlist:
