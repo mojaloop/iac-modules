@@ -1,0 +1,234 @@
+deploymentMode: Distributed
+
+loki:
+  auth_enabled: true
+  
+  # NEW SCHEMA - tsdb/v13 with different prefix from old boltdb-shipper
+  schemaConfig:
+    configs:
+      - from: "2024-11-04"  # Use today's date for new schema start
+        store: tsdb
+        object_store: s3
+        schema: v13
+        index:
+          prefix: tsdb_index_  # Different from old 'index_'
+          period: 24h
+  
+  # SAME S3 BUCKET - but with proper path separation
+  storage:
+    type: s3
+    bucketNames:
+      chunks: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"  
+      ruler: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+      admin: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+    s3:
+      endpoint: ${ARGOCD_ENV_object_storage_regional_host}
+      region: ${ARGOCD_ENV_cloud_region}
+      secretAccessKey: $${password}
+      accessKeyId: $${username}
+      s3ForcePathStyle: ${ARGOCD_ENV_object_storage_path_style}
+      insecure: ${ARGOCD_ENV_object_store_insecure_connection}
+      http_config:
+        insecure_skip_verify: ${ARGOCD_ENV_object_store_insecure_skip_verify}
+
+  server:
+    grpc_server_max_recv_msg_size: 8388608  # 8MB
+
+  limits_config:
+    retention_period: ${ARGOCD_ENV_loki_retention_period}
+    volume_enabled: true
+
+  compactor:
+    retention_enabled: true
+    working_directory: /var/loki/compactor
+    compaction_interval: 10m
+    retention_delete_delay: 2h
+    retention_delete_worker_count: 150
+
+  ingester:
+    max_chunk_age: ${ARGOCD_ENV_loki_ingester_max_chunk_age}
+    chunk_encoding: snappy
+    lifecycler:
+      ring:
+        replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
+
+  memberlistConfig:
+    bind_port: ${ARGOCD_ENV_loki_gossip_ring_port}
+    advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
+
+  commonConfig:
+    replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
+
+  # TSDB Shipper config - this separates from boltdb-shipper paths
+  storage_config:
+    tsdb_shipper:
+      active_index_directory: /var/loki/tsdb-index
+      cache_location: /var/loki/tsdb-cache
+      shared_store: s3
+      # Index files will go to: s3://bucket/tsdb_index_/
+    hedging:
+      at: "250ms"
+      max_per_second: 20
+      up_to: 3
+
+# Global extraEnvFrom for all components
+global:
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+
+# Ingester configuration
+ingester:
+  replicas: ${ARGOCD_ENV_loki_ingester_replica_count}
+  resources:
+    requests:
+      cpu: ${ARGOCD_ENV_loki_ingester_requests_cpu}
+      memory: ${ARGOCD_ENV_loki_ingester_requests_memory}
+    limits:
+      cpu: ${ARGOCD_ENV_loki_ingester_limits_cpu}
+      memory: ${ARGOCD_ENV_loki_ingester_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistence:
+    enabled: true
+    size: 10Gi
+  zoneAwareReplication:
+    enabled: false
+
+# Distributor configuration
+distributor:
+  replicas: ${ARGOCD_ENV_loki_distributor_replica_count}
+  resources:
+    requests:
+      cpu: ${ARGOCD_ENV_loki_distributor_requests_cpu}
+      memory: ${ARGOCD_ENV_loki_distributor_requests_memory}
+    limits:
+      cpu: ${ARGOCD_ENV_loki_distributor_limits_cpu}
+      memory: ${ARGOCD_ENV_loki_distributor_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+
+# Querier configuration
+querier:
+  replicas: ${ARGOCD_ENV_loki_querier_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_loki_querier_limits_cpu}
+      memory: ${ARGOCD_ENV_loki_querier_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+
+# Query Frontend configuration
+queryFrontend:
+  replicas: ${ARGOCD_ENV_loki_query_frontend_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_loki_query_frontend_limits_cpu}
+      memory: ${ARGOCD_ENV_loki_query_frontend_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+
+# Query Scheduler configuration
+queryScheduler:
+  enabled: false
+  replicas: ${ARGOCD_ENV_loki_query_scheduler_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_loki_query_scheduler_limits_cpu}
+      memory: ${ARGOCD_ENV_loki_query_scheduler_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+
+# Compactor configuration
+compactor:
+  replicas: ${ARGOCD_ENV_loki_compactor_replica_count}
+  resources:
+    limits:
+      cpu: ${ARGOCD_ENV_loki_compactor_limits_cpu}
+      memory: ${ARGOCD_ENV_loki_compactor_limits_memory}
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistence:
+    enabled: true
+    size: 10Gi
+
+# Ruler configuration
+ruler:
+  enabled: true
+  replicas: 1
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+
+# Gateway configuration
+gateway:
+  enabled: true
+  replicas: 1
+  verboseLogging: true
+  service:
+    type: ClusterIP
+    port: 80
+
+# Index Gateway (required for TSDB)
+indexGateway:
+  enabled: true
+  replicas: 2
+  extraEnvFrom:
+    - secretRef:
+        name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistence:
+    enabled: true
+    size: 10Gi
+
+# Chunks Cache (Memcached)
+chunksCache:
+  enabled: true
+  replicas: 1
+  allocatedMemory: 1400
+  maxItemMemory: 5
+
+# Results Cache (Memcached)
+resultsCache:
+  enabled: true
+  replicas: 1
+  allocatedMemory: 1024
+
+# Monitoring
+monitoring:
+  serviceMonitor:
+    enabled: true
+    interval: 15s
+    relabelings:
+      - sourceLabels: [namespace,job]
+        separator: /
+        regex: (.*)
+        targetLabel: job
+        replacement: ${1}
+        action: replace
+      - sourceLabels: [job,__meta_kubernetes_endpoints_label_app_kubernetes_io_instance]
+        separator: '-'
+        regex: (.*)
+        targetLabel: job
+        replacement: ${1}
+        action: replace
+  rules:
+    enabled: false
+  dashboards:
+    enabled: false
+
+# Loki Canary
+lokiCanary:
+  enabled: false
+
+# Memberlist service configuration
+memberlist:
+  service:
+    publishNotReadyAddresses: false
+
+

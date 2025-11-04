@@ -33,7 +33,7 @@ helmCharts:
     releaseName: test-loki
     version: 6.45.2
     repo: https://grafana.github.io/helm-charts
-    valuesFile: values-loki.yaml
+    valuesFile: values-test-loki.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: tempo-distributed
     releaseName: central
