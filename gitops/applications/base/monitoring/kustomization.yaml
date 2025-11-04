@@ -29,7 +29,7 @@ helmCharts:
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesFile: values-loki.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-  - name: loki-distributed
+  - name: loki
     releaseName: test-loki
     version: 6.45.2
     repo: https://grafana.github.io/helm-charts
