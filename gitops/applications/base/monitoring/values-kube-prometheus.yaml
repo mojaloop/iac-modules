@@ -16,7 +16,7 @@ operator:
       enabled: true
       runAsNonRoot: false
       allowPrivilegeEscalation: false
-      runAsUser: 65534  
+      runAsUser: 65534
       runAsGroup: 65534
 alertmanager:
   image:
@@ -27,9 +27,9 @@ alertmanager:
   networkPolicy:
     enabled: false
   podSecurityContext:
-    enabled: true    
+    enabled: true
     runAsNonRoot: false
-    runAsUser: 65534    
+    runAsUser: 65534
     runAsGroup: 65534
 prometheus:
   image:

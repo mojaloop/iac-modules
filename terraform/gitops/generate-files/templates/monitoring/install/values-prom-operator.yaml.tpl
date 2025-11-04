@@ -17,9 +17,9 @@ alertmanager:
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
   podSecurityContext:
-    enabled: true    
+    enabled: true
     runAsNonRoot: false
-    runAsUser: 65534    
+    runAsUser: 65534
     runAsGroup: 65534
 prometheus:
   image:
@@ -80,7 +80,7 @@ operator:
       enabled: true
       runAsNonRoot: false
       allowPrivilegeEscalation: false
-      runAsUser: 65534  
+      runAsUser: 65534
       runAsGroup: 65534
   nodeAffinityPreset:
     type: hard
@@ -125,7 +125,7 @@ kubelet:
       replacement: ''
       action: replace
     # NOTE: removing this label is expected to reduce remote write bandwidth by 15%
-    # removing id label causes err-mimir-sample-duplicate-timestamp error 
+    # removing id label causes err-mimir-sample-duplicate-timestamp error
     # droping id entirely collapses multiple ts into one
     # - sourceLabels: [id]
     #   regex: '.+/pod.+'

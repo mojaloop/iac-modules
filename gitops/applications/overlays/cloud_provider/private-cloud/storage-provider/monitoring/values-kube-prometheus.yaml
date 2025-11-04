@@ -16,7 +16,7 @@ operator:
       enabled: true
       runAsNonRoot: false
       allowPrivilegeEscalation: false
-      runAsUser: 65534  
+      runAsUser: 65534
       runAsGroup: 65534
 alertmanager:
   enabled: false
@@ -49,7 +49,7 @@ prometheus:
   resourcesPreset: ${ARGOCD_ENV_resources_preset_bitnami}
   remoteWrite:
     - name: central-monitoring
-      url: ${ARGOCD_ENV_prometheus_remote_write_endpoint}/api/v1/push 
+      url: ${ARGOCD_ENV_prometheus_remote_write_endpoint}/api/v1/push
       headers:
         X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
       metadataConfig:
