@@ -58,6 +58,8 @@ loki:
   memberlistConfig:
     bind_port: ${ARGOCD_ENV_loki_gossip_ring_port}
     advertise_port: ${ARGOCD_ENV_loki_gossip_ring_port}
+    join_members:
+      - "test-loki-gossip-ring:${ARGOCD_ENV_loki_gossip_ring_port}"
 
   commonConfig:
     replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
