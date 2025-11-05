@@ -46,8 +46,7 @@ loki:
     retention_delete_delay: 2h
     retention_delete_worker_count: 150
     delete_request_store: s3
-    extraArgs:
-      - -config.expand-env=true
+
 
   ingester:
     max_chunk_age: ${ARGOCD_ENV_loki_ingester_max_chunk_age}
@@ -160,6 +159,8 @@ compactor:
   persistence:
     enabled: true
     size: 10Gi
+  extraArgs:
+    - -config.expand-env=true
   
 
 # Ruler configuration
