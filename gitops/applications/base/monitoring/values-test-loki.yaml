@@ -1,5 +1,9 @@
 deploymentMode: Distributed
 
+global:
+  extraArgs:
+    - -config.expand-env=true
+
 loki:
   auth_enabled: true
   
