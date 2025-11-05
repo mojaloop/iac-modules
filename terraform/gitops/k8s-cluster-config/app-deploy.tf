@@ -88,6 +88,7 @@ module "mojaloop" {
   istio_nb_egress_waypoint_name                = var.istio_nb_egress_waypoint_name
   istio_nb_egress_waypoint_namespace           = var.istio_nb_egress_waypoint_namespace
   traces_endpoint                              = var.traces_endpoint
+  namespace_meta                               = local.namespace_meta
 }
 
 module "pm4ml" {
