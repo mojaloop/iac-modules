@@ -28,6 +28,7 @@ module "vnext_stateful_resources" {
   cloud_region                                  = var.cloud_region
   istio_nb_egress_waypoint_name                 = var.istio_nb_egress_waypoint_name
   istio_nb_egress_waypoint_namespace            = var.istio_nb_egress_waypoint_namespace
+  namespace_meta                                = {}
 }
 
 variable "stateful_resources_namespace" {
