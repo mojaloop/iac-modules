@@ -24,9 +24,9 @@ loki:
     s3:
       endpoint: ${ARGOCD_ENV_object_storage_regional_host}
       region: ${ARGOCD_ENV_cloud_region}
-      secretAccessKey: $${password}
-      accessKeyId: $${username}
-      s3ForcePathStyle: ${ARGOCD_ENV_object_storage_path_style}
+      access_key_id: $${username}
+      secret_access_key: $${password}
+      s3forcepathstyle: ${ARGOCD_ENV_object_storage_path_style}
       insecure: ${ARGOCD_ENV_object_store_insecure_connection}
       http_config:
         insecure_skip_verify: ${ARGOCD_ENV_object_store_insecure_skip_verify}
