@@ -223,6 +223,12 @@ variable "traces_endpoint" {
   description = "tracing server endpoint"
 }
 
+variable "namespace_meta_config_file" {
+  type        = string
+  description = "Config file with namespace metadata"
+  default     = ""
+}
+
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value

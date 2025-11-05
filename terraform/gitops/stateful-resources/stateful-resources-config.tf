@@ -88,6 +88,7 @@ resource "local_file" "namespace" {
   content = templatefile("${local.stateful_resources_template_path}/namespace.yaml.tpl",
     {
       all_ns = distinct(concat(var.create_stateful_resources_ns ? [var.stateful_resources_namespace] : [], local.all_logical_extra_namespaces, local.all_local_helm_namespaces, local.all_local_op_namespaces))
+      namespace_meta = var.namespace_meta
   })
   filename = "${local.stateful_resources_output_path}/namespace.yaml"
 }
@@ -632,4 +633,9 @@ variable "dbaas_subdomain" {
   type        = string
   description = "The subdomain for the DBaaS services."
   default     = "storage"
+}
+
+variable "namespace_meta" {
+  type = any
+  description = "Metadata for the namespaces"
 }
