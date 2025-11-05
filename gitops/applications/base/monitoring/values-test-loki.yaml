@@ -64,8 +64,6 @@ loki:
     tsdb_shipper:
       active_index_directory: /var/loki/tsdb-index
       cache_location: /var/loki/tsdb-cache
-      shared_store: s3
-      # Index files will go to: s3://bucket/tsdb_index_/
     hedging:
       at: "250ms"
       max_per_second: 20
