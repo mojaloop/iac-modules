@@ -423,4 +423,5 @@ locals {
   monolith_stateful_resources = { for key, resource in local.monolith_stateful_resources_int : key => resource if var.deploy_env_monolithic_db }
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.plt_st_res_config]
+  namespace_meta                      = var.namespace_meta_config_file == "" ? {} : yamldecode(file(var.namespace_meta_config_file))
 }

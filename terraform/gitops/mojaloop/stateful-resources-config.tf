@@ -28,6 +28,7 @@ module "mojaloop_stateful_resources" {
   private_dns_zone_id                           = var.private_dns_zone_id
   istio_nb_egress_waypoint_name                 = var.istio_nb_egress_waypoint_name
   istio_nb_egress_waypoint_namespace            = var.istio_nb_egress_waypoint_namespace
+  namespace_meta                                = var.namespace_meta
 }
 
 variable "stateful_resources_namespace" {
