@@ -76,6 +76,8 @@ loki:
 
 # Global extraEnvFrom for all components
 global:
+  dnsService: "external-dns" 
+  dnsNamespace: "ext-dns"
   extraEnvFrom:
     - secretRef:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
@@ -178,9 +180,6 @@ gateway:
   enabled: true
   replicas: 1
   verboseLogging: true
-  nginxConfig:
-    resolver: ""
-    enableIPv6: false
   service:
     type: ClusterIP
     port: 80
