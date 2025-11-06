@@ -35,3 +35,8 @@ cleanupController:
     requests:
       cpu: 100m
       memory: 128Mi
+
+webhooksCleanup:
+  image:
+    registry: registry.k8s.io
+    repository: kubectl
