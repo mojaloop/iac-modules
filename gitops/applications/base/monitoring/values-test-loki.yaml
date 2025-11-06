@@ -179,7 +179,7 @@ gateway:
   replicas: 1
   verboseLogging: true
   nginxConfig:
-    resolver: "# use system default resolver (/etc/resolv.conf)"
+    resolver: ""
     enableIPv6: false
   service:
     type: ClusterIP
