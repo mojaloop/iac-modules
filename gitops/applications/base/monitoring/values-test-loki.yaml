@@ -178,6 +178,9 @@ gateway:
   enabled: true
   replicas: 1
   verboseLogging: true
+  nginxConfig:
+    resolver: ""
+    enableIPv6: false
   service:
     type: ClusterIP
     port: 80
