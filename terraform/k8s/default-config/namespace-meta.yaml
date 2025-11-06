@@ -1,0 +1,6 @@
+mcm:
+  labels:
+    istio.io/use-waypoint: service-ingress-waypoint
+mojaloop:
+  labels:
+    istio.io/use-waypoint: service-ingress-waypoint

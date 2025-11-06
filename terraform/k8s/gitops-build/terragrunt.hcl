@@ -67,6 +67,7 @@ inputs = {
   output_dir                               = local.GITOPS_BUILD_OUTPUT_DIR
   gitlab_project_url                       = local.GITLAB_PROJECT_URL
   cluster_name                             = local.CLUSTER_NAME
+  namespace_meta_config_file               = find_in_parent_folders("${get_env("CONFIG_PATH")}/namespace-meta.yaml")
   stateful_resources_operators_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/stateful-resources-operators.yaml")
   mojaloop_values_override_file            = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-values-override.yaml", "mojaloop-values-override.yaml")
   mcm_values_override_file                 = find_in_parent_folders("${get_env("CONFIG_PATH")}/mcm-values-override.yaml", "mcm-values-override.yaml")

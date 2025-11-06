@@ -33,7 +33,4 @@ spec:
       - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
-    managedNamespaceMetadata:
-      labels:
-        istio.io/use-waypoint: service-ingress-waypoint
 # %{ endif }

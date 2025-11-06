@@ -236,3 +236,8 @@ variable "istio_nb_egress_waypoint_name" {
   description = "Name of the Istio egress waypoint for netbird"
   default     = "nb-egress-waypoint"
 }
+
+variable "namespace_meta" {
+  type        = any
+  description = "Metadata for the namespaces"
+}

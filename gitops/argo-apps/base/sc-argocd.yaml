@@ -222,6 +222,9 @@ spec:
               #Enable Server-Side Diff so argocd play nicely with Kyverno mutating webhooks:
               #https://argo-cd.readthedocs.io/en/stable/user-guide/diff-strategies/#mutation-webhooks
               controller.diff.server.side: "true"
+              server.repo.server.timeout.seconds: "600"
+              controller.repo.server.timeout.seconds: "600"
+              reposerver.git.request.timeout: "600s"
 
             cmp:
               create: true
@@ -299,12 +302,17 @@ spec:
             #     cpu: 250m
             #     memory: 512Mi
             env:
-              - name: HELM_CACHE_HOME
-                value: /helm-working-dir
-              - name: HELM_CONFIG_HOME
-                value: /helm-working-dir
-              - name: HELM_DATA_HOME
-                value: /helm-working-dir
+              # commenting since useEphemeralHelmWorkingDir is true by default
+              # - name: HELM_CACHE_HOME
+              #   value: /helm-working-dir
+              # - name: HELM_CONFIG_HOME
+              #   value: /helm-working-dir
+              # - name: HELM_DATA_HOME
+              #   value: /helm-working-dir
+              - name: ARGOCD_EXEC_TIMEOUT
+                value: "600s"
+              - name: ARGOCD_EXEC_FATAL_TIMEOUT
+                value: "630s"
 
             volumes:
               - name: custom-tools
