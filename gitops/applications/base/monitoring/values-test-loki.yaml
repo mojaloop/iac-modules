@@ -179,7 +179,7 @@ gateway:
   replicas: 1
   verboseLogging: true
   nginxConfig:
-    resolver: ""
+    resolver: "#resolver removed to use system default"
     enableIPv6: false
   service:
     type: ClusterIP
