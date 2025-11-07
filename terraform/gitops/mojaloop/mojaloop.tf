@@ -49,7 +49,7 @@ module "generate_mojaloop_files" {
     ttk_fqdn                                                          = local.ttk_fqdn
     ttk_istio_gateway_namespace                                       = local.ttk_istio_gateway_namespace
     ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name
-    kafka_host                                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
+    kafka_host                                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].local_operator_config.override_service_name, "")}.${var.mojaloop_namespace}.svc.cluster.local"
     kafka_port                                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port, "")
     account_lookup_db_existing_secret                                 = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret, "")
     account_lookup_db_user                                            = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.db_username, "")
@@ -182,7 +182,7 @@ module "generate_mojaloop_files" {
     vault_secret_key                                                  = var.vault_secret_key
     role_assign_svc_secret                                            = var.role_assign_svc_secret
     role_assign_svc_user                                              = var.role_assign_svc_user
-    keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
+    keycloak_hubop_realm_name                                         = var.keycloak_hubop_realm_name
     apiResources                                                      = local.apiResources
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
     switch_dfspid                                                     = var.switch_dfspid
@@ -208,6 +208,20 @@ module "generate_mojaloop_files" {
     opentelemetry_namespace_filtering_enable                          = var.opentelemetry_namespace_filtering_enable
     ml_testing_toolkit_cli_chart_version                              = try(var.app_var_map.ml_testing_toolkit_cli_chart_version, var.ml_testing_toolkit_cli_chart_version)
     hub_provisioning_ttk_test_case_version                            = try(var.app_var_map.hub_provisioning_ttk_test_case_version, var.hub_provisioning_ttk_test_case_version)
+    keycloak_access_token_lifespan                                    = 43200
+    portal_admin_user                                                 = var.portal_admin_user
+    portal_admin_email                                                = var.portal_admin_email
+    portal_admin_secret                                               = var.portal_admin_secret
+    portal_admin_secret_name                                          = join("$", ["", "{${replace(var.portal_admin_secret, "-", "_")}}"])
+    smtp_from                                                         = var.smtp_from
+    smtp_from_display_name                                            = var.smtp_from_display_name
+    smtp_reply_to                                                     = var.smtp_reply_to
+    smtp_host                                                         = var.smtp_host
+    smtp_port                                                         = var.smtp_port
+    smtp_ssl                                                          = var.smtp_ssl
+    smtp_starttls                                                     = var.smtp_starttls
+    smtp_auth                                                         = var.smtp_auth
+    mcm_admin_client_secret_name                                      = var.mcm_admin_client_secret_name
     cluster_name                                                      = "${var.cluster_name}"
     traces_endpoint                                                   = var.traces_endpoint
     cluster                                                           = var.app_var_map.cluster
@@ -281,7 +295,7 @@ locals {
   mojaloop_kafka_resource_index                       = "mojaloop-kafka"
   third_party_redis_resource_index                    = "thirdparty-auth-svc-redis"
   third_party_auth_db_resource_index                  = "thirdparty-auth-svc-db"
-  third_party_consent_oracle_db_resource_index        = "mysql-consent-oracle-db"
+  third_party_consent_oracle_db_resource_index        = "consent-oracle-db"
   ttk_redis_resource_index                            = "ttk-redis"
   reporting_events_mongodb_resource_index             = "reporting-events-mongodb"
   apiResources                                        = yamldecode(file(var.rbac_api_resources_file))
@@ -412,11 +426,50 @@ variable "oathkeeper_auth_provider_name" {
 variable "keycloak_hubop_realm_name" {
   type        = string
   description = "name of realm for hub operator api access"
+  default     = "hub-operators"
 }
 
-variable "vault_secret_key" {
+variable "mcm_admin_client_secret_name" {
+  type        = string
+  description = "name of MCM admin client secret for Keycloak administrative operations"
+  default     = "mcm-admin-client-secret"
+}
+
+
+
+variable "smtp_from" {
   type = string
 }
+
+variable "smtp_from_display_name" {
+  type = string
+}
+
+variable "smtp_reply_to" {
+  type = string
+}
+
+variable "smtp_host" {
+  type = string
+}
+
+variable "smtp_port" {
+  type = number
+}
+
+variable "smtp_ssl" {
+  type = bool
+}
+
+variable "smtp_starttls" {
+  type = bool
+}
+
+variable "smtp_auth" {
+  type = bool
+}
+
+
 
 variable "role_assign_svc_secret" {
   type = string

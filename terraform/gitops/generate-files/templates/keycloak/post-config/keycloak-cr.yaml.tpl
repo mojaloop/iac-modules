@@ -23,8 +23,8 @@ spec:
   http:
     tlsSecret: ${keycloak_tls_secretname}
   hostname:
-    hostname: ${keycloak_fqdn}
-    admin: ${keycloak_admin_fqdn}
+    hostname: https://${keycloak_fqdn}
+    admin: https://${keycloak_admin_fqdn}
   unsupported:
     podTemplate:
       spec:
@@ -84,6 +84,18 @@ spec:
                   name: ${ref_secret_name}
                   key: ${ref_secret_key}
 %{ endfor ~}
+%{ if smtp_auth ~}
+            - name: smtp_credentials_user
+              valueFrom:
+                secretKeyRef:
+                  name: smtp-credentials-user
+                  key: secret
+            - name: smtp_credentials_password
+              valueFrom:
+                secretKeyRef:
+                  name: smtp-credentials-password
+                  key: secret
+%{ endif ~}
             startupProbe:
               httpGet:
                 path: /health/live

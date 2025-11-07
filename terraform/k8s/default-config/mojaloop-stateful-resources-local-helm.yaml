@@ -1,13 +1,13 @@
 thirdparty-auth-svc-db:
   local_helm_config:
     resource_namespace: thirdparty-db
-    override_service_name: mysql-thirdparty-auth-svc-db
+    override_service_name: thirdparty-auth-svc-db
     resource_helm_repo: oci://registry-1.docker.io/bitnamicharts
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:
-      generate_secret_name: mysql-auth-svc-secret
+      generate_secret_name: auth-svc-db-secret
       generate_secret_keys:
         - mysql-password
         - mysql-root-password
@@ -17,7 +17,7 @@ thirdparty-auth-svc-db:
         - mojaloop
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -34,7 +34,7 @@ thirdparty-auth-svc-db:
       max_connections: 2000
       innodb_buffer_pool_size: 2147483648
       port: 3306
-      existing_secret: mysql-auth-svc-secret
+      existing_secret: auth-svc-db-secret
       general_log: 0
       slow_query_log: 0
       root_password: ""
@@ -46,7 +46,7 @@ thirdparty-auth-svc-db:
       replica_count: 0
       service_port: 3306
       affinity_definition: {}
-mysql-consent-oracle-db:
+consent-oracle-db:
   local_helm_config:
     resource_namespace: thirdparty-db
     override_service_name:
@@ -55,7 +55,7 @@ mysql-consent-oracle-db:
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     secret_config:
-      generate_secret_name: mysql-consent-oracle-secret
+      generate_secret_name: consent-oracle-db-secret
       generate_secret_keys:
         - mysql-password
         - mysql-root-password
@@ -65,7 +65,7 @@ mysql-consent-oracle-db:
         - mojaloop
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -82,7 +82,7 @@ mysql-consent-oracle-db:
       max_connections: 2000
       innodb_buffer_pool_size: 2147483648
       port: 3306
-      existing_secret: mysql-consent-oracle-secret
+      existing_secret: consent-oracle-db-secret
       general_log: 0
       slow_query_log: 0
       root_password: ""
@@ -113,7 +113,7 @@ mcm-db:
         - mcm
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -161,7 +161,7 @@ account-lookup-db:
         - mojaloop
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -221,7 +221,7 @@ central-ledger-db:
       general_log: 0
       slow_query_log: 0
       root_password: ""
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -263,7 +263,7 @@ bulk-mongodb:
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
     secret_config:
-      generate_secret_name: mongodb-bulk-secret
+      generate_secret_name: bulk-mongodb-secret
       generate_secret_keys:
         - mongodb-passwords
         - mongodb-root-password
@@ -271,7 +271,7 @@ bulk-mongodb:
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
     mongodb_data:
-      existing_secret: mongodb-bulk-secret
+      existing_secret: bulk-mongodb-secret
       root_password: ""
       user: mojaloop
       user_password: ""
@@ -287,7 +287,7 @@ cep-mongodb:
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
     secret_config:
-      generate_secret_name: mongodb-cep-secret
+      generate_secret_name: cep-mongodb-secret
       generate_secret_keys:
         - mongodb-passwords
         - mongodb-root-password
@@ -295,7 +295,7 @@ cep-mongodb:
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
     mongodb_data:
-      existing_secret: mongodb-cep-secret
+      existing_secret: cep-mongodb-secret
       root_password: ""
       user: mojaloop
       user_password: ""
@@ -311,7 +311,7 @@ reporting-events-mongodb:
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
     secret_config:
-      generate_secret_name: mongodb-reporting-events-secret
+      generate_secret_name: reporting-events-mongodb-secret
       generate_secret_keys:
         - mongodb-passwords
         - mongodb-root-password
@@ -319,7 +319,7 @@ reporting-events-mongodb:
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
     mongodb_data:
-      existing_secret: mongodb-reporting-events-secret
+      existing_secret: reporting-events-mongodb-secret
       root_password: ""
       user: mojaloop
       user_password: ""
@@ -370,7 +370,7 @@ ttk-mongodb:
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
     secret_config:
-      generate_secret_name: mongodb-ttk-secret
+      generate_secret_name: ttk-mongodb-secret
       generate_secret_keys:
         - mongodb-passwords
         - mongodb-root-password
@@ -378,13 +378,37 @@ ttk-mongodb:
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
     mongodb_data:
-      existing_secret: mongodb-ttk-secret
+      existing_secret: ttk-mongodb-secret
       root_password: ""
       user: ttk
       user_password: ""
       database_name: ttk
       storage_size: 8Gi
       service_port: 27017
+thirdparty-auth-svc-redis:
+  local_helm_config:
+    resource_namespace: mojaloop
+    override_service_name: redis-thirdparty-auth-svc-redis-master
+    resource_helm_repo: https://charts.bitnami.com/bitnami
+    resource_helm_chart: redis
+    resource_helm_chart_version: 17.3.18
+    resource_helm_values_ref: values-redis.yaml.tpl
+    secret_config:
+      generate_secret_name:
+      generate_secret_keys:
+      generate_secret_vault_base_path:
+      generate_secret_extra_namespaces: []
+    redis_data:
+      auth_enabled: false
+      existing_secret: ''
+      existing_secret_key: ''
+      user: ''
+      user_password: ''
+      storage_size: 8Gi
+      storage_class_name: longhorn
+      architecture: standalone
+      replica_count: 0
+      service_port: 6379
 ttk-redis:
   enabled: true
   resource_name: ttk-redis
@@ -400,7 +424,7 @@ ttk-redis:
     override_service_name: redis-ttk-redis-master
     resource_helm_repo: oci://registry-1.docker.io/bitnamicharts
     resource_helm_chart: redis
-    resource_helm_chart_version: 17.3.7
+    resource_helm_chart_version: 17.3.18
     resource_helm_values_ref: values-redis.yaml.tpl
     secret_config:
       generate_secret_name:
@@ -439,7 +463,7 @@ keycloak-db:
         - keycloak
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -488,7 +512,7 @@ keto-db:
       generate_secret_special_chars: _
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"
@@ -537,7 +561,7 @@ kratos-db:
       generate_secret_special_chars: _
     mysql_data:
       is_legacy: false
-      default_authentication_plugin: mysql_native_password
+      default_authentication_plugin: caching_sha2_password
       basedir: "/opt/bitnami/mysql"
       plugin_dir: "/opt/bitnami/mysql/lib/plugin"
       socket: "/opt/bitnami/mysql/tmp/mysql.sock"

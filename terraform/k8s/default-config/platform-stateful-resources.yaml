@@ -1,5 +1,5 @@
 thirdparty-auth-svc-redis:
-  enabled: false
+  enabled: true
   app_owner: "mojaloop"
   resource_type: redis
   deployment_type: helm-chart
@@ -7,7 +7,7 @@ thirdparty-auth-svc-redis:
     logical_service_port: 6379
     logical_service_name: thirdparty-auth-redis
     db_username: mojaloop
-    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret: reporting-events-mongodb-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
@@ -23,7 +23,7 @@ thirdparty-auth-svc-redis:
     keep: 3
   monolith_db_server: common_mojaloop_db
 thirdparty-auth-svc-db:
-  enabled: false
+  enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
   deployment_type: operator
@@ -31,7 +31,7 @@ thirdparty-auth-svc-db:
     logical_service_port: 3306
     logical_service_name: thirdparty-auth-db
     db_username: account_lookup
-    user_password_secret: mysql-auth-svc-secret
+    user_password_secret: auth-svc-db-secret
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
@@ -46,16 +46,16 @@ thirdparty-auth-svc-db:
     schedule: "0 0 * * 6"
     keep: 3
   monolith_db_server: common_mojaloop_db
-mysql-consent-oracle-db:
-  enabled: false
+consent-oracle-db:
+  enabled: true
   app_owner: "mojaloop"
   resource_type: mysql
   deployment_type: operator
   logical_service_config:
     logical_service_port: 3306
-    logical_service_name: mysql-consent-oracle
+    logical_service_name: consent-oracle
     db_username: consent-oracle
-    user_password_secret: mysql-consent-oracle-secret
+    user_password_secret: consent-oracle-db-secret
     user_password_secret_key: mysql-password
     secret_extra_namespaces:
       - mojaloop
@@ -70,7 +70,7 @@ mysql-consent-oracle-db:
     schedule: "0 0 * * 6"
     keep: 3
   secret_config:
-    generate_secret_name: mysql-consent-oracle-secret
+    generate_secret_name: consent-oracle-db-secret
     generate_secret_keys:
       - mysql-password
       - mysql-root-password
@@ -161,7 +161,7 @@ bulk-mongodb:
     logical_service_name: bulk-mongodb-svc
     db_username: mojaloop
     additional_privileges: []
-    user_password_secret: mongodb-bulk-secret
+    user_password_secret: bulk-mongodb-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
@@ -188,7 +188,7 @@ cep-mongodb:
     logical_service_name: mongodb-cep-mongodb
     db_username: mojaloop
     additional_privileges: []
-    user_password_secret: mongodb-cep-secret
+    user_password_secret: cep-mongodb-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
@@ -217,7 +217,7 @@ reporting-events-mongodb:
     additional_privileges:
       - collection: reporting
         action: "collMod"
-    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret: reporting-events-mongodb-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
@@ -243,7 +243,7 @@ mojaloop-kafka:
     logical_service_port: 9092
     logical_service_name: mojaloop-kafka-svc
     db_username: mojaloop
-    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret: reporting-events-mongodb-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
@@ -306,7 +306,7 @@ ttk-mongodb:
     additional_privileges:
       - collection: reporting
         action: "collMod"
-    user_password_secret: mongodb-ttk-secret
+    user_password_secret: ttk-mongodb-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop
@@ -332,7 +332,7 @@ ttk-redis:
     logical_service_port: 6379
     logical_service_name: ttk-redis
     db_username: mojaloop
-    user_password_secret: mongodb-reporting-events-secret
+    user_password_secret: reporting-events-mongodb-secret
     user_password_secret_key: mongodb-passwords
     secret_extra_namespaces:
       - mojaloop

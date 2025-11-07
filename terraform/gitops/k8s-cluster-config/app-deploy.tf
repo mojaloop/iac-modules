@@ -30,10 +30,8 @@ module "mojaloop" {
   keycloak_namespace                           = var.keycloak_namespace
   vault_namespace                              = var.vault_namespace
   cert_manager_namespace                       = var.cert_manager_namespace
-  mcm_oidc_client_secret_secret_key            = var.mcm_oidc_client_secret_secret_key
-  mcm_oidc_client_secret_secret                = var.mcm_oidc_client_secret_secret
-  jwt_client_secret_secret_key                 = var.jwt_client_secret_secret_key
-  jwt_client_secret_secret                     = var.jwt_client_secret_secret
+  hubop_oidc_client_secret_secret                 = var.hubop_oidc_client_secret_secret
+  hubop_oidc_client_id                     = var.hubop_oidc_client_id
   vault_secret_key                             = var.vault_secret_key
   role_assign_svc_secret                       = var.role_assign_svc_secret
   role_assign_svc_user                         = var.role_assign_svc_user
@@ -57,7 +55,15 @@ module "mojaloop" {
   bof_release_name                             = local.bof_release_name
   oathkeeper_auth_provider_name                = local.oathkeeper_auth_provider_name
   vault_root_ca_name                           = "pki-${var.cluster_name}"
-  keycloak_hubop_realm_name                    = var.keycloak_hubop_realm_name
+  keycloak_hubop_realm_name                    = var.keycloak_hubop_realm_namemcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+  smtp_from                            = var.app_var_map.smtp_from
+  smtp_from_display_name               = var.app_var_map.smtp_from_display_name
+  smtp_reply_to                        = var.app_var_map.smtp_reply_to
+  smtp_host                            = var.app_var_map.smtp_host
+  smtp_port                            = var.app_var_map.smtp_port
+  smtp_ssl                             = var.app_var_map.smtp_ssl
+  smtp_starttls                        = var.app_var_map.smtp_starttls
+  smtp_auth                            = var.app_var_map.smtp_auth
   rbac_api_resources_file                      = var.rbac_api_resources_file
   mojaloop_values_override_file                = var.mojaloop_values_override_file
   mcm_values_override_file                     = var.mcm_values_override_file
@@ -209,10 +215,7 @@ module "vnext" {
   keycloak_namespace                   = var.keycloak_namespace
   vault_namespace                      = var.vault_namespace
   cert_manager_namespace               = var.cert_manager_namespace
-  mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
-  mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
-  jwt_client_secret_secret_key         = var.jwt_client_secret_secret_key
-  jwt_client_secret_secret             = var.jwt_client_secret_secret
+  hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
   vault_secret_key                     = var.vault_secret_key
   role_assign_svc_secret               = var.role_assign_svc_secret
   role_assign_svc_user                 = var.role_assign_svc_user
@@ -231,6 +234,15 @@ module "vnext" {
   bof_release_name                     = local.bof_release_name
   oathkeeper_auth_provider_name        = local.oathkeeper_auth_provider_name
   keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
+  mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+  smtp_from                            = var.app_var_map.smtp_from
+  smtp_from_display_name               = var.app_var_map.smtp_from_display_name
+  smtp_reply_to                        = var.app_var_map.smtp_reply_to
+  smtp_host                            = var.app_var_map.smtp_host
+  smtp_port                            = var.app_var_map.smtp_port
+  smtp_ssl                             = var.app_var_map.smtp_ssl
+  smtp_starttls                        = var.app_var_map.smtp_starttls
+  smtp_auth                            = var.app_var_map.smtp_auth
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
   platform_stateful_res_config         = module.config_deepmerge.merged
@@ -296,22 +308,11 @@ variable "private_network_cidr" {
   type        = string
 }
 
-variable "mcm_oidc_client_secret_secret_key" {
+variable "hubop_oidc_client_secret_secret" {
   type    = string
-  default = "secret"
+  default = "hubop-oidc-secret"
 }
-variable "mcm_oidc_client_secret_secret" {
-  type    = string
-  default = "mcm-oidc-client-secret"
-}
-variable "jwt_client_secret_secret_key" {
-  type    = string
-  default = "secret"
-}
-variable "jwt_client_secret_secret" {
-  type    = string
-  default = "jwt-oidc-client-secret"
-}
+
 
 variable "vault_secret_key" {
   type    = string
@@ -362,11 +363,21 @@ variable "mcm_admin_user" {
   default = "mcm_admin"
 }
 
-variable "rbac_api_resources_file" {
-  type = string
+variable "mcm_admin_client_secret_name" {
+  type        = string
+  description = "name of MCM admin client secret for Keycloak administrative operations"
+  default     = "mcm-admin-client-secret"
 }
 
-variable "mojaloop_values_override_file" {
+
+
+
+
+variable "rbac_api_resources_file" {
+  type = string
+  }
+
+  variable "mojaloop_values_override_file" {
   type = string
 }
 

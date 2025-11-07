@@ -56,6 +56,19 @@ module "generate_ory_files" {
     mojaloopRoles                        = local.mojaloopRoles
     keto_replica_count                   = try(var.common_var_map.keto_replica_count, 1)
     oathkeeper_replica_count             = try(var.common_var_map.oathkeeper_replica_count, 1)
+    hubop_mapper_base64                  = local.hubop_mapper_base64
+    keto_read_url                        = local.keto_read_url
+    mcm_admin_client_secret_name         = join("$", ["", "{${replace(var.mcm_admin_client_secret_name, "-", "_")}}"])
+    keycloak_access_token_lifespan       = 43200
+    mcm_fqdn                             = local.mcm_fqdn
+    smtp_from                            = var.app_var_map.smtp_from
+    smtp_from_display_name               = var.app_var_map.smtp_from_display_name
+    smtp_reply_to                        = var.app_var_map.smtp_reply_to
+    smtp_host                            = var.app_var_map.smtp_host
+    smtp_port                            = var.app_var_map.smtp_port
+    smtp_ssl                             = var.app_var_map.smtp_ssl
+    smtp_starttls                        = var.app_var_map.smtp_starttls
+    smtp_auth                            = var.app_var_map.smtp_auth
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -72,22 +85,22 @@ variable "ory_sync_wave" {
 variable "oathkeeper_chart_version" {
   type        = string
   description = "oathkeeper_chart_version"
-  default     = "0.39.0"
+  default     = "0.55.0"
 }
 variable "kratos_chart_version" {
   type        = string
   description = "kratos_chart_version"
-  default     = "0.39.0"
+  default     = "0.55.0"
 }
 variable "keto_chart_version" {
   type        = string
   description = "keto_chart_version"
-  default     = "0.39.0"
+  default     = "0.55.0"
 }
 variable "self_service_ui_chart_version" {
   type        = string
   description = "self_service_ui_chart_version"
-  default     = "0.39.0"
+  default     = "0.55.0"
 }
 variable "ory_namespace" {
   type        = string
@@ -95,11 +108,7 @@ variable "ory_namespace" {
   default     = "ory"
 }
 
-variable "hubop_oidc_client_secret_secret" {
-  type        = string
-  description = "hubop_oidc_client_secret_secret"
-  default     = "hubop-oidc-secret"
-}
+
 
 variable "hubop_oidc_client_id" {
   type        = string
@@ -107,11 +116,7 @@ variable "hubop_oidc_client_id" {
   default     = "hub-op"
 }
 
-variable "keycloak_hubop_realm_name" {
-  type        = string
-  description = "name of realm for dfsp api access"
-  default     = "hub-operators"
-}
+
 variable "bof_chart_version" {
   type    = string
   default = "5.1.3"
@@ -125,6 +130,10 @@ variable "security_role_chart_version" {
 variable "rbac_permissions_file" {
   type = string
 }
+
+
+
+
 locals {
   ory_template_path              = "${path.module}/../generate-files/templates/ory"
   ory_app_file                   = "ory-app.yaml"
@@ -133,12 +142,35 @@ locals {
   oathkeeper_auth_url            = "oathkeeper-api.${var.ory_namespace}.svc.cluster.local"
   oathkeeper_auth_provider_name  = "ory-authz"
   bof_release_name               = "bof"
+  keto_read_url                  = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
+
+
+  mcm_wildcard_gateway = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
+  mcm_fqdn = local.mcm_wildcard_gateway == "external" ? "mcm.${var.public_subdomain}" : "mcm.${var.private_subdomain}"
+  default_mapper_jsonnet = <<-EOF
+local claims = std.extVar('claims');
+
+{
+  identity: {
+    traits: {
+      email: claims.email,
+      name: claims.name,
+      subject: claims.sub
+    },
+  },
+}
+EOF
+
+  default_mapper_base64 = base64encode(local.default_mapper_jsonnet)
+  hubop_mapper_base64   = base64encode(local.default_mapper_jsonnet)
   oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
     realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
+    mapper_url  = "base64://${local.default_mapper_base64}"
+    scope       = ["openid", "email", "profile"]
   }] : []
 }

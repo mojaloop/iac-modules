@@ -1,10 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - vault-secret.yaml
   - vault-certificate.yaml
   - vault-agent.yaml
-  - vault-secret.yaml
-  - keycloak-realm-cr.yaml
   - rbac.yaml
   - service-ingress-waypoint.yaml
   - authorization-grafana.yaml

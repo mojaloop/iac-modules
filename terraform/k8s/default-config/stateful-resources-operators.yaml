@@ -4,7 +4,7 @@ strimzi:
   helm_chart: strimzi-kafka-operator
   namespace: strimzi
   release_name: strimzi
-  helm_chart_version: 0.40.0
+  helm_chart_version: 0.46.1
   helm_chart_repo: https://strimzi.io/charts
   helm_chart_values_file: values-strimzi.yaml
 percona-mysql:
@@ -13,7 +13,7 @@ percona-mysql:
   helm_chart: pxc-operator
   namespace: percona-mysql
   release_name: percona-mysql
-  helm_chart_version: 1.14.0
+  helm_chart_version: 1.17.0
   helm_chart_repo: https://percona.github.io/percona-helm-charts/
   helm_chart_values_file: values-percona-mysql.yaml
 percona-mongodb:
@@ -22,7 +22,7 @@ percona-mongodb:
   helm_chart: psmdb-operator
   namespace: percona-mongodb
   release_name: percona-mongodb
-  helm_chart_version: 1.16.2
+  helm_chart_version: 1.20.1
   helm_chart_repo: https://percona.github.io/percona-helm-charts/
   helm_chart_values_file: values-percona-mongodb.yaml
 redis:

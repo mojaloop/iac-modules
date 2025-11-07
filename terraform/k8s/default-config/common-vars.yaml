@@ -8,7 +8,7 @@ external_dns_chart_version: 6.24.1
 vault_chart_version: 0.28.1
 vault_config_operator_helm_chart_version: 0.8.28
 nginx_helm_chart_version: 4.6.1
-keycloak_operator_version: 22.0.2
+keycloak_operator_version: 26.3.1
 istio_chart_version: 1.26.1
 external_secrets_version: 0.8.2
 argocd_version: 3.0.5
@@ -19,6 +19,7 @@ mojaloop_enabled: true
 pm4ml_enabled: false
 proxy_pm4ml_enabled: false
 vnext_enabled: false
+mailhog_enabled: true
 grafana_crd_version_tag: v5.6.0
 opentelemetry_chart_version: 0.95.0
 opentelemetry_enabled: false
