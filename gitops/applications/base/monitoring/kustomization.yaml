@@ -53,3 +53,9 @@ helmCharts:
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-loki-canary.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
+  - name: alloy
+    releaseName: test-alloy
+    version: 1.4.0
+    repo: https://grafana.github.io/helm-charts
+    valuesFile: values-alloy.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
