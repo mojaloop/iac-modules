@@ -87,7 +87,7 @@ alloy:
 
         stage.static_labels {
           values = {
-            cluster = "Control-Center"
+            cluster = "Control-Center",
           }
         }
 
