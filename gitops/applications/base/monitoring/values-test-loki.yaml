@@ -104,7 +104,7 @@ ingester:
 
 # Distributor configuration
 distributor:
-  replicas: ${ARGOCD_ENV_loki_distributor_replica_count}
+  replicas: 3
   maxUnavailable: 2
   resources:
     requests:
