@@ -1,7 +1,7 @@
 deploymentMode: Distributed
 
 loki:
-  auth_enabled: true
+  auth_enabled: false
   extraArgs:
     - -config.expand-env=true
   # NEW SCHEMA - tsdb/v13 with different prefix from old boltdb-shipper
