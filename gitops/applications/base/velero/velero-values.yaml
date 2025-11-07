@@ -45,7 +45,3 @@ credentials:
 
 annotations:
   secret.reloader.stakater.com/reload: ${ARGOCD_ENV_object_storage_secret_name}
-
-kubectl:
-  image:
-    repository: docker.io/bitnamilegacy/kubectl
