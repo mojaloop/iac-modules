@@ -55,7 +55,8 @@ module "mojaloop" {
   bof_release_name                             = local.bof_release_name
   oathkeeper_auth_provider_name                = local.oathkeeper_auth_provider_name
   vault_root_ca_name                           = "pki-${var.cluster_name}"
-  keycloak_hubop_realm_name                    = var.keycloak_hubop_realm_namemcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+  keycloak_hubop_realm_name                    = var.keycloak_hubop_realm_name
+  mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
   smtp_from                            = var.app_var_map.smtp_from
   smtp_from_display_name               = var.app_var_map.smtp_from_display_name
   smtp_reply_to                        = var.app_var_map.smtp_reply_to
