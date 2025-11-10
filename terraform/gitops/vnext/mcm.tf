@@ -13,6 +13,7 @@ module "generate_mcm_files" {
     mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
     mcm_istio_gateway_name               = local.mcm_istio_gateway_name
     fspiop_use_ory_for_auth              = var.fspiop_use_ory_for_auth
+    bulk_enabled                         = var.bulk_enabled
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain
     env_o                                = "Mojaloop"
@@ -96,6 +97,13 @@ variable "mcm_enabled" {
   type        = bool
   default     = true
 }
+
+variable "bulk_enabled" {
+  description = "whether bulk is enabled or not"
+  type        = bool
+  default     = false
+}
+
 variable "enable_mcm_oidc" {
   type    = bool
   default = false
