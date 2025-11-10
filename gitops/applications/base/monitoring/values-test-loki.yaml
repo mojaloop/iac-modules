@@ -56,17 +56,26 @@ loki:
       ring:
         replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
 
-  memberlist:
-    port: 7949
-    service:
-      publishNotReadyAddresses: true
-      clusterIP: None
-
   memberlistConfig:
     bind_port: 7949
     advertise_port: 7949
     join_members:
       - "test-loki-memberlist:7949"
+
+  memberlist:
+    service:
+      publishNotReadyAddresses: true
+      clusterIP: None
+      ports:
+        - name: tcp
+          port: 7949
+          targetPort: http-memberlist
+          protocol: TCP
+        - name: udp
+          port: 7949
+          targetPort: http-memberlist
+          protocol: UDP
+
 
   commonConfig:
     replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
