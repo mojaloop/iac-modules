@@ -46,6 +46,7 @@ module "generate_keycloak_files" {
     smtp_ssl                      = var.app_var_map.smtp_ssl
     smtp_starttls                 = var.app_var_map.smtp_starttls
     smtp_auth                     = var.app_var_map.smtp_auth
+    cluster                       = var.app_var_map.cluster
   }
   file_list       = [for f in fileset(local.keycloak_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.keycloak_app_file, f))]
   template_path   = local.keycloak_template_path

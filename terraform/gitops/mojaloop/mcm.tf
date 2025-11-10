@@ -94,6 +94,14 @@ module "generate_mcm_files" {
     portal_admin_email                   = var.portal_admin_email
     portal_admin_secret                  = var.portal_admin_secret
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+    cluster                              = var.app_var_map.cluster
+    istio_ml_egress_waypoint_name        = var.istio_ml_egress_waypoint_name
+    istio_ml_egress_waypoint_namespace   = var.istio_ml_egress_waypoint_namespace
+    db_tls_ca_secret_name                = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name,"")
+    db_tls_ca_secret_key                 = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key,"")
+    mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
+    istio_egress_gateway_name            = var.istio_egress_gateway_name
+    istio_egress_gateway_namespace       = var.istio_egress_gateway_namespace
 
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
@@ -224,7 +232,17 @@ variable "portal_admin_secret" {
   default = "portal-admin-secret"
 }
 
+variable "istio_ml_egress_waypoint_name" {
+  type        = string
+  description = "Name of the Istio egress waypoint for mojaloop"
+  default     = "ml-egress-waypoint"
+}
 
+variable "istio_ml_egress_waypoint_namespace" {
+  type        = string
+  description = "Namespace of the Istio egress waypoint for mojaloop"
+  default     = "mojaloop"
+}
 
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
