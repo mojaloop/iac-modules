@@ -230,23 +230,6 @@ deploy-infra:
       allow_failure: true
     - when: manual
 
-deploy-managed-srvcs:
-  extends: .terraform:deploy
-  id_tokens:
-    VAULT_ID_TOKEN:
-      aud: https://$VAULT_FQDN
-  script:
-    - !reference [.source, script]
-    - cd managed-services
-    - terragrunt run-all apply --terragrunt-non-interactive -input=false
-  artifacts:
-    paths:
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/oidc-kubeconfig
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/sshkey
-      - ${ANSIBLE_BASE_OUTPUT_DIR}/**/inventory
-    when: always
-  when: manual
-
 refresh-templates:
   stage: refresh-templates
   needs: []
