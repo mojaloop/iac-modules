@@ -91,7 +91,7 @@ ingester:
       memory: ${ARGOCD_ENV_loki_ingester_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_loki_ingester_limits_cpu}
-      memory: ${ARGOCD_ENV_loki_ingester_limits_memory}
+      memory: 4Gi
   extraEnvFrom:
     - secretRef:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
