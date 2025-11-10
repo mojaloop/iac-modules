@@ -230,6 +230,7 @@ module "vnext" {
   mcm_enabled                          = var.common_var_map.mcm_enabled
   mcm_chart_version                    = var.app_var_map.mcm_chart_version
   vnext_enabled                        = var.common_var_map.vnext_enabled
+  bulk_enabled                         = var.app_var_map.bulk_enabled
   local_vault_kv_root_path             = local.local_vault_kv_root_path
   app_var_map                          = var.app_var_map
   auth_fqdn                            = local.auth_fqdn
