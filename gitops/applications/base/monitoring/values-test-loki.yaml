@@ -101,6 +101,8 @@ ingester:
     size: 10Gi
   zoneAwareReplication:
     enabled: false
+  extraArgs:
+    - -config.expand-env=true
 
 # Distributor configuration
 distributor:
@@ -116,6 +118,8 @@ distributor:
   extraEnvFrom:
     - secretRef:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
 
 # Querier configuration
 querier:
@@ -128,6 +132,8 @@ querier:
   extraEnvFrom:
     - secretRef:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
 
 # Query Frontend configuration
 queryFrontend:
@@ -139,6 +145,8 @@ queryFrontend:
   extraEnvFrom:
     - secretRef:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
 
 # Query Scheduler configuration
 queryScheduler:
@@ -151,6 +159,8 @@ queryScheduler:
   extraEnvFrom:
     - secretRef:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
 
 # Compactor configuration
 compactor:
@@ -176,6 +186,8 @@ ruler:
   extraEnvFrom:
     - secretRef:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  extraArgs:
+    - -config.expand-env=true
 
 # Gateway configuration
 gateway:
