@@ -17,7 +17,6 @@ module "generate_mcm_files" {
     mcm_istio_external_wildcard_gateway_name      = var.istio_external_wildcard_gateway_name
     mcm_istio_external_gateway_name               = var.istio_external_gateway_name
     fspiop_use_ory_for_auth              = var.fspiop_use_ory_for_auth
-    bulk_enabled                         = var.bulk_enabled
     env_name                             = var.cluster_name
     env_cn                               = var.public_subdomain
     env_o                                = "Mojaloop"
