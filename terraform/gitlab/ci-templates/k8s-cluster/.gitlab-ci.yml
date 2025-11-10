@@ -319,10 +319,6 @@ tf-refresh-deploy-infra:
     when: always
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^tf_trigger.*/
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
-      when: manual
-      allow_failure: true
-    - when: manual
 
 lint-apps:
   stage: deploy

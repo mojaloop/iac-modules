@@ -173,8 +173,6 @@ variable "mcm_admin_client_secret_name" {
   default     = "mcm-admin-client-secret"
 }
 
-
-
 variable "smtp_from" {
   type = string
 }
@@ -206,8 +204,6 @@ variable "smtp_starttls" {
 variable "smtp_auth" {
   type = bool
 }
-
-
 
 variable "role_assign_svc_secret" {
   type = string

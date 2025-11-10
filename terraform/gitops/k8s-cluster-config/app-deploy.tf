@@ -373,15 +373,11 @@ variable "mcm_admin_client_secret_name" {
   default     = "mcm-admin-client-secret"
 }
 
-
-
-
-
 variable "rbac_api_resources_file" {
   type = string
-  }
+}
 
-  variable "mojaloop_values_override_file" {
+variable "mojaloop_values_override_file" {
   type = string
 }
 

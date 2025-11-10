@@ -161,16 +161,15 @@ variable "vault_certman_secretname" {
   type        = string
   default     = "vault-tls-cert"
 }
+
 variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
 }
+
 variable "hubop_oidc_client_secret_secret" {
   type = string
 }
-
-
-
 
 variable "keycloak_name" {
   type        = string
@@ -185,8 +184,6 @@ variable "keycloak_namespace" {
   type        = string
   description = "namespace of keycloak in which to create realm"
 }
-
-
 
 variable "vault_secret_key" {
   type        = string
@@ -212,8 +209,6 @@ variable "portal_admin_secret" {
   type    = string
   default = "portal-admin-secret"
 }
-
-
 
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"

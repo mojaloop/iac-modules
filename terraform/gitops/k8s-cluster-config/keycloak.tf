@@ -95,13 +95,12 @@ variable "keycloak_namespace" {
   description = "keycloak_namespace"
   default     = "keycloak"
 }
+
 variable "keycloak_hubop_realm_name" {
   type        = string
   description = "name of realm for hub operators access"
   default     = "hub-operators"
 }
-
-
 
 locals {
   keycloak_mysql_resource_index           = "keycloak-db"

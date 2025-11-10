@@ -49,7 +49,7 @@ module "generate_mojaloop_files" {
     ttk_fqdn                                                          = local.ttk_fqdn
     ttk_istio_gateway_namespace                                       = local.ttk_istio_gateway_namespace
     ttk_istio_wildcard_gateway_name                                   = local.ttk_istio_wildcard_gateway_name
-    kafka_host                                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].local_operator_config.override_service_name, "")}.${var.mojaloop_namespace}.svc.cluster.local"
+    kafka_host                                                        = "${try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_name, "")}.${var.stateful_resources_namespace}.svc.cluster.local"
     kafka_port                                                        = try(module.mojaloop_stateful_resources.stateful_resources[local.mojaloop_kafka_resource_index].logical_service_config.logical_service_port, "")
     account_lookup_db_existing_secret                                 = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.user_password_secret, "")
     account_lookup_db_user                                            = try(module.mojaloop_stateful_resources.stateful_resources[local.ml_als_resource_index].logical_service_config.db_username, "")
@@ -295,7 +295,7 @@ locals {
   mojaloop_kafka_resource_index                       = "mojaloop-kafka"
   third_party_redis_resource_index                    = "thirdparty-auth-svc-redis"
   third_party_auth_db_resource_index                  = "thirdparty-auth-svc-db"
-  third_party_consent_oracle_db_resource_index        = "consent-oracle-db"
+  third_party_consent_oracle_db_resource_index        = "mysql-consent-oracle-db"
   ttk_redis_resource_index                            = "ttk-redis"
   reporting_events_mongodb_resource_index             = "reporting-events-mongodb"
   apiResources                                        = yamldecode(file(var.rbac_api_resources_file))
@@ -434,8 +434,6 @@ variable "mcm_admin_client_secret_name" {
   description = "name of MCM admin client secret for Keycloak administrative operations"
   default     = "mcm-admin-client-secret"
 }
-
-
 
 variable "smtp_from" {
   type = string

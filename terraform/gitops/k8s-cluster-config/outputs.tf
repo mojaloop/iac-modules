@@ -21,4 +21,3 @@ output "mojaloop_stateful_resources" {
 output "common_stateful_resources" {
   value = module.common_stateful_resources.stateful_resources
 }
-

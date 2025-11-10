@@ -163,7 +163,6 @@ locals {
   prometheus_operator_version         = "8.22.8"
   prometheus_process_exporter_version = "0.4.2"
   process_exporter_enabled            = false
-  tempo_chart_version                 = "3.1.0"
   metrics_server_chart_version        = "3.12.2"
   grafana_version                     = "11.6.1"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17"     # NOTE: only for those dashboards which are in mojaloop/helm repo

@@ -6,12 +6,12 @@ thirdparty-auth-svc-db:
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: thirdparty-db
-    override_service_name: thirdparty-auth-svc-db-haproxy
+    override_service_name: mysql-thirdparty-auth-svc-db
     resource_operator_crd_version: 1.15.0
     resource_operator_cr_ref: percona/mysql/db-cluster.yaml.tpl
     haproxy_count: 1
     secret_config:
-      generate_secret_name: auth-svc-db-secret
+      generate_secret_name: mysql-auth-svc-secret
       generate_secret_keys:
         - root
         - xtrabackup
@@ -42,7 +42,7 @@ thirdparty-auth-svc-db:
       max_connections: 2000
       innodb_buffer_pool_size: 2147483648
       port: 3306
-      existing_secret: auth-svc-db-secret
+      existing_secret: mysql-auth-svc-secret
       general_log: 0
       slow_query_log: 0
       root_password: ""
@@ -55,7 +55,7 @@ thirdparty-auth-svc-db:
       service_port: 3306
       affinity_definition: {}
       pxc_strict_mode: PERMISSIVE
-consent-oracle-db:
+mysql-consent-oracle-db:
   local_operator_config:
     cr_version: 1.17.0
     percona_xtradb_mysql_version: 8.0.42
@@ -63,14 +63,14 @@ consent-oracle-db:
     percona_xtradb_logcoll_version: 1.14.1-logcollector
     percona_xtradb_backup_version: 1.17.0-pxc8.0-backup-pxb8.0.35
     resource_namespace: thirdparty-db
-    override_service_name: consent-oracle-db
+    override_service_name:
     resource_helm_repo: oci://registry-1.docker.io/bitnamicharts
     resource_helm_chart: mysql
     resource_helm_chart_version: 9.7.0
     resource_helm_values_ref: values-mysql.yaml.tpl
     haproxy_count: 1
     secret_config:
-      generate_secret_name: consent-oracle-db-secret
+      generate_secret_name: mysql-consent-oracle-secret
       generate_secret_keys:
         - root
         - xtrabackup
@@ -101,7 +101,7 @@ consent-oracle-db:
       max_connections: 2000
       innodb_buffer_pool_size: 2147483648
       port: 3306
-      existing_secret: consent-oracle-db-secret
+      existing_secret: mysql-consent-oracle-secret
       general_log: 0
       slow_query_log: 0
       root_password: ""
@@ -219,7 +219,7 @@ account-lookup-db:
       max_connections: 2000
       innodb_buffer_pool_size: 2147483648
       port: 3306
-      existing_secret: account-lookup-db-secret
+      existing_secret: mysql-account-lookup-secret
       general_log: 0
       slow_query_log: 0
       root_password: ""
@@ -269,7 +269,7 @@ central-ledger-db:
         - mojaloop
     mysql_data:
       is_legacy: false
-      existing_secret: central-ledger-db-secret
+      existing_secret: mysql-central-ledger-secret
       general_log: 0
       slow_query_log: 0
       root_password: ""
@@ -319,7 +319,7 @@ bulk-mongodb:
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
     secret_config:
-      generate_secret_name: bulk-mongodb-secret
+      generate_secret_name: mongodb-bulk-secret
       generate_secret_keys:
         - MONGODB_BACKUP_USER
         - MONGODB_BACKUP_PASSWORD
@@ -339,7 +339,7 @@ bulk-mongodb:
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
     mongodb_data:
-      existing_secret: bulk-mongodb-secret
+      existing_secret: mongodb-bulk-secret
       root_password: ""
       user: mojaloop
       user_password: ""
@@ -359,7 +359,7 @@ cep-mongodb:
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
     secret_config:
-      generate_secret_name: cep-mongodb-secret
+      generate_secret_name: mongodb-cep-secret
       generate_secret_keys:
         - MONGODB_BACKUP_USER
         - MONGODB_BACKUP_PASSWORD
@@ -379,7 +379,7 @@ cep-mongodb:
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
     mongodb_data:
-      existing_secret: cep-mongodb-secret
+      existing_secret: mongodb-cep-secret
       root_password: ""
       user: mojaloop
       user_password: ""
@@ -400,7 +400,7 @@ reporting-events-mongodb:
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
     secret_config:
-      generate_secret_name: reporting-events-mongodb-secret
+      generate_secret_name: mongodb-reporting-events-secret
       generate_secret_keys:
         - MONGODB_BACKUP_USER
         - MONGODB_BACKUP_PASSWORD
@@ -420,7 +420,7 @@ reporting-events-mongodb:
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
     mongodb_data:
-      existing_secret: reporting-events-mongodb-secret
+      existing_secret: mongodb-reporting-events-secret
       root_password: ""
       user: mojaloop
       user_password: ""
@@ -431,7 +431,7 @@ reporting-events-mongodb:
 mojaloop-kafka:
   local_operator_config:
     resource_namespace: moja-kafka
-    override_service_name: mojaloop-kafka-kafka-bootstrap
+    override_service_name: mojaloop-kafka-kafka-brokers
     node_pool_size: 3
     resource_helm_repo: oci://registry-1.docker.io/bitnamicharts
     resource_helm_chart: kafka
@@ -480,7 +480,7 @@ ttk-mongodb:
     resource_helm_chart_version: 13.3.1
     resource_helm_values_ref: values-mongodb.yaml.tpl
     secret_config:
-      generate_secret_name: ttk-mongodb-secret
+      generate_secret_name: mongodb-ttk-secret
       generate_secret_keys:
         - MONGODB_BACKUP_USER
         - MONGODB_BACKUP_PASSWORD
@@ -500,7 +500,7 @@ ttk-mongodb:
       generate_secret_extra_namespaces: []
       generate_secret_special_chars: _
     mongodb_data:
-      existing_secret: ttk-mongodb-secret
+      existing_secret: mongodb-ttk-secret
       root_password: ""
       user: ttk
       user_password: ""

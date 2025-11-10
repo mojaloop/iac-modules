@@ -108,14 +108,11 @@ variable "ory_namespace" {
   default     = "ory"
 }
 
-
-
 variable "hubop_oidc_client_id" {
   type        = string
   description = "hubop_oidc_client_id"
   default     = "hub-op"
 }
-
 
 variable "bof_chart_version" {
   type    = string
@@ -130,9 +127,6 @@ variable "security_role_chart_version" {
 variable "rbac_permissions_file" {
   type = string
 }
-
-
-
 
 locals {
   ory_template_path              = "${path.module}/../generate-files/templates/ory"
