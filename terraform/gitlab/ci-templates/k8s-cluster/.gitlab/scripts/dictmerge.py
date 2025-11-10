@@ -111,7 +111,7 @@ def load_custom_config(custom_config_file):
                 with open(custom_config_file, 'r') as f:
                     return json.load(f)
             except json.JSONDecodeError:
-                print("  Could not parse the custom config file", custom_config_file," so assigning empty dict")
+                print("  Could not parse the custom config file", custom_config_file,", assigning empty dict")
                 return {}
 
         else:
