@@ -1,4 +1,5 @@
 deploymentMode: Distributed
+fullnameOverride: test-loki
 
 loki:
   auth_enabled: false
@@ -54,6 +55,12 @@ loki:
     lifecycler:
       ring:
         replication_factor: ${ARGOCD_ENV_loki_ingester_replication_factor}
+
+  memberlist:
+    port: 7949
+    service:
+      publishNotReadyAddresses: true
+      clusterIP: None
 
   memberlistConfig:
     bind_port: 7949
@@ -248,22 +255,6 @@ monitoring:
 # Loki Canary
 lokiCanary:
   enabled: true
-
-
-# Memberlist service configuration
-memberlist:
-  service:
-    publishNotReadyAddresses: true  
-    clusterIP: None    
-    ports:
-      - name: tcp
-        port: 7949
-        targetPort: http-memberlist
-        protocol: TCP
-      - name: udp
-        port: 7949
-        targetPort: http-memberlist
-        protocol: UDP
 
 backend:
   replicas: 0
