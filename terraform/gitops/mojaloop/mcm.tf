@@ -208,11 +208,6 @@ variable "fspiop_use_ory_for_auth" {
   type = bool
 }
 
-variable "bulk_enabled" {
-  description = "whether bulk is enabled or not"
-  type        = bool
-}
-
 variable "pm4mls" {
   type = any
 }
