@@ -80,15 +80,8 @@ global:
 
 # Ingester configuration
 ingester:
-  replicas: ${ARGOCD_ENV_loki_ingester_replica_count}
+  replicas: ${loki_ingester_replica_count}
   maxUnavailable: 2
-  resources:
-    requests:
-      cpu: ${ARGOCD_ENV_loki_ingester_requests_cpu}
-      memory: ${ARGOCD_ENV_loki_ingester_requests_memory}
-    limits:
-      cpu: ${ARGOCD_ENV_loki_ingester_limits_cpu}
-      memory: 4Gi
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
@@ -108,13 +101,6 @@ ingester:
 distributor:
   replicas: ${loki_distributor_replica_count}
   maxUnavailable: 1
-  resources:
-    requests:
-      cpu: ${ARGOCD_ENV_loki_distributor_requests_cpu}
-      memory: ${ARGOCD_ENV_loki_distributor_requests_memory}
-    limits:
-      cpu: ${ARGOCD_ENV_loki_distributor_limits_cpu}
-      memory: ${ARGOCD_ENV_loki_distributor_limits_memory}
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
@@ -129,10 +115,6 @@ distributor:
 querier:
   replicas: ${loki_querier_replica_count}
   maxUnavailable: 1
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_loki_querier_limits_cpu}
-      memory: ${ARGOCD_ENV_loki_querier_limits_memory}
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
@@ -145,11 +127,6 @@ querier:
 
 # Query Frontend configuration
 queryFrontend:
-  replicas: ${ARGOCD_ENV_loki_query_frontend_replica_count}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_loki_query_frontend_limits_cpu}
-      memory: ${ARGOCD_ENV_loki_query_frontend_limits_memory}
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
@@ -163,11 +140,6 @@ queryFrontend:
 # Query Scheduler configuration
 queryScheduler:
   enabled: ${loki_query_scheduler_enabled}
-  replicas: ${ARGOCD_ENV_loki_query_scheduler_replica_count}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_loki_query_scheduler_limits_cpu}
-      memory: ${ARGOCD_ENV_loki_query_scheduler_limits_memory}
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
@@ -180,11 +152,6 @@ queryScheduler:
 
 # Compactor configuration
 compactor:
-  replicas: ${ARGOCD_ENV_loki_compactor_replica_count}
-  resources:
-    limits:
-      cpu: ${ARGOCD_ENV_loki_compactor_limits_cpu}
-      memory: ${ARGOCD_ENV_loki_compactor_limits_memory}
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
