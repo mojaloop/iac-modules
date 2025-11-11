@@ -18,7 +18,10 @@ loki:
   # SAME S3 BUCKET - but with proper path separation
   storage:
     type: s3
-    bucketNames: ${loki_bucket}
+    bucketNames:
+      chunks: ${loki_bucket}
+      ruler: ${loki_bucket}
+      admin: ${loki_bucket}
     s3:
       endpoint: ${object_store_regional_endpoint}
       region: ${object_store_region}
