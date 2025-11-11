@@ -105,6 +105,8 @@ ingress:
     nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
 migrations:
   enabled: true
+  script: migrate
+  deletePolicy: ""
 
 config:
   caCSRParametersData: |-
