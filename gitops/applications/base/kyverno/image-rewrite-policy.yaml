@@ -88,6 +88,27 @@ spec:
                       - name: BITNAMI_REWRITE
                         value: "true"
                     image: 'mirror.gcr.io/bitnamilegacy/{{ images.containers."{{element.name}}".name}}:{{images.containers."{{element.name}}".tag}}'
+          - list: request.object.spec.initContainers[]
+            preconditions:
+              all:
+                - key: "{{ image_normalize(element.image) }}"
+                  operator: AnyIn
+                  value:
+                    - docker.io/bitnami/*
+            patchStrategicMerge:
+              metadata:
+                annotations:
+                  kyverno/redirect-bitnami-to-bitnamilegacy: applied
+              spec:
+                containers:
+                  - name: "{{ element.name }}"
+                    env:
+                      - name: ORIGINAL_IMAGE
+                        value: "{{ element.image }}"
+                      - name: BITNAMI_REWRITE
+                        value: "true"
+                    image: 'mirror.gcr.io/bitnamilegacy/{{ images.initContainers."{{element.name}}".name}}:{{images.initContainers."{{element.name}}".tag}}'
+
     - name: redirect-dockerio-to-mirrorgcrio
       match:
         any:
