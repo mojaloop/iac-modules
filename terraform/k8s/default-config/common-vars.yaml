@@ -8,7 +8,7 @@ external_dns_chart_version: 6.24.1
 vault_chart_version: 0.28.1
 vault_config_operator_helm_chart_version: 0.8.28
 nginx_helm_chart_version: 4.6.1
-keycloak_operator_version: 26.3.1
+keycloak_operator_version: 26.3.5
 istio_chart_version: 1.26.1
 external_secrets_version: 0.8.2
 argocd_version: 3.0.5
