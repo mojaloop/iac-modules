@@ -227,16 +227,16 @@ monitoring:
     interval: 15s
     relabelings:
       - sourceLabels: [namespace,job]
-        separator: "/"
+        separator: /
         regex: (.*)
         targetLabel: job
-        replacement: "$$${1}"
+        replacement: "$${1}"
         action: replace
       - sourceLabels: [job,__meta_kubernetes_endpoints_label_app_kubernetes_io_instance]
-        separator: "-"
+        separator: '-'
         regex: (.*)
         targetLabel: job
-        replacement: "$$${1}"
+        replacement: "$${1}"
         action: replace
   rules:
     enabled: false
