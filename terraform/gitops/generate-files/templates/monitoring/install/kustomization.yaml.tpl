@@ -31,6 +31,12 @@ helmCharts:
   repo: ${loki_repo}
   valuesFile: values-loki.yaml
   namespace: ${monitoring_namespace}
+- name: loki
+  releaseName: test-loki
+  version: 6.45.2
+  repo: https://grafana.github.io/helm-charts
+  valuesFile: values-test-loki.yaml
+  namespace: ${ARGOCD_ENV_monitoring_namespace}
 - name: opentelemetry-operator
   releaseName: opentelemetry-operator
   version: ${opentelemetry_chart_version}
@@ -38,7 +44,7 @@ helmCharts:
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
 - name: loki-canary
-  releaseName: loki-canary
+  releaseName: control-center-loki-canary
   version: ${loki_canary_chart_version}
   repo: ${loki_canary_repo}
   valuesFile: values-loki-canary.yaml
