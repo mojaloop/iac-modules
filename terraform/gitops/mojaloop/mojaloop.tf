@@ -211,6 +211,7 @@ module "generate_mojaloop_files" {
     cluster_name                                                      = "${var.cluster_name}"
     traces_endpoint                                                   = var.traces_endpoint
     cluster                                                           = var.app_var_map.cluster
+    cloud_platform                                                    = var.cloud_platform
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path

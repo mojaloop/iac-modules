@@ -27,6 +27,7 @@ spec:
         key: "${cluster.env}/report_bucket_secret_key_id"
         property: value
 ---
+# %{ if cloud_platform == "private-cloud" }
 apiVersion: utils.mojaloop.io/v1alpha1
 kind: ObjectSyncer
 metadata:
@@ -46,3 +47,4 @@ spec:
     destinationK8sProviderName: kubernetes-provider
   managementPolicies:
     - "*"
+# %{ endif }
