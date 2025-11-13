@@ -1,3 +1,8 @@
+moved {
+  from = module.generate_mailhog_files[0]
+  to   = module.generate_mailpit_files[0]
+}
+
 module "generate_mailpit_files" {
   count  = try(var.common_var_map.mailpit_enabled, true) ? 1 : 0
   source = "../generate-files"
