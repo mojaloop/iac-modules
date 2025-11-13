@@ -5,8 +5,37 @@ shopt -s nullglob globstar extglob
 ENV_TYPE=${ENV_TYPE:-dev}
 
 mkdir -p $CONFIG_PATH
-for configFile in $({ ls default-config/; ls custom-config/; find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f.yaml\n'; } | sort -u)
+
+# Merge app-yamls first to determine enabled addons
+python3 .gitlab/scripts/dictmerge.py \
+    default-config/app-yamls.yaml \
+    addons/*/app-yamls/.config/app-yamls.yaml \
+    addons/*/app-yamls/.config/+(*-)app-yamls.yaml \
+    addons/*/app-yamls/.config/app-yamls.$ENV_TYPE.yaml \
+    addons/*/app-yamls/.config/+(*-)app-yamls.$ENV_TYPE.yaml \
+    profiles/**/app-yamls.yaml \
+    profiles/**/+(*-)app-yamls.yaml \
+    profiles/**/app-yamls.$ENV_TYPE.yaml \
+    profiles/**/+(*-)app-yamls.$ENV_TYPE.yaml \
+    custom-config/app-yamls.yaml \
+    custom-config/+(*-)app-yamls.yaml $CONFIG_PATH;
+
+ENABLED_ADDONS=""
+for addon in $(find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*'); do
+    if [ "$(yq eval ".${addon}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" || "$(yq eval ".${addon}.enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" ]; then
+        if [ -z "$ENABLED_ADDONS" ]; then
+            ENABLED_ADDONS="${addon}.yaml"
+        else
+            ENABLED_ADDONS="${ENABLED_ADDONS} ${addon}.yaml"
+        fi
+    fi
+done
+echo -e "Enabled addons: $ENABLED_ADDONS"
+
+for configFile in $({ ls default-config/; ls custom-config/; echo $ENABLED_ADDONS; } | sort -u)
 do
+    # skip app-yamls
+    [[ "$configFile" == "app-yamls.yaml" ]] && continue
     echo
     echo -n $configFile " ➡️ "
     ENV_CONFIG=${configFile/%.yaml/.$ENV_TYPE.yaml}
@@ -25,14 +54,14 @@ do
     # custom-config/xxx-*.(yaml|json) sorted by name
     python3 .gitlab/scripts/dictmerge.py \
         default-config/$configFile \
-        addons/*/*/.config/$configFile \
-        addons/*/*/.config/+(*-)$configFile \
-        addons/*/*/.config/$ENV_CONFIG \
-        addons/*/*/.config/+(*-)$ENV_CONFIG \
+        addons/@(${ENABLED_ADDONS// /|})/*/.config/$configFile \
+        addons/@(${ENABLED_ADDONS// /|})/*/.config/+(*-)$configFile \
+        addons/@(${ENABLED_ADDONS// /|})/*/.config/$ENV_CONFIG \
+        addons/@(${ENABLED_ADDONS// /|})/*/.config/+(*-)$ENV_CONFIG \
         profiles/**/$configFile \
         profiles/**/+(*-)$configFile \
-        profiles/**/@($ENV_CONFIG) \
-        profiles/**/+(*-)@($ENV_CONFIG) \
+        profiles/**/$ENV_CONFIG \
+        profiles/**/+(*-)$ENV_CONFIG \
         custom-config/$configFile \
         custom-config/+(*-)$configFile $CONFIG_PATH;
 done;
