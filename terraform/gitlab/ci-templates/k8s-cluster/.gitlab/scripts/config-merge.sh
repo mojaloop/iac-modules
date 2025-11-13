@@ -13,10 +13,10 @@ do
     ENV_CONFIG=${ENV_CONFIG/%.json/.$ENV_TYPE.json}
     # merge configurations in the following order (later files override earlier ones):
     # default-config/*.(yaml|json)
-    # addons/*/.config/*.(yaml|json)
-    # addons/*/.config/xxx-*.(yaml|json) sorted by name
-    # addons/*/.config/*.<env>.(yaml|json)
-    # addons/*/.config/xxx-*.<env>.(yaml|json) sorted by name
+    # addons/*/*/.config/*.(yaml|json)
+    # addons/*/*/.config/xxx-*.(yaml|json) sorted by name
+    # addons/*/*/.config/*.<env>.(yaml|json)
+    # addons/*/*/.config/xxx-*.<env>.(yaml|json) sorted by name
     # profiles/**/*.(yaml|json)
     # profiles/**/xxx-*.(yaml|json) sorted by name
     # profiles/**/*.<env>.(yaml|json)
@@ -25,10 +25,10 @@ do
     # custom-config/xxx-*.(yaml|json) sorted by name
     python3 .gitlab/scripts/dictmerge.py \
         default-config/$configFile \
-        addons/*/.config/$configFile \
-        addons/*/.config/+(*-)$configFile \
-        addons/*/.config/$ENV_CONFIG \
-        addons/*/.config/+(*-)$ENV_CONFIG \
+        addons/*/*/.config/$configFile \
+        addons/*/*/.config/+(*-)$configFile \
+        addons/*/*/.config/$ENV_CONFIG \
+        addons/*/*/.config/+(*-)$ENV_CONFIG \
         profiles/**/$configFile \
         profiles/**/+(*-)$configFile \
         profiles/**/@($ENV_CONFIG) \
