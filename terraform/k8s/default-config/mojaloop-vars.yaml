@@ -114,7 +114,7 @@ workload_definitions:
                     - "enabled"
 
 smtp_host: "mailpit-smtp.mailpit.svc.cluster.local"
-smtp_port: 1025
+smtp_port: 25
 smtp_ssl: false
 smtp_starttls: false
 smtp_auth: false

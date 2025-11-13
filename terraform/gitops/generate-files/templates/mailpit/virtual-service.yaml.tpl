@@ -16,4 +16,4 @@ spec:
         - destination:
             host: mailpit-http
             port:
-              number: 8025
+              number: 80
