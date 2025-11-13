@@ -14,6 +14,6 @@ spec:
             prefix: /
       route:
         - destination:
-            host: mailpit
+            host: mailpit-http
             port:
               number: 8025
