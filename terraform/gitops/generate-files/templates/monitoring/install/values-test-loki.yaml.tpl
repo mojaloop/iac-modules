@@ -126,6 +126,9 @@ querier:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
+    {{- if not ${loki_query_scheduler_enabled} }}
+    - -querier.scheduler-address=  # Empty = disable scheduler, connect to query-frontend directly
+    {{- end }}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -138,6 +141,9 @@ queryFrontend:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
+    {{- if not ${loki_query_scheduler_enabled} }}
+    - -query-frontend.scheduler-address=  # Empty = work without scheduler
+    {{- end }}
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
