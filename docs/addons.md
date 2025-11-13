@@ -9,23 +9,30 @@ Addons are defined as subdirectories in the `addons` directory.
 Each subdirectory includes tha apps that are part of the addon.
 Each app contains template files for creating the k8s resources and
 optional sub-folders for any files used by the templates.
+A special `app-yamls` folder defines the ArgoCD Application definitions
+for each app in the addon.
 See the diagram below for the meaning of each directory and file:
 
 ```text
 ├──📁 addons
 |   ├──📁 addon-name-1
 |   |   ├──📁 app-yamls              # define apps for the root app
-|   |   |   ├── app-1.yaml
-|   |   |   └── app-2.yaml
+|   |   |   ├── 📁 .config           # app 1 configs
+|   |   |   |    ├── app-1.yaml      # argocd app config for app 1
+|   |   |   |    └── app-2.yaml      # argocd app config for app 2
+|   |   |   ├── app-1.yaml           # ArgoCD Application definition for app-1
+|   |   |   └── app-2.yaml           # ArgoCD Application definition for app-2
 |   |   ├──📁 app-1                  # k8s resources for app-1
-|   |   |   ├── 📁 app-1-folder      # app 1 files
+|   |   |   ├── 📁 .config           # app 1 configs folder
+|   |   |   |    ├── app-1.yaml      # app 1 configuration
+|   |   |   |    └── other-app.yaml  # other app configuration (use with care)
+|   |   |   ├── 📁 app-1-folder      # app 1 misc files (no templating)
 |   |   |   ├── kustomization.yaml
 |   |   |   ├── values-default.yaml  # default values for app-1
 |   |   |   ├── values-override.yaml # template for overrides
 |   |   |   ├── vs.yaml              # virtual service for app-1
 |   |   |   └── ...
-|   |   ├──📁 app-2                 # k8s resources for app-2
-|   |   └── default.yaml            # default values for addon-name-1
+|   |   └──📁 app-2                 # k8s resources for app-2
 |   └──📁 addon-name-2
 |       ├──📁 app-yamls             # define apps for the root app
 |       ├──📁 app-3                 # k8s resources for app-3
@@ -43,29 +50,34 @@ See the diagram below for the meaning of each directory and file:
 
 Addons are configured using several files:
 
-- `addons/<addon-name>/default.yaml`: default values for the addon
+- `addons/<addon-name>/<app-name>/.config/<app-name>.yaml`: default values for
+  the app
 
-  Example:
+  Examples:
 
   ```yaml
-  app-yamls:
-      app-1:
-        enabled: true
-        syncWave: 0
-        namespace: app-1
-      app-2:
-        enabled: true
-        syncWave: 0
-        namespace: app-2
-
+  # addons/example-addon/app-yamls/.config/app-yamls.yaml
   app-1:
-      version: 2.7.0
-      values: {}
-
+    enabled: true
+    syncWave: 0
+    namespace: app-1
   app-2:
-      version: 0.7.26
-      tag: v2.6.0
-      values: {}
+    enabled: true
+    syncWave: 0
+    namespace: app-2
+  ```
+
+  ```yaml
+  # addons/example-addon/app-1/.config/app-1.yaml
+  version: 2.7.0
+  values: {}
+  ```
+
+  ```yaml
+  # addons/example-addon/app-2/.config/app-2.yaml
+  version: 0.7.26
+  tag: v2.6.0
+  values: {}
   ```
 
 - `addons/<addon-name>/<app-name>/values-default.yaml`: default values for each app
@@ -85,6 +97,7 @@ Addons are configured using several files:
   Example:
 
   ```yaml
+  # custom-config/app-yamls.yaml
   app-1:
     enabled: false              # disable app-1
   app-2:
@@ -97,6 +110,7 @@ Addons are configured using several files:
   Example:
 
   ```yaml
+  # custom-config/app-1.yaml
   values:           # chart values overrides
     image:
       tag: v1.0.0   # override the image tag
@@ -105,10 +119,15 @@ Addons are configured using several files:
 
 ## Reusable addons
 
-To achieve addons, profiles can be cloned as git submodules in the
-addons folder of the respective IAC environment repository.
+Addons are usually maintained in separate git repositories to allow reuse across
+multiple environments and projects. Each addon repository usually contains
+a group of related apps that are part of the addon. Examples of such addons are
+developer addons or security addons.
 
-The easiest way is to achieve that is to use the declarative
+To achieve reuse of addons, they can be cloned as git submodules in the
+addons folder of the respective environment repository.
+
+The easiest way to achieve that is to use the declarative
 approach and configure the addons in the `submodules.yaml`:
 
    ```yaml
@@ -120,5 +139,5 @@ approach and configure the addons in the `submodules.yaml`:
       ref: v1.0
    ```
 
-For more details check the [reusable profiles](profiles.md#reusable-profiles)
+For more details about this approach check the [reusable profiles](profiles.md#reusable-profiles)
 section in the profiles documentation.

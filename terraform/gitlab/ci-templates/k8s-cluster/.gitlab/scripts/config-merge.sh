@@ -20,19 +20,21 @@ python3 .gitlab/scripts/dictmerge.py \
     custom-config/app-yamls.yaml \
     custom-config/+(*-)app-yamls.yaml $CONFIG_PATH;
 
-ENABLED_ADDONS=""
+ENABLED_APPS=""
 for addon in $(find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f '); do
     if [[ "$(yq eval ".${addon}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" || "$(yq eval ".${addon}.enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" ]]; then
-        if [ -z "$ENABLED_ADDONS" ]; then
-            ENABLED_ADDONS="${addon}.yaml "
+        if [ -z "$ENABLED_APPS" ]; then
+            ENABLED_APPS="${addon}.yaml"
         else
-            ENABLED_ADDONS="${ENABLED_ADDONS}${addon}.yaml "
+            ENABLED_APPS="${ENABLED_APPS} ${addon}.yaml"
         fi
     fi
 done
-echo -e "Enabled addons: $ENABLED_ADDONS"
+echo -e "Enabled addon apps: $ENABLED_APPS"
+ENABLED_APPS_FOLDERS="${ENABLED_APPS// /|}"
+ENABLED_APPS_FOLDERS="${ENABLED_APPS_FOLDERS//.yaml/}"
 
-for configFile in $({ ls default-config/; ls custom-config/; echo $ENABLED_ADDONS; } | sort -u)
+for configFile in $({ ls default-config/; ls custom-config/; echo $ENABLED_APPS; } | sort -u)
 do
     # skip app-yamls
     [[ "$configFile" == "app-yamls.yaml" ]] && continue
@@ -54,10 +56,10 @@ do
     # custom-config/xxx-*.(yaml|json) sorted by name
     python3 .gitlab/scripts/dictmerge.py \
         default-config/$configFile \
-        addons/@(${ENABLED_ADDONS//.yaml /|})/*/.config/$configFile \
-        addons/@(${ENABLED_ADDONS//.yaml /|})/*/.config/$ENV_CONFIG \
-        addons/@(${ENABLED_ADDONS//.yaml /|})/*/.config/+(*-)$configFile \
-        addons/@(${ENABLED_ADDONS//.yaml /|})/*/.config/+(*-)$ENV_CONFIG \
+        addons/@(${ENABLED_APPS_FOLDERS})/*/.config/$configFile \
+        addons/@(${ENABLED_APPS_FOLDERS})/*/.config/$ENV_CONFIG \
+        addons/@(${ENABLED_APPS_FOLDERS})/*/.config/+(*-)$configFile \
+        addons/@(${ENABLED_APPS_FOLDERS})/*/.config/+(*-)$ENV_CONFIG \
         profiles/**/$configFile \
         profiles/**/+(*-)$configFile \
         profiles/**/$ENV_CONFIG \
