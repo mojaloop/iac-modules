@@ -30,8 +30,8 @@ helmCharts:
     valuesFile: values-loki.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: loki
-    releaseName: test-loki
-    version: 6.45.2
+    releaseName: test-loki 
+    version: 6.45.2          #use exist helm parameter and update it to this version
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-test-loki.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
@@ -47,7 +47,7 @@ helmCharts:
     repo:  https://grafana.github.io/helm-charts
     valuesFile: values-vulture.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-  - name: loki-canary
+  - name: loki-canary       #remove with bitnami loki
     releaseName: control-center-loki-canary
     version: ${ARGOCD_ENV_loki_canary_helm_version}
     repo: https://grafana.github.io/helm-charts
@@ -55,7 +55,7 @@ helmCharts:
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: alloy
     releaseName: test-alloy
-    version: 1.4.0
+    version: 1.4.0           #parametrize helm version
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-alloy.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}

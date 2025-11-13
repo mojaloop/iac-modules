@@ -71,7 +71,10 @@ spec:
       env:
         - name: "cluster_name"
           value: "${ARGOCD_ENV_cluster_name}"
-
+        - name: "alloy_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_monitoring_alloy_limits_cpu}"
+        - name: "alloy_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_monitoring_alloy_limits_memory}"
         - name: "monitoring_namespace"
           value: "${ARGOCD_ENV_monitoring_pre_namespace}"
 

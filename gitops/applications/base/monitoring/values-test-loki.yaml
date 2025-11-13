@@ -91,7 +91,7 @@ ingester:
       memory: ${ARGOCD_ENV_loki_ingester_requests_memory}
     limits:
       cpu: ${ARGOCD_ENV_loki_ingester_limits_cpu}
-      memory: 4Gi
+      memory: ${ARGOCD_ENV_loki_ingester_limits_memory}
   extraEnvFrom:
     - secretRef:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
@@ -105,7 +105,7 @@ ingester:
 
 # Distributor configuration
 distributor:
-  replicas: 3
+  replicas: ${ARGOCD_ENV_loki_distributor_replica_count}
   maxUnavailable: 2
   resources:
     requests:
@@ -225,7 +225,7 @@ resultsCache:
 monitoring:
   serviceMonitor:
     enabled: true
-    interval: 15s
+    interval: ${ARGOCD_ENV_prometheus_scrape_interval}
     relabelings:
       - sourceLabels: [namespace,job]
         separator: /
