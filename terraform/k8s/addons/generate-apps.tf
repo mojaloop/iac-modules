@@ -6,10 +6,12 @@ resource "local_file" "config-file" {
       split("/", filename)[1] == "app-yamls" ?
       coalesce(
         try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], null),
+        try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}"].enabled, null),
         try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], false)
       ) :
       coalesce(
         try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", filename)[1]}Enabled"], null),
+        try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", filename)[1]}"].enabled, null),
         try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}Enabled"], false)
       )
     )
@@ -36,10 +38,12 @@ resource "local_file" "addon-file" {
       split("/", filename)[1] == "app-yamls" ?
       coalesce(
         try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], null),
+        try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}"].enabled, null),
         try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], false)
       ) :
       coalesce(
         try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", filename)[1]}Enabled"], null),
+        try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", filename)[1]}"].enabled, null),
         try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}Enabled"], false)
       )
     )
