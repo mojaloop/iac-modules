@@ -154,6 +154,15 @@ else:
         else:
             data1 = dict(mergedicts(data1, load_custom_config(custom_config_file)))
             merged = data1
+    # if merged is empty object, don't write to file
+    if not merged:
+        # if output file exists, remove it
+        if os.path.isfile(outputFilename):
+            print("  Merged configuration is empty, removed existing output file:", outputFilename)
+            os.remove(outputFilename)
+        else:
+            print("  Merged configuration is empty, not writing to output file.")
+        exit(0)
     if defaultExt == ".yaml":
         #result = yaml.dump(dict(data1), indent=4, sort_keys=True)
         with open(outputFilename, 'w') as file:
