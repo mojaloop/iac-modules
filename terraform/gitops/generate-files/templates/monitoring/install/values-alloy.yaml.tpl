@@ -4,8 +4,8 @@ alloy:
       cpu: 100m
       memory: 256Mi
     limits:
-      cpu: 200m
-      memory: 500Mi
+      cpu: 1000m
+      memory: 1Gi
   name: test-alloy
   configMap:
     create: true
