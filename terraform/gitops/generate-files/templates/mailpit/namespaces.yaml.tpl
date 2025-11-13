@@ -1,4 +1,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${mailhog_namespace}
+  name: ${mailpit_namespace}

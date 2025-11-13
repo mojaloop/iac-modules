@@ -1,19 +1,19 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: mailhog-ui
-  namespace: ${mailhog_namespace}
+  name: mailpit-ui
+  namespace: ${mailpit_namespace}
 spec:
   gateways:
-    - ${mailhog_istio_internal_gateway_namespace}/${mailhog_istio_internal_wildcard_gateway_name}
+    - ${mailpit_istio_internal_gateway_namespace}/${mailpit_istio_internal_wildcard_gateway_name}
   hosts:
-    - "mailhog.${mailhog_internal_dns_subdomain}"
+    - "mailpit.${mailpit_internal_dns_subdomain}"
   http:
     - match:
         - uri:
             prefix: /
       route:
         - destination:
-            host: mailhog
+            host: mailpit
             port:
               number: 8025

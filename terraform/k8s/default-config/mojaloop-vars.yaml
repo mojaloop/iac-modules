@@ -113,7 +113,7 @@ workload_definitions:
                   values:
                     - "enabled"
 
-smtp_host: "mailhog.mailhog.svc.cluster.local"
+smtp_host: "mailpit.mailpit.svc.cluster.local"
 smtp_port: 1025
 smtp_ssl: false
 smtp_starttls: false

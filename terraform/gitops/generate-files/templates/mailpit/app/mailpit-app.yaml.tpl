@@ -2,18 +2,18 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${mailhog_sync_wave}"
-  name: mailhog
+    argocd.argoproj.io/sync-wave: "${mailpit_sync_wave}"
+  name: mailpit
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   source:
-    path: apps/mailhog
+    path: apps/mailpit
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
   destination:
-    namespace: ${mailhog_namespace}
+    namespace: ${mailpit_namespace}
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:

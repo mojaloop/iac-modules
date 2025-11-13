@@ -19,7 +19,7 @@ mojaloop_enabled: true
 pm4ml_enabled: false
 proxy_pm4ml_enabled: false
 vnext_enabled: false
-mailhog_enabled: true
+mailpit_enabled: true
 grafana_crd_version_tag: v5.6.0
 opentelemetry_chart_version: 0.95.0
 opentelemetry_enabled: false
