@@ -21,7 +21,7 @@ python3 .gitlab/scripts/dictmerge.py \
     custom-config/+(*-)app-yamls.yaml $CONFIG_PATH;
 
 ENABLED_ADDONS=""
-for addon in $(find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*'); do
+for addon in $(find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f '); do
     if [[ "$(yq eval ".${addon}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" || "$(yq eval ".${addon}.enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" ]]; then
         if [ -z "$ENABLED_ADDONS" ]; then
             ENABLED_ADDONS="${addon}.yaml"
