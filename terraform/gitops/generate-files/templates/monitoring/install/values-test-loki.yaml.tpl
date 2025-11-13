@@ -1,6 +1,7 @@
 deploymentMode: Distributed
 
 loki:
+  query_scheduler_enabled: ${loki_query_scheduler_enabled}
   auth_enabled: false
   extraArgs:
     - -config.expand-env=true
@@ -126,7 +127,7 @@ querier:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-    {{- if not ${loki_query_scheduler_enabled} }}
+    {{- if not .Values.loki.query_scheduler_enabled }}
     - -querier.scheduler-address=  # Empty = disable scheduler, connect to query-frontend directly
     {{- end }}
   nodeAffinityPreset:
@@ -141,7 +142,7 @@ queryFrontend:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-    {{- if not ${loki_query_scheduler_enabled} }}
+    {{- if not .Values.loki.query_scheduler_enabled }}
     - -query-frontend.scheduler-address=  # Empty = work without scheduler
     {{- end }}
   nodeAffinityPreset:
