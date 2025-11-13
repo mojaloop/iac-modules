@@ -15,7 +15,7 @@ resource "local_file" "config-file" {
     {
       cluster : var.clusterConfig
       app : merge(
-        local.default[basename(dirname(dirname(each.key)))][basename(dirname(each.key))],
+        try(local.default[basename(dirname(dirname(each.key)))][basename(dirname(each.key))], {}),
         local.override[dirname(each.key)]
       )
       filename: each.key
