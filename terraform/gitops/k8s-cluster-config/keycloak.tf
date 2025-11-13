@@ -3,6 +3,7 @@ module "generate_keycloak_files" {
   var_map = {
     keycloak_name                         = var.keycloak_name
     keycloak_operator_version             = var.common_var_map.keycloak_operator_version
+    keycloak_jdk_image                    = var.common_var_map.keycloak_jdk_image
     keycloak_namespace                    = var.keycloak_namespace
     keycloak_replica_count                = try(var.common_var_map.keycloak_replica_count, 1)
     gitlab_project_url                    = var.gitlab_project_url
