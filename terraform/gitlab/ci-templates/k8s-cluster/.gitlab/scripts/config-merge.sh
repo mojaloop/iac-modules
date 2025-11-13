@@ -54,10 +54,10 @@ do
     # custom-config/xxx-*.(yaml|json) sorted by name
     python3 .gitlab/scripts/dictmerge.py \
         default-config/$configFile \
-        addons/@(${ENABLED_ADDONS// .yaml/|})/*/.config/$configFile \
-        addons/@(${ENABLED_ADDONS// .yaml/|})/*/.config/$ENV_CONFIG \
-        addons/@(${ENABLED_ADDONS// .yaml/|})/*/.config/+(*-)$configFile \
-        addons/@(${ENABLED_ADDONS// .yaml/|})/*/.config/+(*-)$ENV_CONFIG \
+        addons/@(${ENABLED_ADDONS//.yaml /|})/*/.config/$configFile \
+        addons/@(${ENABLED_ADDONS//.yaml /|})/*/.config/$ENV_CONFIG \
+        addons/@(${ENABLED_ADDONS//.yaml /|})/*/.config/+(*-)$configFile \
+        addons/@(${ENABLED_ADDONS//.yaml /|})/*/.config/+(*-)$ENV_CONFIG \
         profiles/**/$configFile \
         profiles/**/+(*-)$configFile \
         profiles/**/$ENV_CONFIG \
