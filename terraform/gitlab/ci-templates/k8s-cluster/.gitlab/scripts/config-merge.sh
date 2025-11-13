@@ -5,7 +5,7 @@ shopt -s nullglob globstar extglob
 ENV_TYPE=${ENV_TYPE:-dev}
 
 mkdir -p $CONFIG_PATH
-for configFile in $({ ls default-config/; ls custom-config/; find addons -mindepth 2 -maxdepth 2 -type d -printf '%f.yaml\n'; } | sort -u)
+for configFile in $({ ls default-config/; ls custom-config/; find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f.yaml\n'; } | sort -u)
 do
     echo
     echo -n $configFile " ➡️ "
