@@ -158,7 +158,7 @@ else:
     if not merged:
         # if output file exists, remove it
         if os.path.isfile(outputFilename):
-            print("  Merged configuration is empty, removed existing output file:", outputFilename)
+            print("  Merged configuration is empty, removing existing output file:", outputFilename)
             os.remove(outputFilename)
         else:
             print("  Merged configuration is empty, not writing to output file.")

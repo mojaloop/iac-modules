@@ -47,7 +47,7 @@ locals {
   }
   override = { # load overrides for each addon, keyed by addon-name/folder-name
     for app in distinct([for _, v in fileset(path.module, "*/*/*") : dirname(v)]) :
-    app => try(yamldecode(templatefile("${var.configPath}/${basename(app)}.yaml", var.clusterConfig)), {})
+    app => try(yamldecode(templatefile("${var.configPath}/${basename(app)}.yaml", merge(var.clusterConfig, { cluster: var.clusterConfig }))), {})
   }
 }
 
