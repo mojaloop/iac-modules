@@ -38,6 +38,9 @@ loki:
   limits_config:
     retention_period: ${loki_ingester_retention_period}
     volume_enabled: true
+    reject_old_samples: true
+    reject_old_samples_max_age: 72h   
+    creation_grace_period: 10m 
 
   compactor:
     retention_enabled: true
