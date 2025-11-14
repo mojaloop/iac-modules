@@ -126,7 +126,6 @@ querier:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-    - -querier.scheduler-address=  # Empty = disable scheduler, connect to query-frontend directly
 
   nodeAffinityPreset:
     type: hard
@@ -141,7 +140,6 @@ queryFrontend:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-    - -query-frontend.scheduler-address=  # Empty = work without scheduler
 
   nodeAffinityPreset:
     type: hard
@@ -150,7 +148,7 @@ queryFrontend:
 
 # Query Scheduler configuration
 queryScheduler:
-  enabled: ${loki_query_scheduler_enabled}    #if enabled, remove the empty address from queryFrontend and querier
+  enabled: ${loki_query_scheduler_enabled}    
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
