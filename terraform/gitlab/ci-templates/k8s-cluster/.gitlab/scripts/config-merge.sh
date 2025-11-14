@@ -23,7 +23,12 @@ APPS=$(find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f\n' |
 ENABLED_APPS="app-yamls.yaml"
 
 # First pass to merge addon app configs
+echo ===============================================
+echo "Analyzing addon apps"
+
 for app in $APPS; do
+    echo
+    echo -n $app " 🔎 "
     python3 .gitlab/scripts/dictmerge.py \
         default-config/${app}.yaml \
         addons/*/${app}/.config/${app}.yaml \
@@ -50,7 +55,8 @@ for app in $APPS; do
     fi
 done
 
-echo -e "Enabled addon apps: $ENABLED_APPS"
+echo ===============================================
+echo -e "Merging configuration, including enabled addon apps: $ENABLED_APPS"
 ENABLED_APPS_FOLDERS="${ENABLED_APPS// /|}"
 ENABLED_APPS_FOLDERS="${ENABLED_APPS_FOLDERS//.yaml/}"
 
