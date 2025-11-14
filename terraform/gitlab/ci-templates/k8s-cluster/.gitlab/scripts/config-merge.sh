@@ -50,11 +50,7 @@ done;
 
 # Second pass to determine enabled addon apps and remove disabled app configs
 for app in $APPS; do
-    if [[
-        ( -f "$CONFIG_PATH/app-yamls.yaml" && "$(yq eval ".${app}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true")
-        ||
-        ( -f "$CONFIG_PATH/${app}.yaml" && "$(yq eval ".enabled // false" "$CONFIG_PATH/${app}.yaml")" == "true" )
-    ]]; then
+    if [[ ( -f "$CONFIG_PATH/app-yamls.yaml" && "$(yq eval ".${app}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true") || ( -f "$CONFIG_PATH/${app}.yaml" && "$(yq eval ".enabled // false" "$CONFIG_PATH/${app}.yaml")" == "true" ) ]]; then
         ENABLED_APPS="${ENABLED_APPS} ${app}.yaml"
     else
         # Remove config file for disabled apps
