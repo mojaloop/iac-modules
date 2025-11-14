@@ -368,7 +368,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_external_fqdn}/pm4mlapi/dfsps<$>
+    url: <http|https>://${mcm_external_fqdn}/api/dfsps<$>
     methods:
       - GET
   authenticators:
@@ -402,7 +402,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_external_fqdn}/pm4mlapi/dfsps<$>
+    url: <http|https>://${mcm_external_fqdn}/api/dfsps<$>
     methods:
       - POST
   authenticators:
@@ -437,7 +437,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_external_fqdn}/pm4mlapi/dfsps/<?!endpoints><[^/]+>/<?!credentials><.*>
+    url: <http|https>://${mcm_external_fqdn}/api/dfsps/<?!endpoints><[^/]+>/<?!credentials><.*>
     methods:
       - GET
       - POST
@@ -473,7 +473,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_external_fqdn}/pm4mlapi/hub/<.*>
+    url: <http|https>://${mcm_external_fqdn}/api/hub/<.*>
     methods:
       - GET
   authenticators:
@@ -507,7 +507,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_external_fqdn}/pm4mlapi/hub/<.*>
+    url: <http|https>://${mcm_external_fqdn}/api/hub/<.*>
     methods:
       - POST
       - PUT
@@ -543,7 +543,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_external_fqdn}/pm4mlapi/dfsps/jwscerts
+    url: <http|https>://${mcm_external_fqdn}/api/dfsps/jwscerts
     methods:
       - GET
   authenticators:
