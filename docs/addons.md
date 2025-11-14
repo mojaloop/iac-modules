@@ -9,20 +9,16 @@ Addons are defined as subdirectories in the `addons` directory.
 Each subdirectory includes tha apps that are part of the addon.
 Each app contains template files for creating the k8s resources and
 optional sub-folders for any files used by the templates.
-A special `app-yamls` folder defines the ArgoCD Application definitions
-for each app in the addon.
+A special `.app.yaml` extension denotes the ArgoCD `kind: Application` resources,
+which are added to tha `apps/app-yamls` folder.
 See the diagram below for the meaning of each directory and file:
 
 ```text
 ├──📁 addons
 |   ├──📁 addon-name-1
-|   |   ├──📁 app-yamls              # define apps for the root app
-|   |   |   ├── 📁 .config           # app 1 configs
-|   |   |   |    ├── app-yamls.yaml  # argocd app config for all apps
-|   |   |   ├── app-1.yaml           # ArgoCD Application definition for app-1
-|   |   |   └── app-2.yaml           # ArgoCD Application definition for app-2
 |   |   ├──📁 app-1                  # k8s resources for app-1
 |   |   |   ├── 📁 .config           # app 1 configs folder
+|   |   |   |    ├── app-1.app.yaml  # ArgoCD Application definition for app-1
 |   |   |   |    ├── app-1.yaml      # app 1 configuration
 |   |   |   |    └── other-app.yaml  # other app configuration (use with care)
 |   |   |   ├── 📁 app-1-folder      # app 1 misc files (no templating)
@@ -33,7 +29,6 @@ See the diagram below for the meaning of each directory and file:
 |   |   |   └── ...
 |   |   └──📁 app-2                 # k8s resources for app-2
 |   └──📁 addon-name-2
-|       ├──📁 app-yamls             # define apps for the root app
 |       ├──📁 app-3                 # k8s resources for app-3
 |       ├──📁 app-4                 # k8s resources for app-2
 |       └──📁 ...
@@ -55,25 +50,15 @@ Addons are configured using several files:
   Examples:
 
   ```yaml
-  # addons/example-addon/app-yamls/.config/app-yamls.yaml
-  app-1:
-    enabled: true
-    syncWave: 0
-    namespace: app-1
-  app-2:
-    enabled: true
-    syncWave: 0
-    namespace: app-2
-  ```
-
-  ```yaml
   # addons/example-addon/app-1/.config/app-1.yaml
+  enabled: true
   version: 2.7.0
   values: {}
   ```
 
   ```yaml
   # addons/example-addon/app-2/.config/app-2.yaml
+  enabled: true
   version: 0.7.26
   tag: v2.6.0
   values: {}
@@ -91,29 +76,23 @@ Addons are configured using several files:
       clientID: test
   ```
 
-- `custom-config/app-yamls.yaml`: environment overrides for ArgoCD app settings
-
-  Example:
-
-  ```yaml
-  # custom-config/app-yamls.yaml
-  app-1:
-    enabled: false              # disable app-1
-  app-2:
-    namespace: new-namespace    # change the namespace for app-2
-    syncWave: 1                 # move app-2 to sync wave 1
-  ```
-
 - `custom-config/<app-name>.yaml`: environment overrides for app-name
 
   Example:
 
   ```yaml
   # custom-config/app-1.yaml
+  enabled: false    # disable app-1
   values:           # chart values overrides
     image:
       tag: v1.0.0   # override the image tag
   version: 1.0.0    # override the chart version
+  ```
+
+  ```yaml
+  # custom-config/app-2.yaml
+  namespace: new-namespace    # change the namespace for app-2
+  syncWave: 1                 # move app-2 to sync wave 1
   ```
 
 ## Template variables

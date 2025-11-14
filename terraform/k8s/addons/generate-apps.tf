@@ -5,14 +5,14 @@ resource "local_file" "config-file" {
     (
       split("/", filename)[1] == "app-yamls" ?
       coalesce(
-        try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], null),
-        try(local.override["${split("/", filename)[0]}/app-yamls"][split("/", trimsuffix(filename, ".yaml"))[2]].enabled, null),
-        try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], false)
+        try(local.apps["app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], null),
+        try(local.apps[split("/", filename)[1]].enabled, null),
+        try(local.addons[split("/", filename)[0]]["app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], false)
       ) :
       coalesce(
-        try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", filename)[1]}Enabled"], null),
-        try(local.override["${split("/", filename)[0]}/app-yamls"][split("/", filename)[1]].enabled, null),
-        try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}Enabled"], false)
+        try(local.apps["app-yamls"]["${split("/", filename)[1]}Enabled"], null),
+        try(local.apps[split("/", filename)[1]].enabled, null),
+        try(local.addons[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}Enabled"], false)
       )
     )
   ]) # this represents addon-name/app-name/filename list of files filtered by enabled app-yamls
@@ -27,14 +27,15 @@ resource "local_file" "config-file" {
           enabled: false,
           syncWave: 0
         },
-        try(local.default[basename(dirname(dirname(each.key)))][basename(dirname(each.key))], {}),
-        local.override[dirname(each.key)],
+        try(local.addons[basename(dirname(dirname(each.key)))][basename(dirname(each.key))], {}),
+        local.apps[basename(dirname(each.key))],
         try(split("/", filename)[1] == "app-yamls" ? local.apps["app-yamls"][basename(trimsuffix(filename, ".yaml"))] : {}, {})
       )
+      apps: local.apps,
       filename: each.key
     }
   )
-  filename = "${var.outputDir}/${basename(dirname(each.key))}/${basename(each.key)}"
+  filename = "${var.outputDir}/${endswith(each.key, ".app.yaml") ? "app-yamls" : basename(dirname(each.key))}/${basename(each.key)}"
 }
 
 resource "local_file" "addon-file" {
@@ -44,14 +45,14 @@ resource "local_file" "addon-file" {
     (
       split("/", filename)[1] == "app-yamls" ?
       coalesce(
-        try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], null),
-        try(local.override["${split("/", filename)[0]}/app-yamls"][split("/", trimsuffix(filename, ".yaml"))[2]].enabled, null),
-        try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], false)
+        try(local.apps["app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], null),
+        try(local.apps[split("/", filename)[1]].enabled, null),
+        try(local.addons[split("/", filename)[0]]["app-yamls"]["${split("/", trimsuffix(filename, ".yaml"))[2]}Enabled"], false)
       ) :
       coalesce(
-        try(local.override["${split("/", filename)[0]}/app-yamls"]["${split("/", filename)[1]}Enabled"], null),
-        try(local.override["${split("/", filename)[0]}/app-yamls"][split("/", filename)[1]].enabled, null),
-        try(local.default[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}Enabled"], false)
+        try(local.apps["app-yamls"]["${split("/", filename)[1]}Enabled"], null),
+        try(local.apps[split("/", filename)[1]].enabled, null),
+        try(local.addons[split("/", filename)[0]]["app-yamls"]["${split("/", filename)[1]}Enabled"], false)
       )
     )
   ]) # this represents addon-name/app-name/folder-name/filename list of files filtered by enabled app-yamls
@@ -60,16 +61,13 @@ resource "local_file" "addon-file" {
 }
 
 locals {
-  default = { # load defaults for each addon, keyed by addon-name
+  addons = { # load defaults for each addon, keyed by addon-name
     for app in fileset(path.module, "*/default.yaml") :
     dirname(app) => yamldecode(templatefile(app, var.clusterConfig))
   }
-  override = { # load overrides for each app, keyed by addon-name/app-name
-    for app in distinct([for _, v in fileset(path.module, "*/*/*") : dirname(v)]) :
-    app => try(yamldecode(templatefile("${var.configPath}/${basename(app)}.yaml", merge(var.clusterConfig, { cluster: var.clusterConfig }))), {})
-  }
-  apps = {
-    for app_name, app_config in local.override : basename(app_name) => app_config
+  apps = { # load overrides for each app, keyed by app-name
+    for app in distinct([for _, v in fileset(path.module, "*/*/*") : basename(dirname(v))]) :
+    app => try(yamldecode(templatefile("${var.configPath}/${app}.yaml", merge(var.clusterConfig, { cluster: var.clusterConfig }))), {})
   }
 }
 
