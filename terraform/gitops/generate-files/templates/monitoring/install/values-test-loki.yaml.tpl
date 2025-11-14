@@ -250,7 +250,7 @@ monitoring:
   dashboards:
     enabled: false
 
-# Loki Canary
+#Loki Canary
 lokiCanary:
   enabled: true
   lokiurl: http://test-loki-gateway:80
