@@ -19,7 +19,7 @@ mkdir -p $CONFIG_PATH
 # custom-config/*.(yaml|json)
 # custom-config/xxx-*.(yaml|json) sorted by name
 
-APPS=$({find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f '; } | sort -u)
+APPS=$({ find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f '; } | sort -u)
 ENABLED_APPS=""
 
 # First pass to merge addon app configs
