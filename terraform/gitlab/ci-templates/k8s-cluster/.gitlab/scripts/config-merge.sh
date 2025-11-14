@@ -31,17 +31,21 @@ for app in $APPS; do
     echo
     echo -n $app " 🔎 "
     python3 .gitlab/scripts/dictmerge.py \
-        default-config/${app}.yaml \
-        addons/*/${app}/.config/${app}.yaml \
-        addons/*/${app}/.config/+(*-)${app}.yaml \
-        addons/*/${app}/.config/${app}.$ENV_TYPE.yaml \
-        addons/*/${app}/.config/+(*-)${app}.$ENV_TYPE.yaml \
-        profiles/**/${app}.yaml \
-        profiles/**/+(*-)${app}.yaml \
-        profiles/**/${app}.$ENV_TYPE.yaml \
-        profiles/**/+(*-)${app}.$ENV_TYPE.yaml \
-        custom-config/${app}.yaml \
-        custom-config/+(*-)${app}.yaml $CONFIG_PATH;
+        default-config/$app.yaml \
+        addons/*/$app/.config/$app.yaml \
+        addons/*/$app/.config/+(*-)$app.yaml \
+        addons/*/$app/.config/$app.$ENV_TYPE.yaml \
+        addons/*/$app/.config/+(*-)$app.$ENV_TYPE.yaml \
+        addons/*/!($app)/.config/$app.yaml \
+        addons/*/!($app)/.config/+(*-)$app.yaml \
+        addons/*/!($app)/.config/$app.$ENV_TYPE.yaml \
+        addons/*/!($app)/.config/+(*-)$app.$ENV_TYPE.yaml \
+        profiles/**/$app.yaml \
+        profiles/**/+(*-)$app.yaml \
+        profiles/**/$app.$ENV_TYPE.yaml \
+        profiles/**/+(*-)$app.$ENV_TYPE.yaml \
+        custom-config/$app.yaml \
+        custom-config/+(*-)$app.yaml $CONFIG_PATH;
 done;
 
 # Second pass to determine enabled addon apps and remove disabled app configs
