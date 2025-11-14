@@ -114,7 +114,6 @@ def load_custom_config(custom_config_file):
             print("  File type not supported:", custom_config_file)
             exit(1)
     else:
-        print("  Custom config file "+custom_config_file+" file does not exist. Assigning empty data dict")
         return {}
 
 if fileName in ( "common-stateful-resources.json" , "mojaloop-stateful-resources.json" , "mojaloop-rbac-api-resources.yaml","vnext-stateful-resources.json" ):
@@ -158,10 +157,7 @@ else:
     if not merged:
         # if output file exists, remove it
         if os.path.isfile(outputFilename):
-            print("  Merged configuration is empty, removing existing output file:", outputFilename)
             os.remove(outputFilename)
-        else:
-            print("  Merged configuration is empty, not writing to output file.")
         exit(0)
     if defaultExt == ".yaml":
         #result = yaml.dump(dict(data1), indent=4, sort_keys=True)
