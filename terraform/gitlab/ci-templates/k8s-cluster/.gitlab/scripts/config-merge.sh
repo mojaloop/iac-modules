@@ -61,7 +61,7 @@ for app in $APPS; do
 done
 
 echo ===============================================
-echo -e "Merging configuration, including enabled addon apps: $ENABLED_APPS"
+echo -e "Merging configurations default, custom, profile and enabled addon apps: $ENABLED_APPS"
 echo ===============================================
 ENABLED_APPS_FOLDERS="${ENABLED_APPS// /|}"
 ENABLED_APPS_FOLDERS="${ENABLED_APPS_FOLDERS//.yaml/}"
