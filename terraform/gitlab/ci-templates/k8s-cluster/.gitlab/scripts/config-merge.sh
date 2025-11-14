@@ -6,7 +6,7 @@ ENV_TYPE=${ENV_TYPE:-dev}
 
 mkdir -p $CONFIG_PATH
 
-# Merge app-yamls first to determine enabled addons
+# Merge app-yamls first to determine enabled addon apps
 python3 .gitlab/scripts/dictmerge.py \
     default-config/app-yamls.yaml \
     addons/*/app-yamls/.config/app-yamls.yaml \
@@ -21,12 +21,12 @@ python3 .gitlab/scripts/dictmerge.py \
     custom-config/+(*-)app-yamls.yaml $CONFIG_PATH;
 
 ENABLED_APPS=""
-for addon in $(find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f '); do
-    if [[ "$(yq eval ".${addon}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" || "$(yq eval ".${addon}.enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" ]]; then
+for app in $(find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f '); do
+    if [[ "$(yq eval ".${app}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" || "$(yq eval ".${app}.enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" ]]; then
         if [ -z "$ENABLED_APPS" ]; then
-            ENABLED_APPS="${addon}.yaml"
+            ENABLED_APPS="${app}.yaml"
         else
-            ENABLED_APPS="${ENABLED_APPS} ${addon}.yaml"
+            ENABLED_APPS="${ENABLED_APPS} ${app}.yaml"
         fi
     fi
 done

@@ -18,8 +18,7 @@ See the diagram below for the meaning of each directory and file:
 |   ├──📁 addon-name-1
 |   |   ├──📁 app-yamls              # define apps for the root app
 |   |   |   ├── 📁 .config           # app 1 configs
-|   |   |   |    ├── app-1.yaml      # argocd app config for app 1
-|   |   |   |    └── app-2.yaml      # argocd app config for app 2
+|   |   |   |    ├── app-yamls.yaml  # argocd app config for all apps
 |   |   |   ├── app-1.yaml           # ArgoCD Application definition for app-1
 |   |   |   └── app-2.yaml           # ArgoCD Application definition for app-2
 |   |   ├──📁 app-1                  # k8s resources for app-1
@@ -116,6 +115,29 @@ Addons are configured using several files:
       tag: v1.0.0   # override the image tag
   version: 1.0.0    # override the chart version
   ```
+
+## Template variables
+
+The following template variables are available for use in the addon app templates:
+
+- `app`: contains the merged configuration for the app, including
+  default values from the addon and overrides from the environment.
+  It has the following keys by default:
+  - `enabled: false`: boolean to enable or disable the app.
+  - `name: <folder-name>`: the name of the app.
+  - `namespace: <folder-name>`: the namespace where the app will be deployed.
+  - `syncWave: 0`: the sync wave for the ArgoCD app.
+- `cluster`: contains cluster-wide configuration values.
+  It has the following keys by default:
+  - `gitlabProjectUrl`: the URL of the GitLab project.
+  - `env`: the environment name (e.g., dev, staging, prod).
+  - `domain`: the base domain for the environment.
+  - `domainSuffix`: the domain suffix for the environment.
+  - `cc`: the control center name
+  - `sc`: the storage cluster name
+  - `submoduleRevisions`: a map of git submodule names to their revisions.
+- `apps`: provides access to the merged configuration of all addon apps,
+  useful for inter-app dependencies.
 
 ## Reusable addons
 
