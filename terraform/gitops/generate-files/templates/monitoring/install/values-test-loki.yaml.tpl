@@ -231,7 +231,7 @@ resultsCache:
 monitoring:
   serviceMonitor:
     enabled: true
-    interval: 15s
+    interval: ${prometheus_scrape_interval}
     relabelings:
       - sourceLabels: [namespace,job]
         separator: /
