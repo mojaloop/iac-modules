@@ -18,10 +18,10 @@ See the diagram below for the meaning of each directory and file:
 |   ├──📁 addon-name-1
 |   |   ├──📁 app-1                  # k8s resources for app-1
 |   |   |   ├── 📁 .config           # app 1 configs folder
-|   |   |   |    ├── app-1.app.yaml  # ArgoCD Application definition for app-1
 |   |   |   |    ├── app-1.yaml      # app 1 configuration
-|   |   |   |    └── other-app.yaml  # other app configuration (use with care)
+|   |   |   |    └── other-app.yaml  # other app configuration (use for dependencies)
 |   |   |   ├── 📁 app-1-folder      # app 1 misc files (no templating)
+|   |   |   ├── app-1.app.yaml       # ArgoCD Application definition for app-1
 |   |   |   ├── kustomization.yaml
 |   |   |   ├── values-default.yaml  # default values for app-1
 |   |   |   ├── values-override.yaml # template for overrides
