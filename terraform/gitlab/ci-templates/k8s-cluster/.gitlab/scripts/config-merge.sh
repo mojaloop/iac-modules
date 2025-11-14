@@ -20,7 +20,7 @@ mkdir -p $CONFIG_PATH
 # custom-config/xxx-*.(yaml|json) sorted by name
 
 APPS=$({ find addons -mindepth 2 -maxdepth 2 -type d ! -name '.*' -printf '%f '; } | sort -u)
-ENABLED_APPS=""
+ENABLED_APPS="app-yamls.yaml"
 
 # First pass to merge addon app configs
 for app in $APPS; do
@@ -41,11 +41,7 @@ done;
 # Second pass to determine enabled addon apps and remove disabled app configs
 for app in $APPS; do
     if [[ "$(yq eval ".${app}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" || "$(yq eval ".enabled // false" "$CONFIG_PATH/${app}.yaml")" == "true" ]]; then
-        if [ -z "$ENABLED_APPS" ]; then
-            ENABLED_APPS="${app}.yaml"
-        else
-            ENABLED_APPS="${ENABLED_APPS} ${app}.yaml"
-        fi
+        ENABLED_APPS="${ENABLED_APPS} ${app}.yaml"
     else
         # Remove config file for disabled apps
         rm -f "$CONFIG_PATH/${app}.yaml"
@@ -59,8 +55,6 @@ ENABLED_APPS_FOLDERS="${ENABLED_APPS_FOLDERS//.yaml/}"
 # Final pass to merge configs of enabled addon apps and other configs
 for configFile in $({ ls default-config/; ls custom-config/; echo $ENABLED_APPS; } | sort -u)
 do
-    # skip app-yamls
-    [[ "$configFile" == "app-yamls.yaml" ]] && continue
     echo
     echo -n $configFile " ➡️ "
     ENV_CONFIG=${configFile/%.yaml/.$ENV_TYPE.yaml}
