@@ -437,7 +437,7 @@ metadata:
   namespace: ${mcm_namespace}
 spec:
   match:
-    url: <http|https>://${mcm_fqdn}/api/dfsps/<?!endpoints><[^/]+>/<?!credentials><.*>
+    url: <http|https>://${mcm_fqdn}/pm4mlapi/dfsps/<?!endpoints><[^/]+>/<?!credentials><.*>
     methods:
       - GET
       - POST
