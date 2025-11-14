@@ -25,6 +25,7 @@ ENABLED_APPS="app-yamls.yaml"
 # First pass to merge addon app configs
 echo ===============================================
 echo "Analyzing addon apps"
+echo ===============================================
 
 for app in $APPS; do
     echo
@@ -45,7 +46,11 @@ done;
 
 # Second pass to determine enabled addon apps and remove disabled app configs
 for app in $APPS; do
-    if [[ "$(yq eval ".${app}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true" || "$(yq eval ".enabled // false" "$CONFIG_PATH/${app}.yaml")" == "true" ]]; then
+    if [[
+        ( -f "$CONFIG_PATH/app-yamls.yaml" && "$(yq eval ".${app}Enabled // false" "$CONFIG_PATH/app-yamls.yaml")" == "true")
+        ||
+        ( -f "$CONFIG_PATH/${app}.yaml" && "$(yq eval ".enabled // false" "$CONFIG_PATH/${app}.yaml")" == "true" )
+    ]]; then
         ENABLED_APPS="${ENABLED_APPS} ${app}.yaml"
     else
         # Remove config file for disabled apps
@@ -57,6 +62,7 @@ done
 
 echo ===============================================
 echo -e "Merging configuration, including enabled addon apps: $ENABLED_APPS"
+echo ===============================================
 ENABLED_APPS_FOLDERS="${ENABLED_APPS// /|}"
 ENABLED_APPS_FOLDERS="${ENABLED_APPS_FOLDERS//.yaml/}"
 

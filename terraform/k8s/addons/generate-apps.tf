@@ -29,7 +29,7 @@ resource "local_file" "config-file" {
         },
         try(local.addons[basename(dirname(dirname(each.key)))][basename(dirname(each.key))], {}),
         local.apps[basename(dirname(each.key))],
-        try(split("/", filename)[1] == "app-yamls" ? local.apps["app-yamls"][basename(trimsuffix(filename, ".yaml"))] : {}, {})
+        try(split("/", each.key)[1] == "app-yamls" ? local.apps["app-yamls"][basename(trimsuffix(each.key, ".yaml"))] : {}, {})
       )
       apps: local.apps,
       filename: each.key
