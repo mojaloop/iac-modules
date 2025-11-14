@@ -28,7 +28,7 @@ resource "local_file" "config-file" {
           syncWave: 0
         },
         try(local.addons[basename(dirname(dirname(each.key)))][basename(dirname(each.key))], {}),
-        try(local.apps[endswith(each.key, ".app.yaml") ? trimsuffix(basename(each.key), ".app.yaml") : basename(dirname(each.key))], {}),
+        local.apps[basename(dirname(each.key))],
         try(split("/", each.key)[1] == "app-yamls" ? local.apps["app-yamls"][basename(trimsuffix(each.key, ".yaml"))] : {}, {})
       )
       apps: local.apps,
