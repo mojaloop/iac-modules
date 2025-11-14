@@ -44,7 +44,9 @@ for app in $APPS; do
         ENABLED_APPS="${ENABLED_APPS} ${app}.yaml"
     else
         # Remove config file for disabled apps
-        rm -f "$CONFIG_PATH/${app}.yaml"
+        if [ "${app}" != "app-yamls" && -f "$CONFIG_PATH/${app}.yaml" ]; then
+            rm -f "$CONFIG_PATH/${app}.yaml"
+        fi
     fi
 done
 
