@@ -135,6 +135,7 @@ querier:
 
 # Query Frontend configuration
 queryFrontend:
+  replicas: 1
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
@@ -253,7 +254,6 @@ monitoring:
 #Loki Canary
 lokiCanary:
   enabled: true
-  lokiurl: http://test-loki-gateway:80
 
 backend:
   replicas: 0
