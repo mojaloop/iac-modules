@@ -168,7 +168,7 @@ data:
       path "pki/*" {
         capabilities = ["create", "read", "update", "delete", "list"]
       }
-      path "pki-int/*" {
+      path "pki-*" {
         capabilities = ["create", "read", "update", "delete", "list"]
       }
     EOT
