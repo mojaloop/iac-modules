@@ -4,8 +4,8 @@ loki:
   auth_enabled: false
   extraArgs:
     - -config.expand-env=true
-  query_scheduler:
-    enabled: false
+  frontend_worker:
+    scheduler_address: ""
 
   # NEW SCHEMA - tsdb/v13 with different prefix from old boltdb-shipper
   schemaConfig:
