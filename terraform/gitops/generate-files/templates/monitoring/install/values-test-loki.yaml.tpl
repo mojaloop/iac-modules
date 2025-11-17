@@ -142,7 +142,6 @@ queryFrontend:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-    - -query-frontend.scheduler-address=""
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
