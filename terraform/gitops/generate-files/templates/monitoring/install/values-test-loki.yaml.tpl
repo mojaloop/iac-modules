@@ -5,21 +5,6 @@ loki:
   extraArgs:
     - -config.expand-env=true
 
-  # Override frontend configuration to disable scheduler
-  frontend:
-    scheduler_address: ""  # Empty string to disable scheduler
-    tail_proxy_url: '{{ include "loki.querierAddress" . }}'
-  
-  # Override frontend_worker configuration to disable scheduler  
-  frontend_worker:
-    scheduler_address: "" 
-    # Tell querier to connect directly to query-frontend
-    frontend_address: '{{ include "loki.queryFrontendAddress" . }}'
-
-  querier:
-    # Disable max concurrent (allows direct connection without scheduler)
-    max_concurrent: 10
-
   # NEW SCHEMA - tsdb/v13 with different prefix from old boltdb-shipper
   schemaConfig:
     configs:
@@ -142,6 +127,10 @@ querier:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
+  # Add this section to disable scheduler connection
+  extraEnv:
+    - name: QUERY_SCHEDULER_DISCOVERY_MODE
+      value: "false"
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -155,6 +144,10 @@ queryFrontend:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
+  # Add this section to disable scheduler connection
+  extraEnv:
+    - name: QUERY_SCHEDULER_DISCOVERY_MODE
+      value: "false"
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
