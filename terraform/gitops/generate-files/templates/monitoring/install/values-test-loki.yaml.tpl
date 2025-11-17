@@ -13,6 +13,12 @@ loki:
   # Override frontend_worker configuration to disable scheduler  
   frontend_worker:
     scheduler_address: "" 
+    # Tell querier to connect directly to query-frontend
+    frontend_address: '{{ include "loki.queryFrontendAddress" . }}'
+
+  querier:
+    # Disable max concurrent (allows direct connection without scheduler)
+    max_concurrent: 10
 
   # NEW SCHEMA - tsdb/v13 with different prefix from old boltdb-shipper
   schemaConfig:
