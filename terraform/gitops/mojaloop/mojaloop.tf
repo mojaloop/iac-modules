@@ -14,6 +14,15 @@ module "generate_mojaloop_files" {
     mojaloop_hub_provisioning_sync_wave                               = var.mojaloop_hub_provisioning_sync_wave
     internal_ttk_enabled                                              = var.internal_ttk_enabled
     ttk_testcases_tag                                                 = try(var.app_var_map.ttk_testcases_tag, "")
+    ttk_testcases_path_in_zip_setup                                   = try(var.app_var_map.ttk_testcases_path_in_zip_setup, "")
+    ttk_testcases_path_in_zip_gp                                      = try(var.app_var_map.ttk_testcases_path_in_zip_gp, "")
+    ttk_testcases_path_in_zip_bulk                                    = try(var.app_var_map.ttk_testcases_path_in_zip_bulk, "")
+    ttk_testcases_path_in_zip_tp_setup                                = try(var.app_var_map.ttk_testcases_path_in_zip_tp_setup, "")
+    ttk_testcases_path_in_zip_tp_val                                  = try(var.app_var_map.ttk_testcases_path_in_zip_tp_val, "")
+    ttk_testcases_path_in_zip_sdk_bulk_setup                          = try(var.app_var_map.ttk_testcases_path_in_zip_sdk_bulk_setup, "")
+    ttk_testcases_path_in_zip_sdk_bulk_val                            = try(var.app_var_map.ttk_testcases_path_in_zip_sdk_bulk_val, "")
+    ttk_testcases_path_in_zip_sdk_r2p_val                             = try(var.app_var_map.ttk_testcases_path_in_zip_sdk_r2p_val, "")
+    ttk_testcases_path_in_zip_cleanup                                 = try(var.app_var_map.ttk_testcases_path_in_zip_cleanup, "")
     ttk_test_currency1                                                = var.app_var_map.ttk_test_currency1
     ttk_test_currency2                                                = var.app_var_map.ttk_test_currency2
     ttk_test_currency3                                                = var.app_var_map.ttk_test_currency3
