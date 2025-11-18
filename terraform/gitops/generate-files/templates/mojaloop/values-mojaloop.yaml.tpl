@@ -115,39 +115,39 @@ CONFIG:
 # %{ if ttk_testcases_tag != "" }
   TEST_CASES_CUSTOM_TAG_SETUP: &TEST_CASES_CUSTOM_TAG_SETUP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-    testCasesPathInZip: ${ttk_testcases_path_in_zip_setup != "" ? ttk_testcases_path_in_zip_setup : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_golden_path"}
+    testCasesPathInZip: "${ttk_testcases_path_in_zip_setup != "" ? ttk_testcases_path_in_zip_setup : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_golden_path"}"
 
   TEST_CASES_CUSTOM_TAG_GP: &TEST_CASES_CUSTOM_TAG_GP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-    testCasesPathInZip: ${ttk_testcases_path_in_zip_gp != "" ? ttk_testcases_path_in_zip_gp : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/golden_path"}
+    testCasesPathInZip: "${ttk_testcases_path_in_zip_gp != "" ? ttk_testcases_path_in_zip_gp : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/golden_path"}"
 
   TEST_CASES_CUSTOM_TAG_BULK: &TEST_CASES_CUSTOM_TAG_BULK
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-    testCasesPathInZip: ${ttk_testcases_path_in_zip_bulk != "" ? ttk_testcases_path_in_zip_bulk : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/other_tests/bulk_transfers"}
+    testCasesPathInZip: "${ttk_testcases_path_in_zip_bulk != "" ? ttk_testcases_path_in_zip_bulk : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/other_tests/bulk_transfers"}"
 
   TEST_CASES_CUSTOM_TAG_TP_SETUP: &TEST_CASES_CUSTOM_TAG_TP_SETUP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-    testCasesPathInZip: ${ttk_testcases_path_in_zip_tp_setup != "" ? ttk_testcases_path_in_zip_tp_setup : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_thirdparty"}
+    testCasesPathInZip: "${ttk_testcases_path_in_zip_tp_setup != "" ? ttk_testcases_path_in_zip_tp_setup : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_thirdparty"}"
 
   TEST_CASES_CUSTOM_TAG_TP_VAL: &TEST_CASES_CUSTOM_TAG_TP_VAL
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-    testCasesPathInZip: ${ttk_testcases_path_in_zip_tp_val != "" ? ttk_testcases_path_in_zip_tp_val : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/thirdparty"}
+    testCasesPathInZip: "${ttk_testcases_path_in_zip_tp_val != "" ? ttk_testcases_path_in_zip_tp_val : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/thirdparty"}"
 
   TEST_CASES_CUSTOM_TAG_SDK_BULK_SETUP: &TEST_CASES_CUSTOM_TAG_SDK_BULK_SETUP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-    testCasesPathInZip: ${ttk_testcases_path_in_zip_sdk_bulk_setup != "" ? ttk_testcases_path_in_zip_sdk_bulk_setup : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_sdk_bulk"}
+    testCasesPathInZip: "${ttk_testcases_path_in_zip_sdk_bulk_setup != "" ? ttk_testcases_path_in_zip_sdk_bulk_setup : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/provisioning/for_sdk_bulk"}"
 
   TEST_CASES_CUSTOM_TAG_SDK_BULK_VAL: &TEST_CASES_CUSTOM_TAG_SDK_BULK_VAL
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-    testCasesPathInZip: ${ttk_testcases_path_in_zip_sdk_bulk_val != "" ? ttk_testcases_path_in_zip_sdk_bulk_val : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/bulk/basic"}
+    testCasesPathInZip: "${ttk_testcases_path_in_zip_sdk_bulk_val != "" ? ttk_testcases_path_in_zip_sdk_bulk_val : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/bulk/basic"}"
 
   TEST_CASES_CUSTOM_TAG_SDK_R2P_VAL: &TEST_CASES_CUSTOM_TAG_SDK_R2P_VAL
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-    testCasesPathInZip: ${ttk_testcases_path_in_zip_sdk_r2p_val != "" ? ttk_testcases_path_in_zip_sdk_r2p_val : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/request-to-pay/basic"}
+    testCasesPathInZip: "${ttk_testcases_path_in_zip_sdk_r2p_val != "" ? ttk_testcases_path_in_zip_sdk_r2p_val : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/sdk_scheme_adapter/request-to-pay/basic"}"
 
   TEST_CASES_CUSTOM_TAG_CLEANUP: &TEST_CASES_CUSTOM_TAG_CLEANUP
     testCasesZipUrl: https://github.com/mojaloop/testing-toolkit-test-cases/archive/v${ttk_testcases_tag}.zip
-    testCasesPathInZip: ${ttk_testcases_path_in_zip_cleanup != "" ? ttk_testcases_path_in_zip_cleanup : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/cleanup"}
+    testCasesPathInZip: "${ttk_testcases_path_in_zip_cleanup != "" ? ttk_testcases_path_in_zip_cleanup : "testing-toolkit-test-cases-${ttk_testcases_tag}/collections/hub/cleanup"}"
 # %{ else }
   TEST_CASES_CUSTOM_TAG_SETUP: &TEST_CASES_CUSTOM_TAG_SETUP {}
   TEST_CASES_CUSTOM_TAG_GP: &TEST_CASES_CUSTOM_TAG_GP {}
