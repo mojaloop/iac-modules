@@ -4,10 +4,6 @@ loki:
   auth_enabled: false
   extraArgs:
     - -config.expand-env=true
-  frontend_worker:
-    scheduler_address: ""
-  frontend:
-    scheduler_address: ""
   # NEW SCHEMA - tsdb/v13 with different prefix from old boltdb-shipper
   schemaConfig:
     configs:
@@ -130,7 +126,6 @@ querier:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-    - -querier.scheduler-address=""
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
@@ -151,14 +146,17 @@ queryFrontend:
 
 # Query Scheduler configuration
 queryScheduler:
-  replicas: 0
-  extraArgs: []
-  extraEnv: []
-  extraEnvFrom: []
-  serviceLabels: {}
-  serviceAnnotations: {}
-  podLabels: {}
-  podAnnotations: {}
+  replicas: 1
+  extraEnvFrom:
+    - secretRef:
+        name: ${object_store_loki_credentials_secret_name}
+  extraArgs:
+    - -config.expand-env=true
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]
+
 
 # Compactor configuration
 compactor:
