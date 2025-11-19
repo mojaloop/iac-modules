@@ -7,6 +7,12 @@ kind: Kustomization
 #   - ./cloudwatch-exporter-config.yaml
 #   name: cloudwatch-exporter-config
 
+configMapGenerator:
+- name: alloy-config
+  files:
+  - ./alloy-config.alloy
+
+
 # resources:
 # - cloudwatch-exporter.yaml
 
