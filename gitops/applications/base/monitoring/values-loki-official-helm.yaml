@@ -86,7 +86,7 @@ global:
 # Ingester configuration
 ingester:
   replicas: ${ARGOCD_ENV_loki_ingester_replica_count}
-  maxUnavailable: 2
+  maxUnavailable: 1
   resources:
     requests:
       cpu: ${ARGOCD_ENV_loki_ingester_requests_cpu}
@@ -108,7 +108,7 @@ ingester:
 # Distributor configuration
 distributor:
   replicas: ${ARGOCD_ENV_loki_distributor_replica_count}
-  maxUnavailable: 2
+  maxUnavailable: 1
   resources:
     requests:
       cpu: ${ARGOCD_ENV_loki_distributor_requests_cpu}
@@ -139,6 +139,7 @@ querier:
 # Query Frontend configuration
 queryFrontend:
   replicas: ${ARGOCD_ENV_loki_query_frontend_replica_count}
+  maxUnavailable: 1
   resources:
     limits:
       cpu: ${ARGOCD_ENV_loki_query_frontend_limits_cpu}
@@ -151,7 +152,6 @@ queryFrontend:
 
 # Query Scheduler configuration
 queryScheduler:
-  enabled: false
   replicas: ${ARGOCD_ENV_loki_query_scheduler_replica_count}
   resources:
     limits:
