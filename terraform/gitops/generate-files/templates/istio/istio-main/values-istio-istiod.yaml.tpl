@@ -181,6 +181,8 @@ meshConfig:
         statusOnError: "500"
         pathPrefix: /decisions
         includeRequestHeadersInCheck: ["authorization", "cookie"]
+        headersToUpstreamOnAllow: ["x-user", "x-email", "x-extra"]
+
 global:
   # Used to locate istiod.
   istioNamespace: ${istio_namespace}
