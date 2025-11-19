@@ -109,6 +109,27 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
+  name: loki-v2
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasource:
+    name: Loki-v2
+    type: loki
+    access: proxy
+    url: http://test-loki-gateway.monitoring.svc.cluster.local  # TODO: update url once release name is updated
+    jsonData:
+      timeout: 60
+      httpHeaderName1: 'X-Scope-OrgID'
+    secureJsonData:
+      httpHeaderValue1: '1'
+    isDefault: false
+    editable: true
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
   name: mimir-alertmanager
 spec:
   instanceSelector:
