@@ -1,3 +1,4 @@
+# https://github.com/grafana/alloy/blob/helm-chart/1.4.0/operations/helm/charts/alloy/values.yaml
 
 alloy:
   resources:
