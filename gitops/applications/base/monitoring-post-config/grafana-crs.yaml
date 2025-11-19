@@ -118,7 +118,7 @@ spec:
     name: Loki-v2
     type: loki
     access: proxy
-    url: http://test-loki-gateway.monitoring.svc.cluster.local  # TODO: update url once release name is updated
+    url: http://loki-official-helm-gateway.monitoring.svc.cluster.local 
     jsonData:
       timeout: 60
       httpHeaderName1: 'X-Scope-OrgID'
