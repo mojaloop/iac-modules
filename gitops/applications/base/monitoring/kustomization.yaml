@@ -33,7 +33,7 @@ helmCharts:
     releaseName: loki-official-helm # TODO: update release name to 'loki' once bitnami loki is removed 
     version: 6.45.2          # TODO: use exist helm parameter and update it to this version
     repo: https://grafana.github.io/helm-charts
-    valuesFile: values-test-loki.yaml
+    valuesFile: values-loki-official-helm.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: tempo-distributed
     releaseName: central
