@@ -8,6 +8,7 @@ resources:
   - process-exporter-service-monitor.yaml
   - vault-ceph-ext-secret.yaml
   - authorization-grafana.yaml
+  - external-alloy-configmap.yaml
 helmCharts:
 - name: prometheus-operator-crds
   releaseName: prometheus-operator-crds

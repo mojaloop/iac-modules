@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: external-alloy-config
+  namespace: monitoring   # or whichever namespace Alloy is in
+data:
+  config.alloy: |
+      // Discover all Kubernetes pods
+      discovery.kubernetes "pods" {
+        role = "pod"
+      }
+      // Relabel metadata into log labels
+      discovery.relabel "pod_logs" {
+        targets = discovery.kubernetes.pods.targets
+        rule {
+          source_labels = ["__meta_kubernetes_namespace"]
+          action        = "replace"
+          target_label  = "namespace"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_name"]
+          action        = "replace"
+          target_label  = "pod"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_name"]
+          action        = "replace"
+          target_label  = "container"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+          action        = "replace"
+          target_label  = "app"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_component", "__meta_kubernetes_pod_label_component"]
+          action        = "replace"
+          target_label  = "component"
+          regex         = "^;*([^;]+)(;.*)?$"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_container_name"]
+          action        = "replace"
+          target_label  = "job"
+          separator     = "/"
+          replacement   = "$1"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_node_name"]
+          action        = "replace"
+          target_label  = "node_name"
+        }
+      }
+      // Collect container logs
+      loki.source.kubernetes "pod_logs" {
+        targets    = discovery.relabel.pod_logs.output
+        forward_to = [loki.process.pod_logs.receiver]
+      }
+      // Process logs: parse CRI format, apply rate limits, and tag cluster
+      loki.process "pod_logs" {
+        stage.cri {}
+        stage.limit {
+          rate          = 1000     // logs per second per pod
+          burst         = 5000
+          drop          = true
+          by_label_name = "pod"
+        }
+        stage.static_labels {
+          values = {
+            cluster = "eg-dev",
+          }
+        }
+        forward_to = [loki.write.central_loki.receiver]
+      }
+      // Push to Loki Gateway
+      loki.write "central_loki" {
+        endpoint {
+          url = "http://loki-official-helm-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
+        }
+      }
+
+
