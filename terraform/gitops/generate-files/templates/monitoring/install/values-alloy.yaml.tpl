@@ -74,7 +74,7 @@ alloy:
         }
         stage.static_labels {
           values = {
-            cluster = "Control-Center",
+            cluster = "control-center",
           }
         }
         forward_to = [loki.write.central_loki.receiver]
@@ -82,6 +82,6 @@ alloy:
       // Push to Loki Gateway
       loki.write "central_loki" {
         endpoint {
-          url = "http://test-loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
+          url = "http://loki-official-helm-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
         }
       }

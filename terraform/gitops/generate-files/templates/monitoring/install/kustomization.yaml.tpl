@@ -32,10 +32,10 @@ helmCharts:
   valuesFile: values-loki.yaml
   namespace: ${monitoring_namespace}
 - name: loki
-  releaseName: test-loki
-  version: 6.45.2
+  releaseName: loki-official-helm # TODO: update release name to 'loki' once bitnami loki is removed 
+  version: 6.45.2          # TODO: use exist helm parameter and update it to this version
   repo: https://grafana.github.io/helm-charts
-  valuesFile: values-test-loki.yaml
+  valuesFile: values-loki-official-helm.yaml
   namespace: ${monitoring_namespace}
 - name: opentelemetry-operator
   releaseName: opentelemetry-operator
@@ -50,7 +50,7 @@ helmCharts:
   valuesFile: values-loki-canary.yaml
   namespace: ${monitoring_namespace}
 - name: alloy
-  releaseName: test-alloy
+  releaseName: alloy
   version: 1.4.0
   repo: https://grafana.github.io/helm-charts
   valuesFile: values-alloy.yaml

@@ -1,3 +1,5 @@
+# values: https://github.com/grafana/loki/blob/helm-loki-6.45.2/production/helm/loki/values.yaml
+
 deploymentMode: Distributed
 
 loki:
@@ -38,9 +40,6 @@ loki:
   limits_config:
     retention_period: ${loki_ingester_retention_period}
     volume_enabled: true
-    reject_old_samples: true
-    reject_old_samples_max_age: 72h   
-    creation_grace_period: 10m 
 
   compactor:
     retention_enabled: true
@@ -230,19 +229,6 @@ monitoring:
   serviceMonitor:
     enabled: true
     interval: ${prometheus_scrape_interval}
-    relabelings:
-      - sourceLabels: [namespace,job]
-        separator: /
-        regex: (.*)
-        targetLabel: job
-        replacement: "$${1}"
-        action: replace
-      - sourceLabels: [job,__meta_kubernetes_endpoints_label_app_kubernetes_io_instance]
-        separator: '-'
-        regex: (.*)
-        targetLabel: job
-        replacement: "$${1}"
-        action: replace
   rules:
     enabled: false
   dashboards:
