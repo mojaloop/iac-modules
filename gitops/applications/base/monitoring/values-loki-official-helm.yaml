@@ -228,19 +228,6 @@ monitoring:
   serviceMonitor:
     enabled: true
     interval: ${ARGOCD_ENV_prometheus_scrape_interval}
-    relabelings:
-      - sourceLabels: [namespace,job]
-        separator: /
-        regex: (.*)
-        targetLabel: job
-        replacement: ${1}
-        action: replace
-      - sourceLabels: [job,__meta_kubernetes_endpoints_label_app_kubernetes_io_instance]
-        separator: '-'
-        regex: (.*)
-        targetLabel: job
-        replacement: ${1}
-        action: replace
   rules:
     enabled: false
   dashboards:
