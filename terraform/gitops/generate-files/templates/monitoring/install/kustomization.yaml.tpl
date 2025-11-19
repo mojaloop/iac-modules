@@ -51,7 +51,7 @@ helmCharts:
   namespace: ${monitoring_namespace}
 - name: alloy
   releaseName: alloy
-  version: 1.4.0
+  version: 1.0.0
   repo: https://grafana.github.io/helm-charts
   valuesFile: values-alloy.yaml
   namespace: ${monitoring_namespace}

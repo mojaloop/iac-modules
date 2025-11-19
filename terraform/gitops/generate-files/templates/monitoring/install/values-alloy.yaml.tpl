@@ -1,3 +1,5 @@
+# values: https://github.com/grafana/alloy/blob/helm-chart/1.4.0/operations/helm/charts/alloy/values.yaml
+
 alloy:
   resources:
     requests:
@@ -6,10 +8,8 @@ alloy:
     limits:
       cpu: 1000m
       memory: 1Gi
-  name: test-alloy
   configMap:
     create: true
-    name: test-alloy-config
     key: config.alloy
     content: |
       // Discover all Kubernetes pods
@@ -85,3 +85,5 @@ alloy:
           url = "http://loki-official-helm-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
         }
       }
+
+
