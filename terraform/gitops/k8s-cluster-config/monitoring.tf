@@ -52,6 +52,8 @@ module "generate_monitoring_files" {
     loki_distributor_replica_count             = try(var.common_var_map.loki_distributor_replica_count, local.loki_distributor_replica_count)
     loki_ingester_replica_count                = try(var.common_var_map.loki_ingester_replica_count, local.loki_ingester_replica_count)
     loki_querier_replica_count                 = try(var.common_var_map.loki_querier_replica_count, local.loki_querier_replica_count)
+    alloy_limits_memory                        = try(var.common_var_map.alloy_limits_memory, local.alloy_limits_memory)
+    alloy_limits_cpu                           = try(var.common_var_map.alloy_limits_cpu, local.alloy_limits_cpu)
     prometheus_scrape_interval                 = try(var.common_var_map.prometheus_scrape_interval, local.prometheus_scrape_interval)
     prometheus_rate_interval                   = try(var.common_var_map.prometheus_rate_interval, local.prometheus_rate_interval)
     prometheus_retention_period                = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
@@ -197,6 +199,8 @@ locals {
   central_observability_tenant_id     = "infitx"
   loki_canary_chart_version           = "0.14.0"
   loki_canary_repo                    = "https://grafana.github.io/helm-charts"
+  alloy_limits_memory                 = "1Gi"
+  alloy_limits_cpu                    = "1000m"
   alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"
   alertmanager_prod_alerts_enabled        = try(var.common_var_map.alertmanager_prod_alerts_enabled, false)
   alertmanager_slack_external_secret_name = local.alertmanager_prod_alerts_enabled ? "slack-prod-alert-notifications" : "slack-dev-alert-notifications"

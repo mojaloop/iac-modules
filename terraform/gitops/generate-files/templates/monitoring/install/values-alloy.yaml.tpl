@@ -6,8 +6,8 @@ alloy:
       cpu: 100m
       memory: 256Mi
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: ${alloy_limits_cpu}
+      memory: ${alloy_limits_memory}
   configMap:
     create: false
     name: alloy-config
