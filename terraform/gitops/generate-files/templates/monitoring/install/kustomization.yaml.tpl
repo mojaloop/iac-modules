@@ -1,5 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+configMapGenerator:
+- name: alloy-config
+  files:
+  - ./alloy-config.alloy
+  options:
+    disableNameSuffixHash: true
+
 resources:
     # grafana crds
   - https://raw.githubusercontent.com/grafana/grafana-operator/${grafana_crd_version_tag}/deploy/kustomize/base/crds.yaml
@@ -8,7 +16,7 @@ resources:
   - process-exporter-service-monitor.yaml
   - vault-ceph-ext-secret.yaml
   - authorization-grafana.yaml
-  - external-alloy-configmap.yaml
+
 helmCharts:
 - name: prometheus-operator-crds
   releaseName: prometheus-operator-crds

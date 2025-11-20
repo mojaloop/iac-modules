@@ -86,7 +86,7 @@ global:
 # Ingester configuration
 ingester:
   replicas: ${loki_ingester_replica_count}
-  maxUnavailable: 2
+  maxUnavailable: 1
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}

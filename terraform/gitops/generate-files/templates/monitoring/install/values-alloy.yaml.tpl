@@ -10,5 +10,5 @@ alloy:
       memory: 1Gi
   configMap:
     create: false
-    name: external-alloy-config
-    key: config.alloy
+    name: alloy-config
+    key: alloy-config.alloy
