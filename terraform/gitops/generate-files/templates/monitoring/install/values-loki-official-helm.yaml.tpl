@@ -40,7 +40,6 @@ loki:
   limits_config:
     retention_period: ${loki_ingester_retention_period}
     volume_enabled: true
-    max_query_lookback: 72h
 
   compactor:
     retention_enabled: true
