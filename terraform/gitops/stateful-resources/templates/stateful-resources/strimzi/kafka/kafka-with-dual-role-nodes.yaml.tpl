@@ -26,6 +26,8 @@ spec:
       affinity:
         ${indent(8, yamlencode(node_pool_affinity))}
 # %{ endif }
+      tolerations:
+        ${indent(8, yamlencode(tolerations))}
 ---
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
