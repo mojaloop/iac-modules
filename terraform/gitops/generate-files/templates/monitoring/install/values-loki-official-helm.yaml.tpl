@@ -160,6 +160,7 @@ queryScheduler:
 
 # Compactor configuration
 compactor:
+  replicas: 1
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
