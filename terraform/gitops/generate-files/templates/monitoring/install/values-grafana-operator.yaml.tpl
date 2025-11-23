@@ -17,5 +17,8 @@ operator:
       cpu: 20m
       memory: 100Mi
 %{if length(tolerations) > 0 ~}
-  tolerations: ${yamlencode(tolerations)}
+  tolerations:
+%{ for line in split("\n", tolerations) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
