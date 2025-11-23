@@ -23,7 +23,9 @@ alertmanager:
     runAsGroup: 65534
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
 prometheus:
   image:
@@ -70,7 +72,9 @@ prometheus:
 %{endif ~}
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
 
 

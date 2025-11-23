@@ -45,7 +45,9 @@ loki:
           insecure_skip_verify: ${object_store_insecure_skip_verify}
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
 
 metrics:
@@ -68,7 +70,9 @@ ingester:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
 compactor:
   # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
@@ -82,7 +86,9 @@ compactor:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
 distributor:
   replicaCount: ${loki_distributor_replica_count}
@@ -94,7 +100,9 @@ distributor:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
 gateway:
   nodeAffinityPreset:
@@ -103,7 +111,9 @@ gateway:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
 querier:
   replicaCount: ${loki_querier_replica_count}
@@ -115,7 +125,9 @@ querier:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
 queryFrontend:
   extraArgs: ["-config.expand-env"]

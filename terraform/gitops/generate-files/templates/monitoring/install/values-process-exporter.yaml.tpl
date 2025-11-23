@@ -6,5 +6,7 @@ groups:
     - '.+'
 %{if length(tolerations) > 0 ~}
 tolerations:
-  ${indent(2, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(2,line)}
+%{ endfor ~}
 %{endif ~}
