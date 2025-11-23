@@ -6,5 +6,7 @@ defaultArgs:
   - --metric-resolution=15s
   - --kubelet-insecure-tls
 
+%{if length(tolerations) > 0 ~}
 tolerations:
-  ${indent(4, yamlencode(tolerations))}
+  ${indent(2, yamlencode(tolerations))}
+%{endif ~}

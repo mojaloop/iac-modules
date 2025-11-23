@@ -21,8 +21,10 @@ alertmanager:
     runAsNonRoot: false
     runAsUser: 65534
     runAsGroup: 65534
+%{if length(tolerations) > 0 ~}
   tolerations:
-    ${indent(8, yamlencode(tolerations))}
+${indent(4, yamlencode(tolerations))}
+%{endif ~}
 prometheus:
   image:
     repository: prom/prometheus
@@ -66,8 +68,10 @@ prometheus:
     headers:
       X-Scope-OrgID: ${central_observability_tenant_id}
 %{endif ~}
+%{if length(tolerations) > 0 ~}
   tolerations:
-    ${indent(8, yamlencode(tolerations))}
+${indent(4, yamlencode(tolerations))}
+%{endif ~}
 
 
 operator:
@@ -94,8 +98,10 @@ operator:
     requests:
       cpu: 20m
       memory: 100Mi
+%{if length(tolerations) > 0 ~}
   tolerations:
-    ${indent(8, yamlencode(tolerations))}
+${indent(4, yamlencode(tolerations))}
+%{endif ~}
 kubelet:
   serviceMonitor:
     relabelings:
@@ -188,5 +194,7 @@ blackboxExporter:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
   tolerations:
-    ${indent(8, yamlencode(tolerations))}
+${indent(4, yamlencode(tolerations))}
+%{endif ~}

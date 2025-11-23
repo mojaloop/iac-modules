@@ -16,5 +16,7 @@ operator:
     requests:
       cpu: 20m
       memory: 100Mi
-  tolerations: |
-      ${indent(8, yamlencode(tolerations))}
+%{if length(tolerations) > 0 ~}
+  tolerations:
+${indent(4, yamlencode(tolerations))}
+%{endif ~}
