@@ -6,5 +6,5 @@ serviceMonitor:
 lokiAddress: loki-grafana-loki-gateway:80
 
 
-tolerations:
+tolerations: |
   ${indent(4, yamlencode(tolerations))}
