@@ -17,6 +17,5 @@ operator:
       cpu: 20m
       memory: 100Mi
 %{if length(tolerations) > 0 ~}
-  tolerations:
-${indent(4, tolerations)}
+  tolerations: ${yamlencode(tolerations)}
 %{endif ~}
