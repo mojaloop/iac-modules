@@ -18,5 +18,5 @@ operator:
       memory: 100Mi
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+${indent(4, tolerations)}
 %{endif ~}
