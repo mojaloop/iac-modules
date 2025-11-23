@@ -92,7 +92,7 @@ module "generate_monitoring_files" {
     central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
 
     alertmanager_fqdn = local.alertmanager_fqdn
-    tolerations       = local.common_var_map.monitoring_workload_tolerations
+    tolerations       = var.common_var_map.monitoring_workload_tolerations
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
