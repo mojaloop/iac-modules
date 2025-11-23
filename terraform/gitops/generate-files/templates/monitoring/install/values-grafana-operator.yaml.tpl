@@ -18,7 +18,7 @@ operator:
       memory: 100Mi
 %{if length(tolerations) > 0 ~}
   tolerations:
-%{ for line in split("\n", tolerations) ~}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
   ${indent(4,line)}
 %{ endfor ~}
 %{endif ~}
