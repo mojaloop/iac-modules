@@ -5,3 +5,6 @@ defaultArgs:
   - --kubelet-use-node-status-port
   - --metric-resolution=15s
   - --kubelet-insecure-tls
+
+tolerations:
+  ${indent(4, yamlencode(tolerations))}

@@ -16,3 +16,5 @@ operator:
     requests:
       cpu: 20m
       memory: 100Mi
+  tolerations:
+    ${indent(8, yamlencode(tolerations))}

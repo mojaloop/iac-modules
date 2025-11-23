@@ -43,6 +43,8 @@ loki:
         bucketnames: ${loki_bucket}
         http_config:
           insecure_skip_verify: ${object_store_insecure_skip_verify}
+  tolerations:
+    ${indent(8, yamlencode(tolerations))}
 
 metrics:
   enabled: true
@@ -62,6 +64,8 @@ ingester:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  tolerations:
+    ${indent(8, yamlencode(tolerations))}
 compactor:
   # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
   extraArgs: ["-config.expand-env"]
@@ -72,6 +76,8 @@ compactor:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  tolerations:
+    ${indent(8, yamlencode(tolerations))}
 distributor:
   replicaCount: ${loki_distributor_replica_count}
   extraArgs: ["-config.expand-env"]
@@ -80,11 +86,15 @@ distributor:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  tolerations:
+    ${indent(8, yamlencode(tolerations))}
 gateway:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  tolerations:
+    ${indent(8, yamlencode(tolerations))}
 querier:
   replicaCount: ${loki_querier_replica_count}
   extraArgs: ["-config.expand-env"]
@@ -93,6 +103,8 @@ querier:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+  tolerations:
+    ${indent(8, yamlencode(tolerations))}
 queryFrontend:
   extraArgs: ["-config.expand-env"]
   extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
