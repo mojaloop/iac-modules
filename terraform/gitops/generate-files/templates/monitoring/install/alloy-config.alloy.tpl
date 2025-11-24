@@ -72,15 +72,15 @@ stage.limit {
 
 stage.static_labels {
     values = {
-    cluster = "eg-dev",
+    cluster = "${cluster_label}",
     }
 }
 
-forward_to = [loki.write.central_loki.receiver]
+forward_to = [loki.write.local_loki.receiver]
 }
 
 // Push to Loki Gateway
-loki.write "central_loki" {
+loki.write "local_loki" {
 endpoint {
     url = "http://loki-official-helm-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
 }

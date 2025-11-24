@@ -53,7 +53,7 @@ helmCharts:
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
 - name: loki-canary
-  releaseName: control-center-loki-canary
+  releaseName: loki-canary-ext-helm
   version: ${loki_canary_chart_version}
   repo: ${loki_canary_repo}
   valuesFile: values-loki-canary.yaml
