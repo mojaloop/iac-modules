@@ -35,6 +35,10 @@ module "generate_pm4ml_files" {
     vault_pki_mount                                 = var.vault_root_ca_name
     vault_pki_client_role                           = var.pki_client_cert_role
     vault_pki_server_role                           = var.pki_server_cert_role
+    vault_pki_server_cert_ttl                       = var.pki_server_cert_ttl
+    vault_pki_server_cert_max_ttl                   = var.pki_server_cert_max_ttl
+    vault_pki_client_cert_ttl                       = var.pki_client_cert_ttl
+    vault_pki_client_cert_max_ttl                   = var.pki_client_cert_max_ttl
     vault_endpoint                                  = "http://vault-active.${var.vault_namespace}.svc.cluster.local:8200"
     pm4ml_vault_k8s_role_name                       = "${var.pm4ml_vault_k8s_role_name}-${each.key}"
     k8s_auth_path                                   = var.k8s_auth_path
