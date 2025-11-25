@@ -25,6 +25,12 @@ helmCharts:
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesFile: values-mimir.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
+  - name: mimir-distributed
+    releaseName: central-official-helm-monitoring
+    version: mimir-distributed-6.0.3
+    repo: https://grafana.github.io/helm-charts
+    valuesFile: values-mimir-official-helm.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: kube-prometheus
     releaseName: prom
     version: ${ARGOCD_ENV_kube_prometheus_helm_version}
