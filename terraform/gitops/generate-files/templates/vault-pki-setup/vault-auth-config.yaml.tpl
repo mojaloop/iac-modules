@@ -43,8 +43,8 @@ spec:
   path: ${vault_root_ca_name}
   allowedDomains:
    - ${trimsuffix(public_subdomain, ".")}
-  maxTTL: "2160h"
-  TTL: "2160h"
+  maxTTL: "${pki_server_cert_max_ttl}"
+  TTL: "${pki_server_cert_ttl}"
   allowSubdomains: true
   allowGlobDomains: false
   allowAnyName: false
@@ -72,8 +72,8 @@ spec:
   path: ${vault_root_ca_name}
   allowedDomains:
    - ${trimsuffix(public_subdomain, ".")}
-  maxTTL: "2160h"
-  TTL: "2160h"
+  maxTTL: "${pki_client_cert_max_ttl}"
+  TTL: "${pki_client_cert_ttl}"
   allowSubdomains: true
   allowGlobDomains: false
   allowBareDomains: true
