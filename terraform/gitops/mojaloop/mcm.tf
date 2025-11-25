@@ -75,10 +75,6 @@ module "generate_mcm_files" {
     mcm_service_account_name                 = var.mcm_service_account_name
     pki_client_role                          = var.pki_client_cert_role
     pki_server_role                          = var.pki_server_cert_role
-    pki_server_cert_ttl                      = var.pki_server_cert_ttl
-    pki_server_cert_max_ttl                  = var.pki_server_cert_max_ttl
-    pki_client_cert_ttl                      = var.pki_client_cert_ttl
-    pki_client_cert_max_ttl                  = var.pki_client_cert_max_ttl
     mcm_vault_k8s_role_name                  = var.mcm_vault_k8s_role_name
     k8s_auth_path                            = var.k8s_auth_path
     mcm_secret_path                          = local.mcm_secret_path

@@ -12,10 +12,10 @@ module "generate_vault_pki_setup_files" {
     vault_root_ca_name                    = var.vault_root_ca_name
     pki_server_cert_role                  = var.pki_server_cert_role
     pki_client_cert_role                  = var.pki_client_cert_role
-    pki_server_cert_ttl                   = var.pki_server_cert_ttl
-    pki_server_cert_max_ttl               = var.pki_server_cert_max_ttl
-    pki_client_cert_ttl                   = var.pki_client_cert_ttl
-    pki_client_cert_max_ttl               = var.pki_client_cert_max_ttl
+    pki_server_cert_ttl                   = try(var.app_var_map.pki_server_cert_ttl, "2160h")
+    pki_server_cert_max_ttl               = try(var.app_var_map.pki_server_cert_max_ttl, "2160h")
+    pki_client_cert_ttl                   = try(var.app_var_map.pki_client_cert_ttl, "2160h")
+    pki_client_cert_max_ttl               = try(var.app_var_map.pki_client_cert_max_ttl, "2160h")
     k8s_auth_path                         = var.k8s_auth_path
     vault_endpoint                        = "http://vault-active.${var.vault_namespace}.svc.cluster.local:8200"
     vault_pki_sync_wave                   = var.vault_pki_sync_wave
@@ -65,30 +65,6 @@ variable "pki_client_cert_role" {
 variable "pki_server_cert_role" {
   description = "pki_server_cert_role"
   default     = "server-cert-role"
-}
-
-variable "pki_server_cert_ttl" {
-  description = "TTL for server certificate"
-  type        = string
-  default     = "2160h"
-}
-
-variable "pki_server_cert_max_ttl" {
-  description = "Max TTL for server certificate"
-  type        = string
-  default     = "2160h"
-}
-
-variable "pki_client_cert_ttl" {
-  description = "TTL for client certificate"
-  type        = string
-  default     = "2160h"
-}
-
-variable "pki_client_cert_max_ttl" {
-  description = "Max TTL for client certificate"
-  type        = string
-  default     = "2160h"
 }
 
 variable "k8s_auth_path" {
