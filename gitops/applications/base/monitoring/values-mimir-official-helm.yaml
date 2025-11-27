@@ -204,9 +204,7 @@ rollout_operator:
 global:
   dnsService: "external-dns" 
   dnsNamespace: "ext-dns"
-  extraEnvFrom:
-    - secretRef:
-        name: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+
 
 # Runtime configuration for memberlist (gossip ring)
 runtimeConfig: {}
