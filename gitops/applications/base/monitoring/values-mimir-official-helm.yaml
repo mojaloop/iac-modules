@@ -42,15 +42,15 @@ mimir:
           http:
             insecure_skip_verify: ${ARGOCD_ENV_object_store_insecure_skip_verify}
     blocks_storage:
-      storage_prefix: grafana-chart  # Separate from Bitnami deployment
+      storage_prefix: grafanachart  # Separate from Bitnami deployment
     
     # Alertmanager storage with prefix
     alertmanager_storage:
-      storage_prefix: grafana-chart/alertmanager
+      storage_prefix: grafanachart/alertmanager
     
     # Ruler storage with prefix
     ruler_storage:
-      storage_prefix: grafana-chart/ruler
+      storage_prefix: grafanachart/ruler
     
     # Memberlist configuration (gossip ring)
     memberlist:
