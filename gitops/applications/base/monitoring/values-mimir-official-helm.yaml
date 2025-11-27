@@ -45,11 +45,11 @@ mimir:
     
     # Alertmanager storage with prefix
     alertmanager_storage:
-      storage_prefix: grafanachart/alertmanager
+      storage_prefix: grafanachartalertmanager
     
     # Ruler storage with prefix
     ruler_storage:
-      storage_prefix: grafanachart/ruler
+      storage_prefix: grafanachartruler
     
     # Memberlist configuration (gossip ring)
     memberlist:
