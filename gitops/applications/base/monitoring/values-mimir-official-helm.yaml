@@ -18,6 +18,7 @@ mimir:
       tsdb:
         block_ranges_period:
           - 1h
+      storage_prefix: grafanachart  # Separate from Bitnami deployment
     compactor:
       deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
     ruler:
