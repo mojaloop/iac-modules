@@ -199,7 +199,6 @@ global:
   dnsService: "external-dns" 
   dnsNamespace: "ext-dns"
 
-
 # Runtime configuration for memberlist (gossip ring)
 runtimeConfig: {}
 
