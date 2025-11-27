@@ -198,7 +198,7 @@ metadata-cache:
 results-cache:
   enabled: true
 
-rollout-operator:
+rollout_operator:
   enabled: false
 
 # Global settings
