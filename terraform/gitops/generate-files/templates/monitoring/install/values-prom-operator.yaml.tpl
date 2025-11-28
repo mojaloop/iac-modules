@@ -168,6 +168,15 @@ kube-state-metrics:
     registry: registry.k8s.io
     repository: kube-state-metrics/kube-state-metrics
     tag: v2.10.1
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
   serviceMonitor:
     relabelings:
     # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
