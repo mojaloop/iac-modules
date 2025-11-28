@@ -31,6 +31,12 @@ spec:
                   - key: 'workload-class.mojaloop.io/MONITORING'
                     operator: In
                     values: ['enabled']
+%{if length(tolerations) > 0 ~}
+          tolerations:
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(8,line)}
+%{ endfor ~}
+%{endif ~}
   config:
     unified_alerting:
       enabled: "true"
