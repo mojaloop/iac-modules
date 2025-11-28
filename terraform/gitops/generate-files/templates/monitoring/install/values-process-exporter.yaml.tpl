@@ -6,7 +6,10 @@ groups:
     - '.+'
 %{if length(tolerations) > 0 ~}
 tolerations:
-%{ for line in split("\n", yamlencode(tolerations)) ~}
-  ${indent(2,line)}
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
 %{ endfor ~}
 %{endif ~}

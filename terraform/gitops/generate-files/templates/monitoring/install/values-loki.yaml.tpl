@@ -45,8 +45,11 @@ loki:
           insecure_skip_verify: ${object_store_insecure_skip_verify}
 %{if length(tolerations) > 0 ~}
   tolerations:
-%{ for line in split("\n", yamlencode(tolerations)) ~}
-  ${indent(4,line)}
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
 %{ endfor ~}
 %{endif ~}
 
@@ -70,8 +73,11 @@ ingester:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-%{ for line in split("\n", yamlencode(tolerations)) ~}
-  ${indent(4,line)}
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
 %{ endfor ~}
 %{endif ~}
 compactor:
@@ -86,8 +92,11 @@ compactor:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-%{ for line in split("\n", yamlencode(tolerations)) ~}
-  ${indent(4,line)}
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
 %{ endfor ~}
 %{endif ~}
 distributor:
@@ -100,8 +109,11 @@ distributor:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-%{ for line in split("\n", yamlencode(tolerations)) ~}
-  ${indent(4,line)}
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
 %{ endfor ~}
 %{endif ~}
 gateway:
@@ -111,8 +123,11 @@ gateway:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-%{ for line in split("\n", yamlencode(tolerations)) ~}
-  ${indent(4,line)}
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
 %{ endfor ~}
 %{endif ~}
 querier:
@@ -125,8 +140,11 @@ querier:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-%{ for line in split("\n", yamlencode(tolerations)) ~}
-  ${indent(4,line)}
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
 %{ endfor ~}
 %{endif ~}
 queryFrontend:
@@ -136,6 +154,15 @@ queryFrontend:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 queryScheduler:
   enabled: ${loki_query_scheduler_enabled}
   extraArgs: ["-config.expand-env"]
@@ -144,6 +171,15 @@ queryScheduler:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 memcachedchunks:
   metrics:
@@ -166,21 +202,57 @@ memcachedchunks:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 memcachedfrontend:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 memcachedindexqueries:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 memcachedindexwrites:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 
 
