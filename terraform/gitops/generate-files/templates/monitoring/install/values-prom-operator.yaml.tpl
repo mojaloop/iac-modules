@@ -104,7 +104,9 @@ operator:
       memory: 100Mi
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
 kubelet:
   serviceMonitor:
@@ -200,5 +202,7 @@ blackboxExporter:
     values: ["enabled"]
 %{if length(tolerations) > 0 ~}
   tolerations:
-${indent(4, yamlencode(tolerations))}
+%{ for line in split("\n", yamlencode(tolerations)) ~}
+  ${indent(4,line)}
+%{ endfor ~}
 %{endif ~}
