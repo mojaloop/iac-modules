@@ -34,7 +34,7 @@ spec:
 %{if length(tolerations) > 0 ~}
           tolerations:
 %{ for line in split("\n", yamlencode(tolerations)) ~}
-  ${indent(8,line)}
+  ${indent(16,line)}
 %{ endfor ~}
 %{endif ~}
   config:
