@@ -181,6 +181,9 @@ gateway:
 # Memcached configuration
 chunks-cache:
   enabled: true
+  resources:
+    requests:
+      memory: 256Mi
 
 index-cache:
   enabled: true
