@@ -174,9 +174,7 @@ alertmanager:
 
 gateway:
   enabled: true
-  replicas: 1
-  ingress:
-    enabled: false
+#  replicas: 1
 
 # Memcached configuration
 chunks-cache:
