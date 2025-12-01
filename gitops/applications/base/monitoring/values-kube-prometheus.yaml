@@ -59,7 +59,12 @@ prometheus:
         X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
       metadataConfig:
         sendInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
-
+    - name: central-official-helm-monitoring
+      url: http://central-official-helm-monitoring-mimir-gateway/api/v1/push
+      headers:
+        X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
+      metadataConfig:
+        sendInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
 
 kubelet:
   serviceMonitor:
