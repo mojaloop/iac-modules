@@ -181,13 +181,9 @@ gateway:
 # Memcached configuration
 chunks-cache:
   enabled: true
-  extraArgs:
-    - -I 32m
 
 index-cache:
   enabled: true
-  extraArgs:
-    - -I 32m
 
 metadata-cache:
   enabled: true
