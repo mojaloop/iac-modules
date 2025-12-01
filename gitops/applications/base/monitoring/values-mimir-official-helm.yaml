@@ -173,8 +173,7 @@ alertmanager:
     enabled: false  
 
 gateway:
-  enabled: true
-#  replicas: 1
+  enabledNonEnterprise: true
 
 # Memcached configuration
 chunks-cache:
