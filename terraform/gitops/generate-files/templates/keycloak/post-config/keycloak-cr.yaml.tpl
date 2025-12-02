@@ -91,9 +91,9 @@ spec:
                 scheme: HTTPS
               initialDelaySeconds: 20
               timeoutSeconds: 1
-              periodSeconds: 2
+              periodSeconds: 5
               successThreshold: 1
-              failureThreshold: 300
+              failureThreshold: 360
             volumeMounts:
               - mountPath: /tmp/ca
                 name: ca-bundle-volume
