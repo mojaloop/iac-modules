@@ -32,7 +32,7 @@ locals {
 variable "external_dns_chart_repo" {
   type        = string
   description = "external_dns_chart_repo"
-  default     = "https://charts.bitnami.com/bitnami"
+  default     = "https://kubernetes-sigs.github.io/external-dns/"
 }
 
 variable "external_dns_namespace" {
