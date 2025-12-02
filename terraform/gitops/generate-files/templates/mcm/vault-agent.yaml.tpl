@@ -33,6 +33,7 @@ metadata:
 rules:
 - apiGroups: [""]
   resources: ["secrets"]
+  resourceNames: ["switch-jws"]
   verbs: ["patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
