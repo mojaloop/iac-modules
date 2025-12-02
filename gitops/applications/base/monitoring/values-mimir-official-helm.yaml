@@ -16,11 +16,11 @@ mimir:
       tsdb:
         block_ranges_period:
           - 1h
-      storage_prefix: grafanachart  # Separate from Bitnami deployment
+#      storage_prefix: grafanachart  # Separate from Bitnami deployment
     compactor:
       deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
     ruler:
-      alertmanager_url: http://central-official-helm-monitoring-grafana-mimir-gateway/alertmanager
+      alertmanager_url: http://central-monitoring-grafana-mimir-gateway/alertmanager
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}
@@ -43,11 +43,11 @@ mimir:
     
     # Alertmanager storage with prefix
     alertmanager_storage:
-      storage_prefix: grafanachartalertmanager
+      storage_prefix: alertmanager
     
     # Ruler storage with prefix
     ruler_storage:
-      storage_prefix: grafanachartruler
+      storage_prefix: ruler
     
     # Memberlist configuration (gossip ring)
     memberlist:
