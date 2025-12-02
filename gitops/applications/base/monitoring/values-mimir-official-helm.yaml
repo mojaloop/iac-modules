@@ -5,9 +5,8 @@ minio:
 
 mimir:
   structuredConfig:
-    distributor:
-      ingest_storage:
-        enabled: true
+    ingest_storage:
+      enabled: true
     ingester:
       ring:
         replication_factor: ${ARGOCD_ENV_mimir_ingester_replication_factor}
