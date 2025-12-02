@@ -28,6 +28,30 @@ roleRef:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
+  namespace: ${mojaloop_namespace}
+  name: secret-patch-role
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mcm-secret-patch-binding
+  namespace: ${mojaloop_namespace}
+subjects:
+- kind: ServiceAccount
+  name: ${mcm_service_account_name}
+  namespace: ${mcm_namespace}
+roleRef:
+  kind: Role
+  name: secret-patch-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
   name: create-update-istio-crs
   namespace: ${mojaloop_namespace}
 rules:
