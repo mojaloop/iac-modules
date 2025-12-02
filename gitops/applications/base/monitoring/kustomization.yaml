@@ -26,7 +26,7 @@ helmCharts:
 #    valuesFile: values-mimir.yaml
 #    namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: mimir-distributed
-    releaseName: central-monitoring
+    releaseName: central-monitoring-grafana
     version: 5.5.0
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-mimir-official-helm.yaml
