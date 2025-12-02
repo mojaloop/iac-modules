@@ -1,11 +1,11 @@
 minio:
   enabled: false
 
-image:
-  registry: docker.io
-  repository: grafana/mimir
-  tag: 2.13.0
-  pullPolicy: IfNotPresent
+# image:
+#   registry: docker.io
+#   repository: grafana/mimir
+#   tag: 2.13.0
+#   pullPolicy: IfNotPresent
 
 mimir:
   structuredConfig:
