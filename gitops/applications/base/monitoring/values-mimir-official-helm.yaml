@@ -1,14 +1,12 @@
+#values: https://github.com/grafana/mimir/blob/mimir-distributed-6.0.3/operations/helm/charts/mimir-distributed/values.yaml
+
 minio:
   enabled: false
 
-# image:
-#   registry: docker.io
-#   repository: grafana/mimir
-#   tag: 2.13.0
-#   pullPolicy: IfNotPresent
-
 mimir:
   structuredConfig:
+    distributor:
+      prefer_ingester_push_to_storage: true
     ingester:
       ring:
         replication_factor: ${ARGOCD_ENV_mimir_ingester_replication_factor}
@@ -16,7 +14,6 @@ mimir:
       tsdb:
         block_ranges_period:
           - 1h
-#      storage_prefix: grafanachart  # Separate from Bitnami deployment
     compactor:
       deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
     ruler:
@@ -41,11 +38,9 @@ mimir:
           http:
             insecure_skip_verify: ${ARGOCD_ENV_object_store_insecure_skip_verify}
     
-    # Alertmanager storage with prefix
     alertmanager_storage:
       storage_prefix: alertmanager
     
-    # Ruler storage with prefix
     ruler_storage:
       storage_prefix: ruler
     

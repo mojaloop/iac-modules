@@ -19,12 +19,6 @@ configMapGenerator:
 # - cloudwatch-exporter.yaml
 
 helmCharts:
-#  - name: grafana-mimir
-#    releaseName: central-monitoring
-#    version: ${ARGOCD_ENV_grafana_mimir_helm_version}
-#    repo: oci://registry-1.docker.io/bitnamicharts
-#    valuesFile: values-mimir.yaml
-#    namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: mimir-distributed
     releaseName: central-monitoring-grafana
     version: 6.0.3
