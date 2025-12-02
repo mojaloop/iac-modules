@@ -1,5 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+configMapGenerator:
+- name: alloy-config
+  files:
+  - ./alloy-config.alloy
+  options:
+    disableNameSuffixHash: true
+
 resources:
     # grafana crds
   - https://raw.githubusercontent.com/grafana/grafana-operator/${grafana_crd_version_tag}/deploy/kustomize/base/crds.yaml
@@ -8,6 +16,7 @@ resources:
   - process-exporter-service-monitor.yaml
   - vault-ceph-ext-secret.yaml
   - authorization-grafana.yaml
+
 helmCharts:
 - name: prometheus-operator-crds
   releaseName: prometheus-operator-crds
@@ -31,6 +40,12 @@ helmCharts:
   repo: ${loki_repo}
   valuesFile: values-loki.yaml
   namespace: ${monitoring_namespace}
+- name: loki
+  releaseName: loki-official-helm # TODO: update release name to 'loki' once bitnami loki is removed 
+  version: 6.45.2          # TODO: use exist helm parameter and update it to this version
+  repo: https://grafana.github.io/helm-charts
+  valuesFile: values-loki-official-helm.yaml
+  namespace: ${monitoring_namespace}
 - name: opentelemetry-operator
   releaseName: opentelemetry-operator
   version: ${opentelemetry_chart_version}
@@ -38,10 +53,16 @@ helmCharts:
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
 - name: loki-canary
-  releaseName: loki-canary
+  releaseName: loki-canary-ext-helm
   version: ${loki_canary_chart_version}
   repo: ${loki_canary_repo}
   valuesFile: values-loki-canary.yaml
+  namespace: ${monitoring_namespace}
+- name: alloy
+  releaseName: alloy
+  version: 1.4.0
+  repo: https://grafana.github.io/helm-charts
+  valuesFile: values-alloy.yaml
   namespace: ${monitoring_namespace}
 
 %{if process_exporter_enabled ~}
