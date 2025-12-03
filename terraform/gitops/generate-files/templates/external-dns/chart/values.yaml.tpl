@@ -1,5 +1,5 @@
 external-dns:
-  %{ if dns_provider == "aws" ~}
+# %{ if dns_provider == "aws" }
   provider:
     name: aws
   env:
@@ -15,8 +15,8 @@ external-dns:
     - name: cloud-credentials
       mountPath: /etc/${dns_provider}/
       readOnly: true
-  %{ endif ~}
-  %{ if dns_provider == "cloudflare" ~}
+# %{ endif }
+# %{ if dns_provider == "cloudflare" }
   provider:
     name: cloudflare
   env:
@@ -30,7 +30,7 @@ external-dns:
         secretKeyRef:
           name: ${external_dns_credentials_secret}
           key: email
-  %{ endif ~}
+# %{ endif }
   domainFilters:
     - ${public_subdomain}
     - ${private_subdomain}
