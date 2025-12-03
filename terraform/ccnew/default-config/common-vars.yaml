@@ -171,7 +171,7 @@ vault_pvc_size: 15Gi
 kube_prometheus_helm_version: "9.5.10"
 grafana_mimir_helm_version: "1.2.10"
 grafana_public_access: false
-grafana_crd_version_tag: "5.10.0"
+grafana_crd_version_tag: "5.20.0"
 prometheus_crd_version: "13.0.2"
 prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: "4.4.12"
