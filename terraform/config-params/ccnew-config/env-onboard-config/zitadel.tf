@@ -233,10 +233,86 @@ resource "vault_kv_secret_v2" "env_argocd_oidc_client_secret" {
   )
 }
 
+resource "zitadel_application_oidc" "addons" {
+  project_id                  = zitadel_project.env.id
+  org_id                      = local.org_id
+  name                        = "${var.env_name}-addons"
+  redirect_uris               = ["https://*.${var.addons_domain}/**/*"]
+  response_types              = ["OIDC_RESPONSE_TYPE_CODE"]
+  grant_types                 = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE", "OIDC_GRANT_TYPE_REFRESH_TOKEN"]
+  post_logout_redirect_uris   = ["https://*.${var.addons_domain}/**/*"]
+  app_type                    = "OIDC_APP_TYPE_WEB"
+  auth_method_type            = "OIDC_AUTH_METHOD_TYPE_BASIC"
+  version                     = "OIDC_VERSION_1_0"
+  dev_mode                    = true
+  access_token_type           = "OIDC_TOKEN_TYPE_BEARER"
+  access_token_role_assertion = true
+  id_token_role_assertion     = true
+  id_token_userinfo_assertion = true
+}
+
+resource "vault_kv_secret_v2" "env_addons_oidc_client_id" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/addons_oidc_client_id"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = zitadel_application_oidc.addons.client_id
+    }
+  )
+}
+
+resource "vault_kv_secret_v2" "env_addons_oidc_client_secret" {
+  mount               = var.kv_path
+  name                = "${var.env_name}/addons_oidc_client_secret"
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      value = zitadel_application_oidc.addons.client_secret
+    }
+  )
+}
+
+resource "zitadel_project_role" "addons_admins_role" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = "addons-administrators"
+  display_name = "Addons Admins"
+}
+
+resource "gitlab_project_variable" "addons_admin_rbac_group" {
+  project   = data.gitlab_project.env.id
+  key       = "addons_admin_rbac_group"
+  value     = "addons-administrators"
+  protected = false
+  masked    = false
+}
+
+resource "zitadel_project_role" "addons_users_role" {
+  project_id   = zitadel_project.env.id
+  org_id       = local.org_id
+  role_key     = "addons-users"
+  display_name = "Addons Users"
+}
+
+resource "gitlab_project_variable" "addons_user_rbac_group" {
+  project   = data.gitlab_project.env.id
+  key       = "addons_user_rbac_group"
+  value     = "addons-users"
+  protected = false
+  masked    = false
+}
+
 resource "zitadel_user_grant" "zitadel_env_admin_grant" {
   project_id = zitadel_project.env.id
   org_id     = local.org_id
-  role_keys  = [zitadel_project_role.argocd_admins_role.role_key, zitadel_project_role.vault_admins_role.role_key, zitadel_project_role.grafana_admins_role.role_key, zitadel_project_role.k8s_techops_admin.role_key]
+  role_keys  = [
+    zitadel_project_role.argocd_admins_role.role_key,
+    zitadel_project_role.vault_admins_role.role_key,
+    zitadel_project_role.grafana_admins_role.role_key,
+    zitadel_project_role.k8s_techops_admin.role_key,
+    zitadel_project_role.addons_admins_role.role_key
+  ]
   user_id    = var.zitadel_admin_human_user_id
 }
 
