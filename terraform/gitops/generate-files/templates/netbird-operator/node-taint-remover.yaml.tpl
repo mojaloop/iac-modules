@@ -36,7 +36,7 @@ spec:
                 READY=$(kubectl get pod -n $NETBIRD_NAMESPACE -l app.kubernetes.io/name=kubernetes-operator -o json | \
                   jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
                 if [ "$READY" = "yes" ]; then
-                  kubectl taint node "$NODE_NAME" netbird/ready:NoSchedule-
+                  kubectl taint node "$NODE_NAME" netbird/ready:NoSchedule- || true
                 else
                   kubectl taint node "$NODE_NAME" netbird/ready=false:NoSchedule --overwrite
                 fi
