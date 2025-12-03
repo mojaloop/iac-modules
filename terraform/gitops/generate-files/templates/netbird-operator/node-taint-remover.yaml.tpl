@@ -28,9 +28,6 @@ spec:
           command:
             - /bin/sh
             - -c
-            mmand:
-            - /bin/sh
-            - -c
             - |
               while true; do
                 READY=$(kubectl get pod -n $NETBIRD_NAMESPACE -l app.kubernetes.io/name=kubernetes-operator -o json | \
