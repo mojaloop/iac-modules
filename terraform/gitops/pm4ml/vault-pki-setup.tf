@@ -11,10 +11,10 @@ module "generate_vault_pki_setup_files" {
     vault_root_ca_name                    = var.vault_root_ca_name
     pki_server_cert_role                  = var.pki_server_cert_role
     pki_client_cert_role                  = var.pki_client_cert_role
-    pki_server_cert_ttl                   = try(var.app_var_map.pki_server_cert_ttl, "2160h")
-    pki_server_cert_max_ttl               = try(var.app_var_map.pki_server_cert_max_ttl, "2160h")
-    pki_client_cert_ttl                   = try(var.app_var_map.pki_client_cert_ttl, "2160h")
-    pki_client_cert_max_ttl               = try(var.app_var_map.pki_client_cert_max_ttl, "2160h")
+    pki_server_cert_ttl                   = try(var.root_var_map.pki_server_cert_ttl, "2160h")
+    pki_server_cert_max_ttl               = try(var.root_var_map.pki_server_cert_max_ttl, "2160h")
+    pki_client_cert_ttl                   = try(var.root_var_map.pki_client_cert_ttl, "2160h")
+    pki_client_cert_max_ttl               = try(var.root_var_map.pki_client_cert_max_ttl, "2160h")
     k8s_auth_path                         = var.k8s_auth_path
     vault_endpoint                        = "http://vault-active.${var.vault_namespace}.svc.cluster.local:8200"
     vault_pki_sync_wave                   = var.vault_pki_sync_wave

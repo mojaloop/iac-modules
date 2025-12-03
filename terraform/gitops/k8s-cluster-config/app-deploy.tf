@@ -129,6 +129,7 @@ module "pm4ml" {
   oathkeeper_auth_provider_name            = local.oathkeeper_auth_provider_name
   vault_root_ca_name                       = "pki-${var.cluster_name}"
   app_var_map                              = local.pm4ml_var_map
+  root_var_map                             = var.app_var_map
   cluster                                  = local.cluster
   bof_release_name                         = local.bof_release_name
   role_assign_svc_user                     = var.role_assign_svc_user
