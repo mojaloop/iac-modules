@@ -290,7 +290,7 @@ sentinel:
   ## @param sentinel.enabled Enable Redis Sentinel for high availability
   ## IMPORTANT: When enabled, applications should use Sentinel-aware clients to discover the current master
   ## When disabled, pod-0 is the master and can be accessed via the -master service
-  enabled: false
+  enabled: true
   ## @param sentinel.image.repository Redis Sentinel image repository
   image:
     repository: redis
