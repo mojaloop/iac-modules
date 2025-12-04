@@ -30,12 +30,14 @@ spec:
             - -c
             - |
               while true; do
-                READY=$(kubectl get pod -n $NETBIRD_NAMESPACE -l app.kubernetes.io/name=kubernetes-operator -o json | \
-                  jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
-                if [ "$READY" = "yes" ]; then
-                  kubectl taint node "$NODE_NAME" netbird/ready:NoSchedule- || true
+                NETBIRD_READY=$(kubectl get pod -n $NETBIRD_NAMESPACE -l app.kubernetes.io/name=kubernetes-operator -o json | \
+                    jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
+                WAYPOINT_READY=$(kubectl get pod -n istio-system -l gateway.networking.k8s.io/gateway-name=nb-egress-waypoint -o json | \
+                    jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
+                if [ "$NETBIRD_READY" = "yes" ] && [ "$WAYPOINT_READY" = "yes" ]; then
+                    kubectl taint node "$NODE_NAME" netbird/ready:NoSchedule-
                 else
-                  kubectl taint node "$NODE_NAME" netbird/ready=false:NoSchedule --overwrite
+                    kubectl taint node "$NODE_NAME" netbird/ready=false:NoSchedule --overwrite
                 fi
                 sleep 10
               done
