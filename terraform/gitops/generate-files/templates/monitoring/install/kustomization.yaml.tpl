@@ -30,8 +30,8 @@ helmCharts:
   namespace: ${monitoring_namespace}
 - name: grafana-operator
   releaseName: grafana
-  version: ${grafana_operator_version}
-  repo: ${grafana_operator_repo}
+  version: v5.20.0
+  repo: oci://ghcr.io/grafana/helm-charts/
   valuesFile: values-grafana-operator.yaml
   namespace: ${monitoring_namespace}
 - name: grafana-loki
