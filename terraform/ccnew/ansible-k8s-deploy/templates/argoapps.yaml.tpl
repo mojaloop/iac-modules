@@ -429,6 +429,10 @@ argocd_override:
           # redis
           redis_cluster_size: "${gitlab_redis_cluster_size}"
           redis_storage_size: "${gitlab_redis_storage_size}"
+          redis_cpu_limit: "${gitlab_redis_cpu_limit}"
+          redis_cpu_request: "${gitlab_redis_cpu_request}"
+          redis_memory_limit: "${gitlab_redis_memory_limit}"
+          redis_memory_request: "${gitlab_redis_memory_request}"
           rdbms_provider: "${gitlab_postgres_rdbms_provider}"
         webdb_percona_provider:
           postgres_replicas: "${gitlab_perc_postgres_replicas}"

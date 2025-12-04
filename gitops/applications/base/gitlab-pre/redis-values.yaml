@@ -162,10 +162,11 @@ persistentVolumeClaimRetentionPolicy:
 ## @param resources Resource limits and requests for Redis pod
 resources:
   limits:
-    memory: 128Mi
+    cpu: ${ARGOCD_ENV_redis_cpu_limit}
+    memory: ${ARGOCD_ENV_redis_memory_limit}
   requests:
-    cpu: 50m
-    memory: 128Mi
+    cpu: ${ARGOCD_ENV_redis_cpu_request}
+    memory: ${ARGOCD_ENV_redis_memory_request}
 
 ## @param nodeSelector Node selector for pod assignment
 nodeSelector: {}
