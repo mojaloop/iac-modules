@@ -20,7 +20,7 @@ mojaloop_enabled: true
 pm4ml_enabled: false
 proxy_pm4ml_enabled: false
 vnext_enabled: false
-grafana_crd_version_tag: v5.6.0
+grafana_crd_version_tag: v5.20.0
 opentelemetry_chart_version: 0.95.0
 opentelemetry_enabled: false
 opentelemetry_namespace_filtering_enable: false
