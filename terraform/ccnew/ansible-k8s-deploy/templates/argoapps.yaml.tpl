@@ -36,6 +36,8 @@ argocd_override:
           helm_version: "${reflector_helm_version}"
         reloader:
           helm_version: "${reloader_helm_version}"
+        redis:
+          helm_version: "${redis_helm_version}"
         crossplane:
           helm_version: "${crossplane_helm_version}"
           debug: "${crossplane_log_level}"
