@@ -7,3 +7,8 @@ resources:
   - vault-provider.yaml
   - aws-provider.yaml
   - http-provider.yaml
+
+patches:
+  - path: toleration-patch.yaml
+    target:
+      kind: Deployment
