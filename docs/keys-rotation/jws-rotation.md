@@ -1,80 +1,103 @@
-# JWS Key Rotation 
+# JWS Key Rotation
 
-**JWS Signing Certificates** rotation is fully automated with 1h renewal window
+JWS (JSON Web Signature) signing certificates are used for digital signatures on FSPIOP messages between the Hub and DFSPs. Rotation is fully automated via cert-manager.
 
-| Namespace | Certificate | Secret | Issuer | Expires | Type              | Purpose |
-|-----------|-------------|--------|--------|---------|-------------------|---------|
-| mojaloop | switch-jws | switch-jws | vault-cluster-issuer | 28-day | kubernetes.io/tls | JWS signing key |
+| Certificate | Secret | Issuer | Default Duration | Renew Before |
+|-------------|--------|--------|------------------|--------------|
+| switch-jws | switch-jws | vault-cluster-issuer | 28 days | 1 hour |
 
 ---
 
-## Rotation Mechanism of JWS Signing Certificates (Mojaloop)
+## Security Impact
 
-**Purpose:** Digital signatures for FSPIOP messages between Hub and DFSPs
+**If the JWS certificate expires or rotation fails:**
 
-**Configuration:**
+- FSPIOP message signature validation fails between Hub and DFSPs
+- All financial transactions are blocked
+- DFSPs reject messages from Hub due to invalid signatures
+
+**Risk Level:** HIGH - Short renewal window (1 hour default) leaves minimal time for recovery if cert-manager fails during renewal.
+
+---
+
+## Configuring Expiration
+
+Configure JWS certificate TTL in your environment's custom config:
+
+**Config file:** `custom-config/mojaloop-vars.yaml`
 
 ```yaml
-# terraform/k8s/default-config/mojaloop-vars.yaml:36-37
-jws_rotation_period_hours: 672        # 28 days
-jws_rotation_renew_before_hours: 1    # 1 hour before expiry
+# JWS Certificate TTL Configuration
+jws_rotation_period_hours: 672        # Certificate validity (28 days default)
+jws_rotation_renew_before_hours: 24   # Hours before expiry to trigger renewal
 ```
 
-**Certificate Spec:**
+---
 
-```yaml
-# terraform/gitops/generate-files/templates/mojaloop/vault-secret.yaml.tpl
-apiVersion: cert-manager.io/v1
-kind: Certificate
-spec:
-  secretName: switch-jws
-  duration: 672h0m0s
-  renewBefore: 1h0m0s
-  privateKey:
-    algorithm: RSA
-    size: 4096
-    rotationPolicy: Always    # New key on each renewal
-  issuerRef:
-    name: vault-cluster-issuer
-    kind: ClusterIssuer
-```
+## Propagation
 
-**Rotation Flow:**
+**Automatic propagation flow:**
 
-1. cert-manager monitors certificate expiry (checks every 1 hour)
-2. At 1 hour before expiry, requests new cert from Vault PKI
-3. Vault issues new certificate with NEW private key (`rotationPolicy: Always`)
-4. Secret `switch-jws` updated in mojaloop namespace
-5. Stakater Reloader detects change (label: `reloader: enabled`)
+1. cert-manager monitors certificate expiry
+2. At renewal time, cert-manager requests new cert from Vault PKI
+3. New certificate with NEW private key is issued (`rotationPolicy: Always`)
+4. Secret `switch-jws` is updated in mojaloop namespace
+5. Stakater Reloader detects the secret change (via `reloader: enabled` label)
 6. Reloader triggers rolling restart of annotated pods
 7. `jws-pubkey-job` extracts public key and POSTs to MCM
 8. MCM distributes public key to DFSPs
 
-**Affected Services (with Stakater Reloader annotation):**
+**Services with automatic restart (Stakater Reloader annotation):**
 
-| Service | Has Reloader Annotation | IaC Line |
-|---------|------------------------|----------|
-| account-lookup-service | Yes | values-mojaloop.yaml.tpl:184 |
-| quoting-service | Yes | values-mojaloop.yaml.tpl:281 |
-| quoting-service-handler | Yes | values-mojaloop.yaml.tpl:315 |
-| ml-api-adapter-handler-notification | Yes | values-mojaloop.yaml.tpl:375 |
-| jws-pubkey-job | Yes | switch-jws-deployment.yaml.tpl:6 |
+| Service | Auto-Restart |
+|---------|--------------|
+| account-lookup-service | Yes |
+| quoting-service | Yes |
+| quoting-service-handler | Yes |
+| ml-api-adapter-handler-notification | Yes |
+| jws-pubkey-job | Yes |
 
-**Services WITHOUT Reloader (manual restart required):**
+**Services requiring manual restart:**
 
 | Service | Status |
 |---------|--------|
-| transaction-requests-service | No annotation |
-| bulk-api-adapter-handler-notification | No annotation |
+| transaction-requests-service | No reloader annotation |
+| bulk-api-adapter-handler-notification | No reloader annotation |
 
-**Possible Failure Scenarios:**
+---
 
-- **cert-manager down during 1h window:** JWS key expires, FSPIOP signature validation fails
-- **jws-pubkey-job fails to POST:** DFSPs have old public key, signature verification fails
-- **MCM unavailable:** Public key not distributed, new transactions blocked
+## Renewal
 
-**IaC Files:**
+### Automatic Renewal
 
-- `terraform/gitops/generate-files/templates/mojaloop/vault-secret.yaml.tpl`
-- `terraform/gitops/generate-files/templates/mojaloop/switch-jws-deployment.yaml.tpl`
-- `terraform/k8s/default-config/mojaloop-vars.yaml:36-37`
+cert-manager automatically renews the certificate based on the `jws_rotation_renew_before_hours` setting. The renewal process:
+
+1. cert-manager checks certificate expiry (every ~1 hour)
+2. When within renewal window, requests new certificate from Vault PKI
+3. Private key is rotated on each renewal (`rotationPolicy: Always`)
+4. Secret is updated, triggering service restarts via Stakater Reloader
+
+### Manual Renewal
+
+If automatic renewal fails or you need to force immediate rotation:
+
+1. **Delete the certificate secret** - This triggers cert-manager to immediately request a new certificate from Vault PKI
+
+2. **Verify new certificate is issued** - Check that cert-manager has created a new certificate and updated the secret
+
+3. **Verify service restarts** - Confirm that Stakater Reloader has triggered pod restarts for affected services
+
+4. **Check public key distribution** - Verify that `jws-pubkey-job` has successfully posted the new public key to MCM
+
+5. **Manually restart non-annotated services** - Restart `transaction-requests-service` and `bulk-api-adapter-handler-notification` if they are in use
+
+---
+
+## Failure Scenarios
+
+| Scenario | Impact | Recovery |
+|----------|--------|----------|
+| cert-manager down during renewal window | JWS key expires, FSPIOP signatures fail | Restore cert-manager, delete secret to force renewal |
+| jws-pubkey-job fails to POST | DFSPs have old public key, signature verification fails | Restart jws-pubkey-job, verify MCM connectivity |
+| MCM unavailable | Public key not distributed to DFSPs | Restore MCM, restart jws-pubkey-job |
+| Vault PKI unavailable | Cannot issue new certificate | Restore Vault, check ClusterIssuer status |

@@ -1,103 +1,93 @@
 # Rook Ceph Object Storage Certificates
 
-## Overview
+Rook Ceph uses self-signed certificates for mTLS encryption on the Ceph RGW (S3-compatible object storage). Rotation is automated via cert-manager.
 
-**Purpose:** mTLS for Ceph RGW (S3-compatible object storage)
+| Certificate | Duration | Renew Before | Issuer |
+|-------------|----------|--------------|--------|
+| objectstore-selfsigned-ca (CA) | 10 years | 90 days | selfsigned-issuer |
+| objectstore-internal-tls (Server) | 180 days | 30 days | selfsigned-ca-issuer |
 
 ---
 
-## Certificate Chain
+## Security Impact
+
+**If Rook Ceph certificates expire or rotation fails:**
+
+- S3-compatible object storage becomes inaccessible
+- Applications using Ceph RGW for storage fail to connect
+- Backup operations to object storage fail
+
+Long validity periods (180 days for server, 10 years for CA) with generous renewal windows.
+
+---
+
+## Configuring Expiration
+
+**TTL is not user-configurable.** Certificate durations are fixed in the platform configuration:
+
+- **CA Certificate:** 10 years (87600h), renews 90 days before expiry
+- **Server Certificate:** 180 days (4320h), renews 30 days before expiry
+
+---
+
+## Propagation
+
+**Certificate chain:**
 
 ```
-selfsigned-issuer (self-signed)
+selfsigned-issuer (self-signed bootstrap)
     └── objectstore-selfsigned-ca (10-year CA)
             └── selfsigned-ca-issuer (CA issuer)
-                    └── objectstore-internal-tls (180-day cert)
+                    └── objectstore-internal-tls (180-day server cert)
 ```
 
----
+**Automatic propagation flow:**
 
-## CA Certificate
+1. cert-manager monitors certificate expiry
+2. At renewal time, requests new certificate from the CA issuer
+3. TLS secret updated in rook-ceph namespace
+4. Ceph RGW pods detect updated secret and reload
 
-```yaml
-# gitops/applications/base/sc-storage/objectstore-certs.yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: objectstore-selfsigned-ca
-spec:
-  isCA: true
-  duration: 87600h        # 10 years
-  renewBefore: 2160h      # 90 days
-  privateKey:
-    algorithm: ECDSA
-    size: 256
-  issuerRef:
-    name: selfsigned-issuer
-```
+**Secrets:**
+
+| Namespace | Secret | Purpose |
+|-----------|--------|---------|
+| rook-ceph | selfsigned-ca-cert | Storage CA certificate |
+| rook-ceph | objectstore-internal-tls | Server TLS certificate |
 
 ---
 
-## Server Certificate
+## Renewal
 
-```yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: objectstore-internal-tls
-spec:
-  duration: 4320h         # 180 days
-  renewBefore: 720h       # 30 days
-  privateKey:
-    algorithm: RSA
-    size: 2048
-  usages:
-  - server auth
-  - client auth
-  issuerRef:
-    name: selfsigned-ca-issuer
-```
+### Automatic Renewal
 
----
+cert-manager automatically renews certificates within the renewal window:
 
-## TTL/Rotation Summary
+- **Server certificate:** Renewed 30 days before expiry (every ~150 days)
+- **CA certificate:** Renewed 90 days before expiry (approximately every 9.75 years)
 
-| Certificate | Duration | Renew Before | Key Rotation | Issuer | Auto-Renewal |
-|-------------|----------|--------------|--------------|--------|--------------|
-| Storage CA | 10 years | 90 days | Never (key reused) | selfsigned-issuer | Yes |
-| Storage Server | 180 days | 30 days | Never (key reused) | selfsigned-ca-issuer | Yes |
+The renewal process:
 
----
+1. cert-manager detects certificate within renewal window
+2. Requests new certificate from issuer
+3. Secret is updated with new certificate
+4. Ceph RGW reloads the updated certificate
 
-## Kubernetes Resources
+### Manual Renewal
 
-### Namespace Issuers (rook-ceph)
+If automatic renewal fails or you need to force immediate renewal:
 
-| Name | Type | Purpose |
-|------|------|---------|
-| selfsigned-issuer | selfSigned | Bootstrap CA for storage |
-| selfsigned-ca-issuer | CA | Issue storage server certs |
+1. **Delete the server certificate secret** - This triggers cert-manager to immediately request a new certificate from the CA
 
-### TLS Secrets
+2. **Verify new certificate is issued** - Check that cert-manager has created a new certificate
 
-| Cluster | Namespace | Secret | Type | Purpose |
-|---------|-----------|--------|------|---------|
-| region-dev | rook-ceph | selfsigned-ca-cert | kubernetes.io/tls | Storage CA |
-| region-dev | rook-ceph | objectstore-internal-tls | kubernetes.io/tls | Storage server TLS |
+3. **Verify Ceph RGW health** - Confirm the storage service is operating normally with the new certificate
 
----
+**CA Certificate Rotation (rare):**
 
-## Certificate Inventory
+If the CA certificate needs rotation (compromise or expiry):
 
-| Namespace | Certificate | Secret | Issuer | Expires |
-|-----------|-------------|--------|--------|---------|
-| rook-ceph | objectstore-selfsigned-ca | selfsigned-ca-cert | selfsigned-issuer | ~10 years |
-| rook-ceph | objectstore-internal-tls | objectstore-internal-tls | selfsigned-ca-issuer | ~180 days |
-
----
-
-## Affected Services Matrix
-
-| Certificate | Rotation Trigger | Affected Services | Restart Method | Key Rotation |
-|-------------|------------------|-------------------|----------------|--------------|
-| objectstore-internal-tls | cert-manager (30d before expiry) | rook-ceph-rgw | cert-manager | Never (key reused) |
+1. Delete the CA certificate secret
+2. cert-manager regenerates the CA
+3. Delete the server certificate secret to re-issue with new CA
+4. All clients trusting the old CA must update their trust stores

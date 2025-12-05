@@ -1,249 +1,117 @@
 # Client/Server mTLS Key Rotation
 
-**Vault PKI Certificates** - Semi-automated via cert-manager (29-day cycle, 15d renewal)
+Mutual TLS (mTLS) certificates secure communication between Hub and DFSPs, ensuring both client and server authenticate using X.509 certificates. Vault PKI acts as the Certificate Authority, with cert-manager automating lifecycle management.
+
+| Certificate Type | Default Duration | Renew Before | Key Rotation |
+|------------------|------------------|--------------|--------------|
+| MCM/PM4ML Vault | 29 days | 15 days | Never (key reused) |
+| Proxy-PM4ML Vault | 29 days | 15 days | Never (key reused) |
 
 ---
 
-## Introduction
+## Security Impact
 
-Mutual TLS (mTLS) ensures both client and server authenticate each other using X.509 certificates. In the Mojaloop ecosystem, this secures communication between:
+**If mTLS certificates expire or rotation fails:**
 
-- **Hub** (Mojaloop Switch) and **DFSPs** (Digital Financial Service Providers)
-- **MCM** (Mojaloop Connection Manager) and external systems
-- **PM4ML** connectors and the Hub
-- **Proxy-PM4ML** gateways handling scheme routing
+- Hub-DFSP communication breaks (mutual TLS handshake fails)
+- MCM cannot establish secure connections with external systems
+- PM4ML connectors lose connectivity to the Hub
+- Interop gateway rejects incoming DFSP connections
 
-Vault PKI acts as the Certificate Authority, issuing both server certificates (for services accepting connections) and client certificates (for services initiating connections). The cert-manager operator automates certificate lifecycle management within Kubernetes.
+**Security Note:** Private keys are NOT rotated on renewal (no `rotationPolicy: Always`). If a private key is compromised, certificate renewal does not mitigate the risk - the same key continues to be used.
 
 ---
 
-## 1. Vault PKI Configuration
+## Configuring Expiration
 
-### 1.1 PKI Engine Setup
+Configure mTLS certificate TTL in environment's custom config:
+
+**Config file:** `custom-config/mojaloop-vars.yaml`
 
 ```yaml
-# Vault PKI mount (per cluster)
-path: pki-{cluster-name}
-defaultLeaseTTL: 8760h    # 1 year
-maxLeaseTTL: 87600h       # 10 years (Root CA validity)
+# PKI Certificate TTL Configuration
+pki_server_cert_ttl: "2160h"          # Server certificate validity (90 days default)
+pki_server_cert_max_ttl: "2160h"      # Maximum server certificate TTL
+pki_client_cert_ttl: "2160h"          # Client certificate validity (90 days default)
+pki_client_cert_max_ttl: "2160h"      # Maximum client certificate TTL
 ```
 
-### 1.2 Root CA Details
-
-- **Generation:** Manual via Vault PKI engine initialization
-- **Validity:** 10 years (87600h)
-- **Storage:** Vault internal storage backend
-- **noStore: true** - Issued certificates NOT stored in Vault (no CRL/OCSP support)
-- **Rotation:** Manual process, requires re-issuing all certificates
-
-### 1.3 Server Certificate Role
-
-Server certificates authenticate services that accept incoming TLS connections.
-
-```yaml
-# terraform/gitops/generate-files/templates/vault-pki-setup/vault-auth-config.yaml.tpl
-role: server-cert-role
-TTL: ${pki_server_cert_ttl}         # Configurable, default: 2160h (90 days)
-maxTTL: ${pki_server_cert_max_ttl}  # Configurable, default: 2160h (90 days)
-keyBits: 2048
-serverFlag: true
-clientFlag: false
-allowedDomains: [{cluster}.drpp-onprem.global]
-allowSubdomains: true
-noStore: true            # Certs not stored (cannot revoke)
-```
-
-### 1.4 Client Certificate Role
-
-Client certificates authenticate services that initiate outgoing TLS connections.
-
-```yaml
-role: client-cert-role
-TTL: ${pki_client_cert_ttl}         # Configurable, default: 2160h (90 days)
-maxTTL: ${pki_client_cert_max_ttl}  # Configurable, default: 2160h (90 days)
-keyBits: 2048
-serverFlag: false
-clientFlag: true
-allowBareDomains: true
-noStore: true
-```
-
-### 1.5 Configurable TTL Variables
-
-TTL values can be customized per environment via `app_var_map`:
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| pki_server_cert_ttl | 2160h | Server certificate TTL |
-| pki_server_cert_max_ttl | 2160h | Server certificate max TTL |
-| pki_client_cert_ttl | 2160h | Client certificate TTL |
-| pki_client_cert_max_ttl | 2160h | Client certificate max TTL |
+**Note:** The actual certificate duration issued to services (MCM, PM4ML, Proxy) is controlled by their respective Certificate resources (currently 29 days with 15-day renewal window). The PKI role TTL above sets the maximum allowed by Vault.
 
 ---
 
-## 2. Certificate Specification
+## Propagation
 
-### 2.1 MCM/PM4ML Certificate
+**Automatic propagation flow:**
 
-```yaml
-# terraform/gitops/generate-files/templates/mcm/vault-certificate.yaml.tpl
-duration: 696h0m0s       # 29 days
-renewBefore: 360h0m0s    # 15 days before expiry
-privateKey:
-  algorithm: RSA
-  size: 2048
-  # NO rotationPolicy = key REUSED on renewal (security risk)
-issuerRef:
-  name: vault-cluster-issuer
-```
+1. cert-manager monitors certificate expiry
+2. At 15 days before expiry, requests new cert from Vault PKI
+3. New certificate issued (private key is REUSED)
+4. TLS secret updated in the service namespace
+5. Stakater Reloader detects secret change
+6. Reloader triggers rolling restart of annotated pods
+7. Istio gateways pick up new credentials via SDS (Secret Discovery Service)
 
-### 2.2 Affected Services
+**Affected services and secrets:**
 
-- MCM (Mojaloop Connection Manager)
-- PM4ML connectors (test-*, perf-*)
-- Proxy-PM4ML (proxy-zmw, proxy-mwk, proxy-egp)
-- Interop gateway
+| Namespace | Secret | Service | Auto-Restart |
+|-----------|--------|---------|--------------|
+| mcm | vault-tls-cert | MCM | Yes (Reloader) |
+| istio-ingress-ext | vault-tls-cert | Interop gateway | Yes (Istio SDS) |
+| `{proxy-id}` | `{proxy-id}`-vault-tls-cert-scheme-* | Proxy-PM4ML | Yes (Reloader) |
+| `{dfsp-id}` | `{dfsp-id}`-vault-tls-cert | PM4ML connectors | Yes (Reloader) |
 
----
+**Cross-namespace distribution:**
 
-## 3. Kubernetes Resources
-
-### 3.1 TLS Secrets
-
-| Namespace | Secret | Type | Purpose |
-|-----------|--------|------|---------|
-| mcm | vault-tls-cert | kubernetes.io/tls | MCM interop TLS |
-| istio-ingress-ext | vault-tls-cert | kubernetes.io/tls | Interop gateway |
-| istio-ingress-ext | `{proxy-id}`-vault-tls-cert-scheme-* | kubernetes.io/tls | Proxy connectors |
-| istio-ingress-ext (pm-dev) | `{dfsp-id}`-vault-tls-cert | kubernetes.io/tls | PM4ML connectors |
-
-### 3.2 Vault PKI CRDs
-
-**PKISecretEngineConfig:**
-- Namespace: `vault`
-- Name: `pki-{cluster}`
-- Vault path: `pki-{cluster}`
-
-**PKISecretEngineRole:**
-
-| Namespace | Role | TTL | MaxTTL | Key Bits | noStore |
-|-----------|------|-----|--------|----------|---------|
-| vault | server-cert-role | 2160h | 2160h | 2048 | true |
-| vault | client-cert-role | 2160h | 2160h | 2048 | true |
-
-### 3.3 Issuers
-
-**ClusterIssuers:**
-
-| Name | Type | Path | Status |
-|------|------|------|--------|
-| vault-cluster-issuer | Vault | pki-{cluster}/sign/server-cert-role | Ready |
-
-**Namespace Issuers:**
-
-| Namespace | Name | Type | Purpose |
-|-----------|------|------|---------|
-| mojaloop | simulator-issuer | selfSigned | Simulator testing |
-| mojaloop | simulator-ca-issuer | CA | Issue simulator certs |
-
-### 3.4 Istio Gateway Resources
-
-**mTLS Gateways (MUTUAL mode):**
-
-| Namespace | Gateway | TLS Mode | Credential |
-|-----------|---------|----------|------------|
-| mojaloop | interop-gateway | MUTUAL | vault-tls-cert |
-| proxy-`{env}` | proxy-`{env}`-connector-gateway-a | MUTUAL | proxy-`{env}`-vault-tls-cert-scheme-a |
-| proxy-`{env}` | proxy-`{env}`-connector-gateway-b | MUTUAL | proxy-`{env}`-vault-tls-cert-scheme-b |
-
-**PM4ML Connector Gateways (pm-dev cluster):**
-
-| Namespace | Gateway | TLS Mode |
-|-----------|---------|----------|
-| `{dfsp-id}` | `{dfsp-id}`-connector-gateway | MUTUAL |
-
-**Wildcard Gateways (SIMPLE mode):**
-
-| Namespace | Gateway | TLS Mode | Credential |
-|-----------|---------|----------|------------|
-| istio-ingress-ext | external-wildcard-gateway | SIMPLE | lets-enc-external-tls |
-| istio-ingress-int | internal-wildcard-gateway | SIMPLE | lets-enc-internal-tls |
-
-**Waypoint Gateways (Istio Ambient):**
-
-| Namespace | Gateway | Protocol | Purpose |
-|-----------|---------|----------|---------|
-| mojaloop | service-ingress-waypoint | HBONE | L7 policy enforcement |
-| mcm | service-ingress-waypoint | HBONE | L7 policy enforcement |
-| istio-system | nb-egress-waypoint | HBONE | Netbird egress |
-
-### 3.5 PeerAuthentication
-
-**NONE FOUND** in any cluster (expected for Istio Ambient mode - ztunnel handles L4 mTLS).
-
-### 3.6 Certificate Management Operators
-
-| Operator | Purpose | Namespace | Watch Mechanism |
-|----------|---------|-----------|-----------------|
-| cert-manager | Issue/renew certs | cert-manager | Certificate CRD reconciliation |
-| Stakater Reloader | Auto-restart pods on secret change | reloader | Label `reloader: enabled` |
-| Reflector | Mirror secrets across namespaces | reflector | Annotation `reflector.v1.k8s.emberstack.com/reflection-*` |
-| Vault Config Operator | Manage Vault resources via CRDs | vault-config-operator | PKISecretEngineConfig, PKISecretEngineRole CRDs |
-| External Secrets Operator | Sync secrets from external Vault | external-secrets | ExternalSecret CRD |
+Secrets are mirrored to required namespaces using the Reflector operator:
+- Source secrets include `reflector.v1.k8s.emberstack.com/reflection-allowed` annotation
+- Target namespaces receive automatic copies when source is updated
 
 ---
 
-## 4. Certificates/Services Matrix
+## Renewal
 
-| Certificate | Rotation Trigger | Affected Services | Restart Method | Key Rotation |
-|-------------|------------------|-------------------|----------------|--------------|
-| vault-tls-cert (MCM) | cert-manager (15d before expiry) | mcm | Stakater Reloader | Never (key reused) |
-| vault-tls-cert (Proxy) | cert-manager (15d before expiry) | proxy-pm4ml services | Stakater Reloader | Never (key reused) |
-| PM4ML vault-tls-cert | cert-manager (15d before expiry) | pm4ml-core-connector | Stakater Reloader | Never (key reused) |
+### Automatic Renewal
 
----
+cert-manager automatically renews certificates 15 days before expiry. The renewal process:
 
-## 5. TTL/Rotation Summary
+1. cert-manager checks certificate expiry periodically
+2. When within 15-day renewal window, requests new certificate from Vault PKI
+3. Private key is reused (not rotated)
+4. Secret is updated, triggering service restarts via Stakater Reloader
+5. Istio gateways reload credentials via SDS
 
-| Certificate Type | Duration | Renew Before | Key Rotation | Issuer | Auto-Renewal |
-|------------------|----------|--------------|--------------|--------|--------------|
-| MCM/PM4ML Vault | 29 days | 15 days | Never (key reused) | vault-cluster-issuer | Yes |
-| Proxy-PM4ML Vault | 29 days | 15 days | Never (key reused) | vault-cluster-issuer | Yes |
-| Let's Encrypt | 90 days | ~30 days | Never (key reused) | letsencrypt | Yes |
-| Simulator | 365 days | 30 days | Never (key reused) | simulator-ca-issuer | Yes |
-| Storage CA | 10 years | 90 days | Never (key reused) | selfsigned-issuer | Yes |
-| Storage Server | 180 days | 30 days | Never (key reused) | selfsigned-ca-issuer | Yes |
-| Root CA (Vault) | 10 years | N/A | Manual | N/A | No |
-| Vault PKI Roles | 90 days (configurable) | N/A | N/A | N/A | N/A |
+### Manual Renewal
 
----
+If automatic renewal fails or you need to force immediate rotation:
 
-## 6. Risk Assessment
+1. **Delete the certificate secret** - This triggers cert-manager to immediately request a new certificate from Vault PKI
 
-### 6.1 Manual Root CA Rotation
+2. **Verify new certificate is issued** - Check that cert-manager has created a new certificate and updated the secret
 
-**Finding:** Vault PKI Root CA has 10-year validity with no documented rotation procedure.
+3. **Check Reflector propagation** - If using cross-namespace secrets, verify Reflector has updated copies in target namespaces
 
-**Impact:**
-- All issued certificates must be re-issued after root CA rotation
-- DFSPs must install new root CA certificate
+4. **Verify service restarts** - Confirm that Stakater Reloader has triggered pod restarts for affected services
 
-### 6.2 MCM/PM4ML Private Key Reuse
+5. **Check gateway credentials** - Verify Istio gateways have loaded the new certificates
 
-**Finding:** MCM, PM4ML, and Proxy certificates do NOT rotate private keys on renewal.
+### Root CA Rotation
 
-**Impact:**
-- If private key is compromised, renewal does not mitigate the risk
-- Same key used for entire certificate lifetime across renewals
+The Vault PKI Root CA has 10-year validity. Root CA rotation is a manual process:
+
+1. Generate new Root CA in Vault PKI
+2. Update ClusterIssuer to use new CA
+3. Re-issue all certificates (delete secrets to trigger renewal)
+4. Distribute new Root CA to all DFSPs
+5. DFSPs must install new Root CA certificate for trust
 
 ---
 
-## 7. IaC Files Reference
+## Affected Services
 
-| Component | File |
-|-----------|------|
-| Vault PKI Setup | [terraform/gitops/mojaloop/vault-pki-setup.tf](../../terraform/gitops/mojaloop/vault-pki-setup.tf) |
-| Vault PKI Roles | [terraform/gitops/generate-files/templates/vault-pki-setup/vault-auth-config.yaml.tpl](../../terraform/gitops/generate-files/templates/vault-pki-setup/vault-auth-config.yaml.tpl) |
-| MCM Vault Cert | [terraform/gitops/generate-files/templates/mcm/vault-certificate.yaml.tpl](../../terraform/gitops/generate-files/templates/mcm/vault-certificate.yaml.tpl) |
-| PM4ML Vault Cert | [terraform/gitops/generate-files/templates/pm4ml/vault-certificate.yaml.tpl](../../terraform/gitops/generate-files/templates/pm4ml/vault-certificate.yaml.tpl) |
-| Proxy PM4ML Cert | [terraform/gitops/generate-files/templates/proxy-pm4ml/vault-certificate.yaml.tpl](../../terraform/gitops/generate-files/templates/proxy-pm4ml/vault-certificate.yaml.tpl) |
+| Component | Purpose |
+|-----------|---------|
+| MCM (Mojaloop Connection Manager) | Hub-DFSP certificate management |
+| PM4ML connectors | DFSP payment manager connectivity |
+| Proxy-PM4ML | Multi-scheme gateway routing |
+| Interop gateway | External DFSP connection termination |
