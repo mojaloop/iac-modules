@@ -3,13 +3,17 @@
 minio:
   enabled: false
 
+kafka:
+  enabled: false
+
 mimir:
   structuredConfig:
     ingest_storage:
-      enabled: true
+      enabled: false
     ingester:
       ring:
         replication_factor: ${ARGOCD_ENV_mimir_ingester_replication_factor}
+      push_grpc_method_enabled: true
     blocks_storage:
       tsdb:
         block_ranges_period:
