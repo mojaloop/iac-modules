@@ -468,11 +468,6 @@ global:
   # whether to use autoscaling/v2 template for HPA settings
   # for internal usage only, not to be configured by users.
   autoscalingv2API: true
-  waypoint:
-    tolerations:
-      - key: "netbird/ready"
-        operator: "Exists"
-        effect: "NoSchedule"
 
 base:
   # For istioctl usage to disable istio config crds in base
@@ -484,3 +479,4 @@ base:
   # it works to have multiple redundant validations, this adds complexity and operational risks.
   # Users should consider enabling this if they want full gateway-api validation but don't have other validation servers.
   validateGateway: false
+
