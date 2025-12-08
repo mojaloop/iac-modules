@@ -9,8 +9,8 @@ Proper rotation is critical to maintain secure and uninterrupted message flows.
 
 **Automatic propagation flow:**
 
-1. PM4ML Management API through the MCM client automatically initates a state machine that creates the JWS key
-2. The key is uploaded to MCM through the use of it's http api
+1. PM4ML Management API through the MCM client automatically initiates a state machine that creates the JWS key
+2. The key is uploaded to MCM through the use of its http api
 3. MCM client state machine handles the propagation of JWS to peers
 
 ---
