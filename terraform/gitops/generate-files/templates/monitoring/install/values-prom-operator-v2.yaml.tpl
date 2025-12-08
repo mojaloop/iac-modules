@@ -1,3 +1,5 @@
+#values: https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-80.0.0/charts/kube-prometheus-stack/values.yaml
+
 alertmanager:
   enabled: ${alertmanager_enabled}
   
