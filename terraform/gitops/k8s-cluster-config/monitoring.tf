@@ -155,14 +155,14 @@ variable "metrics_server_replicas" {
 
 locals {
   bitnami_repo                        = "oci://registry-1.docker.io/bitnamicharts"
-  grafana_crd_version_tag             = "v5.20.0"
-  prometheus_crd_version              = "8.0.1"
+  grafana_crd_version_tag             = "v5.6.0"
+  prometheus_crd_version              = "25.0.0"
   opentelemetry_chart_version         = "0.93.1"
   grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
   loki_release_name                   = "loki"
   prometheus_operator_release_name    = "prom"
   loki_chart_version                  = "2.13.0"
-  prometheus_operator_version         = "8.22.8"
+  prometheus_operator_version         = "80.0.0"
   prometheus_process_exporter_version = "0.4.2"
   process_exporter_enabled            = false
   metrics_server_chart_version        = "3.12.2"
