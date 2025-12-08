@@ -181,3 +181,14 @@ variable "traces_endpoint" {
   description = "tracing server endpoint"
 
 }
+
+variable "vault_root_ca_name" {
+  description = "root ca name for vault"
+  type        = string
+  default     = "pki-root-ca"
+}
+
+variable "local_vault_kv_root_path" {
+  description = "vault kv secret root"
+  type        = string
+}
