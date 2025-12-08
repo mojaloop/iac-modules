@@ -172,8 +172,6 @@ module "proxy_pm4ml" {
   istio_internal_gateway_name              = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name     = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name     = local.istio_internal_wildcard_gateway_name
-  local_vault_kv_root_path                 = local.local_vault_kv_root_path
-  vault_root_ca_name                       = "pki-${var.cluster_name}"
   app_var_map                              = local.proxy_pm4ml_var_map
   proxy_values_override_file               = var.proxy_values_override_file
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
