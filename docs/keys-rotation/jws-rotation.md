@@ -83,9 +83,25 @@ If automatic renewal fails or you need to force immediate rotation:
 
 1. **Delete the certificate secret** - This triggers cert-manager to immediately request a new certificate from Vault PKI
 
+```bash
+kubectl get secrets -n mojaloop -o json | \
+jq -r '.items[] | select(.metadata.annotations."cert-manager.io/certificate-name" and .metadata.name == "switch-jws") | "\(.metadata.namespace) \(.metadata.name)"' | \
+while read namespace name; do
+  kubectl delete secret "$name" -n "$namespace"
+done
+```
+
 2. **Verify new certificate is issued** - Check that cert-manager has created a new certificate and updated the secret
 
 3. **Verify service restarts** - Confirm that Stakater Reloader has triggered pod restarts for affected services
+
+```bash
+kubectl get deployments --all-namespaces -o json | \
+jq -r '.items[] | select(.spec.template.spec.volumes[]? | select(.secret.secretName == "switch-jws")) | "\(.metadata.namespace) \(.metadata.name)"' | \
+while read namespace name; do
+  kubectl rollout status deployment/"$name" -n "$namespace"
+done
+```
 
 4. **Check public key distribution** - Verify that `jws-pubkey-job` has successfully posted the new public key to MCM
 
@@ -101,3 +117,5 @@ If automatic renewal fails or you need to force immediate rotation:
 | jws-pubkey-job fails to POST | DFSPs have old public key, signature verification fails | Restart jws-pubkey-job, verify MCM connectivity |
 | MCM unavailable | Public key not distributed to DFSPs | Restore MCM, restart jws-pubkey-job |
 | Vault PKI unavailable | Cannot issue new certificate | Restore Vault, check ClusterIssuer status |
+
+---
