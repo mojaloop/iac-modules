@@ -80,7 +80,7 @@ auth:
   ## @param auth.enabled Enable Redis authentication
   enabled: false
   ## @param auth.enabled Enable Sentinel authentication
-  sentinel: false
+  sentinel: true
   ## @param auth.password Redis password (if empty, random password will be generated)
   password: ""
   ## @param auth.existingSecret Name of existing secret containing Redis password
