@@ -192,3 +192,24 @@ variable "local_vault_kv_root_path" {
   description = "vault kv secret root"
   type        = string
 }
+
+variable "pki_client_cert_role" {
+  description = "pki_client_cert_role"
+  default     = "client-cert-role"
+}
+
+variable "pki_server_cert_role" {
+  description = "pki_server_cert_role"
+  default     = "server-cert-role"
+}
+
+variable "k8s_auth_path" {
+  description = "k8s_auth_path"
+  default     = "kubernetes"
+}
+
+variable "cert_man_vault_cluster_issuer_name" {
+  description = "certmanager vault cluster issuer name"
+  type        = string
+  default     = "vault-cluster-issuer"
+}
