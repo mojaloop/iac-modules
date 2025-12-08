@@ -14,8 +14,3 @@ managementURL: ${netbird_operator_management_url}
 routingClientImage: netbirdio/netbird:${netbird_image_version}
 webhook:
   failurePolicy: Ignore
-operator:
-  tolerations:
-    - key: "netbird/ready"
-      operator: "Exists"
-      effect: "NoSchedule"
