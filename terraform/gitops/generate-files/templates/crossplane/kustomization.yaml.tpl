@@ -8,4 +8,3 @@ helmCharts:
     repo: https://charts.crossplane.io/stable
     namespace: ${crossplane_namespace}
     valuesFile: crossplane-values.yaml
-    version: ${crossplane_helm_version}
