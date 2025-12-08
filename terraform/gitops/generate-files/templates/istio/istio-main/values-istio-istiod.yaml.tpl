@@ -479,4 +479,3 @@ base:
   # it works to have multiple redundant validations, this adds complexity and operational risks.
   # Users should consider enabling this if they want full gateway-api validation but don't have other validation servers.
   validateGateway: false
-
