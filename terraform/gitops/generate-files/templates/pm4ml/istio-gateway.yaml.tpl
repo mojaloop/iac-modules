@@ -198,6 +198,48 @@ spec:
   hosts:
   - '${experience_api_fqdn}'
   http:
+    - name: "states"
+      match:
+        - uri:
+            prefix: /states
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-management-api
+            port:
+              number: 80
+          headers:
+            response:
+              set:
+                access-control-allow-origin: "https://${portal_fqdn}"
+                access-control-allow-credentials: "true"
+    - name: "reonboard"
+      match:
+        - uri:
+            prefix: /reonboard
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-management-api
+            port:
+              number: 80
+          headers:
+            response:
+              set:
+                access-control-allow-origin: "https://${portal_fqdn}"
+                access-control-allow-credentials: "true"
+    - name: "recreate"
+      match:
+        - uri:
+            prefix: /recreate
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-management-api
+            port:
+              number: 80
+          headers:
+            response:
+              set:
+                access-control-allow-origin: "https://${portal_fqdn}"
+                access-control-allow-credentials: "true"
     - name: "experience-api"
       match:
         - uri:
