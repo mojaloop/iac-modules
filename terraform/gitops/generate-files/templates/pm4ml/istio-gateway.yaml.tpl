@@ -188,6 +188,23 @@ spec:
         - operation:
             hosts: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
 ---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ${pm4ml_release_name}-management-api-auth
+spec:
+  targetRefs:
+    - kind: Service
+      group: core
+      name: ${pm4ml_release_name}-management-api
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+  rules:
+    - to:
+        - operation:
+            hosts: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
