@@ -9,8 +9,4 @@ metadata:
     app.kubernetes.io/name: kubernetes-operator
   name: router
   namespace: ${netbird_operator_namespace}
-spec:
-  tolerations:
-    - key: "netbird/ready"
-      operator: "Exists"
-      effect: "NoSchedule"
+spec: {}
