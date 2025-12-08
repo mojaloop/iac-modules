@@ -29,11 +29,3 @@ helmCharts:
   repo: ${istio_chart_repo}
   valuesFile: values-istio-ztunnel.yaml
   namespace: ${istio_namespace}
-
-patches:
-  - path: toleration-patch.yaml
-    target:
-      kind: Deployment
-  - path: toleration-patch.yaml
-    target:
-      kind: DaemonSet
