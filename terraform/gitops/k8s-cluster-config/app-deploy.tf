@@ -139,6 +139,7 @@ module "pm4ml" {
   mcm_admin_user                           = var.mcm_admin_user
   mcm_admin_secret_prefix                  = "mcm-admin-secret-"
   pm4ml_values_override_file               = var.pm4ml_values_override_file
+  admin_portal_values_override_file        = var.admin_portal_values_override_file
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
   storage_class_name                       = var.storage_class_name
@@ -380,6 +381,10 @@ variable "proxy_values_override_file" {
 }
 
 variable "pm4ml_values_override_file" {
+  type = string
+}
+
+variable "admin_portal_values_override_file" {
   type = string
 }
 
