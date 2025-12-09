@@ -90,7 +90,7 @@ metadata:
 spec:
   parameters:
     clusterName: ${ARGOCD_ENV_env_name}
-    objectStoreProvider: ${ARGOCD_ENV_object_storage_provider}
+    objectStoreProvider: "s3"
     bucketName: "percona-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
     namespace: ${ARGOCD_ENV_env_name}
     ccK8sProviderName: "kubernetes-provider"
