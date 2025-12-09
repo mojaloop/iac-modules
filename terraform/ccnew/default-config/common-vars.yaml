@@ -174,7 +174,7 @@ grafana_public_access: false
 grafana_crd_version_tag: "5.20.0"
 prometheus_crd_version: "13.0.2"
 prometheus_process_exporter_version: 0.4.2
-grafana_operator_version: "4.4.12"
+grafana_operator_version: "v5.20.0"
 grafana_image_version: 12.1.0
 prometheus_pvc_size: 50Gi
 prometheus_scrape_interval: 5m
