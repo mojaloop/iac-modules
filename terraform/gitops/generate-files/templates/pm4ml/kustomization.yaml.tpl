@@ -25,6 +25,8 @@ helmCharts:
   repo: https://mojaloop.github.io/charts/repo
   valuesFile: values-admin-portal.yaml
   namespace: ${pm4ml_namespace}
+  additionalValuesFiles:
+  - values-admin-portal-override.yaml
   includeCRDs: true
 patches:
   - target:

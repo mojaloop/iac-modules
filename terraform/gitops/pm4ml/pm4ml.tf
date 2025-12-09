@@ -122,10 +122,18 @@ resource "local_file" "proxy_values_override" {
   depends_on = [module.generate_pm4ml_files]
 }
 
+resource "local_file" "admin_portal_values_override" {
+  for_each   = [var.app_var_map, {}][local.admin_portal_override_values_file_exists ? 0 : 1]
+  content    = templatefile(var.admin_portal_values_override_file, merge(each.value, { cluster = var.cluster }))
+  filename   = "${var.output_dir}/${each.key}/values-admin-portal-override.yaml"
+  depends_on = [module.generate_pm4ml_files]
+}
+
 locals {
   pm4ml_template_path               = "${path.module}/../generate-files/templates/pm4ml"
   pm4ml_app_file                    = "pm4ml-app.yaml"
   pm4ml_override_values_file_exists = fileexists(var.pm4ml_values_override_file)
+  admin_portal_override_values_file_exists = fileexists(var.admin_portal_values_override_file)
 
   pm4ml_var_map = var.app_var_map
 
@@ -151,6 +159,10 @@ locals {
 }
 
 variable "pm4ml_values_override_file" {
+  type = string
+}
+
+variable "admin_portal_values_override_file" {
   type = string
 }
 

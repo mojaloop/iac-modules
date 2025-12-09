@@ -23,6 +23,8 @@ spec:
         value: "argocd.${ARGOCD_ENV_argocd_domain}.${ARGOCD_ENV_domain}"
       - key: grafana_fqdn
         value: "grafana.${ARGOCD_ENV_grafana_domain}.${ARGOCD_ENV_domain}"
+      - key: addons_domain
+        value: "${ARGOCD_ENV_domain}"
       - key: env_name
         value: "${ARGOCD_ENV_env_name}"
       - key: hyphenated_domain
