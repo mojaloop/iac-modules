@@ -398,9 +398,9 @@ ttk-redis:
   local_helm_config:
     resource_namespace: mojaloop
     override_service_name: redis-ttk-redis-master
-    resource_helm_repo: oci://registry-1.docker.io/bitnamicharts
+    resource_helm_repo: oci://registry-1.docker.io/cloudpirates
     resource_helm_chart: redis
-    resource_helm_chart_version: 17.3.7
+    resource_helm_chart_version: 0.16.3
     resource_helm_values_ref: values-redis.yaml.tpl
     secret_config:
       generate_secret_name:
@@ -566,4 +566,3 @@ kratos-db:
       replica_count: 0
       service_port: 3306
       affinity_definition: {}
-
