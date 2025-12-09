@@ -169,7 +169,7 @@ locals {
   grafana_version                     = "11.6.1"
   grafana_dashboard_tag               = "v16.3.0-snapshot.17"     # NOTE: only for those dashboards which are in mojaloop/helm repo
   grafana_dashboard_tag_iac_modules   = "cto-1448--fix-cpu-throttling-alert" # tag for dashboards in mojaloop/iac-modules repo
-  grafana_operator_version            = "3.5.11"
+  grafana_operator_version            = "v5.20.0"
   monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
   monitoring_app_file                 = "monitoring-app.yaml"
   loki_ingester_pvc_size              = "10Gi"
