@@ -188,6 +188,23 @@ spec:
         - operation:
             hosts: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
 ---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: ${pm4ml_release_name}-management-api-auth
+spec:
+  targetRefs:
+    - kind: Service
+      group: core
+      name: ${pm4ml_release_name}-management-api
+  action: CUSTOM
+  provider:
+    name: ${oathkeeper_auth_provider_name}
+  rules:
+    - to:
+        - operation:
+            hosts: ["${experience_api_fqdn}", "${experience_api_fqdn}:*"]
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -198,6 +215,24 @@ spec:
   hosts:
   - '${experience_api_fqdn}'
   http:
+    - name: "management-api"
+      match:
+        - uri:
+            prefix: /states
+        - uri:
+            prefix: /reonboard
+        - uri:
+            prefix: /recreate
+      route:
+        - destination:
+            host: ${pm4ml_release_name}-management-api
+            port:
+              number: 80
+          headers:
+            response:
+              set:
+                access-control-allow-origin: "https://${portal_fqdn}"
+                access-control-allow-credentials: "true"
     - name: "experience-api"
       match:
         - uri:
