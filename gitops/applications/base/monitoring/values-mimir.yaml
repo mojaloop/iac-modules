@@ -20,8 +20,6 @@ mimir:
           - 1h
     compactor:
       deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
-    ruler:
-      alertmanager_url: http://central-monitoring-mimir-gateway/alertmanager
     limits:
       max_global_series_per_user: ${ARGOCD_ENV_mimir_max_global_series_per_user}
       ingestion_rate: ${ARGOCD_ENV_mimir_ingestion_rate}

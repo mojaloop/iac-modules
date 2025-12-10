@@ -102,7 +102,7 @@ spec:
         - name: "cluster_label_value"
           value: "${ARGOCD_ENV_monitoring_prometheus_cluster_label_value}"
         - name: "prometheus_remote_write_endpoint"
-          value: "http://central-monitoring-grafana-mimir-gateway"
+          value: "http://central-monitoring-mimir-gateway:8080"
 
 
         - name: "mimir_bucket_name"
