@@ -239,10 +239,6 @@ resource "local_file" "dbaas-crs-mysql" {
         istio_nb_egress_waypoint_name      = var.istio_nb_egress_waypoint_name
         istio_nb_egress_waypoint_namespace = var.istio_nb_egress_waypoint_namespace
         backup_bucket                      = local.dbaas_backup_bucket
-        backup_bucket_credentials_key      = "${var.cluster_name}/pxc_backup_bucket_access_key_id"
-        backup_bucket_accesskey_property   = "username"
-        backup_bucket_secretkey_property   = "password"
-        backup_bucket_credentials_secret   = "pxc-backup-bucket-cred-secret"
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }

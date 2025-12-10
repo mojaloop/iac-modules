@@ -187,7 +187,7 @@ apiVersion: utils.mojaloop.io/v1alpha1
 kind: ObjectSyncer
 metadata:
   name: ${ARGOCD_ENV_env_name}-psmb-backup-bucket-secret
-  namespace:  ${ARGOCD_ENV_storage_namespace}
+  namespace: ${ARGOCD_ENV_env_name}
   annotations:
     argocd.argoproj.io/sync-wave: -100
 spec:
