@@ -215,6 +215,30 @@ spec:
   hosts:
   - '${experience_api_fqdn}'
   http:
+    - name: "management-api-cors-preflight"
+      match:
+        - uri:
+            prefix: /states
+          method:
+            exact: OPTIONS
+        - uri:
+            prefix: /reonboard
+          method:
+            exact: OPTIONS
+        - uri:
+            prefix: /recreate
+          method:
+            exact: OPTIONS
+      directResponse:
+        status: 204
+      headers:
+        response:
+          set:
+            access-control-allow-origin: "https://${portal_fqdn}"
+            access-control-allow-credentials: "true"
+            access-control-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+            access-control-allow-headers: "Content-Type, Authorization"
+            access-control-max-age: "86400"
     - name: "management-api"
       match:
         - uri:
