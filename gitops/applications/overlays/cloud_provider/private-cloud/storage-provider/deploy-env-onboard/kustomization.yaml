@@ -6,3 +6,4 @@ resources:
   - netbird-env-policy-config-claim.yaml
   - percona-role.yaml
   - storage-ca-access.yaml
+  - percona-backup-buckets.yaml
