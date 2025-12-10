@@ -140,7 +140,7 @@ spec:
     name: Alertmanager
     type: alertmanager
     access: proxy
-    url: http://central-monitoring-grafana-mimir-gateway
+    url: http://central-monitoring-mimir-gateway
     isDefault: false
     editable: true
     jsonData:
