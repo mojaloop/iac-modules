@@ -35,9 +35,9 @@ spec:
             prefix: /
       route:
         - destination:
-            host: central-monitoring-grafana-mimir-gateway
+            host: central-monitoring-mimir-gateway
             port:
-              number: 80
+              number: 8080
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
