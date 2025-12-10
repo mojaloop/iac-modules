@@ -120,7 +120,6 @@ spec:
   target:
     name: "pxc-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}-secret"
     template:
-      type: kubernetes.io/rook
       data:
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
@@ -147,7 +146,6 @@ spec:
   target:
     name: "psmb-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}-secret"
     template:
-      type: kubernetes.io/rook
       data:
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
