@@ -80,7 +80,7 @@ spec:
       imagePullPolicy: IfNotPresent
       verifyTLS: ${backup_verify_tls}
       bucket: "${backup_bucket}"
-      credentialsSecret: "${backup_bucket}"
+      credentialsSecret: "${backup_bucket}-secret"
       bucketRegion: ${cloud_region}
       endpointUrl: "https://s3.${cloud_region}.amazonaws.com"
       scheduleName: ${backup_schedule_name}

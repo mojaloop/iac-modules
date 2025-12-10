@@ -10,7 +10,7 @@ spec:
     bucketName: "pxc-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
     namespace: ${ARGOCD_ENV_env_name}
     ccK8sProviderName: "kubernetes-provider"
-    esoPushSecret: true
+    esoPushSecret: false
     vaultSecretStore: "vault-secret-store"
     vaultSecretPath: "${ARGOCD_ENV_env_name}/pxc_backup_bucket_access_key_id"
     s3:
@@ -35,7 +35,7 @@ spec:
     bucketName: "psmb-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
     namespace: ${ARGOCD_ENV_env_name}
     ccK8sProviderName: "kubernetes-provider"
-    esoPushSecret: true
+    esoPushSecret: false
     vaultSecretStore: "vault-secret-store"
     vaultSecretPath: "${ARGOCD_ENV_env_name}/psmb_backup_bucket_access_key_id"
     s3:
@@ -47,3 +47,160 @@ spec:
       scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
       storageClassName: "ceph-bucket"
       maxSize: "${ARGOCD_ENV_psmb_backup_bucket_storage_size}"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ${ARGOCD_ENV_env_name}
+  namespace: ${ARGOCD_ENV_env_name}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: ${ARGOCD_ENV_env_name}
+  name: ${ARGOCD_ENV_env_name}-secrets-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - selfsubjectrulesreviews
+    verbs:
+      - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name:  ${ARGOCD_ENV_env_name}-secrets-role-binding
+  namespace:  ${ARGOCD_ENV_env_name}
+subjects:
+  - kind: ServiceAccount
+    name:  ${ARGOCD_ENV_env_name}
+    namespace:  ${ARGOCD_ENV_env_name}
+roleRef:
+  kind: Role
+  name: ${ARGOCD_ENV_env_name}-secrets-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: ${ARGOCD_ENV_env_name}-secrets-store
+  namespace: ${ARGOCD_ENV_env_name}
+spec:
+  provider:
+    kubernetes:
+      auth:
+        serviceAccount:
+          name: ${ARGOCD_ENV_env_name}
+      remoteNamespace: ${ARGOCD_ENV_env_name}
+      server:
+        caProvider:
+          type: ConfigMap
+          name: kube-root-ca.crt
+          key: ca.crt
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: "pxc-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
+  namespace: ${ARGOCD_ENV_env_name}
+spec:
+  refreshInterval: 1m
+  secretStoreRef:
+    kind: SecretStore
+    name: ${ARGOCD_ENV_env_name}-secrets-store
+  target:
+    name: "pxc-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}-secret"
+    template:
+      type: kubernetes.io/rook
+      data:
+        AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: "pxc-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
+        property: username
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: "pxc-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
+        property: password
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: "psmb-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
+  namespace: ${ARGOCD_ENV_env_name}
+spec:
+  refreshInterval: 1m
+  secretStoreRef:
+    kind: SecretStore
+    name: ${ARGOCD_ENV_env_name}-secrets-store
+  target:
+    name: "psmb-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}-secret"
+    template:
+      type: kubernetes.io/rook
+      data:
+        AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: "psmb-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
+        property: username
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: "psmb-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
+        property: password
+---
+apiVersion: utils.mojaloop.io/v1alpha1
+kind: ObjectSyncer
+metadata:
+  name: ${ARGOCD_ENV_env_name}-pxc-backup-bucket-secret
+  namespace: ${ARGOCD_ENV_env_name}
+  annotations:
+    argocd.argoproj.io/sync-wave: -100
+spec:
+  parameters:
+    objectType: Secret
+    source:
+      namespace: ${ARGOCD_ENV_env_name}
+      name: "pxc-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}-secret"
+    destination:
+      namespace: ${ARGOCD_ENV_env_name}
+      name: "pxc-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}-secret"
+  providerConfigsRef:
+    sourceK8sProviderName: kubernetes-provider
+    destinationK8sProviderName: "sc-kubernetes-provider"
+  managementPolicies:
+    - "*"
+---
+apiVersion: utils.mojaloop.io/v1alpha1
+kind: ObjectSyncer
+metadata:
+  name: ${ARGOCD_ENV_env_name}-psmb-backup-bucket-secret
+  namespace:  ${ARGOCD_ENV_storage_namespace}
+  annotations:
+    argocd.argoproj.io/sync-wave: -100
+spec:
+  parameters:
+    objectType: Secret
+    source:
+      namespace: ${ARGOCD_ENV_env_name}
+      name: "psmb-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}-secret"
+    destination:
+      namespace: ${ARGOCD_ENV_env_name}
+      name: "psmb-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}-secret"
+  providerConfigsRef:
+    sourceK8sProviderName: kubernetes-provider
+    destinationK8sProviderName: "sc-kubernetes-provider"
+  managementPolicies:
+    - "*"
