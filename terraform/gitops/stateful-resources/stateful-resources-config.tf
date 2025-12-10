@@ -238,7 +238,7 @@ resource "local_file" "dbaas-crs-mysql" {
         mysql_configuration          = each.value.dbaas_resource_config.mysql_config
         istio_nb_egress_waypoint_name      = var.istio_nb_egress_waypoint_name
         istio_nb_egress_waypoint_namespace = var.istio_nb_egress_waypoint_namespace
-        backup_bucket                      = local.dbaas_backup_bucket
+        backup_bucket                      = var.object_store_percona_backup_bucket
   })
   filename = "${local.stateful_resources_output_path}/db-cluster-${each.key}.yaml"
 }
@@ -483,7 +483,6 @@ locals {
   percona_credentials_id_provider_key     = "percona_bucket_access_key_id"
 
   strimzi_kafka_grafana_dashboards_version = "0.41.0"
-  dbaas_backup_bucket                     = data.gitlab_project_variable.object_store_percona_backup_bucket.value
 }
 
 variable "create_stateful_resources_ns" {
