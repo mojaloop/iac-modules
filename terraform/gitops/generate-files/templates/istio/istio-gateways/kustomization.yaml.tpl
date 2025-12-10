@@ -24,3 +24,11 @@ helmCharts:
   repo: ${istio_chart_repo}
   valuesFile: values-istio-internal-ingress-gateway.yaml
   namespace: ${istio_internal_gateway_namespace}
+
+patches:
+  - path: toleration-patch.yaml
+    target:
+      kind: Deployment
+  - path: toleration-patch.yaml
+    target:
+      kind: DaemonSet
