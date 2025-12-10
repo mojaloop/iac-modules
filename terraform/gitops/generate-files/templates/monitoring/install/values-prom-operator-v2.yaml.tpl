@@ -74,7 +74,6 @@ prometheusOperator:
   
   nodeSelector:
     workload-class.mojaloop.io/MONITORING: "enabled"
-  
   resources:
     requests:
       cpu: 20m
