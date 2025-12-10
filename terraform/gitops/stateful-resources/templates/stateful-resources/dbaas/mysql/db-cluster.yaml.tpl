@@ -79,8 +79,8 @@ spec:
       image: ${backup_image}
       imagePullPolicy: IfNotPresent
       verifyTLS: ${backup_verify_tls}
-      bucket: "${backup_bucket}"
-      credentialsSecret: "${backup_bucket}-secret"
+      bucket: "${cc_name}-${cluster_name}-${dbdeploy_name_prefix}-percona"
+      credentialsSecret: "${cluster_name}-${dbdeploy_name_prefix}-percona"
       bucketRegion: ${cloud_region}
       endpointUrl: "https://s3.${cloud_region}.amazonaws.com"
       scheduleName: ${backup_schedule_name}
