@@ -85,31 +85,6 @@ spec:
 apiVersion: objectstore.mojaloop.io/v1alpha1
 kind: ObjectStore
 metadata:
-  name: "${ARGOCD_ENV_env_name}-percona-bucket"
-  namespace: ${ARGOCD_ENV_env_name}
-spec:
-  parameters:
-    clusterName: ${ARGOCD_ENV_env_name}
-    objectStoreProvider: "s3"
-    bucketName: "percona-${ARGOCD_ENV_env_name}-${ARGOCD_ENV_hyphenated_domain}"
-    namespace: ${ARGOCD_ENV_env_name}
-    ccK8sProviderName: "kubernetes-provider"
-    esoPushSecret: true
-    vaultSecretStore: "vault-secret-store"
-    vaultSecretPath: "${ARGOCD_ENV_env_name}/percona_bucket_access_key_id"
-    s3:
-      awsProviderName: "aws-cp-upbound-provider-config"
-      bucketRegion: ${ARGOCD_ENV_cloud_region}
-      forceDestroy: true
-      deletionPolicy: "Delete"
-    ceph:
-      scK8sProviderName: ${ARGOCD_ENV_sc_provider_config_name}
-      storageClassName: "ceph-bucket"
-      maxSize: "${ARGOCD_ENV_percona_bucket_storage_size}"
----
-apiVersion: objectstore.mojaloop.io/v1alpha1
-kind: ObjectStore
-metadata:
   name: "${ARGOCD_ENV_env_name}-audit-bucket"
   namespace: ${ARGOCD_ENV_env_name}
 spec:
