@@ -22,9 +22,7 @@ alertmanager:
 
 prometheus:
   enabled: true
-  
   prometheusSpec:
-
     scrapeInterval: ${prometheus_scrape_interval}
     evaluationInterval: ${prometheus_scrape_interval}
     
