@@ -20,7 +20,7 @@ configMapGenerator:
 
 helmCharts:
   - name: mimir-distributed
-    releaseName: central-monitoring-grafana
+    releaseName: central-monitoring
     version: 6.0.3
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-mimir.yaml
