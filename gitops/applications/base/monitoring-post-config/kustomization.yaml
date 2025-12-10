@@ -7,7 +7,7 @@ resources:
   - vault-secrets.yaml
   - grafana-provider-config.yaml
   - grafana-oidc.yaml
-  # - dashboards-aws-managed-svs.yaml 
+  # - dashboards-aws-managed-svs.yaml
   - dashboards-default.yaml
   - dashboards-infra.yaml
   - dashboards-k8s.yaml
