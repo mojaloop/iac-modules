@@ -58,7 +58,7 @@ spec:
     name: Mimir
     type: prometheus
     access: proxy
-    url: http://central-monitoring-grafana-mimir-gateway/prometheus
+    url: http://central-monitoring-mimir-gateway/prometheus
     isDefault: true
     editable: true
     jsonData:
