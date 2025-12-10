@@ -23,7 +23,7 @@ helmCharts:
     releaseName: central-monitoring-grafana
     version: 6.0.3
     repo: https://grafana.github.io/helm-charts
-    valuesFile: values-mimir-official-helm.yaml
+    valuesFile: values-mimir.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: kube-prometheus
     releaseName: prom

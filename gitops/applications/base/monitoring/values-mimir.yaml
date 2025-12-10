@@ -1,22 +1,23 @@
+#values: https://github.com/grafana/mimir/blob/mimir-distributed-6.0.3/operations/helm/charts/mimir-distributed/values.yaml
+
 minio:
   enabled: false
 
+kafka:
+  enabled: false
+
 mimir:
-  image:
-    registry: docker.io
-    repository: grafana/mimir
-    tag: 2.13.0
-    pullPolicy: IfNotPresent
-  overrideConfiguration:
-    frontend:
-      max_outstanding_per_tenant: 4096
+  structuredConfig:
+    ingest_storage:
+      enabled: false
     ingester:
       ring:
         replication_factor: ${ARGOCD_ENV_mimir_ingester_replication_factor}
+      push_grpc_method_enabled: true
     blocks_storage:
       tsdb:
         block_ranges_period:
-        - 1h
+          - 1h
     compactor:
       deletion_delay: ${ARGOCD_ENV_mimir_compactor_deletion_delay}
     ruler:
@@ -40,35 +41,35 @@ mimir:
           region: ${ARGOCD_ENV_cloud_region}
           http:
             insecure_skip_verify: ${ARGOCD_ENV_object_store_insecure_skip_verify}
+    
     alertmanager_storage:
       storage_prefix: alertmanager
+    
     ruler_storage:
       storage_prefix: ruler
+    
+    # Memberlist configuration (gossip ring)
     memberlist:
       advertise_port: ${ARGOCD_ENV_mimir_gossip_ring_port}
-      bind_port: ${ARGOCD_ENV_mimir_gossip_ring_port} # use custom memberlist.bind_port to keep loki and mimir rings separate
-  gossipRing:
-    service:
-      ports:
-        http: ${ARGOCD_ENV_mimir_gossip_ring_port}
-  containerPorts:
-    gossipRing: ${ARGOCD_ENV_mimir_gossip_ring_port}
-metrics:
-  enabled: true
+      bind_port: ${ARGOCD_ENV_mimir_gossip_ring_port}
+
+# Metrics and monitoring
+metaMonitoring:
   serviceMonitor:
     enabled: true
-    jobLabel: 'app.kubernetes.io/component'
+    labels:
+      prometheus: kube-prometheus
     relabelings:
-    - sourceLabels: [namespace,job]
-      separator: /
-      regex: (.*)
-      targetLabel: job
-      replacement: $${1}
-      action: replace
-
+      - sourceLabels: [namespace, job]
+        separator: /
+        regex: (.*)
+        targetLabel: job
+        replacement: $${1}
+        action: replace
+    jobLabel: 'app.kubernetes.io/component'
 
 distributor:
-  replicaCount: ${ARGOCD_ENV_mimir_distributor_replica_count}
+  replicas: ${ARGOCD_ENV_mimir_distributor_replica_count}
   resources:
     requests:
       cpu: ${ARGOCD_ENV_mimir_distributor_requests_cpu}
@@ -76,11 +77,12 @@ distributor:
     limits:
       cpu: ${ARGOCD_ENV_mimir_distributor_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_distributor_limits_memory}
-  networkPolicy:
-    enabled: false
+  extraEnvFrom:
+    - secretRef:
+        name: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
 
 ingester:
-  replicaCount: ${ARGOCD_ENV_mimir_ingester_replica_count}
+  replicas: ${ARGOCD_ENV_mimir_ingester_replica_count}
   resources:
     requests:
       cpu: ${ARGOCD_ENV_mimir_ingester_requests_cpu}
@@ -88,108 +90,131 @@ ingester:
     limits:
       cpu: ${ARGOCD_ENV_mimir_ingester_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ingester_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
-  persistence:
+  extraEnvFrom:
+    - secretRef:
+        name: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistentVolume:
+    enabled: true
     size: ${ARGOCD_ENV_mimir_ingester_storage_size}
-  networkPolicy:
-    enabled: false
+  zoneAwareReplication:
+    enabled: false  
 
 querier:
-  replicaCount: ${ARGOCD_ENV_mimir_querier_replica_count}
+  replicas: ${ARGOCD_ENV_mimir_querier_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_querier_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_querier_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
-  networkPolicy:
-    enabled: false
+  extraEnvFrom:
+    - secretRef:
+        name: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
 
-queryFrontend:
-  replicaCount: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
+query_frontend:
+  replicas: ${ARGOCD_ENV_mimir_query_frontend_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_query_frontend_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_query_frontend_limits_memory}
-  networkPolicy:
-    enabled: false
 
 compactor:
-  replicaCount: ${ARGOCD_ENV_mimir_compactor_replica_count}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  replicas: ${ARGOCD_ENV_mimir_compactor_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_compactor_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_compactor_limits_memory}
-  persistence:
+  extraEnvFrom:
+    - secretRef:
+        name: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistentVolume:
+    enabled: true
     size: ${ARGOCD_ENV_mimir_compactor_storage_size}
-  networkPolicy:
-    enabled: false
 
-storeGateway:
-  replicaCount: ${ARGOCD_ENV_mimir_store_gateway_replica_count}
+store_gateway:
+  replicas: ${ARGOCD_ENV_mimir_store_gateway_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_store_gateway_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_store_gateway_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
-  persistence:
+  extraEnvFrom:
+    - secretRef:
+        name: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistentVolume:
+    enabled: true
     size: ${ARGOCD_ENV_mimir_store_gateway_storage_size}
-  networkPolicy:
-    enabled: false
+  zoneAwareReplication:
+    enabled: false  
 
 ruler:
   enabled: true
-  replicaCount: ${ARGOCD_ENV_mimir_ruler_replica_count}
+  replicas: ${ARGOCD_ENV_mimir_ruler_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_ruler_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_ruler_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
-  networkPolicy:
-    enabled: false
+  extraEnvFrom:
+    - secretRef:
+        name: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
 
 alertmanager:
   enabled: true
-  replicaCount: ${ARGOCD_ENV_mimir_alertmanager_replica_count}
+  replicas: ${ARGOCD_ENV_mimir_alertmanager_replica_count}
   resources:
     limits:
       cpu: ${ARGOCD_ENV_mimir_alertmanager_limits_cpu}
       memory: ${ARGOCD_ENV_mimir_alertmanager_limits_memory}
-  extraEnvVarsSecret: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
-  persistence:
+  extraEnvFrom:
+    - secretRef:
+        name: "mimir-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+  persistentVolume:
+    enabled: true
     size: ${ARGOCD_ENV_mimir_alertmanager_storage_size}
-  networkPolicy:
-    enabled: false
+  zoneAwareReplication:
+    enabled: false  
 
 gateway:
-  networkPolicy:
-    enabled: false
+  enabledNonEnterprise: true
 
-memcachedchunks:
-  image:
-    registry: docker.io
-    repository: memcached
-    tag: 1.6.29
-  networkPolicy:
-    enabled: false
-memcachedfrontend:
-  image:
-    registry: docker.io
-    repository: memcached
-    tag: 1.6.29
-  networkPolicy:
-    enabled: false
-memcachedindex:
-  image:
-    registry: docker.io
-    repository: memcached
-    tag: 1.6.29
-  networkPolicy:
-    enabled: false
-memcachedmetadata:
-  image:
-    registry: docker.io
-    repository: memcached
-    tag: 1.6.29
-  networkPolicy:
-    enabled: false
+# Memcached configuration
+chunks-cache:
+  enabled: true
+  resources:
+    requests:
+      memory: 256Mi
+
+index-cache:
+  enabled: true
+
+metadata-cache:
+  enabled: true
+
+results-cache:
+  enabled: true
+
+rollout_operator:
+  enabled: false
+
+# Global settings
+global:
+  dnsService: "external-dns" 
+  dnsNamespace: "ext-dns"
+
+# Runtime configuration for memberlist (gossip ring)
+runtimeConfig: {}
+
+# Service accounts
+serviceAccount:
+  create: true
+  name: ""
+
+# RBAC
+rbac:
+  create: true
+  pspEnabled: false
+
+# Network policies - disabled
+networkPolicy:
+  enabled: false
+  ingress:
+    - {}
+  egress:
+    - {}
