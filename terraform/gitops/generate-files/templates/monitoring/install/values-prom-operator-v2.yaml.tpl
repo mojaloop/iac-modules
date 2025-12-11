@@ -82,7 +82,6 @@ prometheusOperator:
 kubelet:
   enabled: true
   namespace: kube-system
-  
   serviceMonitor:
     metricRelabelings:
       # Drop high-cardinality metrics
