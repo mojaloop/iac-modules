@@ -162,3 +162,6 @@ kubeApiServer:
 
 commonLabels:
   build: argocd
+
+grafana:
+  enabled: false
