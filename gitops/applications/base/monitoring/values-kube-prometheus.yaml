@@ -60,7 +60,6 @@ prometheus:
       metadataConfig:
         sendInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
 
-
 kubelet:
   serviceMonitor:
     relabelings:
