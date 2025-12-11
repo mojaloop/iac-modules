@@ -20,7 +20,9 @@ alertmanager:
     nodeSelector:
       workload-class.mojaloop.io/MONITORING: "enabled"
     
-    configSecret: alertmanager-config  # Points to your external config
+    alertmanagerConfigSelector:
+      matchLabels:
+        alertmanagerConfig: primary
 
 prometheus:
   enabled: true
