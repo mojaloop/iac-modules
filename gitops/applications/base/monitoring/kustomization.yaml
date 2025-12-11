@@ -21,7 +21,7 @@ configMapGenerator:
 helmCharts:
   - name: mimir-distributed
     releaseName: central-monitoring
-    version: 6.0.3
+    version: ${ARGOCD_ENV_grafana_mimir_helm_version}
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-mimir.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
