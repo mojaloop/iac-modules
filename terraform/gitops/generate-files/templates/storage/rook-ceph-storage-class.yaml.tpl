@@ -23,7 +23,7 @@ parameters:
   csi.storage.k8s.io/fstype: ext4
 provisioner: "${storage_namespace}.rbd.csi.ceph.com"
 reclaimPolicy: Delete
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
 
 ---
