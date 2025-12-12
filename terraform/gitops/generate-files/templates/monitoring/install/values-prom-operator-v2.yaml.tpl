@@ -7,7 +7,11 @@ alertmanager:
   
   alertmanagerSpec:
     externalUrl: "https://${alertmanager_fqdn}"
-    
+    tolerations:
+    - key: "workload-class.mojaloop.io/MONITORING"
+      operator: "Equal"
+      value: "enabled"
+      effect: "NoSchedule"
     storage:
       volumeClaimTemplate:
         spec:
@@ -31,7 +35,7 @@ prometheus:
     evaluationInterval: ${prometheus_scrape_interval}
     retention: ${prometheus_retention_period}
     enableRemoteWriteReceiver: true
-    
+
     storageSpec:
       volumeClaimTemplate:
         spec:
@@ -40,6 +44,11 @@ prometheus:
           resources:
             requests:
               storage: ${prometheus_pvc_size}
+    tolerations:
+    - key: "workload-class.mojaloop.io/MONITORING"
+      operator: "Equal"
+      value: "enabled"
+      effect: "NoSchedule"
     
     nodeSelector:
       workload-class.mojaloop.io/MONITORING: "enabled"
@@ -75,13 +84,24 @@ prometheus:
 
 prometheusOperator:
   enabled: true
-  
+  tolerations:
+  - key: "workload-class.mojaloop.io/MONITORING"
+    operator: "Equal"
+    value: "enabled"
+    effect: "NoSchedule"
   nodeSelector:
     workload-class.mojaloop.io/MONITORING: "enabled"
   resources:
     requests:
       cpu: 20m
       memory: 100Mi
+  admissionWebhooks:
+    patch:
+      tolerations:
+      - key: "workload-class.mojaloop.io/MONITORING"
+        operator: "Equal"
+        value: "enabled"
+        effect: "NoSchedule"
 
 kubelet:
   enabled: true
@@ -124,7 +144,11 @@ kubelet:
 
 kube-state-metrics:
   enabled: true
-  
+  tolerations:
+  - key: "workload-class.mojaloop.io/MONITORING"
+    operator: "Equal"
+    value: "enabled"
+    effect: "NoSchedule"
   prometheus:
     monitor:
       enabled: true
@@ -159,7 +183,10 @@ prometheus-node-exporter:
           action: labeldrop
   
   tolerations:
-    - operator: "Exists"
+  - key: "workload-class.mojaloop.io/MONITORING"
+    operator: "Equal"
+    value: "enabled"
+    effect: "NoSchedule"
 
 kubeApiServer:
   enabled: false 
