@@ -17,12 +17,17 @@ spec:
   destination:
     namespace: ${vault_namespace}
     server: https://kubernetes.default.svc
-  project: default
+  project: default  
   ignoreDifferences:
-  - group: admissionregistration.k8s.io
-    kind: MutatingWebhookConfiguration
-    jqPathExpressions:
-    - .webhooks[]?.clientConfig.caBundle
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      jqPathExpressions:
+      - .webhooks[]?.clientConfig.caBundle
+    - group: ""
+      kind: PersistentVolumeClaim
+      jqPathExpressions:
+        - .spec.dataSource
+        - .spec.dataSourceRef
   syncPolicy:
     automated:
       prune: true

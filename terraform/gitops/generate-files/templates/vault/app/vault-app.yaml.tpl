@@ -16,12 +16,6 @@ spec:
     namespace: ${vault_namespace}
     server: https://kubernetes.default.svc
   project: default
-  ignoreDifferences:
-    - group: ""
-      kind: PersistentVolumeClaim
-      jqPathExpressions:
-        - .spec.dataSource
-        - .spec.dataSourceRef
   syncPolicy:
     automated:
       prune: true
