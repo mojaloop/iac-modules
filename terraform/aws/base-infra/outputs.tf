@@ -9,13 +9,13 @@ output "bastion_private_ip" {
 }
 
 output "bastion_public_ips" {
-    description = "List of public IP addresses of bastion instances"
-    value       = data.aws_instances.bastion_instances.public_ips
+  description = "List of public IP addresses of bastion instances"
+  value       = data.aws_instances.bastion_instances.public_ips
 }
 
 output "bastion_private_ips" {
-    description = "List of private IP addresses of bastion instances"
-    value       = data.aws_instances.bastion_instances.private_ips
+  description = "List of private IP addresses of bastion instances"
+  value       = data.aws_instances.bastion_instances.private_ips
 }
 output "ssh_private_key" {
   description = "Private key in PEM format"
@@ -70,5 +70,5 @@ output "netmaker_public_ip" {
 }
 
 output "key_pair_name" {
-  value = local.cluster_domain
+  value = aws_key_pair.generated_key.key_name
 }

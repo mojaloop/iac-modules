@@ -106,7 +106,7 @@ resource "aws_instance" "netmaker" {
   instance_type = "t3.small"
   subnet_id     = element(module.vpc_netmaker[0].public_subnets, 0)
   user_data     = templatefile("${path.module}/templates/bastion.user_data.tmpl", { ssh_keys = local.ssh_keys })
-  key_name      = local.cluster_domain
+  key_name      = aws_key_pair.generated_key.key_name
 
   vpc_security_group_ids = [aws_security_group.netmaker[0].id, module.vpc_netmaker[0].default_security_group_id]
 
