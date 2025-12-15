@@ -1,0 +1,169 @@
+#values: https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-80.0.0/charts/kube-prometheus-stack/values.yaml
+
+nameOverride: "kube-prometheus"
+
+prometheusOperator:
+  enabled: true
+  
+  resources:
+    limits:
+      cpu: 200m
+      memory: 200Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  
+  logLevel: debug
+  
+  networkPolicy:
+    enabled: false
+
+alertmanager:
+  enabled: false 
+  
+prometheus:
+  enabled: true
+  
+  networkPolicy:
+    enabled: false
+  
+  prometheusSpec:
+
+    scrapeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
+    evaluationInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
+    
+    retention: ${ARGOCD_ENV_prometheus_retention_period}
+    
+    externalLabels:
+      cluster: ${ARGOCD_ENV_cluster_label_value}
+    
+    disableCompaction: false
+    additionalArgs:
+      - name: storage.tsdb.min-block-duration
+        value: ${ARGOCD_ENV_tsdb_min_block_duration}
+      - name: storage.tsdb.max-block-duration
+        value: ${ARGOCD_ENV_tsdb_max_block_duration}
+    
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: ${ARGOCD_ENV_prometheus_pvc_size}
+    
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+    
+    remoteWrite:
+      - name: central-monitoring
+        url: ${ARGOCD_ENV_prometheus_remote_write_endpoint}/api/v1/push
+        headers:
+          X-Scope-OrgID: ${ARGOCD_ENV_remote_write_tenant_id}
+        metadataConfig:
+          sendInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
+
+kubelet:
+  enabled: true
+  serviceMonitor:
+    metricRelabelings:
+      - sourceLabels: ['__name__']
+        regex: 'apiserver_request_duration_seconds_bucket|apiserver_request_sli_duration_seconds_bucket'
+        action: drop
+      - sourceLabels: ['__name__']
+        regex: 'apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket'
+        action: drop
+      - sourceLabels: ['__name__']
+        regex: 'etcd_request_duration_seconds_bucket|apiserver_watch_events_sizes_bucket'
+        action: drop
+      - sourceLabels: ['__name__']
+        regex: 'apiserver_watch_cache_read_wait_seconds_bucket'
+        action: drop
+      - regex: endpoint|service
+        action: labeldrop
+    
+    relabelings:
+      # Add kubernetes_io_hostname label from node label
+      - sourceLabels: [node]
+        separator: ;
+        regex: (.*)
+        targetLabel: kubernetes_io_hostname
+        replacement: $1
+        action: replace
+    
+    cAdvisorMetricRelabelings:
+      - sourceLabels: ['__name__']
+        regex: 'container_tasks_state|container_memory_failures_total|container_blkio_device_usage_total'
+        action: drop
+      - regex: endpoint|service
+        action: labeldrop
+      - sourceLabels: [name]
+        regex: '^[a-f0-9]{64}$'
+        targetLabel: name
+        replacement: ''
+        action: replace
+
+kubeApiServer:
+  enabled: false 
+
+kube-state-metrics:
+  enabled: true
+  
+  networkPolicy:
+    enabled: false
+  
+  prometheus:
+    monitor:
+      enabled: true
+      
+      metricRelabelings:
+        - regex: uid
+          action: labeldrop
+
+      relabelings:
+        - sourceLabels: [endpoint]
+          regex: http
+          targetLabel: endpoint
+          replacement: ''
+          action: replace
+        - sourceLabels: [service]
+          regex: prom-kube-state-metrics
+          targetLabel: service
+          replacement: ''
+          action: replace
+
+prometheus-node-exporter:
+  enabled: true
+  
+  networkPolicy:
+    enabled: false
+  
+  tolerations:
+    - operator: "Exists"
+  
+  prometheus:
+    monitor:
+      enabled: true
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          targetLabel: nodename
+        - sourceLabels: [nodename]
+          separator: ;
+          regex: (.*)
+          targetLabel: instance
+          replacement: $1
+          action: replace
+        - regex: endpoint|service
+          action: labeldrop
+
+grafana:
+  enabled: false
+
+kubeEtcd:
+  enabled: false
+

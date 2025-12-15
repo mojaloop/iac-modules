@@ -105,7 +105,6 @@ prometheusOperator:
 
 kubelet:
   enabled: true
-  namespace: kube-system
   serviceMonitor:
     metricRelabelings:
       # Drop high-cardinality metrics
@@ -195,4 +194,7 @@ commonLabels:
   build: argocd
 
 grafana:
+  enabled: false
+
+kubeEtcd:
   enabled: false
