@@ -40,7 +40,7 @@ common_platform_db:
     # Backup specific configurations
     enable_backup: true
     backup_image: "percona/percona-xtrabackup:8.0.35-34.1"       # Docker image for the backup tool
-    backup_verify_tls: "false"
+    backup_verify_tls: "true"
     backup_schedule_name: "daily_backup"                         # Name for the backup schedule
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
     backup_retention: "3"                                        # Number of backups to retain
@@ -178,7 +178,7 @@ common_mojaloop_db:
     # Backup specific configurations
     enable_backup: true
     backup_image: "percona/percona-xtrabackup:8.0.35-34.1"       # Docker image for the backup tool
-    backup_verify_tls: "false"                                   # Whether to verify TLS for backup
+    backup_verify_tls: "true"                                   # Whether to verify TLS for backup
     backup_schedule_name: "daily_backup"                         # Name for the backup schedule
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
     backup_retention: "3"                                        # Number of backups to retain
