@@ -3,6 +3,8 @@ kind: PrometheusRule
 metadata:
   name: dfsp-alerts
   namespace: ${monitoring_namespace}
+  labels: 
+    release: prom
 spec:
   groups:
   - name: dfsp.rules
