@@ -15,6 +15,10 @@ module "generate_storage_files" {
     external_secret_sync_wave       = var.external_secret_sync_wave
     cluster_name                    = var.cluster_name
     rook_ceph_helm_version          = var.rook_ceph_helm_version
+    openebs_helm_version            = var.openebs_helm_version
+    openebs_namespace               = var.openebs_namespace
+    openebs_hostpath_sc_name        = var.openebs_hostpath_sc_name
+    openebs_localpv_base_path       = var.openebs_localpv_base_path
     rgw_admin_ops_user              = "${var.cluster_name}/rgw_admin_ops_user"
     rook_ceph_mon                   = "${var.cluster_name}/rook_ceph_mon"
     rook_csi_cephfs_node            = "${var.cluster_name}/rook_csi_cephfs_node"
@@ -76,6 +80,26 @@ variable "aws_ebs_csi_driver_replicas" {
 
 variable "rook_ceph_helm_version" {
   type        = string
+}
+
+variable "openebs_helm_version" {
+  type        = string
+  default     = "4.4.0"
+}
+
+variable "openebs_namespace" {
+  type        = string
+  default     = "openebs"
+}
+
+variable "openebs_hostpath_sc_name" {
+  type        = string
+  default     = "openebs-hostpath-retain"
+}
+
+variable "openebs_localpv_base_path" {
+  type        = string
+  default     = "/var/openebs/local"
 }
 
 variable "cloud_platform" {
