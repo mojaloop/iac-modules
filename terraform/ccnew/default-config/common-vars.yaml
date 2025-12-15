@@ -173,7 +173,7 @@ kube_prometheus_helm_version: "80.0.0"
 grafana_mimir_helm_version: "6.0.3"
 grafana_public_access: false
 grafana_crd_version_tag: "5.20.0"
-prometheus_crd_version: "13.0.2"
+prometheus_crd_version: "25.0.0"
 prometheus_process_exporter_version: 0.4.2
 grafana_operator_version: "v5.20.0"
 grafana_image_version: 12.1.0
