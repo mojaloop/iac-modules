@@ -155,7 +155,7 @@ variable "metrics_server_replicas" {
 
 locals {
   bitnami_repo                        = "oci://registry-1.docker.io/bitnamicharts"
-  grafana_crd_version_tag             = "v5.6.0"
+  grafana_crd_version_tag             = "v5.20.0"
   prometheus_crd_version              = "25.0.0"
   opentelemetry_chart_version         = "0.93.1"
   grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
