@@ -77,7 +77,7 @@ Automatic renewal is implemented via this process:
 1. If the token needs renewal, Crossplane triggers the recreation of the token and
    a commit to the environment for which the token is created.
 1. The commit updates a file named `.vault_token_trigger` with a hash of the new
-   token value and a message like prefix `tf_trigger:`
+   token value and a message prefix `tf_trigger:`
 1. This triggers the GitLab job `tf-refresh-deploy-infra` in the environment,
    which picks up the new token value and propagates it to the environment
    cluster as described in the "Propagation" section above.
