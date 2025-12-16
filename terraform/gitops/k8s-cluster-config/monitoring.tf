@@ -58,6 +58,7 @@ module "generate_monitoring_files" {
     prometheus_rate_interval                   = try(var.common_var_map.prometheus_rate_interval, local.prometheus_rate_interval)
     prometheus_retention_period                = try(var.common_var_map.prometheus_retention_period, local.prometheus_retention_period)
     alertmanager_enabled                       = try(var.common_var_map.alertmanager_enabled, false)
+    prometheus_RemoteWriteReceiver_enabled     = try(var.common_var_map.prometheus_RemoteWriteReceiver_enabled, false)
     alertmanager_slack_integration_enabled     = try(var.common_var_map.alertmanager_slack_integration_enabled, false)
     alertmanager_jira_integration_enabled      = try(var.common_var_map.alertmanager_jira_integration_enabled, false)
     promtail_kubernetes_sd_configs             = try(var.common_var_map.promtail_kubernetes_sd_configs, [{ role = "pod" }])
