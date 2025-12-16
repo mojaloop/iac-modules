@@ -23,7 +23,7 @@ PM4ML uses a dedicated client certificate for outbound TLS connections to the Hu
 
 **Key characteristics:**
 - Private key is generated and stored in Vault
-- Certificate is signed by MCM (not Vault PKI directly)
+- Certificate is signed by MCM
 - Used specifically for PM4ML connector outbound HTTPS connections
 - Monitored by the state machine for automatic renewal
 - Updates trigger connector configuration reload via `UPDATE_CONNECTOR_CONFIG` event
