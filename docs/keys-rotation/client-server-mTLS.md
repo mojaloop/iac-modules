@@ -6,7 +6,6 @@ Mutual TLS (mTLS) certificates secure communication between Hub and DFSPs, ensur
 |------------------|------------------|--------------|--------------|
 | MCM/PM4ML Vault | 29 days | 15 days | Never (key reused) |
 | Proxy-PM4ML Vault | 29 days | 15 days | Never (key reused) |
-| DFSP Client Cert (PM4ML Outbound) | Variable | N/A | Manual only |
 
 ---
 
@@ -40,10 +39,10 @@ This certificate can only be manually rotated through the DFSP's PM4ML UI. Autom
 
 - Hub-DFSP communication breaks (mutual TLS handshake fails)
 - MCM cannot establish secure connections with external systems
-- PM4ML connectors lose connectivity to the Hub (both inbound and outbound)
+- PM4ML connectors lose connectivity to the Hub
 - Interop gateway rejects incoming DFSP connections
 
-**Security Note:** Private keys are NOT rotated on renewal (no `rotationPolicy: Always`) for Vault-issued certificates. If a private key is compromised, certificate renewal does not mitigate the risk - the same key continues to be used. However, DFSP client certificates generate new key pairs with each CSR.
+**Security Note:** Private keys are NOT rotated on renewal (no `rotationPolicy: Always`). If a private key is compromised, certificate renewal does not mitigate the risk - the same key continues to be used.
 
 ---
 
@@ -101,7 +100,7 @@ certExpiryThresholdDays: 7  # Trigger renewal when cert expires within 7 days (d
 | istio-ingress-ext | vault-tls-cert | Interop gateway | Yes (Istio SDS) |
 | `{proxy-id}` | `{proxy-id}`-vault-tls-cert-scheme-* | Proxy-PM4ML | Yes (Reloader) |
 | `{dfsp-id}` | `{dfsp-id}`-vault-tls-cert | PM4ML connectors | Yes (Reloader) |
-| `{dfsp-id}` | Vault-stored secret/mcm/dfsp-outbound-enrollment/ | PM4ML outbound client cert | Yes (Config reload) |
+| `{dfsp-id}` | Vault-stored secret/mcm/dfsp-outbound-enrollment/ | PM4ML connectors | Yes (Config reload) |
 
 **Cross-namespace distribution:**
 
