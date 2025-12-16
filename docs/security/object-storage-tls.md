@@ -1,4 +1,4 @@
-# Rook Ceph Object Storage Certificates
+# Object Storage TLS
 
 Rook Ceph uses self-signed certificates for mTLS encryption on the Ceph RGW (S3-compatible object storage). Rotation is automated via cert-manager.
 

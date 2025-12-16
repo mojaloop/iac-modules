@@ -1,4 +1,4 @@
-# Client/Server mTLS Key Rotation
+# DFSP mTLS
 
 Mutual TLS (mTLS) certificates secure communication between Hub and DFSPs, ensuring both client and server authenticate using X.509 certificates. Vault PKI acts as the Certificate Authority, with cert-manager automating lifecycle management.
 

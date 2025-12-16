@@ -1,4 +1,4 @@
-# DFSP JWS Key Rotation
+# DFSP JWS
 
 DFSP JWS (JSON Web Signature) certificates are used for signing FSPIOP messages between DFSPs and the Hub.
 Proper rotation is critical to maintain secure and uninterrupted message flows.

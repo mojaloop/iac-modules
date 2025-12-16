@@ -1,4 +1,4 @@
-# JWS Key Rotation
+# Hub JWS
 
 JWS (JSON Web Signature) signing certificates are used for digital signatures on FSPIOP messages between the Hub and DFSPs. Rotation is fully automated via cert-manager.
 

@@ -1,4 +1,4 @@
-# Let's Encrypt Certificates
+# Gateway TLS
 
 Let's Encrypt provides public-facing TLS certificates for web portals and external ingress. Rotation is fully automated via ACME protocol.
 

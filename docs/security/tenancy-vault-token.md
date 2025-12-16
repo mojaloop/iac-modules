@@ -1,16 +1,10 @@
-# Secrets
-
-Mojaloop uses various secrets to implement security. This is documentation
-describes which part of the system they protect, how their expiration is configured,
-how they are propagated and how they are renewed.
-
-## Vault access token
+# Tenancy vault token
 
 This secret allows the environments to access the tenancy vault.
 It is also known as `env_token` or `ENV_VAULT_TOKEN` in various
 places across the iac-modules.
 
-### Security impact
+## Security impact
 
 This secret allows to secure the following functionality:
 
@@ -29,7 +23,7 @@ This secret allows to secure the following functionality:
   - The automated onboarding, which writes to the tenancy
     vault
 
-### Configuring expiration
+## Configuring expiration
 
 The default is in [common-vars.yaml](../terraform/ccnew/default-config/common-vars.yaml)
 The expiration can be configured in:
@@ -39,7 +33,7 @@ The expiration can be configured in:
 env_token_ttl: "14d" # expiration time in days
 ```
 
-### Propagation
+## Propagation
 
 This secret is stored in the tenancy vault in the CC cluster and propagates to
 the GitLab pipeline jobs via `.gitlab-ci.yaml`.
@@ -61,10 +55,16 @@ sequenceDiagram
     pipeline ->> secret: Ansible var 'tenant_vault_token'
 ```
 
-### Renewal
+## Renewal
 
 Manual renewal can be achieved by following the steps:
 
-1. step 1
-1. step 2
+1.
+1.
+
+Automatic renewal is implemented via this process:
+
+1.
+1.
+
 ...

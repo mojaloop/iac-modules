@@ -1,4 +1,4 @@
-# OAuth Key Rotation Findings
+# Authentication
 
 ## Executive Summary
 
