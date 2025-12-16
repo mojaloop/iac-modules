@@ -52,12 +52,12 @@ helmCharts:
   repo: https://open-telemetry.github.io/opentelemetry-helm-charts
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
-- name: loki-canary
-  releaseName: loki-canary-ext-helm
-  version: ${loki_canary_chart_version}
-  repo: ${loki_canary_repo}
-  valuesFile: values-loki-canary.yaml
-  namespace: ${monitoring_namespace}
+# - name: loki-canary
+#   releaseName: loki-canary-ext-helm
+#   version: ${loki_canary_chart_version}
+#   repo: ${loki_canary_repo}
+#   valuesFile: values-loki-canary.yaml
+#   namespace: ${monitoring_namespace}
 - name: alloy
   releaseName: alloy
   version: 1.4.0
