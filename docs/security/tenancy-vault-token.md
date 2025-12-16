@@ -64,7 +64,20 @@ Manual renewal can be achieved by following the steps:
 
 Automatic renewal is implemented via this process:
 
-1.
-1.
-
-...
+1. A [Workspace](../../gitops/applications/base/deploy-env/env-config-xplane-terraform.yaml)
+  named `envs-config` is created in the control center cluster.
+1. This workspace uses a Crossplane `ProviderConfig` (defined in the same file above)
+  to connect to the tenancy vault.
+1. The workspace points to the Terraform module defined in the folder
+  [deploy-env-config](../../terraform/config-params/ccnew-config/deploy-env-config)
+1. The module maintains a `vault_token` resource named `env_token`, defined in
+  [vault-transit.tf](../../terraform/config-params/ccnew-config/deploy-env-config/vault-transit.tf)
+1. Each time the workspace is reconciled, Crossplane checks the expiry of the
+   token in Vault.
+1. If the token needs renewal, Crossplane triggers the recreation of the token and
+   a commit to the environment for which the token is created.
+1. The commit updates a file named `.vault_token_trigger` with a hash of the new
+   token value and a message like prefix `tf_trigger:`
+1. This triggers the GitLab job `tf-refresh-deploy-infra` in the environment,
+   which picks up the new token value and propagates it to the environment
+   cluster as described in the "Propagation" section above.
