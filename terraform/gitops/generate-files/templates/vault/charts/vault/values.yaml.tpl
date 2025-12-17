@@ -55,7 +55,7 @@ vault:
       - name: init-sidecar
         image: ghcr.io/mojaloop/vault-utils:0.0.4
         imagePullPolicy: IfNotPresent
-        command: ["sh","-c","cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep 60; /tmp/bootstrap.sh; done"]
+        command: ["sh","-c","cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep 300; /tmp/bootstrap.sh; done"]
         volumeMounts:
           - name: userconfig-post-config
             mountPath: /etc/vault/
