@@ -166,25 +166,24 @@ data:
           fi
         else
 
-          echo "This is a follower pod (Ordinal $POD_ORDINAL). Attempting to join the cluster."
+          echo "🛰️ VAULT-$POD_ORDINAL: Waiting for Auto-Join and Auto-Unseal..."
 
-          for i in {1..30}; do
-            if curl -s http://vault-0.vault-internal:8200/v1/sys/health | jq -e '.initialized == true' > /dev/null; then
-              echo "✅ VAULT-0 is ready. Attempting Raft Join..."
+          # We don't run 'vault operator raft join'.
+          # Instead, we wait for the node to become unsealed,
+          # which only happens AFTER it successfully joins the leader.
+          for i in {1..60}; do
+            HEALTH=$(vault status -format=json 2>/dev/null || echo '{"sealed":true}')
+            IS_SEALED=$(echo $HEALTH | jq -r '.sealed')
+            IS_INIT=$(echo $HEALTH | jq -r '.initialized')
+
+            if [ "$IS_SEALED" == "false" ] && [ "$IS_INIT" == "true" ]; then
+              echo "✅ Node is joined and unsealed."
               break
             fi
+
+            echo "⏳ Waiting for cluster membership... (Attempt $i/60)"
             sleep 10
           done
-
-          vault operator raft join http://vault-0.vault-internal:8200
-
-          if [ $? -eq 0 ]; then
-            echo "✅ Successfully joined the Vault cluster."
-          else
-            echo "⚠️ WARNING: Failed to join the cluster. Will rely on config retry_join."
-          fi
-          # time for join to complete
-          sleep 5
 
           fetch_vault_root_token
         fi
