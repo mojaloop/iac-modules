@@ -201,7 +201,7 @@ data:
     #################
     if [ "$VAULT_ROOT_TOKEN" != "" ]
     then
-      vault login -no-print $VAULT_ROOT_TOKEN
+      vault login -no-print $VAULT_ROOT_TOKEN || { echo "❌ Login failed. Check if token is valid or cluster is healhty"; exit 0; }
       cat <<EOT >/tmp/vault-admin-policy.hcl
       path "/*" {
         capabilities = ["create", "read", "update", "delete", "list", "sudo"]
