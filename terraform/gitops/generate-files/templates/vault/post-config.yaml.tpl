@@ -71,7 +71,6 @@ data:
         --header "Authorization: Bearer $GITLAB_TOKEN" | jq -r .value)
       if [ -z "$VAULT_ROOT_TOKEN" ] || [ "$VAULT_ROOT_TOKEN" == "null" ]; then
         echo "ERROR: Could not fetch VAULT_ROOT_TOKEN from GitLab"
-        exit 1
       fi
     }
 
@@ -118,31 +117,88 @@ data:
     echo "✅ Stored secret '$key' in tenancy Vault cluster"
     }
 
-    if [[ $(vault status -format=json | jq .initialized) == "false" ]]
+
+    #################
+    # init section
+    #################
+
+    echo "Waiting for local Vault service to start..."
+    until vault status -format=json > /dev/null 2>&1 || [ $? -ne 1 ]; do
+      sleep 2
+    done
+
+    POD_ORDINAL=$(echo $HOSTNAME | awk -F'-' '{print $NF}')
+    export VAULT_ROOT_TOKEN=""
+    fetch_vault_root_token
+    if [ "$VAULT_ROOT_TOKEN" != "" ] && [ "$VAULT_ROOT_TOKEN" != "null" ];
     then
-      vault operator init -format=json > /tmp/output.json
-      export VAULT_ROOT_TOKEN=$(cat /tmp/output.json | jq .root_token | tr -d '"')
-      if [ "$VAULT_ROOT_TOKEN" != "" ]
-      then
-        create_or_update_gitlab_var "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
-        write_secret_to_tenancy_vault "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
-      else
-        echo "VAULT_ROOT_TOKEN not parsed correctly, exiting"
-        exit 1
-      fi
-      for ((i=0; i<=NUM_KEYS; i++))
-      do
-        export RECOVERY_KEY=$(cat /tmp/output.json | jq .recovery_keys_b64[$i] | tr -d '"')
-        create_or_update_gitlab_var "RECOVERY_KEY_$i" "$RECOVERY_KEY"
-        write_secret_to_tenancy_vault "RECOVERY_KEY_$i" "$RECOVERY_KEY"
-      done
+
+      echo "✅ Vault already initialized (Root token found in GitLab). Moving to config."
     else
-      echo "vault already initialized"
-      echo "fetching root token"
-      fetch_vault_root_token
+
+      IS_INITIALIZED=$(vault status -format=json | jq -r .initialized)
+
+      if [ "$IS_INITIALIZED" == "false" ];
+      then
+
+        if [ "$POD_ORDINAL" -eq 0 ];
+        then
+          echo "This is VAULT-0 (Ordinal 0). Attempting exclusive initialization."
+
+          vault operator init -format=json > /tmp/output.json
+
+          if [ $? -eq 0 ] && [ -s /tmp/output.json ];
+          then
+            export VAULT_ROOT_TOKEN=$(cat /tmp/output.json | jq .root_token | tr -d '"')
+
+            create_or_update_gitlab_var "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
+            write_secret_to_tenancy_vault "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
+
+            for ((i=0; i<=NUM_KEYS; i++))
+            do
+              export RECOVERY_KEY=$(cat /tmp/output.json | jq .recovery_keys_b64[$i] | tr -d '"')
+              create_or_update_gitlab_var "RECOVERY_KEY_$i" "$RECOVERY_KEY"
+              write_secret_to_tenancy_vault "RECOVERY_KEY_$i" "$RECOVERY_KEY"
+            done
+          else
+            echo "❌ ERROR: Initialization failed on VAULT-0. Exiting initialization attempt."
+            exit 1
+          fi
+        else
+
+          echo "This is a follower pod (Ordinal $POD_ORDINAL). Attempting to join the cluster."
+
+          for i in {1..30}; do
+            if curl -s http://vault-0.vault-internal:8200/v1/sys/health | jq -e '.initialized == true' > /dev/null; then
+              echo "✅ VAULT-0 is ready. Attempting Raft Join..."
+              break
+            fi
+            sleep 10
+          done
+
+          vault operator raft join http://vault-0.vault-internal:8200
+
+          if [ $? -eq 0 ]; then
+            echo "✅ Successfully joined the Vault cluster."
+          else
+            echo "⚠️ WARNING: Failed to join the cluster. Will rely on config retry_join."
+          fi
+          # time for join to complete
+          sleep 5
+
+          fetch_vault_root_token
+        fi
+
+      else
+        echo "vault already initialized"
+        echo "fetching root token"
+        fetch_vault_root_token
+      fi
     fi
 
-
+    #################
+    # config section
+    #################
     if [ "$VAULT_ROOT_TOKEN" != "" ]
     then
       vault login -no-print $VAULT_ROOT_TOKEN
@@ -242,5 +298,5 @@ data:
   %{ endif ~}
       rm /tmp/output.json || true
     else
-      echo "no root token found, skipping init"
+      echo "no root token found, skipping configuration"
     fi
