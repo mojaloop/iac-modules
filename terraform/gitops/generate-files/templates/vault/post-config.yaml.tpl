@@ -237,7 +237,7 @@ data:
         vault secrets enable --path=${local_vault_kv_root_path} kv
         echo "✅ Secrets engine '${local_vault_kv_root_path}/' is enabled"
       fi
-      vault secrets tune -default-lease-ttl=2m ${local_vault_kv_root_path}/
+      vault secrets tune -default-lease-ttl=60m ${local_vault_kv_root_path}/
 
       #snapshot
       if vault auth list -format=json | jq -e 'has("approle/")' > /dev/null; then
