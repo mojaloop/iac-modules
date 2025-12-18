@@ -85,15 +85,86 @@ PM4ML deployments have additional per-DFSP OAuth secrets in the `keycloak` names
 | `role-assign-svc-secret-{dfsp-id}`   | DFSP role service account |
 
 
-### 3.3 Rotate PM4ML OAuth client secret
+### 3.3 Rotate PM4ML OAuth Client Secret
 
-**Scenario:** Rotating secret for DFSP (e.g. `test-zmw-dfsp`):
+**Scenario:** Rotating `pm4ml-oidc-client-secret-{dfsp-id}` (e.g., `test-zmw-dfsp`)
 
-1. Delete RandomSecret `pm4ml-oidc-client-secret-test-zmw-dfsp` → regenerates in Vault
-2. VaultSecrets auto-sync new value to all 3 namespaces (keycloak, ory, test-zmw-dfsp)
-3. Restart Keycloak (picks up new client secret)
-4. Restart Kratos/Ory (picks up new oidc-providers config)
-5. Restart PM4ML Experience API (picks up new auth secret)
+**Secret Details:**
+- Vault Path: `/secret/keycloak/pm4ml-oidc-client-secret-{dfsp-id}`
+- Realm: `pm4mls-{dfsp-id}` (e.g., `pm4mls-test-zmw-dfsp`)
+- Client ID: `pm4ml-{dfsp-id}` (e.g., `pm4ml-test-zmw-dfsp`)
+
+**Step 1: Delete RandomSecret to trigger regeneration**
+```bash
+DFSP_ID="test-zmw-dfsp"
+kubectl delete randomsecret pm4ml-oidc-client-secret-${DFSP_ID} -n keycloak
+```
+
+**Step 2: Verify VaultSecrets synced to all namespaces**
+```bash
+# Check keycloak namespace
+kubectl get vaultsecret pm4ml-oidc-client-secret-${DFSP_ID} -n keycloak -o yaml
+
+# Check ory namespace (kratos-oidc-providers)
+kubectl get vaultsecret kratos-oidc-providers -n ory -o yaml
+
+# Check PM4ML namespace
+kubectl get vaultsecret pm4ml-oidc-client-secret-${DFSP_ID} -n ${DFSP_ID} -o yaml
+```
+
+**Step 3: Restart Keycloak to apply new secret**
+```bash
+kubectl rollout restart statefulset switch-keycloak -n keycloak
+```
+
+**Step 4: Update client secret in Keycloak realm (REQUIRED)**
+
+This step is **mandatory**. Pod restart alone does NOT update realm configuration.
+
+```bash
+# Set variables
+DFSP_ID="test-zmw-dfsp"
+REALM="pm4mls-${DFSP_ID}"
+CLIENT="pm4ml-${DFSP_ID}"
+KC_URL="https://keycloak.<cluster>.drpp-onprem.global"
+
+# Get admin password
+ADMIN_PWD=$(kubectl get secret switch-keycloak-initial-admin -n keycloak -o jsonpath='{.data.password}' | base64 -d)
+
+# Authenticate kcadm.sh
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh config credentials \
+  --server $KC_URL --realm master --user admin --password "$ADMIN_PWD"
+
+# Get client internal ID
+CLIENT_ID=$(kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh get clients -r $REALM \
+  --fields id,clientId | jq -r ".[] | select(.clientId==\"$CLIENT\") | .id")
+
+# Get new secret from pod env var (hyphens converted to underscores)
+# e.g., pm4ml-oidc-client-secret-test-zmw-dfsp → pm4ml_oidc_client_secret_test_zmw_dfsp
+ENV_VAR=$(echo "pm4ml_oidc_client_secret_${DFSP_ID}" | tr '-' '_')
+NEW_SECRET=$(kubectl exec -n keycloak statefulset/switch-keycloak -- printenv $ENV_VAR)
+
+# Update client secret in Keycloak realm
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh update clients/$CLIENT_ID -r $REALM \
+  -s "secret=$NEW_SECRET"
+
+# Verify update
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh get clients/$CLIENT_ID -r $REALM \
+  --fields clientId,secret
+```
+
+**Step 5: Restart dependent services**
+```bash
+# Kratos auto-restarts via Stakater Reloader (verify)
+kubectl get pods -n ory -l app.kubernetes.io/name=kratos
+
+# PM4ML Experience API (no auto-restart)
+kubectl rollout restart deployment experience-api -n ${DFSP_ID}
+```
 
 ---
 
@@ -162,6 +233,17 @@ This means after rotating a secret in Vault, it takes up to 1 minute for the new
 │   (uses secret) │     │   (synced)      │     │   (controller)  │
 └─────────────────┘     └─────────────────┘     └─────────────────┘
 ```
+
+### OAuth Client Secrets Summary
+
+| Secret Name | Vault Path | Realm | Client ID | Consumers |
+|-------------|------------|-------|-----------|-----------|
+| `hubop-oidc-secret` | `/secret/keycloak/hubop-oidc-secret` | hub-operators | hub-op | Kratos |
+| `mcm-oidc-client-secret` | `/secret/keycloak/mcm-oidc-client-secret` | dfsps | mcm-portal | MCM, Kratos |
+| `jwt-oidc-client-secret` | `/secret/keycloak/jwt-oidc-client-secret` | dfsps | dfsp-jwt | (none) |
+| `pm4ml-oidc-client-secret-{dfsp}` | `/secret/keycloak/pm4ml-oidc-client-secret-{dfsp}` | pm4mls-{dfsp} | pm4ml-{dfsp} | PM4ML Exp API, Kratos |
+
+**Important:** All OAuth client secrets require manual Keycloak Admin API update after rotation due to KeycloakRealmImport limitation (see Section 6.3).
 
 ### 6.2 Service Restart on Secret Change
 
@@ -282,6 +364,167 @@ kubectl exec -n keycloak statefulset/switch-keycloak -- \
 
 **Step 8: Restart dependent services**
 ```bash
-# Kratos (uses client secret for OIDC)
+# Kratos (uses client secret for OIDC) - has auto-restart via Stakater Reloader
+# Manual restart only if needed:
 kubectl rollout restart deployment kratos -n ory
 ```
+
+---
+
+### 7.2 Rotate MCM Portal OAuth Client Secret
+
+**Scenario:** Rotating `mcm-oidc-client-secret` (MCM Portal OAuth client)
+
+**Secret Details:**
+- Vault Path: `/secret/keycloak/mcm-oidc-client-secret`
+- Realm: `dfsps`
+- Client ID: `mcm-portal`
+
+**Step 1: Delete RandomSecret to trigger regeneration**
+```bash
+kubectl delete randomsecret mcm-oidc-client-secret -n keycloak
+```
+
+**Step 2: Verify new secret generated in Vault**
+```bash
+kubectl get randomsecret mcm-oidc-client-secret -n keycloak
+# Wait for status to show success
+```
+
+**Step 3: Verify VaultSecret synced to K8s**
+```bash
+kubectl get vaultsecret mcm-oidc-client-secret -n keycloak -o yaml
+# Check status.conditions for "ReconcileSuccessful"
+```
+
+**Step 4: Verify K8s secret updated**
+```bash
+kubectl get secret mcm-oidc-client-secret -n keycloak -o yaml
+# Check metadata.annotations for recent update timestamp
+```
+
+**Step 5: Restart Keycloak to apply new secret**
+```bash
+kubectl rollout restart statefulset switch-keycloak -n keycloak
+```
+
+**Step 6: Verify Keycloak pod restarted with new env var**
+```bash
+kubectl get pods -n keycloak -l app=keycloak -o wide
+# Verify pods have recent start time
+```
+
+**Step 7: Update client secret in Keycloak realm (REQUIRED)**
+
+This step is **mandatory**. Pod restart alone does NOT update realm configuration.
+
+```bash
+# Get admin password
+ADMIN_PWD=$(kubectl get secret switch-keycloak-initial-admin -n keycloak -o jsonpath='{.data.password}' | base64 -d)
+KC_URL="https://keycloak.<cluster>.drpp-onprem.global"
+
+# Authenticate kcadm.sh
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh config credentials \
+  --server $KC_URL --realm master --user admin --password "$ADMIN_PWD"
+
+# Get client internal ID (for mcm-portal client in dfsps realm)
+CLIENT_ID=$(kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh get clients -r dfsps \
+  --fields id,clientId | jq -r '.[] | select(.clientId=="mcm-portal") | .id')
+
+# Get new secret from pod env var
+NEW_SECRET=$(kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  printenv mcm_oidc_client_secret)
+
+# Update client secret in Keycloak realm
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh update clients/$CLIENT_ID -r dfsps \
+  -s "secret=$NEW_SECRET"
+
+# Verify update
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh get clients/$CLIENT_ID -r dfsps \
+  --fields clientId,secret
+```
+
+**Step 8: Restart dependent services**
+```bash
+# MCM Portal (no auto-restart)
+kubectl rollout restart deployment mcm -n mcm
+
+# Kratos auto-restarts via Stakater Reloader (verify if needed)
+kubectl get pods -n ory -l app.kubernetes.io/name=kratos
+```
+
+---
+
+### 7.3 Rotate DFSP JWT OAuth Client Secret
+
+**Scenario:** Rotating `jwt-oidc-client-secret` (DFSP JWT signing client)
+
+**Secret Details:**
+- Vault Path: `/secret/keycloak/jwt-oidc-client-secret`
+- Realm: `dfsps`
+- Client ID: `dfsp-jwt`
+- Note: No consuming services mount this secret directly
+
+**Step 1: Delete RandomSecret to trigger regeneration**
+```bash
+kubectl delete randomsecret jwt-oidc-client-secret -n keycloak
+```
+
+**Step 2: Verify new secret generated in Vault**
+```bash
+kubectl get randomsecret jwt-oidc-client-secret -n keycloak
+# Wait for status to show success
+```
+
+**Step 3: Verify VaultSecret synced to K8s**
+```bash
+kubectl get vaultsecret jwt-oidc-client-secret -n keycloak -o yaml
+# Check status.conditions for "ReconcileSuccessful"
+```
+
+**Step 4: Restart Keycloak to apply new secret**
+```bash
+kubectl rollout restart statefulset switch-keycloak -n keycloak
+```
+
+**Step 5: Update client secret in Keycloak realm (REQUIRED)**
+
+This step is **mandatory**. Pod restart alone does NOT update realm configuration.
+
+```bash
+# Get admin password
+ADMIN_PWD=$(kubectl get secret switch-keycloak-initial-admin -n keycloak -o jsonpath='{.data.password}' | base64 -d)
+KC_URL="https://keycloak.<cluster>.drpp-onprem.global"
+
+# Authenticate kcadm.sh
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh config credentials \
+  --server $KC_URL --realm master --user admin --password "$ADMIN_PWD"
+
+# Get client internal ID (for dfsp-jwt client in dfsps realm)
+CLIENT_ID=$(kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh get clients -r dfsps \
+  --fields id,clientId | jq -r '.[] | select(.clientId=="dfsp-jwt") | .id')
+
+# Get new secret from pod env var
+NEW_SECRET=$(kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  printenv jwt_oidc_client_secret)
+
+# Update client secret in Keycloak realm
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh update clients/$CLIENT_ID -r dfsps \
+  -s "secret=$NEW_SECRET"
+
+# Verify update
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh get clients/$CLIENT_ID -r dfsps \
+  --fields clientId,secret
+```
+
+**Step 6: No dependent services to restart**
+
+The `dfsp-jwt` client secret is used only within Keycloak for service account authentication. No external services mount this secret directly.
