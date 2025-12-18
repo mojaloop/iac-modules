@@ -14,6 +14,7 @@ This report documents OAuth/OIDC-related secrets, their rotation mechanisms, and
 
 | Risk | Severity | Status |
 |------|----------|--------|
+| KeycloakRealmImport doesn't reconcile | **HIGH** | Rotated secrets not propagated to realm without manual Admin API update |
 | No OAuth secret rotation | **MEDIUM** | Secrets static until manually rotated |
 | 1-minute sync delay | LOW | Brief window during rotation |
 
@@ -184,12 +185,24 @@ Services with `reloader.stakater.com/auto: "true"` annotation automatically rest
 
 ### 6.3 Keycloak Realm Updates
 
-Keycloak realm configuration is managed by the Keycloak Operator via `KeycloakRealmImport` CRDs. When client secrets change in K8s secrets, the realm import must be re-triggered:
+Keycloak realm configuration is managed by the Keycloak Operator via `KeycloakRealmImport` CRDs.
 
-1. VaultSecret updates the K8s secret
-2. Keycloak CR references the secret as environment variable
-3. Keycloak pod must restart to pick up new env vars
-4. Realm import re-applies configuration
+**CRITICAL LIMITATION**: KeycloakRealmImport is designed for realm **creation only**. It does NOT update existing realms when secrets change or the CR is modified.
+
+When client secrets are rotated:
+
+1. VaultSecret updates the K8s secret (automatic, ~1 min) ✅
+2. Keycloak Operator detects secret change → rolling restart (~2 min) ✅
+3. Keycloak pods start with new environment variables ✅
+4. **Realm configuration is NOT updated** — KeycloakRealmImport skips existing realms ❌
+
+**Manual Update Required:**
+
+After secret rotation, you MUST update the Keycloak realm via Admin API (see Step 7 in Section 7.1).
+
+**References:**
+- [Keycloak Operator Realm Import](https://www.keycloak.org/operator/realm-import)
+- [GitHub Issue #21974](https://github.com/keycloak/keycloak/issues/21974) — Maintainer confirmed this is by design
 
 ---
 
@@ -224,15 +237,50 @@ kubectl get secret hubop-oidc-secret -n keycloak -o yaml
 
 **Step 5: Restart Keycloak to apply new secret**
 ```bash
-kubectl rollout restart deployment switch-keycloak -n keycloak
+kubectl rollout restart statefulset switch-keycloak -n keycloak
 ```
 
-**Step 6: Verify Keycloak realm has new secret**
+**Step 6: Verify Keycloak pod restarted (with new env var)**
 ```bash
-kubectl logs -n keycloak -l app=keycloak | grep -i "realm.*import"
+kubectl get pods -n keycloak -l app=keycloak -o wide
+# Verify pods have recent start time
 ```
 
-**Step 7: Restart dependent services**
+**Step 7: Update client secret in Keycloak realm (REQUIRED)**
+
+This step is **mandatory**. Pod restart alone does NOT update realm configuration due to KeycloakRealmImport limitation.
+
+```bash
+# Get admin password
+ADMIN_PWD=$(kubectl get secret switch-keycloak-initial-admin -n keycloak -o jsonpath='{.data.password}' | base64 -d)
+KC_URL="https://keycloak.<cluster>.drpp-onprem.global"  # e.g., region-dev, mw-dev, pm-dev
+
+# Authenticate kcadm.sh
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh config credentials \
+  --server $KC_URL --realm master --user admin --password "$ADMIN_PWD"
+
+# Get client internal ID (for hub-op client)
+CLIENT_ID=$(kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh get clients -r hub-operators \
+  --fields id,clientId | jq -r '.[] | select(.clientId=="hub-op") | .id')
+
+# Get new secret from pod env var
+NEW_SECRET=$(kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  printenv hubop_oidc_secret)
+
+# Update client secret in Keycloak realm
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh update clients/$CLIENT_ID -r hub-operators \
+  -s "secret=$NEW_SECRET"
+
+# Verify update
+kubectl exec -n keycloak statefulset/switch-keycloak -- \
+  /opt/keycloak/bin/kcadm.sh get clients/$CLIENT_ID -r hub-operators \
+  --fields clientId,secret
+```
+
+**Step 8: Restart dependent services**
 ```bash
 # Kratos (uses client secret for OIDC)
 kubectl rollout restart deployment kratos -n ory
