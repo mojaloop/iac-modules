@@ -291,13 +291,13 @@ common_mongodb:
     image_pull_policy: "IfNotPresent"
 
     # Backup inputs
-    enable_backup: false
+    enable_backup: true
     backup_image: "percona/percona-backup-mongodb:2.8.0-multi"
     backup_verify_tls: true
     backup_schedule_name: "daily-backup"
     backup_cron_schedule: "0 0 * * *"
     backup_retention: 7
-    schedule_enabled: false
+    schedule_enabled: true
 
     # Replset inputs
     replset_name: "rs0"
