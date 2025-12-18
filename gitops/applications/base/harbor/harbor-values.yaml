@@ -18,9 +18,6 @@ persistence:
     redis:
       size: 2Gi
       accessMode: ReadWriteOnce
-    chartmuseum:
-      size: 50Gi
-      accessMode: ReadWriteOnce
 
 database:
   type: internal
@@ -35,8 +32,6 @@ components:
     enabled: true
   notary:
     enabled: false
-  chartmuseum:
-    enabled: true
   trivy:
     enabled: false
 
@@ -49,9 +44,3 @@ core:
   extraEnvVars:
     - name: CFG_ANONYMOUS_ACCESS
       value: "false"
-
-chartmuseum:
-  enabled: true
-  env:
-    - name: STORAGE
-      value: "local"
