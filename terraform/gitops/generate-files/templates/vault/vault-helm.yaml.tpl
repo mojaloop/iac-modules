@@ -17,7 +17,7 @@ spec:
   destination:
     namespace: ${vault_namespace}
     server: https://kubernetes.default.svc
-  project: default
+  project: default  
   ignoreDifferences:
   - group: admissionregistration.k8s.io
     kind: MutatingWebhookConfiguration
