@@ -51,6 +51,7 @@ core:
       value: "false"
 
 chartmuseum:
+  enabled: true
   env:
     - name: STORAGE
       value: "local"
