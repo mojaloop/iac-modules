@@ -25,9 +25,9 @@ metadata:
   namespace: ${ARGOCD_ENV_nexus_namespace}
 spec:
   gateways:
-    - ${ARGOCD_ENV_nexus_istio_gateway_namespace}/${ARGOCD_ENV_nexus_istio_wildcard_gateway_name}
+    - ${ARGOCD_ENV_nexus_ui_istio_gateway_namespace}/${ARGOCD_ENV_nexus_ui_istio_wildcard_gateway_name}
   hosts:
-    - "nexusoci.${ARGOCD_ENV_nexus_dns_subdomain}"
+    - "nexusoci.${ARGOCD_ENV_nexus_ui_dns_subdomain}"
   http:
     - match:
         - uri:
@@ -37,23 +37,3 @@ spec:
             host: nexus
             port:
               number: 8083  # OCI Helm group port
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: nexus-helm-classic
-  namespace: ${ARGOCD_ENV_nexus_namespace}
-spec:
-  gateways:
-    - ${ARGOCD_ENV_nexus_ui_istio_gateway_namespace}/${ARGOCD_ENV_nexus_ui_istio_wildcard_gateway_name}
-  hosts:
-    - "nexushelm.${ARGOCD_ENV_nexus_dns_subdomain}"
-  http:
-    - match:
-        - uri:
-            prefix: /
-      route:
-        - destination:
-            host: nexus
-            port:
-              number: 8081  # Classic Helm uses main web port with path routing
