@@ -30,39 +30,72 @@ metadata:
   namespace: "${ARGOCD_ENV_vault_namespace}"
 data:
   bootstrap.sh: |
-    #!/bin/bash
-    export VAULT_ADDR=http://127.0.0.1:8200
-    while true;do
-      echo "doing curl"
-      curl --insecure --connect-timeout 15 -s $VAULT_ADDR/v1/sys/health?sealedcode\=204&uninitcode=\204 > /dev/null && break
-    done
-    if [ $(vault status -format=json | jq .initialized) == "false" ]
-    then
-      echo "doing vault init"
-      vault operator init -key-shares=1 -key-threshold=1 -format=json > /tmp/output.json
-      export VAULT_ROOT_TOKEN=$(cat /tmp/output.json | jq .root_token | tr -d '"')
-      export UNSEAL_KEY=$(cat /tmp/output.json | jq .unseal_keys_b64[0] | tr -d '"')
-      vault operator unseal $UNSEAL_KEY
-      cat <<EOF > /tmp/creds.json
-    {
-      "token_name": "vault-provider-token",
-      "token": "$VAULT_ROOT_TOKEN"
-    }
-    EOF
-      if [ $VAULT_ROOT_TOKEN != "" ]
-      then
-        kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} --from-literal=unseal_key=$UNSEAL_KEY --from-literal=root_token=$VAULT_ROOT_TOKEN --from-file=creds=/tmp/creds.json --from-file=vault-keys.json=/tmp/output.json --save-config --dry-run=client -o yaml | kubectl apply -f -
+      #!/bin/bash
+      export VAULT_ADDR=http://127.0.0.1:8200
+      # Extract the ordinal index from the hostname (e.g., vault-0 -> 0)
+      POD_ORDINAL=${HOSTNAME##*-}
+
+      echo "Waiting for Vault API to become responsive..."
+      while true; do
+        curl --insecure --connect-timeout 5 -s $VAULT_ADDR/v1/sys/health?sealedcode=204 > /dev/null && break
+        sleep 2
+      done
+
+      # 1. Check if the secret already exists in Kubernetes
+      SECRET_EXISTS=$(kubectl get secret -n ${ARGOCD_ENV_vault_namespace} ${ARGOCD_ENV_vault_keys_secret} --ignore-not-found)
+
+      # 2. Initialization Logic (Only for vault-0)
+      if [ "$POD_ORDINAL" -eq "0" ] && [ -z "$SECRET_EXISTS" ]; then
+          if [ $(vault status -format=json | jq -r '.initialized') == "false" ]; then
+            echo "vault-0: Initializing Vault..."
+            vault operator init -key-shares=1 -key-threshold=1 -format=json > /tmp/output.json
+
+            VAULT_ROOT_TOKEN=$(jq -r '.root_token' /tmp/output.json)
+            UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' /tmp/output.json)
+
+            echo "vault-0: Creating Kubernetes secret..."
+            kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} \
+              --from-literal=unseal_key=$UNSEAL_KEY \
+              --from-literal=root_token=$VAULT_ROOT_TOKEN \
+              --from-file=vault-keys.json=/tmp/output.json \
+              --save-config --dry-run=client -o yaml | kubectl apply -f -
+          fi
       else
-        echo "VAULT_ROOT_TOKEN not parsed correctly, exiting"
-        exit 1
+          echo "🛰️ VAULT-$POD_ORDINAL: Waiting for Auto-Join ..."
+
+          # We don't run 'vault operator raft join'.
+          # Instead, we wait for the node to become unsealed,
+          # which only happens AFTER it successfully joins the leader.
+          for i in {1..60}; do
+            HEALTH=$(vault status -format=json 2>/dev/null || echo '{"initialized": false}')
+            IS_INIT=$(echo $HEALTH | jq -r '.initialized')
+
+            if [ "$IS_INIT" == "true" ]; then
+              echo "✅ Node is joined to the cluster."
+              break
+            fi
+
+            echo "⏳ Waiting for cluster membership... (Attempt $i/60)"
+            sleep 10
+          done
       fi
-    else
-      echo "vault already initialized"
-      if [ $(vault status -format=json | jq .sealed) == "true" ]
-      then
-        echo "unsealing vault"
-        vault operator unseal $(kubectl get secret -n ${ARGOCD_ENV_vault_namespace} ${ARGOCD_ENV_vault_keys_secret} -o jsonpath="{.data.unseal_key}" | base64 -d)
+
+      # 3. Unseal Logic (All Pods)
+      # Wait briefly for vault-0 to finish init if this is a follower pod
+      sleep 5
+
+      if [ $(vault status -format=json | jq -r '.sealed') == "true" ]; then
+          echo "Pod $HOSTNAME: Vault is sealed. Attempting to unseal..."
+
+          # Retrieve unseal key from the K8s secret
+          FETCHED_UNSEAL_KEY=$(kubectl get secret -n ${ARGOCD_ENV_vault_namespace} ${ARGOCD_ENV_vault_keys_secret} -o jsonpath="{.data.unseal_key}" | base64 -d)
+
+          if [ -n "$FETCHED_UNSEAL_KEY" ]; then
+              vault operator unseal "$FETCHED_UNSEAL_KEY"
+          else
+              echo "Error: Unseal key not found in Kubernetes secret."
+              exit 1
+          fi
       else
-        echo "vault already unsealed"
+          echo "Pod $HOSTNAME: Vault is already unsealed."
       fi
-    fi
