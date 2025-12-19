@@ -64,8 +64,8 @@ loki.process "pod_logs" {
 stage.cri {}
 
 stage.limit {
-    rate          = ${ARGOCD_ENV_alloy_log_rate_limit_per_pod}     // logs per second per pod
-    burst         = ${ARGOCD_ENV_alloy_log_burst_rate_limit_per_pod}
+    rate          = env("ALLOY_LOG_RATE_LIMIT")     // logs per second per pod
+    burst         = env("ALLOY_LOG_BURST_LIMIT")
     drop          = true
     by_label_name = "pod"
 }
@@ -82,6 +82,6 @@ forward_to = [loki.write.central_loki.receiver]
 // Push to Loki Gateway
 loki.write "central_loki" {
 endpoint {
-    url = "${ARGOCD_ENV_alloy_target_loki_endpoint}/loki/api/v1/push"
+    url = env("LOKI_ENDPOINT") + "/loki/api/v1/push"
 }
 }
