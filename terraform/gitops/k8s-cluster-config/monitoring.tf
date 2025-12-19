@@ -126,7 +126,7 @@ variable "grafana_oidc_client_id_secret_key" {
 
 variable "grafana_chart_repo" {
   type        = string
-  default     = "https://grafana.github.io/helm-charts"
+  default     = "oci://ghcr.io/grafana/helm-charts"
   description = "grafana_chart_repo"
 }
 
@@ -198,7 +198,7 @@ locals {
   enable_central_observability_read   = false
   central_observability_tenant_id     = "infitx"
   loki_canary_chart_version           = "0.14.0"
-  loki_canary_repo                    = "https://grafana.github.io/helm-charts"
+  loki_canary_repo                    = "oci://ghcr.io/grafana/helm-charts"
   alloy_limits_memory                 = "1Gi"
   alloy_limits_cpu                    = "1000m"
   alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"

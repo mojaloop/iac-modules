@@ -23,7 +23,7 @@ helmCharts:
 %{ if cloud_provider == "private-cloud" ~}
   - name: rook-ceph
     releaseName: rook-ceph
-    repo: https://charts.rook.io/release
+    repo: oci://registry-1.docker.io/rook/rook-ceph
     namespace: ${storage_namespace}
     valuesFile: rook-ceph-values.yaml
     version: ${rook_ceph_helm_version}

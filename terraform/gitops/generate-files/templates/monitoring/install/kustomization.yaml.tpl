@@ -21,7 +21,7 @@ helmCharts:
 - name: prometheus-operator-crds
   releaseName: prometheus-operator-crds
   version: ${prometheus_crd_version}
-  repo: https://prometheus-community.github.io/helm-charts/
+  repo: oci://ghcr.io/prometheus-community/charts
 - name: kube-prometheus
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
@@ -43,7 +43,7 @@ helmCharts:
 - name: loki
   releaseName: loki-official-helm # TODO: update release name to 'loki' once bitnami loki is removed 
   version: 6.45.2          # TODO: use exist helm parameter and update it to this version
-  repo: https://grafana.github.io/helm-charts
+  repo: oci://ghcr.io/grafana/helm-charts
   valuesFile: values-loki-official-helm.yaml
   namespace: ${monitoring_namespace}
 - name: opentelemetry-operator
@@ -61,7 +61,7 @@ helmCharts:
 - name: alloy
   releaseName: alloy
   version: 1.4.0
-  repo: https://grafana.github.io/helm-charts
+  repo: oci://ghcr.io/grafana/helm-charts
   valuesFile: values-alloy.yaml
   namespace: ${monitoring_namespace}
 

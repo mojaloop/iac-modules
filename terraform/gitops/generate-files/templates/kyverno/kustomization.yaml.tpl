@@ -7,6 +7,6 @@ helmCharts:
 - name: kyverno
   releaseName: kyverno
   version: ${kyverno_chart_version}
-  repo: https://kyverno.github.io/kyverno/
+  repo: oci://ghcr.io/kyverno/charts
   valuesFile: values-kyverno.yaml
   namespace: ${kyverno_namespace}

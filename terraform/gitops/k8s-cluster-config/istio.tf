@@ -78,7 +78,7 @@ locals {
 
 variable "istio_chart_repo" {
   type        = string
-  default     = "https://istio-release.storage.googleapis.com/charts"
+  default     = "oci://gcr.io/istio-release/charts"
   description = "istio_chart_repo"
 }
 
