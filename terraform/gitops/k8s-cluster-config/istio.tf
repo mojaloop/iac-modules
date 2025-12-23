@@ -4,7 +4,7 @@ module "generate_istio_files" {
     istio_namespace                      = var.istio_namespace
     gitlab_project_url                   = var.gitlab_project_url
     istio_sync_wave                      = var.istio_sync_wave
-    istio_chart_repo                     = var.istio_chart_repo
+    istio_chart_repo                     = local.istio_chart_repo
     istio_chart_version                  = var.common_var_map.istio_chart_version
     gateway_api_version                  = var.gateway_api_version
     istio_create_ingress_gateways        = var.istio_create_ingress_gateways
@@ -73,6 +73,7 @@ locals {
   kiali_fqdn                           = local.kiali_wildcard_gateway == "external" ? "kiali.${var.public_subdomain}" : "kiali.${var.private_subdomain}"
   # Parse comma-delimited strings into lists for Netbird egress routing
   netbird_traffic_hosts_list = var.netbird_traffic_hosts != "" ? split(",", trimspace(var.netbird_traffic_hosts)) : []
+  istio_chart_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "istio" : (var.istio_chart_repo != "none" ? var.istio_chart_repo : "oci://gcr.io/istio-release/charts")
 }
 
 

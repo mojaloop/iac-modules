@@ -9,7 +9,7 @@ module "generate_certman_files" {
     cert_manager_sync_wave                       = var.cert_manager_sync_wave
     cert_manager_issuer_sync_wave                = var.cert_manager_issuer_sync_wave
     cert_manager_credentials_secret              = "route53-cert-man-credentials"
-    cert_manager_chart_repo                      = var.cert_manager_chart_repo
+    cert_manager_chart_repo                      = local.cert_manager_chart_repo
     cert_manager_chart_version                   = var.common_var_map.cert_manager_chart_version
     cert_manager_credentials_id_provider_key     = "${var.cluster_name}/${local.cert_manager_credentials_id_provider_key}"
     cert_manager_credentials_secret_provider_key = "${var.cluster_name}/${local.cert_manager_credentials_secret_provider_key}"
@@ -30,12 +30,13 @@ module "generate_certman_files" {
 locals {
   certman_template_path = "${path.module}/../generate-files/templates/certmanager"
   certman_app_file      = "certmanager-app.yaml"
+  cert_manager_chart_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "certmanager" : (var.cert_manager_chart_repo != "none" ? var.cert_manager_chart_repo : "https://charts.jetstack.io")
 }
 
 variable "cert_manager_chart_repo" {
   type        = string
   description = "cert_manager_chart_repo"
-  default     = "https://charts.jetstack.io"
+  default     = "none"
 }
 variable "cert_manager_namespace" {
   type        = string
@@ -72,3 +73,4 @@ variable "cert_manager_service_account_name" {
   description = "service account to run cert man"
   default     = "cert-man-sa"
 }
+

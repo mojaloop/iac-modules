@@ -1,7 +1,7 @@
 module "generate_vault_files" {
   source = "../generate-files"
   var_map = {
-    vault_chart_repo                         = var.vault_chart_repo
+    vault_chart_repo                         = local.vault_chart_repo
     vault_namespace                          = var.vault_namespace
     vault_config_operator_namespace          = var.vault_config_operator_namespace
     vault_chart_version                      = var.common_var_map.vault_chart_version
@@ -9,7 +9,7 @@ module "generate_vault_files" {
     vault_cm_sync_wave                       = var.vault_cm_sync_wave
     vault_config_operator_sync_wave          = var.vault_config_operator_sync_wave
     external_secret_sync_wave                = var.external_secret_sync_wave
-    vault_config_operator_helm_chart_repo    = var.vault_config_operator_helm_chart_repo
+    vault_config_operator_helm_chart_repo    = local.vault_config_operator_helm_chart_repo
     vault_config_operator_helm_chart_version = var.common_var_map.vault_config_operator_helm_chart_version
     gitlab_variables_api_url                 = "${var.gitlab_api_url}/projects/${var.current_gitlab_project_id}/variables"
     gitlab_project_url                       = var.gitlab_project_url
@@ -70,6 +70,8 @@ locals {
   vault_fqdn                        = local.vault_wildcard_gateway == "external" ? "vault.${var.public_subdomain}" : "vault.${var.private_subdomain}"
   vault_istio_gateway_namespace     = local.vault_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   vault_istio_wildcard_gateway_name = local.vault_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  vault_chart_repo                  = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "vault" : (var.vault_chart_repo != "none" ? var.vault_chart_repo : "https://helm.releases.hashicorp.com")
+  vault_config_operator_helm_chart_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "vault-config-operator" : (var.vault_config_operator_helm_chart_repo != "none" ? var.vault_config_operator_helm_chart_repo : "https://redhat-cop.github.io/vault-config-operator")
 }
 
 variable "vault_sync_wave" {

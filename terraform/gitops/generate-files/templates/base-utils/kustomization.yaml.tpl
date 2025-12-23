@@ -4,12 +4,12 @@ helmCharts:
 - name: reflector
   releaseName: reflector
   version: ${reflector_chart_version}
-  repo: https://emberstack.github.io/helm-charts
+  repo: ${reflector_repo_url}
   valuesFile: values-reflector.yaml
   namespace: ${base_utils_namespace}
 - name: reloader
   releaseName: reloader
   version: ${reloader_chart_version}
-  repo: https://stakater.github.io/stakater-charts
+  repo: ${reloader_repo_url}
   valuesFile: values-reloader.yaml
   namespace: ${base_utils_namespace}

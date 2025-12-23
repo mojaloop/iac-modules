@@ -26,6 +26,8 @@ module "generate_storage_files" {
     rook_ceph_cluster_user_command  = "${var.cluster_name}/rook_ceph_cluster_user_command"
     cloud_provider                  = var.cloud_platform
     reclaim_policy                  = var.reclaim_policy
+    aws_ebs_csi_driver_helm_repo    = local.aws_ebs_csi_driver_helm_repo
+    rook_ceph_helm_repo             = local.rook_ceph_helm_repo
   }
   file_list       = [for f in fileset(local.storage_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.storage_app_file, f))]
   template_path   = local.storage_template_path
@@ -37,6 +39,8 @@ module "generate_storage_files" {
 locals {
   storage_template_path = "${path.module}/../generate-files/templates/storage"
   storage_app_file      = "storage-app.yaml"
+  aws_ebs_csi_driver_helm_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "aws-ebs-csi-driver" : (var.aws_ebs_csi_driver_helm_repo != "none" ? var.aws_ebs_csi_driver_helm_repo : "https://kubernetes-sigs.github.io/aws-ebs-csi-driver")
+  rook_ceph_helm_repo = var.oci_helm_repo_base_url != "none" ? var.oci_helm_repo_base_url + var.oci_helm_repo_suffix + "rook/rook-ceph" : (var.rook_ceph_helm_repo != "none" ? var.rook_ceph_helm_repo : "oci://registry-1.docker.io/rook/rook-ceph")
 }
 
 variable "storage_sync_wave" {
@@ -86,4 +90,16 @@ variable "reclaim_policy" {
   type        = string
   description = "Reclaim policy for storage classes"
   default     = "Delete"
+}
+
+variable "aws_ebs_csi_driver_helm_repo" {
+  type        = string
+  description = "Helm repository URL for AWS EBS CSI Driver charts"
+  default     = "none"
+}
+
+variable "rook_ceph_helm_repo" {
+  type        = string
+  description = "Helm repository URL for Rook Ceph charts"
+  default     = "none"
 }

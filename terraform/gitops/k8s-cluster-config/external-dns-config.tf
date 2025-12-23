@@ -1,7 +1,7 @@
 module "generate_extdns_files" {
   source = "../generate-files"
   var_map = {
-    external_dns_chart_repo                      = var.external_dns_chart_repo
+    external_dns_chart_repo                      = local.external_dns_chart_repo
     external_dns_chart_version                   = var.common_var_map.external_dns_chart_version
     external_dns_credentials_secret              = "route53-external-dns-credentials"
     dns_cloud_region                             = var.dns_cloud_region
@@ -28,6 +28,7 @@ module "generate_extdns_files" {
 locals {
   extdns_template_path = "${path.module}/../generate-files/templates/external-dns"
   extdns_app_file      = "external-dns-app.yaml"
+  external_dns_chart_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "external-dns" : (var.external_dns_chart_repo != "none" ? var.external_dns_chart_repo : "https://kubernetes-sigs.github.io/external-dns/")
 }
 variable "external_dns_chart_repo" {
   type        = string

@@ -7,9 +7,11 @@ module "generate_reflector_files" {
     base_utils_namespace                   = var.base_utils_namespace
     base_utils_sync_wave                   = var.base_utils_sync_wave
     external_secret_sync_wave              = var.external_secret_sync_wave
-    cloud_platform                        = local.cloud_platform
-    k8s_cluster_type                      = local.k8s_cluster_type
-    cluster                               = var.app_var_map.cluster
+    cloud_platform                         = local.cloud_platform
+    k8s_cluster_type                       = local.k8s_cluster_type
+    cluster                                = var.app_var_map.cluster
+    reflector_repo_url                     = local.reflector_repo_url
+    reloader_repo_url                      = local.reloader_repo_url
 
   }
   file_list       = [for f in fileset(local.base_utils_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.base_utils_app_file, f))]
@@ -22,7 +24,10 @@ module "generate_reflector_files" {
 locals {
   base_utils_template_path               = "${path.module}/../generate-files/templates/base-utils"
   base_utils_app_file                    = "base-utils-app.yaml"
+  reloader_repo_url = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "reloader" : (var.reloader_repo_url != "none" ? var.reloader_repo_url : "https://stakater.github.io/stakater-charts")
+  reflector_repo_url = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "reflector" : (var.reflector_repo_url != "none" ? var.reflector_repo_url : "https://emberstack.github.io/helm-chart")
 }
+
 
 variable "reflector_chart_version" {
   type        = string
@@ -47,3 +52,16 @@ variable "base_utils_sync_wave" {
   description = "cert_manager_issuer_sync_wave"
   default     = "-11"
 }
+
+variable "reflector_repo_url" {
+  type        = string
+  description = "reflector_repo_url"
+  default = "none"
+}
+
+variable "reloader_repo_url" {
+  type        = string
+  description = "reloader_repo_url"
+  default = "none"
+}
+  

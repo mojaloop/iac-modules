@@ -228,7 +228,51 @@ variable "namespace_meta_config_file" {
   description = "Config file with namespace metadata"
   default     = ""
 }
+variable "classic_helm_repo_base_url" {
+  type        = string
+  description = "helm repo mirror base url for classic repos"
+  default = "none"
+}
 
+variable "oci_helm_repo_base_url" {
+  type        = string
+  description = "helm repo mirror base url for oci repos"
+  default = "none"
+}
+variable "classic_helm_repo_suffix" {
+  type        = string
+  description = "helm repo mirror suffix for classic repos"
+  default = "/repo/"
+}
+variable "oci_helm_repo_suffix" {
+  type        = string
+  description = "helm repo mirror suffix for oci repos"
+  default = "/" 
+}
+
+variable "mojaloop_charts_repo" {
+  type        = string
+  description = "Helm charts repository URL for Mojaloop"
+  default     = "none"
+}
+
+variable "mojaloop_helm_repo" {
+  type        = string
+  description = "Helm repository URL for Mojaloop"
+  default     = "none"
+}
+
+variable "pm4ml_chart_repo" {
+  type        = string
+  default     = "none"
+  description = "Helm chart repository URL for PM4ML"
+}
+
+variable "mcm_chart_repo" {
+  type        = string
+  default     = "none"
+  description = "Helm chart repository URL for MCM"
+}
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value

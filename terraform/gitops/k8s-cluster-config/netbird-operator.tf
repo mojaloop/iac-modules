@@ -11,6 +11,7 @@ module "generate_netbird_operator_files" {
     external_secret_sync_wave           = var.external_secret_sync_wave
     gitlab_project_url                  = var.gitlab_project_url
     netbird_image_version               = var.netbird_image_version
+    netbird_operator_helm_repo  = local.netbird_operator_helm_repo
   }
 
   file_list       = [for f in fileset(local.netbird_operator_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.netbird_operator_app_file, f))]
@@ -23,6 +24,7 @@ module "generate_netbird_operator_files" {
 locals {
   netbird_operator_template_path = "${path.module}/../generate-files/templates/netbird-operator"
   netbird_operator_app_file      = "netbird-operator-app.yaml"
+  netbird_operator_helm_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "netbird-operator" : (var.netbird_operator_helm_repo != "none" ? var.netbird_operator_helm_repo : "https://netbirdio.github.io/kubernetes-operator")
 }
 
 variable "netbird_operator_sync_wave" {
@@ -62,4 +64,10 @@ variable "netbird_operator_helm_version" {
 variable "netbird_image_version" {
   type        = string
   description = "Version of the netbird image to use"
+}
+
+variable "netbird_operator_helm_repo" {
+  type        = string
+  description = "Helm repository URL for netbird operator"
+  default     = "none"
 }
