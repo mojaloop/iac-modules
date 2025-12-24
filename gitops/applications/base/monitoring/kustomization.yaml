@@ -29,7 +29,7 @@ helmCharts:
     releaseName: prom
     version: ${ARGOCD_ENV_kube_prometheus_helm_version}
     repo: https://prometheus-community.github.io/helm-charts
-    valuesFile: values-kube-prometheus-v2.yaml
+    valuesFile: values-kube-prometheus.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: grafana-loki
     releaseName: ${ARGOCD_ENV_loki_release_name}
