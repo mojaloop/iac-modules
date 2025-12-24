@@ -32,7 +32,7 @@ prometheus:
     scrapeInterval: ${prometheus_scrape_interval}
     evaluationInterval: ${prometheus_scrape_interval}
     retention: ${prometheus_retention_period}
-    enableRemoteWriteReceiver: ${prometheus_RemoteWriteReceiver_enabled}
+    enableRemoteWriteReceiver: true
 
     storageSpec:
       volumeClaimTemplate:
