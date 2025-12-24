@@ -355,7 +355,7 @@
                 "namespace",
                 "pod",
                 "Value",
-                "{cluster=\"storage\", id=\"/kubepods/burstable/pod203e58c8-5ba3-4635-86f7-68974aa26fd9/024a878ea14d711ed1beb5c4058698aeecfb3baf39b21932b376fa9751b925e2\", image=\"registry.k8s.io/pause:3.10\", instance=\"10.10.73.51:10250\", interface=\"eth0\", job=\"kubelet\", namespace=\"eg-dev\", node=\"sc-ccdev-md-0-m2fgw-j8x7h\", pod=\"common-mojaloop-db-haproxy-0\", prometheus=\"monitoring/prom-kube-prometheus-prometheus\", prometheus_replica=\"prometheus-prom-kube-prometheus-prometheus-0\"}"
+                "{cluster=\"storage\", id=\"/kubepods/burstable/pod203e58c8-5ba3-4635-86f7-68974aa26fd9/024a878ea14d711ed1beb5c4058698aeecfb3baf39b21932b376fa9751b925e2\", image=\"registry.k8s.io/pause:3.10\", instance=\"10.10.73.51:10250\", interface=\"eth0\", job=\"kubelet\", namespace=\"eg-dev\", node=\"sc-ccdev-md-0-m2fgw-j8x7h\", pod=\"common-mojaloop-db-haproxy-0\", prometheus=\"monitoring/prom-kube-prometheus-stack-prometheus\", prometheus_replica=\"prometheus-prom-kube-prometheus-stack-prometheus-0\"}"
               ]
             }
           }
