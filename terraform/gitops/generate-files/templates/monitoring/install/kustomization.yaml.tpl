@@ -26,7 +26,7 @@ helmCharts:
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
   repo: ${prometheus_operator_repo}
-  valuesFile: values-prom-operator-v2.yaml
+  valuesFile: values-prom-operator.yaml
   namespace: ${monitoring_namespace}
 - name: grafana-operator
   releaseName: grafana
