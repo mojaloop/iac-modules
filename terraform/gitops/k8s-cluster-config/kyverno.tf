@@ -18,7 +18,7 @@ module "generate_kyverno_files" {
 locals {
   kyverno_template_path = "${path.module}/../generate-files/templates/kyverno"
   kyverno_app_file      = "kyverno-app.yaml"
-  kyverno_chart_repo = var.oci_helm_repo_base_url != "none" ? var.oci_helm_repo_base_url + var.oci_helm_repo_suffix + "kyverno" : (var.kyverno_chart_repo != "none" ? var.kyverno_chart_repo : "oci://ghcr.io/kyverno/charts")
+  kyverno_chart_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "kyverno" : (var.kyverno_chart_repo != "none" ? var.kyverno_chart_repo : "https://kyverno.github.io/kyverno/")
 }
 
 

@@ -228,6 +228,7 @@ variable "namespace_meta_config_file" {
   description = "Config file with namespace metadata"
   default     = ""
 }
+
 variable "classic_helm_repo_base_url" {
   type        = string
   description = "helm repo mirror base url for classic repos"
