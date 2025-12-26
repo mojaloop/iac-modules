@@ -147,7 +147,7 @@ variable "alloy_chart_repo" {
 
 variable "prometheus_operator_repo" {
   type        = string
-  default     = "https://prometheus-community.github.io/helm-charts"
+  default     = "oci://registry-1.docker.io/bitnamicharts"
   description = "prometheus_operator_repo"
 }
 
@@ -205,7 +205,7 @@ variable "metrics_server_replicas" {
 
 locals {
   grafana_crd_version_tag             = "v5.20.0"
-  prometheus_crd_version              = "80.7.0"
+  prometheus_crd_version              = "8.0.1"
   opentelemetry_chart_version         = "0.93.1"
   grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
   loki_release_name                   = "loki"
