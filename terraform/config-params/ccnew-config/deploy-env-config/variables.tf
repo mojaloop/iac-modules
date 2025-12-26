@@ -152,3 +152,14 @@ variable "sc_api_port" {
   description = "Port for the SC API server"
   default     = 6443
 }
+
+variable "helm_oci_proxy_repos" {
+  description = "OCI proxy repositories for helm, comma separated"
+  type        = string
+  default     = ""
+}
+variable "helm_classic_proxy_repos" {
+  description = "Classic proxy repositories for helm, comma separated"
+  type        = string
+  default     = ""
+}
