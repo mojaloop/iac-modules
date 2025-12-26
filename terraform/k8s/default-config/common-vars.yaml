@@ -25,7 +25,7 @@ opentelemetry_chart_version: 0.95.0
 opentelemetry_enabled: false
 opentelemetry_namespace_filtering_enable: false
 prometheus_crd_version: 8.0.1
-prometheus_operator_version: 8.22.8
+prometheus_operator_version: 80.7.0
 prometheus_process_exporter_version: 0.4.2
 process_exporter_enabled: false
 grafana_operator_version: v5.20.0

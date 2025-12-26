@@ -435,8 +435,8 @@ locals {
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.plt_st_res_config]
   namespace_meta                      = var.namespace_meta_config_file == "" ? {} : yamldecode(file(var.namespace_meta_config_file))
-  pm4ml_chart_repo                    = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "pm4ml" : (var.pm4ml_chart_repo != "none" ? var.pm4ml_chart_repo : "https://charts.pm4ml.io")
-  mojaloop_charts_repo                = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "mojaloop" : (var.mojaloop_charts_repo != "none" ? var.mojaloop_charts_repo : "https://mojaloop.io/helm-charts/")
-  mojaloop_helm_repo                 = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "mojaloop" : (var.mojaloop_helm_repo != "none" ? var.mojaloop_helm_repo : "oci://ghcr.io/mojaloop/helm-charts")
-  mcm_chart_repo                     = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "mcm" : (var.mcm_chart_repo != "none" ? var.mcm_chart_repo : "https://charts.mojaloop.io/mcm")
+  pm4ml_chart_repo                    = try(local.helm_proxy_repos_map[var.cert_manager_chart_repo], var.pm4ml_chart_repo)
+  mojaloop_charts_repo                = try(local.helm_proxy_repos_map[var.mojaloop_charts_repo], var.mojaloop_charts_repo)
+  mcm_chart_repo                      = try(local.helm_proxy_repos_map[var.mcm_chart_repo], var.mcm_chart_repo)
+  mojaloop_helm_repo                  = try(local.helm_proxy_repos_map[var.mojaloop_helm_repo], var.mojaloop_helm_repo)
 }

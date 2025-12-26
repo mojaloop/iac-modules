@@ -229,28 +229,17 @@ variable "namespace_meta_config_file" {
   default     = ""
 }
 
-variable "classic_helm_repo_base_url" {
+variable "helm_classic_proxy_repos" {
   type        = string
-  description = "helm repo mirror base url for classic repos"
+  description = "helm classic proxy repos comma separated"
   default = "none"
 }
 
-variable "oci_helm_repo_base_url" {
+variable "helm_oci_proxy_repos" {
   type        = string
-  description = "helm repo mirror base url for oci repos"
+  description = "helm oci proxy repos comma separated"
   default = "none"
 }
-variable "classic_helm_repo_suffix" {
-  type        = string
-  description = "helm repo mirror suffix for classic repos"
-  default = "/repo/"
-}
-variable "oci_helm_repo_suffix" {
-  type        = string
-  description = "helm repo mirror suffix for oci repos"
-  default = "/" 
-}
-
 variable "mojaloop_charts_repo" {
   type        = string
   description = "Helm charts repository URL for Mojaloop"
@@ -292,4 +281,13 @@ locals {
   tempo_bucket                                     = data.gitlab_project_variable.tempo_bucket.value
   velero_bucket                                    = data.gitlab_project_variable.velero_bucket.value
   vault_backup_bucket                              = data.gitlab_project_variable.object_store_vault_backup_bucket.value
+  helm_proxy_repos_map = merge(var.helm_classic_proxy_repos != "none" ? {
+    for item in split(",", var.helm_classic_proxy_repos) : 
+    split("=", item)[0] => split("=", item)[1]
+    if length(trim(item)) > 0 && length(split("=", item)) == 2
+  } : {}, var.helm_oci_proxy_repos != "none" ? {
+    for item in split(",", var.helm_oci_proxy_repos) : 
+    split("=", item)[0] => split("=", item)[1]
+    if length(trim(item)) > 0 && length(split("=", item)) == 2
+  } : {})
 }

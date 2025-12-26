@@ -24,8 +24,8 @@ module "generate_reflector_files" {
 locals {
   base_utils_template_path               = "${path.module}/../generate-files/templates/base-utils"
   base_utils_app_file                    = "base-utils-app.yaml"
-  reloader_repo_url = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "reloader" : (var.reloader_repo_url != "none" ? var.reloader_repo_url : "https://stakater.github.io/stakater-charts")
-  reflector_repo_url = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "reflector" : (var.reflector_repo_url != "none" ? var.reflector_repo_url : "https://emberstack.github.io/helm-chart")
+  reloader_repo_url = try(local.helm_proxy_repos_map[var.reloader_repo_url], var.reloader_repo_url)
+  reflector_repo_url = try(local.helm_proxy_repos_map[var.reflector_repo_url], var.reflector_repo_url)
 }
 
 
@@ -56,12 +56,12 @@ variable "base_utils_sync_wave" {
 variable "reflector_repo_url" {
   type        = string
   description = "reflector_repo_url"
-  default = "none"
+  default = "https://emberstack.github.io/helm-chart"
 }
 
 variable "reloader_repo_url" {
   type        = string
   description = "reloader_repo_url"
-  default = "none"
+  default = "https://stakater.github.io/stakater-charts"
 }
   

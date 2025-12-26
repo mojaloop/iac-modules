@@ -3,15 +3,15 @@ module "generate_monitoring_files" {
   var_map = {
     grafana_crd_version_tag                    = try(var.common_var_map.grafana_crd_version_tag, local.grafana_crd_version_tag)
     prometheus_crd_version                     = try(var.common_var_map.prometheus_crd_version, local.prometheus_crd_version)
-    loki_repo                                  = try(var.common_var_map.loki_repo, local.bitnami_repo)
+    loki_repo                                  = local.loki_repo
     loki_chart_version                         = try(var.common_var_map.loki_chart_version, local.loki_chart_version)
-    prometheus_operator_repo                   = try(var.common_var_map.prometheus_operator_repo, local.bitnami_repo)
+    prometheus_operator_repo                   = local.prometheus_operator_repo
     prometheus_operator_version                = try(var.common_var_map.prometheus_operator_version, local.prometheus_operator_version)
     prometheus_operator_release_name           = local.prometheus_operator_release_name
     prometheus_process_exporter_version        = try(var.common_var_map.prometheus_process_exporter_version, local.prometheus_process_exporter_version)
     process_exporter_enabled                   = try(var.common_var_map.process_exporter_enabled, local.process_exporter_enabled)
     loki_release_name                          = local.loki_release_name
-    grafana_operator_repo                      = try(var.common_var_map.grafana_operator_repo, local.bitnami_repo)
+    grafana_operator_repo                      = local.grafana_operator_repo
     grafana_operator_version                   = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                            = try(var.common_var_map.grafana_version, local.grafana_version)
     grafana_dashboard_tag                      = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
@@ -84,15 +84,14 @@ module "generate_monitoring_files" {
     grafana_istio_gateway_namespace            = local.grafana_istio_gateway_namespace
     grafana_istio_wildcard_gateway_name        = local.vault_istio_wildcard_gateway_name
     cluster                                    = var.app_var_map.cluster
-    loki_canary_repo                           = try(var.common_var_map.loki_canary_repo, local.loki_canary_repo)
-    loki_canary_chart_version                  = try(var.common_var_map.loki_canary_chart_version, local.loki_canary_chart_version)
+    loki_canary_repo                           = local.loki_canary_repo
+    loki_canary_chart_version                  = local.loki_canary_chart_version
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
     enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)
     enable_central_observability_read  = try(var.common_var_map.enable_central_observability_read, local.enable_central_observability_read)
     central_observability_endpoint     = var.central_observability_endpoint
     central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
-
     alertmanager_fqdn = local.alertmanager_fqdn
     prometheus_crd_repo = local.prometheus_crd_repo
     opentelemetry_repo = local.opentelemetry_repo
@@ -136,14 +135,44 @@ variable "grafana_chart_repo" {
 
 variable "opentelemetry_chart_repo" {
   type        = string
-  default     = "none"
+  default     = "https://open-telemetry.github.io/opentelemetry-helm-charts"
   description = "opentelemetry_chart_repo"
 }
 
 variable "alloy_chart_repo" {
   type        = string
-  default     = "none"
+  default     = "https://grafana.github.io/helm-charts"
   description = "alloy_chart_repo"
+}
+
+variable "prometheus_operator_repo" {
+  type        = string
+  default     = "https://prometheus-community.github.io/helm-charts"
+  description = "prometheus_operator_repo"
+}
+
+variable "loki_repo" {
+  type        = string
+  default     = "https://grafana.github.io/helm-charts"
+  description = "loki_repo"
+}
+
+variable "loki_canary_repo" {
+    type        = string
+    default     = "https://grafana.github.io/helm-charts"
+  description = "loki_canary_repo"
+}
+
+variable "grafana_operator_repo" {
+  type        = string
+  default     = "oci://ghcr.io/grafana/helm-charts/"
+  description = "grafana_operator_repo"
+}
+
+variable "prometheus_crd_repo" {
+  type        = string
+  default     = "https://prometheus-community.github.io/helm-charts/"
+  description = "prometheus_crd_repo"
 }
 
 variable "metrics_server_chart_repo" {
@@ -175,9 +204,8 @@ variable "metrics_server_replicas" {
 }
 
 locals {
-  bitnami_repo                        = "oci://registry-1.docker.io/bitnamicharts"
   grafana_crd_version_tag             = "v5.20.0"
-  prometheus_crd_version              = "8.0.1"
+  prometheus_crd_version              = "80.7.0"
   opentelemetry_chart_version         = "0.93.1"
   grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
   loki_release_name                   = "loki"
@@ -219,14 +247,18 @@ locals {
   enable_central_observability_read   = false
   central_observability_tenant_id     = "infitx"
   loki_canary_chart_version           = "0.14.0"
-  loki_canary_repo                    = "oci://ghcr.io/grafana/helm-charts"
+  loki_canary_repo                    = try(local.helm_proxy_repos_map[try(var.common_var_map.loki_canary_repo, var.loki_canary_repo)], try(var.common_var_map.loki_canary_repo, var.loki_canary_repo))
   alloy_limits_memory                 = "1Gi"
   alloy_limits_cpu                    = "1000m"
   alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"
   alertmanager_prod_alerts_enabled        = try(var.common_var_map.alertmanager_prod_alerts_enabled, false)
   alertmanager_slack_external_secret_name = local.alertmanager_prod_alerts_enabled ? "slack-prod-alert-notifications" : "slack-dev-alert-notifications"
-  prometheus_crd_repo                    = var.oci_helm_repo_base_url != "none" ? var.oci_helm_repo_base_url + var.oci_helm_repo_suffix + "prometheus-crd" : (var.kyverno_chart_repo != "none" ? var.kyverno_chart_repo : "oci://ghcr.io/prometheus-community/charts")
-  opentelemetry_repo                     = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "opentelemetry-operator" : (var.opentelemetry_chart_repo != "none" ? var.opentelemetry_chart_repo : "https://open-telemetry.github.io/opentelemetry-helm-charts")
-  alloy_repo                            = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "alloy" : (var.alloy_chart_repo != "none" ? var.alloy_chart_repo : "oci://ghcr.io/grafana/helm-charts")
-  metrics_server_chart_repo             = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "metrics-server" : (var.metrics_server_chart_repo != "none" ? var.metrics_server_chart_repo : "https://kubernetes-sigs.github.io/metrics-server")
+  prometheus_crd_repo                    = try(local.helm_proxy_repos_map[try(var.common_var_map.prometheus_crd_repo, var.prometheus_crd_repo)], try(var.common_var_map.prometheus_crd_repo, var.prometheus_crd_repo))
+  opentelemetry_repo                     = try(local.helm_proxy_repos_map[try(var.common_var_map.opentelemetry_chart_repo, var.opentelemetry_chart_repo)], try(var.common_var_map.opentelemetry_chart_repo, var.opentelemetry_chart_repo))
+  alloy_repo                            = try(local.helm_proxy_repos_map[try(var.common_var_map.alloy_chart_repo, var.alloy_chart_repo)], try(var.common_var_map.alloy_chart_repo, var.alloy_chart_repo))
+  metrics_server_chart_repo             = try(local.helm_proxy_repos_map[try(var.common_var_map.metrics_server_chart_repo, var.metrics_server_chart_repo)], try(var.common_var_map.metrics_server_chart_repo, var.metrics_server_chart_repo))
+  grafana_chart_repo = try(local.helm_proxy_repos_map[try(var.common_var_map.grafana_chart_repo, var.grafana_chart_repo)], try(var.common_var_map.grafana_chart_repo, var.grafana_chart_repo))
+  prometheus_operator_repo = try(local.helm_proxy_repos_map[try(var.common_var_map.prometheus_operator_repo, var.prometheus_operator_repo)], try(var.common_var_map.prometheus_operator_repo, var.prometheus_operator_repo))
+  loki_repo                    = try(local.helm_proxy_repos_map[try(var.common_var_map.loki_canary_repo, var.loki_repo)], try(var.common_var_map.loki_repo, var.loki_repo))
+  grafana_operator_repo = try(local.helm_proxy_repos_map[try(var.common_var_map.grafana_operator_repo, var.grafana_operator_repo)], try(var.common_var_map.grafana_operator_repo, var.grafana_operator_repo))
 }

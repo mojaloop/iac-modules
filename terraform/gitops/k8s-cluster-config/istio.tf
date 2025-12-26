@@ -37,7 +37,7 @@ module "generate_istio_files" {
     istio_proxy_log_level                = try(var.common_var_map.istio_proxy_log_level, local.istio_proxy_log_level)
     istio_ztunnel_log_level              = try(var.common_var_map.istio_ztunnel_log_level, "warn")
     kiali_chart_version                  = var.kiali_chart_version
-    kiali_chart_repo                     = var.kiali_chart_repo
+    kiali_chart_repo                     = local.kiali_chart_repo
     kiali_fqdn                           = local.kiali_fqdn
     kiali_istio_wildcard_gateway_name    = local.kiali_istio_wildcard_gateway_name
     kiali_istio_gateway_namespace        = local.kiali_istio_gateway_namespace
@@ -73,7 +73,8 @@ locals {
   kiali_fqdn                           = local.kiali_wildcard_gateway == "external" ? "kiali.${var.public_subdomain}" : "kiali.${var.private_subdomain}"
   # Parse comma-delimited strings into lists for Netbird egress routing
   netbird_traffic_hosts_list = var.netbird_traffic_hosts != "" ? split(",", trimspace(var.netbird_traffic_hosts)) : []
-  istio_chart_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "istio" : (var.istio_chart_repo != "none" ? var.istio_chart_repo : "oci://gcr.io/istio-release/charts")
+  istio_chart_repo = try(local.helm_proxy_repos_map[var.istio_chart_repo], var.istio_chart_repo)
+  kiali_chart_repo = try(local.helm_proxy_repos_map[var.kiali_chart_repo], var.kiali_chart_repo)
 }
 
 

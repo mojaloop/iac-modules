@@ -24,7 +24,7 @@ module "generate_netbird_operator_files" {
 locals {
   netbird_operator_template_path = "${path.module}/../generate-files/templates/netbird-operator"
   netbird_operator_app_file      = "netbird-operator-app.yaml"
-  netbird_operator_helm_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "netbird-operator" : (var.netbird_operator_helm_repo != "none" ? var.netbird_operator_helm_repo : "https://netbirdio.github.io/kubernetes-operator")
+  netbird_operator_helm_repo     = try(local.helm_proxy_repos_map[var.netbird_operator_helm_repo], var.netbird_operator_helm_repo)
 }
 
 variable "netbird_operator_sync_wave" {
@@ -69,5 +69,5 @@ variable "netbird_image_version" {
 variable "netbird_operator_helm_repo" {
   type        = string
   description = "Helm repository URL for netbird operator"
-  default     = "none"
+  default     = "https://netbirdio.github.io/kubernetes-operator"
 }

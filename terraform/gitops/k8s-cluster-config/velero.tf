@@ -25,7 +25,7 @@ module "generate_velero_files" {
 locals {
   velero_template_path = "${path.module}/../generate-files/templates/velero"
   velero_app_file      = "velero-app.yaml"
-  velero_helm_repo    = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "velero" : (var.velero_helm_repo != "none" ? var.velero_helm_repo : "https://vmware-tanzu.github.io/helm-charts/")
+  velero_helm_repo     = try(local.helm_proxy_repos_map[var.velero_helm_repo], var.velero_helm_repo)
 }
 
 variable "velero_sync_wave" {
@@ -43,5 +43,5 @@ variable "velero_helm_version" {
 
 variable "velero_helm_repo" {
   type        = string
-  default     = "none"
+  default     = "https://vmware-tanzu.github.io/helm-charts/"
 }

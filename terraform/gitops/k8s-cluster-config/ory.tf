@@ -131,7 +131,7 @@ variable "rbac_permissions_file" {
 variable "ory_charts_repo" {
   type        = string
   description = "Helm repository URL for Ory charts"
-  default     = "none"
+  default     = "https://k8s.ory.sh/helm/charts"
 }
 
 locals {
@@ -150,6 +150,6 @@ locals {
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
   }] : []
-  ory_charts_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "ory" : (var.ory_charts_repo != "none" ? var.ory_charts_repo : "https://k8s.ory.sh/helm/charts")
-  mojaloop_charts_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "mojaloop" : (var.mojaloop_charts_repo != "none" ? var.mojaloop_charts_repo : "https://mojaloop.io/helm-charts/")
+  ory_charts_repo = try(local.helm_proxy_repos_map[var.ory_charts_repo], var.ory_charts_repo)
+  mojaloop_charts_repo = try(local.helm_proxy_repos_map[var.mojaloop_charts_repo], var.mojaloop_charts_repo)
 }

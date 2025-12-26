@@ -163,3 +163,25 @@ variable "helm_classic_proxy_repos" {
   type        = string
   default     = ""
 }
+variable "classic_helm_repo_base_url" {
+  description = "base url for helm classic proxy repo"
+  type        = string
+}
+variable "oci_helm_repo_base_url" {
+  description = "base url for helm oci proxy repo"
+  type        = string
+}
+
+locals {
+  helm_classic_proxy_repos_string = join(",", [
+    for item in split(",", var.helm_classic_proxy_repos) : 
+    "${split("=", item)[0]}=${var.classic_helm_repo_base_url}/${split("=", item)[0]}"
+    if length(trim(item)) > 0
+  ])
+  
+  helm_oci_proxy_repos_string = join(",", [
+    for item in split(",", var.helm_oci_proxy_repos) : 
+    "${split("=", item)[0]}=${var.oci_helm_repo_base_url}/${split("=", item)[0]}"
+    if length(trim(item)) > 0
+  ])
+}

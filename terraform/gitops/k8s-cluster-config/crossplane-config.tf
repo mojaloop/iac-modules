@@ -31,7 +31,7 @@ module "generate_crossplane_files" {
 locals {
   crossplane_template_path = "${path.module}/../generate-files/templates/crossplane"
   crossplane_app_file      = "crossplane-app.yaml"
-  crossplane_chart_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "crossplane" : (var.crossplane_chart_repo != "none" ? var.crossplane_chart_repo : "https://charts.crossplane.io/stable")
+  crossplane_chart_repo = try(local.helm_proxy_repos_map[var.crossplane_chart_repo], var.crossplane_chart_repo)
 }
 
 variable "crossplane_sync_wave" {
@@ -53,5 +53,5 @@ variable "crossplane_helm_version" {
 variable "crossplane_chart_repo" {
   type        = string
   description = "crossplane_chart_repo"
-  default = "none"
+  default = "https://charts.crossplane.io/stable"
 }

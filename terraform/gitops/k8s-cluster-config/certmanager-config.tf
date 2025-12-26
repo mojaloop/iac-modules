@@ -30,13 +30,13 @@ module "generate_certman_files" {
 locals {
   certman_template_path = "${path.module}/../generate-files/templates/certmanager"
   certman_app_file      = "certmanager-app.yaml"
-  cert_manager_chart_repo = var.classic_helm_repo_base_url != "none" ? var.classic_helm_repo_base_url + var.classic_helm_repo_suffix + "certmanager" : (var.cert_manager_chart_repo != "none" ? var.cert_manager_chart_repo : "https://charts.jetstack.io")
+  cert_manager_chart_repo = try(local.helm_proxy_repos_map[var.cert_manager_chart_repo], var.cert_manager_chart_repo)
 }
 
 variable "cert_manager_chart_repo" {
   type        = string
   description = "cert_manager_chart_repo"
-  default     = "none"
+  default     = "https://charts.jetstack.io"
 }
 variable "cert_manager_namespace" {
   type        = string
