@@ -10,7 +10,7 @@ spec:
     rules:
     - alert: ArgoCDApplicationNotHealthy
       expr: argocd_app_info{health_status!="Healthy"}
-      for: 1h
+      for: 1m
       labels:
         severity: warning
       annotations:
@@ -19,7 +19,7 @@ spec:
     
     - alert: ArgoCDApplicationNotSynced
       expr: argocd_app_info{sync_status!="Synced"}
-      for: 1h
+      for: 1m
       labels:
         severity: warning
       annotations:
