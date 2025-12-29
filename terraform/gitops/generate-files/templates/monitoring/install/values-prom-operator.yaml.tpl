@@ -29,6 +29,18 @@ alertmanager:
 prometheus:
   enabled: true
   prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    
+    podMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelector: {}
+    
+    ruleSelectorNilUsesHelmValues: false
+    ruleSelector: {}
+
+    probeSelectorNilUsesHelmValues: false
+    probeSelector: {}
+
     scrapeInterval: ${prometheus_scrape_interval}
     evaluationInterval: ${prometheus_scrape_interval}
     retention: ${prometheus_retention_period}
