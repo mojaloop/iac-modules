@@ -28,16 +28,9 @@ prometheus:
   
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: false
-    serviceMonitorSelector: {}
-    
     podMonitorSelectorNilUsesHelmValues: false
-    podMonitorSelector: {}
-    
     ruleSelectorNilUsesHelmValues: false
-    ruleSelector: {}
-
     probeSelectorNilUsesHelmValues: false
-    probeSelector: {}
     
     scrapeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
     evaluationInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
