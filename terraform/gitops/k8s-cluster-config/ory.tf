@@ -151,5 +151,4 @@ locals {
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
   }] : []
   ory_charts_repo = try(local.helm_proxy_repos_map[var.ory_charts_repo], var.ory_charts_repo)
-  mojaloop_charts_repo = try(local.helm_proxy_repos_map[var.mojaloop_charts_repo], var.mojaloop_charts_repo)
 }
