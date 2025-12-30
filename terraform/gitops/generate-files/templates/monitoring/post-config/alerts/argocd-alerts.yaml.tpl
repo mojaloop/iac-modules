@@ -14,7 +14,7 @@ spec:
       labels:
         severity: critical
       annotations:
-        summary: ArgoCD Application not healthy
+        summary: ArgoCD Application {{ $labels.name }} is not healthy. Health Status = {{ $labels.health_status }}
         description: "ArgoCD Application has been unhealthy for more than 1 hour"    
     - alert: ArgoCDApplicationNotSynced
       expr: argocd_app_info{sync_status!="Synced"}
@@ -22,5 +22,5 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: ArgoCD Application out of sync 
+        summary: ArgoCD Application {{ $labels.name }} is out of sync. Sync Status = {{ $labels.sync_status }}
         description: "ArgoCD Application has been out of sync for more than 1 hour"
