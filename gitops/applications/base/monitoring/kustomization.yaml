@@ -25,10 +25,10 @@ helmCharts:
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-mimir.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-  - name: kube-prometheus
+  - name: kube-prometheus-stack
     releaseName: prom
     version: ${ARGOCD_ENV_kube_prometheus_helm_version}
-    repo: oci://registry-1.docker.io/bitnamicharts
+    repo: https://prometheus-community.github.io/helm-charts
     valuesFile: values-kube-prometheus.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: grafana-loki

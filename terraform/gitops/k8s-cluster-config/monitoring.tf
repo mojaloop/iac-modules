@@ -154,53 +154,53 @@ variable "metrics_server_replicas" {
 }
 
 locals {
-  bitnami_repo                        = "oci://registry-1.docker.io/bitnamicharts"
-  grafana_crd_version_tag             = "v5.20.0"
-  prometheus_crd_version              = "8.0.1"
-  opentelemetry_chart_version         = "0.93.1"
-  grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
-  loki_release_name                   = "loki"
-  prometheus_operator_release_name    = "prom"
-  loki_chart_version                  = "2.13.0"
-  prometheus_operator_version         = "8.22.8"
-  prometheus_process_exporter_version = "0.4.2"
-  process_exporter_enabled            = false
-  metrics_server_chart_version        = "3.12.2"
-  grafana_version                     = "11.6.1"
-  grafana_dashboard_tag               = "v16.3.0-snapshot.17"     # NOTE: only for those dashboards which are in mojaloop/helm repo
-  grafana_dashboard_tag_iac_modules   = "cto-1448--fix-cpu-throttling-alert" # tag for dashboards in mojaloop/iac-modules repo
-  grafana_operator_version            = "v5.20.0"
-  monitoring_template_path            = "${path.module}/../generate-files/templates/monitoring"
-  monitoring_app_file                 = "monitoring-app.yaml"
-  loki_ingester_pvc_size              = "10Gi"
-  prometheus_pvc_size                 = "50Gi"
-  loki_retention_enabled              = true
-  loki_ingester_retention_period      = "72h"
-  loki_ingester_max_chunk_age         = "2h"
-  loki_ingester_replication_factor    = "3"
-  loki_query_scheduler_enabled        = false
-  loki_distributor_replica_count      = "2"
-  loki_ingester_replica_count         = "3"
-  loki_querier_replica_count          = "1"
-  prometheus_scrape_interval          = "5m"
-  prometheus_rate_interval            = "15m"
-  prometheus_retention_period         = "10d"
-  tempo_retention_period              = "72h"
-  prom_tsdb_min_block_duration        = "30m"
-  prom_tsdb_max_block_duration        = "30m"
-  grafana_public_fqdn                 = "grafana.${var.public_subdomain}"
-  grafana_private_fqdn                = "grafana.${var.private_subdomain}"
-  grafana_subdomain                   = local.grafana_wildcard_gateway == "external" ? var.public_subdomain : var.private_subdomain
-  grafana_fqdn                        = local.grafana_wildcard_gateway == "external" ? "grafana.${var.public_subdomain}" : "grafana.${var.private_subdomain}"
-  grafana_istio_gateway_namespace     = local.grafana_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
-  grafana_istio_wildcard_gateway_name = local.grafana_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
-  enable_central_observability_write  = false
-  enable_central_observability_read   = false
-  central_observability_tenant_id     = "infitx"
-  loki_canary_chart_version           = "0.14.0"
-  loki_canary_repo                    = "https://grafana.github.io/helm-charts"
-  alloy_limits_memory                 = "1Gi"
-  alloy_limits_cpu                    = "1000m"
+  bitnami_repo                            = "oci://registry-1.docker.io/bitnamicharts"
+  grafana_crd_version_tag                 = "v5.20.0"
+  prometheus_crd_version                  = "25.0.0"
+  opentelemetry_chart_version             = "0.93.1"
+  grafana_wildcard_gateway                = var.grafana_ingress_internal_lb ? "internal" : "external"
+  loki_release_name                       = "loki"
+  prometheus_operator_release_name        = "prom"
+  loki_chart_version                      = "2.13.0"
+  prometheus_operator_version             = "80.0.0"
+  prometheus_process_exporter_version     = "0.4.2"
+  process_exporter_enabled                = false
+  metrics_server_chart_version            = "3.12.2"
+  grafana_version                         = "11.6.1"
+  grafana_dashboard_tag                   = "v16.3.0-snapshot.17"                # NOTE: only for those dashboards which are in mojaloop/helm repo
+  grafana_dashboard_tag_iac_modules       = "cto-1448--fix-cpu-throttling-alert" # tag for dashboards in mojaloop/iac-modules repo
+  grafana_operator_version                = "v5.20.0"
+  monitoring_template_path                = "${path.module}/../generate-files/templates/monitoring"
+  monitoring_app_file                     = "monitoring-app.yaml"
+  loki_ingester_pvc_size                  = "10Gi"
+  prometheus_pvc_size                     = "50Gi"
+  loki_retention_enabled                  = true
+  loki_ingester_retention_period          = "72h"
+  loki_ingester_max_chunk_age             = "2h"
+  loki_ingester_replication_factor        = "3"
+  loki_query_scheduler_enabled            = false
+  loki_distributor_replica_count          = "2"
+  loki_ingester_replica_count             = "3"
+  loki_querier_replica_count              = "1"
+  prometheus_scrape_interval              = "5m"
+  prometheus_rate_interval                = "15m"
+  prometheus_retention_period             = "10d"
+  tempo_retention_period                  = "72h"
+  prom_tsdb_min_block_duration            = "30m"
+  prom_tsdb_max_block_duration            = "30m"
+  grafana_public_fqdn                     = "grafana.${var.public_subdomain}"
+  grafana_private_fqdn                    = "grafana.${var.private_subdomain}"
+  grafana_subdomain                       = local.grafana_wildcard_gateway == "external" ? var.public_subdomain : var.private_subdomain
+  grafana_fqdn                            = local.grafana_wildcard_gateway == "external" ? "grafana.${var.public_subdomain}" : "grafana.${var.private_subdomain}"
+  grafana_istio_gateway_namespace         = local.grafana_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  grafana_istio_wildcard_gateway_name     = local.grafana_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  enable_central_observability_write      = false
+  enable_central_observability_read       = false
+  central_observability_tenant_id         = "infitx"
+  loki_canary_chart_version               = "0.14.0"
+  loki_canary_repo                        = "https://grafana.github.io/helm-charts"
+  alloy_limits_memory                     = "1Gi"
+  alloy_limits_cpu                        = "1000m"
   alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"
   alertmanager_prod_alerts_enabled        = try(var.common_var_map.alertmanager_prod_alerts_enabled, false)
   alertmanager_slack_external_secret_name = local.alertmanager_prod_alerts_enabled ? "slack-prod-alert-notifications" : "slack-dev-alert-notifications"

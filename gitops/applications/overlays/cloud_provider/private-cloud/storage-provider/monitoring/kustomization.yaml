@@ -1,16 +1,23 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+configMapGenerator:
+- name: alloy-config
+  files:
+  - ./alloy-config.alloy
+  options:
+    disableNameSuffixHash: true
+
 helmCharts:
-  - name: kube-prometheus
+  - name: kube-prometheus-stack
     releaseName: prom
     version: ${ARGOCD_ENV_monitoring_kube_prometheus_helm_version}
-    repo: oci://registry-1.docker.io/bitnamicharts
+    repo: https://prometheus-community.github.io/helm-charts
     valuesFile: values-kube-prometheus.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-  - name: grafana-alloy
+  - name: alloy
     releaseName: alloy
-    version: 1.0.0
-    repo: oci://registry-1.docker.io/bitnamicharts
-    valuesFile: values-alloy.yaml # TODO: parametrize the values
+    version: 1.4.0
+    repo: https://grafana.github.io/helm-charts
+    valuesFile: values-alloy-v2.yaml 
     namespace: ${ARGOCD_ENV_monitoring_namespace}
