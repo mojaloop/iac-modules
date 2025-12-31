@@ -69,5 +69,5 @@ variable "netbird_image_version" {
 variable "netbird_operator_helm_repo" {
   type        = string
   description = "Helm repository URL for netbird operator"
-  default     = "https://netbirdio.github.io/kubernetes-operator"
+  default     = "https://netbirdio.github.io/helms"
 }
