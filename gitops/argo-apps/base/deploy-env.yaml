@@ -160,7 +160,7 @@ spec:
           value: "${ARGOCD_ENV_nexus_nexus_helm_classic_proxy_repos}"
 
         - name: "oci_helm_repo_base_url"
-          value: "nexus.${ARGOCD_ENV_nexus_ui_dns_subdomain}"
+          value: "https://nexus.${ARGOCD_ENV_nexus_ui_dns_subdomain}"
 
         - name: "classic_helm_repo_base_url"
-          value: "nexus.${ARGOCD_ENV_nexus_ui_dns_subdomain}"
+          value: "https://nexus.${ARGOCD_ENV_nexus_ui_dns_subdomain}/repository"
