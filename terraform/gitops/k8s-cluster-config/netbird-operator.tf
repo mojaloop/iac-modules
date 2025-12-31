@@ -59,7 +59,7 @@ variable "netbird_operator_management_url" {
 variable "netbird_operator_helm_version" {
   type        = string
   description = "netbird_operator_helm_version"
-  default     = "0.1.10"
+  default     = "0.1.15"
 }
 variable "netbird_image_version" {
   type        = string
