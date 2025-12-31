@@ -26,6 +26,9 @@ alertmanager:
       matchLabels:
         alertmanagerConfig: primary
 
+    alertmanagerConfigMatcherStrategy:
+      type: None
+
 prometheus:
   enabled: true
   prometheusSpec:
