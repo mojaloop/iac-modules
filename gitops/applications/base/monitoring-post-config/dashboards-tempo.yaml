@@ -1,0 +1,83 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: tempo-reads
+spec:
+  folder: monitoring
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/grafana/tempo/v2.6.0/operations/tempo-mixin-compiled/dashboards/tempo-reads.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: tempo-writes
+spec:
+  folder: monitoring
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/grafana/tempo/v2.6.0/operations/tempo-mixin-compiled/dashboards/tempo-writes.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: tempo-resources
+spec:
+  folder: monitoring
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/grafana/tempo/v2.6.0/operations/tempo-mixin-compiled/dashboards/tempo-resources.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: tempo-operational
+spec:
+  folder: monitoring
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/grafana/tempo/v2.6.0/operations/tempo-mixin-compiled/dashboards/tempo-operational.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: tempo-tenants
+spec:
+  folder: monitoring
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/grafana/tempo/v2.6.0/operations/tempo-mixin-compiled/dashboards/tempo-tenants.json"
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: tempo-rollout-progress
+spec:
+  folder: monitoring
+  datasources:
+    - inputName: "DS_PROMETHEUS"
+      datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  url: "https://raw.githubusercontent.com/grafana/tempo/v2.6.0/operations/tempo-mixin-compiled/dashboards/tempo-rollout-progress.json"
