@@ -56,7 +56,7 @@ variable "base_utils_sync_wave" {
 variable "reflector_repo_url" {
   type        = string
   description = "reflector_repo_url"
-  default = "https://emberstack.github.io/helm-chart"
+  default = "https://emberstack.github.io/helm-charts"
 }
 
 variable "reloader_repo_url" {
