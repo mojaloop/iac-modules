@@ -39,8 +39,10 @@ module "generate_storage_files" {
 locals {
   storage_template_path = "${path.module}/../generate-files/templates/storage"
   storage_app_file      = "storage-app.yaml"
-  aws_ebs_csi_driver_helm_repo = try(local.helm_proxy_repos_map[var.aws_ebs_csi_driver_helm_repo], var.aws_ebs_csi_driver_helm_repo)
-  rook_ceph_helm_repo = try(local.helm_proxy_repos_map[var.rook_ceph_helm_repo], var.rook_ceph_helm_repo)
+  
+  # Apply helm repository resolution pattern
+  aws_ebs_csi_driver_helm_repo = startswith(var.aws_ebs_csi_driver_helm_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.aws_ebs_csi_driver_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.aws_ebs_csi_driver_helm_repo)[0]]}${regex("oci://([^/]+)(.*)", var.aws_ebs_csi_driver_helm_repo)[1]}", var.aws_ebs_csi_driver_helm_repo) : try(local.helm_proxy_repos_map[var.aws_ebs_csi_driver_helm_repo], var.aws_ebs_csi_driver_helm_repo)
+  rook_ceph_helm_repo = startswith(var.rook_ceph_helm_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.rook_ceph_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.rook_ceph_helm_repo)[0]]}${regex("oci://([^/]+)(.*)", var.rook_ceph_helm_repo)[1]}", var.rook_ceph_helm_repo) : try(local.helm_proxy_repos_map[var.rook_ceph_helm_repo], var.rook_ceph_helm_repo)
 }
 
 variable "storage_sync_wave" {
