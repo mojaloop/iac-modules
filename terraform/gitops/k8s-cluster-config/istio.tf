@@ -73,8 +73,8 @@ locals {
   kiali_fqdn                           = local.kiali_wildcard_gateway == "external" ? "kiali.${var.public_subdomain}" : "kiali.${var.private_subdomain}"
   # Parse comma-delimited strings into lists for Netbird egress routing
   netbird_traffic_hosts_list = var.netbird_traffic_hosts != "" ? split(",", trimspace(var.netbird_traffic_hosts)) : []
-  istio_chart_repo = startswith(var.istio_chart_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.istio_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.istio_chart_repo)[0]]}${regex("oci://([^/]+)(.*)", var.istio_chart_repo)[1]}", var.istio_chart_repo) : try(local.helm_proxy_repos_map[var.istio_chart_repo], var.istio_chart_repo)
-  kiali_chart_repo = startswith(var.kiali_chart_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.kiali_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.kiali_chart_repo)[0]]}${regex("oci://([^/]+)(.*)", var.kiali_chart_repo)[1]}", var.kiali_chart_repo) : try(local.helm_proxy_repos_map[var.kiali_chart_repo], var.kiali_chart_repo)
+  istio_chart_repo = startswith(var.istio_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.istio_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.istio_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.istio_chart_repo)[1]}", var.istio_chart_repo) : try(local.helm_proxy_repos_map[var.istio_chart_repo], var.istio_chart_repo)
+  kiali_chart_repo = startswith(var.kiali_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.kiali_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.kiali_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.kiali_chart_repo)[1]}", var.kiali_chart_repo) : try(local.helm_proxy_repos_map[var.kiali_chart_repo], var.kiali_chart_repo)
 }
 
 
