@@ -177,7 +177,7 @@ variable "prometheus_crd_repo" {
 
 variable "metrics_server_chart_repo" {
   type        = string
-  default     = "none"
+  default     = "https://kubernetes-sigs.github.io/metrics-server"
   description = "metrics_server_chart_repo"
 }
 variable "monitoring_sync_wave" {
