@@ -74,6 +74,7 @@ prometheus:
 kubelet:
   enabled: true
   serviceMonitor:
+    interval: "${ARGOCD_ENV_prometheus_scrape_interval}"
     metricRelabelings:
       - sourceLabels: ['__name__']
         regex: 'apiserver_request_duration_seconds_bucket|apiserver_request_sli_duration_seconds_bucket'
