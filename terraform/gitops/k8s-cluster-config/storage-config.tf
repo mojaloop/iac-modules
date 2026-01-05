@@ -87,3 +87,15 @@ variable "reclaim_policy" {
   description = "Reclaim policy for storage classes"
   default     = "Delete"
 }
+
+variable "aws_ebs_csi_driver_helm_repo" {
+  type        = string
+  description = "Helm repository URL for AWS EBS CSI Driver charts"
+  default     = "https://kubernetes-sigs.github.io/aws-ebs-csi-driver"
+}
+
+variable "rook_ceph_helm_repo" {
+  type        = string
+  description = "Helm repository URL for Rook Ceph charts"
+  default     = "https://charts.rook.io/release"
+}
