@@ -118,6 +118,92 @@ The following template variables are available for use in the addon app template
 - `apps`: provides access to the merged configuration of all addon apps,
   useful for inter-app dependencies.
 
+## Multiple addon instances
+
+Sometimes you need to deploy multiple copies of the same addon with different
+configurations (e.g., for multi-tenant setups, different currency corridors,
+or A/B testing). This can be achieved using the `additionalAddonCopies` array
+in the app configuration.
+
+### Configuration
+
+Add an `additionalAddonCopies` array to `custom-config/<app-name>.yaml`:
+
+```yaml
+# custom-config/pm4mlPerfTest.yaml
+
+# Base addon config (original instance - always deployed when enabled)
+enabled: true
+namespace: pm4ml-perf-test
+image: mojaloop/ml-core-test-harness:v2.15.0
+
+# Additional copies (optional)
+additionalAddonCopies:
+  - id: zmw                        # Required: unique identifier, becomes suffix
+    namespace: pm4ml-perf-zmw      # Optional: defaults to ${baseNamespace}-${id}
+    payerFsp: perf-zmw-dfsp1       # Any config override
+  - id: mwk
+    # namespace omitted - will be "pm4ml-perf-test-mwk"
+    payerFsp: perf-mwk-dfsp1
+```
+
+### Copy configuration
+
+Each copy in the `additionalAddonCopies` array:
+
+- **Must have** an `id` field (string) - used as suffix for app name and paths
+- **Can override** any configuration value (namespace, syncWave, values, etc.)
+- **Can be disabled** individually with `enabled: false`
+- **Inherits** all configuration from the base addon if not overridden
+
+If `namespace` is not specified, it defaults to `${baseNamespace}-${copyId}`.
+
+### Generated output
+
+```text
+apps/
+├── app-yamls/
+│   ├── pm4mlPerfTest.yaml        # BASE instance
+│   ├── pm4mlPerfTest-zmw.yaml    # Copy with id: zmw
+│   └── pm4mlPerfTest-mwk.yaml    # Copy with id: mwk
+├── pm4mlPerfTest/                # BASE resources
+├── pm4mlPerfTest-zmw/            # ZMW copy resources
+└── pm4mlPerfTest-mwk/            # MWK copy resources
+```
+
+### Template variables for copies
+
+In addition to the standard template variables, the following are available
+for multi-instance support:
+
+- `copy`: the copy configuration object (empty `{}` for base instance)
+- `isBase`: boolean indicating if this is the base instance (`true`) or a copy (`false`)
+
+### Writing multi-instance compatible templates
+
+For templates to work correctly with multiple instances, use the `app`
+variable for dynamic values:
+
+```yaml
+# Instead of hardcoded values:
+# name: pm4ml-perf-test              # DON'T do this
+# namespace: pm4ml-perf-test         # DON'T do this
+
+# Use template variables:
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${app.name}                   # Dynamic: pm4mlPerfTest, pm4mlPerfTest-zmw, etc.
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "${app.syncWave}"
+spec:
+  source:
+    path: apps/${app.name}            # Dynamic path
+  destination:
+    namespace: ${app.namespace}       # Dynamic namespace
+```
+
 ## Reusable addons
 
 Addons are usually maintained in separate git repositories to allow reuse across
