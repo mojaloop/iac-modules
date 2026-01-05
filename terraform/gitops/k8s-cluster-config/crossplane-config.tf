@@ -30,6 +30,7 @@ module "generate_crossplane_files" {
 locals {
   crossplane_template_path = "${path.module}/../generate-files/templates/crossplane"
   crossplane_app_file      = "crossplane-app.yaml"
+  crossplane_chart_repo = startswith(var.crossplane_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.crossplane_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.crossplane_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.crossplane_chart_repo)[1]}", var.crossplane_chart_repo) : try(local.helm_proxy_repos_map[var.crossplane_chart_repo], var.crossplane_chart_repo)
 }
 
 variable "crossplane_sync_wave" {

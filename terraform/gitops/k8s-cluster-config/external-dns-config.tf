@@ -28,6 +28,7 @@ module "generate_extdns_files" {
 locals {
   extdns_template_path = "${path.module}/../generate-files/templates/external-dns"
   extdns_app_file      = "external-dns-app.yaml"
+  external_dns_chart_repo = startswith(var.external_dns_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.external_dns_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.external_dns_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.external_dns_chart_repo)[1]}", var.external_dns_chart_repo) : try(local.helm_proxy_repos_map[var.external_dns_chart_repo], var.external_dns_chart_repo)
 }
 variable "external_dns_chart_repo" {
   type        = string

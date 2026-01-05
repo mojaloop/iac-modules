@@ -30,6 +30,7 @@ module "generate_certman_files" {
 locals {
   certman_template_path = "${path.module}/../generate-files/templates/certmanager"
   certman_app_file      = "certmanager-app.yaml"
+  cert_manager_chart_repo = startswith(var.cert_manager_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.cert_manager_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.cert_manager_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.cert_manager_chart_repo)[1]}", var.cert_manager_chart_repo) : try(local.helm_proxy_repos_map[var.cert_manager_chart_repo], var.cert_manager_chart_repo)
 }
 
 variable "cert_manager_chart_repo" {

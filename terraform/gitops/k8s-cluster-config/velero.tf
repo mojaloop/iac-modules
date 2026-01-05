@@ -24,6 +24,7 @@ module "generate_velero_files" {
 locals {
   velero_template_path = "${path.module}/../generate-files/templates/velero"
   velero_app_file      = "velero-app.yaml"
+  velero_helm_repo     = startswith(var.velero_helm_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.velero_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.velero_helm_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.velero_helm_repo)[1]}", var.velero_helm_repo) : try(local.helm_proxy_repos_map[var.velero_helm_repo], var.velero_helm_repo)
 }
 
 variable "velero_sync_wave" {
