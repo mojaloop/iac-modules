@@ -103,5 +103,5 @@ variable "aws_ebs_csi_driver_helm_repo" {
 variable "rook_ceph_helm_repo" {
   type        = string
   description = "Helm repository URL for Rook Ceph charts"
-  default     = "oci://registry-1.docker.io/rook/rook-ceph"
+  default     = "https://charts.rook.io/release"
 }
