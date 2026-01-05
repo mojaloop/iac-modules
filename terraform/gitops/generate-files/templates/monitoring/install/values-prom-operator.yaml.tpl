@@ -112,6 +112,7 @@ prometheusOperator:
 kubelet:
   enabled: true
   serviceMonitor:
+    interval: "${prometheus_scrape_interval}"
     metricRelabelings:
       # Drop high-cardinality metrics
       - sourceLabels: ['__name__']
