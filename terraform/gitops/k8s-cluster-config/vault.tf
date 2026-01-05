@@ -70,8 +70,8 @@ locals {
   vault_fqdn                        = local.vault_wildcard_gateway == "external" ? "vault.${var.public_subdomain}" : "vault.${var.private_subdomain}"
   vault_istio_gateway_namespace     = local.vault_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
   vault_istio_wildcard_gateway_name = local.vault_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
-  vault_chart_repo                  = try(local.helm_proxy_repos_map[var.vault_chart_repo], var.vault_chart_repo)
-  vault_config_operator_helm_chart_repo = try(local.helm_proxy_repos_map[var.vault_config_operator_helm_chart_repo], var.vault_config_operator_helm_chart_repo)
+  vault_chart_repo                  = startswith(var.vault_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.vault_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.vault_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.vault_chart_repo)[1]}", var.vault_chart_repo) : try(local.helm_proxy_repos_map[var.vault_chart_repo], var.vault_chart_repo)
+  vault_config_operator_helm_chart_repo = startswith(var.vault_config_operator_helm_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.vault_config_operator_helm_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.vault_config_operator_helm_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.vault_config_operator_helm_chart_repo)[1]}", var.vault_config_operator_helm_chart_repo) : try(local.helm_proxy_repos_map[var.vault_config_operator_helm_chart_repo], var.vault_config_operator_helm_chart_repo)
 }
 
 variable "vault_sync_wave" {

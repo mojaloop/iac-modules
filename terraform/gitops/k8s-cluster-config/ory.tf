@@ -150,5 +150,5 @@ locals {
     client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
     secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
   }] : []
-  ory_charts_repo = try(local.helm_proxy_repos_map[var.ory_charts_repo], var.ory_charts_repo)
+  ory_charts_repo = startswith(var.ory_charts_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.ory_charts_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.ory_charts_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.ory_charts_repo)[1]}", var.ory_charts_repo) : try(local.helm_proxy_repos_map[var.ory_charts_repo], var.ory_charts_repo)
 }

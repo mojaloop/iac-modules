@@ -24,8 +24,8 @@ module "generate_reflector_files" {
 locals {
   base_utils_template_path               = "${path.module}/../generate-files/templates/base-utils"
   base_utils_app_file                    = "base-utils-app.yaml"
-  reloader_repo_url = try(local.helm_proxy_repos_map[var.reloader_repo_url], var.reloader_repo_url)
-  reflector_repo_url = try(local.helm_proxy_repos_map[var.reflector_repo_url], var.reflector_repo_url)
+  reloader_repo_url = startswith(var.reloader_repo_url, "oci://") && can(regex("(oci://[^/]+)(.*)", var.reloader_repo_url)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.reloader_repo_url)[0]]}${regex("(oci://[^/]+)(.*)", var.reloader_repo_url)[1]}", var.reloader_repo_url) : try(local.helm_proxy_repos_map[var.reloader_repo_url], var.reloader_repo_url)
+  reflector_repo_url = startswith(var.reflector_repo_url, "oci://") && can(regex("(oci://[^/]+)(.*)", var.reflector_repo_url)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.reflector_repo_url)[0]]}${regex("(oci://[^/]+)(.*)", var.reflector_repo_url)[1]}", var.reflector_repo_url) : try(local.helm_proxy_repos_map[var.reflector_repo_url], var.reflector_repo_url)
 }
 
 
@@ -64,4 +64,3 @@ variable "reloader_repo_url" {
   description = "reloader_repo_url"
   default = "https://stakater.github.io/stakater-charts"
 }
-  

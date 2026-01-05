@@ -18,7 +18,7 @@ module "generate_kyverno_files" {
 locals {
   kyverno_template_path = "${path.module}/../generate-files/templates/kyverno"
   kyverno_app_file      = "kyverno-app.yaml"
-  kyverno_chart_repo    = try(local.helm_proxy_repos_map[var.kyverno_chart_repo], var.kyverno_chart_repo)
+  kyverno_chart_repo    = startswith(var.kyverno_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.kyverno_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.kyverno_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.kyverno_chart_repo)[1]}", var.kyverno_chart_repo) : try(local.helm_proxy_repos_map[var.kyverno_chart_repo], var.kyverno_chart_repo)
 }
 
 

@@ -435,8 +435,8 @@ locals {
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.plt_st_res_config]
   namespace_meta                      = var.namespace_meta_config_file == "" ? {} : yamldecode(file(var.namespace_meta_config_file))
-  pm4ml_chart_repo                    = try(local.helm_proxy_repos_map[var.cert_manager_chart_repo], var.pm4ml_chart_repo)
-  mojaloop_charts_repo                = try(local.helm_proxy_repos_map[var.mojaloop_charts_repo], var.mojaloop_charts_repo)
-  mcm_chart_repo                      = try(local.helm_proxy_repos_map[var.mcm_chart_repo], var.mcm_chart_repo)
-  mojaloop_helm_repo                  = try(local.helm_proxy_repos_map[var.mojaloop_helm_repo], var.mojaloop_helm_repo)
+  pm4ml_chart_repo                    = startswith(var.pm4ml_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.pm4ml_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.pm4ml_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.pm4ml_chart_repo)[1]}", var.pm4ml_chart_repo) : try(local.helm_proxy_repos_map[var.pm4ml_chart_repo], var.pm4ml_chart_repo)
+  mojaloop_charts_repo                = startswith(var.mojaloop_charts_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)[1]}", var.mojaloop_charts_repo) : try(local.helm_proxy_repos_map[var.mojaloop_charts_repo], var.mojaloop_charts_repo)
+  mcm_chart_repo                      = startswith(var.mcm_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)[1]}", var.mcm_chart_repo) : try(local.helm_proxy_repos_map[var.mcm_chart_repo], var.mcm_chart_repo)
+  mojaloop_helm_repo                  = startswith(var.mojaloop_helm_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)[1]}", var.mojaloop_helm_repo) : try(local.helm_proxy_repos_map[var.mojaloop_helm_repo], var.mojaloop_helm_repo)
 }

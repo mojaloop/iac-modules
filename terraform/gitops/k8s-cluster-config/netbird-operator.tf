@@ -24,7 +24,7 @@ module "generate_netbird_operator_files" {
 locals {
   netbird_operator_template_path = "${path.module}/../generate-files/templates/netbird-operator"
   netbird_operator_app_file      = "netbird-operator-app.yaml"
-  netbird_operator_helm_repo     = try(local.helm_proxy_repos_map[var.netbird_operator_helm_repo], var.netbird_operator_helm_repo)
+  netbird_operator_helm_repo     = startswith(var.netbird_operator_helm_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.netbird_operator_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.netbird_operator_helm_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.netbird_operator_helm_repo)[1]}", var.netbird_operator_helm_repo) : try(local.helm_proxy_repos_map[var.netbird_operator_helm_repo], var.netbird_operator_helm_repo)
 }
 
 variable "netbird_operator_sync_wave" {
