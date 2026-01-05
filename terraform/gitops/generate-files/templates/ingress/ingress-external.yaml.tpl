@@ -12,8 +12,7 @@ spec:
     path: apps/ingress/charts/nginx-external
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
+
   destination:
     namespace: ${nginx_external_namespace}
     server: https://kubernetes.default.svc
