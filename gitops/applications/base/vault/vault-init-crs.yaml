@@ -32,6 +32,7 @@ data:
   bootstrap.sh: |
       #!/bin/bash
       export VAULT_ADDR=http://127.0.0.1:8200
+      export VAULT_ROOT_TOKEN=""
       # Extract the ordinal index from the hostname (e.g., vault-0 -> 0)
       POD_ORDINAL=${HOSTNAME##*-}
 
@@ -42,49 +43,60 @@ data:
       done
 
       # 1. Check if the secret already exists in Kubernetes
-      SECRET_EXISTS=$(kubectl get secret -n ${ARGOCD_ENV_vault_namespace} ${ARGOCD_ENV_vault_keys_secret} --ignore-not-found)
+      SECRET_EXISTS=$(kubectl get secret -n "${ARGOCD_ENV_vault_namespace}" "${ARGOCD_ENV_vault_keys_secret}" --ignore-not-found)
+      # get the root token from the secret if it exists
+      if [ -n "$SECRET_EXISTS" ]; then
+        VAULT_ROOT_TOKEN=$(kubectl get secret -n "${ARGOCD_ENV_vault_namespace}" "${ARGOCD_ENV_vault_keys_secret}" -o jsonpath="{.data.root_token}" | base64 --decode)
+        echo "Vault keys secret already exists in Kubernetes."
+      fi
 
-      # 2. Initialization Logic (Only for vault-0)
-      if [ "$POD_ORDINAL" -eq "0" ] && [ -z "$SECRET_EXISTS" ]; then
-          if [ $(vault status -format=json | jq -r '.initialized') == "false" ]; then
-            echo "vault-0: Initializing Vault..."
-            vault operator init -key-shares=1 -key-threshold=1 -format=json > /tmp/output.json
-
-            VAULT_ROOT_TOKEN=$(jq -r '.root_token' /tmp/output.json)
-            UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' /tmp/output.json)
-
-            echo "vault-0: Creating Kubernetes secret..."
-            kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} \
-              --from-literal=unseal_key=$UNSEAL_KEY \
-              --from-literal=root_token=$VAULT_ROOT_TOKEN \
-              --from-file=vault-keys.json=/tmp/output.json \
-              --save-config --dry-run=client -o yaml | kubectl apply -f -
-          fi
+      # if we have the root token then initialization is already done
+      if [ -n "$VAULT_ROOT_TOKEN" ]; then
+        echo "Vault is already initialized; moving to unseal step"
       else
-          echo "🛰️ VAULT-$POD_ORDINAL: Waiting for Auto-Join ..."
+        echo "Vault is not initialized. Proceeding with initialization..."
+        # 2. Initialization Logic (Only for vault-0)
+        if [ "$POD_ORDINAL" -eq "0" ] && [ -z "$VAULT_ROOT_TOKEN" ]; then
+            if [ "$(vault status -format=json 2>/dev/null | jq -r '.initialized')" == "false" ]; then
+              echo "vault-0: Initializing Vault..."
+              vault operator init -key-shares=1 -key-threshold=1 -format=json > /tmp/output.json
 
-          # We don't run 'vault operator raft join'.
-          # Instead, we wait for the node to become unsealed,
-          # which only happens AFTER it successfully joins the leader.
-          for i in {1..60}; do
-            HEALTH=$(vault status -format=json 2>/dev/null || echo '{"initialized": false}')
-            IS_INIT=$(echo $HEALTH | jq -r '.initialized')
+              VAULT_ROOT_TOKEN=$(jq -r '.root_token' /tmp/output.json)
+              UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' /tmp/output.json)
 
-            if [ "$IS_INIT" == "true" ]; then
-              echo "✅ Node is joined to the cluster."
-              break
+              echo "vault-0: Creating Kubernetes secret..."
+              kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} \
+                --from-literal=unseal_key=$UNSEAL_KEY \
+                --from-literal=root_token=$VAULT_ROOT_TOKEN \
+                --from-file=vault-keys.json=/tmp/output.json \
+                --save-config --dry-run=client -o yaml | kubectl apply -f -
             fi
+        else
+            echo "🛰️ VAULT-$POD_ORDINAL: Waiting for Auto-Join ..."
 
-            echo "⏳ Waiting for cluster membership... (Attempt $i/60)"
-            sleep 10
-          done
+            # We don't run 'vault operator raft join'.
+            # Instead, we wait for the node to become initialized,
+            # which only happens AFTER it successfully joins the leader.
+            for i in {1..60}; do
+              HEALTH=$(vault status -format=json 2>/dev/null || echo '{"initialized": false}')
+              IS_INIT=$(echo $HEALTH | jq -r '.initialized')
+
+              if [ "$IS_INIT" == "true" ]; then
+                echo "✅ Node is joined to the cluster."
+                break
+              fi
+
+              echo "⏳ Waiting for cluster membership... (Attempt $i/60)"
+              sleep 10
+            done
+        fi
       fi
 
       # 3. Unseal Logic (All Pods)
       # Wait briefly for vault-0 to finish init if this is a follower pod
       sleep 5
 
-      if [ $(vault status -format=json | jq -r '.sealed') == "true" ]; then
+      if [ "$(vault status -format=json 2>/dev/null | jq -r '.sealed')" == "true" ]; then
           echo "Pod $HOSTNAME: Vault is sealed. Attempting to unseal..."
 
           # Retrieve unseal key from the K8s secret
