@@ -171,3 +171,8 @@ variable "traces_endpoint" {
 variable "root_var_map" {
   type = any
 }
+variable "pm4ml_chart_repo" {
+  type        = string
+  default     = "none"
+  description = "Helm chart repository URL for PM4ML"
+}

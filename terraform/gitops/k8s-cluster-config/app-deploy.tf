@@ -89,6 +89,8 @@ module "mojaloop" {
   istio_nb_egress_waypoint_namespace           = var.istio_nb_egress_waypoint_namespace
   traces_endpoint                              = var.traces_endpoint
   namespace_meta                               = local.namespace_meta
+  mojaloop_chart_repo                          = local.mojaloop_charts_repo
+  mcm_chart_repo                               = local.mcm_chart_repo
 }
 
 module "pm4ml" {
@@ -146,6 +148,7 @@ module "pm4ml" {
   cloud_platform                           = var.cloud_platform
   private_dns_zone_id                      = var.private_dns_zone_id
   traces_endpoint                          = var.traces_endpoint
+  pm4ml_chart_repo                         = local.pm4ml_chart_repo
 }
 
 module "proxy_pm4ml" {
@@ -183,6 +186,7 @@ module "proxy_pm4ml" {
   cloud_platform                           = var.cloud_platform
   private_dns_zone_id                      = var.private_dns_zone_id
   traces_endpoint                          = var.traces_endpoint
+  proxy_pm4ml_chart_repo                   = local.pm4ml_chart_repo
 }
 
 module "vnext" {
@@ -431,4 +435,8 @@ locals {
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.plt_st_res_config]
   namespace_meta                      = var.namespace_meta_config_file == "" ? {} : yamldecode(file(var.namespace_meta_config_file))
+  pm4ml_chart_repo                    = try(local.helm_proxy_repos_map[var.cert_manager_chart_repo], var.pm4ml_chart_repo)
+  mojaloop_charts_repo                = try(local.helm_proxy_repos_map[var.mojaloop_charts_repo], var.mojaloop_charts_repo)
+  mcm_chart_repo                      = try(local.helm_proxy_repos_map[var.mcm_chart_repo], var.mcm_chart_repo)
+  mojaloop_helm_repo                  = try(local.helm_proxy_repos_map[var.mojaloop_helm_repo], var.mojaloop_helm_repo)
 }
