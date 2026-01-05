@@ -12,8 +12,7 @@ spec:
     path: apps/external-dns
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
+
   destination:
     namespace: ${external_dns_namespace}
     server: https://kubernetes.default.svc
