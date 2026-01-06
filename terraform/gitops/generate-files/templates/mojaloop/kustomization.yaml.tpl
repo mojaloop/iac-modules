@@ -41,7 +41,7 @@ helmCharts:
 - name: ml-testing-toolkit-cli
   releaseName: hub-provisioning
   version: ${ml_testing_toolkit_cli_chart_version}
-  repo: ${mojaloop_chart_repo}
+  repo: ${mojaloop_helm_repo}
   valuesFile: values-hub-provisioning.yaml
   namespace: ${mojaloop_namespace}
   additionalValuesFiles:
