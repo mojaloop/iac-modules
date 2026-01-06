@@ -77,17 +77,29 @@ data:
             # We don't run 'vault operator raft join'.
             # Instead, we wait for the node to become initialized,
             # which only happens AFTER it successfully joins the leader.
-            for i in {1..60}; do
-              HEALTH=$(vault status -format=json 2>/dev/null || echo '{"initialized": false}')
-              IS_INIT=$(echo $HEALTH | jq -r '.initialized')
+            for i in {1..30}; do
+              # Redirect stderr to null so 'vault status' doesn't pollute the variable if it fails
+              RAW_HEALTH=$(vault status -format=json 2>/dev/null)
+
+              # If the command failed (exit code != 0), use the fallback
+              if [ -z "$RAW_HEALTH" ]; then
+                HEALTH='{"initialized": false}'
+              else
+                HEALTH="$RAW_HEALTH"
+              fi
+
+              # Extract the value cleanly
+              IS_INIT=$(echo "$HEALTH" | jq -r '.initialized')
+
+              echo "Debug: Initialized status is [$IS_INIT]"
 
               if [ "$IS_INIT" == "true" ]; then
                 echo "✅ Node is joined to the cluster."
                 break
               fi
 
-              echo "⏳ Waiting for cluster membership... (Attempt $i/60)"
-              sleep 10
+              echo "⏳ Waiting for cluster membership... (Attempt $i/30)"
+              sleep 6
             done
         fi
       fi
