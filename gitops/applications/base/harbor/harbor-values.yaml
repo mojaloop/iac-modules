@@ -29,8 +29,10 @@ components:
   portal:
     enabled: true
   jobservice:
-    enabled: true
+    enabled: false
   notary:
+    enabled: false
+  chartmuseum:
     enabled: false
   trivy:
     enabled: false

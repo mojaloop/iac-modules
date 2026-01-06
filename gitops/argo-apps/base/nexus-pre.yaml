@@ -50,9 +50,3 @@ spec:
 
         - name: "nexus_readonly_user_name"
           value: "${ARGOCD_ENV_nexus_nexus_readonly_user_name}"
-
-        - name: "nexus_helm_oci_proxy_repos"
-          value: "${ARGOCD_ENV_nexus_nexus_helm_oci_proxy_repos}"
-
-        - name: "nexus_helm_classic_proxy_repos"
-          value: "${ARGOCD_ENV_nexus_nexus_helm_classic_proxy_repos}"

@@ -21,7 +21,7 @@ helmCharts:
 - name: prometheus-operator-crds
   releaseName: prometheus-operator-crds
   version: ${prometheus_crd_version}
-  repo: ${prometheus_crd_repo}
+  repo: https://prometheus-community.github.io/helm-charts/
 - name: kube-prometheus
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
@@ -34,22 +34,22 @@ helmCharts:
   repo: ${grafana_operator_repo}
   valuesFile: values-grafana-operator.yaml
   namespace: ${monitoring_namespace}
-# - name: grafana-loki
-#   releaseName: ${loki_release_name}
-#   version: ${loki_chart_version}
-#   repo: ${loki_repo}
-#   valuesFile: values-loki.yaml
-#   namespace: ${monitoring_namespace}
+- name: grafana-loki
+  releaseName: ${loki_release_name}
+  version: ${loki_chart_version}
+  repo: ${loki_repo}
+  valuesFile: values-loki.yaml
+  namespace: ${monitoring_namespace}
 - name: loki
   releaseName: loki-official-helm # TODO: update release name to 'loki' once bitnami loki is removed 
   version: 6.45.2          # TODO: use exist helm parameter and update it to this version
-  repo: oci://ghcr.io/grafana/helm-charts
+  repo: https://grafana.github.io/helm-charts
   valuesFile: values-loki-official-helm.yaml
   namespace: ${monitoring_namespace}
 - name: opentelemetry-operator
   releaseName: opentelemetry-operator
   version: ${opentelemetry_chart_version}
-  repo: ${opentelemetry_repo}
+  repo: https://open-telemetry.github.io/opentelemetry-helm-charts
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
 - name: loki-canary
@@ -61,7 +61,7 @@ helmCharts:
 - name: alloy
   releaseName: alloy
   version: 1.4.0
-  repo: ${alloy_repo}
+  repo: https://grafana.github.io/helm-charts
   valuesFile: values-alloy.yaml
   namespace: ${monitoring_namespace}
 
@@ -76,7 +76,7 @@ helmCharts:
 
 - name: metrics-server
   releaseName: metrics-server
-  repo: ${metrics_server_chart_repo}
+  repo: https://kubernetes-sigs.github.io/metrics-server
   valuesFile: values-metrics-server.yaml
   namespace: ${monitoring_namespace}
   version: ${metrics_server_chart_version}

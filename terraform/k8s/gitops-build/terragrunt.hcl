@@ -170,8 +170,6 @@ inputs = {
   kyverno_chart_version                    = local.common_vars.kyverno_chart_version
   vault_backup_schedule                    = local.common_vars.vault_backup_schedule
   vault_backupjob_image                    = local.common_vars.vault_backupjob_image
-  helm_oci_proxy_repos                     = try(get_env("HELM_OCI_PROXY_REPOS"), "none")
-  helm_classic_proxy_repos                 = try(get_env("HELM_CLASSIC_PROXY_REPOS"), "none")
 }
 
 locals {
