@@ -77,13 +77,13 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
-  name: loki-v2
+  name: loki
 spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
   datasource:
-    name: Loki-v2
+    name: Loki
     type: loki
     access: proxy
     url: http://loki-official-helm-gateway.monitoring.svc.cluster.local 
@@ -94,32 +94,32 @@ spec:
       httpHeaderValue1: '1'
     isDefault: false
     editable: true
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDatasource
-metadata:
-  name: loki
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  datasource:
-    name: Loki
-    type: loki
-    access: proxy
-    url: http://${loki_release_name}-grafana-loki-gateway
-    jsonData:
-      timeout: 60
-      derivedFields:
-        - datasourceUid: Tempo
-          matcherRegex: ((\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+))
-          name: traceid
-          url: '$${__value.raw}'
-      httpHeaderName1: 'X-Scope-OrgID'
-    secureJsonData:
-      httpHeaderValue1: '1'
-    isDefault: false
-    editable: true
+#---
+#apiVersion: grafana.integreatly.org/v1beta1
+#kind: GrafanaDatasource
+#metadata:
+#  name: loki
+#spec:
+#  instanceSelector:
+#    matchLabels:
+#      dashboards: "grafana"
+#  datasource:
+#    name: Loki
+#    type: loki
+#    access: proxy
+#    url: http://${loki_release_name}-grafana-loki-gateway
+#    jsonData:
+#      timeout: 60
+#      derivedFields:
+#        - datasourceUid: Tempo
+#          matcherRegex: ((\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+))
+#          name: traceid
+#          url: '$${__value.raw}'
+#      httpHeaderName1: 'X-Scope-OrgID'
+#    secureJsonData:
+#      httpHeaderValue1: '1'
+#    isDefault: false
+#    editable: true
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
