@@ -12,7 +12,6 @@ spec:
     path: apps/external-dns
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-
   destination:
     namespace: ${external_dns_namespace}
     server: https://kubernetes.default.svc
