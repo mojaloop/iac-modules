@@ -243,25 +243,31 @@ variable "helm_oci_proxy_repos" {
 variable "mojaloop_charts_repo" {
   type        = string
   description = "Helm charts repository URL for Mojaloop"
-  default     = "none"
+  default     = "https://mojaloop.github.io/charts/repo"
 }
 
 variable "mojaloop_helm_repo" {
   type        = string
   description = "Helm repository URL for Mojaloop"
-  default     = "none"
+  default     = "https://mojaloop.github.io/helm/repo"
 }
 
 variable "pm4ml_chart_repo" {
   type        = string
-  default     = "none"
+  default     = "https://pm4ml.github.io/helm"
   description = "Helm chart repository URL for PM4ML"
 }
 
 variable "mcm_chart_repo" {
   type        = string
-  default     = "none"
+  default     = "https://pm4ml.github.io/helm"
   description = "Helm chart repository URL for MCM"
+}
+
+variable "mojaloop_reporting_templates_repo" {
+  default = "https://mojaloop.github.io/reporting-k8s-templates"
+  description = "repo for mojaloop k8s reporting templates"
+  type = string
 }
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value

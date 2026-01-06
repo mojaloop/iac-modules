@@ -173,6 +173,6 @@ variable "root_var_map" {
 }
 variable "pm4ml_chart_repo" {
   type        = string
-  default     = "none"
+  default     = "https://pm4ml.github.io/helm"
   description = "Helm chart repository URL for PM4ML"
 }

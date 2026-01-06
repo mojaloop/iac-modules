@@ -41,7 +41,6 @@ module "mojaloop" {
   istio_internal_gateway_name                  = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name         = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name         = local.istio_internal_wildcard_gateway_name
-  mojaloop_chart_version                       = var.app_var_map.mojaloop_chart_version
   mcm_enabled                                  = var.common_var_map.mcm_enabled
   mcm_chart_version                            = var.app_var_map.mcm_chart_version
   mojaloop_enabled                             = var.common_var_map.mojaloop_enabled
@@ -89,8 +88,11 @@ module "mojaloop" {
   istio_nb_egress_waypoint_namespace           = var.istio_nb_egress_waypoint_namespace
   traces_endpoint                              = var.traces_endpoint
   namespace_meta                               = local.namespace_meta
-  mojaloop_chart_repo                          = local.mojaloop_charts_repo
+  mojaloop_charts_repo                         = local.mojaloop_charts_repo
   mcm_chart_repo                               = local.mcm_chart_repo
+  mojaloop_helm_repo                           = local.mojaloop_helm_repo
+  reporting_templates_chart_repo               = local.mojaloop_reporting_templates_repo
+  mojaloop_helm_version                        = var.app_var_map.mojaloop_helm_version
 }
 
 module "pm4ml" {
@@ -439,4 +441,5 @@ locals {
   mojaloop_charts_repo                = startswith(var.mojaloop_charts_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)[1]}", var.mojaloop_charts_repo) : try(local.helm_proxy_repos_map[var.mojaloop_charts_repo], var.mojaloop_charts_repo)
   mcm_chart_repo                      = startswith(var.mcm_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)[1]}", var.mcm_chart_repo) : try(local.helm_proxy_repos_map[var.mcm_chart_repo], var.mcm_chart_repo)
   mojaloop_helm_repo                  = startswith(var.mojaloop_helm_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)[1]}", var.mojaloop_helm_repo) : try(local.helm_proxy_repos_map[var.mojaloop_helm_repo], var.mojaloop_helm_repo)
+  mojaloop_reporting_templates_repo   = startswith(var.mojaloop_reporting_templates_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_reporting_templates_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_reporting_templates_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_reporting_templates_repo)[1]}", var.mojaloop_reporting_templates_repo) : try(local.helm_proxy_repos_map[var.mojaloop_reporting_templates_repo], var.mojaloop_reporting_templates_repo)
 }
