@@ -115,7 +115,7 @@ distributor:
   maxUnavailable: 1
   resources:
     requests:
-      cpu: ${oki_distributor_requests_cpu}
+      cpu: ${loki_distributor_requests_cpu}
       memory: ${loki_distributor_requests_memory}
     limits:
       cpu: ${loki_distributor_limits_cpu}
