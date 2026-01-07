@@ -153,7 +153,7 @@ variable "prometheus_operator_repo" {
 
 variable "loki_repo" {
   type        = string
-  default     = "https://grafana.github.io/helm-charts"
+  default     = "oci://ghcr.io/grafana/helm-charts"
   description = "loki_repo"
 }
 
@@ -171,7 +171,7 @@ variable "grafana_operator_repo" {
 
 variable "prometheus_crd_repo" {
   type        = string
-  default     = "https://prometheus-community.github.io/helm-charts/"
+  default     = "https://prometheus-community.github.io/helm-charts"
   description = "prometheus_crd_repo"
 }
 
