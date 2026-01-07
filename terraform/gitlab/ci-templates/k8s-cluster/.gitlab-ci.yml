@@ -225,9 +225,6 @@ deploy-infra:
         - ${ANSIBLE_BASE_OUTPUT_DIR}/**/*oidc-kubeconfig
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^deploy-infra:.*/
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE == "update generated configs to project"
-      when: manual
-      allow_failure: true
     - when: manual
 
 refresh-templates:
