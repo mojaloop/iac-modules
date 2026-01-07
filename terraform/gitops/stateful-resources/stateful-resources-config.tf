@@ -388,6 +388,11 @@ locals {
   app_stateful_resources_output_path  = "${var.output_dir}/app-yamls"
   stateful_resources                  = var.stateful_resources
   helm_stateful_resources             = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "helm-chart" }
+  helm_stateful_resources_resolved    = { for key, resource in local.helm_stateful_resources : key => merge(resource, {
+    local_helm_config = merge(resource.local_helm_config, {
+      resource_helm_repo = startswith(resource.local_helm_config.resource_helm_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", resource.local_helm_config.resource_helm_repo)) ? try("${var.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", resource.local_helm_config.resource_helm_repo)[0]]}${regex("(oci://[^/]+)(.*)", resource.local_helm_config.resource_helm_repo)[1]}", resource.local_helm_config.resource_helm_repo) : try(var.helm_proxy_repos_map[resource.local_helm_config.resource_helm_repo], resource.local_helm_config.resource_helm_repo)
+    })
+  })}
   operator_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if resource.deployment_type == "operator" }
   internal_stateful_resources         = { for key, resource in local.stateful_resources : key => resource if(resource.deployment_type == "operator" || resource.deployment_type == "helm-chart") }
   strimzi_operator_stateful_resources = { for key, resource in local.operator_stateful_resources : key => resource if resource.resource_type == "kafka" }
@@ -638,4 +643,9 @@ variable "dbaas_subdomain" {
 variable "namespace_meta" {
   type = any
   description = "Metadata for the namespaces"
+}
+
+variable "helm_proxy_repos_map" {
+  type        = map(string)
+  description = "Map of original Helm repository URLs to proxy repository URLs"
 }
