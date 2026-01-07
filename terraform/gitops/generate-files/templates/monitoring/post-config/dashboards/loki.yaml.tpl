@@ -10,7 +10,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/grafana/loki/v3.5.7/production/loki-mixin-compiled/dashboards/loki-chunks.json"
+  url: "https://raw.githubusercontent.com/grafana/loki/v3.6.3/production/loki-mixin-compiled/dashboards/loki-chunks.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -24,7 +24,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/grafana/loki/v3.5.7/production/loki-mixin-compiled/dashboards/loki-deletion.json"
+  url: "https://raw.githubusercontent.com/grafana/loki/v3.6.3/production/loki-mixin-compiled/dashboards/loki-deletion.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
@@ -38,7 +38,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-  url: "https://raw.githubusercontent.com/grafana/loki/v3.5.7/production/loki-mixin-compiled/dashboards/loki-logs.json"
+  url: "https://raw.githubusercontent.com/grafana/loki/v3.6.3/production/loki-mixin-compiled/dashboards/loki-logs.json"
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
