@@ -62,7 +62,7 @@ resource "local_file" "monolith-init-mongodb" {
 resource "local_file" "kustomization" {
   content = templatefile("${local.stateful_resources_template_path}/stateful-resources-kustomization.yaml.tpl",
     { all_local_stateful_resources        = local.internal_stateful_resources
-      helm_stateful_resources             = local.helm_stateful_resources
+      helm_stateful_resources             = local.helm_stateful_resources_resolved
       managed_stateful_resources          = local.managed_stateful_resources
       mysql_managed_stateful_resources    = local.mysql_managed_stateful_resources
       mongodb_managed_stateful_resources  = local.mongodb_managed_stateful_resources
