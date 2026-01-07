@@ -146,6 +146,53 @@ variable "grafana_chart_repo" {
   description = "grafana_chart_repo"
 }
 
+variable "opentelemetry_chart_repo" {
+  type        = string
+  default     = "https://open-telemetry.github.io/opentelemetry-helm-charts"
+  description = "opentelemetry_chart_repo"
+}
+
+variable "alloy_chart_repo" {
+  type        = string
+  default     = "https://grafana.github.io/helm-charts"
+  description = "alloy_chart_repo"
+}
+
+variable "prometheus_operator_repo" {
+  type        = string
+  default     = "oci://registry-1.docker.io/bitnamicharts"
+  description = "prometheus_operator_repo"
+}
+
+variable "loki_repo" {
+  type        = string
+  default     = "oci://ghcr.io/grafana/helm-charts"
+  description = "loki_repo"
+}
+
+variable "loki_canary_repo" {
+    type        = string
+    default     = "https://grafana.github.io/helm-charts"
+  description = "loki_canary_repo"
+}
+
+variable "grafana_operator_repo" {
+  type        = string
+  default     = "oci://ghcr.io/grafana/helm-charts/"
+  description = "grafana_operator_repo"
+}
+
+variable "prometheus_crd_repo" {
+  type        = string
+  default     = "https://prometheus-community.github.io/helm-charts"
+  description = "prometheus_crd_repo"
+}
+
+variable "metrics_server_chart_repo" {
+  type        = string
+  default     = "https://kubernetes-sigs.github.io/metrics-server"
+  description = "metrics_server_chart_repo"
+}
 variable "monitoring_sync_wave" {
   type        = string
   description = "monitoring_sync_wave"
