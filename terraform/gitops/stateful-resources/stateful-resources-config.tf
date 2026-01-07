@@ -1,5 +1,5 @@
 resource "local_file" "chart_values" {
-  for_each = { for key, stateful_resource in local.helm_stateful_resources : key => stateful_resource }
+  for_each = { for key, stateful_resource in local.helm_stateful_resources_resolved : key => stateful_resource }
 
   content = templatefile("${local.stateful_resources_template_path}/${each.value.local_helm_config.resource_helm_values_ref}", {
     resource           = each.value,
