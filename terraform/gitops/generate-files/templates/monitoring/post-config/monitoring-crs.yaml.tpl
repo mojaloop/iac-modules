@@ -86,7 +86,7 @@ spec:
     name: Loki
     type: loki
     access: proxy
-    url: http://${loki_release_name}-grafana-loki-gateway.monitoring.svc.cluster.local 
+    url: http://${loki_release_name}-gateway.monitoring.svc.cluster.local 
     jsonData:
       timeout: 60
       httpHeaderName1: 'X-Scope-OrgID'
