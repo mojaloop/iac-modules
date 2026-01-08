@@ -75,6 +75,24 @@ loki:
       max_per_second: 20
       up_to: 3
 
+  rulerConfig:
+    enable_api: true
+    enable_alertmanager_v2: false  
+    wal:
+      dir: /var/loki/ruler-wal
+    storage:
+      type: s3  
+      s3:
+        bucketnames: ${loki_bucket}
+    rule_path: /tmp/rules
+    ring:
+      kvstore:
+        store: memberlist 
+    # How often to evaluate rules
+    evaluation_interval: 1m
+    # How often to poll for rule changes from storage
+    poll_interval: 1m
+
 # Global extraEnvFrom for all components
 global:
   dnsService: "external-dns" 
