@@ -210,7 +210,7 @@ locals {
   grafana_wildcard_gateway            = var.grafana_ingress_internal_lb ? "internal" : "external"
   loki_release_name                   = "loki"
   prometheus_operator_release_name    = "prom"
-  loki_chart_version                  = "2.13.0"
+  loki_chart_version                  = "6.45.2"
   prometheus_operator_version         = "8.22.8"
   prometheus_process_exporter_version = "0.4.2"
   process_exporter_enabled            = false
