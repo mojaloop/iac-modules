@@ -19,6 +19,7 @@ module "generate_crossplane_files" {
     sc_api_token                               = "${var.cluster_name}/sc_api_token"
     sc_api_server                              = "${var.cluster_name}/sc_api_server"
     sc_api_ca                                  = "${var.cluster_name}/sc_api_ca"
+    crossplane_chart_repo                      = local.crossplane_chart_repo
   }
   file_list       = [for f in fileset(local.crossplane_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.crossplane_app_file, f))]
   template_path   = local.crossplane_template_path
@@ -47,4 +48,10 @@ variable "crossplane_namespace" {
 variable "crossplane_helm_version" {
   type    = string
   default = "1.19.0"
+}
+
+variable "crossplane_chart_repo" {
+  type        = string
+  description = "crossplane_chart_repo"
+  default = "https://charts.crossplane.io/stable"
 }

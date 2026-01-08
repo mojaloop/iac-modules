@@ -3,15 +3,15 @@ module "generate_monitoring_files" {
   var_map = {
     grafana_crd_version_tag                    = try(var.common_var_map.grafana_crd_version_tag, local.grafana_crd_version_tag)
     prometheus_crd_version                     = try(var.common_var_map.prometheus_crd_version, local.prometheus_crd_version)
-    loki_repo                                  = try(var.common_var_map.loki_repo, local.bitnami_repo)
+    loki_repo                                  = local.loki_repo
     loki_chart_version                         = try(var.common_var_map.loki_chart_version, local.loki_chart_version)
-    prometheus_operator_repo                   = try(var.common_var_map.prometheus_operator_repo, local.bitnami_repo)
+    prometheus_operator_repo                   = local.prometheus_operator_repo
     prometheus_operator_version                = try(var.common_var_map.prometheus_operator_version, local.prometheus_operator_version)
     prometheus_operator_release_name           = local.prometheus_operator_release_name
     prometheus_process_exporter_version        = try(var.common_var_map.prometheus_process_exporter_version, local.prometheus_process_exporter_version)
     process_exporter_enabled                   = try(var.common_var_map.process_exporter_enabled, local.process_exporter_enabled)
     loki_release_name                          = local.loki_release_name
-    grafana_operator_repo                      = try(var.common_var_map.grafana_operator_repo, local.bitnami_repo)
+    grafana_operator_repo                      = local.grafana_operator_repo
     grafana_operator_version                   = try(var.common_var_map.grafana_operator_version, local.grafana_operator_version)
     grafana_version                            = try(var.common_var_map.grafana_version, local.grafana_version)
     grafana_dashboard_tag                      = try(var.common_var_map.grafana_dashboard_tag, local.grafana_dashboard_tag)
@@ -100,16 +100,19 @@ module "generate_monitoring_files" {
     grafana_istio_gateway_namespace            = local.grafana_istio_gateway_namespace
     grafana_istio_wildcard_gateway_name        = local.vault_istio_wildcard_gateway_name
     cluster                                    = var.app_var_map.cluster
-    loki_canary_repo                           = try(var.common_var_map.loki_canary_repo, local.loki_canary_repo)
-    loki_canary_chart_version                  = try(var.common_var_map.loki_canary_chart_version, local.loki_canary_chart_version)
+    loki_canary_repo                           = local.loki_canary_repo
+    loki_canary_chart_version                  = local.loki_canary_chart_version
     # central observability configs
     cluster_label                      = var.cluster_name # cluster identifier in central observability stack
     enable_central_observability_write = try(var.common_var_map.enable_central_observability_write, local.enable_central_observability_write)
     enable_central_observability_read  = try(var.common_var_map.enable_central_observability_read, local.enable_central_observability_read)
     central_observability_endpoint     = var.central_observability_endpoint
     central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
-
     alertmanager_fqdn = local.alertmanager_fqdn
+    prometheus_crd_repo = local.prometheus_crd_repo
+    opentelemetry_repo = local.opentelemetry_repo
+    alloy_repo = local.alloy_repo
+    metrics_server_chart_repo = local.metrics_server_chart_repo
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -142,7 +145,7 @@ variable "grafana_oidc_client_id_secret_key" {
 
 variable "grafana_chart_repo" {
   type        = string
-  default     = "https://grafana.github.io/helm-charts"
+  default     = "oci://ghcr.io/grafana/helm-charts"
   description = "grafana_chart_repo"
 }
 
@@ -244,24 +247,40 @@ locals {
   loki_distributor_replica_count      = "2"
   loki_ingester_replica_count         = "3"
   loki_querier_replica_count          = "1"
-  prometheus_scrape_interval          = "5m"
-  prometheus_rate_interval            = "15m"
-  prometheus_retention_period         = "10d"
-  tempo_retention_period              = "72h"
-  prom_tsdb_min_block_duration        = "30m"
-  prom_tsdb_max_block_duration        = "30m"
-  grafana_public_fqdn                 = "grafana.${var.public_subdomain}"
-  grafana_private_fqdn                = "grafana.${var.private_subdomain}"
-  grafana_subdomain                   = local.grafana_wildcard_gateway == "external" ? var.public_subdomain : var.private_subdomain
-  grafana_fqdn                        = local.grafana_wildcard_gateway == "external" ? "grafana.${var.public_subdomain}" : "grafana.${var.private_subdomain}"
-  grafana_istio_gateway_namespace     = local.grafana_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
-  grafana_istio_wildcard_gateway_name = local.grafana_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
-  enable_central_observability_write  = false
-  enable_central_observability_read   = false
-  central_observability_tenant_id     = "infitx"
-  loki_canary_chart_version           = "0.14.0"
-  alloy_limits_memory                 = "1Gi"
-  alloy_limits_cpu                    = "1000m"
+  loki_distributor_requests_cpu           = "100m"
+  loki_distributor_requests_memory        = "128Mi"
+  loki_distributor_limits_cpu             = "150m"
+  loki_distributor_limits_memory          = "192Mi"
+  loki_ingester_requests_cpu              = "100m"
+  loki_ingester_requests_memory           = "256Mi"
+  loki_ingester_limits_cpu                = "500m"
+  loki_ingester_limits_memory             = "1Gi"
+  loki_querier_limits_cpu                 = "500m"
+  loki_querier_limits_memory              = "192Mi"
+  loki_query_frontend_limits_cpu          = "150m"
+  loki_query_frontend_limits_memory       = "192Mi"
+  loki_query_scheduler_limits_cpu         = "150m"
+  loki_query_scheduler_limits_memory      = "192Mi"
+  loki_compactor_limits_cpu               = "150m"
+  loki_compactor_limits_memory            = "192Mi"
+  prometheus_scrape_interval              = "5m"
+  prometheus_rate_interval                = "15m"
+  prometheus_retention_period             = "10d"
+  tempo_retention_period                  = "72h"
+  prom_tsdb_min_block_duration            = "30m"
+  prom_tsdb_max_block_duration            = "30m"
+  grafana_public_fqdn                     = "grafana.${var.public_subdomain}"
+  grafana_private_fqdn                    = "grafana.${var.private_subdomain}"
+  grafana_subdomain                       = local.grafana_wildcard_gateway == "external" ? var.public_subdomain : var.private_subdomain
+  grafana_fqdn                            = local.grafana_wildcard_gateway == "external" ? "grafana.${var.public_subdomain}" : "grafana.${var.private_subdomain}"
+  grafana_istio_gateway_namespace         = local.grafana_wildcard_gateway == "external" ? var.istio_external_gateway_namespace : var.istio_internal_gateway_namespace
+  grafana_istio_wildcard_gateway_name     = local.grafana_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
+  enable_central_observability_write      = false
+  enable_central_observability_read       = false
+  central_observability_tenant_id         = "infitx"
+  loki_canary_chart_version               = "0.14.0"
+  alloy_limits_memory                     = "1Gi"
+  alloy_limits_cpu                        = "1000m"
   alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"
   alertmanager_prod_alerts_enabled        = try(var.common_var_map.alertmanager_prod_alerts_enabled, false)
   alertmanager_slack_external_secret_name = local.alertmanager_prod_alerts_enabled ? "slack-prod-alert-notifications" : "slack-dev-alert-notifications"

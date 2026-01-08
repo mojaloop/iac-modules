@@ -9,7 +9,7 @@ module "generate_certman_files" {
     cert_manager_sync_wave                       = var.cert_manager_sync_wave
     cert_manager_issuer_sync_wave                = var.cert_manager_issuer_sync_wave
     cert_manager_credentials_secret              = "route53-cert-man-credentials"
-    cert_manager_chart_repo                      = var.cert_manager_chart_repo
+    cert_manager_chart_repo                      = local.cert_manager_chart_repo
     cert_manager_chart_version                   = var.common_var_map.cert_manager_chart_version
     cert_manager_credentials_id_provider_key     = "${var.cluster_name}/${local.cert_manager_credentials_id_provider_key}"
     cert_manager_credentials_secret_provider_key = "${var.cluster_name}/${local.cert_manager_credentials_secret_provider_key}"
@@ -73,3 +73,4 @@ variable "cert_manager_service_account_name" {
   description = "service account to run cert man"
   default     = "cert-man-sa"
 }
+

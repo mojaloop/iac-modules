@@ -151,6 +151,7 @@ module "pm4ml" {
   cloud_platform                           = var.cloud_platform
   private_dns_zone_id                      = var.private_dns_zone_id
   traces_endpoint                          = var.traces_endpoint
+  pm4ml_chart_repo                         = local.pm4ml_chart_repo
 }
 
 module "proxy_pm4ml" {
@@ -188,6 +189,7 @@ module "proxy_pm4ml" {
   cloud_platform                           = var.cloud_platform
   private_dns_zone_id                      = var.private_dns_zone_id
   traces_endpoint                          = var.traces_endpoint
+  proxy_pm4ml_chart_repo                   = local.pm4ml_chart_repo
 }
 
 module "vnext" {

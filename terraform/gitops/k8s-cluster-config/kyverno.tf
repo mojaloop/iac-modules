@@ -6,6 +6,7 @@ module "generate_kyverno_files" {
     kyverno_sync_wave      = var.kyverno_sync_wave
     kyverno_chart_version  = var.kyverno_chart_version
     opt_out_namespace_list = var.opt_out_namespace_list != "" ? split(",", trimspace(var.opt_out_namespace_list)) : []
+    kyverno_chart_repo     = local.kyverno_chart_repo
   }
   file_list       = [for f in fileset(local.kyverno_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.kyverno_app_file, f))]
   template_path   = local.kyverno_template_path
@@ -44,4 +45,10 @@ variable "opt_out_namespace_list" {
   type        = string
   description = "Comma-delimited list of additional namespaces to opt out of ambient mode"
   default     = ""
+}
+
+variable "kyverno_chart_repo" {
+  type        = string
+  description = "Helm chart repository for Kyverno"
+  default     = "https://kyverno.github.io/kyverno/"
 }

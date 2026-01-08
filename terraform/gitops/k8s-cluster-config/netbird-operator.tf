@@ -11,6 +11,7 @@ module "generate_netbird_operator_files" {
     external_secret_sync_wave           = var.external_secret_sync_wave
     gitlab_project_url                  = var.gitlab_project_url
     netbird_image_version               = var.netbird_image_version
+    netbird_operator_helm_repo  = local.netbird_operator_helm_repo
   }
 
   file_list       = [for f in fileset(local.netbird_operator_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.netbird_operator_app_file, f))]
@@ -58,9 +59,15 @@ variable "netbird_operator_management_url" {
 variable "netbird_operator_helm_version" {
   type        = string
   description = "netbird_operator_helm_version"
-  default     = "0.1.10"
+  default     = "0.1.15"
 }
 variable "netbird_image_version" {
   type        = string
   description = "Version of the netbird image to use"
+}
+
+variable "netbird_operator_helm_repo" {
+  type        = string
+  description = "Helm repository URL for netbird operator"
+  default     = "https://netbirdio.github.io/helms"
 }

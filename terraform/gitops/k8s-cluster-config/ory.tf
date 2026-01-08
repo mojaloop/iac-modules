@@ -56,6 +56,8 @@ module "generate_ory_files" {
     mojaloopRoles                        = local.mojaloopRoles
     keto_replica_count                   = try(var.common_var_map.keto_replica_count, 1)
     oathkeeper_replica_count             = try(var.common_var_map.oathkeeper_replica_count, 1)
+    ory_charts_repo                      = local.ory_charts_repo
+    mojaloop_charts_repo                 = local.mojaloop_charts_repo
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -125,6 +127,13 @@ variable "security_role_chart_version" {
 variable "rbac_permissions_file" {
   type = string
 }
+
+variable "ory_charts_repo" {
+  type        = string
+  description = "Helm repository URL for Ory charts"
+  default     = "https://k8s.ory.sh/helm/charts"
+}
+
 locals {
   ory_template_path              = "${path.module}/../generate-files/templates/ory"
   ory_app_file                   = "ory-app.yaml"
