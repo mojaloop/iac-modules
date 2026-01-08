@@ -81,9 +81,9 @@ loki:
     wal:
       dir: /var/loki/ruler-wal
     storage:
-      type: s3  
-      s3:
-        bucketnames: ${loki_bucket}
+      type: local 
+      local:
+        directory: /etc/loki/rules
     rule_path: /tmp/rules
     ring:
       kvstore:
