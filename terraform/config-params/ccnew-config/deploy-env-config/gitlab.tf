@@ -359,6 +359,24 @@ resource "gitlab_group_variable" "sc_api_port" {
   environment_scope = "*"
 }
 
+resource "gitlab_group_variable" "helm_classic_proxy_repos" {
+  group     = data.gitlab_group.iac.id
+  key       = "HELM_CLASSIC_PROXY_REPOS"
+  value     = local.helm_classic_proxy_repos_string
+  protected = false
+  masked    = false
+  environment_scope = "*"
+}
+
+resource "gitlab_group_variable" "helm_oci_proxy_repos" {
+  group     = data.gitlab_group.iac.id
+  key       = "HELM_OCI_PROXY_REPOS"
+  value     = local.helm_oci_proxy_repos_string
+  protected = false
+  masked    = false
+  environment_scope = "*"
+}
+
 resource "gitlab_repository_file" "vault_token_update" {
   for_each       = local.environment_list
   project        = gitlab_project.envs[each.key].id

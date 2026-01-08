@@ -1,7 +1,7 @@
 module "generate_vault_files" {
   source = "../generate-files"
   var_map = {
-    vault_chart_repo                         = var.vault_chart_repo
+    vault_chart_repo                         = local.vault_chart_repo
     vault_namespace                          = var.vault_namespace
     vault_config_operator_namespace          = var.vault_config_operator_namespace
     vault_chart_version                      = var.common_var_map.vault_chart_version
@@ -9,7 +9,7 @@ module "generate_vault_files" {
     vault_cm_sync_wave                       = var.vault_cm_sync_wave
     vault_config_operator_sync_wave          = var.vault_config_operator_sync_wave
     external_secret_sync_wave                = var.external_secret_sync_wave
-    vault_config_operator_helm_chart_repo    = var.vault_config_operator_helm_chart_repo
+    vault_config_operator_helm_chart_repo    = local.vault_config_operator_helm_chart_repo
     vault_config_operator_helm_chart_version = var.common_var_map.vault_config_operator_helm_chart_version
     gitlab_variables_api_url                 = "${var.gitlab_api_url}/projects/${var.current_gitlab_project_id}/variables"
     gitlab_project_url                       = var.gitlab_project_url

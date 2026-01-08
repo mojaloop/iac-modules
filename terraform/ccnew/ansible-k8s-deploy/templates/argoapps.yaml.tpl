@@ -375,7 +375,9 @@ argocd_override:
           jvm_max_heap_size: "${nexus_jvm_max_heap_size}"
           jvm_additional_memory_options: "${nexus_jvm_additional_memory_options}"
           jvm_additional_options: "${nexus_jvm_additional_options}"
-        ui:
+          helm_oci_proxy_repos: "${nexus_helm_oci_proxy_repos}"
+          helm_classic_proxy_repos: "${nexus_helm_classic_proxy_repos}"
+        ui: 
           public_ingress_access_domain: "${nexus_ui_public_access}"
         post_config:
           ansible_collection_tag: "${nexus_ansible_collection_tag}"

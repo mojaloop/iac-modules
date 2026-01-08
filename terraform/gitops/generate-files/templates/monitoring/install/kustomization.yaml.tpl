@@ -41,7 +41,7 @@ helmCharts:
 #  valuesFile: values-loki.yaml
 #  namespace: ${monitoring_namespace}
 - name: loki
-  releaseName: loki
+  releaseName: ${loki_release_name}
   version: ${loki_chart_version}
   repo: ${loki_repo}
   valuesFile: values-loki-official-helm.yaml

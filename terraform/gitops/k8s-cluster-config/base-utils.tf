@@ -7,9 +7,11 @@ module "generate_reflector_files" {
     base_utils_namespace                   = var.base_utils_namespace
     base_utils_sync_wave                   = var.base_utils_sync_wave
     external_secret_sync_wave              = var.external_secret_sync_wave
-    cloud_platform                        = local.cloud_platform
-    k8s_cluster_type                      = local.k8s_cluster_type
-    cluster                               = var.app_var_map.cluster
+    cloud_platform                         = local.cloud_platform
+    k8s_cluster_type                       = local.k8s_cluster_type
+    cluster                                = var.app_var_map.cluster
+    reflector_repo_url                     = local.reflector_repo_url
+    reloader_repo_url                      = local.reloader_repo_url
 
   }
   file_list       = [for f in fileset(local.base_utils_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.base_utils_app_file, f))]
@@ -25,6 +27,7 @@ locals {
   reloader_repo_url = startswith(var.reloader_repo_url, "oci://") && can(regex("(oci://[^/]+)(.*)", var.reloader_repo_url)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.reloader_repo_url)[0]]}${regex("(oci://[^/]+)(.*)", var.reloader_repo_url)[1]}", var.reloader_repo_url) : try(local.helm_proxy_repos_map[var.reloader_repo_url], var.reloader_repo_url)
   reflector_repo_url = startswith(var.reflector_repo_url, "oci://") && can(regex("(oci://[^/]+)(.*)", var.reflector_repo_url)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.reflector_repo_url)[0]]}${regex("(oci://[^/]+)(.*)", var.reflector_repo_url)[1]}", var.reflector_repo_url) : try(local.helm_proxy_repos_map[var.reflector_repo_url], var.reflector_repo_url)
 }
+
 
 variable "reflector_chart_version" {
   type        = string

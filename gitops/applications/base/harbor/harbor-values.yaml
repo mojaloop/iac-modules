@@ -29,7 +29,7 @@ components:
   portal:
     enabled: true
   jobservice:
-    enabled: false
+    enabled: true
   notary:
     enabled: false
   chartmuseum:

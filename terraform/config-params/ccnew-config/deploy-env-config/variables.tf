@@ -152,3 +152,36 @@ variable "sc_api_port" {
   description = "Port for the SC API server"
   default     = 6443
 }
+
+variable "helm_oci_proxy_repos" {
+  description = "OCI proxy repositories for helm, comma separated"
+  type        = string
+  default     = ""
+}
+variable "helm_classic_proxy_repos" {
+  description = "Classic proxy repositories for helm, comma separated"
+  type        = string
+  default     = ""
+}
+variable "classic_helm_repo_base_url" {
+  description = "base url for helm classic proxy repo"
+  type        = string
+}
+variable "oci_helm_repo_base_url" {
+  description = "base url for helm oci proxy repo"
+  type        = string
+}
+
+locals {
+  helm_classic_proxy_repos_string = join(",", [
+    for item in split(",", var.helm_classic_proxy_repos) : 
+    "${split("=", item)[1]}=${var.classic_helm_repo_base_url}/${split("=", item)[0]}/"
+    if length(trim(item, " ")) > 0
+  ])
+  
+  helm_oci_proxy_repos_string = join(",", [
+    for item in split(",", var.helm_oci_proxy_repos) : 
+    "${split("=", item)[1]}=${var.oci_helm_repo_base_url}"
+    if length(trim(item, " ")) > 0
+  ])
+}

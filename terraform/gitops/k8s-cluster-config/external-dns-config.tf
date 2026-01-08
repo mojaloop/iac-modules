@@ -1,7 +1,7 @@
 module "generate_extdns_files" {
   source = "../generate-files"
   var_map = {
-    external_dns_chart_repo                      = var.external_dns_chart_repo
+    external_dns_chart_repo                      = local.external_dns_chart_repo
     external_dns_chart_version                   = var.common_var_map.external_dns_chart_version
     external_dns_credentials_secret              = "route53-external-dns-credentials"
     dns_cloud_region                             = var.dns_cloud_region
