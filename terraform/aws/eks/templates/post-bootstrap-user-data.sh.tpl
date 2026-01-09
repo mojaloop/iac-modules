@@ -21,22 +21,6 @@ capabilities = ["pull", "resolve"]
 override_path = true
 EOF
     done
-    containerd_config_file="/etc/containerd/config.toml"
-    if [[ -f "$containerd_config_file" ]]; then
-        # Backup the original config
-        sudo cp "$containerd_config_file" "$containerd_config_file.backup"
-        
-        # Add custom configuration to containerd.toml
-        # Example: Adding registry configuration or other settings
-        sudo tee -a "$containerd_config_file" > /dev/null <<EOF
-
-# Custom configuration added by post-bootstrap script
-[plugins."io.containerd.grpc.v1.cri".registry.configs]
-  [plugins."io.containerd.grpc.v1.cri".registry.configs."${registry_mirror_fqdn}".auth]
-    username = "${docker_registry_username}"
-    password = "${docker_registry_password}"
-EOF
-    fi
     # Restart containerd
     sudo systemctl restart containerd
 fi
