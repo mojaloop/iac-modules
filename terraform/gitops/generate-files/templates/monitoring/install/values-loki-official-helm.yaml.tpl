@@ -89,9 +89,15 @@ loki:
       kvstore:
         store: memberlist 
     # How often to evaluate rules
-    evaluation_interval: 1m
+    evaluation_interval: 5m
     # How often to poll for rule changes from storage
-    poll_interval: 1m
+    poll_interval: 5m
+    remote_write:
+      enabled: true
+      clients:
+        - url: http://prometheus-operated:9090/api/v1/write
+      # Flush interval
+      flush_deadline: 5m
 
 # Global extraEnvFrom for all components
 global:
