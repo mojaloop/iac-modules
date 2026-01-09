@@ -96,8 +96,6 @@ loki:
       enabled: true
       clients:
         - url: http://prometheus-operated:9090/api/v1/write
-      # Flush interval
-      flush_deadline: 5m
 
 # Global extraEnvFrom for all components
 global:
