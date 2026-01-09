@@ -95,7 +95,8 @@ loki:
     remote_write:
       enabled: true
       clients:
-        - url: http://prometheus-operated:9090/api/v1/write
+        prometheus:
+          url: http://prometheus-operated:9090/api/v1/write
 
 # Global extraEnvFrom for all components
 global:
