@@ -75,6 +75,29 @@ loki:
       max_per_second: 20
       up_to: 3
 
+  rulerConfig:
+    enable_api: true
+    enable_alertmanager_v2: false  
+    wal:
+      dir: /var/loki/ruler-wal
+    storage:
+      type: local 
+      local:
+        directory: /etc/loki/rules
+    rule_path: /tmp/rules
+    ring:
+      kvstore:
+        store: memberlist 
+    # How often to evaluate rules
+    evaluation_interval: 5m
+    # How often to poll for rule changes from storage
+    poll_interval: 5m
+    remote_write:
+      enabled: true
+      clients:
+        prometheus:
+          url: http://prometheus-operated:9090/api/v1/write
+
 # Global extraEnvFrom for all components
 global:
   dnsService: "external-dns" 
@@ -189,7 +212,59 @@ ruler:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   extraArgs:
     - -config.expand-env=true
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  persistence:
+    enabled: true
+    size: 10Gi
+  nodeAffinityPreset:
+    type: hard
+    key: workload-class.mojaloop.io/MONITORING
+    values: ["enabled"]
+  extraVolumes:
+    - name: rules-tmp
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: rules-tmp
+      mountPath: /tmp/rules
+  directories:
+    fake: 
+      rules.yaml: |
+        groups:
+          - name: log_based_metrics
+            interval: 1m
+            rules:
+              # Example: Count error logs per namespace
+              - record: log_errors_per_namespace
+                expr: |
+                  sum by (namespace) (
+                    rate({job=~".+"} |= "error" [5m])
+                  )
+              
+              # Example: HTTP 5xx rate per service
+              - record: http_5xx_rate_per_service
+                expr: |
+                  sum by (namespace, service) (
+                    rate({job=~".+"} | json | status >= 500 [5m])
+                  )
 
+              # Count logs by namespace
+              - record: loki_logs_by_namespace
+                expr: |
+                  sum by (namespace) (rate({job=~".+"} [1m]))
+
+              # Example: Count critical events
+              - record: critical_events_total
+                expr: |
+                  sum by (namespace, pod) (
+                    count_over_time({job=~".+"} |~ "CRITICAL|FATAL" [1m])
+                  )
+                  
 # Gateway configuration
 gateway:
   enabled: true
