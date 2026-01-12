@@ -34,7 +34,9 @@ spec:
                     jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
                 WAYPOINT_READY=$(kubectl get pod -n istio-system -l gateway.networking.k8s.io/gateway-name=nb-egress-waypoint -o json | \
                     jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
-                if [ "$NETBIRD_READY" = "yes" ] && [ "$WAYPOINT_READY" = "yes" ]; then
+                ISTIO_CNI_READY=$(kubectl get pod -n istio-system -l k8s-app=istio-cni-node -o json | \
+                    jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
+                if [ "$NETBIRD_READY" = "yes" ] && [ "$WAYPOINT_READY" = "yes" ]  && [ "$ISTIO_CNI_READY" = "yes" ]; then
                     kubectl taint node "$NODE_NAME" netbird/ready:NoSchedule-
                 else
                     kubectl taint node "$NODE_NAME" netbird/ready=false:NoSchedule --overwrite
