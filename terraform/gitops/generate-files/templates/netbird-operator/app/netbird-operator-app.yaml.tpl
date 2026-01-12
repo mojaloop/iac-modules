@@ -12,8 +12,7 @@ spec:
     path: apps/netbird-operator
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
+
   destination:
     namespace: ${netbird_operator_namespace}
     server: https://kubernetes.default.svc

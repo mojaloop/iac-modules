@@ -6,7 +6,7 @@ module "generate_stateful_resources_operators" {
     gitlab_project_url                     = var.gitlab_project_url
     gitlab_server_url                      = var.gitlab_server_url
     current_gitlab_project_id              = var.current_gitlab_project_id
-    stateful_resources_operators           = local.enabled_stateful_resources_operators
+    stateful_resources_operators           = local.enabled_stateful_resources_operators_resolved
     stateful_resources_operators_ns        = local.enabled_stateful_resources_operators_ns
     stateful_resources_operators_namespace = var.stateful_resources_operators_namespace
     stateful_resources_operators_sync_wave = var.stateful_resources_operators_sync_wave
@@ -42,4 +42,9 @@ locals {
   stateful_resources_operators               = yamldecode(file(var.stateful_resources_operators_config_file))
   enabled_stateful_resources_operators       = { for key, operator in local.stateful_resources_operators : key => operator if operator.enabled }
   enabled_stateful_resources_operators_ns    = distinct([for operator in local.enabled_stateful_resources_operators : operator.namespace])
+  enabled_stateful_resources_operators_resolved      = [
+    for operator in local.enabled_stateful_resources_operators : merge(operator, {
+      helm_chart_repo = startswith(operator.helm_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", operator.helm_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", operator.helm_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", operator.helm_chart_repo)[1]}", operator.helm_chart_repo) : try(local.helm_proxy_repos_map[operator.helm_chart_repo], operator.helm_chart_repo)
+    })
+  ]
 }

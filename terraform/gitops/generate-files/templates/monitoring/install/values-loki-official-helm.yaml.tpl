@@ -77,7 +77,7 @@ loki:
 
 # Global extraEnvFrom for all components
 global:
-  dnsService: "external-dns-app" 
+  dnsService: "external-dns" 
   dnsNamespace: "external-dns"
   extraEnvFrom:
     - secretRef:

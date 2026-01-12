@@ -229,6 +229,46 @@ variable "namespace_meta_config_file" {
   default     = ""
 }
 
+variable "helm_classic_proxy_repos" {
+  type        = string
+  description = "helm classic proxy repos comma separated"
+  default = "none"
+}
+
+variable "helm_oci_proxy_repos" {
+  type        = string
+  description = "helm oci proxy repos comma separated"
+  default = "none"
+}
+variable "mojaloop_charts_repo" {
+  type        = string
+  description = "Helm charts repository URL for Mojaloop"
+  default     = "https://mojaloop.github.io/charts/repo"
+}
+
+variable "mojaloop_helm_repo" {
+  type        = string
+  description = "Helm repository URL for Mojaloop"
+  default     = "https://mojaloop.github.io/helm/repo"
+}
+
+variable "pm4ml_chart_repo" {
+  type        = string
+  default     = "https://pm4ml.github.io/helm"
+  description = "Helm chart repository URL for PM4ML"
+}
+
+variable "mcm_chart_repo" {
+  type        = string
+  default     = "https://pm4ml.github.io/helm"
+  description = "Helm chart repository URL for MCM"
+}
+
+variable "mojaloop_reporting_templates_repo" {
+  default = "https://mojaloop.github.io/reporting-k8s-templates"
+  description = "repo for mojaloop k8s reporting templates"
+  type = string
+}
 locals {
   cloud_region                                     = data.gitlab_project_variable.cloud_region.value
   k8s_cluster_type                                 = data.gitlab_project_variable.k8s_cluster_type.value
@@ -247,4 +287,13 @@ locals {
   tempo_bucket                                     = data.gitlab_project_variable.tempo_bucket.value
   velero_bucket                                    = data.gitlab_project_variable.velero_bucket.value
   vault_backup_bucket                              = data.gitlab_project_variable.object_store_vault_backup_bucket.value
+  helm_proxy_repos_map = merge(var.helm_classic_proxy_repos != "none" ? {
+    for item in split(",", var.helm_classic_proxy_repos) : 
+    split("=", item)[0] => split("=", item)[1]
+    if length(trim(item, " ")) > 0 && length(split("=", item)) == 2
+  } : {}, var.helm_oci_proxy_repos != "none" ? {
+    for item in split(",", var.helm_oci_proxy_repos) : 
+    split("=", item)[0] => split("=", item)[1]
+    if length(trim(item, " ")) > 0 && length(split("=", item)) == 2
+  } : {})
 }
