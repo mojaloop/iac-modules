@@ -322,8 +322,17 @@ spec:
           - name: "enable_backup"
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_enable_backup}"
 
-          - name: "backup_retention_period"
+          - name: "backup_full_retention"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_retention_period}"
+
+          - name: "backup_diff_retention"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_diff_retention_period}"
+
+          - name: "backup_process_max"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_process_max}"
+
+          - name: "backup_archive_timeout"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_archive_timeout}"
 
           - name: "preferred_backup_window"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_preferred_backup_window}"
@@ -533,8 +542,17 @@ spec:
           - name: "enable_backup"
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_enable_backup}"
 
-          - name: "backup_retention_period"
+          - name: "backup_full_retention"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_retention_period}"
+
+          - name: "backup_diff_retention"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_diff_retention_period}"
+
+          - name: "backup_process_max"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_process_max}"
+
+          - name: "backup_archive_timeout"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_archive_timeout}"
 
           - name: "preferred_backup_window"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_preferred_backup_window}"

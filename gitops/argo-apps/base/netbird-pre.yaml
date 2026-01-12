@@ -219,8 +219,17 @@ spec:
           - name: "dbdeploy_name_prefix"
             value: "${ARGOCD_ENV_security_netbird_dbdeploy_name_prefix}"
 
-          - name: "backup_retention_period"
+          - name: "backup_full_retention"
             value: "${ARGOCD_ENV_security_netbird_rds_provider_backup_retention_period}"
+
+          - name: "backup_diff_retention"
+            value: "${ARGOCD_ENV_security_netbird_rds_provider_backup_diff_retention_period}"
+
+          - name: "backup_process_max"
+            value: "${ARGOCD_ENV_security_netbird_rds_provider_backup_process_max}"
+
+          - name: "backup_archive_timeout"
+            value: "${ARGOCD_ENV_security_netbird_rds_provider_backup_archive_timeout}"
 
           - name: "preferred_backup_window"
             value: "${ARGOCD_ENV_security_netbird_rds_provider_preferred_backup_window}"
