@@ -33,7 +33,7 @@ grafana_operator_version: v5.20.0
 grafana_operator_repo: oci://ghcr.io/grafana/helm-charts/
 grafana_version: 12.1.0
 grafana_dashboard_tag: v16.3.0-snapshot.24 # TODO: update once v16.1.x is published
-loki_chart_version: 2.13.0
+loki_chart_version: 6.45.2
 loki_ingester_pvc_size: 10Gi
 prometheus_pvc_size: 50Gi
 loki_retention_enabled: true  # TODO: this config param is not being used. Remove after bitnami loki is removed.

@@ -171,3 +171,4 @@ variable "traces_endpoint" {
 variable "root_var_map" {
   type = any
 }
+

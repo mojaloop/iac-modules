@@ -5,7 +5,7 @@ helmCharts:
   - name: velero
     releaseName: velero
     version: ${velero_helm_version}
-    repo: https://vmware-tanzu.github.io/helm-charts/
+    repo: ${velero_helm_repo}
     valuesFile: velero-values.yaml
     namespace: ${velero_namespace}
     includeCRDs: true

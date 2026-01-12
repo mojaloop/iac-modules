@@ -11,6 +11,7 @@ module "generate_netbird_operator_files" {
     external_secret_sync_wave           = var.external_secret_sync_wave
     gitlab_project_url                  = var.gitlab_project_url
     netbird_image_version               = var.netbird_image_version
+    netbird_operator_helm_repo  = local.netbird_operator_helm_repo
   }
 
   file_list       = [for f in fileset(local.netbird_operator_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.netbird_operator_app_file, f))]
@@ -23,6 +24,7 @@ module "generate_netbird_operator_files" {
 locals {
   netbird_operator_template_path = "${path.module}/../generate-files/templates/netbird-operator"
   netbird_operator_app_file      = "netbird-operator-app.yaml"
+  netbird_operator_helm_repo     = startswith(var.netbird_operator_helm_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.netbird_operator_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.netbird_operator_helm_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.netbird_operator_helm_repo)[1]}", var.netbird_operator_helm_repo) : try(local.helm_proxy_repos_map[var.netbird_operator_helm_repo], var.netbird_operator_helm_repo)
 }
 
 variable "netbird_operator_sync_wave" {
@@ -57,9 +59,15 @@ variable "netbird_operator_management_url" {
 variable "netbird_operator_helm_version" {
   type        = string
   description = "netbird_operator_helm_version"
-  default     = "0.1.10"
+  default     = "0.1.15"
 }
 variable "netbird_image_version" {
   type        = string
   description = "Version of the netbird image to use"
+}
+
+variable "netbird_operator_helm_repo" {
+  type        = string
+  description = "Helm repository URL for netbird operator"
+  default     = "https://netbirdio.github.io/helms"
 }

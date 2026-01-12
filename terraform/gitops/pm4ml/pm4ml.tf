@@ -191,9 +191,9 @@ variable "pm4ml_ingress_internal_lb" {
 }
 
 variable "pm4ml_chart_repo" {
-  description = "repo for pm4ml charts"
   type        = string
-  default     = "https://pm4ml.github.io/mojaloop-payment-manager-helm/repo"
+  default     = "https://pm4ml.github.io/helm"
+  description = "Helm chart repository URL for PM4ML"
 }
 
 variable "pm4ml_sync_wave" {

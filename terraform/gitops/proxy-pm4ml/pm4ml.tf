@@ -125,7 +125,7 @@ variable "pm4ml_ingress_internal_lb" {
 variable "proxy_pm4ml_chart_repo" {
   description = "repo for proxy pm4ml charts"
   type        = string
-  default     = "https://pm4ml.github.io/mojaloop-payment-manager-helm/repo"
+  default     = "https://pm4ml.github.io/helm"
 }
 
 variable "pm4ml_sync_wave" {

@@ -29,6 +29,7 @@ module "common_stateful_resources" {
   istio_nb_egress_waypoint_name                 = var.istio_nb_egress_waypoint_name
   istio_nb_egress_waypoint_namespace            = var.istio_nb_egress_waypoint_namespace
   namespace_meta                                = {}
+  helm_proxy_repos_map                          = local.helm_proxy_repos_map
 }
 
 variable "stateful_resources_namespace" {
