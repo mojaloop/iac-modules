@@ -48,3 +48,4 @@ ambient:
 
 repair:
   enabled: true
+  deletePods: true
