@@ -587,6 +587,15 @@ sc_backup_ttl: "24h0m0s"
 sc_backup_object_storage_provider: "s3"
 sc_snapshot_volumes: "'false'"
 
+# cc vault backup
+vault_backup_enabled: "'true'"
+vault_backup_schedule: "0 */12 * * *"
+vault_backup_bucket_region: "af-south-1"
+vault_backup_retention_days: "'7'"
+vault_snapshot_token_ttl: "'3600'"
+vault_snapshot_secret_id_ttl: "'7200'"
+vault_backup_utility_image:  "ghcr.io/mojaloop/vault-utils:0.0.4"
+
 # audit
 audit_bucket_name: "control-center-audit-bucket"
 audit_bucket_max_objects: "'1000000'"
@@ -601,5 +610,5 @@ report_bucket_storage_size: "10Gi"
 env_tempo_bucket_storage_size: "10Gi"
 env_loki_bucket_storage_size: "30Gi"
 
-# vault backup
+# env vault backup
 vault_backup_bucket_storage_size: "10Gi"
