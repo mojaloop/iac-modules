@@ -218,6 +218,7 @@ argocd_override:
           vault_pvc_size: "${vault_pvc_size}"
         vault_config_operator:
           helm_version: "${vault_config_operator_helm_version}"
+        post_config:
           dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
           vault_backup_enabled: "${vault_backup_enabled}"
           backup_bucket_region: "${vault_backup_bucket_region}"
