@@ -36,6 +36,8 @@ argocd_override:
           helm_version: "${reflector_helm_version}"
         reloader:
           helm_version: "${reloader_helm_version}"
+        redis:
+          helm_version: "${redis_helm_version}"
         crossplane:
           helm_version: "${crossplane_helm_version}"
           debug: "${crossplane_log_level}"
@@ -274,6 +276,9 @@ argocd_override:
           vpc_cidr: "${vpc_cidr}"
           postgres_storage_size: "${zitadel_rds_postgres_storage_size}"
           backup_retention_period: "${zitadel_db_backup_retention_period}"
+          backup_diff_retention_period: "${zitadel_db_backup_diff_retention_period}"
+          backup_process_max:  "${zitadel_db_backup_process_max}"
+          backup_archive_timeout:  "${zitadel_db_backup_archive_timeout}"
           preferred_backup_window: "${zitadel_db_preferred_backup_window}"
           preferred_maintenance_window: "${zitadel_db_preferred_maintenance_window}"
           storage_type: "${zitadel_rds_storage_type}"
@@ -344,6 +349,9 @@ argocd_override:
           vpc_cidr: "${vpc_cidr}"
           postgres_storage_size: "${netbird_rds_postgres_storage_size}"
           backup_retention_period: "${netbird_db_backup_retention_period}"
+          backup_diff_retention_period: "${netbird_db_backup_diff_retention_period}"
+          backup_process_max:  "${netbird_db_backup_process_max}"
+          backup_archive_timeout:  "${netbird_db_backup_archive_timeout}"
           preferred_backup_window: "${netbird_db_preferred_backup_window}"
           preferred_maintenance_window: "${netbird_db_preferred_maintenance_window}"
           storage_type: "${netbird_rds_storage_type}"
@@ -373,6 +381,8 @@ argocd_override:
           jvm_max_heap_size: "${nexus_jvm_max_heap_size}"
           jvm_additional_memory_options: "${nexus_jvm_additional_memory_options}"
           jvm_additional_options: "${nexus_jvm_additional_options}"
+          helm_oci_proxy_repos: "${nexus_helm_oci_proxy_repos}"
+          helm_classic_proxy_repos: "${nexus_helm_classic_proxy_repos}"
         ui:
           public_ingress_access_domain: "${nexus_ui_public_access}"
         post_config:
@@ -427,6 +437,10 @@ argocd_override:
           # redis
           redis_cluster_size: "${gitlab_redis_cluster_size}"
           redis_storage_size: "${gitlab_redis_storage_size}"
+          redis_cpu_limit: "${gitlab_redis_cpu_limit}"
+          redis_cpu_request: "${gitlab_redis_cpu_request}"
+          redis_memory_limit: "${gitlab_redis_memory_limit}"
+          redis_memory_request: "${gitlab_redis_memory_request}"
           rdbms_provider: "${gitlab_postgres_rdbms_provider}"
         webdb_percona_provider:
           postgres_replicas: "${gitlab_perc_postgres_replicas}"
@@ -502,6 +516,9 @@ argocd_override:
           vpc_cidr: "${vpc_cidr}"
           postgres_storage_size: "${gitlab_rds_postgres_storage_size}"
           backup_retention_period: "${gitlab_db_backup_retention_period}"
+          backup_diff_retention_period: "${gitlab_db_backup_diff_retention_period}"
+          backup_process_max:  "${gitlab_db_backup_process_max}"
+          backup_archive_timeout:  "${gitlab_db_backup_archive_timeout}"
           preferred_backup_window: "${gitlab_db_preferred_backup_window}"
           preferred_maintenance_window: "${gitlab_db_preferred_maintenance_window}"
           storage_type: "${gitlab_rds_storage_type}"
@@ -525,6 +542,9 @@ argocd_override:
           vpc_cidr: "${vpc_cidr}"
           postgres_storage_size: "${praefect_rds_postgres_storage_size}"
           backup_retention_period: "${praefect_db_backup_retention_period}"
+          backup_diff_retention_period: "${praefect_db_backup_diff_retention_period}"
+          backup_process_max:  "${praefect_db_backup_process_max}"
+          backup_archive_timeout:  "${praefect_db_backup_archive_timeout}"
           preferred_backup_window: "${praefect_db_preferred_backup_window}"
           preferred_maintenance_window: "${praefect_db_preferred_maintenance_window}"
           storage_type: "${praefect_rds_storage_type}"

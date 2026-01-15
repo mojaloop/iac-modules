@@ -1,0 +1,21 @@
+# https://github.com/grafana/alloy/blob/helm-chart/1.4.0/operations/helm/charts/alloy/values.yaml
+
+alloy:
+  extraEnv:
+    - name: ALLOY_LOG_RATE_LIMIT
+      value: "${ARGOCD_ENV_alloy_log_rate_limit_per_pod}"
+    - name: ALLOY_LOG_BURST_LIMIT
+      value: "${ARGOCD_ENV_alloy_log_burst_rate_limit_per_pod}"
+    - name: LOKI_ENDPOINT
+      value: "${ARGOCD_ENV_alloy_target_loki_endpoint}"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: ${ARGOCD_ENV_monitoring_alloy_limits_cpu}
+      memory: ${ARGOCD_ENV_monitoring_alloy_limits_memory}
+  configMap:
+    create: false
+    name: alloy-config
+    key: alloy-config.alloy

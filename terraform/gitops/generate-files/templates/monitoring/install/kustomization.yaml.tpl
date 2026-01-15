@@ -1,5 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+configMapGenerator:
+- name: alloy-config
+  files:
+  - ./alloy-config.alloy
+  options:
+    disableNameSuffixHash: true
+
 resources:
     # grafana crds
   - https://raw.githubusercontent.com/grafana/grafana-operator/${grafana_crd_version_tag}/deploy/kustomize/base/crds.yaml
@@ -8,11 +16,12 @@ resources:
   - process-exporter-service-monitor.yaml
   - vault-ceph-ext-secret.yaml
   - authorization-grafana.yaml
+
 helmCharts:
 - name: prometheus-operator-crds
   releaseName: prometheus-operator-crds
   version: ${prometheus_crd_version}
-  repo: https://prometheus-community.github.io/helm-charts/
+  repo: ${prometheus_crd_repo}
 - name: kube-prometheus
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
@@ -25,23 +34,35 @@ helmCharts:
   repo: ${grafana_operator_repo}
   valuesFile: values-grafana-operator.yaml
   namespace: ${monitoring_namespace}
-- name: grafana-loki
+#- name: grafana-loki
+#  releaseName: ${loki_release_name}
+#  version: ${loki_chart_version}
+#  repo: ${loki_repo}
+#  valuesFile: values-loki.yaml
+#  namespace: ${monitoring_namespace}
+- name: loki
   releaseName: ${loki_release_name}
   version: ${loki_chart_version}
   repo: ${loki_repo}
-  valuesFile: values-loki.yaml
+  valuesFile: values-loki-official-helm.yaml
   namespace: ${monitoring_namespace}
 - name: opentelemetry-operator
   releaseName: opentelemetry-operator
   version: ${opentelemetry_chart_version}
-  repo: https://open-telemetry.github.io/opentelemetry-helm-charts
+  repo: ${opentelemetry_repo}
   valuesFile: values-opentelemetry-operator.yaml
   namespace: ${monitoring_namespace}
-- name: loki-canary
-  releaseName: loki-canary
-  version: ${loki_canary_chart_version}
-  repo: ${loki_canary_repo}
-  valuesFile: values-loki-canary.yaml
+#- name: loki-canary
+#  releaseName: loki-canary-ext-helm
+#  version: ${loki_canary_chart_version}
+#  repo: ${loki_canary_repo}
+#  valuesFile: values-loki-canary.yaml
+#  namespace: ${monitoring_namespace}
+- name: alloy
+  releaseName: alloy
+  version: 1.4.0
+  repo: ${alloy_repo}
+  valuesFile: values-alloy.yaml
   namespace: ${monitoring_namespace}
 
 %{if process_exporter_enabled ~}
@@ -55,7 +76,7 @@ helmCharts:
 
 - name: metrics-server
   releaseName: metrics-server
-  repo: https://kubernetes-sigs.github.io/metrics-server
+  repo: ${metrics_server_chart_repo}
   valuesFile: values-metrics-server.yaml
   namespace: ${monitoring_namespace}
   version: ${metrics_server_chart_version}

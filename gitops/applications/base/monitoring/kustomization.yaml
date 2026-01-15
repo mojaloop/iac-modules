@@ -7,20 +7,28 @@ kind: Kustomization
 #   - ./cloudwatch-exporter-config.yaml
 #   name: cloudwatch-exporter-config
 
+configMapGenerator:
+- name: alloy-config
+  files:
+  - ./alloy-config.alloy
+  options:
+    disableNameSuffixHash: true
+
+
 # resources:
 # - cloudwatch-exporter.yaml
 
 helmCharts:
-  - name: grafana-mimir
+  - name: mimir-distributed
     releaseName: central-monitoring
     version: ${ARGOCD_ENV_grafana_mimir_helm_version}
-    repo: oci://registry-1.docker.io/bitnamicharts
+    repo: https://grafana.github.io/helm-charts
     valuesFile: values-mimir.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-  - name: kube-prometheus
+  - name: kube-prometheus-stack
     releaseName: prom
     version: ${ARGOCD_ENV_kube_prometheus_helm_version}
-    repo: oci://registry-1.docker.io/bitnamicharts
+    repo: https://prometheus-community.github.io/helm-charts
     valuesFile: values-kube-prometheus.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: grafana-loki
@@ -28,6 +36,12 @@ helmCharts:
     version: ${ARGOCD_ENV_loki_helm_version}
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesFile: values-loki.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
+  - name: loki
+    releaseName: loki-official-helm # TODO: update release name to 'loki' once bitnami loki is removed 
+    version: 6.45.2          # TODO: use exist helm parameter and update it to this version
+    repo: https://grafana.github.io/helm-charts
+    valuesFile: values-loki-official-helm.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
   - name: tempo-distributed
     releaseName: central
@@ -41,9 +55,15 @@ helmCharts:
     repo:  https://grafana.github.io/helm-charts
     valuesFile: values-vulture.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}
-  - name: loki-canary
-    releaseName: loki-canary
+  - name: loki-canary       #remove with bitnami loki
+    releaseName: control-center-loki-canary
     version: ${ARGOCD_ENV_loki_canary_helm_version}
     repo: https://grafana.github.io/helm-charts
     valuesFile: values-loki-canary.yaml
+    namespace: ${ARGOCD_ENV_monitoring_namespace}
+  - name: alloy
+    releaseName: alloy
+    version: 1.4.0           #parametrize helm version
+    repo: https://grafana.github.io/helm-charts
+    valuesFile: values-alloy.yaml
     namespace: ${ARGOCD_ENV_monitoring_namespace}

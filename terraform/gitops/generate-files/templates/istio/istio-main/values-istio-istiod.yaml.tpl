@@ -181,7 +181,8 @@ meshConfig:
         statusOnError: "500"
         pathPrefix: /decisions
         includeRequestHeadersInCheck: ["authorization", "cookie"]
-        headersToUpstreamOnAllow: ["x-user", "x-email", "x-roles", "x-client", "x-dfsp-id"]
+        headersToUpstreamOnAllow: ["x-user", "x-email", "x-extra", "x-roles", "x-client", "x-dfsp-id"]
+
 global:
   # Used to locate istiod.
   istioNamespace: ${istio_namespace}
@@ -467,6 +468,11 @@ global:
   # whether to use autoscaling/v2 template for HPA settings
   # for internal usage only, not to be configured by users.
   autoscalingv2API: true
+  waypoint:
+    tolerations:
+      - key: "netbird/ready"
+        operator: "Exists"
+        effect: "NoSchedule"
 
 base:
   # For istioctl usage to disable istio config crds in base

@@ -69,6 +69,8 @@ module "generate_ory_files" {
     smtp_ssl                             = var.app_var_map.smtp_ssl
     smtp_starttls                        = var.app_var_map.smtp_starttls
     smtp_auth                            = var.app_var_map.smtp_auth
+    ory_charts_repo                      = local.ory_charts_repo
+    mojaloop_charts_repo                 = local.mojaloop_charts_repo
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -128,6 +130,12 @@ variable "rbac_permissions_file" {
   type = string
 }
 
+variable "ory_charts_repo" {
+  type        = string
+  description = "Helm repository URL for Ory charts"
+  default     = "https://k8s.ory.sh/helm/charts"
+}
+
 locals {
   ory_template_path              = "${path.module}/../generate-files/templates/ory"
   ory_app_file                   = "ory-app.yaml"
@@ -167,4 +175,5 @@ EOF
     mapper_url  = "base64://${local.default_mapper_base64}"
     scope       = ["openid", "email", "profile"]
   }] : []
+  ory_charts_repo = startswith(var.ory_charts_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.ory_charts_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.ory_charts_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.ory_charts_repo)[1]}", var.ory_charts_repo) : try(local.helm_proxy_repos_map[var.ory_charts_repo], var.ory_charts_repo)
 }

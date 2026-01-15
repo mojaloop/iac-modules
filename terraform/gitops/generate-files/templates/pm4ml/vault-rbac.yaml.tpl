@@ -31,7 +31,7 @@ kind: KubernetesAuthEngineRole
 metadata:
   name: ${pm4ml_vault_k8s_role_name}
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -40,7 +40,7 @@ spec:
   tokenTTL: 3600
   policies:
     - pm4ml-policy-${pm4ml_namespace}
-  targetServiceAccounts: 
+  targetServiceAccounts:
     - ${pm4ml_service_account_name}
   targetNamespaces:
     targetNamespaces:
@@ -51,7 +51,7 @@ kind: Policy
 metadata:
   name: pm4ml-policy-${pm4ml_namespace}
 spec:
-  authentication: 
+  authentication:
     path: kubernetes
     role: policy-admin
     serviceAccount:
@@ -74,8 +74,8 @@ spec:
     }
 
     path "${pm4ml_secret_path}/${pm4ml_release_name}/*" {
-      capabilities = ["create", "read", "update", "list"]
+      capabilities = ["create", "read", "update", "list", "delete"]
     }
 
-  type: acl  
+  type: acl
 ---

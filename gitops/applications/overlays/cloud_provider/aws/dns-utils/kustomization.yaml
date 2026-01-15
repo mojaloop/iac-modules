@@ -9,7 +9,7 @@ helmCharts:
   - name: external-dns
     releaseName: external-dns
     version: ${ARGOCD_ENV_external_dns_helm_version}
-    repo: https://charts.bitnami.com/bitnami
+    repo: https://kubernetes-sigs.github.io/external-dns/
     valuesFile: ext-dns-values.yaml
     namespace: ${ARGOCD_ENV_external_dns_namespace}
 patches:

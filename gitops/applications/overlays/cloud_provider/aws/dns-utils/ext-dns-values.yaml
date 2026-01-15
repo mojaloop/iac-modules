@@ -3,7 +3,6 @@ domainFilters:
   - ${ARGOCD_ENV_dns_private_subdomain}
 txtOwnerId: ${ARGOCD_ENV_cluster_name}
 policy: sync
-dryRun: false
 interval: 1m
 triggerLoopOnEvent: true
 txtPrefix: extdns
@@ -12,10 +11,18 @@ sources:
   - ingress
   - istio-gateway
 logLevel: debug
-provider: aws
-aws:
-  credentials:
-    secretName: ${ARGOCD_ENV_external_dns_credentials_secret}
-  region: ${ARGOCD_ENV_dns_cloud_api_region}
-image:
-  repository: bitnamilegacy/external-dns
+provider:
+  name: aws
+env:
+  - name: AWS_SHARED_CREDENTIALS_FILE
+    value: /etc/external-dns/credentials
+  - name: AWS_REGION
+    value: ${ARGOCD_ENV_dns_cloud_api_region}
+extraVolumes:
+  - name: aws-credentials
+    secret:
+      secretName: ${ARGOCD_ENV_external_dns_credentials_secret}
+extraVolumeMounts:
+  - name: aws-credentials
+    mountPath: /etc/external-dns
+    readOnly: true

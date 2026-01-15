@@ -72,6 +72,7 @@ inputs = {
   mojaloop_values_override_file            = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-values-override.yaml", "mojaloop-values-override.yaml")
   mcm_values_override_file                 = find_in_parent_folders("${get_env("CONFIG_PATH")}/mcm-values-override.yaml", "mcm-values-override.yaml")
   pm4ml_values_override_file               = find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-values-override.yaml", "pm4ml-values-override.yaml")
+  admin_portal_values_override_file        = find_in_parent_folders("${get_env("CONFIG_PATH")}/admin-portal-values-override.yaml", "admin-portal-values-override.yaml")
   proxy_values_override_file               = find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-values-override.yaml", "proxy-values-override.yaml")
   finance_portal_values_override_file      = find_in_parent_folders("${get_env("CONFIG_PATH")}/finance-portal-values-override.yaml", "finance-portal-values-override.yaml")
   mojaloop_stateful_res_helm_config_file   = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-stateful-resources-local-helm.yaml")
@@ -169,6 +170,8 @@ inputs = {
   kyverno_chart_version                    = local.common_vars.kyverno_chart_version
   vault_backup_schedule                    = local.common_vars.vault_backup_schedule
   vault_backupjob_image                    = local.common_vars.vault_backupjob_image
+  helm_oci_proxy_repos                     = try(get_env("HELM_OCI_PROXY_REPOS"), "none")
+  helm_classic_proxy_repos                 = try(get_env("HELM_CLASSIC_PROXY_REPOS"), "none")
 }
 
 locals {
