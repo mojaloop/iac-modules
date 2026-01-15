@@ -24,3 +24,5 @@ zitadel:
 
   configSecretName: "${ARGOCD_ENV_zitadel_config_secret_name}"
   configSecretKey: config.yaml
+setupJob:
+  activeDeadlineSeconds: 600
