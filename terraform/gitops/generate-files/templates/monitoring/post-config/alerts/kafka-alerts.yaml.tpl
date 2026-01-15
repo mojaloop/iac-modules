@@ -18,16 +18,19 @@ spec:
       for: 15m
       labels:
         severity: critical
+        component: kafka
       annotations:
         summary: "Kafka consumer lag is increasing (group={{ $labels.consumergroup }}, topic={{ $labels.topic }})"
         description: |
           Consumer group {{ $labels.consumergroup }} lag for topic {{ $labels.topic }} is above 20 and has been trending upward.
           Current lag={{ $value }}.
+
     - alert: KafkaConsumerGroupMembers
       expr: kafka_consumergroup_members == 0
       for: 15m
       labels:
         severity: critical
+        component: kafka
       annotations:
         summary: "Empty Kafka consumer group"
         description: "Kafka consumerGroup {{ $labels.consumergroup }} does not have any active members"

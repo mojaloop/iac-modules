@@ -22,7 +22,7 @@ helmCharts:
   releaseName: prometheus-operator-crds
   version: ${prometheus_crd_version}
   repo: ${prometheus_crd_repo}
-- name: kube-prometheus
+- name: kube-prometheus-stack
   releaseName: ${prometheus_operator_release_name}
   version: ${prometheus_operator_version}
   repo: ${prometheus_operator_repo}
