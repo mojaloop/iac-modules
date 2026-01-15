@@ -18,6 +18,7 @@ spec:
                 - "kube-system"
                 - "kube-public"
                 - "istio-system"
+                - "kubescape"
 %{ if length(opt_out_namespace_list) > 0 ~}
 %{ for ns in opt_out_namespace_list ~}
                 - "${ns}"
