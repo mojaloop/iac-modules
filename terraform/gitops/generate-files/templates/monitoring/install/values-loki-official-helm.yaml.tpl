@@ -288,7 +288,29 @@ ruler:
     value: "${t.value}"
 %{ endfor ~}
 %{ endif ~}
-
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  persistence:
+    enabled: true
+    size: 10Gi
+  extraVolumes:
+    - name: rules-tmp
+      emptyDir: {}
+    - name: ruler-rules
+      configMap:
+        name: loki-ruler-rules
+  extraVolumeMounts:
+    - name: rules-tmp
+      mountPath: /tmp/rules
+    - name: ruler-rules
+      mountPath: /etc/loki/rules/fake
+      readOnly: true
+  directories: {}
 
 # Gateway configuration
 gateway:
