@@ -16,7 +16,7 @@ spec:
       "title": "Loki Log Metrics (Prometheus)",
       "tags": ["loki", "logs", "prometheus", "kubernetes"],
       "schemaVersion": 39,
-      "version": 1,
+      "version": 2,
       "refresh": "30s",
       "time": {
         "from": "now-6h",
@@ -117,7 +117,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "topk(10, loki_lines_total_by_pod{namespace=~\"$namespace\"})",
+              "expr": "topk(10, loki_lines_total_by_pod{namespace=~\"$namespace\", pod=~\"$pod\"})",
               "legendFormat": "{{pod}}",
               "refId": "A"
             }
@@ -175,7 +175,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "topk(10, loki_error_lines_by_pod{namespace=~\"$namespace\"})",
+              "expr": "topk(10, loki_error_lines_by_pod{namespace=~\"$namespace\", pod=~\"$pod\"})",
               "legendFormat": "{{pod}}",
               "refId": "A"
             }
