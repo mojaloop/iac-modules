@@ -12,7 +12,7 @@ spec:
       rules:
         - alert: KafkaConsumerGroupLagIncreasing
           expr: |
-            kafka_consumergroup_lag_sum > 20
+            kafka_consumergroup_lag_sum > ${alerts_kafka_consumergroup_lag_threshold}
             and on (consumergroup, topic)
             deriv(kafka_consumergroup_lag_sum[10m]) > 0
           for: 15m
@@ -22,7 +22,7 @@ spec:
           annotations:
             summary: "Kafka consumer lag is increasing (group={{ $labels.consumergroup }}, topic={{ $labels.topic }})"
             description: |
-              Consumer group {{ $labels.consumergroup }} lag for topic {{ $labels.topic }} is above 20 and has been trending upward.
+              Consumer group {{ $labels.consumergroup }} lag for topic {{ $labels.topic }} is above ${alerts_kafka_consumergroup_lag_threshold} and has been trending upward.
               Current lag={{ $value }}.
 
         - alert: KafkaConsumerGroupMembers
@@ -32,5 +32,5 @@ spec:
             severity: critical
             component: kafka
           annotations:
-            summary: "Empty Kafka consumer group"
+            summary: "Empty Kafka consumerGroup {{ $labels.consumergroup }}"
             description: "Kafka consumerGroup {{ $labels.consumergroup }} does not have any active members"

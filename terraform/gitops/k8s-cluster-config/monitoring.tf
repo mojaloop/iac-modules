@@ -113,6 +113,7 @@ module "generate_monitoring_files" {
     opentelemetry_repo = local.opentelemetry_repo
     alloy_repo = local.alloy_repo
     metrics_server_chart_repo = local.metrics_server_chart_repo
+    alerts_kafka_consumergroup_lag_threshold = try(var.common_var_map.alerts_kafka_consumergroup_lag_threshold, local.alerts_kafka_consumergroup_lag_threshold)
   }
   file_list       = [for f in fileset(local.monitoring_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.monitoring_app_file, f))]
   template_path   = local.monitoring_template_path
@@ -284,6 +285,7 @@ locals {
   alertmanager_fqdn                       = "alertmanager.${var.private_subdomain}"
   alertmanager_prod_alerts_enabled        = try(var.common_var_map.alertmanager_prod_alerts_enabled, false)
   alertmanager_slack_external_secret_name = local.alertmanager_prod_alerts_enabled ? "slack-prod-alert-notifications" : "slack-dev-alert-notifications"
+  alerts_kafka_consumergroup_lag_threshold= 20
 
   loki_canary_repo_override = try(var.common_var_map.loki_canary_repo, var.loki_canary_repo)
   prometheus_crd_repo_override = try(var.common_var_map.prometheus_crd_repo, var.prometheus_crd_repo)
