@@ -152,6 +152,7 @@ module "pm4ml" {
   private_dns_zone_id                      = var.private_dns_zone_id
   traces_endpoint                          = var.traces_endpoint
   pm4ml_chart_repo                         = local.pm4ml_chart_repo
+  mojaloop_charts_repo                     = local.mojaloop_charts_repo
 }
 
 module "proxy_pm4ml" {
@@ -190,6 +191,7 @@ module "proxy_pm4ml" {
   private_dns_zone_id                      = var.private_dns_zone_id
   traces_endpoint                          = var.traces_endpoint
   proxy_pm4ml_chart_repo                   = local.pm4ml_chart_repo
+  mojaloop_charts_repo                     = local.mojaloop_charts_repo
 }
 
 module "vnext" {

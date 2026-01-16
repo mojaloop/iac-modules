@@ -254,7 +254,7 @@ variable "mojaloop_helm_repo" {
 
 variable "pm4ml_chart_repo" {
   type        = string
-  default     = "https://pm4ml.github.io/helm"
+  default     = "https://pm4ml.github.io/mojaloop-payment-manager-helm/repo"
   description = "Helm chart repository URL for PM4ML"
 }
 

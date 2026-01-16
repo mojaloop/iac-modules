@@ -105,6 +105,7 @@ module "generate_pm4ml_files" {
     cluster_name                                    = var.cluster_name
     traces_endpoint                                 = var.traces_endpoint
     cluster                                         = var.cluster
+    mojaloop_charts_repo                            = var.mojaloop_charts_repo
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -192,8 +193,14 @@ variable "pm4ml_ingress_internal_lb" {
 
 variable "pm4ml_chart_repo" {
   type        = string
-  default     = "https://pm4ml.github.io/helm"
+  default     = "https://pm4ml.github.io/mojaloop-payment-manager-helm/repo"
   description = "Helm chart repository URL for PM4ML"
+}
+
+variable "mojaloop_charts_repo" {
+  type        = string
+  description = "Helm charts repository URL for Mojaloop"
+  default     = "https://mojaloop.github.io/charts/repo"
 }
 
 variable "pm4ml_sync_wave" {
