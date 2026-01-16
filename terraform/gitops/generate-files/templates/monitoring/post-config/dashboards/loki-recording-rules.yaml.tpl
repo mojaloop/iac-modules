@@ -29,7 +29,7 @@ spec:
             "type": "query",
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "$${DS_PROMETHEUS}"
             },
             "query": "label_values(loki_lines_total_by_namespace, namespace)",
             "multi": true,
@@ -42,7 +42,7 @@ spec:
             "type": "query",
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "$${DS_PROMETHEUS}"
             },
             "query": "label_values(loki_lines_total_by_namespace_app{namespace=~\"$namespace\"}, app)",
             "multi": true,
@@ -55,7 +55,7 @@ spec:
             "type": "query",
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "$${DS_PROMETHEUS}"
             },
             "query": "label_values(loki_lines_total_by_pod{namespace=~\"$namespace\"}, pod)",
             "multi": true,
@@ -71,7 +71,7 @@ spec:
           "title": "Log Lines / sec by Namespace",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "targets": [
             {
@@ -92,7 +92,7 @@ spec:
           "title": "Log Lines / sec by App",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "targets": [
             {
@@ -113,7 +113,7 @@ spec:
           "title": "Top Pods by Log Volume",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "targets": [
             {
@@ -129,7 +129,7 @@ spec:
           "title": "Bytes / sec by Namespace",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "targets": [
             {
@@ -150,7 +150,7 @@ spec:
           "title": "Error Lines / sec by Namespace",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "targets": [
             {
@@ -171,7 +171,7 @@ spec:
           "title": "Top Pods by Error Rate",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "targets": [
             {
@@ -187,7 +187,7 @@ spec:
           "title": "Error Ratio (%) by Namespace",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "targets": [
             {
