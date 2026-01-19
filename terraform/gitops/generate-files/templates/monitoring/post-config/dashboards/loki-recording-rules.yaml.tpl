@@ -16,7 +16,7 @@ spec:
       "title": "Loki Log Metrics (Prometheus)",
       "tags": ["loki", "logs", "prometheus", "kubernetes"],
       "schemaVersion": 39,
-      "version": 2,
+      "version": 4,
       "refresh": "30s",
       "time": {
         "from": "now-6h",
@@ -133,7 +133,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "sum by (container) (increase(loki_error_lines_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"}[5m]))",
+              "expr": "sum by (container) (loki_error_lines_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"}[5m])",
               "legendFormat": "{{container}}",
               "refId": "A"
             }
