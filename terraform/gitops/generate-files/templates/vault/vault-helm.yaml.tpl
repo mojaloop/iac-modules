@@ -12,12 +12,11 @@ spec:
     path: apps/vault/charts/vault
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
+
   destination:
     namespace: ${vault_namespace}
     server: https://kubernetes.default.svc
-  project: default
+  project: default  
   ignoreDifferences:
   - group: admissionregistration.k8s.io
     kind: MutatingWebhookConfiguration

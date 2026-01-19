@@ -10,6 +10,6 @@ helmCharts:
 - name: redis
   releaseName: redis
   version: ${ARGOCD_ENV_redis_helm_version}
-  repo: oci://registry-1.docker.io/bitnamicharts/
+  repo: oci://registry-1.docker.io/cloudpirates
   valuesFile: redis-values.yaml
   namespace: ${ARGOCD_ENV_gitlab_namespace}

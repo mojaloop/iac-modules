@@ -58,7 +58,7 @@ spec:
     name: Mimir
     type: prometheus
     access: proxy
-    url: http://central-monitoring-grafana-mimir-gateway/prometheus
+    url: http://central-monitoring-mimir-gateway/prometheus
     isDefault: true
     editable: true
     jsonData:
@@ -66,6 +66,7 @@ spec:
       timeInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
     secureJsonData:
       httpHeaderValue1: "infitx" # TODO: possibly expose it as configurable env var
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -139,13 +140,14 @@ spec:
     name: Alertmanager
     type: alertmanager
     access: proxy
-    url: http://central-monitoring-grafana-mimir-gateway
+    url: http://central-monitoring-mimir-gateway
     isDefault: false
     editable: true
     jsonData:
       httpHeaderName1: "X-Scope-OrgID"
     secureJsonData:
       httpHeaderValue1: "infitx" # TODO: possibly expose it as configurable env var
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource

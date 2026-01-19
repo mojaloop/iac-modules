@@ -218,6 +218,19 @@ spec:
 
           - name: "dns_hyphenated_subdomain"
             value: "${ARGOCD_ENV_gitlab_gitlab_dns_hyphenated_subdomain}"
+
+          - name: "redis_cpu_limit"
+            value: "${ARGOCD_ENV_gitlab_pre_redis_cpu_limit}"
+
+          - name: "redis_memory_limit"
+            value: "${ARGOCD_ENV_gitlab_pre_redis_memory_limit}"
+
+          - name: "redis_cpu_request"
+            value: "${ARGOCD_ENV_gitlab_pre_redis_cpu_request}"
+
+          - name: "redis_memory_request"
+            value: "${ARGOCD_ENV_gitlab_pre_redis_memory_request}"
+
     #main gitlab db
     - repoURL: ${ARGOCD_ENV_argocd_repo_url}
       targetRevision: ${ARGOCD_ENV_gitlab_application_gitrepo_tag}
@@ -309,8 +322,17 @@ spec:
           - name: "enable_backup"
             value: "${ARGOCD_ENV_gitlab_webdb_percona_provider_enable_backup}"
 
-          - name: "backup_retention_period"
+          - name: "backup_full_retention"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_retention_period}"
+
+          - name: "backup_diff_retention"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_diff_retention_period}"
+
+          - name: "backup_process_max"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_process_max}"
+
+          - name: "backup_archive_timeout"
+            value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_backup_archive_timeout}"
 
           - name: "preferred_backup_window"
             value: "${ARGOCD_ENV_gitlab_webdb_rds_provider_preferred_backup_window}"
@@ -520,8 +542,17 @@ spec:
           - name: "enable_backup"
             value: "${ARGOCD_ENV_gitlab_praefectdb_percona_provider_enable_backup}"
 
-          - name: "backup_retention_period"
+          - name: "backup_full_retention"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_retention_period}"
+
+          - name: "backup_diff_retention"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_diff_retention_period}"
+
+          - name: "backup_process_max"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_process_max}"
+
+          - name: "backup_archive_timeout"
+            value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_backup_archive_timeout}"
 
           - name: "preferred_backup_window"
             value: "${ARGOCD_ENV_gitlab_praefectdb_rds_provider_preferred_backup_window}"

@@ -38,6 +38,10 @@ spec:
       bucketRegion: ${ARGOCD_ENV_backup_region}
       fullBackupCronSchedule: ${ARGOCD_ENV_backup_full_schedule}
       differentialBackupCronSchedule: ${ARGOCD_ENV_backup_diff_schedule}
+      process_max: "${ARGOCD_ENV_backup_process_max}"
+      archive_timeout: "${ARGOCD_ENV_backup_archive_timeout}"
+      full_backup_retention: "${ARGOCD_ENV_backup_full_retention}"
+      diff_backup_retention: "${ARGOCD_ENV_backup_diff_retention}"
 
     proxy:
       pgBouncer:

@@ -35,8 +35,10 @@ spec:
               - sh
               - '-c'
               - >-
-                until nslookup ${keycloak_mysql_host}; do
-                echo waiting for DNS ; sleep 5; done;
+                attempt=0; max_attempts=10;
+                until nslookup ${keycloak_mysql_host} || [ $attempt -eq $max_attempts ]; do
+                attempt=$((attempt+1));
+                echo "waiting for DNS (attempt $attempt/$max_attempts)"; sleep 5; done;
             imagePullPolicy: IfNotPresent
           - name: convert-pem-to-jks
             image: ${keycloak_jdk_image}
@@ -91,9 +93,9 @@ spec:
                 scheme: HTTPS
               initialDelaySeconds: 20
               timeoutSeconds: 1
-              periodSeconds: 2
+              periodSeconds: 5
               successThreshold: 1
-              failureThreshold: 300
+              failureThreshold: 360
             volumeMounts:
               - mountPath: /tmp/ca
                 name: ca-bundle-volume

@@ -8,7 +8,7 @@ module "generate_crossplane_providers_files" {
     crossplane_providers_vault_version       = var.crossplane_providers_vault_version
     crossplane_providers_aws_family_version  = var.crossplane_providers_aws_family_version
     crossplane_providers_aws_iam_version     = var.crossplane_providers_aws_iam_version
-    crossplane_providers_aws_s3_version       = var.crossplane_providers_aws_s3_version
+    crossplane_providers_aws_s3_version      = var.crossplane_providers_aws_s3_version
     crossplane_providers_aws_docdb_version   = var.crossplane_providers_aws_docdb_version
     crossplane_providers_aws_rds_version     = var.crossplane_providers_aws_rds_version
     crossplane_providers_aws_route53_version = var.crossplane_providers_aws_route53_version

@@ -13,8 +13,7 @@ spec:
     path: apps/nginx-jwt
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
+
   destination:
     namespace: ${nginx_jwt_namespace}
     server: https://kubernetes.default.svc

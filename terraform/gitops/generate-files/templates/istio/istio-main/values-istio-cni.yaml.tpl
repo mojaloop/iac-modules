@@ -26,6 +26,7 @@ cniBinDir: /opt/cni/bin
 cniConfDir: /etc/cni/net.d
 cniConfFileName: ""
 cniNetnsDir: "/var/run/netns"
+istioOwnedCNIConfig : true
 
 excludeNamespaces:
   - kube-system
@@ -42,9 +43,10 @@ ambient:
   # If enabled, and ambient is enabled, enables ipv6 support
   ipv6: false
   # If enabled, and ambient is enabled, the CNI agent will reconcile incompatible iptables rules and chains at startup.
-  reconcileIptablesOnStartup: false
+  reconcileIptablesOnStartup: true
   # If enabled, and ambient is enabled, the CNI agent will always share the network namespace of the host node it is running on
   shareHostNetworkNamespace: false
 
 repair:
   enabled: true
+  deletePods: true

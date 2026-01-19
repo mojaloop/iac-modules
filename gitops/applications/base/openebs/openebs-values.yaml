@@ -7,3 +7,5 @@ engines:
   replicated:
     mayastor:
       enabled: false
+alloy:
+  enabled: false

@@ -33,7 +33,7 @@ spec:
       bucketRegion: ${backup_bucket_region}
       scheduleEnabled: ${schedule_enabled}
       scheduleName: ${backup_schedule_name}
-      cronScheduleExpression: ${backup_cron_schedule}
+      cronScheduleExpression: "${backup_cron_schedule}"
       backupRetention: ${backup_retention}
 
     replsets:

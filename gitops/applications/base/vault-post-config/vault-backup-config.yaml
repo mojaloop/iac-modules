@@ -1,0 +1,25 @@
+apiVersion: vault.mojaloop.io/v1alpha1
+kind: VaultBackupConfig
+metadata:
+  name: vault-backup-config
+  namespace: ${ARGOCD_vault_namespace}
+spec:
+  parameters:
+    backupEnabled: ${ARGOCD_ENV_vault_backup_enabled}
+    backupBucket: "cc-vault-backup-${ARGOCD_ENV_dns_hyphenated_subdomain}"
+    backupBucketRegion: ${ARGOCD_ENV_vault_backup_bucket_region}
+    backupSchedule: "${ARGOCD_ENV_backup_schedule}"
+    backupRetentionDays:  ${ARGOCD_ENV_backup_retention_days}
+    snapshotAuthPath: "snapshot-auth"
+    snapshotRoleName: "snapshot-role"
+    snapshotPolicyName: "snapshot-policy"
+    snapshotTokenTTL: ${ARGOCD_ENV_snapshot_token_ttl}
+    snapshotSecretIdTTL: ${ARGOCD_ENV_snapshot_secret_id_ttl}
+    targetNamespace: ${ARGOCD_vault_namespace}
+    vaultBackupImage: ${ARGOCD_ENV_vault_backup_image}
+  providerConfigsRef:
+    vaultProviderName: vault-provider
+    kubernetesProviderName: kubernetes-provider
+    awsProviderName: "aws-cp-upbound-provider-config"
+  managementPolicies:
+    - "*"

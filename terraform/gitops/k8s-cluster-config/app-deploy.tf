@@ -41,7 +41,6 @@ module "mojaloop" {
   istio_internal_gateway_name                  = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name         = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name         = local.istio_internal_wildcard_gateway_name
-  mojaloop_chart_version                       = var.app_var_map.mojaloop_chart_version
   mcm_enabled                                  = var.common_var_map.mcm_enabled
   mcm_chart_version                            = var.app_var_map.mcm_chart_version
   mojaloop_enabled                             = var.common_var_map.mojaloop_enabled
@@ -89,6 +88,12 @@ module "mojaloop" {
   istio_nb_egress_waypoint_namespace           = var.istio_nb_egress_waypoint_namespace
   traces_endpoint                              = var.traces_endpoint
   namespace_meta                               = local.namespace_meta
+  mojaloop_charts_repo                         = local.mojaloop_charts_repo
+  mcm_chart_repo                               = local.mcm_chart_repo
+  mojaloop_helm_repo                           = local.mojaloop_helm_repo
+  reporting_templates_chart_repo               = local.mojaloop_reporting_templates_repo
+  mojaloop_helm_version                        = var.app_var_map.mojaloop_helm_version
+  helm_proxy_repos_map                         = local.helm_proxy_repos_map
 }
 
 module "pm4ml" {
@@ -129,6 +134,7 @@ module "pm4ml" {
   oathkeeper_auth_provider_name            = local.oathkeeper_auth_provider_name
   vault_root_ca_name                       = "pki-${var.cluster_name}"
   app_var_map                              = local.pm4ml_var_map
+  root_var_map                             = var.app_var_map
   cluster                                  = local.cluster
   bof_release_name                         = local.bof_release_name
   role_assign_svc_user                     = var.role_assign_svc_user
@@ -138,12 +144,15 @@ module "pm4ml" {
   mcm_admin_user                           = var.mcm_admin_user
   mcm_admin_secret_prefix                  = "mcm-admin-secret-"
   pm4ml_values_override_file               = var.pm4ml_values_override_file
+  admin_portal_values_override_file        = var.admin_portal_values_override_file
   opentelemetry_enabled                    = var.common_var_map.opentelemetry_enabled
   opentelemetry_namespace_filtering_enable = var.common_var_map.opentelemetry_namespace_filtering_enable
   storage_class_name                       = var.storage_class_name
   cloud_platform                           = var.cloud_platform
   private_dns_zone_id                      = var.private_dns_zone_id
   traces_endpoint                          = var.traces_endpoint
+  pm4ml_chart_repo                         = local.pm4ml_chart_repo
+  mojaloop_charts_repo                     = local.mojaloop_charts_repo
 }
 
 module "proxy_pm4ml" {
@@ -181,6 +190,8 @@ module "proxy_pm4ml" {
   cloud_platform                           = var.cloud_platform
   private_dns_zone_id                      = var.private_dns_zone_id
   traces_endpoint                          = var.traces_endpoint
+  proxy_pm4ml_chart_repo                   = local.pm4ml_chart_repo
+  mojaloop_charts_repo                     = local.mojaloop_charts_repo
 }
 
 module "vnext" {
@@ -252,6 +263,7 @@ module "vnext" {
   private_dns_zone_id                  = var.private_dns_zone_id
   istio_nb_egress_waypoint_name        = var.istio_nb_egress_waypoint_name
   istio_nb_egress_waypoint_namespace   = var.istio_nb_egress_waypoint_namespace
+  helm_proxy_repos_map                 = local.helm_proxy_repos_map
 }
 
 variable "app_var_map" {
@@ -382,6 +394,10 @@ variable "pm4ml_values_override_file" {
   type = string
 }
 
+variable "admin_portal_values_override_file" {
+  type = string
+}
+
 variable "finance_portal_values_override_file" {
   type = string
 }
@@ -425,4 +441,9 @@ locals {
 
   stateful_resources_config_vars_list = [local.st_res_local_helm_vars, local.st_res_local_operator_vars, local.plt_st_res_config]
   namespace_meta                      = var.namespace_meta_config_file == "" ? {} : yamldecode(file(var.namespace_meta_config_file))
+  pm4ml_chart_repo                    = startswith(var.pm4ml_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.pm4ml_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.pm4ml_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.pm4ml_chart_repo)[1]}", var.pm4ml_chart_repo) : try(local.helm_proxy_repos_map[var.pm4ml_chart_repo], var.pm4ml_chart_repo)
+  mojaloop_charts_repo                = startswith(var.mojaloop_charts_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_charts_repo)[1]}", var.mojaloop_charts_repo) : try(local.helm_proxy_repos_map[var.mojaloop_charts_repo], var.mojaloop_charts_repo)
+  mcm_chart_repo                      = startswith(var.mcm_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mcm_chart_repo)[1]}", var.mcm_chart_repo) : try(local.helm_proxy_repos_map[var.mcm_chart_repo], var.mcm_chart_repo)
+  mojaloop_helm_repo                  = startswith(var.mojaloop_helm_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_helm_repo)[1]}", var.mojaloop_helm_repo) : try(local.helm_proxy_repos_map[var.mojaloop_helm_repo], var.mojaloop_helm_repo)
+  mojaloop_reporting_templates_repo   = startswith(var.mojaloop_reporting_templates_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.mojaloop_reporting_templates_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.mojaloop_reporting_templates_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.mojaloop_reporting_templates_repo)[1]}", var.mojaloop_reporting_templates_repo) : try(local.helm_proxy_repos_map[var.mojaloop_reporting_templates_repo], var.mojaloop_reporting_templates_repo)
 }

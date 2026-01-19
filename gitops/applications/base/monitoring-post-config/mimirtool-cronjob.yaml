@@ -16,10 +16,17 @@ spec:
                 - "-c"
                 - |
                   echo 'Running job';
-                  mimirtool rules sync /etc/mimir-ruler/alerts-*.yaml /etc/mimir-ruler/recording-rules-*.yaml --address  http://central-monitoring-grafana-mimir-ruler:8080 --id infitx;
-                  # mimirtool rules print --address  http://central-monitoring-grafana-mimir-ruler:8080 --id infitx;
-                  mimirtool alertmanager load /etc/mimir-alertmanager/config.yaml --address  http://central-monitoring-grafana-mimir-alertmanager:8080 --id infitx;
-                  # mimirtool alertmanager get --address  http://central-monitoring-grafana-mimir-alertmanager:8080 --id infitx;
+
+                  echo 'Adding recording rules - Started';
+                  mimirtool rules sync /etc/mimir-ruler/alerts-*.yaml /etc/mimir-ruler/recording-rules-*.yaml --address  http://central-monitoring-mimir-ruler:8080 --id infitx;
+                  # mimirtool rules print --address  http://central-monitoring-mimir-ruler:8080 --id infitx;
+                  echo 'Adding recording rules - Finished';
+
+                  echo 'Adding alertmanager config - Started';
+                  mimirtool alertmanager load /etc/mimir-alertmanager/config.yaml --address  http://central-monitoring-mimir-alertmanager:8080 --id infitx;
+                  # mimirtool alertmanager get --address  http://central-monitoring-mimir-alertmanager:8080 --id infitx;
+                  echo 'Adding alertmanager config - Finished';
+                  
                   echo 'job ended';
               volumeMounts:
                 - name: mimir-ruler-volume

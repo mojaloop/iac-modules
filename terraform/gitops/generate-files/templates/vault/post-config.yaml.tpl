@@ -71,7 +71,6 @@ data:
         --header "Authorization: Bearer $GITLAB_TOKEN" | jq -r .value)
       if [ -z "$VAULT_ROOT_TOKEN" ] || [ "$VAULT_ROOT_TOKEN" == "null" ]; then
         echo "ERROR: Could not fetch VAULT_ROOT_TOKEN from GitLab"
-        exit 1
       fi
     }
 
@@ -118,34 +117,90 @@ data:
     echo "✅ Stored secret '$key' in tenancy Vault cluster"
     }
 
-    if [[ $(vault status -format=json | jq .initialized) == "false" ]]
+
+    #################
+    # init section
+    #################
+
+    echo "Waiting for local Vault service to start..."
+    until vault status -format=json > /dev/null 2>&1 || [ $? -ne 1 ]; do
+      sleep 2
+    done
+
+    POD_ORDINAL=$(echo $HOSTNAME | awk -F'-' '{print $NF}')
+    export VAULT_ROOT_TOKEN=""
+    fetch_vault_root_token
+    if [ "$VAULT_ROOT_TOKEN" != "" ] && [ "$VAULT_ROOT_TOKEN" != "null" ];
     then
-      vault operator init -format=json > /tmp/output.json
-      export VAULT_ROOT_TOKEN=$(cat /tmp/output.json | jq .root_token | tr -d '"')
-      if [ "$VAULT_ROOT_TOKEN" != "" ]
-      then
-        create_or_update_gitlab_var "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
-        write_secret_to_tenancy_vault "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
-      else
-        echo "VAULT_ROOT_TOKEN not parsed correctly, exiting"
-        exit 1
-      fi
-      for ((i=0; i<=NUM_KEYS; i++))
-      do
-        export RECOVERY_KEY=$(cat /tmp/output.json | jq .recovery_keys_b64[$i] | tr -d '"')
-        create_or_update_gitlab_var "RECOVERY_KEY_$i" "$RECOVERY_KEY"
-        write_secret_to_tenancy_vault "RECOVERY_KEY_$i" "$RECOVERY_KEY"
-      done
+
+      echo "✅ Vault already initialized (Root token found in GitLab). Moving to config."
     else
-      echo "vault already initialized"
-      echo "fetching root token"
-      fetch_vault_root_token
+
+      IS_INITIALIZED=$(vault status -format=json | jq -r .initialized)
+
+      if [ "$IS_INITIALIZED" == "false" ];
+      then
+
+        if [ "$POD_ORDINAL" -eq 0 ];
+        then
+          echo "This is VAULT-0 (Ordinal 0). Attempting exclusive initialization."
+
+          vault operator init -format=json > /tmp/output.json
+
+          if [ $? -eq 0 ] && [ -s /tmp/output.json ];
+          then
+            export VAULT_ROOT_TOKEN=$(cat /tmp/output.json | jq .root_token | tr -d '"')
+
+            create_or_update_gitlab_var "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
+            write_secret_to_tenancy_vault "VAULT_ROOT_TOKEN" "$VAULT_ROOT_TOKEN"
+
+            for ((i=0; i<=NUM_KEYS; i++))
+            do
+              export RECOVERY_KEY=$(cat /tmp/output.json | jq .recovery_keys_b64[$i] | tr -d '"')
+              create_or_update_gitlab_var "RECOVERY_KEY_$i" "$RECOVERY_KEY"
+              write_secret_to_tenancy_vault "RECOVERY_KEY_$i" "$RECOVERY_KEY"
+            done
+          else
+            echo "❌ ERROR: Initialization failed on VAULT-0. Exiting initialization attempt."
+            exit 1
+          fi
+        else
+
+          echo "🛰️ VAULT-$POD_ORDINAL: Waiting for Auto-Join and Auto-Unseal..."
+
+          # We don't run 'vault operator raft join'.
+          # Instead, we wait for the node to become unsealed,
+          # which only happens AFTER it successfully joins the leader.
+          for i in {1..60}; do
+            HEALTH=$(vault status -format=json 2>/dev/null || echo '{"sealed":true}')
+            IS_SEALED=$(echo $HEALTH | jq -r '.sealed')
+            IS_INIT=$(echo $HEALTH | jq -r '.initialized')
+
+            if [ "$IS_SEALED" == "false" ] && [ "$IS_INIT" == "true" ]; then
+              echo "✅ Node is joined and unsealed."
+              break
+            fi
+
+            echo "⏳ Waiting for cluster membership... (Attempt $i/60)"
+            sleep 10
+          done
+
+          fetch_vault_root_token
+        fi
+
+      else
+        echo "vault already initialized"
+        echo "fetching root token"
+        fetch_vault_root_token
+      fi
     fi
 
-
+    #################
+    # config section
+    #################
     if [ "$VAULT_ROOT_TOKEN" != "" ]
     then
-      vault login -no-print $VAULT_ROOT_TOKEN
+      vault login -no-print $VAULT_ROOT_TOKEN || { echo "❌ Login failed. Check if token is valid or cluster is healhty"; exit 0; }
       cat <<EOT >/tmp/vault-admin-policy.hcl
       path "/*" {
         capabilities = ["create", "read", "update", "delete", "list", "sudo"]
@@ -182,7 +237,7 @@ data:
         vault secrets enable --path=${local_vault_kv_root_path} kv
         echo "✅ Secrets engine '${local_vault_kv_root_path}/' is enabled"
       fi
-      vault secrets tune -default-lease-ttl=2m ${local_vault_kv_root_path}/
+      vault secrets tune -default-lease-ttl=60m ${local_vault_kv_root_path}/
 
       #snapshot
       if vault auth list -format=json | jq -e 'has("approle/")' > /dev/null; then
@@ -242,5 +297,5 @@ data:
   %{ endif ~}
       rm /tmp/output.json || true
     else
-      echo "no root token found, skipping init"
+      echo "no root token found, skipping configuration"
     fi

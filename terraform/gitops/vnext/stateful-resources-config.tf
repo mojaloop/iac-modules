@@ -29,6 +29,7 @@ module "vnext_stateful_resources" {
   istio_nb_egress_waypoint_name                 = var.istio_nb_egress_waypoint_name
   istio_nb_egress_waypoint_namespace            = var.istio_nb_egress_waypoint_namespace
   namespace_meta                                = {}
+  helm_proxy_repos_map                          = var.helm_proxy_repos_map
 }
 
 variable "stateful_resources_namespace" {
@@ -51,6 +52,10 @@ variable "object_store_percona_backup_bucket" {
   description = "object_store_percona_backup_bucket"
 }
 
+variable "helm_proxy_repos_map" {
+  type        = map(string)
+  description = "Map of original Helm repository URLs to proxy repository URLs"
+}
 locals {
   mojaloop_stateful_resources = { for key, resource in var.platform_stateful_res_config : key => resource if (resource.app_owner == "mojaloop" && resource.enabled )}
   monolith_for_mojaloop_sts_resources = { for key, resource in var.monolith_stateful_resources : key => resource if resource.app_owner == "mojaloop" }

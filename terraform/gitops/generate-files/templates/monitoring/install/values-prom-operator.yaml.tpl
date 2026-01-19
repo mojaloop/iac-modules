@@ -1,229 +1,207 @@
+#values: https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-80.0.0/charts/kube-prometheus-stack/values.yaml
+
 alertmanager:
-  image:
-    registry: quay.io
-    repository: prometheus/alertmanager
-    tag: v0.26.0
   enabled: ${alertmanager_enabled}
-  externalConfig: true
-  configuration:
-    name: alertmanager-config
-  externalUrl: "https://${alertmanager_fqdn}"
-  persistence:
-    enabled: true
-    storageClass: ${storage_class_name}
-    size: 10Gi
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-  podSecurityContext:
-    enabled: true
-    runAsNonRoot: false
-    runAsUser: 65534
-    runAsGroup: 65534
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
+  
+  alertmanagerSpec:
+    externalUrl: "https://${alertmanager_fqdn}"
+    tolerations:
+    - key: "workload-class.mojaloop.io/MONITORING"
+      operator: "Equal"
+      value: "enabled"
+      effect: "NoSchedule"
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: ${storage_class_name}
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+    
+    nodeSelector:
+      workload-class.mojaloop.io/MONITORING: "enabled"
+    
+    alertmanagerConfigSelector:
+      matchLabels:
+        alertmanagerConfig: primary
+
+    alertmanagerConfigMatcherStrategy:
+      type: None
+
 prometheus:
-  image:
-    repository: prom/prometheus
-    tag: v2.48.0
-  scrapeInterval: ${prometheus_scrape_interval}
-  persistence:
-    enabled: true
-    storageClass: ${storage_class_name}
-    size: ${prometheus_pvc_size}
-  retention: ${prometheus_retention_period}
-  enableRemoteWriteReceiver: true
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-  # setting these to prevent oom issue https://github.com/prometheus/prometheus/issues/6934#issuecomment-1099293120
-  disableCompaction: false #this is the default anyway
-  additionalArgs:
-  - name: storage.tsdb.min-block-duration
-    value: ${prom_tsdb_min_block_duration}
-  - name: storage.tsdb.max-block-duration
-    value: ${prom_tsdb_max_block_duration}
-  externalLabels:
-    cluster: ${cluster_label}
+  enabled: true
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+
+    scrapeInterval: ${prometheus_scrape_interval}
+    evaluationInterval: ${prometheus_scrape_interval}
+    retention: ${prometheus_retention_period}
+    enableRemoteWriteReceiver: true
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: ${storage_class_name}
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: ${prometheus_pvc_size}
+    tolerations:
+    - key: "workload-class.mojaloop.io/MONITORING"
+      operator: "Equal"
+      value: "enabled"
+      effect: "NoSchedule"
+    
+    nodeSelector:
+      workload-class.mojaloop.io/MONITORING: "enabled"
+    
+    externalLabels:
+      cluster: ${cluster_label}
+    
+    # TSDB Configuration
+    disableCompaction: false
+    additionalArgs:
+      - name: storage.tsdb.min-block-duration
+        value: ${prom_tsdb_min_block_duration}
+      - name: storage.tsdb.max-block-duration
+        value: ${prom_tsdb_max_block_duration}
 
 %{if enable_central_observability_write ~}
-  remoteWrite:
-  - name: central-monitoring
-    url: ${central_observability_endpoint}/api/v1/push
-    headers:
-      X-Scope-OrgID: ${central_observability_tenant_id}
-    metadataConfig:
-      sendInterval: ${prometheus_scrape_interval}
+    remoteWrite:
+      - name: central-monitoring
+        url: ${central_observability_endpoint}/api/v1/push
+        headers:
+          X-Scope-OrgID: ${central_observability_tenant_id}
+        metadataConfig:
+          sendInterval: ${prometheus_scrape_interval}
 %{endif ~}
-
 
 %{if enable_central_observability_read ~}
-  remoteRead:
-  - name: central-monitoring
-    url: ${central_observability_endpoint}/prometheus/api/v1/read
-    headers:
-      X-Scope-OrgID: ${central_observability_tenant_id}
+    remoteRead:
+      - name: central-monitoring
+        url: ${central_observability_endpoint}/prometheus/api/v1/read
+        headers:
+          X-Scope-OrgID: ${central_observability_tenant_id}
 %{endif ~}
-%{if length(tolerations) > 0 ~}
+
+prometheusOperator:
+  enabled: true
   tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
-
-
-operator:
-  image:
-    registry: quay.io
-    repository: prometheus-operator/prometheus-operator
-    tag: v0.70.0
-  prometheusConfigReloader:
-    image:
-      registry: quay.io
-      repository: prometheus-operator/prometheus-config-reloader
-      tag: v0.70.0
-    containerSecurityContext:
-      enabled: true
-      runAsNonRoot: false
-      allowPrivilegeEscalation: false
-      runAsUser: 65534
-      runAsGroup: 65534
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
+  - key: "workload-class.mojaloop.io/MONITORING"
+    operator: "Equal"
+    value: "enabled"
+    effect: "NoSchedule"
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
   resources:
     requests:
       cpu: 20m
       memory: 100Mi
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
-kubelet:
-  serviceMonitor:
-    relabelings:
-    # adds kubernetes_io_hostname label being used by k8s monitoring dashboard
-    - sourceLabels: [node]
-      separator: ;
-      regex: (.*)
-      targetLabel: kubernetes_io_hostname
-      replacement: $${1}
-      action: replace
-    metricRelabelings:
-    - sourceLabels: ['__name__']
-      regex: 'apiserver_request_duration_seconds_bucket|apiserver_request_sli_duration_seconds_bucket'
-      action: drop
-    - sourceLabels: ['__name__']
-      regex: 'apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket'
-      action: drop
-    - sourceLabels: ['__name__']
-      regex: 'etcd_request_duration_seconds_bucket|apiserver_watch_events_sizes_bucket'
-      action: drop
-    - regex: endpoint|service
-      action: labeldrop
-    cAdvisorMetricRelabelings:
-    - sourceLabels: ['__name__']
-      regex: 'container_tasks_state|container_memory_failures_total|container_blkio_device_usage_total'
-      action: drop
-    - regex: endpoint|service
-      action: labeldrop
-    # remove name label with hexadecimal values only
-    - sourceLabels: [name]
-      regex: '^[a-f0-9]{64}$'
-      targetLabel: name
-      replacement: ''
-      action: replace
-    # NOTE: removing this label is expected to reduce remote write bandwidth by 15%
-    # removing id label causes err-mimir-sample-duplicate-timestamp error
-    # droping id entirely collapses multiple ts into one
-    # - sourceLabels: [id]
-    #   regex: '.+/pod.+'
-    #  targetLabel: id
-    #  replacement: ''
-    #  action: replace
+  admissionWebhooks:
+    patch:
+      tolerations:
+      - key: "workload-class.mojaloop.io/MONITORING"
+        operator: "Equal"
+        value: "enabled"
+        effect: "NoSchedule"
 
-kubeApiServer:
-  enabled: false
+kubelet:
+  enabled: true
+  serviceMonitor:
+    interval: "${prometheus_scrape_interval}"
+    metricRelabelings:
+      # Drop high-cardinality metrics
+      - sourceLabels: ['__name__']
+        regex: 'apiserver_request_duration_seconds_bucket|apiserver_request_sli_duration_seconds_bucket'
+        action: drop
+      - sourceLabels: ['__name__']
+        regex: 'apiserver_request_body_size_bytes_bucket|apiserver_response_sizes_bucket'
+        action: drop
+      - sourceLabels: ['__name__']
+        regex: 'etcd_request_duration_seconds_bucket|apiserver_watch_events_sizes_bucket'
+        action: drop
+      - regex: endpoint|service
+        action: labeldrop
+    
+    relabelings:
+      - sourceLabels: [node]
+        separator: ;
+        regex: (.*)
+        targetLabel: kubernetes_io_hostname
+        replacement: $1
+        action: replace
+    
+    cAdvisorMetricRelabelings:
+      - sourceLabels: ['__name__']
+        regex: 'container_tasks_state|container_memory_failures_total|container_blkio_device_usage_total'
+        action: drop
+      - regex: endpoint|service
+        action: labeldrop
+      # Remove hexadecimal name labels
+      - sourceLabels: [name]
+        regex: '^[a-f0-9]{64}$'
+        targetLabel: name
+        replacement: ''
+        action: replace
 
 kube-state-metrics:
-  image:
-    registry: registry.k8s.io
-    repository: kube-state-metrics/kube-state-metrics
-    tag: v2.10.1
-%{if length(tolerations) > 0 ~}
+  enabled: true
   tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
-  serviceMonitor:
-    relabelings:
-    # NOTE: there are valid endpoint and service labels. Therefore, labeldrop can not be used.
-    - sourceLabels: [endpoint]
-      regex: http
-      targetLabel: endpoint
-      replacement: ''
-      action: replace
-    - sourceLabels: [service]
-      regex: prom-kube-state-metrics
-      targetLabel: service
-      replacement: ''
-      action: replace
-    metricRelabelings:
-    - regex: uid
-      action: labeldrop
+  - key: "workload-class.mojaloop.io/MONITORING"
+    operator: "Equal"
+    value: "enabled"
+    effect: "NoSchedule"
+  prometheus:
+    monitor:
+      enabled: true
+      
+      metricRelabelings:
+        - regex: uid
+          action: labeldrop
+      
+      relabelings:
+        - sourceLabels: [endpoint]
+          regex: http
+          targetLabel: endpoint
+          replacement: ''
+          action: replace
+        - sourceLabels: [service]
+          regex: prom-kube-state-metrics
+          targetLabel: service
+          replacement: ''
+          action: replace
+
+prometheus-node-exporter:
+  enabled: true
+  
+  prometheus:
+    monitor:
+      enabled: true
+      
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          targetLabel: nodename
+        - regex: endpoint|service
+          action: labeldrop
+  
+  tolerations:
+  - key: "workload-class.mojaloop.io/MONITORING"
+    operator: "Equal"
+    value: "enabled"
+    effect: "NoSchedule"
+
+kubeApiServer:
+  enabled: false 
 
 commonLabels:
   build: argocd
-commonAnnotations:
-  build: argocd
 
-node-exporter:
-  image:
-    registry: quay.io
-    repository: prometheus/node-exporter
-    tag: v1.7.0
-  serviceMonitor:
-    relabelings:
-    - sourceLabels: [__meta_kubernetes_pod_node_name]
-      targetLabel: nodename
-    - regex: endpoint|service
-      action: labeldrop
-  tolerations:
-    - operator: "Exists"
-blackboxExporter:
+grafana:
   enabled: false
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-%{if length(tolerations) > 0 ~}
-  tolerations:
-%{ for t in tolerations ~}
-    - effect: "${t.effect}"
-      key: "${t.key}"
-      operator: "${t.operator}"
-      value: "${t.value}"
-%{ endfor ~}
-%{ endif ~}
+
+kubeEtcd:
+  enabled: false

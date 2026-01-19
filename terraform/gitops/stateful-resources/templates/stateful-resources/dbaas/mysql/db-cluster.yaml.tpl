@@ -84,7 +84,7 @@ spec:
       bucketRegion: ${cloud_region}
       endpointUrl: "https://s3.${cloud_region}.amazonaws.com"
       scheduleName: ${backup_schedule_name}
-      cronScheduleExpression: ${backup_cron_schedule}
+      cronScheduleExpression: "${backup_cron_schedule}"
       backupRetention: ${backup_retention}
       pvc: ${backup_pvc}
 
