@@ -19,19 +19,19 @@ spec:
     - name: loki-logging.rules
       rules:
         - alert: LokiContainerHighLogRate
-          expr: rate(loki_lines_total_by_namespace_app_pod_container{namespace="${namespace}", app="${app}", pod="${pod}", container="${container}"}[1m]) > 100
+          expr: rate(loki_lines_total_by_namespace_app_pod_container[1m]) > 100
           for: 5m
           labels:
             severity: warning
           annotations:
-            summary: "High log rate detected from container"
-            description: "Container ${container} in pod ${pod} is sending more than 100 log lines per second over the last 5 minutes."
+            summary: "High log rate detected from container {{ $labels.container }}"
+            description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}) is sending more than 100 log lines per second."
 
         - alert: LokiPodHighErrorRate
-          expr: rate(loki_error_lines_by_pod{namespace="${namespace}", pod="${pod}"}[1h]) / ignoring(container) rate(loki_lines_total_by_namespace_app_pod_container{namespace="${namespace}", pod="${pod}"}[1h]) > 0.05
+          expr: rate(loki_error_lines_by_pod[1h]) / ignoring(container) rate(loki_lines_total_by_namespace_app_pod_container[1h]) > 0.05
           for: 10m
           labels:
             severity: critical
           annotations:
-            summary: "High error rate in pod"
-            description: "Pod ${pod} in namespace ${namespace} has a high log error rate (>5%) over the last hour."
+            summary: "High error rate in pod {{ $labels.pod }}"
+            description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} has a high log error rate (>5%) over the last hour."
