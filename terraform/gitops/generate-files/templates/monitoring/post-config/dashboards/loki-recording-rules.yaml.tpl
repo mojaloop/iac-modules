@@ -125,22 +125,6 @@ spec:
           "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
         },
         {
-          "type": "barchart",
-          "title": "Error Lines by Container",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "$${DS_PROMETHEUS}"
-          },
-          "targets": [
-            {
-              "expr": "sum by (container) (loki_error_lines_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"})",
-              "legendFormat": "{{container}}",
-              "refId": "A"
-            }
-          ],
-          "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
-        },
-        {
           "type": "timeseries",
           "title": "Bytes / sec by Namespace",
           "datasource": {
