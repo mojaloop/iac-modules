@@ -133,7 +133,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "sum by (container) (loki_error_lines_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"}[5m])",
+              "expr": "sum by (container) (loki_error_lines_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"})",
               "legendFormat": "{{container}}",
               "refId": "A"
             }
