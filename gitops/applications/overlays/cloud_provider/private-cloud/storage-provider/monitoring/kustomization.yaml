@@ -19,5 +19,5 @@ helmCharts:
     releaseName: alloy
     version: 1.4.0
     repo: https://grafana.github.io/helm-charts
-    valuesFile: values-alloy-v2.yaml 
+    valuesFile: values-alloy.yaml 
     namespace: ${ARGOCD_ENV_monitoring_namespace}
