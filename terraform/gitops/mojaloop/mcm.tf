@@ -152,18 +152,6 @@ variable "enable_mcm_oidc" {
   default = false
 }
 
-variable "mcm_oauth_secret_secret" {
-  type        = string
-  description = "mcm_oauth_secret_secret"
-  default     = "mcm-oidc-secret"
-}
-
-variable "mcm_oauth_secret_secret_key" {
-  type        = string
-  description = "mcm_oauth_secret_secret_key"
-  default     = "secret"
-}
-
 variable "mcm_oidc_client_id" {
   type        = string
   description = "mcm_oidc_client_id"
