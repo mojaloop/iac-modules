@@ -1,3 +1,25 @@
+module "generate_mcm_pre_files" {
+  source = "../generate-files"
+  var_map = {
+    mcm_enabled              = var.mcm_enabled
+    mcm_pre_sync_wave        = var.mcm_pre_sync_wave
+    gitlab_project_url       = var.gitlab_project_url
+    mcm_service_account_name = var.mcm_service_account_name
+    mcm_namespace            = var.mcm_namespace
+    mcm_vault_k8s_role_name  = var.mcm_vault_k8s_role_name
+    k8s_auth_path            = var.k8s_auth_path
+    whitelist_secret_path    = local.whitelist_secret_path
+    onboarding_secret_path   = local.dfsp_client_cert_bundle
+    pki_path                 = var.vault_root_ca_name
+    mcm_secret_path          = local.mcm_secret_path
+  }
+  file_list       = [for f in fileset(local.mcm_pre_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_pre_app_file, f))]
+  template_path   = local.mcm_pre_template_path
+  output_path     = "${var.output_dir}/mcm-pre"
+  app_file        = local.mcm_pre_app_file
+  app_output_path = "${var.output_dir}/app-yamls"
+}
+
 module "generate_mcm_files" {
   source = "../generate-files"
   var_map = {
@@ -8,6 +30,8 @@ module "generate_mcm_files" {
     db_schema                            = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
     db_port                              = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
     db_host                              = "${module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    db_tls_ca_secret_name                = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name,"")
+    db_tls_ca_secret_key                 = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key,"")
     mcm_fqdn                             = local.mcm_fqdn
     mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
     mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
@@ -25,12 +49,16 @@ module "generate_mcm_files" {
     server_cert_secret_name              = var.vault_certman_secretname
     vault_certman_secretname             = var.vault_certman_secretname
     server_cert_secret_namespace         = var.mcm_namespace
+    oauth_key                            = var.mcm_oidc_client_id
+    oauth_secret_secret                  = var.mcm_oidc_client_secret_secret
+    oauth_secret_secret_key              = var.mcm_oidc_client_secret_secret_key
     switch_domain                        = var.public_subdomain
-    vault_endpoint                       = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
+    vault_endpoint                       = "http://vault-active.${var.vault_namespace}.svc.cluster.local:8200"
     pki_base_domain                      = var.public_subdomain
     mcm_chart_repo                       = var.mcm_chart_repo
     mcm_chart_version                    = var.mcm_chart_version
     mcm_namespace                        = var.mcm_namespace
+    mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
     gitlab_project_url                   = var.gitlab_project_url
     public_subdomain                     = var.public_subdomain
     enable_oidc                          = var.enable_mcm_oidc
@@ -61,11 +89,15 @@ module "generate_mcm_files" {
     private_network_cidr                 = var.private_network_cidr
     interop_switch_fqdn                  = local.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn
+    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
     keycloak_name                        = var.keycloak_name
     keycloak_namespace                   = var.keycloak_namespace
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
     mcm_oidc_client_id                   = var.mcm_oidc_client_id
+    mcm_oidc_client_secret_secret_name   = join("$", ["", "{${replace(var.mcm_oidc_client_secret_secret, "-", "_")}}"])
+    mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
+    mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
     hubop_oidc_client_id                 = var.hubop_oidc_client_id
     hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
     internal_load_balancer_dns           = var.internal_load_balancer_dns
@@ -88,6 +120,8 @@ module "generate_mcm_files" {
     dfsp_seed                            = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}${can(value.pm4ml_scheme_a_config)?":proxy":""}" if length(try(value.currency, "")) > 0])
     hub_name                             = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
     ttk_fqdn                             = local.ttk_fqdn
+    bulk_enabled                         = var.bulk_enabled
+    istio_ml_egress_waypoint_name        = var.istio_ml_egress_waypoint_name
     keycloak_access_token_lifespan       = 43200
     vault_secret_key                     = var.vault_secret_key
     portal_admin_user                    = var.portal_admin_user
@@ -95,13 +129,10 @@ module "generate_mcm_files" {
     portal_admin_secret                  = var.portal_admin_secret
     mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
     cluster                              = var.app_var_map.cluster
-    istio_ml_egress_waypoint_name        = var.istio_ml_egress_waypoint_name
     istio_ml_egress_waypoint_namespace   = var.istio_ml_egress_waypoint_namespace
     db_tls_ca_secret_name                = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name,"")
     db_tls_ca_secret_key                 = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key,"")
     mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
-    bulk_enabled                         = var.bulk_enabled
-
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -121,6 +152,18 @@ variable "enable_mcm_oidc" {
   default = false
 }
 
+variable "mcm_oauth_secret_secret" {
+  type        = string
+  description = "mcm_oauth_secret_secret"
+  default     = "mcm-oidc-secret"
+}
+
+variable "mcm_oauth_secret_secret_key" {
+  type        = string
+  description = "mcm_oauth_secret_secret_key"
+  default     = "secret"
+}
+
 variable "mcm_oidc_client_id" {
   type        = string
   description = "mcm_oidc_client_id"
@@ -137,6 +180,12 @@ variable "mcm_chart_version" {
   type        = string
   default     = "0.7.6"
   description = "mcm_chart_version"
+}
+
+variable "mcm_pre_sync_wave" {
+  type        = string
+  description = "mcm_pre_sync_wave"
+  default     = "-3"
 }
 
 variable "mcm_sync_wave" {
@@ -177,6 +226,20 @@ variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
 }
+
+variable "mcm_oidc_client_secret_secret_key" {
+  type = string
+}
+variable "mcm_oidc_client_secret_secret" {
+  type = string
+}
+
+variable "keycloak_dfsp_realm_name" {
+  type = string
+  description = "name of realm for dfsp api access"
+  default     = "dfsps"
+}
+
 variable "hubop_oidc_client_id" {
   type        = string
 }
@@ -245,7 +308,9 @@ variable "istio_ml_egress_waypoint_namespace" {
 
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
+  mcm_pre_template_path          = "${path.module}/../generate-files/templates/mcm-pre"
   mcm_app_file                   = "mcm-app.yaml"
+  mcm_pre_app_file               = "mcm-pre-app.yaml"
   mcm_resource_index             =  "mcm-db"
   mcm_wildcard_gateway           = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
