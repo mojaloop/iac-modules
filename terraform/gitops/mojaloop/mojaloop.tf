@@ -192,7 +192,7 @@ module "generate_mojaloop_files" {
     vault_secret_key                                                  = var.vault_secret_key
     role_assign_svc_secret                                            = var.role_assign_svc_secret
     role_assign_svc_user                                              = var.role_assign_svc_user
-    keycloak_hubop_realm_name                                         = var.keycloak_hubop_realm_name
+    keycloak_dfsp_realm_name                                          = var.keycloak_dfsp_realm_name
     apiResources                                                      = local.apiResources
     reporting_templates_chart_version                                 = try(var.app_var_map.reporting_templates_chart_version, var.reporting_templates_chart_version)
     switch_dfspid                                                     = var.switch_dfspid
@@ -433,6 +433,9 @@ variable "ory_namespace" {
   type = string
 }
 
+variable "vault_secret_key" {
+  type = string
+}
 
 variable "bof_release_name" {
   type = string

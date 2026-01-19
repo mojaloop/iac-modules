@@ -22,6 +22,9 @@ module "generate_mcm_files" {
     server_cert_secret_name              = var.vault_certman_secretname
     vault_certman_secretname             = var.vault_certman_secretname
     server_cert_secret_namespace         = var.mcm_namespace
+    oauth_key                            = var.mcm_oidc_client_id
+    oauth_secret_secret                  = var.mcm_oidc_client_secret_secret
+    oauth_secret_secret_key              = var.mcm_oidc_client_secret_secret_key
     switch_domain                        = var.public_subdomain
     vault_endpoint                       = "http://vault-active.${var.vault_namespace}.svc.cluster.local:8200"
     pki_base_domain                      = var.public_subdomain
@@ -58,12 +61,16 @@ module "generate_mcm_files" {
     private_network_cidr                 = var.private_network_cidr
     interop_switch_fqdn                  = local.external_interop_switch_fqdn
     keycloak_fqdn                        = var.keycloak_fqdn
+    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
     keycloak_name                        = var.keycloak_name
     keycloak_namespace                   = var.keycloak_namespace
     vault_secret_key                     = var.vault_secret_key
     cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
     mcm_oidc_client_id                   = var.mcm_oidc_client_id
+    mcm_oidc_client_secret_secret_name   = join("$", ["", "{${replace(var.mcm_oidc_client_secret_secret, "-", "_")}}"])
+    mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
+    mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
     hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
     internal_load_balancer_dns           = var.internal_load_balancer_dns
     external_load_balancer_dns           = var.external_load_balancer_dns
@@ -102,6 +109,18 @@ variable "bulk_enabled" {
   description = "whether bulk is enabled or not"
   type        = bool
   default     = false
+}
+
+variable "mcm_oauth_secret_secret" {
+  type        = string
+  description = "mcm_oauth_secret_secret"
+  default     = "mcm-oidc-secret"
+}
+
+variable "mcm_oauth_secret_secret_key" {
+  type        = string
+  description = "mcm_oauth_secret_secret_key"
+  default     = "secret"
 }
 
 variable "enable_mcm_oidc" {
@@ -165,6 +184,19 @@ variable "vault_certman_secretname" {
 variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
+}
+
+variable "mcm_oidc_client_secret_secret_key" {
+  type = string
+}
+variable "mcm_oidc_client_secret_secret" {
+  type = string
+}
+
+variable "keycloak_dfsp_realm_name" {
+  type = string
+  description = "name of realm for dfsp api access"
+  default     = "dfsps"
 }
 
 variable "hubop_oidc_client_secret_secret" {

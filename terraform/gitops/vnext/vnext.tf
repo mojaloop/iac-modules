@@ -52,7 +52,7 @@ module "generate_vnext_files" {
     vault_secret_key                     = var.vault_secret_key
     role_assign_svc_secret               = var.role_assign_svc_secret
     role_assign_svc_user                 = var.role_assign_svc_user
-    keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
+    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
     apiResources                         = local.apiResources
     switch_dfspid                        = var.switch_dfspid
     jws_key_secret                       = local.jws_key_secret
@@ -165,6 +165,10 @@ variable "keycloak_hubop_realm_name" {
   type        = string
   description = "name of realm for hub operator api access"
   default     = "hub-operators"
+}
+
+variable "vault_secret_key" {
+  type = string
 }
 
 variable "mcm_admin_client_secret_name" {
