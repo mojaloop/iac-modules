@@ -89,15 +89,15 @@ spec:
         },
         {
           "type": "timeseries",
-          "title": "Log Lines / sec by App",
+          "title": "Log Lines / sec by Container",
           "datasource": {
             "type": "prometheus",
             "uid": "$${DS_PROMETHEUS}"
           },
           "targets": [
             {
-              "expr": "loki_lines_total_by_namespace_app{namespace=~\"$namespace\", app=~\"$app\"}",
-              "legendFormat": "{{app}}",
+              "expr": "sum by (container) (loki_lines_total_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"})",
+              "legendFormat": "{{container}}",
               "refId": "A"
             }
           ],
@@ -119,6 +119,22 @@ spec:
             {
               "expr": "topk(10, loki_lines_total_by_pod{namespace=~\"$namespace\", pod=~\"$pod\"})",
               "legendFormat": "{{pod}}",
+              "refId": "A"
+            }
+          ],
+          "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
+        },
+        {
+          "type": "barchart",
+          "title": "Error Lines by Container",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$${DS_PROMETHEUS}"
+          },
+          "targets": [
+            {
+              "expr": "sum by (container) (increase(loki_error_lines_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"}[5m]))",
+              "legendFormat": "{{container}}",
               "refId": "A"
             }
           ],
