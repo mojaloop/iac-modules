@@ -110,10 +110,22 @@ variable "ory_namespace" {
   default     = "ory"
 }
 
+variable "hubop_oidc_client_secret_secret" {
+  type        = string
+  description = "hubop_oidc_client_secret_secret"
+  default     = "hubop-oidc-secret"
+}
+
 variable "hubop_oidc_client_id" {
   type        = string
   description = "hubop_oidc_client_id"
   default     = "hub-op"
+}
+
+variable "keycloak_hubop_realm_name" {
+  type        = string
+  description = "name of realm for dfsp api access"
+  default     = "hub-operators"
 }
 
 variable "bof_chart_version" {

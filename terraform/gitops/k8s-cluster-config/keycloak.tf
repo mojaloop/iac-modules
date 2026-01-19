@@ -22,7 +22,7 @@ module "generate_keycloak_files" {
     keycloak_admin_fqdn                        = local.keycloak_admin_fqdn
     keycloak_admin_istio_gateway_namespace     = local.keycloak_admin_istio_gateway_namespace
     keycloak_admin_istio_wildcard_gateway_name = local.keycloak_admin_istio_wildcard_gateway_name
-    keycloak_hubop_realm_name                  = var.keycloak_hubop_realm_name
+    keycloak_dfsp_realm_name                   = var.keycloak_dfsp_realm_name
     keycloak_sync_wave                         = var.keycloak_sync_wave
     keycloak_post_config_sync_wave             = var.keycloak_post_config_sync_wave
     ingress_class                              = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
@@ -97,10 +97,10 @@ variable "keycloak_namespace" {
   default     = "keycloak"
 }
 
-variable "keycloak_hubop_realm_name" {
+variable "keycloak_dfsp_realm_name" {
   type        = string
-  description = "name of realm for hub operators access"
-  default     = "hub-operators"
+  description = "name of realm for dfsp api access"
+  default     = "dfsps"
 }
 
 locals {
