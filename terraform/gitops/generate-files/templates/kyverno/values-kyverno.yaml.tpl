@@ -14,6 +14,10 @@ reportsController:
             - get
             - list
             - watch
+  resources:
+    limits:
+      memory: 256Mi
+
 backgroundController:
   rbac:
     coreClusterRole:
