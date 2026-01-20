@@ -311,6 +311,11 @@ ruler:
       mountPath: /etc/loki/rules/fake
       readOnly: true
   directories: {}
+  tolerations:
+  - key: "workload-class.mojaloop.io/MONITORING"
+    operator: "Equal"
+    value: "enabled"
+    effect: "NoSchedule"
 
 # Gateway configuration
 gateway:
