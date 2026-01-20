@@ -472,7 +472,7 @@ global:
     tolerations:
       - key: "netbird/ready"
         operator: "Exists"
-        effect: "NoSchedule"
+        effect: "NoExectute"
 
 base:
   # For istioctl usage to disable istio config crds in base
