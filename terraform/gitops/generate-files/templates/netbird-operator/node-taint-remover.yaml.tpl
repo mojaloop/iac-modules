@@ -1,3 +1,4 @@
+%{ if netbird_taint_remover_enabled }
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -72,3 +73,4 @@ subjects:
   - kind: ServiceAccount
     name: netbird-readiness-taint-remover
     namespace: kube-system
+%{ endif }
