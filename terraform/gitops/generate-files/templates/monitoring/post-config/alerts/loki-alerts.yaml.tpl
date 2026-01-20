@@ -19,7 +19,7 @@ spec:
     - name: loki-logging.rules
       rules:
         - alert: LokiContainerHighLogRate
-          expr: rate(loki_lines_total_by_namespace_app_pod_container[1m]) > 100
+          expr: loki_lines_total_by_namespace_app_pod_container > 100
           for: 5m
           labels:
             severity: warning
@@ -28,7 +28,12 @@ spec:
             description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}) is sending more than 100 log lines per second."
 
         - alert: LokiPodHighErrorRate
-          expr: rate(loki_error_lines_by_pod[1h]) / ignoring(container) rate(loki_lines_total_by_namespace_app_pod_container[1h]) > 0.05
+          expr: |
+            (
+              sum by (namespace, pod) (loki_error_lines_by_pod)
+              / 
+              sum by (namespace, pod) (loki_lines_total_by_pod)
+            ) > 0.05
           for: 10m
           labels:
             severity: critical
