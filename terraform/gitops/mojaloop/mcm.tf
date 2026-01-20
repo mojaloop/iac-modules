@@ -261,12 +261,6 @@ variable "pm4mls" {
   type = any
 }
 
-variable "vault_secret_key" {
-  type        = string
-  description = "Default key name for vault secrets"
-  default     = "secret"
-}
-
 variable "portal_admin_user" {
   type    = string
   default = "portal_admin"
