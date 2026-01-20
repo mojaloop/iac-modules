@@ -105,6 +105,7 @@ module "generate_pm4ml_files" {
     cluster_name                                    = var.cluster_name
     traces_endpoint                                 = var.traces_endpoint
     cluster                                         = var.cluster
+    mojaloop_charts_repo                            = var.mojaloop_charts_repo
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -122,10 +123,18 @@ resource "local_file" "proxy_values_override" {
   depends_on = [module.generate_pm4ml_files]
 }
 
+resource "local_file" "admin_portal_values_override" {
+  for_each   = [var.app_var_map, {}][local.admin_portal_override_values_file_exists ? 0 : 1]
+  content    = templatefile(var.admin_portal_values_override_file, merge(each.value, { cluster = var.cluster }))
+  filename   = "${var.output_dir}/${each.key}/values-admin-portal-override.yaml"
+  depends_on = [module.generate_pm4ml_files]
+}
+
 locals {
   pm4ml_template_path               = "${path.module}/../generate-files/templates/pm4ml"
   pm4ml_app_file                    = "pm4ml-app.yaml"
   pm4ml_override_values_file_exists = fileexists(var.pm4ml_values_override_file)
+  admin_portal_override_values_file_exists = fileexists(var.admin_portal_values_override_file)
 
   pm4ml_var_map = var.app_var_map
 
@@ -154,6 +163,10 @@ variable "pm4ml_values_override_file" {
   type = string
 }
 
+variable "admin_portal_values_override_file" {
+  type = string
+}
+
 variable "app_var_map" {
   type = any
 }
@@ -179,9 +192,15 @@ variable "pm4ml_ingress_internal_lb" {
 }
 
 variable "pm4ml_chart_repo" {
-  description = "repo for pm4ml charts"
   type        = string
   default     = "https://pm4ml.github.io/mojaloop-payment-manager-helm/repo"
+  description = "Helm chart repository URL for PM4ML"
+}
+
+variable "mojaloop_charts_repo" {
+  type        = string
+  description = "Helm charts repository URL for Mojaloop"
+  default     = "https://mojaloop.github.io/charts/repo"
 }
 
 variable "pm4ml_sync_wave" {

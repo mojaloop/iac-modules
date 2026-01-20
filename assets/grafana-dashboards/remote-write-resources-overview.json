@@ -973,7 +973,7 @@
                 "options": {
                   "mode": "exclude",
                   "names": [
-                    "prometheus-prom-kube-prometheus-prometheus-0"
+                    "prometheus-prom-kube-prometheus-stack-prometheus-0"
                   ],
                   "prefix": "All except:",
                   "readOnly": true

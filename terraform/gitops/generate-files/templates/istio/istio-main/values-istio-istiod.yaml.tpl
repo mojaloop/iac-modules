@@ -467,6 +467,11 @@ global:
   # whether to use autoscaling/v2 template for HPA settings
   # for internal usage only, not to be configured by users.
   autoscalingv2API: true
+  waypoint:
+    tolerations:
+      - key: "netbird/ready"
+        operator: "Exists"
+        effect: "NoSchedule"
 
 base:
   # For istioctl usage to disable istio config crds in base

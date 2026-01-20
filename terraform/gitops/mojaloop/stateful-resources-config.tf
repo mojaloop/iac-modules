@@ -29,6 +29,7 @@ module "mojaloop_stateful_resources" {
   istio_nb_egress_waypoint_name                 = var.istio_nb_egress_waypoint_name
   istio_nb_egress_waypoint_namespace            = var.istio_nb_egress_waypoint_namespace
   namespace_meta                                = var.namespace_meta
+  helm_proxy_repos_map                          = var.helm_proxy_repos_map
 }
 
 variable "stateful_resources_namespace" {
@@ -49,6 +50,11 @@ variable "object_store_region" {
 variable "object_store_percona_backup_bucket" {
   type        = string
   description = "object_store_percona_backup_bucket"
+}
+
+variable "helm_proxy_repos_map" {
+  type        = map(string)
+  description = "Map of original Helm repository URLs to proxy repository URLs"
 }
 
 locals {

@@ -10,10 +10,11 @@ metadata:
 spec:
   source:
     path: apps/monitoring/post-config
+    directory:
+      recurse: true
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
+
   destination:
     namespace: ${monitoring_namespace}
     server: https://kubernetes.default.svc

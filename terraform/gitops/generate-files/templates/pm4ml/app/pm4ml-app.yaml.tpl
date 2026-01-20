@@ -13,8 +13,7 @@ spec:
     path: apps/${pm4ml_release_name}
     repoURL: "${gitlab_project_url}"
     targetRevision: HEAD
-    plugin:
-      name: argocd-lovely-plugin-v1.0
+
   destination:
     namespace: ${pm4ml_namespace}
     server: https://kubernetes.default.svc

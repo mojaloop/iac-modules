@@ -116,3 +116,27 @@ spec:
 
           - name: "cloud_platform_api_client_id"
             value: "${ARGOCD_ENV_vault_vault_cloud_platform_api_client_id}"
+
+          - name: "dns_hyphenated_subdomain"
+            value: "${ARGOCD_ENV_vault_post_config_dns_hyphenated_subdomain}"
+
+          - name: "vault_backup_enabled"
+            value: "${ARGOCD_ENV_vault_post_config_vault_backup_enabled}"
+
+          - name: "vault_backup_bucket_region"
+            value: "${ARGOCD_ENV_vault_post_config_backup_bucket_region}"
+
+          - name: "backup_schedule"
+            value: "${ARGOCD_ENV_vault_post_config_backup_schedule}"
+
+          - name: "backup_retention_days"
+            value: "${ARGOCD_ENV_vault_post_config_backup_retention_days}"
+
+          - name: "snapshot_token_ttl"
+            value: "${ARGOCD_ENV_vault_post_config_snapshot_token_ttl}"
+
+          - name: "snapshot_secret_id_ttl"
+            value: "${ARGOCD_ENV_vault_post_config_snapshot_secret_id_ttl}"
+
+          - name: "vault_backup_image"
+            value: "${ARGOCD_ENV_vault_post_config_vault_backup_image}"

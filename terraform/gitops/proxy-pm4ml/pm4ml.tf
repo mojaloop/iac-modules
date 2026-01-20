@@ -67,6 +67,7 @@ module "generate_pm4ml_files" {
     imagePullSecrets                                = try(yamlencode(each.value.imagePullSecrets), [])
     cluster_name                                    = var.cluster_name
     traces_endpoint                                 = var.traces_endpoint
+    mojaloop_charts_repo                            = var.mojaloop_charts_repo
   }
 
   file_list       = [for f in fileset(local.pm4ml_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.pm4ml_app_file, f))]
@@ -126,6 +127,12 @@ variable "proxy_pm4ml_chart_repo" {
   description = "repo for proxy pm4ml charts"
   type        = string
   default     = "https://pm4ml.github.io/mojaloop-payment-manager-helm/repo"
+}
+
+variable "mojaloop_charts_repo" {
+  type        = string
+  description = "Helm charts repository URL for Mojaloop"
+  default     = "https://mojaloop.github.io/charts/repo"
 }
 
 variable "pm4ml_sync_wave" {

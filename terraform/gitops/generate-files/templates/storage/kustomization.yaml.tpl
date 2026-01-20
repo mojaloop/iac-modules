@@ -15,7 +15,7 @@ helmCharts:
 %{ if cloud_provider == "aws" ~}
   - name: aws-ebs-csi-driver
     releaseName: aws-ebs-csi-driver
-    repo: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+    repo: ${aws_ebs_csi_driver_helm_repo}
     namespace: ${storage_namespace}
     valuesFile: aws-ebs-csi-driver-values.yaml
     version: ${aws_ebs_csi_driver_helm_version}
@@ -23,7 +23,7 @@ helmCharts:
 %{ if cloud_provider == "private-cloud" ~}
   - name: rook-ceph
     releaseName: rook-ceph
-    repo: https://charts.rook.io/release
+    repo: ${rook_ceph_helm_repo}
     namespace: ${storage_namespace}
     valuesFile: rook-ceph-values.yaml
     version: ${rook_ceph_helm_version}

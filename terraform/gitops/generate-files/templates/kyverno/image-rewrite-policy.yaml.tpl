@@ -19,6 +19,7 @@ spec:
             namespaces:
             - istio-ingress-ext
             - istio-ingress-int
+            - "kubescape"
       mutate:
         foreach:
           - list: request.object.spec.containers[]

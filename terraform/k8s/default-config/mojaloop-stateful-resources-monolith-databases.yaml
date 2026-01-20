@@ -11,7 +11,7 @@ common_platform_db:
     # Percona XtraDB Cluster (PXC) specific configurations
     management_policy: "*"
     cluster_name: "common-platform-db"                         # Name of the cluster
-    cr_version: "1.17.0"                                       # Custom Resource version for the operator
+    cr_version: "1.18.0"                                       # Custom Resource version for the operator
     pxc_image: "percona/percona-xtradb-cluster:8.4.6-6.1"      # Docker image for the PXC nodes
     image_pull_policy: "IfNotPresent"                          # Image pull policy for the PXC nodes
     mysql_storage_size: "30Gi"                                 # Storage size for MySQL data
@@ -22,7 +22,7 @@ common_platform_db:
     mysql_limits_cpu: "16000m"                                 # CPU limit for MySQL pods
 
     # HAProxy specific configurations (for load balancing)
-    haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
+    haproxy_image: "percona/haproxy:2.8.15"                      # Docker image for the HAProxy instances
     haproxy_expose: "true"                                       # Whether HAProxy should be exposed
     haproxy_replicas: 1                                          # Number of HAProxy replicas
     haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
@@ -38,9 +38,9 @@ common_platform_db:
     logcollector_limits_cpu: "200m"                              # CPU limit for log collector
 
     # Backup specific configurations
-    enable_backup: false
-    backup_image: "percona/percona-xtradb-cluster-operator:1.17.0-pxc8.4-backup-pxb8.4.0"   # Docker image for the backup tool
-    backup_verify_tls: "false"
+    enable_backup: true
+    backup_image: "percona/percona-xtrabackup:8.0.35-34.1"       # Docker image for the backup tool
+    backup_verify_tls: "true"
     backup_schedule_name: "daily_backup"                         # Name for the backup schedule
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
     backup_retention: "3"                                        # Number of backups to retain
@@ -150,7 +150,7 @@ common_mojaloop_db:
     # Percona XtraDB Cluster (PXC) specific configurations
     management_policy: "*"
     cluster_name: "common-mojaloop-db"                           # Name of the cluster
-    cr_version: "1.17.0"                                         # Custom Resource version for the operator
+    cr_version: "1.18.0"                                         # Custom Resource version for the operator
     pxc_image: "percona/percona-xtradb-cluster:8.4.6-6.1"        # Docker image for the PXC nodes
     mysql_storage_size: "30Gi"                                   # Storage size for MySQL data
     mysql_replicas: 1                                            # Number of MySQL replicas in the cluster
@@ -160,7 +160,7 @@ common_mojaloop_db:
     mysql_limits_cpu: "16000m"                                   # CPU limit for MySQL pods
 
     # HAProxy specific configurations (for load balancing)
-    haproxy_image: "percona/haproxy:2.8.11"                      # Docker image for the HAProxy instances
+    haproxy_image: "percona/haproxy:2.8.15"                      # Docker image for the HAProxy instances
     haproxy_expose: "true"                                       # Whether HAProxy should be exposed
     haproxy_replicas: 1                                          # Number of HAProxy replicas
     haproxy_requests_memory: "512Mi"                             # Memory request for HAProxy pods
@@ -176,9 +176,9 @@ common_mojaloop_db:
     logcollector_limits_cpu: "200m"                              # CPU limit for log collector
 
     # Backup specific configurations
-    enable_backup: false
-    backup_image: "percona/percona-xtradb-cluster-operator:1.17.0-pxc8.4-backup-pxb8.4.0"   # Docker image for the backup tool
-    backup_verify_tls: "false"                                   # Whether to verify TLS for backup
+    enable_backup: true
+    backup_image: "percona/percona-xtrabackup:8.0.35-34.1"       # Docker image for the backup tool
+    backup_verify_tls: "true"                                   # Whether to verify TLS for backup
     backup_schedule_name: "daily_backup"                         # Name for the backup schedule
     backup_cron_schedule: "0 0 * * *"                            # Cron expression for daily backup at midnight
     backup_retention: "3"                                        # Number of backups to retain
@@ -291,13 +291,13 @@ common_mongodb:
     image_pull_policy: "IfNotPresent"
 
     # Backup inputs
-    enable_backup: false
+    enable_backup: true
     backup_image: "percona/percona-backup-mongodb:2.8.0-multi"
     backup_verify_tls: true
     backup_schedule_name: "daily-backup"
     backup_cron_schedule: "0 0 * * *"
     backup_retention: 7
-    schedule_enabled: false
+    schedule_enabled: true
 
     # Replset inputs
     replset_name: "rs0"

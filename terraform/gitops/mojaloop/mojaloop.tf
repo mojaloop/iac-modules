@@ -3,8 +3,9 @@ module "generate_mojaloop_files" {
   var_map = {
     mojaloop_enabled                                                  = var.mojaloop_enabled
     gitlab_project_url                                                = var.gitlab_project_url
-    mojaloop_chart_repo                                               = var.mojaloop_chart_repo
-    mojaloop_chart_version                                            = try(var.app_var_map.mojaloop_chart_version, var.mojaloop_chart_version)
+    mojaloop_charts_repo                                              = var.mojaloop_charts_repo
+    mojaloop_helm_repo                                                = var.mojaloop_helm_repo
+    mojaloop_helm_version                                             = try(var.app_var_map.mojaloop_helm_version, var.mojaloop_helm_version)
     mojaloop_release_name                                             = var.mojaloop_release_name
     mojaloop_namespace                                                = var.mojaloop_namespace
     storage_class_name                                                = var.storage_class_name
@@ -14,6 +15,15 @@ module "generate_mojaloop_files" {
     mojaloop_hub_provisioning_sync_wave                               = var.mojaloop_hub_provisioning_sync_wave
     internal_ttk_enabled                                              = var.internal_ttk_enabled
     ttk_testcases_tag                                                 = try(var.app_var_map.ttk_testcases_tag, "")
+    ttk_testcases_path_in_zip_setup                                   = try(replace(var.app_var_map.ttk_testcases_path_in_zip_setup, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/provisioning/for_golden_path")
+    ttk_testcases_path_in_zip_gp                                      = try(replace(var.app_var_map.ttk_testcases_path_in_zip_gp, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/golden_path")
+    ttk_testcases_path_in_zip_bulk                                    = try(replace(var.app_var_map.ttk_testcases_path_in_zip_bulk, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/other_tests/bulk_transfers")
+    ttk_testcases_path_in_zip_tp_setup                                = try(replace(var.app_var_map.ttk_testcases_path_in_zip_tp_setup, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/provisioning/for_thirdparty")
+    ttk_testcases_path_in_zip_tp_val                                  = try(replace(var.app_var_map.ttk_testcases_path_in_zip_tp_val, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/thirdparty")
+    ttk_testcases_path_in_zip_sdk_bulk_setup                          = try(replace(var.app_var_map.ttk_testcases_path_in_zip_sdk_bulk_setup, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/provisioning/for_sdk_bulk")
+    ttk_testcases_path_in_zip_sdk_bulk_val                            = try(replace(var.app_var_map.ttk_testcases_path_in_zip_sdk_bulk_val, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/sdk_scheme_adapter/bulk/basic")
+    ttk_testcases_path_in_zip_sdk_r2p_val                             = try(replace(var.app_var_map.ttk_testcases_path_in_zip_sdk_r2p_val, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/sdk_scheme_adapter/request-to-pay/basic")
+    ttk_testcases_path_in_zip_cleanup                                 = try(replace(var.app_var_map.ttk_testcases_path_in_zip_cleanup, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/cleanup")
     ttk_test_currency1                                                = var.app_var_map.ttk_test_currency1
     ttk_test_currency2                                                = var.app_var_map.ttk_test_currency2
     ttk_test_currency3                                                = var.app_var_map.ttk_test_currency3
@@ -150,7 +160,7 @@ module "generate_mojaloop_files" {
     quoting_service_monitoring_prefix                                 = try(var.app_var_map.quoting_service_monitoring_prefix, "moja_qs_")
     ml_api_adapter_monitoring_prefix                                  = try(var.app_var_map.ml_api_adapter_monitoring_prefix, "moja_ml_")
     account_lookup_service_monitoring_prefix                          = try(var.app_var_map.account_lookup_service_monitoring_prefix, "moja_als_")
-    grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, "v${var.mojaloop_chart_version}")
+    grafana_dashboard_tag                                             = try(var.app_var_map.grafana_dashboard_tag, "v${var.mojaloop_helm_version}")
     bof_release_name                                                  = var.bof_release_name
     ory_namespace                                                     = var.ory_namespace
     bof_role_perm_operator_host                                       = "${var.bof_release_name}-security-role-perm-operator-svc.${var.ory_namespace}.svc.cluster.local"
@@ -226,6 +236,7 @@ module "generate_mojaloop_files" {
     traces_endpoint                                                   = var.traces_endpoint
     cluster                                                           = var.app_var_map.cluster
     cloud_platform                                                    = var.cloud_platform
+    reporting_templates_chart_repo                                    = var.reporting_templates_chart_repo
   }
   file_list       = [for f in fileset(local.mojaloop_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mojaloop_app_file, f))]
   template_path   = local.mojaloop_template_path
@@ -317,10 +328,16 @@ variable "mojaloop_enabled" {
   default     = true
 }
 
-variable "mojaloop_chart_repo" {
+variable "mojaloop_helm_repo" {
   description = "repo for mojaloop charts"
   type        = string
   default     = "https://mojaloop.github.io/helm/repo"
+}
+
+variable "mojaloop_charts_repo" {
+  description = "2nd repo for mojaloop charts"
+  type        = string
+  default     = "https://mojaloop.github.io/charts/repo"
 }
 
 variable "mojaloop_namespace" {
@@ -335,7 +352,7 @@ variable "mojaloop_release_name" {
   default     = "moja"
 }
 
-variable "mojaloop_chart_version" {
+variable "mojaloop_helm_version" {
   description = "Mojaloop version to install via Helm"
 }
 
@@ -547,4 +564,8 @@ variable "ml_testing_toolkit_cli_chart_version" {
 
 variable "hub_provisioning_ttk_test_case_version" {
   description = "Mojaloop ttk test case version to use hub provisioning"
+}
+
+variable "reporting_templates_chart_repo" {
+  description = "reporting_templates_chart_repo"
 }

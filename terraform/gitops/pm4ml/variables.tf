@@ -167,3 +167,8 @@ variable "traces_endpoint" {
   description = "tracing server endpoint"
 
 }
+
+variable "root_var_map" {
+  type = any
+}
+

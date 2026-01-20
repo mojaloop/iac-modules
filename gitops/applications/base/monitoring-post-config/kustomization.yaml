@@ -18,6 +18,7 @@ resources:
   - dashboards-mojaloop.yaml
   - dashboards-prometheus.yaml
   - dashboards-storage.yaml
+  - dashboards-tempo.yaml
   - istio-crs.yaml
   - mimir-alertmanager.yaml
   - mimirtool-cronjob.yaml

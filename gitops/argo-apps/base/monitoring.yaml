@@ -27,36 +27,6 @@ spec:
       - PruneLast=true
       - ServerSideApply=true
       - RespectIgnoreDifferences=true
-  ignoreDifferences:
-    # TODO: ignore diffs using a pattern rather than manual hardcoded names
-    - group: apps
-      kind: StatefulSet
-      name: "central-monitoring-grafana-mimir-compactor"
-      jsonPointers:
-        - /spec/volumeClaimTemplates/0/kind
-        - /spec/volumeClaimTemplates/0/apiVersion
-    - group: apps
-      kind: StatefulSet
-      name: "central-monitoring-grafana-mimir-ingester"
-      jsonPointers:
-        - /spec/volumeClaimTemplates/0/kind
-        - /spec/volumeClaimTemplates/0/apiVersion
-    - group: apps
-      kind: StatefulSet
-      name: "central-monitoring-grafana-mimir-store-gateway"
-      jsonPointers:
-        - /spec/volumeClaimTemplates/0/kind
-        - /spec/volumeClaimTemplates/0/apiVersion
-    - group: apps
-      kind: StatefulSet
-      name: "central-monitoring-grafana-mimir-alertmanager"
-      jsonPointers:
-        - /spec/volumeClaimTemplates/0/kind
-        - /spec/volumeClaimTemplates/0/apiVersion
-    - group: monitoring.coreos.com
-      kind: ServiceMonitor
-      jsonPointers:
-        - /spec/endpoints/0/relabelings/0/action
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ${ARGOCD_ENV_monitoring_monitoring_namespace}
@@ -71,12 +41,15 @@ spec:
       env:
         - name: "cluster_name"
           value: "${ARGOCD_ENV_cluster_name}"
-
+        - name: "alloy_limits_cpu"
+          value: "${ARGOCD_ENV_monitoring_monitoring_alloy_limits_cpu}"
+        - name: "alloy_limits_memory"
+          value: "${ARGOCD_ENV_monitoring_monitoring_alloy_limits_memory}"
         - name: "monitoring_namespace"
           value: "${ARGOCD_ENV_monitoring_pre_namespace}"
 
         - name: "grafana_mimir_helm_version"
-          value: "${ARGOCD_ENV_monitoring_mimir_helm_version}"
+          value: "${ARGOCD_ENV_monitoring_monitoring_grafana_mimir_helm_version}"
 
         - name: "kube_prometheus_helm_version"
           value: "${ARGOCD_ENV_monitoring_monitoring_kube_prometheus_helm_version}"
@@ -99,7 +72,7 @@ spec:
         - name: "cluster_label_value"
           value: "${ARGOCD_ENV_monitoring_prometheus_cluster_label_value}"
         - name: "prometheus_remote_write_endpoint"
-          value: "http://central-monitoring-grafana-mimir-gateway"
+          value: "http://central-monitoring-mimir-gateway:8080"
 
 
         - name: "mimir_bucket_name"

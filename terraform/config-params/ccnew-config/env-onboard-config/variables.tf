@@ -22,6 +22,10 @@ variable "argocd_fqdn" {
   description = "fqdn for argocd"
 }
 
+variable "addons_domain" {
+  description = "domain for addons"
+}
+
 variable "kv_path" {
   description = "key value secret path"
 }

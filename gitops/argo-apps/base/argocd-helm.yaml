@@ -665,7 +665,7 @@ spec:
 
             extraContainers:
               - name: debug-tools
-                image: quay.io/argoproj/argocd
+                image: quay.io/argoproj/argocd:v3.0.5
                 command: [sh, -c]
                 args:
                   - while true; do echo "running"; sleep 300; done
@@ -690,7 +690,7 @@ spec:
 
               - name: envsubstappofapp
                 command: [/var/run/argocd/argocd-cmp-server]
-                image: quay.io/argoproj/argocd
+                image: quay.io/argoproj/argocd:v3.0.5
                 args: [--loglevel, debug]
                 securityContext:
                   runAsNonRoot: true
@@ -715,7 +715,7 @@ spec:
 
               - name: envsubst
                 command: [/var/run/argocd/argocd-cmp-server]
-                image: quay.io/argoproj/argocd
+                image: quay.io/argoproj/argocd:v3.0.5
                 args: [--loglevel, debug]
                 securityContext:
                   runAsNonRoot: true
@@ -740,7 +740,7 @@ spec:
 
               - name: helmfile
                 command: [/var/run/argocd/argocd-cmp-server]
-                image: quay.io/argoproj/argocd
+                image: quay.io/argoproj/argocd:v3.0.5
                 args: [--loglevel, debug]
                 securityContext:
                   runAsNonRoot: true
