@@ -38,9 +38,9 @@ spec:
                 ISTIO_CNI_READY=$(kubectl get pod -n istio-system --field-selector spec.nodeName="$NODE_NAME" -l k8s-app=istio-cni-node -o json | \
                     jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
                 if [ "$NETBIRD_READY" = "yes" ] && [ "$WAYPOINT_READY" = "yes" ]  && [ "$ISTIO_CNI_READY" = "yes" ]; then
-                    kubectl taint node "$NODE_NAME" netbird/ready:NoSchedule-
+                    kubectl taint node "$NODE_NAME" netbird/ready=false:NoExecute-
                 else
-                    kubectl taint node "$NODE_NAME" netbird/ready=false:NoSchedule --overwrite
+                    kubectl taint node "$NODE_NAME" netbird/ready=false:NoExecute --overwrite
                 fi
                 sleep 10
               done
