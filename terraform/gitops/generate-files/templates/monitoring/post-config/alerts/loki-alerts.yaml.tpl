@@ -24,19 +24,19 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "High log rate detected from container {{ $labels.container }}"
-            description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}) is sending more than 100 log lines per second."
+            summary: "High log rate detected.  namespace: {{ $labels.namespace }}, app: {{ $labels.app }}, pod: {{ $labels.pod }}, Container: {{ $labels.container }}"
+            description: "Container {{ $labels.container }} in pod {{ $labels.pod }} (namespace {{ $labels.namespace }}, app {{ $labels.app }}) is sending more than 100 log lines per second."
 
         - alert: LokiPodHighErrorRate
           expr: |
             (
-              sum by (namespace, pod) (loki_error_lines_by_pod)
+              sum by (namespace, app, pod) (loki_error_lines_by_namespace_app_pod_container)
               / 
-              sum by (namespace, pod) (loki_lines_total_by_pod)
+              sum by (namespace, app, pod) (loki_lines_total_by_namespace_app_pod_container)
             ) > 0.05
           for: 10m
           labels:
             severity: critical
           annotations:
-            summary: "High error rate in pod {{ $labels.pod }}"
-            description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} has a high log error rate (>5%) over the last hour."
+            summary: "High error rate detected.  namespace: {{ $labels.namespace }}, app: {{ $labels.app }}, pod: {{ $labels.pod }}"
+            description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} (app {{ $labels.app }}) has a high log error rate (>5%)."
