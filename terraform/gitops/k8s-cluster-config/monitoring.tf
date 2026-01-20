@@ -109,6 +109,7 @@ module "generate_monitoring_files" {
     central_observability_endpoint     = var.central_observability_endpoint
     central_observability_tenant_id    = try(var.common_var_map.central_observability_tenant_id, local.central_observability_tenant_id)
     alertmanager_fqdn = local.alertmanager_fqdn
+    tolerations       = var.common_var_map.monitoring_workload_tolerations
     prometheus_crd_repo = local.prometheus_crd_repo
     opentelemetry_repo = local.opentelemetry_repo
     alloy_repo = local.alloy_repo

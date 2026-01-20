@@ -43,6 +43,15 @@ loki:
         bucketnames: ${loki_bucket}
         http_config:
           insecure_skip_verify: ${object_store_insecure_skip_verify}
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{endif ~}
 
 metrics:
   enabled: true
@@ -62,6 +71,15 @@ ingester:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{endif ~}
 compactor:
   # https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/#compactor
   extraArgs: ["-config.expand-env"]
@@ -72,6 +90,15 @@ compactor:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{endif ~}
 distributor:
   replicaCount: ${loki_distributor_replica_count}
   extraArgs: ["-config.expand-env"]
@@ -80,11 +107,29 @@ distributor:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{endif ~}
 gateway:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{endif ~}
 querier:
   replicaCount: ${loki_querier_replica_count}
   extraArgs: ["-config.expand-env"]
@@ -93,6 +138,15 @@ querier:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{endif ~}
 queryFrontend:
   extraArgs: ["-config.expand-env"]
   extraEnvVarsSecret: ${object_store_loki_credentials_secret_name}
@@ -100,6 +154,15 @@ queryFrontend:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 queryScheduler:
   enabled: ${loki_query_scheduler_enabled}
   extraArgs: ["-config.expand-env"]
@@ -108,6 +171,15 @@ queryScheduler:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 memcachedchunks:
   metrics:
@@ -130,21 +202,57 @@ memcachedchunks:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 memcachedfrontend:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 memcachedindexqueries:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 memcachedindexwrites:
   nodeAffinityPreset:
     type: hard
     key: workload-class.mojaloop.io/MONITORING
     values: ["enabled"]
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 
 

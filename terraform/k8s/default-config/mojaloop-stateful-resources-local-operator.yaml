@@ -456,6 +456,11 @@ mojaloop-kafka:
                     operator: In
                     values:
                       - enabled
+      tolerations: []
+#        - key: "kafka-node"
+#          operator: "Equal"
+#          value: "true"
+#          effect: "NoSchedule"
 mojaloop-redis:
   local_operator_config:
     resource_namespace: mojaloop
