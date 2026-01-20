@@ -12,7 +12,7 @@ prometheusOperator:
       cpu: 100m
       memory: 128Mi
   
-  logLevel: debug
+  logLevel: info
   
   networkPolicy:
     enabled: false

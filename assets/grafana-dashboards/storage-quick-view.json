@@ -238,7 +238,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+          "uid": "${datasource}"
         },
         "fieldConfig": {
           "defaults": {
@@ -293,7 +293,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "f434c087-99bc-4f48-8aa8-da7f156efb83"
+              "uid": "${datasource}"
             },
             "editorMode": "code",
             "expr": "ceph_pool_stored{cluster=~\"$cluster\",pool_id=~\"$ceph_pool_id\"}/\n(ceph_pool_stored{cluster=~\"$cluster\",pool_id=~\"$ceph_pool_id\"}+ceph_pool_max_avail{cluster=~\"$cluster\",pool_id=~\"$ceph_pool_id\"}) \n* on (pool_id) group_left(name) ceph_pool_metadata{cluster=~\"$cluster\"}",
@@ -950,7 +950,7 @@
     "timepicker": {},
     "timezone": "browser",
     "title": "Storage - Quick view",
-    "uid": "aee3wdgy5-v009",
+    "uid": "aee3wdgy5-v010",
     "version": 1,
     "weekStart": ""
   }

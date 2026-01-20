@@ -119,7 +119,7 @@ crossplane_packages_objectstores_version: "v0.5.0"
 crossplane_packages_utils_version: "v0.8.0"
 crossplane_packages_gitlab_version: "v0.4.0"
 crossplane_packages_grafana_config_version: "v0.1.0"
-crossplane_packages_vault_config_version: "v0.2.0"
+crossplane_packages_vault_config_version: "v0.4.0"
 crossplane_packages_sc_postgres_version: "v0.5.0"
 crossplane_packages_sc_mysql_version: "v0.7.0-pr106-17447293964"
 crossplane_packages_sc_mongodb_version: "v0.5.0-pr106-17447293964"
@@ -161,7 +161,7 @@ nexus_jvm_max_heap_size: "6144m"
 nexus_jvm_additional_memory_options: "-XX:MaxDirectMemorySize=1g"
 nexus_jvm_additional_options: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
 nexus_helm_oci_proxy_repos: "helm-oci-dockerhub=oci://registry-1.docker.io,helm-oci-ghcr=oci://ghcr.io,helm-oci-ecr-public=oci://public.ecr.aws,helm-oci-quay=oci://quay.io,helm-oci-gcr=oci://gcr.io"
-nexus_helm_classic_proxy_repos: "mojaloop=https://mojaloop.github.io/helm/repo,mojaloop-charts=https://mojaloop.github.io/charts/repo,mojaloop-reporting=https://mojaloop.github.io/reporting-k8s-templates,prometheus=https://prometheus-community.github.io/helm-charts,grafana=https://grafana.github.io/helm-charts,netbird=https://netbirdio.github.io/helms,kyverno=https://kyverno.github.io/kyverno/,crossplane=https://charts.crossplane.io/stable,velero=https://vmware-tanzu.github.io/helm-charts/,external-dns=https://kubernetes-sigs.github.io/external-dns/,cert-manager=https://charts.jetstack.io,ory=https://k8s.ory.sh/helm/charts,reloader=https://stakater.github.io/stakater-charts,reflector=https://emberstack.github.io/helm-charts,percona-postgresql-operator=https://percona.github.io/percona-postgresql-operator-chart/,percona-xtradb-cluster-operator=https://percona.github.io/percona-xtradb-cluster-operator-chart/,percona-server-mongodb-operator=https://percona.github.io/percona-server-mongodb-operator-chart/,stunner-gateway-operator=https://stunner-gateway.github.io/helm-charts/,kiali=https://kiali.org/helm-charts,pm4ml=https://pm4ml.github.io/helm,rook=https://charts.rook.io/release,percona=https://percona.github.io/percona-helm-charts/,open-telemetry=https://open-telemetry.github.io/opentelemetry-helm-charts,metrics-server=https://kubernetes-sigs.github.io/metrics-server,redis-operator=https://ot-container-kit.github.io/helm-charts/"
+nexus_helm_classic_proxy_repos: "mojaloop=https://mojaloop.github.io/helm/repo,mojaloop-charts=https://mojaloop.github.io/charts/repo,mojaloop-reporting=https://mojaloop.github.io/reporting-k8s-templates,prometheus=https://prometheus-community.github.io/helm-charts,grafana=https://grafana.github.io/helm-charts,netbird=https://netbirdio.github.io/helms,kyverno=https://kyverno.github.io/kyverno/,crossplane=https://charts.crossplane.io/stable,velero=https://vmware-tanzu.github.io/helm-charts/,external-dns=https://kubernetes-sigs.github.io/external-dns/,cert-manager=https://charts.jetstack.io,ory=https://k8s.ory.sh/helm/charts,reloader=https://stakater.github.io/stakater-charts,reflector=https://emberstack.github.io/helm-charts,percona-postgresql-operator=https://percona.github.io/percona-postgresql-operator-chart/,percona-xtradb-cluster-operator=https://percona.github.io/percona-xtradb-cluster-operator-chart/,percona-server-mongodb-operator=https://percona.github.io/percona-server-mongodb-operator-chart/,stunner-gateway-operator=https://stunner-gateway.github.io/helm-charts/,kiali=https://kiali.org/helm-charts,pm4ml=https://pm4ml.github.io/helm,rook=https://charts.rook.io/release,percona=https://percona.github.io/percona-helm-charts/,open-telemetry=https://open-telemetry.github.io/opentelemetry-helm-charts,metrics-server=https://kubernetes-sigs.github.io/metrics-server,redis-operator=https://ot-container-kit.github.io/helm-charts/,mojaloop-payment-manager-helm=https://pm4ml.github.io/mojaloop-payment-manager-helm/repo"
 
 harbor_helm_version: 1.18.1
 harbor_ui_public_access: false
@@ -587,6 +587,15 @@ sc_backup_ttl: "24h0m0s"
 sc_backup_object_storage_provider: "s3"
 sc_snapshot_volumes: "'false'"
 
+# cc vault backup
+vault_backup_enabled: "'true'"
+vault_backup_schedule: "0 */12 * * *"
+vault_backup_bucket_region: "af-south-1"
+vault_backup_retention_days: "'7'"
+vault_snapshot_token_ttl: "'3600'"
+vault_snapshot_secret_id_ttl: "'7200'"
+vault_backup_utility_image:  "ghcr.io/mojaloop/vault-utils:0.0.4"
+
 # audit
 audit_bucket_name: "control-center-audit-bucket"
 audit_bucket_max_objects: "'1000000'"
@@ -601,5 +610,5 @@ report_bucket_storage_size: "10Gi"
 env_tempo_bucket_storage_size: "10Gi"
 env_loki_bucket_storage_size: "30Gi"
 
-# vault backup
+# env vault backup
 vault_backup_bucket_storage_size: "10Gi"

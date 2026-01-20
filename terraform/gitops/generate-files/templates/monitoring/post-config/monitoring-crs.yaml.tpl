@@ -31,6 +31,15 @@ spec:
                   - key: 'workload-class.mojaloop.io/MONITORING'
                     operator: In
                     values: ['enabled']
+%{if length(tolerations) > 0 ~}
+          tolerations:
+%{ for t in tolerations ~}
+          - effect: "${t.effect}"
+            key: "${t.key}"
+            operator: "${t.operator}"
+            value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
   config:
     unified_alerting:
       enabled: "true"
