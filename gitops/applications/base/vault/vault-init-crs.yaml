@@ -34,7 +34,7 @@ data:
       export VAULT_ADDR=http://127.0.0.1:8200
       export VAULT_ROOT_TOKEN=""
       # Extract the ordinal index from the hostname (e.g., vault-0 -> 0)
-      POD_ORDINAL=${HOSTNAME##*-}
+      POD_ORDINAL=$${HOSTNAME##*-}
 
       echo "Waiting for Vault API to become responsive..."
       while true; do
