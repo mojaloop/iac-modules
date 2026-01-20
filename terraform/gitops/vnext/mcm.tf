@@ -217,12 +217,6 @@ variable "keycloak_namespace" {
   description = "namespace of keycloak in which to create realm"
 }
 
-variable "vault_secret_key" {
-  type        = string
-  description = "Default key name for vault secrets"
-  default     = "secret"
-}
-
 variable "fspiop_use_ory_for_auth" {
   type = bool
 }
