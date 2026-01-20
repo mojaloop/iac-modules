@@ -39,7 +39,7 @@ module "mojaloop" {
   istio_internal_gateway_name                  = var.istio_internal_gateway_name
   istio_external_wildcard_gateway_name         = local.istio_external_wildcard_gateway_name
   istio_internal_wildcard_gateway_name         = local.istio_internal_wildcard_gateway_name
-  mojaloop_chart_version                       = var.app_var_map.mojaloop_chart_version
+  mojaloop_helm_version                       = var.app_var_map.mojaloop_helm_version
   mcm_enabled                                  = var.common_var_map.mcm_enabled
   mcm_chart_version                            = var.app_var_map.mcm_chart_version
   mojaloop_enabled                             = var.common_var_map.mojaloop_enabled
