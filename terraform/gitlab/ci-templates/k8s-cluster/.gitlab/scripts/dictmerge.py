@@ -81,14 +81,10 @@ else:
 if os.path.isfile(default_config_file):
     if defaultExt == ".yaml":
         with open(default_config_file, 'r') as f:
-            data1 = yaml.load(f, Loader=yaml.SafeLoader) or {}
+            data1 = yaml.load(f, Loader=yaml.SafeLoader)
     elif defaultExt == ".json":
-        try:
-            with open(default_config_file, 'r') as f:
-                data1 = json.load(f)
-        except json.JSONDecodeError:
-            print("  Could not parse the default config file", default_config_file," assigning empty dict")
-            data1 = {}
+        with open(default_config_file, 'r') as f:
+            data1 = json.load(f)
     else:
        print("  File type not supported")
        exit(1)
@@ -111,7 +107,7 @@ def load_custom_config(custom_config_file):
                 with open(custom_config_file, 'r') as f:
                     return json.load(f)
             except json.JSONDecodeError:
-                print("  Could not parse the custom config file", custom_config_file,", assigning empty dict")
+                print("  Could not parse the custom config file", custom_config_file," so assigning empty dict")
                 return {}
 
         else:
