@@ -24,7 +24,7 @@ output "public_subdomain" {
 }
 
 output "private_dns_zone_id" {
-  value = ""
+  value = module.base_infra.public_int_zone.id
 }
 
 output "internal_interop_switch_fqdn" {
