@@ -41,7 +41,7 @@ spec:
 
                 -- Skip if x-client-id header missing (no JWT auth or unauthenticated request)
                 if x_client_id == nil then
-                  request_handle:logInfo(string.format("No x-client-id header found, skip fspiop-source-validator")
+                  request_handle:logInfo("No x-client-id header found, skip fspiop-source-validator")
                   return
                 end
 
