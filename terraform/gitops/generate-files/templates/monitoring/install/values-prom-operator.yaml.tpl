@@ -115,6 +115,7 @@ prometheusOperator:
       memory: 100Mi
   admissionWebhooks:
     patch:
+      enabled: true
 %{if length(tolerations) > 0 ~}
       tolerations:
 %{ for t in tolerations ~}
@@ -123,6 +124,8 @@ prometheusOperator:
         operator: "${t.operator}"
         value: "${t.value}"
 %{ endfor ~}
+%{ else ~}
+      tolerations: []
 %{ endif ~}
 
 kubelet:
