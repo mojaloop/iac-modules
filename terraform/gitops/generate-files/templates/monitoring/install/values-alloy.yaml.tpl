@@ -12,3 +12,19 @@ alloy:
     create: false
     name: alloy-config
     key: alloy-config.alloy
+
+controller:
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+  
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ else ~}
+  tolerations: []
+%{ endif ~}
