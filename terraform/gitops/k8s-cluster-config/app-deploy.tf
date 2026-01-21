@@ -54,6 +54,10 @@ module "mojaloop" {
   vault_root_ca_name                           = "pki-${var.cluster_name}"
   keycloak_hubop_realm_name                    = var.keycloak_hubop_realm_name
   mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+  mcm_oidc_client_secret_secret        = var.mcm_oidc_client_secret_secret
+  mcm_oidc_client_secret_secret_key    = var.mcm_oidc_client_secret_secret_key
+  hubop_oidc_client_id                 = var.hubop_oidc_client_id
+  hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
   smtp_from                            = var.app_var_map.smtp_from
   smtp_from_display_name               = var.app_var_map.smtp_from_display_name
   smtp_reply_to                        = var.app_var_map.smtp_reply_to
@@ -373,6 +377,18 @@ variable "mcm_admin_client_secret_name" {
   type        = string
   description = "name of MCM admin client secret for Keycloak administrative operations"
   default     = "mcm-admin-client-secret"
+}
+
+variable "mcm_oidc_client_secret_secret" {
+  type        = string
+  description = "MCM OIDC client secret name in Vault"
+  default     = "mcm-oidc-client-secret"
+}
+
+variable "mcm_oidc_client_secret_secret_key" {
+  type        = string
+  description = "MCM OIDC client secret key in Vault"
+  default     = "secret"
 }
 
 variable "rbac_api_resources_file" {
