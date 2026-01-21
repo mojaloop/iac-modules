@@ -11,6 +11,8 @@ resources:
   - rbac-api-resources.yaml
   - simulator-issuer.yaml
   - report-bucket.yaml
+  - fspiop-source-validator.yaml
+
 helmCharts:
 - name: mojaloop
   releaseName: ${mojaloop_release_name}
@@ -46,6 +48,7 @@ helmCharts:
   namespace: ${mojaloop_namespace}
   additionalValuesFiles:
   - values-hub-provisioning-override.yaml
+
 patches:
   - target:
       kind: Service
