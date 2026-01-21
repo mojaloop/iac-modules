@@ -10,6 +10,7 @@ resources:
   - argocd-vs.yaml
   - keep-alive.yaml
   - netbird-egress-routing.yaml
+  - fspiop-source-validator.yaml
 
 helmCharts:
 - name: gateway

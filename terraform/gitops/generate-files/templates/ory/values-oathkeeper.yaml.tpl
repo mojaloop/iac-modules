@@ -12,7 +12,7 @@ fullnameOverride: "oathkeeper"
 # -- Configure ORY Oathkeeper itself
 oathkeeper:
   # -- The ORY Oathkeeper configuration. For a full list of available settings, check:
-  #   https://github.com/ory/oathkeeper/blob/master/docs/config.yaml
+  #   https://www.ory.com/docs/oathkeeper/reference/configuration
   config:
     log:
       level: info
@@ -71,10 +71,10 @@ oathkeeper:
         config:
           headers:
             X-User: '{{ print .Subject }}'
+            X-Client-Id: '{{ print .Extra.client_id }}'
             X-Extra: '{{ print .Extra }}'
             # Used by reporting-hub-bop-experience-api-svc to record users for settlement audit report
             X-Email: '{{ print (((.Extra.identity).traits).email) }}'
-
 
     errors:
       fallback:
