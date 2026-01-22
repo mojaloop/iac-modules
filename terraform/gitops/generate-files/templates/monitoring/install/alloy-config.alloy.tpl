@@ -82,6 +82,6 @@ forward_to = [loki.write.local_loki.receiver]
 // Push to Loki Gateway
 loki.write "local_loki" {
 endpoint {
-    url = "http://loki-official-helm-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
+    url = "http://${loki_release_name}-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
 }
 }
