@@ -104,10 +104,17 @@ ingester:
     enabled: false
   extraArgs:
     - -config.expand-env=true
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 # Distributor configuration
 distributor:
@@ -125,10 +132,17 @@ distributor:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 # Querier configuration
 querier:
@@ -143,10 +157,17 @@ querier:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 # Query Frontend configuration
 queryFrontend:
@@ -160,10 +181,17 @@ queryFrontend:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 # Query Scheduler configuration
 queryScheduler:
@@ -177,10 +205,17 @@ queryScheduler:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 
 # Compactor configuration
@@ -198,11 +233,17 @@ compactor:
     size: 10Gi
   extraArgs:
     - -config.expand-env=true
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
-
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 # Ruler configuration
 ruler:
@@ -213,6 +254,18 @@ ruler:
         name: ${object_store_loki_credentials_secret_name}
   extraArgs:
     - -config.expand-env=true
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
+
 
 # Gateway configuration
 gateway:
@@ -222,10 +275,17 @@ gateway:
   service:
     type: ClusterIP
     port: 80
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 # Index Gateway (required for TSDB)
 indexGateway:
@@ -237,10 +297,17 @@ indexGateway:
   persistence:
     enabled: true
     size: 10Gi
-  nodeAffinityPreset:
-    type: hard
-    key: workload-class.mojaloop.io/MONITORING
-    values: ["enabled"]
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 # Chunks Cache (Memcached)
 chunksCache:
@@ -248,12 +315,34 @@ chunksCache:
   replicas: 1
   allocatedMemory: 1400
   maxItemMemory: 5
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 # Results Cache (Memcached)
 resultsCache:
   enabled: true
   replicas: 1
   allocatedMemory: 1024
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 # Monitoring
 monitoring:
@@ -268,6 +357,17 @@ monitoring:
 #Loki Canary
 lokiCanary:
   enabled: true
+  nodeSelector:
+    workload-class.mojaloop.io/MONITORING: "enabled"
+%{if length(tolerations) > 0 ~}
+  tolerations:
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 backend:
   replicas: 0
