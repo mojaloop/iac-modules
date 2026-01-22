@@ -11,7 +11,6 @@ resources:
   - rbac-api-resources.yaml
   - simulator-issuer.yaml
   - report-bucket.yaml
-  - fspiop-source-validator.yaml
 
 helmCharts:
 - name: mojaloop
