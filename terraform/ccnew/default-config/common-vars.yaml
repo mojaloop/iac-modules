@@ -594,7 +594,7 @@ sc_snapshot_volumes: "'false'"
 # cc vault backup
 vault_backup_enabled: "'true'"
 vault_backup_schedule: "0 */12 * * *"
-vault_backup_bucket_region: "af-south-1"
+vault_backup_bucket_region: ""
 vault_backup_retention_days: "'7'"
 vault_snapshot_token_ttl: "'3600'"
 vault_snapshot_secret_id_ttl: "'7200'"
