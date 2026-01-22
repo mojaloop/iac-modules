@@ -344,6 +344,8 @@ indexGateway:
   extraEnvFrom:
     - secretRef:
         name: ${object_store_loki_credentials_secret_name}
+  extraArgs:
+    - -config.expand-env=true
   persistence:
     enabled: true
     size: 10Gi
