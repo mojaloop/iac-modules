@@ -221,7 +221,7 @@ argocd_override:
           helm_version: "${vault_config_operator_helm_version}"
           dns_hyphenated_subdomain: "${replace(dns_public_subdomain, ".", "-")}"
           vault_backup_enabled: "${vault_backup_enabled}"
-          backup_bucket_region: "${vault_backup_bucket_region}"
+          backup_bucket_region: "${vault_backup_bucket_region != "" ? vault_backup_bucket_region : (backup_region != "" ? backup_region : cloud_region)}"
           backup_schedule: "${vault_backup_schedule}"
           backup_retention_days: "${vault_backup_retention_days}"
           snapshot_token_ttl: "${vault_snapshot_token_ttl}"
