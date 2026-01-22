@@ -25,6 +25,7 @@ resources:
 
   # xplane database config
   - ../../../base/xplane-provider-config.yaml
+  - ../../../base/percona-operator.yaml
 
   # vault
   - ../../../base/vault.yaml
