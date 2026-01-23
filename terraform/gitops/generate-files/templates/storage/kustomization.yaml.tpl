@@ -7,6 +7,7 @@ resources:
 %{ endif ~}
 %{ if cloud_provider == "private-cloud" ~}
   - openebs-namespace.yaml
+  - openebs-localpv-rbac.yaml
   - rook-ceph-external-secrets.yaml
   - rook-ceph-storage-class.yaml
   - rook-ceph-crossplane-cm.yaml
