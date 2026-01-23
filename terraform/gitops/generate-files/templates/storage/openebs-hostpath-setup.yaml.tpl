@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: openebs-hostpath-setup
-  namespace: ${openebs_namespace}
+  namespace: ${storage_namespace}
 spec:
   selector:
     matchLabels:
