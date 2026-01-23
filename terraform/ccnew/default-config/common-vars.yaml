@@ -455,7 +455,7 @@ praefect_perc_pgbouncer_memory_request: "64Mi"
 
 # gitlab zitadel role sync
 gitlab_zitadel_roles_sync_tf_management_policies: "Observe"
-gitlab_zitadel_roles_sync_xplane_management_policies: "'*'"
+gitlab_zitadel_roles_sync_xplane_management_policies: "'''*'''"
 # end of gitlab zitadel role sync
 
 ceph_bucket_max_objects: "'1000000'"
