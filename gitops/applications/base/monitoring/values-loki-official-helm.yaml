@@ -127,8 +127,6 @@ ingester:
     enabled: false
   extraArgs:
     - -config.expand-env=true
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
 
 # Distributor configuration
 distributor:
@@ -146,8 +144,6 @@ distributor:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   extraArgs:
     - -config.expand-env=true
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
 
 # Querier configuration
 querier:
@@ -162,8 +158,7 @@ querier:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   extraArgs:
     - -config.expand-env=true
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
+
 
 
 
@@ -180,8 +175,6 @@ queryFrontend:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   extraArgs:
     - -config.expand-env=true
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
 
 # Query Scheduler configuration
 queryScheduler:
@@ -195,8 +188,6 @@ queryScheduler:
         name: "loki-${ARGOCD_ENV_dns_hyphenated_subdomain}"
   extraArgs:
     - -config.expand-env=true
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
 
 # Compactor configuration
 compactor:
@@ -213,8 +204,7 @@ compactor:
     size: 10Gi
   extraArgs:
     - -config.expand-env=true
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
+
   
 
 # Ruler configuration
@@ -258,8 +248,6 @@ gateway:
   service:
     type: ClusterIP
     port: 80
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
 
 # Index Gateway (required for TSDB)
 indexGateway:
@@ -281,16 +269,13 @@ chunksCache:
   replicas: 1
   allocatedMemory: 1400
   maxItemMemory: 5
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
 
 # Results Cache (Memcached)
 resultsCache:
   enabled: true
   replicas: 1
   allocatedMemory: 1024
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
+
 
 
 
@@ -307,8 +292,6 @@ monitoring:
 # Loki Canary
 lokiCanary:
   enabled: true
-  nodeSelector:
-    workload-class.mojaloop.io/MONITORING: "enabled"
 
 backend:
   replicas: 0
