@@ -25,6 +25,7 @@ loki:
     podAntiAffinityTopologyKey: kubernetes.io/hostname
     affinity:
       podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution: []
         preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
             podAffinityTerm:
