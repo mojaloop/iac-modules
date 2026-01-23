@@ -17,7 +17,6 @@ module "generate_storage_files" {
     rook_ceph_helm_version          = var.rook_ceph_helm_version
     openebs_helm_version            = var.openebs_helm_version
     openebs_chart_repo         = local.openebs_chart_repo
-    openebs_namespace               = var.openebs_namespace
     openebs_hostpath_sc_name        = var.openebs_hostpath_sc_name
     openebs_localpv_base_path       = var.openebs_localpv_base_path
     rgw_admin_ops_user              = "${var.cluster_name}/rgw_admin_ops_user"
@@ -93,11 +92,6 @@ variable "openebs_chart_repo" {
   type        = string
   description = "Helm chart repository URL for OpenEBS"
   default     = "https://openebs.github.io/openebs"
-}
-
-variable "openebs_namespace" {
-  type        = string
-  default     = "openebs"
 }
 
 variable "openebs_hostpath_sc_name" {
