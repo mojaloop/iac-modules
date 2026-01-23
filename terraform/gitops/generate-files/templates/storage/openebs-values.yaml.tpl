@@ -9,5 +9,25 @@ engines:
     mayastor:
       enabled: false
 alloy:
-  enabled: false
+  enabled: true
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: alloy
+            topologyKey: kubernetes.io/hostname
+loki:
+  singleBinary:
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/component: single-binary
+              topologyKey: kubernetes.io/hostname
 %{ endif ~}
