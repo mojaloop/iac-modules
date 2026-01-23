@@ -359,75 +359,75 @@ spec:
           X-User: '{{ print .Subject }}'
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
----
-# PM4ML API - DFSP list endpoint (machine clients)
-apiVersion: oathkeeper.ory.sh/v1alpha1
-kind: Rule
-metadata:
-  name: mcm-pm4mlapi-dfsps-list
-  namespace: ${mcm_namespace}
-spec:
-  match:
-    url: <http|https>://${mcm_external_fqdn}/api/dfsps<$>
-    methods:
-      - GET
-  authenticators:
-    - handler: jwt
-      config:
-        jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
-  authorizer:
-    handler: remote_json
-    config:
-      remote: ${keto_read_url}/relation-tuples/check
-      payload: |
-        {
-          "namespace": "permission",
-          "object": "dfspList",
-          "relation": "granted",
-          "subject_id": "{{ print .Subject }}"
-        }
-  mutators:
-    - handler: header
-      config:
-        headers:
-          X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
----
-# PM4ML API - DFSP create endpoint (machine clients)
-apiVersion: oathkeeper.ory.sh/v1alpha1
-kind: Rule
-metadata:
-  name: mcm-pm4mlapi-dfsps-create
-  namespace: ${mcm_namespace}
-spec:
-  match:
-    url: <http|https>://${mcm_external_fqdn}/api/dfsps<$>
-    methods:
-      - POST
-  authenticators:
-    - handler: jwt
-      config:
-        jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
-  authorizer:
-    handler: remote_json
-    config:
-      remote: ${keto_read_url}/relation-tuples/check
-      payload: |
-        {
-          "namespace": "permission",
-          "object": "dfspManage",
-          "relation": "granted",
-          "subject_id": "{{ print .Subject }}"
-        }
-  mutators:
-    - handler: header
-      config:
-        headers:
-          X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
----
+# TODO: I think we are not using the below endpoints anymore, need to check before removing
+# ---
+# # PM4ML API - DFSP list endpoint (machine clients)
+# apiVersion: oathkeeper.ory.sh/v1alpha1
+# kind: Rule
+# metadata:
+#   name: mcm-pm4mlapi-dfsps-list
+#   namespace: ${mcm_namespace}
+# spec:
+#   match:
+#     url: <http|https>://${mcm_external_fqdn}/api/dfsps<$>
+#     methods:
+#       - GET
+#   authenticators:
+#     - handler: jwt
+#       config:
+#         jwks_urls:
+#         - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
+#   authorizer:
+#     handler: remote_json
+#     config:
+#       remote: ${keto_read_url}/relation-tuples/check
+#       payload: |
+#         {
+#           "namespace": "permission",
+#           "object": "dfspList",
+#           "relation": "granted",
+#           "subject_id": "{{ print .Subject }}"
+#         }
+#   mutators:
+#     - handler: header
+#       config:
+#         headers:
+#           X-Client: '{{ print .Subject }}'
+#           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+# ---
+# # PM4ML API - DFSP create endpoint (machine clients)
+# apiVersion: oathkeeper.ory.sh/v1alpha1
+# kind: Rule
+# metadata:
+#   name: mcm-pm4mlapi-dfsps-create
+#   namespace: ${mcm_namespace}
+# spec:
+#   match:
+#     url: <http|https>://${mcm_external_fqdn}/api/dfsps<$>
+#     methods:
+#       - POST
+#   authenticators:
+#     - handler: jwt
+#       config:
+#         jwks_urls:
+#         - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
+#   authorizer:
+#     handler: remote_json
+#     config:
+#       remote: ${keto_read_url}/relation-tuples/check
+#       payload: |
+#         {
+#           "namespace": "permission",
+#           "object": "dfspManage",
+#           "relation": "granted",
+#           "subject_id": "{{ print .Subject }}"
+#         }
+#   mutators:
+#     - handler: header
+#       config:
+#         headers:
+#           X-Client: '{{ print .Subject }}'
+#           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # PM4ML API - DFSP-specific owner access (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -447,16 +447,18 @@ spec:
         jwks_urls:
         - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
-    handler: remote_json
-    config:
-      remote: ${keto_read_url}/relation-tuples/check
-      payload: |
-        {
-          "namespace": "role",
-          "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
-          "relation": "member",
-          "subject_id": "{{ print .Subject }}"
-        }
+    handler: allow
+    # TODO: The following should be enabled once we have proper permission setup for machine clients
+    # handler: remote_json
+    # config:
+    #   remote: ${keto_read_url}/relation-tuples/check
+    #   payload: |
+    #     {
+    #       "namespace": "role",
+    #       "object": "dfsp:{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}",
+    #       "relation": "member",
+    #       "subject_id": "{{ print .Subject }}"
+    #     }
   mutators:
     - handler: header
       config:
@@ -482,58 +484,61 @@ spec:
         jwks_urls:
         - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
-    handler: remote_json
-    config:
-      remote: ${keto_read_url}/relation-tuples/check
-      payload: |
-        {
-          "namespace": "permission",
-          "object": "hubEndpointsView",
-          "relation": "granted",
-          "subject_id": "{{ print .Subject }}"
-        }
+    handler: allow
+    # TODO: The following should be enabled once we have proper permission setup for machine clients
+    # handler: remote_json
+    # config:
+    #   remote: ${keto_read_url}/relation-tuples/check
+    #   payload: |
+    #     {
+    #       "namespace": "permission",
+    #       "object": "hubEndpointsView",
+    #       "relation": "granted",
+    #       "subject_id": "{{ print .Subject }}"
+    #     }
   mutators:
     - handler: header
       config:
         headers:
           X-Client: '{{ print .Subject }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
----
-# PM4ML API - Hub endpoints write access (machine clients)
-apiVersion: oathkeeper.ory.sh/v1alpha1
-kind: Rule
-metadata:
-  name: mcm-pm4mlapi-hub-write
-  namespace: ${mcm_namespace}
-spec:
-  match:
-    url: <http|https>://${mcm_external_fqdn}/api/hub/<.*>
-    methods:
-      - POST
-      - PUT
-      - DELETE
-  authenticators:
-    - handler: jwt
-      config:
-        jwks_urls:
-        - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
-  authorizer:
-    handler: remote_json
-    config:
-      remote: ${keto_read_url}/relation-tuples/check
-      payload: |
-        {
-          "namespace": "permission",
-          "object": "hubEndpointsManage",
-          "relation": "granted",
-          "subject_id": "{{ print .Subject }}"
-        }
-  mutators:
-    - handler: header
-      config:
-        headers:
-          X-Client: '{{ print .Subject }}'
-          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+# TODO: I think we are not using the below endpoints anymore, need to check before removing
+# ---
+# # PM4ML API - Hub endpoints write access (machine clients)
+# apiVersion: oathkeeper.ory.sh/v1alpha1
+# kind: Rule
+# metadata:
+#   name: mcm-pm4mlapi-hub-write
+#   namespace: ${mcm_namespace}
+# spec:
+#   match:
+#     url: <http|https>://${mcm_external_fqdn}/api/hub/<.*>
+#     methods:
+#       - POST
+#       - PUT
+#       - DELETE
+#   authenticators:
+#     - handler: jwt
+#       config:
+#         jwks_urls:
+#         - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
+#   authorizer:
+#     handler: remote_json
+#     config:
+#       remote: ${keto_read_url}/relation-tuples/check
+#       payload: |
+#         {
+#           "namespace": "permission",
+#           "object": "hubEndpointsManage",
+#           "relation": "granted",
+#           "subject_id": "{{ print .Subject }}"
+#         }
+#   mutators:
+#     - handler: header
+#       config:
+#         headers:
+#           X-Client: '{{ print .Subject }}'
+#           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # PM4ML API - DFSP jwscerts
 apiVersion: oathkeeper.ory.sh/v1alpha1
@@ -552,16 +557,18 @@ spec:
         jwks_urls:
         - https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect/certs
   authorizer:
-    handler: remote_json
-    config:
-      remote: ${keto_read_url}/relation-tuples/check
-      payload: |
-        {
-          "namespace": "permission",
-          "object": "dfspJwsCertsView",
-          "relation": "granted",
-          "subject_id": "{{ print .Subject }}"
-        }
+    handler: allow
+    # TODO: The following should be enabled once we have proper permission setup for machine clients
+    # handler: remote_json
+    # config:
+    #   remote: ${keto_read_url}/relation-tuples/check
+    #   payload: |
+    #     {
+    #       "namespace": "permission",
+    #       "object": "dfspJwsCertsView",
+    #       "relation": "granted",
+    #       "subject_id": "{{ print .Subject }}"
+    #     }
   mutators:
     - handler: header
       config:
