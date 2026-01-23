@@ -26,7 +26,7 @@ helmCharts:
 %{ if cloud_provider == "private-cloud" ~}
   - name: openebs
     releaseName: openebs
-    repo: https://openebs.github.io/openebs
+    repo: ${openebs_chart_repo}
     namespace: ${openebs_namespace}
     valuesFile: openebs-values.yaml
     version: ${openebs_helm_version}
