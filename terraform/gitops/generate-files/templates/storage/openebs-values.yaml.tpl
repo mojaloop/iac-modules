@@ -21,6 +21,8 @@ alloy:
             topologyKey: kubernetes.io/hostname
 loki:
   singleBinary:
+    podAntiAffinity: soft
+    podAntiAffinityTopologyKey: kubernetes.io/hostname
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
