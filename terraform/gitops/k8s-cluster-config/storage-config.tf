@@ -16,6 +16,7 @@ module "generate_storage_files" {
     cluster_name                    = var.cluster_name
     rook_ceph_helm_version          = var.rook_ceph_helm_version
     openebs_helm_version            = var.openebs_helm_version
+    openebs_chart_repo         = local.openebs_chart_repo
     openebs_namespace               = var.openebs_namespace
     openebs_hostpath_sc_name        = var.openebs_hostpath_sc_name
     openebs_localpv_base_path       = var.openebs_localpv_base_path
@@ -46,6 +47,7 @@ locals {
   
   # Apply helm repository resolution pattern
   aws_ebs_csi_driver_helm_repo = startswith(var.aws_ebs_csi_driver_helm_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.aws_ebs_csi_driver_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.aws_ebs_csi_driver_helm_repo)[0]]}${regex("oci://([^/]+)(.*)", var.aws_ebs_csi_driver_helm_repo)[1]}", var.aws_ebs_csi_driver_helm_repo) : try(local.helm_proxy_repos_map[var.aws_ebs_csi_driver_helm_repo], var.aws_ebs_csi_driver_helm_repo)
+  openebs_chart_repo = startswith(var.openebs_chart_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.openebs_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.openebs_chart_repo)[0]]}${regex("oci://([^/]+)(.*)", var.openebs_chart_repo)[1]}", var.openebs_chart_repo) : try(local.helm_proxy_repos_map[var.openebs_chart_repo], var.openebs_chart_repo)
   rook_ceph_helm_repo = startswith(var.rook_ceph_helm_repo, "oci://") && can(regex("oci://([^/]+)(.*)", var.rook_ceph_helm_repo)) ? try("${local.helm_proxy_repos_map[regex("oci://([^/]+)(.*)", var.rook_ceph_helm_repo)[0]]}${regex("oci://([^/]+)(.*)", var.rook_ceph_helm_repo)[1]}", var.rook_ceph_helm_repo) : try(local.helm_proxy_repos_map[var.rook_ceph_helm_repo], var.rook_ceph_helm_repo)
 }
 
@@ -85,6 +87,12 @@ variable "rook_ceph_helm_version" {
 variable "openebs_helm_version" {
   type        = string
   default     = "4.4.0"
+}
+
+variable "openebs_chart_repo" {
+  type        = string
+  description = "Helm chart repository URL for OpenEBS"
+  default     = "https://openebs.github.io/openebs"
 }
 
 variable "openebs_namespace" {
