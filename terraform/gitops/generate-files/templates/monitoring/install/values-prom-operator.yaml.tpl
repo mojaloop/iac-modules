@@ -5,11 +5,15 @@ alertmanager:
   
   alertmanagerSpec:
     externalUrl: "https://${alertmanager_fqdn}"
+%{if length(tolerations) > 0 ~}
     tolerations:
-    - key: "workload-class.mojaloop.io/MONITORING"
-      operator: "Equal"
-      value: "enabled"
-      effect: "NoSchedule"
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
     storage:
       volumeClaimTemplate:
         spec:
@@ -50,11 +54,15 @@ prometheus:
           resources:
             requests:
               storage: ${prometheus_pvc_size}
+%{if length(tolerations) > 0 ~}
     tolerations:
-    - key: "workload-class.mojaloop.io/MONITORING"
-      operator: "Equal"
-      value: "enabled"
-      effect: "NoSchedule"
+%{ for t in tolerations ~}
+    - effect: "${t.effect}"
+      key: "${t.key}"
+      operator: "${t.operator}"
+      value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
     
     nodeSelector:
       workload-class.mojaloop.io/MONITORING: "enabled"
@@ -90,11 +98,15 @@ prometheus:
 
 prometheusOperator:
   enabled: true
+%{if length(tolerations) > 0 ~}
   tolerations:
-  - key: "workload-class.mojaloop.io/MONITORING"
-    operator: "Equal"
-    value: "enabled"
-    effect: "NoSchedule"
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
   nodeSelector:
     workload-class.mojaloop.io/MONITORING: "enabled"
   resources:
@@ -103,11 +115,18 @@ prometheusOperator:
       memory: 100Mi
   admissionWebhooks:
     patch:
+      enabled: true
+%{if length(tolerations) > 0 ~}
       tolerations:
-      - key: "workload-class.mojaloop.io/MONITORING"
-        operator: "Equal"
-        value: "enabled"
-        effect: "NoSchedule"
+%{ for t in tolerations ~}
+      - effect: "${t.effect}"
+        key: "${t.key}"
+        operator: "${t.operator}"
+        value: "${t.value}"
+%{ endfor ~}
+%{ else ~}
+      tolerations: []
+%{ endif ~}
 
 kubelet:
   enabled: true
@@ -150,11 +169,15 @@ kubelet:
 
 kube-state-metrics:
   enabled: true
+%{if length(tolerations) > 0 ~}
   tolerations:
-  - key: "workload-class.mojaloop.io/MONITORING"
-    operator: "Equal"
-    value: "enabled"
-    effect: "NoSchedule"
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
   prometheus:
     monitor:
       enabled: true
@@ -188,11 +211,15 @@ prometheus-node-exporter:
         - regex: endpoint|service
           action: labeldrop
   
+%{if length(tolerations) > 0 ~}
   tolerations:
-  - key: "workload-class.mojaloop.io/MONITORING"
-    operator: "Equal"
-    value: "enabled"
-    effect: "NoSchedule"
+%{ for t in tolerations ~}
+  - effect: "${t.effect}"
+    key: "${t.key}"
+    operator: "${t.operator}"
+    value: "${t.value}"
+%{ endfor ~}
+%{ endif ~}
 
 kubeApiServer:
   enabled: false 
