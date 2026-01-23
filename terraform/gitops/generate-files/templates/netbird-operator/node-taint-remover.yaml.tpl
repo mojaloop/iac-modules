@@ -60,7 +60,10 @@ metadata:
   name: netbird-readiness-taint-remover
 rules:
   - apiGroups: [""]
-    resources: ["nodes", "pods"]
+    resources: ["pods"]
+    verbs: ["get", "list", "delete"]
+  - apiGroups: [""]
+    resources: ["nodes"]
     verbs: ["get", "list", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
