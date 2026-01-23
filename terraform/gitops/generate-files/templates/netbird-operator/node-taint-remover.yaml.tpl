@@ -39,6 +39,8 @@ spec:
                     jq -r '.items[] | select(.status.phase=="Running") | .status.conditions[] | select(.type=="Ready") | .status' | grep -q True && echo "yes" || echo "no")
                 if [ "$NETBIRD_READY" = "yes" ] && [ "$WAYPOINT_READY" = "yes" ]  && [ "$ISTIO_CNI_READY" = "yes" ]; then
                     kubectl taint node "$NODE_NAME" netbird/ready:NoExecute-
+                    kubectl get pods -A | grep ContainerStatusUnknown | awk '{print $1, $2}' | xargs -n2 kubectl delete pod -n
+                    kubectl get pods -A | grep Unknown | awk '{print $1, $2}' | xargs -n2 kubectl delete pod -n
                 else
                     kubectl taint node "$NODE_NAME" netbird/ready=false:NoExecute --overwrite
                 fi
