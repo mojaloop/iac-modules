@@ -1,6 +1,6 @@
 groups:
-  # === 1. NUMBER OF LINES METRICS ===
-  - name: log_lines_metrics
+  # === 1. LOKI STATISTICS ===
+  - name: loki_statistics
     interval: 5m
     rules:
       # Lines per namespace, app, pod, and container
@@ -9,11 +9,6 @@ groups:
           sum by (namespace, app, pod, container) (
             rate({pod=~".+"} [5m])
           )
-  
-  # === 2. NUMBER OF BYTES METRICS ===
-  - name: log_bytes_metrics
-    interval: 5m
-    rules:
       # Bytes per namespace, app, pod, and container
       - record: loki_bytes_total_by_namespace_app_pod_container
         expr: |
@@ -21,7 +16,7 @@ groups:
             bytes_rate({pod=~".+"} [5m])
           )
   
-  # === 3. ERROR LINES METRICS ===
+  # === 2. ERROR LINES METRICS ===
   - name: log_error_metrics
     interval: 5m
     rules:
