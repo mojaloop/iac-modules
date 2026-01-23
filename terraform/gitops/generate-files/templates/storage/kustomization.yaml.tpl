@@ -6,7 +6,6 @@ resources:
   - aws-ebs-access-cred-secret.yaml
 %{ endif ~}
 %{ if cloud_provider == "private-cloud" ~}
-  - openebs-namespace.yaml
   - openebs-localpv-rbac.yaml
   - rook-ceph-external-secrets.yaml
   - rook-ceph-storage-class.yaml
@@ -28,7 +27,7 @@ helmCharts:
   - name: openebs
     releaseName: openebs
     repo: ${openebs_chart_repo}
-    namespace: ${openebs_namespace}
+    namespace: ${storage_namespace}
     valuesFile: openebs-values.yaml
     version: ${openebs_helm_version}
   - name: rook-ceph
