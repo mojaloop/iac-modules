@@ -14,7 +14,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: openebs-localpv-provisioner
-    namespace: ${openebs_namespace}
+    namespace: ${storage_namespace}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
