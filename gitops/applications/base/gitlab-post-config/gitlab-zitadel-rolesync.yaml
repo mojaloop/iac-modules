@@ -21,6 +21,6 @@ spec:
   providerConfigsRef:
     gitlabProvider: gitlab-provider
     kubernetesProvider: kubernetes-provider
-    httpProvder: http-conf
+    httpProvider: http-conf
   managementPolicies:
     - ${ARGOCD_ENV_gitlab_zitadel_roles_sync_xplane_management_policies}
