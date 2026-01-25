@@ -133,6 +133,11 @@ variable "istio_external_gateway_namespace" {
   default     = "istio-ingress-ext"
 }
 
+variable "mailpit_namespace" {
+  type        = string
+  description = "mailpit_namespace"
+  default     = "mailpit"
+}
 
 variable "cert_manager_service_account_name" {
   type        = string
