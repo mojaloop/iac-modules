@@ -101,8 +101,6 @@ module "generate_mcm_files" {
     db_tls_ca_secret_key                 = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key,"")
     mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
     bulk_enabled                         = var.bulk_enabled
-    istio_egress_gateway_name            = var.istio_egress_gateway_name
-    istio_egress_gateway_namespace       = var.istio_egress_gateway_namespace
     ttk_cli_version                      = try(var.app_var_map.ttk_cli_version, "v1.10.3")
     ttk_test_cases_version               = try(var.app_var_map.ttk_test_cases_version, "17.1.1")
     mailpit_namespace                    = var.mailpit_namespace
