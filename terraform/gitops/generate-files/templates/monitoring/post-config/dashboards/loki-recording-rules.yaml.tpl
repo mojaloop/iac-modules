@@ -31,7 +31,7 @@ spec:
               "type": "prometheus",
               "uid": "$${DS_PROMETHEUS}"
             },
-            "query": "label_values(loki_lines_total_by_namespace_app_pod_container, namespace)",
+            "query": "label_values(loki_log_lines_rate, namespace)",
             "multi": true,
             "includeAll": true,
             "refresh": 2,
@@ -44,7 +44,7 @@ spec:
               "type": "prometheus",
               "uid": "$${DS_PROMETHEUS}"
             },
-            "query": "label_values(loki_lines_total_by_namespace_app_pod_container{namespace=~\"$namespace\"}, app)",
+            "query": "label_values(loki_log_lines_rate{namespace=~\"$namespace\"}, app)",
             "multi": true,
             "includeAll": true,
             "refresh": 2,
@@ -57,7 +57,7 @@ spec:
               "type": "prometheus",
               "uid": "$${DS_PROMETHEUS}"
             },
-            "query": "label_values(loki_lines_total_by_namespace_app_pod_container{namespace=~\"$namespace\"}, pod)",
+            "query": "label_values(loki_log_lines_rate{namespace=~\"$namespace\"}, pod)",
             "multi": true,
             "includeAll": true,
             "refresh": 2,
@@ -75,7 +75,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "sum by (namespace) (loki_lines_total_by_namespace_app_pod_container{namespace=~\"$namespace\"})",
+              "expr": "sum by (namespace) (loki_log_lines_rate{namespace=~\"$namespace\"})",
               "legendFormat": "{{namespace}}",
               "refId": "A"
             }
@@ -96,7 +96,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "sum by (container) (loki_lines_total_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"})",
+              "expr": "sum by (container) (loki_log_lines_rate{namespace=~\"$namespace\", pod=~\"$pod\"})",
               "legendFormat": "{{container}}",
               "refId": "A"
             }
@@ -117,7 +117,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "topk(10, sum by (namespace, pod) (loki_lines_total_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"}))",
+              "expr": "topk(10, sum by (namespace, pod) (loki_log_lines_rate{namespace=~\"$namespace\", pod=~\"$pod\"}))",
               "legendFormat": "{{namespace}}/{{pod}}",
               "refId": "A"
             }
@@ -133,7 +133,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "sum by (namespace) (loki_bytes_total_by_namespace_app_pod_container{namespace=~\"$namespace\"})",
+              "expr": "sum by (namespace) (loki_log_bytes_rate{namespace=~\"$namespace\"})",
               "legendFormat": "{{namespace}}",
               "refId": "A"
             }
@@ -154,7 +154,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "sum by (namespace) (loki_error_lines_by_namespace_app_pod_container{namespace=~\"$namespace\"})",
+              "expr": "sum by (namespace) (loki_log_error_lines_rate{namespace=~\"$namespace\"})",
               "legendFormat": "{{namespace}}",
               "refId": "A"
             }
@@ -175,7 +175,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "topk(10, sum by (namespace, pod) (loki_error_lines_by_namespace_app_pod_container{namespace=~\"$namespace\", pod=~\"$pod\"}))",
+              "expr": "topk(10, sum by (namespace, pod) (loki_log_error_lines_rate{namespace=~\"$namespace\", pod=~\"$pod\"}))",
               "legendFormat": "{{namespace}}/{{pod}}",
               "refId": "A"
             }
@@ -191,7 +191,7 @@ spec:
           },
           "targets": [
             {
-              "expr": "(sum by (namespace) (loki_error_lines_by_namespace_app_pod_container{namespace=~\"$namespace\"}) / sum by (namespace) (loki_lines_total_by_namespace_app_pod_container{namespace=~\"$namespace\"})) * 100",
+              "expr": "(sum by (namespace) (loki_log_error_lines_rate{namespace=~\"$namespace\"}) / sum by (namespace) (loki_log_lines_rate{namespace=~\"$namespace\"})) * 100",
               "legendFormat": "{{namespace}}",
               "refId": "A"
             }
