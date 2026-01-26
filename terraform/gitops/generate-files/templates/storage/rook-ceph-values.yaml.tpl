@@ -1,17 +1,11 @@
 %{ if cloud_provider == "private-cloud" ~}
 tolerations:
-  - key: "netbird/ready"
-    operator: "Exists"
-    effect: "NoExecute"
+  - operator: "Exists"
 csi:
   pluginTolerations:
-    - key: "netbird/ready"
-      operator: "Exists"
-      effect: "NoExecute"
+    - operator: "Exists"
   provisionerTolerations:
-    - key: "netbird/ready"
-      operator: "Exists"
-      effect: "NoExecute"
+    - operator: "Exists"
   kubeletDirPath: "${kubelet_dir_path}"
   serviceMonitor:
     enabled: false
