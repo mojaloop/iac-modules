@@ -22,6 +22,7 @@ resources:
   - istio-crs.yaml
   - mimir-alertmanager.yaml
   - mimirtool-cronjob.yaml
+  - dashboards-loki-recording-rules.yaml
 
 configMapGenerator:
   - name: mimir-ruler-data
