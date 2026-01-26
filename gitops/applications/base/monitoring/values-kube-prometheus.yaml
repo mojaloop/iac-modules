@@ -36,6 +36,7 @@ prometheus:
     evaluationInterval: ${ARGOCD_ENV_prometheus_scrape_interval}
     
     retention: ${ARGOCD_ENV_prometheus_retention_period}
+    enableRemoteWriteReceiver: true
     
     externalLabels:
       cluster: ${ARGOCD_ENV_cluster_label_value}
