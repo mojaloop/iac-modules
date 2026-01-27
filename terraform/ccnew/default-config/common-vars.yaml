@@ -454,7 +454,6 @@ praefect_perc_pgbouncer_memory_request: "64Mi"
 # end of gitlab db settings
 
 # gitlab zitadel role sync
-gitlab_zitadel_roles_sync_tf_management_policies: "Observe"
 gitlab_zitadel_roles_sync_xplane_management_policies: "'''*'''"
 # end of gitlab zitadel role sync
 
