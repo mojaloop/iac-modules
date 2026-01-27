@@ -109,7 +109,7 @@ variable "self_service_ui_chart_version" {
 variable "ml_ory_services_chart_version" {
   type        = string
   description = "ml_ory_services_chart_version"
-  default     = "0.1.0"
+  default     = "0.1.0-22864-2b5d44b"
 }
 variable "ml_ory_services_image_version" {
   type        = string
