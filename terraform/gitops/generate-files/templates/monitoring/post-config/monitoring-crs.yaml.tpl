@@ -202,14 +202,14 @@ metadata:
 spec:
   instanceSelector:
     matchLabels:
-      dashboards: "grafana" 
+      dashboards: "grafana"  # Adjust to match your Grafana instance labels
   name: tech-support-festive-2025
-  webhook:
-    - uid: tech-support-webhook
-      url: https://api.opsgenie.com/v2/alerts
-      httpMethod: POST
-      authorization_credentials: dnjfndjkndcvfshvbsfv
-      authorization_scheme: GenieKey
+  type: webhook
+  settings:
+    url: https://api.opsgenie.com/v2/alerts
+    httpMethod: POST
+    authorization_scheme: GenieKey
+    authorization_credentials: dnjfndjkndcvfshvbsfv
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaAlertRuleGroup
