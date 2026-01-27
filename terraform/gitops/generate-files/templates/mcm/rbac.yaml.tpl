@@ -575,3 +575,39 @@ spec:
         headers:
           X-Client: '{{ print .Subject }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+---
+# PM4ML API - DFSP /external-dfsps/jwscerts
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-pm4mlapi-dfsp-external-jwscerts
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_external_fqdn}/api/external-dfsps/jwscerts
+    methods:
+      - POST
+  authenticators:
+    - handler: jwt
+      config:
+        jwks_urls:
+        - https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect/certs
+  authorizer:
+    handler: allow
+    # TODO: The following should be enabled once we have proper permission setup for machine clients
+    # handler: remote_json
+    # config:
+    #   remote: ${keto_read_url}/relation-tuples/check
+    #   payload: |
+    #     {
+    #       "namespace": "permission",
+    #       "object": "dfspExternalJwsCertsUpload",
+    #       "relation": "granted",
+    #       "subject_id": "{{ print .Subject }}"
+    #     }
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-Client: '{{ print .Subject }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
