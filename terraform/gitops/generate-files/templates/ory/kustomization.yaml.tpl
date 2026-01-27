@@ -43,6 +43,6 @@ helmCharts:
 - name: ory-services
   releaseName: ory-services
   version: ${ml_ory_services_chart_version}
-  repo: ${mojaloop_charts_repo}
+  repo: ${mojaloop_helm_repo}
   valuesFile: values-ory-services.yaml
   namespace: ${ory_namespace}

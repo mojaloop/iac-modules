@@ -73,6 +73,7 @@ module "generate_ory_files" {
     smtp_auth                            = var.app_var_map.smtp_auth
     ory_charts_repo                      = local.ory_charts_repo
     mojaloop_charts_repo                 = local.mojaloop_charts_repo
+    mojaloop_helm_repo                   = local.mojaloop_helm_repo
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
