@@ -194,3 +194,121 @@ spec:
     matchLabels:
       dashboards: "grafana"
 ---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaContactPoint
+metadata:
+  name: tech-support-festive-2025
+  namespace: ${monitoring_namespace}
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana" 
+  name: tech-support-festive-2025
+  webhook:
+    - uid: tech-support-webhook
+      url: https://api.opsgenie.com/v2/alerts
+      httpMethod: POST
+      authorization_credentials: dnjfndjkndcvfshvbsfv
+      authorization_scheme: GenieKey
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaAlertRule
+metadata:
+  name: participant-ping-failed
+  namespace: ${monitoring_namespace}
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"  
+  folder: default
+  group: per-minute-eval-group
+  interval: 1m
+  title: partispant-ping-failed
+  condition: C
+  data:
+    - refId: A
+      relativeTimeRange:
+        from: 600
+        to: 0
+      datasourceUid: mcm-api-dfsps-statuses-infinity-ds
+      model:
+        columns: []
+        datasource:
+          type: yesoreyeram-infinity-datasource
+          uid: mcm-api-dfsps-statuses-infinity-ds
+        filters: []
+        format: table
+        global_query_id: ""
+        instant: true
+        intervalMs: 1000
+        maxDataPoints: 43200
+        parser: jq-backend
+        refId: A
+        root_selector: |
+          .dfsps[] | select(.dfspId | test("^(hub-|nafa)") | not) | {dfspId, pingStatusNumeric: (if .pingStatus=="SUCCESS" then 0 else 1 end)}
+        source: url
+        type: json
+        url: http://mcm-connection-manager-api.mcm.svc.cluster.local:3001/api/dfsps/states-status
+        url_options:
+          data: ""
+          method: GET
+    
+    - refId: reducer
+      queryType: expression
+      datasourceUid: __expr__
+      model:
+        conditions:
+          - evaluator:
+              params: [0, 0]
+              type: gt
+            operator:
+              type: and
+            query:
+              params: []
+            reducer:
+              params: []
+              type: avg
+            type: query
+        datasource:
+          name: Expression
+          type: __expr__
+          uid: __expr__
+        expression: A
+        intervalMs: 1000
+        maxDataPoints: 43200
+        reducer: last
+        refId: reducer
+        type: reduce
+    
+    - refId: C
+      datasourceUid: __expr__
+      model:
+        conditions:
+          - evaluator:
+              params: [0]
+              type: gt
+            operator:
+              type: and
+            query:
+              params: [C]
+            reducer:
+              params: []
+              type: last
+            type: query
+        datasource:
+          type: __expr__
+          uid: __expr__
+        expression: reducer
+        intervalMs: 1000
+        maxDataPoints: 43200
+        refId: C
+        type: threshold
+  
+  noDataState: NoData
+  execErrState: Error
+  for: 5m
+  annotations: {}
+  labels: {}
+  isPaused: false
+  notificationSettings:
+    receiver: tech-support-festive-2025
