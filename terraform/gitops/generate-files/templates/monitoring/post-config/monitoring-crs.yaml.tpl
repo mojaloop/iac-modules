@@ -202,7 +202,7 @@ metadata:
 spec:
   instanceSelector:
     matchLabels:
-      dashboards: "grafana"  # Adjust to match your Grafana instance labels
+      dashboards: "grafana" 
   name: tech-support-festive-2025
   type: webhook
   settings:
