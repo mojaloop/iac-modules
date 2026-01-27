@@ -24,6 +24,9 @@ module "generate_mojaloop_files" {
     ttk_testcases_path_in_zip_sdk_bulk_val                            = try(replace(var.app_var_map.ttk_testcases_path_in_zip_sdk_bulk_val, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/sdk_scheme_adapter/bulk/basic")
     ttk_testcases_path_in_zip_sdk_r2p_val                             = try(replace(var.app_var_map.ttk_testcases_path_in_zip_sdk_r2p_val, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/sdk_scheme_adapter/request-to-pay/basic")
     ttk_testcases_path_in_zip_cleanup                                 = try(replace(var.app_var_map.ttk_testcases_path_in_zip_cleanup, "TTK_TESTCASES_TAG", var.app_var_map.ttk_testcases_tag), "testing-toolkit-test-cases-${try(var.app_var_map.ttk_testcases_tag, "")}/collections/hub/cleanup")
+    ttk_mcm_rbac_tests_enabled                                        = try(var.app_var_map.ttk_mcm_rbac_tests_enabled, false)
+    mcm_namespace                                                     = var.mcm_namespace
+    mailpit_namespace                                                 = var.mailpit_namespace
     ttk_test_currency1                                                = var.app_var_map.ttk_test_currency1
     ttk_test_currency2                                                = var.app_var_map.ttk_test_currency2
     ttk_test_currency3                                                = var.app_var_map.ttk_test_currency3

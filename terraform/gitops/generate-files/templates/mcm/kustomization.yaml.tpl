@@ -11,7 +11,6 @@ resources:
   - istio-gateway.yaml
 # %{ endif }
   - service-monitors.yaml
-  - mcm-rbac-test-job.yaml
 configMapGenerator:
   - name: vault-agent
     files:

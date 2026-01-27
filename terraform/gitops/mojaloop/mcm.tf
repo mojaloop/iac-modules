@@ -102,7 +102,7 @@ module "generate_mcm_files" {
     mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
     bulk_enabled                         = var.bulk_enabled
     ttk_cli_version                      = try(var.app_var_map.ttk_cli_version, "v1.10.3")
-    ttk_test_cases_version               = try(var.app_var_map.ttk_test_cases_version, "17.1.1")
+    ttk_testcases_tag                    = try(var.app_var_map.ttk_testcases_tag, "")
     mailpit_namespace                    = var.mailpit_namespace
 
   }
