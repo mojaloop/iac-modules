@@ -101,7 +101,7 @@ spec:
             startupProbe:
               httpGet:
                 path: /health/live
-                port: 9000
+                port: 8443
                 scheme: HTTPS
               initialDelaySeconds: 20
               timeoutSeconds: 1
