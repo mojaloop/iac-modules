@@ -4,8 +4,6 @@ resources:
   - vault-secret.yaml
   - keycloak-realm-cr.yaml
   - istio-config.yaml
-  - kratos-role-webhook.yaml
-  - keto-batch-auth.yaml
   - https://raw.githubusercontent.com/ory/k8s/v${oathkeeper_chart_version}/helm/charts/oathkeeper-maester/crds/crd-rules.yaml
   - blank-rule.yaml
   - rbac-role-permissions.yaml
@@ -41,4 +39,10 @@ helmCharts:
   version: ${self_service_ui_chart_version}
   repo: ${ory_charts_repo}
   valuesFile: values-kratos-selfservice-ui-node.yaml
+  namespace: ${ory_namespace}
+- name: ory-services
+  releaseName: ory-services
+  version: ${ml_ory_services_chart_version}
+  repo: ${mojaloop_charts_repo}
+  valuesFile: values-ory-services.yaml
   namespace: ${ory_namespace}

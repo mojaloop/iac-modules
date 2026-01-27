@@ -7,6 +7,8 @@ module "generate_ory_files" {
     kratos_chart_version                 = try(var.common_var_map.kratos_chart_version, var.kratos_chart_version)
     keto_chart_version                   = try(var.common_var_map.keto_chart_version, var.keto_chart_version)
     self_service_ui_chart_version        = try(var.common_var_map.self_service_ui_chart_version, var.self_service_ui_chart_version)
+    ml_ory_services_chart_version        = try(var.common_var_map.ml_ory_services_chart_version, var.ml_ory_services_chart_version)
+    ml_ory_services_image_version        = try(var.common_var_map.ml_ory_services_image_version, var.ml_ory_services_image_version)
     ory_namespace                        = var.ory_namespace
     auth_fqdn                            = local.auth_fqdn
     public_subdomain                     = var.public_subdomain
@@ -103,6 +105,16 @@ variable "self_service_ui_chart_version" {
   type        = string
   description = "self_service_ui_chart_version"
   default     = "0.55.0"
+}
+variable "ml_ory_services_chart_version" {
+  type        = string
+  description = "ml_ory_services_chart_version"
+  default     = "0.1.0"
+}
+variable "ml_ory_services_image_version" {
+  type        = string
+  description = "ml_ory_services_image_version"
+  default     = "v0.1.1"
 }
 variable "ory_namespace" {
   type        = string

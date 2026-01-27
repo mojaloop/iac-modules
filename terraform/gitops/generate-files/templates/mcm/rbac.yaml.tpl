@@ -136,7 +136,7 @@ spec:
   authorizer:
     handler: remote_json
     config:
-      remote: http://keto-batch-auth.${ory_namespace}.svc.cluster.local
+      remote: http://ory-services-keto-batch-auth.${ory_namespace}.svc.cluster.local
       payload: |
         {
           "tuples": [
