@@ -23,8 +23,8 @@ spec:
   http:
     tlsSecret: ${keycloak_tls_secretname}
   hostname:
-    hostname: https://${keycloak_fqdn}
-    admin: https://${keycloak_admin_fqdn}
+    hostname: ${keycloak_fqdn}
+    admin: ${keycloak_admin_fqdn}
   unsupported:
     podTemplate:
       spec:
