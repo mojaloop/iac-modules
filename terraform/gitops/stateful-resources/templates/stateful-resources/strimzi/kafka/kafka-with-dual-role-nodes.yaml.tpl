@@ -46,17 +46,21 @@ metadata:
     strimzi.io/kraft: enabled
 spec:
   kafka:
-    version: 3.7.0
-    metadataVersion: 3.7-IV4
+    version: 3.9.0
+    metadataVersion: 3.9-IV0
     listeners:
       - name: plain
         port: 9092
         type: internal
         tls: false
+        configuration:
+          useServiceDnsDomain: true
       - name: tls
         port: 9093
         type: internal
         tls: true
+        configuration:
+          useServiceDnsDomain: true
     config:
       offsets.topic.replication.factor: 3
       transaction.state.log.replication.factor: 3

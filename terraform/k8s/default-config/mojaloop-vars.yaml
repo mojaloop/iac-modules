@@ -112,3 +112,12 @@ workload_definitions:
                   operator: In
                   values:
                     - "enabled"
+
+smtp_host: "mailpit-smtp.mailpit.svc.cluster.local"
+smtp_port: 25
+smtp_ssl: false
+smtp_starttls: false
+smtp_auth: false
+smtp_from: "mailer@sw005.hub005.mojaloop.io"
+smtp_from_display_name: "Mojaloop Hub"
+smtp_reply_to: "noreply@sw005.hub005.mojaloop.io"

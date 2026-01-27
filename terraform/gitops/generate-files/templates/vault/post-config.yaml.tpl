@@ -216,8 +216,20 @@ data:
         capabilities = ["read", "create", "update", "sudo"]
       }
     EOT
+      cat <<EOT >/tmp/vault-mcm-policy.hcl
+      path "${local_vault_kv_root_path}/*" {
+        capabilities = ["create", "read", "update", "delete", "list"]
+      }
+      path "pki/*" {
+        capabilities = ["create", "read", "update", "delete", "list"]
+      }
+      path "pki-*" {
+        capabilities = ["create", "read", "update", "delete", "list"]
+      }
+    EOT
       vault policy write vault-admin /tmp/vault-admin-policy.hcl
       vault policy write read-secrets /tmp/vault-read-secrets-policy.hcl
+      vault policy write mcm-policy /tmp/vault-mcm-policy.hcl
 
       if vault auth list -format=json | jq -e 'has("kubernetes/")' > /dev/null; then
         echo "✅ kubernetes is enabled"
@@ -228,6 +240,7 @@ data:
       fi
       vault write auth/kubernetes/config kubernetes_host=https://kubernetes.default.svc:443
       vault write auth/kubernetes/role/policy-admin bound_service_account_names=* bound_service_account_namespaces=* policies=vault-admin ttl=600s
+      vault write auth/kubernetes/role/kubernetes-mcm-role bound_service_account_names=mcm bound_service_account_namespaces=mcm policies=mcm-policy ttl=1h
 
       #Secret mount
       if vault secrets list -format=json | jq -e --arg path "${local_vault_kv_root_path}/" 'has($path)' >/dev/null; then

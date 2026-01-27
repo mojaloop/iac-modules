@@ -14,27 +14,13 @@ db:
 
 api:
   image:
-    name: ghcr.io/pm4ml/connection-manager-api
-    version: v2.4.0
+    name: infitx/connection-manager-api
+    version: v3.1.1
   replicaCount: ${mcm_api_replica_count}
   url: https://${mcm_fqdn}
   extraTLS:
     rootCert:
       enabled: false
-  wso2TokenIssuer:
-    cert:
-      enabled: false
-  oauth:
-    enabled: false
-    issuer: https://${token_issuer_fqdn}/oauth2/token
-    key: ${oauth_key}
-    clientSecretSecret: ${oauth_secret_secret}
-    clientSecretSecretKey: ${oauth_secret_secret_key}
-  auth2fa:
-    enabled: false
-  totp:
-    label: MCM
-    issuer: ${totp_issuer}
   certManager:
     enabled: true
     serverCertSecretName: ${server_cert_secret_name}
@@ -59,7 +45,7 @@ api:
     pkiClientRole: ${pki_client_role}
     signExpiryHours: 43800
   serviceAccount:
-    externallyManaged: true
+    externallyManaged: false
     serviceAccountNameOverride: ${mcm_service_account_name}
   rbac:
     enabled: false
@@ -71,6 +57,27 @@ api:
     vault.hashicorp.com/agent-pre-populate: "true"
     vault.hashicorp.com/agent-limits-mem: "" #this disables limit, TODO: need to tune this
     proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
+  env:
+    KEYCLOAK_ENABLED: "true"
+    KEYCLOAK_BASE_URL: "https://${keycloak_fqdn}"
+    KEYCLOAK_DISCOVERY_URL: "https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/.well-known/openid-configuration"
+    KEYCLOAK_ADMIN_CLIENT_ID: "connection-manager-api-service"
+    KEYCLOAK_DFSPS_REALM: "${keycloak_hubop_realm_name}"
+    KEYCLOAK_AUTO_CREATE_ACCOUNTS: "true"
+    ENABLE_KETO: "true"
+    KETO_WRITE_URL: ${keto_write_url}
+    CLIENT_URL: "https://${mcm_fqdn}"
+    KEYCLOAK_ADMIN_CLIENT_SECRET:
+      valueFrom:
+        secretKeyRef:
+          name: ${mcm_admin_client_secret_name}
+          key: secret
+    OPENID_CLIENT_ID: "${hubop_oidc_client_id}"
+    OPENID_CLIENT_SECRET:
+      valueFrom:
+        secretKeyRef:
+          name: ${hubop_oidc_client_secret_secret}
+          key: secret
 ui:
   checkSessionUrl: https://${mcm_fqdn}/kratos/sessions/whoami
   loginUrl: https://${auth_fqdn}/kratos/self-service/login/browser
@@ -78,12 +85,9 @@ ui:
   logoutUrl: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_hubop_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
   oauth:
     enabled: true
-    hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
-    clientId: ${oauth_key}
-    clientSecretName: ${oauth_secret_secret}
-    clientSecretKey: ${oauth_secret_secret_key}
+    hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect"
   image:
-    version: 1.8.4
+    version: sha-cd633d8e7d10b0326cf907a6ae4e8906caa1cb17
 
 ingress:
 %{ if istio_create_ingress_gateways ~}
@@ -101,6 +105,8 @@ ingress:
     nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
 migrations:
   enabled: true
+  script: migrate
+  deletePolicy: ""
 
 config:
   caCSRParametersData: |-
