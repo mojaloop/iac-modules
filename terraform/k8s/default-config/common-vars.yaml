@@ -125,3 +125,4 @@ monitoring_workload_tolerations: []
 #    operator: "Equal"
 #    value: "enabled"
 #    effect: "NoSchedule"
+netbird_taint_remover_enabled: true
