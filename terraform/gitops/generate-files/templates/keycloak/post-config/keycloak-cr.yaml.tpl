@@ -22,6 +22,9 @@ spec:
     xaEnabled: false
   http:
     tlsSecret: ${keycloak_tls_secretname}
+    httpEnabled: true
+  proxy:
+    headers: xforwarded
   hostname:
     hostname: https://${keycloak_fqdn}
     admin: https://${keycloak_admin_fqdn}
