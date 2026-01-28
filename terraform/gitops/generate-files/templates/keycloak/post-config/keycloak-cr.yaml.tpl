@@ -23,6 +23,8 @@ spec:
   http:
     tlsSecret: ${keycloak_tls_secretname}
     httpEnabled: true
+    labels:
+      istio.io/ingress-use-waypoint: "true"
   proxy:
     headers: xforwarded
   hostname:
