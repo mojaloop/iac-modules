@@ -56,6 +56,7 @@ argocd_override:
           netbird_version: "${crossplane_providers_netbird_version}"
           zitadel_version: "${crossplane_providers_zitadel_version}"
           grafana_version: "${crossplane_providers_grafana_version}"
+          http_version: "${crossplane_providers_http_version}"
         crossplane_functions:
           patch_and_transform_version: "${crossplane_functions_patch_and_transform_version}"
           go_templating_version: "${crossplane_functions_go_templating_version}"
