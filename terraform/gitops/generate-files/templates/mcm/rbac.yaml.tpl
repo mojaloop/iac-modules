@@ -393,6 +393,7 @@ spec:
 #       config:
 #         headers:
 #           X-Client: '{{ print .Subject }}'
+#           X-Client-Id: '{{ print .Extra.client_id }}'
 #           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 # ---
 # # PM4ML API - DFSP create endpoint (machine clients)
@@ -427,6 +428,7 @@ spec:
 #       config:
 #         headers:
 #           X-Client: '{{ print .Subject }}'
+#.          X-Client-Id: '{{ print .Extra.client_id }}'
 #           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # PM4ML API - DFSP-specific owner access (machine clients)
@@ -464,6 +466,7 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
+          X-Client-Id: '{{ print .Extra.client_id }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
           X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
 ---
@@ -501,6 +504,7 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
+          X-Client-Id: '{{ print .Extra.client_id }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 # TODO: I think we are not using the below endpoints anymore, need to check before removing
 # ---
@@ -538,6 +542,7 @@ spec:
 #       config:
 #         headers:
 #           X-Client: '{{ print .Subject }}'
+#           X-Client-Id: '{{ print .Extra.client_id }}'
 #           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # PM4ML API - DFSP jwscerts
@@ -574,6 +579,7 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
+          X-Client-Id: '{{ print .Extra.client_id }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
 # PM4ML API - DFSP /external-dfsps/jwscerts
@@ -610,4 +616,5 @@ spec:
       config:
         headers:
           X-Client: '{{ print .Subject }}'
+          X-Client-Id: '{{ print .Extra.client_id }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
