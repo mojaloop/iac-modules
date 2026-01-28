@@ -10,6 +10,8 @@ apiVersion: http.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
   name: http-conf
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   credentials:
     source: None
