@@ -90,3 +90,6 @@ spec:
 
         - name: "crossplane_providers_grafana_version"
           value: "${ARGOCD_ENV_utils_crossplane_providers_grafana_version}"
+
+        - name: "crossplane_providers_http_version"
+          value: "${ARGOCD_ENV_utils_crossplane_providers_http_version}"
