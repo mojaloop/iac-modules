@@ -1,0 +1,15 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-http
+spec:
+  package: "xpkg.upbound.io/crossplane-contrib/provider-http:v${ARGOCD_ENV_crossplane_providers_http_version}"
+  skipDependencyResolution: true
+---
+apiVersion: http.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: http-conf
+spec:
+  credentials:
+    source: None
