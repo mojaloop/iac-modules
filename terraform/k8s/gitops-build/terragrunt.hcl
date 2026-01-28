@@ -172,6 +172,7 @@ inputs = {
   vault_backupjob_image                    = local.common_vars.vault_backupjob_image
   helm_oci_proxy_repos                     = try(get_env("HELM_OCI_PROXY_REPOS"), "none")
   helm_classic_proxy_repos                 = try(get_env("HELM_CLASSIC_PROXY_REPOS"), "none")
+  netbird_taint_remover_enabled            = local.common_vars.netbird_taint_remover_enabled
 }
 
 locals {
