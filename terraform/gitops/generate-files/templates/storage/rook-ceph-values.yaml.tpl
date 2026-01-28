@@ -1,5 +1,11 @@
 %{ if cloud_provider == "private-cloud" ~}
+tolerations:
+  - operator: "Exists"
 csi:
+  pluginTolerations:
+    - operator: "Exists"
+  provisionerTolerations:
+    - operator: "Exists"
   kubeletDirPath: "${kubelet_dir_path}"
   serviceMonitor:
     enabled: false
