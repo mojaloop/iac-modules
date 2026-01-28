@@ -1,0 +1,26 @@
+apiVersion: gitlab.mojaloop.io/v1alpha1
+kind: ZitadelGitlabUserRoleSyncer
+metadata:
+  name: role-syncer
+  namespace: ${ARGOCD_ENV_gitlab_namespace}
+spec:
+  parameters:
+    zitadelUrl: "https://zitadel.${ARGOCD_ENV_zitadel_dns_subdomain}"
+    zitadelProjectName: ${ARGOCD_ENV_gitlab_zitadel_project_name}
+    gitlabGroupPath: iac
+    zitadelProjectConfigMap:
+      name: gitlab-zitadel-project-config
+      namespace: ${ARGOCD_ENV_gitlab_namespace}
+    gitlabOidcSecret:
+      name: "zitadel-machine-user-creds"
+      namespace: ${ARGOCD_ENV_gitlab_namespace}
+    gitlabRootTokenSecret:
+      name: ${ARGOCD_ENV_gitlab_root_token_secret_name}
+      namespace: ${ARGOCD_ENV_gitlab_namespace}
+    gitlabUrl: https://gitlab.${ARGOCD_ENV_gitlab_dns_subdomain}
+  providerConfigsRef:
+    gitlabProvider: gitlab-provider
+    kubernetesProvider: kubernetes-provider
+    httpProvider: http-conf
+  managementPolicies:
+    - ${ARGOCD_ENV_gitlab_zitadel_roles_sync_xplane_management_policies}
