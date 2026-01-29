@@ -69,6 +69,7 @@ data:
                 --from-literal=unseal_key=$UNSEAL_KEY \
                 --from-literal=root_token=$VAULT_ROOT_TOKEN \
                 --from-file=vault-keys.json=/tmp/output.json \
+                --from-file=creds=/tmp/creds.json \
                 --save-config --dry-run=client -o yaml | kubectl apply -f -
             fi
         else
