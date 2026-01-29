@@ -64,6 +64,13 @@ data:
               VAULT_ROOT_TOKEN=$(jq -r '.root_token' /tmp/output.json)
               UNSEAL_KEY=$(jq -r '.unseal_keys_b64[0]' /tmp/output.json)
 
+              cat <<EOF > /tmp/creds.json
+            {
+              "token_name": "vault-provider-token",
+              "token": "$VAULT_ROOT_TOKEN"
+            }
+            EOF
+
               echo "vault-0: Creating Kubernetes secret..."
               kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} \
                 --from-literal=unseal_key=$UNSEAL_KEY \
