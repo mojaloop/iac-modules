@@ -1,4 +1,6 @@
 - op: add
   path: /spec/template/spec/tolerations
   value:
-    - operator: "Exists"
+    - key: "netbird/ready"
+      operator: "Exists"
+      effect: "NoSchedule"

@@ -70,7 +70,6 @@ inputs = {
   namespace_meta_config_file               = find_in_parent_folders("${get_env("CONFIG_PATH")}/namespace-meta.yaml")
   stateful_resources_operators_config_file = find_in_parent_folders("${get_env("CONFIG_PATH")}/stateful-resources-operators.yaml")
   mojaloop_values_override_file            = find_in_parent_folders("${get_env("CONFIG_PATH")}/mojaloop-values-override.yaml", "mojaloop-values-override.yaml")
-  mcm_values_override_file                 = find_in_parent_folders("${get_env("CONFIG_PATH")}/mcm-values-override.yaml", "mcm-values-override.yaml")
   pm4ml_values_override_file               = find_in_parent_folders("${get_env("CONFIG_PATH")}/pm4ml-values-override.yaml", "pm4ml-values-override.yaml")
   admin_portal_values_override_file        = find_in_parent_folders("${get_env("CONFIG_PATH")}/admin-portal-values-override.yaml", "admin-portal-values-override.yaml")
   proxy_values_override_file               = find_in_parent_folders("${get_env("CONFIG_PATH")}/proxy-values-override.yaml", "proxy-values-override.yaml")
@@ -172,7 +171,6 @@ inputs = {
   vault_backupjob_image                    = local.common_vars.vault_backupjob_image
   helm_oci_proxy_repos                     = try(get_env("HELM_OCI_PROXY_REPOS"), "none")
   helm_classic_proxy_repos                 = try(get_env("HELM_CLASSIC_PROXY_REPOS"), "none")
-  netbird_taint_remover_enabled            = local.common_vars.netbird_taint_remover_enabled
 }
 
 locals {

@@ -22,9 +22,14 @@ spec:
     xaEnabled: false
   http:
     tlsSecret: ${keycloak_tls_secretname}
+    httpEnabled: true
+    labels:
+      istio.io/ingress-use-waypoint: "true"
+  proxy:
+    headers: xforwarded
   hostname:
-    hostname: ${keycloak_fqdn}
-    admin: ${keycloak_admin_fqdn}
+    hostname: https://${keycloak_fqdn}
+    admin: https://${keycloak_admin_fqdn}
   unsupported:
     podTemplate:
       spec:
@@ -101,7 +106,7 @@ spec:
             startupProbe:
               httpGet:
                 path: /health/live
-                port: 8443
+                port: 9000
                 scheme: HTTPS
               initialDelaySeconds: 20
               timeoutSeconds: 1

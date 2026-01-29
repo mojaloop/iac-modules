@@ -27,8 +27,6 @@ spec:
   writeConnectionSecretToRef:
     namespace: ${ARGOCD_ENV_gitlab_namespace}
     name: gitlab-zitadel-roles-sync-output
-  managementPolicies:
-    - ${ARGOCD_ENV_gitlab_zitadel_roles_sync_tf_management_policies}
 ---
 apiVersion: tf.upbound.io/v1beta1
 kind: ProviderConfig

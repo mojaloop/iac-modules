@@ -28,7 +28,7 @@ module "common_stateful_resources" {
   private_dns_zone_id                           = var.private_dns_zone_id
   istio_nb_egress_waypoint_name                 = var.istio_nb_egress_waypoint_name
   istio_nb_egress_waypoint_namespace            = var.istio_nb_egress_waypoint_namespace
-  namespace_meta                                = {}
+  namespace_meta                                = local.namespace_meta
   helm_proxy_repos_map                          = local.helm_proxy_repos_map
 }
 

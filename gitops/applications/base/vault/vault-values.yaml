@@ -7,6 +7,7 @@ server:
   extraVolumes:
     - type: configMap
       name: post-config
+      defaultMode: 0755
   # readinessProbe:
   #   path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
   standalone:
@@ -52,7 +53,7 @@ server:
         [
           'sh',
           '-c',
-          "cp /etc/vault/bootstrap.sh /tmp; chmod +x /tmp/bootstrap.sh; while true; do sleep 180; /tmp/bootstrap.sh;   done",
+          "while true; do /etc/vault/bootstrap.sh; sleep 180; done",
         ]
       volumeMounts:
         - name: userconfig-post-config

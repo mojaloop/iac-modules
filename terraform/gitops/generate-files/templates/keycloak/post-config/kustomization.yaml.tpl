@@ -4,6 +4,7 @@ resources:
   - keycloak-cr.yaml
   - keycloak-ingress.yaml
   - vault-secret.yaml
+  - service-ingress-waypoint.yaml
 secretGenerator:
 - name: keycloak-user
   literals:

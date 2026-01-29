@@ -247,7 +247,8 @@ spec:
     stringData:
       value: '[
           {
-            "id":"keycloak",
+            "id":"${keycloak_hubop_realm_name}",
+            "label":"${keycloak_hubop_realm_display_name}",
             "provider":"generic",
             "client_id":"${hubop_oidc_client_id}",
             "client_secret":"{{ .kratosoidcsecret.${vault_secret_key} }}",
@@ -258,6 +259,7 @@ spec:
           %{ for provider in oidc_providers ~}
           ,{
             "id":"${provider.realm}",
+            "label":"${provider.display_name}",
             "provider":"generic",
             "client_id":"${provider.client_id}",
             "client_secret":"{{ .${replace(provider.realm, "-", "_")}.${vault_secret_key} }}",

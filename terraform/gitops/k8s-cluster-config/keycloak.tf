@@ -22,7 +22,7 @@ module "generate_keycloak_files" {
     keycloak_admin_fqdn                        = local.keycloak_admin_fqdn
     keycloak_admin_istio_gateway_namespace     = local.keycloak_admin_istio_gateway_namespace
     keycloak_admin_istio_wildcard_gateway_name = local.keycloak_admin_istio_wildcard_gateway_name
-    keycloak_dfsp_realm_name                   = var.keycloak_dfsp_realm_name
+    keycloak_hubop_realm_name                  = var.keycloak_hubop_realm_name
     keycloak_sync_wave                         = var.keycloak_sync_wave
     keycloak_post_config_sync_wave             = var.keycloak_post_config_sync_wave
     ingress_class                              = var.keycloak_ingress_internal_lb ? var.internal_ingress_class_name : var.external_ingress_class_name
@@ -97,10 +97,16 @@ variable "keycloak_namespace" {
   default     = "keycloak"
 }
 
-variable "keycloak_dfsp_realm_name" {
+variable "keycloak_hubop_realm_name" {
   type        = string
-  description = "name of realm for dfsp api access"
-  default     = "dfsps"
+  description = "name of realm for hub operators access"
+  default     = "hub-operators"
+}
+
+variable "keycloak_hubop_realm_display_name" {
+  type        = string
+  description = "display name of realm for hub operators access"
+  default     = "Hub Operators"
 }
 
 locals {
@@ -121,7 +127,9 @@ locals {
   }
 
   mcm_keycloak_realm_env_secret_map = merge(local.mojaloop_keycloak_realm_env_secret_map, {
-    (var.mcm_admin_client_secret_name) = var.vault_secret_key
+    (var.mcm_admin_client_secret_name)    = var.vault_secret_key
+    (var.mcm_dfsp_admin_client_secret)    = var.vault_secret_key
+    (var.dfsp_oidc_client_secret)         = var.vault_secret_key
   })
 
   pm4ml_keycloak_realm_env_secret_map = merge(

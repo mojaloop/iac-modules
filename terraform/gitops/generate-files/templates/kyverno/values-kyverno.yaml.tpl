@@ -3,10 +3,6 @@ config:
 webhookLabels:
   app.kubernetes.io/managed-by: argocd
 reportsController:
-  tolerations:
-    - key: "netbird/ready"
-      operator: "Exists"
-      effect: "NoExecute"
   rbac:
     coreClusterRole:
       extraResources:
@@ -23,10 +19,6 @@ reportsController:
       memory: 256Mi
 
 backgroundController:
-  tolerations:
-    - key: "netbird/ready"
-      operator: "Exists"
-      effect: "NoExecute"
   rbac:
     coreClusterRole:
       extraResources:
@@ -52,10 +44,6 @@ backgroundController:
             - update
             - delete
 cleanupController:
-  tolerations:
-    - key: "netbird/ready"
-      operator: "Exists"
-      effect: "NoExecute"
   resources:
     # -- Pod resource limits
     limits:
@@ -65,10 +53,6 @@ cleanupController:
       cpu: 100m
       memory: 128Mi
 admissionController:
-  tolerations:
-    - key: "netbird/ready"
-      operator: "Exists"
-      effect: "NoExecute"
   rbac:
     coreClusterRole:
       extraResources:

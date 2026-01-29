@@ -52,8 +52,6 @@ module "generate_vault_files" {
     object_store_api_url                     = "https://${var.object_store_api_url}"
     vault_backup_bucket                      = local.vault_backup_bucket
     tenancy_secret_base_path                 = "secret/data/${var.cluster_name}"
-    vault_readiness_timeout_seconds          = var.common_var_map.vault_readiness_timeout_seconds
-
   }
 
   file_list       = [for f in fileset(local.vault_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vault_app_file, f))]
