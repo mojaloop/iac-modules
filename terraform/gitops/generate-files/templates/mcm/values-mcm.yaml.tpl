@@ -15,7 +15,7 @@ db:
 api:
   image:
     name: mojaloop/connection-manager-api
-    version: v3.7.0
+    version: v3.7.1
   replicaCount: ${mcm_api_replica_count}
   url: https://${mcm_fqdn}
   extraTLS:
