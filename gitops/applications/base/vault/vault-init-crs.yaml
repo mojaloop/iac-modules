@@ -69,7 +69,7 @@ data:
               "token_name": "vault-provider-token",
               "token": "$VAULT_ROOT_TOKEN"
             }
-            EOF
+      EOF
 
               echo "vault-0: Creating Kubernetes secret..."
               kubectl create secret -n ${ARGOCD_ENV_vault_namespace} generic ${ARGOCD_ENV_vault_keys_secret} \
