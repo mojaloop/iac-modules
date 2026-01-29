@@ -107,3 +107,40 @@ Protect backend endpoints by assigning required permissions to roles and users. 
 2. DFSP admin assigns roles to the user by logging into the **admin portal** with `portal_admin` user (Password can be found in Vault).
 3. For example, assign `pm4mladmin` role for the new user.
 4. User logs in to the PM4ML portal (https://**portal-<DFSPID>**.<DOMAIN>) and can access the PM4ML portal features. (e.g., view transfers, etc.)
+
+
+## MCM Configuration
+
+### SMTP Setup for Email Notifications
+
+MCM requires SMTP configuration for sending email notifications during participant onboarding.
+
+**SMTP credentials in Vault:**
+
+```bash
+vault kv put /secret/smtp-credentials \
+  smtp_user="your-smtp-username" \
+  smtp_password="your-smtp-password"
+```
+
+**Or via Vault UI:**
+1. Access Vault web interface and login
+2. Navigate to **Secrets** → Select **KV secrets engine**
+3. Click **"Create secret +"**
+4. Set **Path**: `smtp-credentials`
+5. Add keys: `smtp_user` and `smtp_password` with your values
+6. Click **"Save"**
+
+**SMTP settings:**
+
+Add configuration to your `custom-config/cluster-config.yaml`:
+
+```hcl
+# Override defaults
+smtp = {
+  host = "smtp.company.com" 
+  from = "mcm@company.com"
+  # ... other smtp fields
+}
+# See terraform/k8s/default-config/common-vars.yaml for all default values
+```

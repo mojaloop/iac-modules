@@ -14,27 +14,13 @@ db:
 
 api:
   image:
-    name: ghcr.io/pm4ml/connection-manager-api
-    version: v2.4.0
+    name: mojaloop/connection-manager-api
+    version: v3.7.1
   replicaCount: ${mcm_api_replica_count}
   url: https://${mcm_fqdn}
   extraTLS:
     rootCert:
       enabled: false
-  wso2TokenIssuer:
-    cert:
-      enabled: false
-  oauth:
-    enabled: false
-    issuer: https://${token_issuer_fqdn}/oauth2/token
-    key: ${oauth_key}
-    clientSecretSecret: ${oauth_secret_secret}
-    clientSecretSecretKey: ${oauth_secret_secret_key}
-  auth2fa:
-    enabled: false
-  totp:
-    label: MCM
-    issuer: ${totp_issuer}
   certManager:
     enabled: true
     serverCertSecretName: ${server_cert_secret_name}
@@ -77,13 +63,15 @@ ui:
   loginProvider: keycloak
   logoutUrl: /kratos/self-service/logout/browser?return_to=https%3A%2F%2F${keycloak_fqdn}%2Frealms%2F${keycloak_hubop_realm_name}%2Fprotocol%2Fopenid-connect%2Flogout
   oauth:
-    enabled: true
-    hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_dfsp_realm_name}/protocol/openid-connect"
-    clientId: ${oauth_key}
-    clientSecretName: ${oauth_secret_secret}
-    clientSecretKey: ${oauth_secret_secret_key}
+    enabled: false # The authentication flow is handled by Kratos
+    hubOidcProviderUrl: "https://${keycloak_fqdn}/realms/${keycloak_hubop_realm_name}/protocol/openid-connect"
+    # The following are not used when Kratos is handling authentication
+    # clientId: ${oauth_key}
+    # clientSecretName: ${oauth_secret_secret}
+    # clientSecretKey: ${oauth_secret_secret_key}
   image:
-    version: 1.8.4
+    name: mojaloop/connection-manager-ui
+    version: v1.11.0
 
 ingress:
 %{ if istio_create_ingress_gateways ~}
@@ -101,6 +89,8 @@ ingress:
     nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
 migrations:
   enabled: true
+  script: migrate
+  deletePolicy: ""
 
 config:
   caCSRParametersData: |-

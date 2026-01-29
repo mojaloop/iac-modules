@@ -181,7 +181,7 @@ meshConfig:
         statusOnError: "500"
         pathPrefix: /decisions
         includeRequestHeadersInCheck: ["authorization", "cookie"]
-        headersToUpstreamOnAllow: ["x-user", "x-email", "x-extra", "x-client-id"]
+        headersToUpstreamOnAllow: ["x-user", "x-email", "x-extra", "x-roles", "x-client", "x-dfsp-id", "x-client-id"]
 
 global:
   # Used to locate istiod.

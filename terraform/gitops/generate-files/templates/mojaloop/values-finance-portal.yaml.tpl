@@ -66,7 +66,8 @@ role-assignment-service:
           "mcmadmin"
         ],
         "AUTO_GRANT_PORTAL_ADMIN_ROLES": [
-          "manager"
+          "manager",
+          "pta"
         ]
       }
 
@@ -103,6 +104,35 @@ reporting-events-processor-svc:
   kafka:
     host: ${kafka_host}
     port: ${kafka_port}
+    topicEvent: topic-event-audit
+    consumerGroup: reporting_events_processor_consumer_group
+    clientId: reporting_events_processor_consumer
+  configFiles:
+    default.json:
+      KAFKA:
+        TOPIC_EVENT: "topic-event-audit"
+        CONSUMER:
+          EVENT:
+            config:
+              options:
+                mode: 2
+                batchSize: 50
+                pollFrequency: 10
+                recursiveTimeout: 100
+                messageCharset: "utf8"
+                messageAsJSON: true
+                sync: true
+                consumeTimeout: 10
+              rdkafkaConf:
+                clientId: "reporting_events_processor_consumer"
+                groupId: "reporting_events_processor_consumer_group"
+                metadataBrokerList: "${kafka_host}:${kafka_port}"
+                socketKeepaliveEnable: true
+                allowAutoCreateTopics: true
+                partitionAssignmentStrategy: ""
+                enableAutoCommit: false
+              topicConf:
+                autoOffsetReset: "earliest"
 
 reporting-hub-bop-experience-api-svc:
   enabled: true
@@ -200,11 +230,6 @@ reporting-hub-bop-trx-ui:
       };
 
 reporting-hub-bop-settlements-ui:
-  ## Overriding the image version for bugfix related to https://modusbox.atlassian.net/browse/MBP-639
-  image:
-    registry: docker.io
-    repository: mojaloop/reporting-hub-bop-settlements-ui
-    tag: v0.0.19-snapshot.2
   enabled: true
   configFiles:
     runtime-env.js: |

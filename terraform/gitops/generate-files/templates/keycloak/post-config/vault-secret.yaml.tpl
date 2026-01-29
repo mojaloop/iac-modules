@@ -68,3 +68,51 @@ spec:
     type: Opaque
 ---
 %{ endfor ~}
+%{ if smtp_auth ~}
+# SMTP User Secret
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: smtp-credentials-user
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication:
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: smtpcreds
+      path: /secret/smtp-credentials
+  output:
+    name: smtp-credentials-user
+    stringData:
+      secret: '{{ .smtpcreds.smtp_user }}'
+    type: Opaque
+---
+# SMTP Password Secret
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: VaultSecret
+metadata:
+  name: smtp-credentials-password
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
+spec:
+  refreshPeriod: 1m0s
+  vaultSecretDefinitions:
+    - authentication:
+        path: kubernetes
+        role: policy-admin
+        serviceAccount:
+            name: default
+      name: smtpcreds
+      path: /secret/smtp-credentials
+  output:
+    name: smtp-credentials-password
+    stringData:
+      secret: '{{ .smtpcreds.smtp_password }}'
+    type: Opaque
+---
+%{ endif ~}
