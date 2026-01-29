@@ -79,11 +79,12 @@ spec:
                     hs = {}
                     hs.status = "Progressing"
                     hs.message = ""
+                    local errorTypes = {DeletionError = true, InvalidSpecError = true, ComparisonError = true, SyncError = true, UnknownError = true}
                     if obj.status ~= nil then
                       local status = obj.status
                       if status.conditions ~= nil then
                         for i, condition in ipairs(status.conditions) do
-                          if condition.type ~= nil and string.match(condition.type, '.*Error$') then
+                          if errorTypes[condition.type] then
                             hs.status = "Degraded"
                             hs.message = condition.message
                             return hs

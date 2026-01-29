@@ -1,10 +1,10 @@
 
 ---
-# Hub Operators OIDC Client Secret (for MCM user authentication flows)
+# DFSP OIDC Client Secret (for MCM/DFSP user authentication flows)
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${hubop_oidc_client_secret_secret}
+  name: ${dfsp_oidc_client_secret}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -15,19 +15,19 @@ spec:
         role: policy-admin
         serviceAccount:
             name: default
-      name: hubopoidcsecret
-      path: /secret/keycloak/${hubop_oidc_client_secret_secret}
+      name: dfspoidcsecret
+      path: /secret/keycloak/${dfsp_oidc_client_secret}
   output:
-    name: ${hubop_oidc_client_secret_secret}
+    name: ${dfsp_oidc_client_secret}
     stringData:
-      secret: '{{ .hubopoidcsecret.secret }}'
+      secret: '{{ .dfspoidcsecret.secret }}'
     type: Opaque
 ---
-# MCM Admin Client Secret (for Keycloak administrative operations)
+# MCM DFSP Admin Client Secret (for Keycloak administrative operations on dfsps realm)
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${mcm_admin_client_secret_name}
+  name: ${mcm_dfsp_admin_client_secret}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
@@ -38,12 +38,10 @@ spec:
         role: policy-admin
         serviceAccount:
             name: default
-      name: apisecret
-      path: /secret/keycloak/${mcm_admin_client_secret_name}
+      name: dfspadminsecret
+      path: /secret/keycloak/${mcm_dfsp_admin_client_secret}
   output:
-    name: ${mcm_admin_client_secret_name}
+    name: ${mcm_dfsp_admin_client_secret}
     stringData:
-      secret: '{{ .apisecret.secret }}'
+      secret: '{{ .dfspadminsecret.secret }}'
     type: Opaque
-
-
