@@ -52,7 +52,8 @@ module "generate_vault_files" {
     object_store_api_url                     = "https://${var.object_store_api_url}"
     vault_backup_bucket                      = local.vault_backup_bucket
     tenancy_secret_base_path                 = "secret/data/${var.cluster_name}"
-    vault_readiness_timeoutSeconds           = var.vault_readiness_timeoutSeconds
+    vault_readiness_timeoutSeconds                      = var.common_var_map.vault_readiness_timeoutSeconds
+
   }
 
   file_list       = [for f in fileset(local.vault_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vault_app_file, f))]
@@ -176,10 +177,4 @@ variable "vault_backupjob_image" {
   type        = string
   description = "Docker image for Vault backup job"
   default     = "hashicorp/vault:1.17.2"
-}
-
-variable "vault_readiness_timeoutSeconds" {
-  type        = number
-  description = "Vault readiness timeout in seconds"
-  default     = 15
 }
