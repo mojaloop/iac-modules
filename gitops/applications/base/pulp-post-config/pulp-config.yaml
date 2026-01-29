@@ -1,75 +1,130 @@
-apiVersion: pulp.pulpproject.org/v1beta2
+apiVersion: repo-manager.pulpproject.org/v1
 kind: Pulp
 metadata:
   name: pulp-pull-through-cache
+  namespace: pulp
 spec:
-  # Minimal resource footprint
+  # Required
+  deployment_name: pulp
+  
+  # API configuration
   api:
     replicas: 1
     resources:
       requests:
         memory: "512Mi"
         cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "500m"
+    # Optional: node selector, tolerations, affinity
+    # node_selector:
+    #   node-type: worker
+    # tolerations:
+    #   - key: "key"
+    #     operator: "Equal"
+    #     value: "value"
+    #     effect: "NoSchedule"
   
+  # Content service
   content:
     replicas: 1
     resources:
       requests:
         memory: "512Mi"
         cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "500m"
   
+  # Worker
   worker:
     replicas: 2
     resources:
       requests:
         memory: "512Mi"
         cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "500m"
   
-  # Database (required, operator-managed)
-  database:
-    type: postgres
+  # PostgreSQL database
+  postgres:
+    enabled: true
     postgres_secret: pulp-database-password
-    persistence:
-      enabled: true
-      size: 10Gi
-      access_mode: ReadWriteOnce
+    postgres_storage_access_mode: "ReadWriteOnce"
+    postgres_storage_size: "10Gi"
+    # Optional PostgreSQL image
+    # postgres_image: "postgres:13"
+    # postgres_image_version: "13"
   
-  # Redis for caching (operator-managed)
+  # Redis cache
   redis:
     enabled: true
-    persistence:
-      enabled: true
-      size: 5Gi
-      access_mode: ReadWriteOnce
+    redis_storage_access_mode: "ReadWriteOnce"
+    redis_storage_size: "5Gi"
+    # Optional Redis image
+    # redis_image: "redis:7-alpine"
+    # redis_image_version: "7"
   
-  # Content storage - grows as cache is populated
-  storage:
-    type: persistent
-    pulp_storage:
-      access_mode: ReadWriteOnce
-      size: 100Gi
+  # File storage (for cached content)
+  file_storage:
+    enabled: true
+    pulp_storage_access_mode: "ReadWriteOnce"
+    pulp_storage_size: "100Gi"
   
-  pulp_settings:
-    secret_key_secret: pulp-password
-    telemetry:
-      enabled: false
----
-# 13. Service for access (UPDATED for Istio)
-apiVersion: v1
-kind: Service
-metadata:
-  name: pulp-pull-through-service
-spec:
-  ports:
-  - name: http-web  # Container registry endpoint
-    port: 8080
-    targetPort: 8080
-    protocol: TCP
-  - name: http-api  # API endpoint for management
-    port: 24817
-    targetPort: 24817
-    protocol: TCP
-  selector:
-    pulpproject.org/component: api
-  type: ClusterIP  # Default, change to LoadBalancer if needed
-
+  # Cache configuration
+  cache:
+    enabled: true
+    redis_url: "redis://redis-svc:6379/0"
+  
+  # Telemetry (disabled for pull-through cache)
+  telemetry:
+    enabled: false
+  
+  # Image configuration
+  # image: "quay.io/pulp/pulp-minimal:stable"
+  # image_version: "3.32.0"
+  
+  # Ingress configuration (if using ingress)
+  ingress:
+    enabled: false  # Set to true if you want ingress
+    # ingress_class_name: "nginx"
+    # hosts:
+    #   - host: "pulp.example.com"
+    #     paths:
+    #       - path: "/"
+    #         path_type: "Prefix"
+  
+  # Route configuration (for OpenShift)
+  route:
+    enabled: false  # Set to true for OpenShift Routes
+    # host: "pulp.example.com"
+    # tls_termination: "edge"
+  
+  # Load balancer service (optional)
+  loadbalancer:
+    enabled: false
+    # annotations:
+    #   service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+  
+  # Secret for Django (required)
+  secret_key_secret: pulp-password
+  
+  # Admin user (optional, for management)
+  # admin_password_secret: pulp-admin-password
+  
+  # Custom settings (advanced)
+  # custom_settings:
+  #   ANSIBLE_API_HOSTNAME: "http://pulp-api-svc:24817"
+  #   CONTENT_HOSTNAME: "http://pulp-content-svc:24816"
+  #   ALLOW_CONTENT_ACCESS: "true"
+  
+  # CORS settings (for pull-through cache accessibility)
+  cors:
+    enabled: false
+    allow_all_origins: true
+    # Or specify allowed origins:
+    # allowed_origins:
+    #   - "https://example.com"
+    #   - "https://another.example.com"
