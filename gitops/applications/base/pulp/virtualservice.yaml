@@ -3,7 +3,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: pulp-virtual-service
-  namespace: pulp-system
+  namespace: pulp
 spec:
   gateways:
     - ${ARGOCD_ENV_pulp_istio_gateway_namespace}/${ARGOCD_ENV_pulp_istio_wildcard_gateway_name}
