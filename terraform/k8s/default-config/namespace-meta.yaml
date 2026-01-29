@@ -1,3 +1,6 @@
+keycloak:
+  labels:
+    istio.io/use-waypoint: service-ingress-waypoint
 mcm:
   labels:
     istio.io/use-waypoint: service-ingress-waypoint

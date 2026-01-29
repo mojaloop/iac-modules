@@ -123,7 +123,7 @@ kratos:
               hooks:
                 - hook: web_hook
                   config:
-                    url: http://kratos-role-webhook.${ory_namespace}.svc.cluster.local/inject-roles
+                    url: http://ory-services-kratos-role-webhook.${ory_namespace}.svc.cluster.local/inject-roles
                     method: POST
                     body: file:///etc/config/role-injection-body.jsonnet
                     response:

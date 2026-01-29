@@ -168,6 +168,18 @@ variable "istio_egress_gateway_max_replicas" {
   default     = 3
 }
 
+variable "istio_egress_gateway_name" {
+  type        = string
+  description = "Name of the Istio egress gateway"
+  default     = "istio-egressgateway"
+}
+
+variable "istio_egress_gateway_namespace" {
+  type        = string
+  description = "Namespace of the Istio egress gateway"
+  default     = "istio-egress"
+}
+
 variable "netbird_traffic_hosts" {
   type        = string
   description = "Comma-delimited list of domain suffixes for internal domain routing (without wildcard prefix)"

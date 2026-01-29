@@ -14,7 +14,7 @@ spec:
     appNamespace: "${ARGOCD_ENV_namespace}"
     allowMajorVersionUpgrade: ${ARGOCD_ENV_allow_major_version_upgrade}
     applyImmediately: ${ARGOCD_ENV_apply_immediately}
-    backupRetentionPeriod: ${ARGOCD_ENV_backup_retention_period}
+    backupRetentionPeriod: ${ARGOCD_ENV_backup_full_retention}
     databaseName: "${ARGOCD_ENV_db_name}"
     dbClusterInstanceClass: "${ARGOCD_ENV_instance_class}"
     deletionProtection: ${ARGOCD_ENV_deletion_protection}
