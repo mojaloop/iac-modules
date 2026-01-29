@@ -72,6 +72,7 @@ locals {
   vault_istio_wildcard_gateway_name = local.vault_wildcard_gateway == "external" ? local.istio_external_wildcard_gateway_name : local.istio_internal_wildcard_gateway_name
   vault_chart_repo                  = startswith(var.vault_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.vault_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.vault_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.vault_chart_repo)[1]}", var.vault_chart_repo) : try(local.helm_proxy_repos_map[var.vault_chart_repo], var.vault_chart_repo)
   vault_config_operator_helm_chart_repo = startswith(var.vault_config_operator_helm_chart_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.vault_config_operator_helm_chart_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.vault_config_operator_helm_chart_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.vault_config_operator_helm_chart_repo)[1]}", var.vault_config_operator_helm_chart_repo) : try(local.helm_proxy_repos_map[var.vault_config_operator_helm_chart_repo], var.vault_config_operator_helm_chart_repo)
+  vault_readiness_timeoutSeconds      = var.vault_readiness_timeoutSeconds
 }
 
 variable "vault_sync_wave" {
@@ -175,4 +176,10 @@ variable "vault_backupjob_image" {
   type        = string
   description = "Docker image for Vault backup job"
   default     = "hashicorp/vault:1.17.2"
+}
+
+variable "vault_readiness_timeoutSeconds" {
+  type        = number
+  description = "Vault readiness timeout in seconds"
+  default     = 15
 }

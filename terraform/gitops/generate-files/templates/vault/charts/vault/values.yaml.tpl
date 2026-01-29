@@ -2,7 +2,7 @@ vault:
   server:
     enabled: true
     readinessProbe:
-      timeoutSeconds: 15
+      timeoutSeconds: ${vault_readiness_timeoutSeconds}
     dev:
       enabled: false
     extraVolumes:
