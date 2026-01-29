@@ -80,6 +80,10 @@ netbird_db_preferred_maintenance_window: "Mon:00:00-Mon:01:00"
 #end db settings
 netbird_operator_helm_version: "0.1.15"
 
+# netbird xplane and tf workspace management policies
+netbird_pre_xplane_management_policies: "'''*'''"
+netbird_pre_tf_management_policies: "Observe"
+
 # percona operator helm chart versions
 pg_operator_helm_version: "2.6.0"
 pxc_operator_helm_version: "1.18.0"
