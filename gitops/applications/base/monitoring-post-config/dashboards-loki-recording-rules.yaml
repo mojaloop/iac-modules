@@ -10,4 +10,4 @@ spec:
   datasources:
     - inputName: "DS_PROMETHEUS"
       datasourceName: "${ARGOCD_ENV_dashboard_datasource_name}"
-  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${grafana_dashboard_tag_iac_modules}/assets/grafana-dashboards/loki-log-statistics-overview.json"
+  url: "https://raw.githubusercontent.com/mojaloop/iac-modules/${ARGOCD_ENV_monitoring_application_gitrepo_tag}/assets/grafana-dashboards/loki-log-statistics-overview.json"
