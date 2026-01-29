@@ -21,20 +21,6 @@ spec:
         host: pulp-pull-through-service.pulp-system.svc.cluster.local
         port:
           number: 8080
-    # Optional: Add timeout, retry, CORS policies
-    timeout: 300s  # Long timeout for large image pulls
-    retries:
-      attempts: 3
-      perTryTimeout: 60s
-    corsPolicy:
-      allowOrigins:
-      - "*"
-      allowMethods:
-      - GET
-      - HEAD
-      - POST
-      allowHeaders:
-      - "*"
   
   # Helm repository routes
   - match:
@@ -47,7 +33,6 @@ spec:
         host: pulp-pull-through-service.pulp-system.svc.cluster.local
         port:
           number: 8080
-    timeout: 60s
   
   # Ansible Galaxy routes
   - match:
@@ -60,7 +45,6 @@ spec:
         host: pulp-pull-through-service.pulp-system.svc.cluster.local
         port:
           number: 8080
-    timeout: 60s
   
   # API/management routes (optional)
   - match:
@@ -71,7 +55,6 @@ spec:
         host: pulp-pull-through-service.pulp-system.svc.cluster.local
         port:
           number: 24817
-    timeout: 30s
 ---
 # # 17. SERVICE ENTRY (Optional, if you need to access external registries through Istio)
 # apiVersion: networking.istio.io/v1beta1
