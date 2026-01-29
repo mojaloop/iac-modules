@@ -205,6 +205,17 @@ variable "keycloak_dfsp_realm_name" {
   default     = "dfsps"
 }
 
+variable "keycloak_dfsp_realm_display_name" {
+  type        = string
+  description = "display name of realm for DFSP/MCM managed resources"
+}
+
+variable "mcm_admin_client_secret_name" {
+  type        = string
+  description = "name of MCM admin client secret for Keycloak administrative operations"
+  default     = "mcm-admin-client-secret"
+}
+
 variable "mcm_dfsp_admin_client_secret_name" {
   type        = string
   description = "name of MCM admin client secret for dfsps realm"
