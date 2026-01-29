@@ -19,6 +19,9 @@ alloy:
               matchLabels:
                 app.kubernetes.io/name: alloy
             topologyKey: kubernetes.io/hostname
+  controller:
+    tolerations:
+      - operator: "Exists"
 loki:
   singleBinary:
     podAntiAffinity: soft
