@@ -234,6 +234,22 @@ variable "dfsp_oidc_client_secret_secret" {
   default     = "dfsp-oidc-client-secret"
 }
 
+variable "hubop_oidc_client_id" {
+  type        = string
+  description = "OIDC client ID for hub operator portal"
+  default     = "hubop-portal"
+}
+
+variable "hubop_oidc_client_secret_secret" {
+  type        = string
+  description = "Kubernetes secret name containing hub operator OIDC client secret"
+  default     = "hubop-oidc-client-secret"
+}
+
+variable "pm4mls" {
+  type = any
+}
+
 variable "smtp_from" {
   type = string
 }

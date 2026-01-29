@@ -520,6 +520,21 @@ variable "mcm_admin_client_secret_name" {
   default     = "mcm-admin-client-secret"
 }
 
+variable "portal_admin_user" {
+  type    = string
+  default = "portal_admin"
+}
+
+variable "portal_admin_email" {
+  type    = string
+  default = "portal_admin@example.com"
+}
+
+variable "portal_admin_secret" {
+  type    = string
+  default = "portal-admin-secret"
+}
+
 variable "smtp_from" {
   type = string
 }
