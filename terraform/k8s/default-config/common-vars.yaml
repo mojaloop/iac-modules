@@ -128,3 +128,4 @@ monitoring_workload_tolerations: []
 #    value: "enabled"
 #    effect: "NoSchedule"
 netbird_taint_remover_enabled: true
+vault_readiness_timeout_seconds: 15
