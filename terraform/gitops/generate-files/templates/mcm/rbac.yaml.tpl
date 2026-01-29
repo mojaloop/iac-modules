@@ -468,7 +468,7 @@ spec:
           X-Client: '{{ print .Subject }}'
           X-Client-Id: '{{ print .Extra.client_id }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
-          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}'
+          X-DFSP-ID: '{{ printIndex .MatchContext.RegexpCaptureGroups 1 }}'
 ---
 # PM4ML API - Hub endpoints read access (machine clients)
 apiVersion: oathkeeper.ory.sh/v1alpha1
