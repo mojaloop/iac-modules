@@ -16,7 +16,7 @@ module "generate_storage_files" {
     cluster_name                    = var.cluster_name
     rook_ceph_helm_version          = var.rook_ceph_helm_version
     openebs_helm_version            = var.openebs_helm_version
-    openebs_chart_repo         = local.openebs_chart_repo
+    openebs_chart_repo              = local.openebs_chart_repo
     openebs_hostpath_sc_name        = var.openebs_hostpath_sc_name
     openebs_localpv_base_path       = var.openebs_localpv_base_path
     rgw_admin_ops_user              = "${var.cluster_name}/rgw_admin_ops_user"
