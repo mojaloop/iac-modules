@@ -9,9 +9,3 @@
 # .envrc file should not be committed
 .envrc
 
-
-.idea
-# Ignore vim files:
-*.swp
-*.swo
-.DS_Store

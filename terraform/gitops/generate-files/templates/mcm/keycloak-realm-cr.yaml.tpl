@@ -259,6 +259,86 @@ spec:
       - phone
       - offline_access
       - microprofile-jwt
+    - clientId: dfsp-jwt
+      name: dfsp-jwt
+      description: ''
+      rootUrl: ''
+      adminUrl: ''
+      baseUrl: ''
+      surrogateAuthRequired: false
+      enabled: true
+      alwaysDisplayInConsole: false
+      clientAuthenticatorType: client-secret
+      secret: ${jwt_client_secret_secret_name}
+      redirectUris:
+      - /*
+      webOrigins:
+      - /*
+      notBefore: 0
+      bearerOnly: false
+      consentRequired: false
+      standardFlowEnabled: true
+      implicitFlowEnabled: false
+      directAccessGrantsEnabled: true
+      serviceAccountsEnabled: true
+      publicClient: false
+      frontchannelLogout: true
+      protocol: openid-connect
+      attributes:
+        oidc.ciba.grant.enabled: 'false'
+        oauth2.device.authorization.grant.enabled: 'false'
+        client.secret.creation.time: '1690377454'
+        backchannel.logout.session.required: 'true'
+        post.logout.redirect.uris: "+"
+        backchannel.logout.revoke.offline.tokens: 'false'
+      authenticationFlowBindingOverrides: {}
+      fullScopeAllowed: true
+      nodeReRegistrationTimeout: -1
+      protocolMappers:
+      - name: Client Host
+        protocol: openid-connect
+        protocolMapper: oidc-usersessionmodel-note-mapper
+        consentRequired: false
+        config:
+          user.session.note: clientHost
+          userinfo.token.claim: 'true'
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+          claim.name: clientHost
+          jsonType.label: String
+      - name: Client ID
+        protocol: openid-connect
+        protocolMapper: oidc-usersessionmodel-note-mapper
+        consentRequired: false
+        config:
+          user.session.note: client_id
+          userinfo.token.claim: 'true'
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+          claim.name: client_id
+          jsonType.label: String
+      - name: Client IP Address
+        protocol: openid-connect
+        protocolMapper: oidc-usersessionmodel-note-mapper
+        consentRequired: false
+        config:
+          user.session.note: clientAddress
+          userinfo.token.claim: 'true'
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+          claim.name: clientAddress
+          jsonType.label: String
+      defaultClientScopes:
+      - web-origins
+      - acr
+      - profile
+      - roles
+      - email
+      optionalClientScopes:
+      - address
+      - phone
+      - offline_access
+      - microprofile-jwt
     - clientId: '${mcm_oidc_client_id}'
       name: '${mcm_oidc_client_id}'
       description: ''

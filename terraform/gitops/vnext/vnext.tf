@@ -66,15 +66,6 @@ module "generate_vnext_files" {
     vnext_admin_ui_fqdn                  = local.vnext_admin_ui_fqdn
     vnext_istio_gateway_namespace        = local.vnext_istio_gateway_namespace
     vnext_istio_wildcard_gateway_name    = local.vnext_istio_wildcard_gateway_name
-    mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
-    smtp_from                            = var.smtp_from
-    smtp_from_display_name               = var.smtp_from_display_name
-    smtp_reply_to                        = var.smtp_reply_to
-    smtp_host                            = var.smtp_host
-    smtp_port                            = var.smtp_port
-    smtp_ssl                             = var.smtp_ssl
-    smtp_starttls                        = var.smtp_starttls
-    smtp_auth                            = var.smtp_auth
   }
   file_list       = [for f in fileset(local.vnext_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vnext_app_file, f))]
   template_path   = local.vnext_template_path
@@ -138,7 +129,7 @@ variable "vnext_chart_version" {
 
 variable "finance_portal_chart_version" {
   description = "finance portal chart version"
-  default     = "5.0.2"
+  default     = "4.2.3"
 }
 
 variable "vnext_sync_wave" {
@@ -164,49 +155,10 @@ variable "oathkeeper_auth_provider_name" {
 variable "keycloak_hubop_realm_name" {
   type        = string
   description = "name of realm for hub operator api access"
-  default     = "hub-operators"
 }
 
 variable "vault_secret_key" {
   type = string
-}
-
-variable "mcm_admin_client_secret_name" {
-  type        = string
-  description = "name of MCM admin client secret for Keycloak administrative operations"
-  default     = "mcm-admin-client-secret"
-}
-
-variable "smtp_from" {
-  type = string
-}
-
-variable "smtp_from_display_name" {
-  type = string
-}
-
-variable "smtp_reply_to" {
-  type = string
-}
-
-variable "smtp_host" {
-  type = string
-}
-
-variable "smtp_port" {
-  type = number
-}
-
-variable "smtp_ssl" {
-  type = bool
-}
-
-variable "smtp_starttls" {
-  type = bool
-}
-
-variable "smtp_auth" {
-  type = bool
 }
 
 variable "role_assign_svc_secret" {

@@ -132,7 +132,6 @@ variable "istio_external_gateway_namespace" {
   description = "istio_external_gateway_namespace"
   default     = "istio-ingress-ext"
 }
-
 variable "cert_manager_service_account_name" {
   type        = string
   description = "cert_manager_service_account_name"

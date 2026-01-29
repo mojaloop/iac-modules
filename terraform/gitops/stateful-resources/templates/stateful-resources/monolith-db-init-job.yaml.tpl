@@ -30,7 +30,7 @@ spec:
 
               mysql -h ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local -P ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port} -u ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username} -p$${MYSQL_MASTER_PASSWORD}    --ssl-ca="/etc/mysql/certs/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}" --ssl-mode=VERIFY_CA -e "
               CREATE DATABASE IF NOT EXISTS ${managed_stateful_resource.logical_service_config.database_name};
-              CREATE USER IF NOT EXISTS '${managed_stateful_resource.logical_service_config.db_username}'@'%' IDENTIFIED WITH caching_sha2_password BY '$${MYSQL_PASSWORD}';
+              CREATE USER IF NOT EXISTS '${managed_stateful_resource.logical_service_config.db_username}'@'%' IDENTIFIED WITH mysql_native_password BY '$${MYSQL_PASSWORD}';
               GRANT ALL PRIVILEGES ON ${managed_stateful_resource.logical_service_config.database_name}.* TO '${managed_stateful_resource.logical_service_config.db_username}'@'%';
               FLUSH PRIVILEGES;"
               echo "Database, user, and permissions created successfully!"
@@ -38,7 +38,7 @@ spec:
               echo "Altering user..."
 
               mysql -h ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.logical_service_name}.${stateful_resources_namespace}.svc.cluster.local -P ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.port} -u ${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].external_resource_config.username} -p$${MYSQL_MASTER_PASSWORD}    --ssl-ca="/etc/mysql/certs/${monolith_stateful_resources[managed_stateful_resource.monolith_db_server].ca_bundle_secret.key}" --ssl-mode=VERIFY_CA -e "
-              ALTER USER '${managed_stateful_resource.logical_service_config.db_username}'@'%' IDENTIFIED WITH caching_sha2_password BY '$${MYSQL_PASSWORD}' REQUIRE SSL;"
+              ALTER USER '${managed_stateful_resource.logical_service_config.db_username}'@'%' IDENTIFIED WITH mysql_native_password BY '$${MYSQL_PASSWORD}' REQUIRE SSL;"
               echo "Database user altered successfully!"
 
               echo "Script finished."
