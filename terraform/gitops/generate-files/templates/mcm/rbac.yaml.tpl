@@ -262,6 +262,29 @@ spec:
           X-Email: '{{ print (((.Extra.identity).traits).email) }}'
           X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
 ---
+# DFSP jwscerts
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: mcm-dfsp-states-status
+  namespace: ${mcm_namespace}
+spec:
+  match:
+    url: <http|https>://${mcm_fqdn}/api/dfsps/states-status
+    methods:
+      - GET
+  authenticators:
+    - handler: cookie_session
+  authorizer:
+    handler: allow
+  mutators:
+    - handler: header
+      config:
+        headers:
+          X-User: '{{ print .Subject }}'
+          X-Email: '{{ print (((.Extra.identity).traits).email) }}'
+          X-Roles: '{{ toJson (((.Extra.identity).traits).roles) }}'
+---
 # Monetary zones
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
