@@ -18,7 +18,7 @@ spec:
       uri: "/"
     route:
     - destination:
-        host: pulp-pull-through-service.pulp-system.svc.cluster.local
+        host: pulp.pulp.svc.cluster.local
         port:
           number: 8080
   
@@ -30,7 +30,7 @@ spec:
       uri: "/"
     route:
     - destination:
-        host: pulp-pull-through-service.pulp-system.svc.cluster.local
+        host: pulp.pulp.svc.cluster.local
         port:
           number: 8080
   
@@ -42,7 +42,7 @@ spec:
       uri: "/"
     route:
     - destination:
-        host: pulp-pull-through-service.pulp-system.svc.cluster.local
+        host: pulp.pulp.svc.cluster.local
         port:
           number: 8080
   
@@ -52,7 +52,7 @@ spec:
         prefix: "/pulp/api/"
     route:
     - destination:
-        host: pulp-pull-through-service.pulp-system.svc.cluster.local
+        host: pulp.pulp.svc.cluster.local
         port:
           number: 24817
 ---
