@@ -40,7 +40,7 @@ spec:
           value: "${ARGOCD_ENV_pulp_pulp_namespace}"
 
         - name: "pulp_operator_namespace"
-          value: "${ARGOCD_ENV_pulp_operator_namespace}"
+          value: "${ARGOCD_ENV_pulp_pulp_operator_namespace}"
 
         - name: "vault_k8s_admin_auth_path"
           value: "${ARGOCD_ENV_vault_post_config_vault_k8s_admin_auth_path}"
