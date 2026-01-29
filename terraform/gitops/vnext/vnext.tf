@@ -66,7 +66,10 @@ module "generate_vnext_files" {
     vnext_admin_ui_fqdn                  = local.vnext_admin_ui_fqdn
     vnext_istio_gateway_namespace        = local.vnext_istio_gateway_namespace
     vnext_istio_wildcard_gateway_name    = local.vnext_istio_wildcard_gateway_name
-    mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+    mcm_dfsp_admin_client_secret_name    = var.mcm_dfsp_admin_client_secret_name
+    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
+    dfsp_oidc_client_id                  = var.dfsp_oidc_client_id
+    dfsp_oidc_client_secret_secret       = var.dfsp_oidc_client_secret_secret
     smtp_from                            = var.smtp_from
     smtp_from_display_name               = var.smtp_from_display_name
     smtp_reply_to                        = var.smtp_reply_to
@@ -75,6 +78,35 @@ module "generate_vnext_files" {
     smtp_ssl                             = var.smtp_ssl
     smtp_starttls                        = var.smtp_starttls
     smtp_auth                            = var.smtp_auth
+    mcm_enabled                          = var.mcm_enabled
+    mcm_db_user                          = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.db_username
+    mcm_db_password_secret               = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret
+    mcm_db_password_secret_key           = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret_key
+    mcm_db_host                          = "${module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    mcm_db_port                          = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
+    mcm_db_schema                        = module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
+    mcm_db_tls_ca_secret_name            = try(module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name, "")
+    mcm_db_tls_ca_secret_key             = try(module.vnext_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key, "")
+    mcm_dfsp_seed                        = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}${can(value.pm4ml_scheme_a_config)?":proxy":""}" if length(try(value.currency, "")) > 0])
+    mcm_fqdn                             = local.mcm_fqdn
+    mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
+    vault_namespace                      = var.vault_namespace
+    public_subdomain                     = var.public_subdomain
+    hub_name                             = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
+    cluster_name                         = var.cluster_name
+    mcm_vault_k8s_role_name              = var.mcm_vault_k8s_role_name
+    mcm_k8s_auth_path                    = var.k8s_auth_path
+    mcm_pki_path                         = var.vault_root_ca_name
+    mcm_secret_path                      = local.mcm_secret_path
+    mcm_dfsp_client_cert_bundle          = local.dfsp_client_cert_bundle
+    mcm_dfsp_internal_whitelist_secret   = local.dfsp_internal_whitelist_secret
+    mcm_dfsp_external_whitelist_secret   = local.dfsp_external_whitelist_secret
+    mcm_pki_server_role                  = var.pki_server_cert_role
+    mcm_pki_client_role                  = var.pki_client_cert_role
+    mcm_service_account_name             = var.mcm_service_account_name
+    hubop_oidc_client_id                 = var.hubop_oidc_client_id
+    hubop_oidc_client_secret_secret      = var.hubop_oidc_client_secret_secret
+    mcm_namespace                        = var.mcm_namespace
   }
   file_list       = [for f in fileset(local.vnext_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.vnext_app_file, f))]
   template_path   = local.vnext_template_path
@@ -167,10 +199,28 @@ variable "keycloak_hubop_realm_name" {
   default     = "hub-operators"
 }
 
-variable "mcm_admin_client_secret_name" {
+variable "keycloak_dfsp_realm_name" {
   type        = string
-  description = "name of MCM admin client secret for Keycloak administrative operations"
-  default     = "mcm-admin-client-secret"
+  description = "name of realm for DFSP/MCM managed resources"
+  default     = "dfsps"
+}
+
+variable "mcm_dfsp_admin_client_secret_name" {
+  type        = string
+  description = "name of MCM admin client secret for dfsps realm"
+  default     = "mcm-dfsp-admin-client-secret"
+}
+
+variable "dfsp_oidc_client_id" {
+  type        = string
+  description = "OIDC client ID for dfsps realm"
+  default     = "dfsp-oidc"
+}
+
+variable "dfsp_oidc_client_secret_secret" {
+  type        = string
+  description = "Kubernetes secret name containing DFSP OIDC client secret"
+  default     = "dfsp-oidc-client-secret"
 }
 
 variable "smtp_from" {

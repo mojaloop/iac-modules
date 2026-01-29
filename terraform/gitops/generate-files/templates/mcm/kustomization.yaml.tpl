@@ -4,6 +4,7 @@ resources:
   - vault-secret.yaml
   - vault-certificate.yaml
   - vault-agent.yaml
+  - keycloak-realm-cr.yaml
   - rbac.yaml
   - service-ingress-waypoint.yaml
   - authorization-grafana.yaml
@@ -20,15 +21,6 @@ generatorOptions:
   disableNameSuffixHash: true
   labels:
     reloader: enabled
-helmCharts:
-- name: connection-manager
-  releaseName: mcm
-  version: ${mcm_chart_version}
-  repo: ${mcm_chart_repo}
-  valuesFile: values-mcm.yaml
-  namespace: ${mcm_namespace}
-  additionalValuesFiles:
-  - values-mcm-override.yaml
 patches:
   - target:
       kind: Service
