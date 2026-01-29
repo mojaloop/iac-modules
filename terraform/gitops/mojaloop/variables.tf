@@ -139,6 +139,7 @@ variable "mailpit_namespace" {
   default     = "mailpit"
 }
 
+
 variable "cert_manager_service_account_name" {
   type        = string
   description = "cert_manager_service_account_name"

@@ -17,10 +17,11 @@ parameters:
   csi.storage.k8s.io/node-stage-secret-namespace: ${storage_namespace}
   csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
   csi.storage.k8s.io/provisioner-secret-namespace: ${storage_namespace}
-  mounter: rbd-nbd
-  mapOptions: "krbd:r_retry_errors"
-  unmapOptions: "force"
   csi.storage.k8s.io/fstype: ext4
+  mounter: krbd
+  mapOptions: "mount_timeout=90"
+  # Ensure unmount operations are aggressive and quick to fail if stuck (e.g., 30s)
+  unmapOptions: "force,mount_timeout=30"
 provisioner: "${storage_namespace}.rbd.csi.ceph.com"
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer

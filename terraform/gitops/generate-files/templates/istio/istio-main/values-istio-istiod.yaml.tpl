@@ -164,7 +164,7 @@ ownerName: ""
 # See https://istio.io/docs/reference/config/istio.mesh.v1alpha1/ for all available options
 meshConfig:
   enablePrometheusMerge: true
-  enableAutoMtls: true
+  enableAutoMtls: false
   defaultConfig:
     proxyMetadata:
       # Enable basic DNS proxying
@@ -181,7 +181,8 @@ meshConfig:
         statusOnError: "500"
         pathPrefix: /decisions
         includeRequestHeadersInCheck: ["authorization", "cookie"]
-        headersToUpstreamOnAllow: ["x-user", "x-email", "x-roles", "x-client", "x-dfsp-id"]
+        headersToUpstreamOnAllow: ["x-user", "x-email", "x-extra", "x-roles", "x-client", "x-dfsp-id", "x-client-id"]
+
 global:
   # Used to locate istiod.
   istioNamespace: ${istio_namespace}
@@ -471,7 +472,7 @@ global:
     tolerations:
       - key: "netbird/ready"
         operator: "Exists"
-        effect: "NoSchedule"
+        effect: "NoExecute"
 
 base:
   # For istioctl usage to disable istio config crds in base
