@@ -1,128 +1,116 @@
-module "generate_mcm_pre_files" {
-  source = "../generate-files"
-  var_map = {
-    mcm_enabled              = var.mcm_enabled
-    mcm_pre_sync_wave        = var.mcm_pre_sync_wave
-    gitlab_project_url       = var.gitlab_project_url
-    mcm_service_account_name = var.mcm_service_account_name
-    mcm_namespace            = var.mcm_namespace
-    mcm_vault_k8s_role_name  = var.mcm_vault_k8s_role_name
-    k8s_auth_path            = var.k8s_auth_path
-    whitelist_secret_path    = local.whitelist_secret_path
-    onboarding_secret_path   = local.dfsp_client_cert_bundle
-    pki_path                 = var.vault_root_ca_name
-    mcm_secret_path          = local.mcm_secret_path
-  }
-  file_list       = [for f in fileset(local.mcm_pre_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_pre_app_file, f))]
-  template_path   = local.mcm_pre_template_path
-  output_path     = "${var.output_dir}/mcm-pre"
-  app_file        = local.mcm_pre_app_file
-  app_output_path = "${var.output_dir}/app-yamls"
-}
-
-
 module "generate_mcm_files" {
   source = "../generate-files"
   var_map = {
-    mcm_enabled                              = var.mcm_enabled
-    db_password_secret                       = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret
-    db_password_secret_key                   = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret_key
-    db_user                                  = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.db_username
-    db_schema                                = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
-    db_port                                  = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
-    db_host                                  = "${module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
-    db_tls_ca_secret_name                    = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name,"")
-    db_tls_ca_secret_key                     = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key,"")
-    mcm_fqdn                                 = local.mcm_fqdn
-    mcm_istio_gateway_namespace              = local.mcm_istio_gateway_namespace
-    mcm_istio_wildcard_gateway_name          = local.mcm_istio_wildcard_gateway_name
-    mcm_istio_gateway_name                   = local.mcm_istio_gateway_name
-    mcm_external_fqdn                        = "mcm.${var.public_subdomain}"
-    mcm_istio_external_gateway_namespace     = var.istio_external_gateway_namespace
-    mcm_istio_external_wildcard_gateway_name = var.istio_external_wildcard_gateway_name
-    mcm_istio_external_gateway_name          = var.istio_external_gateway_name
-    fspiop_use_ory_for_auth                  = var.fspiop_use_ory_for_auth
-    env_name                                 = var.cluster_name
-    env_cn                                   = var.public_subdomain
-    env_o                                    = "Mojaloop"
-    env_ou                                   = "Infra"
-    storage_class_name                       = var.storage_class_name
-    server_cert_secret_name                  = var.vault_certman_secretname
-    vault_certman_secretname                 = var.vault_certman_secretname
-    server_cert_secret_namespace             = var.mcm_namespace
-    oauth_key                                = var.mcm_oidc_client_id
-    oauth_secret_secret                      = var.mcm_oidc_client_secret_secret
-    oauth_secret_secret_key                  = var.mcm_oidc_client_secret_secret_key
-    switch_domain                            = var.public_subdomain
-    vault_endpoint                           = "http://vault-active.${var.vault_namespace}.svc.cluster.local:8200"
-    pki_base_domain                          = var.public_subdomain
-    mcm_chart_repo                           = var.mcm_chart_repo
-    mcm_chart_version                        = var.mcm_chart_version
-    mcm_namespace                            = var.mcm_namespace
-    mcm_api_replica_count                    = try(var.app_var_map.mcm_api_replica_count, 1)
-    gitlab_project_url                       = var.gitlab_project_url
-    public_subdomain                         = var.public_subdomain
-    enable_oidc                              = var.enable_mcm_oidc
-    mcm_sync_wave                            = var.mcm_sync_wave
-    ingress_class                            = try(var.app_var_map.mcm_ingress_internal_lb, false) ? var.internal_ingress_class_name : var.external_ingress_class_name
-    istio_create_ingress_gateways            = var.istio_create_ingress_gateways
-    pki_path                                 = var.vault_root_ca_name
-    dfsp_client_cert_bundle                  = local.dfsp_client_cert_bundle
-    dfsp_internal_whitelist_secret           = local.dfsp_internal_whitelist_secret
-    dfsp_external_whitelist_secret           = local.dfsp_external_whitelist_secret
-    onboarding_secret_path                   = local.dfsp_client_cert_bundle
-    whitelist_secret_path                    = local.whitelist_secret_path
-    mcm_service_account_name                 = var.mcm_service_account_name
-    pki_client_role                          = var.pki_client_cert_role
-    pki_server_role                          = var.pki_server_cert_role
-    mcm_vault_k8s_role_name                  = var.mcm_vault_k8s_role_name
-    k8s_auth_path                            = var.k8s_auth_path
-    mcm_secret_path                          = local.mcm_secret_path
-    totp_issuer                              = "not-used-yet"
-    token_issuer_fqdn                        = "keycloak.${var.public_subdomain}"
-    nginx_external_namespace                 = var.nginx_external_namespace
-    istio_internal_wildcard_gateway_name     = var.istio_internal_wildcard_gateway_name
-    istio_internal_gateway_namespace         = var.istio_internal_gateway_namespace
-    istio_external_wildcard_gateway_name     = var.istio_external_wildcard_gateway_name
-    istio_external_gateway_namespace         = var.istio_external_gateway_namespace
-    mcm_wildcard_gateway                     = local.mcm_wildcard_gateway
-    istio_external_gateway_name              = var.istio_external_gateway_name
-    private_network_cidr                     = var.private_network_cidr
-    interop_switch_fqdn                      = local.external_interop_switch_fqdn
-    keycloak_fqdn                            = var.keycloak_fqdn
-    keycloak_dfsp_realm_name                 = var.keycloak_dfsp_realm_name
-    keycloak_hubop_realm_name                = var.keycloak_hubop_realm_name
-    keycloak_name                            = var.keycloak_name
-    keycloak_namespace                       = var.keycloak_namespace
-    cert_man_vault_cluster_issuer_name       = var.cert_man_vault_cluster_issuer_name
-    jwt_client_secret_secret_name            = join("$", ["", "{${replace(var.jwt_client_secret_secret, "-", "_")}}"])
-    mcm_oidc_client_id                       = var.mcm_oidc_client_id
-    mcm_oidc_client_secret_secret_name       = join("$", ["", "{${replace(var.mcm_oidc_client_secret_secret, "-", "_")}}"])
-    jwt_client_secret_secret_key             = var.jwt_client_secret_secret_key
-    jwt_client_secret_secret                 = var.jwt_client_secret_secret
-    mcm_oidc_client_secret_secret            = var.mcm_oidc_client_secret_secret
-    mcm_oidc_client_secret_secret_key        = var.mcm_oidc_client_secret_secret_key
-    internal_load_balancer_dns               = var.internal_load_balancer_dns
-    external_load_balancer_dns               = var.external_load_balancer_dns
-    istio_internal_gateway_name              = var.istio_internal_gateway_name
-    int_interop_switch_fqdn                  = local.internal_interop_switch_fqdn
-    mojaloop_namespace                       = var.mojaloop_namespace
-    mojaloop_release_name                    = var.mojaloop_release_name
-    onboarding_collection_tag                = var.app_var_map.onboarding_collection_tag
-    onboarding_net_debit_cap                 = var.app_var_map.onboarding_net_debit_cap
-    onboarding_funds_in                      = var.app_var_map.onboarding_funds_in
-    oathkeeper_auth_provider_name            = var.oathkeeper_auth_provider_name
-    auth_fqdn                                = var.auth_fqdn
-    kratos_service_name                      = "kratos-public.${var.ory_namespace}.svc.cluster.local"
-    keto_read_url                            = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
-    switch_dfspid                            = var.switch_dfspid
-    pm4mls                                   = { for name, value in var.pm4mls : name => value if !value.pm4ml_enabled || can(value.pm4ml_scheme_a_config) }
-    dfsp_seed                                = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}${can(value.pm4ml_scheme_a_config) ? ":proxy" : ""}" if length(try(value.currency, "")) > 0])
-    hub_name                                 = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
-    ttk_fqdn                                 = local.ttk_fqdn
-    bulk_enabled                             = var.bulk_enabled
-    istio_ml_egress_waypoint_name            = var.istio_ml_egress_waypoint_name
-    cluster                                  = var.app_var_map.cluster
+    mcm_enabled                          = var.mcm_enabled
+    db_password_secret                   = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret
+    db_password_secret_key               = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.user_password_secret_key
+    db_user                              = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.db_username
+    db_schema                            = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.database_name
+    db_port                              = module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_port
+    db_host                              = "${module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.logical_service_name}.${var.stateful_resources_namespace}.svc.cluster.local"
+    mcm_fqdn                             = local.mcm_fqdn
+    mcm_istio_gateway_namespace          = local.mcm_istio_gateway_namespace
+    mcm_istio_wildcard_gateway_name      = local.mcm_istio_wildcard_gateway_name
+    mcm_istio_gateway_name               = local.mcm_istio_gateway_name
+    mcm_external_fqdn                             = "mcm.${var.public_subdomain}"
+    mcm_istio_external_gateway_namespace          = var.istio_external_gateway_namespace
+    mcm_istio_external_wildcard_gateway_name      = var.istio_external_wildcard_gateway_name
+    mcm_istio_external_gateway_name               = var.istio_external_gateway_name
+    fspiop_use_ory_for_auth              = var.fspiop_use_ory_for_auth
+    env_name                             = var.cluster_name
+    env_cn                               = var.public_subdomain
+    env_o                                = "Mojaloop"
+    env_ou                               = "Infra"
+    storage_class_name                   = var.storage_class_name
+    server_cert_secret_name              = var.vault_certman_secretname
+    vault_certman_secretname             = var.vault_certman_secretname
+    server_cert_secret_namespace         = var.mcm_namespace
+    switch_domain                        = var.public_subdomain
+    vault_endpoint                       = "http://vault.${var.vault_namespace}.svc.cluster.local:8200"
+    pki_base_domain                      = var.public_subdomain
+    mcm_namespace                        = var.mcm_namespace
+    gitlab_project_url                   = var.gitlab_project_url
+    public_subdomain                     = var.public_subdomain
+    enable_oidc                          = var.enable_mcm_oidc
+    mcm_sync_wave                        = var.mcm_sync_wave
+    istio_create_ingress_gateways        = var.istio_create_ingress_gateways
+    pki_path                             = var.vault_root_ca_name
+    dfsp_client_cert_bundle              = local.dfsp_client_cert_bundle
+    dfsp_internal_whitelist_secret       = local.dfsp_internal_whitelist_secret
+    dfsp_external_whitelist_secret       = local.dfsp_external_whitelist_secret
+    onboarding_secret_path               = local.dfsp_client_cert_bundle
+    whitelist_secret_path                = local.whitelist_secret_path
+    mcm_service_account_name             = var.mcm_service_account_name
+    pki_client_role                      = var.pki_client_cert_role
+    pki_server_role                      = var.pki_server_cert_role
+    mcm_vault_k8s_role_name              = var.mcm_vault_k8s_role_name
+    k8s_auth_path                        = var.k8s_auth_path
+    mcm_secret_path                      = local.mcm_secret_path
+    totp_issuer                          = "not-used-yet"
+    token_issuer_fqdn                    = "keycloak.${var.public_subdomain}"
+    nginx_external_namespace             = var.nginx_external_namespace
+    istio_internal_wildcard_gateway_name = var.istio_internal_wildcard_gateway_name
+    istio_internal_gateway_namespace     = var.istio_internal_gateway_namespace
+    istio_external_wildcard_gateway_name = var.istio_external_wildcard_gateway_name
+    istio_external_gateway_namespace     = var.istio_external_gateway_namespace
+    mcm_wildcard_gateway                 = local.mcm_wildcard_gateway
+    istio_external_gateway_name          = var.istio_external_gateway_name
+    private_network_cidr                 = var.private_network_cidr
+    interop_switch_fqdn                  = local.external_interop_switch_fqdn
+    keycloak_fqdn                        = var.keycloak_fqdn
+    keycloak_dfsp_realm_name             = var.keycloak_dfsp_realm_name
+    keycloak_dfsp_realm_display_name     = var.keycloak_dfsp_realm_display_name
+    keycloak_name                        = var.keycloak_name
+    keycloak_namespace                   = var.keycloak_namespace
+    cert_man_vault_cluster_issuer_name   = var.cert_man_vault_cluster_issuer_name
+    mcm_oidc_client_id                   = var.mcm_oidc_client_id
+    internal_load_balancer_dns           = var.internal_load_balancer_dns
+    external_load_balancer_dns           = var.external_load_balancer_dns
+    istio_internal_gateway_name          = var.istio_internal_gateway_name
+    int_interop_switch_fqdn              = local.internal_interop_switch_fqdn
+    mojaloop_namespace                   = var.mojaloop_namespace
+    mojaloop_release_name                = var.mojaloop_release_name
+    onboarding_collection_tag            = var.app_var_map.onboarding_collection_tag
+    onboarding_net_debit_cap             = var.app_var_map.onboarding_net_debit_cap
+    onboarding_funds_in                  = var.app_var_map.onboarding_funds_in
+    oathkeeper_auth_provider_name        = var.oathkeeper_auth_provider_name
+    auth_fqdn                            = var.auth_fqdn
+    ory_namespace                        = var.ory_namespace
+    kratos_service_name                  = "kratos-public.${var.ory_namespace}.svc.cluster.local"
+    keto_read_url                        = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
+    keto_write_url                       = "http://keto-write.${var.ory_namespace}.svc.cluster.local:80"
+    switch_dfspid                        = var.switch_dfspid
+    pm4mls                               = {for name, value in var.pm4mls : name => value if !value.pm4ml_enabled || can(value.pm4ml_scheme_a_config)}
+    dfsp_seed                            = join(",", [for name, value in var.pm4mls : "${name}:${value.currency}${can(value.pm4ml_scheme_a_config)?":proxy":""}" if length(try(value.currency, "")) > 0])
+    hub_name                             = try(var.app_var_map.hub_name, "hub-${var.cluster_name}")
+    ttk_fqdn                             = local.ttk_fqdn
+    keycloak_access_token_lifespan       = 43200
+    vault_secret_key                     = var.vault_secret_key
+    mcm_admin_client_secret_name         = var.mcm_admin_client_secret_name
+    mcm_dfsp_admin_client_secret         = var.mcm_dfsp_admin_client_secret
+    mcm_dfsp_admin_client_secret_name    = join("$", ["", "{${replace(var.mcm_dfsp_admin_client_secret, "-", "_")}}"])
+    dfsp_oidc_client_secret              = var.dfsp_oidc_client_secret
+    dfsp_oidc_client_secret_name         = join("$", ["", "{${replace(var.dfsp_oidc_client_secret, "-", "_")}}"])
+    dfsp_oidc_client_id                  = var.dfsp_oidc_client_id
+    cluster                              = var.app_var_map.cluster
+    istio_ml_egress_waypoint_name        = var.istio_ml_egress_waypoint_name
+    istio_ml_egress_waypoint_namespace   = var.istio_ml_egress_waypoint_namespace
+    db_tls_ca_secret_name                = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.name,"")
+    db_tls_ca_secret_key                 = try(module.mojaloop_stateful_resources.stateful_resources[local.mcm_resource_index].logical_service_config.ca_bundle_secret.key,"")
+    mcm_api_replica_count                = try(var.app_var_map.mcm_api_replica_count, 1)
+    bulk_enabled                         = var.bulk_enabled
+    ttk_cli_version                      = try(var.app_var_map.ttk_cli_version, "v1.10.3")
+    ttk_testcases_tag                    = try(var.app_var_map.ttk_testcases_tag, "")
+    mailpit_namespace                    = var.mailpit_namespace
+    smtp_from                            = var.smtp_from
+    smtp_from_display_name               = var.smtp_from_display_name
+    smtp_reply_to                        = var.smtp_reply_to
+    smtp_host                            = var.smtp_host
+    smtp_port                            = var.smtp_port
+    smtp_ssl                             = var.smtp_ssl
+    smtp_starttls                        = var.smtp_starttls
+    smtp_auth                            = var.smtp_auth
+
   }
   file_list       = [for f in fileset(local.mcm_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.mcm_app_file, f))]
   template_path   = local.mcm_template_path
@@ -142,34 +130,10 @@ variable "enable_mcm_oidc" {
   default = false
 }
 
-variable "mcm_oauth_secret_secret" {
-  type        = string
-  description = "mcm_oauth_secret_secret"
-  default     = "mcm-oidc-secret"
-}
-
-variable "mcm_oauth_secret_secret_key" {
-  type        = string
-  description = "mcm_oauth_secret_secret_key"
-  default     = "secret"
-}
-
 variable "mcm_oidc_client_id" {
   type        = string
   description = "mcm_oidc_client_id"
   default     = "mcm-portal"
-}
-
-variable "mcm_chart_repo" {
-  type        = string
-  default     = "https://pm4ml.github.io/helm"
-  description = "mcm_chart_repo"
-}
-
-variable "mcm_chart_version" {
-  type        = string
-  default     = "0.7.6"
-  description = "mcm_chart_version"
 }
 
 variable "mcm_sync_wave" {
@@ -177,13 +141,6 @@ variable "mcm_sync_wave" {
   description = "mcm_sync_wave"
   default     = "-2"
 }
-
-variable "mcm_pre_sync_wave" {
-  type        = string
-  description = "mcm_pre_sync_wave"
-  default     = "-3"
-}
-
 
 variable "mcm_namespace" {
   type        = string
@@ -217,23 +174,17 @@ variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
 }
-variable "mcm_oidc_client_secret_secret_key" {
-  type = string
-}
-variable "mcm_oidc_client_secret_secret" {
-  type = string
-}
-variable "jwt_client_secret_secret_key" {
-  type = string
-}
-variable "jwt_client_secret_secret" {
-  type = string
+
+variable "mcm_dfsp_admin_client_secret" {
+  type        = string
+  description = "name of MCM admin client secret for dfsps realm"
+  default     = "mcm-dfsp-admin-client-secret"
 }
 
-variable "keycloak_dfsp_realm_name" {
+variable "dfsp_oidc_client_secret" {
   type        = string
-  description = "name of realm for dfsp api access"
-  default     = "dfsps"
+  description = "name of DFSP OIDC client secret for dfsps realm"
+  default     = "dfsp-oidc-client-secret"
 }
 
 variable "keycloak_name" {
@@ -258,18 +209,28 @@ variable "pm4mls" {
   type = any
 }
 
+variable "vault_secret_key" {
+  type        = string
+  description = "Default key name for vault secrets"
+  default     = "secret"
+}
+
 variable "istio_ml_egress_waypoint_name" {
   type        = string
-  description = "Name of the Istio egress waypoint for ML"
+  description = "Name of the Istio egress waypoint for mojaloop"
   default     = "ml-egress-waypoint"
+}
+
+variable "istio_ml_egress_waypoint_namespace" {
+  type        = string
+  description = "Namespace of the Istio egress waypoint for mojaloop"
+  default     = "mojaloop"
 }
 
 locals {
   mcm_template_path              = "${path.module}/../generate-files/templates/mcm"
-  mcm_pre_template_path          = "${path.module}/../generate-files/templates/mcm-pre"
   mcm_app_file                   = "mcm-app.yaml"
-  mcm_pre_app_file               = "mcm-pre-app.yaml"
-  mcm_resource_index             = "mcm-db"
+  mcm_resource_index             =  "mcm-db"
   mcm_wildcard_gateway           = try(var.app_var_map.mcm_ingress_internal_lb, false) ? "internal" : "external"
   dfsp_client_cert_bundle        = "${local.onboarding_secret_path}_pm4mls"
   dfsp_internal_whitelist_secret = "${local.whitelist_secret_path}_pm4mls"

@@ -66,7 +66,8 @@ role-assignment-service:
           "mcmadmin"
         ],
         "AUTO_GRANT_PORTAL_ADMIN_ROLES": [
-          "manager"
+          "manager",
+          "pta"
         ]
       }
 
@@ -200,11 +201,6 @@ reporting-hub-bop-trx-ui:
       };
 
 reporting-hub-bop-settlements-ui:
-  ## Overriding the image version for bugfix related to https://modusbox.atlassian.net/browse/MBP-639
-  image:
-    registry: docker.io
-    repository: mojaloop/reporting-hub-bop-settlements-ui
-    tag: v0.0.19-snapshot.2
   enabled: true
   configFiles:
     runtime-env.js: |

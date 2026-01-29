@@ -42,7 +42,7 @@ spec:
     - host: token-${keycloak_fqdn}
       http:
         paths:
-          - path: /realms/${keycloak_dfsp_realm_name}/protocol/openid-connect
+          - path: /realms/${keycloak_hubop_realm_name}/protocol/openid-connect
             pathType: ImplementationSpecific
             backend:
               service:
@@ -68,7 +68,7 @@ spec:
         - destination:
             host: ${keycloak_name}-service
             port:
-              number: 8443
+              number: 8080
           headers:
             response:
               set:
@@ -103,7 +103,7 @@ spec:
         - destination:
             host: ${keycloak_name}-service
             port:
-              number: 8443
+              number: 8080
           headers:
             response:
               set:
@@ -120,16 +120,4 @@ spec:
                     'unsafe-inline'
                     'self';
                   frame-src https://${keycloak_fqdn};
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: keycloak
-  namespace: ${keycloak_namespace}
-spec:
-  host: ${keycloak_name}-service
-  trafficPolicy:
-    tls:
-      mode: SIMPLE
-      insecureSkipVerify: true
 # %{ endif }

@@ -40,3 +40,9 @@ helmCharts:
   repo: ${ory_charts_repo}
   valuesFile: values-kratos-selfservice-ui-node.yaml
   namespace: ${ory_namespace}
+- name: ory-services
+  releaseName: ory-services
+  version: ${ml_ory_services_chart_version}
+  repo: ${mojaloop_helm_repo}
+  valuesFile: values-ory-services.yaml
+  namespace: ${ory_namespace}

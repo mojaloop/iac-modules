@@ -7,6 +7,8 @@ module "generate_ory_files" {
     kratos_chart_version                 = try(var.common_var_map.kratos_chart_version, var.kratos_chart_version)
     keto_chart_version                   = try(var.common_var_map.keto_chart_version, var.keto_chart_version)
     self_service_ui_chart_version        = try(var.common_var_map.self_service_ui_chart_version, var.self_service_ui_chart_version)
+    ml_ory_services_chart_version        = try(var.common_var_map.ml_ory_services_chart_version, var.ml_ory_services_chart_version)
+    ml_ory_services_image_version        = try(var.common_var_map.ml_ory_services_image_version, var.ml_ory_services_image_version)
     ory_namespace                        = var.ory_namespace
     auth_fqdn                            = local.auth_fqdn
     public_subdomain                     = var.public_subdomain
@@ -34,6 +36,7 @@ module "generate_ory_files" {
     hubop_oidc_client_id                 = var.hubop_oidc_client_id
     hubop_oidc_client_secret_secret_path = local.keycloak_secrets_path
     keycloak_hubop_realm_name            = var.keycloak_hubop_realm_name
+    keycloak_hubop_realm_display_name    = var.keycloak_hubop_realm_display_name
     keycloak_name                        = var.keycloak_name
     keycloak_fqdn                        = local.keycloak_fqdn
     istio_external_gateway_namespace     = var.istio_external_gateway_namespace
@@ -49,15 +52,25 @@ module "generate_ory_files" {
     role_assign_svc_user                 = var.role_assign_svc_user
     portal_admin_secret_name             = join("$", ["", "{${replace(var.portal_admin_secret, "-", "_")}}"])
     portal_admin_user                    = var.portal_admin_user
-    mcm_admin_secret_name                = join("$", ["", "{${replace(var.mcm_admin_secret, "-", "_")}}"])
-    mcm_admin_user                       = var.mcm_admin_user
     oidc_providers                       = local.oidc_providers
     permissionExclusions                 = local.permissionExclusions
     mojaloopRoles                        = local.mojaloopRoles
     keto_replica_count                   = try(var.common_var_map.keto_replica_count, 1)
     oathkeeper_replica_count             = try(var.common_var_map.oathkeeper_replica_count, 1)
+    hubop_mapper_base64                  = local.hubop_mapper_base64
+    keto_read_url                        = local.keto_read_url
+    keycloak_access_token_lifespan       = 43200
+    smtp_from                            = var.app_var_map.smtp_from
+    smtp_from_display_name               = var.app_var_map.smtp_from_display_name
+    smtp_reply_to                        = var.app_var_map.smtp_reply_to
+    smtp_host                            = var.app_var_map.smtp_host
+    smtp_port                            = var.app_var_map.smtp_port
+    smtp_ssl                             = var.app_var_map.smtp_ssl
+    smtp_starttls                        = var.app_var_map.smtp_starttls
+    smtp_auth                            = var.app_var_map.smtp_auth
     ory_charts_repo                      = local.ory_charts_repo
     mojaloop_charts_repo                 = local.mojaloop_charts_repo
+    mojaloop_helm_repo                   = local.mojaloop_helm_repo
   }
   file_list       = [for f in fileset(local.ory_template_path, "**/*.tpl") : trimsuffix(f, ".tpl") if !can(regex(local.ory_app_file, f))]
   template_path   = local.ory_template_path
@@ -91,16 +104,20 @@ variable "self_service_ui_chart_version" {
   description = "self_service_ui_chart_version"
   default     = "0.55.0"
 }
+variable "ml_ory_services_chart_version" {
+  type        = string
+  description = "ml_ory_services_chart_version"
+  default     = "0.1.0-22864-2b5d44b"
+}
+variable "ml_ory_services_image_version" {
+  type        = string
+  description = "ml_ory_services_image_version"
+  default     = "v0.1.1"
+}
 variable "ory_namespace" {
   type        = string
   description = "ory_namespace"
   default     = "ory"
-}
-
-variable "hubop_oidc_client_secret_secret" {
-  type        = string
-  description = "hubop_oidc_client_secret_secret"
-  default     = "hubop-oidc-secret"
 }
 
 variable "hubop_oidc_client_id" {
@@ -109,11 +126,6 @@ variable "hubop_oidc_client_id" {
   default     = "hub-op"
 }
 
-variable "keycloak_hubop_realm_name" {
-  type        = string
-  description = "name of realm for dfsp api access"
-  default     = "hub-operators"
-}
 variable "bof_chart_version" {
   type    = string
   default = "5.1.3"
@@ -142,13 +154,44 @@ locals {
   oathkeeper_auth_url            = "oathkeeper-api.${var.ory_namespace}.svc.cluster.local"
   oathkeeper_auth_provider_name  = "ory-authz"
   bof_release_name               = "bof"
+  keto_read_url                  = "http://keto-read.${var.ory_namespace}.svc.cluster.local:80"
   rolesPermissions               = yamldecode(file(var.rbac_permissions_file))
   mojaloopRoles                  = local.rolesPermissions["roles"]
   permissionExclusions           = local.rolesPermissions["permission-exclusions"]
-  oidc_providers = var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
-    realm       = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
-    client_id   = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
-    secret_name = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
-  }] : []
+
+  default_mapper_jsonnet = <<-EOF
+local claims = std.extVar('claims');
+
+{
+  identity: {
+    traits: {
+      email: claims.email,
+      name: claims.name,
+      subject: claims.sub
+    },
+  },
+}
+EOF
+
+  default_mapper_base64 = base64encode(local.default_mapper_jsonnet)
+  hubop_mapper_base64   = base64encode(local.default_mapper_jsonnet)
+  oidc_providers = concat(
+    var.common_var_map.mcm_enabled ? [{
+      realm        = var.keycloak_dfsp_realm_name
+      display_name = var.keycloak_dfsp_realm_display_name
+      client_id    = var.dfsp_oidc_client_id
+      secret_name  = var.dfsp_oidc_client_secret
+      mapper_url   = "base64://${local.default_mapper_base64}"
+      scope        = ["openid", "email", "profile"]
+    }] : [],
+    var.common_var_map.pm4ml_enabled ? [for pm4ml, _ in var.app_var_map.pm4mls : {
+      realm        = "${var.keycloak_pm4ml_realm_name}-${pm4ml}"
+      display_name = "PM4ML ${pm4ml}"
+      client_id    = "${var.pm4ml_oidc_client_id_prefix}-${pm4ml}"
+      secret_name  = "${var.pm4ml_oidc_client_secret_secret}-${pm4ml}"
+      mapper_url   = "base64://${local.default_mapper_base64}"
+      scope        = ["openid", "email", "profile"]
+    }] : []
+  )
   ory_charts_repo = startswith(var.ory_charts_repo, "oci://") && can(regex("(oci://[^/]+)(.*)", var.ory_charts_repo)) ? try("${local.helm_proxy_repos_map[regex("(oci://[^/]+)(.*)", var.ory_charts_repo)[0]]}${regex("(oci://[^/]+)(.*)", var.ory_charts_repo)[1]}", var.ory_charts_repo) : try(local.helm_proxy_repos_map[var.ory_charts_repo], var.ory_charts_repo)
 }

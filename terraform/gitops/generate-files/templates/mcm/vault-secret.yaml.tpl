@@ -1,44 +1,47 @@
+
 ---
+# DFSP OIDC Client Secret (for MCM/DFSP user authentication flows)
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${jwt_client_secret_secret}
+  name: ${dfsp_oidc_client_secret}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication: 
+    - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
             name: default
-      name: keycloakjwtsecret
-      path: /secret/keycloak/${jwt_client_secret_secret}
+      name: dfspoidcsecret
+      path: /secret/keycloak/${dfsp_oidc_client_secret}
   output:
-    name: ${jwt_client_secret_secret}
+    name: ${dfsp_oidc_client_secret}
     stringData:
-      secret: '{{ .keycloakjwtsecret.${jwt_client_secret_secret_key} }}'
+      secret: '{{ .dfspoidcsecret.secret }}'
     type: Opaque
 ---
+# MCM DFSP Admin Client Secret (for Keycloak administrative operations on dfsps realm)
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: VaultSecret
 metadata:
-  name: ${mcm_oidc_client_secret_secret}
+  name: ${mcm_dfsp_admin_client_secret}
   annotations:
     argocd.argoproj.io/sync-wave: "-3"
 spec:
   refreshPeriod: 1m0s
   vaultSecretDefinitions:
-    - authentication: 
+    - authentication:
         path: kubernetes
         role: policy-admin
         serviceAccount:
             name: default
-      name: keycloakmcmsecret
-      path: /secret/keycloak/${mcm_oidc_client_secret_secret}
+      name: dfspadminsecret
+      path: /secret/keycloak/${mcm_dfsp_admin_client_secret}
   output:
-    name: ${mcm_oidc_client_secret_secret}
+    name: ${mcm_dfsp_admin_client_secret}
     stringData:
-      secret: '{{ .keycloakmcmsecret.${mcm_oidc_client_secret_secret_key} }}'
+      secret: '{{ .dfspadminsecret.secret }}'
     type: Opaque
