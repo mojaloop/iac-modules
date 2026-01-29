@@ -163,16 +163,6 @@ variable "nginx_external_namespace" {
   description = "nginx_external_namespace"
 }
 
-variable "keycloak_dfsp_realm_name" {
-  type        = string
-  description = "name of realm for DFSP/MCM managed resources"
-}
-
-variable "keycloak_dfsp_realm_display_name" {
-  type        = string
-  description = "display name of realm for DFSP/MCM managed resources"
-}
-
 variable "mcm_dfsp_admin_client_secret" {
   type        = string
   description = "name of MCM admin client secret for dfsps realm"
@@ -183,12 +173,6 @@ variable "dfsp_oidc_client_secret" {
   type        = string
   description = "name of DFSP OIDC client secret for dfsps realm"
   default     = "dfsp-oidc-client-secret"
-}
-
-variable "dfsp_oidc_client_id" {
-  type        = string
-  description = "OIDC client ID for DFSP users in dfsps realm"
-  default     = "dfsp-oidc"
 }
 
 variable "keycloak_name" {
@@ -213,46 +197,6 @@ variable "vault_secret_key" {
 
 variable "fspiop_use_ory_for_auth" {
   type = bool
-}
-
-variable "smtp_from" {
-  type        = string
-  description = "SMTP from address"
-}
-
-variable "smtp_from_display_name" {
-  type        = string
-  description = "SMTP from display name"
-}
-
-variable "smtp_reply_to" {
-  type        = string
-  description = "SMTP reply-to address"
-}
-
-variable "smtp_host" {
-  type        = string
-  description = "SMTP host"
-}
-
-variable "smtp_port" {
-  type        = string
-  description = "SMTP port"
-}
-
-variable "smtp_ssl" {
-  type        = string
-  description = "SMTP SSL enabled"
-}
-
-variable "smtp_starttls" {
-  type        = string
-  description = "SMTP STARTTLS enabled"
-}
-
-variable "smtp_auth" {
-  type        = string
-  description = "SMTP authentication enabled"
 }
 
 locals {

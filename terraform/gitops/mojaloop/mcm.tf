@@ -174,15 +174,6 @@ variable "nginx_external_namespace" {
   type        = string
   description = "nginx_external_namespace"
 }
-variable "keycloak_dfsp_realm_name" {
-  type        = string
-  description = "name of realm for DFSP/MCM managed resources"
-}
-
-variable "keycloak_dfsp_realm_display_name" {
-  type        = string
-  description = "display name of realm for DFSP/MCM managed resources"
-}
 
 variable "mcm_dfsp_admin_client_secret" {
   type        = string
@@ -194,12 +185,6 @@ variable "dfsp_oidc_client_secret" {
   type        = string
   description = "name of DFSP OIDC client secret for dfsps realm"
   default     = "dfsp-oidc-client-secret"
-}
-
-variable "dfsp_oidc_client_id" {
-  type        = string
-  description = "OIDC client ID for DFSP users in dfsps realm"
-  default     = "dfsp-oidc"
 }
 
 variable "keycloak_name" {
