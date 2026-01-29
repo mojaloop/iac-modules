@@ -237,7 +237,7 @@ spec:
 {{ end }}{{ end }}
   EOH
   destination = "/vault/secrets/tmp/callback.yaml"
-  command     = "kubectl apply -f /vault/secrets/tmp/callback.yaml"
+  command     = "kubectl apply -f /vault/secrets/tmp/callback.yaml;sh /vault/configs/clean-jobs.sh"
 }
 
 template {

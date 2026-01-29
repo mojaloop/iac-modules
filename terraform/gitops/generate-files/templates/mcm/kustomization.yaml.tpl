@@ -17,6 +17,7 @@ configMapGenerator:
     files:
       - config.hcl=configmaps/vault-config-configmap.hcl
       - config-init.hcl=configmaps/vault-config-init-configmap.hcl
+      - clean-jobs.sh=configmaps/clean-jobs.sh
 generatorOptions:
   disableNameSuffixHash: true
   labels:
