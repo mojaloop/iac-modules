@@ -263,6 +263,7 @@ module "vnext" {
   smtp_auth                            = var.app_var_map.smtp_auth
   rbac_api_resources_file              = var.rbac_api_resources_file
   fspiop_use_ory_for_auth              = var.app_var_map.fspiop_use_ory_for_auth
+  pm4mls                               = merge(local.pm4ml_var_map, local.proxy_pm4ml_var_map)
   platform_stateful_res_config         = module.config_deepmerge.merged
   object_store_api_url                 = var.object_store_api_url
   object_store_region                  = var.object_store_region
